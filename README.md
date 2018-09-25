@@ -1,6 +1,2 @@
 # Controls
-
-1syncfe
-
-
-e
+Super controls
