@@ -1,3 +1,3 @@
 # Controls
 
-1sync
+1syncfe
