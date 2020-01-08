@@ -1,7 +1,7 @@
 /**
  * Интерфейс для опций футера диалога подтверждения.
  *
- * @interface Controls/_popup/interface/IConfirmation
+ * @interface Controls/_popup/interface/IConfirmationFooter
  * @public
  * @author Красильников А.С.
  */
@@ -56,7 +56,7 @@ export interface IConfirmationFooter {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmation#primaryAction
+ * @name Controls/_popup/interface/IConfirmationFooter#primaryAction
  * @cfg {String} Определяет, какая кнопка будет активирована по нажатию ctrl+enter
  * @variant yes
  * @variant no
