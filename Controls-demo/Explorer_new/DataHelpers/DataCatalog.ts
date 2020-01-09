@@ -1,4 +1,6 @@
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate'
+import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell'
 
 export const Gadgets = {
    getData: () => [{
@@ -246,6 +248,42 @@ export const Gadgets = {
       {
          displayProperty: 'price',
          width: '1fr'
+      }
+   ],
+   getGridEditingCol: () => [
+      {
+         displayProperty: 'title',
+         width: '200px',
+         template: editingColumnTemplate
+      },
+      {
+         displayProperty: 'discr',
+         width: '1fr',
+         template: notEditableTemplate,
+      },
+   ],
+
+   getGridColumnsForScroll: () => [
+      {
+         displayProperty: 'id',
+         width: '150px'
+      },
+      {
+         displayProperty: 'title',
+         width: '200px',
+         align: 'right'
+      },
+      {
+         displayProperty: 'discr',
+         width: '200px',
+         align: 'right'
+
+      },
+      {
+         displayProperty: 'price',
+         width: '200px',
+         align: 'right'
+
       }
    ],
 

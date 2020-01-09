@@ -8,7 +8,7 @@ import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived'
 import * as Images from 'Controls-demo/DragNDrop/Images';
 import * as itemTpl from  'wml!Controls-demo/grid/resources/CellTemplates/CellWithBgc';
 import * as itemCountr from 'wml!Controls-demo/grid/resources/CellTemplates/CountryTemp';
-
+import * as resTpl from 'wml!Controls-demo/grid/EditInPlace/EditingCell/resultsTpl';
 
 
 
@@ -773,59 +773,71 @@ function getEditing() {
                 id: '1',
                 title: 'Время',
                 description: 'Погода',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
             {
                 id: '2',
                 title: 'Масса',
                 description: 'Скорость',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
             {
                 id: '3',
                 title: 'Давление',
                 description: 'Плотность',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
         ],
         getEditingColumns: () => [
             {
                 displayProperty: 'title',
                 width: '200px',
-                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
             },
             {
                 displayProperty: 'price',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 3
             },
             {
                 displayProperty: 'balance',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 3
             },
             {
                 displayProperty: 'description',
                 width: '200px',
-                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
             },
             {
                 displayProperty: 'costPrice',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 9
             },
             {
                 displayProperty: 'balanceCostSumm',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 6
             }
         ]
     };
@@ -841,7 +853,7 @@ function forShowWidths() {
                     fr1of3: '1/3 свободного пространства. fr - гибкая ширина. fr расчитывается как доля от оставшегося свободного пространства внутри грида. Грубо говоря, сначала браузер просчитает ширины всех остальных колонок, потом fr',
                     fr2of3: '2/3 свободного пространства. После этого доступная ширина будет разделена на сумму всех коэффициентов указаных у колонок с fr(в данном гриде - 3) и распределена между колонками, в соответствии с коэффициентами.',
                     minMax: 'От 50px до 200px в зависимости от контента ячеек колонки',
-                    auto: 'Как работает auto подробно описано в спецификации, как и про все остальные ширины',
+                    auto: 'Пример работы auto',
                     maxContent: 'По ширине'
                 },
                 {
@@ -850,7 +862,7 @@ function forShowWidths() {
                     maxContent: 'самой широкой ячеки',
                     fr1of3: 'Ячейка 2/3',
                     fr2of3: 'Ячейка 2/4',
-                    auto: 'https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-auto',
+                    auto: 'Ячейка 3/4',
                     minMax: 'Ячейка 2/6'
                 }
             ]

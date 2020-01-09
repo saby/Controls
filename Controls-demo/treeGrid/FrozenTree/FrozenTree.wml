@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-frozenTree">
     <Controls.treeGrid:View
             keyProperty="id"
             source="{{_viewSource}}"

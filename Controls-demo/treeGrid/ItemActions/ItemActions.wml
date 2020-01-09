@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemActions/ItemActionsNoHighlight/Index' }}">
+            <a href="{{content.href}}">Без подсветки строки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemActions.ItemActionsNoHighlight.Index/>
+    </div>
+
+</div>

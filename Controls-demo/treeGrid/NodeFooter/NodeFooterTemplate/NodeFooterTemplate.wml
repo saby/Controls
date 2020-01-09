@@ -4,7 +4,8 @@
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"
-            nodeProperty="type">
+            nodeProperty="type"
+            bind:expandedItems="_expandedItems">
         <ws:nodeFooterTemplate>
             <Controls.list:AddButton caption="Добавить товар"/>
         </ws:nodeFooterTemplate>
