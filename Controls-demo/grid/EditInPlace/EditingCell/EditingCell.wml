@@ -1,14 +1,27 @@
 <div class="controlsDemo__cell">
-    <Controls.grid:View
-            name="list"
-            keyProperty="id"
-            source="{{_viewSource}}"
-            columns="{{_columns}}">
-        <ws:editingConfig>
-            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
-        </ws:editingConfig>
-        <ws:footerTemplate>
-            <Controls.list:AddButton caption="Add record" on:click="list.beginAdd()" class="test_add_record_1"/>
-        </ws:footerTemplate>
-    </Controls.grid:View>
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+        <ws:content>
+            <div>
+                <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>
+                <Controls.list:Container>
+                    <Controls.grid:View
+                            name="list"
+                            bind:markedKey="_markedKey"
+                            dataLoadCallback="{{_dataLoadCallback}}"
+                            resultsPosition="top"
+                            itemActionsType="outside"
+                            itemActions="{{_itemActions}}"
+                            on:afterEndEdit="_toggleAddButton()"
+                            columns="{{_columns}}">
+                        <ws:editingConfig>
+                            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
+                        </ws:editingConfig>
+                        <ws:footerTemplate>
+                            <Controls.list:AddButton caption="Add record" on:click="list.beginAdd()" class="test_add_record_1"/>
+                        </ws:footerTemplate>
+                    </Controls.grid:View>
+                </Controls.list:Container>
+            </div>
+        </ws:content>
+    </Controls.list:DataContainer>
 </div>

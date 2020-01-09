@@ -28,6 +28,10 @@
   }
 }
 
+.controlsDemo_fixedWidth300 {
+  width: 300px;
+}
+
 .controlsDemo_fixedWidth500 {
   width: 500px;
 }
@@ -36,6 +40,10 @@
 }
 .controlsDemo_fixedWidth800 {
   width: 800px;
+}
+
+.controlsDemo_widthFit {
+  width: fit-content;
 }
 
 .controlsDemo__flex {
@@ -79,6 +87,38 @@
 .controlsDemo__height500 {
   height: 500px;
 }
+
+.controlsDemo__width100 {
+  width: 100%;
+}
+
+.controlsDemo__customTileTpl {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 200px;
+
+  &-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 200px;
+  }
+
+  &-title {
+    z-index: 1;
+    margin-bottom: 20px;
+    color: blue;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    padding: 0 5px;
+  }
+}
+
 
 .controlsDemo__clearWidth {
   width: initial;
@@ -264,4 +304,10 @@
   font-size: 13px;
   color: #aaa;
   border-top: 1px dashed #f0f;
+}
+
+.controlDemo__RowWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
 
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-default">
         <div class="controls-text-label_theme-{{_options.theme}}">Стандартные отступы</div>
         <Controls.treeGrid:View
                 keyProperty="id"
@@ -15,7 +15,7 @@
         <div class="controls-text-label_theme-{{_options.theme}}">Вертикальные отступы</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -27,7 +27,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-l">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -45,7 +45,7 @@
         <div class="controls-text-label_theme-{{_options.theme}}">Горизонтальные отступы</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-null">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру null</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -57,7 +57,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-s">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -69,7 +69,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-m">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -81,7 +81,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-l">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -93,7 +93,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xl">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру XL</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
@@ -105,7 +105,7 @@
                 </Controls.treeGrid:View>
             </div>
 
-            <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xxl">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру XXL</div>
                 <Controls.treeGrid:View
                         keyProperty="id"
