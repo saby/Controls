@@ -16,19 +16,19 @@
 
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-right"
-         attr:style="right: 12px; top: 6px" on:mouseenter="_open(_cfgRight)"></div>
+         attr:style="right: 12px; top: 24px" on:mouseenter="_open(_cfgRight)"></div>
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-right"
          attr:style="right: 12px; bottom: 5px" on:mouseenter="_open(_cfgRight)"></div>
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-left"
-         attr:style="left: 12px; top: 6px" on:mouseenter="_open(_cfgLeft)"></div>
+         attr:style="left: 12px; top: 24px" on:mouseenter="_open(_cfgLeft)"></div>
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-left"
          attr:style="left: 12px; bottom: 6px" on:mouseenter="_open(_cfgLeft)"></div>
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-center"
-         attr:style="top: 0;left:calc(50% - 12px)" on:mouseenter="_open(_cfgTop)"></div>
+         attr:style="top: 24px;left:calc(50% - 12px)" on:mouseenter="_open(_cfgTop)"></div>
     <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-center"
          attr:style="bottom: 0;left:calc(50% - 12px)" on:mouseenter="_open(_cfgBottom)"></div>
