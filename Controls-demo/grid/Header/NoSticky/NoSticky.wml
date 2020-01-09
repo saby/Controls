@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800 controlDemo__grid-header-noSticky">
     <Controls.scroll:Container attr:style="height: 400px">
         <Controls.grid:View
                 keyProperty="id"
