@@ -35,17 +35,23 @@ var _private = {
    },
 
    loadItems: function (self, options) {
-      return _private.getSourceController(self, options).addCallback((sourceController) => {
-          self._filter = historyUtils.getSourceFilter(options.filter, self._source);
-          return sourceController.load(self._filter).addCallback((items) => {
-             self._setItems(items);
-              if (options.dataLoadCallback) {
+      return _private.getSourceController(self, options)
+         .addCallback((sourceController) => {
+            self._filter = historyUtils.getSourceFilter(options.filter, self._source);
+            return sourceController.load(self._filter).addCallback((items) => {
+               self._setItems(items);
+               if (options.dataLoadCallback) {
                   options.dataLoadCallback(items);
-              }
-              _private.updateSelectedItems(self, options.emptyText, options.selectedKeys, options.keyProperty, options.selectedItemsChangedCallback);
-              return items;
-          });
-       });
+               }
+               _private.updateSelectedItems(self, options.emptyText, options.selectedKeys, options.keyProperty, options.selectedItemsChangedCallback);
+               return items;
+            });
+         })
+         .addErrback((error) => {
+            if (self._options.dataLoadErrback) {
+               self._options.dataLoadErrback(error);
+            }
+         });
    },
 
    getItemByKey(items: RecordSet, key: string, keyProperty: string): void|Model {
