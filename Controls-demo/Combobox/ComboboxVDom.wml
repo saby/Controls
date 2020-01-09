@@ -5,7 +5,7 @@
                                keyProperty="id"
                                displayProperty="title"
                                bind:selectedKey="_selectedKey"
-                               attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__simple"/>
    </div>
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
       <h4>With the option of selecting an empty value</h4>
@@ -14,7 +14,7 @@
                                emptyText="{{true}}"
                                displayProperty="title"
                                bind:selectedKey="_selectedKey3"
-                               attr:class="ControlsDemo-ComboboxVDOM__item ControlsDemo-ComboboxVDOM__emptyValue"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__emptyValue"/>
    </div>
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
       <h4>With scroll</h4>
@@ -23,7 +23,7 @@
                                displayProperty="title"
                                bind:selectedKey="_selectedKey2"
                                dropdownClassName="ControlsDemo-ComboboxVDOM__popupScroll"
-                               attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__withScroll"/>
    </div>
 
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
@@ -33,7 +33,7 @@
                                displayProperty="text"
                                itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
                                bind:selectedKey="_selectedKey4"
-                               attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__application"/>
    </div>
 
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
@@ -44,7 +44,7 @@
                                displayProperty="text"
                                itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
                                bind:selectedKey="_selectedKey5"
-                               attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__withNull"/>
    </div>
 
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
@@ -64,7 +64,7 @@
                                  keyProperty="id"
                                  displayProperty="title"
                                  bind:selectedKey="_selectedKeyHistory"
-                                 attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                                 attr:class="ControlsDemo-ComboboxVDOM__history"/>
    </div>
 
    <div class="ControlsDemo-ComboboxVDOM__wrapper">
@@ -74,6 +74,6 @@
                                keyProperty="id"
                                bind:selectedKey="_selectedKeyReadOnly"
                                readOnly="{{true}}"
-                               attr:class="ControlsDemo-ComboboxVDOM__item"/>
+                               attr:class="ControlsDemo-ComboboxVDOM__ReadOnly"/>
    </div>
 </div>
