@@ -38,7 +38,6 @@
          </div>
          <div class="controlsDemo-Link__componentWrap">
             <Controls.dateRange:Link
-               style="linkAdditional"
                viewMode="label"
                emptyCaption="не задан"
 			   attr:test_name="range_not_value"
