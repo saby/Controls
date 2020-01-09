@@ -11,6 +11,7 @@ import ExtDataModel, {TItems} from './MonthList/ExtDataModel';
 import MonthsSource from './MonthList/MonthsSource';
 import monthListUtils from './MonthList/Utils';
 import ITEM_TYPES from './MonthList/ItemTypes';
+import {IDisplayedRanges, IDisplayedRangesOptions} from 'Controls/interface';
 import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
 import {IntersectionObserverSyntheticEntry} from 'Controls/scroll';
 import dateUtils = require('Controls/Utils/Date');
@@ -26,6 +27,7 @@ interface IModuleComponentOptions extends
     IMonthListSourceOptions,
     IMonthListOptions,
     IMonthListVirtualPageSizeOptions,
+    IDisplayedRangesOptions,
     IDateConstructorOptions {
 }
 
@@ -52,11 +54,12 @@ const enum VIEW_MODE {
  * @demo Controls-demo/Date/MonthList
  */
 class  ModuleComponent extends Control<IModuleComponentOptions> implements
-        IMonthListSource, IMonthList, IMonthListVirtualPageSize, IDateConstructor {
+        IMonthListSource, IMonthList, IMonthListVirtualPageSize, IDateConstructor, IDisplayedRanges {
     readonly '[Controls/_calendar/interface/IMonthListSource]': true;
     readonly '[Controls/_calendar/interface/IMonthList]': true;
     readonly '[Controls/_calendar/interface/IMonthListVirtualPageSize]': true;
     readonly '[Controls/_interface/IDateConstructor]': true;
+    readonly '[Controls/_interface/IDisplayedRanges]': true;
 
     protected _template: TemplateFunction = template;
 
