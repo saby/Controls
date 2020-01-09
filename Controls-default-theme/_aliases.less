@@ -1366,7 +1366,7 @@
 //цвет кнопки меню тулбара при наведении
 @icon-color_hover_toolbar:                                                  @link_hover_text-color;
 
-/*Combobox */
+//КОМБОБОКС
 // цвет иконки комбобокса
 @trigger-color_combobox:                           @secondary_icon-color_toggleSeparator;
 
@@ -1382,65 +1382,131 @@
 /* dropdown:Button ofsets*/
 @inline_height_default_link_button:                18px; // Высота текста link кнопки, чтобы посчитать offset переменную для меню
 
-// dropdown:Popup
+//ДРОПДАУН
+// высота дропдауна
+@height_dropdownSelector:                          @inline_height_default;
+// размер шрифта дропдауна
+@font-size_default_dropdownSelector:               @font-size_default;
+// ширина обводки контрола при ошибке валидации
+@invalid_border-thickness_dropdownSelector:        @border-thickness;
+// цвет обводки контрола при ошибке валидации
+@invalid_border-color_dropdownSelector:            @danger_color;
+// цвет текста пустого элемента
+@empty-item_text-color_dropdownSelector:           #CCC;
+// отступ между иконкой и текстом
+@icon_offset_dropdownSelector:                     6px;
+
+//MENUPOPUP - ОКНО ВЫПАДАЮЩЕГО СПИСКА
+// максимальная ширина списка
 @popup_max-width_dropdown:                         700px;
+// ширина обводки выпадающего списка
 @popup_border-thickness_dropdown:                  @border-thickness;
+// цвет обводки выпадающего списка
 @popup_border-color_dropdown:                      #CCC;
+// цвет фона выпадающего списка
 @popup_background-color_dropdown:                  @background-color;
 
+// сдвиг тени выпадающего списка
 @popup_box-shadow-offset_dropdown:                 6px;
+// размытие тени выпадающего списка
 @popup_box-shadow-blur_dropdown:                   6px;
+// цвет тени выпадающего списка
 @popup_box-shadow-color_dropdown:                  rgba(0, 0, 0, 0.2);
 
+// вертикальный отступ в выпадающем списке
 @popup_padding-vertical_dropdown:                  2px;
+// цвет фона шапки выпадающего списка
 @header_background-color_dropdown:                 #F4F4F4;
+// размер шрифта шапки выпадающего списка
 @header_font-size_dropdown:                        @font-size_l;
+// цвет текста в шапке выпадающего списка
 @header_color_dropdown:                            @secondary_text-color; // должно переехать в menuPopupTemplate
+// минимальная высота шапки выпадающего списка
 @header_min-height_dropdown:                       32px;
+// горизонтальный отступ в шапке выпадающего списка
 @header_padding-horizontal_dropdown:               12px;
+// минимальная высота футера выпадающего списка
 @footer_min-height_dropdown:                       32px;
+// отступ кнопки подтверждения выбора в выпадающем списке
 @apply-button_offset_dropdown:                     8px;
 
-/* Menu */
+//МЕНЮ
+// цвет разделителя меню
 @item_separator_color_menu:                        transparent;
+// толщина разделителя меню
 @item_separator_thickness_menu:                    0;
+// горизонтальный отступ разделителя меню
 @item_separator_padding-horizontal_menu:           0;
+// цвет фона пункта меню
 @item_background-color_menu:                       @background-color;
+// цвет фона пункта меню при наведении
 @item_hover_background-color_menu:                 @hover_background-color;
+// цвет фона пункта меню при нажатии
 @item_active_background-color_menu:                @item_hover_background-color_menu;
+// высота пункта меню
 @item_height_menu:                                 32px;
+// размер шрифта текста пункта меню
 @item_font-size_menu:                              @font-size_l;
+// горизонтальный отступ пункта меню размера s
 @item_padding-horizontal_s_menu:                   4px;
+// горизонтальный отступ пункта меню размера l
 @item_padding-horizontal_l_menu:                   12px;
+// отступ сверху пункта меню
 @item_padding-top_menu:                            6px;
+// отступ снизу пункта меню
 @item_padding-bottom_menu:                         6px;
+// цвет текста пунта меню
 @item_text-color_menu:                             @text-color;
+// цвет текста пустого элемента меню
 @empty-item_text-color_menu:                       #CCC;
+// отступ между иконкой и текстом в меню
 @item_icon_offset_menu:                            6px;
+// цвет текста элемента меню в режиме чтения
 @readonly_item_text-color_menu:                    @readonly_color;
+// размер иконки иерархии в меню
 @hierarchy_icon-size_menu:                         @icon-size_s;
+// цвет иконки иерархии в меню
 @hierarchy_icon-color_menu:                        @secondary_color;
+// цвет иконки иерархии в меню в режиме чтения
 @readonly_hierarchy_icon-color_menu:               @readonly_color;
+// отступ между иконкой иерарзии и правой границей меню
 @hierarchy_icon_offset-right_menu:                 6px;
+// отступ между иконкой иерарзии и текстом в меню
 @hierarchy_icon_offset-left_menu:                  6px;
+// отступ между кнопкой закрытия и верхней границей меню
 @close-button_offset-top_menu:                     6px;
+// отступ между кнопкой закрытия и правой границей меню
 @close-button_offset-right_menu:                   6px;
+// отступ между кнопкой закрытия и текстом в меню
 @close-button_offset-left_menu:                    0;
+// размер иконки запинивания меню
 @pin-button_icon-size_menu:                        @icon-size_s;
+// отступ между кнопкой запинивания и правой границей меню
 @pin-button_offset-right_menu:                     12px;
+// отступ между кнопкой запинивания и текстом в меню
 @pin-button_offset-left_menu:                      6px;
+// цвет иконки запинивания в меню
 @pin-button_icon-color_menu:                       @unaccented_icon-color;
+// цвет иконки запинивания меню при наведении
 @pin-button_hover_icon-color_menu:                 @link_hover_text-color;
+// ширина маркера меню
 @marker_width_menu:                                6px;
+// высота маркера меню
 @marker_height_menu:                               8px;
+// цвет маркера меню
 @marker_color_menu:                                #D94700;
+// вертикальный отступ разделителя группы в меню
 @grouping_padding-vertical_menu:                   8px;
+// горизонтальный отступ разделителя группы в меню
 @grouping_padding-horizontal_menu:                 12px;
+// ширина разделителя группы меню
 @grouping_separator_thickness_menu:                1px;
+// цвет разделителя группы меню
 @grouping_separator_color_menu:                    #EAEAEA;
+// цвет текста группы в меню
 @grouping_text-color_menu:                         @label_text-color;
+// размер шрифта группы в меню
 @grouping_font-size_menu:                          @font-size_xs;
-
 
 //Слайдер
 //размер ползунка s

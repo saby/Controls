@@ -429,6 +429,21 @@
 @margin-top_ComboBox-popup:                     -@border-thickness_inputText;
 @spacing_ComboBox-between-arrow-rightBorder:    @trigger_padding-right_combobox;
 
+//Dropdown:Input
+@border-width_Dropdown-style_invalid:              @invalid_border-thickness_dropdownSelector;
+@border-color_Dropdown-style_invalid:              @invalid_border-color_dropdownSelector;
+@color_Dropdown-emptyItem:                         @empty-item_text-color_dropdownSelector;
+@spacing_Dropdown-between-icon-text:               @icon_offset_dropdownSelector;
+@height_Dropdown:                                  @height_dropdownSelector;
+@font-size_DropdownList-text:                      @font-size_default_dropdownSelector;
+@font-size_DropdownList-text-baseline:             @font-size_default_dropdownSelector;
+@shift-top_Dropdown-popup:                         -((@item_height_menu - @height_dropdownSelector) / 2 + @popup_padding-vertical_dropdown + @popup_border-thickness_dropdown);
+@shift-top_Dropdown-head-popup:                    -(@popup_border-thickness_dropdown + @item_padding-horizontal_l_menu);
+@shift-left_Dropdown-popup:                        -(@popup_border-thickness_dropdown + @click-area_width_checkbox);
+@color_Dropdown-icon-iconStyle_secondary_hovered:  @link_hover_text-color;
+@color_Dropdown-text:                              @link_text-color;
+@color_Dropdown-text_hovered:                      @link_hover_text-color;
+@color_Dropdown-icon-iconStyle_secondary_hovered:  @link_hover_text-color;
 
 // dropdownList
 @max-width_DropdownList:                                                @popup_max-width_dropdown;

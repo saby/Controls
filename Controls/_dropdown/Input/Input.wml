@@ -14,13 +14,14 @@
                   item="{{_item}}"
                   icon="{{_icon}}"
                   iconSize="{{_options.iconSize}}"
+                  fontSize="{{_options.fontSize}}"
+                  fontColorStyle="{{_options.fontColorStyle}}"
                   text="{{_text}}"
                   tooltip="{{_tooltip}}"
                   countItems="{{_countItems}}"
                   hasMoreText="{{_hasMoreText}}"
-                  isEmptyItem="{{_isEmptyItem}}"
+                  isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
                   readOnly="{{_options.readOnly}}"
-                  multiSelect="{{_options.multiSelect}}"
                   footerTemplate="{{_options.footerTemplate}}"/>
    </ws:content>
 </Controls._dropdown._Controller>
