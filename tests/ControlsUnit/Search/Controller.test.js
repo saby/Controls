@@ -546,6 +546,13 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
                assert.equal(value, 'test2');
             });
          });
+         it('viewMode is changed', function() {
+            var options = getDefaultOptions();
+
+            options.viewMode = "tile";
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._viewMode, "tile");
+         });
       });
 
       describe('_beforeUnmount', function() {
