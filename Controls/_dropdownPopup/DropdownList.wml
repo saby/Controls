@@ -13,7 +13,8 @@
                   scope="{{_headConfig}}"/>
    </ws:if>
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-DropdownList__scroll theme_{{_options.theme}}"
-                              shadowVisible="{{false}}">
+                              topShadowVisibility="hidden"
+                              bottomShadowVisibility="hidden">
       <div>
          <ws:partial template="wml!Controls/_dropdownPopup/For"
                      listModel="{{_listModel}}"
