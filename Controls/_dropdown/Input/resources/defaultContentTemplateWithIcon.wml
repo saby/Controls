@@ -1,6 +1,6 @@
-<ws:partial template="wml!Controls/_dropdown/Input/resources/defaultContentTemplate" countItems="{{countItems}}">
+<ws:partial template="wml!Controls/_dropdown/Input/resources/defaultContentTemplate" scope="{{_options}}">
    <ws:contentTemplate>
-      <div if="{{icon}}" class="controls-Dropdown__icon_theme_{{_options.theme}} controls-Dropdown__icon_{{item.get('iconStyle') || 'secondary'}}_theme_{{_options.theme}}
+      <div if="{{icon}}" class="controls-Dropdown__icon_theme_{{_options.theme}} controls-icon_style-{{item.get('iconStyle') || 'secondary'}}_theme-{{_options.theme}}
             {{text ? ' controls-Dropdown__icon-rightSpacing_theme_' + _options.theme}}"
            title="{{tooltip || text}}"><div class="{{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}} {{icon}}"></div></div>
       <div class="controls-Dropdown__text-wrapper theme_{{_options.theme}}">

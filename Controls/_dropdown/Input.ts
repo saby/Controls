@@ -71,6 +71,8 @@ var _private = {
  * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/_interface/IIconSize
  * @mixes Controls/_interface/ITextValue
+ * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
  * @author Золотова Э.Е.

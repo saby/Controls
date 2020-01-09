@@ -1,21 +1,22 @@
 <div class="controls-FilterDropdown">
    <Controls.dropdown:Input
            scope="{{_options}}"
+           fontColorStyle="secondary"
            attr:class="controls-FilterDropdown__content"
            on:selectedKeysChanged="_selectedKeysChangedHandler()"
            on:textValueChanged="_textValueChangedHandler()">
       <ws:contentTemplate>
          <ws:if data="{{_options.contentTemplate}}">
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter">
-                  <ws:contentTemplate>
-                     <div class="controls-FilterDropdown__contentTemplate">
-                        <ws:partial template="{{_options.contentTemplate}}" class="controls-FilterDropdown__text"/>
-                     </div>
-                  </ws:contentTemplate>
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate">
+               <ws:contentTemplate>
+                  <div class="controls-FilterDropdown__contentTemplate">
+                     <ws:partial template="{{_options.contentTemplate}}" class="controls-FilterDropdown__text"/>
+                  </div>
+               </ws:contentTemplate>
             </ws:partial>
          </ws:if>
          <ws:else>
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter"/>
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate"/>
          </ws:else>
       </ws:contentTemplate>
    </Controls.dropdown:Input>
