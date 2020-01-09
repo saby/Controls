@@ -67,19 +67,11 @@
    padding: @padding_TreeGridView-expander;
 }
 
-.controls-TreeGrid__row-expander_node_default_theme-@{themeName}:hover:before {
-   color: @color_TreeGridView-expander_hover;
-}
-
 .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
    color: @color_TreeGridView-expander-hiddenNode;
    font-family: @font-family-TreeGridView-icons;
    font-size: @font-size_TreeGridView-expander;
    padding: @padding_TreeGridView-expander;
-}
-
-.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:hover:before {
-   color: @color_TreeGridView-expander_hover;
 }
 
 .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before {
@@ -89,19 +81,11 @@
    padding: @padding_TreeGridView-expander_master;
 }
 
-.controls-TreeGrid__row-expander_node_master_theme-@{themeName}:hover:before {
-   color: @color_TreeGridView-expander_hover_master;
-}
-
 .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
    color: @color_TreeGridView-expander-hiddenNode_master;
    font-family: @font-family-TreeGridView-icons;
    font-size: @font-size_TreeGridView-expander_master;
    padding: @padding_TreeGridView-expander_master;
-}
-
-.controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before {
-   color: @color_TreeGridView-expander_hover;
 }
 
 .controls-TreeGrid__row-expander_theme-@{themeName}:before {
@@ -186,13 +170,24 @@
    z-index: 2;
 }
 
-
-.ws-is-hover .controls-BaseControl_showActions {
-   .controls-Grid__row:hover > .controls-TreeGrid__row-cell_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
-      display: inline-block;
-   }
-}
-
 .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
    display: inline-block;
+}
+
+.ws-is-hover {
+   .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:hover:before,
+   .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before,
+   .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:hover:before {
+      color: @color_TreeGridView-expander_hover;
+   }
+
+   .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:hover:before {
+      color: @color_TreeGridView-expander_hover_master;
+   }
+   
+   .controls-BaseControl_showActions {
+      .controls-Grid__row:hover > .controls-TreeGrid__row-cell_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+         display: inline-block;
+      }
+   }
 }
