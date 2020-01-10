@@ -262,6 +262,17 @@ define([
 
          assert.strictEqual(markedKey, 'test');
          assert.isFalse(explorer._isGoingBack);
+
+         explorer._isGoingFront = true;
+         explorer._root = 'test';
+         explorer._restoredMarkedKeys = {
+            [null]: { markedKey: 'test' }
+         };
+
+         explorerMod.View._private.itemsSetCallback(explorer);
+
+         assert.strictEqual(markedKey, null);
+         assert.isFalse(explorer._isGoingFront);
       });
 
       it('setViewMode', function() {
