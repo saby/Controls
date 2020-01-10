@@ -928,5 +928,21 @@ define([
             });
          });
       });
+
+      describe('setNodeFooterIfNeed', function() {
+         let model;
+
+         beforeEach(function() {
+            model = new treeGrid.TreeViewModel(cfg);
+         });
+
+         it('no hierarchy = no has more footers', function() {
+            const itemData = model.getItemDataByItem(model.getItemById('567', 'id'));
+            itemData.nodeProperty = undefined;
+            itemData.parentProperty = undefined;
+            treeGrid.TreeViewModel._private.setNodeFooterIfNeed(model, itemData);
+            assert.deepEqual(itemData.nodeFooters, []);
+         });
+      });
    });
 });
