@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_wrapper-treeGrid-nodeFooter">
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"

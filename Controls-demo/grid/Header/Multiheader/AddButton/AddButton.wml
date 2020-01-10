@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base">
     <!-- Необязательно оборачивать список в скролл контейнер. -->
     <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
     <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->

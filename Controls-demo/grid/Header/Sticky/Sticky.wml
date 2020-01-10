@@ -1,9 +1,11 @@
-<div class="controlsDemo__wrapper">
-    <Controls.scroll:Container attr:style="height: 400px">
-        <Controls.grid:View
-                keyProperty="id"
-                source="{{_viewSource}}"
-                header="{{_header}}"
-                columns="{{_columns}}"/>
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky">
+    <Controls.scroll:Container attr:style="height: 400px; width: 70%;">
+        <Controls.operations:Container>
+            <Controls.grid:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    header="{{_header}}"
+                    columns="{{_columns}}"/>
+        </Controls.operations:Container>
     </Controls.scroll:Container>
 </div>
