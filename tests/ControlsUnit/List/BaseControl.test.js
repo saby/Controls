@@ -1007,6 +1007,7 @@ define([
          assert.isFalse(notified);
 
          var myMarkedItem = { qwe: 123 };
+         var mockedEvent = { target: 'myTestTarget' };
          // With marker
          lists.BaseControl._private.enterHandler({
             getViewModel: function() {
@@ -1020,13 +1021,13 @@ define([
                   }
                };
             },
-            _notify: function(e, item, options) {
+            _notify: function(e, args, options) {
                notified = true;
                assert.equal(e, 'itemClick');
-               assert.deepEqual(item, [myMarkedItem]);
+               assert.deepEqual(args, [myMarkedItem, mockedEvent]);
                assert.deepEqual(options, { bubbling: true });
             }
-         });
+         }, mockedEvent);
          assert.isTrue(notified);
       });
 
