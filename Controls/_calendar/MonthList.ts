@@ -460,7 +460,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             _limit: 8,
             order: 'asc',
             dateConstructor: WSDate,
-            displayedRanges: null
+            displayedRanges: null,
+            topShadowVisibility: 'visible',
+            bottomShadowVisibility: 'visible'
         };
     }
 }
