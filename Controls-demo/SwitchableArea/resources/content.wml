@@ -1,8 +1,8 @@
 <div style="padding: 20px;">
-   <div class="ControlsDemo-SwitchableArea__text ControlsDemo-SwitchableArea__text_content1">
-      content 1 <br />
+   <div class="ControlsDemo-SwitchableArea__text ControlsDemo-SwitchableArea__text_content{{number}}">
+      content {{number}} <br />
       selected: {{selected}} <br />
       additionalOptions: {{additionalOptions}} <br />
    </div>
-   <Controls.input:Text placeholder="forFocus 1" attr:class="ControlsDemo-SwitchableArea__input_content1" />
+   <input value="{{_branch}}" type="text" placeholder="forFocus" attr:class="ControlsDemo-SwitchableArea__input_content{{number}}"/>
 </div>
