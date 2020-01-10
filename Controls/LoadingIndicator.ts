@@ -26,18 +26,19 @@ import 'css!theme?Controls/_LoadingIndicator/LoadingIndicator';
  * @name Controls/LoadingIndicator#message
  * @cfg {String} Текст сообщения индикатора.
  * @default '' (пустая строка)
- * @demo Controls-demo/LoadingIndicator/Overlay/Index
+ * @demo Controls-demo/LoadingIndicator/Message/Index
  */
 
 /*
  * @name Controls/LoadingIndicator#message
  * @cfg {String} message of indicator
  * @default '' (empty string)
+ * @demo Controls-demo/LoadingIndicator/Message/Index
  */
 
 /**
  * @typedef {String} Scroll
- * @description Значения, которыми настраивается градиент для прокручивания объекта привязки. 
+ * @description Значения, которыми настраивается градиент для прокручивания объекта привязки.
  * @variant '' Без градиента.
  * @variant left Градиент слева направо (увелечение цветового наполнения).
  * @variant right Градиент справа налево.
@@ -333,7 +334,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
      * @param {Promise} [waitPromise] Promise, к которому привязывается отображение индикатора. Индикатор скроется после завершения Promise.
      * @return {Number} Возвращает id индикатора загрузки. Используется в методе {@link hide} для закрытия индикатора.
      * @see hide
-     */ 
+     */
     show(config, waitPromise) {
         return this._show(config, waitPromise);
     },
