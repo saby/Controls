@@ -124,8 +124,7 @@ var
                self._isGoingBack = false;
             }
             if (self._isGoingFront) {
-               const curRoot = _private.getRoot(self, self._options.root);
-               self._children.treeControl.setMarkedKey(curRoot);
+               self._children.treeControl.setMarkedKey(null);
                self._isGoingFront = false;
             }
          },
@@ -166,6 +165,7 @@ var
          },
          backByPath: function(self) {
             if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
+               self._isGoingBack = true;
                _private.setRoot(self, self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
             }
          },
