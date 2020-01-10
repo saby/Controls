@@ -14,6 +14,7 @@ export default class extends Control {
     private _itemsReadyCallback = this._itemsReady.bind(this);
     private _columns = DragNDrop().columns;
     private _selectedKeys = [];
+    private _multiselect: 'visible'|'hidden' = 'hidden';
 
     protected _beforeMount() {
         this._viewSource = new Memory({
@@ -37,5 +38,9 @@ export default class extends Control {
     private _dragEnd(_, entity, target, position) {
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
+    private _onToggle() {
+        this._multiselect = this._multiselect === 'visible' ? 'hidden' : 'visible';
+    }
+
 
 }

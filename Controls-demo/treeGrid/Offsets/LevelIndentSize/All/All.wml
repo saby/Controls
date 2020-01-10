@@ -1,13 +1,29 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-
+    <div class="controlsDemo__cell controlsDemo__mr2">
+        <div class="controls-text-label_theme-{{_options.theme}}">Настройки размера иерархического отступа</div>
+            <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-custom">
+                <Controls.treeGrid:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        bind:expandedItems="_expandedItems"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="s" />
+                    </ws:itemTemplate>
+                </Controls.treeGrid:View>
+            </div>
+    </div>
     <div class="controlsDemo__cell controlsDemo__mr2">
         <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
-        <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-s">
             <Controls.treeGrid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     parentProperty="parent"
+                    bind:expandedItems="_expandedItemsS"
                     nodeProperty="type">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="s" />
@@ -19,11 +35,12 @@
 
     <div class="controlsDemo__cell controlsDemo__mr2">
         <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
-        <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-m">
             <Controls.treeGrid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
+                    bind:expandedItems="_expandedItemsM"
                     parentProperty="parent"
                     nodeProperty="type">
                 <ws:itemTemplate>
@@ -36,12 +53,13 @@
 
     <div class="controlsDemo__cell controlsDemo__mr2">
         <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
-        <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-l">
             <Controls.treeGrid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     parentProperty="parent"
+                    bind:expandedItems="_expandedItemsL"
                     nodeProperty="type">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="l" />
@@ -52,12 +70,13 @@
 
     <div class="controlsDemo__cell controlsDemo__mr2">
         <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру XL</div>
-        <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__wrapper controlsDemo_treeGrid-offset-levelIndent-all-xl">
             <Controls.treeGrid:View
                     keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     parentProperty="parent"
+                    bind:expandedItems="_expandedItemsXl"
                     nodeProperty="type">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="xl" />
