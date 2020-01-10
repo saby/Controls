@@ -284,6 +284,7 @@ define(
                      },
                      templateOptions: {
                         groupTemplate: 'groupTemplate',
+                        groupProperty: undefined,
                         groupingKeyCallback: 'groupingKeyCallback',
                         iconSize: 'm',
                         keyProperty: 'keyProperty',
@@ -349,7 +350,8 @@ define(
                         additionalProperty: 'additional',
                         itemTemplateProperty: 'itp',
                         groupTemplate: 'groupTemplate',
-                        groupingKeyCallback: 'groupingKeyCallback'
+                        groupingKeyCallback: 'groupingKeyCallback',
+                        groupProperty: undefined
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfig.call(testSelf), config);

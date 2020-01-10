@@ -57,7 +57,7 @@
  * @remark
  * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
  * 
- * * {@link Types/entity:Record item} — результат того, что возвращено из функции {@link Controls/interface/IGroupedGrid#groupingKeyCallback groupingKeyCallback}.
+ * * {@link String|Number item} — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для таблицы.
  * 
  * @example
@@ -123,8 +123,8 @@
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий заголовок группы.
  * @remark
  * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
- * 
- * * {@link Types/entity:Record item} — результат того, что возвращено из функции {@link Controls/grid:View#groupingKeyCallback groupingKeyCallback}.
+ *
+ * * {@link String|Number item} — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
  * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для списка.
  * 
  * @example

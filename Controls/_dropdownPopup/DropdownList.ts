@@ -22,7 +22,10 @@ import {SyntheticEvent} from 'Vdom/Vdom'
       var _private = {
          checkDeprecated: function(cfg, self) {
             if (cfg.groupMethod) {
-               Logger.warn('IGrouped: Option "groupMethod" is deprecated and removed in 19.200. Use option "groupingKeyCallback".', self);
+               Logger.warn('IGrouped: Option "groupMethod" is deprecated and removed in 20.2000. Use option "groupProperty".', self);
+            }
+            if (cfg.groupingKeyCallback) {
+               Logger.warn('IGrouped: Option "groupingKeyCallback" is deprecated and removed in 20.2000. Use option "groupProperty".', self);
             }
          },
          setPopupOptions: function(self, horizontalPosition, theme) {
@@ -78,6 +81,7 @@ import {SyntheticEvent} from 'Vdom/Vdom'
                   itemTemplate: options.itemTemplate,
                   itemTemplateProperty: options.itemTemplateProperty,
                   groupTemplate: options.groupTemplate,
+                  groupProperty: options.groupProperty,
                   groupingKeyCallback: options.groupingKeyCallback,
                   keyProperty: options.keyProperty,
                   displayProperty: options.displayProperty,
@@ -214,6 +218,7 @@ import {SyntheticEvent} from 'Vdom/Vdom'
                   emptyText: newOptions.emptyText,
                   multiSelect: newOptions.multiSelect,
                   groupTemplate: newOptions.groupTemplate,
+                  groupProperty: newOptions.groupProperty,
                   groupingKeyCallback: newOptions.groupingKeyCallback,
                   groupMethod: newOptions.groupMethod,
                   itemPadding: newOptions.itemPadding,

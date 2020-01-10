@@ -23,14 +23,14 @@ export interface IGroupedOptions {
      * Вы можете изменить отображение разделителя, установив опцию:
      *    -  showText - определяет, отображается ли название группы.
      * Содержимое можно переопределить с помощью параметра "contentTemplate".
-     * Параметр "groupingKeyCallback" тоже должен быть установлен.
+     * Параметр "groupProperty" тоже должен быть установлен.
      * @example
      * TMPL:
      * <pre>
      *    <Controls.dropdown:Menu
      *          keyProperty="id"
      *          icon="icon-small icon-AddButtonNew"
-     *          groupingKeyCallback="{{_groupingKeyCallback}}"
+     *          groupProperty="group"
      *          source="{{_source}}">
      *       <ws:groupTemplate>
      *          <ws:partial template="Controls/dropdownPopup:GroupTemplate" showText="{{true}}" />
@@ -39,9 +39,6 @@ export interface IGroupedOptions {
      * </pre>
      * JS:
      * <pre>
-     *    this._groupingKeyCallback = function(item) {
-     *        return item.get('group');
-     *    }
      *    this._source = new Memory({
      *        data: [
      *                   { id: 1, title: 'Task in development', group: 'Select' },
@@ -69,13 +66,10 @@ export interface IGroupedOptions {
      *          keyProperty="id"
      *          icon="icon-small icon-AddButtonNew"
      *          source="{{_source}}"
-     *          groupingKeyCallback="{{_groupingKeyCallback}}"/>
+     *          groupProperty="group"/>
      * </pre>
      * JS:
      * <pre>
-     *    this._groupingKeyCallback = function(item) {
-     *        return item.get('group');
-     *    }
      *    this._source = new Memory({
      *        data: [
      *                   { id: 1, title: 'Task in development', group: 'Select' },
@@ -92,5 +86,5 @@ export interface IGroupedOptions {
      *     });
      * </pre>
      */
-    groupingKeyCallback: (item: any) => string;
+    groupProperty: string;
 }
