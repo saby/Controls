@@ -237,7 +237,9 @@
         <Controls.dropdown:Opener
             name="itemActionsOpener"
             keyProperty="id"
-            menuStyle="cross"/>
+            menuStyle="cross">
+            <ws:fittingMode vertical="overflow"/>
+        </Controls.dropdown:Opener>
         <ws:if data="{{ _items && _needSelectionController }}">
             <!--TODO: нельзя сюда добавлять Container.Async, т.к. события перестают стрелять. Ошибка на эту тему: https://online.sbis.ru/opendoc.html?guid=e3ad3d85-8cfc-4dc4-84dd-84b08db05e26-->
             <Controls._list.BaseControl.SelectionController
