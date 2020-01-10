@@ -392,13 +392,13 @@ var _private = {
         _private.setMarkerAfterScroll(self, event);
     },
 
-    enterHandler: function(self) {
+    enterHandler: function(self, event) {
         if (_private.isBlockedForLoading(self._loadingIndicatorState)) {
             return;
         }
         let markedItem = self.getViewModel().getMarkedItem();
         if (markedItem) {
-            self._notify('itemClick', [markedItem.getContents()], { bubbling: true });
+            self._notify('itemClick', [markedItem.getContents(), event], { bubbling: true });
         }
     },
     toggleSelection: function(self, event) {
