@@ -1,15 +1,16 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=default</div>
+            <div class="controls-text-label_theme-{{_options.theme}}">message="Loading"</div>
         </div>
         <div attr:class="controls-demo__indicator_container">
             <Controls.LoadingIndicator
-                    name="LocalIndicatorDefault"
+                    name="LocalIndicator"
                     attr:class="controls-demo__indicator_inst"
                     isGlobal="{{false}}"
-                    overlay="default"
+                    overlay="dark"
                     delay="0"
+                    message="Loading"
             >
                 <div>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -20,33 +21,14 @@
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=dark</div>
+            <div class="controls-text-label_theme-{{_options.theme}}">message=''</div>
         </div>
         <div attr:class="controls-demo__indicator_container">
             <Controls.LoadingIndicator
-                    name="LocalIndicatorDark"
+                    name="LocalIndicatorDefault"
                     attr:class="controls-demo__indicator_inst"
                     isGlobal="{{false}}"
                     overlay="dark"
-                    delay="0"
-            >
-                <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
-                </div>
-            </Controls.LoadingIndicator>
-        </div>
-    </div>
-    <div class="controlsDemo__cell  ws-flexbox ws-flex-column">
-        <div class="controlsDemo__mb1">
-            <div class="controls-text-label_theme-{{_options.theme}}">overlay=none</div>
-        </div>
-        <div attr:class="controls-demo__indicator_container">
-            <Controls.LoadingIndicator
-                    name="LocalIndicatorNone"
-                    attr:class="controls-demo__indicator_inst"
-                    isGlobal="{{false}}"
-                    overlay="none"
                     delay="0"
             >
                 <div>

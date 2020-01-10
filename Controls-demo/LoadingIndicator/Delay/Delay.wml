@@ -3,23 +3,53 @@
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">delay = 2000(default)</div>
         </div>
-        <Controls-demo.LoadingIndicator.IndicatorContainer
-                isGlobal="{{false}}"
-                overlay="dark"
-                time="5000"
-        ></Controls-demo.LoadingIndicator.IndicatorContainer>
+        <div attr:class="controls-demo__indicator_container">
+            <div attr:class="controls-demo__indicator_buttons" style="margin-bottom: 10px;">
+                <a attr:class="ws-link" on:click="_openFirst(5000)">Open (Closes after 3 seconds.)</a>
+            </div>
+
+            <Controls.LoadingIndicator
+                    name="loadingIndicatorFirst"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="dark"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column">
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">delay = 0</div>
         </div>
         <div>
-            <Controls-demo.LoadingIndicator.IndicatorContainer
-                    isGlobal="{{false}}"
-                    overlay="dark"
-                    delay="{{0}}"
-                    time="3000"
-            ></Controls-demo.LoadingIndicator.IndicatorContainer>
+            <div attr:class="controls-demo__indicator_container">
+                <div attr:class="controls-demo__indicator_buttons" style="margin-bottom: 10px;">
+                    <a attr:class="ws-link" on:click="_openSecond(3000)">Open (Closes after 3 seconds.)</a>
+                </div>
+
+                <Controls.LoadingIndicator
+                        name="loadingIndicatorSecond"
+                        attr:class="controls-demo__indicator_inst"
+                        isGlobal="{{false}}"
+                        overlay="dark"
+                        delay="{{0}}"
+                >
+                    <div>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                </Controls.LoadingIndicator>
+            </div>
         </div>
     </div>
 </div>
