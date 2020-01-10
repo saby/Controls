@@ -216,6 +216,15 @@ var _private = {
 
    needStartSearch(inputSearchValue: string, searchValue: string): string {
       return inputSearchValue.trim() || searchValue;
+   },
+
+   needUpdateViewMode(self, newViewMode: string): boolean {
+      return self._options.viewMode !== newViewMode && self._viewMode !== newViewMode;
+   },
+
+   updateViewMode(self, newViewMode: string): void {
+      self._previousViewMode = self._viewMode;
+      self._viewMode = newViewMode;
    }
 };
 
@@ -295,9 +304,8 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
          if (!_private.isInputSearchValueShort(this, options.searchValue)) {
             this._searchValue = options.searchValue;
 
-            if (this._viewMode !== 'search') {
-               this._previousViewMode = this._viewMode;
-               this._viewMode = 'search';
+            if (_private.needUpdateViewMode(this, 'search')) {
+               _private.updateViewMode(this, 'search');
             }
          }
       }
@@ -319,6 +327,10 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
 
       if (this._options.root !== newOptions.root) {
          this._root = newOptions.root;
+      }
+
+      if (_private.needUpdateViewMode(this, newOptions.viewMode)) {
+         _private.updateViewMode(this, newOptions.viewMode);
       }
 
       if (this._searchController) {
