@@ -17,6 +17,7 @@ type State =
     | 'invalid'
     | 'invalid-active'
     | 'invalidAccent'
+    | 'invalidAccent-active'
     | 'readonly'
     | 'readonly-multiline'
     | 'success'
