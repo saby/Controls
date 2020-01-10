@@ -443,8 +443,12 @@ var _private = {
     loadToDirection: function(self, direction, userCallback, userErrback, receivedFilter) {
         const navigation = self._options.navigation;
         const listViewModel = self._listViewModel;
+        const portionedSearch = _private.getPortionedSearch(self);
         const beforeAddItems = (addedItems) => {
             if (addedItems.getCount()) {
+                if (portionedSearch.shouldSearch()) {
+                    portionedSearch.reset();
+                }
                 self._loadedItems = addedItems;
             }
             if (self._options.serviceDataLoadCallback instanceof Function) {
@@ -495,7 +499,7 @@ var _private = {
                 self._options.beforeLoadToDirectionCallback(filter, self._options);
             }
             if (self._options.searchValue) {
-                _private.getPortionedSearch(self).startSearch();
+                portionedSearch.startSearch();
             }
             _private.setHasMoreData(self._listViewModel, self._sourceController.hasMoreData('down') || self._sourceController.hasMoreData('up'));
             return self._sourceController.load(filter, self._options.sorting, direction).addCallback(function(addedItems) {
