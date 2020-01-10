@@ -25,6 +25,7 @@ import viewTemplate = require('Controls/_list/ListControl');
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/interface/IEditableList
+ * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/interface/IGroupedList
  *
