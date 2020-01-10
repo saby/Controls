@@ -1,11 +1,9 @@
 import Control = require('Core/Control');
-import EnvEvent = require('Env/Event');
 import Env = require('Env/Env');
 import entity = require('Types/entity');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {isEqual} from 'Types/object';
 import getTextWidth = require('Controls/Utils/getTextWidth');
-import randomName = require('Core/helpers/Number/randomId');
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';
 import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
@@ -629,6 +627,17 @@ var Base = Control.extend({
         const newViewModelOptions = this._getViewModelOptions(newOptions);
 
         _private.updateViewModel(this, newViewModelOptions, _private.getValue(this, newOptions));
+
+        /**
+         * Когда опция readOnly меняется, тогда перестраивается верстка. В режиме чтения рисуется <div>, в режиме
+         * редактирования <input>. Элемент <input> при создании может иметь позицию каретки отличную от позиции в модели.
+         * Начальная позиция управляется браузером. Поэтому при фокусировке происходит обновление позиции каретки в соответствии с моделью.
+         * Так происходит только при первой фокусировке. Потому что в дальнейшем позиция управляется только контролом, а значит позиция
+         * уже будет соответствать модели. Будем считать, что пересоздавая <input>, работа с фокусом начинается заново.
+         */
+        if (this._options.readOnly === false && newOptions.readOnly === true) {
+            this._firstFocus = true;
+        }
     },
 
     /**
