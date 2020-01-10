@@ -34,6 +34,32 @@ export interface IMonthList {
  */
 
 /**
+ * @typedef {String} shadowVisibility
+ * @variant visible Тень всегда видима.
+ * @variant hidden Тень всегда скрыта.
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthList#topShadowVisibility
+ * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
+ * @default visible
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthList topShadowVisibility="hidden"/>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthList#bottomShadowVisibility
+ * @cfg {shadowVisibility} Устанавливает режим отображения тени снизу.
+ * @default visible
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthList bottomShadowVisibility="hidden"/>
+ * </pre>
+ */
+
+/**
  * @name Controls/_calendar/interfaces/IMonthList#position
  * @cfg {Date} Год или месяц который отображается первым в верху скролируемой области.
  * При изменении значения лента скролится к новому году\месяцу.
