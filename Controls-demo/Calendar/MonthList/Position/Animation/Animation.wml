@@ -1,0 +1,21 @@
+<ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
+    title="Включена анимация скролирования при смене даты."
+    monthListTitle="{{_getHeader(_position)}}">
+    <div class="controlsDemo__flex controlsDemo__flexColumn">
+        <Controls.calendar:MonthList
+            name="monthList"
+            bind:position="_position"
+            animation="{{true}}"
+            viewMode="month">
+            <ws:monthHeaderTemplate>
+                <div>{{_formatMonth(monthHeaderTemplate.date)}}</div>
+            </ws:monthHeaderTemplate>
+        </Controls.calendar:MonthList>
+
+        <div class="controlsDemo__wrapper">
+            <span class="controlsDemo__button" on:click="_scrollToDate(2020, 0, 1)">Скролировать к 01.01.2020</span>
+            <span class="controlsDemo__button" on:click="_scrollToDate(2020, 2, 1)">Скролировать к 01.03.2020</span>
+            <span class="controlsDemo__button" on:click="_scrollToDate(2020, 5, 10)">Скролировать к 10.06.2020</span>
+        </div>
+    </div>
+</ws:partial>

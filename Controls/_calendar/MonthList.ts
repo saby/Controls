@@ -27,6 +27,7 @@ interface IModuleComponentOptions extends
     IMonthListOptions,
     IMonthListVirtualPageSizeOptions,
     IDateConstructorOptions {
+    animation: boolean;
 }
 
 const enum ITEM_BODY_SELECTOR {
@@ -39,6 +40,8 @@ const enum VIEW_MODE {
     month = 'month',
     year = 'year'
 }
+
+const LOAD_DELAY_ON_ANIMATION = 100;
 
 /**
  * Прокручивающийся список с месяцами. Позволяет выбирать период.
@@ -80,6 +83,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
     private _enrichItemsDebounced: Function;
 
     private _virtualPageSize: number;
+
+    private _animationDisabled: boolean = false;
 
     protected _beforeMount(options: IModuleComponentOptions, context?: object, receivedState?: TItems):
                            Promise<TItems> | void {
@@ -240,6 +245,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             this._displayedDates = [];
             const oldPositionId = this._startPositionId;
             this._startPositionId = monthListUtils.dateToId(this._normalizeStartPosition(position));
+            // After fully redrawing the list, scroll to the desired day without animation.
+            this._animationDisabled = true;
             // After changing the navigation options, we must call the "reload" to redraw the control,
             // because the last time we could start rendering from the same position.
             // Position option is the initial position from which control is initially drawn.
@@ -362,7 +369,16 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         const containerToScroll: HTMLElement = this._findElementByDate(date);
 
         if (containerToScroll) {
-            scrollToElement(containerToScroll, false, true);
+            if (this._options.animation && !this._animationDisabled) {
+                // Откладываем срабатывание тригеров, которые обновляют данные в списках
+                // до завершения анимации скролирования.
+                this._children.scroll.delayLoadTriggersEvents(LOAD_DELAY_ON_ANIMATION);
+                containerToScroll.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                scrollToElement(containerToScroll, false, true);
+                this._animationDisabled = false;
+            }
+
             return true;
         }
         return false;
@@ -408,7 +424,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         if (date.getDate() !== 1) {
             element = this._getElementByDate(ITEM_BODY_SELECTOR.day, monthListUtils.dateToId(date));
         }
-        if (!element && date.getMonth() !== 0) {
+        if (!element && (date.getMonth() !== 0 || this._options.viewMode === VIEW_MODE.month)) {
             element = this._getElementByDate(
                 ITEM_BODY_SELECTOR.month, monthListUtils.dateToId(dateUtils.getStartOfMonth(date)));
         }
@@ -451,6 +467,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     static getDefaultOptions(): object {
         return {
+            animation: false,
             viewMode: VIEW_MODE.year,
             yearTemplate,
             monthTemplate,
@@ -460,7 +477,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             _limit: 8,
             order: 'asc',
             dateConstructor: WSDate,
-            displayedRanges: null
+            displayedRanges: null,
+            topShadowVisibility: 'visible',
+            bottomShadowVisibility: 'visible'
         };
     }
 }

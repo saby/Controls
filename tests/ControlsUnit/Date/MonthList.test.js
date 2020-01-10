@@ -320,6 +320,67 @@ define([
          });
       });
 
+      describe('_scrollToDate', function() {
+         it('should scroll with animation if animation is enabled', function() {
+            let
+               sandbox = sinon.createSandbox(),
+               mv = calendarTestUtils.createComponent(calendar.MonthList, { animation: true }),
+               scrollIntoView = sinon.fake();
+
+            sandbox.stub(mv, '_findElementByDate').returns({
+               scrollIntoView: scrollIntoView
+            });
+            mv._children = {
+               scroll: {
+                  delayLoadTriggersEvents: sinon.fake()
+               }
+            };
+            mv._scrollToDate(new Date(2019, 0, 1));
+            sinon.assert.calledOnce(scrollIntoView);
+            sinon.assert.calledOnce(mv._children.scroll.delayLoadTriggersEvents);
+            sandbox.restore();
+         });
+         it('should not scroll with animation if animation is disabled', function() {
+            let
+               sandbox = sinon.createSandbox(),
+               mv = calendarTestUtils.createComponent(calendar.MonthList, {}),
+               scrollIntoView = sinon.fake();
+
+            sandbox.stub(mv, '_findElementByDate').returns({
+               scrollIntoView: scrollIntoView
+            });
+            mv._children = {
+               scroll: {
+                  delayLoadTriggersEvents: sinon.fake()
+               }
+            };
+            mv._scrollToDate(new Date(2019, 0, 1));
+            sinon.assert.notCalled(scrollIntoView);
+            sinon.assert.notCalled(mv._children.scroll.delayLoadTriggersEvents);
+            sandbox.restore();
+         });
+         it('should not scroll with animation if animation is temporarily disabled', function() {
+            let
+               sandbox = sinon.createSandbox(),
+               mv = calendarTestUtils.createComponent(calendar.MonthList, { animation: true }),
+               scrollIntoView = sinon.fake();
+
+            sandbox.stub(mv, '_findElementByDate').returns({
+               scrollIntoView: scrollIntoView
+            });
+            mv._children = {
+               scroll: {
+                  delayLoadTriggersEvents: sinon.fake()
+               }
+            };
+            mv._animationDisabled = true;
+            mv._scrollToDate(new Date(2019, 0, 1));
+            sinon.assert.notCalled(scrollIntoView);
+            sinon.assert.notCalled(mv._children.scroll.delayLoadTriggersEvents);
+            sandbox.restore();
+         });
+      });
+
       describe('_getMonth', function() {
          it('should return correct month', function() {
             let mv = calendarTestUtils.createComponent(calendar.MonthList, config);
@@ -594,6 +655,11 @@ define([
             date: new Date(2020, 0, 1),
             getElementByDateStub: returnAllPeriodTypes,
             result: ITEM_BODY_SELECTOR.year
+         }, {
+            date: new Date(2020, 0, 1),
+            options: { viewMode: 'month' },
+            getElementByDateStub: returnAllPeriodTypes,
+            result: ITEM_BODY_SELECTOR.month
          }, {
             date: new Date(2020, 1, 2),
             getElementByDateStub: returnMonths,
