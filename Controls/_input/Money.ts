@@ -27,12 +27,12 @@ interface IMoneyOptions extends INumberLengthOptions {
 
 // TODO: generics https://online.sbis.ru/opendoc.html?guid=ef345c4d-0aee-4ba6-b380-a8ca7e3a557f
 /**
- * @name Controls/_input/interface/IValue#value
+ * @name Controls/_input/Money#value
  * @cfg {String  | Number | null} Значение поля ввода.
  * @remark
  * При установке опции value в контроле ввода, отображаемое значение всегда будет соответствовать её значению. В этом случае родительский контрол управляет отображаемым значением. Например, вы можете менять значение по событию {@link valueChanged}:
  * <pre>
- *     <Controls:input:Text value="{{_value}}" on:valueChanged="_handleValueChange()"/>
+ *     <Controls.input:Money value="{{_value}}" on:valueChanged="_handleValueChange()"/>
  *
  *     export class Form extends Control<IControlOptions, void> {
  *         private _value: string = '';
@@ -44,16 +44,16 @@ interface IMoneyOptions extends INumberLengthOptions {
  * </pre>
  * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
  * <pre>
- *     <Controls:input:Text bind:value="_value"/>
+ *     <Controls.input:Money bind:value="_value"/>
  * </pre>
  * Альтернатива - не задавать опцию value. Значение контрола будет кешироваться в контроле ввода:
  * <pre>
- *     <Controls.input:Text/>
+ *     <Controls.input:Money/>
  * </pre>
  * Не рекомендуем использовать опцию для изменения поведения обработки ввода. Такой подход увеличит время перерисовки.
  * Плохо:
  * <pre>
- *     <Controls:input:Text value="{{_value}}" on:valueChanged="_handleValueChange()"/>
+ *     <Controls.input:Money value="{{_value}}" on:valueChanged="_handleValueChange()"/>
  *
  *     export class Form extends Control<IControlOptions, void> {
  *         private _value: string = '';
@@ -66,7 +66,7 @@ interface IMoneyOptions extends INumberLengthOptions {
  * Лучшим подходом будет воспользоваться опцией {@link inputCallback}.
  * Хорошо:
  * <pre>
- *     <Controls:input:Text bind:value="{{_value}}" inputCallback="{{_toUpperCase}}"/>
+ *     <Controls.input:Money bind:value="{{_value}}" inputCallback="{{_toUpperCase}}"/>
  *
  *     class Form extends Control<IControlOptions, void> {
  *         private _value: string = '';
@@ -109,36 +109,27 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @see inputCompleted
  */
 /**
- * @name Controls/_input/interface/IValue#valueChanged
+ * @name Controls/_input/Money#valueChanged
  * @event Происходит при изменении отображаемого значения контрола ввода.
  * @param {String | Number} value Значение контрола ввода.
  * @param {String} displayValue Отображаемое значение контрола ввода.
  * @remark
  * Событие используется в качестве реакции на изменения, вносимые пользователем.
  * @example
- * Контрол ввода пароля с информационной подсказкой. Подсказка содержит информацию о его безопасности.
+ * Контрол ввода денег с информационной подсказкой. Подсказка содержит информацию, чему равна текущая сумма в других валютах.
  * <pre>
- *     <Controls.input:Password name="password" on:valueChanged="_validatePassword()"/>
+ *     <Controls.input:Money name="money" on:valueChanged="_validateMoney()"/>
  *
- *     export class InfoPassword extends Control<IControlOptions, void> {
- *         private _validatePassword(event, value) {
- *             let lengthPassword: number = value.length;
+ *     export class InfoMoney extends Control<IControlOptions, void> {
+ *         private _validateMoney(event, value) {
  *             let cfg = {
- *                 target: this._children.password,
+ *                 target: this._children.money,
  *                 targetSide: 'top',
  *                 alignment: 'end',
  *                 message: null
  *             }
  *
- *             if (lengthPassword < 6) {
- *                 cfg.message = 'Сложность пароля низкая';
- *             }
- *             if (lengthPassword >= 6 && lengthPassword < 10) {
- *                 cfg.message = 'Сложность пароля средняя';
- *             }
- *             if (lengthPassword >= 10) {
- *                 cfg.message = 'Сложность пароля высокая';
- *             }
+ *             ...
  *
  *             this._notify('openInfoBox', [cfg], {
  *                 bubbling: true
@@ -150,7 +141,7 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @see value
  */
 /**
- * @name Controls/_input/interface/IValue#inputCompleted
+ * @name Controls/_input/Money#inputCompleted
  * @event Происходит при завершении ввода. Завершение ввода — это контрол потерял фокус, или пользователь нажал клавишу "Enter".
  * @param {String | Number} value Значение контрола ввода.
  * @param {String} displayValue Отображаемое значение контрола ввода.
@@ -159,7 +150,7 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @example
  * Подписываемся на событие inputCompleted и сохраняем значение поля в базе данных.
  * <pre>
- *    <Controls.input:Text on:inputCompleted="_inputCompletedHandler()"/>
+ *    <Controls.input:Money on:inputCompleted="_inputCompletedHandler()"/>
  *
  *    export class Form extends Control<IControlOptions, void> {
  *        ...
