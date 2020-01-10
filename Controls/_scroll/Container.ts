@@ -899,6 +899,10 @@ var
          return _private.proxyEvent(this, event, 'itemClick', Array.prototype.slice.call(arguments, 1));
       },
 
+      delayLoadTriggersEvents: function(delay: number): void {
+         this._children.scrollWatcher.delayLoadTriggersEvents(delay);
+      },
+
       _updatePlaceholdersSize: function(e, placeholdersSizes) {
          if (this._topPlaceholderSize !== placeholdersSizes.top ||
             this._bottomPlaceholderSize !== placeholdersSizes.bottom) {

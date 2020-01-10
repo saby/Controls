@@ -207,59 +207,13 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
          initIntersectionObserver: function(self, elements, component) {
             if (!self._observers[component.getInstanceId()]) {
-               let eventName;
                let curObserver: IntersectionObserver;
 
-
                curObserver = new IntersectionObserver(function (changes) {
-                  /**
-                   * Баг IntersectionObserver на Mac OS: сallback может вызываться после отписки от слежения. Отписка происходит в
-                   * _beforeUnmount. Устанавливаем защиту.
-                   */
-                  if (self._observers === null) {
-                     return;
-                  }
-                  for (var i = 0; i < changes.length; i++) {
-                     switch (changes[i].target) {
-                        case elements.topLoadTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'loadTopStart';
-                           } else {
-                              eventName = 'loadTopStop';
-                           }
-                           break;
-                        case elements.bottomLoadTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'loadBottomStart';
-                           } else {
-                              eventName = 'loadBottomStop';
-                           }
-                           break;
-                        case elements.topVirtualScrollTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'virtualPageTopStart';
-                           } else {
-                               eventName = 'virtualPageTopStop';
-                           }
-                           break;
-                        case elements.bottomVirtualScrollTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'virtualPageBottomStart';
-                           } else {
-                               eventName = 'virtualPageBottomStop';
-                           }
-                           break;
-                     }
-                     if (eventName) {
-                        const sizes = _private.getSizeCache(self, _private.getDOMContainer(self._container));
-                        self._registrar.startOnceTarget(component, eventName, {
-                           scrollTop: _private.getDOMContainer(self._container).scrollTop,
-                           clientHeight: sizes.clientHeight,
-                           scrollHeight: sizes.scrollHeight
-                        });
-                        self._notify(eventName);
-                        eventName = null;
-                     }
+                  if (self._triggersDelay) {
+                     _private.delayedIntersectionObserverHandler(self, changes, elements, component);
+                  } else {
+                      _private.intersectionObserverHandler(self, changes, elements, component);
                   }
                }, {root: self._container[0] || self._container});//FIXME self._container[0] remove after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
                curObserver.observe(elements.topLoadTrigger);
@@ -270,6 +224,65 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
                self._observers[component.getInstanceId()] = curObserver;
             }
+         },
+
+         delayedIntersectionObserverHandler: function(self, changes, elements, component): void {
+             setTimeout(() => {
+                _private.intersectionObserverHandler(self, changes, elements, component);
+             }, self._triggersDelay);
+         },
+
+         intersectionObserverHandler: function(self, changes, elements, component): void {
+             let eventName;
+             /**
+              * Баг IntersectionObserver на Mac OS: сallback может вызываться после отписки от слежения. Отписка происходит в
+              * _beforeUnmount. Устанавливаем защиту.
+              */
+             if (self._observers === null) {
+                return;
+             }
+             for (let i = 0; i < changes.length; i++) {
+                switch (changes[i].target) {
+                   case elements.topLoadTrigger:
+                      if (changes[i].isIntersecting) {
+                         eventName = 'loadTopStart';
+                      } else {
+                         eventName = 'loadTopStop';
+                      }
+                      break;
+                   case elements.bottomLoadTrigger:
+                      if (changes[i].isIntersecting) {
+                         eventName = 'loadBottomStart';
+                      } else {
+                         eventName = 'loadBottomStop';
+                      }
+                      break;
+                   case elements.topVirtualScrollTrigger:
+                      if (changes[i].isIntersecting) {
+                         eventName = 'virtualPageTopStart';
+                      } else {
+                          eventName = 'virtualPageTopStop';
+                      }
+                      break;
+                   case elements.bottomVirtualScrollTrigger:
+                      if (changes[i].isIntersecting) {
+                         eventName = 'virtualPageBottomStart';
+                      } else {
+                          eventName = 'virtualPageBottomStop';
+                      }
+                      break;
+                }
+                if (eventName) {
+                   const sizes = _private.getSizeCache(self, _private.getDOMContainer(self._container));
+                   self._registrar.startOnceTarget(component, eventName, {
+                      scrollTop: _private.getDOMContainer(self._container).scrollTop,
+                      clientHeight: sizes.clientHeight,
+                      scrollHeight: sizes.scrollHeight
+                   });
+                   self._notify(eventName);
+                   eventName = null;
+                }
+              }
          },
 
          onRegisterNewComponent: function(self, container, component, withObserver) {
@@ -328,6 +341,7 @@ import {SyntheticEvent} from "Vdom/Vdom"
          _scrollTopTimer: null,
          _scrollPositionCache: null,
          _canScrollCache: null,
+         _triggersDelay: 0,
 
          constructor: function() {
             Scroll.superclass.constructor.apply(this, arguments);
@@ -390,6 +404,13 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
          doScroll: function(scrollParam) {
             _private.doScroll(this, scrollParam, _private.getDOMContainer(this._container));
+         },
+
+         delayLoadTriggersEvents: function(delay: number): void {
+             this._triggersDelay = delay;
+             setTimeout(() => {
+                 this._triggersDelay = 0;
+             }, delay);
          },
 
          _isVirtualPlaceholderMode(): boolean {
