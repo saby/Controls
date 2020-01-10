@@ -7,6 +7,7 @@ export interface IMonthListOptions {
    monthTemplate?: TemplateFunction;
    stubTemplate?: TemplateFunction;
    displayedRanges?: [];
+   animation: boolean;
 }
 
 /**
@@ -31,6 +32,30 @@ export interface IMonthList {
  * </pre>
  * @see Controls/_calendar/interfaces/IMonthList#yearTemplate
  * @see Controls/_calendar/interfaces/IMonthList#monthTemplate
+ */
+
+/**
+ * @typedef {String} shadowVisibility
+ * @variant visible Тень всегда видима.
+ * @variant hidden Тень всегда скрыта.
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthList#topShadowVisibility
+ * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthList topShadowVisibility="hidden"/>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthList#bottomShadowVisibility
+ * @cfg {shadowVisibility} Устанавливает режим отображения тени снизу.
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthList bottomShadowVisibility="hidden"/>
+ * </pre>
  */
 
 /**
@@ -171,5 +196,16 @@ export interface IMonthList {
  * </pre>
  * <pre>
  * <Controls.calendar:MonthList on:enrichItems="_enrichItemsHandler()"/>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthList#animation
+ * @cfg {Boolean} Включает анимированное переключение к дате при измении опции {@link Controls/_calendar/interfaces/IMonthList#position position}
+ * @default false
+ *
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthList bind:position="_month" animation="{{true}}"/>
  * </pre>
  */
