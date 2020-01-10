@@ -294,6 +294,12 @@ define([
                }
             }
          };
+         const event = {
+            stopped: false,
+            stopPropagation(){
+               this.stopped = true;
+            }
+         };
          let model = tree._children.baseControl.getViewModel();
          model.getDragEntity = function () {
             return dragEntity;
@@ -308,28 +314,28 @@ define([
             nodeMouseMoveCalled = false;
             dragItemData = null;
             dragEntity = null;
+            event.stopped = false;
          });
          it('dragEntity', function() {
             dragEntity = {};
-            tree._itemMouseMove({}, leafItem, {});
+            tree._draggingItemMouseMove(event, leafItem, {});
             assert.isFalse(nodeMouseMoveCalled);
-            tree._itemMouseMove({}, nodeItem, {});
+            assert.isTrue(event.stopped);
+            event.stopped = false;
+            tree._draggingItemMouseMove(event, nodeItem, {});
             assert.isTrue(nodeMouseMoveCalled);
+            assert.isTrue(event.stopped);
          });
          it('dragItemData', function() {
             dragItemData = {};
-            tree._itemMouseMove({}, leafItem, {});
+            tree._draggingItemMouseMove(event, leafItem, {});
             assert.isFalse(nodeMouseMoveCalled);
-            tree._itemMouseMove({}, nodeItem, {});
+            assert.isTrue(event.stopped);
+            event.stopped = false;
+            tree._draggingItemMouseMove(event, nodeItem, {});
             assert.isTrue(nodeMouseMoveCalled);
+            assert.isTrue(event.stopped);
          });
-         it('nothing', function() {
-            tree._itemMouseMove({}, leafItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-            tree._itemMouseMove({}, nodeItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-         });
-
       });
       describe('expanding nodes on dragging', function() {
          let treeControl = correctCreateTreeControl({
@@ -367,7 +373,7 @@ define([
             treeControl._setTimeoutForExpandOnDrag(itemData);
             assert.isFalse(toggleExpandedCalled);
             assert.notEqual(treeControl._timeoutForExpandOnDrag, null);
-            treeControl._onItemMouseLeave();
+            treeControl._draggingItemMouseLeave();
             assert.equal(treeControl._timeoutForExpandOnDrag, null);
             setTimeout(function() {
                assert.isFalse(toggleExpandedCalled);

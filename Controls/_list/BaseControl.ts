@@ -1413,6 +1413,12 @@ var _private = {
         if (model) {
             model.setHasMoreData(hasMoreData);
         }
+    },
+    notifyIfDragging(self, eName, itemData, nativeEvent){
+        const model = self.getViewModel();
+        if (model.getDragEntity() || model.getDragItemData()) {
+            self._notify(eName, [itemData, nativeEvent]);
+        }
     }
 };
 
@@ -2353,9 +2359,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if ((!this._options.itemsDragNDrop || !this._listViewModel.getDragEntity() && !this._listViewModel.getDragItemData()) && !this._showActions) {
             this._showActions = true;
         }
+        _private.notifyIfDragging(this, 'draggingItemMouseMove', itemData, nativeEvent);
     },
     _itemMouseLeave(event, itemData, nativeEvent) {
         this._notify('itemMouseLeave', [itemData.item, nativeEvent]);
+        _private.notifyIfDragging(this, 'draggingItemMouseLeave', itemData, nativeEvent);
     },
     _sortingChanged: function(event, propName, sortingType) {
         var newSorting = _private.getSortingOnChange(this._options.sorting, propName, sortingType);

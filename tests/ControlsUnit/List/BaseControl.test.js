@@ -4389,6 +4389,58 @@ define([
          assert.equal(lists.BaseControl._private.getListTopOffset(bc), 70);
       });
 
+      it('_itemMouseMove: notify draggingItemMouseMove', async function() {
+         var cfg = {
+                viewName: 'Controls/List/ListView',
+                itemsDragNDrop: true,
+                viewConfig: {
+                   idProperty: 'id'
+                },
+                viewModelConfig: {
+                   items: [],
+                   idProperty: 'id'
+                },
+                viewModelConstructor: lists.ListViewModel,
+                source: source
+             },
+             instance = new lists.BaseControl(cfg);
+         let eName;
+         await instance._beforeMount(cfg);
+         instance.saveOptions(cfg);
+         instance._listViewModel.getDragItemData = () => ({});
+         instance._notify = (eventName) => {
+            eName = eventName;
+         };
+         instance._itemMouseMove({}, {});
+         assert.equal(eName, 'draggingItemMouseMove');
+      });
+
+      it('_itemMouseLeave: notify draggingItemMouseLeave', async function() {
+         var cfg = {
+                viewName: 'Controls/List/ListView',
+                itemsDragNDrop: true,
+                viewConfig: {
+                   idProperty: 'id'
+                },
+                viewModelConfig: {
+                   items: [],
+                   idProperty: 'id'
+                },
+                viewModelConstructor: lists.ListViewModel,
+                source: source
+             },
+             instance = new lists.BaseControl(cfg);
+         let eName;
+         await instance._beforeMount(cfg);
+         instance.saveOptions(cfg);
+         instance._notify = (eventName) => {
+            eName = eventName;
+         };
+         instance._listViewModel.getDragItemData = () => ({});
+         instance._itemMouseLeave({}, {});
+         assert.equal(eName, 'draggingItemMouseLeave');
+      });
+
       it('should fire "drawItems" event if collection has changed', async function() {
          var
             cfg = {
