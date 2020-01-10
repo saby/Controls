@@ -3,7 +3,7 @@ define('Controls/Constants', [], function() {
    /* eslint-disable */
    /**
     * Константы:
-    * - view.hiddenGropup — константа для определения элемента hiddenGroup в {@link Controls/interface/IGrouped#groupingKeyCallback gropingKeyCallback};
+    * - view.hiddenGroup — константа для определения элемента hiddenGroup в {@link Controls/interface/IGrouped#groupProperty groupProperty};
     * - editing.CANCEL — константа, которую можно вернуть в {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} для отмены редактирования.
     *
     * @class Controls/Constants
@@ -14,7 +14,7 @@ define('Controls/Constants', [], function() {
     * Constants
     * <ul>
     *    <li>
-    *       view.hiddenGropup - Constant for determining item in the hiddenGroup in the {@link Controls/interface/IGrouped#groupingKeyCallback gropingKeyCallback}
+    *       view.hiddenGroup - Constant for determining item in the hiddenGroup in the {@link Controls/interface/IGrouped#groupProperty groupProperty}
     *    </li>
     *    <li>
     *       editing.CANCEL - Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel egiting

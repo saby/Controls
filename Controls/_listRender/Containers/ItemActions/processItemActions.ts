@@ -105,6 +105,7 @@ function openActionsSubmenu(
             parentProperty: 'parent',
             nodeProperty: 'parent@',
             groupTemplate: this._options.contextMenuConfig && this._options.contextMenuConfig.groupTemplate,
+            groupProperty: this._options.contextMenuConfig && this._options.contextMenuConfig.groupProperty,
             groupingKeyCallback: this._options.contextMenuConfig && this._options.contextMenuConfig.groupingKeyCallback,
             rootKey: parentAction.id,
             showHeader: true,

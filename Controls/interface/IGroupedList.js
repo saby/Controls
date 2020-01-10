@@ -11,28 +11,20 @@ define('Controls/interface/IGroupedList', [
     */
 
    /**
-    * @name Controls/interface/IGroupedList#groupingKeyCallback
-    * @cfg {Function} Функция обратного вызова для получения идентификатора группы элемента списка.
+    * @name Controls/interface/IGroupedGrid#groupProperty
+    * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
+    * <a href="/materials/demo-ws4-list-group">Example</a>.
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
     * Среди групп списка существует "скрытая группа".
     * Для такой группы не создаётся заголовок, а её элементы визуально размещены в начале списка.
-    * Чтобы отнести элемент к скрытой группе, из функции groupingKeyCallback верните константу view.hiddenGroup, которая принадлежит библиотеке Controls/Constants.
-    * @example
-    * <pre>
-    *    _groupByBrand: function(item) {
-    *       if (item.get('brand') === 'apple') {
-    *          return ControlsConstants.view.hiddenGroup;
-    *       }
-    *       return item.get('brand');
-    *    }
-    * </pre>
-    * <pre>
-    *    groupingKeyCallback ="{{_groupByBrand}}",
-    * </pre>
+    * Чтобы отнести элемент к скрытой группе, в качестве идентификатора группы необходимо использовать константу view.hiddenGroup, которая принадлежит библиотеке {@link Controls/Constants}.
+    * Передачу идентификатора view.hiddenGroup можно оргиназовать двумя способами - возвращая его из источника данных и описав собственное поле модели.
+    * Подробнее про описание собственных свойств модели в разделе {@ling https://wi.sbis.ru/docs/js/Types/entity/Model/options/properties}.
     * @see groupTemplate
-    * @see groupHistoryId
     * @see collapsedGroups
+    * @see groupHistoryId
+    * @see groupExpanded
+    * @see groupCollapsed
     */
 
    /**
@@ -61,16 +53,16 @@ define('Controls/interface/IGroupedList', [
     * </Controls.list:View>
     * </pre>
     * @see collapsedGroups
-    * @see groupingKeyCallback
+    * @see groupProperty
     * @see groupHistoryId
     */
 
    /**
     * @name Controls/interface/IGroupedList#collapsedGroups
-    * @cfg {Array} Список идентификаторов свернутых групп. Идентификаторы групп получаются в результате вызова {@link groupingKeyCallback}.
+    * @cfg {Array} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
     * <a href="/materials/demo-ws4-list-group">Example</a>.
     * @see groupTemplate
-    * @see groupingKeyCallback
+    * @see groupProperty
     * @see groupHistoryId
     */
 
@@ -78,7 +70,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#groupHistoryId
     * @cfg {String} Идентификатор для сохранения в истории списка идентификаторов свернутых групп.
     * @see groupTemplate
-    * @see groupingKeyCallback
+    * @see groupProperty
     * @see collapsedGroups
     */
 

@@ -92,6 +92,7 @@ var _private = {
             this._options = cfg;
             DropdownViewModel.superclass.constructor.apply(this, arguments);
             this._itemsModel = new ItemsViewModel({
+               groupProperty: cfg.groupProperty,
                groupingKeyCallback: cfg.groupingKeyCallback,
                groupMethod: cfg.groupMethod,
                groupTemplate: cfg.groupTemplate,

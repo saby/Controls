@@ -20,6 +20,7 @@ import {
 import cClone = require('Core/core-clone');
 import ControlsConstants = require('Controls/Constants');
 import collection = require('Types/collection');
+import * as Grouping from 'Controls/_list/Controllers/Grouping';
 
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
@@ -558,6 +559,18 @@ var
 
         setKeyProperty(keyProperty: string): void {
             this._options.keyProperty = keyProperty;
+        },
+
+        isGroupExpanded(groupId: Grouping.TGroupId): boolean {
+            return this._model.isGroupExpanded(groupId);
+        },
+
+        setGroupProperty(groupProperty: string): void {
+            this._model.setGroupProperty(groupProperty);
+        },
+
+        getGroupProperty(): string {
+            return this._model.getGroupProperty();
         },
 
         _nextModelVersion: function(notUpdatePrefixItemVersion) {
@@ -1111,7 +1124,11 @@ var
             return this._model.getSwipeItem();
         },
 
-        setCollapsedGroups: function(collapsedGroups) {
+        getCollapsedGroups(): Grouping.TArrayGroupId {
+            return this._model.getCollapsedGroups();
+        },
+
+        setCollapsedGroups(collapsedGroups: Grouping.TArrayGroupId): void {
             this._model.setCollapsedGroups(collapsedGroups);
         },
 
@@ -1362,8 +1379,8 @@ var
             return this.getItemDataByItem(dispItem);
         },
 
-        toggleGroup: function(group, state) {
-            this._model.toggleGroup(group, state);
+        toggleGroup(groupId: Grouping.TGroupId, state: boolean): void {
+            this._model.toggleGroup(groupId, state);
         },
 
         getNext: function() {
@@ -1649,9 +1666,12 @@ var
             const groupingKeyCallback = this._options.groupingKeyCallback;
             if (groupingKeyCallback) {
                 return groupingKeyCallback(item);
-            } else {
-                return null;
             }
+            const groupProperty = this._options.groupProperty;
+            if (groupProperty) {
+                return item.get(groupProperty);
+            }
+            return null;
         },
 
         markItemReloaded: function(key) {

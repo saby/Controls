@@ -46,7 +46,7 @@ type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|null;
 interface IContextMenuConfig {
     items?: RecordSet;
     groupTemplate?: TemplateFunction|string;
-    groupingKeyCallback?: (item) => string;
+    groupProperty?: string;
     itemTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     headerTemplate?: TemplateFunction|string;
@@ -127,7 +127,7 @@ export interface IList {
  * Набор опций передается объектом. Заданный объект мержится с минимальным объектом опций, отдаваемых в меню по-умолчанию.
  * В качестве ключей можно использовать следующие свойства:
  * - items - для смены набора элементов.
- * - groupingKeyCallback, groupTemplate для установки группировки.
+ * - groupProperty, groupTemplate для установки группировки.
  * - itemTemplate - шаблон элемента меню.
  * - footerTemplate - шаблон футера.
  * - headerTemplate - шаблон шапки.
