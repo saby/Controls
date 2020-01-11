@@ -56,7 +56,9 @@ class OperationsButton extends Control<IOperationsButtonOptions> implements IExp
    protected _template: TemplateFunction = ButtonTemplate;
 
    private _onClick(): void {
-      this._notify('expandedChanged', [!this._options.expanded]);
+      if (!this._options.readOnly) {
+         this._notify('expandedChanged', [!this._options.expanded]);
+      }
    }
    static _theme: string[] = ['Controls/operations'];
 }
