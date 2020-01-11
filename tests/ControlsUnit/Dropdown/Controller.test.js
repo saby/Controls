@@ -596,6 +596,23 @@ define(
             });
          });
 
+         it('_private::loadItems', (done) => {
+            let dropdownController = getDropdownController(config);
+            var hasErrBack = false;
+            config.dataLoadErrback = function() {
+               hasErrBack = true;
+            };
+            config.source.query = function() {
+               var def = new Deferred();
+               def.errback();
+               return def;
+            }
+            dropdown._Controller._private.loadItems(dropdownController, config).addCallback(() => {
+               assert.isTrue(hasErrBack);
+               done();
+            });
+         });
+
          it('_private::getItemsTemplates', () => {
             let dropdownController = getDropdownController(config);
 
