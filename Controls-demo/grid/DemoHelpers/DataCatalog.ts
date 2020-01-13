@@ -273,28 +273,28 @@ function getCountriesStats() {
             {
                 displayProperty: 'capital',
                 width: 'max-content',
-                compatibleWidth: '300px'
+                compatibleWidth: '98px'
             },
             {
                 displayProperty: 'population',
                 width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '100px'
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '81px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '60px'
             }
         ],
         getColumnsWithAlign: () => [
