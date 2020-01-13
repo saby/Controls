@@ -1,0 +1,28 @@
+.controls-Menu {
+   display: flex;
+   flex-direction: column;
+   overflow: hidden;
+   max-height: 100%;
+   width: 100%;
+}
+
+.controls-Menu__scroll_theme-@{themeName} {
+   height: 100%;
+   flex-shrink: 1;
+}
+
+.controls-Menu__subMenu_margin_theme-@{themeName} {
+   margin-top: -@popup_padding-vertical_dropdown;
+}
+
+.controls-ListView__item-rightPadding_menu-expander {
+   padding-right: @hierarchy_icon_offset-right_menu + @hierarchy_icon-size_menu + @hierarchy_icon_offset-left_menu;
+}
+
+.controls-ListView__item-rightPadding_menu-close.theme_@{themeName} {
+   padding-right: @close-button_offset-left_menu + @width_closeButton_link + @close-button_offset-right_menu;
+}
+
+.controls-ListView__item-rightPadding_menu-pin.theme_@{themeName} {
+   padding-right: @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
+}

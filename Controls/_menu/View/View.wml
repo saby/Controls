@@ -1,0 +1,23 @@
+<div class="controls-Menu">
+   <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Menu__scroll_theme-{{_options.theme}}"
+                              shadowVisible="{{false}}">
+      <Controls.listRender:Render
+              listModel="{{_listModel}}"
+              footerTemplate="{{null}}">
+         <ws:itemTemplate>
+            <ws:partial template="{{_options.itemTemplate}}"
+                        itemData="{{itemTemplate.item}}"
+                        item="{{itemTemplate.item.getContents()}}"
+                        on:mouseenter="_onItemMouseEnter(itemTemplate.item)"
+                        on:click="_onItemClick(itemTemplate.item)"
+            />
+         </ws:itemTemplate>
+      </Controls.listRender:Render>
+   </Controls.scroll:Container>
+   <Controls.popup:Sticky name="Sticky"
+                          actionOnScroll="close"
+                          closeOnOutsideClick="{{true}}"
+                          on:result="_subMenuResult()"
+                          template="Controls/popupTemplate:Sticky"
+                          className="controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
+</div>
