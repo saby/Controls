@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+    <Controls-demo.operations.ListWithOperationsPanel source="{{_viewSource}}" nodeProperty="Раздел@" parentProperty="Раздел" keyProperty="id">
+        <Controls.explorer:View displayProperty="name" columns="{{_gridColumns}}">
+            <ws:selectionStrategy name="Controls/operations:TreeSelectionStrategy"/>
+        </Controls.explorer:View>
+    </Controls-demo.operations.ListWithOperationsPanel>
+</div>

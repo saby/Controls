@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');
 import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
@@ -12,12 +12,12 @@ import {Confirmation} from 'Controls/popup';
 import {TKeysSelection} from 'Controls/interface';
 import {selectionToRecord} from 'Controls/operations';
 
-var BEFORE_ITEMS_MOVE_RESULT = {
+const BEFORE_ITEMS_MOVE_RESULT = {
     CUSTOM: 'Custom',
     MOVE_IN_ITEMS: 'MoveInItems'
 };
-var DEFAULT_SORTING_ORDER = 'asc';
-var MOVE_POSITION = {
+const DEFAULT_SORTING_ORDER = 'asc';
+const MOVE_POSITION = {
     on: 'on',
     before: 'before',
     after: 'after'
@@ -27,7 +27,7 @@ interface IMoveItemsParams {
     excludedKeys: TKeysSelection;
     filter: object;
 }
-var _private = {
+const _private = {
     moveItems(self, items, target, position) {
         const isNewLogic = !items.forEach && !items.selected;
         return _private.beforeItemsMove(self, items, target, position).addCallback(function (beforeItemsMoveResult) {
@@ -63,11 +63,11 @@ var _private = {
             }
         });
     },
-    beforeItemsMove: function (self, items, target, position) {
-        var beforeItemsMoveResult = self._notify('beforeItemsMove', [items, target, position]);
+    beforeItemsMove(self, items, target, position) {
+        let beforeItemsMoveResult = self._notify('beforeItemsMove', [items, target, position]);
         return beforeItemsMoveResult instanceof Promise ? beforeItemsMoveResult : Deferred.success(beforeItemsMoveResult);
     },
-    afterItemsMove: function (self, items, target, position, result) {
+    afterItemsMove(self, items, target, position, result) {
         self._notify('afterItemsMove', [items, target, position, result]);
 
         //According to the standard, after moving the items, you need to unselect all in the table view.
@@ -80,7 +80,7 @@ var _private = {
         });
     },
 
-    moveInItems: function (self, items, target, position) {
+    moveInItems(self, items, target, position) {
         if (position === MOVE_POSITION.on) {
             _private.hierarchyMove(self, items, target);
         } else {
@@ -88,8 +88,8 @@ var _private = {
         }
     },
 
-    reorderMove: function (self, items, target, position) {
-        var
+    reorderMove(self, items, target, position) {
+        let
             itemIndex,
             movedItem,
             parentProperty = self._options.parentProperty,
@@ -121,8 +121,8 @@ var _private = {
         });
     },
 
-    hierarchyMove: function (self, items, target) {
-        var targetId = _private.getIdByItem(self, target);
+    hierarchyMove(self, items, target) {
+        let targetId = _private.getIdByItem(self, target);
         items.forEach(function (item) {
             item = _private.getModelByItem(self, item);
             if (item) {
@@ -131,7 +131,7 @@ var _private = {
         });
     },
 
-    moveInSource: function (self, items, target, position) {
+    moveInSource(self, items, target, position) {
         const targetId = _private.getIdByItem(self, target);
         const isNewLogic = !items.forEach && !items.selected;
         if (isNewLogic) {
@@ -153,7 +153,7 @@ var _private = {
                 parentProperty: self._options.parentProperty
             });
         }
-        var
+        let
             idArray = items.map(function (item) {
                 return _private.getIdByItem(self, item);
             });
@@ -168,13 +168,13 @@ var _private = {
         });
     },
 
-    moveItemToSiblingPosition: function (self, item, position) {
-        var target = _private.getSiblingItem(self, item, position);
+    moveItemToSiblingPosition(self, item, position) {
+        let target = _private.getSiblingItem(self, item, position);
         return target ? self.moveItems([item], target, position) : Deferred.success();
     },
 
-    getSiblingItem: function (self, item, position) {
-        var
+    getSiblingItem(self, item, position) {
+        let
             result,
             display,
             itemIndex,
@@ -206,7 +206,7 @@ var _private = {
         return result;
     },
 
-    updateDataOptions: function (self, dataOptions) {
+    updateDataOptions(self, dataOptions) {
         if (dataOptions) {
             self._items = dataOptions.items;
             self._source = self._options.source || dataOptions.source;
@@ -215,8 +215,8 @@ var _private = {
         }
     },
 
-    checkItem: function (self, item, target, position) {
-        var
+    checkItem(self, item, target, position) {
+        let
             key,
             parentsMap,
             movedItem = _private.getModelByItem(self, item);
@@ -239,8 +239,8 @@ var _private = {
         return true;
     },
 
-    getParentsMap: function (self, id) {
-        var
+    getParentsMap(self, id) {
+        let
             item,
             toMap = [],
             items = self._items,
@@ -267,15 +267,15 @@ var _private = {
         return toMap;
     },
 
-    getModelByItem: function (self, item) {
+    getModelByItem(self, item) {
         return cInstance.instanceOfModule(item, 'Types/entity:Model') ? item : self._items.getRecordById(item);
     },
 
-    getIdByItem: function (self, item) {
+    getIdByItem(self, item) {
         return cInstance.instanceOfModule(item, 'Types/entity:Model') ? item.get(self._keyProperty) : item;
     },
 
-    getItemsBySelection: function (selection) {
+    getItemsBySelection(selection) {
         //Support moving with mass selection.
         //Full transition to selection will be made by: https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
         selection.recursive = false;
@@ -296,7 +296,7 @@ var _private = {
  * Контрол должен располагаться в одном контейнере {@link Controls/list:DataContainer} со списком.
  * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
  * @class Controls/_list/Mover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
  * @mixes Controls/_interface/IHierarchy
  * @control
@@ -310,7 +310,7 @@ var _private = {
  * Сontrol must be in one {@link Controls/list:DataContainer} with a list.
  * <a href="/materials/demo-ws4-operations-panel">Demo examples</a>.
  * @class Controls/_list/Mover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
  * @mixes Controls/_interface/IHierarchy
  * @control
@@ -319,11 +319,25 @@ var _private = {
  * @category List
  */
 
-var Mover = Control.extend({
-    _template: template,
-    _moveDialogTemplate: null,
-    _moveDialogOptions: null,
-    _beforeMount: function (options, context) {
+export default class Mover extends BaseAction {
+    static _private = _private;
+    _template = template;
+    _moveDialogTemplate = null;
+    _moveDialogOptions = null;
+
+    static getDefaultOptions() {
+        return {
+            sortingOrder: DEFAULT_SORTING_ORDER
+        };
+    }
+
+    static contextTypes() {
+        return {
+            dataOptions: dataOptions
+        };
+    }
+
+    _beforeMount(options, context) {
         _private.updateDataOptions(this, context.dataOptions);
 
         if (options.moveDialogTemplate) {
@@ -335,22 +349,22 @@ var Mover = Control.extend({
                 Logger.warn('Mover', 'Wrong type of moveDialogTemplate option, use object notation instead of template function', this);
             }
         }
-    },
+    }
 
-    _beforeUpdate: function (options, context) {
+    _beforeUpdate(options, context) {
         _private.updateDataOptions(this, context.dataOptions);
         if (options.moveDialogTemplate && options.moveDialogTemplate.templateOptions && !isEqual(this._moveDialogOptions, options.moveDialogTemplate.templateOptions)) {
            this._moveDialogOptions = options.moveDialogTemplate.templateOptions;
         }
-    },
+    }
 
-    moveItemUp: function (item) {
+    moveItemUp(item) {
         return _private.moveItemToSiblingPosition(this, item, MOVE_POSITION.before);
-    },
+    }
 
-    moveItemDown: function (item) {
+    moveItemDown(item) {
         return _private.moveItemToSiblingPosition(this, item, MOVE_POSITION.after);
-    },
+    }
     moveItems(items: []|IMoveItemsParams, target, position): Promise<any> {
         const self = this;
         const isNewLogic = !items.forEach && !items.selected;
@@ -375,48 +389,18 @@ var Mover = Control.extend({
                 }
             });
         }
-    },
+    }
     moveItemsWithDialog(items: []|IMoveItemsParams): void {
-        const self = this;
         const isNewLogic = !items.forEach && !items.selected;
-        if (isNewLogic) {
-            if (items.selectedKeys.length) {
+
+        if (this.validate(items)) {
+            if (isNewLogic) {
                 _private.openMoveDialog(self, items);
             } else {
-                Confirmation.openPopup({
-                    type: 'ok',
-                    message: rk('Нет записей для обработки команды'),
-                    style: 'danger'
+                _private.getItemsBySelection.call(this, items).addCallback((items: []) => {
+                    _private.openMoveDialog(self, _private.prepareMovedItems(self, items));
                 });
             }
-        } else {
-            _private.getItemsBySelection.call(this, items).addCallback((items: []) => {
-                if (items.length) {
-                    _private.openMoveDialog(self, _private.prepareMovedItems(self, items));
-                } else {
-                    Confirmation.openPopup({
-                        type: 'ok',
-                        message: rk('Нет записей для обработки команды'),
-                        style: 'danger'
-                    });
-                }
-            });
         }
     }
-});
-
-Mover.getDefaultOptions = function () {
-    return {
-        sortingOrder: DEFAULT_SORTING_ORDER
-    };
 };
-
-Mover.contextTypes = function () {
-    return {
-        dataOptions: dataOptions
-    };
-};
-
-Mover._private = _private;
-
-export = Mover;

@@ -6,6 +6,8 @@ import WidthUtils = require('Controls/_operationsPanel/OperationsPanel/Utils');
 import buttons = require('Controls/buttons');
 import notifyHandler = require('Controls/Utils/tmplNotify');
 import {RecordSet} from 'Types/collection';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Record} from 'Types/entity';
 
 
 var _private = {
@@ -246,6 +248,13 @@ var OperationsPanel = Control.extend({
 
       // todo зову _forceUpdate потому что нужно отрисовать пересчет, произошедший в checkToolbarWidth. добавляю на всякий случай, возможно это лишний вызов. раньше тут _forceUpdate звался из-за события
       this._forceUpdate();
+   },
+
+   _itemClickHandler: function(event: SyntheticEvent<null>, item: Record, nativeEvent: MouseEvent) {
+      this._notify('itemClick', [item, nativeEvent, {
+         selected: this._options.selectedKeys,
+         excluded: this._options.excludedKeysd
+      }]);
    }
 });
 

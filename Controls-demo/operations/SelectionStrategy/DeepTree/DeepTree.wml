@@ -1,0 +1,5 @@
+<div class="controlsDemo__wrapper">
+    <Controls-demo.operations.ListWithOperationsPanel source="{{_viewSource}}" nodeProperty="Раздел@" parentProperty="Раздел" keyProperty="id">
+        <Controls.explorer:View displayProperty="name" columns="{{_gridColumns}}" dataLoadCallback="{{_dataLoadCallback}}"/>
+    </Controls-demo.operations.ListWithOperationsPanel>
+</div>

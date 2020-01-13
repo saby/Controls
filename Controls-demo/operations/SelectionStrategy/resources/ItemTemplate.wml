@@ -1,0 +1,22 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <div class="demo-PersonInfo">
+            <ws:if data="{{itemData.dispItem.isNode && itemData.dispItem.isNode()}}">
+                <span class="demo-PersonInfo__department">{{itemData.item.department}}</span>
+                <span class="demo-PersonInfo__head">{{itemData.item.name}} ({{itemData.item.count}})</span>
+            </ws:if>
+            <ws:else>
+                <img class="demo-PersonInfo__photo" src="{{itemData.item['photo']}}"/>
+                <div class="demo-PersonInfo__row">
+                    <div>
+                        <span class="demo-PersonInfo__name">{{itemData.item.name}}</span>
+                        <span class="demo-PersonInfo__phone">{{itemData.item.phone}}</span>
+                    </div>
+                    <div>
+                        <span class="demo-PersonInfo__position">{{itemData.item.position}}</span>
+                    </div>
+                </div>
+            </ws:else>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

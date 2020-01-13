@@ -4,12 +4,13 @@ define('Controls-demo/OperationsPanel/Demo', [
    'Types/source',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/OperationsPanel/Demo/Data',
+   'Controls-demo/resources/Data/Employees',
    'Controls/list',
    'css!Controls-demo/OperationsPanel/Demo/Demo',
    'wml!Controls-demo/OperationsPanel/Demo/PersonInfo',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterButtonEngineTemplate',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterPanelItemsTemplate'
-], function(Control, template, source, TreeMemory, Data, lists) {
+], function(Control, template, source, TreeMemory, Data, employeesData, lists) {
    'use strict';
 
    var filterButtonData = [{
@@ -56,11 +57,11 @@ define('Controls-demo/OperationsPanel/Demo', [
          }];
          this._viewSource = new TreeMemory({
             keyProperty: 'id',
-            data: Data.employees
+            data: employeesData
          });
          this._moverSource = new source.HierarchicalMemory({
             keyProperty: 'id',
-            data: Data.employees,
+            data: employeesData,
             parentProperty: 'Раздел',
             filter: function(item, where) {
                var filter = Object.keys(where);
