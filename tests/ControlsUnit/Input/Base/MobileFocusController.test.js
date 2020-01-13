@@ -8,12 +8,20 @@ define(
    function(Env, EnvEvent, ProxyCall, MobileFocusController) {
       describe('Controls.input:MobileFocusController', function() {
          var controller, calls, originalIsMobileIOS;
+         var event1 = {
+            target: {}
+         };
+         var event2 = {
+            target: {}
+         };
          var originalMethod = EnvEvent.Bus.globalChannel().notify;
 
          beforeEach(function() {
             calls = [];
             controller = MobileFocusController.default;
 
+            controller.blurHandler(event1);
+            controller.blurHandler(event2);
             originalIsMobileIOS = Env.detection.isMobileIOS;
             EnvEvent.Bus.globalChannel().notify = ProxyCall.apply(originalMethod, 'notify', calls, true);
          });
@@ -34,17 +42,17 @@ define(
                }
             });
             it('focus -> touchStart -> blur', function() {
-               controller.focusHandler();
+               controller.focusHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.touchStartHandler();
+               controller.touchStartHandler(event1);
                assert.equal(calls.length, 1);
                assert.deepEqual(calls[0], {
                   name: 'notify',
                   arguments: ['MobileInputFocus']
                });
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 2);
                assert.deepEqual(calls[1], {
                   name: 'notify',
@@ -52,17 +60,17 @@ define(
                });
             });
             it('touchStart -> focus -> blur', function() {
-               controller.touchStartHandler();
+               controller.touchStartHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.focusHandler();
+               controller.focusHandler(event1);
                assert.equal(calls.length, 1);
                assert.deepEqual(calls[0], {
                   name: 'notify',
                   arguments: ['MobileInputFocus']
                });
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 2);
                assert.deepEqual(calls[1], {
                   name: 'notify',
@@ -70,17 +78,17 @@ define(
                });
             });
             it('touchStart -> focus -> blur', function() {
-               controller.touchStartHandler();
+               controller.touchStartHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.focusHandler();
+               controller.focusHandler(event1);
                assert.equal(calls.length, 1);
                assert.deepEqual(calls[0], {
                   name: 'notify',
                   arguments: ['MobileInputFocus']
                });
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 2);
                assert.deepEqual(calls[1], {
                   name: 'notify',
@@ -88,8 +96,30 @@ define(
                });
             });
             it('blur', function() {
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 0);
+            });
+            it('User tap from field to field', function() {
+               controller.touchStartHandler(event1);
+               controller.focusHandler(event1);
+               controller.touchStartHandler(event2);
+               controller.blurHandler(event1);
+               controller.focusHandler(event2);
+
+               assert.deepEqual(calls, [
+                  {
+                     name: 'notify',
+                     arguments: ['MobileInputFocus']
+                  },
+                  {
+                     name: 'notify',
+                     arguments: ['MobileInputFocusOut']
+                  },
+                  {
+                     name: 'notify',
+                     arguments: ['MobileInputFocus']
+                  }
+               ]);
             });
          });
          describe('isMobileIOS = false', function() {
@@ -101,31 +131,31 @@ define(
                }
             });
             it('touchStart -> blur', function() {
-               controller.touchStartHandler();
+               controller.touchStartHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 0);
             });
             it('focus -> blur', function() {
-               controller.focusHandler();
+               controller.focusHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 0);
             });
             it('touchStart -> focus -> blur', function() {
-               controller.touchStartHandler();
+               controller.touchStartHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.focusHandler();
+               controller.focusHandler(event1);
                assert.equal(calls.length, 0);
 
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 0);
             });
             it('blur', function() {
-               controller.blurHandler();
+               controller.blurHandler(event1);
                assert.equal(calls.length, 0);
             });
          });
