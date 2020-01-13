@@ -78,7 +78,13 @@ define(
             let pendingCfg1 = {
                validate: () => false
             };
+            let pendingCfg2 = {
+               validateCompatible: () => true
+            };
             Registrator._registerPendingHandler(null, new Deferred(), pendingCfg1);
+            assert.equal(Registrator._hasRegisteredPendings(), false);
+
+            Registrator._registerPendingHandler(null, new Deferred(), pendingCfg2);
             assert.equal(Registrator._hasRegisteredPendings(), false);
 
             Registrator._registerPendingHandler(null, new Deferred(), {});
