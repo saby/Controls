@@ -68,7 +68,7 @@ export default class VirtualScrollController {
 
     constructor(options: IVirtualScrollControllerOptions) {
         const pageSize = options.pageSize || DEFAULT_VIRTUAL_PAGE_SIZE;
-        const segmentSize = Math.ceil(pageSize * DEFAULT_PAGE_SIZE_TO_SEGMENT_RELATION);
+        const segmentSize = options.segmentSize || Math.ceil(pageSize * DEFAULT_PAGE_SIZE_TO_SEGMENT_RELATION);
         this._options = {
             ...options,
             pageSize, segmentSize

@@ -1672,7 +1672,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.onScrollHide(this);
     },
 
-    viewportResizeHandler(_: SyntheticEvent<Event>, viewportHeight: number, viewportRect): void {
+    viewportResizeHandler(_: SyntheticEvent<Event>, viewportHeight: number, viewportRect: number): void {
         const container = this._container[0] || this._container;
         _private.updateIndicatorContainerHeight(this, container.getBoundingClientRect(), viewportRect);
         this._viewPortSize = viewportHeight;
