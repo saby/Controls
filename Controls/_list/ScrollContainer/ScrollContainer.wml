@@ -1,11 +1,11 @@
 <div class="controls-ScrollController">
     <ws:if data="{{_options.observeScroll}}">
-        <div name="topVirtualScrollTrigger" style="position: relative; top: {{topTriggerOffset}}px"></div>
+        <div name="topVirtualScrollTrigger" style="position: relative; top: 100px"></div>
         <div name="topLoadTrigger"></div>
     </ws:if>
     <ws:partial template="{{_options.content}}" listModel="{{_options.viewModel}}" on:itemsContainerReady="itemsContainerReadyHandler()" on:controlResize="viewResizeHandler()" scope="{{_options}}"/>
     <ws:if data="{{_options.observeScroll}}">
-        <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: {{bottomTriggerOffset}}px"></div>
+        <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 100px"></div>
         <div name="bottomLoadTrigger"></div>
         <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="emitListScrollHandler()" name="scrollEmitter"/>
     </ws:if>

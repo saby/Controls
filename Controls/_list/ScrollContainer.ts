@@ -32,7 +32,8 @@ interface IOptions extends IControlOptions, IDeprecatedOptions {
 interface IScrollParams {
     scrollTop: number;
     clientHeight: number;
-    scrollHeight: number;
+    scrollHeight?: number;
+    viewPortRect?: number;
 }
 
 const DEFAULT_TRIGGER_OFFSET = 100;
@@ -77,6 +78,10 @@ export default class ScrollContainer extends Control<IOptions> {
         bottom: number;
     } = {top: 0, bottom: 0};
 
+    // Размер контейнера
+    private viewportHeight: number;
+    private viewSize: number;
+
     // Флаг того, что поменялся набор записей, необходим для пересчета высот
     private itemsChanged: boolean;
 
@@ -98,9 +103,9 @@ export default class ScrollContainer extends Control<IOptions> {
     private applyScrollTopCallback: Function;
 
     // Оффсеты загрузочных триггеров
-    protected topTriggerOffset: number = DEFAULT_TRIGGER_OFFSET;
-    protected bottomTriggerOffset: number = DEFAULT_TRIGGER_OFFSET;
+    protected triggerOffset: number = DEFAULT_TRIGGER_OFFSET;
     private __mounted: boolean;
+
 
     set itemsFromLoadToDirection(value) {
         this.virtualScroll.itemsFromLoadToDirection = value;
@@ -130,7 +135,7 @@ export default class ScrollContainer extends Control<IOptions> {
             if (options.activeElement) {
                 this.afterRenderCallback = () => {
                     this.scrollToItem(options.activeElement);
-                }
+                };
             }
         }
 
@@ -230,7 +235,7 @@ export default class ScrollContainer extends Control<IOptions> {
             useNewModel: options.useNewModel,
             ...this.getVirtualScrollConfig(options)
         });
-        this.virtualScroll.triggerOffset = this.topTriggerOffset;
+        this.virtualScroll.triggerOffset = this.triggerOffset;
         this.reset(this.viewModel.getCount(), options.activeElement);
     }
 
@@ -238,6 +243,13 @@ export default class ScrollContainer extends Control<IOptions> {
         if (this.__mounted && this.virtualScroll) {
             this.virtualScroll.recalcItemsHeights();
         }
+
+        this.viewSize = this._container.clientHeight;
+
+        if (this._options.observeScroll) {
+            this.updateTriggerOffset(this.viewportHeight, this.viewSize);
+        }
+
         this._notify('viewResize');
     }
 
@@ -276,20 +288,24 @@ export default class ScrollContainer extends Control<IOptions> {
             case 'scrollMoveSync':
                 this.handleListScrollSync(params as IScrollParams);
                 break;
-            case 'viewportRize':
-                this.updateViewport(params[0]);
+            case 'viewportResize':
+                this.updateViewport(params[0], params[1]);
                 break;
             case 'virtualScrollMove':
                 this.virtualScrollMoveHandler(params);
                 break;
             case 'canScroll':
-                this.updateViewport((params as IScrollParams).clientHeight, false);
-                this.proxyEvent(type, params as IScrollParams);
+                this.updateViewport(
+                    (params as IScrollParams).clientHeight,
+                    (params as IScrollParams).viewPortRect,
+                    false
+                );
+                this.proxyEvent(type, [params as IScrollParams]);
                 break;
             case 'scrollResize':
             case 'scrollMove':
             case 'cantScroll':
-                this.proxyEvent(type, params as IScrollParams);
+                this.proxyEvent(type, [params as IScrollParams]);
                 break;
         }
     }
@@ -410,16 +426,18 @@ export default class ScrollContainer extends Control<IOptions> {
         scrollToElement(container, false);
     }
 
-    private updateViewport(viewportHeight: number, shouldNotify: boolean = true): void {
+    private updateViewport(viewportHeight: number, viewportRect: DOMRect, shouldNotify: boolean = true): void {
+        this.viewportHeight = viewportHeight;
+        this.updateTriggerOffset(this.viewportHeight, this.viewSize);
+
         if (this._options.virtualScrolling) {
             this.virtualScroll.viewportHeight = viewportHeight;
-            this.virtualScroll.triggerOffset =
-                this.bottomTriggerOffset = this.topTriggerOffset = SIZE_RELATION_TO_VIEWPORT * viewportHeight;
-            this._notify('triggerOffsetChanged', [this.topTriggerOffset, this.bottomTriggerOffset]);
+            this.virtualScroll.triggerOffset = this.triggerOffset = SIZE_RELATION_TO_VIEWPORT * viewportHeight;
+            this._notify('triggerOffsetChanged', [this.triggerOffset, this.triggerOffset]);
         }
 
         if (shouldNotify) {
-            this.proxyEvent('viewPortResize', [viewportHeight]);
+            this.proxyEvent('viewPortResize', [viewportHeight, viewportRect]);
         }
     }
 
@@ -447,8 +465,8 @@ export default class ScrollContainer extends Control<IOptions> {
         this.proxyEvent('scrollMoveSync', [params]);
     }
 
-    private proxyEvent(type: string, params: unknown): void {
-        this._notify(type, [params]);
+    private proxyEvent(type: string, params: unknown[]): void {
+        this._notify(type, [...params]);
     }
 
     private changeTriggerVisibility(direction: IDirection, state: boolean): void {
@@ -546,6 +564,22 @@ export default class ScrollContainer extends Control<IOptions> {
         }
     }
 
+    private updateTriggerOffset(viewportSize: number, viewSize: number): void {
+        this.triggerOffset = this.getTriggerOffset(viewportSize, viewSize);
+        this._children.topVirtualScrollTrigger.style.top = `${this.triggerOffset}px`;
+        this._children.bottomVirtualScrollTrigger.style.bottom = `${this.triggerOffset}px`;
+
+        if (this.virtualScroll) {
+            this.virtualScroll.triggerOffset = this.triggerOffset;
+        }
+
+        this._notify('triggerOffsetChanged', [this.triggerOffset, this.triggerOffset]);
+    }
+
+    private getTriggerOffset(viewportSize: number, viewSize: number): number {
+        return (viewportSize && viewSize ? Math.min(viewportSize, viewSize) : 0) * SIZE_RELATION_TO_VIEWPORT;
+    }
+
     static getDefaultOptions(): Partial<IOptions> {
         return {
             virtualPageSize: DEFAULT_VIRTUAL_PAGE_SIZE
@@ -556,6 +590,6 @@ export default class ScrollContainer extends Control<IOptions> {
         return {
             virtualSegmentSize: descriptor(Number),
             virtualPageSize: descriptor(Number)
-        }
+        };
     }
 }
