@@ -168,6 +168,14 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.showEditArrow = this._options.showEditArrow;
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
 
+        if (itemsModelCurrent.isGroup) {
+            itemsModelCurrent.groupSpacingClasses = {
+                left: itemsModelCurrent.multiSelectVisibility !== 'hidden' ? 'controls-ListView__itemContent_withCheckboxes' :
+                    `controls-ListView__item-leftPadding_${itemsModelCurrent.itemPadding.left}`,
+                right: `controls-ListView__item-rightPadding_${itemsModelCurrent.itemPadding.right}`
+            };
+        }
+
         itemsModelCurrent.shouldDrawMarker = (marker: boolean) => {
             const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden';
             return canDrawMarker && (itemsModelCurrent.isAdd ? true : _private.isSelected(self, itemsModelCurrent));
