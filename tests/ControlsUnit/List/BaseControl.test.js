@@ -220,12 +220,10 @@ define([
          const emptySorting = [];
          const sortingASC = [{ test: 'ASC' }];
          const sortingDESC = [{ test: 'DESC' }];
-         const multiSorting = [{ test: 'DESC' }, { test2: 'DESC' }];
 
          assert.deepEqual(lists.BaseControl._private.getSortingOnChange(emptySorting, 'test'), sortingDESC);
          assert.deepEqual(lists.BaseControl._private.getSortingOnChange(sortingDESC, 'test'), sortingASC);
          assert.deepEqual(lists.BaseControl._private.getSortingOnChange(sortingASC, 'test'), emptySorting);
-         assert.deepEqual(lists.BaseControl._private.getSortingOnChange(multiSorting, 'test', 'single'), sortingDESC);
       });
 
       it('_private::isItemsSelectionAllowed', () => {
