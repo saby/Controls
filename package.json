@@ -67,6 +67,7 @@
       "saby-i18n": "git+https://github.com/saby/i18n.git#rc-20.2000",
       "saby-types": "git+https://platform-git.sbis.ru/saby/Types.git#rc-20.2000",
       "saby-typescript": "git+https://platform-git.sbis.ru/saby/TypeScript.git#rc-20.2000",
+      "saby-inferno": "git+https://platform-git.sbis.ru/saby/inferno.git#rc-20.2000",
       "saby-ui": "git+https://github.com/saby/UI.git#rc-20.2000",
       "saby-units": "git+https://platform-git.sbis.ru/saby/Units.git#rc-20.2000",
       "sbis3-builder": "git+https://github.com/saby/Builder.git#rc-20.2000",
