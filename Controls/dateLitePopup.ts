@@ -67,6 +67,8 @@ var Component = BaseControl.extend({
 
     _position: null,
 
+    iconsChecked: null,
+
     _yearHovered: null,
 
     _range: null,
@@ -98,6 +100,8 @@ var Component = BaseControl.extend({
             Logger.error('dateLitePopup: ' + rk('You should use displayedRanges option instead of range option.'), this);
         }
         this._displayedRanges = options.displayedRanges || options.range;
+
+        this.iconsChecked = options.checkedStart || options.checkedEnd;
     },
 
     _beforeUpdate: function (options) {

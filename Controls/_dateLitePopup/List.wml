@@ -18,6 +18,7 @@
         <Controls._dateLitePopup.bodyItem
                 attr:class="controls-PeriodLiteDialog_calendarBody"
                 attr:data-date="{{_dateToDataString(yearTemplate.date)}}"
+                iconsChecked="{{iconsChecked}}"
                 scope="{{_options}}"
                 _position="{{_position}}"
                 _yearHovered="{{_yearHovered}}"

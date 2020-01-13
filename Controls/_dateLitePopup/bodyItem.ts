@@ -6,14 +6,18 @@ import itemMonthsTmpl = require('wml!Controls/_dateLitePopup/ItemMonths');
 import MonthCaption = require('wml!Controls/_dateLitePopup/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_dateLitePopup/ItemFull');
 import itemQuartersTmpl = require('wml!Controls/_dateLitePopup/ItemQuarters');
+import checkedTmpl = require('wml!Controls/_dateLitePopup/CheckedTemplate');
 
 const Component = BaseControl.extend({
     _template: itemMonthsTmpl,
     monthCaptionTemplate: MonthCaption,
+    checkedTemplate: checkedTmpl,
 
     _position: null,
     _currentYear: null,
     _yearModel: null,
+
+    _checkedRange: null,
 
     _halfyearHovered: null,
     _quarterHovered: null,
@@ -24,7 +28,11 @@ const Component = BaseControl.extend({
         this._position = options._position;
         this._template = this._getItemTmplByType(options);
         this._currentYear =  options.currentYear;
+        this._checkedRange = this._getCheckedRange(options.checkedStart, options.checkedEnd);
         this._yearModel = this._getYearModel(this._currentYear);
+        if (options.checkedTemplate) {
+            this.checkedTemplate = options.checkedTemplate;
+        }
     },
 
     _getItemTmplByType: function (options) {
@@ -51,7 +59,8 @@ const Component = BaseControl.extend({
                     const month = quarterMonth + j;
                     monthsList.push({
                             name: new Date(year, month, 1),
-                            tooltip: formatDate(new Date(year, month, 1), formatDate.FULL_MONTH)
+                            tooltip: formatDate(new Date(year, month, 1), formatDate.FULL_MONTH),
+                            isChecked: this._getIsIconChecked(new Date(year, month, 1))
                         });
                 }
                 quartersList.push({
@@ -70,6 +79,28 @@ const Component = BaseControl.extend({
                 });
         }
         return halfYearsList;
+    },
+
+    _getIsIconChecked: function (month) {
+        if (this._checkedRange[0] < month && month < this._checkedRange[1]) {
+            return true;
+        }
+        return false;
+    },
+
+    _getCheckedRange: function (checkedStart, checkedEnd) {
+        const range = [];
+        if (checkedStart) {
+            range.push(checkedStart);
+        } else {
+            range.push(-Infinity);
+        }
+        if (checkedEnd) {
+            range.push(checkedEnd);
+        } else {
+            range.push(Infinity);
+        }
+        return range;
     },
 
     _onQuarterMouseEnter: function (event, quarter) {

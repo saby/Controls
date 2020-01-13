@@ -1,0 +1,12 @@
+<div>
+    <ws:if data="{{ isChecked }}">
+        <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
+            <div class="icon-16 icon-Yes icon-done"></div>
+        </div>
+    </ws:if>
+    <ws:else>
+        <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц не закрыт]}">
+            <div class="icon-16 icon-Yes icon-disabled"></div>
+        </div>
+    </ws:else>
+</div>
