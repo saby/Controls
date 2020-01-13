@@ -95,8 +95,4 @@ export interface IHeaderCell extends IControlOptions {
      * @description Опции, передаваемые в шаблон ячейки заголовка.
      */
     templateOptions?: object;
-    /**
-     * @description Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
-     */
-    cellPadding?: ICellPadding;
 }
