@@ -6,6 +6,9 @@
                {{ !_isShadowVisible('top') ? ' ws-invisible' }}"></div>
    <Controls.event:Listener event="updateStickyShadow" on:updateStickyShadow="_updateStickyShadow()"/>
    <Controls.event:Listener event="updateStickyHeight" on:updateStickyHeight="_updateStickyHeight()"/>
+   <ws:if data="{{_isSafari13}}">
+      <Controls.event:Listener event="controlResize" on:controlResize="_updateBottomShadowStyle()"/>
+   </ws:if>
    <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{_getObserverStyle('top')}}"></div>
    <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
    <ws:partial template="{{_options.content}}"
