@@ -2089,9 +2089,9 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             model = new gridMod.GridViewModel({...cfg, columnScroll: true});
             assert.isTrue(model.isFixedLayout());
             model = new gridMod.GridViewModel({...cfg, columnScroll: false});
-            assert.isFalse(model.isFixedLayout());
+            assert.isTrue(model.isFixedLayout());
             model = new gridMod.GridViewModel({...cfg});
-            assert.isFalse(model.isFixedLayout());
+            assert.isTrue(model.isFixedLayout());
          });
 
          it('_prepareCrossBrowserColumn', function () {
