@@ -5,11 +5,12 @@ import {ItemsUtil} from 'Controls/list';
 import GridIsEqualUtil = require('Controls/_grid/utils/GridIsEqualUtil');
 import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingPathBack');
 
-
    var _private = {
-      getHeader: function(self, options, newBackButtonCaption) {
+      getHeader: function(self, options, newLastCrumbId, newBackButtonCaption) {
          var newHeader;
+         self._lastCrumbId = newLastCrumbId;
          self._backButtonCaption = newBackButtonCaption;
+
          if (options.items && options.header && options.header.length && !options.header[0].title && !options.header[0].template) {
             newHeader = options.header.slice();
             newHeader[0] = {
@@ -37,6 +38,9 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
       getBackButtonCaption(options): string|null {
          return options.items && options.items.length ? ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty) : null;
       },
+      getLastCrumbId(options): string|null {
+         return options.items && options.items.length ? ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.keyProperty) : null;
+      },
       needShadow: function(header, headerCfg) {
 
          //если есть заголовок, то тень будет под ним, и нам не нужно рисовать ее под хлебными крошками
@@ -49,19 +53,22 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
       _header: null,
       _needCrumbs: false,
       _needShadow: false,
+      _lastCrumbId: null,
       _backButtonCaption: null,
 
       _beforeMount: function(options) {
-         let newBackButtonCaption = _private.getBackButtonCaption(options);
-         this._header = _private.getHeader(this, options, newBackButtonCaption);
-         this._needCrumbs = _private.needCrumbs(this._header, options.items);
+         const newLastCrumbId = _private.getLastCrumbId(options);
+         const newBackButtonCaption = _private.getBackButtonCaption(options);
+         this._header = _private.getHeader(this, options, newLastCrumbId, newBackButtonCaption);
+         this._needCrumbs = _private.needCrumbs(this._header, options.items, options.rootVisible);
          this._needShadow = _private.needShadow(this._header, options.header);
       },
 
       _beforeUpdate: function(newOptions) {
-         let newBackButtonCaption = _private.getBackButtonCaption(newOptions);
-         if (this._options.rootVisible !== newOptions.rootVisible || this._backButtonCaption !== newBackButtonCaption || !GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
-            this._header = _private.getHeader(this, newOptions, newBackButtonCaption);
+         const newLastCrumbId = _private.getLastCrumbId(newOptions);
+         const newBackButtonCaption = _private.getBackButtonCaption(newOptions);
+         if (this._options.rootVisible !== newOptions.rootVisible || this._lastCrumbId !== newLastCrumbId || this._backButtonCaption !== newBackButtonCaption || !GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
+            this._header = _private.getHeader(this, newOptions, newLastCrumbId, newBackButtonCaption);
             this._needCrumbs = _private.needCrumbs(this._header, newOptions.items, newOptions.rootVisible);
             this._needShadow = _private.needShadow(this._header, newOptions.header);
          }
