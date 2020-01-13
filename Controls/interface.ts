@@ -64,3 +64,4 @@ export {default as IApplication, IApplicationOptions, IAttributes, HeadJson} fro
 export {default as IRUM, IRUMOptions} from './_interface/IRUM';
 export {default as IFilter, IFilterOptions} from './_interface/IFilter';
 export {default as INavigation, INavigationOptions, INavigationOptionValue} from './_interface/INavigation';
+export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';

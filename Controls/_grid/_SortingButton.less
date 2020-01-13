@@ -1,0 +1,50 @@
+.controls-SortingButton {
+   display: inline-block;
+}
+
+.controls-SortingButton__content_align-left {
+   flex-direction: row-reverse;
+}
+
+.controls-SortingButton__content_align-default {
+   flex-direction: row;
+}
+
+.controls-SortingButton__content {
+   .baseline-fix();
+
+   display: flex;
+   align-items: baseline;
+}
+
+.controls-SortingButton__icon {
+   align-self: baseline;
+   display: inline-block;
+   flex-shrink: 0;
+}
+
+.controls-SortingButton__caption {
+   cursor: pointer;
+   display: inline;
+}
+
+.controls-SortingButton_arrow_theme-@{themeName} {
+   fill: @color_SortingButton-icon;
+   width: @size_SortingButton-icon;
+   height: @height_SortingButton-icon;
+}
+
+.controls-SortingButton__caption_theme-@{themeName} {
+   font-size: @font-size_SortingButton-caption;
+   color: @color_SortingButton-caption;
+}
+
+.controls-SortingButton__caption:active {
+   text-decoration: underline;
+}
+
+.ws-is-hover {
+   .controls-SortingButton__caption:hover {
+      text-decoration: underline;
+   }
+}

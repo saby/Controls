@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Sorting/SortingSelector/Default/Index' }}">
+            <a href="{{content.href}}">Сортировка по кнопке</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Sorting.SortingSelector.Default.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index' }}">
+            <a href="{{content.href}}">Сортировка по кнопке со сбросом</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Sorting.SortingSelector.SortingSelectorWithReset.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index' }}">
+            <a href="{{content.href}}">Сортировка по кнопке с заголовком меню</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Sorting.SortingSelector.SortingSelectorWithHeader.Index/>
+    </div>
+
+</div>
