@@ -9,6 +9,7 @@
                                                showActionButton="{{_options.showActionButton}}"
                                                afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
                                                theme="{{_options.theme}}"
+                                               attr:class="{{!_visibleItems ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}}"
                                                on:backButtonClick="_onBackButtonClick()"
                                                on:arrowClick="_notifyHandler('arrowClick')"/>
         </ws:if>
