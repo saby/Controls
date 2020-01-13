@@ -10,6 +10,7 @@
  * @includes GroupTemplate Controls/list:GroupTemplate
  * @includes EditingTemplate Controls/list:EditingTemplate
  * @includes View Controls/_list/List
+ * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
  * @includes Paging Controls/_paging/Paging
@@ -37,6 +38,7 @@
  * @includes GroupTemplate Controls/list:GroupTemplate
  * @includes EditingTemplate Controls/list:EditingTemplate
  * @includes View Controls/_list/List
+ * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
  * @includes Paging Controls/_paging/Paging
@@ -56,8 +58,9 @@ import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');
 import View = require('Controls/_list/List');
 import ColumnsView = require('Controls/_list/Columns');
-import Mover = require('Controls/_list/Mover');
-import Remover = require('Controls/_list/Remover');
+import BaseAction from 'Controls/_list/BaseAction';
+import Mover from 'Controls/_list/Mover';
+import Remover from 'Controls/_list/Remover';
 import DataContainer = require('Controls/_list/Data');
 import _forTemplate = require('wml!Controls/_list/resources/For');
 import _swipeActionTemplate = require('wml!Controls/_list/Swipe/resources/SwipeAction');
@@ -101,6 +104,7 @@ export {
     ItemTemplate,
     View,
     ColumnsView,
+    BaseAction,
     Mover,
     Remover,
     Paging,

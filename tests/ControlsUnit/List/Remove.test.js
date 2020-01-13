@@ -29,7 +29,7 @@ define([
                data: cClone(data)
             });
 
-         remover = new lists.Remover();
+         remover = new lists.default.Remover();
          remover._source = source;
          remover._items = rs;
       });

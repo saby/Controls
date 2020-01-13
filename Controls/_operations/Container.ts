@@ -58,7 +58,7 @@ import template = require('wml!Controls/_operations/Container/Container');
 var MultiSelector = Control.extend({
     _template: template,
 
-    _selectionChangeHandler: function (e, eventName) {
+    _notifyHandlerWithBubbling: function (e, eventName) {
         return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
             bubbling: true
         });

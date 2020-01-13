@@ -1,6 +1,7 @@
 <ws:partial
    template="{{_options.content}}"
    scope="{{_options}}"
-   on:selectedKeysChanged="_selectionChangeHandler('listSelectedKeysChanged')"
-   on:excludedKeysChanged="_selectionChangeHandler('listExcludedKeysChanged')"
+   on:selectedKeysChanged="_notifyHandlerWithBubbling('listSelectedKeysChanged')"
+   on:excludedKeysChanged="_notifyHandlerWithBubbling('listExcludedKeysChanged')"
+   on:markedKeyChanged="_notifyHandlerWithBubbling('listMarkedKeyChanged')"
 />
