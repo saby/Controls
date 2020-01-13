@@ -8,6 +8,12 @@ export interface IMobileFocusController {
    touchStartHandler(event: SyntheticEvent<TouchEvent>): void;
 }
 
+interface IItem {
+   wasTouch: boolean;
+   wasFocus: boolean;
+   target: EventTarget;
+}
+
 type FocusEventName = 'MobileInputFocus' | 'MobileInputFocusOut';
 
 /**
@@ -25,9 +31,48 @@ type FocusEventName = 'MobileInputFocus' | 'MobileInputFocusOut';
  * 5. Поле теряет фокус -> инициируется событие MobileInputFocusOut.
  */
 class MobileFocusController implements IMobileFocusController {
-   private _wasTouch: boolean = false;
-   private _wasFocus: boolean = false;
+   private _items: IItem[] = [];
    private _userActivated: boolean = false;
+
+   private _addItem(target: EventTarget): IItem {
+      let addedItem: IItem = this._at(target);
+
+      if (addedItem === undefined) {
+         addedItem = {
+            target,
+            wasTouch: false,
+            wasFocus: false
+         };
+         this._items.push(addedItem);
+      }
+
+      return addedItem;
+   }
+
+   private _removeItem(target: EventTarget): void {
+      const indexRemovedItem = this._findIndex(target);
+      if (typeof indexRemovedItem === 'number') {
+         this._items.splice(indexRemovedItem, 1);
+      }
+   }
+
+   private _at(target: EventTarget): IItem | undefined {
+      return this._items[this._findIndex(target)];
+   }
+
+   private _findIndex(target: EventTarget): number | undefined {
+      const length = this._items.length;
+
+      for (let index = 0; index < length; index++) {
+         const item = this._items[index];
+
+         if (item.target === target) {
+            return index;
+         }
+      }
+
+      return undefined;
+   }
 
    /**
     * Notify to global channel about receiving or losing focus in field.
@@ -49,35 +94,38 @@ class MobileFocusController implements IMobileFocusController {
       }
    }
 
-   touchStartHandler(): void {
+   touchStartHandler(event: SyntheticEvent<TouchEvent>): void {
       if (!detection.isMobileIOS) {
          return;
       }
 
-      this._wasTouch = true;
-      if (this._wasFocus) {
+      const item = this._addItem(event.target);
+
+      item.wasTouch = true;
+      if (item.wasFocus) {
          this._notify('MobileInputFocus');
       }
    }
 
-   focusHandler(): void {
+   focusHandler(event: SyntheticEvent<FocusEvent>): void {
       if (!detection.isMobileIOS) {
          return;
       }
 
-      this._wasFocus = true;
-      if (this._wasTouch) {
+      const item = this._addItem(event.target);
+
+      item.wasFocus = true;
+      if (item.wasTouch) {
          this._notify('MobileInputFocus');
       }
    }
 
-   blurHandler(): void {
+   blurHandler(event: SyntheticEvent<FocusEvent>): void {
       if (!detection.isMobileIOS) {
          return;
       }
 
-      this._wasTouch = false;
-      this._wasFocus = false;
+      this._removeItem(event.target);
       this._notify('MobileInputFocusOut');
    }
 }
