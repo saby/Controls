@@ -308,6 +308,9 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     setMarkerVisibility: function(markerVisibility) {
         this._options.markerVisibility = markerVisibility;
+        if (this._markedKey === null && markerVisibility === 'visible') {
+            this.updateMarker(null);
+        }
         this._nextModelVersion();
     },
 

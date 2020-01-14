@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+    <Controls-demo.operations.ListWithOperationsPanel source="{{_viewSource}}" keyProperty="id">
+        <Controls.list:View>
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate">
+                    <ws:contentTemplate>
+                        <ws:partial template="wml!Controls-demo/operations/SelectionStrategy/resources/ItemTemplate" itemData="{{itemTemplate.itemData}}"/>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls-demo.operations.ListWithOperationsPanel>
+</div>
+
+
