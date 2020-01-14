@@ -130,9 +130,7 @@
                 on:itemSwipe="_listSwipe()"
         >
             <ws:viewTemplate>
-                <ws:partial template="{{_options.viewName}}"
-                            on:activated="_onActivated()"
-                            on:deactivated="_onDeactivated()"/>
+                <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>
             <ws:footerTemplate>
                 <ws:partial template="footerTemplateIf"/>
