@@ -58,7 +58,7 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
 
     let propertyGridItemDefault: IPropertyGridItem;
 
-    factory(source).each((config:IProperty) => {
+    factory(source).each((config: IProperty) => {
         propertyGridItemDefault = getPropertyItemDefault();
         propertyGridItemDefault.propertyValue = editingObject[config[PROPERTY_NAME_FIELD]];
 
@@ -80,6 +80,7 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
  * По умолчанию propertyGrid будет автоматически генерировать все свойства для данного объекта.
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends Core/Control
+ * @interface Controls/_propertyGrid/IPropertyGrid
  * @control
  * @public
  * @author Герасимов А.М.
