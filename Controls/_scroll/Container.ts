@@ -29,7 +29,9 @@ import {Logger} from "UI/Utils";
  * @author Красильников А.С.
  * @category Container
  * @remark
- * Контрол работает как нативный скролл: скроллбар появляется, когда высота контента больше высоты контрола. Для корректной работы контрола необходимо ограничить его высоту.
+ * Контрол Controls/scroll:Container можно использовать на веб-страницах, которые не созданы на основе Controls/Application. 
+ * Для этого контрол должен быть помещён в контроллер Controls/dragnDrop:Compound, который обеспечит работу функционала Drag-n-Drop. 
+ * С помощью метода {@link https://wi.sbis.ru/docs/js/Core/helpers/isNewEnvironment/?v=20.1000 isNewEnvironment} можно проверить: построена ли веб-страница на основе Controls/Application.
  * @demo Controls-demo/Container/Scroll
  *
  */
