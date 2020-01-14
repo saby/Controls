@@ -1,9 +1,9 @@
-<div class="controls-BreadCrumbsView__crumb{{itemData.withOverflow ? ' controls-BreadCrumbsView__crumb_withOverflow'; edge ? ' controls-BreadCrumbsView__max-width__edge' : ' controls-BreadCrumbsView__max-width'}}">
+<div class="controls-BreadCrumbsView__crumb{{edge ? ' controls-BreadCrumbsView__max-width__edge' : ' controls-BreadCrumbsView__max-width'}}">
     <ws:if data="{{ itemData.hasArrow }}">
         <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine{{_options.readOnly ? '' : ' controls-BreadCrumbsView__arrow_enabled'}}"></span>
     </ws:if>
-    <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
-         title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
+    <span class="controls-BreadCrumbsView__titleWrapper"
+         title="{{itemData.getPropValue(itemData.item, displayProperty)}}">
         <span class="controls-BreadCrumbsView__title{{_options.readOnly ? '' : ' controls-BreadCrumbsView__title_enabled'}}"><ws:if data="{{contentTemplate}}"><ws:partial template="{{contentTemplate}}" displayProperty="{{displayProperty}}" itemData="{{itemData}}"/></ws:if><ws:else>{{ itemData.getPropValue(itemData.item, displayProperty) }}</ws:else></span>
     </span>
 </div>
