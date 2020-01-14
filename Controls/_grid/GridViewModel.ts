@@ -703,7 +703,8 @@ var
                         (
                             action === collection.IObservable.ACTION_ADD ||
                             action === collection.IObservable.ACTION_REMOVE
-                        )
+                        ) &&
+                        !this._options.disableColumnScrollCellStyles
                     )
                 ) {
                     event.setResult('updatePrefix');
@@ -1562,7 +1563,7 @@ var
 
                 // For browsers with partial grid support need to set explicit rows' style with grid-row and grid-column
                 // TODO: Удалить проверку после полного перехода на table-layout. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
-                if (self._isPartialGridSupport && !self._shouldUseTableLayout || current.columnScroll) {
+                if (self._isPartialGridSupport && !self._shouldUseTableLayout || current.columnScroll && !self._options.disableColumnScrollCellStyles) {
                     currentColumn.gridCellStyles = GridLayoutUtil.getCellStyles({
                         rowStart: current.rowIndex,
                         columnStart: currentColumn.columnIndex
