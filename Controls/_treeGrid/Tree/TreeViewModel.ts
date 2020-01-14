@@ -481,7 +481,7 @@ var
                 }
                 this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
                 this.updateDragItemIndex(this._draggingItemData);
-                this._nextModelVersion();
+                this._nextModelVersion(true, 'expandedChanged', null, [dispItem]);
                 this._notify('expandedItemsChanged', this._expandedItems);
             }
         },
@@ -579,6 +579,18 @@ var
                _private.setNodeFooterIfNeed(this, current);
            }
             return current;
+        },
+
+        _calcItemVersion(item, key): string {
+            let version = TreeViewModel.superclass._calcItemVersion.apply(this, arguments);
+
+            if (this._expandedItems.indexOf(key) >= 0) {
+                version = 'EXPANDED_' + version;
+            } else if (this._collapsedItems.indexOf(key) >= 0) {
+                version = 'COLLAPSED_' + version;
+            }
+
+            return version;
         },
 
         setDragEntity: function(entity) {
@@ -704,8 +716,10 @@ var
         },
 
         setHasMoreStorage: function(hasMoreStorage) {
-            this._hasMoreStorage = hasMoreStorage;
-            this._nextModelVersion();
+            if (hasMoreStorage !== this._hasMoreStorage) {
+                this._hasMoreStorage = hasMoreStorage;
+                this._nextModelVersion();
+            }
         },
 
         getHasMoreStorage: function() {
