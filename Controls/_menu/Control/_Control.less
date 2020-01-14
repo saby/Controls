@@ -1,0 +1,221 @@
+.controls-Menu {
+   display: flex;
+   flex-direction: column;
+   overflow: hidden;
+   max-height: 100%;
+   width: 100%;
+}
+
+.controls-Menu__scroll_theme-@{themeName} {
+   height: 100%;
+   flex-shrink: 1;
+}
+
+.controls-Menu__subMenu_margin_theme-@{themeName} {
+   margin-top: -@popup_padding-vertical_menuPopup;
+}
+
+.controls-Menu__row {
+   position: relative;
+   .flexbox();
+   .align-items(center);
+}
+
+.controls-Menu__row_state_default_theme-@{themeName} {
+   cursor: pointer;
+}
+
+.controls-Menu__row_state_readOnly_theme-@{themeName} {
+   cursor: default;
+}
+
+.controls-Menu__row_selected_theme-@{themeName} {
+   &::after {
+      content: '';
+      background: @marker_color_menu;
+      width: @marker_width_menu;
+      height: @marker_height_menu;
+      position: absolute;
+      left: 0;
+      top: (@item_height_menu - @marker_height_menu) / 2;
+   }
+}
+
+.controls-Menu__row_pinned {
+   font-weight: bold;
+}
+
+//не удалять, высота необходима, чтобы корректно работал align-items:center в IE
+.controls-Menu__row_singleLine_theme-@{themeName} {
+   height: @item_height_menu;
+}
+
+.controls-Menu__row_multiLine_theme-@{themeName} {
+   min-height: @item_height_menu;
+}
+
+.controls-Menu__emptyItem_theme-@{themeName} {
+   color: @empty-item_text-color_menu;
+}
+
+.controls-Menu__row-checkbox_active {
+   visibility: visible;
+}
+
+.controls-Menu__row-checkbox-right_theme-@{themeName} {
+   position: absolute;
+   top: (@item_height_menu - @height_checkbox) / 2;
+   right: 0;
+}
+
+.controls-Menu__row-checkbox_invisible {
+   visibility: hidden;
+}
+
+.controls-Menu__icon {
+   .flex-shrink(0);
+}
+
+.controls-Menu__icon-left_theme-@{themeName} {
+   margin-right: @item_icon_offset_menu;
+}
+
+.controls-Menu__icon-right_theme-@{themeName} {
+   margin-left: @item_icon_offset_menu;
+}
+
+.controls-Menu__content {
+   max-width: 100%;
+   flex-shrink: 1;
+}
+
+.controls-Menu__content_default_theme-@{themeName} {
+   color: @item_text-color_menu;
+}
+
+.controls-Menu__content_readOnly_theme-@{themeName} {
+   color: @readonly_item_text-color_menu;
+}
+
+.controls-Menu__content_singleLine {
+   display: flex;
+   align-items: center;
+   .text-overflow();
+}
+
+.controls-Menu__content-wrapper {
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.controls-Menu_content_padding_theme-@{themeName} {
+   display: flex;
+   padding-top: @item_padding-top_menu;
+   padding-bottom: @item_padding-bottom_menu;
+}
+
+.controls-Menu__row-additionalText_theme-@{themeName} {
+   font-size: @font-size_xs;
+   color: @unaccented_text-color;
+   white-space: normal;
+}
+
+.controls-Menu__arrow_theme-@{themeName} {
+   .inline-flexbox();
+   .align-items(center);
+   .icon-size(@hierarchy_icon-size_menu);
+   .box-sizing(border-box);
+
+   position: absolute;
+   top: (@item_height_menu - @hierarchy_icon-size_menu) / 2;
+   right: @hierarchy_icon_offset-right_menu;
+}
+
+.controls-Menu__arrow_readOnly_theme-@{themeName} {
+   color: @readonly_hierarchy_icon-color_menu;
+}
+
+.controls-Menu__arrow_default_theme-@{themeName} {
+   color: @hierarchy_icon-color_menu;
+}
+
+.controls-Menu__iconUnnpin {
+   font-weight: normal;
+}
+
+.controls-Menu__iconPin_theme-@{themeName} {
+   .align-items(center);
+   .icon-size(@pin-button_icon-size_menu);
+
+   position: absolute;
+   display: none;
+   right: @pin-button_offset-right_menu;
+   top: (@item_height_menu - @pin-button_icon-size_menu) / 2;
+   color: @pin-button_icon-color_menu;
+}
+
+.controls-Menu__iconPin_theme-@{themeName}.controls-Menu__iconPin_swiped {
+   .inline-flexbox();
+}
+
+.ws-is-hover {
+   .controls-Menu__row:hover {
+      .controls-Menu__iconPin {
+         .inline-flexbox();
+      }
+   }
+
+   .controls-Menu__iconPin_theme-@{themeName}:hover {
+      color: @pin-button_hover_icon-color_menu;
+   }
+}
+
+.controls-ListView__item-rightPadding_menu-expander {
+   padding-right: @hierarchy_icon_offset-right_menu + @hierarchy_icon-size_menu + @hierarchy_icon_offset-left_menu;
+}
+
+.controls-ListView__item-rightPadding_menu-close.theme_@{themeName} {
+   padding-right: @close-button_offset-left_menu + @width_closeButton_link + @close-button_offset-right_menu;
+}
+
+.controls-ListView__item-rightPadding_menu-pin.theme_@{themeName} {
+   padding-right: @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
+}
+
+.controls-Menu__footer_theme-@{themeName} {
+   display: flex;
+   align-items: center;
+   width: 100%;
+   height: @footer_min-height_menuPopup;
+}
+
+.controls-Menu__additional {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   margin-right: @spacing_ListView-item-between-content-borderRight_l;
+}
+
+.controls-Menu__applyButton_theme-@{themeName} {
+   display: flex;
+   padding-right: @item_padding-horizontal_l_menu;
+   padding-left: @apply-button_offset_menuPopup;
+   margin-left: auto;
+   align-items: center;
+}
+
+.ws-is-hover {
+   .controls-Menu__row_state_default_theme-@{themeName}:hover {
+      background: @item_hover_background-color_menu;
+
+      .controls-Menu__row-checkbox_default {
+         visibility: visible;
+      }
+   }
+}
+.ws-is-no-touch {
+   .controls-Menu__row-checkbox_default {
+      visibility: hidden;
+   }
+}

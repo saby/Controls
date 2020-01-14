@@ -1,0 +1,23 @@
+<ws:template name="iconTemplate">
+   <ws:if data="{{item.get('icon') || iconPadding[item.get(parentProperty)]}}">
+      <ws:partial template="wml!Controls/_menu/Render/iconTemplate" scope="{{_options}}"/>
+   </ws:if>
+</ws:template>
+
+<div class="controls-Menu__content {{item.get('readOnly') ? 'controls-Menu__content-readOnly'}}
+                     controls-Menu__content_{{multiLine ? 'multiLine' : 'singleLine'}}"
+     title="{{item.get(displayProperty || 'title')}}">
+   <ws:if data="{{iconAlign !== 'right'}}">
+      <ws:partial template="iconTemplate" iconAlign="left"/>
+   </ws:if>
+   <div class="controls-Menu__content-wrapper">
+      {{item.get(displayProperty || 'title')}}
+      <ws:if data="{{iconAlign === 'right'}}">
+         <ws:partial template="iconTemplate" iconAlign="right" />
+      </ws:if>
+      <ws:if data="{{additionalTextTemplate}}">
+         <ws:partial template="{{additionalTextTemplate}}"
+                     class="controls-Menu__row-additionalText_theme-{{_options.theme}}"/>
+      </ws:if>
+   </div>
+</div>

@@ -1320,6 +1320,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
     }
 
     /**
@@ -1376,6 +1377,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
     }
 
     /**
@@ -1437,6 +1439,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
 
         return true;
     }
@@ -1962,6 +1965,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     setSelection(selection: ISelectionMap): void {
         this._selectionManager.setSelection(selection);
+    }
+
+    setSelectedItem(item: CollectionItem<S>, selected: boolean): void {
+        this._selectionManager.setSelectedItem(item, selected);
+        this._nextVersion();
     }
 
     /**
