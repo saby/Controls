@@ -20,7 +20,7 @@
    <div class="controls-FilterPanel__caption">{[Ранее отбирались]}</div>
    <div class="controls-HistoryList__content {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-FilterPanel_block-maxHeight'}}">
       <ws:for data="index, item in _items">
-         <ws:if data="{{index < _favoriteCount}}">
+         <ws:if data="{{index < _historyCount}}">
             <ws:partial template="itemContent"
                         item="{{item}}"
                         text="{{_itemsText[index]}}"
