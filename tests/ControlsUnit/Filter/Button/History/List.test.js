@@ -5,10 +5,12 @@ define(
       'Types/chain',
       'ControlsUnit/Filter/Button/History/testHistorySource',
       'Controls/filter',
-      'Types/entity', 
+      'Types/entity',
+      'Controls/history',
+      'Types/collection',
       'Env/Env'
    ],
-   function(List, Serializer, chain, HistorySourceDemo, filter, entity, Env) {
+   function(List, Serializer, chain, HistorySourceDemo, filter, entity, history, collection, Env) {
       describe('FilterHistoryList', function() {
          var items2 = [
             {id: 'period', value: [3], resetValue: [1], textValue: 'Past month'},
@@ -72,6 +74,14 @@ define(
          });
 
          list.saveOptions(config);
+
+         it('_historyCount', function() {
+            list._beforeMount({
+               items: new collection.RecordSet(),
+               filterItems: []
+            });
+            assert.equal(list._historyCount, history.Constants.MAX_HISTORY);
+         });
 
          it('get text', function() {
             var textArr = [];
