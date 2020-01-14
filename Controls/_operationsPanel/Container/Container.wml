@@ -1,0 +1,3 @@
+<ws:partial template="{{_options.content}}"
+            scope="{{_options}}"
+            selectedKeys="{{_selectedKeys}}"/>
