@@ -95,6 +95,7 @@ import {Logger} from "UI/Utils";
 /**
  * @name Controls/_scroll/Container#topShadowVisibility
  * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
+ * @default auto
  */
 
 /**
