@@ -10,7 +10,7 @@ var EditingRow = Control.extend({
         this.activate();
 
         // TODO: this._container может быть не HTMLElement, а jQuery-элементом, убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-        var container = this._container.get ? this._container.get(0) : this._container;
+        var container = this._container;
 
         setTimeout(function () {
             scrollToElement(container);

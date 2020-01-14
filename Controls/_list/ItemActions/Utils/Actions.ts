@@ -7,7 +7,7 @@ export function itemActionsClick(self, event, action, itemData, listModel, showA
     } else {
         // TODO: self._container может быть не HTMLElement, а jQuery-элементом,
         //  убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-        const container = self._container.get ? self._container.get(0) : self._container;
+        const container = self._container;
         const isNewModel = !!listModel.getSourceIndexByItem;
 
         let contents;

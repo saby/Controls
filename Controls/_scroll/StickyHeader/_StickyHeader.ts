@@ -218,7 +218,7 @@ var StickyHeader = Control.extend({
          return;
       }
       // FIXME: this._container - jQuery element in old controls envirmoment https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-      let container = this._container[0] || this._container;
+      let container = this._container;
       let popupContainer = container.closest('.controls-Popup__template');
 
       // Stack popups can be hidden when child popup has a large width.

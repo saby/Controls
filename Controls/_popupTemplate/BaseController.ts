@@ -172,9 +172,6 @@ abstract class BaseController {
         const item = popupContainer && popupContainer._children[id];
         // todo https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         let container = item && item._container;
-        if (container && container.jquery) {
-            container = container[0];
-        }
         return container;
     }
 

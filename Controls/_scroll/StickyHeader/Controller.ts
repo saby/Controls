@@ -112,7 +112,7 @@ class Component extends Control {
             return;
         }
         //TODO https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-        const container = (this._container && this._container.get) ? this._container.get(0) : this._container,
+        const container = this._container,
             headersStack = this._headersStack[position],
             offset = this._headers[id].inst.getOffset(container, position);
 

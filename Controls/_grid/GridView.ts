@@ -194,7 +194,7 @@ var
 
             let resultOffset = 0;
             // toDO Такое получение контейнера до исправления этой ошибки https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            const container = this._container.length !== undefined ? this._container[0] : this._container;
+            const container = this._container;
             const multiselectVisibility = this._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
             const cellsArray = _private.prepareHeaderCells(this._options.header, container, multiselectVisibility);
             const newColumns = cellsArray.map((cur) => {

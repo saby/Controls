@@ -199,7 +199,7 @@ class Base extends Control<IMasterDetail> {
     private _getContainerWidth(): number {
         if (!this._containerWidth) {
             // FIXME: https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            const container = this._container[0] || this._container;
+            const container = this._container;
             this._containerWidth = container.getBoundingClientRect().width;
         }
         return this._containerWidth;

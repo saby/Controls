@@ -21,9 +21,6 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
          getDOMContainer: function(element) {
             //TODO https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            if (element.get) {
-               return element.get(0);
-            }
             return element;
          },
 
@@ -261,7 +258,7 @@ import {SyntheticEvent} from "Vdom/Vdom"
                         eventName = null;
                      }
                   }
-               }, {root: self._container[0] || self._container});//FIXME self._container[0] remove after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+               }, {root: self._container});//FIXME self._container[0] remove after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
                curObserver.observe(elements.topLoadTrigger);
                curObserver.observe(elements.bottomLoadTrigger);
 

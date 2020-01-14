@@ -25,7 +25,7 @@ import converterFilterStructure = require('Controls/_filterPopup/converterFilter
          getOldPanelConfig: function(self) {
             // toDO Такое получение контейнера до исправления этой ошибки https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
             return {
-               element: (self._filterButton._container[0] || self._filterButton._container).querySelector('.controls-FilterButton__oldTemplate'),
+               element: (self._filterButton._container).querySelector('.controls-FilterButton__oldTemplate'),
                template: self._options.filterTemplate,
                filterStructure: converterFilterStructure.convertToFilterStructure(self._options.items) || self._options.filterStructure,
                filterAlign: self._options.filterAlign === 'left' ? 'right' : 'left',

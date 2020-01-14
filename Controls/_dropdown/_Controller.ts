@@ -412,7 +412,7 @@ var _Controller = Control.extend({
                // FIXME self._container[0] delete after
                // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
                width: this._options.width !== undefined ?
-                        (this._container[0] || this._container).offsetWidth :
+                        (this._container).offsetWidth :
                         undefined,
                hasMoreButton: this._sourceController.hasMoreData('down'),
                selectorOpener: this._children.selectorOpener,

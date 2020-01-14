@@ -534,9 +534,6 @@ class Manager extends Control<IManagerOptions> {
         let container = item && item._container;
 
         // todo https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-        if (container && container.jquery) {
-            container = container[0];
-        }
         return container;
     }
 

@@ -299,7 +299,7 @@ import {SyntheticEvent} from 'Vdom/Vdom'
          //TODO FOR COMPATIBLE. для чистого вдома этот метод излишен, но логику не ломает
          _mouseOutHandler: function(event) {
             //todo https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            var container = this._container.get ? this._container.get(0) : this._container;
+            var container = this._container;
             if (!event.target.closest('.controls-DropdownList__popup') && container.closest('.controls-DropdownList__subMenu')) {
                this._children.subDropdownOpener.close();
             }
