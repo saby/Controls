@@ -31,10 +31,10 @@ export function get(target: HTMLDivElement) {
         document.documentElement.clientLeft || document.body.clientLeft || 0;
 
     return {
-        top: Math.round(top + fullTopOffset),
-        bottom: Math.round(bottom + fullTopOffset),
-        left: Math.round(left + fullLeftOffset),
-        right: Math.round(right + fullLeftOffset),
+        top: top + fullTopOffset,
+        bottom: bottom + fullTopOffset,
+        left: left + fullLeftOffset,
+        right: right + fullLeftOffset,
         width: box.width,
         height: box.height,
         topScroll: fullTopOffset,
