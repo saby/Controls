@@ -201,6 +201,28 @@ define(['Controls/lookupPopup', 'Types/entity'], function(lookupPopup, entity) {
          assert.isTrue(selectCompleted);
       });
 
+      it('_beforeMount', () => {
+         const listContainer = new lookupPopup.ListContainer();
+         let options = {
+            multiSelect: true,
+            selectedKeys: [1, 2, 3]
+         };
+
+         listContainer._beforeMount(options);
+         assert.deepEqual(listContainer._selectedKeys, [1, 2, 3]);
+         assert.equal(listContainer._markedKey, null);
+
+         options.selectedKeys = [1];
+         listContainer._beforeMount(options);
+         assert.deepEqual(listContainer._selectedKeys, [1]);
+         assert.equal(listContainer._markedKey, 1);
+
+         options.multiSelect = false;
+         listContainer._beforeMount(options);
+         assert.deepEqual(listContainer._selectedKeys, []);
+         assert.equal(listContainer._markedKey, 1);
+      });
+
    });
 
 });
