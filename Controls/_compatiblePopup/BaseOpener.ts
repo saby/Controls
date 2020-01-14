@@ -7,7 +7,6 @@ import Context = require('Core/Context');
 import Deferred = require('Core/Deferred');
 import randomId = require('Core/helpers/Number/randomId');
 import library = require('Core/library');
-import OpenDialogUtil = require('SBIS3.CONTROLS/Action/Utils/OpenDialogUtil');
 import isVDOMTemplate = require('Controls/Utils/isVDOMTemplate');
 
 function loadTemplate(name: string) {
@@ -726,8 +725,19 @@ const BaseOpener = {
 
    _getTemplateOptions(templateClass) {
       const initializer = (templateClass.prototype || templateClass)._initializer; // опции можно достать не везде
-      return initializer ? OpenDialogUtil.getOptionsFromProto(templateClass) : {};
+      return initializer ? this._getOptionsFromProto(templateClass) : {};
+   },
+
+   _getOptionsFromProto(mod, opts) {
+      const prototypeProtectedData = {};
+
+      // На прототипе опции не доступны, получаем их через initializer
+      (mod.prototype || mod)._initializer.call(prototypeProtectedData);
+      const options = prototypeProtectedData._options;
+      cMerge(options, opts || {});
+      return options;
    }
+
 };
 
 export default BaseOpener;
