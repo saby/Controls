@@ -78,7 +78,7 @@ var _private = {
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
- * @public
+ * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
  *
@@ -99,7 +99,7 @@ var _private = {
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
- * @public
+ * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
  *

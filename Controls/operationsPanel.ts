@@ -2,7 +2,7 @@
  * Библиотека контролов.
  * @library Controls/operationsPanel
  * @includes Panel Controls/_operationsPanel/OperationsPanel
- * @public
+ * @private
  * @author Крайнов Д.О.
  */
 
@@ -10,7 +10,7 @@
  * operations library
  * @library Controls/operationsPanel
  * @includes Panel Controls/_operationsPanel/OperationsPanel
- * @public
+ * @private
  * @author Крайнов Д.О.
  */
 
