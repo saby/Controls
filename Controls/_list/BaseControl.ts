@@ -179,9 +179,6 @@ var _private = {
                 self._cachedPagingState = null;
 
                 if (listModel) {
-                    if (self._isActive) {
-                        isActive = true;
-                    }
                     if (self._options.useNewModel) {
                         // TODO restore marker + maybe should recreate the model completely
                         // instead of assigning items
@@ -203,9 +200,6 @@ var _private = {
                             self._markedKeyForRestoredScroll = nextKey;
                         }
                         self._items = listModel.getItems();
-                    }
-                    if (isActive === true) {
-                        self._children.listView.activate();
                     }
 
                     if (self._sourceController) {
@@ -1713,14 +1707,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     getSourceController: function() {
         return this._sourceController;
-    },
-
-    _onActivated: function() {
-        this._isActive = true;
-    },
-
-    _onDeactivated: function() {
-        this._isActive = false;
     },
 
     _afterMount: function() {
