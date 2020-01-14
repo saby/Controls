@@ -1,0 +1,22 @@
+<Controls.listRender:Render
+        listModel="{{_options.listModel}}"
+        footerTemplate="{{_options.footerTemplate}}">
+   <ws:itemTemplate>
+      <ws:partial template="{{_options.itemTemplate}}"
+                  itemData="{{itemTemplate.item}}"
+                  item="{{itemTemplate.item.getContents()}}"
+                  isEmptyItem="{{_isEmptyItem(itemTemplate.item)}}"
+                  itemClassList="{{_getClassList(itemTemplate.item)}}"
+                  multiSelect="{{_options.multiSelect}}"
+                  on:mouseenter="_itemMouseEnter(itemTemplate.item)"
+      />
+   </ws:itemTemplate>
+   <ws:multiSelectTpl>
+      <Controls.Container.Async templateName="Controls/toggle:Checkbox"
+                                on:valueChanged="_proxyEvent('checkBoxClick')"
+                                attr:class="controls-Menu__row-checkbox-{{checkBoxAlign === 'right' ? 'right' : 'left'}}_theme-{{_options.theme}}
+                                                  controls-Menu__row-checkbox_{{multiSelectTpl.itemData.isSelected() ? 'active' : 'default'}}_theme-{{_options.theme}}">
+         <ws:templateOptions value="{{multiSelectTpl.itemData.isSelected()}}" />
+      </Controls.Container.Async>
+   </ws:multiSelectTpl>
+</Controls.listRender:Render>
