@@ -34,7 +34,8 @@ define(
                   selectionStart: 0,
                   selectionEnd: 0,
                   value: '',
-                  focus: function() {},
+                  focus: function() {
+                  },
                   setSelectionRange: function(start, end) {
                      this.selectionStart = start;
                      this.selectionEnd = end;
@@ -338,6 +339,47 @@ define(
                   name: 'notify',
                   arguments: ['inputCompleted', ['test value', 'test value']]
                }]);
+
+               ctrl._beforeUpdate({
+                  value: ''
+               });
+               ctrl._changeHandler();
+
+               assert.deepEqual(calls, [
+                  {
+                     name: 'notify',
+                     arguments: ['inputCompleted', ['test value', 'test value']]
+                  },
+                  {
+                     name: 'notify',
+                     arguments: ['inputCompleted', ['', '']]
+                  }
+               ]);
+            });
+            it('The user does not change the value.', function() {
+               ctrl._getActiveElement = function() {
+                  return ctrl._getField();
+               };
+               ctrl._isBrowserPlatform = true;
+
+               ctrl._beforeMount({
+                  value: ''
+               });
+               ctrl._getField().value = 'text';
+               ctrl._getField().selectionStart = 4;
+               ctrl._getField().selectionEnd = 4;
+               ctrl._inputHandler(new Vdom.SyntheticEvent({}));
+
+               ctrl._getField().value = '';
+               ctrl._getField().selectionStart = 0;
+               ctrl._getField().selectionEnd = 0;
+               ctrl._inputHandler(new Vdom.SyntheticEvent({}));
+
+               ctrl._keyDownHandler(new Vdom.SyntheticEvent({
+                  keyCode: Env.constants.key.enter
+               }));
+
+               assert.equal(calls.length, 2);
             });
          });
          describe('Click event', function() {
@@ -534,7 +576,8 @@ define(
                ctrl._beforeMount({
                   value: ''
                });
-               event.stopPropagation = ProxyCall.apply(function() {}, 'stopPropagation', calls, true);
+               event.stopPropagation = ProxyCall.apply(function() {
+               }, 'stopPropagation', calls, true);
             });
             it('The home key', function() {
                event.keyCode = Env.constants.key.home;
