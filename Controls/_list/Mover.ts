@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');
 import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
@@ -12,12 +12,12 @@ import {Confirmation} from 'Controls/popup';
 import {TKeysSelection} from 'Controls/interface';
 import {selectionToRecord} from 'Controls/operations';
 
-var BEFORE_ITEMS_MOVE_RESULT = {
+const BEFORE_ITEMS_MOVE_RESULT = {
     CUSTOM: 'Custom',
     MOVE_IN_ITEMS: 'MoveInItems'
 };
-var DEFAULT_SORTING_ORDER = 'asc';
-var MOVE_POSITION = {
+const DEFAULT_SORTING_ORDER = 'asc';
+const MOVE_POSITION = {
     on: 'on',
     before: 'before',
     after: 'after'
@@ -296,7 +296,7 @@ var _private = {
  * Контрол должен располагаться в одном контейнере {@link Controls/list:DataContainer} со списком.
  * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
  * @class Controls/_list/Mover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
  * @mixes Controls/_interface/IHierarchy
  * @control
@@ -310,7 +310,7 @@ var _private = {
  * Сontrol must be in one {@link Controls/list:DataContainer} with a list.
  * <a href="/materials/demo-ws4-operations-panel">Demo examples</a>.
  * @class Controls/_list/Mover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable
  * @mixes Controls/_interface/IHierarchy
  * @control
@@ -319,7 +319,7 @@ var _private = {
  * @category List
  */
 
-var Mover = Control.extend({
+var Mover = BaseAction.extend({
     _template: template,
     _moveDialogTemplate: null,
     _moveDialogOptions: null,
@@ -377,30 +377,16 @@ var Mover = Control.extend({
         }
     },
     moveItemsWithDialog(items: []|IMoveItemsParams): void {
-        const self = this;
         const isNewLogic = !items.forEach && !items.selected;
-        if (isNewLogic) {
-            if (items.selectedKeys.length) {
-                _private.openMoveDialog(self, items);
+
+        if (this.validate(items)) {
+            if (isNewLogic) {
+                _private.openMoveDialog(this, items);
             } else {
-                Confirmation.openPopup({
-                    type: 'ok',
-                    message: rk('Нет записей для обработки команды'),
-                    style: 'danger'
+                _private.getItemsBySelection.call(this, items).addCallback((items: []) => {
+                    _private.openMoveDialog(this, _private.prepareMovedItems(this, items));
                 });
             }
-        } else {
-            _private.getItemsBySelection.call(this, items).addCallback((items: []) => {
-                if (items.length) {
-                    _private.openMoveDialog(self, _private.prepareMovedItems(self, items));
-                } else {
-                    Confirmation.openPopup({
-                        type: 'ok',
-                        message: rk('Нет записей для обработки команды'),
-                        style: 'danger'
-                    });
-                }
-            });
         }
     }
 });
