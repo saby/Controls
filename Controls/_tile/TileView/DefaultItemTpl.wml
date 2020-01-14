@@ -5,7 +5,7 @@
 </ws:template>
 
 <ws:template name="defaultContentTpl">
-   <div attr:class="controls-TileView__itemContent
+   <div attr:class="controls-TileView__itemContent {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
                js-controls-SwipeControl__actionsContainer
                {{!!itemData.isActive ? ' controls-TileView__item_active'}}
                {{!!itemData.isSwiped ? ' controls-TileView__item_swiped'}}
@@ -34,15 +34,15 @@
       <ws:else>
          <ws:partial template="{{imageWrapper}}"/>
          <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.drawActions}}">
-            <div class="controls-TileView__title {{!hasTitle ? 'controls-TileView__title_invisible'}}" title="{{itemData.item[itemData.displayProperty]}}">{{itemData.item[itemData.displayProperty]}}</div>
+            <div class="controls-TileView__title controls-TileView__title_{{titleStyle === 'accent' ? 'accent' : 'normal'}} {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}" title="{{itemData.item[itemData.displayProperty]}}">{{itemData.item[itemData.displayProperty]}}</div>
          </ws:if>
       </ws:else>
-      <ws:partial if="{{!itemData.isSwiped && itemData.drawActions}}"
+      <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
                   template="{{itemActionsTemplate}}"
                   highlightOnHover="{{highlightOnHover}}"
                   itemData="{{itemData}}"
                   itemActionsClass="controls-TileView__itemActions controls-TileView__itemActions_bottomRight"/>
-      <ws:partial if="{{itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
+      <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
                   template="{{swipeTemplate}}"
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"/>
@@ -50,7 +50,7 @@
 </ws:template>
 
 <ws:template name="imageWrapperTpl">
-   <div attr:class="controls-TileView__imageWrapper">
+   <div attr:class="controls-TileView__imageWrapper {{titleStyle === 'accent' ? 'controls-TileView__imageWrapper_accent'}}">
       <ws:partial template="{{content}}"/>
    </div>
 </ws:template>
@@ -67,7 +67,7 @@
       <ws:partial template="itemTpl" attr:style="{{'-ms-flex-preferred-size: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; flex-basis: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; height: ' + itemData.itemsHeight + 'px; max-width: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
          <ws:partial template="defaultContentTpl">
             <ws:imageWrapper>
-               <ws:partial template="imageWrapperTpl" attr:class="{{hasTitle ? 'controls-TileView__imageWrapper_reduced'}} {{itemData.isAnimated ? ' controls-TileView__item_animated'}}" attr:style="{{'height: ' + (itemData.isAnimated && itemData.zoomCoefficient ? itemData.zoomCoefficient * itemData.itemsHeight : itemData.itemsHeight) + 'px;'}}">
+               <ws:partial template="imageWrapperTpl" attr:class="{{( titleStyle === undefined && hasTitle ) || titleStyle === 'partial' ? 'controls-TileView__imageWrapper_reduced'}} {{itemData.isAnimated ? ' controls-TileView__item_animated'}}" attr:style="{{'height: ' + (itemData.isAnimated && itemData.zoomCoefficient ? itemData.zoomCoefficient * itemData.itemsHeight : itemData.itemsHeight) + 'px;'}}">
                   <ws:partial template="imageTpl"/>
                </ws:partial>
             </ws:imageWrapper>

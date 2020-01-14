@@ -37,6 +37,7 @@
       hasTitle="{{hasTitle}}"
       itemData="{{itemData}}"
       invisible="{{invisible}}"
+      titleStyle="{{titleStyle}}"
       marker="{{marker}}"
       staticHeight="{{staticHeight}}"
       shadowVisibility="{{shadowVisibility}}"
