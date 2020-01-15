@@ -128,6 +128,9 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
          result = searchMod.Controller._private.isInputSearchValueShort(searchController, 'te');
          assert.isTrue(result);
+
+         result = searchMod.Controller._private.isInputSearchValueShort(searchController, undefined);
+         assert.isTrue(result);
       });
 
       it('private.needStartSearch', function() {
