@@ -1,0 +1,45 @@
+<div class="controlsDemo__wrapper">
+    <!-- Необязательно оборачивать список в скролл контейнер. -->
+    <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
+    <Controls.scroll:Container>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}">
+            <ws:header>
+                <ws:Array>
+                    <ws:Object>
+                        <ws:template>
+                            <ws:partial template="Controls/grid:HeaderContent">
+                                <ws:contentTemplate>
+                                    <div>
+                                        <Controls.heading:Title
+                                                caption="Характеристики стран"
+                                                fontColorStyle="primary"
+                                                size="m"
+                                                readOnly="{{true}}"/>
+
+                                        <Controls.dropdown:Button
+                                                keyProperty="id"
+                                                attr:class="controlsDemo-gridHeader-dropdownButton controlsDemo-gridHeader-dropdownButton_autotest"
+                                                viewMode="button"
+                                                iconStyle="secondary"
+                                                caption="Редактировать"
+                                                style="primary"
+                                                parentProperty="parent"
+                                                nodeProperty="type"
+                                                source="{{_dropdownSource}}"/>
+                                    </div>
+                                </ws:contentTemplate>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                    <ws:Object title="Столица"/>
+                    <ws:Object title="Население"/>
+                </ws:Array>
+            </ws:header>
+        </Controls.grid:View>
+    </Controls.scroll:Container>
+</div>
