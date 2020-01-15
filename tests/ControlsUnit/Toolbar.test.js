@@ -351,7 +351,9 @@ define(
                         itemTemplateProperty: 'itp',
                         groupTemplate: 'groupTemplate',
                         groupingKeyCallback: 'groupingKeyCallback',
-                        groupProperty: undefined
+                        groupProperty: undefined,
+                        footerTemplate: undefined
+
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfig.call(testSelf), config);

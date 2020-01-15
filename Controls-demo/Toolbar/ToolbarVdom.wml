@@ -1,43 +1,44 @@
 <div class="controls-ToolbarVdom" style="padding: 50px;">
-   <div class="ControlsDemo-capture">
-       <div style="padding: 5px;">Пример тулбара из разных кнопок (links, buttons):
-          <Controls.toolbars:View
-             name="myToolbar"
-             attr:id="Toolbar_3"
-             parentProperty="parent"
-             nodeProperty="@parent"
-             keyProperty="id"
-             source="{{_getMemorySource(_defaultItemsWithoutToolbutton)}}"
-             popupClassName="controls-Toolbar_test_popupClassName"
-             on:itemClick="_itemClick()"
-             itemsSpacing="big"
-          />
-       </div>
-       <div style="padding: 5px;">Пример тулбара из разных кнопок (links, buttons, toolButtons):
-          <Controls.toolbars:View
-                  name="myToolbar"
-                  attr:id="Toolbar_1"
-                  parentProperty="parent"
-                  nodeProperty="@parent"
-                  keyProperty="id"
-                  additionalProperty="additional"
-                  source="{{_getMemorySource(_defaultItems)}}"
-                  popupClassName="controls-Toolbar_test_popupClassName"
-                  on:itemClick="_itemClick()"
-                  itemsSpacing="big"
-          />
-       </div>
-       <div style="padding: 5px;">Пример тулбара из toolButtons:
-          <Controls.toolbars:View
-             name="myFlatToolbar"
-             attr:id="Toolbar_2"
-             keyProperty="id"
-             itemTemplateProperty="myTemplate"
-             source="{{_getMemorySource(_flatItems)}}"
-             on:itemClick="_itemClick()"
-          />
-          контент идущий за Toolbar'ом
-       </div>
-   </div>
-   <div style="padding: 5px;" name="toolbarAnswer">{{_currentClick}}</div>
+    <div class="ControlsDemo-capture">
+        <div style="padding: 5px;">Пример тулбара из разных кнопок (links, buttons):
+            <Controls.toolbars:View
+                    name="myToolbar"
+                    attr:id="Toolbar_3"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    keyProperty="id"
+                    source="{{_getMemorySource(_defaultItemsWithoutToolbutton)}}"
+                    popupClassName="controls-Toolbar_test_popupClassName"
+                    on:itemClick="_itemClick()"
+                    itemsSpacing="big"
+             />
+        </div>
+        <div style="padding: 5px;">Пример тулбара из разных кнопок (links, buttons, toolButtons):
+            <Controls.toolbars:View
+                    name="myToolbar"
+                    attr:id="Toolbar_1"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    keyProperty="id"
+                    additionalProperty="additional"
+                    source="{{_getMemorySource(_defaultItems)}}"
+                    popupClassName="controls-Toolbar_test_popupClassName"
+                    on:itemClick="_itemClick()"
+                    itemsSpacing="big"
+
+            />
+        </div>
+        <div style="padding: 5px;">Пример тулбара из toolButtons:
+            <Controls.toolbars:View
+                    name="myFlatToolbar"
+                    attr:id="Toolbar_2"
+                    keyProperty="id"
+                    itemTemplateProperty="myTemplate"
+                    source="{{_getMemorySource(_flatItems)}}"
+                    on:itemClick="_itemClick()"
+            />
+            контент идущий за Toolbar'ом
+        </div>
+    </div>
+    <div style="padding: 5px;" name="toolbarAnswer">{{_currentClick}}</div>
 </div>
