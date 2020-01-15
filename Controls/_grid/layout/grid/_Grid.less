@@ -32,9 +32,12 @@
 .controls-Grid__header-cell {
    height: 100%;
    box-sizing: border-box;
-   min-width: 0;
-
 }
+
+.controls-Grid__header-cell_min-width {
+   min-width: 0;
+}
+
 .controls-Grid__header-cell_theme-@{themeName} {
    font-size: @font-size_Grid-header;
    z-index: 1;
@@ -441,10 +444,17 @@
 }
 
 // Checkbox styles
-.controls-Grid__header-cell-checkbox_theme-@{themeName},
 .controls-Grid__row-cell-checkbox_theme-@{themeName} {
    min-width: @click-area_width_checkbox;
    max-width: @click-area_width_checkbox;
+}
+
+.controls-Grid__header-cell-checkbox_theme-@{themeName} {
+   max-width: @click-area_width_checkbox;
+}
+
+.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName} {
+   min-width: @click-area_width_checkbox;
 }
 
 .controls-GridView__footer__paddingLeft_withCheckboxes_theme-@{themeName} {
