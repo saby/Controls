@@ -1383,7 +1383,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             let headerRow = gridViewModel.getCurrentHeaderRow();
             assert.deepEqual({
                column: {title : '123'},
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__header-cell_min-width',
                index: 0,
                cellContentClasses: '',
                cellStyles: '',
@@ -1393,10 +1393,9 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             headerRow = gridViewModel.getCurrentHeaderRow();
             delete gridViewModel._headerRows[0][0].title;
-
             assert.deepEqual({
                column: {},
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default controls-Grid__header-cell-checkbox_min-width_theme-default',
                index: 0,
                colSpan: 1,
                rowSpan: 1,
@@ -1414,7 +1413,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.deepEqual({
                column: gridHeader[0],
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__header-cell_min-width',
                index: 1,
                shadowVisibility: "visible",
                offsetTop: 0,
@@ -1435,7 +1434,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.deepEqual({
                column: gridHeader[1],
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__header-cell_min-width',
                index: 2,
                sortingDirection: 'DESC',
                cellContentClasses: " controls-Grid__header-cell_justify_content_right",
@@ -1457,7 +1456,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.deepEqual({
                column: gridHeader[2],
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__cell_default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__cell_default controls-Grid__header-cell_min-width',
                index: 3,
                cellContentClasses: " controls-Grid__header-cell_justify_content_right",
                cellStyles: 'grid-column-start: 4; grid-column-end: 5; grid-row-start: 1; grid-row-end: 2;',
@@ -1485,7 +1484,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             const headerRow = gridViewModel.getCurrentHeaderRow();
             assert.deepEqual({
                column: {},
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default controls-Grid__header-cell-checkbox_min-width_theme-default',
                index: 0,
                rowSpan: 1,
                colSpan: 1,
@@ -1501,7 +1500,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.deepEqual({
                column: gridHeaderWithColumns[0],
-               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default',
+               cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__header-cell_min-width',
                index: 1,
                shadowVisibility: "visible",
                offsetTop: 0,
