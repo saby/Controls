@@ -7,10 +7,11 @@
                      on:click="_onMonthClick(month.name)"
                      title="{{month.tooltip}}">
                     <ws:partial template="{{monthCaptionTemplate}}" month="{{month.name}}" formatDate="{{_formatDate}}"/>
-                    <ws:if data="{{  _options.checkedStart || _options.checkedEnd || _options.iconsHandler }}">
-                        <div class="controls-PeriodLiteDialog-item__checkBox">
-                            <div class="icon-16 icon-Yes icon-done"></div>
-                        </div>
+                    <ws:if data="{{_options.iconsChecked}}">
+                        <ws:partial
+                            template="{{checkedTemplate}}"
+                            isChecked="{{month.isChecked}}"
+                        />
                     </ws:if>
                 </div>
             </ws:for>

@@ -27,6 +27,7 @@
          <ws:partial
                  class="controls-PeriodLiteDialog__body {{_getListCssClasses()}}"
                  _dateToDataString="{{_dateToDataString}}"
+                 iconsChecked="{{iconsChecked}}"
                  template="{{_defaultListTemplate}}"
                  _options="{{_options}}"
                  stubTemplate="{{_options.stubTemplate}}"
