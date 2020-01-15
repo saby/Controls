@@ -1,4 +1,5 @@
 import {IConfirmationFooterOptions} from 'Controls/_popup/interface/IConfirmationFooter';
+import {IControlOptions} from 'UI/Base';
 
 /**
  * Интерфейс для опций окон подтверждения.
@@ -7,7 +8,7 @@ import {IConfirmationFooterOptions} from 'Controls/_popup/interface/IConfirmatio
  * @public
  * @author Красильников А.С.
  */
-export interface IConfirmationOptions extends IConfirmationFooterOptions {
+export interface IConfirmationOptions extends IConfirmationFooterOptions, IControlOptions {
     style?: string;
     size?: string;
     message?: string;
