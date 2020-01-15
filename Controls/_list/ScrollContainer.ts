@@ -36,7 +36,7 @@ interface IScrollParams {
     viewPortRect?: number;
 }
 
-const DEFAULT_TRIGGER_OFFSET = 100;
+const DEFAULT_TRIGGER_OFFSET = 0;
 const TRIGGER_VISIBILITY_DELAY = 101;
 const SIZE_RELATION_TO_VIEWPORT = 0.3;
 
