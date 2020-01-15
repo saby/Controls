@@ -6,6 +6,7 @@ import itemMonthsTmpl = require('wml!Controls/_dateLitePopup/ItemMonths');
 import MonthCaption = require('wml!Controls/_dateLitePopup/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_dateLitePopup/ItemFull');
 import itemQuartersTmpl = require('wml!Controls/_dateLitePopup/ItemQuarters');
+import {Date as WSDate} from "Types/entity";
 
 const Component = BaseControl.extend({
     _template: itemMonthsTmpl,
@@ -24,7 +25,7 @@ const Component = BaseControl.extend({
         this._position = options._position;
         this._template = this._getItemTmplByType(options);
         this._currentYear =  options.currentYear;
-        this._yearModel = this._getYearModel(this._currentYear);
+        this._yearModel = this._getYearModel(this._currentYear, options.dateConstructor);
     },
 
     _getItemTmplByType: function (options) {
@@ -37,7 +38,7 @@ const Component = BaseControl.extend({
         }
     },
 
-    _getYearModel: function (year) {
+    _getYearModel: function (year, dateConstructor) {
         const numerals = ['I', 'II', 'III', 'IV'];
         const halfYearsList = [];
 
@@ -50,7 +51,7 @@ const Component = BaseControl.extend({
                 for (let j = 0; j < 3; j++) {
                     const month = quarterMonth + j;
                     monthsList.push({
-                            name: new Date(year, month, 1),
+                            name: new dateConstructor(year, month, 1),
                             tooltip: formatDate(new Date(year, month, 1), formatDate.FULL_MONTH)
                         });
                 }
@@ -108,20 +109,20 @@ const Component = BaseControl.extend({
         if (this._options.chooseYears) {
             this._notify(
                 'sendResult',
-                [new Date(year, 0, 1), new Date(year, 11, 31)],
+                [new this._options.dateConstructor(year, 0, 1), new WSDate(year, 11, 31)],
                 {bubbling: true});
         }
     },
 
     _onHalfYearClick: function (event, halfYear, year) {
-        let start = new Date(year, halfYear * 6, 1),
-            end = new Date(year, (halfYear + 1) * 6, 0);
+        let start = new this._options.dateConstructor(year, halfYear * 6, 1),
+            end = new this._options.dateConstructor(year, (halfYear + 1) * 6, 0);
         this._notify('sendResult', [start, end], {bubbling: true});
     },
 
     _onQuarterClick: function (event, quarter, year) {
-        let start = new Date(year, quarter * 3, 1),
-            end = new Date(year, (quarter + 1) * 3, 0);
+        let start = new this._options.dateConstructor(year, quarter * 3, 1),
+            end = new this._options.dateConstructor(year, (quarter + 1) * 3, 0);
         this._notify('sendResult', [start, end], {bubbling: true});
     },
 
@@ -129,5 +130,11 @@ const Component = BaseControl.extend({
         this._notify('sendResult', [month, dateUtils.getEndOfMonth(month)], {bubbling: true});
     }
 });
+
+Component.getDefaultOptions = function () {
+    return {
+        dateConstructor: WSDate
+    };
+};
 
 export = Component;

@@ -9,7 +9,9 @@ define([
    'wml!Controls/_dateLitePopup/ItemFull',
    'wml!Controls/_dateLitePopup/ItemMonths',
    'wml!Controls/_dateLitePopup/ItemQuarters',
-   'Controls/_dateLitePopup/bodyItem'
+   'Controls/_dateLitePopup/bodyItem',
+   "Types/entity",
+   'Core/core-instance'
 ], function(
    coreMerge,
    PeriodLiteDialog,
@@ -20,7 +22,9 @@ define([
    itemTmpl,
    itemTmplMonths,
    itemTmplQuarters,
-   bodyItem
+   bodyItem,
+   entity,
+   cInstance
 ) {
    'use strict';
 
@@ -122,7 +126,7 @@ define([
 
             // Compare all but months.
             assert.deepEqual(
-               coreMerge({}, component._getYearModel(year), { ignoreRegExp: /^months$/, clone: true }),
+               coreMerge({}, component._getYearModel(year, entity.Date), { ignoreRegExp: /^months$/, clone: true }),
                coreMerge({}, data, { ignoreRegExp: /^months$/, clone: true })
             );
 
@@ -132,12 +136,19 @@ define([
                   for (let [monthIndex, month] of quarter.months.entries()) {
                      assert(
                         DateUtils.isDatesEqual(
-                            component._getYearModel(year)[halfyearIndex].quarters[quarterIndex].months[monthIndex].name, month.name
+                            component._getYearModel(year, entity.Date)[halfyearIndex].quarters[quarterIndex].months[monthIndex].name, month.name
                         )
                      );
                   }
                }
             }
+         });
+
+         it('should create correct dates type in month model', function() {
+            const component = calendarTestUtils.createComponent(bodyItem, {}),
+               year = (new Date()).getFullYear(),
+               yearModel = component._getYearModel(year, entity.Date);
+            assert.isTrue(cInstance.instanceOfModule(yearModel[0].quarters[0].months[0].name, 'Types/entity:Date'));
          });
       });
 
