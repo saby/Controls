@@ -24,7 +24,7 @@ import LadderWrapper = require('wml!Controls/_grid/LadderWrapper');
 import ColumnTemplate = require('wml!Controls/_grid/Column');
 
 import HeaderContent = require('wml!Controls/_grid/HeaderContent');
-import SortingButton = require('Controls/_grid/SortingButton');
+import SortingButton from 'Controls/_grid/SortingButton';
 import GridView = require('Controls/_grid/GridView');
 import GridViewModel = require('Controls/_grid/GridViewModel');
 
