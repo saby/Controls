@@ -22,6 +22,7 @@
    display: inline-block;
    white-space: nowrap;
    flex-shrink: 1;
+   font-size: 0;
 }
 .controls-BreadCrumbsView__crumb {
    display: inline-block;
@@ -36,16 +37,22 @@
 .controls-BreadCrumbsView__menu {
    float: right;
    position: relative;
-   top: @spacing_BreadCrumbs-menu;
+   bottom: @height_BreadCrumbs-items;
    z-index: 5;
 }
 .controls-BreadCrumbsView__menu__dots {
    position: absolute;
    top: 0;
+   .baseline-fix();
    left: @spacing_BreadCrumbs-menu;
-   background: @background-color;
+   background: @background-color_BreadCrumbs-menu;
    box-shadow: @box-shadow_BreadCrumbs-menu;
    cursor: pointer;
+   padding-right: 1px;
+   height: @height_BreadCrumbs-items;
+   &:before {
+      font-size: @font-size_BreadCrumbs-baseline;
+   }
 }
 .controls-BreadCrumbsView__max-width {
    max-width: 100%;
