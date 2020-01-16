@@ -18,7 +18,7 @@ import 'css!theme?Controls/suggest';
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
- * @mixes CControls/_input/interface/IBase
+ * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_suggest/Input/Styles
  * @control
