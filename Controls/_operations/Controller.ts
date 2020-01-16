@@ -3,6 +3,7 @@ import template = require('wml!Controls/_operations/Controller/Controller');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 
 import { SyntheticEvent } from 'Vdom/Vdom';
+import { TKeySelection as TKey } from 'Controls/interface/';
 
 /**
  * Контроллер для работы с множественным выбором.
@@ -33,6 +34,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 export default class MultiSelector extends Control {
    protected _template: TemplateFunction = template;
    protected _selectedKeysCount: number|null;
+   protected _listMarkedKey: TKey = null;
    private _notifyHandler: Function = tmplNotify;
 
    protected _beforeMount() {
@@ -62,7 +64,11 @@ export default class MultiSelector extends Control {
       }
 
       if (this._options.itemOpenHandler instanceof Function) {
-         return this._options.itemOpenHandler.apply(this, arguments);
+         return this._options.itemOpenHandler(newCurrentRoot);
       }
+   }
+
+   protected _listMarkedKeyChangedHandler(event: SyntheticEvent<null>, markedKey: TKey): void {
+      this._listMarkedKey = markedKey;
    }
 }
