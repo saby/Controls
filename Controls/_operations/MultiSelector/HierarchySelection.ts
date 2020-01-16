@@ -30,7 +30,7 @@ const FIELD_ENTRY_PATH = 'ENTRY_PATH';
  * @class Controls/_operations/MultiSelector/HierarchySelection
  * @extends Controls/_operations/MultiSelector/Selection
  * @author Авраменко А.С.
- * @deprecated Модуль устарел и будет удалён в версию 20.ххх. Используйте Controls/operations:TreeSelectionStrategy или Controls/operations:DeepTreeSelectionStrategy
+ * @deprecated Модуль устарел и будет удалён в версию 20.ххх. Будет использоваться сразу Controls/operations:TreeSelectionStrategy
  * @private
  */
 
@@ -114,11 +114,8 @@ export default class HierarchySelection extends Selection {
       }
    }
 
-   getCount(source: Rpc|PrefetchProxy, filter: Object): Promise<number|null> {
-      return this._selectionStrategy.getCount(this.getSelection(), this._listModel, {
-         filter: filter,
-         source: source
-      }, this._hierarchyRelation);
+   getCount(): number|null {
+      return this._selectionStrategy.getCount(this.getSelection(), this._listModel, 0, this._hierarchyRelation);
    }
 
    protected _getSelectionForModel(): void {

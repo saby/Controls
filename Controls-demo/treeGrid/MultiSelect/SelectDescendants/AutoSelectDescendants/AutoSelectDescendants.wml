@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <Controls.treeGrid:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            multiSelectVisibility="visible"
+            selectDescendants="{{true}}"
+            bind:selectedKeys="_selectedKeys"/>
+</div>

@@ -71,11 +71,6 @@ interface IItemPadding {
     right?: THorizontalItemPadding;
 }
 
-interface ISelectionStrategy {
-    name: string;
-    options?;
-}
-
 export interface IList {
     contextMenuVisibility?: boolean;
     contextMenuConfig?: IContextMenuConfig;
@@ -96,7 +91,7 @@ export interface IList {
     dataLoadErrback?: () => void;
     style?: TListStyle;
     itemPadding?: IItemPadding;
-    selectionStrategy?: ISelectionStrategy;
+    nodeConfig?: INodeConfig;
 }
 
 /*
@@ -933,18 +928,4 @@ export interface IList {
 /*
  * @cfg {ItemPadding} Configuration inner paddings in the item.
  * @name Controls/_list/interface/IList#itemPadding
- */
-
-/**
- * @typedef {Object} SelectionStrategy
- * @property {String} name Класс со стратегией выбора.
- * @property {Object} options Опции для стратегии выбора.
- */
-
-/**
- * @name Controls/_list/interface/IList#selectionStrategy
- * @cfg {SelectionStrategy} Стратегия выбора задает логику поведения при отметке записей в режиме множественого выбора.
- * @remark Опция актуальна только при multiSelectVisibility: true.
- * @default Controls/operations:FlatSelectionStrategy
- * @see Controls/operations:TreeSelectionStrategy
  */

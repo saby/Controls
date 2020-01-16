@@ -4,9 +4,7 @@ import collection = require('Types/collection');
 import Deferred = require('Core/Deferred');
 import template = require('wml!Controls/_list/BaseControl/SelectionController');
 import {isEqual} from 'Types/object';
-import { load } from 'Core/library';
 import merge = require('Core/core-merge');
-import { ISelectionStrategy } from 'Controls/operations';
 
 /**
  * @class Controls/_list/BaseControl/SelectionController
@@ -56,11 +54,8 @@ var _private = {
          4) Прокидывать событие в Container/Scroll.
          Сработает, но Container/Scroll ничего не должен знать про выделение. И не поможет в ситуациях, когда вместо Container/Scroll любая другая обёртка.
          */
-       self._multiselection.getCount(options.source, options.filter).then((selectedItemsCount: number|null) => {
-          self._notify('listSelectedKeysCountChanged', [selectedItemsCount], {bubbling: true});
-       });
+       self._notify('listSelectedKeysCountChanged', [self._multiselection.getCount()], {bubbling: true});
        self._multiselection.updateSelectionForRender();
-
     },
 
     getItemsKeys: function (items) {
@@ -100,12 +95,10 @@ var _private = {
     },
 
     getMultiselection: function(options): Promise {
-        return Promise.all([load('Controls/operations'), load(options.selectionStrategy.name)]).then((dependencies) => {
-            let operations = dependencies[0];
-            let SelectionStrategy: ISelectionStrategy = dependencies[1];
-
-            if (options.parentProperty) {
-                return new operations.HierarchySelection({
+        return new Promise((resolve) => {
+           require(['Controls/operations'], (operations) => {
+              if (options.parentProperty) {
+                 resolve(new operations.HierarchySelection({
                     selectedKeys: options.selectedKeys,
                     excludedKeys: options.excludedKeys,
                     keyProperty: options.keyProperty,
@@ -113,17 +106,22 @@ var _private = {
                     nodeProperty: options.nodeProperty,
                     hasChildrenProperty: options.hasChildrenProperty,
                     listModel: options.listModel,
-                    selectionStrategy: new SelectionStrategy(options.selectionStrategy.options || {})
-                });
-            } else {
-               return new operations.Selection({
+                    selectionStrategy: new operations.TreeSelectionStrategy({
+                       nodesSourceControllers: options.nodesSourceControllers,
+                       selectDescendants: options.selectDescendants,
+                       selectAncestors: options.selectAncestors
+                    })
+                 }));
+              } else {
+                 resolve(new operations.Selection({
                     selectedKeys: options.selectedKeys,
                     excludedKeys: options.excludedKeys,
                     keyProperty: options.keyProperty,
                     listModel: options.listModel,
-                    selectionStrategy: new SelectionStrategy(options.selectionStrategy.options || {})
-                });
-            }
+                    selectionStrategy: new operations.FlatSelectionStrategy()
+                 }));
+              }
+           });
         });
     }
 };
@@ -149,9 +147,7 @@ var SelectionController = Control.extend(/** @lends Controls/_list/BaseControl/S
 
     _afterMount: function () {
         this._notify('register', ['selectedTypeChanged', this, _private.selectedTypeChangedHandler], {bubbling: true});
-        this._multiselection.getCount().then((selectedItemsCount: number|null) => {
-           this._notify('listSelectedKeysCountChanged', [selectedItemsCount], {bubbling: true});
-        });
+        this._notify('listSelectedKeysCountChanged', [this._multiselection.getCount()], {bubbling: true});
 
         this._onCollectionChangeHandler = _private.onCollectionChange.bind(this);
         this._options.items.subscribe('onCollectionChange', this._onCollectionChangeHandler);

@@ -226,6 +226,28 @@
  */
 
 /**
+ * @name Controls/_treeGrid/interface/ITreeControl#selectAncestors
+ * @cfg {Boolean} Определяет, будут ли отмечаться родительские узлы записи при отметке чекбоксом.
+ * @default true
+ * @demo Controls-demo/treeGrid/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index
+ * @example
+ * <Controls.treeGrid.View selectAncestors="{{false}}/>
+ * @remark
+ * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ */
+
+/**
+ * @name Controls/_treeGrid/interface/ITreeControl#selectDescendants
+ * @cfg {Boolean} Определяет, будут ли отмечаться дети при отметке узла чекбоксом.
+ * @default true
+ * @demo Controls-demo/treeGrid/MultiSelect/SelectDescendants/DoNotSelectDescendants/Index
+ * @example
+ * <Controls.treeGrid.View selectDescendants="{{false}}/>
+ * @remark
+ * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ */
+
+/**
  * @event Controls/_treeGrid/interface/ITreeControl#itemExpanded Происходит после развертывания узла.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Развёрнутый узел.

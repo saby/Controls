@@ -158,12 +158,8 @@ export default class Selection {
     * Returns the number of selected items.
     * @returns {number}
     */
-   getCount(source: Rpc|PrefetchProxy, filter: Object): Promise<number|null> {
-      return this._selectionStrategy.getCount(this.getSelection(), this._listModel, {
-         limit: this._limit,
-         filter: filter,
-         source: source
-      });
+   getCount(): number|null {
+      return this._selectionStrategy.getCount(this.getSelection(), this._listModel, this._limit);
    }
 
    /**

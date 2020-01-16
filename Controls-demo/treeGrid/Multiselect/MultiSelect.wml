@@ -9,6 +9,24 @@
         <Controls-demo.treeGrid.Multiselect.MultiselectVisibility.Index/>
     </div>
 
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectAncestors/Index' }}">
+            <a href="{{content.href}}">Отметка родительских записей при отметке детей</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.MultiSelect.SelectAncestors.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectDescendants/Index' }}">
+            <a href="{{content.href}}">Отметка детей при отметке папки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.MultiSelect.SelectDescendants.Index/>
+    </div>
+
     <!--<div class="controlsDemo__cell">-->
         <!--<Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"-->
                                  <!--state="/Controls-demo/app/:app"-->

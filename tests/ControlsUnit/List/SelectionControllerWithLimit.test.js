@@ -89,9 +89,7 @@ define([
          await instance._beforeMount(cfg);
          const stubExpandLimit = sandbox.stub(instance._multiselection, '_increaseLimit');
          SelectionController._private.selectedTypeChangedHandler.call(instance, 'selectAll', 100);
-         return instance._multiselection.getCount().then((itemsCount) => {
-            assert.isTrue(itemsCount === 7);
-         });
+         assert.equal(instance._multiselection.getCount(), 7);
       });
 
       it('getCount with isAllItemsLoaded == false', async function() {
@@ -101,9 +99,7 @@ define([
             return false;
          };
          SelectionController._private.selectedTypeChangedHandler.call(instance, 'selectAll', 100);
-         return instance._multiselection.getCount().then((itemsCount) => {
-            assert.isTrue(itemsCount === 100);
-         });
+         assert.equal(instance._multiselection.getCount(), 100);
       });
    });
 });

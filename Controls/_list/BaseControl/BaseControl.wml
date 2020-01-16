@@ -253,7 +253,9 @@
                 listModel="{{ _listViewModel }}"
                 filter="{{ _options.filter }}"
                 source="{{ _options.source }}"
-                selectionStrategy="{{_options.selectionStrategy}}"
+                nodesSourceControllers="{{_options.nodesSourceControllers}}"
+                selectDescendants="{{_options.selectDescendants}}"
+                selectAncestors="{{_options.selectAncestors}}"
                 on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
             />
