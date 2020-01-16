@@ -26,6 +26,8 @@ import * as ColumnTpl from 'wml!Controls/_grid/Column';
 import * as GroupTemplate from 'wml!Controls/_grid/GroupTemplate';
 
 import {Logger} from 'UI/Utils';
+import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
+
 var
     _private = {
         checkDeprecated: function(cfg, self) {
@@ -38,10 +40,18 @@ var
             }
         },
 
-        getGridTemplateColumns(columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
-            const columnsWidths = (hasMultiSelect ? ['max-content'] : []).concat(columns.map(((column) =>
-                column.width || GridLayoutUtil.getDefaultColumnWidth()
-            )));
+        getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
+            // TODO: Удалить после полного перехода на table-layout. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
+            let columnsWidths: string[] = hasMultiSelect ? ['max-content'] : [];
+            columnsWidths = columnsWidths.concat(columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth())));
+            if (shouldAddActionsCell({
+                hasColumnScroll: self._options.columnScroll,
+                shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport(),
+                disableCellStyles: self._options.disableColumnScrollCellStyles
+            })) {
+                columnsWidths = columnsWidths.concat(['0px']);
+            }
+
             return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
         },
 
@@ -116,6 +126,7 @@ var
             this._listModel.setColumnTemplate(ColumnTpl);
             this._setResultsTemplate(cfg);
             this._listModel.headerInEmptyListVisible = cfg.headerInEmptyListVisible;
+
             return resultSuper;
         },
 
@@ -263,7 +274,7 @@ var
             let styles = '';
             if (GridLayoutUtil.isFullGridSupport()) {
                 const hasMultiSelect = this._options.multiSelectVisibility !== 'hidden';
-                styles += _private.getGridTemplateColumns(this._options.columns, hasMultiSelect);
+                styles += _private.getGridTemplateColumns(this, this._options.columns, hasMultiSelect);
             }
             return styles;
         },
@@ -294,6 +305,10 @@ var
 
             // we do not need to fire itemClick on clicking on editArrow
             e.stopPropagation();
+        },
+
+        _getGridTemplateColumns(columns, hasMultiSelect) {
+            return _private.getGridTemplateColumns(this, columns, hasMultiSelect);
         }
     });
 

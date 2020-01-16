@@ -7,7 +7,8 @@
             {{itemData.isEditing ? 'controls-itemActionsV_editing'}}
             {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
             {{itemData.isActive && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
-            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}">
+            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}
+            {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
         <div attr:class="controls-itemActionsV__wrapper">
             <ws:partial
                     template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
