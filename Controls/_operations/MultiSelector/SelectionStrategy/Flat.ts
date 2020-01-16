@@ -1,4 +1,4 @@
-import { default as BaseSelectionStrategy, IQueryParams } from 'Controls/_operations/MultiSelector/SelectionStrategy/Base';
+import ISelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStrategy/ISelectionStrategy';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { getItems } from 'Controls/_operations/MultiSelector/ModelCompability';
 import clone = require('Core/core-clone');
@@ -13,12 +13,11 @@ const ALL_SELECTION_VALUE = null;
 /**
  * Базовая стратегия выбора в плоском списке.
  * @class Controls/_operations/MultiSelector/SelectionStrategy/Flat
- * @extends Controls/_operations/MultiSelector/SelectionStrategy/Base
  * @control
- * @public
+ * @private
  * @author Капустин И.А.
  */
-export default class FlatSelectionStrategy extends BaseSelectionStrategy {
+export default class FlatSelectionStrategy implements ISelectionStrategy {
    select(selection: ISelection, keys: TKeys): ISelection {
       selection = clone(selection);
 
@@ -73,11 +72,10 @@ export default class FlatSelectionStrategy extends BaseSelectionStrategy {
       return selection.selected.includes(ALL_SELECTION_VALUE);
    }
 
-   protected _getCount(selection: ISelection, model: Collection|ListViewModel, queryParams: IQueryParams): number|null {
+   getCount(selection: ISelection, model: Collection|ListViewModel, limit: number): number|null {
       let countItemsSelected: number|null = null;
       let items: RecordSet|List = getItems(model);
       let itemsCount: number = items.getCount();
-      let limit: number = queryParams.limit;
 
       if (this.isAllSelected(selection)) {
          if (this._isAllItemsLoaded(items, limit) && (!limit || itemsCount <= limit)) {

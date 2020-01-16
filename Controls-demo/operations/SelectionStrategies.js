@@ -1,7 +1,7 @@
 define('Controls-demo/operations/SelectionStrategies', [
    'Core/Control',
    'wml!Controls-demo/operations/SelectionStrategies',
-   'Engine-demo/Selector/TreeListSelector/SelectorMemory',
+   'Controls-demo/operations/SelectionViewMode/Memory',
 
    // Зависит от другой демки, надо переписать
    'Controls-demo/OperationsPanel/Demo/Data',
@@ -19,7 +19,7 @@ define('Controls-demo/operations/SelectionStrategies', [
          this._gridColumns = [{
             template: 'wml!Controls-demo/OperationsPanel/Demo/PersonInfo'
          }];
-         this._viewSource = new MemorySource({
+         this._viewSource = new MemorySource.default({
             keyProperty: 'id',
             data: Data.employees
          });

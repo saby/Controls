@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectAncestors/AutoSelectAncestors/Index' }}">
+            <a href="{{content.href}}">При отметке записи отмечаются все родители до корня</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.MultiSelect.SelectAncestors.AutoSelectAncestors.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index' }}">
+            <a href="{{content.href}}">При отметке записи не отмечаются родители</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.MultiSelect.SelectAncestors.DoNotSelectAncestors.Index/>
+    </div>
+</div>
