@@ -38,9 +38,9 @@ class Confirmation extends Control<IControlOptions> implements IConfirmationOpen
     }
 
     open(templateOptions: IConfirmationOptions = {}): Promise<boolean | undefined> {
-        // TODO В engine задают templateOptions, нужно выписать им задачу
-        const options: IConfirmationOptions = {...templateOptions, ...this._options.templateOptions};
+        const options: IConfirmationOptions = {...templateOptions};
         options.opener = this;
+        options.theme = this._options.theme;
         return Confirmation.openPopup(options);
     }
 
