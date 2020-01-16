@@ -2,6 +2,7 @@ import ISelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStra
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { getItems } from 'Controls/_operations/MultiSelector/ModelCompability';
 import clone = require('Core/core-clone');
+import { Map } from 'Types/shim';
 
 import { Collection } from 'Controls/display';
 import { ListViewModel } from 'Controls/list';
