@@ -295,15 +295,7 @@ var
             } else if (listModel._options.groupingKeyCallback || groupProperty) {
                 const groupId = groupProperty ? editingItem.get(groupProperty) : listModel._options.groupingKeyCallback(editingItem);
                 const isAddInTop = self._options.editingConfig && self._options.editingConfig.addPosition === 'top';
-                let renderNearItem;
-
-                const groupItems = listModel.getDisplay().getGroupItems(groupId);
-                if (typeof groupId === 'undefined' || groupItems.length === 0) {
-                    renderNearItem = isAddInTop ? listModel.getDisplay().getFirst() : listModel.getDisplay().getLast();
-                } else {
-                    renderNearItem = groupItems[isAddInTop ? 0 : groupItems.length - 1];
-                }
-                index = listModel.getDisplay().getIndex(renderNearItem);
+                index = _private.getItemIndexWithGrouping(listModel.getDisplay(), groupId, isAddInTop);
             }
 
             return index;
@@ -337,6 +329,26 @@ var
             self._notify('registerPending', [self._pendingDeferred, {
                 onPendingFail: self._onPendingFail
             }], {bubbling: true});
+        },
+        getItemIndexWithGrouping(display, groupId, isAddInTop): number {
+            /*
+            * Если добавление идет в существующуюю группу, то добавляем ей в начало или в конец.
+            * Если добавление идет в несуществующую группу, то добавляем в начало или в конец списка.
+            *   При добавлении в начало - добавляем ее действительно первой, до всех групп. Сделать это просто
+            *   выставлением индекса нельзя, в силу организации шаблонов: добавляемая запись рисуется под другой записью.
+            * */
+            let index = 0;
+            if (display.getCount()) {
+                const groupItems = display.getGroupItems(groupId);
+                if (typeof groupId === 'undefined' || groupItems.length === 0) {
+                    if (!isAddInTop) {
+                        index = display.getIndex(display.getLast());
+                    }
+                } else {
+                    index = display.getIndex(groupItems[isAddInTop ? 0 : groupItems.length - 1]);
+                }
+            }
+            return index;
         }
     };
 

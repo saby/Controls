@@ -12,6 +12,17 @@
       itemTemplate="{{itemTemplate}}"
       itemActionsPosition="{{itemActionsPosition}}" />
 </ws:template>
+<ws:template name="addItem">
+   <ws:partial
+           on:click="_onItemClick(editingItemData.dispItem)"
+           itemTemplate="{{itemTemplate}}"
+           template="wml!Controls/_list/ItemTemplateWrapper"
+           itemActionsTemplate="{{itemActionsTemplate}}"
+           swipeTemplate="{{swipeTemplate}}"
+           multiSelectTpl="{{multiSelectTpl}}"
+           itemData="{{editingItemData}}"
+           actionsType="{{itemActionsPosition}}"/>
+</ws:template>
 <ws:template name="groupOutputLocalTemplate">
    <ws:partial
       template="{{groupTemplate}}"
@@ -32,6 +43,9 @@
                   listModel="{{listModel}}"/>
    </ws:if>
    <ws:if data="{{currentItem.isGroup}}">
+      <ws:if data="{{ editingItemData && isAdd && currentItem.index === 0 && editingItemData.index === 0}}">
+         <ws:partial template="addItem" currentItem="{{currentItem}}"/>
+      </ws:if>
       <ws:partial template="groupOutputLocalTemplate" currentGroup="{{currentItem}}"
                   attr:key="{{currentItem.key}}"/>
    </ws:if>
@@ -48,13 +62,5 @@
    <ws:partial template="itemTemplate" currentItem="{{listModel.getCurrent()}}"/>
 </ws:for>
 <ws:if data="{{listModel.getCount() === 0 && editingItemData && isAdd}}">
-   <ws:partial
-      on:click="_onItemClick(editingItemData.dispItem)"
-      itemTemplate="{{itemTemplate}}"
-      template="wml!Controls/_list/ItemTemplateWrapper"
-      itemActionsTemplate="{{itemActionsTemplate}}"
-      swipeTemplate="{{swipeTemplate}}"
-      multiSelectTpl="{{multiSelectTpl}}"
-      itemData="{{editingItemData}}"
-      actionsType="{{itemActionsPosition}}"/>
+   <ws:partial template="addItem" currentItem="{{currentItem}}"/>
 </ws:if>

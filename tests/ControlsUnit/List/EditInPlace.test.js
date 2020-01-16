@@ -552,7 +552,7 @@ define([
             });
 
             await eip.beginAdd({ item: newItem });
-            assert.equal(eip._editingItemData.index, 1); // First item in display is group
+            assert.equal(eip._editingItemData.index, 0); // First item of list
             await eip.cancelEdit();
 
             newItem.set('type', 'goods');
