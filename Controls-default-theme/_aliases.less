@@ -595,7 +595,7 @@
 @primary_background-color_button_functionalButton:                          @primary_color;
 
 //цвет фона функциональной кнопки в состоянии "только для чтения"
-@reaondly_background-color_button_functionalButton:                         #eeeeee;
+@reaondly_background-color_button_functionalButton:                         transparent;
 
 //цвет фона основной функциональной кнопки при наведении мыши
 @secondary_hover_background-color_button_functionalButton:                  #1f8ee3;
@@ -603,11 +603,17 @@
 //цвет фона функциональной кнопки в состоянии "только для чтения" при наведении мыши
 @success_hover_background-color_button_functionalButton:                    #38ad4e;
 
-//цвет фона основной функциональной кнопки при нажатии мыши.
+//цвет фона неосновной функциональной кнопки обозначающей опасность при наведении мыши
+@danger_hover_background-color_button_functionalButton:                     #D36B6B;
+
+//цвет фона основной функциональной кнопки при нажатии.
 @secondary_active_background-color_button_functionalButton:                 @secondary_hover_background-color_button_functionalButton;
 
-//цвет фона функциональной кнопки в состоянии "только для чтения" при нажатии мыши.
+//цвет фона функциональной кнопки в состоянии "только для чтения" при нажатии.
 @success_active_background-color_button_functionalButton:                   @success_hover_background-color_button_functionalButton;
+
+//цвет фона неосновной функциональной кнопки обозначающей опасность при нажатии.
+@danger_active_background-color_button_functionalButton:                    @danger_hover_background-color_button_functionalButton;
 
 //Толщина обводки кнопки.
 //Примечание: равна толщине обводки по-умолчанию.
@@ -644,6 +650,9 @@
 
 //Цвет обводки кнопки-иконки для тулбара в состоянии  "только для чтения".
 @readonly_border-color_button_toolButton:                                   rgba(0, 0, 0, 0.08);
+
+//Цвет обводки функциональной кнопки в состоянии  "только для чтения".
+@readonly_border-color_button_functionalButton:                             rgba(0, 0, 0, 0.08);
 
 //Радиус скругления кнопок
 //Радиус скругления обводки кнопки высоты xs.
