@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
 import {ContextOptions as dataOptions} from 'Controls/context';
@@ -54,7 +54,7 @@ var _private = {
  * Контрол должен располагаться в том же контейнере (см. {@link Controls/list:DataContainer}), что и список.
  * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
  * @class Controls/_list/Remover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
  * @control
  * @public
@@ -67,7 +67,7 @@ var _private = {
  * Сontrol must be in one Controls.Container.Data with a list.
  * <a href="/materials/demo-ws4-operations-panel">Demo examples</a>.
  * @class Controls/_list/Remover
- * @extends Core/Control
+ * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
  * @control
  * @public
@@ -75,7 +75,7 @@ var _private = {
  * @category List
  */
 
-var Remover = Control.extend({
+var Remover = BaseAction.extend({
     _beforeMount: function (options, context) {
         _private.updateDataOptions(this, context.dataOptions);
     },
