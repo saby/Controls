@@ -63,7 +63,6 @@ const
 
 const LOAD_TRIGGER_OFFSET = 100;
 const INITIAL_PAGES_COUNT = 1;
-const ITEMACTIONS_UNLOCK_DELAY = 200;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
 
 const MIN_SCROLL_PAGING_PROPORTION = 2;
@@ -878,7 +877,6 @@ var _private = {
                 });
             }
         }
-        self._scrollPageLocked = false;
     },
 
     setMarkerAfterScrolling: function(self, scrollTop) {
@@ -935,7 +933,6 @@ var _private = {
         }
 
         self._scrollTop = params.scrollTop;
-        self._scrollPageLocked = false;
     },
 
     getPortionedSearch(self): PortionedSearch {

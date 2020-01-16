@@ -1508,14 +1508,11 @@ define([
          setTimeout(function() {
             assert.isTrue(!!ctrl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
-            ctrl._scrollPageLocked = true;
             // прокручиваем к низу, проверяем состояние пэйджинга
             lists.BaseControl._private.handleListScroll(ctrl, {
                scrollTop: 300,
                position: 'down'
             });
-
-            assert.isFalse(ctrl._scrollPageLocked);
 
             assert.deepEqual({
                stateBegin: 'normal',
