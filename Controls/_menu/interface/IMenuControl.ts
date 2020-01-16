@@ -9,7 +9,7 @@ export interface IMenuOptions extends IControlOptions, ISourceOptions, IFilter {
     emptyText?: string;
     emptyKey?: string|number;
     historyConfig: IHistoryConfig;
-    horizontalAlign: 'left'|'right';
+    iconSize?: string;
     leftSpacing: string;
     rightSpacing: string;
     multiSelect?: boolean;
@@ -32,17 +32,18 @@ export interface IHistoryConfig {
     frequent: boolean;
 }
 
-/*
- * @interface Controls/_interface/IMenu
+/**
+ * Интерфейс контрола меню
+ * @interface Controls/_menu/interface/IMenuControl
  * @public
  * @author Золотова Э.Е.
  */
 
 /*
- * @interface Controls/_interface/IMenu
+ * @interface Controls/_menu/interface/IMenuControl
  * @public
  * @author Золотова Э.Е.
  */
-export default interface IMenu {
+export default interface IMenuControl {
     readonly '[Controls/_interface/IMenu]': boolean;
 }

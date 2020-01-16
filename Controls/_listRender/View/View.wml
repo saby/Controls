@@ -24,10 +24,13 @@
             <ws:partial template="{{ contentTemplate }}" />
          </Controls._listRender.Containers.ItemActions>
       </Controls._listRender.Containers.Swipe>
-      <Controls.dropdown:Opener
+      <Controls.popup:Sticky
          name="dropdownMenuOpener"
-         keyProperty="id"
-         menuStyle="cross"/>
+         template="Controls/dropdownPopup:List"
+         closeOnOutsideClick="{{true}}"
+         actionOnScroll="close">
+         <ws:templateOptions showClose="{{true}}"/>
+      </Controls.popup:Sticky>
    </ws:if>
    <ws:else>
       <ws:partial template="{{ contentTemplate }}" />

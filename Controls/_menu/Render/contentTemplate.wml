@@ -1,5 +1,5 @@
 <ws:template name="iconTemplate">
-   <ws:if data="{{item.get('icon') || iconPadding[item.get(parentProperty)]}}">
+   <ws:if data="{{item.get('icon') || iconSpacing}}">
       <ws:partial template="wml!Controls/_menu/Render/iconTemplate" scope="{{_options}}"/>
    </ws:if>
 </ws:template>

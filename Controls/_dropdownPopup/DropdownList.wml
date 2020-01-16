@@ -26,8 +26,8 @@
                      groupTemplate="{{_options.groupTemplate || _groupTemplate}}"
                      parentProperty="{{_options.parentProperty}}"
                      multiSelect="{{_options.multiSelect}}"
-                     iconPadding="{{_options.iconPadding}}"
-                     resultHandler="{{resultHandler}}"></ws:partial>
+                     iconPadding="{{_iconPadding}}"
+                     resultHandler="{{resultHandler}}" />
          <ws:if data="{{_hasAdditional}}">
             <div class="controls-DropdownList__additional theme_{{_options.theme}}" on:mouseenter="_closeSubMenu()">
                <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
@@ -77,10 +77,12 @@
          </ws:if>
       </div>
    </ws:if>
-   <Controls.dropdown:Opener if="{{_hasHierarchy}}"
-                             name="subDropdownOpener"
-                             on:result="_subMenuResultHandler()"
-                             on:close="_subDropdownClose()"
-                             scope="{{_popupOptions}}">
-   </Controls.dropdown:Opener>
+   <Controls.popup:Sticky if="{{_hasHierarchy}}"
+                          name="subDropdownOpener"
+                          template="Controls/dropdownPopup:List"
+                          closeOnOutsideClick="{{true}}"
+                          actionOnScroll="close"
+                          on:result="_subMenuResultHandler()"
+                          on:close="_subDropdownClose()"
+                          scope="{{_popupOptions}}" />
 </div>
