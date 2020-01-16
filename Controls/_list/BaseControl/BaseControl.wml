@@ -107,6 +107,49 @@
             viewModel="{{_listViewModel}}"
             observeScroll="{{_needScrollCalculation}}"
             scope="{{_options}}">
+        <Controls._list.EditInPlace
+                name="editInPlace"
+                editingConfig="{{_options.editingConfig}}"
+                on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
+                on:afterBeginEdit="_onAfterBeginEdit()"
+                on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
+                on:afterEndEdit="_onAfterEndEdit()"
+                listModel="{{_listViewModel}}"
+                multiSelectVisibility="{{_options.multiSelectVisibility}}"
+                errorController="{{ __errorController }}"
+                source="{{_sourceController}}"
+                useNewModel="{{ _options.useNewModel }}">
+        <Controls._list.ItemActions.ItemActionsControl
+                on:commitActionClick="_commitEditActionHandler()"
+                on:cancelActionClick="_cancelEditActionHandler()"
+                on:menuActionsClick="_showActionsMenu()"
+                on:menuActionClick="_showActionMenu()"
+                on:actionClick="_notifyHandler('actionClick')"
+                toolbarVisibility="{{_options.editingConfig.toolbarVisibility}}"
+                name="itemActions"
+                style="{{_options.style}}"
+                listModel="{{_listViewModel}}"
+                menuIsShown="{{_menuIsShown}}"
+                fix1177894367="{{_options.fix1177894367}}"
+                actionMenuIsShown="{{_actionMenuIsShown}}"
+                itemPadding="{{_options.itemPadding}}"
+                itemActions="{{_options.itemActions}}"
+                itemActionVisibilityCallback="{{_options.itemActionVisibilityCallback}}"
+                itemActionsProperty="{{_options.itemActionsProperty}}"
+                itemActionsPosition="{{_options.itemActionsPosition}}"
+                useNewModel="{{ _options.useNewModel }}">
+        <Controls._list.Swipe.SwipeControl
+                on:menuActionsClick="_showActionsMenu()"
+                on:closeSwipe="_closeSwipe()"
+                showEditArrow="{{_options.showEditArrow}}"
+                editArrowVisibilityCallback="{{_options.editArrowVisibilityCallback}}"
+                actionAlignment="{{_options.actionAlignment}}"
+                actionCaptionPosition="{{_options.actionCaptionPosition}}"
+                viewName="{{ _options.viewName }}"
+                listModel="{{_listViewModel}}"
+                itemActions="{{_options.itemActions}}"
+                name="swipeControl"
+                useNewModel="{{ _options.useNewModel }}">
         <ws:partial
                 name="{{name}}"
                 template="{{ _options.content }}"
@@ -142,6 +185,9 @@
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>
         </ws:partial>
+        </Controls._list.Swipe.SwipeControl>
+        </Controls._list.ItemActions.ItemActionsControl>
+        </Controls._list.EditInPlace>
     </Controls._list.ScrollContainer>
 </ws:template>
 <ws:template name="fullView">
@@ -175,52 +221,6 @@
 
             <ws:partial template="fullView" name="listView" attr:class="{{_showActions ? 'controls-BaseControl_showActions'}}"/>
 
-            <Controls._list.EditInPlace
-                ws:content="listView"
-                name="editInPlace"
-                editingConfig="{{_options.editingConfig}}"
-                on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
-                on:afterBeginEdit="_onAfterBeginEdit()"
-                on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
-                on:afterEndEdit="_onAfterEndEdit()"
-                listModel="{{_listViewModel}}"
-                multiSelectVisibility="{{_options.multiSelectVisibility}}"
-                errorController="{{ __errorController }}"
-                source="{{_sourceController}}"
-                useNewModel="{{ _options.useNewModel }}"/>
-            <Controls._list.ItemActions.ItemActionsControl
-                ws:content="listView"
-                on:commitActionClick="_commitEditActionHandler()"
-                on:cancelActionClick="_cancelEditActionHandler()"
-                on:menuActionsClick="_showActionsMenu()"
-                on:menuActionClick="_showActionMenu()"
-                on:actionClick="_notifyHandler('actionClick')"
-                toolbarVisibility="{{_options.editingConfig.toolbarVisibility}}"
-                name="itemActions"
-                style="{{_options.style}}"
-                listModel="{{_listViewModel}}"
-                menuIsShown="{{_menuIsShown}}"
-                fix1177894367="{{_options.fix1177894367}}"
-                actionMenuIsShown="{{_actionMenuIsShown}}"
-                itemPadding="{{_options.itemPadding}}"
-                itemActions="{{_options.itemActions}}"
-                itemActionVisibilityCallback="{{_options.itemActionVisibilityCallback}}"
-                itemActionsProperty="{{_options.itemActionsProperty}}"
-                itemActionsPosition="{{_options.itemActionsPosition}}"
-                useNewModel="{{ _options.useNewModel }}"/>
-            <Controls._list.Swipe.SwipeControl
-                ws:content="listView"
-                on:menuActionsClick="_showActionsMenu()"
-                on:closeSwipe="_closeSwipe()"
-                showEditArrow="{{_options.showEditArrow}}"
-                editArrowVisibilityCallback="{{_options.editArrowVisibilityCallback}}"
-                actionAlignment="{{_options.actionAlignment}}"
-                actionCaptionPosition="{{_options.actionCaptionPosition}}"
-                viewName="{{ _options.viewName }}"
-                listModel="{{_listViewModel}}"
-                itemActions="{{_options.itemActions}}"
-                name="swipeControl"
-                useNewModel="{{ _options.useNewModel }}"/>
             <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="down" loadingIndicatorState="down" attr:style="display: none;"/>
         </ws:if>
 
