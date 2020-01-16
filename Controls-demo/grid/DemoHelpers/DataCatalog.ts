@@ -261,6 +261,35 @@ function getCountriesStats() {
                 width: '120px'
             }
         ],
+        getColumnsWithWidthsForSoringDemo: () => [
+            {
+                displayProperty: 'number',
+                width: '40px',
+            },
+            {
+                displayProperty: 'country',
+                width: '300px'
+            },
+            {
+                displayProperty: 'capital',
+                width: '130px'
+            },
+            {
+                displayProperty: 'population',
+                width: '100px'
+            },
+            {
+                displayProperty: 'square',
+                width: '100px',
+                align: 'right'
+            },
+            {
+                displayProperty: 'populationDensity',
+                width: '150px',
+                result: 5.8,
+                align: 'right'
+            }
+        ],
         getColumnsWithWidths: () => [
             {
                 displayProperty: 'number',
@@ -502,19 +531,24 @@ function getCountriesStats() {
                 title: 'Страна'
             },
             {
-                title: 'Столица'
+                title: 'Название столицы страны',
+                sortingProperty: 'capital',
+                align: 'left'
             },
             {
                 title: 'Население',
-                sortingProperty: 'population'
+                sortingProperty: 'population',
+                align: 'left'
             },
             {
                 title: 'Площадь км2',
-                sortingProperty: 'square'
+                sortingProperty: 'square',
+                align: 'right'
             },
             {
                 title: 'Плотность населения чел/км2',
-                sortingProperty: 'populationDensity'
+                sortingProperty: 'populationDensity',
+                align: 'right'
             }
         ],
         getColumnsWithTemplate: () => [
