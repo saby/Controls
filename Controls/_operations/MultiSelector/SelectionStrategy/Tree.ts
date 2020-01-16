@@ -4,6 +4,7 @@ import getSelectedChildrenCount from 'Controls/_operations/MultiSelector/getSele
 import removeSelectionChildren from 'Controls/_operations/MultiSelector/removeSelectionChildren';
 import { isNode, getParentProperty, getItems, getChildren } from 'Controls/_operations/MultiSelector/ModelCompability';
 import clone = require('Core/core-clone');
+import { Map } from 'Types/shim';
 
 import { relation, Record } from 'Types/entity';
 import { Tree as TreeCollection } from 'Controls/display';
