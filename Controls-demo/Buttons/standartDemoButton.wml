@@ -174,6 +174,10 @@
                     <span class="demo-Button__Label">Add</span>
                 </div>
                 <div attr:class="demo-Button__testBlock__controlPanel">
+                    <Controls.buttons:Button viewMode="functionalButton" icon="icon-VideoCall2" iconSize="s" inlineHeight="m" buttonStyle="danger" iconStyle="contrast"></Controls.buttons:Button>
+                    <span class="demo-Button__Label">Danger</span>
+                </div>
+                <div attr:class="demo-Button__testBlock__controlPanel">
                     <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconSize="s" inlineHeight="m" readOnly="{{true}}" buttonStyle="secondary" iconStyle="contrast"></Controls.buttons:Button>
                     <span class="demo-Button__Label">Readonly</span>
                 </div>
@@ -189,6 +193,10 @@
                 <div attr:class="demo-Button__testBlock__controlPanel">
                     <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconSize="m" inlineHeight="l" buttonStyle="secondary" iconStyle="contrast"></Controls.buttons:Button>
                     <span class="demo-Button__Label">Add</span>
+                </div>
+                <div attr:class="demo-Button__testBlock__controlPanel">
+                    <Controls.buttons:Button viewMode="functionalButton" icon="icon-VideoCall2" iconSize="m" inlineHeight="l" buttonStyle="danger" iconStyle="contrast"></Controls.buttons:Button>
+                    <span class="demo-Button__Label">Danger</span>
                 </div>
                 <div attr:class="demo-Button__testBlock__controlPanel">
                     <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconSize="m" inlineHeight="l" readOnly="{{true}}" buttonStyle="secondary" iconStyle="contrast"></Controls.buttons:Button>
