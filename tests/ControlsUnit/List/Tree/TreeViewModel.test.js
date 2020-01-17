@@ -335,17 +335,17 @@ define([
          });
          it('getExpanderPaddingClasses', function() {
             let expectation = [
-                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_size_default_theme-default',
-                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_size_s_theme-default',
-                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_size_m_theme-default',
-                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_size_l_theme-default',
-                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_size_xl_theme-default',
+                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_default_theme-default',
+                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_s_theme-default',
+                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_m_theme-default',
+                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_l_theme-default',
+                'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_xl_theme-default',
             ];
-            assert(treeGrid.TreeViewModel._private.getExpanderPaddingClasses(undefined, theme), expectation[0]);
-            assert(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('s', theme), expectation[1]);
-            assert(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('m', theme), expectation[2]);
-            assert(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('l', theme), expectation[3]);
-            assert(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('xl', theme), expectation[4]);
+            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses(undefined, theme), expectation[0]);
+            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('s', theme), expectation[1]);
+            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('m', theme), expectation[2]);
+            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('l', theme), expectation[3]);
+            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('xl', theme), expectation[4]);
          });
          it('prepareExpanderClasses', function() {
             var
