@@ -20,6 +20,7 @@
  *    </ws:resultsTemplate>
  * </Controls.grid:View>
  * </pre>
+ * @public
  */
 
 /**

@@ -22,6 +22,7 @@
  * </pre>
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ здесь}.
+ * @public
  */
 
 

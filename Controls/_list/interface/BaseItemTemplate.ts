@@ -2,6 +2,7 @@
  * Интерфейс для шаблона отображения элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
  * @interface Controls/list:BaseItemTemplate
  * @author Авраменко А.С.
+ * @public
  */
 
 /**
