@@ -4,13 +4,13 @@
 /* global define, beforeEach, afterEach, describe, context, it, assert, $ws */
 define(
    [
-      'Controls/_source/QueryParamsController/Page',
-      'Controls/_source/QueryParamsController/Position',
+      'Controls/_source/QueryParamsController/PageQueryParamsController',
+      'Controls/_source/QueryParamsController/PositionQueryParamsController',
       'Types/collection',
       'Types/source'
    ],
-   function (PageNavigation,
-             PositionNavigation, collection, sourceLib) {
+   function (PageQueryParamsController,
+             PositionQueryParamsController, collection, sourceLib) {
 
       'use strict';
 
@@ -44,7 +44,7 @@ define(
 
          describe('Page', function () {
             it('init', function () {
-               var pNav = new PageNavigation.default({
+               var pNav = new PageQueryParamsController.default({
                   page: 1,
                   pageSize: 4
                });
@@ -53,7 +53,7 @@ define(
             });
 
             it('calculateState', function () {
-               var pNav = new PageNavigation.default({
+               var pNav = new PageQueryParamsController.default({
                   page: 1,
                   pageSize: 4
                });
@@ -106,7 +106,7 @@ define(
             });
 
             it('calculateState + withHasMore=False', function () {
-               var pNav = new PageNavigation.default({
+               var pNav = new PageQueryParamsController.default({
                   page: 0,
                   hasMore: false,
                   pageSize: 4
@@ -131,7 +131,7 @@ define(
 
             it('prepareQueryParams', function () {
                var params;
-               var pNav = new PageNavigation.default({
+               var pNav = new PageQueryParamsController.default({
                   page: 1,
                   pageSize: 4
                });
@@ -147,14 +147,14 @@ define(
             })
 
             it('validateNavigation', function () {
-               var pNav = new PageNavigation.default({
+               var pNav = new PageQueryParamsController.default({
                   page: 1,
                   pageSize: 4
                });
                pNav.validateNavigation(true);
                pNav.validateNavigation(undefined);
                pNav.destroy();
-               pNav = new PageNavigation.default({
+               pNav = new PageQueryParamsController.default({
                   page: 1,
                   pageSize: 4,
                   hasMore: false
@@ -166,9 +166,9 @@ define(
 
          });
 
-         describe('PositionNavigation', function () {
+         describe('PositionQueryParamsController', function () {
             it('calculate state with first query', function () {
-               var pNav = new PositionNavigation.default({
+               var pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   limit: 100,
                   direction: 'after',
@@ -213,7 +213,7 @@ define(
                assert.deepEqual([2], pNav._afterPosition, 'Calculate state: wrong _afterPosition value');
 
 
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
                   direction: 'both',
                   position: 1,
@@ -229,7 +229,7 @@ define(
             });
 
             it('calculate state with load to direction query', function () {
-               var pNav = new PositionNavigation.default({
+               var pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   direction: 'after',
                   position: 1,
@@ -253,7 +253,7 @@ define(
 
                /**/
 
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
                   direction: 'both',
                   position: 1,
@@ -277,7 +277,7 @@ define(
 
 
                //first query  with multiNavigation
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
                   direction: 'both',
                   position: 1,
@@ -303,22 +303,22 @@ define(
 
 
             it('calculate state with nextPosition', function () {
-               var pNav = new PositionNavigation.default({
+               var pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   direction: 'both',
                   position: 5,
                   limit: 100
                });
 
-               //first query with direction: after
-               dataRs.setMetaData({more: true, nextPosition:{before: [1], after: [7]}});
+               //first query with direction: both
+               dataRs.setMetaData({more: { after: true, before: false }, nextPosition:{before: [1], after: [7]}});
                pNav.calculateState(dataRs);
                assert.deepEqual([1], pNav._beforePosition, 'Calculate state: wrong _beforePosition value');
                assert.deepEqual([7], pNav._afterPosition, 'Calculate state: wrong _afterPosition value');
 
 
                //first query with direction: after
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   direction: 'after',
                   position: 5,
@@ -330,7 +330,7 @@ define(
                pNav.calculateState(dataRs);
                assert.deepEqual([7], pNav._afterPosition, 'Calculate state: wrong _afterPosition value');
 
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   direction: 'before',
                   position: 5,
@@ -344,7 +344,7 @@ define(
 
 
                /*any first query, but having "load to direction query"*/
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   direction: 'both',
                   position: 5,
@@ -365,7 +365,7 @@ define(
 
             it('prepare query params first load', function () {
                var params, pNav;
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: 'field',
                   limit: 100,
                   direction: 'after',
@@ -376,7 +376,7 @@ define(
                assert.deepEqual({filter : {'field>=' : 1}, limit: 100, meta: { navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION } }, params, 'Wrong query params');
 
 
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
                   limit: 50,
                   direction: 'before',
@@ -387,7 +387,7 @@ define(
                assert.deepEqual({filter : {'field<=' : 2, 'id<=' : 1}, limit: 50, meta: { navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION } }, params, 'Wrong query params');
 
 
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field'],
                   limit: 100,
                   direction: 'both',
@@ -400,7 +400,7 @@ define(
 
             it('prepare query params load to direction', function () {
                var params, pNav;
-               pNav = new PositionNavigation.default({
+               pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
                   direction: 'both',
                   position: 1,

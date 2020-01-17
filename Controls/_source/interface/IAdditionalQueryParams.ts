@@ -1,17 +1,17 @@
-import {QueryNavigationType} from 'Types/source';
+import {QueryNavigationType, QueryOrderSelector, QueryWhere} from 'Types/source';
 
 export type Direction = 'up' | 'down';
 
 export type DirectionCfg = 'before' | 'after' | 'both';
 
-interface IAdditionQueryParamsMeta {
+export interface IAdditionQueryParamsMeta {
    navigationType?: QueryNavigationType;
    hasMore?: boolean;
 }
-export default interface IAdditionalQueryParams {
+export interface IAdditionalQueryParams {
    meta?: IAdditionQueryParamsMeta;
    limit?: number;
    offset?: number;
-   filter?: unknown;
-   sorting?: unknown;
+   filter?: QueryWhere;
+   sorting?: QueryOrderSelector;
 }

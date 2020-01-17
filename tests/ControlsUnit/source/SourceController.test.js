@@ -47,8 +47,6 @@ define([
             controller.destroy();
             done();
          });
-
-
       });
 
       it('load + navigation', function (done) {
