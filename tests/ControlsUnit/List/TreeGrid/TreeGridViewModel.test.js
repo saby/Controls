@@ -160,6 +160,8 @@ define(['Controls/treeGrid',
              });
          current = model.getCurrent();
          checkCellClasses(current.getCurrentColumn().cellClasses, itemTypes.node);
+
+         assert.equal(current.getCurrentColumn().prepareExpanderClasses, current.prepareExpanderClasses);
          model.goToNext();
 
          current = model.getCurrent();
