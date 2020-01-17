@@ -1,5 +1,7 @@
 <div attr:class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="group-{{itemData.item}}">
-   <div class="controls-ListView__groupContent {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}">
+   <div class="controls-ListView__groupContent
+               {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
+               controls-ListView__groupContent_align-{{textAlign || 'left'}}">
       <ws:if data="{{separator !== false && separatorVisibility !== false && textAlign !== 'left'}}">
          <div class="controls-ListView__groupSeparator-left">&nbsp;</div>
       </ws:if>

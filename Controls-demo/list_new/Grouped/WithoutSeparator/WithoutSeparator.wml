@@ -1,10 +1,19 @@
-<div class="controlsDemo__wrapper">
-    <Controls.list:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            groupingKeyCallback="{{_groupingKeyCallback}}">
-        <ws:groupTemplate>
-            <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" separator="{{ false }}"/>
-        </ws:groupTemplate>
-    </Controls.list:View>
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__cell controlsDemo__mr2">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Left/Index' }}">
+            <a href="{{content.href}}">Заголовок слева</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Grouped.WithoutSeparator.Left.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Right/Index' }}">
+            <a href="{{content.href}}">Заголовок справа</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Grouped.WithoutSeparator.Right.Index/>
+    </div>
 </div>
