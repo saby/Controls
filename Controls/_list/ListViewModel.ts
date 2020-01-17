@@ -10,7 +10,7 @@ import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { CollectionItem } from 'Types/display';
 import { CssClassList } from "../Utils/CssClassList";
-
+import * as isVDOMTemplate from 'Controls/Utils/isVDOMTemplate'
 /**
  *
  * @author Авраменко А.С.
@@ -172,6 +172,8 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden';
             return canDrawMarker && (itemsModelCurrent.isAdd ? true : _private.isSelected(self, itemsModelCurrent));
         };
+
+        itemsModelCurrent.isValueTemplate = (value): boolean => isVDOMTemplate(value);
 
         itemsModelCurrent.getMarkerClasses = (): string => {
             return 'controls-ListView__itemV_marker ';

@@ -1373,6 +1373,7 @@ var
                         },
                         _preferVersionAPI: true
                     };
+                currentColumn.isValueTemplate = current.isValueTemplate;
                 currentColumn.cellClasses = current.getItemColumnCellClasses(current, self._options.theme, self.getEditingItemData());
                 currentColumn.column = current.columns[current.columnIndex];
                 currentColumn.template = currentColumn.column.template ? currentColumn.column.template : self._columnTemplate;
