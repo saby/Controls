@@ -408,6 +408,59 @@ define(['Controls/grid'], function(gridMod) {
             0
          ]);
       });
+      describe('getHeaderHeight', () => {
+         const cfg = {
+            columns: [
+               { displayProperty: 'field1', template: 'column1' },
+               { displayProperty: 'field2', template: 'column2' }
+            ],
+            header: gridHeader,
+            multiSelectVisibility: 'hidden',
+         };
+         let gridView;
+         beforeEach(() => {
+            gridView = new gridMod.GridView(cfg);
+             gridView._children.header = {};
+             gridView._listModel = {};
+         });
+
+
+         it('no headerContainer', function () {
+             gridView._children.header = null;
+            assert.equal(0, gridView.getHeaderHeight());
+         });
+
+         it('simple header', function () {
+            const headerHeight = 30;
+             gridView._children.header.getBoundingClientRect = () => ({ height: headerHeight });
+            gridView._listModel._isMultiHeader = false;
+            assert.equal(headerHeight, gridView.getHeaderHeight());
+         });
+
+         it('empty multi header', function () {
+            gridView._listModel._isMultiHeader = true;
+            // No header cells
+            gridView._children.header.children = [];
+            assert.equal(0, gridMod.GridView._private.getMultiHeaderHeight(gridView._children.header));
+         });
+
+         it('multi header', function () {
+            gridView._listModel._isMultiHeader = true;
+            gridView._children.header.children = [
+               { top: 0, bottom: 10 },
+               { top: 10, bottom: 20 },
+               { top: 20, bottom: 30 },
+               { top: 0, bottom: 30 },
+               { top: 0, bottom: 15 },
+               { top: 15, bottom: 30 }
+            ];
+            assert.equal(30, gridMod.GridView._private.getMultiHeaderHeight(gridView._children.header, (cell) => ({
+               top: cell.top,
+               bottom: cell.bottom
+            })));
+         });
+      });
+
       it('getResultsHeight and getHeaderHeight', function() {
          const cfg = {
                 columns: [
