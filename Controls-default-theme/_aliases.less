@@ -191,14 +191,6 @@
 //Размер иконок l.
 @icon-size_l:                                                               32px;
 
-//ИНФОБОКС
-//InfoboxButton.
-//Цвет иконки InfoboxButton.
-@icon-color_infoboxbutton:                                                  @unaccented_icon-color;
-
-//Цвет иконки InfoboxButton при наведении.
-@hover_icon-color_infoboxbutton:                                            @secondary_text-color;
-
 //ПОЛЯ ВВОДА
 //Общие Переменные, использующиеся для темизации полей ввода.
 //Размер шрифта в поле ввода xs.
@@ -1263,7 +1255,7 @@
 //цвет обводки кнопки закрытия при нажатии
 @border-color_active_closeButton_toolButton:                                #CCCCCC;
 
-
+//ширина кнопки закрытия в режиме ссылки
 @width_closeButton_link:                                                    @inline_height_m;
 
 
@@ -1651,4 +1643,68 @@
 @primary_marker_color_tabs:                                                 #D94700;
 @padding-horizontal_tabs:                                                   12px;
 @marker_hover_color_tabs:                                                   #EAEAEA;
+
+//Инфобокс
+//цвет кнопки показа инфобокса
+@icon-color_infobox_button:                                                 @unaccented_icon-color;
+
+//цвет кнопки показа инфобокса при наведении
+@icon-color_hover_infobox_button:                                           @link_hover_text-color;
+
+//длина основания стрелки инфобоса
+@arrow_base_length_infobox:                                                 16px;
+
+//длина стороны стрелки инфобокса
+@arrow_side_length_infobox:                                                 12px;
+
+//отступ от стрелки до примыкающего края
+@arrow_offset_infobox:                                                      9px;
+
+//отступ от инфобокса до таргета
+@target_offset_infobox:                                                     11px;
+
+//внутренний вертикальный отступ от границы до контента
+@content_padding-vertical_infobox:                                          8px;
+
+//внутренний горизонтальный отступ от границы до контента
+@content_padding-horizontal_infobox:                                        12px;
+
+//максимальная ширина всплывающей подсказки
+@max-width_infobox:                                                         750px;
+
+//отступ от верхнего края инфобокса до кнопки закрытия
+@close-button_offset-top_infobox:                                           5px;
+
+//отступ от правого края инфобокса до кнопки закрытия
+@close-button_offset-right_infobox:                                         5px;
+
+//отступ от правого края инфобокса до кнопки закрытия
+@close-button_offset-left_infobox:                                          2px;
+
+//размер шрифта в тексте подсказки
+@font-size_infobox:                                                         @font-size_l;
+
+//цвет фона инфобокса
+@background-color_infobox:                                                  #F7F8FA;
+
+//толщина обводки инфобокса
+@border-thickness_infobox:                                                  @border-thickness;
+
+//толщина маркера инфобокса
+@marker-thickness_infobox:                                                  @border-thickness_infobox;
+
+//цвет обводки инфобокса
+@border-color_infobox:                                                      #BDBDBD;
+
+//дополнительный цвет обводки инфобокса
+@secondary_border-color_infobox:                                            @secondary_color;
+
+//размер тени инфобокса
+@box-shadow-offset_infobox:                                                 0 0 6px 0;
+
+//цвет тени инфобокса
+@box-shadow-color_infobox:                                                  rgba(0,0,0,0.35);
+
+//цвет тени инфобокса при валидации
+@invalid_box-shadow-color_infobox:                                          rgba(208, 77, 77, 0.4);
 //last line
