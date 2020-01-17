@@ -7,6 +7,8 @@ export type TItemActionVisibilityCallback = (action, item: unknown) => boolean;
 // TODO Написать реальный тип для action'ов
 type TItemAction = any;
 
+type TActionsGetterFunction = (item) => TItemAction[];
+
 interface IItemActionsContainer {
     all: TItemAction[];
     showed: TItemAction[];
@@ -29,16 +31,18 @@ const ITEM_ACTION_ICON_CLASS = 'controls-itemActionsV__action_icon icon-size';
 export default class ItemActionsManager extends BaseManager<IVirtualScrollManageableCollection> {
     protected _activeItem: IItemActionsManageableItem;
 
-    assignItemActions(actionList: TItemAction[], visibilityCallback: TItemActionVisibilityCallback = () => true): void {
-        // TODO Support itemActionsProperty
+    assignItemActions(
+        actionsGetter: TActionsGetterFunction,
+        visibilityCallback: TItemActionVisibilityCallback = () => true
+    ): void {
         // NB Deprecated style names are intentionally no longer supported
-        const actions = actionList.map(this._fixActionIcon);
         const supportsEventPause = typeof this._collection.setEventRaising === 'function';
 
         if (supportsEventPause) {
             this._collection.setEventRaising(false, true);
         }
         this._collection.each((item) => {
+            const actions = actionsGetter(item).map(this._fixActionIcon);
             const assignedActions = actions.filter((action) => visibilityCallback(action, item.getContents()));
             this.setItemActions(item, this._wrapActionsInContainer(assignedActions));
         });

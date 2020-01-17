@@ -2,7 +2,7 @@ import { assert } from 'chai';
 
 import ItemActionsManager from 'Controls/_display/utils/ItemActionsManager';
 import { Collection, CollectionItem } from 'Controls/display';
-import { List } from 'Types/collection';
+import { List, RecordSet } from 'Types/collection';
 
 import { showType } from 'Controls/Utils/Toolbar';
 
@@ -285,7 +285,7 @@ describe('Controls/_display/utils/ItemActionsManager', () => {
                 { id: 1, showType: showType.TOOLBAR }
             ];
 
-            manager.assignItemActions(actions, (action, item) => {
+            manager.assignItemActions(() => actions, (action, item) => {
                 return item === 0 || action.id === item;
             });
 
@@ -302,7 +302,7 @@ describe('Controls/_display/utils/ItemActionsManager', () => {
                 { id: 2, icon: 'icon-Phone' }
             ];
 
-            manager.assignItemActions(actions);
+            manager.assignItemActions(() => actions);
 
             collection.at(0).getActions().all.forEach((action) => {
                 if (action.icon) {
@@ -319,7 +319,7 @@ describe('Controls/_display/utils/ItemActionsManager', () => {
                 { id: 1, showType: showType.MENU }
             ];
 
-            manager.assignItemActions(actions);
+            manager.assignItemActions(() => actions);
 
             assert.isOk(collection.at(0).getActions().showed.find((action) => !!action._isMenu));
         });
@@ -331,9 +331,30 @@ describe('Controls/_display/utils/ItemActionsManager', () => {
                 { id: 1, showType: showType.TOOLBAR }
             ];
 
-            manager.assignItemActions(actions);
+            manager.assignItemActions(() => actions);
 
             assert.isNotOk(collection.at(0).getActions().showed.find((action) => !!action._isMenu));
+        });
+
+        it('supports itemActionsProperty', () => {
+            list = new RecordSet({
+                rawData: [
+                    { id: 1, itemActions: [{ id: 'a' }] },
+                    { id: 2, itemActions: [{ id: 'b' }] }
+                ],
+                keyProperty: 'id'
+            });
+            collection = new Collection({
+                collection: list,
+                keyProperty: 'id',
+                itemActionsProperty: 'itemActions'
+            });
+            manager = new ItemActionsManager(collection);
+
+            manager.assignItemActions((item) => item.getContents().get('itemActions'));
+
+            assert.strictEqual(collection.at(0).getActions().all[0].id, 'a');
+            assert.strictEqual(collection.at(1).getActions().all[0].id, 'b');
         });
     });
 });
