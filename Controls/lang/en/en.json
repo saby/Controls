@@ -21,7 +21,7 @@
   "Год должен быть больше 1400": "Year must be more than 1400",
   "Годовой режим": "Year view",
   "Да": "Yes",
-  "Дата заполнена некорректно": "Date filled incorrectly",
+  "Дата заполнена некорректно": "Invalid date",
   "Дата или время заполнены некорректно": "Date or time is incorrect",
   "Дата конца периода должна быть больше даты начала": "The end of the period must be greater than the start date",
   "Для графика-области надо определить 3 поля данных (ws-series.sourceField)": "For graphics-area need to define 3 data fields (ws-series.sourceField)",
