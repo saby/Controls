@@ -16,6 +16,7 @@ export interface IItemActionsControlOptions extends IControlOptions {
     itemActions?: any[];
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
     itemActionsPosition?: string;
+    itemActionsProperty?: string;
 
     contextMenuConfig?: any;
 }
@@ -32,12 +33,14 @@ export default class ItemActionsControl extends Control<IItemActionsControlOptio
             (
                 options.listModel !== this._options.listModel ||
                 options.itemActions !== this._options.itemActions ||
+                options.itemActionsProperty !== this._options.itemActionsProperty ||
                 options.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback
             )
         ) {
             this._assignItemActions(
                 options.listModel,
                 options.itemActions,
+                options.itemActionsProperty,
                 options.itemActionVisibilityCallback
             );
         }
@@ -48,6 +51,7 @@ export default class ItemActionsControl extends Control<IItemActionsControlOptio
             this._assignItemActions(
                 this._options.listModel,
                 this._options.itemActions,
+                this._options.itemActionsProperty,
                 this._options.itemActionVisibilityCallback
             );
             this._initializedActions = true;
@@ -79,10 +83,16 @@ export default class ItemActionsControl extends Control<IItemActionsControlOptio
     protected _assignItemActions(
         listModel: Collection<Model>,
         itemActions: any[],
+        itemActionsProperty: string,
         itemActionVisibilityCallback: TItemActionVisibilityCallback
     ): void {
+        const actionsGetter =
+            itemActionsProperty
+            ? (item) => item.getContents().get(itemActionsProperty)
+            : () => itemActions;
+
         listModel.getItemActionsManager().assignItemActions(
-            itemActions,
+            actionsGetter,
             itemActionVisibilityCallback
         );
     }

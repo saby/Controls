@@ -1,5 +1,5 @@
 <ws:template name="conditionalItemActions">
-   <ws:if data="{{ _options.itemActions }}">
+   <ws:if data="{{ _options.itemActions || _options.itemActionsProperty }}">
       <Controls._listRender.Containers.Swipe
          listModel="{{ _collection }}"
          itemActions="{{ _options.itemActions }}"
@@ -9,6 +9,7 @@
          <Controls._listRender.Containers.ItemActions
             listModel="{{ _collection }}"
             itemActions="{{ _options.itemActions }}"
+            itemActionsProperty="{{ _options.itemActionsProperty }}"
             itemActionVisibilityCallback="{{ _options.itemActionVisibilityCallback }}"
             itemActionsPosition="{{ _options.itemActionsPosition }}"
             itemActionsProperty="{{ _options.itemActionsProperty }}"

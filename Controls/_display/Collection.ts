@@ -105,7 +105,8 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     editingConfig: any;
     unique?: boolean;
     importantItemProperties?: string[];
-    virtualScrollConfig: IVirtualScrollConfig;
+    virtualScrollConfig?: IVirtualScrollConfig;
+    itemActionsProperty?: string;
 }
 
 export interface ICollectionCounters {
@@ -534,6 +535,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _$hasMoreData: boolean;
 
     protected _$compatibleReset: boolean;
+
+    protected _$itemActionsProperty: string;
 
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
@@ -2178,6 +2181,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return !this.getViewIterator().isItemVisible(index);
     }
 
+    getItemActionsProperty(): string {
+        return this._$itemActionsProperty;
+    }
+
     // region SerializableMixin
 
     _getSerializableState(state: IDefaultSerializableState): ISerializableState<S, T> {
@@ -3266,6 +3273,7 @@ Object.assign(Collection.prototype, {
     _$virtualScrolling: false,
     _$hasMoreData: false,
     _$compatibleReset: false,
+    _$itemActionsProperty: '',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
