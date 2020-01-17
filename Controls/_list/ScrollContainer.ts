@@ -10,6 +10,7 @@ import {descriptor, Record as entityRecord} from 'Types/entity';
 import {IDirection, IVirtualScrollConfig, IVirtualScrollMode} from './interface/IVirtualScroll';
 import {Logger} from 'UI/Utils';
 import {Collection} from 'Controls/display';
+import tmplNotify = require('Controls/Utils/tmplNotify');
 
 const SCROLLMOVE_DELAY = 150;
 export const DEFAULT_VIRTUAL_PAGE_SIZE = 100;
@@ -53,6 +54,7 @@ export default class ScrollContainer extends Control<IOptions> {
     protected _template: TemplateFunction = template;
     protected virtualScroll: VirtualScroll;
     private itemsContainer: HTMLElement;
+    private _notifyHandler: Function = tmplNotify;
     private scrollRegistered: boolean = false;
 
     private indicatorTimeout: number;
