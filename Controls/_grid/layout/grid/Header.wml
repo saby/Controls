@@ -1,7 +1,4 @@
 <ws:template name="headContent">
-      <!-- The iterator does not restart when the model changes. Instead, the internal partial is redrawn. We do a reboot forcibly. -->
-      <!-- Delete after the task is done https://online.sbis.ru/opendoc.html?guid=13786a2a-54c7-4a09-8fbc-11344cf0804d -->
-      {{ headerRow.resetHeaderColumns() }}
       <ws:for data="headerRow.resetHeaderColumns(); headerRow.isEndHeaderColumn(); headerRow.goToNextHeaderColumn();">
           <ws:partial template="{{listModel.isStickyHeader() ? 'stickyCell' : 'cell'}}"
                       defaultHeaderContent="{{defaultHeaderContent}}"
