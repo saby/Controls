@@ -2,6 +2,7 @@
  * Интерфейс для шаблона отображения разделителя {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/ группы} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}. 
  * @interface Controls/list:BaseGroupTemplate
  * @author Авраменко А.С.
+ * @public
  */
 
 /**

@@ -16,6 +16,7 @@
  *    </ws:itemTemplate>
  * </Controls.grid:View>
  * </pre>
+ * @public
  */
 
 /**

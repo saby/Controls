@@ -26,6 +26,7 @@
  *    </ws:columns>
  * </Controls.grid:View>
  * </pre>
+ * @public
  */
 
 /**
