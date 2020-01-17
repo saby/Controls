@@ -7,6 +7,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Opener as DropdownOpener} from 'Controls/dropdown';
 import {Controller as SourceController} from 'Controls/source';
 import {IShowType, showType, getMenuItems} from 'Controls/Utils/Toolbar';
+import {IStickyPopupOptions, IStickyPosition, IEventHandlers} from 'Controls/popup';
 
 import {
     IButtonOptions,
@@ -47,11 +48,20 @@ export function getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
     cssStyleGeneration.call(cfg, {
         size, icon, style, viewMode, iconStyle, transparent, caption, readOnly, fontColorStyle, contrastBackground
     });
-    return cfg
+    return cfg;
 }
 
 export function getButtonTemplate(): TemplateFunction {
     return ButtonTemplate;
+}
+
+// Перейти на интерфейс выпадающих списков, когда он появится
+
+export interface IMenuOptions {
+    direction: IStickyPosition;
+    targetPoint: IStickyPosition;
+    eventHandlers: IEventHandlers;
+    templateOptions: any;
 }
 
 /**
@@ -75,7 +85,14 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
     /**
      * Позволяет отобразить дополнительные элементы в меню.
      */
-    additionalProperty?: string
+    additionalProperty?: string;
+    /**
+     * @name Controls/_toolbars/IToolbarOptions#popupFooterTemplate
+     * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
+     * @demo Controls-demo/Toolbar/popupFooterTemplate/Index
+     */
+    popupFooterTemplate?: String | Function;
+
 }
 
 /**
@@ -114,11 +131,12 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         menuOpener: DropdownOpener
     };
 
-    readonly '[Controls/_interface/IHierarchy]' = true;
-    readonly '[Controls/_interface/ISource]' = true;
-    readonly '[Controls/_interface/IIconSize]' = true;
-    readonly '[Controls/_interface/IItemTemplate]' = true;
-    readonly '[Controls/_dropdown/interface/IGrouped]' = true;
+    readonly '[Controls/_interface/IHierarchy]': boolean = true;
+    readonly '[Controls/_interface/ISource]': boolean = true;
+    readonly '[Controls/_interface/IIconSize]': boolean = true;
+    readonly '[Controls/_interface/IItemTemplate]': boolean = true;
+    readonly '[Controls/_dropdown/interface/IGrouped]': boolean = true;
+
 
     constructor(...args) {
         super(args);
@@ -127,7 +145,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         this._closeHandler = this._closeHandler.bind(this);
     }
 
-    private _getMenuConfig(): object {
+    private _getMenuConfig(): IStickyPopupOptions {
         const options = this._options;
         return {
             className: `${options.popupClassName} controls-Toolbar__popup__list_theme-${options.theme}`,
@@ -141,13 +159,14 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 groupProperty: options.groupProperty,
                 groupingKeyCallback: options.groupingKeyCallback,
                 additionalProperty: options.additionalProperty,
-                itemTemplateProperty: options.itemTemplateProperty
+                itemTemplateProperty: options.itemTemplateProperty,
+                footerTemplate: options.popupFooterTemplate
             },
             target: this._children.menuTarget
         };
     }
 
-    private _getMenuConfigByItem(item: TItem): object {
+    private _getMenuConfigByItem(item: TItem): IStickyPopupOptions {
         const options = this._options;
 
         return {
@@ -181,7 +200,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         };
     }
 
-    private _getMenuOptions(): object {
+    private _getMenuOptions(): IMenuOptions {
         return {
             direction: {
                 horizontal: 'left'
