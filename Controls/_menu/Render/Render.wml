@@ -7,6 +7,8 @@
                   item="{{itemTemplate.item.getContents()}}"
                   isEmptyItem="{{_isEmptyItem(itemTemplate.item)}}"
                   itemClassList="{{_getClassList(itemTemplate.item)}}"
+                  iconSpacing="{{_iconSpacing}}"
+                  iconSize="{{_options.iconSize}}"
                   multiSelect="{{_options.multiSelect}}"
                   on:mouseenter="_itemMouseEnter(itemTemplate.item)"
       />

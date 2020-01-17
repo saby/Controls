@@ -1,4 +1,4 @@
-<div class="controls-Menu {{_loadItemsPromise && !_loadItemsPromise.isReady() ? 'ws-hidden'}}">
+<div class="controls-Menu">
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Menu__scroll_theme-{{_options.theme}}"
                               shadowVisible="{{false}}">
       <Controls._menu.Render scope="{{_options}}"

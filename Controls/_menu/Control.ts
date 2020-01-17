@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
-import {IMenuOptions, TKeys} from 'Controls/interface';
+import {default as IMenuControl, IMenuOptions, TKeys} from 'Controls/_menu/interface/IMenuControl';
 import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
 import {ICrud} from 'Types/source';
@@ -14,7 +14,7 @@ import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 
-class MenuControl extends Control<IMenuOptions> {
+class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     protected _template: TemplateFunction = ViewTemplate;
     protected _listModel: Tree;
     protected _loadItemsPromise: Promise;
@@ -35,8 +35,7 @@ class MenuControl extends Control<IMenuOptions> {
 
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         if (newOptions.root !== this._options.root) {
-            this._closeSubMenu();
-            this._loadItemsPromise = this.loadItems(newOptions);
+            this.loadItems(newOptions);
         }
     }
 
@@ -54,7 +53,7 @@ class MenuControl extends Control<IMenuOptions> {
         const needCloseDropDown = this._subDropdownItem !== item;
         // Close the already opened sub menu. Installation of new data sets new size of the container.
         // If you change the size of the update, you will see the container twitch.
-        if (needCloseDropDown && !needOpenDropDown) {
+        if (needCloseDropDown) {
             this._children.Sticky.close();
             this._subDropdownItem = null;
         }

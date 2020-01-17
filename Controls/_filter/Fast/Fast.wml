@@ -19,12 +19,16 @@
          </div>
       </ws:if>
    </ws:for>
-   <Controls.dropdown:Opener name="DropdownOpener"
-                             on:result="_onResult()">
+   <Controls.popup:Sticky
+           name="DropdownOpener"
+           template="Controls/dropdownPopup:List"
+           closeOnOutsideClick="{{true}}"
+           actionOnScroll="close"
+           on:result="_onResult()">
       <ws:templateOptions
               showClose="{{true}}">
       </ws:templateOptions>
-   </Controls.dropdown:Opener>
+   </Controls.popup:Sticky>
    <ws:if data="{{_hasSelectorTemplate}}">
       <Controls.popup:Stack name="selectorOpener" on:result="_onSelectorTemplateResult()"/>
    </ws:if>

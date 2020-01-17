@@ -19,5 +19,9 @@
          </div>
       </ws:if>
    </div>
-   <Controls.dropdown:Opener name="menuOpener" scope="{{_menuOptions}}"/>
+   <Controls.popup:Sticky name="menuOpener"
+                          template="Controls/dropdownPopup:List"
+                          closeOnOutsideClick="{{true}}"
+                          actionOnScroll="close"
+                          scope="{{_menuOptions}}"/>
 </div>
