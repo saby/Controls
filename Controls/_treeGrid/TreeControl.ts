@@ -9,6 +9,7 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
 import {Controller as SourceController} from 'Controls/source';
 import {isEqual} from 'Types/object';
 import {saveConfig} from 'Controls/Application/SettingsController';
+import {Map} from 'Types/shim';
 
 var
     HOT_KEYS = {
@@ -20,35 +21,39 @@ var DRAG_MAX_OFFSET = 15,
     EXPAND_ON_DRAG_DELAY = 1000,
     DEFAULT_COLUMNS_VALUE = [];
 
+type TNodeSourceControllers = Map<string, SourceController>;
+
 var _private = {
-    nodesSourceControllersIterator: function(nodesSourceControllers, callback) {
-        for (var prop in nodesSourceControllers) {
-            if (nodesSourceControllers.hasOwnProperty(prop)) {
-                callback(prop, nodesSourceControllers[prop]);
-            }
-        }
+    clearNodeSourceController(self, node: string|number): void {
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
+        nodeSourceControllers.get(node).destroy();
+        nodeSourceControllers.delete(node);
     },
-    clearNodeSourceController: function(sourceControllers, node) {
-        sourceControllers[node].destroy();
-        delete sourceControllers[node];
-        return sourceControllers;
-    },
-    clearSourceControllers: function(self) {
-        _private.nodesSourceControllersIterator(self._nodesSourceControllers, function(node) {
-            _private.clearNodeSourceController(self._nodesSourceControllers, node);
+    clearNodesSourceControllers(self): void {
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
+        nodeSourceControllers.forEach((controller, nodeKey) => {
+            _private.clearNodeSourceController(self, nodeKey);
         });
+        nodeSourceControllers.clear();
     },
-    createSourceController: function(source, navigation) {
+    getNodesSourceControllers(self): TNodeSourceControllers {
+       if (!self._nodesSourceControllers) {
+           self._nodesSourceControllers = new Map();
+       }
+       return self._nodesSourceControllers;
+    },
+    createSourceController(source, navigation): SourceController {
         return new SourceController({
-            source: source,
-            navigation: navigation
+            source,
+            navigation
         });
     },
     createSourceControllerForNode(self, node, source, navigation): SourceController {
-        if (!self._nodesSourceControllers[node]) {
-            self._nodesSourceControllers[node] = _private.createSourceController(source, navigation);
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
+        if (!nodeSourceControllers.has(node)) {
+            nodeSourceControllers.set(node, _private.createSourceController(source, navigation));
         }
-        return self._nodesSourceControllers[node];
+        return nodeSourceControllers.get(node);
     },
     toggleExpandedOnModel: function(self, listViewModel, dispItem, expanded) {
         listViewModel.toggleExpanded(dispItem, expanded);
@@ -82,13 +87,14 @@ var _private = {
         const nodeKey = item.getId();
         const expanded = !listViewModel.isExpanded(dispItem);
         const options = self._options;
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
         self._notify(expanded ? 'beforeItemExpand' : 'beforeItemCollapse', [dispItem.getContents()]);
 
         // todo: удалить события itemExpand и itemCollapse в 20.2000.
         self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
         if (
             !_private.isExpandAll(self._options.expandedItems) &&
-            !self._nodesSourceControllers[nodeKey] &&
+            !nodeSourceControllers.has(nodeKey) &&
             !dispItem.isRoot() &&
             _private.shouldLoadChildren(self, nodeKey)
         ) {
@@ -97,7 +103,7 @@ var _private = {
             _private.createSourceControllerForNode(self, nodeKey, options.source, options.navigation)
                 .load(filter, options.sorting)
                 .addCallback((list) => {
-                    listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(self._nodesSourceControllers));
+                    listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
                     if (options.uniqueKeys) {
                         listViewModel.mergeItems(list);
                     } else {
@@ -116,23 +122,22 @@ var _private = {
     shouldLoadChildren: function(self, nodeKey): boolean {
         // загружаем узел только в том случае, если он не был загружен ранее
         // это можно определить по наличию его nodeSourceController'a
-        return !self._nodesSourceControllers[nodeKey];
+        return !self._nodesSourceControllers.get(nodeKey);
     },
     prepareHasMoreStorage(sourceControllers: Record<string, SourceController>): Record<string, boolean> {
         const hasMore = {};
         let hasMoreForNode;
 
-        for (const i in sourceControllers) {
-            if (sourceControllers.hasOwnProperty(i)) {
-                hasMoreForNode = sourceControllers[i].hasMoreData('down', i);
+        sourceControllers.forEach((controller, nodeKey) => {
+            hasMoreForNode = controller.hasMoreData('down', nodeKey);
 
-                if (hasMoreForNode === undefined) {
-                    hasMoreForNode = sourceControllers[i].hasMoreData('down');
-                }
-
-                hasMore[i] = hasMoreForNode;
+            if (hasMoreForNode === undefined) {
+                hasMoreForNode = controller.hasMoreData('down');
             }
-        }
+
+            hasMore[nodeKey] = hasMoreForNode;
+        });
+
         return hasMore;
     },
 
@@ -150,14 +155,15 @@ var _private = {
     },
 
     loadMore: function(self, dispItem) {
-        self._children.baseControl.showIndicator();
-        var
-            filter = cClone(self._options.filter),
-            listViewModel = self._children.baseControl.getViewModel(),
-            nodeKey = dispItem.getContents().getId();
+        const filter = cClone(self._options.filter);
+        const listViewModel = self._children.baseControl.getViewModel();
+        const nodeKey = dispItem.getContents().getId();
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
+
         filter[self._options.parentProperty] = nodeKey;
-        self._nodesSourceControllers[nodeKey].load(filter, self._options.sorting, 'down').addCallback(function(list) {
-            listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(self._nodesSourceControllers));
+        self._children.baseControl.showIndicator();
+        nodeSourceControllers.get(nodeKey).load(filter, self._options.sorting, 'down').addCallback(function(list) {
+            listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
             if (self._options.uniqueKeys) {
                 listViewModel.mergeItems(list);
             } else {
@@ -170,10 +176,7 @@ var _private = {
         });
     },
     onNodeRemoved: function(self, nodeId) {
-        if (self._nodesSourceControllers[nodeId]) {
-            self._nodesSourceControllers[nodeId].destroy();
-        }
-        delete self._nodesSourceControllers[nodeId];
+        _private.clearNodeSourceController(self, nodeId);
     },
     isExpandAll: function(expandedItems) {
         return expandedItems instanceof Array && expandedItems[0] === null;
@@ -185,8 +188,8 @@ var _private = {
         const parentProperty = cfg.parentProperty;
         const baseControl = self._children.baseControl;
         const entries = _private.getEntries(cfg.selectedKeys, cfg.excludedKeys, cfg.source);
+        const nodeSourceControllers = _private.getNodesSourceControllers(self);
 
-        let nodeSourceControllers = self._nodesSourceControllers;
         let expandedItemsKeys: Array[number | string | null] = [];
         let isExpandAll: boolean;
 
@@ -198,12 +201,9 @@ var _private = {
                     expandedItemsKeys.push(key);
                 });
             }
-            _private.nodesSourceControllersIterator(nodeSourceControllers, function(node) {
-                // _nodesSourceControllers is an Object and the field type of the object will be lost,
-                // so need to check both types (sting and number)
-                // https://online.sbis.ru/opendoc.html?guid=b4657be2-8fa5-41e1-8629-83465a4ef9d8
-                if (expandedItemsKeys.indexOf(String(node)) === -1 && expandedItemsKeys.indexOf(Number(node)) === -1) {
-                    _private.clearNodeSourceController(nodeSourceControllers, node);
+            nodeSourceControllers.forEach((controller, key) => {
+                if (!expandedItemsKeys.includes(key)) {
+                    _private.clearNodeSourceController(self, key);
                 }
             });
             viewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
@@ -218,7 +218,7 @@ var _private = {
             filter[parentProperty] = filter[parentProperty].concat(expandedItemsKeys);
         } else {
             filter[parentProperty] = self._root;
-            _private.clearSourceControllers(self);
+            _private.clearNodesSourceControllers(self);
         }
 
         if (entries) {
@@ -412,7 +412,7 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     _updateExpandedItemsAfterReload: false,
     _notifyHandler: tmplNotify,
     constructor: function(cfg) {
-        this._nodesSourceControllers = {};
+        this._nodesSourceControllers = _private.getNodesSourceControllers(this);
         this._onNodeRemovedFn = this._onNodeRemoved.bind(this);
         if (typeof cfg.root !== 'undefined') {
             this._root = cfg.root;
@@ -444,6 +444,10 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
             } else {
                 this._updateExpandedItemsAfterReload = true;
             }
+            
+            if (newOptions.expandedItems !== this._options.expandedItems) {
+                _private.clearNodesSourceControllers(this);
+            }
         }
         if (newOptions.collapsedItems) {
             this._children.baseControl.getViewModel().setCollapsedItems(newOptions.collapsedItems);
@@ -473,7 +477,7 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     _afterUpdate: function(oldOptions) {
         if (this._updatedRoot) {
             this._updatedRoot = false;
-            _private.clearSourceControllers(this);
+            _private.clearNodesSourceControllers(this);
             var self = this;
             // При смене корне, не надо запрашивать все открытые папки, т.к. их может не быть и мы загрузим много лишних данных.
             this._needResetExpandedItems = true;
@@ -649,7 +653,7 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     },
 
     _beforeUnmount: function() {
-        _private.clearSourceControllers(this);
+        _private.clearNodesSourceControllers(this);
         TreeControl.superclass._beforeUnmount.apply(this, arguments);
         this._clearTimeoutForExpandOnDrag();
     }
