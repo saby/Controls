@@ -37,7 +37,7 @@ define([
             nodeProperty: ListData.NODE_PROPERTY,
             selectDescendants: true,
             selectAncestors: true,
-            nodesSourceControllers: {},
+            nodesSourceControllers: new Map(),
             keyProperty: ListData.KEY_PROPERTY,
             listModel: new treeGrid.ViewModel({columns: [], items: rs})
          };

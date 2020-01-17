@@ -22,7 +22,7 @@ define([
             selectionStrategy: new TreeSelectionStrategy.default({
                selectDescendants: true,
                selectAncestors: true,
-               nodesSourceControllers: {}
+               nodesSourceControllers: new Map()
             })
          }, config || {});
       }
