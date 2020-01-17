@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading captions="Заголовок" bind:expanded="_expanded1"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading captions="Заголовок" bind:expanded="_expanded2"
+                                captionPosition="left"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading captions="Заголовок" bind:expanded="_expanded3"
+                                fontSize="l"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded4"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading bind:expanded="_expanded5"/>
+   </div>
+</div>

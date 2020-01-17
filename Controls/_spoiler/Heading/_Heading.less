@@ -1,0 +1,83 @@
+.controls-SpoilerHeading__wrapper {
+   cursor: pointer;
+   align-items: center;
+   display: inline-flex;
+}
+
+.controls-SpoilerHeading__icon {
+   margin: auto;
+}
+
+.controls-SpoilerHeading__iconWrapper {
+   display: flex;
+   order: 1;
+}
+
+.controls-SpoilerHeading__caption_captionPosition-left {
+   order: 0;
+}
+
+.controls-SpoilerHeading__caption_captionPosition-right {
+   order: 2;
+}
+
+.controls-SpoilerHeading__wrapper_theme-@{themeName} {
+   height: @inline_height_spoilerHeading;
+}
+
+.controls-SpoilerHeading__iconWrapper_theme-@{themeName} {
+   width: @inline_height_spoilerHeading;
+   height: @inline_height_spoilerHeading-icon;
+}
+
+.controls-SpoilerHeading__icon_theme-@{themeName} {
+   font-size: @size_spoilerHeading-icon;
+   line-height: @size_spoilerHeading-icon;
+   width: @size_spoilerHeading-icon;
+   height: @size_spoilerHeading-icon;
+   font-family: @font-family_spoilerHeading-icon;
+}
+
+.controls-SpoilerHeading__caption_fontsize-m_theme-@{themeName} {
+   font-size: @font-size_m_spoilerHeading;
+}
+
+.controls-SpoilerHeading__caption_fontsize-l_theme-@{themeName} {
+   font-size: @font-size_l_spoilerHeading;
+}
+
+.controls-SpoilerHeading__icon_expanded_theme-@{themeName} {
+   color: @color_expanded_spoilerHeading-icon;
+}
+
+.controls-SpoilerHeading__icon_collapsed_theme-@{themeName} {
+   color: @color_collapsed_spoilerHeading-icon;
+}
+
+.controls-SpoilerHeading__caption_expanded_theme-@{themeName} {
+   color: @color_expanded_spoilerHeading;
+   font-weight: @font-weight_expanded_spoilerHeading;
+}
+
+.controls-SpoilerHeading__caption_collapsed_theme-@{themeName} {
+   color: @color_collapsed_spoilerHeading;
+   font-weight: @font-weight_collapsed_spoilerHeading;
+}
+
+.ws-is-hover .controls-SpoilerHeading__wrapper:hover {
+   .controls-SpoilerHeading__icon_expanded_theme-@{themeName} {
+      color: @color_expanded_hover_spoilerHeading-icon;
+   }
+
+   .controls-SpoilerHeading__icon_collapsed_theme-@{themeName} {
+      color: @color_collapsed_hover_spoilerHeading-icon;
+   }
+
+   .controls-SpoilerHeading__caption_expanded_theme-@{themeName} {
+      color: @color_expanded_hover_spoilerHeading;
+   }
+
+   .controls-SpoilerHeading__caption_collapsed_theme-@{themeName} {
+      color: @color_collapsed_hover_spoilerHeading;
+   }
+}
