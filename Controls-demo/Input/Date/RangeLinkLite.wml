@@ -48,8 +48,8 @@
          </div>
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:LiteSelector
-               bind:startValue="_startValueYear"
-               bind:endValue="_endValueYear"
+               bind:startValue="_startValue2"
+               bind:endValue="_endValue2"
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"
                chooseQuarters="{{false}}"
