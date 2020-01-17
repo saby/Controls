@@ -24,12 +24,12 @@ describe('Controls/_display/utils/VirtualScrollManager', () => {
             ]
         });
         collection = new Collection({
-            collection: list
+            collection: list,
+            virtualScrollConfig: {
+                mode: 'hide'
+            }
         });
         manager = new ExtendedVirtualScroll(collection);
-        collection.each((item) => {
-            item.setRendered(true);
-        })
     });
 
     afterEach(() => {
@@ -37,7 +37,13 @@ describe('Controls/_display/utils/VirtualScrollManager', () => {
         list.destroy();
     });
 
-    it('.each()', () => {
+    describe('original state', () => {
+        it('has rendered loaded items', () => {
+            collection.getViewIterator().each((item) => assert.isTrue(item.isRendered()));
+        });
+    });
+
+    describe('.each()', () => {
         it('iterates over each item once with correct indices', () => {
             manager.each((item, index) => {
                 const contents = (item as CollectionItem<IListItem>).getContents();
@@ -55,7 +61,7 @@ describe('Controls/_display/utils/VirtualScrollManager', () => {
         });
     });
 
-    it('.isItemVisible()', () => {
+    describe('.isItemVisible()', () => {
         it('return correct value', () => {
             collection.setViewIndices(0, 2);
             list.each((item, index) => {
@@ -68,5 +74,3 @@ describe('Controls/_display/utils/VirtualScrollManager', () => {
         });
     })
 });
-
-
