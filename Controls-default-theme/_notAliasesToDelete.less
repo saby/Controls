@@ -599,4 +599,87 @@
 
 @shift-top_MenuButton-link_duplicate_small-popup:    -@spacing_DropdownList-iconSize_small-between-iconHead-topBorder + @border-width_DropdownList;
 @shift-left_MenuButton-link_duplicate_small-popup:   -@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder;
+
+//FilterView
+@height_FilterView:                                     @height_filterView;
+@spacing_FilterView-between-filterButton-text:          @item_spacing_filterView;
+@color_FilterView-text_readOnly:                        @readonly_item_color_filterView;
+@color_FilterView-arrow_readOnly:                       @readonly_item_icon-color_filterView;
+
+//FilterButton
+@height_FilterButton:                              @height_filterView;
+
+@color_FilterButton_icon:                          @icon-color_filterButton_filterView;
+@color_FilterButton_icon_hover:                    @hover_icon-color_filterButton_filterView;
+@color_FilterButton_icon_active:                   @active_icon-color_filterButton_filterView;
+@color_FilterButton_icon_readOnly:                 @readonly_icon-color_filterButton_filterView;
+
+@background-color_FilterButton-icon:               @background-color_filterButton_filterView;
+@background-color_FilterButton-icon_hover:         @background-color_hover_filterButton_filterView;
+@background-color_FilterButton-icon_active:        @background-color_active_filterButton_filterView;
+@background-color_FilterButton-icon_readOnly:      transparent;
+
+@box-shadow-size_FilterButton-icon:                @box-shadow_filterButton_filterView;
+@box-shadow-color_FilterButton-icon:               @box-shadow_filterButton_filterView;
+
+@font-size_FilterButton_icon:                      @icon-size_filterButton_filterView;
+@font-family_FilterButton_icon:                    @icon_font-family_m;
+
+@width_FilterButton_icon:                          @width_filterButton_filterView;
+@height_FilterButton_icon:                         @height_filterButton_filterView;
+
+@color_FilterButton_text:                          @item_color_filterView;
+@color_FilterButton_text_hover:                    @item_hover_color_filterView;
+@color_FilterButton_text_active:                   @item_active_color_filterView;
+@color_FilterButton_text_readOnly:                 @readonly_item_color_filterView;
+
+@text-shadow-color_FilterButton-text:              transparent;
+@text-shadow-size_FilterButton-text:               0;
+
+@font-size_FilterButton_text:                      @item_font-size_filterView;
+@min-width_FilterButton_text:                      @item_text_min-width_filterView;
+
+@color_FilterButton_arrow:                         @item_icon-color_filterView;
+@color_FilterButton_arrow_hover:                   @item_hover_icon-color_filterView;
+@color_FilterButton_arrow_active:                  @item_active_icon-color_filterView;
+@color_FilterButton_arrow_readOnly:                @readonly_item_icon-color_filterView;
+@font-size_FilterButton_arrow:                     @item_icon-size_filterView;
+@font-family_FilterButton_arrow:                   @icon_font-family_s;
+
+@color_FilterButton_clear:                         @reset-button_icon-color_filterView;
+@font-size_FilterButton_clear:                     @reset-button_icon-size_filterView;
+@font-family_FilterButton_clear:                   @icon_font-family_s;
+
+@spacing_FilterButton_between_icon_spaceTemplate:  @filterButton_offset_filterView;
+@spacing_FilterButton_between_icon_text:           @filterButton_offset_filterView;
+
+@min-width_FilterButton:                           @height_filterView + @filterButton_offset_filterView;
+
+//FastFilter
+@height_FastFilter:                            @height_filterView;
+
+//Text
+@color_FastFilter-text:                        @item_color_filterView;
+@color_FastFilter-text_hover:                  @item_hover_color_filterView;
+@color_FastFilter-text_active:                 @item_active_color_filterView;
+@color_FastFilter-text_readOnly:               @readonly_item_color_filterView;
+@font-size_FastFilter-text:                    @item_font-size_filterView;
+
+//Arrow
+@color_FastFilter-arrow:                       @item_icon-color_filterView;
+@color_FastFilter-arrow_hover:                 @item_hover_icon-color_filterView;
+@color_FastFilter-arrow_active:                @item_active_icon-color_filterView;
+@color_FastFilter-arrow_readOnly:              @readonly_item_icon-color_filterView;
+@font-size_FastFilter-arrow:                   @item_icon-size_filterView;
+
+//reset button
+@color_FastFilter-reset:                       @reset-button_icon-color_filterView;
+@color_FastFilter-reset_hover:                 @reset-button_hover_icon-color_filterView;
+@color_FastFilter-reset_active:                @reset-button_active_icon-color_filterView;
+@font-size_FastFilter-reset:                   @reset-button_icon-size_filterView;
+
+//popup
+@shift-top_FastFilter-popup:                   -((@item_height_menu - @height_filterView) / 2 + @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
+@shift-left_FastFilter-popup:                  @font-size_FastFilter-arrow - (@item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup);
+
 //last line
