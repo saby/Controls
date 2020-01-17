@@ -1,0 +1,30 @@
+<div attr:class="controls-TileView__item js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-TreeTileView__item js-controls-SwipeControl__actionsContainer
+         {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
+         controls-ListView__item_showActions
+         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? ' controls-TileView__item_withMarker' : ' controls-TileView__item_withoutMarker'}}
+         {{!!itemData.isActive ? ' controls-TreeTileView__item_active'}}"
+     attr:style="{{'-ms-flex-preferred-size: ' + (folderWidth || itemData.defaultFolderWidth) + 'px; flex-basis: ' + (folderWidth || itemData.defaultFolderWidth)+ 'px;'}}">
+  <ws:partial if="{{itemData.hasMultiSelect}}"
+              template="{{multiSelectTpl}}"
+              attr:class="{{itemData.multiSelectClassList}}">
+      <ws:templateOptions triState="{{true}}"
+                         checkboxReadOnly="{{checkboxReadOnly}}"
+                         multiSelectStatus="{{itemData.multiSelectStatus}}"
+                         key="{{itemData.key}}" />
+  </ws:partial>
+  <span attr:class="controls-TreeTileView__nodeIcon icon-large icon-Folder icon-disabled"></span>
+  <ws:if data="{{!!itemData.dragTargetNode}}">
+     <div attr:class="controls-TreeTileView__dragTargetNode"></div>
+  </ws:if>
+  <div attr:class="controls-TreeTileView__title" title="{{itemData.item.title}}">{{itemData.item[itemData.displayProperty]}}</div>
+  <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
+              highlightOnHover="{{highlightOnHover}}"
+              template="{{swipeTemplate}}"
+              itemData="{{itemData}}"
+              itemActionsTemplate="{{itemActionsTemplate}}"/>
+  <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
+              template="{{itemActionsTemplate}}"
+              highlightOnHover="{{highlightOnHover}}"
+              itemData="{{itemData}}"
+              itemActionsClass="controls-TileView__itemActions controls-TreeTileView__itemActions_center"/>
+</div>
