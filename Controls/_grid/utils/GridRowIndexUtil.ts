@@ -327,12 +327,29 @@ function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell) {
         const firstRow = result[0];
         result[0] = [
             ...firstRow,
-            {
-                endColumn: firstRow[firstRow.length - 1].endColumn + 1
-            }
+            getHeaderActionsCellConfig(array)
         ];
     }
     return result;
+}
+
+function getHeaderActionsCellConfig(header) {
+    let minStartRow = Number.MAX_VALUE;
+    let maxEndRow = 0;
+    let maxEndColumn = 0;
+
+    header.forEach((cell) => {
+        minStartRow = cell.startRow < minStartRow ? cell.startRow : minStartRow;
+        maxEndRow = cell.endRow > maxEndRow ? cell.endRow : maxEndRow;
+        maxEndColumn = cell.endColumn > maxEndColumn ? cell.endColumn : maxEndColumn;
+    });
+
+    return {
+        startRow: minStartRow,
+        endRow: maxEndRow,
+        startColumn: maxEndColumn,
+        endColumn: maxEndColumn + 1
+    };
 }
 
 export {
