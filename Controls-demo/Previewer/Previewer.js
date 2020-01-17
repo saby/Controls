@@ -17,6 +17,7 @@ define('Controls-demo/Previewer/Previewer', [
       _value: true,
       _selectedTrigger: 'hoverAndClick',
       _images: null,
+      _text: 'Previewer has not opened yet',
       _theme: ['Controls/Classes'],
 
       _getMemorySource: function(items) {
@@ -25,11 +26,15 @@ define('Controls-demo/Previewer/Previewer', [
             data: items
          });
       },
+      _closeHandler: function() {
+         this._text='Previewer closed';
+      },
 
 
 
       _beforeMount: function() {
          this._images = ['Andrey', 'Valera', 'Maksim'];
+
          this._resourceRoot = Env.constants.resourceRoot;
          this._triggerSource = new source.Memory({
             keyProperty: 'title',

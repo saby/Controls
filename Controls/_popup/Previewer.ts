@@ -223,6 +223,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     private _closeHandler(): void {
         this._isOpened = false;
+        this._notify('close', []);
     }
 
     static getDefaultOptions(): IPreviewerOptions {

@@ -15,6 +15,7 @@
                 <Controls.popup:PreviewerTarget attr:class="ControlsDemo-Previewer__previewer"
                                                 on:dblClick="_clickHandler(image)"
                                                 name="{{image}}"
+                                                on:close="_closeHandler()"
                                                 trigger="{{_trigger}}" trigger_1="{{_options.previewerTrigger}}">
                     <ws:content>
                         <img id="target_{{image}}" src="{{_resourceRoot}}Controls-demo/Previewer/image/{{image}}.png"/>
@@ -49,6 +50,10 @@
                 </Controls.popup:PreviewerTarget>
             </div>
         </ws:for>
+        <div class="ControlsDemo-Previewer__close">
+            {{_text}}
+        </div>
         <div style="height: 400px;"></div>
     </Controls.scroll:Container>
+
 </div>
