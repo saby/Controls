@@ -16,10 +16,12 @@
         <ws:partial template="loadingIndicator"/>
     </ws:if>
     <ws:if data="{{_showContinueSearchButton}}">
-        <div class="controls-BaseControl__continueSearch" on:click="_continueSearch()">
-            <div class="controls-BaseControl__continueSearch_caption">
+        <div class="controls-BaseControl__continueSearch ws-flexbox ws-align-items-center">
+            <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox" on:click="_continueSearch()">
                 <div class="controls-BaseControl__continueSearch_icon controls-icon icon-Search2 controls-icon_size-m_theme-{{_options.theme}}"></div>
-                {[Продолжить поиск]}
+                <div class="controls-BaseControl__continueSearch_caption">
+                    {[Продолжить поиск]}
+                </div>
             </div>
         </div>
     </ws:if>

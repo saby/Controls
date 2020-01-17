@@ -596,8 +596,8 @@ define([
          });
 
          var dataLoadFired = false;
-         var portionSearchCanceled = false;
-
+         var portionSearchTimerReseted = false;
+         var portionSearchReseted = false;
          var beforeLoadToDirectionCalled = false;
 
          var cfg = {
@@ -620,11 +620,12 @@ define([
             navigation: {
                source: 'page',
                sourceConfig: {
-                  pageSize: 3,
+                  pageSize: 2,
                   page: 0,
                   hasMore: false
                }
-            }
+            },
+            searchValue: 'test'
          };
 
          var ctrl = new lists.BaseControl(cfg);
@@ -634,23 +635,26 @@ define([
          ctrl._afterMount(cfg);
 
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
-         ctrl._portionedSearch._clearTimer = function () {
-            portionSearchCanceled = true;
+         ctrl._portionedSearch.resetTimer = () => {
+            portionSearchTimerReseted = true;
+         };
+         ctrl._portionedSearch.reset = () => {
+            portionSearchReseted = true;
          };
 
-         const loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
+         let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          assert.equal(ctrl._loadingState, 'down');
          await loadPromise;
-         assert.isTrue(portionSearchCanceled);
-         assert.equal(6, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
+         assert.isTrue(portionSearchTimerReseted);
+         assert.isFalse(portionSearchReseted);
+         assert.equal(4, lists.BaseControl._private.getItemsCount(ctrl), 'Items wasn\'t load');
          assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
          assert.isTrue(beforeLoadToDirectionCalled, 'beforeLoadToDirectionCallback is not called.');
          assert.equal(ctrl._loadingState, null);
 
-         ctrl._portionedSearch.shouldSearch = () => false;
-         portionSearchCanceled = false;
-         await lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.isFalse(portionSearchCanceled);
+         loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
+         await loadPromise;
+         assert.isTrue(portionSearchReseted);
       });
 
       it('prepareFooter', function() {
@@ -1368,6 +1372,13 @@ define([
                bottom: 0
             });
             assert.deepEqual({top: 'visible', bottom: 'visible'}, control.lastNotifiedArguments[0]);
+            control._sourceController._hasMoreData = {up: false, down: true};
+            control._showContinueSearchButton = true;
+            updateShadowModeHandler.call(control, event, {
+               top: 0,
+               bottom: 0
+            });
+            assert.deepEqual({top: 'auto', bottom: 'auto'}, control.lastNotifiedArguments[0]);
          });
          it('with demand navigation', () => {
             control._options.navigation.view = 'maxCount';

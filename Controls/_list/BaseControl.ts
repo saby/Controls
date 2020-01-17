@@ -445,12 +445,8 @@ var _private = {
     loadToDirection: function(self, direction, userCallback, userErrback, receivedFilter) {
         const navigation = self._options.navigation;
         const listViewModel = self._listViewModel;
-        const portionedSearch = _private.getPortionedSearch(self);
         const beforeAddItems = (addedItems) => {
             if (addedItems.getCount()) {
-                if (portionedSearch.shouldSearch()) {
-                    portionedSearch.reset();
-                }
                 self._loadedItems = addedItems;
             }
             if (self._options.serviceDataLoadCallback instanceof Function) {
@@ -460,6 +456,10 @@ var _private = {
                 userCallback(addedItems, direction);
             }
             _private.resolveIndicatorStateAfterReload(self, addedItems, navigation);
+
+            if (self._options.searchValue) {
+                _private.loadToDirectionWithSearchValueEnded(self, addedItems);
+            }
 
             if (self._options.virtualScrolling && self._isMounted) {
                 self._children.scrollController.itemsFromLoadToDirection = true;
@@ -501,7 +501,7 @@ var _private = {
                 self._options.beforeLoadToDirectionCallback(filter, self._options);
             }
             if (self._options.searchValue) {
-                portionedSearch.startSearch();
+                _private.loadToDirectionWithSearchValueStarted(self);
             }
             _private.setHasMoreData(self._listViewModel, self._sourceController.hasMoreData('down') || self._sourceController.hasMoreData('up'));
             if (self._options.groupProperty) {
@@ -559,6 +559,9 @@ var _private = {
             }
             if (self._loadTriggerVisibility.down || hasNoItems) {
                 _private.onScrollLoadEdge(self, 'down', filter);
+            }
+            if (self._options.searchValue) {
+                _private.checkPortionedSearchByScrollTriggerVisibility(self, self._loadTriggerVisibility.down);
             }
         } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, self._options.navigation)) {
             _private.loadToDirectionIfNeed(self, 'down', filter);
@@ -952,6 +955,29 @@ var _private = {
                 self._sourceController.cancelLoading();
             }
         }));
+    },
+
+    loadToDirectionWithSearchValueStarted(self): void {
+        _private.getPortionedSearch(self).startSearch();
+    },
+
+    loadToDirectionWithSearchValueEnded(self, loadedItems: RecordSet): void {
+        const portionedSearch = _private.getPortionedSearch(self);
+        if (!self._sourceController.hasMoreData('down')) {
+            portionedSearch.reset();
+        } else if (loadedItems.getCount()) {
+            portionedSearch.resetTimer();
+        }
+    },
+
+    checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
+        if (!scrollTriggerVisibility) {
+            _private.getPortionedSearch(self).resetTimer();
+        }
+    },
+
+    needShowShadowByPortionedSearch(self): boolean {
+        return !self._showContinueSearchButton;
     },
 
     needScrollCalculation: function (navigationOpt) {
@@ -1681,10 +1707,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         const itemsCount = this._listViewModel && this._listViewModel.getCount();
         const hasMoreData = (direction) => this._sourceController && this._sourceController.hasMoreData(direction);
         const showShadowByNavigation = _private.needShowShadowByNavigation(this._options.navigation, itemsCount);
+        const showShadowByPortionedSearch = _private.needShowShadowByPortionedSearch(this);
 
         this._notify('updateShadowMode', [{
             top: (placeholderSizes.top || showShadowByNavigation && itemsCount && hasMoreData('up')) ? 'visible' : 'auto',
-            bottom: (placeholderSizes.bottom || showShadowByNavigation && itemsCount && hasMoreData('down')) ? 'visible' : 'auto'
+            bottom: (placeholderSizes.bottom || showShadowByNavigation && showShadowByPortionedSearch && itemsCount && hasMoreData('down')) ? 'visible' : 'auto'
         }], {bubbling: true});
     },
 

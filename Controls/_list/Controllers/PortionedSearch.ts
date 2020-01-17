@@ -41,6 +41,10 @@ export default class PortionedSearch<PortionedSearchOptions> {
         this._options.searchResetCallback();
     }
 
+    resetTimer(): void {
+        this._clearTimer();
+    }
+
     shouldSearch(): boolean {
         return this._getSearchState() !== SEARCH_STATES.STOPPED;
     }
