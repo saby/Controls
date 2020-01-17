@@ -340,6 +340,7 @@
  * @cfg {Function} Устанавливает шаблон отображения строки итогов.
  * @default Controls/grid:ResultsTemplate
  * @remark
+ * Подробнее о параметрах шаблона Controls/grid:ResultsTemplate читайте {@link Controls/grid:ResultsTemplate здесь}.
  * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ здесь}.
  * @see resultsPosition
  * @see resultsVisibility

@@ -29,12 +29,12 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupTemplate
-    * @cfg {Function} Шаблон группировки списка.
+    * @cfg {Function} Устанавливает шаблон группировки списка.
     * @default Controls/grid:GroupTemplate
     * @remark
     * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
-    * Подробнее о параметрах шаблона читайте {@link Controls/grid:GroupTemplate здесь}.
-    * Подробнее работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
+    * Подробнее о параметрах шаблона Controls/grid:GroupTemplate читайте {@link Controls/grid:GroupTemplate здесь}.
+    * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded

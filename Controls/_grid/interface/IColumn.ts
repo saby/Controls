@@ -99,10 +99,12 @@ export interface IColumn {
      */
     compatibleWidth?: string;
     /**
-     * @description Шаблон отображения ячейки.
+     * @description Устанавливает шаблон отображения ячейки.
      * @default Controls/grid:ColumnTemplate
      * @remark
-     * О создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
+     * Подробнее о параметрах шаблона Controls/grid:ColumnTemplate читайте {@link Controls/grid:ColumnTemplate здесь}.
+     * Подробнее о создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
+     * 
      */
     template?: TemplateFunction;
     /**

@@ -24,8 +24,9 @@ define('Controls/interface/IGridItemTemplate', [
     * @default Controls/grid:ItemTemplate
     * @remark
     * См. <a href="/materials/demo-ws4-grid-item-template">демо-пример</a>.
+    * Подробнее о параметрах шаблона Controls/grid:ItemTemplate читайте {@link Controls/grid:ItemTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/item/ здесь}.
-    * Шаблон может быть переопределён с помощью {@link Controls/interface/IGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
+    * Шаблон может быть переопределён с помощью опции {@link Controls/interface/IGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
     * @example
     * В следующем примере показано, как изменить параметры шаблона.
     * <pre class="brush: html">

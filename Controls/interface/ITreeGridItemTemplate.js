@@ -22,6 +22,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
     * @default Controls/treeGrid:ItemTemplate
     * @remark
     * См. <a href="/materials/demo-ws4-tree-grid-item-template">демо-пример</a>.
+    * Подробнее о параметрах шаблона Controls/treeGrid:ItemTemplate читайте {@link Controls/treeGrid:ItemTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ здесь}.
     * Шаблон может быть переопределён с помощью {@link Controls/interface/ITreeGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
     * @example
