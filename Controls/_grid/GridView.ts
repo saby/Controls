@@ -6,6 +6,7 @@ import * as GridIsEqualUtil from 'Controls/_grid/utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {CssClassList} from '../Utils/CssClassList';
+import getDimensions = require("Controls/Utils/getDimensions");
 
 import * as GridViewTemplateChooser from 'wml!Controls/_grid/GridViewTemplateChooser';
 import * as GridLayout from 'wml!Controls/_grid/layout/grid/GridView';
@@ -98,6 +99,24 @@ var
             const currentCell = e.target.closest('.controls-Grid__row-cell');
             const multiSelectOffset = self._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
             return Array.prototype.slice.call(gridCells).indexOf(currentCell) - multiSelectOffset;
+        },
+
+        // uDimensions for unit tests
+        getMultiHeaderHeight(headerContainer: HTMLElement, uDimensions: Function = getDimensions): number {
+            const cells = headerContainer.children;
+            if (cells.length === 0) {
+                return 0;
+            }
+            const bounds = {
+                min: Number.MAX_VALUE,
+                max: Number.MIN_VALUE
+            };
+            Array.prototype.forEach.call(cells, (cell) => {
+                const dimensions = uDimensions(cell);
+                bounds.min = bounds.min < dimensions.top ? bounds.min : dimensions.top;
+                bounds.max = bounds.max > dimensions.bottom ? bounds.max : dimensions.bottom
+            });
+            return bounds.max - bounds.min;
         }
     },
     GridView = ListView.extend({
@@ -247,11 +266,15 @@ var
         },
 
         getHeaderHeight(): number {
-            return this._children.header ? this._children.header.getBoundingClientRect().height : 0;
+            const headerContainer = this._children.header;
+            if (!headerContainer) {
+                return 0;
+            }
+            return this._listModel._isMultiHeader ? _private.getMultiHeaderHeight(headerContainer) : headerContainer.getBoundingClientRect().height;
         },
 
         getResultsHeight(): number {
-            return this._children.results ? this._children.results.getBoundingClientRect().height : 0;
+            return this._children.results ? getDimensions(this._children.results).height : 0;
         },
 
         _getGridViewClasses(): string {
