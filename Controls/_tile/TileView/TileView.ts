@@ -79,6 +79,14 @@ var _private = {
             }
         }
         return result;
+    },
+    // TODO Нужен синглтон, который говорит, идет ли сейчас перетаскивание
+    // https://online.sbis.ru/opendoc.html?guid=a838cfd3-a49b-43a8-821a-838c1344288b
+    shouldProcessHover(self): boolean {
+        return (
+            !_private.isTouch(self) &&
+            !document.body.classList.contains('ws-is-drag')
+        );
     }
 };
 
@@ -169,16 +177,19 @@ var TileView = ListView.extend({
         TileView.superclass._onItemMouseLeave.apply(this, arguments);
     },
 
-    _onItemMouseMove: function (event, itemData) {
-        let
-            hoveredItem = this._listModel.getHoveredItem(),
-            isCurrentItemHovered = hoveredItem && hoveredItem.key === itemData.key;
+    _onItemMouseMove(event, itemData): void {
+        const hoveredItem = this._listModel.getHoveredItem();
+        const isCurrentItemHovered = hoveredItem && hoveredItem.key === itemData.key;
 
-        if ((!hoveredItem || !isCurrentItemHovered) && !_private.isTouch(this) && !this._listModel.getDragEntity()) {
+        if (
+            !isCurrentItemHovered &&
+            !this._listModel.getDragEntity() &&
+            _private.shouldProcessHover(this)
+        ) {
             _private.clearMouseMoveTimeout(this);
-
             this._calculateHoveredItemPosition(event, itemData);
         }
+
         TileView.superclass._onItemMouseMove.apply(this, arguments);
     },
 
