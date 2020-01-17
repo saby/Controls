@@ -131,6 +131,8 @@ var
                     currentColumn = superGetCurrentColumn();
                 currentColumn.nodeType = current.item.get && current.item.get(current.nodeProperty);
 
+                currentColumn.prepareExpanderClasses = current.prepareExpanderClasses;
+
                 currentColumn.isExpanded = current.isExpanded;
                 currentColumn.cellClasses += ' controls-TreeGrid__row-cell' + `_theme-${theme}`;
 
