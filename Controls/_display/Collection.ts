@@ -690,20 +690,19 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this.setItemsSpacings(options.itemPadding);
         }
 
-        this._stopIndex = this.getCount();
-
         const virtualScrollConfig = options.virtualScrollConfig || {mode: options.virtualScrollMode};
-
         this._$virtualScrollMode = virtualScrollConfig.mode;
 
         this._markerManager = new MarkerManager(this);
         this._editInPlaceManager = new EditInPlaceManager(this);
         this._itemActionsManager = new ItemActionsManager(this);
-        this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
-            new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
         this._hoverManager = new HoverManager(this);
         this._swipeManager = new SwipeManager(this);
         this._selectionManager = new SelectionManager(this);
+
+        this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
+            new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
+        this.setViewIndices(0, this.getCount());
     }
 
     destroy(): void {
