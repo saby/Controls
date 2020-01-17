@@ -97,12 +97,12 @@ var _private = {
       return self.originSource;
    },
 
-   initHistory: function (self, data, sourceItems) {
+   initHistory: function(self, data, sourceItems) {
       if (data.getRow) {
-         var rows = this.prepareHistoryBySourceItems(self, data.getRow(), sourceItems);
-         var pinned = rows.get('pinned');
-         var recent = rows.get('recent');
-         var frequent = rows.get('frequent');
+         const row = data.getRow();
+         const pinned = this.prepareHistoryItems(self, row.get('pinned'), sourceItems);
+         const recent = this.prepareHistoryItems(self, row.get('recent'), sourceItems);
+         const frequent = this.prepareHistoryItems(self, row.get('frequent'), sourceItems);
 
          self._history = {
             pinned: pinned,
@@ -124,24 +124,24 @@ var _private = {
 
    /* После изменения оригинального рекордсета, в истории могут остаться записи,
       которых уже нет в рекордсете, поэтому их надо удалить из истории */
-   prepareHistoryBySourceItems: function (self, history, sourceItems) {
+   prepareHistoryItems: function(self, historyItems: RecordSet, sourceItems: RecordSet) {
+      let hItems = historyItems.clone();
+
       // TODO: Remove after execution https://online.sbis.ru/opendoc.html?guid=478ab308-2431-4517-9ccc-41e4af4e292a
       if (cInstance.instanceOfModule(self.originSource, 'Types/source:Memory')) {
-         history.each(function (field, historyItems) {
-            var toDelete = [];
+         let toDelete = [];
 
-            historyItems.each(function (rec) {
-               if (!sourceItems.getRecordById(rec.getId())) {
-                  toDelete.push(rec);
-               }
-            });
+         chain.factory(hItems).each((rec) => {
+            if (!sourceItems.getRecordById(rec.getKey())) {
+               toDelete.push(rec);
+            }
+         });
 
-            toDelete.forEach(function (rec) {
-               historyItems.remove(rec);
-            });
+         toDelete.forEach((rec) => {
+            hItems.remove(rec);
          });
       }
-      return history;
+      return hItems;
    },
 
    getFilterHistory: function (self, rawHistoryData) {
