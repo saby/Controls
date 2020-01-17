@@ -6,6 +6,7 @@
  * @includes SearchContextField Controls/_context/SearchContextField
  * @includes TouchContextField Controls/_context/TouchContextField
  * @deprecated 
+ * @private
  * @author Крайнов Д.О.
  */
 
