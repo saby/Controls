@@ -43,7 +43,7 @@ define([
                result = cfg;
             }
          });
-         assert('top', spInstance._curState, 'Wrong curState after ctor');
+         assert.equal('top', spInstance._curState, 'Wrong curState after ctor');
 
          assert.deepEqual({
             stateBegin: 'disabled',
@@ -62,7 +62,7 @@ define([
          });
 
          spInstance.handleScroll();
-         assert('middle', spInstance._curState, 'Wrong curState after scroll');
+         assert.equal('middle', spInstance._curState, 'Wrong curState after scroll');
          assert.deepEqual({
             stateBegin: 'normal',
             statePrev: 'normal',
@@ -71,7 +71,7 @@ define([
          }, result, 'Wrong pagingCfg after scroll');
 
          spInstance.handleScrollTop(false);
-         assert('top', spInstance._curState, 'Wrong curState after scroll to top');
+         assert.equal('top', spInstance._curState, 'Wrong curState after scroll to top');
          assert.deepEqual({
             stateBegin: 'disabled',
             statePrev: 'disabled',
@@ -80,7 +80,7 @@ define([
          }, result, 'Wrong pagingCfg after scroll');
 
          spInstance.handleScrollBottom(false);
-         assert('bottom', spInstance._curState, 'Wrong curState after scroll to bottom');
+         assert.equal('bottom', spInstance._curState, 'Wrong curState after scroll to bottom');
          assert.deepEqual({
             stateBegin: 'normal',
             statePrev: 'normal',
@@ -90,7 +90,7 @@ define([
 
          spInstance.handleScroll();//to reset _curState
          spInstance.handleScrollBottom(true);
-         assert('bottom', spInstance._curState, 'Wrong curState after scroll to bottom');
+         assert.equal('middle', spInstance._curState, 'Wrong curState after scroll to bottom');
          assert.deepEqual({
             stateBegin: 'normal',
             statePrev: 'normal',
@@ -99,7 +99,7 @@ define([
          }, result, 'Wrong pagingCfg after scroll');
 
          spInstance.handleScrollEdge('up', {down: true, up: false});
-         assert('top', spInstance._curState, 'Wrong curState after scroll to edge up');
+         assert.equal('top', spInstance._curState, 'Wrong curState after scroll to edge up');
          assert.deepEqual({
             stateBegin: 'disabled',
             statePrev: 'disabled',
@@ -108,7 +108,7 @@ define([
          }, result, 'Wrong pagingCfg after scroll');
 
          spInstance.handleScrollEdge('down', {down: false, up: true});
-         assert('bottom', spInstance._curState, 'Wrong curState after scroll to edge down');
+         assert.equal('bottom', spInstance._curState, 'Wrong curState after scroll to edge down');
          assert.deepEqual({
             stateBegin: 'normal',
             statePrev: 'normal',
@@ -118,7 +118,7 @@ define([
 
          spInstance.handleScroll();//to reset _curState
          spInstance.handleScrollEdge('down', {down: true, up: false});
-         assert('bottom', spInstance._curState, 'Wrong curState after scroll to edge down');
+         assert.equal('middle', spInstance._curState, 'Wrong curState after scroll to edge down');
          assert.deepEqual({
             stateBegin: 'normal',
             statePrev: 'normal',
