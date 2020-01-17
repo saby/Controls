@@ -46,7 +46,9 @@ var Paging = cExtend.extend({
                 stateNext: 'normal',
                 stateEnd: 'normal'
             });
-            this._curState = 'top';
+            if (!hasMoreData) {
+                this._curState = 'top';
+            }
         }
     },
 
@@ -59,7 +61,9 @@ var Paging = cExtend.extend({
                 stateNext: stateNext,
                 stateEnd: stateNext
             });
-            this._curState = 'bottom';
+            if (!hasMoreData) {
+                this._curState = 'bottom';
+            }
         }
 
     },
