@@ -7,30 +7,6 @@
  */
 
 /**
- * @name Controls/_popupTemplate/interface/IPopupTemplate#headingCaption
- * @cfg {String} Текст заголовка.
- */
-
-/**
- * @name Controls/_popupTemplate/interface/IPopupTemplate#headingStyle
- * @cfg {String} Стиль отображения заголовка.
- * @variant secondary
- * @variant primary
- * @variant info
- * @default secondary
- */
-
-/**
- * @name Controls/_popupTemplate/interface/IPopupTemplate#headingSize
- * @cfg {String} Размер заголовка
- * @variant s
- * @variant m
- * @variant l
- * @variant xl
- * @default l
- */
-
-/**
  * @name Controls/_popupTemplate/interface/IPopupTemplate#closeButtonViewMode
  * @cfg {String} Стиль отображения кнопки закрытия
  * @variant toolButton
@@ -47,9 +23,6 @@
 
 import {IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
 export interface IPopupTemplateOptions extends IPopupTemplateBaseOptions {
-    headingCaption?: string;
-    headingStyle?: string;
-    headingSize?: string;
     closeButtonViewMode?: string;
     closeButtonTransparent?: boolean;
 }
