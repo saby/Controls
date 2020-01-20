@@ -43,6 +43,7 @@ export default class PortionedSearch<PortionedSearchOptions> {
 
     resetTimer(): void {
         this._clearTimer();
+        this._startTimer();
     }
 
     shouldSearch(): boolean {
