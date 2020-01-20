@@ -311,9 +311,18 @@
    z-index: 2;
 }
 
+.controls-Grid__row-ladder-cell__content_default_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_default;
+}
+.controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_s;
+}
+.controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_l;
+}
+
 .controls-Grid__row-ladder-cell__content {
    .position-sticky();
-   top: 0;
 }
 
 .controls-Grid__row-cell_withoutRowSeparator_theme-@{themeName} {
