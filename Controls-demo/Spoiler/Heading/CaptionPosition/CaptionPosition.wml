@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=right</div>
+      <Controls.spoiler:Heading captions="{{_captions}}" bind:expanded="_expandedRight"
+                                captionPosition="right"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">captionPosition=left</div>
+      <Controls.spoiler:Heading captions="{{_captions}}" bind:expanded="_expandedLeft"
+                                captionPosition="left"/>
+   </div>
+</div>

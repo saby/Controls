@@ -1,0 +1,16 @@
+<div class="controls-SpoilerHeading" on:click="_clickHandler()">
+   <div class="controls-SpoilerHeading__wrapper
+               controls-SpoilerHeading__wrapper_theme-{{_options.theme}}">
+      <div class="controls-SpoilerHeading__iconWrapper
+                  controls-SpoilerHeading__iconWrapper_theme-{{_options.theme}}">
+         <div class="controls-SpoilerHeading__icon icon-{{_icon}}
+                  controls-SpoilerHeading__icon_theme-{{_options.theme}}
+                  controls-SpoilerHeading__icon_{{_view}}_theme-{{_options.theme}}"></div>
+      </div>
+      <div class="controls-SpoilerHeading__caption
+                  controls-SpoilerHeading__caption_{{_view}}
+                  controls-SpoilerHeading__caption_{{_view}}_theme-{{_options.theme}}
+                  controls-SpoilerHeading__caption_captionPosition-{{_options.captionPosition}}
+                  controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">{{_caption}}</div>
+   </div>
+</div>

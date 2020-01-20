@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">captions=Заголовок</div>
+      <Controls.spoiler:Heading captions="Заголовок" bind:expanded="_expanded1"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">captions=['Свернуть', 'Развернуть']</div>
+      <Controls.spoiler:Heading captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded2"/>
+   </div>
+</div>
