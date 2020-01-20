@@ -979,7 +979,7 @@ var _private = {
     },
 
     needShowShadowByPortionedSearch(self): boolean {
-        return !self._showContinueSearchButton;
+        return !self._showContinueSearchButton && _private.getPortionedSearch(self).shouldSearch();
     },
 
     needScrollCalculation: function (navigationOpt) {
