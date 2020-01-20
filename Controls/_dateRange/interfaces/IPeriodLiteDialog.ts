@@ -10,7 +10,7 @@ import dateControlsUtils from './../Utils';
 /*
  * Миксин Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @public
- */ 
+ */
 var EMPTY_CAPTIONS = {
     NOT_SPECIFIED: rk('Не указан'),
     NOT_SELECTED: rk('Не выбран'),
@@ -79,7 +79,7 @@ export default {
 
             /**
              * @name Controls/dateLitePopup/IDateLitePopup#popupClassName
-             * @cfg {String} Класс, который навешивается на всплывающее окно.
+             * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
              */
             popupClassName: undefined,
             // TODO: Доделать полноценную поддержку следующих опций. Пока не показываем их в документации.
@@ -170,7 +170,7 @@ export default {
              *    <li>periods — Массив, содержащий массивы начала и окончания периода.</li>
              * </ol>
              * Функция должна возвращать массив логических элементов или объект, содержащий информацию об отображаемой иконке или Deffered'е, который запускает такой объект.
-             * Если функция возвращает true, будет отображена иконка, соответствующая параметрам {@Link checkedIconCssClass} и {@Link checkedIconTitle}. 
+             * Если функция возвращает true, будет отображена иконка, соответствующая параметрам {@Link checkedIconCssClass} и {@Link checkedIconTitle}.
              * Если функция возвращает false, икноки будут отображены в соответствии с параметрами {@Link uncheckedIconCssClass} и {@Link uncheckedIconTitle}.
              * По умолчанию это зеленые и серые галочки.
              * Функция может возвращать объект, содержащий сведения о пользовательских окнах.
@@ -209,7 +209,7 @@ export default {
 
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#itemTemplate
-             * @cfg {String} Шаблон отображения года. Может принимать параметр monthCaptionTemplate — шаблон названия месяца. 
+             * @cfg {String} Шаблон отображения года. Может принимать параметр monthCaptionTemplate — шаблон названия месяца.
              * Дата первого дня месяца и функция форматирования даты передаются в шаблон {@link Types/formatter:date}.
              * @example
              * <ws:itemTemplate>
@@ -258,7 +258,7 @@ export default {
              *    <li>startValue — Начальное значение периода.</li>
              *    <li>endValue — Конечное значение периода.</li>
              *    <li>emptyCaption — Отображаемый текст, когда в контроле не выбран период.</li>
-             * </ol> 
+             * </ol>
              * @returns {String}
              * @example
              * WML:
