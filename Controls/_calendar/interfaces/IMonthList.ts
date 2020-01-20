@@ -112,8 +112,8 @@ export interface IMonthList {
  *            <ws:dayTemplate>
  *               <ws:partial template="Controls/calendar:MonthViewDayTemplate">
  *                  <ws:contentTemplate>
- *                     <div class="{{value.extData.isEven ? 'someClass'}}">
- *                        {{value.day}}
+ *                     <div class="{{contentTemplate.value.extData.isEven ? 'someClass'}}">
+ *                        {{contentTemplate.value.day}}
  *                     </div>
  *                  </ws:contentTemplate>
  *               </ws:partial>
@@ -144,8 +144,8 @@ export interface IMonthList {
  *            <ws:dayTemplate>
  *               <ws:partial template="Controls/calendar:MonthViewDayTemplate">
  *                  <ws:contentTemplate>
- *                     <div class="{{value.extData.isEven ? 'someClass'}}">
- *                        {{value.day}}
+ *                     <div class="{{contentTemplate.value.extData.isEven ? 'someClass'}}">
+ *                        {{contentTemplate.value.day}}
  *                     </div>
  *                  </ws:contentTemplate>
  *               </ws:partial>
