@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/treeGrid/Multiselect/MultiselectVisibility/OnHover/OnHover"
+import * as Template from "wml!Controls-demo/treeGrid/MultiSelect/MultiSelectVisibility/OnHover/OnHover"
 import {Memory} from "Types/source"
 import {Gadgets} from "../../../DemoHelpers/DataCatalog"
 
