@@ -42,12 +42,6 @@ export interface IConfirmationOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmation#isOpened
- * @function
- * @description Возвращает информацию о том, открыто ли всплывающее окно.
- */
-
-/**
  * Метод открытия окна подтверждения.
  * @function Controls/_popup/interface/IConfirmation#open
  * @param {Controls/popup:IConfirmation} IConfirmationOptions Конфигурация диалога подтверждения.
