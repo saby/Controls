@@ -16,8 +16,8 @@
         <ws:partial template="loadingIndicator"/>
     </ws:if>
     <ws:if data="{{_showContinueSearchButton}}">
-        <div class="controls-BaseControl__continueSearch ws-flexbox ws-align-items-center">
-            <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox" on:click="_continueSearch()">
+        <div class="controls-BaseControl__continueSearch ws-flexbox ws-justify-content-center">
+            <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center" on:click="_continueSearch()">
                 <div class="controls-BaseControl__continueSearch_icon controls-icon icon-Search2 controls-icon_size-m_theme-{{_options.theme}}"></div>
                 <div class="controls-BaseControl__continueSearch_caption">
                     {[Продолжить поиск]}
