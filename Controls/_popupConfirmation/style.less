@@ -2,24 +2,22 @@
    display: flex;
    flex-direction: column;
    border-top-style: solid;
-   border-top-width: @border-width_InformationPopup;
-   background: @background-color_InformationPopup;
-   box-shadow: @size_InformationPopup-shadow @color_InformationPopup-shadow;
+   border-top-width: @marker_thickness_confirmation;
+   background: @background-color_dialog;
+   box-shadow: @box-shadow_dialog;
    height: 100%;
    &.controls-ConfirmationTemplate__status-default {
-      border-top-color: @border-color_InformationPopup_default;
+      border-top-color: @secondary_marker_color_confirmation;
    }
-
    &.controls-ConfirmationTemplate__status-success {
-      border-top-color: @border-color_InformationPopup_success;
+      border-top-color: @success_color;
    }
    &.controls-ConfirmationTemplate__status-danger {
-      border-top-color: @border-color_InformationPopup_danger;
+      border-top-color: @danger_color;
    }
    &.controls-ConfirmationTemplate__status-confirm {
-      border-top-color: @border-color_InformationPopup_default;
+      border-top-color: @secondary_marker_color_confirmation;
    }
-
    box-sizing: border-box;
 }
 .controls-ConfirmationTemplate__body {
@@ -27,9 +25,9 @@
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
-   border-left: @size_SubmitPopup-border solid @border-color_SubmitPopup;
-   border-right: @size_SubmitPopup-border solid @border-color_SubmitPopup;
-   border-bottom: @size_SubmitPopup-border solid @border-color_SubmitPopup;
+   border-left: @border-thickness_dialog solid @border-color_dialog;
+   border-right: @border-thickness_dialog solid @border-color_dialog;
+   border-bottom: @border-thickness_dialog solid @border-color_dialog;
 }
 .controls-ConfirmationTemplate__main {
    height: 100%;
@@ -37,19 +35,24 @@
    overflow: hidden;
    display: flex;
    flex-direction: column;
-   padding: @spacing_SubmitPopup-between-content-border;
+   padding: @content_padding_confirmation;
 }
 
 .controls-ConfirmationTemplate__footer {
-   padding: @spacing_SubmitPopup-between-footer-border;
-   border-top: @size_SubmitPopup-border solid @border-color_SubmitPopup-footer-top;
-   background: @background-color_SubmitPopup-footer;
+   padding: @footer-content_padding_confirmation;
+   border-top: @footer_top-border-thickness_confirmation solid @footer_top-border-color_confirmation;
+   background: @footer_background-color_confirmation;
 }
 
 .controls-ConfirmationTemplate__size-l {
-   width: @width_ConfirmationTemplate-l;
+   width: @width_l_confirmation;
 }
 
+//TODO: временный класс для поддержки size: 'm'
 .controls-ConfirmationTemplate__size-m {
-   width: @width_ConfirmationTemplate-m;
+   width: @width_s_confirmation;
+}
+
+.controls-ConfirmationTemplate__size-s {
+   width: @width_s_confirmation;
 }
