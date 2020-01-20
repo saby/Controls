@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/PopupTemplate/Sticky/BodyContentTemplate/Index');
+import controlTemplate = require('wml!Controls-demo/PopupTemplate/Sticky/FooterContentTemplate/Index');
 import 'css!Controls-demo/PopupTemplate/Sticky/Sticky';
 import 'css!Controls-demo/Controls-demo';
 
