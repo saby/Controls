@@ -3,7 +3,6 @@
             {{_options.dropdownClassName}}
             theme_{{_options.theme}}"
             style="width: {{_options.width ? _options.width + 'px'}}"
-            attr:ws-no-focus="true"
      on:mouseleave="_mouseOutHandler()">
    <ws:if data="{{_options.showHeader || _options.headerTemplate}}">
       <ws:partial template="{{_options.headTemplate || _options.headerTemplate || _defaultHeadTemplate}}"
@@ -15,7 +14,7 @@
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-DropdownList__scroll theme_{{_options.theme}}"
                               topShadowVisibility="hidden"
                               bottomShadowVisibility="hidden">
-      <div>
+      <div attr:ws-no-focus="true">
          <ws:partial template="wml!Controls/_dropdownPopup/For"
                      listModel="{{_listModel}}"
                      itemTemplate="{{_options.itemTemplate}}"
