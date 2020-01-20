@@ -18,51 +18,51 @@ export interface INotificationOpener extends IOpener {
 
 /**
  * @name Controls/_popup/interface/INotification#autoClose
- * @cfg {Number} Автоматически закрывать окно через 5 секунд после открытия.
+ * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
+ * @default true
  */
 
 /**
  * @typedef {Object} PopupOptions
  * @description Sets the popup configuration.
- * @property {} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
- * @property {} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
- * @property {} template Шаблон всплывающего окна
- * @property {} templateOptions Опции для контрола, переданного в {@link template}
+ * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
+ * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
+ * @property {String|Function} template Шаблон всплывающего окна.
+ * @property {Object} templateOptions Опции для контрола, который добавлен в шаблон {@link template}.
  */
 
 /**
  * Метод открытия нотификационного окна.
  * Повторный вызов этого метода вызовет переририсовку контрола.
- * @function Controls/_popup/interface/INotification#open
- * @param {PopupOptions} popupOptions Конфигурация нотифицационного окна
+ * @function
+ * @name Controls/_popup/interface/INotification#open
+ * @param {PopupOptions} popupOptions Конфигурация окна.
  * @remark
- * Если требуется открыть окно, без создания popup:Notification в верстке, следует использовать статический метод {@link openPopup}
+ * Чтобы открыть окно без создания в верстке {@link Controls/popup:Notification}, используйте статический метод {@link openPopup}.
  * @example
- * wml
- * <pre>
- *    <Controls.popup:Notification name="notificationOpener">
- *       <ws:popupOptions template="wml!Controls/Template/NotificationTemplate">
- *       </ws:popupOptions>
- *    </Controls.popup:Notification>
- *
- *    <Controls.buttons:Button name="openNotificationButton" caption="open notification" on:click="_open()"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.popup:Notification name="notificationOpener">
+ *    <ws:popupOptions template="wml!Controls/Template/NotificationTemplate" />
+ * </Controls.popup:Notification>
+ * <Controls.buttons:Button name="openNotificationButton" caption="open notification" on:click="_open()"/>
  * </pre>
- * js
  * <pre>
- *   Control.extend({
- *      ...
- *       _open() {
- *          var popupOptions = {
- *              templateOptions: {
- *                 style: "done",
- *                 text: "Message was send",
- *                 icon: "Admin"
- *              }
+ * // JavaScript
+ * Control.extend({
+ *    ...
+ *    _open() {
+ *       var popupOptions = {
+ *          templateOptions: {
+ *             style: "done",
+ *             text: "Message was send",
+ *             icon: "Admin"
  *          }
- *          this._children.notificationOpener.open(popupOptions)
- *      }
- *      ...
- *   });
+ *       }
+ *       this._children.notificationOpener.open(popupOptions)
+ *    }
+ *    ...
+ * });
  * </pre>
  * @see close
  * @see openPopup
@@ -71,28 +71,30 @@ export interface INotificationOpener extends IOpener {
 
 /**
  * Статический метод для открытия нотификационного окна. При использовании метода не требуется создавать popup:Notification в верстке.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup Подробнее}.
- * @function Controls/_popup/interface/INotification#openPopup
- * @param {PopupOptions} config Конфигурация нотификационного окна
- * @return {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна, который потребуется для закрытия этого окна. см метод {@link closePopup}
+ * @function 
+ * @name Controls/_popup/interface/INotification#openPopup
+ * @param {PopupOptions} config Конфигурация окна.
+ * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
+ * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
  * @static
+ * @remark
+ * Дополнительный пример работы со статическим методом доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
  * @example
- * js
  * <pre>
- *    import {Notification} from 'Controls/popup';
- *    ...
- *    openNotification() {
- *        Notification.openPopup({
- *          template: 'Example/MyStackTemplate',
- *          autoClose: true
- *        }).then((popupId) => {
- *          this._notificationId = popupId;
- *        });
- *    },
- *
- *    closeNotification() {
- *       Notification.closePopup(this._notificationId);
- *    }
+ * // TypeScript
+ * import {Notification} from 'Controls/popup';
+ * ...
+ * openNotification() {
+ *    Notification.openPopup({
+ *       template: 'Example/MyStackTemplate',
+ *       autoClose: true
+ *    }).then((popupId) => {
+ *       this._notificationId = popupId;
+ *    });
+ * },
+ * closeNotification() {
+ *    Notification.closePopup(this._notificationId);
+ * }
  * </pre>
  * @see closePopup
  * @see close
@@ -100,28 +102,30 @@ export interface INotificationOpener extends IOpener {
  */
 
 /**
- * Статический метод для закрытия окна по идентификатору.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup Подробнее}.
- * @function Controls/_popup/interface/INotification#closePopup
- * @param {String} popupId Идентификатор окна, который был получен при вызове метода {@link openPopup}.
+ * Статический метод для закрытия нотификационного окна по идентификатору.
+ * @function
+ * @name Controls/_popup/interface/INotification#closePopup
+ * @param {String} popupId Идентификатор окна. 
+ * Такой идентификатор можно получить при открытии окна методом {@link openPopup}.
  * @static
+ * @remark
+ * Дополнительный пример работы со статическим методом доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
  * @example
- * js
  * <pre>
- *    import {Notification} from 'Controls/popup';
- *    ...
- *    openNotification() {
- *        Notification.openPopup({
- *          template: 'Example/MyStackTemplate',
- *          autoClose: true
- *        }).then((popupId) => {
- *          this._notificationId = popupId;
- *        });
- *    },
- *
- *    closeNotification() {
- *       Notification.closePopup(this._notificationId);
- *    }
+ * // TypeScript
+ * import {Notification} from 'Controls/popup';
+ * ...
+ * openNotification() {
+ *    Notification.openPopup({
+ *       template: 'Example/MyStackTemplate',
+ *       autoClose: true
+ *    }).then((popupId) => {
+ *       this._notificationId = popupId;
+ *    });
+ * },
+ * closeNotification() {
+ *    Notification.closePopup(this._notificationId);
+ * }
  * </pre>
  * @see openPopup
  * @see opener
