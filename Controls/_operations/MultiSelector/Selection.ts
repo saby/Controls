@@ -184,6 +184,10 @@ export default class Selection {
       this._listModel = listModel;
    }
 
+   setKeyProperty(keyProperty: string) {
+      this._keyProperty = keyProperty;
+   }
+
    getSelection(): ISelection {
       return {
          selected: this._selectedKeys,
