@@ -1,6 +1,4 @@
-<div class="controls-ConfirmationTemplate controls-ConfirmationTemplate__status-{{_options.style}}
-            controls-ConfirmationTemplate__size-{{_options.size}}
-            controls-Popup__isolatedFocusingContext"
+<div class="controls-ConfirmationTemplate controls-ConfirmationTemplate__status-{{_options.style}}{{_options.size == 'l' ? ' controls-ConfirmationTemplate__size-l' : ' controls-ConfirmationTemplate__size-m'}} controls-Popup__isolatedFocusingContext"
     ws-tab-cycling="true"
     ws-delegates-tabfocus="true">
     <div class="controls-ConfirmationTemplate__body">

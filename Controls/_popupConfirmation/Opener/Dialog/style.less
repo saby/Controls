@@ -1,17 +1,18 @@
 .controls-ConfirmationDialog__message{
-   font-size: @message_font-size_confirmation;
+   font-size: @font-size_SubmitPopup-message;
    line-height: normal;
-   color: @message_text-color_confirmation;
+   font-weight: @font-weight_SubmitPopup-message;
+   color: @color_SubmitPopup-message;
 }
 
 .controls-ConfirmationDialog__message_withDetails {
-   margin-bottom: @details_offset_confirmation;
+   margin-bottom: @spacing_SubmitPopup-between-message-border-bottom;
 }
 
 .controls-ConfirmationDialog__details{
-   font-size: @details_font-size_confirmation;
+   font-size: @font-size_SubmitPopup-details;
    line-height: normal;
-   color: @details_text-color_confirmation;
+   color: @color_SubmitPopup-details;
 }
 
 .controls-ConfirmationDialog__message, .controls-ConfirmationDialog__details{
@@ -29,17 +30,18 @@
 }
 
 .controls-ConfirmationDialog__button-standard {
-   min-width: @min-width_button_l_confirmation;
+   min-width: @min-width_SubmitPopup-button;
 }
 
 .controls-ConfirmationDialog__button-mini {
-   min-width: @min-width_button_s_confirmation;
+   min-width: @min-width_SubmitPopup-button-small;
 }
 
 .controls-ConfirmationDialog__no-cancel-button {
-   margin-left: @offset_button_confirmation;
+   margin-left: @spacing_SubmitPopup-between-footer-buttons;
 }
 
 .controls-ConfirmationDialog__button {
+   height: @height_SubmitPopup-button;
    width: 100%;
 }
