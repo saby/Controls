@@ -160,6 +160,10 @@ var SelectionController = Control.extend(/** @lends Controls/_list/BaseControl/S
            selectionChanged = !isEqual(newOptions.selectedKeys, this._multiselection.selectedKeys) ||
               !isEqual(newOptions.excludedKeys, this._multiselection.excludedKeys);
 
+        if (this._options.keyProperty !== newOptions.keyProperty) {
+           this._multiselection.setKeyProperty(newOptions.keyProperty);
+        }
+
         if (modelIsChanged) {
             this._multiselection.setListModel(newOptions.listModel);
         }
