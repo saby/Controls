@@ -21,26 +21,28 @@
                      on:textValueChanged="_rangeTextChangedHandler()"
                      on:rangeChanged="_rangeValueChangedHandler()"/>
       </ws:if>
-      <ws:if data="{{_needShowFastFilter(_source) && _options.panelTemplateName && _isFastReseted() && _options.detailPanelTemplateName}}">
-         <ws:partial template="itemTemplate"
-                     itemName="all_frequent"
-                     text="{[Все]}"
-                     on:click="_openPanel('all_frequent')"/>
-      </ws:if>
-      <ws:for data="index, item in _source">
-         <ws:if data="{{_configs[item.name].items && _configs[item.name].items.getCount() && _displayText[item.name].text !== undefined}}">
+      <ws:if data="{{_needShowFastFilter(_source)}}">
+         <ws:if data="{{_options.panelTemplateName && _isFastReseted() && _options.detailPanelTemplateName}}">
             <ws:partial template="itemTemplate"
-                        text="{{_displayText[item.name].text}}"
-                        title="{{_displayText[item.name].title}}"
-                        moreText="{{_displayText[item.name].hasMoreText}}"
-                        on:click="_openPanel(item.name)"
-                        item="{{item}}"
-                        itemName="{{item.name}}" />
-            <ws:if data="{{item.hasOwnProperty('resetValue')}}">
-               <ws:partial template="cross" on:click="_reset(item)" item="{{item}}"/>
-            </ws:if>
+                        itemName="all_frequent"
+                        text="{[Все]}"
+                        on:click="_openPanel('all_frequent')"/>
          </ws:if>
-      </ws:for>
+         <ws:for data="index, item in _source">
+            <ws:if data="{{_configs[item.name].items && _configs[item.name].items.getCount() && _displayText[item.name].text !== undefined}}">
+               <ws:partial template="itemTemplate"
+                           text="{{_displayText[item.name].text}}"
+                           title="{{_displayText[item.name].title}}"
+                           moreText="{{_displayText[item.name].hasMoreText}}"
+                           on:click="_openPanel(item.name)"
+                           item="{{item}}"
+                           itemName="{{item.name}}" />
+               <ws:if data="{{item.hasOwnProperty('resetValue')}}">
+                  <ws:partial template="cross" on:click="_reset(item)" item="{{item}}"/>
+               </ws:if>
+            </ws:if>
+         </ws:for>
+      </ws:if>
       <ws:if data="{{_filterText}}">
          <ws:partial template="itemTemplate"
                      text="{{_filterText}}"
