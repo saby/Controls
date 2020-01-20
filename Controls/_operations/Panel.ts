@@ -3,9 +3,9 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 
 /**
  * Контрол, предназначенный для операций над множеством записей списка.
- * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>здесь</a>.
- * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
- *
+ * @remark
+ * См. <a href="/materials/demo-ws4-operations-panel">демо-пример</a>.
+ * Подробное описание и инструкцию по настройке читайте контрола читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/operations/ здесь}.
  * @class Controls/_operations/Panel
  * @extends Core/Control
  * @mixes Controls/_toolbars/IToolbarSource
@@ -16,6 +16,7 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  * @public
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
+ * 
  *
  * @css @background-color_OperationsPanel Background color of the panel.
  * @css @height_OperationsPanel Height of the panel.
@@ -46,10 +47,10 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 
 /**
  * @name Controls/_operations/Panel#rightTemplate
- * @cfg {Function} Шаблон, отображаемый в правой части панели массового выбора.
+ * @cfg {String|Function} Шаблон, отображаемый в правой части панели массового выбора.
  * @example
- * <pre>
- *    <Controls.operations:Panel rightTemplate="wml!MyModule/OperationsPanelRightTemplate" />
+ * <pre class="brush: html">
+ * <Controls.operations:Panel rightTemplate="wml!MyModule/OperationsPanelRightTemplate" />
  * </pre>
  */
 
@@ -58,36 +59,47 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  * @cfg {Function} Template displayed on the right side of the panel.
  * @example
  * <pre>
+ * <!-- WML -->
  *    <Controls.operations:Panel rightTemplate="wml!MyModule/OperationsPanelRightTemplate" />
  * </pre>
  */
 
 /**
- * @event Controls/_operations/Panel#itemClick Происходит при клике на элемент.
+ * @event Происходит после появления панели массовых операций на экране.
+ * @name Controls/_operations/Panel#operationsPanelOpened
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ */
+
+
+/**
+ * @event Происходит при клике на элемент.
+ * @name Controls/_operations/Panel#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому произвели клик.
  * @example
- * TMPL:
- * <pre>
- *    <Controls.operations:Panel on:itemClick="onPanelItemClick()" />
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.operations:Panel on:itemClick="onPanelItemClick()" />
  * </pre>
- * JS:
- * <pre>
- *    onPanelItemClick: function(e, item) {
-    *       var itemId = item.get('id');
-    *       switch (itemId) {
-    *          case 'remove':
-    *             this._removeItems();
-    *             break;
-    *          case 'move':
-    *             this._moveItems();
-    *             break;
-    *    }
-    * </pre>
-    */
+ * <pre class="brush: js">
+ * // JavaScript
+ * onPanelItemClick: function(e, item) {
+ *    var itemId = item.get('id');
+ *    switch (itemId) {
+ *       case 'remove':
+ *          this._removeItems();
+ *          break;
+ *       case 'move':
+ *          this._moveItems();
+ *          break;
+ *    }
+ * }
+ * </pre>
+ */
 
 /*
- * @event Controls/_operations/Panel#itemClick Occurs when an item was clicked.
+ * @event Occurs when an item was clicked.
+ * @name Controls/_operations/Panel#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Record} item Clicked item.
  * @param {Event} originalEvent Descriptor of the original event.
@@ -112,21 +124,27 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  */
 
 /**
+ * @typedef {String} SelectionViewMode
+ * @variant null Кпопка скрыта.
+ * @variant all Кнопка "Показать отмеченные".
+ * @variant selected Кнопка "Показать все".
+ */ 
+
+/**
  * @name Controls/_operations/Panel#selectionViewMode
- * @cfg {Enum} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
- * @variant null Кпопка скрыта
- * @variant all Кнопка "Показать отмеченные"
- * @variant selected Кнопка "Показать все"
+ * @cfg {SelectionViewMode} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
  * @default null
  * @example
- * <pre>
- *    Control.extend({
- *       _selectionViewMode: 'all'
- *       ...
- *    });
+ * <pre class="brush: js">
+ * // JavaScript
+ * Control.extend({
+ *    _selectionViewMode: 'all',
+ *    ...
+ * });
  * </pre>
- * <pre>
- *    <Controls.operationsPanel:OperationsPanel bind:selectionViewMode="_selectionViewMode"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.operationsPanel:OperationsPanel bind:selectionViewMode="_selectionViewMode"/>
  * </pre>
  */
 
