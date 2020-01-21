@@ -83,15 +83,11 @@ define(
 
             describe('ipad', function() {
                beforeEach(function () {
-                  if (typeof window === 'undefined') {
-                     Env.detection['test::isMobileIOS'] = true;
-                  } else {
-                     Env.detection.isMobileIOS = true;
-                  }
+                  Env.detection.isMobileIOS = true;
                });
                afterEach(function () {
                   if (typeof window === 'undefined') {
-                     Env.detection['test::isMobileIOS'] = undefined;
+                     Env.detection.isMobileIOS = undefined;
                   } else {
                      Env.detection.isMobileIOS = false;
                   }
