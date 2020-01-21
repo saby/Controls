@@ -66,7 +66,7 @@
        <div attr:class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
    </ws:if>
    <div if="{{!!itemData.dragTargetNode}}"
-        class="controls-TreeGridView__dragTargetNode {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
+        class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
                {{currentColumn.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>
    <ws:partial template="columnContent" attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
 </ws:template>
@@ -83,7 +83,7 @@
            <ws:partial template="columnContentWrapper"
                        attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
            <div if="{{!!itemData.dragTargetNode}}"
-                class="controls-TreeGridView__dragTargetNode {{itemData.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
+                class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{itemData.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
                        {{itemData.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>
        </div>
    </td>
