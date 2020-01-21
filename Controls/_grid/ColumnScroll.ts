@@ -283,6 +283,28 @@ const
           }
       },
 
+       _onKeyDown(e: SyntheticEvent<KeyboardEvent>): void {
+           if (e.nativeEvent.keyCode !== 9 || !this._options.listModel.getEditingItemData() || !this._isDisplayColumnScroll()) {
+               return;
+           }
+           const container = this._children.content;
+           const startShadow = this._children.startShadow;
+           // Подскролить к сфокусированному инпуту
+           setTimeout((container, startShadow, shiftKey) => {
+               const activeElement = document.activeElement;
+               if (activeElement && activeElement.tagName === 'INPUT') {
+                   const { right: activeElementRight, left: activeElementLeft  } = activeElement.getBoundingClientRect();
+                   const { right: containerRight } = container.getBoundingClientRect();
+                   const { left: startShadowLeft } = startShadow.getBoundingClientRect();
+                   if (!shiftKey && activeElementRight > containerRight) {
+                       this._setScrollPosition(this._scrollPosition + (activeElementRight - containerRight + (this._children.startShadow.offsetWidth || 0)));
+                   } else if (shiftKey && startShadowLeft > activeElementLeft) {
+                       this._setScrollPosition(this._scrollPosition - (startShadowLeft - activeElementLeft + (this._children.startShadow.offsetWidth || 0)));
+                   }
+               }
+           }, 50, container, startShadow, e.nativeEvent.shiftKey);
+       },
+
        _positionChangedHandler(event, position) {
            this._setScrollPosition(position);
        },
