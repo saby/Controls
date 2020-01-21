@@ -391,6 +391,74 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                gridMod.GridViewModel._private.getPaddingHeaderCellClasses(cMerge(paramsWithoutMultiselect, {columnIndex: 0, rowIndex: 0, isBreadCrumbs: true}), theme),
                'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithoutMultiselect)".');
 
+            let headerWitchActionCell = [
+               {
+                  title: '',
+                  style: 'default',
+                  startRow: 1,
+                  endRow: 2,
+                  startColumn: 1,
+                  endColumn: 2
+               },
+               {
+                  title: 'Цена',
+                  align: 'right',
+                  style: 'default',
+                  sortingProperty: 'price',
+                  startRow: 1,
+                  endRow: 2,
+                  startColumn: 2,
+                  endColumn: 3
+               },
+               {
+                  title: 'Остаток',
+                  align: 'right',
+                  style: 'default',
+                  startRow: 1,
+                  endRow: 2,
+                  startColumn: 3,
+                  endColumn: 4
+               },
+               {
+                  actionCell: true,
+                  startRow: 1,
+                  endRow: 2,
+                  startColumn: 4,
+                  endColumn: 5
+               }
+            ];
+
+            //------ with actionCell ----
+            var paramsWithActionCell = {
+                  columns: headerWitchActionCell,
+                  multiSelectVisibility: false,
+                  itemPadding: {
+                     left: 'XL',
+                     right: 'L',
+                     top: 'L',
+                     bottom: 'L'
+                  },
+                  cell: {},
+                  style: 'default',
+                  maxEndColumn: 5,
+                  hasActionCell: true
+               };
+
+            assert.equal(expectedResultWithoutMultiselect[0],
+               gridMod.GridViewModel._private.getPaddingHeaderCellClasses({ ...paramsWithActionCell, cell: headerWitchActionCell[0], rowIndex: 0, columnIndex: 0 }, theme),
+               'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithoutMultiselect)".');
+            assert.equal(expectedResultWithoutMultiselect[1],
+               gridMod.GridViewModel._private.getPaddingHeaderCellClasses({ ...paramsWithActionCell, cell: headerWitchActionCell[1], rowIndex: 0, columnIndex: 1 }, theme),
+               'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithoutMultiselect)".');
+            assert.equal(expectedResultWithoutMultiselect[2],
+               gridMod.GridViewModel._private.getPaddingHeaderCellClasses({ ...paramsWithActionCell, cell: headerWitchActionCell[2], rowIndex: 0, columnIndex: 2 }, theme),
+               'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithoutMultiselect)".');
+            assert.equal('',
+               gridMod.GridViewModel._private.getPaddingHeaderCellClasses({ ...paramsWithActionCell, cell: headerWitchActionCell[3], rowIndex: 0, columnIndex: 3 }, theme),
+               'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithoutMultiselect)".');
+
+
+
             assert.equal(expectedResultWithMultiselect[0],
                gridMod.GridViewModel._private.getPaddingHeaderCellClasses(cMerge(paramsWithMultiselect, {columnIndex: 0, rowIndex: 0}), theme),
                'Incorrect value "GridViewModel._private.getPaddingCellClasses(paramsWithMultiselect)".');
