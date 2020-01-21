@@ -3,9 +3,10 @@ export interface IMonthListVirtualPageSizeOptions {
 }
 
 /**
- * Интерфейс для контролов основанных на Controls/calendar:MonthList и поддерживающих изменение виртуалной страницы.
+ * Интерфейс для контролов, которые основаны на {@link Controls/calendar:MonthList} и поддерживающие изменение виртуальной страницы.
  * @interface Controls/_calendar/interfaces/IMonthListVirtualPageSize
  * @public
+ * @author Красильников А.С.
  */
 export interface IMonthListVirtualPageSize {
    readonly '[Controls/_calendar/interfaces/IMonthListVirtualPageSize]': boolean;
@@ -13,6 +14,6 @@ export interface IMonthListVirtualPageSize {
 
 /**
  * @name Controls/_calendar/interfaces/IMonthListVirtualPageSize#virtualPageSize
- * @cfg {Number} Размер виртуальной страницы указывает максимальное количество одновременно отображаемых элементов в списке.
+ * @cfg {Number} Размер виртуальной страницы. Задаёт максимальное количество элементов, которые одновременно отображаются в списке.
  * @default 6
  */

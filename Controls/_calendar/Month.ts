@@ -5,7 +5,7 @@ import IMonth from 'Controls/_calendar/interfaces/IMonth';
 import MonthViewModel from 'Controls/_calendar/Month/Model';
 
 /**
- * Календарь отображающий 1 месяц.
+ * Календарь, отображающий 1 месяц.
  * Предназначен для задания даты или диапазона дат в рамках одного месяца путём выбора периода с помощью мыши.
  *
  * @class Controls/_calendar/Month
