@@ -836,6 +836,28 @@ define([
 
       });
 
+      it('clearSourceControllersForNotExpandedNodes', function() {
+         const getSourceController = () => {
+            return {
+               destroy: () => {}
+            };
+         };
+         const oldExpandedItems = [1, 2, 3];
+         const newExpandedItems = [3, 4, 5];
+         const self = {};
+         self._nodesSourceControllers = new Map();
+
+         oldExpandedItems.forEach((key) => {
+            self._nodesSourceControllers.set(key, getSourceController());
+         });
+         newExpandedItems.forEach((key) => {
+            self._nodesSourceControllers.set(key, getSourceController());
+         });
+
+         treeGrid.TreeControl._private.clearSourceControllersForNotExpandedNodes(self, oldExpandedItems, newExpandedItems);
+         assert.equal(self._nodesSourceControllers.size, 3);
+      });
+
       it('TreeControl.afterReloadCallback resets expanded items and hasMoreStorage on set root', function () {
          const source = new sourceLib.Memory({
             data: [],

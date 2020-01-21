@@ -55,6 +55,15 @@ var _private = {
         }
         return nodeSourceControllers.get(node);
     },
+    clearSourceControllersForNotExpandedNodes(self, oldExpanded, newExpanded): void {
+        if (oldExpanded) {
+            oldExpanded.forEach((oldExpandedKey) => {
+                if (!newExpanded.includes(oldExpandedKey)) {
+                    _private.clearNodeSourceController(self, oldExpandedKey);
+                }
+            });
+        }
+    },
     toggleExpandedOnModel: function(self, listViewModel, dispItem, expanded) {
         listViewModel.toggleExpanded(dispItem, expanded);
         self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [dispItem.getContents()]);
@@ -444,9 +453,9 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
             } else {
                 this._updateExpandedItemsAfterReload = true;
             }
-            
+
             if (newOptions.expandedItems !== this._options.expandedItems) {
-                _private.clearNodesSourceControllers(this);
+                _private.clearSourceControllersForNotExpandedNodes(this, this._options.expadedItems, newOptions.expanded);
             }
         }
         if (newOptions.collapsedItems) {
