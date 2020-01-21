@@ -21,7 +21,7 @@
  * @includes IDateMask Controls/_interface/IDateMask
  * @includes ITextValue Controls/_interface/ITextValue
  * @includes IPropStorage Controls/_interface/IPropStorage
- * @includes IBorderStyle Controls/_interface/IBorderStyle
+ * @includes IBorderStyle Controls/interface/IBorderStyle
  * @includes IValidationStatus Controls/_interface/IValidationStatus
  * @includes ISelectionType Controls/_interface/ISelectionType
  * @includes IDateConstructor Controls/_interface/IDateConstructor

@@ -3,6 +3,7 @@
  * 
  * @class Controls/lookup:ItemTemplate
  * @author Капустин И.А.
+ * @public
  * @see Controls/lookup
  * @see Controls/lookup:Input
  * 
