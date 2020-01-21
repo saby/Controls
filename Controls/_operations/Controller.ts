@@ -56,7 +56,7 @@ export default class MultiSelector extends Control {
       // TODO: по этой задаче сделаю так, что опции selectedKeysCount вообще не будет: https://online.sbis.ru/opendoc.html?guid=d9b840ba-8c99-49a5-98d3-78715d10d540
    }
 
-   protected _itemOpenHandler(newCurrentRoot: string|number|null): void {
+   protected _itemOpenHandler(newCurrentRoot: string|number|null, items): void {
       let root: string|number|null = 'root' in this._options ? this._options.root : null;
 
       if (newCurrentRoot !== root && this._options.selectionViewMode === 'selected') {
@@ -64,7 +64,7 @@ export default class MultiSelector extends Control {
       }
 
       if (this._options.itemOpenHandler instanceof Function) {
-         return this._options.itemOpenHandler(newCurrentRoot);
+         return this._options.itemOpenHandler(newCurrentRoot, items);
       }
    }
 
