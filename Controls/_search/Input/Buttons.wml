@@ -2,14 +2,16 @@
     <ws:if data="{{isVisibleReset()}}">
         <div title="{[Очистить результаты поиска]}"
              class="controls-Search__button_theme-{{options.theme}} controls-Search__resetButton
-                    controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}_theme-{{options.theme}}
+                    controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}
+                    controls-Search__resetButton_theme-{{options.theme}}
                     controls-Search__resetButton_theme_{{options.theme}}_position
                     controls-Search__resetButton_theme_{{options.theme}}_color icon-Close"
              on:click="_resetClick()"></div>
     </ws:if>
     <ws:if data="{{options.searchButtonVisible}}">
         <div class="controls-Search__button_theme-{{options.theme}} controls-Search__searchButton
-                    controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}_theme-{{options.theme}}
+                    controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}
+                    controls-Search__searchButton_theme-{{options.theme}}
                     controls-Search__searchButton_theme_{{options.theme}}_position
                     controls-Search__searchButton_theme_{{options.theme}}_color{{calculateState()}} icon-Search2"
              on:click="_searchClick()"></div>
