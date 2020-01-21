@@ -345,6 +345,7 @@ function getHeaderActionsCellConfig(header) {
     });
 
     return {
+        actionCell: true,
         startRow: minStartRow,
         endRow: maxEndRow,
         startColumn: maxEndColumn,
