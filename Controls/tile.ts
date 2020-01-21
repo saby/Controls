@@ -2,7 +2,7 @@
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде плитки.
  * @library Controls/tile
  * @includes View Controls/_tile/View
- * @includes ItemTemplate wml!Controls/_tile/ItemTemplateChooser
+ * @includes ItemTemplate Controls/tile:ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes IDraggable Controls/interface/IDraggable
  * @public
@@ -13,7 +13,7 @@
  * tile library
  * @library Controls/tile
  * @includes View Controls/_tile/View
- * @includes ItemTemplate wml!Controls/_tile/ItemTemplateChooser
+ * @includes ItemTemplate Controls/tile:ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes IDraggable Controls/interface/IDraggable
  * @public

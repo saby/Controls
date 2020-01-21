@@ -3,7 +3,7 @@
  * @library Controls/popup
  * @includes Confirmation Controls/_popup/Opener/Confirmation
  * @includes Dialog Controls/_popup/Opener/Dialog
- * @includes Stack Controls/_popup/Opener/Stack
+ * @includes Stack Controls/popup:Stack
  * @includes Edit Controls/_popup/Opener/Edit
  * @includes Notification Controls/_popup/Opener/Notification
  * @includes Sticky Controls/_popup/Opener/Sticky
