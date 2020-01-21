@@ -32,7 +32,11 @@ define([
             let ctrl = new Application({}),
                oldIsMobileIOS = Env.detection.isMobileIOS;
 
-            Env.detection.isMobileIOS = true;
+            if (typeof window === 'undefined') {
+               Env.detection['test::isMobileIOS'] = true;
+            } else {
+               Env.detection.isMobileIOS = true;
+            }
 
             ctrl._popupCreatedHandler();
             assert.equal(ctrl._scrollingClass, 'controls-Scroll_webkitOverflowScrollingAuto');
@@ -51,7 +55,7 @@ define([
 
 
             if (typeof window === 'undefined') {
-               Env.detection.isMobileIOS = undefined;
+               Env.detection['test::isMobileIOS'] = undefined;
             } else {
                Env.detection.isMobileIOS = oldIsMobileIOS;
             }
