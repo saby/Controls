@@ -4,6 +4,7 @@ import {date as formatDate} from 'Types/formatter';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import EventProxy from './Mixin/EventProxy';
 import {DateRangeModel, Utils as DateControlsUtils, dateRangeQuantum as quantumUtils} from 'Controls/dateRange';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import {MonthModel} from 'Controls/calendar';
 import dateUtils = require('Controls/Utils/Date');
 import datePopupUtils from './Utils';
@@ -76,7 +77,7 @@ var Component = BaseControl.extend([EventProxy], {
     constructor: function (options) {
         Component.superclass.constructor.apply(this, arguments);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
-        DateControlsUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
+        proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
     },
 
     _beforeMount: function (options) {

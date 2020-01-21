@@ -1,6 +1,6 @@
 import BaseControl = require('Core/Control');
 import DateRangeModel from "./DateRangeModel";
-import CalendarControlsUtils from "./Utils";
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 
 const Component = BaseControl.extend({
 
@@ -9,7 +9,7 @@ const Component = BaseControl.extend({
 
     _beforeMount: function (options) {
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
-        CalendarControlsUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
+        proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
 
         // when adding control arrows, set the minimum width of the block,

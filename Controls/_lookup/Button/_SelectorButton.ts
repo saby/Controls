@@ -2,7 +2,6 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_lookup/Button/_SelectorButton');
 import itemTemplate = require('wml!Controls/_lookup/Button/itemTemplate');
 import {List} from 'Types/collection';
-import 'css!theme?Controls/lookup';
 
 
    var SelectorButton = Control.extend({
@@ -33,6 +32,7 @@ import 'css!theme?Controls/lookup';
       }
    });
 
+   SelectorButton._theme = ['Controls/lookup'];
    SelectorButton.getDefaultOptions = function() {
       return {
          style: 'secondary',

@@ -1,6 +1,6 @@
 <div class="controls-DateLinkView">
     <div class="controls-DateLinkView-wrapper">
-        <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector' }}">
+        <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
            <span
               class="controls-DateLinkView__prev {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftBack()">
@@ -37,7 +37,7 @@
         <ws:if data="{{ _clearButtonVisible }}">
               <span class="controls-DateLinkView__clear" on:click="_clearDate()"></span>
         </ws:if>
-        <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' }}">
+        <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
               class="controls-DateLinkView__next {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftForward()">

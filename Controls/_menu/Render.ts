@@ -1,14 +1,14 @@
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import {IRenderOptions} from 'Controls/listRender';
 import {Control, TemplateFunction} from 'UI/Base';
-import {IMenuOptions} from 'Controls/interface';
-import {RecordSet} from 'Types/collection';
+import {IRenderOptions} from 'Controls/listRender';
+import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Tree, TreeItem} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory} from 'Types/chain';
+import {ActualApi} from 'Controls/buttons';
 
 interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
 }
@@ -16,9 +16,11 @@ interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
 class MenuRender extends Control<IMenuRenderOptions> {
     protected _template: TemplateFunction = ViewTemplate;
     protected _proxyEvent: Function = tmplNotify;
+    protected _iconSpacing: string;
 
-    protected _beforeMount(options: IMenuRenderOptions, context: object, receivedState: RecordSet): void {
+    protected _beforeMount(options: IMenuRenderOptions): void {
         this.setListModelOptions(options);
+        this._iconSpacing = this.getIconSpacing(options);
     }
 
     protected _beforeUpdate(newOptions: IMenuRenderOptions): void {
@@ -91,6 +93,20 @@ class MenuRender extends Control<IMenuRenderOptions> {
             rightSpacing = options.rightSpacing;
         }
         return rightSpacing;
+    }
+
+    private getIconSpacing(options: IMenuRenderOptions): string {
+        const items = options.listModel.getCollection();
+        const parentProperty = options.parentProperty;
+        let iconSpacing = '', icon;
+
+        factory(items).each((item) => {
+            icon = item.get('icon');
+            if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
+                iconSpacing = ActualApi.iconSize(options.iconSize, icon);
+            }
+        });
+        return iconSpacing;
     }
 
     static _theme: string[] = ['Controls/menu'];

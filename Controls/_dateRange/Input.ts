@@ -1,7 +1,7 @@
 import {detection} from 'Env/Env';
 import Control = require('Core/Control');
 import coreMerge = require('Core/core-merge');
-import CalendarControlsUtils from './Utils';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import DateRangeModel from './DateRangeModel';
 import {StringValueConverter} from 'Controls/input';
 import {IDateTimeMask} from 'Controls/input';
@@ -68,7 +68,7 @@ var Component = Control.extend([], {
     _beforeMount: function (options) {
         this._rangeModel = new DateRangeModel({ dateConstructor: this._options.dateConstructor });
         this._rangeModel.update(options);
-        CalendarControlsUtils.proxyModelEvents(
+        proxyModelEvents(
             this, this._rangeModel,
             ['startValueChanged', 'endValueChanged', 'rangeChanged', 'valueChanged']
         );

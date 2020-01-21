@@ -1,4 +1,5 @@
 @color_warning:                       @warning_color; // дублирует стиль новой спецификации, удаляем
+@background-color_default:            @background-color; // дублирует стиль новой спецификации, удаляем
 @color_success:                       @success_color; // дублирует стиль новой спецификации, удаляем
 @color_link:                          @link_text-color; // дублирует стиль новой спецификации, удаляем
 @color_link-hover:                    @link_hover_text-color; // дублирует стиль новой спецификации, удаляем
@@ -557,6 +558,7 @@
 @icon-size_HistoryMenu-pin:                                    @pin-button_icon-size_menu;
 
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
+
 //MenuPopup
 @spacing_MenuButton-between-leftBorder-content:      -(@spacing_default_l + @thickness_border_default);
 
@@ -600,5 +602,13 @@
 @shift-top_MenuButton-link_duplicate_small-popup:    -@spacing_DropdownList-iconSize_small-between-iconHead-topBorder + @border-width_DropdownList;
 @shift-left_MenuButton-link_duplicate_small-popup:   -@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder;
 
+@min-width_SubmitPopup-button_val:             @min-width_button_l_confirmation; //todo: используется в engine
+@color_border_Notification_default:            #0055BB;
+@size_border_Notification:                     3px; //todo: использется в биллинге и наверное еще где-то
+@border-width_InformationPopup:                @marker_thickness_confirmation;
+@size_SubmitPopup-border:                      @border-thickness_dialog;
+@border-color_SubmitPopup-footer-top:          @footer_top-border-color_confirmation;
+@background-color_SubmitPopup-footer:          @footer_background-color_confirmation;
+@spacing_SubmitPopup-between-footer-border:    @footer-content_padding_confirmation;
 
 //last line

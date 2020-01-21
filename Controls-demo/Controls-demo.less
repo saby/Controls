@@ -134,16 +134,21 @@
   width: 200px;
 }
 
-.controlsDemo__minWidth600 {
-  min-width: 600px;
+.controlsDemo__maxWidth500,
+.controlsDemo__childMaxWidth500 > * {
+  max-width: 500px;
 }
+
+.controlsDemo__childMaxWidth550 > * {
+  max-width: 550px;
+}
+
 .controlsDemo__maxWidth800 {
   max-width: 800px;
 }
 
-.controlsDemo__maxWidth500,
-.controlsDemo__childMaxWidth500 > * {
-  max-width: 500px;
+.controlsDemo__minWidth600 {
+  min-width: 600px;
 }
 
 .controlsDemo__childMinWidth400 > * {

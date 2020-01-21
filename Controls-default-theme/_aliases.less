@@ -191,14 +191,6 @@
 //Размер иконок l.
 @icon-size_l:                                                               32px;
 
-//ИНФОБОКС
-//InfoboxButton.
-//Цвет иконки InfoboxButton.
-@icon-color_infoboxbutton:                                                  @unaccented_icon-color;
-
-//Цвет иконки InfoboxButton при наведении.
-@hover_icon-color_infoboxbutton:                                            @secondary_text-color;
-
 //СПОЙЛЕР
 //Общие переменные, использующиеся для темизации спойлеров.
 //Высота заголовка
@@ -560,6 +552,9 @@
 //Текст в кнопках
 //цвет текста кнопки.
 @text-color_button:                                                         @text-color;
+
+//цвет текста кнопки.
+@hover_text-color_button:                                                   @text-color_button;
 
 //цвет текста кнопки в режиме "только для чтения".
 @readonly_text-color_button:                                                @readonly_color;
@@ -1314,9 +1309,8 @@
 //цвет обводки кнопки закрытия при нажатии
 @border-color_active_closeButton_toolButton:                                #CCCCCC;
 
-
+//ширина кнопки закрытия в режиме ссылки
 @width_closeButton_link:                                                    @inline_height_m;
-
 
 //ФЛАГ
 //размер шрифта флага
@@ -1702,4 +1696,286 @@
 @primary_marker_color_tabs:                                                 #D94700;
 @padding-horizontal_tabs:                                                   12px;
 @marker_hover_color_tabs:                                                   #EAEAEA;
+
+//Инфобокс
+//цвет кнопки показа инфобокса
+@icon-color_infobox_button:                                                 @unaccented_icon-color;
+
+//цвет кнопки показа инфобокса при наведении
+@icon-color_hover_infobox_button:                                           @link_hover_text-color;
+
+//длина основания стрелки инфобоса
+@arrow_base_length_infobox:                                                 16px;
+
+//длина стороны стрелки инфобокса
+@arrow_side_length_infobox:                                                 12px;
+
+//отступ от стрелки до примыкающего края
+@arrow_offset_infobox:                                                      9px;
+
+//отступ от инфобокса до таргета
+@target_offset_infobox:                                                     11px;
+
+//внутренний вертикальный отступ от границы до контента
+@content_padding-vertical_infobox:                                          8px;
+
+//внутренний горизонтальный отступ от границы до контента
+@content_padding-horizontal_infobox:                                        12px;
+
+//максимальная ширина всплывающей подсказки
+@max-width_infobox:                                                         750px;
+
+//отступ от верхнего края инфобокса до кнопки закрытия
+@close-button_offset-top_infobox:                                           5px;
+
+//отступ от правого края инфобокса до кнопки закрытия
+@close-button_offset-right_infobox:                                         5px;
+
+//отступ от правого края инфобокса до кнопки закрытия
+@close-button_offset-left_infobox:                                          2px;
+
+//размер шрифта в тексте подсказки
+@font-size_infobox:                                                         @font-size_l;
+
+//цвет фона инфобокса
+@background-color_infobox:                                                  #F7F8FA;
+
+//толщина обводки инфобокса
+@border-thickness_infobox:                                                  @border-thickness;
+
+//толщина маркера инфобокса
+@marker-thickness_infobox:                                                  @border-thickness_infobox;
+
+//цвет обводки инфобокса
+@border-color_infobox:                                                      #BDBDBD;
+
+//дополнительный цвет обводки инфобокса
+@secondary_border-color_infobox:                                            @secondary_color;
+
+//размер тени инфобокса
+@box-shadow-offset_infobox:                                                 0 0 6px 0;
+
+//цвет тени инфобокса
+@box-shadow-color_infobox:                                                  rgba(0,0,0,0.35);
+
+//цвет тени инфобокса при валидации
+@invalid_box-shadow-color_infobox:                                          rgba(208, 77, 77, 0.4);
+
+//ПАНЕЛЬ ДЕЙСТВИЙ Operations
+//Кнопка открытия панели действий
+
+//цвет иконки кнопки открытия панели действий
+@icon-color_operationsButton:                                               @secondary_color;
+
+//цвет иконки кнопки открытия панели действий при наведении мыши
+@icon-color_hover_operationsButton:                                         @link_hover_text-color;
+
+//цвет иконки кнопки открытия панели действий при нажатии
+@icon-color_active_operationsButton:                                        @link_hover_text-color;
+
+//цвет иконки кнопки открытия панели действий в режиме "только дял чтения"
+@readonly_icon-color_operationsButton:                                      @readonly_color;
+
+//размер иконки кнопки открытия панели действий
+@icon-size_operationsButton:                                                18px;
+
+//высота кнопки открытия панели действий
+@height_operationsButton:                                                   @inline_height_default;
+
+//ширина кнопки открытия панели действий
+@width_operationsButton:                                                    @height_operationsButton;
+
+//толщина разделителя около кнопки открытия панели действий
+@separator_thickness_operationsButton:                                      1px;
+
+//длина разделителя около кнопки открытия панели действий
+@separator_length_operationsButton:                                         @height_operationsButton;
+
+//цвет разделителя около кнопки открытия панели действий
+@separator_color_operationsButton:                                          #CCC;
+
+//высота панели действий
+@height_operationsPanel:                                                    30px;
+
+//цвет фона панели действий
+@background-color_operationsPanel:                                          #e5ecf5;
+
+//левый отступ набора действий в панели - расстояние до кнопки "отметить"
+@toolbar_padding-left_operationsPanel:                                      12px;
+
+//правый отступ набора действий в панели - расстояние до пользовательского шаблона
+@toolbar_padding-right_operationsPanel:                                     12px;
+
+//правый отступ в панели действий - расстояние от пользовательского шаблона до края
+@padding-right_operationsPanel:                                             12px;
+
+//размер шрифта заголовка в окне результатов выполнения действия
+@heading_font-size_operationsReportDialog:                                  @font-size_3xl;
+
+//цвет шрифта заголовка в окне результатов выполнения действия
+@heading_text-color_operationsReportDialog:                                 @secondary_text-color_heading;
+
+//отступ между заголовком и сообщением в окне результатов выполнения действия
+@heading_offset-bottom_operationsReportDialog:                              8px;
+
+//размер шрифта сообщения в окне результатов выполнения действия
+@message_font-size_operationsReportDialog:                                  @font-size_default;
+
+//цвет шрифта сообщения в окне результатов выполнения действия
+@message_text-color_operationsReportDialog:                                 @label_text-color;
+
+//размер шрифта текста ошибок в окне результатов выполнения действия
+@errors_font-size_operationsReportDialog:                                   @font-size_default;
+
+//отступ между сообщением и текстом ошибок в окне результатов выполнения действия
+@errors_padding-top_operationsReportDialog:                                 8px;
+
+//отступ между сообщениями об ошибках в окне результатов выполнения действия
+@errors_item_offset_operationsReportDialog:                                 4px;
+
+//FilterView
+//высота фильтра
+@height_filterView:                                                         @inline_height_m;
+
+//отступ между элементами фильтра
+@item_spacing_filterView:                                                   4px;
+
+//минимальная ширина текста фильтра
+@item_text_min-width_filterView:                                            15px;
+
+//размер шрифта текст фильтра
+@item_font-size_filterView:                                                 @font-size_m;
+
+//цвет текста элемента фильтра
+@item_color_filterView:                                                     @link_text-color;
+
+//цвет текста элемента фильтра в режиме чтения
+@readonly_item_color_filterView:                                            @label_text-color;
+
+//цвет текста элемента фильтра при наведении
+@item_hover_color_filterView:                                               @link_hover_text-color;
+
+//цвет текста элемента фильтра при нажатии
+@item_active_color_filterView:                                              @link_hover_text-color;
+
+//размер иконки фильтра
+@item_icon-size_filterView:                                                 @icon-size_s;
+
+//цвет иконки фильтра
+@item_icon-color_filterView:                                                @secondary_color;
+
+//цвет иконки фильтра при наведении
+@item_hover_icon-color_filterView:                                          @link_hover_text-color;
+
+//цвет иконки фильтра при нажатии
+@item_active_icon-color_filterView:                                         @link_hover_text-color;
+
+//цвет иконки фильтра в режиме чтения
+@readonly_item_icon-color_filterView:                                       @label_text-color;
+
+//отступ между кнопкой фильтра и областью значений
+@filterButton_offset_filterView:                                            4px;
+
+//шрифт иконки кнопки фильтра
+@icon_font-family_filterButton_filterView:                                  @icon_font-family_m;
+
+//размер иконки кнопки фильтра
+@icon-size_filterButton_filterView:                                         @icon-size_m;
+
+//цвет иконки кнопки фильтра
+@icon-color_filterButton_filterView:                                        @secondary_color;
+
+//цвет иконки кнопки фильтра при наведении
+@hover_icon-color_filterButton_filterView:                                  @link_hover_text-color;
+
+//цвет иконки кнопки фильтра при нажатии
+@active_icon-color_filterButton_filterView:                                 @link_hover_text-color;
+
+//цвет иконки кнопки фильтра в режиме чтения
+@readonly_icon-color_filterButton_filterView:                               @label_text-color;
+
+//ширина кнопки фильтра
+@width_filterButton_filterView:                                             @icon-size_m;
+
+//высота кнопки фильтра
+@height_filterButton_filterView:                                            @icon-size_m;
+
+//цвет фона кнопки фильтра
+@background-color_filterButton_filterView:                                  transparent;
+
+//тень кнопки фильтра
+@box-shadow_filterButton_filterView:                                        none;
+
+//цвет фона кнопки фильтра при наведении
+@background-color_hover_filterButton_filterView:                            @background-color_filterButton_filterView;
+
+//цвет фона кнопки фильтра при нажатии
+@background-color_active_filterButton_filterView:                           @background-color_filterButton_filterView;
+
+//цвет фона кнопки фильтра в режиме чтения
+@readonly_background-color_filterButton_filterView:                         @background-color_filterButton_filterView;
+
+//размер иконки сброса фильтра
+@reset-button_icon-size_filterView:                                         @icon-size_s;
+
+//цвет иконки сброса фильтра
+@reset-button_icon-color_filterView:                                        #CCC;
+
+//цвет иконки сброса фильтра при наведении
+@reset-button_hover_icon-color_filterView:                                  @reset-button_icon-color_filterView;
+
+//цвет иконки сброса фильтра при нажатии
+@reset-button_active_icon-color_filterView:                                 @reset-button_icon-color_filterView;
+
+//Окно подтверждения CONFIRMATION
+//толщина цветного маркера окна подтверждения
+@marker_thickness_confirmation:                                             3px;
+
+//дополнительный цвет маркера
+@secondary_marker_color_confirmation:                                       @link_text-color;
+
+//внутренние отступы диалога подтверждения
+@content_padding_confirmation:                                              32px;
+
+//внутренние отступы подвала диалога подтверждения
+@footer-content_padding_confirmation:                                       16px;
+
+//цвет фона подвала диалога подтверждения
+@footer_background-color_confirmation:                                      @footer_background-color_dialog;
+
+//толщина верхней границы подвала окна подтверждения
+@footer_top-border-thickness_confirmation:                                  @footer_top-border-thickness_dialog;
+
+//цвет верхней границы подвала окна подтверждения
+@footer_top-border-color_confirmation:                                      @footer_top-border-color_dialog;
+
+//ширина окна подтверждения размера s
+@width_s_confirmation:                                                      350px;
+
+//ширина окна подтверждения размера l
+@width_l_confirmation:                                                      440px;
+
+//размер шрифта основого текста окна подтверждения
+@message_font-size_confirmation:                                            @font-size_3xl;
+
+//цвет основного текста окна подтверждения
+@message_text-color_confirmation:                                           @text-color;
+
+//размер шрифта дополнительного текста окна подтверждения
+@details_font-size_confirmation:                                            @font-size_m;
+
+//цвет дополнительного текста окна подтверждения
+@details_text-color_confirmation:                                           @text-color;
+
+//отступ между основным и дополнительным текстом
+@details_offset_confirmation:                                               8px;
+
+//ширина кнопок в подвале размера s
+@min-width_button_s_confirmation:                                           80px;
+
+//ширина кнопок в подвале размера l
+@min-width_button_l_confirmation:                                           86px;
+
+//отступ между кнопками в подвале
+@offset_button_confirmation:                                                8px;
 //last line
