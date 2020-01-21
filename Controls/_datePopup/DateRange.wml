@@ -47,9 +47,6 @@
          </ws:yearHeaderTemplate>
          <ws:yearTemplate>
             <ws:partial template="Controls/calendar:MonthListYearTemplate">
-               <ws:headerTemplate>
-                  <invisible-node />
-               </ws:headerTemplate>
                <ws:bodyTemplate>
                   <ws:partial
                      template="wml!Controls/_datePopup/DateRangeItem"
