@@ -556,6 +556,21 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.equal(searchController._viewMode, "tile");
          });
+
+         it('search value reseted', function() {
+            var options = getDefaultOptions();
+            options.searchValue = 'test';
+            searchController._searchValue = 'test';
+            searchController._inputSearchValue = 'test';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._inputSearchValue, 'test');
+
+            options.searchValue = '';
+            searchController._options.searchValue = 'test'
+            searchController._searchValue = 'test';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._inputSearchValue, '');
+         });
       });
 
       describe('_beforeUnmount', function() {
