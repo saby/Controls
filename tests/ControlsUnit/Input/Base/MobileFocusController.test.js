@@ -27,11 +27,19 @@ define(
          });
          afterEach(function() {
             EnvEvent.Bus.globalChannel().notify = originalMethod;
-            Env.detection.isMobileIOS = originalIsMobileIOS;
+            if (Env.constants.isBrowserPlatform) {
+               Env.detection.isMobileIOS = originalIsMobileIOS;
+            } else {
+               Env.detection['test::isMobileIOS'] = originalIsMobileIOS;
+            }
          });
          describe('isMobileIOS = true', function() {
             beforeEach(function() {
-               Env.detection.isMobileIOS = true;
+               if (Env.constants.isBrowserPlatform) {
+                  Env.detection.isMobileIOS = true;
+               } else {
+                  Env.detection['test::isMobileIOS'] = true;
+               }
             });
             it('focus -> touchStart -> blur', function() {
                controller.focusHandler(event1);
@@ -116,7 +124,11 @@ define(
          });
          describe('isMobileIOS = false', function() {
             beforeEach(function() {
-               Env.detection.isMobileIOS = false;
+               if (Env.constants.isBrowserPlatform) {
+                  Env.detection.isMobileIOS = false;
+               } else {
+                  Env.detection['test::isMobileIOS'] = false;
+               }
             });
             it('touchStart -> blur', function() {
                controller.touchStartHandler(event1);

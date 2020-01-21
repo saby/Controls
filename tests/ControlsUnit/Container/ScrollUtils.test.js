@@ -11,11 +11,15 @@ define(
       var
          mockEnv = function(envField) {
             oldEnvValue = Env.detection[envField];
-            Env.detection[envField] = true;
+            if (typeof window === 'undefined') {
+               Env.detection['test::' + envField] = true;
+            } else {
+               Env.detection[envField] = true;
+            }
          },
          restoreEnv = function(envField) {
             if (typeof window === 'undefined') {
-               Env.detection[envField] = undefined;
+               Env.detection['test::' + envField] = undefined;
             } else {
                Env.detection[envField] = oldEnvValue;
             }
