@@ -958,12 +958,28 @@
 @header_min-height_sticky:                                                  32px;
 
 //цвет фона шапки прилипающего блока.
-@header_background-color_sticky:                                            #F8F8F8;
+@header_background-color_sticky:                                            #F4F4F4;
 
 //толщина нижней границы шапки прилипающего блока.
 @header_bottom-border-thickness_sticky:                                     @border-thickness;
-//отступы для крестика закрытия прилипающего блока.
-@close-button_padding_sticky:                                               4px;
+
+// размер шрифта шапки выпадающего списка
+@header_font-size_sticky:                                                   @font-size_l;
+
+// минимальная высота шапки выпадающего списка
+@header_min-height_sticky:                                                  32px;
+
+// горизонтальный отступ в шапке выпадающего списка
+@header_padding-horizontal_sticky:                                          12px;
+
+// отступ между кнопкой закрытия и верхней границей выпадающего списка
+@close-button_offset-top_sticky:                                            6px;
+
+// отступ между кнопкой закрытия и правой границей выпадающего списка
+@close-button_offset-right_sticky:                                          6px;
+
+// отступ между кнопкой закрытия и текстом в заголовке выпадающего списка
+@close-button_offset-left_sticky:                                           0;
 
 //КНОПКИ С ЗАЛИПАНИЕМ
 //Общие стили для кнопок с залипанием
@@ -1533,11 +1549,11 @@
 // отступ между иконкой иерарзии и текстом в меню
 @hierarchy_icon_offset-left_menu:                  6px;
 // отступ между кнопкой закрытия и верхней границей меню
-@close-button_offset-top_menu:                     6px;
+@close-button_offset-top_menu:                     6px; // должно переехать в sticky
 // отступ между кнопкой закрытия и правой границей меню
-@close-button_offset-right_menu:                   6px;
+@close-button_offset-right_menu:                   6px; // должно переехать в sticky
 // отступ между кнопкой закрытия и текстом в меню
-@close-button_offset-left_menu:                    0;
+@close-button_offset-left_menu:                    0; // должно переехать в sticky
 // размер иконки запинивания меню
 @pin-button_icon-size_menu:                        @icon-size_s;
 // отступ между кнопкой запинивания и правой границей меню
