@@ -49,7 +49,58 @@ export function moneyUseGrouping(delimiters?: boolean, useGrouping?: boolean, us
 
     return useGrouping;
 }
+export function moneyStyle(options: {style?: string, fontSize?: string, fontColorStyle?: string}): {fontColorStyle?: string, fontSize?: string} {
+    if ('style' in options) {
+        Logger.warn('Controls.decorator:Money - опция style устарела, используйте опции fontSize и fontColorStyle.');
+        return styleOptions(options.style);
+    }
+    return {fontColorStyle: options.fontColorStyle, fontSize: options.fontSize};
+}
 
+export function styleOptions(style: string): { fontColorStyle?: string, fontSize?: string } {
+    switch (style) {
+        case 'accentResults':
+            return {
+                fontColorStyle: 'secondary', fontSize: 'lb'
+            };
+        case 'noAccentResults':
+            return {
+                fontColorStyle: 'noAccent', fontSize: 'lb'
+            };
+        case 'group':
+            return {
+                fontColorStyle: 'disabled', fontSize: 'm'
+            };
+        case 'basicRegistry':
+            return {
+                fontColorStyle: 'default', fontSize: 'm'
+            };
+        case 'noBasicRegistry':
+            return {
+                fontColorStyle: 'noAccent', fontSize: 'm'
+            };
+        case 'accentRegistry':
+            return {
+                fontColorStyle: 'secondary', fontSize: 'lb'
+            };
+        case 'noAccentRegistry':
+            return {
+                fontColorStyle: 'noAccent', fontSize: 'lb'
+            };
+        case ' error':
+            return {
+                fontColorStyle: 'error', fontSize: 'm'
+            };
+        case 'default':
+            return {
+                fontColorStyle: 'default', fontSize: 'm'
+            };
+        default:
+            return {
+                fontColorStyle: 'default', fontSize: 'm'
+            };
+    }
+}
 export function moneyValue(number: number, value?: string | number | null, useLogging: boolean = false): string | number | null {
     if (typeof number === 'number') {
         if (useLogging) {

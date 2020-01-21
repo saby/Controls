@@ -1,5 +1,5 @@
 <span class="controls-DecoratorMoney_theme_{{_options.theme}}" title="{{_tooltip}}">
-   <span class="controls-DecoratorMoney__integer_theme_{{_options.theme}}_style_{{_options.style}}">{{_parsedNumber.integer}}</span>
+   <span class="controls-DecoratorMoney__integer_theme_{{_options.theme}}_fontColorStyle_{{_options.fontColorStyle}} controls-DecoratorMoney__integer_theme_{{_options.theme}}_fontSize_{{_options.fontSize}}">{{_parsedNumber.integer}}</span>
    <ws:if data="{{_isDisplayFractionPath(_parsedNumber.fraction, _options.showEmptyDecimals)}}">
       <span class="controls-DecoratorMoney__fraction_theme_{{_options.theme}}">{{_parsedNumber.fraction}}</span>
    </ws:if>
