@@ -239,6 +239,13 @@ var
            return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed controls-Grid__cell_fixed_theme-${theme}` : ' controls-Grid__cell_transform';
         },
 
+        getClassesLadderHeading(itemData, theme): String {
+            let result = 'controls-Grid__row-ladder-cell__content controls-Grid__row-ladder-cell__content_';
+            result += itemData.itemPadding && itemData.itemPadding.top ? itemData.itemPadding.top : 'default';
+            result += '_theme-' + theme;
+            return result;
+        },
+
         getItemColumnCellClasses: function(current, theme, editingItem) {
             const cellClasses = `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} `;
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
@@ -1343,6 +1350,7 @@ var
                     return current.getLastColumnIndex() >= current.columnIndex;
                 }
             };
+            current.getClassesLadderHeading = _private.getClassesLadderHeading;
             current.isDrawActions = _private.isDrawActions;
             current.isActionsColumn = _private.isActionsColumn;
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
