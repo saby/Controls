@@ -69,7 +69,7 @@ var _private = {
 };
 
 
-/**
+/*
  * Контрол, предназначенный для операций над множеством записей списка.
  * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>здесь</a>.
  * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.

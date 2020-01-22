@@ -1,4 +1,4 @@
-/**
+/*
  * Библиотека контролов.
  * @library Controls/operationsPanel
  * @includes Panel Controls/_operationsPanel/OperationsPanel
