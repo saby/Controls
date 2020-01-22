@@ -10,7 +10,9 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
    };
 
 /**
+ * Интерфейс для контрола выбора даты или периода.
  * @mixin Controls/dateLitePopup/IDateLitePopup
+ * @author Красильников А.С.
  * @public
  */
    export default {
@@ -20,6 +22,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
             /**
              * @name Controls/dateLitePopup/IDateLitePopup#year
              * @cfg {Date} Отображаемый год.
+             * @default undefined
              */
 
             /*
@@ -71,6 +74,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
             /**
              * @name Controls/dateLitePopup/IDateLitePopup#emptyCaption
              * @cfg {String} Текст, который отображается, если период не выбран.
+             * @default undefined
              */
 
             /*
@@ -82,52 +86,60 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
              /**
               * @name Controls/dateLitePopup/IDateLitePopup#popupClassName
               * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+              * @default undefined
               */
             popupClassName: undefined,
+            
             // TODO: Доделать полноценную поддержку следующих опций. Пока не показываем их в документации.
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#checkedStart
              * @cfg {Date} The date (month) of the beginning of the checked period
+             * @default undefined
              * @noshow
              */
             checkedStart: undefined,
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#checkedEnd
              * @cfg {Date} The date(month) of the end of the checked period
+             * @default undefined
              * @noshow
              */
             checkedEnd: undefined,
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#checkedIconCssClass
              * @cfg {String} The CSS class that will be set on the selected icons. The default is a green tick.
+             * @default icon-Yes icon-done
              * @noshow
              */
             checkedIconCssClass: 'icon-Yes icon-done',
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#uncheckedIconCssClass
              * @cfg {String} A CSS class that will be set on unselected icons. The default is a gray tick.
+             * @default icon-Yes icon-disabled
              * @noshow
              */
             uncheckedIconCssClass: 'icon-Yes icon-disabled',
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#checkedIconTitle
              * @cfg {String} A hint that will be displayed on the selected icons. By default, there is no tooltip.
+             * @default undefined
              * @noshow
              */
             checkedIconTitle: undefined,
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#uncheckedIconTitle
              * @cfg {String} A hint that will be displayed on the unselected icons. By default, there is no tooltip.
+             * @default undefined
              * @noshow
              */
             uncheckedIconTitle: undefined,
 
-            /**
+            /*
              * @name Controls/dateLitePopup/IDateLitePopup#iconsHandler
              * @cfg {Function} Sets the function to be called when the component is repainted.
              * @remark
@@ -145,15 +157,15 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
              * { iconClass: 'icon-Yes icon-done',
              *   title: 'Reporting period is closed'
              *   }
-             *
              * @see updateIcons
+             * @default undefined
              * @noshow
              */
             // iconsHandler: undefined,
 
             /**
              * @name Controls/dateLitePopup/IDateLitePopup#itemTemplate
-             * @cfg {String} Шаблон отображения года. Может принимать опцию monthCaptionTemplate как шаблон заголовка месяца.
+             * @cfg {String|Function} Шаблон отображения года. Может принимать опцию monthCaptionTemplate как шаблон заголовка месяца.
              * Дата первого дня месяца и функция форматирования даты передаются в шаблон месяца {@link Types/formatter:date}.
              * @example
              * <pre>
