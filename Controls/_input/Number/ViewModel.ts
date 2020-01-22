@@ -225,8 +225,8 @@ var ViewModel = BaseViewModel.extend({
         } else if (inputType === 'deleteBackward' || inputType === 'deleteForward') {
             if (text.value === '') {
                 return _private.superHandleInput(this, {
-                    value: '0',
-                    carriagePosition: 1
+                    value: '',
+                    carriagePosition: 0
                 }, inputType);
             }
             if (_private.leaveOnlyIntegerPath(text.value, splitValue, this._options)) {
