@@ -3,13 +3,27 @@
         <div  class="controls-StackTemplate-shadow__content controls-StackTemplate-shadow__content_theme_{{_options.theme}}"></div>
     </div>
     <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
-        <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
-                    close="{{close}}"
-                    theme="{{_headerTheme}}"
-                    stackOptions="{{_options}}"
-                    _maximizeButtonTitle="{{_maximizeButtonTitle}}"
-                    changeMaximizedState="{{changeMaximizedState}}"
-                    _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
+        <ws:if data="{{_options.stickyHeader}}">
+            <Controls.scroll:StickyHeader>
+                <ws:partial template="Controls/_popupTemplate/Stack/resources/Header"
+                                    scope="{{_options}}"
+                                    close="{{close}}"
+                                    theme="{{_headerTheme}}"
+                                    stackOptions="{{_options}}"
+                                    _maximizeButtonTitle="{{_maximizeButtonTitle}}"
+                                    changeMaximizedState="{{changeMaximizedState}}"
+                                    _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
+            </Controls.scroll:StickyHeader>
+        </ws:if>
+        <ws:else>
+            <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
+                                close="{{close}}"
+                                theme="{{_headerTheme}}"
+                                stackOptions="{{_options}}"
+                                _maximizeButtonTitle="{{_maximizeButtonTitle}}"
+                                changeMaximizedState="{{changeMaximizedState}}"
+                                _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
+        </ws:else>
     </ws:if>
     <ws:else>
         <div class="controls-StackTemplate__command_buttons_without_head">
