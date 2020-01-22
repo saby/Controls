@@ -5,11 +5,9 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
 import 'css!theme?Controls/suggest';
 
 /**
- * Поле ввода с автодополнением это одострочное поле ввода,
- * которое помогает пользователю ввести текст,
- * предлагая подходящие варианты по первым набранным символам.
- *
- * <a href="/materials/demo/demo-suggest-input">Демо-пример</a>
+ * Поле ввода с автодополнением это одострочное поле ввода, которое помогает пользователю ввести текст, предлагая подходящие варианты по первым набранным символам.
+ * @remark
+ * См. <a href="/materials/demo/demo-suggest-input">демо-пример</a>
  *
  * @class Controls/_suggest/Input
  * @extends Core/Control
@@ -18,8 +16,14 @@ import 'css!theme?Controls/suggest';
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
+ * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/_interface/IHeight
+ * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/_input/interface/ITag
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
+ * @mixes Controls/_input/interface/IValue
  * @mixes Controls/_suggest/Input/Styles
  * @control
  * @public
