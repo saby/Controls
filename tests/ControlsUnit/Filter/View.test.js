@@ -208,7 +208,7 @@ define(
             });
          });
 
-         it('_private:reload', function(done) {
+         it('_private:reload check configs', function(done) {
             let view = getView(defaultConfig);
             view._source = defaultConfig.source;
             view._displayText = {};
@@ -227,6 +227,23 @@ define(
             assert.equal(view._configs.document.items.length, 7);
          });
 
+         it ('_private.clearConfigs', function() {
+            let source = Clone(defaultSource);
+            source.splice(1, 1); // delete 'state' item
+            let configs = {
+               document: {
+                  displayProperty: 'title',
+                  keyProperty: 'id'
+               },
+               state: {
+                  displayProperty: 'title',
+                  keyProperty: 'id'
+               }
+            };
+            filter.View._private.clearConfigs(source, configs);
+            assert.isOk(configs['document']);
+            assert.isNotOk(configs['state']);
+         });
 
          it('_private:isNeedReload', function() {
             let oldItems = defaultConfig.source;
