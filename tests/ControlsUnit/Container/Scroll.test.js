@@ -119,6 +119,12 @@ define(
 
                   assert.isFalse(scroll._shadowVisible('top'));
                });
+
+               it('should not display top shadow on initial build.', function () {
+                  scroll._children = {};
+
+                  assert.isFalse(scroll._shadowVisible('top'));
+               });
             });
          });
 
