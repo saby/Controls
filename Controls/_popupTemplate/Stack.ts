@@ -52,6 +52,14 @@ const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
  */
 
 /**
+ * @name Controls/_popupTemplate/Stack#stickyHeader
+ * @cfg {Boolean} Включает прилипание шапки к верхней части экрана
+ * @default false
+ * @remark
+ * Для корректной работы функционала контрол нужно положить внутрь Controls.scroll:Container
+ */
+
+/**
  * @name Controls/_popupTemplate/Stack#workspaceWidth
  * @cfg {Number} Текущая ширина шаблона стековой панели
  * @remark
