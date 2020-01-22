@@ -151,7 +151,7 @@ define('Controls-demo/Popup/Opener/Compatible/demoOpener',
 
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function(CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function () {
+                  CompatiblePopup.load(null, false, false).addCallback(function () {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function(OpenDialog) {
                         self._action = new OpenDialog({
                            template: "Controls-demo/Popup/Opener/Compatible/resources/demoOldPanel",
@@ -187,7 +187,7 @@ define('Controls-demo/Popup/Opener/Compatible/demoOpener',
             var self = this;
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function(CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function() {
+                  CompatiblePopup.load(null, false, false).addCallback(function() {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function(OpenDialog) {
                         self._action = new OpenDialog({
                            mode: 'dialog',
@@ -225,7 +225,7 @@ define('Controls-demo/Popup/Opener/Compatible/demoOpener',
 
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function(CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function() {
+                  CompatiblePopup.load(null, false, false).addCallback(function() {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function(OpenDialog) {
                         self._action = new OpenDialog({
                            mode: 'floatArea',
@@ -291,7 +291,7 @@ define('Controls-demo/Popup/Opener/Compatible/demoOpener',
 
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function(CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function() {
+                  CompatiblePopup.load(null, false, false).addCallback(function() {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function(OpenDialog) {
                         self._action = new OpenDialog({
                            mode: 'floatArea',

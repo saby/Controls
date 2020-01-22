@@ -19,7 +19,7 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Wasaby/WrappedWS3',
 
          _afterMount: function() {
             var self = this;
-            CompatibleLayer.load()
+            CompatibleLayer.load(null, false, false)
                .addCallback(function() {
                   self._compatibleReady = true;
                   self._text = 'Init success!';

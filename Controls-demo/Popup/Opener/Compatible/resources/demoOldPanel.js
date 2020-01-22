@@ -47,7 +47,7 @@ define('Controls-demo/Popup/Opener/Compatible/resources/demoOldPanel',
             var self = this;
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function (CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function () {
+                  CompatiblePopup.load(null, false, false).addCallback(function () {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function (OpenDialog) {
                         var dialog = new OpenDialog({
                            mode: 'floatArea',
@@ -72,7 +72,7 @@ define('Controls-demo/Popup/Opener/Compatible/resources/demoOldPanel',
             var self = this;
             requirejs(['Lib/Control/LayerCompatible/LayerCompatible'],
                function (CompatiblePopup) {
-                  CompatiblePopup.load().addCallback(function () {
+                  CompatiblePopup.load(null, false, false).addCallback(function () {
                      requirejs(['SBIS3.CONTROLS/Action/List/OpenEditDialog'], function (OpenDialog) {
                         var dialog = new OpenDialog({
                            mode: 'floatArea',
