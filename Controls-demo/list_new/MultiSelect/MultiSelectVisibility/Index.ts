@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/Multiselect/Multiselect"
+import * as Template from "wml!Controls-demo/list_new/MultiSelect/MultiSelectVisibility/MultiSelectVisibility"
 import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
