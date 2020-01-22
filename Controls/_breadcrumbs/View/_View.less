@@ -28,6 +28,7 @@
    display: inline-block;
    overflow: hidden;
    max-width: 100%;
+   white-space: nowrap;
    .baseline-fix();
    height: @height_BreadCrumbs-items;
    &:before {
@@ -92,6 +93,7 @@
 .controls-BreadCrumbsView__titleWrapper {
    overflow: hidden;
    min-width: 0;
+   display: inline;
 }
 
 .controls-BreadCrumbsView__title_enabled {
@@ -102,6 +104,7 @@
    .text-overflow();
    color: @color_BreadCrumbs-title;
    font-size: @font-size_BreadCrumbs-title;
+   display: inline;
 }
 
 .controls-BreadCrumbsView__arrow {
@@ -109,6 +112,7 @@
    cursor: pointer;
    color: @color_BreadCrumbs-arrow;
    flex-shrink: 0;
+   display: inline;
 }
 
 .controls-BreadCrumbsView__title_min {
