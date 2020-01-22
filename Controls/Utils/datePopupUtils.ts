@@ -13,8 +13,8 @@ export default {
 
     getTemplateOptions: function(self) {
         return {
-            startValue: self._options.startValue || self._options.value,
-            endValue: self._options.endValue || self._options.value,
+            startValue: self._rangeModel?.startValue || self._options.startValue || self._options.value,
+            endValue: self._rangeModel?.endValue || self._options.endValue || self._options.value,
             mask: self._options.mask,
             readOnly: self._options.readOnly,
             dateConstructor: self._options.dateConstructor
