@@ -13,6 +13,7 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions {
  * @control
  * @author Красильников А.С.
  * @see Controls/_scroll/IntersectionObserver
+ * @public
  */
 
 /**
