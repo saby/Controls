@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/Multiselect/AllSelected/AllSelected"
+import * as Template from "wml!Controls-demo/list_new/MultiSelect/AllSelected/AllSelected"
 import {Memory} from "Types/source"
 import {getFewCategories as getData} from "../../DemoHelpers/DataCatalog"
 import 'css!Controls-demo/Controls-demo'
