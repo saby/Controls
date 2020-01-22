@@ -8,9 +8,7 @@ import template = require('wml!Controls/_list/Mover/Mover');
 import {isEqual} from 'Types/object';
 import {Logger} from 'UI/Utils';
 import {ContextOptions as dataOptions} from 'Controls/context';
-import {Confirmation} from 'Controls/popup';
 import {TKeysSelection} from 'Controls/interface';
-import {selectionToRecord} from 'Controls/operations';
 
 const BEFORE_ITEMS_MOVE_RESULT = {
     CUSTOM: 'Custom',
@@ -136,16 +134,18 @@ var _private = {
         const isNewLogic = !items.forEach && !items.selected;
         if (isNewLogic) {
             if (self._source.call) {
-                const callFilter = {
-                    selection: selectionToRecord({
-                        selected: items.selectedKeys,
-                        excluded: items.excludedKeys
-                    }, self._source.getAdapter()), ...items.filter
-                };
-                return self._source.call(self._source.getBinding().move, {
-                    method: self._source.getBinding().list,
-                    filter: callFilter,
-                    folder_id: targetId
+                return import('Controls/operations').then((operations) => {
+                    const callFilter = {
+                        selection: operations.selectionToRecord({
+                            selected: items.selectedKeys,
+                            excluded: items.excludedKeys
+                        }, self._source.getAdapter()), ...items.filter
+                    };
+                    return self._source.call(self._source.getBinding().move, {
+                        method: self._source.getBinding().list,
+                        filter: callFilter,
+                        folder_id: targetId
+                    });
                 });
             }
             return self._source.move(items.selectedKeys, targetId, {
