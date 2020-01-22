@@ -127,6 +127,7 @@ var Component = Control.extend([], {
       if (key === Env.constants.key.insert && !event.nativeEvent.shiftKey && !event.nativeEvent.ctrlKey) {
       // on Insert button press current date should be inserted in field
          this._model.setCurrentDate();
+         this._notify('inputCompleted', [this._model.value, this._model.textValue]);
       }
       if (key === Env.constants.key.plus || key === Env.constants.key.minus) {
       //on +/- buttons press date should be increased or decreased in field by one day if date is not empty
