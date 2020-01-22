@@ -1,16 +1,16 @@
 .controls-Toolbar__popup__link_theme-@{themeName} {
-   margin-top: @shift-top_Toolbar-link_medium-popup;
-   margin-left: @shift-left_Toolbar-link_medium-popup;
+   margin-top:  -((@item_height_menu - @icon-size_m) / 2 + @popup_border-thickness_menuPopup);
+   margin-left: -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
 }
 
 .controls-Toolbar__popup__icon_theme-@{themeName} {
-   margin-top: @shift-top_Toolbar-link_medium-popup;
-   margin-left: @shift-left_Toolbar-link_medium-popup;
+   margin-top:  -((@item_height_menu - @icon-size_m) / 2 + @popup_border-thickness_menuPopup);
+   margin-left: -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
 }
 
 .controls-Toolbar__popup__toolButton_theme-@{themeName} {
-   margin-top: @shift-top_Toolbar-toolButton-popup;
-   margin-left: @shift-left_Toolbar-link_medium-popup;
+   margin-top: -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
+   margin-left: -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
 }
 
 .controls-Toolbar__popup__list_theme-@{themeName} {
