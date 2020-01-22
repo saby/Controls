@@ -3,6 +3,7 @@
  * @author Герасимов Александр
  * @deprecated
  * @class Controls/_context/ContextOptions
+ * @private
  */
 
 import DataContext = require('Core/DataContext');

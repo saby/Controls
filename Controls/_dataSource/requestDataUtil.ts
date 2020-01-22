@@ -2,6 +2,7 @@
  * Модуль возвращает метод, с помощью которого можно запросить данные с учетом фильтрации.
  * @class Controls/_dataSource/requestDataUtil
  * @author Сухоручкин А.С.
+ * @public
  */
 
 import {Controller as SourceController} from 'Controls/source';

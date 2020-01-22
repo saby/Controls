@@ -1,6 +1,7 @@
 /**
  * @class Controls/_context/SearchContextField
  * @deprecated
+ * @private
  */
 
 import DataContext = require('Core/DataContext');
