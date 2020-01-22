@@ -32,44 +32,40 @@
  * @public
  */
 
-/**
- * @name Controls/list:EditingTemplate#editorTemplate
- * @cfg {String|Function} Устанавливает шаблон, отображаемый поверх элемента в режиме редактирования. 
- */
-
-/**
- * @name Controls/list:EditingTemplate#enabled
- * @cfg {Boolean} Когда опция задана в значение true, при наведении курсора мыши на элемент в режиме редактирования будет выделяться фон у контрола-редактора.
- * @default false
- * @see editorTemplate
- */
-
-/**
- * @name Controls/list:EditingTemplate#value
- * @cfg {String} Устанавливает текст, отображаемый внутри элемента в режиме просмотра.
- */
-
-/**
- * @typedef {String} Size
- * @variant default Размер, используемый по умолчанию.
- * @variant s Маленький размер.
- * @variant m Средний размер.
- * @variant l Большой размер.
- */ 
-
-/**
- * @name Controls/list:EditingTemplate#size
- * @cfg {Size} Устанавливает размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
- * @default default
- * @see Controls/list:EditingTemplate#value
- * @remark
- * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
- */
-
 export default interface IEditingTemplateOptions {
+    /**
+     * @name Controls/list:EditingTemplate#editorTemplate
+     * @cfg {String|Function} Устанавливает шаблон, отображаемый поверх элемента в режиме редактирования. 
+     */
     editorTemplate?: string;
+    /**
+     * @name Controls/list:EditingTemplate#enabled
+     * @cfg {Boolean} Когда опция задана в значение true, при наведении курсора мыши на элемент в режиме редактирования будет выделяться фон у контрола-редактора.
+     * @default false
+     * @see editorTemplate
+     */
     enabled?: boolean;
+    /**
+     * @name Controls/list:EditingTemplate#value
+     * @cfg {String} Устанавливает текст, отображаемый внутри элемента в режиме просмотра.
+     */
     value?: string;
+    /**
+     * @typedef {String} Size
+     * @variant default Размер, используемый по умолчанию.
+     * @variant s Маленький размер.
+     * @variant m Средний размер.
+     * @variant l Большой размер.
+     */ 
+
+    /**
+     * @name Controls/list:EditingTemplate#size
+     * @cfg {Size} Устанавливает размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
+     * @default default
+     * @see Controls/list:EditingTemplate#value
+     * @remark
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     */
     size?: string;
  }
  
