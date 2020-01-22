@@ -1,8 +1,10 @@
 import {descriptor} from 'Types/entity';
 
 /**
- * Интерфейс контролов позволяющих выделять интервалы от одного значения до другого
- * mixin Controls/_dateRange/interfaces/IRangeSelectable
+ * Интерфейс контролов, позволяющих выделять интервалы от одного значения до другого.
+ * @interface Controls/_dateRange/interfaces/IRangeSelectable
+ * @public
+ * @author Красильников А.С.
  */
 var selectionTypes = {
     range: 'range',
@@ -18,11 +20,16 @@ export default {
             // TODO: имеет ли смысл оставлять опуию selectionType? selectionType: 'single', это частный случай quantum: {days: [1]}
             // Возможно стоит оставить, но ввести selectionType: 'quantum' и сделать что бы опция quantum работала только в этом случае.
             /**
+             * @typedef {String} SelectionType
+             * @description Режим выделения диапазона.
+             * @variant range Выделение произвольного диапазона.
+             * @variant single Выделение одного элемента.
+             * @variant disable Выбора диапазона отключен.
+             */
+            /**
              * @name Controls/_dateRange/interfaces/IRangeSelectable#selectionType
-             * @cfg {String} Определяет режим выделения диапазано
-             * @variant 'range' режим выделения произвольного диапазона
-             * @variant 'single' режим выделения одного элемента
-             * @variant 'disable' режим выбора отключен
+             * @cfg {SelectionType} Определяет режим выделения диапазона.
+             * @default range
              */
             selectionType: 'range'
         };
