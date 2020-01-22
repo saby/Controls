@@ -291,7 +291,7 @@ define('Controls-demo/Compound/CompoundDemo', [
       },
       _afterMount: function() {
          var self = this;
-         LayerCompatible.load().addCallback(function() {
+         LayerCompatible.load(null, false, false).addCallback(function() {
             self._compatibleReady = true;
             self._forceUpdate();
          });
