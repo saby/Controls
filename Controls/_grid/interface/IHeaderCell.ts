@@ -22,33 +22,46 @@ export interface IHeaderCell extends IControlOptions {
      */
     caption?: string;
     /**
-     * @description Выравнивание содержимого ячейки по горизонтали.
-     * Доступные значения:
-     * @variant left по левому краю.
-     * @variant center по центру.
-     * @variant right по правому краю.
+     * @typedef {String} TCellAlign
+     * @variant left По левому краю.
+     * @variant center По центру.
+     * @variant right По правому краю.
+     */
+    /**
+     * @name Controls/_grid/interface/IHeaderCell#align
+     * @cfg {TCellAlign} Выравнивание содержимого ячейки по горизонтали.
      * @default left
      */
     align?: TCellAlign;
     /**
-     * @description Выравнивание содержимого ячейки по вертикали.
-     * Доступные значения:
-     * @variant top по верхнему краю.
-     * @variant center по центру.
-     * @variant bottom по нижнему краю.
+     * @typedef {String} TCellVerticalAlign
+     * @variant top По верхнему краю.
+     * @variant center По центру.
+     * @variant bottom По нижнему краю.
+     */
+    /**
+     * @name Controls/_grid/interface/IHeaderCell#valign
+     * @cfg {TCellVerticalAlign} Выравнивание содержимого ячейки по вертикали.
      */
     valign?: TCellVerticalAlign;
     /**
-     * @description [template=Controls/grid:HeaderContent] Шаблон заголовка ячейки.
-     * <br/>Подробнее о работе с шаблоном читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/ документации}.
+     * @name Controls/_grid/interface/IHeaderCell#template
+     * @cfg {String|Function} Шаблон заголовка ячейки.
+     * @default Controls/grid:HeaderContent
+     * @remark
+     * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.
+     * Подробнее о работе с шаблоном читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/ документации}.
      */
     template?: TemplateFunction;
     /**
-     * @description Свойство, по которому выполняется сортировка.
-     * <br/>В качестве значения принимает имя поля.
-     * <br/>Если в конфигурации ячейки задать это свойство, то в шапке таблицы в конкретной ячейки будет отображаться кнопка для изменения сортировки.
-     * <br/>Клик по кнопке будет менять порядок сортировки элементов на противоположный.
-     * <br/>При этом элементы будут отсортированы по полю, имя которого указано в свойстве sortingProperty.
+     * @name Controls/_grid/interface/IHeaderCell#sortingProperty
+     * @cfg {String} Свойство, по которому выполняется сортировка.
+     * @remark
+     * В качестве значения принимает имя поля.
+     * Если в конфигурации ячейки задать это свойство, то в шапке таблицы в конкретной ячейки будет отображаться кнопка для изменения сортировки.
+     * Клик по кнопке будет менять порядок сортировки элементов на противоположный.
+     * При этом элементы будут отсортированы по полю, имя которого указано в свойстве sortingProperty.
+     * @example
      * <pre class="brush: js">
      * _sorting: null,
      * _header: null,

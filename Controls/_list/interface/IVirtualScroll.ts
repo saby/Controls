@@ -46,17 +46,18 @@ export interface IVirtualScrollConfig {
  */ 
 
 /**
- * @deprecated
+ * 
  * @name Controls/_list/interface/IVirtualScroll#virtualPageSize
- * @cfg {Number} Размер виртуальной страницы указывает максимальное количество одновременно отображаемых элементов в списке.
+ * @cfg {Number} Размер виртуальной страницы. Указывает максимальное количество одновременно отображаемых элементов в списке.
  * @default 100
  * @remark
  * Оптимальное значение параметра virtualPageSize можно рассчитать по формуле: <b>virtualPageSize = M + (2 * S)</b>, где
- * <ul>
- *     <li>M - максимальное количество элементов в клиентской области списка;</li>
- *     <li>S - количество элементов, которые будут добавлены/удалены по достижении конца списка отображаемых элементов.</li>
- * </ul>
- * <b>Примечание для Controls/Grid:View и Controls/TreeGrid:View</b>: значение опции virtualPageSize должно быть меньше 1000/общее количество столбцов в таблице.
+ * 
+ * * M - максимальное количество элементов в клиентской области списка;
+ * * S - количество элементов, которые будут добавлены/удалены по достижении конца списка отображаемых элементов.
+ * 
+ * Для Controls/grid:View и Controls/treeGrid:View значение опции virtualPageSize должно быть меньше 1000/общее количество столбцов в таблице.
+ * @deprecated
  */
 
 /*
@@ -73,27 +74,29 @@ export interface IVirtualScrollConfig {
  */
 
 /**
- * @deprecated
+ * 
  * @name Controls/_list/interface/IVirtualScroll#virtualSegmentSize
- * @cfg {number} Количество подгружаемых элементов при скроллировании
+ * @cfg {number} Количество подгружаемых элементов при скроллировании.
  * @remark Если опция не задана, то virtualSegmentSize высчитывается по формуле virtualPageSize / 4.
+ * @deprecated
  */
 
 /**
- * @typedef {string} IVirtualScrollMode
- * @variant remove Скрытые записи удаляются из DOM
- * @variant hide Скрытые записи скрываются из DOM с помощью ws-hidden
+ * @typedef {String} IVirtualScrollMode
+ * @variant remove Скрытые записи удаляются из DOM.
+ * @variant hide Скрытые записи скрываются из DOM с помощью ws-hidden.
  */
 export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
- * @deprecated
+ * 
  * @name Controls/_list/interface/IVirtualScroll#virtualScrollMode
- * @cfg {IVirtualScrollMode} Режим скрытия записей в виртуальном скроллинге
+ * @cfg {IVirtualScrollMode} Режим скрытия записей в виртуальном скроллинге.
  * @default remove
+ * @deprecated
  */
 
 /**
  * @name Controls/_list/interface/IVirtualScroll#virtualScrollConfig
- * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга
+ * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга.
  */

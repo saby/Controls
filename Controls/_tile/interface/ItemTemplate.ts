@@ -24,16 +24,18 @@
  * @public
  */
 
+export default interface IItemTemplateOptions {
+   /**
+    * @typedef {String} TitleStyle
+    * @variant onhover Заголовок отображается только при наведении мыши на плитку.
+    * @variant partial Видна первая строка заголовка. При наведении мыши на плитку, виден весь заголовок (не более 3 строк).
+    * @variant accent Заголовок виден всегда, выделен жирным шрифтом и цветом, при наведении на плитку появляется подчеркивание.
+    */
 
-/**
- * @typedef {String} TtitleStyle
- * @variant onhover Заголовок отображается только при наведении мыши на плитку.
- * @variant partial Видна первая строка заголовка. При наведении мыши на плитку, виден весь заголовок (не более 3 строк).
- * @variant accent Заголовок виден всегда, выделен жирным шрифтом и цветом, при наведении на плитку появляется подчеркивание.
- */
-
-/**
- * @name Controls/tile:ItemTemplate#titleStyle
- * @cfg {TtitleStyle} Устанавливает стиль отображения заголовка плитки.
- * @default onhover
- */
+   /**
+    * @name Controls/tile:ItemTemplate#titleStyle
+    * @cfg {TitleStyle} Устанавливает стиль отображения заголовка плитки.
+    * @default onhover
+    */
+   titleStyle?: string;
+}
