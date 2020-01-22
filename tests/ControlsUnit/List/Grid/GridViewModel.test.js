@@ -2154,7 +2154,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
          it('isFixedLayout', function () {
             model = new gridMod.GridViewModel({...cfg, columnScroll: true});
-            assert.isTrue(model.isFixedLayout());
+            assert.isFalse(model.isFixedLayout());
             model = new gridMod.GridViewModel({...cfg, columnScroll: false});
             assert.isTrue(model.isFixedLayout());
             model = new gridMod.GridViewModel({...cfg});
