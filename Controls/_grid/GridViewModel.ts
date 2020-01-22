@@ -1803,8 +1803,7 @@ var
         },
 
         isFixedLayout(): boolean {
-            // TODO: Может быть при columnScroll сделать авто ширину?
-            return true;
+            return this._options.columnScroll !== true;
         },
 
         _prepareWidthForTableColumn(column: IGridColumn): string {
