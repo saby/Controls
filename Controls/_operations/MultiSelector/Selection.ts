@@ -205,7 +205,7 @@ export default class Selection {
     * @param {Array} keys
     * @private
     */
-   protected _increaseLimit(keys: TKeys): void {
+   private _increaseLimit(keys: TKeys): void {
       let
          selectedItemsCount: number = 0,
          limit: number = this._limit ? this._limit - this._excludedKeys.length : 0,
