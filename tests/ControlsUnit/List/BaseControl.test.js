@@ -1576,6 +1576,19 @@ define([
                stateEnd: 'normal'
             }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
 
+            ctrl._abortSearch();
+            lists.BaseControl._private.handleListScroll(ctrl, {
+               scrollTop: 200,
+               position: 'down'
+            });
+            assert.deepEqual({
+               stateBegin: 'normal',
+               statePrev: 'normal',
+               stateNext: 'disabled',
+               stateEnd: 'disabled'
+            }, ctrl._pagingCfg, 'Wrong state of paging arrows after abort search');
+            lists.BaseControl._private.getPortionedSearch(ctrl).reset();
+
             // Если данные не были загружены после последнего подскролла в конец (и hasMoreData все еще false),
             // и еще раз доскроллили до конца, то самое время блокировать кнопки.
             lists.BaseControl._private.handleListScroll(ctrl, {

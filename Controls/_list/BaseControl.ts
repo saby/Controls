@@ -867,9 +867,12 @@ var _private = {
             } else {
                 // when scroll is at the edge we will send information to scrollPaging about the availability of data next/prev
                 if (self._sourceController) {
+                    const hasMoreDataUp = self._sourceController.hasMoreData('up');
+                    const hasMoreDataDown = self._sourceController.hasMoreData('down');
+
                     hasMoreData = {
-                        up: self._sourceController.hasMoreData('up') || self._hasLoadedData,
-                        down: self._sourceController.hasMoreData('down') || self._hasLoadedData
+                        up: hasMoreDataUp || self._hasLoadedData,
+                        down: (hasMoreDataDown || self._hasLoadedData) && _private.allowLoadMoreByPortionedSearch(self)
                     };
                 }
                 self._scrollPagingCtr.handleScrollEdge(params.position, hasMoreData);
@@ -978,7 +981,7 @@ var _private = {
         }
     },
 
-    needShowShadowByPortionedSearch(self): boolean {
+    allowLoadMoreByPortionedSearch(self): boolean {
         return !self._showContinueSearchButton && _private.getPortionedSearch(self).shouldSearch();
     },
 
@@ -1710,7 +1713,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         const itemsCount = this._listViewModel && this._listViewModel.getCount();
         const hasMoreData = (direction) => this._sourceController && this._sourceController.hasMoreData(direction);
         const showShadowByNavigation = _private.needShowShadowByNavigation(this._options.navigation, itemsCount);
-        const showShadowByPortionedSearch = _private.needShowShadowByPortionedSearch(this);
+        const showShadowByPortionedSearch = _private.allowLoadMoreByPortionedSearch(this);
 
         this._notify('updateShadowMode', [{
             top: (placeholderSizes.top || showShadowByNavigation && itemsCount && hasMoreData('up')) ? 'visible' : 'auto',
