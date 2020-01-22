@@ -10,6 +10,7 @@ export interface ILegendOptions extends IControlOptions {
  * Легенда для StateIndicator.
  * @class Controls/_progress/Legend
  * @author Колесов В.А.
+ * @public
  */
 
 /*
