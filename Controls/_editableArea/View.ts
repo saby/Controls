@@ -122,18 +122,24 @@ var View = Control.extend( /** @lends Controls/List/View.prototype */ {
       }
    },
 
-   _onDeactivatedHandler: function () {
-      if (!this._options.readOnly && this._isEditing && !this._options.toolbarVisibility) {
-         this.commitEdit();
+   _inputCompletedHandler: function (event, value, displayValue, trigger) {
+      switch (trigger) {
+         case 'enter':
+            this.commitEdit();
+            break;
+         case 'blur':
+            if (!this._options.readOnly && !this._options.toolbarVisibility) {
+               this.commitEdit();
+            }
+            break;
+         default:
+            this.commitEdit();
       }
    },
 
    _onKeyDown: function (event) {
       if (this._isEditing) {
          switch (event.nativeEvent.keyCode) {
-            case 13: // Enter
-               this.commitEdit();
-               break;
             case 27: // Esc
                this.cancelEdit();
                break;

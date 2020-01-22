@@ -103,11 +103,11 @@ define(
             it('Trim option equal false. Spaces on both sides are not trimmed.', function() {
                ctrl._options.trim = false;
 
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [{
                   name: 'notify',
-                  arguments: ['inputCompleted', [' test value ', ' test value ']]
+                  arguments: ['inputCompleted', [' test value ', ' test value ', 'enter']]
                }]);
             });
             it('Trim option equal true. Spaces on both sides are not trimmed.', function() {
@@ -116,17 +116,17 @@ define(
                   value: 'test value'
                });
 
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [{
                   name: 'notify',
-                  arguments: ['inputCompleted', ['test value', 'test value']]
+                  arguments: ['inputCompleted', ['test value', 'test value', 'enter']]
                }]);
             });
             it('Trim option equal true. Spaces on both sides are trimmed.', function() {
                ctrl._options.trim = true;
 
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [
                   {
@@ -139,7 +139,7 @@ define(
                   },
                   {
                      name: 'notify',
-                     arguments: ['inputCompleted', ['test value', 'test value']]
+                     arguments: ['inputCompleted', ['test value', 'test value', 'enter']]
                   }
                ]);
             });

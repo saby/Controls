@@ -1,7 +1,4 @@
-<Controls.validate:Controller
-   name="formController"
-   on:deactivated="_onDeactivatedHandler()"
->
+<Controls.validate:Controller name="formController">
    <div
       class="controls-EditableArea
       {{_isEditing ? 'controls-EditableArea_isEditing_style_' + (_options.style)}}
@@ -12,6 +9,7 @@
          editObject="{{_editObject}}"
          on:click="_onClickHandler()"
          on:keyDown="_onKeyDown()"
+         on:inputCompleted="_inputCompletedHandler()"
          isEditing="{{_isEditing}}"
       />
       <ws:if data="{{_options.toolbarVisibility && _isEditing}}">

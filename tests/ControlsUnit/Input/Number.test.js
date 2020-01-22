@@ -84,11 +84,11 @@ define(
             it('ShowEmptyDecimals option equal true. Trailing zeros are not trimmed.', function() {
                ctrl._options.showEmptyDecimals = true;
 
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [{
                   name: 'notify',
-                  arguments: ['inputCompleted', [0, '0']]
+                  arguments: ['inputCompleted', [0, '0', 'enter']]
                }]);
             });
          });

@@ -114,7 +114,7 @@ define([
                readOnly: false
             });
             instance._beforeMount(cfg);
-            instance._onDeactivatedHandler();
+            instance._inputCompletedHandler({}, '', '', 'blur');
             assert.isTrue(result);
          });
 
@@ -124,7 +124,7 @@ define([
                toolbarVisibility: true
             });
             instance._beforeMount(cfg);
-            instance._onDeactivatedHandler();
+            instance._inputCompletedHandler({}, '', '', 'blur');
             assert.isNotOk(result);
          });
       });
@@ -136,11 +136,7 @@ define([
             instance.commitEdit = function() {
                result = true;
             };
-            instance._onKeyDown({
-               nativeEvent: {
-                  keyCode: 13
-               }
-            });
+            instance._inputCompletedHandler({}, '', '', 'enter');
             assert.isTrue(result);
          });
          it('Esc', function() {
