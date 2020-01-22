@@ -3,12 +3,14 @@ import {descriptor} from 'Types/entity';
 import dateControlsUtils from './../Utils';
 
 /**
- * @mixin Controls/_dateRange/interfaces/IPeriodLiteDialog
+ * Интерфейс для быстрого выбора периода.
+ * @interface Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @public
+ * @author Красильников А.С.
  */
 
 /*
- * Миксин Controls/_dateRange/interfaces/IPeriodLiteDialog
+ * @interface Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @public
  */
 var EMPTY_CAPTIONS = {
@@ -25,133 +27,136 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseMonths
              * @cfg {Boolean} В значении false недоступен выбор месяца.
+             * @default true
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseMonths
              * @cfg {Boolean} Sets the option to choose a month
+             * @default true
              */
             chooseMonths: true,
 
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseQuarters
              * @cfg {Boolean} В значении false недоступен выбор квартала.
+             * @default true
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseQuarters
              * @cfg {Boolean} Sets the option to choose a quarter
+             * @default true
              */
             chooseQuarters: true,
 
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseHalfyears
              * @cfg {Boolean} В значении false недоступен выбор полугодия.
+             * @default true
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseHalfyears
              * @cfg {Boolean} Sets the option to choose a half-year
+             * @default true
              */
             chooseHalfyears: true,
 
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseYears
              * @cfg {Boolean} В значении false недоступен выбор года.
+             * @default true
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#chooseYears
              * @cfg {Boolean} Sets the option to choose a year
+             * @default true
              */
             chooseYears: true,
 
             /**
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#emptyCaption
              * @cfg {String} Отображаемый текст, когда в контроле не выбран период.
+             * @default undefined
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#emptyCaption
              * @cfg {String} Text that is used if the period is not selected
+             * @default undefined
              */
             emptyCaption: undefined,
 
             /**
              * @name Controls/dateLitePopup/IDateLitePopup#popupClassName
              * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+             * @default undefined
              */
             popupClassName: undefined,
             // TODO: Доделать полноценную поддержку следующих опций. Пока не показываем их в документации.
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedStart
              * @cfg {Date} Дата (месяц) начала установленного периода.
-             * @noshow
+             * 
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedStart
              * @cfg {Date} The date (month) of the beginning of the checked period
-             * @noshow
+             * 
              */
             checkedStart: undefined,
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedEnd
              * @cfg {Date} Дата (месяц) окончания установленного периода.
-             * @noshow
+             *
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedEnd
              * @cfg {Date} The date(month) of the end of the checked period
-             * @noshow
              */
             checkedEnd: undefined,
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedIconCssClass
              * @cfg {String} CSS-класс, который будет установлен у выделенных иконок. По умолчанию это зеленая галочка.
-             * @noshow
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedIconCssClass
              * @cfg {String} The CSS class that will be set on the selected icons. The default is a green tick.
-             * @noshow
              */
             checkedIconCssClass: 'icon-Yes icon-done',
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#uncheckedIconCssClass
              * @cfg {String} CSS-класс, который будет установлен у невыделенных иконок. По умолчанию это серая галочка.
-             * @noshow
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#uncheckedIconCssClass
              * @cfg {String} A CSS class that will be set on unselected icons. The default is a gray tick.
-             * @noshow
              */
             uncheckedIconCssClass: 'icon-Yes icon-disabled',
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedIconTitle
              * @cfg {String} Подсказка, которая будет отображаться при наведении на выделенную иконку. По умолчанию всплывающая подсказка отсутствует.
-             * @noshow
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedIconTitle
              * @cfg {String} A hint that will be displayed on the selected icons. By default, there is no tooltip.
-             * @noshow
              */
             checkedIconTitle: undefined,
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#uncheckedIconTitle
              * @cfg {String} Подсказка, которая будет отображаться при наведении на невыделенную иконку. По умолчанию всплывающая подсказка отсутствует.
-             * @noshow
              */
 
             /*
@@ -202,12 +207,11 @@ export default {
              *   }
              *
              * @see updateIcons
-             * @noshow
              */
 
             // iconsHandler: undefined,
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#itemTemplate
              * @cfg {String} Шаблон отображения года. Может принимать параметр monthCaptionTemplate — шаблон названия месяца.
              * Дата первого дня месяца и функция форматирования даты передаются в шаблон {@link Types/formatter:date}.
@@ -250,7 +254,7 @@ export default {
              * itemTemplate: undefined,
              */
 
-            /**
+            /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#captionFormatter
              * @cfg {Function} Функция форматирования заголовка.
              * Аргументы функции:

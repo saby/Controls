@@ -30,8 +30,9 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  */
 
 /**
- * @event Событие происходит при изменении диапазона.
+ * @event Происходит при изменении диапазона.
  * @name Controls/_dateRange/Selector#rangeChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
  */

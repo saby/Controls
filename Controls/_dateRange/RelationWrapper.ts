@@ -35,7 +35,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  * @name Controls/_dateRange/RelationWrapper#content
  * @cfg {Content} Содержимое контрола. Контрол реализует {@link Controls/_dateRange/interfaces/IInput}.
  * @example
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.dateRange:RelationController
  *            bind:startValue0="_startValue0"
  *             bind:endValue0="_endValue0"
@@ -49,7 +49,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>
- * <pre>
+ * <pre class="brush: js">
  *    Control.extend({
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
@@ -88,14 +88,24 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  */
 
 /**
- * @name Controls/_dateRange/RelationWrapper#relationMode
- * @cfg {String} Тип привязки.
+ * @typedef {String} RelationMode
  * @variant normal В этом режиме изменение одного периода всегда приводит к пересчету остальных периодов.
  * @variant byCapacity В этом режиме при изменении одного из периодов другие изменяются только в том случае, если изменился тип периода.
+ */
+
+/*
+ * @typedef {String} RelationMode
+ * @variant normal In this mode, changing one period always results to recalculation of the remaining periods.
+ * @variant byCapacity In this mode, when one of the periods changes, the others change only if the type of the period has changed.
+ */
+
+/**
+ * @name Controls/_dateRange/RelationWrapper#relationMode
+ * @cfg {RelationMode} Тип привязки.
  * @example
  * В этом примере изменение первого поля ввода только пересчитывает второе поле ввода, если тип периода изменяется или он становится после второго. 
  * Но изменения во втором поле ввода всегда изменяют первое.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.dateRange:RelationController
  *            bind:startValue0="_startValue0"
  *             bind:endValue0="_endValue0"
@@ -109,7 +119,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>
- * <pre>
+ * <pre class="brush: js">
  *    Control.extend({
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
@@ -121,9 +131,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
 
 /*
  * @name Controls/_dateRange/RelationWrapper#relationMode
- * @cfg {String} Bind type
- * @variant normal In this mode, changing one period always results to recalculation of the remaining periods.
- * @variant byCapacity In this mode, when one of the periods changes, the others change only if the type of the period has changed.
+ * @cfg {RelationMode} Bind type
  * @example
  * In this example, changing the first input field only recalculates the second input field if type of the period changes
  * or it becomes after than the second one. But changes to the second input field always change the first one.
