@@ -3,7 +3,7 @@
         <ws:if data="{{_showLoadingIndicatorImage}}">
             <div class="controls-BaseControl__loadingIndicatorImg-wrapper">
                 <div class="controls-BaseControl__loadingIndicatorImg"></div>
-                <ws:if data="{{_options.searchValue}}">
+                <ws:if data="{{_portionedSearchInProgress}}">
                     <div class="controls-BaseControl__abortSearch" on:click="_abortSearch()">{[Прервать поиск]}</div>
                 </ws:if>
             </div>

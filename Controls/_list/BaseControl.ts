@@ -945,18 +945,25 @@ var _private = {
 
     getPortionedSearch(self): PortionedSearch {
         return self._portionedSearch || (self._portionedSearch = new PortionedSearch({
+            searchStartCallback: () => {
+               self._portionedSearchInProgress = true;
+            },
             searchStopCallback: () => {
+                self._portionedSearchInProgress = false;
                 self._showContinueSearchButton = true;
                 self._sourceController.cancelLoading();
             },
             searchResetCallback: () => {
+                self._portionedSearchInProgress = false;
                 self._showContinueSearchButton = false;
             },
             searchContinueCallback: () => {
+                self._portionedSearchInProgress = true;
                 self._showContinueSearchButton = false;
                 _private.loadToDirectionIfNeed(self, 'down');
             },
             searchAbortCallback: () => {
+                self._portionedSearchInProgress = false;
                 self._sourceController.cancelLoading();
             }
         }));
@@ -1542,6 +1549,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _itemReloaded: false,
     _itemActionsInitialized: false,
+
+    _portionedSearch: null,
+    _portionedSearchInProgress: null,
+    _showContinueSearchButton: false,
 
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
