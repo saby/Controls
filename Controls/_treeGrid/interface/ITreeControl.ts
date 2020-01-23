@@ -231,7 +231,7 @@
  * @default true
  * @demo Controls-demo/treeGrid/MultiSelect/SelectAncestors/DoNotSelectAncestors/Index
  * @example
- * <Controls.treeGrid.View selectAncestors="{{false}}/>
+ * <Controls.treeGrid.View selectAncestors="{{false}}"/>
  * @remark
  * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
@@ -242,7 +242,7 @@
  * @default true
  * @demo Controls-demo/treeGrid/MultiSelect/SelectDescendants/DoNotSelectDescendants/Index
  * @example
- * <Controls.treeGrid.View selectDescendants="{{false}}/>
+ * <Controls.treeGrid.View selectDescendants="{{false}}"/>
  * @remark
  * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
