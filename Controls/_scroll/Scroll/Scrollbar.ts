@@ -327,6 +327,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
     private _resizeHandler(): void {
         this._setSizes(this._options.contentSize);
         this._setPosition(this._options.position);
+        this._thumbPosition = this._getThumbCoordByScroll(this._scrollBarSize,
+                                                            this._thumbSize, this._options.position);
     }
 
     private static _isScrollBarVisible(scrollbar: HTMLElement): boolean {
