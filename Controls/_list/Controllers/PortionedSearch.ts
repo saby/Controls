@@ -42,8 +42,10 @@ export default class PortionedSearch<PortionedSearchOptions> {
     }
 
     resetTimer(): void {
-        this._clearTimer();
-        this._startTimer();
+        if (!this._isSearchContinued()) {
+            this._clearTimer();
+            this._startTimer();
+        }
     }
 
     shouldSearch(): boolean {
@@ -75,5 +77,9 @@ export default class PortionedSearch<PortionedSearchOptions> {
 
     private _getSearchState(): SEARCH_STATES {
         return this._searchState;
+    }
+
+    private _isSearchContinued(): boolean {
+        return this._getSearchState() === SEARCH_STATES.CONTINUED;
     }
 }
