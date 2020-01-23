@@ -2448,7 +2448,28 @@ define([
             .at(2), ctrl._listViewModel.getMarkedItem()
             .getContents());
       });
-      it ('needFooterPadding', function() {
+      it('_needBottomPadding after reload in beforeMount', async function() {
+         var cfg = {
+            viewName: 'Controls/List/ListView',
+            itemActionsPosition: 'outside',
+            keyProperty: 'id',
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            source: source,
+         };
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         assert.isTrue(ctrl._needBottomPadding);
+
+      });
+      it('needFooterPadding', function() {
          let cfg = {
             itemActionsPosition: 'outside'
          };
