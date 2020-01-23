@@ -6,7 +6,7 @@
          <div>_startValue: {{_startValue1}}</div>
          <div>_endValue: {{_endValue1}}</div>
          <Controls.calendar:MonthSlider
-            bind:month="_month1"
+            bind:month="_position"
             bind:startValue="_startValue1"
             bind:endValue="_endValue1"
             selectionType="single"
