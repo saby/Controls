@@ -42,6 +42,8 @@ export default class VirtualScrollController {
     } = {up: false, down: false};
     triggerOffset: number = 0;
     itemsCount: number = 0;
+    // Флаг того, что поменялся набор записей, необходим для пересчета высот
+    itemsChanged: boolean = false;
 
     set viewportHeight(value: number) {
         this._options.viewportHeight = value;
@@ -384,6 +386,8 @@ export default class VirtualScrollController {
             if (action === IObservable.ACTION_RESET) {
                 this.reset();
             }
+
+            this._options.indexesChangedCallback(this.startIndex, this.stopIndex);
         }
     }
 
@@ -401,9 +405,11 @@ export default class VirtualScrollController {
                     this.setStartIndex(this.startIndex + newItems.length);
                 }
 
-                this.recalcRangeToDirection(direction, false);
+                if (!this.itemsChanged) {
+                    this.recalcRangeToDirection(direction, false);
+                    this._options.saveScrollPositionCallback(direction);
+                }
 
-                this._options.saveScrollPositionCallback(direction);
             }
         }
     }

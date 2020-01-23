@@ -6,6 +6,7 @@ describe('Controls/_list/ScrollContainer', () => {
         // @ts-ignore
         const instance = new ScrollController();
         instance._options = {};
+        instance.virtualScroll = {};
         it('flag inited', () => {
             instance._afterMount();
             assert.isTrue(instance.__mounted);
@@ -256,7 +257,7 @@ describe('Controls/_list/ScrollContainer', () => {
         it('reset correctly', () => {
             instance.reset(5);
             assert.equal(instance.virtualScroll.itemsCount, 5);
-            assert.isTrue(instance.itemsChanged);
+            assert.isTrue(instance.virtualScroll.itemsChanged);
             assert.isTrue(instance.virtualScroll.resetCalled);
         });
         it('initial key', () => {
@@ -362,10 +363,11 @@ describe('Controls/_list/ScrollContainer', () => {
         };
         instance.actualStartIndex = 0;
         instance.actualStopIndex = 19;
+        instance.virtualScroll = {};
 
         it('indexes recalc, scroll direction saved', () => {
             instance.indexesChangedCallback(5, 24, 'up');
-            assert.isTrue(instance.itemsChanged);
+            assert.isTrue(instance.virtualScroll.itemsChanged);
             assert.isTrue(instance.saveScrollPosition);
             assert.equal(instance.savedScrollDirection, 'up');
         });

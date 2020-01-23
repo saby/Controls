@@ -82,9 +82,6 @@ export default class ScrollContainer extends Control<IOptions> {
     private viewportHeight: number;
     private viewSize: number;
 
-    // Флаг того, что поменялся набор записей, необходим для пересчета высот
-    private itemsChanged: boolean;
-
     // Таймаут для проверки необходимости дозагрузки данных
     private checkTriggerVisibilityTimeout: number;
 
@@ -117,7 +114,10 @@ export default class ScrollContainer extends Control<IOptions> {
 
     protected _afterMount(): void {
         this.__mounted = true;
-        this.itemsChanged = false;
+
+        if (this._options.virtualScrolling) {
+            this.virtualScroll.itemsChanged = false;
+        }
 
         if (this._options.observeScroll) {
             this.registerScroll();
@@ -157,9 +157,9 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     protected _afterRender(): void {
-        if (this.virtualScroll && this.virtualScroll.itemsContainer && this.itemsChanged) {
+        if (this.virtualScroll && this.virtualScroll.itemsContainer && this.virtualScroll.itemsChanged) {
             this.virtualScroll.recalcItemsHeights();
-            this.itemsChanged = false;
+            this.virtualScroll.itemsChanged = false;
         }
 
         this.updateShadowMode();
@@ -361,7 +361,7 @@ export default class ScrollContainer extends Control<IOptions> {
                 initialIndex = this.viewModel.getIndexByKey(initialKey);
             }
 
-            this.itemsChanged = true;
+            this.virtualScroll.itemsChanged = true;
             this.virtualScroll.itemsCount = itemsCount;
             this.virtualScroll.reset(typeof initialIndex === 'undefined' ? 0 : initialIndex);
         }
@@ -488,7 +488,7 @@ export default class ScrollContainer extends Control<IOptions> {
     private updateViewWindow(direction: IDirection, params?: IScrollParams): void {
         this.changeTriggerVisibility(direction, true);
         if (this._options.virtualScrolling) {
-            if (!this.itemsChanged) {
+            if (!this.virtualScroll.itemsChanged) {
                 if (params) {
                     this.virtualScroll.viewportHeight = params.clientHeight;
                 }
@@ -527,7 +527,7 @@ export default class ScrollContainer extends Control<IOptions> {
             }
 
             this.saveScrollPosition = true;
-            this.itemsChanged = true;
+            this.virtualScroll.itemsChanged = true;
         } else if (this.applyScrollTopCallback) {
             this.applyScrollTopCallback();
             this.applyScrollTopCallback = null;
