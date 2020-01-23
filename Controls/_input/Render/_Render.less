@@ -65,12 +65,13 @@
    .text-overflow();
 }
 
-.controls-Render_theme_@{themeName}_size {
-   @variants: s, m, l, default;
-
-   .for(@variants, { &_@{_item}_roundBorder {
-      border-radius: ~"@{border-radius_Render_size_@{_item}}";
-   } });
+.controls-Render_roundBorder {
+   /**
+    * Установив значение border-radius равным половине высоты получаем круглые края.
+    * Хак: Установив значение border-radius больше половины высоты тоже получаем круглые края.
+    * Поддержим работу скругления для поля с любой реальной высотой используя хак.
+    */
+   border-radius: 9999px;
 }
 
 .controls-Render_theme_@{themeName}_fontStyle {

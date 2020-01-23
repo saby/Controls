@@ -7,7 +7,7 @@
             controls-Render_theme_{{_options.theme}}_fontStyle_{{_options.fontStyle}}_size_{{_options.size}}
             {{_options.multiline ? 'controls-Render_multiline' :
             'controls-inlineheight-' + _inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _inlineHeight + '_theme-' + _options.theme}}
-            {{_options.roundBorder ? 'controls-Render_theme_' + _options.theme + '_size_' + _inlineHeight + '_roundBorder'}}">
+            {{_options.roundBorder ? 'controls-Render_roundBorder'}}">
    <div class="controls-Render__wrapper">
       <ws:if data="{{!_options.multiline}}">
          <span class="controls-Render__baseline">&#65279;</span>
