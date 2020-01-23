@@ -16,7 +16,7 @@
   "Выбрать год": "Select year",
   "Выбор раздела": "Selecting section",
   "Выберите параметры фильтрации для сохранения": "Select filtering parameters for saving",
-  "Выполнение операции завершилось успешно":"The operation has completed successfully",
+  "$count$s$ записей успешно обработаны": "count$s$ entries successfully processed",
   "Выполнение операции завершилось ошибкой": "The operation has completed with an error",
   "Год должен быть больше 1400": "Year must be more than 1400",
   "Годовой режим": "Year view",
