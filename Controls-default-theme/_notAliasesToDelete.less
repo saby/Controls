@@ -309,75 +309,6 @@
 //for support link with magic color, delete when complete https://online.sbis.ru/opendoc.html?guid=b8228090-19fe-454b-992f-bf31d9e96ca5
 @color_Link_magic:                                     @color_Link_magic_val;
 
-// ToggleButton
-@background_ToggleButton_common_val:                                      @secondary_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_common_val:                                    transparent;
-@background_ToggleButton_pushButton_hovered_val:                          @secondary_contrast_hover_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_pushButton_hovered_val:                        #F0F5FB;
-@background_ToggleButton_pushButton_toggled_val:                          @secondary_toggled_background-color_toggleButton_pushButton;
-@text-shadow_ToggleButton_pushButton_val:                                  none;
-@padding_Button-wrapper-pushButton_size_s_val:                            0;
-
-
-@background_ToggleButton_common:                                                    @background_ToggleButton_common_val;
-@border-color_ToggleButton_common:                                                  @border-color_ToggleButton_common_val;
-
-//toggle link
-@thickness_ToggleButton-border_pushButton:                                         @thickness_border_default;
-@border-radius_ToggleButton_pushButton:                                            @border-radius-ToolButton;
-@color_ToggleButton_pushButton_readOnly:                                           @readonly_color;
-
-@border-color_ToggleButton_pushButton_readOnly:                                    @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton_readOnly:                                      @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton_readOnly_toggled:                            @readonly_color;
-@background_ToggleButton_pushButton_readOnly_toggled:                              @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton:                                             @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton:                                               @background_ToggleButton_common;
-
-@background_ToggleButton_pushButton_toggled:                                       @background_ToggleButton_pushButton_toggled_val;
-
-@height_ToggleButton-pushButton_s:                                                 @height-ToolButton_size-s;
-@min-width_ToggleButton-pushButton_s:                                              @height_ToggleButton-pushButton_s;
-
-@height_ToggleButton-pushButton_m:                                                 @height-ToolButton_size-m;
-@min-width_ToggleButton-pushButton_m:                                              @height_ToggleButton-pushButton_m;
-
-@height_ToggleButton-pushButton_l:                                                 @height-ToolButton_size-l;
-@min-width_ToggleButton-pushButton_l:                                              @height_ToggleButton-pushButton_l;
-
-@color_ToggleButton-icon_pushButton_secondary_hovered:                             @link_hover_text-color;
-@color_ToggleButton_pushButton-text:                                               @text-color;
-@background_ToggleButton_pushButton_hovered:                                       @background_ToggleButton_pushButton_hovered_val;
-@border-color_ToggleButton_pushButton_hovered:                                     @border-color_ToggleButton_pushButton_hovered_val;
-
-@border-color_ToggleButton_toggle_on-info:                  @unaccented_icon-color;
-@border-color_ToggleButton_toggle_on-secondary:             @secondary_color;
-@border-color_ToggleButton_toggle_on-primary:               @color_primary;
-@border-color_ToggleButton_toggle_on-danger:     @danger_color;
-@border-color_ToggleButton_toggle_on-success:    @success_color;
-@border-color_ToggleButton_toggle_on-warning:    @warning_color;
-
-@color_ToggleButton_icon-info_toggle_on:          @unaccented_icon-color;
-@color_ToggleButton_icon-secondary_toggle_on:     @secondary_color;
-@color_ToggleButton_icon-primary_toggle_on:       @color_primary;
-@color_ToggleButton_icon-danger_toggle_on:        @danger_color;
-@color_ToggleButton_icon-success_toggle_on:       @success_color;
-@color_ToggleButton_icon-warning_toggle_on:       @warning_color;
-
-@color_ToggleButton_pushButton-text: @text-color;
-@color_ToggleButton_toolButton-text: @text-color;
-
-@text-shadow_ToggleButton_pushButton: @text-shadow_ToggleButton_pushButton_val;
-
-@padding_Button-wrapper-pushButton_size_s: @padding_Button-wrapper-pushButton_size_s_val;
-@padding_Button-wrapper-pushButton_size_m: @padding_Button-wrapper-pushButton_size_s;
-@padding_Button-wrapper-pushButton_size_l: @padding_Button-wrapper-pushButton_size_s;
-
-@font-size_ToggleButton-pushButton_s: @font-size_m;
-@font-size_ToggleButton-pushButton_m: @font-size_m;
-@font-size_ToggleButton-pushButton_l: @font-size_m;
 //Switcher
 @font-size_Switch:                  @font-size_switcher;
 @font-size_DoubleSwitch:            @font-size_switcher;
@@ -409,22 +340,6 @@
 @width_ToggleCircle:            @marker-box_size_switcher;
 @height_ToggleCircle:           @marker-box_size_switcher;
 @size_Switch__ToggleCircle:     @marker-box_size_switcher;
-
-
-//BigSeparator
-@size-BigSeparator__icon:                               @icon-size_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon:                               @icon-color_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon_hovered:                       @icon-color_hover_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-
-// Button/Separator
-@size-Separator:                                                  @height_toggleSeparator;  // дублирует стиль новой спецификации, удаляем
-@size-Separator__icon:                                            @icon-size_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary:                           @secondary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary:                             @primary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional:                          @unaccented_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary_hovered:                   @secondary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary_hovered:                     @primary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional_hovered:                  @unaccented_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
 
 //Combobox
 @margin-top_ComboBox-popup:                     -@border-thickness_inputText;
@@ -550,57 +465,8 @@
 @spacing_DropdownList-iconSize_small-between-iconHead-topBorder:           @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_s) / 2;
 @spacing_DropdownList-iconSize_small-between-iconHead-leftBorder:          @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
 
-//HistoryMenu
-@color_HistoryMenu-pin:                                        @pin-button_icon-color_menu;
-@color_HistoryMenu-pin_hovered:                                @pin-button_hover_icon-color_menu;
-@spacing_HistoryMenu-between-itemCaption-rightBorder:          @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
-@spacing_HistoryMenu-between-pin-rightBorder:                  @pin-button_offset-right_menu;
-@icon-size_HistoryMenu-pin:                                    @pin-button_icon-size_menu;
-
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
 
-//MenuPopup
-@spacing_MenuButton-between-leftBorder-content:      -(@spacing_default_l + @thickness_border_default);
-
-@shift-top_MenuButton-button-popup:                  -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button-popup:                 -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_m_button);
-
-@shift-top_MenuButton-button_default-popup:          @shift-top_MenuButton-button-popup;
-@shift-left_MenuButton-button_default-popup:         @shift-left_MenuButton-button-popup;
-
-@shift-top_MenuButton-button_large-popup:            -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button_large-popup:           -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_l_button);
-
-@shift-top_MenuButton-button_medium-popup:           -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
-
-@shift-top_MenuButton-link-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup); // ???
-@shift-left_MenuButton-link-popup:                   @spacing_MenuButton-between-leftBorder-content;
-
-@shift-top_MenuButton-link_large-popup:              -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
-
-@shift-top_MenuButton-toolButton_large-popup:        -((@item_height_menu - @inline_height_xl_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-toolButton_large-popup:       -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - ((@inline_height_xl_button - @icon-size_l) / 2));
-
-@shift-top_MenuButton-toolButton_medium-popup:       -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_l_button - @icon-size_m) / 2));
-@shift-left_MenuButton-toolButton_medium-popup:      @spacing_MenuButton-between-leftBorder-content + (@inline_height_l_button - @icon-size_m) / 2;
-
-@shift-top_MenuButton-toolButton_small-popup:        -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_m_button - @icon-size_s) / 2));
-@shift-left_MenuButton-toolButton_small-popup:       @spacing_MenuButton-between-leftBorder-content + (@inline_height_m_button - @icon-size_s) / 2;
-
-@shift-top_MenuButton-toolButton_default-popup:      @shift-top_MenuButton-toolButton_small-popup;
-@shift-left_MenuButton-toolButton_default-popup:     @shift-left_MenuButton-toolButton_small-popup;
-
-@shift-top_MenuButton-link_small-popup:              @shift-top_MenuButton-link-popup;
-@shift-left_MenuButton-link_small-popup:             @shift-left_MenuButton-link-popup;
-
-@shift-top_MenuButton-link_medium-popup:             -((@item_height_menu - @icon-size_m) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-link_medium-popup:            @spacing_MenuButton-between-leftBorder-content;
-
-@shift-top_MenuButton-link_duplicate_medium-popup:   -@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder;
-@shift-left_MenuButton-link_duplicate_medium-popup:  -@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder;
-
-@shift-top_MenuButton-link_duplicate_small-popup:    -@spacing_DropdownList-iconSize_small-between-iconHead-topBorder + @border-width_DropdownList;
-@shift-left_MenuButton-link_duplicate_small-popup:   -@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder;
 
 @min-width_SubmitPopup-button_val:             @min-width_button_l_confirmation; //todo: используется в engine
 @color_border_Notification_default:            #0055BB;
