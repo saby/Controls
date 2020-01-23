@@ -32,7 +32,7 @@ var TreeTileViewModel = TreeViewModel.extend({
 
         if (current.hasMultiSelect) {
             current.multiSelectClassList += ' controls-TileView__checkbox js-controls-TileView__withoutZoom';
-            current.multiSelectClassList += dispItem.isNode() ? ' controls-TreeTileView__checkbox' : '';
+            current.multiSelectClassList += !current.isGroup && dispItem.isNode() ? ' controls-TreeTileView__checkbox' : '';
         }
         prevItem = this._display.at(current.index - 1);
 
