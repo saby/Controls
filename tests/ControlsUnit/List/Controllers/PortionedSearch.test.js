@@ -5,11 +5,15 @@ define(['Controls/_list/Controllers/PortionedSearch'], function(PortionedSearch)
       let searchAborted = false;
       let searchReseted = false;
       let serachContinued = false;
+      let searchStarted = false;
       let clock;
 
       beforeEach(() => {
          clock = sinon.useFakeTimers();
          portionedSearchController = new PortionedSearch.default({
+            searchStartCallback: () => {
+               searchStarted = true;
+            },
             searchStopCallback: () => {
                searchStopped = true;
             },
@@ -36,6 +40,7 @@ define(['Controls/_list/Controllers/PortionedSearch'], function(PortionedSearch)
 
       it('startSearch', () => {
          portionedSearchController.startSearch();
+         assert.isTrue(searchStarted);
          assert.isFalse(searchStopped);
 
          clock.tick(11000);
@@ -79,14 +84,17 @@ define(['Controls/_list/Controllers/PortionedSearch'], function(PortionedSearch)
          portionedSearchController.startSearch();
          clock.tick(11000);
          assert.isTrue(searchStopped);
+         assert.isTrue(searchStarted);
 
          portionedSearchController.continueSearch();
          assert.isTrue(serachContinued);
 
          searchStopped = false;
+         searchStarted = false;
          portionedSearchController.startSearch();
          clock.tick(11000);
          assert.isFalse(searchStopped);
+         assert.isFalse(searchStarted);
       });
 
       it('resetTimer', () => {
