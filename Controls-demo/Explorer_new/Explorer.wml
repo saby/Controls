@@ -48,7 +48,7 @@
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Explorer_new/BreadCrumbsInHeader/Index' }}">
-            <a href="{{content.href}}">Changes root</a>
+            <a href="{{content.href}}">Хлебные крошки в заголовке</a>
         </Router.router:Reference>
         <Controls-demo.Explorer_new.BreadCrumbsInHeader.Index/>
     </div>
@@ -65,9 +65,36 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/DragNDropWithTile/Index' }}">
+            <a href="{{content.href}}">DragNDrop with tile</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.DragNDropWithTile.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Explorer_new/LongBackButton/Index' }}">
             <a href="{{content.href}}">Длинная кнопка назад</a>
         </Router.router:Reference>
         <Controls-demo.Explorer_new.LongBackButton.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/ColumnScroll/Index' }}">
+            <a href="{{content.href}}">ColumnScroll</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.ColumnScroll.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/Multiselect/Index' }}">
+            <a href="{{content.href}}">ColumnScroll</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.Multiselect.Index/>
     </div>
 </div>

@@ -1,5 +1,5 @@
-<div>
-        <h4>shadowVisibility false на второй карточке</h4>
+<div class="controlsDemo__wrapper">
+<h4>shadowVisibility false на второй карточке</h4>
         <Controls.tile:View
                 tileMode="dynamic"
                 displayProperty="title"

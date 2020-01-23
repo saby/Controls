@@ -1,13 +1,15 @@
-<Controls.tile:View
-        tileMode="dynamic"
-        displayProperty="title"
-        imageProperty="image"
-        keyProperty="id"
-        source="{{_viewSource}}">
-        <ws:itemTemplate>
-                <ws:partial
-                        itemWidth="{{itemTemplate.itemData.item.width}}"
-                        template="Controls/tile:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
-        </ws:itemTemplate>
-</Controls.tile:View>
+<div class="controlsDemo__wrapper">
+        <Controls.tile:View
+                tileMode="dynamic"
+                displayProperty="title"
+                imageProperty="image"
+                keyProperty="id"
+                source="{{_viewSource}}">
+                <ws:itemTemplate>
+                        <ws:partial
+                                itemWidth="{{itemTemplate.itemData.item.width}}"
+                                template="Controls/tile:ItemTemplate"
+                                hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                </ws:itemTemplate>
+        </Controls.tile:View>
+</div>

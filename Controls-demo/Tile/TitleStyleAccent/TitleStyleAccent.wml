@@ -1,12 +1,14 @@
-<Controls.tile:View
-        displayProperty="title"
-        imageProperty="image"
-        keyProperty="id"
-        tileHeight="{{200}}"
-        source="{{_viewSource}}">
-        <ws:itemTemplate>
-            <ws:partial itemWidth="{{200}}"
-                        titleStyle="accent"
-                        template="Controls/tile:ItemTemplate"/>
-        </ws:itemTemplate>
-</Controls.tile:View>
+<div class="controlsDemo__wrapper">
+    <Controls.tile:View
+            displayProperty="title"
+            imageProperty="image"
+            keyProperty="id"
+            tileHeight="{{200}}"
+            source="{{_viewSource}}">
+            <ws:itemTemplate>
+                <ws:partial itemWidth="{{200}}"
+                            titleStyle="accent"
+                            template="Controls/tile:ItemTemplate"/>
+            </ws:itemTemplate>
+    </Controls.tile:View>
+</div>

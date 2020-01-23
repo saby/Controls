@@ -1,28 +1,30 @@
-<Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="demo-DragNDrop__list">
-    <div>
-        <Controls.list:Mover name="listMover"/>
-        <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
-            <Controls.list:Container>
-                <Controls.operations:Container>
-                    <Controls.tile:View
-                            tileMode="dynamic"
-                            on:dragStart="_dragStart()"
-                            on:dragEnd="_dragEnd()"
-                            itemsDragNDrop="{{true}}"
-                            itemsReadyCallback="{{_itemsReadyCallback}}"
-                            displayProperty="title"
-                            imageProperty="image"
-                            keyProperty="id"
-                            source="{{_viewSource}}">
-                        <ws:draggingTemplate>
-                            <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                        mainText="{{draggingTemplate.entity._options.title}}"
-                                        image="{{draggingTemplate.entity._options.image}}">
-                            </ws:partial>
-                        </ws:draggingTemplate>
-                    </Controls.tile:View>
-                </Controls.operations:Container>
-            </Controls.list:Container>
-        </Controls.operations:Controller>
-    </div>
-</Controls.list:DataContainer>
+<div class="controlsDemo__wrapper">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="demo-DragNDrop__list">
+        <div>
+            <Controls.list:Mover name="listMover"/>
+            <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+                <Controls.list:Container>
+                    <Controls.operations:Container>
+                        <Controls.tile:View
+                                tileMode="dynamic"
+                                on:dragStart="_dragStart()"
+                                on:dragEnd="_dragEnd()"
+                                itemsDragNDrop="{{true}}"
+                                itemsReadyCallback="{{_itemsReadyCallback}}"
+                                displayProperty="title"
+                                imageProperty="image"
+                                keyProperty="id"
+                                source="{{_viewSource}}">
+                            <ws:draggingTemplate>
+                                <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                            mainText="{{draggingTemplate.entity._options.title}}"
+                                            image="{{draggingTemplate.entity._options.image}}">
+                                </ws:partial>
+                            </ws:draggingTemplate>
+                        </Controls.tile:View>
+                    </Controls.operations:Container>
+                </Controls.list:Container>
+            </Controls.operations:Controller>
+        </div>
+    </Controls.list:DataContainer>
+</div>

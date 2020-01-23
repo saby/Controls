@@ -1,15 +1,17 @@
-<Controls.tile:View
-        tileMode="dynamic"
-        displayProperty="title"
-        imageProperty="image"
-        keyProperty="id"
-        multiSelectVisibility="visible"
-        bind:selectedKeys="_selectedKeys"
-        bind:excludedKeys="_excludedKeys"
-        source="{{_viewSource}}">
-        <ws:itemTemplate>
-                <ws:partial
-                        template="Controls/tile:ItemTemplate"
-                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
-        </ws:itemTemplate>
-</Controls.tile:View>
+<div class="controlsDemo__wrapper">
+        <Controls.tile:View
+                tileMode="dynamic"
+                displayProperty="title"
+                imageProperty="image"
+                keyProperty="id"
+                multiSelectVisibility="visible"
+                bind:selectedKeys="_selectedKeys"
+                bind:excludedKeys="_excludedKeys"
+                source="{{_viewSource}}">
+                <ws:itemTemplate>
+                        <ws:partial
+                                template="Controls/tile:ItemTemplate"
+                                hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                </ws:itemTemplate>
+        </Controls.tile:View>
+</div>
