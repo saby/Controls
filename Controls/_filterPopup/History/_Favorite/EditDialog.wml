@@ -2,7 +2,7 @@
    <ws:partial template="Controls/toggle:CheckboxItemTemplate">
       <ws:contentTemplate>
          <span>
-            <span class="controls-FavoriteEditDialog__itemCaption">{{itemTemplate.item.caption}}</span>&nbsp;
+            <span class="controls-icon_style-label_theme-{{_options.theme}}">{{itemTemplate.item.caption}}</span>&nbsp;
             <span>{{itemTemplate.item.textValue}}</span>
          </span>
       </ws:contentTemplate>
@@ -20,7 +20,8 @@
                     displayProperty="title"
                     keyProperty="key"
                     source="{{_globalSource}}"
-                    itemTemplate="wml!Controls/_filterPopup/History/_Favorite/ddlItemTemplate">
+                    itemTemplate="wml!Controls/_filterPopup/History/_Favorite/ddlItemTemplate"
+                    attr:class="controls-FavoriteEditDialog__selector">
             </Controls.dropdown:Input>
          </Controls.source:SelectedKey>
 
@@ -34,8 +35,7 @@
 
          <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{[Сохранить]}"
                                   on:click="_apply()"
-                                  attr:tabindex="-1"
-                                  attr:class="controls-FavoriteEditDialog__saveButton"/>
+                                  attr:tabindex="-1"/>
       </ws:headerContentTemplate>
 
       <ws:bodyContentTemplate>

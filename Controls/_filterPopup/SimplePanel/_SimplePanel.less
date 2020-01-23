@@ -1,66 +1,69 @@
 .controls-SimplePanel_theme_@{themeName} {
    .flexbox();
    .flex-direction(column);
-   max-width: @max-width_SimplePanel;
-   border: @border-width_DropdownList solid @border-color_DropdownList;
-   background: @background_DropdownList;
+
+   max-width: @max-width_filterSimplePanel;
+   border: @popup_border-thickness_menuPopup solid @popup_border-color_menuPopup;
+   background: @popup_background-color_menuPopup;
    box-sizing: border-box;
-   box-shadow: @box-shadow-color_DropdownList @box-shadow-size_DropdownList-shadowStyle_center;
+   box-shadow: @popup_box-shadow-color_menuPopup 0 0 @popup_box-shadow-offset_menuPopup 0;
    max-height: 100%;
    width: 100%;
 }
 
 .controls-SimplePanel__scroll_theme_@{themeName} {
-   margin-top: @spacing_DropdownList-between-topBorder-content;
-   margin-bottom: @spacing_DropdownList-between-bottomBorder-content;
+   margin-top: @popup_padding-vertical_menuPopup;
+   margin-bottom: @popup_padding-vertical_menuPopup;
 }
 
 .controls-SimplePanel__block_separator_theme_@{themeName} {
-   border-bottom: @thickness_DropdownList-group-separator solid @color_DropdownList-group-separator;
-   margin-top: @spacing_DropdownList-group-between-content-topBorder;
-   margin-right: @spacing_DropdownList-group-between-content-rightBorder;
-   margin-bottom: @spacing_DropdownList-group-between-content-bottomBorder;
-   margin-left: @spacing_DropdownList-group-between-content-leftBorder;
+   border-bottom: @grouping_separator_thickness_menu solid @grouping_separator_color_menu;
+   margin-top: @grouping_padding-vertical_menu;
+   margin-right: @grouping_padding-horizontal_menu;
+   margin-bottom: @grouping_padding-vertical_menu;
+   margin-left: @grouping_padding-horizontal_menu;
 }
 
-@spacing-between-applyButton-rightBorder: @spacing_SimplePanel-between-applyButton-close + @size_icon_m + @spacing_DropdownList-between-close-rightBorder;
+@spacing-between-applyButton-rightBorder: @apply-button_offset-right_filterSimplePanel + @width_closeButton_link + @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
 
 .controls-SimplePanel__applyButton_theme_@{themeName} {
    position: absolute;
-   top: @spacing_SimplePanel-between-applyButton-topBorder + @border-width_DropdownList;
+   top: @apply-button_offset-top_filterSimplePanel;
    right: @spacing-between-applyButton-rightBorder;
    z-index: 2;
 }
 
 .controls-SimplePanel-cross_theme_@{themeName} {
    position: absolute;
-   right: @spacing_DropdownList-between-close-rightBorder;
-   top: @spacing_DropdownList-between-close-topBorder;
+   right: @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
+   top: @close-button_offset-top_menu + @popup_border-thickness_menuPopup;
    z-index: 2;
 }
 
 .controls-SimplePanel-dropdown__emptyItem_theme_@{themeName} {
-   color: @color_SimplePanel-dropdown__emptyItem;
-   font-size: @font-size_SimplePanel-dropdown__emptyItem;
+   color: @empty-item_text-color_filterSimplePanel;
+   font-size: @empty-item_font-size_filterSimplePanel;
    font-weight: bold;
    text-transform: uppercase;
-   line-height: @height_DropdownList-row;
+   line-height: @item_height_menu;
 }
 
 .controls-DropdownList__item-rightPadding_multiSelect {
-   padding-right: @spacing_default_m + @inline_height_l + @spacing-between-applyButton-rightBorder;
+   padding-right: @apply-button_offset-left_filterSimplePanel + @inline_height_l + @spacing-between-applyButton-rightBorder;
 }
 
 .controls-SimplePanel-folderItem_theme_@{themeName} {
    font-weight: bold;
 }
 
+@shift-top_default-SimplePanel-popup: -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup + @popup_padding-vertical_menuPopup);
+
 .controls-FilterView-SimplePanel-popup {
-   margin-top: @shift-top_FilterView-SimplePanel-popup;
-   margin-left: @shift-left_FilterView-SimplePanel-popup;
+   margin-top: @shift-top_default-SimplePanel-popup;
+   margin-left: -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
 }
 
 .controls-FilterView-SimplePanel__buttonTarget-popup {
-   margin-top: @shift-top_FilterView-SimplePanel-popup;
-   margin-left: -@shift-left_FilterButton-popup;
+   margin-top: @shift-top_default-SimplePanel-popup;
+   margin-left: -@offset_filterPanel;
 }
