@@ -121,6 +121,25 @@ define(
             assert.equal(data._prefetchSource._$data.query, sourceData);
          });
 
+         it('_beforeMount with prefetchProxy', async function() {
+            let memory = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: sourceData
+            });
+            let prefetchSource = new sourceLib.PrefetchProxy({
+               target: memory,
+               data: {
+                  query: sourceData
+               }
+            });
+            let data = getDataWithConfig({source: prefetchSource, keyProperty: 'id'});
+
+            await data._beforeMount({source: prefetchSource, idProperty: 'id'}, {}, sourceData);
+            assert.isTrue(data._prefetchSource.getOriginal() === memory);
+            assert.isTrue(data._prefetchSource !== prefetchSource);
+            assert.equal(data._prefetchSource._$data.query, sourceData);
+         });
+
          it('update equal source', function(done) {
             var
                items,
