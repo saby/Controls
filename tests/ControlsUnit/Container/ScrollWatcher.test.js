@@ -386,6 +386,9 @@ define([
       });
 
       it('observers', function () {
+         const sandbox = sinon.createSandbox();
+         sandbox.stub(scrollMod.Watcher._private, 'delayedIntersectionObserverHandler');
+
          let ins = new scrollMod.Watcher(), clientHeight, scrollHeight;
          ins._registrar = registrarMock;
          let notifyingResult;
@@ -453,6 +456,13 @@ define([
          observer2.notify();
          assert.equal('id2', notifyingResult, 'First Control wasn\'t notified');
 
+         sinon.assert.notCalled(scrollMod.Watcher._private.delayedIntersectionObserverHandler);
+
+         ins.delayLoadTriggersEvents(1);
+         observer1.notify();
+         sinon.assert.calledOnce(scrollMod.Watcher._private.delayedIntersectionObserverHandler);
+         ins._triggersDelay = 0;
+
          global.IntersectionObserver = savedIO;
 
          ins._unRegisterIt({}, 'listScroll', control1);
@@ -462,5 +472,5 @@ define([
          assert.equal(null, ins._observers, 'Observers weren\'t destroyed');
          assert.equal(null, observer2._callback, 'Observers weren\'t disconnect after umount');
       });
-   })
+   });
 });
