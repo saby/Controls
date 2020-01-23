@@ -94,7 +94,7 @@ export interface INavigationPositionSourceConfig {
 
 /**
  * @typedef {Object} PageSourceConfig
- * @descriprton Конфигурация для постраничной навигации.
+ * @description Конфигурация для постраничной навигации.
  * @property {Number} page Загружать номер страницы.
  * @property {Number} pageSize Загружать размер страницы.
  * @property {Boolean} hasMore Если поле hasMore имеет значение false, аналогичный параметр добавляется в запрос. В ответ, вместо получения флага наличия записей (логическое значение), ожидается общее количество записей (числовое значение).
