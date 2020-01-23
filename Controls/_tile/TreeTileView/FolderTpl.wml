@@ -3,7 +3,7 @@
          controls-ListView__item_showActions
          {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? ' controls-TileView__item_withMarker' : ' controls-TileView__item_withoutMarker'}}
          {{!!itemData.isActive ? ' controls-TreeTileView__item_active'}}"
-     attr:style="{{'-ms-flex-preferred-size: ' + (folderWidth || itemData.defaultFolderWidth) + 'px; flex-basis: ' + (folderWidth || itemData.defaultFolderWidth)+ 'px;'}}">
+     attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultFolderWidth) + 'px; flex-basis: ' + (width || itemData.defaultFolderWidth)+ 'px;'}}">
   <ws:partial if="{{itemData.hasMultiSelect}}"
               template="{{multiSelectTpl}}"
               attr:class="{{itemData.multiSelectClassList}}">
