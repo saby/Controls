@@ -49,7 +49,7 @@
 
         </ws:if>
         <ws:if data="{{items.length >= 2}}">
-            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge"
+            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge controls-BreadCrumbsView__crumb__last"
                         template="templatePart"
                         itemData="{{items[items.length - 1]}}"
                         edge="true"
