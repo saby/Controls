@@ -1839,7 +1839,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             this._listViewModel.setEditingConfig(newOptions.editingConfig);
         }
         if (recreateSource) {
-            this._recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
+            this.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
 
             //Нужно обновлять опции записи не только при наведении мыши,
             //так как запись может поменяться в то время, как курсор находится на ней
@@ -2448,12 +2448,12 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             newNavigation.sourceConfig.page = params.page - 1;
             newNavigation.sourceConfig.pageSize = this._currentPageSize;
         }
-        this._recreateSourceController(this._options.source, newNavigation, this._options.keyProperty);
+        this.recreateSourceController(this._options.source, newNavigation, this._options.keyProperty);
         _private.reload(this, this._options);
         this._shouldRestoreScrollPosition = true;
     },
 
-    _recreateSourceController: function(newSource, newNavigation, newKeyProperty) {
+    recreateSourceController: function(newSource, newNavigation, newKeyProperty) {
 
         if (this._sourceController) {
             this._sourceController.destroy();

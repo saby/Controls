@@ -5196,7 +5196,7 @@ define([
                let expectedSourceConfig = {};
                baseControl.saveOptions(cfg);
                await baseControl._beforeMount(cfg);
-               baseControl._recreateSourceController = function(newSource, newNavigation) {
+               baseControl.recreateSourceController = function(newSource, newNavigation) {
                   assert.deepEqual(expectedSourceConfig, newNavigation.sourceConfig);
                };
                expectedSourceConfig.page = 0;

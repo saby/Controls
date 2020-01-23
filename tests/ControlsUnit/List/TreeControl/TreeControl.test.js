@@ -817,12 +817,14 @@ define([
             setTimeout(function() {
                treeControl._options.root = undefined;
                treeControl._root = 12;
+               let sourceController = treeControl._children.baseControl._sourceController;
                treeControl._afterUpdate({filter: {}, source: source});
                setTimeout(function() {
                   assert.deepEqual([], treeViewModel.getExpandedItems());
                   assert.equal(12, treeViewModel._model._root);
                   assert.equal(12, treeControl._root);
                   assert.isTrue(isNeedForceUpdate);
+                  assert.isTrue(sourceController !== treeControl._children.baseControl._sourceController);
                   assert.isTrue(sourceControllersCleared);
                   assert.deepEqual(reloadFilter, {testParentProperty: 12});
                   treeControl._beforeUpdate({root: treeControl._root});

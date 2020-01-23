@@ -299,7 +299,9 @@ class PositionQueryParamsController implements IQueryParamsController {
             navDirection = 'after';
         }
 
-        moreData = this._getMore().getMoreMeta(rootKey);
+        if (this._isMoreCreated()) {
+            moreData = this._getMore().getMoreMeta(rootKey);
+        }
 
         // moreData can be undefined for root with rootKey, if method does not support multi-navigation.
         if (moreData) {
