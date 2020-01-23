@@ -26,6 +26,28 @@ define(['Controls/lookupPopup', 'Types/entity'], function(lookupPopup, entity) {
          assert.deepEqual(lookupPopup.ListContainer._private.getItemClickResult(itemKey, selectedKeys, false), [[2], [], []]);
       });
 
+      it('getMarkedKeyBySelectedKeys', function() {
+         let selectedKeys = [1, 2, 3];
+         assert.equal(lookupPopup.ListContainer._private.getMarkedKeyBySelectedKeys(selectedKeys), null);
+
+         selectedKeys = [1];
+         assert.equal(lookupPopup.ListContainer._private.getMarkedKeyBySelectedKeys(selectedKeys), 1);
+      });
+
+      it('getSelectedKeysFromOptions', function() {
+         let options = {
+            selectedKeys: [1, 2, 3]
+         };
+
+         let optionsMultiSelect = {
+            multiSelect: true,
+            selectedKeys: [1, 2, 3]
+         };
+
+         assert.deepEqual(lookupPopup.ListContainer._private.getSelectedKeysFromOptions(options), []);
+         assert.deepEqual(lookupPopup.ListContainer._private.getSelectedKeysFromOptions(optionsMultiSelect), [1, 2, 3]);
+      });
+
       it('getItemActions', function() {
          var options = {};
 
