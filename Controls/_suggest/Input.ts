@@ -13,6 +13,7 @@ import 'css!theme?Controls/suggest';
  * @extends Core/Control
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/interface/ISearch
+ * @mixes Controls/interface/IBorderStyle
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
