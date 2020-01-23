@@ -17,6 +17,10 @@
    font-size: @font-size_BreadCrumbs-title;
 }
 
+.controls-BreadCrumbsView__crumb__last {
+   min-width: @min-width_BreadCrumbs_withOverflow;
+}
+
 .controls-BreadCrumbsView__items__middle {
    overflow: hidden;
    display: inline-block;
@@ -171,6 +175,9 @@
       bottom: 50%;
       transform: translateY(-50%);
    }
+}
+//Только для Edge
+.ws-is-ie12 {
 
    //В Edge без явного указания ширины контейнера неправильно работает float, из-за чего точки не падают вниз. Пример: https://jsfiddle.net/q70vkn94/
    .controls-BreadCrumbsView__menu {
