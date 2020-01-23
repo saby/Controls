@@ -1657,6 +1657,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                             _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
                         }
                     }
+                    self._needBottomPadding = _private.needBottomPadding(newOptions, result.data, self._listViewModel);
+
                     // TODO Kingo.
                     // В случае, когда в опцию источника передают PrefetchProxy
                     // не надо возвращать из _beforeMount загруженный рекордсет, это вызывает проблему,
