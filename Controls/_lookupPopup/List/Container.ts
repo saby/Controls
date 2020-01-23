@@ -248,6 +248,20 @@ let _private = {
       } else {
          _private.selectionChanged(self, itemClickResult);
       }
+   },
+
+   getMarkedKeyBySelectedKeys(selectedKeys: number[]|string[]): null|string|number {
+      let result = null;
+
+      if (selectedKeys.length === 1) {
+         result = selectedKeys[0];
+      }
+
+      return result;
+   },
+
+   getSelectedKeysFromOptions(options): number[]|string[] {
+      return options.multiSelect ? options.selectedKeys : [];
    }
 };
 
@@ -264,13 +278,8 @@ let Container = Control.extend({
    },
 
    _beforeMount(options): void {
-      const selectedKeys =  options.selectedKeys;
-      this._selectedKeys = options.multiSelect ? selectedKeys : [];
-
-      if (selectedKeys.length === 1) {
-         this._markedKey = selectedKeys[0];
-      }
-
+      this._selectedKeys = _private.getSelectedKeysFromOptions(options);
+      this._markedKey = _private.getMarkedKeyBySelectedKeys(options.selectedKeys);
       this._itemActions = _private.getItemActions(options);
       this._itemActionVisibilityCallback = _private.getItemActionVisibilityCallback(options);
    },
