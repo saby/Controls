@@ -1,4 +1,4 @@
 <div class="controls-Toolbar__item{{item.readOnly ? '_readOnly'}} controls-Toolbar__item_theme-{{theme}} controls-Toolbar__item_spacing_{{itemsSpacing}}_theme-{{theme}}"
      title="{{item.tooltip}}">
-   <ws:partial template="{{buttonTemplate}}" scope="{{buttonTemplateOptions}}"/>
+   <ws:partial template="{{buttonTemplate}}" scope="{{buttonTemplateOptions}}" theme="{{theme}}"/>
 </div>
