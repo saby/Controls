@@ -83,6 +83,20 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          assert.equal(cur.zoomCoefficient, 1.5);
       });
 
+      it('getMultiSelectClassList hidden | for group', function() {
+         treeTileViewModel.setMultiSelectVisibility('hidden');
+         treeTileViewModel.resetCachedItemData();
+         var item = treeTileViewModel.getItemDataByItem(treeTileViewModel.at(0));
+         assert.equal(item.multiSelectClassList, '');
+      });
+
+      it('getMultiSelectClassList visible | for group', function() {
+         treeTileViewModel.setMultiSelectVisibility('visible');
+         treeTileViewModel.resetCachedItemData();
+         var item = treeTileViewModel.getItemDataByItem(treeTileViewModel.at(0));
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox js-controls-TileView__withoutZoom');
+      });
+
       it('getMultiSelectClassList hidden', function() {
          treeTileViewModel.setMultiSelectVisibility('hidden');
          var item = treeTileViewModel.getItemDataByItem(treeTileViewModel.getItemById(2, 'id'));
