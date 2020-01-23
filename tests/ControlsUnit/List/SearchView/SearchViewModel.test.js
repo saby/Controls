@@ -231,7 +231,14 @@ define(['Controls/_treeGrid/SearchView/SearchViewModel', 'Types/collection', 'Co
          const model = new SearchViewModel({
             root: 'myTestRoot',
             keyProperty: 'id',
-            items: []
+            nodeProperty: 'type',
+            items: new Collection.RecordSet({
+               rawData: [{
+                  id: 456,
+                  type: true,
+               }],
+               keyProperty: 'id'
+            }),
          });
 
          // emulate breadcrumbs
