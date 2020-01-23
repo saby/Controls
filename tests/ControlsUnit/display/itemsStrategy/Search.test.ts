@@ -495,6 +495,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             const removeCount = 2;
             const expected = [
                 '#A',
+                '#A,AA,AAA',
                 'AAAa',
                 'AAAb',
                 '#A,AA,AAB',
@@ -504,8 +505,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#B',
                 '#C',
                 'd',
-                'e',
-                '#A,AA,AAA'
+                'e'
             ];
 
             const sourceCount = source.count;
