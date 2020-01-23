@@ -333,26 +333,26 @@ define(
                ctrl._beforeMount({
                   value: 'test value'
                });
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [{
                   name: 'notify',
-                  arguments: ['inputCompleted', ['test value', 'test value']]
+                  arguments: ['inputCompleted', ['test value', 'test value', 'enter']]
                }]);
 
                ctrl._beforeUpdate({
                   value: ''
                });
-               ctrl._changeHandler();
+               ctrl._changeHandler('enter');
 
                assert.deepEqual(calls, [
                   {
                      name: 'notify',
-                     arguments: ['inputCompleted', ['test value', 'test value']]
+                     arguments: ['inputCompleted', ['test value', 'test value', 'enter']]
                   },
                   {
                      name: 'notify',
-                     arguments: ['inputCompleted', ['', '']]
+                     arguments: ['inputCompleted', ['', '', 'enter']]
                   }
                ]);
             });
@@ -750,7 +750,7 @@ define(
                   },
                   {
                      name: 'notify',
-                     arguments: ['inputCompleted', ['test', 'test']]
+                     arguments: ['inputCompleted', ['test', 'test', 'enter']]
                   }
                ]);
             });

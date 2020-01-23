@@ -37,6 +37,10 @@ var Base = Control.extend({
 
    _editorValueChangeHandler: function (event, value) {
       this._notify('valueChanged', [value]);
+   },
+
+   _editorInputCompletedHandler: function (event, ...args) {
+      this._notify('inputCompleted', args);
    }
 });
 

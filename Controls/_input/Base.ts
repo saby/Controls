@@ -40,6 +40,8 @@ interface IFieldTemplate {
     };
 }
 
+type TTrigger = 'enter' | 'blur';
+
 var _private = {
 
     /**
@@ -158,9 +160,9 @@ var _private = {
         return isEdge && model.displayValue === valueField && model.selection.start === model.selection.end;
     },
 
-    callChangeHandler: function (self) {
+    callChangeHandler: function (self, trigger: TTrigger) {
         if (self._viewModel.displayValue !== self._fixedDisplayValue) {
-            self._changeHandler();
+            self._changeHandler(trigger);
             self._fixedDisplayValue = self._viewModel.displayValue;
         }
     },
@@ -174,9 +176,10 @@ var _private = {
 
     /**
      * @param {Controls/_input/Base} self Control instance.
+     * @param trigger
      */
-    notifyInputCompleted: function (self) {
-        self._notify('inputCompleted', [self._viewModel.value, self._viewModel.displayValue]);
+    notifyInputCompleted: function (self, trigger: TTrigger) {
+        self._notify('inputCompleted', [self._viewModel.value, self._viewModel.displayValue, trigger]);
     },
 
     /**
@@ -735,7 +738,7 @@ var Base = Control.extend({
 
         const keyCode = event.nativeEvent.keyCode;
         if (keyCode === Env.constants.key.enter && this._isTriggeredChangeEventByEnterKey()) {
-            _private.callChangeHandler(this);
+            _private.callChangeHandler(this, 'enter');
         }
     },
     /**
@@ -858,8 +861,8 @@ var Base = Control.extend({
      * https://jsfiddle.net/v6g0fz7u/
      * @protected
      */
-    _changeHandler: function () {
-        _private.notifyInputCompleted(this);
+    _changeHandler: function (trigger: TTrigger) {
+        _private.notifyInputCompleted(this, trigger);
     },
 
     _placeholderClickHandler: function () {
@@ -924,7 +927,7 @@ var Base = Control.extend({
         }
 
         MobileFocusController.blurHandler(event);
-        _private.callChangeHandler(this);
+        _private.callChangeHandler(this, 'blur');
     },
 
     _touchStartHandler: function (event) {

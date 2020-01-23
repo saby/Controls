@@ -5,6 +5,7 @@
          template="{{_options.editorTemplate}}"
          value="{{_options.value}}"
          on:valueChanged="_editorValueChangeHandler()"
+         on:inputCompleted="_editorInputCompletedHandler()"
       />
    </ws:if>
    <ws:else>
