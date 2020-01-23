@@ -12,6 +12,7 @@ import 'css!theme?Controls/popup';
  * @class Controls/_popup/Previewer
  * @extends Core/Control
  * @control
+ * @mixes Controls/_popup/interface/IPreviewer
  * @public
  * @author Красильников А.С.
  */

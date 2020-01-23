@@ -91,6 +91,20 @@ define([
          });
       });
 
+      it('registerPending', () => {
+         let FC = new form.Controller();
+         FC._createChangeRecordPending();
+         assert.isTrue(FC._pendingPromise !== undefined);
+         FC.update = () => (new Deferred()).callback({});
+         FC._confirmDialogResult(true, new Deferred());
+         assert.isTrue(FC._pendingPromise === null);
+
+         FC._createChangeRecordPending();
+         FC._beforeUnmount();
+         assert.isTrue(FC._pendingPromise === null);
+         FC.destroy();
+      });
+
       it('beforeUpdate', () => {
          let FC = new form.Controller();
          let setRecordCalled = false;
