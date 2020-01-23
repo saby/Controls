@@ -4,5 +4,6 @@
             scope="{{options}}"
             on:fixed="_fixedHandler()"
             on:stickyRegister="_stickyRegisterHandler()"
-            on:stickyHeaderResize="_resizeHandler()"/>
+            on:stickyHeaderResize="_resizeHandler()"
+            on:controlResize="_resizeHandler()"/>
 </Controls.event:Register>
