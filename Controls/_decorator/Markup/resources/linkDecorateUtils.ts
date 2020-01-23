@@ -117,7 +117,7 @@ function isLinkGoodForDecorating(linkNode) {
    // Decorate link only with text == href, and href length shouldn't be more than given maximum.
    // And decorate link that starts with "http://" or "https://".
    return !!linkHref && linkHref.length <= getHrefMaxLength() &&
-      isTextNode(firstChild) && linkHref === linkText && linkHref.indexOf('http') === 0;
+      isTextNode(firstChild) && linkHref.indexOf('http') === 0 && decodeURI(linkHref) === linkText;
 }
 
 /**
