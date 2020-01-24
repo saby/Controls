@@ -3,8 +3,9 @@ import { relation } from 'Types/entity';
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import removeSelectionChildren from 'Controls/_operations/MultiSelector/removeSelectionChildren';
 import getChildrenIds from 'Controls/_operations/MultiSelector/getChildrenIds';
-import { Tree as TreeCollection } from 'Controls/display';
+import cInstance = require('Core/core-instance');
 
+import { Tree as TreeCollection } from 'Controls/display';
 import { Rpc, PrefetchProxy } from 'Types/source';
 import { ViewModel } from 'Controls/treeGrid';
 import { RecordSet } from 'Types/collection';
@@ -50,7 +51,7 @@ export default class HierarchySelection extends Selection {
    constructor(options: IOptions): void {
       super(options);
 
-      if (!(this._listModel instanceof TreeCollection)) {
+      if (!cInstance.instanceOfModule(this._listModel, 'Controls/display:Tree')) {
          this._hierarchyRelation = new relation.Hierarchy({
             keyProperty: options.keyProperty || 'id',
             parentProperty: options.parentProperty || 'Раздел',
