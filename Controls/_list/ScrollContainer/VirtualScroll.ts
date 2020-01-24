@@ -399,17 +399,14 @@ export default class VirtualScrollController {
         if (this.itemsContainer) {
             const direction = newItemsIndex <= this._options.viewModel.getStartIndex() ? 'up' : 'down';
 
-            if (this.triggerVisibility[direction]) {
-                if (direction === 'up' && this.itemsFromLoadToDirection) {
-                    this.savedStartIndex += newItems.length;
-                    this.setStartIndex(this.startIndex + newItems.length);
-                }
+            if (direction === 'up' && this.itemsFromLoadToDirection) {
+                this.savedStartIndex += newItems.length;
+                this.setStartIndex(this.startIndex + newItems.length);
+            }
 
-                if (!this.itemsChanged) {
-                    this.recalcRangeToDirection(direction, false);
-                    this._options.saveScrollPositionCallback(direction);
-                }
-
+            if (this.triggerVisibility[direction] && !this.itemsChanged) {
+                this.recalcRangeToDirection(direction, false);
+                this._options.saveScrollPositionCallback(direction);
             }
         }
     }
@@ -420,7 +417,7 @@ export default class VirtualScrollController {
         // Сдвигаем виртуальный скролл только если он уже проинициализирован. Если коллекция
         // изменилась после создания BaseControl'a, но до инициализации скролла, (или сразу
         // после уничтожения BaseControl), сдвинуть его мы все равно не можем.
-        if (this.itemsContainer) {
+        if (this.itemsContainer && !this.itemsChanged) {
             this.recalcRangeToDirection(
                 removedItemsIndex < this._options.viewModel.getStartIndex() ? 'up' : 'down', false
             );
