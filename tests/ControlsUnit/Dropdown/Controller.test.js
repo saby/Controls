@@ -62,7 +62,9 @@ define(
                data: items
             }),
             nodeProperty: 'node',
-            itemTemplateProperty: 'itemTemplate'
+            itemTemplateProperty: 'itemTemplate',
+            _dropDownOpener: 'testOpener'
+
          };
 
          let configLazyLoad = {
@@ -872,6 +874,7 @@ define(
 
             dropdownController.openMenu({ testOption: 'testValue' });
             assert.equal(openConfig.testOption, 'testValue');
+            assert.equal(openConfig.opener, 'testOpener');
 
             dropdownController._items = new collection.RecordSet({
                keyProperty: 'id',

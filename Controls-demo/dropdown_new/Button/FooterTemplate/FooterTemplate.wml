@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <Controls.dropdown:Button
+            caption="menu"
+            source="{{_menuSource}}"
+            keyProperty="id"
+            displayProperty="title"
+            footerTemplate="wml!Controls-demo/dropdown_new/Button/FooterTemplate/footer">
+    </Controls.dropdown:Button>
+</div>
