@@ -42,7 +42,7 @@
          <ws:partial template="leafTemplate" contentTpl="{{nodeContentTemplate}}" width="{{folderWidth}}"/>
       </ws:if>
       <ws:else>
-         <ws:partial template="folderTemplate"/>
+         <ws:partial template="folderTemplate" width="{{folderWidth}}"/>
       </ws:else>
    </ws:if>
    <ws:else>
