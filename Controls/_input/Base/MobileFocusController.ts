@@ -99,7 +99,7 @@ class MobileFocusController implements IMobileFocusController {
          return;
       }
 
-      const item = this._addItem(event.target);
+      const item = this._addItem(event.currentTarget);
 
       item.wasTouch = true;
       if (item.wasFocus) {
@@ -112,7 +112,7 @@ class MobileFocusController implements IMobileFocusController {
          return;
       }
 
-      const item = this._addItem(event.target);
+      const item = this._addItem(event.currentTarget);
 
       item.wasFocus = true;
       if (item.wasTouch) {
@@ -125,7 +125,7 @@ class MobileFocusController implements IMobileFocusController {
          return;
       }
 
-      this._removeItem(event.target);
+      this._removeItem(event.currentTarget);
       this._notify('MobileInputFocusOut');
    }
 }

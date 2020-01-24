@@ -9,10 +9,10 @@ define(
       describe('Controls.input:MobileFocusController', function() {
          var controller, calls, originalIsMobileIOS;
          var event1 = {
-            target: {}
+            currentTarget: {}
          };
          var event2 = {
-            target: {}
+            currentTarget: {}
          };
          var originalMethod = EnvEvent.Bus.globalChannel().notify;
 
