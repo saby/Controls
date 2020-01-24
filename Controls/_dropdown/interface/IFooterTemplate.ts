@@ -19,6 +19,7 @@
    /**
     * @name Controls/_dropdown/interface/IFooterTemplate#footerTemplate
     * @cfg {Function | String} Шаблон подвала списка.
+    * @demo Controls-demo/dropdown_new/Button/FooterTemplate/Index
     * @example
     * TMPL:
     * <pre>

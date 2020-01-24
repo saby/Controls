@@ -421,7 +421,8 @@ var _Controller = Control.extend({
             },
             target: this._container,
             targetPoint: this._options.targetPoint,
-            opener: this,
+            // FIXME опцию _dropDownOpener не использовать, будет удалена после перехода на новое меню и перехода на sticky:Opener
+            opener: this._options._dropDownOpener || this,
             autofocus: false,
             closeOnOutsideClick: true
          };
