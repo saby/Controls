@@ -115,7 +115,8 @@ export default class Container extends Control implements IContainer {
         getTemplate(config.template).then((template) => {
             let result: Promise<void> = this._notify('serviceError', [
                 template,
-                config.options
+                config.options,
+                this
             ], { bubbling: true });
             if (result) {
                 result.then(this.__notifyDialogClosed.bind(this));
