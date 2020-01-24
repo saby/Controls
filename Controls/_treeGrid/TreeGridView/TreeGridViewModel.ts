@@ -52,6 +52,14 @@ var
         },
         toggleExpanded: function (dispItem, expand) {
             this._model.toggleExpanded(dispItem, expand);
+            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
+            this._resetCacheAndUpdateVersion();
+        },
+        _resetCacheAndUpdateVersion(): void {
+            if (this._options.columnScroll && !this._options.disableColumnScrollCellStyles) {
+                this.resetCachedItemData();
+                this._nextModelVersion();
+            }
         },
         getItemType: function (dispItem) {
             return this._model.getItemType(dispItem);
@@ -64,9 +72,13 @@ var
         },
         setExpandedItems: function (expandedItems: Array<unknown>) {
             this._model.setExpandedItems(expandedItems);
+            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
+            this._resetCacheAndUpdateVersion();
         },
         setCollapsedItems: function (collapsedItems: Array<unknown>) {
             this._model.setCollapsedItems(collapsedItems);
+            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
+            this._resetCacheAndUpdateVersion();
         },
         getExpandedItems: function () {
             return this._model.getExpandedItems();
@@ -101,6 +113,8 @@ var
         },
         resetExpandedItems: function () {
             this._model.resetExpandedItems();
+            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
+            this._resetCacheAndUpdateVersion();
         },
         isDrawResults: function() {
             if (this._options.resultsVisibility === 'visible') {
