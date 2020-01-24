@@ -394,7 +394,16 @@ const moduleClass = CompoundControl.extend({
                 containerWidth: this._container.width()
             }
         };
-        return StackStrategy.getPosition(coords, item);
+        const strategyPosition = StackStrategy.getPosition(coords, item);
+        const MINIMAL_PANEL_DISTANCE = 117;
+        // Минимальный отступ слева у floatArea больше на 17px, чем в вдомных окнах (там 100)
+        // Не стал тащить сюда FloatAreaManager для явных расчетов, захардкодил отступ.
+        const floatAreaMaxWidth = document.body.clientWidth - MINIMAL_PANEL_DISTANCE;
+
+        if (floatAreaMaxWidth < strategyPosition.maxWidth) {
+           strategyPosition.maxWidth = floatAreaMaxWidth;
+        }
+        return strategyPosition;
     },
 
    _onMaximizedHandler(): void {
