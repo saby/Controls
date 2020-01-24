@@ -271,7 +271,7 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
    private _getStateNode(itemId: Tkey, initialState: boolean, selection: ISelection, model: ViewModel|TreeCollection, hierarchyRelation: relation.Hierarchy): boolean|null {
       let stateNode: boolean|null = initialState;
       let sourceController = this._options.nodesSourceControllers.get(itemId);
-      let hasMoreData: boolean|void = sourceController ? sourceController.hasMoreData('down') || sourceController.hasMoreData('up') : true;
+      let hasMoreData: boolean|void = sourceController ? sourceController.hasMoreData('down') : true;
       let children: Array<Record> = getChildren(itemId, model, hierarchyRelation);
       let listKeys = initialState ? selection.excluded : selection.selected;
       let countChildrenInList: boolean|null = 0;
@@ -295,10 +295,12 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
          }
       }
 
-      if (countChildrenInList === children.length && !hasMoreData) {
-         stateNode = !stateNode;
-      } else if (countChildrenInList > 0) {
-         stateNode = null;
+      if (countChildrenInList > 0) {
+         if (countChildrenInList === children.length && !hasMoreData) {
+            stateNode = !stateNode;
+         } else {
+            stateNode = null;
+         }
       }
 
       return stateNode;

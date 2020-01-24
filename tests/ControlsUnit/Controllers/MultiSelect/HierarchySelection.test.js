@@ -502,6 +502,21 @@ define([
       });
 
       describe('toggleAll', function() {
+         it('toggle all in initial root, with children in selected and excluded', function() {
+            cfg = getConfig({
+               selectedKeys: [2],
+               excludedKeys: [3]
+            });
+            selectionInstance = new operations.HierarchySelection(cfg);
+            selectionInstance.toggleAll();
+            assert.deepEqual([null, 3], selectionInstance.selectedKeys);
+            assert.deepEqual([null, 2], selectionInstance.excludedKeys);
+
+            selectionInstance.toggleAll();
+            assert.deepEqual([2], selectionInstance.selectedKeys);
+            assert.deepEqual([3], selectionInstance.excludedKeys);
+         });
+
          it('selectedKeys with key, that is not from collection + toggleAll', function() {
             cfg = getConfig({
                selectedKeys: [1, 2, 4, 5, 6, 7]
@@ -511,16 +526,16 @@ define([
 
 
             assert.deepEqual([null], selectionInstance.selectedKeys);
-            assert.deepEqual([null, 1, 6, 7], selectionInstance.excludedKeys);
+            assert.deepEqual([null, 1, 2, 4, 5, 6, 7], selectionInstance.excludedKeys);
 
             selectionInstance.toggleAll();
 
 
-            assert.deepEqual([1, 6, 7], selectionInstance.selectedKeys);
+            assert.deepEqual([1, 2, 4, 5, 6, 7], selectionInstance.selectedKeys);
             assert.deepEqual([], selectionInstance.excludedKeys);
          });
 
-         /* toDo До исправления https://online.sbis.ru/opendoc.html?guid=0606ed47-453c-415e-90b5-51e34037433e
+
          it('toggleAll with root', function() {
             cfg = getConfig({
                selectedKeys: [1, 4, 6],
@@ -528,8 +543,10 @@ define([
             });
             selectionInstance = new operations.HierarchySelection(cfg);
             selectionInstance._listModel._model.setRoot(2);
+            selectionInstance._listModel.getItems().setMetaData({
+               ENTRY_PATH: getEntryPath()
+            });
             selectionInstance.toggleAll();
-
 
             // 2 выходит из исключений, а ее дочерний эл-т который был выбран, наоборот.
             assert.deepEqual([1, 6], selectionInstance.selectedKeys);
@@ -537,11 +554,10 @@ define([
 
             selectionInstance.toggleAll();
 
-
             // Вернулись к начальному
             assert.deepEqual([1, 6, 4], selectionInstance.selectedKeys);
             assert.deepEqual([5, 2], selectionInstance.excludedKeys);
-         });*/
+         });
 
          it('toggle all with id folder, which when cast to a boolean type, returns false', function() {
             let items = [
