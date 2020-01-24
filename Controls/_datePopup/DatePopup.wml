@@ -3,7 +3,7 @@
          threshold="{{[0, 0.01, 0.99, 1]}}"
          observerName="datePopup"
          on:intersect="_currentDayIntersectHandler()">
-      <div class="controls-PeriodDialog">
+      <div class="controls-PeriodDialog {{_options.popupClassName}}">
       <ws:partial
          template="{{_headerTmpl}}"
          _options="{{_options}}"

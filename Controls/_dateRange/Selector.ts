@@ -76,9 +76,6 @@ var Component = BaseSelector.extend({
         const container = this._children.linkView.getDialogTarget();
         const ranges = this._options.ranges;
         let className = 'controls-DatePopup__selector-marginTop ';
-        if (this._options.popupClassName) {
-           className += `${this._options.popupClassName} `;
-        }
         if ((ranges && ('days' in ranges || 'weeks' in ranges)) ||
             ((!ranges || isEmpty(ranges)) && this._options.minRange === 'day')) {
             className += 'controls-DatePopup__selector-marginLeft';
@@ -92,6 +89,7 @@ var Component = BaseSelector.extend({
             className,
             templateOptions: {
                 ...getOptions.getTemplateOptions(this),
+                popupClassName: this._options.popupClassName,
                 headerType: 'link',
                 captionFormatter: this._options.captionFormatter,
                 emptyCaption: this._options.emptyCaption,

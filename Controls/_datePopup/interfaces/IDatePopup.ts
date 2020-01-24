@@ -212,7 +212,7 @@
  *       ...
  *    });
  * </pre>
- */ 
+ */
 
 /**
  * @event Controls/_datePopup/interfaces/IDatePopup#inputCompleted Происходит при завершении ввода (поле ввода периода потеряло фокус или пользователь нажал клавишу "Enter").
@@ -263,4 +263,8 @@
  *       ...
  *    })
  * </pre>
- */ 
+ */
+/**
+ * @name Controls/datePopup/interfaces/IDatePopup#popupClassName
+ * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+ */
