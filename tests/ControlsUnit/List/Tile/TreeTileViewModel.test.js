@@ -42,6 +42,27 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             expandedItems: [1, 2, 3],
             collapsedItems: [4, 5]
          });
+      var treeTileViewModelWithoutLeaves = new TreeTileViewModel({
+         tileMode: 'static',
+         itemsHeight: 300,
+         imageProperty: 'image',
+         keyProperty: 'id',
+         parentProperty: 'parent',
+         nodeProperty: 'parent@',
+         items: new collection.RecordSet({
+            rawData: [{
+               'id': 1,
+               'parent': null,
+               'parent@': true,
+            },
+            {
+               'id': 2,
+               'parent': null,
+               'parent@': true,
+            }],
+            keyProperty: 'id'
+         }),
+      });
 
       it('constructor', function() {
          assert.equal(treeTileViewModel.getTileMode(), 'static');
@@ -81,6 +102,11 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          assert.isTrue(!!cur.beforeItemTemplate);
          assert.equal(cur.position, 'string with style');
          assert.equal(cur.zoomCoefficient, 1.5);
+
+
+         treeTileViewModelWithoutLeaves.goToNext();
+         cur = treeTileViewModelWithoutLeaves.getCurrent();
+         assert.isTrue(!!cur.afterItemTemplate);
       });
 
       it('getMultiSelectClassList hidden | for group', function() {

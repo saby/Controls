@@ -19,7 +19,7 @@ var TreeTileViewModel = TreeViewModel.extend({
 
     getItemDataByItem: function (dispItem) {
         var
-            prevItem, hoveredItem,
+            prevItem, nextItem, hoveredItem,
             current = TreeTileViewModel.superclass.getItemDataByItem.apply(this, arguments);
 
         current.scalingMode = this._options.tileScalingMode;
@@ -35,13 +35,21 @@ var TreeTileViewModel = TreeViewModel.extend({
             current.multiSelectClassList += !current.isGroup && dispItem.isNode() ? ' controls-TreeTileView__checkbox' : '';
         }
         prevItem = this._display.at(current.index - 1);
+        nextItem = this._display.at(current.index + 1);
+
+        if (!nextItem && current.dispItem.isNode()) {
+            current.afterItemTemplate = InvisibleFor;
+            current.afterItemTemplateOptions = {
+                type: current && current.isNode && current.isNode() ? 'folder' : 'leaf'
+            };
+        }
 
         //before grouping and when moving from folders to records, you need to draw invisible items
         if (current.isGroup || prevItem && prevItem.isNode && prevItem.isNode() && !current.dispItem.isNode()) {
             current.beforeItemTemplate = InvisibleFor;
             current.beforeItemTemplateOptions = {
                 type: prevItem && prevItem.isNode && prevItem.isNode() ? 'folder' : 'leaf'
-            }
+            };
         }
 
         if (hoveredItem && hoveredItem.key === current.key) {
