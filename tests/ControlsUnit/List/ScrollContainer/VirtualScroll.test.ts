@@ -279,8 +279,10 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('itemsRemovedHandler', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.getStartIndex = () => instance.startIndex;
             instance.itemsCount = 20;
             instance.reset();
+            instance.itemsChanged = false;
             instance.itemsContainer = itemsContainer;
             instance.itemsCount = 19;
             instance.itemsRemovedHandler(19, {length: 1} as object[]);
