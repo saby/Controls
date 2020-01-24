@@ -134,18 +134,23 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
       });
 
       it('private.needStartSearch', function() {
+         var searchController = getSearchController();
          var result;
 
-         result = searchMod.Controller._private.needStartSearch('', '');
+         result = searchMod.Controller._private.needStartSearch(searchController, '', '');
          assert.isFalse(!!result);
 
-         result = searchMod.Controller._private.needStartSearch('  ', '');
-         assert.isFalse(!!result);
-
-         result = searchMod.Controller._private.needStartSearch('', 'test');
+         result = searchMod.Controller._private.needStartSearch(searchController, '  ', '');
          assert.isTrue(!!result);
 
-         result = searchMod.Controller._private.needStartSearch('test', '');
+         searchController._options.searchValueTrim = true;
+         result = searchMod.Controller._private.needStartSearch(searchController, '  ', '');
+         assert.isFalse(!!result);
+
+         result = searchMod.Controller._private.needStartSearch(searchController,'', 'test');
+         assert.isTrue(!!result);
+
+         result = searchMod.Controller._private.needStartSearch(searchController,'test', '');
          assert.isTrue(!!result);
       });
 

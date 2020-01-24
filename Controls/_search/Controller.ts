@@ -188,7 +188,7 @@ var _private = {
          const searchValue = self._options.searchValueTrim ? value.trim() : value;
          const shouldSearch = self._isSearchControllerLoading() ?
              _private.isInputSearchValueChanged(self, searchValue) :
-             _private.needStartSearch(self._inputSearchValue, searchValue);
+             _private.needStartSearch(self, self._inputSearchValue, searchValue);
 
          if (shouldSearch) {
             _private.getSearchController(self).search(searchValue, force);
@@ -214,8 +214,8 @@ var _private = {
       return !searchValue || searchValue.length < self._options.minSearchLength;
    },
 
-   needStartSearch(inputSearchValue: string, searchValue: string): string {
-      return inputSearchValue.trim() || searchValue;
+   needStartSearch(self, inputSearchValue: string, searchValue: string): string {
+      return (self._options.searchValueTrim ? inputSearchValue.trim() : inputSearchValue) || searchValue;
    },
 
    needUpdateViewMode(self, newViewMode: string): boolean {
