@@ -1527,6 +1527,7 @@ define([
          ctrl._children = triggers;
          // эмулируем появление скролла
          lists.BaseControl._private.onScrollShow(ctrl, heightParams);
+         ctrl.updateShadowModeHandler({}, {top: 0, bottom: 0});
 
          // скроллпэйджиг контроллер создается асинхронном
          setTimeout(function() {
@@ -1572,7 +1573,15 @@ define([
                stateEnd: 'normal'
             }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
 
+            ctrl._pagingVisible = true;
             ctrl._abortSearch();
+            assert.deepEqual({
+               stateBegin: 'normal',
+               statePrev: 'normal',
+               stateNext: 'disabled',
+               stateEnd: 'disabled'
+            }, ctrl._pagingCfg, 'Wrong state of paging arrows after abort search');
+
             lists.BaseControl._private.handleListScroll(ctrl, {
                scrollTop: 200,
                position: 'down'
@@ -1624,6 +1633,59 @@ define([
             }, 100);
 
          }, 100);
+      });
+
+      it('abortSearch', async () => {
+         const heightParams = {
+            scrollHeight: 400,
+            clientHeight: 1000
+         };
+         const source = new sourceLib.Memory({
+            keyProperty: 'id',
+            data: data
+         });
+
+         const cfg = {
+            viewName: 'Controls/List/ListView',
+            source: source,
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: rs,
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            navigation: {
+               view: 'infinity',
+               source: 'page',
+               viewConfig: {
+                  pagingMode: 'direct'
+               },
+               sourceConfig: {
+                  pageSize: 3,
+                  page: 0,
+                  hasMore: false
+               }
+            },
+         };
+         const ctrl = new lists.BaseControl(cfg);
+         let shadowMode;
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         lists.BaseControl._private.onScrollShow(ctrl, heightParams);
+         ctrl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+         ctrl._pagingVisible = true;
+         ctrl._pagingCfg = {};
+         ctrl._notify = (eventName, eventResult) => {
+            if (eventName === 'updateShadowMode') {
+               shadowMode = eventResult[0];
+            }
+         };
+         ctrl._abortSearch();
+
+         assert.deepEqual(ctrl._pagingCfg, {stateNext: 'disabled', stateEnd: 'disabled'});
+         assert.deepEqual(shadowMode, {top: 'auto', bottom: 'auto'});
       });
 
       it('scrollHide/scrollShow base control state', function() {
