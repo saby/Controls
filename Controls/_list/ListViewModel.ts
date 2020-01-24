@@ -167,6 +167,9 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.multiSelectClassList = itemsModelCurrent.hasMultiSelect ? _private.getMultiSelectClassList(itemsModelCurrent) : '';
         itemsModelCurrent.showEditArrow = this._options.showEditArrow;
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
+        if (itemsModelCurrent.isGroup) {
+            itemsModelCurrent.isStickyHeader = this._options.stickyHeader;
+        }
 
         itemsModelCurrent.shouldDrawMarker = (marker: boolean) => {
             const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden';

@@ -143,6 +143,7 @@ var ListControl = Control.extend(/** @lends Controls/_list/List.prototype */{
 ListControl.getDefaultOptions = function() {
     return {
         multiSelectVisibility: 'hidden',
+        stickyHeader: true,
         style: 'default'
     };
 };
