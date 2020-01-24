@@ -247,6 +247,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          var filter = { 'Разворот': 'С разворотом', 'usePages': 'full', test: 'test' };
 
          controller._viewMode = 'search';
+         controller._previousViewMode = 'testViewMode';
          controller._misspellValue = 'testStr';
          controller._loading = true;
          controller._searchValue = 'test';
@@ -261,7 +262,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchMod.Controller._private.abortCallback(controller, filter);
 
          assert.isTrue(stubNotify.calledTwice);
-         assert.isTrue(controller._viewMode === 'search');
+         assert.equal(controller._viewMode, 'testViewMode');
          assert.isFalse(controller._loading);
          assert.equal(controller._misspellValue, '');
          assert.equal(controller._searchValue, '');
