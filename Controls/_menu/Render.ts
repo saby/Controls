@@ -28,7 +28,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 
     protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem): void {
-        this._notify('itemMouseEnter', [item, event.target]);
+        this._notify('itemMouseEnter', [item, event.target,  event.nativeEvent]);
     }
 
     protected _isEmptyItem(itemData) {

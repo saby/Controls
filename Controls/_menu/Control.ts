@@ -49,19 +49,53 @@ class MenuControl extends Control<IMenuOptions> {
         this._listModel = null;
     }
 
-    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, target) {
+    protected _mouseOutHandler(event: SyntheticEvent<MouseEvent>) {
+        this._listModel.setHoveredItem(null);
+        clearTimeout(this._closeSubMenuTimeout);
+        this._lastOpenSubMenuCoord = null;
+    }
+
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>) {
+        if (this._mouseInTriangleArea && this._subDropdownItem) {
+            this.defferedResetSubMenu(this._currentTarget, this._currentItem);
+        }
+    }
+
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, target, nativeEvent) {
         const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
-        const needCloseDropDown = this._subDropdownItem !== item;
+        const needCloseDropDown = this._subDropdownItem && this._subDropdownItem !== item;
+
+        this._currentItem = item;
+        if (!this._subDropdownItem) {
+            this._openSubMenuCoord = this.getOpenSubMenuCoordinates(nativeEvent);
+        }
+        if (needCloseDropDown) {
+            if (needOpenDropDown) {
+                this._currentTarget = target;
+                this._lastOpenSubMenuCoord = this.getOpenSubMenuCoordinates(nativeEvent);
+            }
+            if (!this._subMenuParams) {
+                this._subMenuParams = this.getSubMenuParams();
+            }
+        }
+        const curMouseCoordinates = this.getRelativeMouseCoordinates(nativeEvent);
+        this._mouseInTriangleArea = needCloseDropDown ? this.isMouseInTriangleArea(curMouseCoordinates) : false;
+        if (!this._mouseInTriangleArea) {
+            this._listModel.setHoveredItem(item);
+        }
         // Close the already opened sub menu. Installation of new data sets new size of the container.
         // If you change the size of the update, you will see the container twitch.
         if (needCloseDropDown && !needOpenDropDown) {
-            this._children.Sticky.close();
-            this._subDropdownItem = null;
+            if (this._mouseInTriangleArea) {
+                this.defferedResetSubMenu(target, item);
+            } else {
+                this.resetSubMenu(target, item);
+            }
+        } else {
+            clearTimeout(this._closeSubMenuTimeout);
         }
-
-        if (needOpenDropDown) {
-            this._subDropdownItem = item;
-            this.openSubDropdown(target, item);
+        if (needOpenDropDown && !this._mouseInTriangleArea) {
+            this.openSubMenu(target, item);
         }
     }
 
@@ -112,6 +146,79 @@ class MenuControl extends Control<IMenuOptions> {
     protected _openSelectorDialog(): void {
         const selectorOpener = this._options.selectorOpener;
         selectorOpener.open(this.getSelectorDialogOptions(this._options));
+    }
+
+    private openSubMenu(target, item): void {
+        if (this._lastOpenSubMenuCoord && this._subDropdownItem !== item) {
+            this._openSubMenuCoord = this._lastOpenSubMenuCoord;
+        }
+        this._subDropdownItem = item;
+        this.openSubDropdown(target, item);
+    }
+
+    private resetSubMenu(): void {
+        this._listModel.setHoveredItem(this._currentItem);
+        this._children.Sticky.close();
+        this._subDropdownItem = null;
+        this._subMenuParams = null;
+        this._mouseInTriangleArea = false;
+    }
+
+    private defferedResetSubMenu(target, item): void {
+        clearTimeout(this._closeSubMenuTimeout);
+        this._closeSubMenuTimeout = setTimeout(() => {
+            this.resetSubMenu();
+            if (this._currentItem.isNode()) {
+                this.openSubMenu(target, item);
+            }
+        }, 100);
+    }
+
+    private isMouseInTriangleArea(curCoord): boolean {
+        const totalArea = this.calculateArea(this._subMenuParams.top.x, this._openSubMenuCoord.offsetX, this._subMenuParams.bottom.x,
+            this._subMenuParams.top.y, this._openSubMenuCoord.offsetY, this._subMenuParams.bottom.y);
+        const firstArea = this.calculateArea(this._subMenuParams.top.x, this._subMenuParams.bottom.x, curCoord.x,
+            this._subMenuParams.top.y, this._subMenuParams.bottom.y, curCoord.y);
+        const secondArea = this.calculateArea(this._subMenuParams.top.x, curCoord.x, this._openSubMenuCoord.offsetX,
+            this._subMenuParams.top.y, curCoord.y, this._openSubMenuCoord.offsetY);
+        const thirdArea = this.calculateArea(curCoord.x, this._subMenuParams.top.x, this._openSubMenuCoord.offsetX,
+            curCoord.y, this._subMenuParams.bottom.y, this._openSubMenuCoord.offsetY);
+        return totalArea === (firstArea + secondArea + thirdArea);
+    }
+
+    private calculateArea(x1, x2, x3, y1, y2, y3) {
+        return Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
+    }
+
+    private getOpenSubMenuCoordinates(event): object {
+        return {
+            offsetX: event.offsetX,
+            offsetY: event.offsetY,
+            clientX: event.clientX,
+            clientY: event.clientY
+        }
+    }
+
+    private getSubMenuParams(): object {
+        const openedSubMenus = document.getElementsByClassName(this._children.Sticky._options.className);
+        const lastOpenedSubMenu = openedSubMenus[openedSubMenus.length > 1 ? openedSubMenus.length - 2 : 0].getBoundingClientRect();
+        return {
+            top: {
+                x: lastOpenedSubMenu.x - (this._openSubMenuCoord.clientX - this._openSubMenuCoord.offsetX),
+                y: this._openSubMenuCoord.clientY - lastOpenedSubMenu.y - this._openSubMenuCoord.offsetY
+            },
+            bottom: {
+                x: lastOpenedSubMenu.x - (this._openSubMenuCoord.clientX - this._openSubMenuCoord.offsetX),
+                y: this._openSubMenuCoord.clientY - lastOpenedSubMenu.y - this._openSubMenuCoord.offsetY + lastOpenedSubMenu.height
+            }
+        }
+    }
+
+    private getRelativeMouseCoordinates(event): object {
+        return {
+            x: this._openSubMenuCoord.offsetX + event.clientX - this._openSubMenuCoord.clientX,
+            y: this._openSubMenuCoord.offsetY + event.clientY - this._openSubMenuCoord.clientY
+        };
     }
 
     private getSelectorDialogOptions(options: IMenuOptions): object {

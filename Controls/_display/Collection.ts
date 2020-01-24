@@ -2075,6 +2075,15 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._editInPlaceManager.isEditing();
     }
 
+    setHoveredItem(item: CollectionItem<S>): void {
+        this._hoverManager.setHoveredItem(item);
+        this._nextVersion();
+    }
+
+    getHoveredItem(): CollectionItem<S> {
+        return this._hoverManager.getHoveredItem() as CollectionItem<S>;
+    }
+
     setItemActions(item: CollectionItem<S>, actions: any): void {
         this._itemActionsManager.setItemActions(item, actions);
         this._nextVersion();
