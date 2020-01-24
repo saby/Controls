@@ -119,16 +119,17 @@ const Global = Control.extend({
     * @param event
     * @param {String | Function} template
     * @param {Object} templateOptions
+    * @param {Core/Control} [opener=null]
     * @return {Promise.<void>} result promise
     * @private
     */
-   _openDialogHandler(event, template, templateOptions) {
+   _openDialogHandler(event, template, templateOptions, opener = null) {
       this._onDialogClosed();
 
       Dialog.openPopup({
          template,
          templateOptions,
-         opener: null,
+         opener,
          eventHandlers: {
             onClose: () => {
                this._onDialogClosed();
