@@ -43,11 +43,12 @@ export function getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
     const fontColorStyle = item.get('fontColorStyle');
     const contrastBackground = item.get('contrastBackground');
     const cfg = {};
+    cfg.readOnly = readOnly;
     cfg._hoverIcon = true;
     cssStyleGeneration.call(cfg, {
         size, icon, style, viewMode, iconStyle, transparent, caption, readOnly, fontColorStyle, contrastBackground
     });
-    return cfg
+    return cfg;
 }
 
 export function getButtonTemplate(): TemplateFunction {
