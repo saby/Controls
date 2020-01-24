@@ -17,7 +17,7 @@
             <div class="validateDemo_content">
                <div class="validateDemo_form">
                   Введите имя получателя:
-                  <Controls.validate:Container attr:class="validateDemo_element" name="ControllerValidate">
+                  <Controls.validate:Container attr:class="ControlsDemo-ValidateInfobox_name validateDemo_element" name="ControllerValidate">
                      <ws:validators>
                         <ws:Function value="{{_value2}}">Controls/validate:isRequired</ws:Function>
                      </ws:validators>
@@ -44,7 +44,7 @@
                      </ws:content>
                   </Controls.validate:Container>
                   Подтвердите ваш email адрес:
-                  <Controls.validate:Container name="ControllerValidate3" attr:class="validateDemo_element">
+                  <Controls.validate:Container name="ControllerValidate3" attr:class="ControlsDemo-ValidateInfobox_confirm validateDemo_element">
                      <ws:validators>
                         <ws:Function email1="{{_value5 }}" email2="{{_value1}}">
                            Controls-demo/Input/Validate/EqualEmailValidator
