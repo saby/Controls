@@ -291,12 +291,12 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 
             if (itemsChanged) {
                this._listModel.setItems(newOptions);
-               if (this._hasHierarchy) {
-                  this._children.subDropdownOpener.close();
-               }
             }
 
             if (rootChanged || itemsChanged) {
+               if (this._hasHierarchy) {
+                  this._children.subDropdownOpener.close();
+               }
                this._hasHierarchy = this._listModel.hasHierarchy();
                this._hasAdditional = this._listModel.hasAdditional();
             }

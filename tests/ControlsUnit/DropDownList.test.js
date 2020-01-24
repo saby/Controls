@@ -54,8 +54,12 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
       };
    };
 
-   var getDropDownListWithConfig = function(config) {
+   var getDropDownListWithConfig = function(config, openCallback, closeCallback) {
       var dropDownList = new dropdownPopup.List(config);
+      dropDownList._children.subDropdownOpener = {
+         open: openCallback,
+         close: closeCallback
+      };
       dropDownList.saveOptions(config);
       return dropDownList;
    };
@@ -67,15 +71,25 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
          it('_itemMouseEnter', function() {
             var dropDownConfig, dropDownList;
             var opened = false;
+            var closed = false;
 
             dropDownConfig = getDropDownConfig();
-            dropDownList = getDropDownListWithConfig(dropDownConfig);
+            dropDownList = getDropDownListWithConfig(
+               dropDownConfig,
+               () => {
+                  opened = true;
+                  closed = false;
+               },
+               () => {
+                  opened = false;
+                  closed = true;
+               }
+            );
 
             dropDownList._beforeMount(dropDownConfig);
             dropDownList._beforeUpdate(dropDownConfig);
 
             //moch child opener
-            dropDownList._children = { subDropdownOpener: { close: function() {opened = false;}, open: function() {opened = true;} } };
             dropDownList._hasHierarchy = false;
             dropDownList._subDropdownItem = null;
 
@@ -139,10 +153,19 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
          });
 
          it('check hierarchy', function() {
-            var dropDownConfig, dropDownList;
+            let dropDownConfig, dropDownList;
+            let closed = false;
 
             dropDownConfig = getDropDownConfig();
-            dropDownList = getDropDownListWithConfig(dropDownConfig);
+            dropDownList = getDropDownListWithConfig(
+               dropDownConfig,
+               () => {
+                  closed = false;
+               },
+               () => {
+                  closed = true;
+               }
+            );
 
             dropDownList._beforeMount(dropDownConfig);
             dropDownList._beforeUpdate(dropDownConfig);
@@ -155,6 +178,7 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
             dropDownConfig.rootKey = 1;
             dropDownList._beforeUpdate(dropDownConfig);
 
+            assert.isTrue(closed);
             assert.isTrue(dropDownList._hasHierarchy);
 
             dropDownConfig = getDropDownConfig();
