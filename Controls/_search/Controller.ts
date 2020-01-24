@@ -112,12 +112,16 @@ var _private = {
       self._loading = true;
    },
 
-   needUpdateSearchController: function (options, newOptions) {
+   isNeedRecreateSearchControllerOnOptionsChanged(options, newOptions): boolean {
       return !isEqual(options.navigation, newOptions.navigation) ||
-         options.searchDelay !== newOptions.searchDelay ||
-         _private.getOriginSource(options.source) !== _private.getOriginSource(newOptions.source) ||
-         options.searchParam !== newOptions.searchParam ||
-         options.minSearchLength !== newOptions.minSearchLength;
+             options.searchDelay !== newOptions.searchDelay ||
+             options.minSearchLength !== newOptions.minSearchLength ||
+             _private.isNeedAbortSearchOnOptionsChanged(options, newOptions);
+   },
+
+   isNeedAbortSearchOnOptionsChanged(options, newOptions): boolean {
+      return options.searchParam !== newOptions.searchParam ||
+             _private.getOriginSource(options.source) !== _private.getOriginSource(newOptions.source);
    },
 
    prepareExpandedItems(searchRoot, expandedItemKey, items, parentProperty) {
@@ -338,13 +342,17 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
             this._searchController.setFilter(clone(filter));
          }
 
-         if (_private.needUpdateSearchController(currentOptions, this._dataOptions) ||
-             _private.needUpdateSearchController(this._options, newOptions)) {
+         if (_private.isNeedAbortSearchOnOptionsChanged(currentOptions, this._dataOptions) ||
+             _private.isNeedAbortSearchOnOptionsChanged(this._options, newOptions)) {
             if (this._searchValue) {
                this._searchController.abort(true);
             }
-            this._searchController = null;
             _private.setInputSearchValue(this, '');
+         }
+
+         if (_private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
+             _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions)) {
+            this._searchController = null;
          }
 
          if (!isEqual(this._options.sorting, newOptions.sorting)) {
