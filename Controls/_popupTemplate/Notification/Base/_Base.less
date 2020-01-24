@@ -3,38 +3,38 @@
   position: relative;
 }
 .controls-Notification_theme-@{themeName} {
-  border-top-width: @border-width_NotificationBase;
-  box-shadow: @size_NotificationBase-shadow @color_NotificationBase-shadow;
-  min-height: @min-height_NotificationBase;
-  min-width: @min-width_NotificationBase;
-  margin: 0 @spacing_NotificationBase-between-notifications-right @spacing_NotificationBase-between-notifications-bottom 0;
-  background-color: @background-color_NotificationBase;
+  border-top-width: @marker_thickness_notification;
+  box-shadow: @box-shadow_notification;
+  min-height: @min-height_notification;
+  min-width: @min-width_notification;
+  margin: 0 @offset-horizontal_notification @offset-vertical_notification 0;
+  background-color: @background-color_notification;
 }
 
 .controls-Notification__danger_theme-@{themeName} {
-  border-color: @border-color_NotificationBase_danger;
+  border-color: @danger_color;
 }
 
 .controls-Notification__secondary_theme-@{themeName} {
-  border-color: @border-color_NotificationBase_primary;
+  border-color: @secondary_marker_color_notification;
 }
 
 .controls-Notification__success_theme-@{themeName} {
-  border-color: @border-color_NotificationBase_success;
+  border-color: @success_color;
 }
 
 .controls-Notification__warning_theme-@{themeName} {
-  border-color: @border-color_NotificationBase_warning;
+  border-color: @warning_color;
 }
 
 .controls-Notification__content_theme-@{themeName} {
-  padding: @spacing_NotificationBase-between-content-border;
-  font-size: @font-size_NotificationBase-message;
+  padding: @content_padding_notification;
+  font-size: @font-size_notification;
 }
 
 .controls-Notification__closeButton_theme-@{themeName} {
-    top: @spacing_NotificationBase-between-closeButton-border-top;
-  right: @spacing_NotificationBase-between-closeButton-border-right;
+  top: @close-button_offset-top_notification;
+  right: @close-button_offset-right_notification;
 }
 
 .controls-Notification__closeButton {
@@ -47,21 +47,20 @@
 }
 
 .controls-Notification__simpleTemplate-icon_theme-@{themeName} {
-  margin-right: @spacing_NotificationBase-between-icon-and-message;
+  margin-right: @icon_offset_notification;
 }
 
 .controls-Notification__simpleTemplate-message_theme-@{themeName} {
-  font-weight: @font-weight_NotificationBase-message;
   &:before {
     content: '\200b';
-    font-size: @spacing_NotificationBase-between-border-top-message;
+    font-size: @text_line-height_notification;
   }
 }
 
 .controls-Notification__content-spacing_theme-@{themeName} {
-   margin-right: @width_NotificationBase-close-button;
+   margin-right: @width_closeButton_link;
 }
 
 .controls-Notification__simpleTemplate-icon-size_theme-@{themeName} {
-  .icon-size(@size_NotificationBase-icon, @font-family_NotificationBase);
+  .icon-size(@icon-size_notification, @icon_font-family_m);
 }
