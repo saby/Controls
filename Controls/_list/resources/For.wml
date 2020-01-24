@@ -54,6 +54,7 @@
    </ws:else>
    <ws:if data="{{currentItem.afterItemTemplate}}">
       <ws:partial template="{{currentItem.afterItemTemplate}}"
+                  scope="{{currentItem.afterItemTemplateOptions}}"
                   itemTemplate="{{itemTemplate}}"
                   listModel="{{listModel}}"/>
    </ws:if>
