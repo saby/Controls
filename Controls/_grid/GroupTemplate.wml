@@ -1,7 +1,4 @@
 <ws:template name="groupContentTemplate">
-   <div class="controls-ListView__groupContent
-               {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
-               controls-ListView__groupContent_align-{{textAlign || 'left'}}">
       <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'left')}}">
          <div class="controls-ListView__groupSeparator-left">&nbsp;</div>
       </ws:if>
@@ -24,7 +21,6 @@
             <ws:partial template="{{rightTemplate}}" attr:class="controls-ListView__groupContent-rightTemplate" itemData="{{itemData}}"/>
          </ws:if>
       </ws:if>
-   </div>
 </ws:template>
 <ws:template name="groupRightTemplate">
    <div class="controls-ListView__groupContent">
@@ -34,21 +30,61 @@
       </ws:if>
    </div>
 </ws:template>
+<ws:template name="groupRightStickyTemplate">
+      <Controls.scroll:StickyHeader
+        attr:class="controls-ListView__groupContent"
+        fixedZIndex="{{4}}">
+         <div class="controls-ListView__groupSeparator-right">&nbsp;</div>
+         <ws:if data="{{!!rightTemplate}}">
+            <ws:partial template="{{rightTemplate}}" attr:class="controls-ListView__groupContent-rightTemplate" itemData="{{itemData}}"/>
+         </ws:if>
+      </Controls.scroll:StickyHeader>
+</ws:template>
+<ws:template name="groupContentStickyWrapper">
+<Controls.scroll:StickyHeader
+        attr:class="controls-ListView__groupContent
+               {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
+               controls-ListView__groupContent_align-{{textAlign || 'left'}}"
+        fixedZIndex="{{4}}">
+   <ws:partial template="groupContentTemplate" itemData="{{itemData}}"/>
+</Controls.scroll:StickyHeader>
+</ws:template>
+<ws:template name="groupContentWrapper">
+<div class="controls-ListView__groupContent
+               {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
+               controls-ListView__groupContent_align-{{textAlign || 'left'}}">
+   <ws:partial template="groupContentTemplate" itemData="{{itemData}}"/>
+</div>
+</ws:template>
+
 
 <ws:if data="{{itemData.isFullGridSupport()}}">
    <div class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}"
         key="group-{{itemData.item}}">
-      <ws:partial template="groupContentTemplate" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
-      <ws:if data="{{columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)}}">
-         <ws:partial template="groupRightTemplate"
-                     attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+      <ws:if data="{{itemData.isStickyHeader}}">
+         <Controls.scroll:Group>
+           <div style="display: contents;">
+              <ws:partial template="groupContentStickyWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
+              <ws:if data="{{columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)}}">
+                 <ws:partial template="groupRightStickyTemplate"
+                             attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+              </ws:if>
+           </div>
+         </Controls.scroll:Group>
       </ws:if>
+      <ws:else>
+         <ws:partial template="groupContentWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
+         <ws:if data="{{columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)}}">
+            <ws:partial template="groupRightTemplate"
+                        attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+         </ws:if>
+      </ws:else>
    </div>
 </ws:if>
 <ws:else>
    <tr key="group-{{itemData.item}}" class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}">
       <td class="controls-ListView__groupCellContent" colspan="{{columnAlignGroup ? columnAlignGroup : itemData.columns.length}}">
-         <ws:partial template="groupContentTemplate"/>
+         <ws:partial template="groupContentWrapper"/>
       </td>
       <ws:if data="{{columnAlignGroup !== undefined}}">
          <td class="controls-ListView__groupCellContent" colspan="{{itemData.columns.length - columnAlignGroup}}">

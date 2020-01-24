@@ -118,10 +118,14 @@ import template = require('wml!Controls/_scroll/StickyHeader/Group');
          },
 
          _updateStickyShadow: function(ids) {
-            if (ids.indexOf(this._index) !== -1) {
-               this._shadowVisible = true;
-
-               this._children.stickyHeaderShadow.start(this._stickyHeadersIds.top.concat(this._stickyHeadersIds.bottom));
+            var shadowVisible = ids.indexOf(this._index) !== -1;
+            if (this._shadowVisible !== shadowVisible) {
+               this._shadowVisible = shadowVisible;
+               if (shadowVisible) {
+                  this._children.stickyHeaderShadow.start(this._stickyHeadersIds.top.concat(this._stickyHeadersIds.bottom));
+               } else {
+                  this._children.stickyHeaderShadow.start([]);
+               }
             }
          },
 
