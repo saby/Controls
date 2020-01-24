@@ -34,7 +34,17 @@
       <ws:else>
          <ws:partial template="{{imageWrapper}}"/>
          <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.drawActions}}">
-            <div class="controls-TileView__title controls-TileView__title_{{titleStyle === 'accent' ? 'accent' : 'normal'}} {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}" title="{{itemData.item[itemData.displayProperty]}}">{{itemData.item[itemData.displayProperty]}}</div>
+            <ws:if data="{{titleStyle === 'accent'}}">
+               <div class="controls-TileView__title_accent"
+                    title="{{itemData.item[itemData.displayProperty]}}">
+                  <div class="controls-TileView__title_accent_ellipsis">{{itemData.item[itemData.displayProperty]}}</div>
+               </div>
+            </ws:if>
+            <ws:else>
+               <div class="controls-TileView__title {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}"
+                    title="{{itemData.item[itemData.displayProperty]}}">{{itemData.item[itemData.displayProperty]}}</div>
+            </ws:else>
+
          </ws:if>
       </ws:else>
       <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
