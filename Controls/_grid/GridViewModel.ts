@@ -488,6 +488,17 @@ var
                 fixedColumns: `grid-column: ${start} / ${center}; -ms-grid-column: ${start}; -ms-grid-column-span: ${stickyColumnsCount}; z-index: 3;`,
                 scrollableColumns: `grid-column: ${center} / ${end}; -ms-grid-column: ${center}; -ms-grid-column-span: ${scrollableColumnsCount}; z-index: auto;`,
             };
+        },
+
+        getGroupPaddingClasses(current, theme): { left: string, right: string } {
+            let right = `controls-Grid__groupContent__spacingRight_${current.itemPadding.right}_theme-${theme}`;
+            let left =  'controls-Grid__groupContent__spacingLeft_';
+            if (current.hasMultiSelect) {
+                left += `withCheckboxes_theme-${theme}`;
+            } else {
+                left += `${current.itemPadding.left}_theme-${theme}`;
+            }
+            return { left, right };
         }
     },
 
@@ -1316,7 +1327,7 @@ var
             }
 
             if (current.isGroup) {
-                current.groupResultsSpacingClass = ' controls-Grid__cell_spacingLastCol_' + ((current.itemPadding && current.itemPadding.right) || current.rightSpacing || 'default').toLowerCase() + `_theme-${this._options.theme}`;
+                current.groupPaddingClasses = _private.getGroupPaddingClasses(current, this._options.theme);
                 return current;
             }
 

@@ -83,6 +83,11 @@ var _private = {
         } else {
             return !!(drawnActions && drawnActions.length);
         }
+    },
+    getGroupPaddingClasses(current): { left: string; right: string } {
+        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}`;
+        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}`;
+        return {right, left};
     }
 };
 
@@ -182,6 +187,10 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         if (itemsModelCurrent.itemActions) {
            drawnActions = itemsModelCurrent.itemActions.showed;
+        }
+
+        if (itemsModelCurrent.isGroup) {
+            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent);
         }
 
         itemsModelCurrent.drawActions = _private.needToDrawActions(this._editingItemData, itemsModelCurrent, this._options.editingConfig, drawnActions);

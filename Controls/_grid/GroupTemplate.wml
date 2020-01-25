@@ -18,7 +18,9 @@
             <div class="controls-ListView__groupSeparator-right">&nbsp;</div>
          </ws:if>
          <ws:if data="{{!!rightTemplate}}">
-            <ws:partial template="{{rightTemplate}}" attr:class="controls-ListView__groupContent-rightTemplate" itemData="{{itemData}}"/>
+            <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"
+                        attr:class="controls-ListView__groupContent-rightTemplate
+                        {{ !(columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)) ? itemData.groupPaddingClasses.right }}" />
          </ws:if>
       </ws:if>
 </ws:template>
@@ -64,19 +66,24 @@
       <ws:if data="{{itemData.isStickyHeader}}">
          <Controls.scroll:Group>
            <div style="display: contents;">
-              <ws:partial template="groupContentStickyWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
+              <ws:partial template="groupContentStickyWrapper"
+                          attr:class="{{ itemData.groupPaddingClasses.left }}
+                          {{ !rightTemplate && !(columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)) ? itemData.groupPaddingClasses.right }}"
+                          attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
               <ws:if data="{{columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)}}">
                  <ws:partial template="groupRightStickyTemplate"
+                             attr:class="{{ itemData.groupPaddingClasses.right }}"
                              attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
               </ws:if>
            </div>
          </Controls.scroll:Group>
       </ws:if>
       <ws:else>
-         <ws:partial template="groupContentWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
+         <ws:partial template="groupContentWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"
+                     attr:class="{{ itemData.groupPaddingClasses.left }}
+                                 {{ !rightTemplate && !(columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)) ? itemData.groupPaddingClasses.right }}"/>
          <ws:if data="{{columnAlignGroup !== undefined && columnAlignGroup < itemData.columns.length - (itemData.hasMultiSelect ? 1 : 0)}}">
-            <ws:partial template="groupRightTemplate"
-                        attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+            <ws:partial template="groupRightTemplate" attr:class="{{ itemData.groupPaddingClasses.right }}" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
          </ws:if>
       </ws:else>
    </div>
