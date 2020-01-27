@@ -32,9 +32,12 @@
 .controls-Grid__header-cell {
    height: 100%;
    box-sizing: border-box;
-   min-width: 0;
-
 }
+
+.controls-Grid__header-cell_min-width {
+   min-width: 0;
+}
+
 .controls-Grid__header-cell_theme-@{themeName} {
    font-size: @font-size_Grid-header;
    z-index: 1;
@@ -76,6 +79,10 @@
    display: flex;
    justify-content: flex-start;
    align-items: baseline; //baseline align by default;
+}
+
+.controls-Grid__sorting-button {
+   display: inline-flex;
 }
 
 .controls-Grid__row-header__content_baseline_theme-@{themeName}:before {
@@ -204,11 +211,12 @@
       > .controls-itemActionsV__container {
          > .controls-itemActionsV {
             display: inline-block;
+            visibility: visible;
          }
       }
       .controls-BreadCrumbsView__menu__dots {
          background-color: @background-color_Grid-row_hover;
-         box-shadow: -1px 0px 9px 14px @background-color_Grid-row_hover;
+         box-shadow: -15px 2px 4px -6px @background-color_Grid-row_hover;
       }
    }
 
@@ -303,9 +311,18 @@
    z-index: 2;
 }
 
+.controls-Grid__row-ladder-cell__content_default_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_default;
+}
+.controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_s;
+}
+.controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
+   top: @spacing_Grid-row-between-content-borderTop_l;
+}
+
 .controls-Grid__row-ladder-cell__content {
    .position-sticky();
-   top: 0;
 }
 
 .controls-Grid__row-cell_withoutRowSeparator_theme-@{themeName} {
@@ -441,10 +458,17 @@
 }
 
 // Checkbox styles
-.controls-Grid__header-cell-checkbox_theme-@{themeName},
 .controls-Grid__row-cell-checkbox_theme-@{themeName} {
    min-width: @click-area_width_checkbox;
    max-width: @click-area_width_checkbox;
+}
+
+.controls-Grid__header-cell-checkbox_theme-@{themeName} {
+   max-width: @click-area_width_checkbox;
+}
+
+.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName} {
+   min-width: @click-area_width_checkbox;
 }
 
 .controls-GridView__footer__paddingLeft_withCheckboxes_theme-@{themeName} {
@@ -558,9 +582,6 @@
 }
 .controls-Grid__cell_header-content_border-transparent_theme-@{themeName} {
    border-bottom: @height_Grid-row-separator solid transparent;
-}
-.control-Grid__cell_header-nowrap {
-   white-space: nowrap;
 }
 
 .controls-Grid__cell_header-relative {

@@ -1,0 +1,51 @@
+<div class="controls-Menu {{_loadItemsPromise && !_loadItemsPromise.isReady() ? 'ws-hidden'}}">
+   <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Menu__scroll_theme-{{_options.theme}}"
+                              shadowVisible="{{false}}">
+      <Controls._menu.Render scope="{{_options}}"
+                             listModel="{{_listModel}}"
+                             on:itemClick="_itemClick()"
+                             on:itemMouseEnter="_itemMouseEnter()"
+                             on:checkBoxClick="_checkBoxClick()"
+      >
+         <ws:footerTemplate>
+            <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
+               <div class="controls-Menu__footer_theme-{{_options.theme}}" on:mouseenter="_closeSubMenu()">
+                  <ws:if data="{{_moreButtonVisible}}">
+                     <Controls.buttons:Button viewMode="link"
+                                              fontColorStyle="link"
+                                              caption="{{_options.moreButtonCaption}}"
+                                              on:click="_openSelectorDialog()"/>
+                  </ws:if>
+                  <ws:else data="{{_expandButtonVisible}}">
+                     <div class="controls-Menu__additional">
+                        <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
+                           <ws:partial template="{{content.resolvedTemplate}}"
+                                       bind:value="_expander"
+                                       on:valueChanged="_toggleExpanded()"/>
+                        </Controls.Container.Async>
+                     </div>
+                  </ws:else>
+                  <ws:if data="{{_applyButtonVisible}}">
+                     <div class="controls-Menu__applyButton_theme-{{_options.theme}}">
+                        <Controls.buttons:Button viewMode="functionalButton"
+                                                 icon="icon-Yes"
+                                                 iconSize="m"
+                                                 iconStyle="contrast"
+                                                 buttonStyle="success"
+                                                 inlineHeight="l"
+                                                 on:click="_applySelection()"/>
+                     </div>
+                  </ws:if>
+               </div>
+            </ws:if>
+         </ws:footerTemplate>
+      </Controls._menu.Render>
+   </Controls.scroll:Container>
+   <Controls.popup:Sticky name="Sticky"
+                          actionOnScroll="close"
+                          closeOnOutsideClick="{{true}}"
+                          on:result="_subMenuResult()"
+                          on:close="_closeSubMenu()"
+                          template="Controls/popupTemplate:Sticky"
+                          className="controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
+</div>

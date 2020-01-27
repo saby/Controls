@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper" style="width: 700px;">
+        <Controls.scroll:Container>
+                <Controls.explorer:View
+                    source="{{_viewSource}}"
+                    bind:root="_root"
+                    attr:class="demo-Explorer"
+                    keyProperty="id"
+                    displayProperty="title"
+                    parentProperty="parent"
+                    columnScroll="{{true}}"
+                    stickyColumnsCount="{{1}}"
+                    nodeProperty="parent@"
+                    viewMode="{{_viewMode}}"
+                    rowSeparatorVisibility="{{true}}"
+                    header="{{_header}}"
+                    columns="{{_columns}}">
+                </Controls.explorer:View>
+        </Controls.scroll:Container>
+</div>

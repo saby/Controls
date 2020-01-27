@@ -10,6 +10,8 @@ import {RecordSet} from 'Types/collection';
 import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import IProperty from 'Controls/_propertyGrid/IProperty';
 
+import * as ControlsConstants from 'Controls/Constants';
+
 interface IPropertyGridItem extends IProperty {
     propertyValue: any;
 }
@@ -39,7 +41,7 @@ function getPropertyItemDefault(): IPropertyGridItemDefault {
         editorOptions: undefined,
         editorClass: undefined,
         type: undefined,
-        group: undefined,
+        group: ControlsConstants.view.hiddenGroup,
         propertyValue: undefined
     };
 }
@@ -56,7 +58,7 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
 
     let propertyGridItemDefault: IPropertyGridItem;
 
-    factory(source).each((config:IProperty) => {
+    factory(source).each((config: IProperty) => {
         propertyGridItemDefault = getPropertyItemDefault();
         propertyGridItemDefault.propertyValue = editingObject[config[PROPERTY_NAME_FIELD]];
 
@@ -71,21 +73,6 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
     });
     return result;
 }
-function groupingKeyCallback(item: Record): string {
-    return item.get(PROPERTY_GROUP_FIELD);
-}
-
-function getGroupingKeyCallback(items: PropertyGridItems): Function|null {
-    let hasGroup: boolean = false;
-
-    items.each((item: Record): void => {
-        if (!hasGroup) {
-            hasGroup = !!item.get(PROPERTY_GROUP_FIELD);
-        }
-    });
-
-    return hasGroup ? groupingKeyCallback : null;
-}
 
 /**
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта.
@@ -93,6 +80,7 @@ function getGroupingKeyCallback(items: PropertyGridItems): Function|null {
  * По умолчанию propertyGrid будет автоматически генерировать все свойства для данного объекта.
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends Core/Control
+ * @interface Controls/_propertyGrid/IPropertyGrid
  * @control
  * @public
  * @author Герасимов А.М.
@@ -126,7 +114,7 @@ class PropertyGrid extends Control  {
         this.itemsViewModel = new ItemsViewModel({
             items: this.items,
             keyProperty: PROPERTY_NAME_FIELD,
-            groupingKeyCallback: getGroupingKeyCallback(this.items)
+            groupProperty: PROPERTY_GROUP_FIELD
         });
     }
 
@@ -136,7 +124,6 @@ class PropertyGrid extends Control  {
         if (newOptions.editingObject !== this._options.editingObject || newOptions.source !== this._options.source) {
             this.items = getPropertyGridItems(newOptions.editingObject, newOptions.source);
             this.itemsViewModel.setItems(this.items);
-            this.itemsViewModel.setGroupingKeyCallback(getGroupingKeyCallback(this.items));
         }
     }
 

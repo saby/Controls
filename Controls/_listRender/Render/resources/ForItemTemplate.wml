@@ -5,7 +5,7 @@
         multiSelectVisibility="{{ collection.getMultiSelectVisibility() }}"
         searchValue="{{ collection.getSearchValue() }}"
 
-        attr:class="{{collection.isItemHidden(index) ? 'ws-hidden'}}"
+        attr:class="{{collection.isItemHidden(index) ? 'controls-ListView__hiddenContainer'}}"
 
         on:click="_onItemClick(item)"
         on:contextmenu="_onItemContextMenu(item)"

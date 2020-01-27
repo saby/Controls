@@ -288,6 +288,10 @@ import dataSource = require('Controls/dataSource');
          }
       },
       _beforeUnmount: function() {
+         if (this._pendingPromise) {
+            this._pendingPromise.callback();
+            this._pendingPromise = null;
+         }
          // when FormController destroying, its need to check new record was saved or not. If its not saved, new record trying to delete.
          this._tryDeleteNewRecord();
       },
@@ -320,7 +324,8 @@ import dataSource = require('Controls/dataSource');
 
       _createChangeRecordPending(): void {
          const self = this;
-         self._notify('registerPending', [new Deferred(), {
+         self._pendingPromise = new Deferred();
+         self._notify('registerPending', [self._pendingPromise, {
             showLoadingIndicator: false,
             validate(): boolean {
                return self._record && self._record.isChanged();
@@ -337,6 +342,7 @@ import dataSource = require('Controls/dataSource');
                if (!res.validationErrors) {
                   // если нет ошибок в валидации, просто завершаем пендинг с результатом
                   if (!def.isReady()) {
+                     this._pendingPromise = null;
                      def.callback(res);
                   }
                } else {
@@ -351,6 +357,7 @@ import dataSource = require('Controls/dataSource');
             });
          } else if (answer === false) {
             if (!def.isReady()) {
+               this._pendingPromise = null;
                def.callback(false);
             }
          } else {
@@ -386,14 +393,9 @@ import dataSource = require('Controls/dataSource');
          );
       },
       _createHandler: function(record) {
-         // when FormController create record, its need to check previous record was saved or not.
-         // If its not saved but was created, previous record trying to delete.
-         var deleteDef = this._tryDeleteNewRecord();
-         deleteDef.addBoth(function() {
-            this._updateIsNewRecord(true);
-            this._wasCreated = true;
-            this._forceUpdate();
-         }.bind(this));
+         this._updateIsNewRecord(true);
+         this._wasCreated = true;
+         this._forceUpdate();
          return record;
       },
       read: function(key, readMetaData) {
@@ -404,14 +406,9 @@ import dataSource = require('Controls/dataSource');
          );
       },
       _readHandler: function(record) {
-         // when FormController read record, its need to check previous record was saved or not.
-         // If its not saved but was created, previous record trying to delete.
-         var deleteDef = this._tryDeleteNewRecord();
-         deleteDef.addBoth(function() {
-            this._wasRead = true;
-            this._updateIsNewRecord(false);
-            this._forceUpdate();
-         }.bind(this));
+         this._wasRead = true;
+         this._updateIsNewRecord(false);
+         this._forceUpdate();
          this._hideError();
          return record;
       },

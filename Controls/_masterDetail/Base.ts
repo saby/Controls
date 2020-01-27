@@ -125,7 +125,7 @@ class Base extends Control<IMasterDetail> {
     }
 
     protected _afterMount(options: IMasterDetail): void {
-        if (this._isPercentValue(options.masterWidth)) {
+        if (this._canResizing) {
             this._updateOffset(options);
         }
     }
@@ -206,8 +206,12 @@ class Base extends Control<IMasterDetail> {
     }
 
     private _resizeHandler(): void {
-        this._containerWidth = null;
-        this._updateOffsetDebounced(this._options);
+        // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
+        // Не запускаем реакцию на ресайз, если контрол скрыт (к примеру лежит внутри скпытой области switchableArea)
+        if (!this._container.closest('.ws-hidden')) {
+            this._containerWidth = null;
+            this._updateOffsetDebounced(this._options);
+        }
     }
 }
 

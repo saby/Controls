@@ -224,9 +224,10 @@ export default class VirtualScrollController {
     canScrollToItem(index: number): boolean {
         let canScroll = false;
 
-        if (this.startIndex <= index && this.stopIndex > index) {
-            if (this._options.viewportHeight < this.itemsContainerHeight - this.itemsOffsets[index] ||
-                this.itemsCount - 1 === index) {
+        if (this.stopIndex === this.itemsCount) {
+            canScroll = true;
+        } else if (this.startIndex <= index && this.stopIndex > index) {
+            if (this._options.viewportHeight < this.itemsContainerHeight - this.itemsOffsets[index]) {
                 canScroll = true;
             }
         }
@@ -467,7 +468,7 @@ export default class VirtualScrollController {
         let sum = 0;
 
         for (let i = startChildrenIndex, len = this._itemsContainer.children.length; i < len; i++) {
-            if (this._itemsContainer.children[i].className.indexOf('ws-hidden') === -1) {
+            if (this._itemsContainer.children[i].className.indexOf('controls-ListView__hiddenContainer') === -1) {
                 startChildrenIndex = i;
                 break;
             }

@@ -4,6 +4,7 @@
             keyProperty="id"
             columns="{{_columns}}"
             parentProperty="Раздел"
+            bind:expandedItems="_expandedItems"
             nodeProperty="Раздел@">
         <ws:itemTemplate>
             <ws:partial template="Controls/treeGrid:ItemTemplate" expanderIcon="hiddenNode"/>

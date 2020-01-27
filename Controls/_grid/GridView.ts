@@ -6,6 +6,7 @@ import * as GridIsEqualUtil from 'Controls/_grid/utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {CssClassList} from '../Utils/CssClassList';
+import getDimensions = require("Controls/Utils/getDimensions");
 
 import * as GridViewTemplateChooser from 'wml!Controls/_grid/GridViewTemplateChooser';
 import * as GridLayout from 'wml!Controls/_grid/layout/grid/GridView';
@@ -26,6 +27,8 @@ import * as ColumnTpl from 'wml!Controls/_grid/Column';
 import * as GroupTemplate from 'wml!Controls/_grid/GroupTemplate';
 
 import {Logger} from 'UI/Utils';
+import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
+
 var
     _private = {
         checkDeprecated: function(cfg, self) {
@@ -38,10 +41,18 @@ var
             }
         },
 
-        getGridTemplateColumns(columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
-            const columnsWidths = (hasMultiSelect ? ['max-content'] : []).concat(columns.map(((column) =>
-                column.width || GridLayoutUtil.getDefaultColumnWidth()
-            )));
+        getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
+            // TODO: Удалить после полного перехода на table-layout. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
+            let columnsWidths: string[] = hasMultiSelect ? ['max-content'] : [];
+            columnsWidths = columnsWidths.concat(columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth())));
+            if (shouldAddActionsCell({
+                hasColumnScroll: self._options.columnScroll,
+                shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport(),
+                disableCellStyles: self._options.disableColumnScrollCellStyles
+            })) {
+                columnsWidths = columnsWidths.concat(['0px']);
+            }
+
             return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
         },
 
@@ -88,6 +99,24 @@ var
             const currentCell = e.target.closest('.controls-Grid__row-cell');
             const multiSelectOffset = self._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
             return Array.prototype.slice.call(gridCells).indexOf(currentCell) - multiSelectOffset;
+        },
+
+        // uDimensions for unit tests
+        getMultiHeaderHeight(headerContainer: HTMLElement, uDimensions: Function = getDimensions): number {
+            const cells = headerContainer.children;
+            if (cells.length === 0) {
+                return 0;
+            }
+            const bounds = {
+                min: Number.MAX_VALUE,
+                max: Number.MIN_VALUE
+            };
+            Array.prototype.forEach.call(cells, (cell) => {
+                const dimensions = uDimensions(cell);
+                bounds.min = bounds.min < dimensions.top ? bounds.min : dimensions.top;
+                bounds.max = bounds.max > dimensions.bottom ? bounds.max : dimensions.bottom
+            });
+            return bounds.max - bounds.min;
         }
     },
     GridView = ListView.extend({
@@ -116,6 +145,7 @@ var
             this._listModel.setColumnTemplate(ColumnTpl);
             this._setResultsTemplate(cfg);
             this._listModel.headerInEmptyListVisible = cfg.headerInEmptyListVisible;
+
             return resultSuper;
         },
 
@@ -236,11 +266,15 @@ var
         },
 
         getHeaderHeight(): number {
-            return this._children.header ? this._children.header.getBoundingClientRect().height : 0;
+            const headerContainer = this._children.header;
+            if (!headerContainer) {
+                return 0;
+            }
+            return this._listModel._isMultiHeader ? _private.getMultiHeaderHeight(headerContainer) : headerContainer.getBoundingClientRect().height;
         },
 
         getResultsHeight(): number {
-            return this._children.results ? this._children.results.getBoundingClientRect().height : 0;
+            return this._children.results ? getDimensions(this._children.results).height : 0;
         },
 
         _getGridViewClasses(): string {
@@ -263,7 +297,7 @@ var
             let styles = '';
             if (GridLayoutUtil.isFullGridSupport()) {
                 const hasMultiSelect = this._options.multiSelectVisibility !== 'hidden';
-                styles += _private.getGridTemplateColumns(this._options.columns, hasMultiSelect);
+                styles += _private.getGridTemplateColumns(this, this._options.columns, hasMultiSelect);
             }
             return styles;
         },
@@ -294,6 +328,10 @@ var
 
             // we do not need to fire itemClick on clicking on editArrow
             e.stopPropagation();
+        },
+
+        _getGridTemplateColumns(columns, hasMultiSelect) {
+            return _private.getGridTemplateColumns(this, columns, hasMultiSelect);
         }
     });
 

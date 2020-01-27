@@ -6,6 +6,7 @@
                               _options.multiSelect ? 'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin')}} theme_{{_options.theme}}"
         caption="{{_options.caption || _text}}"
         selectedItemsChangedCallback="{{_setText}}"
+        _dropDownOpener="{{_children.controller}}"
         on:deactivated="_deactivated()"
         on:selectedItemsChanged="_selectedItemsChangedHandler()"
         attr:class="controls-Dropdown_theme_{{_options.theme}} {{_options.style === 'invalid' ? 'controls-Dropdown-style_invalid_theme_' + _options.theme}}">

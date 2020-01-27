@@ -7,6 +7,7 @@
             dataLoadCallback="{{_dataLoadCallback}}"
             popupClassName="{{_options.popupClassName || _offsetClassName}} theme_{{_options.theme}}"
             hasIconPin="{{_hasIconPin}}"
+            _dropDownOpener="{{_children.content}}"
             on:selectedItemsChanged="_onItemClickHandler()"
             on:pinClick="_onPinClickHandler()"
             on:dropDownOpen="_tmplNotify('dropDownOpen')"
@@ -19,6 +20,7 @@
             </ws:if>
             <ws:else>
                 <Controls.buttons:Button
+                        name="content"
                         attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
                         icon="{{_options.icon}}"
                         iconSize="{{_options.iconSize}}"

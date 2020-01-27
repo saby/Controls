@@ -284,6 +284,7 @@ define(
                      },
                      templateOptions: {
                         groupTemplate: 'groupTemplate',
+                        groupProperty: undefined,
                         groupingKeyCallback: 'groupingKeyCallback',
                         iconSize: 'm',
                         keyProperty: 'keyProperty',
@@ -301,6 +302,42 @@ define(
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), config);
+            });
+            it('get button template options by item', function() {
+               let item = new entity.Record(
+                  {
+                     rawData: {
+                        id: '0',
+                        icon: 'icon-24 icon-Linked',
+                        fontColorStyle: 'secondary',
+                        viewMode: 'toolButton',
+                        iconStyle: 'secondary',
+                        contrastBackground: true,
+                        title: 'Связанные документы',
+                        '@parent': false,
+                        parent: null,
+                        readOnly: true
+                     }
+                  }
+               );
+               let modifyItem = {
+                  _buttonStyle: 'readonly',
+                  _caption: undefined,
+                  _contrastBackground: true,
+                  _fontColorStyle: 'secondary',
+                  _fontSize: 'm',
+                  _hasIcon: true,
+                  _height: 'l',
+                  _hoverIcon: true,
+                  _icon: 'icon-24 icon-Linked',
+                  _iconSize: 'm',
+                  _iconStyle: 'readonly',
+                  _stringCaption: false,
+                  _viewMode: 'toolButton',
+                  readOnly: true
+               };
+               assert.deepEqual((new toolbars.View())._getButtonTemplateOptionsByItem(item), modifyItem);
+
             });
             it('menu popup config generation', function() {
                let itemsForMenu = [
@@ -349,7 +386,8 @@ define(
                         additionalProperty: 'additional',
                         itemTemplateProperty: 'itp',
                         groupTemplate: 'groupTemplate',
-                        groupingKeyCallback: 'groupingKeyCallback'
+                        groupingKeyCallback: 'groupingKeyCallback',
+                        groupProperty: undefined
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfig.call(testSelf), config);

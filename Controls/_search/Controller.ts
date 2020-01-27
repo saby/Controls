@@ -72,6 +72,8 @@ var _private = {
       if (self._viewMode === 'search') {
          self._searchValue = '';
          self._misspellValue = '';
+         self._viewMode = self._previousViewMode;
+         self._previousViewMode = null;
 
          if (self._options.parentProperty) {
             _private.deleteServiceFilters(filter);
@@ -112,12 +114,16 @@ var _private = {
       self._loading = true;
    },
 
-   needUpdateSearchController: function (options, newOptions) {
+   isNeedRecreateSearchControllerOnOptionsChanged(options, newOptions): boolean {
       return !isEqual(options.navigation, newOptions.navigation) ||
-         options.searchDelay !== newOptions.searchDelay ||
-         _private.getOriginSource(options.source) !== _private.getOriginSource(newOptions.source) ||
-         options.searchParam !== newOptions.searchParam ||
-         options.minSearchLength !== newOptions.minSearchLength;
+             options.searchDelay !== newOptions.searchDelay ||
+             options.minSearchLength !== newOptions.minSearchLength ||
+             _private.isNeedAbortSearchOnOptionsChanged(options, newOptions);
+   },
+
+   isNeedAbortSearchOnOptionsChanged(options, newOptions): boolean {
+      return options.searchParam !== newOptions.searchParam ||
+             _private.getOriginSource(options.source) !== _private.getOriginSource(newOptions.source);
    },
 
    prepareExpandedItems(searchRoot, expandedItemKey, items, parentProperty) {
@@ -188,7 +194,7 @@ var _private = {
          const searchValue = self._options.searchValueTrim ? value.trim() : value;
          const shouldSearch = self._isSearchControllerLoading() ?
              _private.isInputSearchValueChanged(self, searchValue) :
-             _private.needStartSearch(self._inputSearchValue, searchValue);
+             _private.needStartSearch(self, self._inputSearchValue, searchValue);
 
          if (shouldSearch) {
             _private.getSearchController(self).search(searchValue, force);
@@ -211,22 +217,31 @@ var _private = {
    },
 
    isInputSearchValueShort(self, searchValue: string): boolean {
-      return searchValue.length < self._options.minSearchLength;
+      return !searchValue || searchValue.length < self._options.minSearchLength;
    },
 
-   needStartSearch(inputSearchValue: string, searchValue: string): string {
-      return inputSearchValue.trim() || searchValue;
+   needStartSearch(self, inputSearchValue: string, searchValue: string): string {
+      return (self._options.searchValueTrim ? inputSearchValue.trim() : inputSearchValue) || searchValue;
+   },
+
+   needUpdateViewMode(self, newViewMode: string): boolean {
+      return self._options.viewMode !== newViewMode && self._viewMode !== newViewMode;
+   },
+
+   updateViewMode(self, newViewMode: string): void {
+      self._previousViewMode = self._viewMode;
+      self._viewMode = newViewMode;
    }
 };
 
 /**
- * Контрол используют в качестве контроллера для организации поиска в реестрах. 
+ * Контрол используют в качестве контроллера для организации поиска в реестрах.
  * Он обеспечивает связь между {@link Controls/search:InputContainer} и {@link Controls/list:Container} — контейнерами для строки поиска и списочного контрола соответветственно. 
  * С помощью этого контрола можно настроить: временную задержку между вводом символа и началом поиска, количество символов, с которых начинается поиск, параметры фильтрации и другое.
  * @remark
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
- * 
+ *
  * @class Controls/_search/Controller
  * @extends Core/Control
  * @mixes Controls/interface/ISearch
@@ -263,7 +278,7 @@ var _private = {
  * @author Герасимов А.М.
  * @control
  * @public
- */ 
+ */
 
 var Container = Control.extend(/** @lends Controls/_search/Container.prototype */{
 
@@ -295,9 +310,8 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
          if (!_private.isInputSearchValueShort(this, options.searchValue)) {
             this._searchValue = options.searchValue;
 
-            if (this._viewMode !== 'search') {
-               this._previousViewMode = this._viewMode;
-               this._viewMode = 'search';
+            if (_private.needUpdateViewMode(this, 'search')) {
+               _private.updateViewMode(this, 'search');
             }
          }
       }
@@ -321,18 +335,26 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
          this._root = newOptions.root;
       }
 
+      if (_private.needUpdateViewMode(this, newOptions.viewMode)) {
+         _private.updateViewMode(this, newOptions.viewMode);
+      }
+
       if (this._searchController) {
          if (filter) {
             this._searchController.setFilter(clone(filter));
          }
 
-         if (_private.needUpdateSearchController(currentOptions, this._dataOptions) ||
-             _private.needUpdateSearchController(this._options, newOptions)) {
+         if (_private.isNeedAbortSearchOnOptionsChanged(currentOptions, this._dataOptions) ||
+             _private.isNeedAbortSearchOnOptionsChanged(this._options, newOptions)) {
             if (this._searchValue) {
                this._searchController.abort(true);
             }
-            this._searchController = null;
             _private.setInputSearchValue(this, '');
+         }
+
+         if (_private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
+             _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions)) {
+            this._searchController = null;
          }
 
          if (!isEqual(this._options.sorting, newOptions.sorting)) {
@@ -341,7 +363,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
       }
       if (_private.isSearchValueChanged(this, newOptions.searchValue)) {
          _private.startSearch(this, newOptions.searchValue);
-         if (!_private.isInputSearchValueShort(this, newOptions.searchValue)) {
+         if (this._searchValue !== newOptions.searchValue) {
             _private.setInputSearchValue(this, newOptions.searchValue);
          }
       }

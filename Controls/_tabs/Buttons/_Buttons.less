@@ -8,27 +8,27 @@
       font-size: @unselected_item_font-size_tabs;
    }
 }
-.controls-Tabs__itemClickableArea_theme_@{themeName}{
+.controls-Tabs__itemClickableArea_theme_@{themeName} {
    min-height: 100%;
    .tabs-baseline();
 }
 .controls-Tabs_theme_@{themeName} {
-   .inline-flexbox();
+   display: inline-flex;
    height: @item_height_tabs;
 }
 .controls-Tabs__space_theme_@{themeName} {
-   .inline-flexbox();
+   display: inline-flex;
    //TODO: по поручению опишут как и что должно сжиматься. Пока вешаю огромный flex-shrink на дыру между элементами вкладок, чтобы главная вкладка не начинала сжиматься раньше времени
    //https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
    flex-shrink: 9999999;
-   .box-sizing();
-   .align-items(baseline);
+   box-sizing: border-box;
+   align-items: baseline;
    .tabs-baseline();
    position: relative;
    width:100%;
+   min-width: 0;
    height:100%;
    order: 20;
-   -ms-flex-order:20;
    &:after {
       content: '';
       position: absolute;
@@ -43,10 +43,10 @@
   border-bottom: @border-thickness_tabs solid @border-color_tabs;
 }
 .controls-Tabs__item_theme_@{themeName} {
-   .inline-flexbox();
-   .flex-shrink(0);
-   .align-items(baseline);
-   .box-sizing();
+   display: inline-flex;
+   flex-shrink: 0;
+   align-items: baseline;
+   box-sizing: border-box;
    .tabs-baseline();
    height: 100%;
    position: relative;

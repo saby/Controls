@@ -358,6 +358,30 @@
          Demo
       </a>
 
+      <h1>Spoiler</h1>
+      <h2>
+         <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FIndex">Heading</a>
+      </h2>
+      <ul>
+         <li>
+            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FCaptions%252FIndex">Captions</a>
+         </li>
+         <li>
+            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FCaptionPosition%252FIndex">CaptionPosition</a>
+         </li>
+         <li>
+            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FFontSize%252FIndex">FontSize</a>
+         </li>
+      </ul>
+      <h2>
+         <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FView%252FIndex">View</a>
+      </h2>
+      <ul>
+         <li>
+            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
+         </li>
+      </ul>
+
       <h1>Decorator</h1>
       <h2>
          <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FWrapURLs%252FIndex">WrapURLs</a>

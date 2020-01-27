@@ -163,6 +163,7 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends mixi
 
         interface IBreadCrumbsReference {
             breadCrumbs: BreadcrumbsItem<S>;
+            last: T;
             itsNew: boolean;
         }
 
@@ -180,22 +181,22 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends mixi
 
         function getBreadCrumbsReference(item: T): IBreadCrumbsReference {
             let breadCrumbs;
-            let itsNew = false;
-            const nearestNode = getNearestNode(item);
-            if (nearestNode && nearestNode !== root) {
-                breadCrumbs = treeItemToBreadcrumbs.get(nearestNode);
+            const last = getNearestNode(item);
+            if (last && last !== root) {
+                breadCrumbs = treeItemToBreadcrumbs.get(last);
                 if (!breadCrumbs) {
                     breadCrumbs = new BreadcrumbsItem<S>({
                         contents: null,
-                        owner: display,
-                        last: nearestNode
+                        last,
+                        owner: display
                     });
-                    treeItemToBreadcrumbs.set(nearestNode, breadCrumbs);
-                    itsNew = true;
+                    treeItemToBreadcrumbs.set(last, breadCrumbs);
                 }
             }
 
-            return {breadCrumbs, itsNew};
+            const itsNew = !breadcrumbsToData.has(breadCrumbs);
+
+            return {breadCrumbs, last, itsNew};
         }
 
         function addBreadCrumbsItself(reference: IBreadCrumbsReference): void {
@@ -252,9 +253,12 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends mixi
                     // All leaves outside breadcrumbs should be at the next level after breadcrumbs itself.
                     let decoratedItem = treeItemToDecorator.get(item);
                     if (!decoratedItem) {
+                        // Descendants of leaves should keep their level so that check the parent match and keep
+                        // the level by set the origin as parent if necessary
+                        const itsDescendant = item.getParent() !== breadcrumbsReference.last;
                         decoratedItem = new TreeItemDecorator({
                             source: item,
-                            parent: currentBreadcrumbs
+                            parent: itsDescendant ? item.getParent() : currentBreadcrumbs
                         });
                         treeItemToDecorator.set(item, decoratedItem);
                     }
@@ -274,7 +278,7 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends mixi
             sortedItems.push(resultItem);
         });
 
-        // Clean it up from time to time
+        // Clean unused instances up from time to time
         if (Date.now() - lastTimeForget > FORGET_TIMEOUT) {
             lastTimeForget = Date.now();
 

@@ -47,8 +47,14 @@ define([
 
       describe('_openDialog', function() {
          it('should open opener with default options', function() {
-            const component = calendarTestUtils.createComponent(dateRange.Selector, options),
+            const
+               opts = cMerge({
+                  startValue: new Date(2019, 0, 1),
+                  endValue: new Date(2019, 0, 1)
+               }, options),
+               component = calendarTestUtils.createComponent(dateRange.Selector, opts),
                TARGET = 'value';
+
             component._options.nextArrowVisibility = true;
             component._children = {
                opener: {
@@ -65,6 +71,8 @@ define([
                className: 'controls-DatePopup__selector-marginTop controls-DatePopup__selector-marginLeft',
                target: TARGET,
                templateOptions: {
+                  startValue: opts.startValue,
+                  endValue: opts.endValue,
                   minRange: 'day'
                }
             }));

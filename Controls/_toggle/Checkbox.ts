@@ -227,13 +227,14 @@ export interface ICheckboxOptions extends IControlOptions, ICaptionOptions, IIco
 const mapTriState = {false: true, true: null, null: false};
 const mapBoolState = {true: false, false: true};
 
-class Checkbox extends Control<ICheckboxOptions> implements ICaption, IIcon, ITooltip, IIconSize, IIconStyle, IValidationStatus {
-   '[Controls/_interface/ITooltip]' = true;
-   '[Controls/_interface/ICaption]' = true;
-   '[Controls/_interface/IIcon]' = true;
-   '[Controls/_interface/IIconSize]' = true;
-   '[Controls/_interface/IIconStyle]' = true;
-    '[Controls/_interface/IValidationStatus]': true;
+class Checkbox extends Control<ICheckboxOptions> implements ICaption,
+                                                            IIcon, ITooltip, IIconSize, IIconStyle, IValidationStatus {
+   '[Controls/_interface/ITooltip]': boolean = true;
+   '[Controls/_interface/ICaption]': boolean = true;
+   '[Controls/_interface/IIcon]': boolean = true;
+   '[Controls/_interface/IIconSize]': boolean = true;
+   '[Controls/_interface/IIconStyle]': boolean = true;
+   '[Controls/_interface/IValidationStatus]': boolean = true;
 
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = checkBoxTemplate;

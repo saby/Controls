@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:View captions="Заголовок" bind:expanded="_expanded">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+</div>

@@ -4,8 +4,10 @@ import IRangeSelectable from './IRangeSelectable';
 'use strict';
 
 /**
+ * Интерфейс для выбора диапазона дат.
  * @interface Controls/_dateRange/interfaces/IDateRangeSelectable
  * @public
+ * @author Красильников А.С.
  */
 var selectionTypes = coreMerge({'quantum': 'quantum'}, IRangeSelectable.SELECTION_TYPES);
 const minRange = {
@@ -23,28 +25,39 @@ export = {
        * @remark
        * Если заданы кванты, то нельзя выделить произвольный период, а можно только выделить заданные периоды. 
        * Объект принимает свойства days, weeks, months, quarters, halfyears, и years со значениями типа Array.
+       * @default []
        * @example 
-       * <pre class="brush:js">
+       * В данном примере можно выбрать либо 1 день, либо диапазон в 4 дня, либо 2 целые недели, либо 1 месяц.
+       * <pre class="brush: html">
        * <Controls.dateRange:Selector ranges="{days: [1,4], weeks: [2], months: [1] }" />
        * </pre>
-       * В данном примере можно выбрать либо 1 день, либо диапазон в 4 дня, либо 2 целые недели, либо 1 месяц
        */
       options.ranges = [];
+      /**
+       * @typedef {String} SelectionType
+       * @variant range Выделение произвольного диапазона.
+       * @variant single Выделение одного элемента.
+       * @variant quantum Выделение квантами. Кванты задаются через опцию {@link https://wi.sbis.ru/docs/js/Controls/dateRange/IDateRangeSelectable/options/ranges/ range}
+       * @variant disable Выбор отключен.
+       */
 
       /**
        * @name Controls/_dateRange/interfaces/IDateRangeSelectable#selectionType
-       * @cfg {String} Определяет режим выделения диапазона.
-       * @variant range Режим выделения произвольного диапазона.
-       * @variant single Режим выделения одного элемента.
-       * @variant disable Режим выбора отключен.
-       * @variant quantum Режим выделения квантами. Кванты задаются через опцию {@link https://wi.sbis.ru/docs/js/Controls/dateRange/IDateRangeSelectable/options/ranges/ range}
+       * @cfg {SelectionType} Определяет режим выделения диапазона.
+       * @default quantum
+       */
+
+      /**
+       * @typedef {String} MinRange
+       * @description Режим выбора диапазона дат.
+       * @variant day Выбора периода из нескольких дней.
+       * @variant month Выбора периода из нескольких месяцев.
        */
 
       /**
        * @name Controls/_dateRange/interfaces/IDateRangeSelectable#minRange
-       * @cfg {String} Задает режим выбора диапазона дат.
-       * @variant day Режим выбора периода из нескольких дней.
-       * @variant month Режим выбора периода из нескольких месяцев.
+       * @cfg {MinRange} Задает режим выбора диапазона дат.
+       * @default day
        */
 
       /*

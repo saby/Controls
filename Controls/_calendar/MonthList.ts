@@ -11,6 +11,7 @@ import ExtDataModel, {TItems} from './MonthList/ExtDataModel';
 import MonthsSource from './MonthList/MonthsSource';
 import monthListUtils from './MonthList/Utils';
 import ITEM_TYPES from './MonthList/ItemTypes';
+import {IDisplayedRanges, IDisplayedRangesOptions} from 'Controls/interface';
 import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
 import {IntersectionObserverSyntheticEntry} from 'Controls/scroll';
 import dateUtils = require('Controls/Utils/Date');
@@ -26,6 +27,7 @@ interface IModuleComponentOptions extends
     IMonthListSourceOptions,
     IMonthListOptions,
     IMonthListVirtualPageSizeOptions,
+    IDisplayedRangesOptions,
     IDateConstructorOptions {
 }
 
@@ -52,11 +54,12 @@ const enum VIEW_MODE {
  * @demo Controls-demo/Date/MonthList
  */
 class  ModuleComponent extends Control<IModuleComponentOptions> implements
-        IMonthListSource, IMonthList, IMonthListVirtualPageSize, IDateConstructor {
-    readonly '[Controls/_calendar/interface/IMonthListSource]': true;
-    readonly '[Controls/_calendar/interface/IMonthList]': true;
-    readonly '[Controls/_calendar/interface/IMonthListVirtualPageSize]': true;
-    readonly '[Controls/_interface/IDateConstructor]': true;
+        IMonthListSource, IMonthList, IMonthListVirtualPageSize, IDateConstructor, IDisplayedRanges {
+    readonly '[Controls/_calendar/interface/IMonthListSource]': boolean = true;
+    readonly '[Controls/_calendar/interface/IMonthList]': boolean = true;
+    readonly '[Controls/_calendar/interface/IMonthListVirtualPageSize]': boolean = true;
+    readonly '[Controls/_interface/IDateConstructor]': boolean = true;
+    readonly '[Controls/_interface/IDisplayedRanges]': boolean = true;
 
     protected _template: TemplateFunction = template;
 
@@ -460,7 +463,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             _limit: 8,
             order: 'asc',
             dateConstructor: WSDate,
-            displayedRanges: null
+            displayedRanges: null,
+            topShadowVisibility: 'visible',
+            bottomShadowVisibility: 'visible'
         };
     }
 }

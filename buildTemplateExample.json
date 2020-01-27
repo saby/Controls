@@ -65,10 +65,6 @@
       "path": "%cd%/Examples"
     },
     {
-      "name": "WSTest",
-      "path": "%cd%/tests/WSTest"
-    },
-    {
       "name": "ControlsSandbox",
       "path": "%cd%/pages/sandbox"
     },

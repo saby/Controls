@@ -1,13 +1,5 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/treeGrid/Expander/ExpanderSize/Custom/Index' }}">
-            <a href="{{content.href}}">Настройка отступов</a>
-        </Router.router:Reference>
-        <Controls-demo.treeGrid.Expander.ExpanderSize.Custom.Index/>
-    </div>
 
+<div class="controlDemo__RowWrapper">
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
@@ -17,3 +9,4 @@
         <Controls-demo.treeGrid.Expander.ExpanderSize.All.Index/>
     </div>
 </div>
+

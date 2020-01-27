@@ -307,14 +307,22 @@ var _private = {
         return filter;
     },
 
+    clearConfigs: function(source, configs) {
+        let newConfigs = CoreClone(configs);
+        factory(newConfigs).each((config, name) => {
+            const item = _private.getItemByName(source, name);
+            if (!item || !_private.isFrequentItem(item)) {
+                delete configs[name];
+            }
+        });
+    },
+
     reload: function(self) {
         var pDef = new ParallelDeferred();
         factory(self._source).each(function(item) {
             if (_private.isFrequentItem(item)) {
                 var result = _private.loadItems(self, item);
                 pDef.push(result);
-            } else if (self._configs[item.name]) {
-                delete self._configs[item.name];
             }
         });
 
@@ -593,6 +601,7 @@ var Filter = Control.extend({
             let resultDef;
             _private.resolveItems(this, newOptions.source);
             if (_private.isNeedReload(this._options.source, newOptions.source) || _private.isNeedHistoryReload(this._configs)) {
+                _private.clearConfigs(this._source, this._configs);
                 resultDef = _private.reload(this).addCallback(() => {
                     self._hasSelectorTemplate = _private.hasSelectorTemplate(self._configs);
                 });

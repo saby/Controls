@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
     <Controls.treeGrid:View
             source="{{_viewSource}}"
             keyProperty="id"
@@ -6,6 +6,7 @@
             parentProperty="Раздел"
             nodeProperty="Раздел@"
             hasChildrenProperty="hasChild"
+            bind:expandedItems="_expandedItems"
             expanderVisibility="hasChildren">
     </Controls.treeGrid:View>
 </div>

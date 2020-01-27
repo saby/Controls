@@ -87,6 +87,7 @@ define('Controls-demo/List/Grid/GridWithEditing', [
             {
                displayProperty: 'name',
                width: '1fr',
+               compatibleWidth: '298px',
                template: 'wml!Controls-demo/List/Tree/treeEditingTemplate'
             },
             {
@@ -106,6 +107,7 @@ define('Controls-demo/List/Grid/GridWithEditing', [
             {
                displayProperty: 'description',
                width: '1fr',
+               compatibleWidth: '298px',
                align: 'right',
                template: 'wml!Controls-demo/List/Tree/treeEditingTemplate'
             },

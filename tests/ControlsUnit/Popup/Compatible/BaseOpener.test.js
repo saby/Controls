@@ -1,20 +1,16 @@
 /**
- * Created by mi.marachev on 09.08.2018.
- */
-/**
  * Created by mi.marachev on 07.08.2018.
  */
 define(
    [
       'Controls/compatiblePopup',
-      'Examples/DropdownList/MyDropdownList/MyDropdownList',
+      'Core/CompoundContainer',
       'Core/core-instance',
       'Core/Deferred',
-      'Core/Context',
-      'Core/Control'
+      'Core/Context'
    ],
 
-   function(compatiblePopup, DropdownExample, cInstance, Deferred, Context, Control) {
+   function(compatiblePopup, DropdownExample, cInstance, Deferred, Context) {
       'use strict';
 
       var config = {

@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            groupingKeyCallback="{{_groupingKeyCallback}}">
+        <ws:groupTemplate>
+            <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" separator="{{ false }}" textAlign="right"/>
+        </ws:groupTemplate>
+    </Controls.list:View>
+</div>

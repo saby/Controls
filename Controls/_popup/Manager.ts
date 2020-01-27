@@ -608,8 +608,11 @@ class Manager extends Control<IManagerOptions> {
     }
 
     private _isIgnoreActivationArea(focusedContainer: HTMLElement): boolean {
-        while (focusedContainer) {
-            if (focusedContainer.classList && focusedContainer.classList.contains('controls-Popup__isolatedFocusingContext')) {
+        while (focusedContainer && focusedContainer.classList) {
+            // TODO: Compatible
+            // Клик по старому оверлею не должен приводить к закрытию вдомных окон на старой странице
+            if (focusedContainer.classList.contains('controls-Popup__isolatedFocusingContext') ||
+                focusedContainer.classList.contains('ws-window-overlay')) {
                 return true;
             }
             focusedContainer = focusedContainer.parentElement;

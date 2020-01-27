@@ -22,7 +22,7 @@
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.tile:View tileHeight="{{200}}"
  *                   source="{{_viewSource}}"
  *                   keyProperty="id"
@@ -56,7 +56,7 @@
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.tile:View nodesHeight="{{200}}"
  *                   source="{{_viewSource}}"
  *                   keyProperty="id"
@@ -83,17 +83,21 @@
  */
 
 /**
- * @name Controls/_tile/interface/ITile#tileScalingMode
- * @cfg {String} Режим отображения плитки при наведении курсора.
+ * @typedef {String} TileScalingMode
  * @variant none При наведении курсора размер элементов не изменяется.
  * @variant outside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в окне браузера.
  * @variant inside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в контроле-контейнере.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#tileScalingMode
+ * @cfg {TileScalingMode} Режим отображения плитки при наведении курсора.
  * @default none
  * @remark Увеличенный элемент расположен в центре относительно исходного положения.
  * Если увеличенный элемент не помещается в указанный контейнер, увеличение не происходит.
  * @example
  * В следующем примере показано, как установить режим наведения 'outside'.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.tile:View itemsHeight="{{200}}"
  *                   scaleTileMode="outside"
  *                   source="{{_viewSource}}"
@@ -130,7 +134,7 @@
  * @default image
  * @example
  * В следующем примере показано, как задать поле с изображением 'img'.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.tile:View source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   parentProperty="Раздел"

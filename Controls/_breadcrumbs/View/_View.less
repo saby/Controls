@@ -17,16 +17,22 @@
    font-size: @font-size_BreadCrumbs-title;
 }
 
+.controls-BreadCrumbsView__crumb__last {
+   min-width: @min-width_BreadCrumbs_withOverflow;
+}
+
 .controls-BreadCrumbsView__items__middle {
    overflow: hidden;
    display: inline-block;
    white-space: nowrap;
    flex-shrink: 1;
+   font-size: 0;
 }
 .controls-BreadCrumbsView__crumb {
    display: inline-block;
    overflow: hidden;
    max-width: 100%;
+   white-space: nowrap;
    .baseline-fix();
    height: @height_BreadCrumbs-items;
    &:before {
@@ -36,16 +42,22 @@
 .controls-BreadCrumbsView__menu {
    float: right;
    position: relative;
-   top: @spacing_BreadCrumbs-menu;
+   bottom: @height_BreadCrumbs-items;
    z-index: 5;
 }
 .controls-BreadCrumbsView__menu__dots {
    position: absolute;
    top: 0;
+   .baseline-fix();
    left: @spacing_BreadCrumbs-menu;
-   background: @background-color;
+   background: @background-color_BreadCrumbs-menu;
    box-shadow: @box-shadow_BreadCrumbs-menu;
    cursor: pointer;
+   padding-right: 1px;
+   height: @height_BreadCrumbs-items;
+   &:before {
+      font-size: @font-size_BreadCrumbs-baseline;
+   }
 }
 .controls-BreadCrumbsView__max-width {
    max-width: 100%;
@@ -83,25 +95,20 @@
 }
 
 .controls-BreadCrumbsView__titleWrapper {
-   cursor: pointer;
    overflow: hidden;
    min-width: 0;
+   display: inline;
+}
+
+.controls-BreadCrumbsView__title_enabled {
+   cursor: pointer;
 }
 
 .controls-BreadCrumbsView__title {
    .text-overflow();
    color: @color_BreadCrumbs-title;
    font-size: @font-size_BreadCrumbs-title;
-}
-
-.controls-BreadCrumbsView__crumb_withOverflow {
-   flex-shrink: 1;
-   min-width: @min-width_BreadCrumbs_withOverflow;
-}
-
-.controls-BreadCrumbsView__titleWrapper_withOverflow {
-   flex-shrink: 1;
-   min-width: @min-width_BreadCrumbs-text;
+   display: inline;
 }
 
 .controls-BreadCrumbsView__arrow {
@@ -109,6 +116,7 @@
    cursor: pointer;
    color: @color_BreadCrumbs-arrow;
    flex-shrink: 0;
+   display: inline;
 }
 
 .controls-BreadCrumbsView__title_min {
@@ -166,5 +174,13 @@
       top: 50%;
       bottom: 50%;
       transform: translateY(-50%);
+   }
+}
+//Только для Edge
+.ws-is-ie12 {
+
+   //В Edge без явного указания ширины контейнера неправильно работает float, из-за чего точки не падают вниз. Пример: https://jsfiddle.net/q70vkn94/
+   .controls-BreadCrumbsView__menu {
+      width: 1px;
    }
 }

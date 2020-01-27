@@ -1,0 +1,11 @@
+<div class="controls-SpoilerView">
+   <Controls._spoiler.Heading attr:class="controls-SpoilerView__heading"
+                              expanded="{{_options.expanded}}"
+                              captions="{{_options.captions}}"
+                              captionPosition="{{_options.captionPosition}}"
+                              fontSize="{{_options.fontSize}}"
+                              on:expandedChanged="_notifyHandler('expandedChanged')"/>
+   <ws:if data="{{_options.expanded}}">
+      <ws:partial attr:class="controls-SpoilerView__area" template="{{_options.content}}"/>
+   </ws:if>
+</div>

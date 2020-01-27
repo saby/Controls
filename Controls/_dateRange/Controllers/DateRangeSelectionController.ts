@@ -5,17 +5,18 @@ import CalendarUtils from './../Utils';
 import DateUtil = require('Controls/Utils/Date');
 
 /**
- * Контроллер реализующий выделение элементов от одного до другого. В качестве элементов используются даты.
+ * Контроллер, реализующий выделение элементов от одного до другого. В качестве элементов используются даты.
  * Поддерживает выделение квантами кратными дням, неделям, месяцам.
  *
- * Компонент которым управляет контроллер должен поддерживать опции startValue и endValue. Это значнеия элементов
+ * Компонент, которым управляет контроллер, должен поддерживать опции startValue и endValue. Это значения элементов,
  * от которого и до которого в данный момент выделен диапазон. Так же компонент должен поддерживать события
- * itemClick и itemMouseEnter. Эти события должны передавать в качестве параметра значения элементов с которыми
+ * itemClick и itemMouseEnter. Эти события должны передавать в качестве параметра значения элементов, с которыми
  * в данный момент происходит взаимодействие.
  *
  * @class Controls/_dateRange/Controllers/DateRangeSelectionController
  * @extends Controls/_dateRange/Controllers/RangeSelectionController
  * @author Красильников А.С.
+ * @public
  */
 var Component = RangeSelectionController.extend({
    _beforeMount: function(options) {

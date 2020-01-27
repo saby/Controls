@@ -1,0 +1,49 @@
+.controls-SortingSelector {
+   display: flex;
+   align-items: center;
+}
+
+.controls-SortingSelector_itemWrapper {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.controls-SortingSelector_arrow-outside_theme-@{themeName},
+.controls-SortingSelector_arrow_theme-@{themeName} {
+   width: @size_SortingSelector-arrow;
+   height: @height_SortingSelector-icon;
+}
+
+.controls-SortingSelector_arrow-outside_theme-@{themeName} {
+   margin-left: @spacing-left_SortingSelector-arrow-outside;
+   cursor: pointer;
+}
+
+.controls-SortingSelector_arrow_spacing_theme-@{themeName} {
+   margin-left: @spacing-left_SortingSelector-arrow;
+}
+
+.controls-SortingArrow_desc {
+   transform: rotate(180deg);
+}
+
+.controls-SortingSelector_arrowsContainer {
+   display: flex;
+}
+
+.controls-SortingSelector_arrow_unselected_theme-@{themeName} {
+   fill: @unselected_icon-color_SortingSelector;
+   cursor: pointer;
+}
+
+.controls-SortingSelector_arrow-outside_theme-@{themeName},
+.controls-SortingSelector_arrow_selected_theme-@{themeName} {
+   fill: @selected_icon-color_SortingSelector;
+}
+
+.controls-SortingSelector_arrow-outside_theme-@{themeName}:hover,
+.controls-SortingSelector_arrow_unselected_theme-@{themeName}:hover {
+   fill: @icon-color_hover_SortingSelector;
+}

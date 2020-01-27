@@ -1,1 +1,5 @@
-<div on:click="_onClick()" class="controls-OperationsButton controls-OperationsButton_theme-{{_options.theme}}{{_options.readOnly ? ' controls-OperationsButton_readOnly_theme-' + _options.theme}}{{_options.expanded ? ' icon-MarkCollapseBold' : ' icon-MarkExpandBold'}}"></div>
+<div on:click="_onClick()"
+     class="controls-OperationsButton controls-OperationsButton_theme-{{_options.theme}}
+     controls-OperationsButton_state_{{_options.readOnly ? 'disabled' : 'enabled'}}_theme-{{_options.theme}}
+     {{_options.expanded ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}">
+</div>

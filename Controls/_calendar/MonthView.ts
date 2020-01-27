@@ -34,22 +34,25 @@ var _private = {
 
 
 /**
- * Календарь отображающий 1 месяц. Умеет только отображать представление месяца и поддерживает события
- * взаимодействия пользователя с днями. Есть возможность переопределить конструктор модели и шаблон дня.
+ * Календарь, отображающий 1 месяц.
+ * Умеет только отображать представление месяца и поддерживает события взаимодействия пользователя с днями.
+ * Есть возможность переопределить конструктор модели и шаблон дня.
  * С помощью этого механизма можно кастомизировать отображение дней.
  * @class Controls/_calendar/MonthView
  * @extends Core/Control
  * @mixes Controls/_calendar/interface/IMonth
  * @control
+ * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Date/MonthView
  *
  */
 /**
- * @event Controls/_calendar/MonthView#itemClick Происходит после клика по элементу дня в календаре.
+ * @event Происходит после клика по элементу дня в календаре.
+ * @name Controls/_calendar/MonthView#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} item Дата элемента, по которому произвели клик.
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события onclick, при клике по дню месяца
+ * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события onclick, при клике по дню месяца.
  */
 var MonthView = BaseControl.extend({
    _template: dotTplFn,

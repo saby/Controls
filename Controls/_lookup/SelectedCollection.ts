@@ -66,6 +66,8 @@ class SelectedCollection extends Control {
 
       if (this._isShowCounter(itemsCount, newOptions.maxVisibleItems)) {
          this._counterWidth = newOptions._counterWidth || this._getCounterWidth(itemsCount, newOptions.readOnly, newOptions.itemsLayout);
+      } else if (this._children.infoBox && this._children.infoBox.isOpened()) {
+         this._notify('closeInfoBox');
       }
    }
 

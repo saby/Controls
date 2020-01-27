@@ -9,7 +9,7 @@ define(['Controls/operationsPopup'], function(operationsPopup) {
             operationsCount: 10,
             operationsSuccess: 10
          });
-         assert.equal(reportDialog._message, 'Выполнение операции завершилось успешно');
+         assert.equal(reportDialog._message, '10 записей успешно обработаны');
       });
       it('error without errors list', function() {
          reportDialog._beforeMount({

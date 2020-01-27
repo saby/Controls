@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
         <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
             <Controls.operations:Controller>

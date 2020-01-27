@@ -1,6 +1,6 @@
 <!-- TODO remove ternary operator "_options.parentProperty !== undefined" by task https://online.sbis.ru/opendoc.html?guid=42946b92-381f-442d-ac44-b38b1663eefd -->
-<Controls.list:BaseControl on:itemMouseMove="_itemMouseMove()"
-                           on:itemMouseLeave="_onItemMouseLeave()"
+<Controls.list:BaseControl on:draggingItemMouseMove="_draggingItemMouseMove()"
+                           on:draggingItemMouseLeave="_draggingItemMouseLeave()"
                            on:dragEnd="_dragEnd()"
                            scope="{{_options}}"
                            name="baseControl"
@@ -8,7 +8,9 @@
                            on:itemClick="_onItemClick()"
                            beforeReloadCallback="{{_options.parentProperty !== undefined ? _beforeReloadCallback}}"
                            beforeLoadToDirectionCallback="{{_beforeLoadToDirectionCallback}}"
-                           afterReloadCallback="{{_afterReloadCallback}}">
+                           afterReloadCallback="{{_afterReloadCallback}}"
+                           nodeConfig="{{_options.nodeConfig}}"
+                           nodesSourceControllers="{{_nodesSourceControllers}}">
    <ws:expanderTemplate>
       <div on:click="_onExpanderClick(expanderTemplate.itemData.dispItem)"
            class="{{expanderTemplate.itemData.prepareExpanderClasses(expanderTemplate.itemData, expanderTemplate.expanderIcon, expanderTemplate.expanderSize, _options.theme)}}"></div>

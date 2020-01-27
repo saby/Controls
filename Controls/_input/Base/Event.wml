@@ -1,0 +1,11 @@
+<ws:partial template="{{content}}"
+            on:keyup="_keyUpHandler()"
+            on:keydown="_keyDownHandler()"
+            on:click="_clickHandler()"
+            on:input="_inputHandler()"
+            on:select="_selectHandler()"
+            on:focus="_focusInHandler()"
+            on:blur="_focusOutHandler()"
+            on:mousedown="_mouseDownHandler()"
+            on:touchstart="_touchStartHandler()"
+            on:DOMAutoComplete="_domAutoCompleteHandler()"/>

@@ -1,0 +1,78 @@
+.controls-SpoilerHeading__wrapper {
+   cursor: pointer;
+   align-items: center;
+   display: inline-flex;
+}
+
+.controls-SpoilerHeading__icon {
+   margin: auto;
+}
+
+.controls-SpoilerHeading__caption_expanded {
+   font-weight: bold;
+}
+
+.controls-SpoilerHeading__iconWrapper {
+   display: flex;
+   height: 100%;
+   order: 1;
+}
+
+.controls-SpoilerHeading__caption_captionPosition-left {
+   order: 0;
+}
+
+.controls-SpoilerHeading__caption_captionPosition-right {
+   order: 2;
+}
+
+.controls-SpoilerHeading__wrapper_theme-@{themeName} {
+   height: @inline_height_spoilerHeading;
+}
+
+.controls-SpoilerHeading__iconWrapper_theme-@{themeName} {
+   width: @inline_height_spoilerHeading;
+}
+
+.controls-SpoilerHeading__icon_theme-@{themeName} {
+   font-size: @icon-size_spoilerHeading;
+   line-height: @icon-size_spoilerHeading;
+   width: @icon-size_spoilerHeading;
+   height: @icon-size_spoilerHeading;
+   font-family: @icon_font-family_spoilerHeading;
+}
+
+.controls-SpoilerHeading__icon_expanded_theme-@{themeName} {
+   color: @icon-color_expanded_spoilerHeading;
+}
+
+.controls-SpoilerHeading__icon_collapsed_theme-@{themeName} {
+   color: @icon-color_collapsed_spoilerHeading;
+}
+
+.controls-SpoilerHeading__caption_expanded_theme-@{themeName} {
+   color: @text-color_expanded_spoilerHeading;
+}
+
+.controls-SpoilerHeading__caption_collapsed_theme-@{themeName} {
+   font-weight: @font-weight;
+   color: @text-color_collapsed_spoilerHeading;
+}
+
+.ws-is-hover .controls-SpoilerHeading__wrapper:hover {
+   .controls-SpoilerHeading__icon_expanded_theme-@{themeName} {
+      color: @icon-color_expanded_hover_spoilerHeading;
+   }
+
+   .controls-SpoilerHeading__icon_collapsed_theme-@{themeName} {
+      color: @icon-color_collapsed_hover_spoilerHeading;
+   }
+
+   .controls-SpoilerHeading__caption_expanded_theme-@{themeName} {
+      color: @text-color_expanded_hover_spoilerHeading;
+   }
+
+   .controls-SpoilerHeading__caption_collapsed_theme-@{themeName} {
+      color: @text-color_collapsed_hover_spoilerHeading;
+   }
+}

@@ -20,6 +20,8 @@ define('Controls-demo/RootRouter', [
          _pathName: '/Controls-demo/app/Controls-demo%2FIndexOld',
          reload: function() {
             this.isReloading = true;
+            // При обновлении демки сбрасываем все что лежит в settingsController (задается на application);
+            window.localStorage.setItem('controlSettingsStorage', '{}');
          },
 
          _afterMount: function() {

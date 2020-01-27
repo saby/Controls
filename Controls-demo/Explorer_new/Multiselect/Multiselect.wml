@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo__Explorer_new-multiselect">
+        <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
+        <p>Текущий статус множественного выбора: {{_multiselect}}</p>
+        <div class="controlsDemo__wrapper">
+                <Controls.explorer:View
+                    source="{{_viewSource}}"
+                    bind:root="_root"
+                    attr:class="demo-Explorer"
+                    keyProperty="id"
+                    displayProperty="title"
+                    parentProperty="parent"
+                    multiSelectVisibility="{{_multiselect}}"
+                    header="{{_header}}"
+                    nodeProperty="parent@"
+                    viewMode="{{_viewMode}}"
+                    columns="{{_columns}}">
+                </Controls.explorer:View>
+        </div>
+</div>

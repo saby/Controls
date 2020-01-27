@@ -11,11 +11,13 @@
         open="{{_onOpen}}"
         selectedItemsChangedCallback="{{_setText}}"
         theme="{{_options.theme}}"
+        _dropDownOpener="{{_children.content}}"
         on:selectedItemsChanged="_selectedItemsChangedHandler()"
         attr:class="controls-ComboBox {{_isOpen ? 'controls-ComboBox__opened'}}">
    <ws:itemPadding right="xs" left="xs"/>
    <ws:content>
       <Controls._dropdown.ComboBox.InputRender
+              name="content"
               size="{{_options.size}}"
               style="{{_options.style}}"
               value="{{_value}}"

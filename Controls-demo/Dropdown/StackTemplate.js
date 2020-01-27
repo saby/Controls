@@ -31,7 +31,7 @@ define('Controls-demo/Dropdown/StackTemplate', [
                return true;
             }
          });
-
+         this._selectionChanged = options.selectedItems.getCount() > 0;
          this._filter = {};
       },
 

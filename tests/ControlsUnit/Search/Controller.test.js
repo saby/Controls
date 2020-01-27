@@ -128,21 +128,29 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
          result = searchMod.Controller._private.isInputSearchValueShort(searchController, 'te');
          assert.isTrue(result);
+
+         result = searchMod.Controller._private.isInputSearchValueShort(searchController, undefined);
+         assert.isTrue(result);
       });
 
       it('private.needStartSearch', function() {
+         var searchController = getSearchController();
          var result;
 
-         result = searchMod.Controller._private.needStartSearch('', '');
+         result = searchMod.Controller._private.needStartSearch(searchController, '', '');
          assert.isFalse(!!result);
 
-         result = searchMod.Controller._private.needStartSearch('  ', '');
-         assert.isFalse(!!result);
-
-         result = searchMod.Controller._private.needStartSearch('', 'test');
+         result = searchMod.Controller._private.needStartSearch(searchController, '  ', '');
          assert.isTrue(!!result);
 
-         result = searchMod.Controller._private.needStartSearch('test', '');
+         searchController._options.searchValueTrim = true;
+         result = searchMod.Controller._private.needStartSearch(searchController, '  ', '');
+         assert.isFalse(!!result);
+
+         result = searchMod.Controller._private.needStartSearch(searchController,'', 'test');
+         assert.isTrue(!!result);
+
+         result = searchMod.Controller._private.needStartSearch(searchController,'test', '');
          assert.isTrue(!!result);
       });
 
@@ -239,6 +247,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          var filter = { 'Разворот': 'С разворотом', 'usePages': 'full', test: 'test' };
 
          controller._viewMode = 'search';
+         controller._previousViewMode = 'testViewMode';
          controller._misspellValue = 'testStr';
          controller._loading = true;
          controller._searchValue = 'test';
@@ -253,7 +262,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchMod.Controller._private.abortCallback(controller, filter);
 
          assert.isTrue(stubNotify.calledTwice);
-         assert.isTrue(controller._viewMode === 'search');
+         assert.equal(controller._viewMode, 'testViewMode');
          assert.isFalse(controller._loading);
          assert.equal(controller._misspellValue, '');
          assert.equal(controller._searchValue, '');
@@ -332,17 +341,6 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          };
          searchMod.Controller._private.searchStartCallback(controller, filter);
          assert.deepEqual(filter, { 'Разворот': 'С разворотом', 'usePages': 'full' });
-      });
-
-      it('_private.needUpdateSearchController', function() {
-         let originSource = new sourceLib.Memory();
-         let prefetchSource = new sourceLib.PrefetchProxy({ target: originSource });
-         let newPrefetchSource = new sourceLib.PrefetchProxy({ target: originSource });
-
-         assert.isFalse(searchMod.Controller._private.needUpdateSearchController({filter: {test: 'test'}}, {filter: {test: 'test'}}));
-         assert.isFalse(searchMod.Controller._private.needUpdateSearchController({filter: {test: 'test'}}, {filter: {test: 'test1'}}));
-         assert.isTrue(searchMod.Controller._private.needUpdateSearchController({minSearchLength: 3}, {minSearchLength: 2}));
-         assert.isFalse(searchMod.Controller._private.needUpdateSearchController({source: prefetchSource}, {source: newPrefetchSource}));
       });
 
       it('_private.getSearchController', function() {
@@ -468,7 +466,6 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
          it('filter is changed', function() {
             var options = getDefaultOptions();
-            var sandbox = sinon.createSandbox();
             var aborted;
 
             options.filter = {test: 'testValue'};
@@ -481,14 +478,9 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             options.navigation = {};
             searchController._searchValue = 'test';
             searchController._viewMode = 'search';
-
-            sandbox.replace(searchController._searchController, 'abort', () => {
-               aborted = true;
-            });
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
-            assert.isTrue(aborted);
+            assert.isNull(searchController._searchController);
             searchController._viewMode = '';
-            sandbox.restore();
          });
 
          it('filter is changed, navigation is changed', function() {
@@ -507,6 +499,20 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchMod.Controller._private.getSearchController(searchController);
             abortStub = sandbox.stub(searchController._searchController, 'abort');
             searchController._searchValue = '123';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.isNull(searchController._searchController);
+            assert.isFalse(abortStub.calledOnce);
+         });
+
+         it('source is changed', function() {
+            var options = getDefaultOptions();
+
+            options.filter = {test: 'testValue'};
+            options.source = new sourceLib.Memory();
+            searchMod.Controller._private.getSearchController(searchController);
+            var abortStub = sandbox.stub(searchController._searchController, 'abort');
+
+            searchController._searchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.isNull(searchController._searchController);
             assert.isTrue(abortStub.calledOnce);
@@ -545,6 +551,28 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
                searchController._beforeUpdate({searchValue: 'test2'}, {});
                assert.equal(value, 'test2');
             });
+         });
+         it('viewMode is changed', function() {
+            var options = getDefaultOptions();
+
+            options.viewMode = "tile";
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._viewMode, "tile");
+         });
+
+         it('search value reseted', function() {
+            var options = getDefaultOptions();
+            options.searchValue = 'test';
+            searchController._searchValue = 'test';
+            searchController._inputSearchValue = 'test';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._inputSearchValue, 'test');
+
+            options.searchValue = '';
+            searchController._options.searchValue = 'test'
+            searchController._searchValue = 'test';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.equal(searchController._inputSearchValue, '');
          });
       });
 

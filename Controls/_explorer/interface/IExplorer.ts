@@ -15,14 +15,14 @@
  */
 
 /**
- * @typedef {String} explorerViewMode
+ * @typedef {String} ExplorerViewMode
  * @variant table Таблица.
  * @variant search Режим поиска.
  * @variant tile Плитка.
  */
 
 /*
- * @typedef {String} explorerViewMode
+ * @typedef {String} ExplorerViewMode
  * @variant table Table.
  * @variant search Search.
  * @variant tile Tiles.
@@ -30,7 +30,7 @@
 
 /**
  * @name Controls/_explorer/interface/IExplorer#viewMode
- * @cfg {explorerViewMode} Режим отображения списка.
+ * @cfg {ExplorerViewMode} Режим отображения списка.
  */
 
 /*
@@ -71,8 +71,7 @@
 /**
  * @name Controls/_explorer/interface/IExplorer#showActionButton
  * @cfg {Boolean} Определяет, должна ли отображаться стрелка рядом с кнопкой «назад».
- * @default
- * false
+ * @default false
  */
 
 /*

@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
+        <Controls.treeGrid:View
+                name="treeGrid"
+                source="{{_viewSource}}"
+                keyProperty="key"
+                expanderVisibility="hasChildren"
+                hasChildrenProperty="hasChildren"
+                parentProperty="parent"
+                nodeProperty="type"
+                navigation="{{_navigation}}"
+                groupProperty="group"
+                columns="{{_columns}}"/>
+    </Controls.scroll:Container>
+</div>

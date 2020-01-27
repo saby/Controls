@@ -1,0 +1,5 @@
+<div class="{{item.get(displayProperty || 'title') ?
+                  'controls-Menu__icon controls-Menu__icon-' + iconAlign + '_theme-' + _options.theme}}
+                  controls-icon_style-{{(item.get('readOnly') ? 'readonly' : itemData.iconStyle) + '_theme-' + _options.theme}}
+                  {{itemData.iconSize ? 'controls-icon_size-' + itemData.iconSize + '_theme-' + _options.theme}}
+                  {{iconPadding[item.get(parentProperty)]}} {{item.get('icon')}} theme_{{_options.theme}}"></div>

@@ -20,16 +20,15 @@
  * </pre>
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
+ * @public
  */
-
-/**
- * @name Controls/grid:GroupTemplate#columnAlignGroup
- * @cfg {Number|undefined} Устанавливает номер колонки, относительно которой происходит горизонтальное выравнивание заголовка группы.
- * @default undefined
- * @remark
- * В значении undefined выравнивание отключено.
- */
-
 export default interface IGroupTemplateOptions {
+   /**
+    * @name Controls/grid:GroupTemplate#columnAlignGroup
+    * @cfg {Number|undefined} Устанавливает номер колонки, относительно которой происходит горизонтальное выравнивание заголовка группы.
+    * @default undefined
+    * @remark
+    * В значении undefined выравнивание отключено.
+    */
    columnAlignGroup?: number;
 }

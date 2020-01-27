@@ -12,6 +12,10 @@
         <Controls.buttons:Button caption="Button" viewMode="link"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link, without caption</div>
+        <Controls.buttons:Button viewMode="link" icon="icon-Author" ></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton</div>
         <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="secondary" iconSize="s"></Controls.buttons:Button>
     </div>
@@ -22,5 +26,9 @@
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=secondary</div>
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="secondary"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=danger</div>
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-VideoCall2" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="danger"></Controls.buttons:Button>
     </div>
 </div>

@@ -3,6 +3,7 @@
             <Controls.scroll:HotKeysContainer>
                 <Controls.list:View
                         keyProperty="id"
+                        moveMarkerOnScrollPaging="{{true}}"
                         source="{{_viewSource}}">
                     <ws:navigation source="page" view="infinity">
                         <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>

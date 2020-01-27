@@ -30,6 +30,7 @@ import {Logger} from "UI/Utils";
  * @category Container
  * @remark
  * Контрол работает как нативный скролл: скроллбар появляется, когда высота контента больше высоты контрола. Для корректной работы контрола необходимо ограничить его высоту.
+ * Для корректной работы внутри WS3 необходимо поместить контрол в контроллер Controls/dragnDrop:Compound, который обеспечит работу функционала Drag-n-Drop.
  * @demo Controls-demo/Container/Scroll
  *
  */
@@ -95,6 +96,7 @@ import {Logger} from "UI/Utils";
 /**
  * @name Controls/_scroll/Container#topShadowVisibility
  * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
+ * @default auto
  */
 
 /**
@@ -335,7 +337,7 @@ var
       proxyEvent: function(self, event, eventName, args) {
          // Forwarding bubbling events makes no sense.
          if (!event.propagating()) {
-            return self._notify(eventName, args);
+            return self._notify(eventName, args) || event.result;
          }
       }
    },
@@ -586,7 +588,8 @@ var
          // sometimes it turns out that when the first event is triggered, the shadow must be displayed,
          // and immediately after the second event it is not necessary.
          // These conditions appear during scrollTop < 0. Just do not display the shadow when scrollTop < 0.
-         if (Env.detection.isMobileIOS && position === POSITION.TOP &&
+         // Turn off this check on the first build when there is no dom tree yet.
+         if (Env.detection.isMobileIOS && position === POSITION.TOP && this._children.content &&
                _private.getScrollTop(this, this._children.content) < 0) {
             return false;
          }
@@ -595,7 +598,10 @@ var
       },
 
       _updateShadowMode(event, shadowVisibleObject): void {
+         // _shadowVisibilityByInnerComponents не используется в шаблоне,
+         // поэтому св-во не является реактивным и для обновления надо позвать _forceUpdate
          this._shadowVisibilityByInnerComponents = shadowVisibleObject;
+         this._forceUpdate();
       },
 
       setShadowMode: function(shadowVisibleObject) {

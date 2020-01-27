@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__list_new-itemTepmlate-NoHighlightOnHover">
     <Controls.list:View keyProperty="id" source="{{_viewSource}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate" highlightOnHover="{{false}}"/>

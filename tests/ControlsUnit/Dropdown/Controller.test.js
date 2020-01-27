@@ -62,7 +62,9 @@ define(
                data: items
             }),
             nodeProperty: 'node',
-            itemTemplateProperty: 'itemTemplate'
+            itemTemplateProperty: 'itemTemplate',
+            _dropDownOpener: 'testOpener'
+
          };
 
          let configLazyLoad = {
@@ -596,6 +598,23 @@ define(
             });
          });
 
+         it('_private::loadItems', (done) => {
+            let dropdownController = getDropdownController(config);
+            var hasErrBack = false;
+            config.dataLoadErrback = function() {
+               hasErrBack = true;
+            };
+            config.source.query = function() {
+               var def = new Deferred();
+               def.errback();
+               return def;
+            }
+            dropdown._Controller._private.loadItems(dropdownController, config).addCallback(() => {
+               assert.isTrue(hasErrBack);
+               done();
+            });
+         });
+
          it('_private::getItemsTemplates', () => {
             let dropdownController = getDropdownController(config);
 
@@ -855,6 +874,7 @@ define(
 
             dropdownController.openMenu({ testOption: 'testValue' });
             assert.equal(openConfig.testOption, 'testValue');
+            assert.equal(openConfig.opener, 'testOpener');
 
             dropdownController._items = new collection.RecordSet({
                keyProperty: 'id',

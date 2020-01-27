@@ -1,6 +1,7 @@
 /**
  * @class Controls/_context/FilterContextField
  * @deprecated
+ * @private
  */
 
 import DataContext = require('Core/DataContext');

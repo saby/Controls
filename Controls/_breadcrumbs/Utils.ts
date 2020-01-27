@@ -1,15 +1,14 @@
 import {ItemsUtil} from 'Controls/list';
 
 var _private = {
-    getItemData: function (index, items, withOverflow = false) {
+    getItemData: function (index, items) {
         var
             currentItem = items[index],
             count = items.length;
         return {
             getPropValue: ItemsUtil.getPropertyValue,
             item: currentItem,
-            hasArrow: count > 1 && index !== 0,
-            withOverflow: withOverflow
+            hasArrow: count > 1 && index !== 0
         };
     }
 };

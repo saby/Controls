@@ -1,5 +1,6 @@
 <Controls.calendar:MonthList
-        displayedRanges="{{_range}}"
+        displayedRanges="{{_displayedRanges}}"
+        stubTemplate="{{stubTemplate}}"
         bind:position="_position"
         virtualPageSize="{{15}}">
     <ws:yearHeaderTemplate>

@@ -21,13 +21,15 @@
  * @includes IDateMask Controls/_interface/IDateMask
  * @includes ITextValue Controls/_interface/ITextValue
  * @includes IPropStorage Controls/_interface/IPropStorage
- * @includes IBorderStyle Controls/_interface/IBorderStyle
+ * @includes IBorderStyle Controls/interface/IBorderStyle
  * @includes IValidationStatus Controls/_interface/IValidationStatus
  * @includes ISelectionType Controls/_interface/ISelectionType
  * @includes IDateConstructor Controls/_interface/IDateConstructor
  * @includes IApplication Controls/_interface/IApplication
  * @includes IFilter Controls/_interface/IFilter
  * @includes INavigation Controls/_interface/INavigation
+ * @includes IDisplayedRanges Controls/_interface/IDisplayedRanges
+ * @includes IMenu Controls/_interface/IMenu
  * @public
  * @author Крайнов Д.О.
  */
@@ -64,3 +66,6 @@ export {default as IApplication, IApplicationOptions, IAttributes, HeadJson} fro
 export {default as IRUM, IRUMOptions} from './_interface/IRUM';
 export {default as IFilter, IFilterOptions} from './_interface/IFilter';
 export {default as INavigation, INavigationOptions, INavigationOptionValue} from './_interface/INavigation';
+export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';
+export {default as IDisplayedRanges, IDisplayedRangesOptions} from './_interface/IDisplayedRanges';
+export {default as IMenu, IMenuOptions, IHistoryConfig, TKeys} from './_interface/IMenu';

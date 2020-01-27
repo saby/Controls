@@ -4,7 +4,9 @@
            fontColorStyle="secondary"
            attr:class="controls-FilterDropdown__content"
            on:selectedKeysChanged="_selectedKeysChangedHandler()"
-           on:textValueChanged="_textValueChangedHandler()">
+           on:textValueChanged="_textValueChangedHandler()"
+           on:dropDownOpen="_dropDownOpen()"
+           on:dropDownClose="_dropDownClose()">
       <ws:contentTemplate>
          <ws:if data="{{_options.contentTemplate}}">
             <ws:partial template="Controls/dropdown:inputDefaultContentTemplate">

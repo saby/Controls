@@ -1,6 +1,6 @@
-import Control = require('Core/Control');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/InfoBox/InfoBox');
-import Env = require('Env/Env');
+import {IStickyPopupPosition, TVertical, THorizontal} from './Sticky/StickyController';
 
 /**
  * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
@@ -10,18 +10,34 @@ import Env = require('Env/Env');
  * @public
  * @author Красильников А.С.
  */
-var InfoBoxTemplate = Control.extend({
-    _template: template,
 
-    _beforeMount: function(newOptions) {
+type TArrowPosition = 'start' | 'end' | 'center';
+type TStyle = 'default' | 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary';
+type TStyleType = 'marker' | 'outline';
+
+export interface IInfoboxTemplateOptions extends IControlOptions {
+    stickyPosition?: IStickyPopupPosition;
+    template?: TemplateFunction;
+    templateOptions?: object;
+    styleType: TStyleType;
+    //TODO: https://online.sbis.ru/opendoc.html?guid=04f68286-535f-4002-9e11-5b6343016edd
+    style: TStyle;
+    floatCloseButton?: boolean;
+    closeButtonVisibility: boolean;
+}
+
+export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
+    protected _template: TemplateFunction = template;
+    protected _arrowSide: THorizontal | TVertical;
+    protected _arrowPosition: TArrowPosition;
+    protected _beforeMount(newOptions: IInfoboxTemplateOptions): void {
         this._setPositionSide(newOptions.stickyPosition);
-    },
+    }
 
-    _beforeUpdate: function(newOptions) {
+    protected _beforeUpdate(newOptions: IInfoboxTemplateOptions): void {
         this._setPositionSide(newOptions.stickyPosition);
-    },
-
-    _setPositionSide: function(stickyPosition) {
+    }
+    _setPositionSide(stickyPosition: IStickyPopupPosition): void {
         if (stickyPosition.direction.horizontal === 'left' && stickyPosition.targetPoint.horizontal === 'left') {
             this._arrowSide = 'right';
             this._arrowPosition = this._getArrowPosition(stickyPosition.direction.vertical);
@@ -35,22 +51,33 @@ var InfoBoxTemplate = Control.extend({
             this._arrowSide = 'top';
             this._arrowPosition = this._getArrowPosition(stickyPosition.direction.horizontal);
         }
-    },
+    }
 
-    _getArrowPosition: function(side) {
+    private _getArrowPosition(side: TVertical | THorizontal): TArrowPosition {
         if (side === 'left' || side === 'top') {
             return 'end';
         }
         if (side === 'right' || side === 'bottom') {
-            return 'start'
+            return 'start';
         }
         return 'center';
-    },
-
-    _close: function() {
-       this._notify('close', [], { bubbling: true });
     }
-});
+
+    protected _close(): void {
+        this._notify('close', [], { bubbling: true });
+    }
+
+    static getDefaultOptions(): IInfoboxTemplateOptions {
+        return {
+            closeButtonVisibility: true,
+            styleType: 'marker',
+            style: 'default'
+        };
+    }
+
+    static _theme: string[] = ['Controls/popupTemplate'];
+}
+
 /**
  * @name Controls/_popupTemplate/InfoBox#closeButtonVisibility
  * @cfg {Boolean} Устанавливает видимость кнопки для всплывающей подсказки.
@@ -101,15 +128,3 @@ var InfoBoxTemplate = Control.extend({
  * @property {String} horizontal Выравнивание по горизонтали.
  * Доступные значения: right, left.
  */
-
-InfoBoxTemplate.getDefaultOptions = function() {
-    return {
-        closeButtonVisibility: true,
-        styleType: 'marker',
-        style: 'default'
-    };
-};
-
-InfoBoxTemplate._theme = [ 'Controls/popupTemplate' ];
-
-export = InfoBoxTemplate;

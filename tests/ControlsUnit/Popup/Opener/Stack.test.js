@@ -561,9 +561,11 @@ define(
             const basePrepareSize = Controller._prepareSizes;
             const basePrepareSizeWithoutDom = Controller._prepareSizeWithoutDOM;
             const baseUpdate = Controller._update;
+            const baseGetItemPosition = Controller._getItemPosition;
             let isPrepareSizeCalled = false;
             let isPrepareSizeWithoutDomCalled = false;
             let isUpdateCalled = false;
+            let isCalcPoistionCalled = false;
 
             Controller._prepareSizes = () => {
                isPrepareSizeCalled = true;
@@ -573,6 +575,9 @@ define(
             };
             Controller._update = () => {
                isUpdateCalled = true;
+            };
+            Controller._getItemPosition = () => {
+               isCalcPoistionCalled = true;
             };
             let item = {
                position: { width: 720 },
@@ -589,6 +594,7 @@ define(
             assert.equal(isPrepareSizeCalled, false);
             assert.equal(isPrepareSizeWithoutDomCalled, true);
             assert.equal(isUpdateCalled, false);
+            assert.equal(isCalcPoistionCalled, true);
 
             isPrepareSizeWithoutDomCalled = false;
             Controller._stack.add({
@@ -602,6 +608,7 @@ define(
 
             Controller._prepareSizes = basePrepareSize;
             Controller._prepareSizeWithoutDOM = basePrepareSizeWithoutDom;
+            Controller._getItemPosition = baseGetItemPosition;
             Controller._update = baseUpdate;
          });
 

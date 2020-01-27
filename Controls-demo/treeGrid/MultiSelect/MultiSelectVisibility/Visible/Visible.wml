@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_treeGrid-multiSelect-visible">
     <Controls.treeGrid:View
             keyProperty="id"
             source="{{_viewSource}}"

@@ -1,6 +1,6 @@
 <div>
     <div class="compatibleDemo__row">
-        <SBIS3.CONTROLS.Label  name="initStatus"/>
+        <SBIS3.CONTROLS.Label  name="initStatusChild"/>
     </div>
     <div class="compatibleDemo__row">
         <div class="compatibleDemo__row">
@@ -12,7 +12,7 @@
     </div>
     <div class="compatibleDemo__row" >
         <div class="compatibleDemo__row">
-            <SBIS3.CONTROLS.Label  caption="Control.Input:TextBox"/>
+            <SBIS3.CONTROLS.Label  caption="WasabyEnv/DemoControls/WasabyContainer"/>
         </div>
         <div class="compatibleDemo__row">
             <div class="for__ws4" _text="{{ _text }}">

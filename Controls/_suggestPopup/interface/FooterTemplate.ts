@@ -4,6 +4,7 @@
  * @author Герасимов А.М.
  * @see Controls/suggestPopup
  * @see Controls/interface/ISuggest#footerTemplate
+ * @public
  * @example
  * Пример:
  * <pre>

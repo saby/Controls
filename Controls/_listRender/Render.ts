@@ -92,14 +92,18 @@ export default class Render extends Control<IRenderOptions> {
     }
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
-        // this._notify('itemMouseEnter', [item, e]);
+        this._notify('itemMouseEnter', [item, e]);
     }
+
     protected _onItemMouseMove(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
-        // this._notify('itemMouseLeave', [item, e]);
+        this._notify('itemMouseMove', [item, e]);
     }
 
     protected _onItemMouseLeave(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
-        // this._notify('itemMouseMove', [item, e]);
+        this._notify('itemMouseLeave', [item, e]);
+    }
+    protected _onItemMouseDown(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
+        this._notify('itemMouseDown', [item, e]);
     }
 
     protected _onItemWheel(e: SyntheticEvent<WheelEvent>, item: CollectionItem<unknown>): void {

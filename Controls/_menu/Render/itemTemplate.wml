@@ -1,0 +1,25 @@
+<div attr:class="controls-Menu__row
+                 {{itemClassList}}
+                 {{marker !== false && itemData.isSelected() && (!multiSelect || isEmptyItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}
+                 controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
+   <ws:if data="{{multiSelectTpl && multiSelect}}">
+      <ws:partial template="{{multiSelectTpl}}" scope="{{_options}}" class="{{isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
+   </ws:if>
+   <ws:if data="{{contentTemplate}}">
+      <ws:partial
+              template="{{contentTemplate}}"
+              itemData="{{itemData}}"
+      />
+   </ws:if>
+
+   <ws:else>
+      <ws:partial template="wml!Controls/_menu/Render/contentTemplate" scope="{{_options}}" />
+   </ws:else>
+   <ws:if data="{{itemData.hasPinned && !itemData.hasChildren && !(item.get('pinned') === true && itemData.hasParent)}}">
+      <div    class="controls-Menu__iconPin_theme-{{_options.theme}} {{itemData.isSwiped ? 'controls-Menu__iconPin_swiped'}}
+                 {{item.get('pinned') === true ? 'controls-Menu__iconUnnpin icon-PinOff' : 'icon-PinNull'}}"></div>
+   </ws:if>
+   <div if="{{itemData.isNode()}}" class="controls-Menu__arrow_theme-{{_options.theme}}
+                                          controls-Menu__arrow_{{item.get('readOnly') ? 'readOnly' : 'default'}}_theme-{{_options.theme}}
+                                          icon-MarkCRightLight"></div>
+</div>

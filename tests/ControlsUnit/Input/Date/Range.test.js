@@ -30,7 +30,9 @@ define([
          it('should open dialog with passed dialog options', function() {
             const
                extOptions = {
-                  readOnly: true
+                  readOnly: true,
+                  startValue: new Date(2019, 0, 1),
+                  endValue: new Date(2019, 0, 1)
                },
                component = calendarTestUtils.createComponent(dateRange.Input, extOptions);
             component._children.opener = {
@@ -41,6 +43,8 @@ define([
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-PeriodDialog__picker',
                templateOptions: {
+                  startValue: extOptions.startValue,
+                  endValue: extOptions.endValue,
                   readOnly: extOptions.readOnly
                }
             }));

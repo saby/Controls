@@ -20,14 +20,14 @@
  *    </ws:resultsTemplate>
  * </Controls.grid:View>
  * </pre>
- */
-
-/**
- * @name Controls/grid:ResultsTemplate#contentTemplate
- * @cfg {String|Function} Устанавливает пользовательский шаблон, описывающий содержимое строки итогов. 
- * @default undefined
+ * @public
  */
 
 export default interface IResultsTemplateOptions {
+   /**
+    * @name Controls/grid:ResultsTemplate#contentTemplate
+    * @cfg {String|Function} Устанавливает пользовательский шаблон, описывающий содержимое строки итогов. 
+    * @default undefined
+    */
    contentTemplate?: string;
 }

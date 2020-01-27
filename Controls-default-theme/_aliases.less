@@ -199,6 +199,41 @@
 //Цвет иконки InfoboxButton при наведении.
 @hover_icon-color_infoboxbutton:                                            @secondary_text-color;
 
+//СПОЙЛЕР
+//Общие переменные, использующиеся для темизации спойлеров.
+//Высота заголовка
+@inline_height_spoilerHeading:                                              @inline_height_m;
+
+//Цвет свернутого заголовка
+@text-color_collapsed_spoilerHeading:                                       @label_text-color;
+
+//Цвет свернутого заголовка при ховере
+@text-color_collapsed_hover_spoilerHeading:                                 @secondary_text-color;
+
+//Цвет развернутого заголовка
+@text-color_expanded_spoilerHeading:                                        @secondary_text-color;
+
+//Цвет развернутого заголовка при ховере
+@text-color_expanded_hover_spoilerHeading:                                  @secondary_text-color;
+
+//Цвет иконки свернутого заголовка
+@icon-color_collapsed_spoilerHeading:                                       @label_text-color;
+
+//Цвет иконки свернутого заголовка при ховере
+@icon-color_collapsed_hover_spoilerHeading:                                 @secondary_text-color;
+
+//Цвет иконки развернутого заголовка
+@icon-color_expanded_spoilerHeading:                                        @secondary_text-color;
+
+//Цвет иконки развернутого заголовка при ховере
+@icon-color_expanded_hover_spoilerHeading:                                  @secondary_text-color;
+
+//Размер иконки заголовка
+@icon-size_spoilerHeading:                                                  @icon-size_s;
+
+//Шрифт иконки заголовка
+@icon_font-family_spoilerHeading:                                           @icon_font-family_s;
+
 //ПОЛЯ ВВОДА
 //Общие Переменные, использующиеся для темизации полей ввода.
 //Размер шрифта в поле ввода xs.
@@ -260,6 +295,18 @@
 //Толщина обводки полей ввода.
 //Примечание: равна толщине обводки по-умолчанию.
 @border-thickness_inputText:                                                @border-thickness;
+
+//Стиль обводки полей ввода.
+@border-style_inputText:                                                    solid;
+
+//Стиль обводки полей ввода при наведении мыши.
+@border-style_hover_inputText:                                              solid;
+
+//Стиль обводки полей ввода при установке фокуса.
+@border-style_focus_inputText:                                              solid;
+
+//Стиль обводки полей ввода при ошибке валидации.
+@invalid_border-style_inputText:                                            solid;
 
 //Цвет фона полей ввода.
 //Примечание: равен цвету фона по-умолчанию.
@@ -583,7 +630,7 @@
 @primary_background-color_button_functionalButton:                          @primary_color;
 
 //цвет фона функциональной кнопки в состоянии "только для чтения"
-@reaondly_background-color_button_functionalButton:                         #eeeeee;
+@reaondly_background-color_button_functionalButton:                         transparent;
 
 //цвет фона основной функциональной кнопки при наведении мыши
 @secondary_hover_background-color_button_functionalButton:                  #1f8ee3;
@@ -591,11 +638,17 @@
 //цвет фона функциональной кнопки в состоянии "только для чтения" при наведении мыши
 @success_hover_background-color_button_functionalButton:                    #38ad4e;
 
-//цвет фона основной функциональной кнопки при нажатии мыши.
+//цвет фона неосновной функциональной кнопки обозначающей опасность при наведении мыши
+@danger_hover_background-color_button_functionalButton:                     #D36B6B;
+
+//цвет фона основной функциональной кнопки при нажатии.
 @secondary_active_background-color_button_functionalButton:                 @secondary_hover_background-color_button_functionalButton;
 
-//цвет фона функциональной кнопки в состоянии "только для чтения" при нажатии мыши.
+//цвет фона функциональной кнопки в состоянии "только для чтения" при нажатии.
 @success_active_background-color_button_functionalButton:                   @success_hover_background-color_button_functionalButton;
+
+//цвет фона неосновной функциональной кнопки обозначающей опасность при нажатии.
+@danger_active_background-color_button_functionalButton:                    @danger_hover_background-color_button_functionalButton;
 
 //Толщина обводки кнопки.
 //Примечание: равна толщине обводки по-умолчанию.
@@ -632,6 +685,9 @@
 
 //Цвет обводки кнопки-иконки для тулбара в состоянии  "только для чтения".
 @readonly_border-color_button_toolButton:                                   rgba(0, 0, 0, 0.08);
+
+//Цвет обводки функциональной кнопки в состоянии  "только для чтения".
+@readonly_border-color_button_functionalButton:                             rgba(0, 0, 0, 0.08);
 
 //Радиус скругления кнопок
 //Радиус скругления обводки кнопки высоты xs.
@@ -902,12 +958,28 @@
 @header_min-height_sticky:                                                  32px;
 
 //цвет фона шапки прилипающего блока.
-@header_background-color_sticky:                                            #F8F8F8;
+@header_background-color_sticky:                                            #F4F4F4;
 
 //толщина нижней границы шапки прилипающего блока.
 @header_bottom-border-thickness_sticky:                                     @border-thickness;
-//отступы для крестика закрытия прилипающего блока.
-@close-button_padding_sticky:                                               4px;
+
+// размер шрифта шапки выпадающего списка
+@header_font-size_sticky:                                                   @font-size_l;
+
+// минимальная высота шапки выпадающего списка
+@header_min-height_sticky:                                                  32px;
+
+// горизонтальный отступ в шапке выпадающего списка
+@header_padding-horizontal_sticky:                                          12px;
+
+// отступ между кнопкой закрытия и верхней границей выпадающего списка
+@close-button_offset-top_sticky:                                            6px;
+
+// отступ между кнопкой закрытия и правой границей выпадающего списка
+@close-button_offset-right_sticky:                                          6px;
+
+// отступ между кнопкой закрытия и текстом в заголовке выпадающего списка
+@close-button_offset-left_sticky:                                           0;
 
 //КНОПКИ С ЗАЛИПАНИЕМ
 //Общие стили для кнопок с залипанием
@@ -1301,6 +1373,9 @@
 //отступ между флагами в группе
 @item_offset_checkbox-group:                                                8px;
 
+//правый отступ между флагами в группе
+@item_offset_right_checkbox-group:                                          12px;
+
 //отступ между флагами с наследованием в группе
 @hierarchy_padding-left_checkbox-group:                                     24px;
 
@@ -1379,7 +1454,7 @@
 // отступ между текстом и иконкой
 @trigger_padding-right_combobox:                   4px;
 
-/* dropdown:Button ofsets*/
+//Menu offsets
 @inline_height_default_link_button:                18px; // Высота текста link кнопки, чтобы посчитать offset переменную для меню
 
 //ДРОПДАУН
@@ -1398,37 +1473,37 @@
 
 //MENUPOPUP - ОКНО ВЫПАДАЮЩЕГО СПИСКА
 // максимальная ширина списка
-@popup_max-width_dropdown:                         700px;
+@popup_max-width_menuPopup:                         700px;
 // ширина обводки выпадающего списка
-@popup_border-thickness_dropdown:                  @border-thickness;
+@popup_border-thickness_menuPopup:                  @border-thickness;
 // цвет обводки выпадающего списка
-@popup_border-color_dropdown:                      #CCC;
+@popup_border-color_menuPopup:                      #CCC;
 // цвет фона выпадающего списка
-@popup_background-color_dropdown:                  @background-color;
+@popup_background-color_menuPopup:                  @background-color;
 
 // сдвиг тени выпадающего списка
-@popup_box-shadow-offset_dropdown:                 6px;
+@popup_box-shadow-offset_menuPopup:                 6px;
 // размытие тени выпадающего списка
-@popup_box-shadow-blur_dropdown:                   6px;
+@popup_box-shadow-blur_menuPopup:                   6px;
 // цвет тени выпадающего списка
-@popup_box-shadow-color_dropdown:                  rgba(0, 0, 0, 0.2);
+@popup_box-shadow-color_menuPopup:                  rgba(0, 0, 0, 0.2);
 
 // вертикальный отступ в выпадающем списке
-@popup_padding-vertical_dropdown:                  2px;
+@popup_padding-vertical_menuPopup:                  2px;
 // цвет фона шапки выпадающего списка
-@header_background-color_dropdown:                 #F4F4F4;
+@header_background-color_menuPopup:                 #F4F4F4;  // должно переехать в sticky
 // размер шрифта шапки выпадающего списка
-@header_font-size_dropdown:                        @font-size_l;
+@header_font-size_menuPopup:                        @font-size_l;  // должно переехать в sticky
 // цвет текста в шапке выпадающего списка
-@header_color_dropdown:                            @secondary_text-color; // должно переехать в menuPopupTemplate
+@header_color_menuPopup:                            @secondary_text-color; // должно переехать в sticky
 // минимальная высота шапки выпадающего списка
-@header_min-height_dropdown:                       32px;
+@header_min-height_menuPopup:                       32px; // должно переехать в sticky
 // горизонтальный отступ в шапке выпадающего списка
-@header_padding-horizontal_dropdown:               12px;
+@header_padding-horizontal_menuPopup:               12px; // должно переехать в sticky
 // минимальная высота футера выпадающего списка
-@footer_min-height_dropdown:                       32px;
+@footer_min-height_menuPopup:                       32px;
 // отступ кнопки подтверждения выбора в выпадающем списке
-@apply-button_offset_dropdown:                     8px;
+@apply-button_offset_menuPopup:                     8px;
 
 //МЕНЮ
 // цвет разделителя меню
@@ -1474,11 +1549,11 @@
 // отступ между иконкой иерарзии и текстом в меню
 @hierarchy_icon_offset-left_menu:                  6px;
 // отступ между кнопкой закрытия и верхней границей меню
-@close-button_offset-top_menu:                     6px;
+@close-button_offset-top_menu:                     6px; // должно переехать в sticky
 // отступ между кнопкой закрытия и правой границей меню
-@close-button_offset-right_menu:                   6px;
+@close-button_offset-right_menu:                   6px; // должно переехать в sticky
 // отступ между кнопкой закрытия и текстом в меню
-@close-button_offset-left_menu:                    0;
+@close-button_offset-left_menu:                    0; // должно переехать в sticky
 // размер иконки запинивания меню
 @pin-button_icon-size_menu:                        @icon-size_s;
 // отступ между кнопкой запинивания и правой границей меню

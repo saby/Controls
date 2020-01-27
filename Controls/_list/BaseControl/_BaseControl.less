@@ -155,26 +155,26 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    color: @color_BaseControl-abortSearch_hover;
 }
 
-.controls-BaseControl__continueSearch {
-   display: flex;
-   justify-content: center;
-}
-
-.controls-BaseControl__continueSearch_caption {
+.controls-BaseControl__continueSearch_wrapper {
    color: @color_BaseControl-abortSearch;
-   align-items: center;
-   display: inline-flex;
+   cursor: pointer;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_caption:hover {
-   text-decoration: underline;
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover {
    color: @color_BaseControl-abortSearch_hover;
    cursor: pointer;
 }
 
-.controls-BaseControl__continueSearch_caption:active {
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_caption {
    text-decoration: underline;
+}
+
+.controls-BaseControl__continueSearch_wrapper:active {
    color: @color_BaseControl-abortSearch_hover;
+}
+
+.controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_caption {
+   text-decoration: underline;
 }
 
 .controls-BaseControl__continueSearch_icon {

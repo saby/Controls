@@ -74,4 +74,16 @@
             </ws:itemTemplate>
         </Controls.treeGrid:View>
     </div>
+
+    <div class="controlsDemo__wrapper">
+        <div>Two levels tree without photo</div>
+        <Controls.treeGrid:View
+                attr:class="demoTreeWithProto__treeGridTwoLevels"
+                keyProperty="id"
+                parentProperty="Раздел"
+                nodeProperty="Раздел@"
+                source="{{_viewSourceTwo}}"
+                columns="{{_twoLvlColumnsNoPhoto}}">
+        </Controls.treeGrid:View>
+    </div>
 </div>

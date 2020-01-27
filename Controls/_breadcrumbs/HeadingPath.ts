@@ -12,7 +12,7 @@ import 'Controls/heading';
 
 var _private = {
    drawItems: function (self, options) {
-        self._backButtonCaption = ItemsUtil.getPropertyValue(options.items[options.items.length - 1], self._options.displayProperty);
+        self._backButtonCaption = ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty);
 
         //containerWidth is equal to 0, if path is inside hidden node. (for example switchableArea)
         if (options.items.length > 1) {
@@ -129,13 +129,9 @@ var BreadCrumbsPath = Control.extend({
     _breadCrumbsClass: '',
     _viewUpdated: false,
 
-    _afterMount: function () {
-        if (this._options.items && this._options.items.length > 0) {
-            FontLoadUtil.waitForFontLoad('controls-BreadCrumbsView__crumbMeasurer').addCallback(function () {
-                FontLoadUtil.waitForFontLoad('controls-BreadCrumbsPath__backButtonMeasurer').addCallback(function () {
-                    _private.drawItems(this, this._options);
-                }.bind(this));
-            }.bind(this));
+    _beforeMount: function (options) {
+        if (options.items && options.items.length > 0) {
+            _private.drawItems(this, options);
         }
     },
     _beforeUpdate: function (newOptions) {

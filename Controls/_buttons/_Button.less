@@ -172,7 +172,9 @@
 
 //borders
 .controls-Button_button,
-.controls-Button_toolButton {
+.controls-Button_toolButton,
+.controls-Button_functionalButton
+{
    border-style: solid;
 }
 
@@ -247,6 +249,54 @@
    border-color: @success_color;
 }
 
+.controls-Button_functionalButton_theme-@{themeName} {
+   border-width: @border-thickness_button;
+}
+
+.controls-Button_functionalButton_style-primary_theme-@{themeName} {
+   border-color: @primary_background-color_button_functionalButton;
+}
+
+.controls-Button_functionalButton_style-secondary_theme-@{themeName} {
+   border-color: @secondary_background-color_button_functionalButton;
+}
+
+.controls-Button_functionalButton_style-danger_theme-@{themeName} {
+   border-color: @danger_color;
+}
+
+.controls-Button_functionalButton_style-success_theme-@{themeName} {
+   border-color: @success_color;
+}
+
+.controls-Button_functionalButton_style-readonly_theme-@{themeName} {
+   border-color: @readonly_border-color_button_functionalButton;
+}
+
+.ws-is-hover {
+   .controls-Button_functionalButton_style-success_theme-@{themeName}:hover {
+      border-color: @success_hover_background-color_button_functionalButton;
+   }
+   .controls-Button_functionalButton_style-danger_theme-@{themeName}:hover {
+      border-color: @danger_hover_background-color_button_functionalButton;
+   }
+   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:hover {
+      border-color: @secondary_hover_background-color_button_functionalButton;
+   }
+}
+
+.ws-is-no-touch,
+.ws-is-touch {
+   .controls-Button_functionalButton_style-success_theme-@{themeName}:active {
+      border-color: @success_active_background-color_button_functionalButton;
+   }
+   .controls-Button_functionalButton_style-danger_theme-@{themeName}:active {
+      border-color: @danger_active_background-color_button_functionalButton;
+   }
+   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:active {
+      border-color: @secondary_active_background-color_button_functionalButton;
+   }
+}
 //background
 .controls-Button_button_style-primary_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
    background-color: @primary_contrast_background-color_button;
@@ -260,6 +310,10 @@
    background-color: @readonly_contrast_background-color_button;
 }
 
+.controls-Button_button_style-danger_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+   background-color: @danger_color;
+}
+
 .controls-Button_button_style-primary_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
    background-color: @primary_background-color_button;
 }
@@ -270,6 +324,10 @@
 
 .controls-Button_button_style-readonly_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
    background-color: @readonly_background-color_button;
+}
+
+.controls-Button_button_style-danger_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+   background-color: @danger_color;
 }
 
 .ws-is-hover {
@@ -346,6 +404,9 @@
    .controls-Button_functionalButton_style-success_theme-@{themeName}:hover {
       background-color: @success_hover_background-color_button_functionalButton;
    }
+   .controls-Button_functionalButton_style-danger_theme-@{themeName}:hover {
+      background-color: @danger_hover_background-color_button_functionalButton;
+   }
    .controls-Button_functionalButton_style-secondary_theme-@{themeName}:hover {
       background-color: @secondary_hover_background-color_button_functionalButton;
    }
@@ -355,6 +416,9 @@
 .ws-is-touch {
    .controls-Button_functionalButton_style-success_theme-@{themeName}:active {
       background-color: @success_active_background-color_button_functionalButton;
+   }
+   .controls-Button_functionalButton_style-danger_theme-@{themeName}:active {
+      background-color: @danger_active_background-color_button_functionalButton;
    }
    .controls-Button_functionalButton_style-secondary_theme-@{themeName}:active {
       background-color: @secondary_active_background-color_button_functionalButton;

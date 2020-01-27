@@ -32,7 +32,10 @@ define([
             rawData: ListData.getItems()
          });
          model = new treeGrid.ViewModel({columns: [], items: recordSet});
-         treeStrategy = new operations.TreeSelectionStrategy({});
+         treeStrategy = new operations.TreeSelectionStrategy({
+            selectDescendants: false,
+            selectAncestors: false
+         });
       });
 
       it('select', function() {
@@ -93,33 +96,25 @@ define([
 
       describe('getCount', function() {
          it('without selection', function() {
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, 0);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 0);
          });
 
          it('with selected items', function() {
             selection.selected = [1, 2, 10, 15];
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, 4);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 4);
          });
 
          it('with selected and excluded items', function() {
             selection.selected = [1, 2, 10];
             selection.excluded = [3, 4];
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, 3);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 3);
          });
 
          it('select root', function() {
             selection.selected = [null];
             selection.excluded = [null];
             model.getItems().setMetaData({more: false});
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, 3);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 3);
          });
 
          it('select root with excluded', function() {
@@ -127,25 +122,19 @@ define([
             selection.selected = [null];
             selection.excluded = [null, 1, 7, 10];
             model.getItems().setMetaData({more: 3});
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, 1);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 1);
          });
 
          it('with not loaded selected root', function() {
             selection.selected = [null];
             selection.excluded = [null];
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, null);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), null);
          });
 
          it('with not loaded node', function() {
             selection.selected = [10];
             selection.excluded = [10];
-            return treeStrategy.getCount(selection, model, {}, hierarchyRelation).then((itemsCount) => {
-               assert.equal(itemsCount, null);
-            });
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), null);
          });
       });
 

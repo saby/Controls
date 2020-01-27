@@ -104,7 +104,7 @@ const _private = {
 
 };
 
-type ValidResult = boolean|null|Promise<boolean>|String;
+type ValidResult = boolean|null|Promise<boolean>|string[];
 class ValidateContainer extends Control {
     _template: TemplateFunction = template;
     _isOpened: boolean = false;
@@ -210,7 +210,6 @@ class ValidateContainer extends Control {
         return resultDeferred;
     }
     /**
-     * 
      * Запускает валидацию.
      * @function
      * @name Controls/_validate/Container#validate
@@ -230,16 +229,9 @@ class ValidateContainer extends Control {
      * Устанавливает результат валидации.
      * @name Controls/_validate/Container#setValidationResult
      * @function
-     * @param {null|Boolean|String} validationResult Результат валидации.
+     * @param {null|Boolean|Array.<String>} validationResult Результат валидации.
      * @see isValid
      * @see validate
-     */
-
-    /*
-     * Set the validationResult from the outside
-     * @name Controls/_validate/Container#setValidationResult
-     * @function
-     * @param {null|Boolean|String} validationResult
      */
     setValidationResult(validationResult: ValidResult, config: IValidateConfig = {}): void {
         this._validationResult = validationResult;
@@ -257,29 +249,22 @@ class ValidateContainer extends Control {
      * Возвращает результат валидации.
      * @name Controls/_validate/Container#isValid
      * @function
-     * @returns {undefined|Array}
+     * @returns {undefined|Array.<String>}
      * @see setValidationResult
      * @see validate
-     */
-
-    /*
-     * Get the validationResult
-     * @name Controls/_validate/Container#isValid
-     * @function
-     * @returns {undefined|Array}
      */
     isValid(): ValidResult {
         return this._validationResult;
     }
 
-    _hoverHandler() {
+    _hoverHandler(): void {
         clearTimeout(this._closeId);
         if (!this._isOpened) {
             _private.openInfoBox(this);
         }
     }
 
-    _scrollHandler() {
+    _scrollHandler(): void {
         if (this._isOpened) {
             _private.forceCloseInfoBox(this);
         }
@@ -316,7 +301,7 @@ class ValidateContainer extends Control {
         }
     }
 
-    _hoverInfoboxHandler() {
+    _hoverInfoboxHandler(): void {
         clearTimeout(this._closeId);
     }
 
@@ -337,7 +322,7 @@ class ValidateContainer extends Control {
         }
     }
 
-    private _getValidStatus(contentActive): ValidationStatus {
+    private _getValidStatus(contentActive: boolean): ValidationStatus {
         //ie is not support focus-within
         if (this._isValidResult()) {
             return contentActive ? 'invalidAccent' : 'invalid';

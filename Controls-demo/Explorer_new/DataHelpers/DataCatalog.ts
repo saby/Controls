@@ -1,5 +1,35 @@
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate'
+import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell'
 
+export const DataWithLongFolderName = {
+   getData: () => [{
+         id: 1,
+         parent: null,
+         'parent@': true,
+         title: 'Папка 1. ДлинноеназваниеДлинноеназваниеДлинноеназвание'
+      },
+      {
+         id: 11,
+         parent: 1,
+         'parent@': null,
+         title: 'Файл 11'
+      },
+      {
+         id: 12,
+         parent: 1,
+         'parent@': null,
+         title: 'Файл 12'
+      }],
+
+   getColumns: () => [
+      {
+         displayProperty: 'title',
+         width: '1fr',
+         textOverflow: 'ellipsis'
+      }
+   ]
+};
 export const Gadgets = {
    getData: () => [{
    id: 1,
@@ -246,6 +276,42 @@ export const Gadgets = {
       {
          displayProperty: 'price',
          width: '1fr'
+      }
+   ],
+   getGridEditingCol: () => [
+      {
+         displayProperty: 'title',
+         width: '200px',
+         template: editingColumnTemplate
+      },
+      {
+         displayProperty: 'discr',
+         width: '1fr',
+         template: notEditableTemplate,
+      },
+   ],
+
+   getGridColumnsForScroll: () => [
+      {
+         displayProperty: 'id',
+         width: '150px'
+      },
+      {
+         displayProperty: 'title',
+         width: '200px',
+         align: 'right'
+      },
+      {
+         displayProperty: 'discr',
+         width: '200px',
+         align: 'right'
+
+      },
+      {
+         displayProperty: 'price',
+         width: '200px',
+         align: 'right'
+
       }
    ],
 

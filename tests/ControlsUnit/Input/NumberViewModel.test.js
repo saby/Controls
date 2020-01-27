@@ -596,7 +596,7 @@ define(
                      delete: '1'
                   },
                   result: {
-                     value: '0',
+                     value: '',
                      position: 0
                   },
                   inputType: 'deleteBackward'
@@ -761,7 +761,7 @@ define(
                      delete: '0'
                   },
                   result: {
-                     value: '0',
+                     value: '',
                      position: 0
                   },
                   inputType: 'deleteForward'

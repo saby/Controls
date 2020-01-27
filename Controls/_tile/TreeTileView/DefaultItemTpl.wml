@@ -1,42 +1,27 @@
-<ws:template name="defaultFolderTpl">
-   <div attr:class="controls-TileView__item js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-TreeTileView__item js-controls-SwipeControl__actionsContainer
-            {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
-            controls-ListView__item_showActions
-            {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? ' controls-TileView__item_withMarker' : ' controls-TileView__item_withoutMarker'}}
-            {{!!itemData.isActive ? ' controls-TreeTileView__item_active'}}"
-        attr:style="{{'-ms-flex-preferred-size: ' + (folderWidth || itemData.defaultFolderWidth) + 'px; flex-basis: ' + (folderWidth || itemData.defaultFolderWidth)+ 'px;'}}">
-      <ws:partial if="{{itemData.hasMultiSelect}}"
-                  template="{{multiSelectTpl}}"
-                  attr:class="{{itemData.multiSelectClassList}}">
-         <ws:templateOptions triState="{{true}}"
-                             checkboxReadOnly="{{checkboxReadOnly}}"
-                             multiSelectStatus="{{itemData.multiSelectStatus}}"
-                             key="{{itemData.key}}" />
-      </ws:partial>
-      <span attr:class="controls-TreeTileView__nodeIcon icon-large icon-Folder icon-disabled"></span>
-      <ws:if data="{{!!itemData.dragTargetNode}}">
-         <div attr:class="controls-TreeTileView__dragTargetNode"></div>
-      </ws:if>
-      <div attr:class="controls-TreeTileView__title" title="{{itemData.item.title}}">{{itemData.item[itemData.displayProperty]}}</div>
-      <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
-                  highlightOnHover="{{highlightOnHover}}"
-                  template="{{swipeTemplate}}"
-                  itemData="{{itemData}}"
-                  itemActionsTemplate="{{itemActionsTemplate}}"/>
-      <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
-                  template="{{itemActionsTemplate}}"
-                  highlightOnHover="{{highlightOnHover}}"
-                  itemData="{{itemData}}"
-                  itemActionsClass="controls-TileView__itemActions controls-TreeTileView__itemActions_center"/>
-   </div>
-</ws:template>
-<ws:template name="itemTemplate">
-   <ws:partial
-      template="wml!Controls/_tile/TileView/DefaultItemTpl"
+<ws:template name="folderTemplate">
+<ws:partial
+      template="wml!Controls/_tile/TreeTileView/FolderTpl"
       width="{{width}}"
       hasTitle="{{hasTitle}}"
       itemData="{{itemData}}"
       invisible="{{invisible}}"
+      titleStyle="{{titleStyle}}"
+      marker="{{marker}}"
+      staticHeight="{{staticHeight}}"
+      shadowVisibility="{{shadowVisibility}}"
+      markerVisibility="{{markerVisibility}}"
+      itemActionsTemplate="{{itemActionsTemplate}}"
+      swipeTemplate="{{swipeTemplate}}"
+      multiSelectTpl="{{multiSelectTpl}}"/>
+</ws:template>
+<ws:template name="leafTemplate">
+   <ws:partial
+      template="wml!Controls/_tile/TileView/TileTpl"
+      width="{{width}}"
+      hasTitle="{{hasTitle}}"
+      itemData="{{itemData}}"
+      invisible="{{invisible}}"
+      titleStyle="{{titleStyle}}"
       marker="{{marker}}"
       staticHeight="{{staticHeight}}"
       shadowVisibility="{{shadowVisibility}}"
@@ -54,13 +39,13 @@
 <ws:else>
    <ws:if data="{{itemData.dispItem.isNode()}}">
       <ws:if data="{{nodeContentTemplate}}">
-         <ws:partial template="itemTemplate" contentTpl="{{nodeContentTemplate}}" width="{{folderWidth}}"/>
+         <ws:partial template="leafTemplate" contentTpl="{{nodeContentTemplate}}" width="{{folderWidth}}"/>
       </ws:if>
       <ws:else>
-         <ws:partial template="defaultFolderTpl"/>
+         <ws:partial template="folderTemplate" width="{{folderWidth}}"/>
       </ws:else>
    </ws:if>
    <ws:else>
-      <ws:partial template="itemTemplate" contentTpl="{{contentTemplate}}" width="{{itemWidth}}"/>
+      <ws:partial template="leafTemplate" contentTpl="{{contentTemplate}}" width="{{itemWidth}}"/>
    </ws:else>
 </ws:else>

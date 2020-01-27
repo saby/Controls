@@ -9,6 +9,6 @@
         </div>
     </ws:headerContentTemplate>
     <ws:bodyContentTemplate>
-        <Controls.input:Text value="width: {{_options.workspaceWidth}} | minWidth: {{_options.stackMinWidth}} | maxWidth: {{_options.stackMaxWidth}}" />
+        <Controls.input:Text class="ControlsDemo-TestMaximizedStack__width" value="width: {{_options.workspaceWidth}} | minWidth: {{_options.stackMinWidth}} | maxWidth: {{_options.stackMaxWidth}}" />
     </ws:bodyContentTemplate>
 </Controls.popupTemplate:Stack>

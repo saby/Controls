@@ -72,7 +72,7 @@ define([
          it('should decrease year.', function() {
             const component = calendarTestUtils.createComponent(YearsRange, { year: year });
             component._onPrevClick();
-            assert(component._year, year.getFullYear() - 1);
+            assert.equal(component._lastYear, year.getFullYear() - 1);
          });
       });
 
@@ -80,7 +80,7 @@ define([
          it('should increase year.', function() {
             const component = calendarTestUtils.createComponent(YearsRange, { year: year });
             component._onNextClick();
-            assert(component._year, year.getFullYear() + 1);
+            assert.equal(component._lastYear, year.getFullYear() + 1);
          });
       });
 

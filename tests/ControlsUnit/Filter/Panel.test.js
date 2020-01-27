@@ -5,10 +5,10 @@ define(
       'Controls/history',
       'Types/collection',
       'Core/core-clone',
-      'Core/Deferred', 
+      'Core/Deferred',
       'Env/Env'
    ],
-   function(filterPopup, filter, history, collection, Clone, Deferred,Env) {
+   function(filterPopup, filter, history, collection, Clone, Deferred, Env) {
       describe('FilterPanelVDom', function() {
          var template = 'tmpl!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/filterItemsTemplate';
          var config = {},
@@ -50,18 +50,21 @@ define(
          });
 
          it('Init::historyItems', function(done) {
-            if (Env.constants.isServerSide) { return done(); }
+            let isServerSide = Env.constants.isServerSide;
+            Env.constants.isServerSide = false;
             var config2 = {
                items: items,
                historyId: 'TEST_PANEL_HISTORY_ID'
             };
             var panel2 = getFilterPanel(config2);
-            filterPopup.DetailPanel._private.loadHistoryItems(panel2, 'TEST_PANEL_HISTORY_ID').addCallback(function(items) {
+            filterPopup.DetailPanel._private.loadHistoryItems(panel2, 'TEST_PANEL_HISTORY_ID', false).addCallback(function(items) {
                assert.isOk(filter.HistoryUtils.getHistorySource({historyId: 'TEST_PANEL_HISTORY_ID'})._history);
+               assert.isFalse(filter.HistoryUtils.getHistorySource({historyId: 'TEST_PANEL_HISTORY_ID'}).historySource._favorite);
                assert.equal(items.getCount(), 2);
+               Env.constants.isServerSide = isServerSide;
                done();
             });
-			});
+         });
 
          it('Init::historyItems isReportPanel', function() {
             let historyConfig = {

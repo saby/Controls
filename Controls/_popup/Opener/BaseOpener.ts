@@ -72,7 +72,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         }
     }
     open(popupOptions: TBaseOpenerOptions, controller: string): Promise<string | undefined> {
-        return new Promise(((resolve) => {
+        return new Promise(((resolve, reject) => {
             this._toggleIndicator(true);
             const cfg: TBaseOpenerOptions = this._getConfig(popupOptions || {});
             let resultPromise: Promise<string>;
@@ -87,7 +87,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             // Сейчас эта ветка нужно, чтобы запомнить ws3Action, который откроет окно на старой странице
             // На вдоме отдаем id сразу
             if (!this._useVDOM()) {
-                resultPromise.then((popupId) => resolve(popupId));
+                resultPromise.then((popupId) => resolve(popupId)).catch(reject);
             } else {
                 resolve(cfg.id);
             }
@@ -172,6 +172,9 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                     return results;
                 }
                 return new Error('Opener was destroyed');
+            }).catch((error) => {
+                this._loadModulesPromise = null;
+                throw error;
             });
         }
         return this._loadModulesPromise;
@@ -466,7 +469,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
      * @private
      */
      static requireModules(config: IBaseOpenerOptions, controller: string): Promise<ILoadDependencies|Error> {
-        return new Promise<ILoadDependencies|Error>((resolve) => {
+        return new Promise<ILoadDependencies|Error>((resolve, reject) => {
             Promise.all([
                 BaseOpener.requireModule(config.template),
                 BaseOpener.requireModule(controller)
@@ -475,9 +478,10 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                     template: result[0],
                     controller: result[1]
                 });
-            }).catch((error: Error) => {
-                Logger.error(this._moduleName + ': ' + error.message, undefined, error);
-                return error;
+            }).catch((error: RequireError) => {
+                requirejs.onError(error);
+                Logger.error('Controls/popup' + ': ' + error.message, undefined, error);
+                reject(error);
             });
         });
     }

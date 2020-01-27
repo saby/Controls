@@ -296,7 +296,7 @@ function getMaxEndRow(array): number[] {
  *  ) -> [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
  */
 
-function getRowsArray(array, hasMultiselect, isMultiHeader) {
+function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell) {
     let result = [];
     if (!isMultiHeader) {
         result.push(array);
@@ -321,7 +321,36 @@ function getRowsArray(array, hasMultiselect, isMultiHeader) {
     if (hasMultiselect) {
         result[0] = [{}, ...result[0]];
     }
+    if (actionsCell) {
+        // We have to calculate at least endColumn here, because it is used
+        // by ColumnsScroll ScrollWrapper to get the last column number
+        const firstRow = result[0];
+        result[0] = [
+            ...firstRow,
+            getHeaderActionsCellConfig(array)
+        ];
+    }
     return result;
+}
+
+function getHeaderActionsCellConfig(header) {
+    let minStartRow = Number.MAX_VALUE;
+    let maxEndRow = 0;
+    let maxEndColumn = 0;
+
+    header.forEach((cell) => {
+        minStartRow = cell.startRow < minStartRow ? cell.startRow : minStartRow;
+        maxEndRow = cell.endRow > maxEndRow ? cell.endRow : maxEndRow;
+        maxEndColumn = cell.endColumn > maxEndColumn ? cell.endColumn : maxEndColumn;
+    });
+
+    return {
+        actionCell: true,
+        startRow: minStartRow,
+        endRow: maxEndRow,
+        startColumn: maxEndColumn,
+        endColumn: maxEndColumn + 1
+    };
 }
 
 export {

@@ -35,9 +35,9 @@ define([
             items: rs,
             parentProperty: ListData.PARENT_PROPERTY,
             nodeProperty: ListData.NODE_PROPERTY,
-            selectionStrategy: {
-               name: 'Controls/operations:DeepTreeSelectionStrategy'
-            },
+            selectDescendants: true,
+            selectAncestors: true,
+            nodesSourceControllers: new Map(),
             keyProperty: ListData.KEY_PROPERTY,
             listModel: new treeGrid.ViewModel({columns: [], items: rs})
          };
@@ -54,9 +54,8 @@ define([
             selectedKeys: [],
             excludedKeys: [],
             keyProperty: 'id',
-            selectionStrategy: {
-               name: 'Controls/operations:FlatSelectionStrategy'
-            },
+            selectDescendants: false,
+            selectAncestors: false,
             listModel: new list.ListViewModel({items: rs})
          };
          var inst = new SelectionController();
@@ -70,9 +69,7 @@ define([
          instance._afterMount();
          assert.isTrue(stubNotify.withArgs('register', ['selectedTypeChanged', instance, SelectionController._private.selectedTypeChangedHandler], {bubbling: true}).calledOnce);
          assert.isTrue(instance._options.items.hasEventHandlers('onCollectionChange'));
-         return instance._multiselection.getCount().then(() => {
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
-         });
+         assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
       });
 
       describe('_beforeUpdate', function() {
@@ -101,10 +98,17 @@ define([
             instance._beforeUpdate(newCfg);
             assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
             assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
-            assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[3, 4], [3, 4], []]).calledOnce);
-            return instance._multiselection.getCount().then(() => {
-               assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
-            });
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
+
+            // Выбрать все и все записи в исключениях, проверим что selectedKeys сбросится
+            newCfg.selectedKeys = [null];
+            newCfg.excludedKeys = [null, 1, 6, 7];
+            instance._multiselection._listModel.getItems().setMetaData({more: false});
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+            assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[], [], [null]]).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
          });
 
          it('change list model', async function() {
@@ -172,9 +176,7 @@ define([
             assert.isTrue(selectCalled);
             assert.isFalse(unselectCalled);
             assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
-            return instance._multiselection.getCount().then(() => {
-               assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [5], { bubbling: true }).calledOnce);
-            });
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [5], { bubbling: true }).calledOnce);
          });
 
          it('unselect item', async function() {
@@ -188,9 +190,7 @@ define([
             assert.isFalse(selectCalled);
             assert.isTrue(unselectCalled);
             assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[], [], [1]]).calledOnce);
-            return instance._multiselection.getCount().then(() => {
-               assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
-            });
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
          });
 
          it('unselect nested item when parent is selected', async function() {
@@ -204,9 +204,7 @@ define([
             assert.isFalse(selectCalled);
             assert.isTrue(unselectCalled);
             assert.isTrue(stubNotify.withArgs('excludedKeysChanged', [[2], [2], []]).calledOnce);
-            return instance._multiselection.getCount().then(() => {
-               assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
-            });
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
          });
       });
 
@@ -275,9 +273,7 @@ define([
          instance._options.listModel.updateSelection = sandbox.stub();
          instance._onCollectionChangeHandler();
          assert.isTrue(instance._options.listModel.updateSelection.withArgs({}).calledOnce);
-         return instance._multiselection.getCount().then(() => {
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).called);
-         });
+         assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).called);
       });
    });
 });

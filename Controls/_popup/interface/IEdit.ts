@@ -44,9 +44,9 @@ export interface IEditOpener {
  * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 здесь}.
  * @param {Object} popupOptions Опции всплывающего окна диалога редактирования.
  * В зависимости от значения опции 'mode':
- * * 'stack' — смотреть {@link Controls/_popup/Opener/Stack/PopupOptions.typedef popupOptions стекового окна}
- * * 'dialog' — смотреть {@link Controls/_popup/Opener/Dialog/PopupOptions.typedef popupOptions диалогового окна}
- * * 'sticky' — смотреть {@link Controls/_popup/Opener/Sticky/PopupOptions.typedef popupOptions окна прилипающего блока}
+ * * 'stack' — смотреть {@link Controls/_popup/interface/IStack/PopupOptions.typedef popupOptions стекового окна}
+ * * 'dialog' — смотреть {@link Controls/_popup/interface/IDialog/PopupOptions.typedef popupOptions диалогового окна}
+ * * 'sticky' — смотреть {@link Controls/_popup/interface/ISticky/PopupOptions.typedef popupOptions окна прилипающего блока}
  * @returns {undefined}
  * @example
  * * WML

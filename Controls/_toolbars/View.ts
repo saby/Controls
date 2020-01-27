@@ -43,11 +43,12 @@ export function getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
     const fontColorStyle = item.get('fontColorStyle');
     const contrastBackground = item.get('contrastBackground');
     const cfg = {};
+    cfg.readOnly = readOnly;
     cfg._hoverIcon = true;
     cssStyleGeneration.call(cfg, {
         size, icon, style, viewMode, iconStyle, transparent, caption, readOnly, fontColorStyle, contrastBackground
     });
-    return cfg
+    return cfg;
 }
 
 export function getButtonTemplate(): TemplateFunction {
@@ -73,7 +74,8 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
      */
     itemsSpacing: TItemsSpacing;
     /**
-     * Позволяет отобразить дополнительные элементы в меню.
+     * @name Controls/_toolbars/View#additionalProperty
+     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
      */
     additionalProperty?: string
 }
@@ -87,8 +89,8 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IIconSize
  * @mixes Controls/interface:IItemTemplate
- * @mixes Controls/toolbars:IToolbarOptions
- * @mixes Controls/toolbars:IToolbarSource
+ * @mixes Controls/_toolbars/IToolbarOptions
+ * @mixes Controls/_toolbars/IToolbarSource
  *
  * @public
  * @author Красильников А.С.
@@ -138,6 +140,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 nodeProperty: options.nodeProperty,
                 parentProperty: options.parentProperty,
                 groupTemplate: options.groupTemplate,
+                groupProperty: options.groupProperty,
                 groupingKeyCallback: options.groupingKeyCallback,
                 additionalProperty: options.additionalProperty,
                 itemTemplateProperty: options.itemTemplateProperty
@@ -163,6 +166,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 items: this._items,
                 rootKey: item.get(options.keyProperty),
                 groupTemplate: options.groupTemplate,
+                groupProperty: options.groupProperty,
                 groupingKeyCallback: options.groupingKeyCallback,
                 keyProperty: options.keyProperty,
                 parentProperty: options.parentProperty,

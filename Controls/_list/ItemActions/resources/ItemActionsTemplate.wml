@@ -7,7 +7,8 @@
             {{itemData.isEditing ? 'controls-itemActionsV_editing'}}
             {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
             {{itemData.isActive && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
-            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}">
+            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}
+            {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
         <div attr:class="controls-itemActionsV__wrapper">
             <ws:partial
                     template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
@@ -15,10 +16,12 @@
                     size="{{size}}"
                     showedActions="{{itemData.itemActions.showed}}"/>
             <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
-                <ws:partial template="Controls/editableArea:Buttons"
-                            attr:class="controls-itemActionsV__wrapper-isEditing"
-                            on:applyButtonClick="_applyEdit()"
-                            on:closeButtonClick="_cancelEdit()" />
+                <Controls.Container.Async templateName="Controls/editableArea:Buttons">
+                    <ws:partial template="{{content.resolvedTemplate}}"
+                                attr:class="controls-itemActionsV__wrapper-isEditing"
+                                on:applyButtonClick="_applyEdit()"
+                                on:closeButtonClick="_cancelEdit()"/>
+                </Controls.Container.Async>
             </ws:if>
         </div>
     </div>

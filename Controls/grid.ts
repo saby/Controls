@@ -10,7 +10,7 @@
  * @includes ColumnTemplate Controls/grid:ColumnTemplate
  * @includes RowEditor Controls/grid:RowEditor
  * @includes IGridControl Controls/_grid/interface/IGridControl
- * @includes IColumn Controls/_grid/interface/IColumn
+ * @includes IColumn Controls/grid:IColumn
  * @includes IHeaderCell Controls/_grid/interface/IHeaderCell
  * @public
  * @author Крайнов Д.О.
@@ -24,10 +24,11 @@ import LadderWrapper = require('wml!Controls/_grid/LadderWrapper');
 import ColumnTemplate = require('wml!Controls/_grid/Column');
 
 import HeaderContent = require('wml!Controls/_grid/HeaderContent');
-import SortButton = require('Controls/_grid/SortButton');
+import SortingButton from 'Controls/_grid/SortingButton';
 import GridView = require('Controls/_grid/GridView');
 import GridViewModel = require('Controls/_grid/GridViewModel');
 
+import SortingSelector from 'Controls/_grid/SortingSelector';
 import RowEditor = require('wml!Controls/_grid/RowEditor');
 
 export {
@@ -39,11 +40,12 @@ export {
     ColumnTemplate,
 
     HeaderContent,
-    SortButton,
+    SortingButton,
     GridView,
     GridViewModel,
 
-    RowEditor
+    RowEditor,
+    SortingSelector
 };
 
 export {

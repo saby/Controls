@@ -16,6 +16,7 @@ import template = require('wml!Controls/_popup/InfoBox/InfoBox');
  * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ здесь}.
  * См. <a href="/materials/demo-ws4-infobox">демо-пример</a>.
  * @class Controls/_popup/InfoBox
+ * @mixes Controls/_popup/interface/IInfoBox
  *
  * @public
  * @author Красильников А.С.

@@ -66,13 +66,15 @@ class More {
             if (more) {
                 more.set('nav_result', moreMeta);
             } else {
-                this.more.add(new Record({
-                    rawData: {
-                        id: key,
-                        nav_result: moreMeta
-                    },
-                    adapter: this.more.getAdapter()
-                }));
+                const moreRecord = new Record({
+                    adapter: this.more.getAdapter(),
+                    format: this.more.getFormat()
+                });
+                moreRecord.set({
+                    id: key,
+                    nav_result: moreMeta
+                });
+                this.more.add(moreRecord);
             }
         } else {
             this.more = this.resolveMore(moreMeta);

@@ -26,15 +26,14 @@
  *    </ws:columns>
  * </Controls.grid:View>
  * </pre>
+ * @public
  */
-
-/**
- * @name Controls/grid:LadderWrapper#ladderProperty
- * @cfg {Array.<String>|String} Устанавливает имена полей, для которых будет работать {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
- * @default undefined
- */
-
 
 export default interface ILadderWrapperOptions {
+   /**
+    * @name Controls/grid:LadderWrapper#ladderProperty
+    * @cfg {Array.<String>|String} Устанавливает имена полей, для которых будет работать {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
+    * @default undefined
+    */
    [index: number]: string;
 }

@@ -1,7 +1,21 @@
 /**
- * Модуль возвращает метод, с помощью которого можно запросить данные с учетом фильтрации.
+ * Модуль возвращает метод, с помощью которого можно запросить данные с учетом фильтрации и сортировки.
+ * <h2>Аргументы функции</h2>
+ *
+ * Функция на вход приниает объект с полями:
+ * * source: SbisService - источник данных;
+ * * filterButtonSource: Array - элементы {@link Controls/filter:Controller#filterButtonSource FilterButton};
+ * * fastFilterSource: Array - элементы {@link Controls/filter:Controller#fastFilterSource FastFilter};
+ * * navigation: object - навигация для получения данных;
+ * * historyId: string - идентификатор для получения истории фильтрации;
+ * * filter: FilterObject - фильтр для получения данных;
+ * * sorting: SortingObject - сортировка для получения данных;
+ * * propStorageId: string - идентификатор стора, в котором хранится сохраненная пользовательская сортировка;
+ *
  * @class Controls/_dataSource/requestDataUtil
+ * @public
  * @author Сухоручкин А.С.
+ * @public
  */
 
 import {Controller as SourceController} from 'Controls/source';
@@ -30,8 +44,8 @@ export interface IRequestDataResult {
 
 export interface ISourceConfig {
    source: SbisService;
-   filterButtonSource?: SbisService;
-   fastFilterSource?: SbisService;
+   filterButtonSource?: object[];
+   fastFilterSource?: object[];
    navigation?: object;
    historyId?: string;
    filter?: FilterObject;

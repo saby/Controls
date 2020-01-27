@@ -22,7 +22,6 @@ import {IInfoBoxPopupOptions, IInfoBoxOpener} from 'Controls/_popup/interface/II
 
 const INFOBOX_HIDE_DELAY = 300;
 const INFOBOX_SHOW_DELAY = 300;
-const INFOBOX_OLD_ENV_Z_INDEX = 10000;
 const POPUP_CONTROLLER = 'Controls/popupTemplate:InfoBoxController';
 
 // Default popup configuration
@@ -101,11 +100,6 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
         // Find opener for InfoBox
         if (!newCfg.opener) {
             newCfg.opener = DefaultOpenerFinder.find(newCfg.target);
-        }
-        if (!isNewEnvironment()) {
-            // For the old page, set the zIndex manually
-            // InfoBox must be above all the popup windows on the page.
-            newCfg.zIndex = INFOBOX_OLD_ENV_Z_INDEX;
         }
         return {
             // todo: https://online.sbis.ru/doc/7c921a5b-8882-4fd5-9b06-77950cbe2f79

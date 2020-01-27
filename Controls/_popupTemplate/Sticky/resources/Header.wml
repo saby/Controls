@@ -1,0 +1,24 @@
+<div class="controls-StickyTemplate__top-area controls-StickyTemplate__top-area_theme_{{_options.theme}}">
+   <div class="controls-StickyTemplate__top-area-content">
+      <ws:if data="{{_options.headingCaption}}">
+         <div class="controls-StickyTemplate__caption controls-StickyTemplate__caption_theme_{{_options.theme}}">
+            <Controls.heading:Title attr:class="controls-StickyTemplate__caption_text"
+                                    caption="{{_options.headingCaption}}"
+                                    style="{{_options.headingStyle}}"
+                                    size="{{_options.headingSize}}"
+                                    readOnly="{{true}}"
+                                    tooltip="{{_options.headingCaption}}"/>
+          </div>
+      </ws:if>
+      <ws:if data="{{_options.headerContentTemplate}}">
+         <div class="controls-StickyTemplate__top-area controls-StickyTemplate__top-area_theme_{{_options.theme}}">
+            <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
+         </div>
+      </ws:if>
+      <ws:if data="{{_options.closeButtonVisibility}}">
+         <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button controls-StickyTemplate__close_button_theme_{{_options.theme}}"
+                                              viewMode="link"
+                                              on:click="close()"/>
+      </ws:if>
+   </div>
+</div>

@@ -46,7 +46,7 @@ type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|null;
 interface IContextMenuConfig {
     items?: RecordSet;
     groupTemplate?: TemplateFunction|string;
-    groupingKeyCallback?: (item) => string;
+    groupProperty?: string;
     itemTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     headerTemplate?: TemplateFunction|string;
@@ -71,11 +71,6 @@ interface IItemPadding {
     right?: THorizontalItemPadding;
 }
 
-interface ISelectionStrategy {
-    name: string;
-    options?;
-}
-
 export interface IList {
     contextMenuVisibility?: boolean;
     contextMenuConfig?: IContextMenuConfig;
@@ -96,7 +91,7 @@ export interface IList {
     dataLoadErrback?: () => void;
     style?: TListStyle;
     itemPadding?: IItemPadding;
-    selectionStrategy?: ISelectionStrategy;
+    nodeConfig?: INodeConfig;
 }
 
 /*
@@ -127,7 +122,7 @@ export interface IList {
  * Набор опций передается объектом. Заданный объект мержится с минимальным объектом опций, отдаваемых в меню по-умолчанию.
  * В качестве ключей можно использовать следующие свойства:
  * - items - для смены набора элементов.
- * - groupingKeyCallback, groupTemplate для установки группировки.
+ * - groupProperty, groupTemplate для установки группировки.
  * - itemTemplate - шаблон элемента меню.
  * - footerTemplate - шаблон футера.
  * - headerTemplate - шаблон шапки.
@@ -933,18 +928,4 @@ export interface IList {
 /*
  * @cfg {ItemPadding} Configuration inner paddings in the item.
  * @name Controls/_list/interface/IList#itemPadding
- */
-
-/**
- * @typedef {Object} SelectionStrategy
- * @property {String} name Класс со стратегией выбора.
- * @property {Object} options Опции для стратегии выбора.
- */
-
-/**
- * @name Controls/_list/interface/IList#selectionStrategy
- * @cfg {SelectionStrategy} Стратегия выбора задает логику поведения при отметке записей в режиме множественого выбора.
- * @remark Опция актуальна только при multiSelectVisibility: true.
- * @default Controls/operations:FlatSelectionStrategy
- * @see Controls/operations:TreeSelectionStrategy
  */

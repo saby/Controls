@@ -15,7 +15,7 @@ function load(sourceOptions, data) {
    return sourceController.load(sourceOptions.filter, sourceOptions.sorting);
 }
 
-function getThenFunction(source) {
+function getThenFunction(sourceOptions) {
    return function(result) {
       var error;
       var data;
@@ -30,7 +30,7 @@ function getThenFunction(source) {
 
       return {
          source: new PrefetchProxy({
-            target: source,
+            target: getSource(sourceOptions),
             data: {
                query: error || data
             }
@@ -41,7 +41,11 @@ function getThenFunction(source) {
    };
 }
 
+function getSource(sourceOptions) {
+   return sourceOptions.source instanceof PrefetchProxy ? sourceOptions.source.getOriginal() : sourceOptions.source;
+}
+
 export default function(sourceOptions, data) {
-   var thenFunction = getThenFunction(sourceOptions.source);
+   var thenFunction = getThenFunction(sourceOptions);
    return load(sourceOptions, data).then(thenFunction, thenFunction);
 }

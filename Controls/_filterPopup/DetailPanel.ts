@@ -126,7 +126,7 @@ import {Logger} from 'UI/Utils';
             const config = {
                 historyId,
                 recent: isReportPanel ? 'MAX_HISTORY_REPORTS' : 'MAX_HISTORY',
-                favorite: true
+                favorite: isReportPanel
             };
             const historyLoad = HistoryUtils.loadHistoryItems(config)
                 .addCallback((items) => {

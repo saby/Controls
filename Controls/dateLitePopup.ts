@@ -10,6 +10,7 @@ import listTmpl = require('wml!Controls/_dateLitePopup/List');
 import ItemWrapper = require('wml!Controls/_dateLitePopup/ItemWrapper');
 import 'css!theme?Controls/_dateLitePopup/DateLitePopup';
 import {date as formatDate} from 'Types/formatter';
+import {Logger} from 'UI/Utils';
 
 /**
  * Контрол выбора даты или периода.
@@ -17,6 +18,7 @@ import {date as formatDate} from 'Types/formatter';
  * @class Controls/dateLitePopup
  * @extends Core/Control
  * @mixes Controls/dateLitePopup/IDateLitePopup
+ * @mixes Controls/_interface/IDisplayedRanges
  * @control
  * @public
  * @author Красильников А.С.
@@ -92,8 +94,10 @@ var Component = BaseControl.extend({
         } else {
             this._position = _private._getYearListPosition(options, options.dateConstructor);
         }
-
-        this._range = options.range;
+        if (options.range) {
+            Logger.error('dateLitePopup: ' + rk('You should use displayedRanges option instead of range option.'), this);
+        }
+        this._displayedRanges = options.displayedRanges || options.range;
     },
 
     _beforeUpdate: function (options) {

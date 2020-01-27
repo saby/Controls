@@ -31,6 +31,8 @@ export interface IToggleButtonOptions extends
     icons?: string[];
     captions?: string[];
     viewMode?: 'button' | 'link' | 'toolButton' | 'pushButton';
+    // deprecated options
+    icon?: string;
 }
 
 /**
@@ -187,6 +189,7 @@ export interface IToggleButtonOptions extends
  * </pre>
  */
 class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
+    ICheckable,
     IFontColorStyle,
     IFontSize,
     IHeight,
@@ -232,7 +235,8 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         const clonedOptions = {...newOptions};
         clonedOptions.icon = this._icon;
         this._iconSize = this._icon ? ActualApi.iconSize(newOptions.iconSize, this._icon) : '';
-        this._iconStyle = this._icon ? ActualApi.iconStyle(newOptions.iconStyle, this._icon, newOptions.readOnly) : '';
+        this._iconStyle = this._icon ? ActualApi.iconStyle(newOptions.iconStyle, this._icon,
+            newOptions.readOnly, false) : '';
 
         if (newOptions.viewMode === 'pushButton' || newOptions.viewMode === 'toolButton') {
             this._hoverIcon = !newOptions.value;

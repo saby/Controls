@@ -21,7 +21,7 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
                   showActionButton: !!options.showActionButton,
                   showArrowOutsideOfBackButton: !!options.showActionButton,
                   backButtonStyle: options.backButtonStyle,
-                  backButtonCaption: newBackButtonCaption,
+                  backButtonCaption: _private.getBackButtonCaption(options),
                   counterCaption: options.items[options.items.length - 1].get('counterCaption')
                },
 
@@ -87,4 +87,3 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
    });
    PathController._private = _private;
    export = PathController;
-

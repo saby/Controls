@@ -5,7 +5,7 @@
                 bind:excludedKeys="_excludedKeys"
                 on:selectedKeysCountChanged="_notifyHandler('selectedKeysCountChanged')">
             <div>
-                <Controls.operations:Panel selectedKeysCount="{{content._options.selectedKeysCount}}">
+                <Controls.operations:Panel selectedKeysCount="{{content._options.selectedKeysCount}}" source="{{null}}">
                 </Controls.operations:Panel>
 
                 <Controls.list:Container>

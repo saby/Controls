@@ -1,7 +1,5 @@
-import {
-    default as BaseController, IPopupItem, IPopupOptions,
-    IPopupSizes, IPopupPosition
-} from 'Controls/_popupTemplate/BaseController';
+import BaseController from 'Controls/_popupTemplate/BaseController';
+import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition} from 'Controls/popup';
 import StackStrategy = require('Controls/_popupTemplate/Stack/Opener/StackStrategy');
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import collection = require('Types/collection');
@@ -37,6 +35,9 @@ class StackController extends BaseController {
             this._update();
         } else if (!isSinglePopup) {
             this._update();
+        } else {
+            // Пересчитаем еще раз позицию, на случай, если ресайзили окно браузера
+            item.position = this._getItemPosition(item);
         }
         return true;
     }
@@ -52,8 +53,9 @@ class StackController extends BaseController {
         }
     }
 
-    elementUpdated(item: IPopupItem, container: HTMLDivElement) {
+    elementUpdated(item: IPopupItem, container: HTMLDivElement): boolean {
         this._updatePopup(item, container);
+        return true;
     }
 
     elementDestroyed(item: IPopupItem): Promise<null> {
@@ -97,7 +99,7 @@ class StackController extends BaseController {
 
     private _update(): void {
         const maxPanelWidth = StackStrategy.getMaxPanelWidth();
-        let cache = [];
+        let cache: IPopupItem[] = [];
         this._stack.each((item) => {
             if (item.popupState !== this.POPUP_STATE_DESTROYING) {
                 item.position = this._getItemPosition(item);
@@ -150,7 +152,7 @@ class StackController extends BaseController {
         let templateContainer;
 
         if (container) {
-            /* start: We remove the set values that affect the size and positioning to get the real size of the content */
+            /* start: Remove the set values that affect the size and positioning to get the real size of the content */
             templateContainer = this._getStackContentWrapperContainer(container);
             width = templateContainer.style.width;
             maxWidth = templateContainer.style.maxWidth;
@@ -192,7 +194,9 @@ class StackController extends BaseController {
     private _prepareSize(optionsSet: IPopupOptions[], property: string): number | void {
         for (let i = 0; i < optionsSet.length; i++) {
             // get size, if it's not percentage value
-            if (optionsSet[i][property] && (typeof optionsSet[i][property] !== 'string' || !optionsSet[i][property].includes('%'))) {
+            if (optionsSet[i][property] &&
+                (typeof optionsSet[i][property] !== 'string' ||
+                !optionsSet[i][property].includes('%'))) {
                 return parseInt(optionsSet[i][property], 10);
             }
         }
@@ -231,7 +235,6 @@ class StackController extends BaseController {
             }
             item.position = this._getItemPosition(item);
             if (this._stack.getCount() <= 1) {
-                item.position = this._getItemPosition(item);
                 this._showPopup(item);
                 if (StackStrategy.isMaximizedPanel(item)) {
                     this._prepareMaximizedState(StackStrategy.getMaxPanelWidth(), item);
@@ -324,8 +327,8 @@ class StackController extends BaseController {
     private _updatePopupOptions(item: IPopupItem): void {
         // for vdom synchronizer. Updated the link to the options when className was changed
         if (!item.popupOptions._version) {
-            item.popupOptions.getVersion = function() {
-                return this._version;
+            item.popupOptions.getVersion = () => {
+                return item.popupOptions._version;
             };
             item.popupOptions._version = 0;
         }
@@ -371,7 +374,7 @@ class StackController extends BaseController {
             const templateInfo = parserLib(template);
             templateClass = require(templateInfo.name);
 
-            templateInfo.path.forEach(function(key) {
+            templateInfo.path.forEach((key) => {
                 templateClass = templateClass[key];
             });
         } else {

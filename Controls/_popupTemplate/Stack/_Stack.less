@@ -53,6 +53,12 @@
 .controls-StackTemplate__top-area {
    display: flex;
    flex-shrink: 0;
+
+   //Нет возможности отнаследовать цвет для box-shadow
+   .controls-BreadCrumbsView__menu__dots {
+      background-color: @header_background-color_stack ;
+      box-shadow: -15px 2px 4px -6px @header_background-color_stack;
+   }
 }
 
 .controls-StackTemplate__content-area {

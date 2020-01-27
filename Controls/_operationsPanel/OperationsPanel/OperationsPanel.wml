@@ -14,7 +14,7 @@
                            nodeProperty="{{_options.nodeProperty}}"
                            keyProperty="{{_options.keyProperty}}"
                            source="{{_toolbarSource}}"
-                           on:itemClick="_notifyHandler('itemClick')"
+                           on:itemClick="_itemClickHandler()"
                            itemTemplate="{{ _options.itemTemplate }}"
                            itemTemplateProperty="{{ _options.itemTemplateProperty }}">
          </Controls.toolbars:View>

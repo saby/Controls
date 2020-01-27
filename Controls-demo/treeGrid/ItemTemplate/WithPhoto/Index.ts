@@ -13,6 +13,9 @@ export default class extends Control {
    private _viewSourceTwo: Memory;
    private _columns = Gadgets.getGridColumnsWithPhoto();
    private _twoLvlColumns = Gadgets.getGridTwoLevelColumnsWithPhoto();
+   private _twoLvlColumnsNoPhoto = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
+      ...cur, template: undefined
+   }));
 
    protected _beforeMount() {
       this._viewSource = new Memory({

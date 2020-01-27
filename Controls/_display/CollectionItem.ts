@@ -228,6 +228,7 @@ export default class CollectionItem<T> extends mixin<
             return;
         }
         this._$selected = selected;
+        this._nextVersion();
         if (!silent) {
             this._notifyItemChangeToOwner('selected');
         }

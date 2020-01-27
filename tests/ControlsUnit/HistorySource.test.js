@@ -411,7 +411,7 @@ define(
                assert.deepEqual(myItem, updatedData);
 
             });
-            it('prepareHistoryBySourceItems', function(done) {
+            it('prepareHistoryItems', function(done) {
                let newData = new sourceLib.DataSet({
                   rawData: {
                      frequent: createRecordSet(frequentData),
@@ -427,9 +427,9 @@ define(
                });
                memorySource.query().addCallback(function(res) {
                   let sourceItems = res.getAll();
-                  let preparedHistory = historyMod.Source._private.prepareHistoryBySourceItems({}, newData.getRow(), sourceItems);
-                  assert.equal(preparedHistory.get('frequent').getCount(), 2);
-                  preparedHistory.get('frequent').forEach(function(historyItem) {
+                  let preparedHistory = historyMod.Source._private.prepareHistoryItems({originSource: hSource.originSource}, newData.getRow().get('frequent'), sourceItems);
+                  assert.equal(preparedHistory.getCount(), 2);
+                  preparedHistory.forEach(function(historyItem) {
                      assert.isFalse(historyItem.getId() === '9');
                   });
                   done();
@@ -452,6 +452,7 @@ define(
                memorySource.query().addCallback(function(res) {
                   let self = {
                      _pinned: ['1', '2'],
+                     originSource: hSource.originSource,
                      historySource: {
                         getHistoryId: () => {
                            'TEST_ID';
@@ -461,7 +462,7 @@ define(
                   let sourceItems = res.getAll();
                   historyMod.Source._private.initHistory(self, newData, sourceItems);
                   assert.equal(self._history.pinned.getCount(), 3);
-                  assert.equal(self._recentCount, 2);
+                  assert.equal(self._recentCount, 1);
                   self._history.pinned.forEach(function(pinnedItem) {
                      assert.isFalse(pinnedItem.getId() === '9');
                   });

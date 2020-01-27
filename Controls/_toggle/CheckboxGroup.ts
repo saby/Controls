@@ -17,9 +17,9 @@ import {
  *
  * @class Controls/_toggle/CheckboxGroup
  * @extends Core/Control
- * @mixes Controls/_interface/ISource
- * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_interface/IHierarchy
+ * @implements Controls/_interface/ISource
+ * @implements Controls/_interface/IMultiSelectable
+ * @implements Controls/_interface/IHierarchy
  * @implements Controls/_toggle/interface/IToggleGroup
  * @control
  * @public
@@ -44,11 +44,21 @@ import {
  * @demo Controls-demo/Checkbox/Group
  */
 
-export interface ICheckboxGroupOptions extends IControlOptions, IMultiSelectableOptions, IHierarchyOptions, ISourceOptions {
+export interface ICheckboxGroupOptions extends IControlOptions,
+            IMultiSelectableOptions,
+            IHierarchyOptions,
+            ISourceOptions,
+            IToggleGroupOptions {
     direction?: string;
 }
 
-class CheckboxGroup extends Control<ICheckboxGroupOptions> {
+class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements ISource,
+                                                                      IMultiSelectable, IHierarchy, IToggleGroup {
+    '[Controls/_interface/ISource]': boolean = true;
+    '[Controls/_interface/IMultiSelectable]': boolean = true;
+    '[Controls/_interface/IHierarchy]': boolean = true;
+    '[Controls/_toggle/interface/IToggleGroup]': boolean = true;
+
     protected _template: TemplateFunction = template;
     protected _groupTemplate: Function = groupTemplate;
     protected _defaultItemTemplate: Function = defaultItemTemplate;
@@ -58,7 +68,10 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions> {
     protected _triStateKeys: string[] = [];
     protected _groups: object;
 
-    protected _beforeMount(options: ICheckboxGroupOptions, context: object, receivedState: RecordSet): void|Promise<RecordSet> {
+    protected _beforeMount(options: ICheckboxGroupOptions,
+                           context: object,
+                           receivedState: RecordSet): void|Promise<RecordSet> {
+
         this._isSelected = this._isSelected.bind(this);
         if (receivedState) {
             this._prepareItems(options, receivedState);
@@ -79,11 +92,10 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions> {
     }
 
     private _initItems(options: ICheckboxGroupOptions): Promise<RecordSet> {
-        const self = this;
-        self._sourceController = new SourceController({
+        this._sourceController = new SourceController({
             source: options.source
         });
-        return self._sourceController.load().addCallback((items) => {
+        return this._sourceController.load().addCallback((items) => {
             this._prepareItems(options, items);
             return items;
         });

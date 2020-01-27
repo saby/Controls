@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper controlsDemo__list_new-itemActions-noHighlight-inside">
+        <h3>Inside</h3>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                itemActions="{{_itemActions}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate"  highlightOnHover="{{false}}"/>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </div>
+
+    <div class="controlsDemo__wrapper controlsDemo__list_new-itemActions-noHighlight-outside">
+        <h3>Outside</h3>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                itemActions="{{_itemActions}}"
+                itemActionsPosition="outside">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate"  highlightOnHover="{{false}}"/>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </div>
+</div>

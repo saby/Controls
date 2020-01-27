@@ -1,0 +1,10 @@
+<div class="controls-SortingButton">
+    <div class="controls-SortingButton__content controls-SortingButton__content_align-{{_options.align === 'left' ? 'left' : 'default'}}">
+        <ws:if data="{{_options.value}}">
+            <div class="controls-SortingButton__icon">
+                <ws:partial attr:class="controls-SortingButton_arrow_theme-{{_options.theme}} " value="{{_options.value}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
+            </div>
+        </ws:if>
+        <div class="controls-SortingButton__caption controls-SortingButton__caption_theme-{{_options.theme}}" on:click="_clickHandler()">{{_options.caption}}</div>
+    </div>
+</div>

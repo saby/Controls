@@ -8,25 +8,19 @@
       </ws:else>
       <ws:else>{{emptySymbol}}</ws:else>
    </div>
-   <textarea
-      wrap="hard"
-      spellcheck="{{options.spellCheck}}"
-      name="{{fieldName}}"
-      value="{{calculateValueForTemplate()}}"
-      class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
-             controls-InputBase__nativeField_theme_{{options.theme}}_caret{{wasActionUser ? 'Filled' : 'Empty'}}
-                   {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}"
-      placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
-      on:keyup="_keyUpHandler()"
-      on:click="_clickHandler()"
-      on:input="_inputHandler()"
-      on:select="_selectHandler()"
-      on:keydown="_keyDownHandler()"
-      on:focusin="_focusInHandler()"
-      on:keypress="_keyPressHandler()"
-      on:focusout="_focusOutHandler()"
-      on:mousedown="_mouseDownHandler()"
-   ></textarea>
+   <ws:partial template="wml!Controls/_input/Base/Event">
+      <textarea
+         wrap="hard"
+         spellcheck="{{options.spellCheck}}"
+         name="{{fieldName}}"
+         value="{{calculateValueForTemplate()}}"
+         class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
+                controls-InputBase__nativeField_theme_{{options.theme}}_caret{{wasActionUser ? 'Filled' : 'Empty'}}
+                      {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}"
+         placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
+         on:keypress="_keyPressHandler()"
+      ></textarea>
+   </ws:partial>
    <ws:if data="{{!value}}">
       <div class="controls-InputBase__placeholder">
          <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>

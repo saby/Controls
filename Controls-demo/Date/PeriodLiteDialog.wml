@@ -51,8 +51,8 @@
 			   attr:class="ControlsDemo-PeriodLiteDialog__quartersYes"
          />
          <Controls.dateLitePopup
-               startValue="{{_startValue}}"
-               endValue="{{_endValue3}}"
+               startValue="{{_startValueOnlyYears}}"
+               endValue="{{_endValueOnlyYears}}"
                year="{{_year}}"
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"

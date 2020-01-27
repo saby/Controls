@@ -29,6 +29,13 @@ var
               displayProperties.group = cfg.groupingKeyCallback;
            }
 
+           if (cfg.groupProperty) {
+               const groupProperty = cfg.groupProperty;
+               displayProperties.group = (item) => {
+                   return item.get(groupProperty);
+               };
+           }
+
            if (typeof cfg.root !== 'undefined') {
               root = cfg.root;
            } else {

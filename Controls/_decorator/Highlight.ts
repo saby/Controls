@@ -28,12 +28,12 @@ export interface IHighlightOptions extends IControlOptions {
     /**
      * Класс обеспечивающий внешнее отображение подсветки.
      * @default controls-Highlight_highlight
-     * @demo Controls-demo/Decorator/WrapURLs/ClassName/Index
+     * @demo Controls-demo/Decorator/Highlight/ClassName/Index
      */
     className: string;
     /**
      * Декорируемый текст.
-     * @demo Controls-demo/Decorator/WrapURLs/Value/Index
+     * @demo Controls-demo/Decorator/Highlight/Value/Index
      */
     value: string;
     /**
@@ -45,7 +45,7 @@ export interface IHighlightOptions extends IControlOptions {
      * Режим подсветки.
      * @type HighlightMode
      * @default substring
-     * @demo @demo Controls-demo/Decorator/WrapURLs/HighlightMode/Index
+     * @demo @demo Controls-demo/Decorator/Highlight/HighlightMode/Index
      */
     highlightMode: HighlightMode;
 }

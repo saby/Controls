@@ -127,7 +127,7 @@ const moduleClass = CompoundControl.extend({
             // Нужно передать себя в качестве родителя, чтобы система фокусов
             // могла понять, где находятся вложенные компоненты
             parent: this,
-            popupOptions: this._options._popupOptions
+            popupOptions: this._getNewPopupOptions()
          };
          // todo откатил потому что упала ошибка https://online.sbis.ru/opendoc.html?guid=d8cc1098-3d3a-4fed-800c-81b4e6ed2319
          if (this._options.isWS3Compatible) {
@@ -366,23 +366,45 @@ const moduleClass = CompoundControl.extend({
       if (!this._panel._updateAreaWidth) {
          return;
       }
-      let width = this._options._popupOptions.width + offset;
-      const coords = this._getFloatAreaStackRootCoords();
-      const item = {
-         popupOptions: {
-            minWidth: this._options._popupOptions.minWidth,
-            maxWidth: this._options._popupOptions.maxWidth,
-            width,
-            containerWidth: this._container.width()
-         }
-      };
-
-      width = StackStrategy.getPosition(coords, item).width;
-      this._setSettingsWidth(width);
-      this._options._popupOptions.width = width;
+      const strategyData = this._getStrategyData(offset);
+      this._setSettingsWidth(strategyData.width);
+      this._options._popupOptions.width = strategyData.width;
       const newOptions = clone(this._options.templateOptions);
-      this._updateFloatAreaWidth(width, newOptions);
+
+      this._updateFloatAreaWidth(strategyData.width, newOptions);
+      this._vDomTemplate.setPopupOptions(this._getNewPopupOptions(offset));
    },
+
+    _getNewPopupOptions(offset: number = 0): object {
+        const strategyData = this._getStrategyData(offset);
+        const newPopupOptions = clone(this._options._popupOptions);
+        if (strategyData.maxWidth) {
+            newPopupOptions.maxWidth = strategyData.maxWidth;
+        }
+        return newPopupOptions;
+    },
+
+    _getStrategyData(offset: number = 0): object {
+        const coords = this._getFloatAreaStackRootCoords();
+        const item = {
+            popupOptions: {
+                minWidth: this._options._popupOptions.minWidth,
+                maxWidth: this._options._popupOptions.maxWidth,
+                width: this._options._popupOptions.width + offset,
+                containerWidth: this._container.width()
+            }
+        };
+        const strategyPosition = StackStrategy.getPosition(coords, item);
+        const MINIMAL_PANEL_DISTANCE = 117;
+        // Минимальный отступ слева у floatArea больше на 17px, чем в вдомных окнах (там 100)
+        // Не стал тащить сюда FloatAreaManager для явных расчетов, захардкодил отступ.
+        const floatAreaMaxWidth = document.body.clientWidth - MINIMAL_PANEL_DISTANCE;
+
+        if (floatAreaMaxWidth < strategyPosition.maxWidth) {
+           strategyPosition.maxWidth = floatAreaMaxWidth;
+        }
+        return strategyPosition;
+    },
 
    _onMaximizedHandler(): void {
       if (!this._panel._updateAreaWidth) {

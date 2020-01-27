@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
+        <div class="controlsDemo__mb1">
+            <div class="controls-text-label_theme-{{_options.theme}}">message="Loading"</div>
+        </div>
+        <div attr:class="controls-demo__indicator_container">
+            <Controls.LoadingIndicator
+                    name="LocalIndicator"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="dark"
+                    delay="0"
+                    message="Loading"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
+    </div>
+    <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
+        <div class="controlsDemo__mb1">
+            <div class="controls-text-label_theme-{{_options.theme}}">message=''</div>
+        </div>
+        <div attr:class="controls-demo__indicator_container">
+            <Controls.LoadingIndicator
+                    name="LocalIndicatorDefault"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="dark"
+                    delay="0"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
+    </div>
+</div>

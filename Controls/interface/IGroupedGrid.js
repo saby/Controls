@@ -11,29 +11,15 @@ define('Controls/interface/IGroupedGrid', [
     */
 
    /**
-    * @name Controls/interface/IGroupedGrid#groupingKeyCallback
-    * @cfg {Function} Функция обратного вызова для получения идентификатора группы элемента списка.
+    * @name Controls/interface/IGroupedGrid#groupProperty
+    * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * <a href="/materials/demo-ws4-list-group">Example</a>.
     * @remark
     * Среди групп списка существует "скрытая группа".
     * Для такой группы не создаётся заголовок, а её элементы визуально размещены в начале списка.
-    * Чтобы отнести элемент к скрытой группе, из функции groupingKeyCallback верните константу view.hiddenGroup, которая принадлежит библиотеке {@link Controls/Constants}.
-    * @example
-    * <pre>
-    * define(..., [... , 'Controls/Constants'], function(..., Constants) {
-    *    ...
-    *    _groupByBrand: function(item) {
-    *       if (item.get('brand') === 'apple') {
-    *          return Constants.view.hiddenGroup;
-    *       }
-    *       return item.get('brand');
-    *    }
-    *    ...
-    * });
-    * </pre>
-    * <pre>
-    *    groupingKeyCallback ="{{_groupByBrand}}",
-    * </pre>
+    * Чтобы отнести элемент к скрытой группе, в качестве идентификатора группы необходимо использовать константу view.hiddenGroup, которая принадлежит библиотеке {@link Controls/Constants}.
+    * Передачу идентификатора view.hiddenGroup можно оргиназовать двумя способами - возвращая его из источника данных и описав собственное поле модели.
+    * Подробнее про описание собственных свойств модели в разделе {@ling https://wi.sbis.ru/docs/js/Types/entity/Model/options/properties}.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -43,29 +29,29 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupTemplate
-    * @cfg {Function} Шаблон группировки списка.
+    * @cfg {Function} Устанавливает шаблон группировки списка.
     * @default Controls/grid:GroupTemplate
     * @remark
     * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
-    * Подробнее о параметрах шаблона читайте {@link Controls/grid:GroupTemplate здесь}.
-    * Подробнее работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
+    * Подробнее о параметрах шаблона Controls/grid:GroupTemplate читайте {@link Controls/grid:GroupTemplate здесь}.
+    * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded
     * @see groupCollapsed
-    * @see groupingKeyCallback
+    * @see groupProperty
     */
 
    /**
     * @name Controls/interface/IGroupedGrid#collapsedGroups
-    * @cfg {Array} Список идентификаторов свернутых групп. Идентификаторы групп получаются в результате вызова {@link groupingKeyCallback}.
+    * @cfg {Array} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
     * @remark
     * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
     * @see groupTemplate
     * @see groupHistoryId
     * @see groupExpanded
     * @see groupCollapsed
-    * @see groupingKeyCallback
+    * @see groupProperty
     */
 
    /**
@@ -75,7 +61,7 @@ define('Controls/interface/IGroupedGrid', [
     * @see collapsedGroups
     * @see groupExpanded
     * @see groupCollapsed
-    * @see groupingKeyCallback
+    * @see groupProperty
     */
 
    /**
@@ -87,7 +73,7 @@ define('Controls/interface/IGroupedGrid', [
     * @see collapsedGroups
     * @see groupHistoryId
     * @see groupCollapsed
-    * @see groupingKeyCallback
+    * @see groupProperty
     */
 
    /**
@@ -99,7 +85,7 @@ define('Controls/interface/IGroupedGrid', [
     * @see collapsedGroups
     * @see groupHistoryId
     * @see groupExpanded
-    * @see groupingKeyCallback
+    * @see groupProperty
     */
 
 });

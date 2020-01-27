@@ -10,7 +10,9 @@ import componentTmpl = require('wml!Controls/_dateRange/Selector/Selector');
 import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
- * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре. Выбор происходит с помощью панели большого выбора периода.
+ * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре. 
+ * Выбор происходит с помощью панели большого выбора периода.
+ * В отличии от {@link Controls/_dateRange/LiteSelector быстрого выбора периода} позволяет выбирать произвольный диапазон дат.
  *
  * @class Controls/_dateRange/Selector
  * @extends Core/Control
@@ -28,8 +30,9 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  */
 
 /**
- * @event Событие происходит при изменении диапазона.
+ * @event Происходит при изменении диапазона.
  * @name Controls/_dateRange/Selector#rangeChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
  */
@@ -73,7 +76,9 @@ var Component = BaseSelector.extend({
         const container = this._children.linkView.getDialogTarget();
         const ranges = this._options.ranges;
         let className = 'controls-DatePopup__selector-marginTop ';
-
+        if (this._options.popupClassName) {
+           className += `${this._options.popupClassName} `;
+        }
         if ((ranges && ('days' in ranges || 'weeks' in ranges)) ||
             ((!ranges || isEmpty(ranges)) && this._options.minRange === 'day')) {
             className += 'controls-DatePopup__selector-marginLeft';

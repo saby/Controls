@@ -8,7 +8,7 @@ import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived'
 import * as Images from 'Controls-demo/DragNDrop/Images';
 import * as itemTpl from  'wml!Controls-demo/grid/resources/CellTemplates/CellWithBgc';
 import * as itemCountr from 'wml!Controls-demo/grid/resources/CellTemplates/CountryTemp';
-
+import * as resTpl from 'wml!Controls-demo/grid/EditInPlace/EditingCell/resultsTpl';
 
 
 
@@ -261,6 +261,35 @@ function getCountriesStats() {
                 width: '120px'
             }
         ],
+        getColumnsWithWidthsForSortingDemo: () => [
+            {
+                displayProperty: 'number',
+                width: '40px',
+            },
+            {
+                displayProperty: 'country',
+                width: '300px'
+            },
+            {
+                displayProperty: 'capital',
+                width: '130px'
+            },
+            {
+                displayProperty: 'population',
+                width: '100px'
+            },
+            {
+                displayProperty: 'square',
+                width: '100px',
+                align: 'right'
+            },
+            {
+                displayProperty: 'populationDensity',
+                width: '150px',
+                result: 5.8,
+                align: 'right'
+            }
+        ],
         getColumnsWithWidths: () => [
             {
                 displayProperty: 'number',
@@ -273,28 +302,28 @@ function getCountriesStats() {
             {
                 displayProperty: 'capital',
                 width: 'max-content',
-                compatibleWidth: '300px'
+                compatibleWidth: '98px'
             },
             {
                 displayProperty: 'population',
                 width: 'max-content',
                 result: 3956986345,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '100px'
             },
             {
                 displayProperty: 'square',
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '83px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '300px'
+                compatibleWidth: '175px'
             }
         ],
         getColumnsWithAlign: () => [
@@ -325,7 +354,8 @@ function getCountriesStats() {
             },
             {
                 displayProperty: 'populationDensity',
-                width: 'max-content'
+                width: 'max-content',
+                compatibleWidth: '60px'
             }
         ],
         getColumnsWithValign: () => [
@@ -502,25 +532,31 @@ function getCountriesStats() {
                 title: 'Страна'
             },
             {
-                title: 'Столица'
+                title: 'Название столицы страны',
+                sortingProperty: 'capital',
+                align: 'left'
             },
             {
                 title: 'Население',
-                sortingProperty: 'population'
+                sortingProperty: 'population',
+                align: 'left'
             },
             {
                 title: 'Площадь км2',
-                sortingProperty: 'square'
+                sortingProperty: 'square',
+                align: 'right'
             },
             {
                 title: 'Плотность населения чел/км2',
-                sortingProperty: 'populationDensity'
+                sortingProperty: 'populationDensity',
+                align: 'right'
             }
         ],
         getColumnsWithTemplate: () => [
             {
                 displayProperty: 'number',
                 width: 'max-content',
+                compatibleWidth: '44px',
                 template: countryRatingNumber
             },
             {
@@ -541,7 +577,8 @@ function getCountriesStats() {
             },
             {
                 displayProperty: 'populationDensity',
-                width: 'max-content'
+                width: 'max-content',
+                compatibleWidth: '60px'
             }
         ],
     }
@@ -658,7 +695,7 @@ function getTasks() {
             },
             {
                 template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived',
-                width: 'auto'
+                width: '200px'
             }
         ],
         getDefaultColumns: () => [
@@ -773,59 +810,71 @@ function getEditing() {
                 id: '1',
                 title: 'Время',
                 description: 'Погода',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
             {
                 id: '2',
                 title: 'Масса',
                 description: 'Скорость',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
             {
                 id: '3',
                 title: 'Давление',
                 description: 'Плотность',
-                price: 1,
-                balance: 1,
-                balanceCostSumm: 2,
-                reserve: 2,
-                costPrice: 3
+                price: '1',
+                balance: '1',
+                balanceCostSumm: '2',
+                reserve: '2',
+                costPrice: '3'
             },
         ],
         getEditingColumns: () => [
             {
                 displayProperty: 'title',
                 width: '200px',
-                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
             },
             {
                 displayProperty: 'price',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 3
             },
             {
                 displayProperty: 'balance',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 3
             },
             {
                 displayProperty: 'description',
                 width: '200px',
-                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor'
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
             },
             {
                 displayProperty: 'costPrice',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 9
             },
             {
                 displayProperty: 'balanceCostSumm',
-                width: '50px',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor',
+                resultTemplate: resTpl,
+                results: 6
             }
         ]
     };
@@ -841,7 +890,7 @@ function forShowWidths() {
                     fr1of3: '1/3 свободного пространства. fr - гибкая ширина. fr расчитывается как доля от оставшегося свободного пространства внутри грида. Грубо говоря, сначала браузер просчитает ширины всех остальных колонок, потом fr',
                     fr2of3: '2/3 свободного пространства. После этого доступная ширина будет разделена на сумму всех коэффициентов указаных у колонок с fr(в данном гриде - 3) и распределена между колонками, в соответствии с коэффициентами.',
                     minMax: 'От 50px до 200px в зависимости от контента ячеек колонки',
-                    auto: 'Как работает auto подробно описано в спецификации, как и про все остальные ширины',
+                    auto: 'Пример работы auto',
                     maxContent: 'По ширине'
                 },
                 {
@@ -850,7 +899,7 @@ function forShowWidths() {
                     maxContent: 'самой широкой ячеки',
                     fr1of3: 'Ячейка 2/3',
                     fr2of3: 'Ячейка 2/4',
-                    auto: 'https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-auto',
+                    auto: 'Ячейка 3/4',
                     minMax: 'Ячейка 2/6'
                 }
             ]
@@ -885,23 +934,28 @@ function forShowWidths() {
                 },
                 {
                     displayProperty: 'maxContent',
-                    width: 'max-content'
+                    width: 'max-content',
+                    compatibleWidth: '147px'
                 },
                 {
                     displayProperty: 'fr1of3',
-                    width: '1fr'
+                    width: '1fr',
+                    compatibleWidth: '30%'
                 },
                 {
                     displayProperty: 'fr2of3',
-                    width: '2fr'
+                    width: '2fr',
+                    compatibleWidth: '60%'
                 },
                 {
                     displayProperty: 'auto',
-                    width: 'auto'
+                    width: 'auto',
+                    compatibleWidth: '139px'
                 },
                 {
                     displayProperty: 'minMax',
-                    width: 'minmax(50px, 200px)'
+                    width: 'minmax(50px, 200px)',
+                    compatibleWidth: '200px'
                 }
             ]
         },

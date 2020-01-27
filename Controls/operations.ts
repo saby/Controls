@@ -5,10 +5,6 @@
  * @includes Button Controls/_operations/Button
  * @includes Controller Controls/_operations/Controller
  * @includes Container Controls/_operations/Container
- * @includes BaseSelectionStrategy Controls/_operations/MultiSelector/SelectionStrategy/Base
- * @includes FlatSelectionStrategy Controls/_operations/MultiSelector/SelectionStrategy/Flat
- * @includes TreeSelectionStrategy Controls/_operations/MultiSelector/SelectionStrategy/Tree
- * @includes DeepTreeSelectionStrategy Controls/_operations/MultiSelector/SelectionStrategy/DeepTree
  * @includes SimpleMultiSelector Controls/_operations/__MultiSelector
  * @public
  * @author Крайнов Д.О.
@@ -35,10 +31,8 @@ import FilterController from 'Controls/_operations/FilterController';
 
 export {default as HierarchySelection} from 'Controls/_operations/MultiSelector/HierarchySelection';
 export {default as Selection} from 'Controls/_operations/MultiSelector/Selection';
-export {default as BaseSelectionStrategy, ISelectionStrategy, ISelectionStrategyOptions, IQueryParams} from 'Controls/_operations/MultiSelector/SelectionStrategy/Base';
 import FlatSelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStrategy/Flat';
 import TreeSelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStrategy/Tree';
-import DeepTreeSelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStrategy/DeepTree';
 
 export {
    Panel,
@@ -49,6 +43,5 @@ export {
    MultiSelector as SimpleMultiSelector,
    FilterController,
    FlatSelectionStrategy,
-   TreeSelectionStrategy,
-   DeepTreeSelectionStrategy
+   TreeSelectionStrategy
 };

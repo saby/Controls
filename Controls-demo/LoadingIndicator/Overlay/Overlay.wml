@@ -3,33 +3,57 @@
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">overlay=default</div>
         </div>
-        <Controls-demo.LoadingIndicator.localIndicator.LocalIndicator
-                isGlobal="{{false}}"
-                overlay="default"
-                time="3000"
-                delay="0"
-        ></Controls-demo.LoadingIndicator.localIndicator.LocalIndicator>
+        <div attr:class="controls-demo__indicator_container">
+            <Controls.LoadingIndicator
+                    name="LocalIndicatorDefault"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="default"
+                    delay="0"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column controlsDemo__mb2">
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">overlay=dark</div>
         </div>
-        <Controls-demo.LoadingIndicator.localIndicator.LocalIndicator
-                isGlobal="{{false}}"
-                overlay="dark"
-                time="3000"
-                delay="0"
-        ></Controls-demo.LoadingIndicator.localIndicator.LocalIndicator>
+        <div attr:class="controls-demo__indicator_container">
+            <Controls.LoadingIndicator
+                    name="LocalIndicatorDark"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="dark"
+                    delay="0"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
     </div>
     <div class="controlsDemo__cell  ws-flexbox ws-flex-column">
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">overlay=none</div>
         </div>
-        <Controls-demo.LoadingIndicator.localIndicator.LocalIndicator
-                isGlobal="{{false}}"
-                overlay="none"
-                time="3000"
-                delay="0"
-        ></Controls-demo.LoadingIndicator.localIndicator.LocalIndicator>
+        <div attr:class="controls-demo__indicator_container">
+            <Controls.LoadingIndicator
+                    name="LocalIndicatorNone"
+                    attr:class="controls-demo__indicator_inst"
+                    isGlobal="{{false}}"
+                    overlay="none"
+                    delay="0"
+            >
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                </div>
+            </Controls.LoadingIndicator>
+        </div>
     </div>
 </div>

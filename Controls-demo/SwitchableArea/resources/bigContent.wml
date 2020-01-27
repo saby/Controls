@@ -1,1 +1,0 @@
-<div>active: {{_options.selected}} content 3 additionalOptions: {{_options.additionalOptions}}</div>

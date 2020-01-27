@@ -1,0 +1,104 @@
+<ws:template name="itemTpl">
+   <div attr:class="controls-TileView__item controls-ListView__itemV controls-ListView__itemV_cursor-pointer">
+      <ws:partial template="{{content}}"/>
+   </div>
+</ws:template>
+
+<ws:template name="defaultContentTpl">
+   <div attr:class="controls-TileView__itemContent {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
+               js-controls-SwipeControl__actionsContainer
+               {{!!itemData.isActive ? ' controls-TileView__item_active'}}
+               {{!!itemData.isSwiped ? ' controls-TileView__item_swiped'}}
+               {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
+               {{itemData.isScaled ? ' controls-TileView__item_scaled'}}
+               {{itemData.isFixed ? ' controls-TileView__item_fixed'}}
+               {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
+               {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
+               {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? ' controls-TileView__item_withMarker' : ' controls-TileView__item_withoutMarker'}}
+               {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"
+        attr:style="{{itemData.position ? itemData.position}} ">
+      <ws:partial if="{{itemData.hasMultiSelect}}"
+                  template="{{multiSelectTpl}}"
+                  checkboxReadOnly="{{checkboxReadOnly}}"
+                  attr:class="{{itemData.multiSelectClassList}}">
+         <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" />
+      </ws:partial>
+      <ws:if data="{{contentTemplate}}">
+         <ws:partial template="{{contentTemplate}}"
+                     itemData="{{itemData}}"
+                     swipeTemplate="{{swipeTemplate}}"
+                     itemActionsTemplate="{{itemActionsTemplate}}"
+                     hasTitle="{{hasTitle}}"
+                     width="{{width || itemData.defaultItemWidth}}"/>
+      </ws:if>
+      <ws:else>
+         <ws:partial template="{{imageWrapper}}"/>
+         <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.drawActions}}">
+            <ws:if data="{{titleStyle === 'accent'}}">
+               <div class="controls-TileView__title_accent"
+                    title="{{itemData.item[itemData.displayProperty]}}">
+                  <div class="controls-TileView__title_accent_ellipsis">{{itemData.item[itemData.displayProperty]}}</div>
+               </div>
+            </ws:if>
+            <ws:else>
+               <div class="controls-TileView__title {{(titleStyle === 'onhover' || titleStyle === undefined && !hasTitle) ? 'controls-TileView__title_invisible'}}"
+                    title="{{itemData.item[itemData.displayProperty]}}">{{itemData.item[itemData.displayProperty]}}</div>
+            </ws:else>
+
+         </ws:if>
+      </ws:else>
+      <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
+                  template="{{itemActionsTemplate}}"
+                  highlightOnHover="{{highlightOnHover}}"
+                  itemData="{{itemData}}"
+                  itemActionsClass="controls-TileView__itemActions controls-TileView__itemActions_bottomRight"/>
+      <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
+                  template="{{swipeTemplate}}"
+                  itemData="{{itemData}}"
+                  itemActionsTemplate="{{itemActionsTemplate}}"/>
+   </div>
+</ws:template>
+
+<ws:template name="imageWrapperTpl">
+   <div attr:class="controls-TileView__imageWrapper {{titleStyle === 'accent' ? 'controls-TileView__imageWrapper_accent'}}">
+      <ws:partial template="{{content}}"/>
+   </div>
+</ws:template>
+
+<ws:template name="imageTpl">
+   <img attr:class="controls-TileView__image" src="{{itemData.item[itemData.imageProperty]}}"/>
+</ws:template>
+
+<ws:if data="{{invisible}}">
+   <div attr:class="controls-TileView__item controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
+</ws:if>
+<ws:else>
+   <ws:if data="{{itemData.tileMode === 'dynamic'}}">
+      <ws:partial template="itemTpl" attr:style="{{'-ms-flex-preferred-size: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; flex-basis: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; height: ' + itemData.itemsHeight + 'px; max-width: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
+         <ws:partial template="defaultContentTpl">
+            <ws:imageWrapper>
+               <ws:partial template="imageWrapperTpl" attr:class="{{( titleStyle === undefined && hasTitle ) || titleStyle === 'partial' ? 'controls-TileView__imageWrapper_reduced'}} {{itemData.isAnimated ? ' controls-TileView__item_animated'}}" attr:style="{{'height: ' + (itemData.isAnimated && itemData.zoomCoefficient ? itemData.zoomCoefficient * itemData.itemsHeight : itemData.itemsHeight) + 'px;'}}">
+                  <ws:partial template="imageTpl"/>
+               </ws:partial>
+            </ws:imageWrapper>
+         </ws:partial>
+      </ws:partial>
+   </ws:if>
+   <ws:else>
+      <ws:partial template="itemTpl" attr:style="{{(staticHeight ? ('height:' + itemData.itemsHeight + 'px; ') : '') + '-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
+         <ws:if data="{{!staticHeight}}">
+            <div style="{{'padding-top: ' + (itemData.itemsHeight / (width || itemData.defaultItemWidth)) * 100 + '%;'}}"></div>
+         </ws:if>
+         <ws:partial template="defaultContentTpl">
+            <ws:imageWrapper>
+               <ws:partial template="imageWrapperTpl">
+                  <ws:if data="{{!staticHeight}}">
+                     <div attr:class="{{hasTitle ? 'controls-TileView__resizer'}}" style="{{'padding-top: ' + (itemData.itemsHeight / (width || itemData.defaultItemWidth)) * 100 + '%;'}}"></div>
+                  </ws:if>
+                  <ws:partial template="imageTpl"/>
+               </ws:partial>
+            </ws:imageWrapper>
+         </ws:partial>
+      </ws:partial>
+   </ws:else>
+</ws:else>

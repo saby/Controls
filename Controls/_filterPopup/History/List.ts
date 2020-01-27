@@ -208,18 +208,21 @@ var MAX_NUMBER_ITEMS = 5;
       _historyStorage: null,
       _historyGlobalStorage: null,
       _editItem: null,
-      _favoriteCount: Constants.MAX_HISTORY_REPORTS,
+      _historyCount: null,
 
       _beforeMount: function(options) {
          if (options.items) {
             this._items = options.items.clone();
          }
          if (options.saveMode === 'favorite') {
+             this._historyCount = Constants.MAX_HISTORY_REPORTS;
              this._oldFavoriteList = options.favoriteItems;
              this._historyStorage = options.historyStorage;
              this._historyGlobalStorage = options.historyGlobalStorage;
              _private.convertToNewFormat(this, this._oldFavoriteList, options.filterItems);
              this._items = _private.getSource(options.historyId).getItemsWithOldFavorite(this._oldFavoriteList);
+         } else {
+            this._historyCount = Constants.MAX_HISTORY;
          }
          this._itemsText = this._getText(this._items, options.filterItems, _private.getSource(options.historyId));
       },

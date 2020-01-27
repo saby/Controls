@@ -2,10 +2,9 @@ define(
    [
       'Controls/popup',
       'Controls/popupTemplate',
-      'Controls/_popupTemplate/InfoBox',
       'Types/collection'
    ],
-   (popup, popupTemplate, InfoBoxTemplate, collection) => {
+   (popup, popupTemplate, collection) => {
       'use strict';
 
       describe('Controls/Popup/InfoBoxController', () => {
@@ -169,27 +168,26 @@ define(
                horizontal: hCorner
             }
          });
-         let InfoBoxInstance = new InfoBoxTemplate();
          it('InfoBoxTemplate: beforeUpdate', () => {
             let stickyPosition = getStickyPosition('left', 'top', 'left');
-            InfoBoxInstance._beforeUpdate({ stickyPosition });
-            assert.equal(InfoBoxInstance._arrowSide, 'right');
-            assert.equal(InfoBoxInstance._arrowPosition, 'end');
+            popupTemplate.InfoBox.prototype._beforeUpdate({ stickyPosition });
+            assert.equal(popupTemplate.InfoBox.prototype._arrowSide, 'right');
+            assert.equal(popupTemplate.InfoBox.prototype._arrowPosition, 'end');
 
             stickyPosition = getStickyPosition('right', 'bottom', 'right');
-            InfoBoxInstance._beforeUpdate({ stickyPosition });
-            assert.equal(InfoBoxInstance._arrowSide, 'left');
-            assert.equal(InfoBoxInstance._arrowPosition, 'start');
+            popupTemplate.InfoBox.prototype._beforeUpdate({ stickyPosition });
+            assert.equal(popupTemplate.InfoBox.prototype._arrowSide, 'left');
+            assert.equal(popupTemplate.InfoBox.prototype._arrowPosition, 'start');
 
             stickyPosition = getStickyPosition('right', 'top', 'left', 'top');
-            InfoBoxInstance._beforeUpdate({ stickyPosition });
-            assert.equal(InfoBoxInstance._arrowSide, 'bottom');
-            assert.equal(InfoBoxInstance._arrowPosition, 'start');
+            popupTemplate.InfoBox.prototype._beforeUpdate({ stickyPosition });
+            assert.equal(popupTemplate.InfoBox.prototype._arrowSide, 'bottom');
+            assert.equal(popupTemplate.InfoBox.prototype._arrowPosition, 'start');
 
             stickyPosition = getStickyPosition('left', 'bottom', 'right', 'bottom');
-            InfoBoxInstance._beforeUpdate({ stickyPosition });
-            assert.equal(InfoBoxInstance._arrowSide, 'top');
-            assert.equal(InfoBoxInstance._arrowPosition, 'end');
+            popupTemplate.InfoBox.prototype._beforeUpdate({ stickyPosition });
+            assert.equal(popupTemplate.InfoBox.prototype._arrowSide, 'top');
+            assert.equal(popupTemplate.InfoBox.prototype._arrowPosition, 'end');
          });
       });
    }

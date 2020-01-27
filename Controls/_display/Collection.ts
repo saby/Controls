@@ -105,7 +105,8 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     editingConfig: any;
     unique?: boolean;
     importantItemProperties?: string[];
-    virtualScrollConfig: IVirtualScrollConfig;
+    virtualScrollConfig?: IVirtualScrollConfig;
+    itemActionsProperty?: string;
 }
 
 export interface ICollectionCounters {
@@ -535,6 +536,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _$compatibleReset: boolean;
 
+    protected _$itemActionsProperty: string;
+
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
      * игнорироваться). Работает только если задано {@link keyProperty}.
@@ -687,20 +690,19 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this.setItemsSpacings(options.itemPadding);
         }
 
-        this._stopIndex = this.getCount();
-
         const virtualScrollConfig = options.virtualScrollConfig || {mode: options.virtualScrollMode};
-
         this._$virtualScrollMode = virtualScrollConfig.mode;
 
         this._markerManager = new MarkerManager(this);
         this._editInPlaceManager = new EditInPlaceManager(this);
         this._itemActionsManager = new ItemActionsManager(this);
-        this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
-            new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
         this._hoverManager = new HoverManager(this);
         this._swipeManager = new SwipeManager(this);
         this._selectionManager = new SelectionManager(this);
+
+        this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
+            new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
+        this.setViewIndices(0, this.getCount());
     }
 
     destroy(): void {
@@ -1320,6 +1322,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
     }
 
     /**
@@ -1376,6 +1379,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
     }
 
     /**
@@ -1437,6 +1441,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const session = this._startUpdateSession();
         this._reFilter();
         this._finishUpdateSession(session);
+        this._nextVersion();
 
         return true;
     }
@@ -1964,6 +1969,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._selectionManager.setSelection(selection);
     }
 
+    setSelectedItem(item: CollectionItem<S>, selected: boolean): void {
+        this._selectionManager.setSelectedItem(item, selected);
+        this._nextVersion();
+    }
+
     /**
      * Инвертирует признак, что элемент выбран, у всех элементов проекции (без учета сортировки, фильтрации и
      * группировки).
@@ -2168,6 +2178,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     isItemHidden(index: number): boolean {
         return !this.getViewIterator().isItemVisible(index);
+    }
+
+    getItemActionsProperty(): string {
+        return this._$itemActionsProperty;
     }
 
     // region SerializableMixin
@@ -3258,6 +3272,7 @@ Object.assign(Collection.prototype, {
     _$virtualScrolling: false,
     _$hasMoreData: false,
     _$compatibleReset: false,
+    _$itemActionsProperty: '',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,

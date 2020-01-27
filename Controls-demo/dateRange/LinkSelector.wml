@@ -1,6 +1,9 @@
 <div class="PageWrap">
    <div class="PageBlock">
-      <div class="PageBlock__title">Controls.dateRange:LinkSelector</div>
+      <div class="PageBlock__title">
+         <div>Controls.dateRange:LinkSelector</div>
+         <div>Text for tests</div>
+      </div>
       <div class="PageBlock__content">
          <div class="PageBlock__component-left">
             <Controls.dateRange:LiteSelector

@@ -25,6 +25,49 @@ define(['Controls/lookup', 'Types/entity', 'Types/collection'], function(lookup,
          }
       }
 
+      it('_beforeUpdate', function() {
+         let collection = new lookup.Collection();
+         let isOpenedInfoBox = false;
+         let isNotifyCloseInfoBox = false;
+
+         collection._getCounterWidth = () => 0;
+         collection._children = {
+            infoBox: {
+               isOpened: () => isOpenedInfoBox
+            }
+         };
+         collection._notify = (eventName) => {
+            if (eventName === 'closeInfoBox') {
+               isNotifyCloseInfoBox = true;
+            }
+         };
+
+         collection._beforeUpdate({
+            items: getItems(1),
+            maxVisibleItems: 1
+         });
+         assert.isFalse(isNotifyCloseInfoBox);
+
+         collection._beforeUpdate({
+            items: getItems(2),
+            maxVisibleItems: 1
+         });
+         assert.isFalse(isNotifyCloseInfoBox);
+
+         isOpenedInfoBox = true;
+         collection._beforeUpdate({
+            items: getItems(2),
+            maxVisibleItems: 1
+         });
+         assert.isFalse(isNotifyCloseInfoBox);
+
+         collection._beforeUpdate({
+            items: getItems(1),
+            maxVisibleItems: 1
+         });
+         assert.isTrue(isNotifyCloseInfoBox);
+      });
+
       it('_openInfoBox', function() {
          var
             items = [1, 2, 3, 4],

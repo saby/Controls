@@ -12,6 +12,7 @@ import 'css!theme?Controls/popup';
  * @class Controls/_popup/Previewer
  * @extends Core/Control
  * @control
+ * @mixes Controls/_popup/interface/IPreviewer
  * @public
  * @author Красильников А.С.
  */
@@ -223,6 +224,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     private _closeHandler(): void {
         this._isOpened = false;
+        this._notify('close', []);
     }
 
     static getDefaultOptions(): IPreviewerOptions {

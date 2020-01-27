@@ -1,5 +1,18 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-
+    <div class="controlsDemo__cell controlsDemo__mr2">
+        <div class="controls-text-label_theme-{{_options.theme}}">Настройка отступов</div>
+        <Controls.treeGrid:View
+                source="{{_viewSource}}"
+                keyProperty="id"
+                columns="{{_columns}}"
+                parentProperty="Раздел"
+                bind:expandedItems="_expandedItems"
+                nodeProperty="Раздел@">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl"/>
+            </ws:itemTemplate>
+        </Controls.treeGrid:View>
+    </div>
     <div class="controlsDemo__cell controlsDemo__mr2">
         <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
         <div class="controlsDemo__wrapper">
@@ -8,6 +21,7 @@
                     keyProperty="id"
                     columns="{{_columns}}"
                     parentProperty="Раздел"
+                    bind:expandedItems="_expandedItemsS"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="s"/>
@@ -24,6 +38,7 @@
                     keyProperty="id"
                     columns="{{_columns}}"
                     parentProperty="Раздел"
+                    bind:expandedItems="_expandedItemsM"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="m"/>
@@ -40,6 +55,7 @@
                     keyProperty="id"
                     columns="{{_columns}}"
                     parentProperty="Раздел"
+                    bind:expandedItems="_expandedItemsL"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="l"/>
@@ -56,6 +72,7 @@
                     keyProperty="id"
                     columns="{{_columns}}"
                     parentProperty="Раздел"
+                    bind:expandedItems="_expandedItemsXl"
                     nodeProperty="Раздел@">
                 <ws:itemTemplate>
                     <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl"/>

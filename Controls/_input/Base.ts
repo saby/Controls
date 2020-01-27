@@ -1,11 +1,9 @@
 import Control = require('Core/Control');
-import EnvEvent = require('Env/Event');
 import Env = require('Env/Env');
 import entity = require('Types/entity');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {isEqual} from 'Types/object';
 import getTextWidth = require('Controls/Utils/getTextWidth');
-import randomName = require('Core/helpers/Number/randomId');
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';
 import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
@@ -161,8 +159,9 @@ var _private = {
     },
 
     callChangeHandler: function (self) {
-        if (self._viewModel.displayValue !== self._displayValueAfterFocusIn) {
+        if (self._viewModel.displayValue !== self._fixedDisplayValue) {
             self._changeHandler();
+            self._fixedDisplayValue = self._viewModel.displayValue;
         }
     },
 
@@ -463,10 +462,14 @@ var Base = Control.extend({
     _numberSkippedSaveSelection: 0,
 
     /**
+     * Зафиксированное отображаемое значение.
+     * @remark
+     * Значение фиксируется после события inputCompleted. Или после изменения отображаемого значения, в результате изменения родителем опции value.
+     * Требуется для определения вызова события inputCompleted. Одним из условий является, что текущее значение отличается от зафиксированного.
      * @type {String}
      * @private
      */
-    _displayValueAfterFocusIn: '',
+    _fixedDisplayValue: null,
 
     _updateSelection: function (selection) {
         const field: HTMLInputElement = this._getField();
@@ -611,6 +614,7 @@ var Base = Control.extend({
             }
         }
 
+        this._fixedDisplayValue = this._viewModel.displayValue;
         /**
          * Placeholder is displayed in an empty field. To learn about the emptiness of the field
          * with AutoFill enabled is possible through css or the status value from <input>.
@@ -627,8 +631,25 @@ var Base = Control.extend({
 
     _beforeUpdate: function (newOptions) {
         const newViewModelOptions = this._getViewModelOptions(newOptions);
+        const oldDisplayValue = this._viewModel.displayValue;
 
         _private.updateViewModel(this, newViewModelOptions, _private.getValue(this, newOptions));
+
+        /**
+         * Когда опция readOnly меняется, тогда перестраивается верстка. В режиме чтения рисуется <div>, в режиме
+         * редактирования <input>. Элемент <input> при создании может иметь позицию каретки отличную от позиции в модели.
+         * Начальная позиция управляется браузером. Поэтому при фокусировке происходит обновление позиции каретки в соответствии с моделью.
+         * Так происходит только при первой фокусировке. Потому что в дальнейшем позиция управляется только контролом, а значит позиция
+         * уже будет соответствать модели. Будем считать, что пересоздавая <input>, работа с фокусом начинается заново.
+         */
+        if (this._options.readOnly === false && newOptions.readOnly === true) {
+            this._firstFocus = true;
+        }
+
+        const displayValueChangedByParent: boolean = oldDisplayValue !== this._viewModel.displayValue;
+        if (displayValueChangedByParent) {
+            this._fixedDisplayValue = this._viewModel.displayValue;
+        }
     },
 
     /**
@@ -870,7 +891,6 @@ var Base = Control.extend({
 
         this._focusByMouseDown = false;
 
-        this._displayValueAfterFocusIn = this._viewModel.displayValue;
         MobileFocusController.focusHandler(event);
 
         /**

@@ -6,7 +6,7 @@ import DetailPanel = require('Controls/_filterPopup/DetailPanel');
  * @extends Controls/_filterPopup/DetailPanel
  * @control
  * @public
- * @deprecated Контрол устарел и в скором времени будет удалён, используйте {@link Controls/_filterPopup:DetailPanel}.
+ * @deprecated Контрол устарел и в скором времени будет удалён, используйте {@link Controls/filterPopup:DetailPanel}.
  * @author Золотова Э.Е.
  */
 

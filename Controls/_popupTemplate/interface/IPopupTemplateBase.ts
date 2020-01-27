@@ -22,6 +22,30 @@
  */
 
 /**
+ * @name Controls/_popupTemplate/interface/IPopupTemplateBase#headingCaption
+ * @cfg {String} Текст заголовка.
+ */
+
+/**
+ * @name Controls/_popupTemplate/interface/IPopupTemplateBase#headingStyle
+ * @cfg {String} Стиль отображения заголовка.
+ * @variant secondary
+ * @variant primary
+ * @variant info
+ * @default secondary
+ */
+
+/**
+ * @name Controls/_popupTemplate/interface/IPopupTemplateBase#headingSize
+ * @cfg {String} Размер заголовка
+ * @variant s
+ * @variant m
+ * @variant l
+ * @variant xl
+ * @default l
+ */
+
+/**
  * @name Controls/_popupTemplate/interface/IPopupTemplateBase#closeButtonVisibility
  * @cfg {Boolean} Определяет, будет ли отображаться кнопка закрытия
  * @default true
@@ -32,6 +56,9 @@ export interface IPopupTemplateBaseOptions {
     headerContentTemplate?: TemplateFunction;
     bodyContentTemplate?: TemplateFunction;
     footerContentTemplate?: TemplateFunction;
+    headingCaption?: string;
+    headingStyle?: string;
+    headingSize?: string;
     closeButtonVisibility?: boolean;
 }
 

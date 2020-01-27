@@ -77,12 +77,12 @@ export interface IPropertyGrid {
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#collapsedGroups
  * @cfg {Array} Список свернутых идентификаторов групп.
- * Идентификаторы групп получаются в результате вызова groupingKeyCallback.
+ * Идентификаторы групп вычисляются из значений свойства, указанного в groupProperty.
  */
 
 /*
  * @name Controls/_propertyGrid/IPropertyGrid#collapsedGroups
  * @cfg {Array} List of collapsed group identifiers.
- * Identifiers of groups are obtained as a result of calling the groupingKeyCallback.
+ * Group identifiers are calculated from the property values specified in groupProperty.
  */ 
 

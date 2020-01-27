@@ -70,7 +70,7 @@
 </ws:template>
 
 <ws:template name="colTpl">
-   <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
+   <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode) && itemData.itemActionsDrawPosition === 'before' }}">
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.gridCellStyles}}" attr:key="{{itemData.key}}_{{itemData.getCurrentColumnKey()}}_actions"/>
    </ws:if>
    <ws:if data="{{itemData.columnScroll && colspan && (itemData.hasMultiSelect ? currentColumn.columnIndex !== 0 : true)}}">
@@ -100,11 +100,24 @@
          <ws:partial template="columnContentWrapper"/>
       </div>
    </ws:else>
+   <ws:if data="{{itemData.columnScroll && itemData.itemActionsDrawPosition === 'after' }}">
+      <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+         <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.itemActionsGridCellStyles}}" attr:key="{{itemData.key}}_{{itemData.getCurrentColumnKey()}}_actions"/>
+      </ws:if>
+      <ws:else data="{{ itemData.isActionsColumn(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+         <div attr:key="{{itemData.key}}_{{itemData.getCurrentColumnKey()}}_actionsStub"></div>
+      </ws:else>
+   </ws:if>
 </ws:template>
 
 <ws:template name="stickyCell">
-   <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
-      <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.gridCellStyles}}"/>
+   <ws:if data="{{ itemData.columnScroll && itemData.itemActionsDrawPosition === 'before' }}">
+      <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+         <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.gridCellStyles}}"/>
+      </ws:if>
+      <ws:else>
+         <div></div>
+      </ws:else>
    </ws:if>
    <Controls.scroll:StickyHeader position="topbottom" backgroundVisible="{{false}}"
                                  attr:class="{{currentColumn.cellClasses}}
@@ -114,6 +127,14 @@
                                  attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode)}}">
       <ws:partial template="columnContentWrapper"/>
    </Controls.scroll:StickyHeader>
+   <ws:if data="{{ itemData.columnScroll && itemData.itemActionsDrawPosition === 'after' }}">
+      <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+         <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.itemActionsGridCellStyles}}"/>
+      </ws:if>
+      <ws:else data="{{ itemData.isActionsColumn(itemData, currentColumn, colspan || colspanCurrentNode) }}">
+         <div></div>
+      </ws:else>
+   </ws:if>
 </ws:template>
 
 <ws:if data="{{itemData.styleLadderHeading}}">
@@ -121,7 +142,7 @@
    <div attr:class="controls-Grid__row-ladder-cell {{itemData.getItemColumnCellClasses(itemData, _options.theme)}}{{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging'}} js-controls-SwipeControl__actionsContainer"
         attr:key="{{itemData.item.key + '_ladder'}}"
         attr:style="{{itemData.styleLadderHeading}}">
-      <ws:partial template="columnContent" currentColumn="{{itemData.getCurrentColumn()}}" attr:class="controls-Grid__row-ladder-cell__content"/>
+      <ws:partial template="columnContent" currentColumn="{{itemData.getCurrentColumn()}}" attr:class="{{itemData.getClassesLadderHeading(itemData.getCurrentColumn(), _options.theme)}}"/>
    </div>
 </ws:if>
 <ws:if data="{{itemData.isSticky}}">

@@ -40,6 +40,24 @@ function(FormatterValue) {
 
             assert.equal(value, '123456');
          });
+         it('Test4', function() {
+            const value = formattedValueToValue('123456 123456', {
+               replacer: '',
+               mask: 'ddd-ddd-dddddd',
+               formatMaskChars: defaultFormatMaskChars
+            });
+
+            assert.equal(value, '');
+         });
+         it('Test5', function() {
+            const value = formattedValueToValue('123456 123456', {
+               replacer: ' ',
+               mask: 'ddd-ddd-dddddd',
+               formatMaskChars: defaultFormatMaskChars
+            });
+
+            assert.equal(value, '   -   -      ');
+         });
       });
    });
 });

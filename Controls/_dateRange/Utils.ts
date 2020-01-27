@@ -2,10 +2,16 @@
 import getFormattedDateRange = require('Core/helpers/Date/getFormattedDateRange');
 // @ts-ignore
 import locales = require('Core/helpers/i18n/locales');
+import {Date as WSDate, DateTime} from 'Types/entity';
 import DateUtil = require('Controls/Utils/Date');
 
 var locale = locales.current;
 var weekdaysCaptions;
+
+const enum WEEKS_MODE {
+   current = 'current',
+   extended = 'extended'
+}
 
 var getDayRange = function(startDate, endDate, quantum) {
    var date = new Date(startDate);
@@ -121,20 +127,21 @@ var Utils = {
     * @variant extended Возвращает массив из 6 недель. Возвращает первую неделю текущего месяца, последнюю полную неделю, и если текущий месяц включает менее 6 недель, то недели следующего месяца.
     * @returns {Array}
     */
-   getWeeksArray: function(date, mode) {
-      var
-         weeksArray = [],
-         year = date.getFullYear(),
-         month = date.getMonth() + 1,
-         weeksInMonth = mode === 'extended' ? 6 : this.getWeeksInMonth(year, month),
-         monthDate = this.getFirstDayOffset(year, month) * -1 + 1;
+   getWeeksArray: function(date: Date, mode: WEEKS_MODE, dateConstructor: Function = WSDate): Date[][] {
+      const
+         weeksArray: [] = [],
+         year: number = date.getFullYear(),
+         month: number = date.getMonth() + 1,
+         weeksInMonth: number = mode === WEEKS_MODE.extended ? 6 : this.getWeeksInMonth(year, month);
 
+      let
+         monthDate: number = this.getFirstDayOffset(year, month) * -1 + 1;
 
-      for (var w = 0; w < weeksInMonth; w++) {
-         var daysArray = [];
+      for (let w = 0; w < weeksInMonth; w++) {
+         const daysArray: DateTime[] = [];
 
-         for (var d = 0; d < 7; d++) {
-            daysArray.push(new Date(year, month - 1, monthDate));
+         for (let d = 0; d < 7; d++) {
+            daysArray.push(new dateConstructor(year, month - 1, monthDate));
             monthDate++;
          }
          weeksArray.push(daysArray);

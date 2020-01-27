@@ -20,6 +20,7 @@
               headTemplate="{{_options.headTemplate}}"
               headerTemplate="{{_options.headerTemplate}}"
               groupTemplate="{{_options.groupTemplate}}"
+              groupProperty="{{_options.groupProperty}}"
               groupingKeyCallback="{{_options.groupingKeyCallback}}"
               groupMethod="{{_options.groupMethod}}"
               dropdownClassName="{{_options.dropdownClassName}}"

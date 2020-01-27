@@ -9,6 +9,7 @@ import DateUtil = require('Controls/Utils/Date');
  * Модель для представления месяца.
  * @class Controls/_calendar/MonthView/MonthViewModel
  * @author Красильников А.С.
+ * @public
  */
 
 var ModuleClass = cExtend.extend([VersionableMixin], {
@@ -95,7 +96,7 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
    _getDaysArray: function(state) {
       state = state || this._state;
-      var weeks = calendarUtils.getWeeksArray(state.month, state.mode);
+      var weeks = calendarUtils.getWeeksArray(state.month, state.mode, state.dateConstructor);
 
       return weeks.map(function(weekArray) {
          return weekArray.map(function(day) {

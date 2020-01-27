@@ -6,6 +6,8 @@ import WidthUtils = require('Controls/_operationsPanel/OperationsPanel/Utils');
 import buttons = require('Controls/buttons');
 import notifyHandler = require('Controls/Utils/tmplNotify');
 import {RecordSet} from 'Types/collection';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Record} from 'Types/entity';
 
 
 var _private = {
@@ -37,7 +39,7 @@ var _private = {
        * For example, this can happen if the user opens the panel and then immediately goes to another tab, making the tab with the panel hidden, and then goes back.
        * The only way to prevent this is to block recalculation of toolbar items if the panel is not visible.
        */
-      if (self._oldToolbarWidth !== newWidth && self._container.offsetParent !== null) {
+      if ((self._oldToolbarWidth !== newWidth || !self._toolbarSource) && self._container.offsetParent !== null) {
          self._oldToolbarWidth = newWidth;
          _private.recalculateToolbarItems(self, self._items, newWidth);
       }
@@ -67,7 +69,7 @@ var _private = {
 };
 
 
-/**
+/*
  * Контрол, предназначенный для операций над множеством записей списка.
  * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>здесь</a>.
  * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
@@ -78,7 +80,7 @@ var _private = {
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
- * @public
+ * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
  *
@@ -99,7 +101,7 @@ var _private = {
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
- * @public
+ * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
  *
@@ -246,6 +248,13 @@ var OperationsPanel = Control.extend({
 
       // todo зову _forceUpdate потому что нужно отрисовать пересчет, произошедший в checkToolbarWidth. добавляю на всякий случай, возможно это лишний вызов. раньше тут _forceUpdate звался из-за события
       this._forceUpdate();
+   },
+
+   _itemClickHandler: function(event: SyntheticEvent<null>, item: Record, nativeEvent: MouseEvent) {
+      this._notify('itemClick', [item, nativeEvent, {
+         selected: this._options.selectedKeys,
+         excluded: this._options.excludedKeys
+      }]);
    }
 });
 

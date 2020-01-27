@@ -1,0 +1,24 @@
+<div class="controls-SortingSelector">
+    <Controls.dropdown:Input
+            name="dropdown"
+            selectedKeys="{{_selectedKeys}}"
+            on:selectedKeysChanged="_selectedKeysChangedHandler()"
+            keyProperty="id"
+            displayProperty="title"
+            source="{{_source}}">
+        <ws:headerTemplate>
+            <ws:if data="{{_options.header}}">
+                <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
+                    <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" caption="{{_options.header}}"/>
+                </Controls.Container.Async>
+            </ws:if>
+        </ws:headerTemplate>
+        <ws:itemTemplate>
+            <ws:partial template="wml!Controls/_grid/SortingResources/SortingSelectorItemTemplate" scope="{{_options}}"></ws:partial>
+        </ws:itemTemplate>
+    </Controls.dropdown:Input>
+    <ws:if data="{{_currentParamName}}">
+        <ws:partial on:click="_switchValue()" attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}}" value="{{_currentOrder}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
+    </ws:if>
+
+</div>

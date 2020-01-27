@@ -14,10 +14,11 @@ export interface IMonthListSourceOptions {
  */
 
 /**
- * Интерфейс для контролов основанных на Controls/calendar:MonthList. Позволяет настраивать отображение дней
- * в зависимости от прикладных данных.
+ * Интерфейс для контролов, которые основаны на {@link Controls/calendar:MonthList}.
+ * Позволяет настраивать отображение дней в зависимости от прикладных данных.
  * @interface Controls/_calendar/interfaces/IMonthListSource
  * @public
+ * @author Красильников А.С.
  */
 export interface IMonthListSource {
    readonly '[Controls/_calendar/interfaces/IMonthListSource]': boolean;
@@ -25,13 +26,16 @@ export interface IMonthListSource {
 
 /**
  * @name Controls/_calendar/interfaces/IMonthListSource#source
- * @cfg {Types/source:ICrud} Источник данных которые используются для отображения дней.
+ * @cfg {Types/source:ICrud} Источник данных, которые используются для отображения дней.
  * @remark
- * Должен поддерживать списочный метод с навигацией по курсору. В качестве идентификатора используется
- * дата начала месяца. Каждый элемент это месяц. Ответ должен содержать список объектов в котором есть поле extData.
- * extData это массив объектов, содержащих данные дня. Эти объекты будут переданы в шаблон дня.
+ * Должен поддерживать списочный метод с навигацией по курсору.
+ * В качестве идентификатора используется дата начала месяца.
+ * Каждый элемент — это месяц.
+ * Ответ должен содержать список объектов, в котором есть поле extData.
+ * extData — это массив объектов, содержащих данные дня.
+ * Эти объекты будут переданы в шаблон дня.
  * @example
- * <pre>
+ * <pre class="brush: html">
  *  <Controls.calendar:MonthList
  *      startPosition="_month"
  *      source="{{_source}}">
@@ -40,8 +44,8 @@ export interface IMonthListSource {
  *            <ws:dayTemplate>
  *               <ws:partial template="Controls/calendar:MonthViewDayTemplate">
  *                  <ws:contentTemplate>
- *                     <div class="{{value.extData.isEven ? 'someClass'}}">
- *                        {{value.day}}
+ *                     <div class="{{contentTemplate.value.extData.isEven ? 'someClass'}}">
+ *                        {{contentTemplate.value.day}}
  *                     </div>
  *                  </ws:contentTemplate>
  *               </ws:partial>

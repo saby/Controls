@@ -4,10 +4,11 @@
     </ws:if>
     <ws:else>
         <ws:if data="{{colData.column.sortingProperty}}">
-            <Controls._grid.SortButton
+            <Controls._grid.SortingButton
+                    align="{{colData.column.align}}"
                     caption="{{colData.column.caption || colData.column.title}}"
+                    attr:class="controls-Grid__sorting-button"
                     property="{{colData.column.sortingProperty}}"
-                    type="{{colData.column.sortingType}}"
                     value="{{colData.sortingDirection}}"/>
         </ws:if>
         <ws:else>

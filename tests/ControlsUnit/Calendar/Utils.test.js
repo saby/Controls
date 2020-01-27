@@ -1,8 +1,12 @@
 /* global define, describe, it, assert */
 define([
+   'Types/entity',
+   'Core/core-instance',
    'Controls/dateRange',
    'Controls/Utils/Date'
 ], function(
+   TypesEntity,
+   cInstance,
    dateRange,
    DateUtil
 ) {
@@ -72,6 +76,12 @@ define([
             assert.equal(week.length, 7);
          }
          assert.isTrue(DateUtil.isDatesEqual(weeks[0][0], new Date(2016, 11, 26)));
+         assert.isTrue(cInstance.instanceOfModule(weeks[0][0], 'Types/entity:Date'));
+      });
+
+      it('getWeeksArray dateConstructor', function() {
+         let weeks = dateRange.Utils.getWeeksArray(new Date(2017, 0, 1), 'current', TypesEntity.DateTime);
+         assert.isTrue(cInstance.instanceOfModule(weeks[0][0], 'Types/entity:DateTime'));
       });
 
       it('getWeekdaysCaptions should return the same array if locale has not changed', function() {

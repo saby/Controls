@@ -25,7 +25,8 @@ define(
                   option1: '1',
                   option2: '2'
                }
-            }
+            },
+            multiSelect: true
          };
 
          let getButton = function (config) {
@@ -45,6 +46,7 @@ define(
             assert.strictEqual(actualOptions.template, defaultConfig.selectorTemplate.templateName);
             assert.strictEqual(actualOptions.isCompoundTemplate, defaultConfig.isCompoundTemplate);
             assert.deepStrictEqual(actualOptions.templateOptions.selectedItems.getCount(), 2);
+            assert.isTrue(actualOptions.templateOptions.multiSelect);
             assert.strictEqual(actualOptions.templateOptions.option1, '1');
             assert.strictEqual(actualOptions.templateOptions.option2, '2');
             assert.isOk(actualOptions.templateOptions.handlers.onSelectComplete);

@@ -67,7 +67,6 @@ interface IMoverDialogTemplate extends IControlOptions {
  * @event Controls/_moverDialog/Template#sendResult Происходит при выборе раздела для перемещения записей.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Раздел, куда перемещаются выбранные записи.
- * @param {Types/collection:RecordSet} movedItems Перемещаемые записи.
  * @remark
  * Выбор раздела производится кликом по записи, кнопкам "Выбрать" и "В корень" (см. {@link showRoot}).
  * Клик по папке не производит выбора раздела для перемещения.

@@ -103,34 +103,18 @@
  * </pre>
  */
 
-/*
- * @typedef {String} GridCellAlign
- * @variant left Align content to left side.
- * @variant center Align content to center.
- * @variant right Align content to right side.
- */
-
-/*
- * @typedef {String} GridCellVAlign
- * @variant top Align content to top side.
- * @variant center Align content to center.
- * @variant bottom Align content to bottom side.
- */
-
-/*
- * @typedef {Object} cellPadding
- * @property {enum('s'|'null')} left левый отступ ячейки.
- * @property {enum('s'|'null')} right правый отступ ячейки.
- */
-
 /**
  * @name Controls/_grid/interface/IGridControl#header
- * @cfg {Controls/grid:IHeaderCell} Описывает шапку таблицы. В качестве значения опция принимает массив объектов, в которых задают конфигурацию для ячеек шапки. Для одноуровневых шапок первый объект массива задаёт конфигурацию для первой ячейки. Условно ячейки шапки нумеруются слева направо. Для многоуровневой шапки порядок объектов массива не соответствует конфигуруемой ячейке.
+ * @cfg {Controls/grid:IHeaderCell} Описывает шапку таблицы.
+ * В качестве значения опция принимает массив объектов, в которых задают конфигурацию для ячеек шапки.
+ * Для одноуровневых шапок первый объект массива задаёт конфигурацию для первой ячейки.
+ * Условно ячейки шапки нумеруются слева направо.
+ * Для многоуровневой шапки порядок объектов массива не соответствует конфигуруемой ячейке.
  * <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/">См. руководство разработчика</a>
- * <a href="/materials/demo-ws4-grid-base">См. демо-пример</a>
+ * См. <a href="/materials/demo-ws4-grid-base">демо-пример</a>
  * @example
  * Пример 1. Для первой ячейки задаём пользовательский шаблон.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.grid:View>
  *       <ws:header>
  *          <ws:Array>
@@ -143,39 +127,39 @@
  * </pre>
  * @example
  * Пример 2. Настройка опции задаётся в хуке и передаётся в шаблон.
- * <pre>
+ * <pre class="brush: js">
  * _header: null,
  * _beforeMount: function(options) {
- *      this._header = [
- *      {
+ *    this._header = [
+ *       {
  *          caption: 'Name',
  *          startRow: 1,
  *          endRow: 3,
  *          startColumn: 1,
  *          endColumn: 2
- *      },
- *      {
+ *       },
+ *       {
  *          caption: 'Price',
  *          startRow: 1,
  *          endRow: 2,
  *          startColumn: 2,
  *          endColumn: 4
- *      },
- *      {
+ *       },
+ *       {
  *          caption: 'Cell',
  *          startRow: 2,
  *          endRow: 3,
  *          startColumn: 2,
  *          endColumn: 3
- *      },
- *      {
+ *       },
+ *       {
  *          caption: 'Residue',
  *          startRow: 2,
  *          endRow: 3,
  *          startColumn: 3,
  *          endColumn: 4
- *      }
- *      ]
+ *       }
+ *    ]
  * }
  * </pre>
  */
@@ -286,19 +270,27 @@
  */
 
 /**
- * @name Controls/_grid/interface/IGridControl#columnScrollStartPosition
- * @cfg {String} Определяет начальное положение горизонтальной прокрутки колонок, если она включена.
+ * @typedef {String} ColumnScrollStartPosition
  * @variant start Устанавливает горизонтальную прокрутку в начальное (крайнее левое) положение.
  * @variant end Устанавливает горизонтальную прокрутку в конечное (крайнее правое) положение.
+ */
+
+/*
+ * @typedef {String} ColumnScrollStartPosition
+ * @variant start Puts horizontal scroll into the leftmost position.
+ * @variant end Puts horizontal scroll into the rightmost position.
+ */
+
+/**
+ * @name Controls/_grid/interface/IGridControl#columnScrollStartPosition
+ * @cfg {ColumnScrollStartPosition} Определяет начальное положение горизонтальной прокрутки колонок, если она включена.
  * @default start
  * @see Controls/_grid/interface/IGridControl#columnScroll
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#columnScrollStartPosition
- * @cfg {String} Determines the starting columns scroll position if it is enabled.
- * @variant start Puts horizontal scroll into the leftmost position.
- * @variant end Puts horizontal scroll into the rightmost position.
+ * @cfg {ColumnScrollStartPosition} Determines the starting columns scroll position if it is enabled.
  * @default start
  * @see Controls/_grid/interface/IGridControl#columnScroll
  */
@@ -340,6 +332,7 @@
  * @cfg {Function} Устанавливает шаблон отображения строки итогов.
  * @default Controls/grid:ResultsTemplate
  * @remark
+ * Подробнее о параметрах шаблона Controls/grid:ResultsTemplate читайте {@link Controls/grid:ResultsTemplate здесь}.
  * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ здесь}.
  * @see resultsPosition
  * @see resultsVisibility
@@ -378,13 +371,14 @@
  */
 
 /**
+ * @typedef {String} ResultsVisibility
+ * @variant hasData Отображается при наличии более 1 записи в списке.
+ * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#resultsVisibility
- * @cfg {String} Устанавливает режим отображения строки итогов.
- * @remark
- * Доступные значения:
- *
- * * **hasdata** — отображается при наличии более 1 записи в списке.
- * * **visible** — отображается всегда, вне зависимости от количества записей в списке.
+ * @cfg {ResultsVisibility} Устанавливает режим отображения строки итогов.
  * @default hasData
  * @see resultsTemplate
  * @see resultsPosition

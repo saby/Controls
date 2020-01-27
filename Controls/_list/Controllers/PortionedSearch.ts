@@ -11,6 +11,7 @@ export interface IPortionedSearchOptions {
     searchResetCallback: Function;
     searchContinueCallback: Function;
     searchAbortCallback: Function;
+    searchStartCallback: Function;
 }
 
 export default class PortionedSearch<PortionedSearchOptions> {
@@ -26,6 +27,7 @@ export default class PortionedSearch<PortionedSearchOptions> {
         if (this._getSearchState() === SEARCH_STATES.NOT_STARTED) {
             this._setSearchState(SEARCH_STATES.STARTED);
             this._startTimer();
+            this._options.searchStartCallback();
         }
     }
 
@@ -39,6 +41,13 @@ export default class PortionedSearch<PortionedSearchOptions> {
         this._setSearchState(SEARCH_STATES.NOT_STARTED);
         this._clearTimer();
         this._options.searchResetCallback();
+    }
+
+    resetTimer(): void {
+        if (!this._isSearchContinued()) {
+            this._clearTimer();
+            this._startTimer();
+        }
     }
 
     shouldSearch(): boolean {
@@ -70,5 +79,9 @@ export default class PortionedSearch<PortionedSearchOptions> {
 
     private _getSearchState(): SEARCH_STATES {
         return this._searchState;
+    }
+
+    private _isSearchContinued(): boolean {
+        return this._getSearchState() === SEARCH_STATES.CONTINUED;
     }
 }

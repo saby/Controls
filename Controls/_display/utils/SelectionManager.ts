@@ -15,4 +15,8 @@ export default class SelectionManager extends BaseManager {
          collectionItem.setSelected(selectedState, true);
       });
    }
+
+   setSelectedItem(collectionItem, selectedState: boolean): void {
+      collectionItem.setSelected(selectedState, true);
+   }
 }

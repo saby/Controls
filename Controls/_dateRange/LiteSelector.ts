@@ -7,13 +7,14 @@ import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelecto
 import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
- * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре. Выбор происходит с помощью панели быстрого выбора периода.
+ * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
  *
  * @class Controls/_dateRange/LiteSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/_interface/IDisplayedRanges
  * @control
  * @public
  * @category Input
@@ -76,7 +77,8 @@ var Component = BaseSelector.extend({
                 emptyCaption: this._options.emptyCaption,
 
                 itemTemplate: this._options.itemTemplate,
-                range: this._options.range,
+                displayedRanges: this._options.displayedRanges,
+                stubTemplate: this._options.stubTemplate,
                 captionFormatter: this._options.captionFormatter,
                 dateConstructor: this._options.dateConstructor
             }

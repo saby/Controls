@@ -21,16 +21,15 @@
  * </pre>
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/templates/item/ здесь}.
+ * @public
  */
-
-/**
- * @name Controls/list:ItemTemplate#displayProperty
- * @cfg {String} Устанавливает имя поля элемента, данные которого будут отображены в шаблоне.
- * @remark
- * Опцию не используют, если задан пользовательский шаблон в опции {@link Controls/list:BaseItemTemplate#contentTemplate contentTemplate}.
- * @default title
- */
-
 export default interface IItemTemplateOptions {
+   /**
+    * @name Controls/list:ItemTemplate#displayProperty
+    * @cfg {String} Устанавливает имя поля элемента, данные которого будут отображены в шаблоне.
+    * @remark
+    * Опцию не используют, если задан пользовательский шаблон в опции {@link Controls/list:BaseItemTemplate#contentTemplate contentTemplate}.
+    * @default title
+    */
    displayProperty?: string;
 }

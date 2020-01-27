@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+        <Controls.explorer:View
+            source="{{_viewSource}}"
+            bind:root="_root"
+            attr:class="demo-Explorer ControlsDemo-Explorer controlsDemo_bordered"
+            keyProperty="id"
+            displayProperty="title"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            viewMode="{{_viewMode}}"
+            columns="{{_columns}}">
+        </Controls.explorer:View>
+</div>

@@ -75,7 +75,9 @@ import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDial
       _message: null,
       _beforeMount: function(cfg) {
          if (cfg.operationsCount === cfg.operationsSuccess) {
-            this._message = rk('Выполнение операции завершилось успешно');
+            this._message = format({
+               count: cfg.operationsCount
+            }, rk('$count$s$ записей успешно обработаны'));
          } else if (!cfg.errors || !cfg.errors.length) {
             this._message = rk('Выполнение операции завершилось ошибкой');
          } else {

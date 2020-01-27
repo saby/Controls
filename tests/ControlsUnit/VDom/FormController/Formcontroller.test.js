@@ -91,6 +91,20 @@ define([
          });
       });
 
+      it('registerPending', () => {
+         let FC = new form.Controller();
+         FC._createChangeRecordPending();
+         assert.isTrue(FC._pendingPromise !== undefined);
+         FC.update = () => (new Deferred()).callback({});
+         FC._confirmDialogResult(true, new Deferred());
+         assert.isTrue(FC._pendingPromise === null);
+
+         FC._createChangeRecordPending();
+         FC._beforeUnmount();
+         assert.isTrue(FC._pendingPromise === null);
+         FC.destroy();
+      });
+
       it('beforeUpdate', () => {
          let FC = new form.Controller();
          let setRecordCalled = false;
@@ -282,9 +296,7 @@ define([
 
       it('_confirmDialogResult', () => {
          let FC = new form.Controller();
-         FC.update = () => {
-            return (new Deferred()).errback('update error');
-         };
+         FC.update = () => (new Deferred()).errback('update error');
          let def = new Deferred();
          let calledEventName;
          FC._notify = (event) => {
@@ -301,6 +313,17 @@ define([
          FC._isNewRecord = true;
          FC._notify = () => true;
          FC.update();
+         assert.equal(FC._isNewRecord, false);
+         FC.destroy();
+      });
+      it('createHandler and readHandler ', () => {
+         let FC = new form.Controller();
+         FC._createHandler();
+         assert.equal(FC._wasCreated, true);
+         assert.equal(FC._isNewRecord, true);
+
+         FC._readHandler();
+         assert.equal(FC._wasRead, true);
          assert.equal(FC._isNewRecord, false);
          FC.destroy();
       });

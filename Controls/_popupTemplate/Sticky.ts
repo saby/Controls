@@ -12,9 +12,8 @@ import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from "./interf
  * @category Popup
  * @author Красильников А.С.
  * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
- * @demo Controls-demo/PopupTemplate/Sticky/BodyContentTemplate/Index
- * @demo Controls-demo/PopupTemplate/Sticky/CloseButtonVisibility/Index
  * @demo Controls-demo/PopupTemplate/Sticky/FooterContentTemplate/Index
+ * @demo Controls-demo/PopupTemplate/Sticky/CloseButtonVisibility/Index
  * @demo Controls-demo/PopupTemplate/Sticky/HeaderContentTemplate/Index
  */
 
@@ -42,6 +41,8 @@ class StickyTemplate extends Control<IPopupTemplateBaseOptions> implements IPopu
 
     static getDefaultOptions(): IPopupTemplateBaseOptions {
         return {
+            headingStyle: 'secondary',
+            headingSize: 'm',
             closeButtonVisibility: true
         };
     }

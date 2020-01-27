@@ -9,22 +9,18 @@ export type TColumns = IColumn[];
 
 /**
  * @typedef {String} TCellPaddingVariant
- * @description Возможные значения отсупов внутри ячейки таблицы
+ * @description Возможные значения отступов внутри ячейки таблицы
  * @variant S Небольшой отступ.
  * @variant M Средний отступ.
  * @variant null Нулевой отступ.
- * @default null
- * @public
  */
 export type TCellPaddingVariant = 'S' | 'M' | 'null';
 
 /**
- * @typedef {Object}
+ * @typedef {Object} ICellPadding
  * @description Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
  * @property {TCellPaddingVariant} [left=null] Отступ от левой границы ячейки.
  * @property {TCellPaddingVariant} [right=null] Отступ от правой границы ячейки.
- * @interface
- * @public
  */
 export interface ICellPadding {
     left?: TCellPaddingVariant;
@@ -32,35 +28,29 @@ export interface ICellPadding {
 }
 
 /**
- * @typedef {String}
+ * @typedef {String} TCellAlign
  * @description Значения для выравнивания ячеек по горизонтали.
- * @variant left по левому краю.
- * @variant center по центру.
- * @variant right по правому краю.
- * @default left
- * @public
+ * @variant left По левому краю.
+ * @variant center По центру.
+ * @variant right По правому краю.
  */
 export type TCellAlign = 'left' | 'center' | 'right';
 
 /**
- * @typedef {String}
+ * @typedef {String} TCellVerticalAlign
  * @description Значения для выравнивания ячеек по вертикали.
- * @variant top по верхнему краю.
- * @variant center по центру.
- * @variant bottom по нижнему краю.
- * @variant baseline по базовой линии.
- * @default baseline
- * @public
+ * @variant top По верхнему краю.
+ * @variant center По центру.
+ * @variant bottom По нижнему краю.
+ * @variant baseline По базовой линии.
  */
 export type TCellVerticalAlign = 'top' | 'center' | 'bottom' | 'baseline';
 
 /**
- * @typedef {String}
+ * @typedef {String} TOverflow
  * @description Обрезается или не обрезается строка
- * @variant ellipsis по верхнему краю.
- * @variant none текст разбивается на несколько строк.
- * @default none
- * @public
+ * @variant ellipsis По верхнему краю.
+ * @variant none Текст разбивается на несколько строк.
  */
 export type TOverflow = 'ellipsis' | 'none';
 
@@ -73,7 +63,8 @@ export type TOverflow = 'ellipsis' | 'none';
  */
 export interface IColumn {
     /**
-     * @description Ширина колонки.
+     * @name Controls/grid:IColumn#width
+     * @cfg {String} Ширина колонки.
      * @remark
      * В качестве значения свойства можно указать пиксели (px), проценты (%), доли (1fr), "auto", "minmax", "max-content" и "min-content".
      * В значении "auto" ширина колонки устанавливается автоматически исходя из типа и содержимого элемента.
@@ -86,53 +77,70 @@ export interface IColumn {
      */
     width: string;
     /**
-     * @description Имя поля, данные которого отображаются в колонке.
+     * @name Controls/grid:IColumn#displayProperty
+     * @cfg {String} Имя поля, данные которого отображаются в колонке.
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
      */
     displayProperty?: string;
     /**
-     * @description Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
+     * @name Controls/grid:IColumn#compatibleWidth
+     * @cfg {String} Ширина колонки в браузерах, не поддерживающих {@link https://developer.mozilla.org/ru/docs/web/css/css_grid_layout CSS Grid Layout}.
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
      * @see width
      */
     compatibleWidth?: string;
     /**
-     * @description Шаблон отображения ячейки.
+     * @name Controls/grid:IColumn#template
+     * @cfg {String|Function} Устанавливает шаблон отображения ячейки.
      * @default Controls/grid:ColumnTemplate
      * @remark
-     * О создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
+     * Подробнее о параметрах шаблона Controls/grid:ColumnTemplate читайте {@link Controls/grid:ColumnTemplate здесь}.
+     * Подробнее о создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
+     * 
      */
     template?: TemplateFunction;
     /**
-     * @description Шаблон отображения ячейки в строке итогов.
+     * @name Controls/grid:IColumn#resultTemplate
+     * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.
      * @remark Подробнее о работе со строкой итогов читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ руководство разработчика}.
      */
     resultTemplate?: TemplateFunction;
     /**
-     * @description Выравнивание содержимого ячейки по горизонтали.
+     * @name Controls/grid:IColumn#align
+     * @cfg {TCellAlign} Выравнивание содержимого ячейки по горизонтали.
+     * @default left
      */
     align?: TCellAlign;
     /**
-     * @description Выравнивание содержимого ячейки по вертикали.
+     * @name Controls/grid:IColumn#valign
+     * @cfg {TCellVerticalAlign} Выравнивание содержимого ячейки по вертикали.
+     * @default baseline
      * @remark
      * См. {@link https://developer.mozilla.org/ru/docs/Web/CSS/align-items align-items}.
      */
     valign?: TCellVerticalAlign;
     /**
-     * @description Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы.
+     * @name Controls/grid:IColumn#textOverflow
+     * @cfg {String} Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы.
+     * @default auto
      * @remark
-     * В качестве значения свойства можно указать только пиксели (px) или проценты (%). Если свойство не задано, применяется значение "auto".
+     * В качестве значения свойства можно указать только пиксели (px) или проценты (%).
+     * Если свойство не задано, применяется значение "auto".
      */
     stickyProperty?: string;
     /**
-     * @description Определяет параметры видимости текста в блоке, если текст целиком не помещается в заданную область.
+     * @name Controls/grid:IColumn#textOverflow
+     * @cfg {TOverflow} Определяет параметры видимости текста в блоке, если текст целиком не помещается в заданную область.
+     * @default none
      */
     textOverflow?: TOverflow;
     /**
-     * @description Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
-     * <pre>
+     * @name Controls/grid:IColumn#CellPadding
+     * @cfg {ICellPadding} Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней. 
+     * @example
+     * <pre class="brush: js">
      * columns: [{
      *    width: '1fr',
      *    cellPadding: {

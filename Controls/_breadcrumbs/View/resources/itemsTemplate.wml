@@ -2,12 +2,13 @@
     <div attr:class="controls-BreadCrumbsView__items">
 
         <ws:template name="templatePart">
-            <ws:partial attr:class="{{applyHighlighter(highlighter, itemData.item.getId(), itemData.hasArrow)}} controls-BreadCrumbsView__max-width{{edge ? '__edge'}}"
-                        template="{{itemTemplate}}"
-                        itemData="{{itemData}}"
-                        displayProperty="{{ displayProperty }}"
-                        edge="{{edge}}"
-                       />
+            <ws:partial
+                    attr:class="{{applyHighlighter(highlighter, itemData.item.getId(), itemData.hasArrow)}} controls-BreadCrumbsView__max-width{{edge ? '__edge'}}"
+                    template="{{itemTemplate}}"
+                    itemData="{{itemData}}"
+                    displayProperty="{{ displayProperty }}"
+                    edge="{{edge}}"
+            />
         </ws:template>
         <ws:if data="{{items.length === 1 || items.length === 2}}">
             <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge"
@@ -17,7 +18,6 @@
                         on:click="_onItemClick(items[0])"
             />
         </ws:if>
-
 
 
         <ws:if data="{{items.length > 2}}">
@@ -38,15 +38,19 @@
                 <div class="controls-BreadCrumbsView__menu" on:click="_dotsClick()">
                     <div class="controls-BreadCrumbsView__menu__dots">
                         <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled"></span>
-                        <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled">...</span>
+                        <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
+                              title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
+                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled">...
+                            </span>
+                        </span>
                     </div>
                 </div>
             </div>
 
         </ws:if>
         <ws:if data="{{items.length >= 2}}">
-            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge"
-                    template="templatePart"
+            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge controls-BreadCrumbsView__crumb__last"
+                        template="templatePart"
                         itemData="{{items[items.length - 1]}}"
                         edge="true"
                         on:click="_onItemClick(items[items.length - 1])"

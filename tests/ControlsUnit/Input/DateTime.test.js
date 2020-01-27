@@ -119,7 +119,9 @@ define([
                   },
                   stopImmediatePropagation: sinon.fake()
                };
+            sandbox.stub(component, '_notify');
             component._onKeyDown(event);
+            sinon.assert.calledWith(component._notify, 'inputCompleted');
             const model = component._model;
             const converter = new input.StringValueConverter();
             assert.deepEqual(model.value, converter.getCurrentDate(model._lastValue, model._mask));

@@ -12,4 +12,4 @@
    </ws:if>
    <div class="demo-Explorer__signature icon-medium icon-Signature icon-hover"></div>
 </div>
-<div class="controls-TileView__title {{!hasTitle ? 'controls-TileView__title_invisible'}}" title="{{itemData.item.title}}">{{itemData.item.title}}</div>
+<div class="controls-TileView__title controls-TileView__title_normal {{!hasTitle ? 'controls-TileView__title_invisible'}}" title="{{itemData.item.title}}">{{itemData.item.title}}</div>

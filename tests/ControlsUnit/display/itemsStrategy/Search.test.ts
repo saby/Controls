@@ -336,6 +336,34 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             assert.deepEqual(result, ['#A:0', 'b:1', 'e:1', '#A,C:0', 'd:1']);
         });
 
+        it('should keep level for descendant of leaf', () => {
+            items = [];
+            items[0] = new TreeItem({
+                contents: 'A',
+                node: true
+            });
+            items[1] = new TreeItem({
+                parent: items[0],
+                contents: 'b'
+            });
+            items[2] = new TreeItem({
+                parent: items[1],
+                contents: 'c'
+            });
+
+            source = getSource(items);
+            strategy = new Search({
+                source
+            });
+
+            const result = strategy.items.map((item) => {
+                const contents: unknown = item.getContents();
+                return (contents instanceof Array ? `#${contents.join(',')}` : contents) + ':' + item.getLevel();
+            });
+
+            assert.deepEqual(result, ['#A:0', 'b:1', 'c:2']);
+        });
+
         it('shouldn\'t return breadcrumbs finished with leaf', () => {
             items = [];
             items[0] = new TreeItem({
@@ -374,7 +402,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 return (contents instanceof Array ? `#${contents.join(',')}` : contents) + ':' + item.getLevel();
             });
 
-            assert.deepEqual(result, ['#A:0', 'b:1', 'e:1', '#A,b,C:0', 'd:1', 'f:1']);
+            assert.deepEqual(result, ['#A:0', 'b:1', 'e:2', '#A,b,C:0', 'd:1', 'f:1']);
         });
 
         it('should return the same instances for second call', () => {
@@ -467,6 +495,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             const removeCount = 2;
             const expected = [
                 '#A',
+                '#A,AA,AAA',
                 'AAAa',
                 'AAAb',
                 '#A,AA,AAB',
@@ -476,8 +505,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#B',
                 '#C',
                 'd',
-                'e',
-                '#A,AA,AAA'
+                'e'
             ];
 
             const sourceCount = source.count;

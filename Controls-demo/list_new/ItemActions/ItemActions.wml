@@ -38,5 +38,13 @@
         <Controls-demo.list_new.ItemActions.ItemActionsProperty.Index/>
     </div>
 
+    <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/ItemActions/ItemActionsNoHighlightOnHover/Index' }}">
+            <a href="{{content.href}}">Без подсветки</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.ItemActions.ItemActionsNoHighlightOnHover.Index/>
+    </div>
 
 </div>

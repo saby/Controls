@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <!-- Необязательно оборачивать список в скролл контейнер. -->
+    <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
+    <Controls.scroll:Container>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                resultsPosition="top"/>
+    </Controls.scroll:Container>
+</div>

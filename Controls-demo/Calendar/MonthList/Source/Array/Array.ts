@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {date as formatDate} from 'Types/formatter';
 import Source from 'Controls-demo/Calendar/MonthList/Source/Array/Source';
 import template = require('wml!Controls-demo/Calendar/MonthList/Source/Array/Array');
-import dayTemplate = require('wml!Controls-demo/Calendar/MonthList/resources/dayTemplate');
+import dayTemplate = require('wml!Controls-demo/Calendar/MonthList/resources/DayTemplate');
 import 'css!Controls-demo/Controls-demo';
 import 'css!Controls-demo/Calendar/MonthList/resources/MonthListDemo';
 

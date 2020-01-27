@@ -7,7 +7,32 @@ import 'css!theme?Controls/suggestPopup';
 import 'Controls/popupTemplate';
 
       /**
-       * Диалоговое окно для списка в контроле Suggest.
+       * Контрол-контейнер, который обеспечивает связь поля ввода и списка внутри выпадающего блока.
+       * @example
+       * JavaScript
+       * <pre class="brush: js">
+       * define('myControl/SuggestList',
+       *    [
+       *       'UI/Base',
+       *       'wml!myControl/SuggestList'
+       *    ], function(Base, template) {
+       *       'use strict';
+       *         
+       *       return Base.Control.extend({
+       *          _template: template
+       *       });
+       *    }
+       * );
+       * </pre>
+       * WML
+       * <pre class="brush: html">
+       * <Controls.suggestPopup:ListContainer>
+       *    <Controls.list:View
+       *       displayProperty="title"
+       *       keyProperty="id"
+       *       attr:class="demo-SuggestList"/>
+       * </Controls.suggestPopup:ListContainer>
+       * </pre>
        * @class Controls/_suggestPopup/List
        * @extends Controls/Control
        * @author Герасимов Александр

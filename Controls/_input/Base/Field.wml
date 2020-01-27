@@ -8,30 +8,22 @@
                use="{{autoWidth}}"
                value="{{calculateValueForTemplate()}}">
       <ws:partial template="wml!Controls/_input/Base/FixValueAttr">
-         <input
-            spellcheck="{{options.spellCheck}}"
-            readOnly="{{readOnly || ''}}"
-            autocorrect="off"
-            type="{{type}}"
-            name="{{fieldName}}"
-            placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
-            autocomplete="{{autoComplete}}"
-            class="controls-InputBase__nativeField_theme_{{options.theme}}
-             controls-{{controlName}}__nativeField_theme_{{options.theme}}_caret{{wasActionUser ? 'Filled' : 'Empty'}}
-             {{isEdge ? 'controls-InputBase__nativeField_edge'}}
-             {{autoWidth ? 'controls-InputBase__nativeField_stretcher'}}
-             {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}"
-            on:keyup="_keyUpHandler()"
-            on:keydown="_keyDownHandler()"
-            on:click="_clickHandler()"
-            on:input="_inputHandler()"
-            on:select="_selectHandler()"
-            on:focus="_focusInHandler()"
-            on:blur="_focusOutHandler()"
-            on:mousedown="_mouseDownHandler()"
-            on:touchstart="_touchStartHandler()"
-            on:DOMAutoComplete="_domAutoCompleteHandler()"
-         />
+         <ws:partial template="wml!Controls/_input/Base/Event">
+            <input
+               spellcheck="{{options.spellCheck}}"
+               readOnly="{{readOnly || ''}}"
+               autocorrect="off"
+               type="{{type}}"
+               name="{{fieldName}}"
+               placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
+               autocomplete="{{autoComplete}}"
+               class="controls-InputBase__nativeField_theme_{{options.theme}}
+                     controls-{{controlName}}__nativeField_theme_{{options.theme}}_caret{{wasActionUser ? 'Filled' : 'Empty'}}
+                     {{isEdge ? 'controls-InputBase__nativeField_edge'}}
+                     {{autoWidth ? 'controls-InputBase__nativeField_stretcher'}}
+                     {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}"
+            />
+         </ws:partial>
       </ws:partial>
    </ws:partial>
    <!--

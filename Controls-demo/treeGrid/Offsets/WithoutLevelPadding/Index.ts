@@ -9,11 +9,13 @@ export default class extends Control {
    protected _template: TemplateFunction = Template;
    private _viewSource: Memory;
    private _columns = Gadgets.getColumnsForFlat();
+   private _expandedItems = [1];
 
    protected _beforeMount() {
       this._viewSource = new Memory({
          keyProperty: 'id',
-         data: Gadgets.getFlatData()
+         data: Gadgets.getFlatData(),
+         filter: () => true,
       });
    }
 }

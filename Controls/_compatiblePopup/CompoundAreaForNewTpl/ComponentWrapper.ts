@@ -44,23 +44,28 @@ const ComponentWrapper = Control.extend({
    _beforeMount(cfg: IComponentWrapperOptions): void {
       this._fillCallbacks(cfg);
       this.setTemplateOptions(cfg.templateOptions);
-      this._updateOffset(cfg);
+      this.setPopupOptions(cfg.popupOptions);
+      this._updateOffset();
    },
    _beforeUpdate(cfg: IComponentWrapperOptions): void {
       this._fillCallbacks(cfg);
-      this._updateOffset(cfg);
+      this._updateOffset();
    },
    setTemplateOptions(templateOptions: ITemplateOptions): void {
       this._templateOptions = templateOptions;
+   },
+   setPopupOptions(popupOptions: IPopupOptions): void {
+      this._popupOptions = popupOptions;
    },
    _canResize(propStorageId: string, width: number, minWidth: number, maxWidth: number): boolean {
       const canResize = propStorageId && width && minWidth && maxWidth && maxWidth !== minWidth;
       return !!canResize;
    },
-   _updateOffset(options: IComponentWrapperOptions): void {
+   _updateOffset(): void {
+      const popupOptions = this._popupOptions;
       // protect against wrong options
-      this._maxOffset = Math.max(options.popupOptions.maxWidth - options.popupOptions.width, 0);
-      this._minOffset = Math.max(options.popupOptions.width - options.popupOptions.minWidth, 0);
+      this._maxOffset = Math.max(popupOptions.maxWidth - popupOptions.width, 0);
+      this._minOffset = Math.max(popupOptions.width - popupOptions.minWidth, 0);
    },
    _offsetHandler(event: Event, offset: number): void {
       // стреляет после того, как закончилось движение границ

@@ -19,8 +19,7 @@
 
 .controls-BreadCrumbsPath__backButton {
    white-space: nowrap;
-   min-width: 0;
-   width: 100%;
+   min-width: 1px;
 }
 
 .controls-BreadCrumbsPath__home {
@@ -37,6 +36,11 @@
    align-items: baseline;
    padding-right: @spacing_Path-between-home-and-backButton;
    max-width: 50%;
+}
+
+.controls-BreadCrumbsPath__backButton__wrapper__only {
+   max-width: 100%;
+   box-sizing: border-box;
 }
 
 .controls-BreadCrumbsPath__backButton__wrapper_inHeader {

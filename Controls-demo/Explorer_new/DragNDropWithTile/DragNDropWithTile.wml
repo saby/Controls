@@ -1,41 +1,46 @@
-<Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
-    <div>
-        <Controls.list:Mover name="listMover" parentProperty="parent"/>
-        <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
-            <Controls.list:Container>
-                <Controls.operations:Container>
-                    <Controls.explorer:View
-                            bind:root="_root"
-                            attr:class="demo-Explorer ControlsDemo-Explorer"
-                            keyProperty="id"
-                            on:dragStart="_dragStart()"
-                            on:dragEnd="_dragEnd()"
-                            parentProperty="parent"
-                            nodeProperty="parent@"
-                            imageProperty="image"
-                            viewMode="{{_viewMode}}"
-                            displayProperty="title"
-                            itemsDragNDrop="{{true}}"
-                            itemsReadyCallback="{{_itemsReadyCallback}}"
-                            columns="{{_columns}}">
-                        <ws:tileItemTemplate>
-                            <ws:partial
-                                    template="Controls/tile:ItemTemplate"
-                                    folderWidth="{{250}}"
-                                    itemWidth="{{250}}"
-                                    hasTitle="{{true}}">
-                            </ws:partial>
-                        </ws:tileItemTemplate>
-                        <ws:draggingTemplate>
-                            <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                        mainText="{{draggingTemplate.entity._options.mainText}}"
-                                        image="{{draggingTemplate.entity._options.image}}"
-                                        additionalText="{{draggingTemplate.entity._options.additionalText}}">
-                            </ws:partial>
-                        </ws:draggingTemplate>
-                    </Controls.explorer:View>
-                </Controls.operations:Container>
-            </Controls.list:Container>
-        </Controls.operations:Controller>
-    </div>
-</Controls.list:DataContainer>
+<div class="controlsDemo__wrapper">
+    <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+        <div>
+            <Controls.list:Mover name="listMover" parentProperty="parent"/>
+            <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+                <Controls.list:Container>
+                    <Controls.operations:Container>
+                        <Controls.explorer:View
+                                bind:root="_root"
+                                attr:class="demo-Explorer ControlsDemo-Explorer"
+                                keyProperty="id"
+                                on:dragStart="_dragStart()"
+                                on:dragEnd="_dragEnd()"
+                                parentProperty="parent"
+                                nodeProperty="parent@"
+                                multiSelectVisibility="{{_multiselect}}"
+                                imageProperty="image"
+                                viewMode="{{_viewMode}}"
+                                displayProperty="title"
+                                itemsDragNDrop="{{true}}"
+                                itemsReadyCallback="{{_itemsReadyCallback}}"
+                                columns="{{_columns}}">
+                            <ws:tileItemTemplate>
+                                <ws:partial
+                                        template="Controls/tile:ItemTemplate"
+                                        folderWidth="{{250}}"
+                                        itemWidth="{{250}}"
+                                        hasTitle="{{true}}">
+                                </ws:partial>
+                            </ws:tileItemTemplate>
+                            <ws:draggingTemplate>
+                                <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                            mainText="{{draggingTemplate.entity._options.mainText}}"
+                                            image="{{draggingTemplate.entity._options.image}}"
+                                            additionalText="{{draggingTemplate.entity._options.additionalText}}">
+                                </ws:partial>
+                            </ws:draggingTemplate>
+                        </Controls.explorer:View>
+                    </Controls.operations:Container>
+                </Controls.list:Container>
+            </Controls.operations:Controller>
+        </div>
+    </Controls.list:DataContainer>
+
+</div>

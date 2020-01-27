@@ -6,6 +6,7 @@
  * @class Controls/_filter/Button/Container
  * @author Герасимов А.М.
  * @deprecated Данный контрол устарел и будет удалён.
+ * @public
  */
 //TODO: remove module after transfer to filter:View
 export {default} from '../View/Container';

@@ -16,8 +16,8 @@ define(["Controls/_propertyGrid/PropertyGrid"], function(PropertyGrid) {
                 ]
             },
             result: [
-                {name: "stringField", propertyValue: "stringValue"},
-                {name: "booleanField", propertyValue: false}
+                {name: "stringField", propertyValue: "stringValue", group: "CONTROLS_HIDDEN_GROUP"},
+                {name: "booleanField", propertyValue: false, group: "CONTROLS_HIDDEN_GROUP"}
             ],
         };
 
@@ -35,9 +35,9 @@ define(["Controls/_propertyGrid/PropertyGrid"], function(PropertyGrid) {
                     ],
             },
             result: [
-                {name: "stringField", editorTemplateName: "Controls/_input/Text", propertyValue: "stringValue"},
-                {name: "booleanField", editorOptions: {icon: "testIcon"}, propertyValue: false},
-                {name: "stringField1", propertyValue: "stringValue1"}
+                {name: "stringField", editorTemplateName: "Controls/_input/Text", propertyValue: "stringValue", group: "CONTROLS_HIDDEN_GROUP"},
+                {name: "booleanField", editorOptions: {icon: "testIcon"}, propertyValue: false, group: "CONTROLS_HIDDEN_GROUP"},
+                {name: "stringField1", propertyValue: "stringValue1", group: "CONTROLS_HIDDEN_GROUP"}
             ],
         };
 
@@ -81,15 +81,6 @@ define(["Controls/_propertyGrid/PropertyGrid"], function(PropertyGrid) {
                 assert.strictEqual(pg.items.at(1).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/Boolean");
                 assert.strictEqual(pg.items.at(2).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/String");
             });
-
-            it("config with editingObject and source (with group) ", () => {
-                let pg = new PropertyGrid();
-                pg._beforeMount(configWithGroup.options);
-
-                /* if source with group, groupingKeyCallback should setted in model */
-                assert.isTrue(!!pg.itemsViewModel._options.groupingKeyCallback);
-            });
-
         });
 
         describe('_propertyValueChanged handler', () => {

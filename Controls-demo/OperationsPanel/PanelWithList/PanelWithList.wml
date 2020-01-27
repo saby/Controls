@@ -1,0 +1,50 @@
+<div class="demo-Grid__container">
+      <Controls.operations:Controller
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys"
+            on:selectedKeysCountChanged="_notifyHandler('selectedKeysCountChanged')">
+         <div>
+            <Controls.list:BaseAction name="baseAction"/>
+            <Controls.operations:Button on:expandedChanged="_expandedChangedHandler()"
+                                        expanded="{{ _expandedOperationsPanel }}"/>
+
+            <ws:if data="{{_expandedOperationsPanel}}">
+               <Controls.operationsPanel:Container
+                     selectedKeys="{{ _options.selectedKeys }}"
+                     listMarkedKey="{{ content._options.listMarkedKey }}">
+                  <Controls.operations:Panel
+                        excludedKeys="{{ _options.excludedKeys }}"
+                        selectedKeysCount="{{content._options.selectedKeysCount}}"
+                        parentProperty="parent"
+                        nodeProperty="@parent"
+                        keyProperty="id"
+                        source="{{_panelSource}}"
+                        on:itemClick="_panelItemClick()">
+                  </Controls.operations:Panel>
+               </Controls.operationsPanel:Container>
+            </ws:if>
+
+            <Controls.list:Container>
+               <Controls.operations:Container>
+                  <Controls.treeGrid:View
+                        name="list"
+                        attr:class="demo-Grid__control"
+                        markerVisibility="{{_expandedOperationsPanel ? 'visible' : _options.markerVisibility}}"
+                        multiSelectVisibility="{{_expandedOperationsPanel ? 'visible'}}"
+                        source="{{_viewSource}}"
+                        keyProperty="{{_keyProperty}}"
+                        nodeProperty="{{_nodeProperty}}"
+                        parentProperty="{{_parentProperty}}"
+                        columns="{{_gridColumns}}">
+                     <ws:emptyTemplate>
+                        <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
+                           <ws:contentTemplate>No data available!</ws:contentTemplate>
+                        </ws:partial>
+                     </ws:emptyTemplate>
+                  </Controls.treeGrid:View>
+               </Controls.operations:Container>
+            </Controls.list:Container>
+         </div>
+      </Controls.operations:Controller>
+   <Controls.popup:Confirmation name="popupOpener"/>
+</div>

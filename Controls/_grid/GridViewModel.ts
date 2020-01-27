@@ -20,6 +20,8 @@ import {
 import cClone = require('Core/core-clone');
 import ControlsConstants = require('Controls/Constants');
 import collection = require('Types/collection');
+import * as Grouping from 'Controls/_list/Controllers/Grouping';
+import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
@@ -58,10 +60,17 @@ var
 
             return version;
         },
+        isActionsColumn(itemData, currentColumn, colspan) {
+            return (
+                itemData.getLastColumnIndex() === currentColumn.columnIndex ||
+                (
+                    colspan &&
+                    currentColumn.columnIndex === (itemData.multiSelectVisibility === 'hidden' ? 0 : 1)
+                )
+            );
+        },
         isDrawActions: function(itemData, currentColumn, colspan) {
-            return itemData.drawActions &&
-                (itemData.getLastColumnIndex() === currentColumn.columnIndex ||
-                colspan && currentColumn.columnIndex === (itemData.multiSelectVisibility === 'hidden' ? 0 : 1));
+            return itemData.drawActions && _private.isActionsColumn(itemData, currentColumn, colspan);
         },
         getCellStyle: function(self, itemData, currentColumn, colspan) {
            var
@@ -86,11 +95,15 @@ var
             var
                 preparedClasses = '';
 
+            if (columns[columnIndex].actionCell) {
+                return preparedClasses;
+            }
+            const arrayLengthOffset = params.hasActionCell ? 2 : 1;
             // Колонки
             if (params.multiSelectVisibility ? params.columnIndex > 1 : params.columnIndex > 0) {
                 preparedClasses += (cellPadding && cellPadding.left ? ` controls-Grid__cell_spacingLeft_${cellPadding.left}` : ' controls-Grid__cell_spacingLeft') + `_theme-${theme}`;
             }
-            if (params.columnIndex < params.columns.length - 1) {
+            if (params.columnIndex < params.columns.length - arrayLengthOffset) {
                 preparedClasses += (cellPadding && cellPadding.right ? ` controls-Grid__cell_spacingRight_${cellPadding.right}` : ' controls-Grid__cell_spacingRight') + `_theme-${theme}`;
             }
 
@@ -108,7 +121,7 @@ var
             preparedClasses += ' controls-Grid__cell_' + (params.style || 'default');
 
             // Отступ для последней колонки
-            if (params.columnIndex === params.columns.length - 1) {
+            if (params.columnIndex === params.columns.length - arrayLengthOffset) {
                 preparedClasses += ' controls-Grid__cell_spacingLastCol_' + (params.itemPadding.right || 'default').toLowerCase() + `_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
@@ -129,7 +142,13 @@ var
         getPaddingHeaderCellClasses: function(params, theme) {
             let preparedClasses = '';
             const { multiSelectVisibility, columnIndex, columns,
-                rowIndex, itemPadding, isBreadCrumbs, style, maxEndColumn, cell: { endColumn } } = params;
+                rowIndex, itemPadding, isBreadCrumbs, style, cell: { endColumn } } = params;
+            if (params.cell.actionCell) {
+                return preparedClasses;
+            }
+            const actionCellOffset = params.hasActionCell ? 1 : 0;
+            const maxEndColumn = params.maxEndColumn - actionCellOffset;
+            const columnsLengthExcludedActionCell = columns.length - actionCellOffset;
             if (rowIndex === 0) {
                 if (multiSelectVisibility ? columnIndex > 1 : columnIndex > 0) {
                     preparedClasses += ' controls-Grid__cell_spacingLeft' + `_theme-${theme}`;
@@ -138,7 +157,7 @@ var
                 preparedClasses += ' controls-Grid__cell_spacingLeft' + `_theme-${theme}`;
             }
 
-            if (columnIndex < columns.length - 1 || (maxEndColumn && endColumn < maxEndColumn)) {
+            if (columnIndex < (columnsLengthExcludedActionCell - 1) || (maxEndColumn && endColumn < maxEndColumn)) {
                 preparedClasses += ' controls-Grid__cell_spacingRight' + `_theme-${theme}`;
             }
             // Отступ для последней колонки
@@ -149,7 +168,7 @@ var
                     preparedClasses += lastColClass;
                 }
             } else {
-                if (columnIndex === columns.length - 1) {
+                if (columnIndex === columnsLengthExcludedActionCell - 1) {
                     preparedClasses += lastColClass;
                 }
             }
@@ -228,6 +247,13 @@ var
 
         getColumnScrollCellClasses: function(params, theme) {
            return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed controls-Grid__cell_fixed_theme-${theme}` : ' controls-Grid__cell_transform';
+        },
+
+        getClassesLadderHeading(itemData, theme): String {
+            let result = 'controls-Grid__row-ladder-cell__content controls-Grid__row-ladder-cell__content_';
+            result += itemData.itemPadding && itemData.itemPadding.top ? itemData.itemPadding.top : 'default';
+            result += '_theme-' + theme;
+            return result;
         },
 
         getItemColumnCellClasses: function(current, theme, editingItem) {
@@ -561,6 +587,18 @@ var
             this._options.keyProperty = keyProperty;
         },
 
+        isGroupExpanded(groupId: Grouping.TGroupId): boolean {
+            return this._model.isGroupExpanded(groupId);
+        },
+
+        setGroupProperty(groupProperty: string): void {
+            this._model.setGroupProperty(groupProperty);
+        },
+
+        getGroupProperty(): string {
+            return this._model.getGroupProperty();
+        },
+
         _nextModelVersion: function(notUpdatePrefixItemVersion) {
             this._model.nextModelVersion(notUpdatePrefixItemVersion);
         },
@@ -604,7 +642,11 @@ var
 
         _setHeader: function(columns) {
             this._header = columns;
-            this._prepareHeaderColumns(this._header, this._options.multiSelectVisibility !== 'hidden');
+            this._prepareHeaderColumns(
+                this._header,
+                this._options.multiSelectVisibility !== 'hidden',
+                this._shouldAddActionsCell()
+            );
         },
 
         setHeader: function(columns) {
@@ -621,10 +663,10 @@ var
             }
             return false;
         },
-        _prepareHeaderColumns: function(columns, multiSelectVisibility) {
+        _prepareHeaderColumns: function(columns, multiSelectVisibility, actionsCell) {
             if (columns && columns.length) {
                 this._isMultiHeader = this.isMultiHeader(columns);
-                this._headerRows = getRowsArray(columns, multiSelectVisibility, this._isMultiHeader);
+                this._headerRows = getRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell);
                 [this._maxEndRow, this._maxEndColumn] = getMaxEndRow(this._headerRows);
             } else if (multiSelectVisibility) {
                 this._headerRows = [{}];
@@ -638,8 +680,16 @@ var
           return this._multiHeaderOffset;
         },
         setHeaderCellMinHeight: function(data) {
-            if (!isEqual(getRowsArray(data[0], this._options.multiSelectVisibility !== 'hidden'), this._headerRows)) {
-                this._prepareHeaderColumns(data[0], this._options.multiSelectVisibility !== 'hidden');
+            const multiSelectVisibility = this._options.multiSelectVisibility !== 'hidden';
+            const actionsCell = this._shouldAddActionsCell();
+            const headerRows = getRowsArray(
+                data[0],
+                multiSelectVisibility,
+                false,
+                actionsCell
+            );
+            if (!isEqual(headerRows, this._headerRows)) {
+                this._prepareHeaderColumns(data[0], multiSelectVisibility, actionsCell);
                 this._cachaedHeaderColumns = [...data[0]];
                 if (data[1]) { this._setResultOffset(data[1]); }
                 this._nextModelVersion();
@@ -647,6 +697,13 @@ var
         },
         _setResultOffset: function(offset) {
             this._resultOffset = offset;
+        },
+        _shouldAddActionsCell() {
+            return shouldAddActionsCell({
+                disableCellStyles: this._options.disableColumnScrollCellStyles,
+                hasColumnScroll: this._options.columnScroll,
+                shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport()
+            });
         },
         getResultOffset: function() {
             return this._resultOffset;
@@ -749,7 +806,7 @@ var
 
             // Если включен множественный выбор и рендерится первая колонка с чекбоксом
             if (this._options.multiSelectVisibility !== 'hidden' && columnIndex === 0 && !cell.title) {
-                cellClasses += ' controls-Grid__header-cell-checkbox' + `_theme-${theme}`;
+                cellClasses += ' controls-Grid__header-cell-checkbox' + `_theme-${theme}` + ` controls-Grid__header-cell-checkbox_min-width_theme-${theme}`;
 
                 // В grid-layout хлебные крошки нельзя расположить в первой ячейке, если в таблице включен множественный выбор,
                 // т.к. крошки растянут колонку, поэтому размещаем крошки во второй колонке и задаем отрицательный margin слева.
@@ -771,7 +828,9 @@ var
                     maxEndColumn: this._maxEndColumn,
                     // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
                     isBreadCrumbs: headerColumn.column.isBreadCrumbs,
+                    hasActionCell: this._shouldAddActionsCell(),
                 }, this._options.theme);
+                cellClasses += ' controls-Grid__header-cell_min-width';
             }
 
             // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
@@ -825,7 +884,6 @@ var
                 }
                 cellClasses += endRow - startRow > 1 ? ' controls-Grid__header-cell_justify_content_center' : '';
                 cellContentClasses += rowIndex !== this._headerRows.length - 1 && endRow - startRow === 1 ? ` controls-Grid__cell_header-content_border-bottom_theme-${this._options.theme}` : '';
-                cellContentClasses += endRow - startRow === 1 ? ' control-Grid__cell_header-nowrap' : '';
             }
 
             if (columnIndex === 0 && rowIndex === 0 && this._options.multiSelectVisibility !== 'hidden' && this._headerRows[rowIndex][columnIndex + 1].startColumn && !cell.title) {
@@ -904,6 +962,10 @@ var
                 this._resultsColumns = columns;
             }
 
+            if (this._shouldAddActionsCell()) {
+                this._resultsColumns = this._resultsColumns.concat([{ actionCell: true }]);
+            }
+
             this.resetResultsColumns();
         },
 
@@ -950,7 +1012,8 @@ var
                     columnIndex: columnIndex,
                     multiSelectVisibility: this._options.multiSelectVisibility !== 'hidden',
                     itemPadding: this._model.getItemPadding(),
-                    isResult: true
+                    isResult: true,
+                    hasActionCell: this._shouldAddActionsCell(),
                 }, this._options.theme);
             }
             resultsColumn.cellClasses = cellClasses;
@@ -1025,9 +1088,9 @@ var
             this._model.setMultiSelectVisibility(multiSelectVisibility);
             this._prepareColgroupColumns(this._columns, hasMultiSelect);
             if (this._cachaedHeaderColumns && this._isMultiHeader) {
-                this._prepareHeaderColumns(this._cachaedHeaderColumns, hasMultiSelect);
+                this._prepareHeaderColumns(this._cachaedHeaderColumns, hasMultiSelect, this._shouldAddActionsCell());
             } else {
-                this._prepareHeaderColumns(this._header, hasMultiSelect);
+                this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell());
             }
             this._prepareResultsColumns(this._columns, hasMultiSelect);
         },
@@ -1113,7 +1176,11 @@ var
             return this._model.getSwipeItem();
         },
 
-        setCollapsedGroups: function(collapsedGroups) {
+        getCollapsedGroups(): Grouping.TArrayGroupId {
+            return this._model.getCollapsedGroups();
+        },
+
+        setCollapsedGroups(collapsedGroups: Grouping.TArrayGroupId): void {
             this._model.setCollapsedGroups(collapsedGroups);
         },
 
@@ -1267,6 +1334,10 @@ var
                 current.rowSeparatorVisibility = this._options.showRowSeparator !== undefined ? this._options.showRowSeparator : this._options.rowSeparatorVisibility;
             }
 
+            current.itemActionsDrawPosition =
+                this._options.disableColumnScrollCellStyles ? 'after' : 'before';
+            current.itemActionsColumnScrollDraw = this._options.columnScroll && this._options.disableColumnScrollCellStyles;
+
             current.columnIndex = 0;
 
             current.getVersion = function() {
@@ -1291,7 +1362,9 @@ var
                     return current.getLastColumnIndex() >= current.columnIndex;
                 }
             };
+            current.getClassesLadderHeading = _private.getClassesLadderHeading;
             current.isDrawActions = _private.isDrawActions;
+            current.isActionsColumn = _private.isActionsColumn;
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
 
             current.getCurrentColumnKey = function() {
@@ -1354,6 +1427,13 @@ var
                 } else {
                     currentColumn.gridCellStyles = '';
                 }
+
+                if (current.columnScroll && self._options.disableColumnScrollCellStyles) {
+                    currentColumn.itemActionsGridCellStyles =
+                        currentColumn.gridCellStyles +
+                        ' position: sticky; overflow: visible; display: inline-block; right: 0;';
+                }
+
                 return currentColumn;
             };
             return current;
@@ -1364,8 +1444,8 @@ var
             return this.getItemDataByItem(dispItem);
         },
 
-        toggleGroup: function(group, state) {
-            this._model.toggleGroup(group, state);
+        toggleGroup(groupId: Grouping.TGroupId, state: boolean): void {
+            this._model.toggleGroup(groupId, state);
         },
 
         getNext: function() {
@@ -1619,7 +1699,9 @@ var
 
         getBottomPaddingStyles(): string {
             if (GridLayoutUtil.isFullGridSupport()) {
-                return GridLayoutUtil.getColumnStyles({
+                const rowIndex = this._getRowIndexHelper().getBottomPaddingRowIndex();
+                return GridLayoutUtil.getCellStyles({
+                    rowStart: rowIndex,
                     columnStart: this.getMultiSelectVisibility() === 'hidden' ? 0 : 1,
                     columnSpan: this._columns.length
                 });
@@ -1651,9 +1733,12 @@ var
             const groupingKeyCallback = this._options.groupingKeyCallback;
             if (groupingKeyCallback) {
                 return groupingKeyCallback(item);
-            } else {
-                return null;
             }
+            const groupProperty = this._options.groupProperty;
+            if (groupProperty) {
+                return item.get(groupProperty);
+            }
+            return null;
         },
 
         markItemReloaded: function(key) {
@@ -1720,7 +1805,7 @@ var
         },
 
         isFixedLayout(): boolean {
-            return this._options.columnScroll === true;
+            return this._options.columnScroll !== true;
         },
 
         _prepareWidthForTableColumn(column: IGridColumn): string {
