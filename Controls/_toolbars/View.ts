@@ -88,7 +88,7 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
      */
     additionalProperty?: string;
     /**
-     * @name Controls/_toolbars/IToolbarOptions#popupFooterTemplate
+     * @name Controls/_toolbars/View#popupFooterTemplate
      * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
      * @demo Controls-demo/Toolbar/popupFooterTemplate/Index
      */
