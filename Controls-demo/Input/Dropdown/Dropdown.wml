@@ -7,7 +7,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      attr:class="ControlsDemo-simple ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_simpleItems)}}"/>
+                                     source="{{_simpleItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divSubparagraphs">
@@ -18,7 +18,7 @@
                                      displayProperty="text"
                                      attr:class="demo-InputDropdown__subparagraphs ControlsDemo-InputDropdown__item"
                                      itemTemplateProperty="myTemplate"
-                                     source="{{_createMemory(_subItems)}}" />
+                                     source="{{_subItems}}" />
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divLimitMaxWidth">
@@ -30,7 +30,7 @@
                                      parentProperty="parent"
                                      nodeProperty="@parent"
                                      attr:class="ControlsDemo-InputDropdown__item-limitMaxWidth"
-                                     source="{{_createMemory(_hierarchyItems)}}"/>
+                                     source="{{_hierarchyItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divIconLeft">
@@ -41,7 +41,7 @@
                                      displayProperty="title"
                                      iconSize="s"
                                      attr:class="ControlsDemo-iconLeft ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_iconItems)}}"/>
+                                     source="{{_iconItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divScroll">
@@ -52,7 +52,7 @@
                                      displayProperty="title"
                                      dropdownClassName="ControlsDemo-InputDropdown__scroll"
                                      attr:class="ControlsDemo-iconLeft ControlsDemo-InputDropdown__item"
-                                     source="{{_getMultiData()}}"/>
+                                     source="{{_multiItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divWithTitle">
@@ -61,7 +61,7 @@
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysTitle"
                                      keyProperty="id"
                                      displayProperty="title"
-                                     source="{{_createMemory(_titleItems)}}"
+                                     source="{{_titleItems}}"
                                      iconSize="s"
                                      attr:class="demo-InputDropdown__withTitle ControlsDemo-InputDropdown__item"
                                      contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon">
@@ -84,7 +84,7 @@
                                      multiSelect="{{true}}"
                                      emptyText="All categories"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__multiSelect"
-                                     source="{{_createMemory(_multiSelectItems)}}" />
+                                     source="{{_multiSelectItems}}" />
          </div>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysMultiSelect2"
@@ -93,7 +93,7 @@
                                      multiSelect="{{true}}"
                                      emptyText="All categories"
                                      attr:class="ControlsDemo-InputDropdown__item ControlsDemo-InputDropdown__item-limitWidth demo-InputDropdown__multiSelect2"
-                                     source="{{_createMemory(_multiSelectItems)}}" />
+                                     source="{{_multiSelectItems}}" />
          </div>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysMultiSelect3"
@@ -103,7 +103,7 @@
                                      emptyText="All categories"
                                      itemTemplate="wml!Controls-demo/Input/Dropdown/itemTemplateDropdown"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__multiSelect3"
-                                     source="{{_createMemory(_multiSelectItems)}}" />
+                                     source="{{_multiSelectItems}}" />
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divMultiSelectMore">
@@ -115,9 +115,9 @@
                                      multiSelect="{{true}}"
                                      emptyText="All categories"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__multiSelect"
-                                     source="{{_createMemory(_multiSelectItems)}}">
+                                     source="{{_multiSelectItems}}">
                <ws:selectorTemplate templateName="Controls-demo/Dropdown/StackTemplate">
-                  <ws:templateOptions multiSelect="{{true}}" items="{{_multiSelectItems}}"/>
+                  <ws:templateOptions multiSelect="{{true}}" items="{{_multiSelectStackItems}}"/>
                </ws:selectorTemplate>
                <ws:navigation view="page" source="page">
                   <ws:sourceConfig pageSize="{{4}}" page="{{0}}" hasMore="{{false}}"/>
@@ -134,9 +134,9 @@
                                      multiSelect="{{true}}"
                                      emptyText="All categories"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__multiSelect"
-                                     source="{{_createMemory(_multiSelectItems)}}">
+                                     source="{{_multiSelectItems}}">
                <ws:selectorTemplate templateName="Controls-demo/Dropdown/StackTemplate">
-                  <ws:templateOptions multiSelect="{{true}}" items="{{_multiSelectItems}}"/>
+                  <ws:templateOptions multiSelect="{{true}}" items="{{_multiSelectStackItems}}"/>
                </ws:selectorTemplate>
                <ws:footerTemplate>
                   <invisible-node />
@@ -154,7 +154,7 @@
                                      attr:class="demo-InputDropdown__withComment ControlsDemo-InputDropdown__item"
                                      popupClassName="ControlsDemo-InputDropdownn-width"
                                      contentTemplate="wml!Controls-demo/Input/Dropdown/contentTemplateDropdownIcon"
-                                     source="{{_createMemory(_myTemplateItems)}}">
+                                     source="{{_myTemplateItems}}">
                <ws:itemTemplate>
                   <ws:partial template="Controls/dropdown:ItemTemplate"
                               iconAlign="right"
@@ -171,7 +171,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      attr:class="demo-InputDropdown__withComment ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_itemsWithDescription)}}">
+                                     source="{{_itemsWithDescription}}">
                <ws:itemTemplate>
                   <ws:partial template="Controls/dropdown:ItemTemplate"
                               multiLine="{{true}}">
@@ -193,7 +193,7 @@
                                      displayProperty="title"
                                      emptyText="{{true}}"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__withEmpty"
-                                     source="{{_createMemory(_emptyItems)}}"/>
+                                     source="{{_emptyItems}}"/>
          </div>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysEmpty2"
@@ -201,7 +201,7 @@
                                      displayProperty="title"
                                      emptyText="Other region"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__withEmpty2"
-                                     source="{{_createMemory(_emptyItems2)}}"/>
+                                     source="{{_emptyItems2}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divWithDuplication">
@@ -211,7 +211,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      attr:class="demo-InputDropdown__withDuplicate ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_duplicateItems)}}">
+                                     source="{{_duplicateItems}}">
                <ws:headerTemplate>
                   <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
                      <ws:partial template="{{ content.resolvedTemplate }}" scope="{{headerTemplate}}"/>
@@ -227,7 +227,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      attr:class="demo-InputDropdown__withFooter ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_footerItems)}}"
+                                     source="{{_footerItems}}"
                                      on:footerClick="footerClickHandler()"
                                      footerTemplate="wml!Controls-demo/Input/Dropdown/footerTemplateDropdown">
             </Controls.dropdown:Input>
@@ -241,7 +241,7 @@
                                      attr:class="demo-InputDropdown__withFooterSecondLevel ControlsDemo-InputDropdown__item"
                                      on:footerClick="_nodeFooterClick()"
                                      nodeFooterTemplate="wml!Controls-demo/Input/Dropdown/footerHierarchyItem"
-                                     source="{{_createMemory(_hierarchyFooterItems)}}"/>
+                                     source="{{_hierarchyFooterItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
@@ -275,7 +275,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      attr:class="demo-InputDropdown__withEllipsis ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_longItems)}}">
+                                     source="{{_longItems}}">
                <ws:itemTemplate>
                   <ws:partial template="Controls/dropdown:ItemTemplate" class="ControlsDemo-InputDropdown-limitWidth" />
                </ws:itemTemplate>
@@ -291,7 +291,7 @@
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
                                      groupTemplate="Controls/dropdownPopup:GroupTemplate"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__keysGroup"
-                                     source="{{_createMemory(_groupItems)}}">
+                                     source="{{_groupItems}}">
             </Controls.dropdown:Input>
          </div>
          <div>
@@ -300,7 +300,7 @@
                                      displayProperty="title"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__keysGroupText"
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
-                                     source="{{_createMemory(_groupTextItems)}}">
+                                     source="{{_groupTextItems}}">
                <ws:groupTemplate>
                   <ws:partial template="Controls/dropdownPopup:GroupTemplate" showText="{{true}}"/>
                </ws:groupTemplate>
@@ -315,7 +315,7 @@
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__keysGroupHierarchy"
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
                                      groupTemplate="Controls/dropdownPopup:GroupTemplate"
-                                     source="{{_createMemory(_groupHierarchyItems)}}">
+                                     source="{{_groupHierarchyItems}}">
             </Controls.dropdown:Input>
          </div>
       </div>
@@ -327,7 +327,7 @@
                                      displayProperty="title"
                                      readOnly="{{true}}"
                                      attr:class="demo-InputDropdown__readOnly ControlsDemo-InputDropdown__item"
-                                     source="{{_getDefaultMemory()}}"/>
+                                     source="{{_defaultMemory}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
@@ -336,7 +336,7 @@
                                   keyProperty="id"
                                   displayProperty="title"
                                   attr:class="ControlsDemo-iconLeft ControlsDemo-InputDropdown__item"
-                                  source="{{_createMemory(_oneItem)}}"/>
+                                  source="{{_oneItem}}"/>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
          <h4>One item + emptyText</h4>
@@ -346,7 +346,7 @@
                                      displayProperty="title"
                                      emptyText="Not selected"
                                      attr:class="ControlsDemo-iconLeft ControlsDemo-InputDropdown__item"
-                                     source="{{_createMemory(_oneItem)}}"/>
+                                     source="{{_oneItem}}"/>
          </div>
       </div>
    </div>
@@ -355,7 +355,7 @@
                                keyProperty="id"
                                displayProperty="title"
                                attr:class="demo-InputDropdown__bottomLeft"
-                               source="{{_getDefaultMemory()}}"/>
+                               source="{{_defaultMemory}}"/>
       <h4>Can't open down</h4>
    </div>
 
@@ -364,7 +364,7 @@
                                keyProperty="id"
                                displayProperty="title"
                                attr:class="demo-InputDropdown__bottomRight"
-                               source="{{_getDefaultMemory()}}"/>
+                               source="{{_defaultMemory}}"/>
       <h4>Can't open down</h4>
    </div>
    <div attr:class="ControlsDemo-InputDropdown__wrapper ControlsDemo-InputDropdown-top-right">
@@ -372,7 +372,7 @@
                                keyProperty="id"
                                displayProperty="title"
                                attr:class="demo-InputDropdown__topRight"
-                               source="{{_getDefaultMemory()}}"/>
+                               source="{{_defaultMemory}}"/>
       <h4>Can't open up</h4>
    </div>
 
