@@ -167,10 +167,11 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.itemsContainerHeight = 600;
             instance.viewportHeight = 400;
 
+            instance.stopIndex = 19;
             assert.isTrue(instance.canScrollToItem(1));
             assert.isFalse(instance.canScrollToItem(18));
-            assert.isTrue(instance.canScrollToItem(19));
-            assert.isFalse(instance.canScrollToItem(21));
+            instance.stopIndex = 20;
+            assert.isTrue(instance.canScrollToItem(20));
         });
         it('recalcFromScrollTop', () => {
             // @ts-ignore
