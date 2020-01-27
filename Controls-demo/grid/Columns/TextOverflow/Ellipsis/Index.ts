@@ -18,11 +18,11 @@ export default class extends Control {
         },
         {
             displayProperty: 'capital',
-            width: 'max-content'
+            width: '200px'
         },
         {
             displayProperty: 'population',
-            width: 'max-content'
+            width: '200px'
         }
     ];
 

@@ -261,7 +261,7 @@ function getCountriesStats() {
                 width: '120px'
             }
         ],
-        getColumnsWithWidthsForSoringDemo: () => [
+        getColumnsWithWidthsForSortingDemo: () => [
             {
                 displayProperty: 'number',
                 width: '40px',
@@ -316,14 +316,14 @@ function getCountriesStats() {
                 width: 'max-content',
                 result: 12423523,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '81px'
+                compatibleWidth: '83px'
             },
             {
                 displayProperty: 'populationDensity',
                 width: 'max-content',
                 result: 5.8,
                 resultTemplate: resultCellTpl,
-                compatibleWidth: '60px'
+                compatibleWidth: '175px'
             }
         ],
         getColumnsWithAlign: () => [
@@ -354,7 +354,8 @@ function getCountriesStats() {
             },
             {
                 displayProperty: 'populationDensity',
-                width: 'max-content'
+                width: 'max-content',
+                compatibleWidth: '60px'
             }
         ],
         getColumnsWithValign: () => [
@@ -555,6 +556,7 @@ function getCountriesStats() {
             {
                 displayProperty: 'number',
                 width: 'max-content',
+                compatibleWidth: '44px',
                 template: countryRatingNumber
             },
             {
@@ -575,7 +577,8 @@ function getCountriesStats() {
             },
             {
                 displayProperty: 'populationDensity',
-                width: 'max-content'
+                width: 'max-content',
+                compatibleWidth: '60px'
             }
         ],
     }
@@ -692,7 +695,7 @@ function getTasks() {
             },
             {
                 template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived',
-                width: 'auto'
+                width: '200px'
             }
         ],
         getDefaultColumns: () => [
@@ -931,23 +934,28 @@ function forShowWidths() {
                 },
                 {
                     displayProperty: 'maxContent',
-                    width: 'max-content'
+                    width: 'max-content',
+                    compatibleWidth: '147px'
                 },
                 {
                     displayProperty: 'fr1of3',
-                    width: '1fr'
+                    width: '1fr',
+                    compatibleWidth: '30%'
                 },
                 {
                     displayProperty: 'fr2of3',
-                    width: '2fr'
+                    width: '2fr',
+                    compatibleWidth: '60%'
                 },
                 {
                     displayProperty: 'auto',
-                    width: 'auto'
+                    width: 'auto',
+                    compatibleWidth: '139px'
                 },
                 {
                     displayProperty: 'minMax',
-                    width: 'minmax(50px, 200px)'
+                    width: 'minmax(50px, 200px)',
+                    compatibleWidth: '200px'
                 }
             ]
         },
