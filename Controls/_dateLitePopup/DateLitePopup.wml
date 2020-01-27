@@ -1,4 +1,4 @@
-<div class="controls-PeriodLiteDialog {{_getWidthCssClass()}} {{_options.popupClassName}}">
+<div class="controls-PeriodLiteDialog {{_getWidthCssClass()}} {{_dialogClassName}}">
    <ws:if data="{{_options.chooseMonths || _options.chooseQuarters || _options.chooseHalfyears}}">
       <div class="controls-PeriodLiteDialog__currentValue" on:click="_onHeaderClick()">{{_caption}}</div>
       <div class="controls-PeriodLiteDialog__bodyWrapper">

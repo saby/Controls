@@ -26,6 +26,6 @@
    */
 
    /**
-    * @name Controls/dateRange/interfaces/ISelector#popupClassName
-    * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+    * @name Controls/dateRange/interfaces/ISelector#dialogClassName
+    * @cfg {String} Имена классов, которые будут применены к шаблону всплывающего окна.
     */
