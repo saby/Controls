@@ -12,6 +12,7 @@ import {ISerializableState as IDefaultSerializableState} from 'Types/entity';
 import {IList} from 'Types/collection';
 import {register} from 'Types/di';
 import {mixin} from 'Types/util';
+import { TemplateFunction } from 'UI/Base';
 
 export interface IOptions<T> {
     contents?: T;
@@ -92,6 +93,8 @@ export default class CollectionItem<T> extends mixin<
     protected _$hovered: boolean;
 
     protected _$rendered: boolean;
+
+    protected _$dragged: boolean;
 
     protected _instancePrefix: string;
 
@@ -355,17 +358,37 @@ export default class CollectionItem<T> extends mixin<
         this._$rendered = state;
     }
 
+    isDragged(): boolean {
+        return this._$dragged;
+    }
+
+    setDragged(dragged: boolean, silent?: boolean): void {
+        if (this._$dragged === dragged) {
+            return;
+        }
+        this._$dragged = dragged;
+        this._nextVersion();
+        if (!silent) {
+            this._notifyItemChangeToOwner('dragged');
+        }
+    }
+
     getWrapperClasses(templateHighlightOnHover: boolean = true): string {
         return `controls-ListView__itemV
             controls-ListView__item_default
             controls-ListView__item_showActions
             js-controls-SwipeControl__actionsContainer
             ${templateHighlightOnHover ? 'controls-ListView__item_highlightOnHover_default_theme_default' : ''}
-            ${this.isEditing() ? 'controls-ListView__item_editing' : ''}`;
+            ${this.isEditing() ? 'controls-ListView__item_editing' : ''}
+            ${this.isDragged() ? 'controls-ListView__item_dragging' : ''}`;
     }
 
     getContentClasses(): string {
         return `controls-ListView__itemContent ${this._getSpacingClasses()}`;
+    }
+
+    getItemTemplate(userTemplate: TemplateFunction|string): TemplateFunction|string {
+        return userTemplate;
     }
 
     protected _getSpacingClasses(): string {
@@ -486,6 +509,7 @@ Object.assign(CollectionItem.prototype, {
     _$editingContents: null,
     _$active: false,
     _$hovered: false,
+    _$dragged: false,
     _instancePrefix: 'collection-item-',
     _contentsIndex: undefined,
     _version: 0,

@@ -24,19 +24,11 @@
       </div>
    </ws:else>
    <ws:if data="{{ item.shouldDisplayActions() }}">
-      <ws:if data="{{ item.isSwiped() }}">
-         <ws:partial
-            template="{{ swipeTemplate }}"
-            item="{{ item }}"
-            itemActionsTemplate="{{ itemActionsTemplate }}">
-            <ws:swipeConfig itemActionsSize="m" paddingSize="s"/>
-         </ws:partial>
+      <ws:if data="{{ item.isSwiped() && itemActionsPosition !== 'outside' }}">
+         <ws:partial template="{{ swipeTemplate }}" />
       </ws:if>
       <ws:else data="{{ itemActionsPosition !== 'custom' }}">
-         <ws:partial
-            template="{{ itemActionsTemplate }}"
-            itemActionsClass="{{ itemActionsClass }}"
-            item="{{ item }}" />
+         <ws:partial template="{{ itemActionsTemplate }}" />
       </ws:else>
    </ws:if>
 </div>

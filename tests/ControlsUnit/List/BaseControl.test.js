@@ -1001,6 +1001,9 @@ define([
 
          // Without marker
          lists.BaseControl._private.enterHandler({
+            _options: {
+               useNewModel: false
+            },
             getViewModel: function() {
                return {
                   getMarkedItem: function() {
@@ -1018,6 +1021,9 @@ define([
          var mockedEvent = { target: 'myTestTarget' };
          // With marker
          lists.BaseControl._private.enterHandler({
+            _options: {
+               useNewModel: false
+            },
             getViewModel: function() {
                return {
                   getMarkedItem: function() {

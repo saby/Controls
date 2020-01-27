@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem} from 'Controls/display';
+import {Tree, TreeItem, SelectionController} from 'Controls/display';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -65,9 +65,10 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
-        const treeItem = this._listModel.getItemBySourceId(item.getKey());
+        const key = item.getKey();
+        const treeItem = this._listModel.getItemBySourceKey(key);
         if (this._options.multiSelect && this._selectionChanged && !this._isEmptyItem(treeItem)) {
-            this._listModel.setSelectedItem(treeItem, !treeItem.isSelected());
+            SelectionController.selectItem(this._listModel, key, !treeItem.isSelected());
             this.updateApplyButton();
 
             this._notify('selectedKeysChanged', [this.getSelectedKeys()]);
@@ -205,8 +206,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     private getSelectedItems(listModel: Tree, selectedKeys: TKeys) {
         let items = [];
         factory(selectedKeys).each((key) => {
-            if (listModel.getItemBySourceId(key)) {
-                items.push(listModel.getItemBySourceId(key).getContents());
+            if (listModel.getItemBySourceKey(key)) {
+                items.push(listModel.getItemBySourceKey(key).getContents());
             }
         });
         return items;

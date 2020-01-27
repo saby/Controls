@@ -1,51 +1,15 @@
-<ws:template name="conditionalItemActions">
-   <ws:if data="{{ _options.itemActions || _options.itemActionsProperty }}">
-      <Controls._listRender.Containers.Swipe
-         listModel="{{ _collection }}"
-         itemActions="{{ _options.itemActions }}"
-         actionAlignment="{{ _options.actionAlignment }}"
-         actionCaptionPosition="{{ _options.actionCaptionPosition }}"
-         menuIsShown="{{ _dropdownMenuIsOpen }}">
-         <Controls._listRender.Containers.ItemActions
-            listModel="{{ _collection }}"
-            itemActions="{{ _options.itemActions }}"
-            itemActionsProperty="{{ _options.itemActionsProperty }}"
-            itemActionVisibilityCallback="{{ _options.itemActionVisibilityCallback }}"
-            itemActionsPosition="{{ _options.itemActionsPosition }}"
-            itemActionsProperty="{{ _options.itemActionsProperty }}"
-            contextMenuConfig="{{ _options.contextMenuConfig }}"
+<div class="controls-BaseControl controls-BaseControl_showActions controls-BaseControl__renderContainer">
+   <ws:partial
+      template="{{ _options.render }}"
+      listModel="{{ _collection }}"
+      scope="{{ _options }}"
 
-            toolbarVisibility="{{ _options.editingConfig.toolbarVisibility }}"
-            style="{{ _options.style }}"
-            menuIsShown="{{ _dropdownMenuIsOpen }}"
+      on:mouseenter="_onRenderMouseEnter()"
+      on:touchstart="_onRenderTouchStart()"
 
-            on:requestDropdownMenuOpen="_onDropdownMenuOpenRequested()"
-            on:requestDropdownMenuClose="_onDropdownMenuCloseRequested()"
-            on:actionClick="_tmplNotify('actionClick')">
-            <ws:partial template="{{ contentTemplate }}" />
-         </Controls._listRender.Containers.ItemActions>
-      </Controls._listRender.Containers.Swipe>
-      <Controls.popup:Sticky
-         name="dropdownMenuOpener"
-         template="Controls/dropdownPopup:List"
-         closeOnOutsideClick="{{true}}"
-         actionOnScroll="close">
-         <ws:templateOptions showClose="{{true}}"/>
-      </Controls.popup:Sticky>
-   </ws:if>
-   <ws:else>
-      <ws:partial template="{{ contentTemplate }}" />
-   </ws:else>
-</ws:template>
-
-<div class="controls-BaseControl controls-BaseControl__renderContainer">
-   <ws:partial template="conditionalItemActions">
-      <ws:contentTemplate>
-         <ws:partial
-            template="{{ _options.render }}"
-            listModel="{{ _collection }}"
-            scope="{{ _options }}">
-         </ws:partial>
-      </ws:contentTemplate>
-   </ws:partial>
+      on:itemClick="_onItemClick()"
+      on:itemSwipe="_onItemSwipe()"
+      on:itemActionClick="_onItemActionClick()"
+      on:itemContextMenu="_onItemContextMenu()"
+      on:itemKeyDown="_onItemKeyDown()"/>
 </div>

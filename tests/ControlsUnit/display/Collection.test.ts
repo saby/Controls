@@ -4301,35 +4301,7 @@ describe('Controls/_display/Collection', () => {
         assert.strictEqual(collection.getSearchValue(), searchValue);
     });
 
-    describe('.setViewIndices()', () => {
-        it('changes the start and stop index and increases the version', () => {
-            const collection = new CollectionDisplay({
-                collection: [0, 1, 2, 3, 4, 5]
-            });
-            const prevVersion = collection.getVersion();
-
-            collection.setViewIndices(2, 3);
-            assert.strictEqual(collection.getStartIndex(), 2);
-            assert.strictEqual(collection.getStopIndex(), 3);
-            assert.isAbove(
-                collection.getVersion(),
-                prevVersion,
-                '.setViewIndices() should increase collection version'
-            );
-        });
-
-        it('respects items count', () => {
-            const collection = new CollectionDisplay({
-                collection: [0, 1, 2, 3, 4, 5]
-            });
-
-            collection.setViewIndices(-10, 100);
-            assert.strictEqual(collection.getStartIndex(), 0);
-            assert.strictEqual(collection.getStopIndex(), 6);
-        });
-    });
-
-    it('.getItemBySourceId()', () => {
+    it('.getItemBySourceKey()', () => {
         const list = new RecordSet({
             rawData: items,
             keyProperty: 'id'
@@ -4338,7 +4310,7 @@ describe('Controls/_display/Collection', () => {
             collection: list,
             keyProperty: 'id'
         });
-        const item = collection.getItemBySourceId(1);
+        const item = collection.getItemBySourceKey(1);
         assert.strictEqual(item.getContents().getId(), 1);
     });
 

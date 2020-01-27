@@ -23,29 +23,17 @@ import {
     IEnumerableComparatorSession,
     RecordSet
 } from 'Types/collection';
+import { isEqual } from 'Types/object';
 import {create, register} from 'Types/di';
 import {mixin, object} from 'Types/util';
 import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 
-import MarkerManager from './utils/MarkerManager';
-import EditInPlaceManager from './utils/EditInPlaceManager';
-import ItemActionsManager from './utils/ItemActionsManager';
-import VirtualScrollManager from './utils/VirtualScrollManager';
-import HoverManager from './utils/HoverManager';
-import SwipeManager from './utils/SwipeManager';
-import ExtendedVirtualScrollManager from './utils/ExtendedVirtualScrollManager';
-import {IVirtualScrollConfig} from 'Controls/list';
-import { ISelectionMap, default as SelectionManager } from './utils/SelectionManager';
-
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
 const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
-const VIRTUAL_SCROLL_MODE = {
-    HIDE: 'hide',
-    REMOVE: 'remove'
-};
+const VERSION_UPDATE_ITEM_PROPERTIES = ['editingContents', 'animated', 'canShowActions', 'expanded'];
 
 export interface ISourceCollection<T> extends IEnumerable<T>, DestroyableMixin, ObservableMixin {
 }
@@ -61,7 +49,8 @@ type FilterFunction<S> = (
     index: number,
     collectionItem: CollectionItem<S>,
     collectionIndex: number,
-    hasMembers?: boolean
+    hasMembers?: boolean,
+    group?: GroupItem<S>
 ) => boolean;
 
 type GroupId = number | string | null;
@@ -105,13 +94,52 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     editingConfig: any;
     unique?: boolean;
     importantItemProperties?: string[];
-    virtualScrollConfig?: IVirtualScrollConfig;
     itemActionsProperty?: string;
 }
 
 export interface ICollectionCounters {
     key: string|number;
     counters: ICollectionItemCounters;
+}
+
+export interface IViewIterator {
+    each: Function;
+    isItemAtIndexHidden: Function;
+    setIndices: Function;
+}
+
+export interface IItemActionsTemplateConfig {
+    toolbarVisibility?: boolean;
+    style?: string;
+    size?: string;
+    itemActionsPosition?: string;
+    actionAlignment?: string;
+    actionCaptionPosition?: 'right'|'bottom'|'none';
+}
+
+export interface ISwipeConfig {
+    itemActionsSize?: 's'|'m'|'l';
+    itemActions?: {
+        all: any[],
+        showed: any[]
+    };
+    paddingSize?: 's'|'m'|'l';
+    twoColumns?: boolean;
+    twoColumnsActions?: [[any, any], [any, any]];
+    needTitle?: Function;
+    needIcon?: Function;
+}
+
+// При необходимости добавлять поля, сейчас описаны только те, которые
+// реально используются
+export interface IEditingConfig {
+    addPosition?: 'top'|'bottom';
+    toolbarVisibility?: boolean;
+}
+
+interface IUserStrategy<S, T> {
+    strategy: new() => IItemsStrategy<S, T>;
+    options?: object;
 }
 
 /**
@@ -528,11 +556,13 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _$searchValue: string;
 
-    protected _$editingConfig: any;
+    protected _$editingConfig: IEditingConfig;
 
     protected _$virtualScrolling: boolean;
 
     protected _$hasMoreData: boolean;
+
+    protected _$contextMenuConfig: any;
 
     protected _$compatibleReset: boolean;
 
@@ -629,22 +659,20 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      */
     protected _oEventRaisingChange: Function;
 
-    protected _startIndex: number;
-    protected _stopIndex: number;
+    protected _viewIterator: IViewIterator;
 
-    protected _markerManager: MarkerManager;
-    protected _editInPlaceManager: EditInPlaceManager;
-    protected _itemActionsManager: ItemActionsManager;
-    protected _virtualScrollManager: VirtualScrollManager | ExtendedVirtualScrollManager;
-    protected _$virtualScrollMode: IVirtualScrollMode;
-    protected _hoverManager: HoverManager;
-    protected _swipeManager: SwipeManager;
-    protected _selectionManager: SelectionManager;
+    protected _actionsAssigned: boolean;
+    protected _actionsMenuConfig: any;
+    protected _actionsTemplateConfig: IItemActionsTemplateConfig;
+    protected _swipeConfig: ISwipeConfig;
+
+    protected _userStrategies: Array<IUserStrategy<S, T>>;
 
     constructor(options: IOptions<S, T>) {
         super(options);
         SerializableMixin.call(this);
         EventRaisingMixin.call(this, options);
+
         this._$filter = this._$filter || [];
         this._$sort = this._$sort || [];
         this._$importantItemProperties = this._$importantItemProperties || [];
@@ -652,6 +680,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         // Support of deprecated 'idProperty' option
         if (!this._$keyProperty && (options as any).idProperty) {
              this._$keyProperty = (options as any).idProperty;
+        }
+
+        // Support of 'groupingKeyCallback' option
+        if (!this._$group && (options as any).groupingKeyCallback) {
+            this._$group = (options as any).groupingKeyCallback;
         }
 
         if (!this._$collection) {
@@ -676,6 +709,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._switchImportantPropertiesByUserSort(true);
         this._switchImportantPropertiesByGroup(true);
 
+        this._userStrategies = [];
+
         this._reBuild();
         this._bindHandlers();
         if (this._$collection['[Types/_collection/IObservable]']) {
@@ -690,19 +725,19 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this.setItemsSpacings(options.itemPadding);
         }
 
-        const virtualScrollConfig = options.virtualScrollConfig || {mode: options.virtualScrollMode};
-        this._$virtualScrollMode = virtualScrollConfig.mode;
+        this._viewIterator = {
+            each: this.each.bind(this),
+            setIndices: () => false,
+            isItemAtIndexHidden: () => false
+        };
 
-        this._markerManager = new MarkerManager(this);
-        this._editInPlaceManager = new EditInPlaceManager(this);
-        this._itemActionsManager = new ItemActionsManager(this);
-        this._hoverManager = new HoverManager(this);
-        this._swipeManager = new SwipeManager(this);
-        this._selectionManager = new SelectionManager(this);
-
-        this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
-            new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
-        this.setViewIndices(0, this.getCount());
+        if (this._isGrouped()) {
+            // TODO What's a better way of doing this?
+            this.addFilter(
+                (item, index, collectionItem, collectionIndex, hasMembers, groupItem) =>
+                    collectionItem instanceof GroupItem || !groupItem || groupItem.isExpanded()
+            );
+        }
     }
 
     destroy(): void {
@@ -728,6 +763,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._itemsUid = null;
         this._cursorEnumerator = null;
         this._utilityEnumerator = null;
+        this._userStrategies = null;
 
         super.destroy();
     }
@@ -818,6 +854,17 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
                 index
             );
         }
+    }
+
+    find(predicate: (item: T) => boolean): T {
+        const enumerator = this.getEnumerator();
+        while (enumerator.moveNext()) {
+            const current = enumerator.getCurrent();
+            if (predicate(current)) {
+                return current;
+            }
+        }
+        return null;
     }
 
     assign(): void {
@@ -1906,8 +1953,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         );
         this._notifyAfterCollectionChange();
 
-        // FIXME Make a list of properties that lead to version update
-        if (properties as String === 'editingContents' || properties as String === 'animated' || properties as String === 'canShowActions') {
+        if (VERSION_UPDATE_ITEM_PROPERTIES.indexOf(properties as unknown as string) >= 0) {
             this._nextVersion();
         }
     }
@@ -1965,15 +2011,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._setSelectedItems(this._getItems(), selected);
     }
 
-    setSelection(selection: ISelectionMap): void {
-        this._selectionManager.setSelection(selection);
-    }
-
-    setSelectedItem(item: CollectionItem<S>, selected: boolean): void {
-        this._selectionManager.setSelectedItem(item, selected);
-        this._nextVersion();
-    }
-
     /**
      * Инвертирует признак, что элемент выбран, у всех элементов проекции (без учета сортировки, фильтрации и
      * группировки).
@@ -1996,24 +2033,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     // endregion
 
-    // FIXME Will be removed, managers will be created from the outside of
-    // the model in Stage 2. For now we have to create them here and access
-    // them from the model to stay compatible with BaseControl.
-    getItemActionsManager(): ItemActionsManager {
-        return this._itemActionsManager;
-    }
-
     getDisplayProperty(): string {
         return this._$displayProperty;
-    }
-
-    setMarkedItem(item: CollectionItem<S>): void {
-        this._markerManager.markItem(item);
-        this._nextVersion();
-    }
-
-    getMarkedItem(): CollectionItem<S> {
-        return this._markerManager.getMarkedItem() as CollectionItem<S>;
     }
 
     getItemCounters(): ICollectionCounters[] {
@@ -2058,7 +2079,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$rightSpacing;
     }
 
-    setEditingConfig(config: any): void {
+    setEditingConfig(config: IEditingConfig): void {
         if (this._$editingConfig === config) {
             return;
         }
@@ -2066,77 +2087,28 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._nextVersion();
     }
 
-    setEditingItem(item: CollectionItem<S>, editingContents?: S): void {
-        this._editInPlaceManager.beginEdit(item, editingContents);
-        this._nextVersion();
-    }
-
-    isEditing(): boolean {
-        return this._editInPlaceManager.isEditing();
-    }
-
-    setItemActions(item: CollectionItem<S>, actions: any): void {
-        this._itemActionsManager.setItemActions(item, actions);
-        this._nextVersion();
-    }
-
-    setActiveItem(item: CollectionItem<S>): void {
-        this._itemActionsManager.setActiveItem(item);
-        this._nextVersion();
-    }
-
-    setSwipeItem(item: CollectionItem<S>): void {
-        this._swipeManager.setSwipeItem(item);
-        this._nextVersion();
-    }
-
-    getSwipeItem(): CollectionItem<S> {
-        return this._swipeManager.getSwipeItem() as CollectionItem<S>;
-    }
-
-    getActiveItem(): CollectionItem<S> {
-        return this._itemActionsManager.getActiveItem() as CollectionItem<S>;
+    getEditingConfig(): IEditingConfig {
+        return this._$editingConfig;
     }
 
     getSearchValue(): string {
         return this._$searchValue;
     }
 
-    getStartIndex(): number {
-        return this._startIndex;
-    }
-
-    getStopIndex(): number {
-        return this._stopIndex;
-    }
-
-    setViewIndices(startIndex: number, stopIndex: number): boolean {
-        const newStart = Math.max(startIndex, 0);
-        const newStop = Math.min(stopIndex, this.getCount());
-        if (newStart !== this._startIndex || newStop !== this._stopIndex) {
-            this._startIndex = newStart;
-            this._stopIndex = newStop;
-
-            if (this._$virtualScrollMode === VIRTUAL_SCROLL_MODE.HIDE) {
-                this._virtualScrollManager.applyRenderedItems(this._startIndex, this._stopIndex);
-            }
-
-            this._nextVersion();
-            return true;
-        }
-        return false;
-    }
-
-    getItemBySourceId(id: string|number): CollectionItem<S> {
+    getItemBySourceKey(key: string|number): CollectionItem<S> {
         if (this._$collection['[Types/_collection/RecordSet]']) {
-            const record = (this._$collection as unknown as RecordSet).getRecordById(id);
-            return this.getItemBySourceItem(record as unknown as S);
+            if (key !== undefined && key !== null) {
+                const record = (this._$collection as unknown as RecordSet).getRecordById(key);
+                return this.getItemBySourceItem(record as unknown as S);
+            } else {
+                return null;
+            }
         }
-        throw new Error('Collection#getItemBySourceId is implemented for RecordSet only');
+        throw new Error('Collection#getItemBySourceKey is implemented for RecordSet only');
     }
 
     getIndexByKey(key: string|number): number {
-        return this.getIndex(this.getItemBySourceId(key) as T);
+        return this.getIndex(this.getItemBySourceKey(key) as T);
     }
 
     getFirstItem(): S {
@@ -2148,17 +2120,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     getLastItem(): S {
         if (this.getCount() > 0) {
             return this.getLast().getContents();
-        }
-    }
-
-    getViewIterator(): {
-        each: (callback: EnumeratorCallback<unknown>, context?: object) => void;
-        isItemVisible: (index: number) => boolean;
-    } {
-        if (this._$virtualScrolling) {
-            return this._virtualScrollManager;
-        } else {
-            return this;
         }
     }
 
@@ -2174,10 +2135,92 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$compatibleReset = compatible;
     }
 
-    isItemVisible = (index: number) => true;
+    getContextMenuConfig(): unknown {
+        return this._$contextMenuConfig;
+    }
 
-    isItemHidden(index: number): boolean {
-        return !this.getViewIterator().isItemVisible(index);
+    setViewIterator(viewIterator: IViewIterator): void {
+        this._viewIterator = viewIterator;
+    }
+
+    getViewIterator(): IViewIterator {
+        return this._viewIterator;
+    }
+
+    nextVersion(): void {
+        this._nextVersion();
+    }
+
+    setActionsAssigned(assigned: boolean): void {
+        this._actionsAssigned = assigned;
+    }
+
+    areActionsAssigned(): boolean {
+        return this._actionsAssigned;
+    }
+
+    getActionsMenuConfig(): any {
+        return this._actionsMenuConfig;
+    }
+
+    setActionsMenuConfig(config: any): void {
+        this._actionsMenuConfig = config;
+    }
+
+    getActionsTemplateConfig(): IItemActionsTemplateConfig {
+        return this._actionsTemplateConfig;
+    }
+
+    setActionsTemplateConfig(config: IItemActionsTemplateConfig): void {
+        if (!isEqual(this._actionsTemplateConfig, config)) {
+            this._actionsTemplateConfig = config;
+            this._nextVersion();
+        }
+    }
+
+    getSwipeConfig(): ISwipeConfig {
+        return this._swipeConfig;
+    }
+
+    setSwipeConfig(config: ISwipeConfig): void {
+        if (!isEqual(this._swipeConfig, config)) {
+            this._swipeConfig = config;
+            this._nextVersion();
+        }
+    }
+
+    appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
+        const strategyOptions = { ...options, display: this };
+
+        this._userStrategies.push({
+            strategy,
+            options: strategyOptions
+        });
+
+        if (this._composer) {
+            this._composer.append(strategy, strategyOptions);
+            this._reBuild();
+        }
+
+        this.nextVersion();
+    }
+
+    getStrategyInstance(strategy: new() => IItemsStrategy<S, T>): IItemsStrategy<S, T> {
+        return this._composer.getInstance(strategy);
+    }
+
+    removeStrategy(strategy: new() => IItemsStrategy<S, T>): void {
+        const idx = this._userStrategies.findIndex((us) => us.strategy === strategy);
+        if (idx >= 0) {
+            this._userStrategies.splice(idx, 1);
+
+            if (this._composer) {
+                this._composer.remove(strategy);
+                this._reBuild();
+            }
+
+            this.nextVersion();
+        }
     }
 
     getItemActionsProperty(): string {
@@ -2509,6 +2552,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             handler: this._$group
         });
 
+        this._userStrategies.forEach((us) => composer.append(us.strategy, us.options));
+
         return composer;
     }
 
@@ -2732,7 +2777,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
                     index,
                     item,
                     position,
-                    hasMembers
+                    hasMembers,
+                    prevGroup
                 );
                 if (!result) {
                     break;
@@ -3268,10 +3314,9 @@ Object.assign(Collection.prototype, {
     _$editingConfig: null,
     _$unique: false,
     _$importantItemProperties: null,
-    _$virtualScrollMode: VIRTUAL_SCROLL_MODE.REMOVE,
-    _$virtualScrolling: false,
     _$hasMoreData: false,
     _$compatibleReset: false,
+    _$contextMenuConfig: null,
     _$itemActionsProperty: '',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
@@ -3284,14 +3329,12 @@ Object.assign(Collection.prototype, {
     _onCollectionChange: null,
     _onCollectionItemChange: null,
     _oEventRaisingChange: null,
-    _markerManager: null,
-    _editInPlaceManager: null,
-    _itemActionsManager: null,
-    _virtualScrollManager: null,
-    _hoverManager: null,
-    _swipeManager: null,
-    _startIndex: 0,
-    _stopIndex: 0,
+    _viewIterator: null,
+    _actionsAssigned: false,
+    _actionsMenuConfig: null,
+    _actionsTemplateConfig: null,
+    _swipeConfig: null,
+    _userStrategies: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
 
