@@ -291,6 +291,12 @@ define('Controls/Application',
             this.pageName = cfg.pageName || appData.pageName || '';
             this.resourceRoot = cfg.resourceRoot || Env.constants.resourceRoot;
 
+            // Чтобы при загрузке слоя совместимости, понять нужно ли грузить провайдеры(extensions, userInfo, rights),
+            // положим опцию из Application в constants. Иначе придется использовать глобальную переменную.
+            // TODO: Удалить этот код отсюда по задае:
+            // https://online.sbis.ru/opendoc.html?guid=3ed5ebc1-0b55-41d5-a8fa-921ad24aeec3
+            Env.constants.loadDataProviders = cfg.loadDataProviders;
+
             if (typeof window !== 'undefined') {
                /* eslint-disable */
                if (document.getElementsByClassName('head-custom-block').length > 0) {

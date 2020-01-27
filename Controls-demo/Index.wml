@@ -1,5 +1,10 @@
 <Controls-demo.ContainerTheme>
-   <Controls.Application scope="{{_options}}" theme="{{content.theme}}" bodyClass="controls-default-bg" title="{{_title}}" settingsController="{{_settigsController}}">
+   <Controls.Application scope="{{_options}}"
+                         theme="{{content.theme}}"
+                         bodyClass="controls-default-bg"
+                         title="{{_title}}"
+                         loadDataProviders="{{false}}"
+                         settingsController="{{_settigsController}}">
       <ws:head>
          <link data-vdomignore="true" rel="shortcut icon" href="/Controls-demo/wasaby.ico?v=1" type="image/x-icon"/>
       </ws:head>
