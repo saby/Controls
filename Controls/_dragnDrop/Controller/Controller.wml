@@ -1,14 +1,26 @@
-<Controls.event:Register name="dragEndDetect" register="documentDragEnd" attr:fixCompatible="1">
-   <Controls.event:Register name="dragStartDetect" register="documentDragStart" attr:fixCompatible="1">
-      <ws:partial
-              template="{{_options.content}}"
-              scope="{{_options}}"
-              attr:class="controls-DragNDrop"
-              draggingTemplateOptions="{{_draggingTemplateOptions}}"
-              draggingTemplate="{{_draggingTemplate}}"
-              on:_updateDraggingTemplate="_updateDraggingTemplate()"
-              on:_documentDragStart="_documentDragStart()"
-              on:_documentDragEnd="_documentDragEnd()">
-      </ws:partial>
+<Controls.event:Register name="dragEnterDetect" register="documentDragEnter" attr:fixCompatible="1">
+   <Controls.event:Register name="dragOverDetect" register="documentDragOver" attr:fixCompatible="1">
+      <Controls.event:Register name="dragDropDetect" register="documentDrop" attr:fixCompatible="1">
+         <Controls.event:Register name="dragEndDetect" register="documentDragEnd" attr:fixCompatible="1">
+            <Controls.event:Register name="dragLeaveDetect" register="documentDragLeave" attr:fixCompatible="1">
+               <Controls.event:Register name="dragStartDetect" register="documentDragStart" attr:fixCompatible="1">
+                  <ws:partial
+                        template="{{_options.content}}"
+                        scope="{{_options}}"
+                        attr:class="controls-DragNDrop"
+                        draggingTemplateOptions="{{_draggingTemplateOptions}}"
+                        draggingTemplate="{{_draggingTemplate}}"
+                        on:dragenter="_documentDragEnter()"
+                        on:dragleave="_documentDragLeave()"
+                        on:dragover="_documentDragOver()"
+                        on:drop="_documentDrop()"
+                        on:_updateDraggingTemplate="_updateDraggingTemplate()"
+                        on:_documentDragStart="_documentDragStart()"
+                        on:_documentDragEnd="_documentDragEnd()">
+                  </ws:partial>
+               </Controls.event:Register>
+            </Controls.event:Register>
+         </Controls.event:Register>
+      </Controls.event:Register>
    </Controls.event:Register>
 </Controls.event:Register>

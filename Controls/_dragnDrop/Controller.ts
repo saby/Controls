@@ -34,6 +34,18 @@ import 'Controls/_dragnDrop/DraggingTemplate';
          _draggingTemplateOptions: undefined,
          _draggingTemplate: undefined,
 
+          _documentDragEnter: function (event) {
+             this._children.dragEnterDetect.start(event.nativeEvent);
+          },
+          _documentDragOver: function (event) {
+             this._children.dragOverDetect.start(event.nativeEvent);
+          },
+          _documentDragLeave: function (event) {
+             this._children.dragLeaveDetect.start(event.nativeEvent);
+          },
+          _documentDrop: function (event) {
+             this._children.dragDropDetect.start(event.nativeEvent);
+          },
          _documentDragStart: function(event, dragObject) {
             this._children.dragStartDetect.start(dragObject);
             this._notify('dragStart');
