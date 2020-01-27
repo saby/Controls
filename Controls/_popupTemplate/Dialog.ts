@@ -83,7 +83,7 @@ DialogTemplate.getDefaultOptions = function() {
         headingStyle: 'secondary',
         headingSize: '3xl',
         closeButtonVisibility: true,
-        closeButtonViewMode: 'popup',
+        closeButtonViewMode: 'toolButton',
         closeButtonTransparent: true
     };
 };

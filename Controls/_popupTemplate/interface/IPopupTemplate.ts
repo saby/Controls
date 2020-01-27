@@ -11,8 +11,7 @@
  * @cfg {String} Стиль отображения кнопки закрытия
  * @variant toolButton
  * @variant link
- * @variant popup
- * @default popup
+ * @default toolButton
  */
 
 /**
@@ -30,4 +29,3 @@ export interface IPopupTemplateOptions extends IPopupTemplateBaseOptions {
 export default interface IPopupTemplate {
     readonly '[Controls/_popupTemplate/interface/IPopupTemplate]': boolean;
 }
-
