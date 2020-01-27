@@ -109,13 +109,15 @@ define([
             result = null;
          });
 
-         it('commitOnDeactivate: true, isEditing: true', function() {
+         it('commitOnDeactivate: true, isEditing: true', function(done) {
             instance.saveOptions({
                readOnly: false
             });
             instance._beforeMount(cfg);
+            instance.commitEdit = function() {
+               done();
+            };
             instance._onDeactivatedHandler();
-            assert.isTrue(result);
          });
 
          it('if EditableArea has toolbar then changes should not commit on deactivated', function() {
@@ -130,18 +132,17 @@ define([
       });
 
       describe('_onKeyDown', function() {
-         it('Enter', function() {
+         it('Enter', function(done) {
             var result = false;
             instance._beforeMount(cfg);
             instance.commitEdit = function() {
-               result = true;
+               done();
             };
             instance._onKeyDown({
                nativeEvent: {
                   keyCode: 13
                }
             });
-            assert.isTrue(result);
          });
          it('Esc', function() {
             var result = false;
