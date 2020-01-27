@@ -71,6 +71,8 @@ var Component = BaseControl.extend({
 
     _range: null,
 
+    _dialogClassName: null,
+
     // constructor: function() {
     //    this._dayFormatter = this._dayFormatter.bind(this);
     //    Component.superclass.constructor.apply(this, arguments);
@@ -98,6 +100,12 @@ var Component = BaseControl.extend({
             Logger.error('dateLitePopup: ' + rk('You should use displayedRanges option instead of range option.'), this);
         }
         this._displayedRanges = options.displayedRanges || options.range;
+
+        this._dialogClassName = options.dialogClassName;
+        if (options.popupClassName) {
+            this._dialogClassName = options.popupClassName;
+            Logger.warn('dateLitePopup: ' + rk('You should use dialogClassName option instead of popupClassName option.'), this);
+        }
     },
 
     _beforeUpdate: function (options) {

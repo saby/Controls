@@ -84,12 +84,12 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
             emptyCaption: undefined,
 
              /**
-              * @name Controls/dateLitePopup/IDateLitePopup#popupClassName
-              * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+              * @name Controls/dateLitePopup/IDateLitePopup#dialogClassName
+              * @cfg {String} Имена классов, которые будут применены к шаблону всплывающего окна.
               * @default undefined
               */
-            popupClassName: undefined,
-            
+             dialogClassName: undefined,
+
             // TODO: Доделать полноценную поддержку следующих опций. Пока не показываем их в документации.
             /*
              * @name Controls/dateLitePopup/IDateLitePopup#checkedStart

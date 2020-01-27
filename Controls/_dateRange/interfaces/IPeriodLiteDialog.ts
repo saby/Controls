@@ -90,22 +90,22 @@ export default {
             emptyCaption: undefined,
 
             /**
-             * @name Controls/dateLitePopup/IDateLitePopup#popupClassName
-             * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
+             * @name Controls/dateLitePopup/IDateLitePopup#dialogClassName
+             * @cfg {String} Имена классов, которые будут применены к шаблону всплывающего окна.
              * @default undefined
              */
-            popupClassName: undefined,
+            dialogClassName: undefined,
             // TODO: Доделать полноценную поддержку следующих опций. Пока не показываем их в документации.
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedStart
              * @cfg {Date} Дата (месяц) начала установленного периода.
-             * 
+             *
              */
 
             /*
              * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#checkedStart
              * @cfg {Date} The date (month) of the beginning of the checked period
-             * 
+             *
              */
             checkedStart: undefined,
 
