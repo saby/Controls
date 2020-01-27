@@ -20,17 +20,4 @@ export default class extends Control {
          data: Data.employees
       });
    }
-
-   _dataLoadCallback() {
-      let entryPath = Data.employees.map(function (employeeData) {
-         return {
-            id: employeeData.id,
-            parent: employeeData['Раздел']
-         }
-      });
-
-      this.items.setMetaData({
-         ENTRY_PATH: entryPath
-      });
-   }
 }
