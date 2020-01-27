@@ -23,6 +23,7 @@ var MoreButton = Control.extend([], {
 
         var templateConfig = {
             selectedItems: new collection.List({ items: selectedItems }),
+            multiSelect: this._options.multiSelect,
             handlers: {
                 onSelectComplete: function(event, result) {
                     selectorDialogResult(event, result);
