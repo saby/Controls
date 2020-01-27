@@ -1699,7 +1699,9 @@ var
 
         getBottomPaddingStyles(): string {
             if (GridLayoutUtil.isFullGridSupport()) {
-                return GridLayoutUtil.getColumnStyles({
+                const rowIndex = this._getRowIndexHelper().getBottomPaddingRowIndex();
+                return GridLayoutUtil.getCellStyles({
+                    rowStart: rowIndex,
                     columnStart: this.getMultiSelectVisibility() === 'hidden' ? 0 : 1,
                     columnSpan: this._columns.length
                 });
