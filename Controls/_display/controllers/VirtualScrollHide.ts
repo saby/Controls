@@ -23,7 +23,6 @@ export function setup(collection: IVirtualScrollHideCollection): void {
         setIndices: setIndices.bind(null, collection),
         isItemAtIndexHidden: isItemAtIndexHidden.bind(null, collection)
     });
-    _applyRenderedItems(collection);
     collection.nextVersion();
 }
 
@@ -37,10 +36,8 @@ export function setIndices(
         startIndex,
         stopIndex
     );
-    if (indicesChanged) {
-        _applyRenderedItems(collection);
-        collection.nextVersion();
-    }
+    _applyRenderedItems(collection);
+    collection.nextVersion();
     return indicesChanged;
 }
 

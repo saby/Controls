@@ -69,17 +69,6 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
 
             assert.isAbove(collection._$version, 0);
         });
-        it('respects item count', () => {
-            const collection = makeCollection();
-            collection._$count = 6;
-
-            VirtualScrollController.setup(collection);
-            VirtualScrollController.setIndices(collection, -100, 100);
-
-            const { startIndex, stopIndex } = collection._$viewIterator.data;
-            assert.strictEqual(startIndex, 0);
-            assert.strictEqual(stopIndex, 6);
-        });
     });
 
     describe('each()', () => {

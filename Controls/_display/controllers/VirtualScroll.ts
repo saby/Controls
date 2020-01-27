@@ -41,26 +41,16 @@ export function setIndices(
     startIndex: number,
     stopIndex: number
 ): boolean {
-    const oldStart = getStartIndex(collection);
-    const oldStop = getStopIndex(collection);
-
-    const newStart = Math.max(startIndex, 0);
-    const newStop = Math.min(stopIndex, collection.getCount());
-
-    if (newStart !== oldStart || newStop !== oldStop) {
-        const viewIterator = {
-            ...collection.getViewIterator(),
-            data: {
-                startIndex: newStart,
-                stopIndex: newStop
-            }
-        };
-        collection.setViewIterator(viewIterator);
-        collection.nextVersion();
-        return true;
-    }
-
-    return false;
+    const viewIterator = {
+        ...collection.getViewIterator(),
+        data: {
+            startIndex,
+            stopIndex
+        }
+    };
+    collection.setViewIterator(viewIterator);
+    collection.nextVersion();
+    return true;
 }
 
 export function each(
