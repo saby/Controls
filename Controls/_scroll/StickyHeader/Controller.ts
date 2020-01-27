@@ -100,7 +100,8 @@ class Component extends Control {
     private _updateFixationState(data: TRegisterEventData) {
         if (!!data.fixedPosition) {
             this._fixedHeadersStack[data.fixedPosition].push(data.id);
-        } else if (!!data.prevPosition && this._fixedHeadersStack[data.prevPosition].indexOf(data.id) !== -1) {
+        }
+        if (!!data.prevPosition && this._fixedHeadersStack[data.prevPosition].indexOf(data.id) !== -1) {
             this._fixedHeadersStack[data.prevPosition].splice(this._fixedHeadersStack[data.prevPosition].indexOf(data.id), 1);
         }
     }
