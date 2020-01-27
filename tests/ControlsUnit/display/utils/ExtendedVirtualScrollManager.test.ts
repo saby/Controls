@@ -8,7 +8,7 @@ interface IListItem {
     visits: number;
 }
 
-describe('Controls/_display/utils/VirtualScrollManager', () => {
+describe('Controls/_display/utils/ExtendedVirtualScrollManager', () => {
     let list: List<IListItem>;
     let collection: Collection<IListItem>;
     let manager: ExtendedVirtualScroll;
@@ -37,14 +37,10 @@ describe('Controls/_display/utils/VirtualScrollManager', () => {
         list.destroy();
     });
 
-    describe('original state', () => {
-        it('has rendered loaded items', () => {
-            collection.getViewIterator().each((item) => assert.isTrue(item.isRendered()));
-        });
-    });
-
     describe('.each()', () => {
         it('iterates over each item once with correct indices', () => {
+            collection.setViewIndices(0, collection.getCount());
+
             manager.each((item, index) => {
                 const contents = (item as CollectionItem<IListItem>).getContents();
                 assert.strictEqual(

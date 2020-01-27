@@ -690,6 +690,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this.setItemsSpacings(options.itemPadding);
         }
 
+        this._stopIndex = this.getCount();
+
         const virtualScrollConfig = options.virtualScrollConfig || {mode: options.virtualScrollMode};
         this._$virtualScrollMode = virtualScrollConfig.mode;
 
@@ -702,7 +704,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
         this._virtualScrollManager = options.virtualScrollMode === VIRTUAL_SCROLL_MODE.REMOVE ?
             new VirtualScrollManager(this) : new ExtendedVirtualScrollManager(this);
-        this.setViewIndices(0, this.getCount());
     }
 
     destroy(): void {
@@ -2111,20 +2112,15 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     }
 
     setViewIndices(startIndex: number, stopIndex: number): boolean {
-        const newStart = Math.max(startIndex, 0);
-        const newStop = Math.min(stopIndex, this.getCount());
-        if (newStart !== this._startIndex || newStop !== this._stopIndex) {
-            this._startIndex = newStart;
-            this._stopIndex = newStop;
+        this._startIndex = startIndex;
+        this._stopIndex = stopIndex;
 
-            if (this._$virtualScrollMode === VIRTUAL_SCROLL_MODE.HIDE) {
-                this._virtualScrollManager.applyRenderedItems(this._startIndex, this._stopIndex);
-            }
-
-            this._nextVersion();
-            return true;
+        if (this._$virtualScrollMode === VIRTUAL_SCROLL_MODE.HIDE) {
+            this._virtualScrollManager.applyRenderedItems(this._startIndex, this._stopIndex);
         }
-        return false;
+
+        this._nextVersion();
+        return true;
     }
 
     getItemBySourceId(id: string|number): CollectionItem<S> {

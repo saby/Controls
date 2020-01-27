@@ -4317,16 +4317,6 @@ describe('Controls/_display/Collection', () => {
                 '.setViewIndices() should increase collection version'
             );
         });
-
-        it('respects items count', () => {
-            const collection = new CollectionDisplay({
-                collection: [0, 1, 2, 3, 4, 5]
-            });
-
-            collection.setViewIndices(-10, 100);
-            assert.strictEqual(collection.getStartIndex(), 0);
-            assert.strictEqual(collection.getStopIndex(), 6);
-        });
     });
 
     it('.getItemBySourceId()', () => {
