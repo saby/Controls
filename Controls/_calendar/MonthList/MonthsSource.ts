@@ -189,6 +189,6 @@ export default class MonthsSource extends Memory {
         if (this._viewMode === 'month') {
             return new this._dateConstructor(date.getFullYear(), date.getMonth() + delta);
         }
-        return new this._dateConstructor(date.getFullYear() + delta, date.getMonth());
+        return new this._dateConstructor(date.getFullYear() + delta, 0);
     }
 }
