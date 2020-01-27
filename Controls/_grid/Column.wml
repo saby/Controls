@@ -29,7 +29,8 @@
         </ws:if>
     </ws:else>
 </ws:template>
-
-<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_L_theme-{{_options.theme}}">
-    <ws:partial template="cellContent"/>
+<div class="controls-Grid__row-cell__contentPadding {{itemData.classList.padding}}">
+    <div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_L_theme-{{_options.theme}}">
+        <ws:partial template="cellContent"/>
+    </div>
 </div>

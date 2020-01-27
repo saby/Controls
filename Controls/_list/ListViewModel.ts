@@ -10,6 +10,7 @@ import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { CollectionItem } from 'Types/display';
 import { CssClassList } from "../Utils/CssClassList";
+import {IList} from 'Controls/_list/interface/IList'
 
 /**
  *
@@ -22,12 +23,14 @@ var _private = {
         self._startIndex = startIndex;
         self._stopIndex = stopIndex;
     },
-    getItemPadding: function(cfg) {
-        return cfg.itemPadding || {
-            left: 'default',
-            right: 'default',
-            top: 'default',
-            bottom: 'default'
+    getItemPadding(cfg: IList): IList['itemPadding'] {
+        // TODO: Что с типизацией? Тут недоступны интерфейсы TVerticalItemPadding и THorizontalItemPadding, они определены выше.
+        const normalizeValue = (key: keyof IList['itemPadding']) => ((cfg.itemPadding || {})[key] || 'default').toLowerCase();
+        return {
+            left: normalizeValue('left'),
+            right: normalizeValue('right'),
+            top: normalizeValue('top'),
+            bottom: normalizeValue('bottom'),
         };
     },
     getSpacingClassList: function(cfg) {
@@ -36,14 +39,14 @@ var _private = {
             itemPadding = _private.getItemPadding(cfg);
 
         classList += ' controls-ListView__itemContent';
-        classList += ' controls-ListView__item-topPadding_' + (itemPadding.top || 'default').toLowerCase();
-        classList += ' controls-ListView__item-bottomPadding_' + (itemPadding.bottom || 'default').toLowerCase();
-        classList += ' controls-ListView__item-rightPadding_' + (itemPadding.right || 'default').toLowerCase();
+        classList += ' controls-ListView__item-topPadding_' + itemPadding.top;
+        classList += ' controls-ListView__item-bottomPadding_' + itemPadding.bottom;
+        classList += ' controls-ListView__item-rightPadding_' + itemPadding.right;
 
         if (cfg.multiSelectVisibility !== 'hidden') {
             classList += ' controls-ListView__itemContent_withCheckboxes';
         } else {
-            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase();
+            classList += ' controls-ListView__item-leftPadding_' + itemPadding.left;
         }
 
         return classList;
