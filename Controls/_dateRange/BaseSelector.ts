@@ -33,7 +33,7 @@ const Component = BaseControl.extend({
         this._children.opener.close();
     },
 
-    _openDialog: function () {
+    openPopup: function () {
         this._children.opener.open(this._getPopupOptions());
     },
 

@@ -154,9 +154,9 @@ var Component = BaseControl.extend({
       _private._updateCaption(this);
    },
 
-   getDialogTarget () {
+   getPopupTarget: function() {
        if (this._options.nextArrowVisibility || this._options.prevArrowVisibility) {
-           return this._children.openDialogTarget;
+           return this._children.openPopupTarget;
        }
       return this._container;
    },

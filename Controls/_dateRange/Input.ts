@@ -18,6 +18,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/interface/IDateMask
+ * @mixes Controls/_interface/IOpenPopup
  *
  * @css @width_DateRange-dash Width of dash between input fields.
  * @css @spacing_DateRange-between-dash-date Spacing between dash and input fields.
@@ -82,7 +83,7 @@ var Component = Control.extend([], {
         this._rangeModel.destroy();
     },
 
-    _openDialog: function (event) {
+    openPopup: function (event) {
         var cfg = {
             ...getOptions.getCommonOptions(this),
             target: this._container,
