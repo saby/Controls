@@ -74,7 +74,8 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
      */
     itemsSpacing: TItemsSpacing;
     /**
-     * Позволяет отобразить дополнительные элементы в меню.
+     * @name Controls/_toolbars/View#additionalProperty
+     * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
      */
     additionalProperty?: string
 }
