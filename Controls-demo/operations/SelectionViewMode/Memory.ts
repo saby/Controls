@@ -1,5 +1,13 @@
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
+import Data = require('Controls-demo/OperationsPanel/Demo/Data');
+
+const ENTRY_PATH = Data.employees.map((employeeData) => {
+   return {
+      id: employeeData.id,
+      parent: employeeData['Раздел']
+   }
+});
 
 function includes(collection, item) {
    if (typeof item === 'number') {
@@ -93,6 +101,8 @@ export default class extends Memory {
          data.getAll = function () {
             let result = originalGetAll.apply(this, arguments);
             let meta = result.getMetaData();
+
+            meta.ENTRY_PATH = ENTRY_PATH;
 
             if (parent !== undefined && parent !== null) {
                meta.path = getFullPath(items, parent);

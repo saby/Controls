@@ -1,3 +1,3 @@
 <Controls-demo.operations.ListWithOperationsPanel source="{{_viewSource}}" nodeProperty="Раздел@" parentProperty="Раздел" keyProperty="id" bind:selectionViewMode="_selectionViewMode">
-    <Controls.explorer:View displayProperty="name" columns="{{_gridColumns}}" dataLoadCallback="{{_dataLoadCallback}}"/>
+    <Controls.explorer:View displayProperty="name" columns="{{_gridColumns}}"/>
 </Controls-demo.operations.ListWithOperationsPanel>
