@@ -400,9 +400,11 @@ var StickyHeader = Control.extend({
       //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
       var fixedPosition = shadowPosition === 'top' ? 'bottom' : 'top';
 
-      return (!this._context.stickyHeader || this._context.stickyHeader.shadowPosition.indexOf(fixedPosition) !== -1) &&
-          (this._model && this._model.fixedPosition === fixedPosition) && this._options.shadowVisibility === 'visible' &&
-          (this._options.mode === 'stackable' || this._shadowVisible);
+      return !! ((this._context.stickyHeader?.shadowPosition &&
+               this._context.stickyHeader.shadowPosition.indexOf(fixedPosition) !== -1) &&
+          (this._model && this._model.fixedPosition === fixedPosition) &&
+          this._options.shadowVisibility === 'visible' &&
+          (this._options.mode === 'stackable' || this._shadowVisible));
    }
 });
 

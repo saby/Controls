@@ -316,6 +316,14 @@ define([
             sinon.restore();
          });
       });
+
+      describe('_isShadowVisible', function() {
+         it('should not show shadow displayed outside scroll container', function() {
+            const component = createComponent(StickyHeader, {});
+            component._context = {};
+            assert.isFalse(component._isShadowVisible('top'));
+         });
+      });
    });
 
 });
