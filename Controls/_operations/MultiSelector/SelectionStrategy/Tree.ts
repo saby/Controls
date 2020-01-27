@@ -78,7 +78,7 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
       let rootId: TKey = this._getRoot(model);
       let selectedNodes: TKeys = [];
 
-      if (!this.isAllSelected(selection, rootId, model, hierarchyRelation) || this._isAllRootItemsLoaded(model, hierarchyRelation)) {
+      if (!this.isAllSelected(selection, rootId, model, hierarchyRelation) || !model.getHasMoreData()) {
          if (this._options.selectDescendants) {
             let items: RecordSet = getItems(model);
 
@@ -191,23 +191,6 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
 
    private _getRoot(model: TreeCollection|ViewModel): TKey {
       return model.getRoot().getContents();
-   }
-
-   private _isAllRootItemsLoaded(model: TreeCollection|ViewModel, hierarchyRelation: relation.Hierarchy): boolean {
-      let hasMore: boolean = true;
-      let items: RecordSet = getItems(model);
-      let more: number|boolean|undefined = items.getMetaData().more;
-
-      if (typeof more === 'number') {
-         let rootId: string|number|null = this._getRoot(model);
-         let itemsCountRoot: number = getChildren(rootId, model, hierarchyRelation).length;
-
-         hasMore = more !== itemsCountRoot;
-      } else {
-         hasMore = more !== false;
-      }
-
-      return !hasMore;
    }
 
    private _getParentId(itemId: Tkey, model: ViewModel|TreeCollection, hierarchyRelation: relation.Hierarchy): TKey|undefined {

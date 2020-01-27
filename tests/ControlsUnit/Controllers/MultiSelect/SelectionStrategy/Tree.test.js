@@ -113,22 +113,21 @@ define([
          it('select root', function() {
             selection.selected = [null];
             selection.excluded = [null];
-            model.getItems().setMetaData({more: false});
             assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 3);
+
          });
 
          it('select root with excluded', function() {
             // Дети корня 1,6,7
             selection.selected = [null];
             selection.excluded = [null, 1, 7, 10];
-            model.getItems().setMetaData({more: 3});
             assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 1);
          });
 
          it('with not loaded selected root', function() {
             selection.selected = [null];
             selection.excluded = [null];
-            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), null);
+            assert.equal(treeStrategy.getCount(selection, model, {}, hierarchyRelation), 3);
          });
 
          it('with not loaded node', function() {
