@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.grid:View
             keyProperty="id"
+            attr:class="controlsDemo__inline-flex"
             source="{{_viewSource}}"
             rowSeparatorVisibility="{{true}}"
             columns="{{_columns}}"/>

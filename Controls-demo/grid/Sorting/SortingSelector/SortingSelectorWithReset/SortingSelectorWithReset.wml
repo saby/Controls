@@ -7,7 +7,7 @@
             sortingParams="{{_sortingParams}}"
             bind:value="_sorting">
     </Controls.grid:SortingSelector>
-    <Controls.scroll:Container>
+    <Controls.scroll:Container attr:class="controlsDemo__inline-flex">
         <Controls.grid:View
                 keyProperty="id"
                 source="{{_viewSource}}"
