@@ -370,25 +370,23 @@ var _Controller = Control.extend({
             this._open();
          }
       }
-      if (newOptions.selectedKeys !== this._options.selectedKeys && this._items) {
-         _private.updateSelectedItems(this, newOptions.emptyText, newOptions.selectedKeys, newOptions.keyProperty, newOptions.selectedItemsChangedCallback);
-      }
       if ((newOptions.source && (newOptions.source !== this._options.source || !this._sourceController)) ||
-         !isEqual(newOptions.navigation, this._options.navigation) ||
-         !isEqual(newOptions.filter, this._options.filter)) {
+          !isEqual(newOptions.navigation, this._options.navigation) ||
+          !isEqual(newOptions.filter, this._options.filter)) {
          this._source = null;
          this._sourceController = null;
          if (newOptions.lazyItemsLoading && !this._isOpened) {
             /* source changed, items is not actual now */
             this._setItems(null);
          } else {
-            var self = this;
-            return _private.loadItems(this, newOptions).addCallback(function(items) {
-               if (items && self._isOpened) {
-                  self._open();
+            return _private.loadItems(this, newOptions).addCallback((items) => {
+               if (items && this._isOpened) {
+                  this._open();
                }
             });
          }
+      } else if (newOptions.selectedKeys !== this._options.selectedKeys && this._items) {
+         _private.updateSelectedItems(this, newOptions.emptyText, newOptions.selectedKeys, newOptions.keyProperty, newOptions.selectedItemsChangedCallback);
       }
    },
 

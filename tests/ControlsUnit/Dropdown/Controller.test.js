@@ -304,6 +304,43 @@ define(
             });
          });
 
+         it('_beforeUpdate source and selectedKeys', () => {
+            let dropdownController = getDropdownController(config),
+               opened = false;
+            let updatedItems = Clone(items);
+            updatedItems.push({
+               id: '9',
+               title: 'Запись 9'
+            });
+            dropdownController._items = itemsRecords;
+            dropdownController._source = true;
+            dropdownController._children = {
+               DropdownOpener: {
+                  open: function() {
+                     opened = true;
+                  },
+                  isOpened: function() {
+                     return opened;
+                  }
+               }
+            };
+            let stub = sandbox.stub(dropdown._Controller._private, 'updateSelectedItems');
+            return new Promise((resolve) => {
+               dropdownController._beforeUpdate({
+                  selectedKeys: [3],
+                  keyProperty: 'id',
+                  source: new sourceLib.Memory({
+                     keyProperty: 'id',
+                     data: updatedItems
+                  })
+               }).addCallback(() => {
+                  assert.equal(dropdownController._items.getCount(), updatedItems.length);
+                  sinon.assert.calledOnce(stub);
+                  resolve();
+               });
+            });
+         });
+
          it('_beforeUpdate source dropdown open', () => {
             let dropdownController = getDropdownController(config),
                opened = false;
