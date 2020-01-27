@@ -1,0 +1,11 @@
+<ws:partial template="wml!Controls/_list/EditInPlace/baseEditingTemplate" scope="{{ _options }}">
+    <ws:notEditingTemplate>
+        <Controls.decorator:Money
+                value="{{ value }}"
+                style="{{ style }}"
+                showEmptyDecimals="{{ showEmptyDecimals }}"
+                useGrouping="{{ useGrouping }}"
+                tooltip="{{ tooltip }}"
+                readOnly="{{ readOnly }}"/>
+    </ws:notEditingTemplate>
+</ws:partial>

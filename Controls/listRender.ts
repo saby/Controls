@@ -1,4 +1,6 @@
-import editingTemplate = require('wml!Controls/_listRender/Render/resources/EditingTemplate');
+import editingTemplate = require('wml!Controls/_listRender/Render/resources/EditInPlace/EditingTemplate');
+import moneyEditingTemplate = require('wml!Controls/_listRender/Render/resources/EditInPlace/decorated/Money');
+import numberEditingTemplate = require('wml!Controls/_listRender/Render/resources/EditInPlace/decorated/Number');
 import itemTemplateWrapper = require('wml!Controls/_listRender/Render/resources/ItemTemplateWrapper');
 import itemActionsTemplate = require('wml!Controls/_listRender/Render/resources/ItemActionsTemplate');
 import swipeTemplate = require('wml!Controls/_listRender/Render/resources/SwipeTemplate');
@@ -16,6 +18,8 @@ export { ColumnsItemTemplateWrapper as ColumnsItemTemplate};
 export { default as View } from 'Controls/_listRender/View';
 export {
     editingTemplate,
+    moneyEditingTemplate,
+    numberEditingTemplate,
     itemTemplateWrapper,
     itemActionsTemplate,
     swipeTemplate,

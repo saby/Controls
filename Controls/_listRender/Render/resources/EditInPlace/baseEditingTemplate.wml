@@ -1,0 +1,16 @@
+<div attr:class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{ align ? align : 'left' }}">
+    <ws:if data="{{ item.isEditing() }}">
+        <ws:partial attr:class="controls-EditingTemplateText__editor" template="{{ editorTemplate }}" />
+    </ws:if>
+    <ws:else>
+        <div attr:class="controls-EditingTemplateText
+            {{enabled ? 'controls-EditingTemplateText_enabled'}}
+            controls-EditingTemplateText_size_{{size ? size : 'default'}}
+            controls-EditingTemplateText_style_{{style ? style : 'default'}}
+            {{itemData.isActive && !itemData.isMenuShown ? 'controls-EditingTemplateText_active'}}">
+            <div class="controls-EditingTemplateText__inner">
+                <ws:partial template="{{ notEditingTemplate }}"/>
+            </div>
+        </div>
+    </ws:else>
+</div>

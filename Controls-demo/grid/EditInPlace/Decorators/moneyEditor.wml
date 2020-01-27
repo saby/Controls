@@ -1,0 +1,12 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:MoneyEditingTemplate"
+                    value="{{ itemData.item['taxBase'] }}"
+                    itemData="{{itemData}}"
+                    enabled="{{true}}">
+            <ws:editorTemplate>
+                <Controls.input:Money bind:value="itemData.item['taxBase']" selectOnClick="{{ false }}" />
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>
