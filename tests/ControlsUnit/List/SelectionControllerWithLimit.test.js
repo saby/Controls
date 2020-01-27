@@ -93,11 +93,10 @@ define([
       });
 
       it('getCount with isAllItemsLoaded == false', async function() {
-         await instance._beforeMount(cfg);
+         let newConfig = {...cfg};
+         newConfig.listModel.getHasMoreData = () => true;
+         await instance._beforeMount(newConfig);
          const stubExpandLimit = sandbox.stub(instance._multiselection, '_increaseLimit');
-         instance._multiselection._selectionStrategy._isAllItemsLoaded = function() {
-            return false;
-         };
          SelectionController._private.selectedTypeChangedHandler.call(instance, 'selectAll', 100);
          assert.equal(instance._multiselection.getCount(), 100);
       });
