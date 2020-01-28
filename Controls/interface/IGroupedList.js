@@ -78,12 +78,14 @@ define('Controls/interface/IGroupedList', [
    /**
     * @event Controls/interface/IGroupedList#groupExpanded Происходит при развертывании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Array.<String>} changes Массив с идентификаторами групп.
     * <a href="/materials/demo-ws4-list-group">Example</a>.
     */
 
    /**
     * @event Controls/interface/IGroupedList#groupCollapsed Происходит при сворачивании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Array.<String>} changes Массив с идентификаторами групп.
     * <a href="/materials/demo-ws4-list-group">Example</a>.
     */
 
