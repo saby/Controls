@@ -1,0 +1,38 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=default</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="default"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="secondary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="success" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="warning" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="danger" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="unaccented" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="link" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="label" />
+    </div>
+</div>

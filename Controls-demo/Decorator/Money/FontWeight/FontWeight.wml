@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=normal</div>
+        <Controls.decorator:Money value="{{_value}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=bold</div>
+        <Controls.decorator:Money value="{{_value}}" fontWeight="bold"/>
+    </div>
+</div>

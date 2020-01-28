@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
+        <Controls.decorator:Money value="{{_value}}" fontSize="l" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+        <Controls.decorator:Money value="{{_value}}" fontSize="m" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s</div>
+        <Controls.decorator:Money value="{{_value}}" fontSize="s" />
+    </div>
+</div>

@@ -1,36 +1,14 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {INumberFormatOptions, INumberFormat, ITooltipOptions, ITooltip} from 'Controls/interface';
+import {INumberFormatOptions, INumberFormat, ITooltipOptions, ITooltip, IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions, IFontWeight, IFontWeightOptions} from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 import {descriptor} from 'Types/entity';
-import {moneyOptions, moneyUseGrouping, moneyValue} from 'Controls/_decorator/ActualAPI';
+import {moneyOptions, moneyUseGrouping, moneyValue, moneyStyle} from 'Controls/_decorator/ActualAPI';
 import numberToString from 'Controls/Utils/Formatting/numberToString';
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
 
 type TValue = string | number | null;
-/**
- * @typedef TStyle
- * @variant default
- * @variant accentResults
- * @variant noAccentResults
- * @variant group
- * @variant basicRegistry
- * @variant noBasicRegistry
- * @variant accentRegistry
- * @variant noAccentRegistry
- * @variant error
- */
-type TStyle =
-    'default'
-    | 'accentResults'
-    | 'noAccentResults'
-    | 'group'
-    | 'basicRegistry'
-    | 'noBasicRegistry'
-    | 'accentRegistry'
-    | 'noAccentRegistry'
-    | 'error';
 
 interface IPaths {
     integer: string;
@@ -38,12 +16,13 @@ interface IPaths {
     number: string;
 }
 
+
 /**
  * @interface Controls/_decorator/Money/IMoneyOptions
  * @public
  * @author Красильников А.С.
  */
-export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions {
+export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions, IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     number: number;
     delimiters: boolean;
     title: string;
@@ -55,12 +34,14 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      */
     value: TValue;
     /**
-     * Стиль отображения числа в денежном формате.
-     * @type TStyle
-     * @default default
-     * @demo Controls-demo/Decorator/Money/Style/Index
+     * @name Controls/_decorator/Money#fontSize
+     * @cfg {String} Размер шрифта.
+     * @variant l
+     * @variant m
+     * @variant s
+     * @default m
+     * @demo Controls-demo/Decorator/Money/FontSize/Index
      */
-    style: TStyle;
 }
 
 /**
@@ -71,6 +52,9 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @extends UI/Base:Control
  *
  * @mixes Controls/interface:ITooltip
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Control/interface:IFontWeight
+ * @mixes Control/interface:IFontSize
  * @mixes Controls/interface:INumberFormat
  * @mixes Controls/_decorator/Money/IMoneyOptions
  *
@@ -84,6 +68,10 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
     private _useGrouping: boolean;
     private _tooltip: string;
     private _parsedNumber: IPaths;
+    private _fontColorStyle: string;
+    private _fontSize: string;
+    private _readOnly: boolean;
+    private _fontWeight: string;
 
     readonly '[Controls/_interface/ITooltip]' = true;
     readonly '[Controls/_interface/INumberFormat]' = true;
@@ -95,6 +83,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
     private _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
         return showEmptyDecimals || value !== '.00';
     }
+
 
     private _getTooltip(options: IMoneyOptions): string {
         const actualOptions = moneyOptions(options);
@@ -139,10 +128,19 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
         };
     }
 
+    private _getStyle(options: IMoneyOptions): void {
+        const styles = moneyStyle(options);
+        this._fontSize = styles.fontSize;
+        this._fontColorStyle = styles.fontColorStyle;
+        this._fontWeight = styles.fontWeight;
+        this._readOnly = styles.readOnly;
+    }
+
     protected _beforeMount(options: IMoneyOptions): void {
         this._changeState(options, true);
         this._parsedNumber = this._parseNumber();
         this._tooltip = this._getTooltip(options);
+        this._getStyle(options);
     }
 
     protected _beforeUpdate(newOptions): void {
@@ -150,6 +148,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
             this._parsedNumber = this._parseNumber();
         }
         this._tooltip = this._getTooltip(newOptions);
+        this._getStyle(newOptions);
     }
 
     private static FRACTION_LENGTH = 2;
@@ -189,7 +188,9 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
     static getDefaultOptions() {
         return {
             value: null,
-            style: 'default',
+            fontColorStyle: 'default',
+            fontSize: 'm',
+            fontWeight: 'normal',
             useGrouping: true,
             showEmptyDecimals: true
         };
@@ -197,18 +198,16 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
 
     static getOptionTypes() {
         return {
-            style: descriptor(String).oneOf([
-                'default', 'accentResults', 'noAccentResults',
-                'group', 'basicRegistry', 'noBasicRegistry',
-                'accentRegistry', 'noAccentRegistry', 'error'
-            ]),
+            fontColorStyle: descriptor(String),
+            fontSize: descriptor(String),
+            fontWeight: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
             value: descriptor(String, Number, null)
         };
     }
 
-    static _theme = ['Controls/decorator']
+    static _theme = ['Controls/decorator'];
 }
 
 export default Money;

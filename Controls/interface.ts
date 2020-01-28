@@ -8,6 +8,7 @@
  * @includes IIconSize Controls/_interface/IIconSize
  * @includes IFontColorStyle Controls/_interface/IFontColorStyle
  * @includes IFontSize Controls/_interface/IFontSize
+ * @includes IFontWeight Controls/_interface/IFontWeight
  * @includes IHeight Controls/_interface/IHeight
  * @includes ISource Controls/_interface/ISource
  * @includes IErrorController Controls/_interface/IErrorController
@@ -46,6 +47,7 @@ export {default as IIcon, IIconOptions} from './_interface/IIcon';
 export {default as IIconSize, IIconSizeOptions} from './_interface/IIconSize';
 export {default as IFontColorStyle, IFontColorStyleOptions} from './_interface/IFontColorStyle';
 export {default as IFontSize, IFontSizeOptions} from './_interface/IFontSize';
+export {default as IFontWeight, IFontWeightOptions} from './_interface/IFontWeight';
 export {default as IHeight, IHeightOptions} from './_interface/IHeight';
 export {default as ISingleSelectable, ISingleSelectableOptions} from './_interface/ISingleSelectable';
 export {default as IMultiSelectable, IMultiSelectableOptions} from './_interface/IMultiSelectable';

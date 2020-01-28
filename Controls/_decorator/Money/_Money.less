@@ -7,6 +7,29 @@
    font-size: @font-size_DecoratorMoney-fractional;
    font-weight: @font-weight_DecoratorMoney-fractional;
 }
+.controls-DecoratorMoney__integer_theme_@{themeName}_fontColorStyle {
+   @variantsColor: default, secondary, primary, success, warning, danger, unaccented, link, label;
+
+   .for(@variantsColor, { &_@{_item} {
+      color: ~"@{color_DecoratorMoney-integer_fontColorStyle_@{_item}}";
+   } });
+}
+
+.controls-DecoratorMoney__integer_theme_@{themeName}_fontSize {
+   @variantsSize:  m, s, l;
+
+   .for(@variantsSize, { &_@{_item} {
+      font-size: ~"@{font-size_DecoratorMoney-integer_fontSize_@{_item}}";
+   } });
+}
+
+.controls-DecoratorMoney__integer_theme_@{themeName}_fontWeight {
+   @variantsWeight:  bold, normal;
+
+   .for(@variantsWeight, { &_@{_item} {
+      font-weight: ~"@{font-weight_DecoratorMoney-integer_fontWeight_@{_item}}";
+   } });
+}
 
 .controls-DecoratorMoney__integer_theme_@{themeName}_style {
    @variants: default, accentResults, noAccentResults, group, basicRegistry, noBasicRegistry, accentRegistry, noAccentRegistry, error;
@@ -16,4 +39,9 @@
       font-size: ~"@{font-size_DecoratorMoney-integer_style_@{_item}}";
       font-weight: ~"@{font-weight_DecoratorMoney-integer_style_@{_item}}";
    } });
+}
+
+
+.controls-DecoratorMoney__integer_readOnly {
+   color: @color_DecoratorMoney-integer_readonly;
 }
