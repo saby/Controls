@@ -682,8 +682,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
             this.commitEdit().addCallback((result = {}) => {
                 if (result.validationFailed) {
                     cancelPending();
-                } else {
-                    pendingDeferred.callback();
                 }
             }).addErrback(() => {
                 cancelPending();
