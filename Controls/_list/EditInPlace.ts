@@ -117,7 +117,9 @@ var
                 self._options.listModel.restoreMarker();
             }
             _private.resetVariables(self);
-            self._setEditingItemData(null, self._options.listModel, self._options);
+            if (!self._destroyed) {
+                self._setEditingItemData(null, self._options.listModel, self._options);
+            }
         },
 
         createModel: function (self, options) {
@@ -675,14 +677,14 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
         e.stopPropagation();
     },
 
-    _onPendingFail(forceFinishValue: boolean, pendingDeferred: Promise<boolean>): void {
+    _onPendingFail(forceFinishValue: boolean, pendingDeferred: Deferred<boolean>): void {
         const cancelPending = () => this._notify('cancelFinishingPending', [], {bubbling: true});
 
         if (this._editingItem && this._editingItem.isChanged()) {
             this.commitEdit().addCallback((result = {}) => {
                 if (result.validationFailed) {
                     cancelPending();
-                } else {
+                } else if (pendingDeferred && !pendingDeferred.isReady()) {
                     pendingDeferred.callback();
                 }
             }).addErrback(() => {
