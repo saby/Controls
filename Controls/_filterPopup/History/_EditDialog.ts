@@ -110,7 +110,7 @@ class EditDialog extends Control<IEditDialog> {
         factory(resultItems).each((item) => {
             if (!selectedFilters.includes(item.id) && this.isDisplayItem(item)) {
                 item.textValue = '';
-                delete item.value;
+                item.value = null;
             }
         });
         return resultItems;

@@ -205,6 +205,45 @@ define(
             sandBox.restore();
          });
 
+         it('_private::saveFavorite', () => {
+            let editedItem;
+            const sandBox = sinon.createSandbox();
+            const self = {
+               _editItem: { get: () => {}, set: (property, data) => { editedItem = data; } },
+               _options: { historyId: '1231123' },
+               _notify: () => {}
+            };
+
+            sandBox.stub(List._private, 'removeRecordFromOldFavorite').returns(-1);
+            sandBox.stub(List._private, 'updateOldFavoriteList');
+            sandBox.replace(List._private, 'getSource', () => {
+               return {
+                  update: () => {},
+                  getDataObject: () => {}
+               };
+            });
+
+            let record = new entity.Model({
+               rawData: {
+                  items: items,
+                  linkText: 'textLine',
+                  isClient: false
+               }
+            });
+
+            let expectedEditedItem = JSON.stringify({
+               items: items,
+               linkText: 'Today, Ivanov K.K.',
+               isClient: false
+            });
+            List._private.saveFavorite(self, record);
+
+            sinon.assert.calledOnce(List._private.removeRecordFromOldFavorite);
+            sinon.assert.calledOnce(List._private.updateOldFavoriteList);
+            assert.deepEqual(editedItem, expectedEditedItem);
+            sandBox.restore();
+         });
+
          describe('_private::mapByField', function() {
 
             it('map by resetValues', function() {
