@@ -1,99 +1,104 @@
 //Panel background
 .controls-FilterPanel__vertical.controls-DialogTemplate {
-   background-color: @background-color_FilterPanel;
+   background-color: @background-color_vertical_filterPanel;
 }
 // Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
 .controls-FilterPanel__vertical .controls-DialogTemplate__top-area {
-   background-color: @background-color_FilterPanel;
+   background-color: @background-color_vertical_filterPanel;
 }
 
 .controls-FilterPanel__horizontal.controls-DialogTemplate {
-   background-color: @background-color_FilterPanel_horizontal;
+   background-color: @background-color_horizontal_filterPanel;
 }
 // Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
 .controls-FilterPanel__horizontal .controls-DialogTemplate__top-area {
-   background-color: @background-color_FilterPanel_horizontal;
+   background-color: @background-color_horizontal_filterPanel;
 }
 
 //Panel width
 .controls-FilterPanel__width-s.controls-FilterPanel__vertical {
-   width: @width_FilterPanel-size_s;
+   width: @width_s_filterPanel;
 }
 
 .controls-FilterPanel__width-m.controls-FilterPanel__vertical {
-   width: @width_FilterPanel-size_m;
+   width: @width_m_filterPanel;
 }
 
 .controls-FilterPanel__width-l.controls-FilterPanel__vertical {
-   width: @width_FilterPanel-size_l;
+   width: @width_l_filterPanel;
 }
 
 .controls-FilterPanel__width-xl.controls-FilterPanel__vertical {
-   width: @width_FilterPanel-size_xl;
+   width: @width_xl_filterPanel;
 }
 
 .controls-FilterPanel__width-m .controls-FilterPanel__filtersWrapper {
-   width: @width_FilterPanel-filtersWrapper-size_m;
+   width: @width_m_filterPanel;
 }
 
 .controls-FilterPanel__width-m .controls-HistoryList__horizontal {
-   width: @width_FilterPanel-HistoryList-size_m;
+   width: @history_width_s_filterPanel;
 }
 
 .controls-FilterPanel__width-l .controls-FilterPanel__filtersWrapper {
-   width: @width_FilterPanel-filtersWrapper-size_l;
+   width: @width_m_filterPanel;
 }
 
 .controls-FilterPanel__width-l .controls-HistoryList__horizontal {
-   width: @width_FilterPanel-HistoryList-size_l;
+   width: @history_width_l_filterPanel;
 }
 
 //Wrong class name, for compatibility
 .controls-PanelFilter__width-m {
-   width: @width_FilterPanel-size_m;
+   width: @width_s_filterPanel;
 }
 
 .controls-PanelFilter__width-l {
-   width: @width_FilterPanel-size_l;
+   width: @width_l_filterPanel;
 }
 
 .controls-PanelFilter__width-xl {
-   width: @width_FilterPanel-size_xl;
+   width: @width_xl_filterPanel;
 }
 
 //Header of panel
+.controls-FilterPanel__header-topTemplate {
+   margin-right: @header-content_padding-right_filterPanel;
+}
+
 .controls-FilterPanel__resetButton {
-   margin-left: @spacing_FilterPanel-between-topTemplate-resetButton;
+   margin-right: @reset-button_offset-right_filterPanel;
 }
 
 .controls-FilterPanel__filterButton {
-   margin-left: @spacing_FilterPanel-between-resetButton-applyButton;
    flex-shrink: 0;
-}
-//Captions of blocks
-.controls-FilterPanel__caption {
-   font-size: @font-size_FilterPanel-block-heading;
-   color: @color_FilterPanel-block-heading;
-   height: @height_FilterPanel-block-heading;
-   display: inline-flex;
-   align-items: center;
 }
 
 //PropertyGrid block
 .controls-FilterPanel__PropertyGrid {
-   padding: @spacing_FilterPanel-between-topBorder-propertyGrid @spacing_FilterPanel-between-rightBorder-propertyGrid @spacing_FilterPanel-between-bottomBorder-propertyGrid @spacing_FilterPanel-between-leftBorder-propertyGrid;
+   padding: 0 @basic_content_padding-right_filterPanel 0 @basic_content_padding-left_filterPanel;
 }
 
 //AdditionalParams
 .controls-FilterPanel__AdditionalParams {
-   padding: @spacing_FilterPanel-between-propertyGrid-additionalParams @spacing_FilterPanel-between-rightBorder-additionalParams 0 @spacing_FilterPanel-between-leftBorder-additionalParams;
+   padding:
+      @extended_offset_filterPanel @extended_content_padding-right_filterPanel
+      0 @extended_heading_padding-left_filterPanel;
 }
 
 //History
 .controls-HistoryList__vertical {
-   padding: @spacing_FilterPanel-between-topBorder-history_vertical/2 @spacing_FilterPanel-between-leftBorder-history_vertical @spacing_FilterPanel-between-rightBorder-history_vertical @spacing_FilterPanel-between-bottomBorder-history_vertical;
-   margin-top: @spacing_FilterPanel-between-topBorder-history_vertical/2;
-   background-color: @background-color_FilterPanel-history_vertical;
+   padding: @history_offset_filterPanel / 2 @history_content_padding-right_filterPanel @padding-bottom_filterPanel @history_heading_padding-left_filterPanel;
+   margin-top: @history_offset_filterPanel / 2;
+   background-color: @history_background-color_filterPanel;
+}
+
+.controls-HistoryList__horizontal {
+   width: 50%;
+   box-sizing: border-box;
+   margin-bottom: @padding-bottom_filterPanel;
+   padding: @history_offset_filterPanel @history_content_padding-right_filterPanel 0 @history_heading_padding-left_filterPanel;
+   border-left: @separator_thickness_filterPanel solid @separator_color_filterPanel;
 }
 
 .controls-FilterPanel__content-horizontal {
@@ -104,12 +109,6 @@
 .controls-FilterPanel__separator {
    display: flex;
    justify-content: center;
-   height: @height_FilterPanel-separator;
-}
-
-.controls-FilterPanel_block-maxHeight {
-   max-height: @max-height_FilterPanel-expandable-block;
-   overflow: hidden;
 }
 
 .controls-FilterPanel__filtersWrapper {
@@ -126,33 +125,25 @@
    width: 50%;
 }
 
-.controls-HistoryList__horizontal {
-   width: 50%;
-   box-sizing: border-box;
-   margin-bottom: @spacing_FilterPanel-between-bottomBorder-history_horizontal;
-   padding: @spacing_FilterPanel-between-topBorder-history_horizontal @spacing_FilterPanel-between-rightBorder-history_horizontal 0 @spacing_FilterPanel-between-leftBorder-history_horizontal;
-   border-left: @border-left_FilterPanel-history_horizontal;
-}
-
 //Filters block common styles
 .controls-FilterPanel_lastBlock {
-   padding-bottom: @spacing_FilterPanel-content-bottomBorder;
+   padding-bottom: @padding-bottom_filterPanel;
 }
 
 .controls-FilterButton-popup-orientation-left {
-	margin-top: @shift-top_FilterButton-popup;
-	margin-left: @shift-left_FilterButton-popup;
+   margin-top: @popup_offset-vertical_filterPanel;
+   margin-left: @popup_offset-horizontal_filterPanel;
 }
 
 .controls-FilterButton-popup-orientation-right {
-	margin-top: @shift-top_FilterButton-popup;
-	margin-left: -@shift-left_FilterButton-popup;
+   margin-top: @popup_offset-vertical_filterPanel;
+   margin-left: -@popup_offset-horizontal_filterPanel;
 }
 
 .controls-FilterPanel__DateRange {
    display: flex;
    align-items: center;
-   height: @height_FilterText;
+   height: @item_height_filterPanel;
 
    // TODO remove after https://online.sbis.ru/doc/a4b1e32b-4cfa-4b80-be2a-b763b580293a
    .controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {

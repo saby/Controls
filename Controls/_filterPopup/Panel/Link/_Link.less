@@ -1,11 +1,11 @@
 .controls-FilterLink {
    display: inline-flex;
-   height: @height_FilterLink;
+   height: @item_height_filterPanel;
    align-items: center;
 }
 
 .controls-FilterLink__text {
-   color: @color_FilterLink;
+   color: @item_text-color_filterPanel;
    cursor: pointer;
    white-space: nowrap;
    overflow: hidden;
@@ -14,10 +14,12 @@
 
 .ws-is-hover {
    .controls-FilterLink__text:hover {
+      color: @item_hover_text-color_filterPanel;
       text-decoration: underline;
    }
 }
 
 .controls-FilterLink__text:active {
+   color: @item_active_text-color_filterPanel;
    text-decoration: underline;
 }

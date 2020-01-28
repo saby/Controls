@@ -4,13 +4,24 @@
 
 .controls-FilterText__wrapper {
    display: inline-flex;
-   line-height: @height_FilterText;
+   line-height: @item_height_filterPanel;
 }
 
 .controls-FilterText__reset {
    .flexbox();
    .align-self(center);
-   .icon-size(@font-size_FilterText-reset);
+   .icon-size(@basic_item_reset-button_icon-size_filterPanel);
+
+   color: @basic_item_reset-button_icon-color_filterPanel;
    cursor: pointer;
 }
 
+.ws-is-hover {
+   .controls-FilterText__reset:hover {
+      color: @basic_item_reset-button_hover_icon-color_filterPanel;
+   }
+}
+
+.controls-FilterText__reset:active {
+   color: @basic_item_reset-button_active_icon-color_filterPanel;
+}

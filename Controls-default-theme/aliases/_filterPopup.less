@@ -18,7 +18,197 @@
 @empty-item_font-size_filterSimplePanel:                                     @font-size_xs;
 
 //FilterPanel
-@offset_filterPanel:                                                        8px;
+//цвет фона вертикальной панели фильтров
+@background-color_vertical_filterPanel:                                     #FDFDFD; //удалить
+
+//цвет фона горизонтальной панели фильтров
+@background-color_horizontal_filterPanel:                                   #F4F4F4; // убрать horizontal
+
+//ширина панели фильтра размера s
+@width_s_filterPanel:                                                       400px;
+
+//ширина панели фильтра размера m
+@width_m_filterPanel:                                                       400px;
+
+//ширина панели фильтра размера l
+@width_l_filterPanel:                                                       600px;
+
+//ширина панели фильтра размера xl
+@width_xl_filterPanel:                                                      800px;
+
+//ширина блока истории в панели фильтра размера s
+@history_width_s_filterPanel:                                               350px;
+
+//ширина блока истории в панели фильтра размера д
+@history_width_l_filterPanel:                                               400px;
+
+//отступ снизу панели фильтра
+@padding-bottom_filterPanel:                                                12px;
+
+//отступ справа от контента шапки 
+@header-content_padding-right_filterPanel:                                  16px;
+
+//отступ между кнопкой сброса и кнопкой подтверждения
+@reset-button_offset-right_filterPanel:                                     16px;
+
+//цвет текста элемента в панели фильтра
+@item_text-color_filterPanel:                                               @secondary_text-color;
+
+//цвет текста элемента в панели фильтра при наведении мыши
+@item_hover_text-color_filterPanel:                                        @item_text-color_filterPanel;
+
+//цвет текста элемента в панели фильтра при нажатии
+@item_active_text-color_filterPanel:                                       @item_text-color_filterPanel;
+
+//высота элемента в панели фильтра
+@item_height_filterPanel:                                                   @inline_height_default;
+
+//размер шрифта элемента в панели фильтра
+@item_font-size_filterPanel:                                                @font-size_default;
+
+//отступ слева от контента основного блока
+@basic_content_padding-left_filterPanel:                                    24px;
+
+//отступ справа от контента основного блока
+@basic_content_padding-right_filterPanel:                                   12px;
+
+//отсутп сверху основного блока
+@basic_offset_filterPanel:                                                  0;
+
+//цвет текста элемента в основном блоке
+@basic_item_text-color_filterPanel:                                         @item_text-color_filterPanel;
+
+//размер шрифта элемента в основном блоке
+@basic_item_font-size_filterPanel:                                          @item_font-size_filterPanel;
+
+//высота элемента в основном блоке
+@basic_item_height_filterPanel:                                             @item_height_filterPanel;
+
+//отступ снизу от элемента в основном блоке
+@basic_item_padding-bottom_filterPanel:                                     4px;
+
+//размер иконки кнопки сброса элементов в основном блоке
+@basic_item_reset-button_icon-size_filterPanel:                             @icon-size_s;
+
+//цвет иконки кнопки сброса элементов в основном блоке
+@basic_item_reset-button_icon-color_filterPanel:                            #CCC;
+
+//цвет иконки кнопки сброса элементов в основном блоке при наведении мыши
+@basic_item_reset-button_hover_icon-color_filterPanel:                      @basic_item_reset-button_icon-color_filterPanel;
+
+//цвет иконки кнопки сброса элементов в основном блоке при нажатии
+@basic_item_reset-button_active_icon-color_filterPanel:                     @basic_item_reset-button_icon-color_filterPanel;
+
+//отступ слева от контента дополнительного блока
+@extended_content_padding-left_filterPanel:                                 @basic_content_padding-left_filterPanel;
+
+//отступ справа от контента дополнительного блока
+@extended_content_padding-right_filterPanel:                                @basic_content_padding-right_filterPanel;
+
+//отступ сверху дополнительного блока
+@extended_offset_filterPanel:                                               12px;
+
+//максимальная высота дополнительного блока
+@extended_max-height_filterPanel:                                           @inline_height_default * 5;
+
+//размер шрифта заголовка дополнительного блока
+@extended_heading_font-size_filterPanel:                                    @font-size_l;
+
+//цвет текста заголовка дополнительного блока
+@extended_heading_text-color_filterPanel:                                   @secondary_text-color_heading;
+
+//высота заголовка дополнительного блока
+@extended_heading_height_filterPanel:                                       @inline_height_default;
+
+//отступ между заголовком дополнительного блока и левой границей панели
+@extended_heading_padding-left_filterPanel:                                 12px;
+
+//цвет текста элемента в дополнительном блоке
+@extended_item_text-color_filterPanel:                                      @item_text-color_filterPanel;
+
+//размер шрифта элемента в дополнительном блоке
+@extended_item_font-size_filterPanel:                                       @item_font-size_filterPanel;
+
+//отступ справа элемента в дополнительном блоке
+@extended_item_padding-right_filterPanel:                                   12px;
+
+//высота элемента в дополнительном блоке
+@extended_item_height_filterPanel:                                          @item_height_filterPanel;
+
+//цвет фона блока истории
+@history_background-color_filterPanel:                                      #F4F4F4;
+
+//максимальная высота блока истории
+@history_max-height_filterPanel:                                            @inline_height_default * 5;
+
+//отступ сверху блока истории
+@history_offset_filterPanel:                                                12px;
+
+//отступ справа от контента блока истории
+@history_content_padding-right_filterPanel:                                 @basic_content_padding-right_filterPanel;
+
+//отступ слева от контента блока истории
+@history_content_padding-left_filterPanel:                                  @basic_content_padding-left_filterPanel;
+
+//размер шрифта заголовка в блоке истории
+@history_heading_font-size_filterPanel:                                     @extended_heading_font-size_filterPanel;
+
+//цвет текста заголовка в блоке истории
+@history_heading_text-color_filterPanel:                                    @item_text-color_filterPanel;
+
+//высота заголовка в блоке истории
+@history_heading_height_filterPanel:                                        @extended_heading_height_filterPanel;
+
+//отступ между заголовком блока истории и левой границей панели
+@history_heading_padding-left_filterPanel:                                  @extended_heading_padding-left_filterPanel;
+
+//высота элемента в блоке истории
+@history_item_height_filterPanel:                                           @item_height_filterPanel;
+
+//размер шрифта элемента в блоке истории
+@history_item_font-size_filterPanel:                                        @item_font-size_filterPanel;
+
+//цвет текста элемента в блоке истории в горизонтальной панели фильтра
+@history_horizontal_item_text-color_filterPanel:                            @unaccented_text-color;
+
+//цвет текста элемента в блоке истории в вертикальной панели фильтра
+@history_vertical_item_text-color_filterPanel:                              @item_text-color_filterPanel;
+
+//вертикальный отступ между элементами в блоке истории в горизонтальной панели фильтра
+@history_horizontal_item_padding-vertical_filterPanel:                      8px;
+
+//максимальная высота элемента в блоке истории в горизонтальной панели фильтра
+@history_horizontal_item_max-height_filterPanel:                            @history_item_height_filterPanel * 2;
+
+//высота текста элемента в блоке истории в горизонтальной панели фильтра
+@history_horizontal_item_line-height_filterPanel:                           16px;
+
+//размер иконки запинивания в блоке истории
+@history_item_pin-button_icon-size_filterPanel:                             @icon-size_s;
+
+//отступ между кнопкой запинивания и текстом элемента в блоке истории
+@history_item_pin-button_padding-left_filterPanel:                          12px;
+
+//цвет иконки запинивания в блоке истории
+@history_item_pin-button_icon-color_filterPanel:                            @unaccented_icon-color;
+
+//размер иконки запинивания в блоке истории при наведении мыши
+@history_item_pin-button_hover_icon-color_filterPanel:                      @link_hover_text-color;
+
+//размер иконки запинивания в блоке истории в зажатом состоянии
+@history_item_pin-button_toggled_icon-color_filterPanel:                    @link_hover_text-color;
+
+//толщина разделителя между блоком фильтров и блоком истории
+@separator_thickness_filterPanel:                                           1px;
+
+//цвет разделителя между блоком фильтраов и блоком истории
+@separator_color_filterPanel:                                               #E4E4E4;
+
+//горизонтальный сдвиг окна панели фильтра
+@popup_offset-horizontal_filterPanel:                                       8px;
+
+//вертикальный сдвиг окна панели фильтра
+@popup_offset-vertical_filterPanel:                                         -11px;
 
 //FavoriteDialog
 //ширина диалога редактирования избранного

@@ -460,4 +460,109 @@
 @color_Search-caret_empty:                       @caret-color_empty_searchInput;
 @iconReset-iconSearch_spacing:                   @trigger_offset_searchInput;
 
+//FilterPanel
+//background color of filterPanel
+@background-color_FilterPanel:                                @background-color_vertical_filterPanel;
+@background-color_FilterPanel_horizontal:                     @background-color_horizontal_filterPanel;
+
+//specific filterPanel width
+@width_FilterPanel-size_s:                                    @width_s_filterPanel;
+@width_FilterPanel-size_m:                                    @width_m_filterPanel;
+@width_FilterPanel-size_l:                                    @width_l_filterPanel;
+@width_FilterPanel-size_xl:                                   @width_xl_filterPanel;
+@width_FilterPanel-filtersWrapper-size_m:                     @width_m_filterPanel;
+@width_FilterPanel-filtersWrapper-size_l:                     @width_FilterPanel-filtersWrapper-size_m;
+@width_FilterPanel-HistoryList-size_m:                        @history_width_s_filterPanel;
+@width_FilterPanel-HistoryList-size_l:                        @history_width_l_filterPanel;
+
+//Header of filterPanel
+@spacing_FilterPanel-between-resetButton-applyButton:         @reset-button_offset-right_filterPanel;
+@spacing_FilterPanel-between-applyButton-closeButton:         @spacing_default_xs;
+@spacing_FilterPanel-between-panelHeading-topTemplate:        @spacing_default_xl;
+@spacing_FilterPanel-between-topTemplate-resetButton:         @header-content_padding-right_filterPanel;
+
+//Captions of filterPanel blocks
+@font-size_FilterPanel-block-heading:                         @font-size_text_l;
+@color_FilterPanel-block-heading:                             @secondary_text-color_heading;
+@height_FilterPanel-block-heading:                            @inline_height_m;
+
+//common block variables
+@spacing_FilterPanel-content-bottomBorder:                    @spacing_default_l;
+
+//PropertyGrid
+@spacing_FilterPanel-between-leftBorder-propertyGrid:         @spacing_default_xxl;
+@spacing_FilterPanel-between-rightBorder-propertyGrid:        @spacing_default_l;
+@spacing_FilterPanel-between-topBorder-propertyGrid:          0;
+@spacing_FilterPanel-between-bottomBorder-propertyGrid:       0;
+
+//AdditionalParams
+@spacing_FilterPanel-between-leftBorder-additionalParams:     @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-additionalParams:    @spacing_default_l;
+@spacing_FilterPanel-between-propertyGrid-additionalParams:   @spacing_default_l;
+
+//History vertical
+@spacing_FilterPanel-between-topBorder-history_vertical:      @spacing_default_l;
+@spacing_FilterPanel-between-leftBorder-history_vertical:     @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-history_vertical:    @spacing_default_l;
+@spacing_FilterPanel-between-bottomBorder-history_vertical:   @spacing_default_l;
+
+@background-color_FilterPanel-history_vertical:               @history_background-color_filterPanel;
+
+@height_FilterPanel-separator:                                @icon-size_toggleBigSeparator;
+
+//History horizontal
+@spacing_FilterPanel-between-topBorder-history_horizontal:    0;
+@spacing_FilterPanel-between-leftBorder-history_horizontal:   @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-history_horizontal:  @spacing_default_l;
+@spacing_FilterPanel-between-bottomBorder-history_horizontal: @spacing_default_l;
+
+@border-left_FilterPanel-history_horizontal:                  @separator_thickness_filterPanel solid @separator_color_filterPanel;
+
+@max-height_FilterPanel-expandable-block:                     @inline_height_m*5; //max height depends on default control height. By control standard must be visible only 5 rows.
+
+@height_HistoryList-item:                             @inline_height_m;
+@spacing_HistoryList-between-leftBorder-content:      @spacing_default_l;
+@color_HistoryList-item:                              @link_hover_text-color;
+@color_HistoryList_horizontal-item:                   @unaccented_text-color;
+@spacing_HistoryList-between-icon-text:               @spacing_default_l;
+
+@font-size_HistoryList-pin:                           @icon-size_s;
+@color_HistoryList-pin_unpinned:                      @readonly_color;
+@color_HistoryList-pin_pinned:                        @link_hover_text-color;
+@color_HistoryList-pin_hover:                         @link_hover_text-color;
+@color_HistoryList-pin_active:                        @link_hover_text-color;
+
+// FavoriteDialog
+@width_FavoriteEditDialog:                            @width_filterFavoriteDialog;
+@width_FavoriteEditDialog-dropdownItemTpl-comment:    115px;
+
+@spacing_HistoryList_horizontal-between-history-items:   @spacing_default_s;
+@line-height_HistoryList_horizontal-item:                @font-size_xl;
+@max-height_HistoryList_horizontal-item:                 @line-height_HistoryList_horizontal-item * 2;
+
+@color_FilterDropdown-text:                              @link_hover_text-color;
+//AdditionalParams
+@color_AdditionalParams-item:                            @link_hover_text-color;
+@height_AdditionalParams-item:                           @inline_height_m;
+@spacing_AdditionalParams-between-leftBorder-content:    @spacing_default_xl + @spacing_default_s; //icon width + between icon - content spacing
+@spacing_AdditionalParams-between-columns:               @spacing_default_l;
+@min-width_AdditionalParams-leftColumn:                  50%;
+@max-width_AdditionalParams-leftColumn:                  70%;
+
+@height_FilterLink:                                      @inline_height_m;
+@color_FilterLink-text:                                  @link_hover_text-color;
+
+@spacing_PropertyGrid-between-items:                        @spacing_default_xs;
+@spacing_PropertyGrid-between-lastItem-bottomBorder:        @spacing_PropertyGrid-between-lastItem-bottomBorder_val;
+
+@max-width_SimplePanel:                                     @max-width_filterSimplePanel;
+@spacing_SimplePanel-between-applyButton-topBorder:         @apply-button_offset-top_filterSimplePanel;
+@spacing_SimplePanel-between-applyButton-close:             @apply-button_offset-right_filterSimplePanel;
+@color_SimplePanel-dropdown__emptyItem:                     @empty-item_text-color_filterSimplePanel;
+@font-size_SimplePanel-dropdown__emptyItem:                 @empty-item_font-size_filterSimplePanel;
+@shift-top_FilterView-SimplePanel-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup + @popup_padding-vertical_menuPopup);
+@shift-left_FilterView-SimplePanel-popup:                   -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
+
+@height_FilterText:                                         @inline_height_m;
+@font-size_FilterText-reset:                                @icon-size_s;
 //last line
