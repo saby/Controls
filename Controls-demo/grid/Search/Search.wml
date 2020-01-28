@@ -1,19 +1,21 @@
 <div class="controlsDemo__wrapper">
-<Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
-    <Controls.search:Controller searchParam="country" minSearchLength="{{3}}">
-        <div class="ws-fragment">
-            <Controls.search:InputContainer>
-                <Controls.search:Input/>
-            </Controls.search:InputContainer>
-            <Controls.list:Container>
-                <Controls.operations:Container>
-                    <Controls.grid:View
-                            keyProperty="id"
-                            source="{{_viewSource}}"
-                            columns="{{_columns}}"/>
-                </Controls.operations:Container>
-            </Controls.list:Container>
-        </div>
-    </Controls.search:Controller>
-</Controls.list:DataContainer>
+    <div class="controlsDemo__inline-flex">
+        <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+            <Controls.search:Controller searchParam="country" minSearchLength="{{3}}">
+                <div class="ws-fragment">
+                    <Controls.search:InputContainer>
+                        <Controls.search:Input/>
+                    </Controls.search:InputContainer>
+                    <Controls.list:Container>
+                        <Controls.operations:Container>
+                            <Controls.grid:View
+                                    keyProperty="id"
+                                    source="{{_viewSource}}"
+                                    columns="{{_columns}}"/>
+                        </Controls.operations:Container>
+                    </Controls.list:Container>
+                </div>
+            </Controls.search:Controller>
+        </Controls.list:DataContainer>
+    </div>
 </div>
