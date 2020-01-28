@@ -6,6 +6,8 @@
                              on:itemClick="_itemClick()"
                              on:itemMouseEnter="_itemMouseEnter()"
                              on:checkBoxClick="_checkBoxClick()"
+                             on:mouseleave="_mouseOutHandler()"
+                             on:mousemove="_mouseMove()"
       >
          <ws:footerTemplate>
             <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
@@ -44,7 +46,7 @@
    <Controls.popup:Sticky name="Sticky"
                           actionOnScroll="close"
                           closeOnOutsideClick="{{true}}"
-                          on:result="_subMenuResult()"
+                          on:result="_subMenuResult('subMenuResult')"
                           on:close="_closeSubMenu()"
                           template="Controls/popupTemplate:Sticky"
                           className="controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>

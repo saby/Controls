@@ -2176,6 +2176,15 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return !this.getViewIterator().isItemVisible(index);
     }
 
+    setHoveredItem(item: CollectionItem<S>): void {
+        this._hoverManager.setHoveredItem(item);
+        this._nextVersion();
+    }
+
+    getHoveredItem(): CollectionItem<S> {
+        return this._hoverManager.getHoveredItem() as CollectionItem<S>;
+    }
+
     getItemActionsProperty(): string {
         return this._$itemActionsProperty;
     }

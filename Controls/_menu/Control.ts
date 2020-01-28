@@ -33,6 +33,10 @@ class MenuControl extends Control<IMenuOptions> {
         }
     }
 
+    protected _afterMount(newOptions: IMenuOptions): void {
+        this._subMenuResult(null, 'subMenuOpened', this._children.Sticky);
+    }
+
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         if (newOptions.root !== this._options.root) {
             this._closeSubMenu();
@@ -49,20 +53,8 @@ class MenuControl extends Control<IMenuOptions> {
         this._listModel = null;
     }
 
-    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, target) {
-        const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
-        const needCloseDropDown = this._subDropdownItem !== item;
-        // Close the already opened sub menu. Installation of new data sets new size of the container.
-        // If you change the size of the update, you will see the container twitch.
-        if (needCloseDropDown && !needOpenDropDown) {
-            this._children.Sticky.close();
-            this._subDropdownItem = null;
-        }
-
-        if (needOpenDropDown) {
-            this._subDropdownItem = item;
-            this.openSubDropdown(target, item);
-        }
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, target, nativeEvent) {
+        this.handleCurrentItem(item, target, nativeEvent);
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
@@ -81,14 +73,23 @@ class MenuControl extends Control<IMenuOptions> {
         this._selectionChanged = true;
     }
 
-    protected _subMenuResult(event: SyntheticEvent<MouseEvent>, items) {
-        this._notify('sendResult', [items], {bubbling: true});
-        this._closeSubMenu();
+    protected _subMenuResult(event: SyntheticEvent<MouseEvent>, eventType, eventResult) {
+        switch eventType {
+            case 'subMenuResult':
+                this._notify('sendResult', [eventResult], {bubbling: true});
+                this._closeSubMenu();
+                break;
+            case 'subMenuOpened':
+                const className = '.' +  eventResult._options.className;
+                this.subMenu = eventResult._container.closest(className);
+                break;
+        }
     }
 
     protected _closeSubMenu(): void {
         if (this._children.Sticky) {
             this._children.Sticky.close();
+            this._subDropdownItem = null;
         }
     }
 
@@ -112,6 +113,93 @@ class MenuControl extends Control<IMenuOptions> {
     protected _openSelectorDialog(): void {
         const selectorOpener = this._options.selectorOpener;
         selectorOpener.open(this.getSelectorDialogOptions(this._options));
+    }
+
+    protected _mouseOutHandler(event: SyntheticEvent<MouseEvent>) {
+        this._listModel.setHoveredItem(null);
+        clearTimeout(this._handleCurrentItemTimeout);
+    }
+
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>) {
+        if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
+            this.setHandleItemTimeout();
+        }
+    }
+
+    private setSubMenuPosition(): object {
+        this._subMenuPosition = this.subMenu.getBoundingClientRect();
+        if (this._subMenuPosition.x < this._openSubMenuEvent.clientX) {
+            this._subMenuPosition.x += this._subMenuPosition.width;
+        }
+    }
+
+    private initItemParams(item, target, nativeEvent, needCloseDropDown): void {
+        this._hoveredItem = item;
+        this._hoveredTarget = target;
+        this._enterEvent = nativeEvent;
+        const curMouseEvent = nativeEvent;
+
+        if (needCloseDropDown) {
+            this.setSubMenuPosition();
+        }
+
+        this._isMouseInOpenedItemArea = needCloseDropDown ? this.isMouseInOpenedItemArea(curMouseEvent) : false;
+
+        if (!this._isMouseInOpenedItemArea) {
+            this._hoveredItem = item;
+            this._listModel.setHoveredItem(item);
+        }
+    }
+
+    private handleCurrentItem(item: TreeItem<Model>, target, nativeEvent): void {
+        const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
+        const needCloseDropDown = this._subDropdownItem && this._subDropdownItem !== item;
+
+
+        this.initItemParams(item, target, nativeEvent, needCloseDropDown);
+
+        // Close the already opened sub menu. Installation of new data sets new size of the container.
+        // If you change the size of the update, you will see the container twitch.
+        if (needCloseDropDown && !needOpenDropDown && !this._isMouseInOpenedItemArea) {
+            this._closeSubMenu();
+        }
+
+        if (needOpenDropDown && !this._isMouseInOpenedItemArea) {
+            this._openSubMenuEvent = nativeEvent;
+            this._subDropdownItem = item;
+            this.openSubDropdown(target, item);
+        }
+    }
+
+    private setHandleItemTimeout(): void {
+        clearTimeout(this._handleCurrentItemTimeout);
+        this._handleCurrentItemTimeout = setTimeout(() => {
+            this._isMouseInOpenedItemArea = false;
+            if (this._hoveredItem !== this._subDropdownItem) {
+                this._closeSubMenu();
+            }
+            this.handleCurrentItem(this._hoveredItem, this._hoveredTarget, this._enterEvent);
+        }, 100);
+    }
+
+    private isMouseInOpenedItemArea(curMouseEvent): boolean {
+        const firstSegment = this.calculatePointRelativePosition(this._openSubMenuEvent.clientX, this._subMenuPosition.x,
+            this._openSubMenuEvent.clientY, this._subMenuPosition.y, curMouseEvent.clientX, curMouseEvent.clientY);
+
+        const secondSegment = this.calculatePointRelativePosition(this._subMenuPosition.x,
+            this._subMenuPosition.x, this._subMenuPosition.y, this._subMenuPosition.y +
+            this._subMenuPosition.height, curMouseEvent.clientX, curMouseEvent.clientY);
+
+        const thirdSegment = this.calculatePointRelativePosition(this._subMenuPosition.x,
+            this._openSubMenuEvent.clientX,this._subMenuPosition.y +
+            this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
+
+        return Math.sign(firstSegment) === Math.sign(secondSegment) && Math.sign(firstSegment) === Math.sign(thirdSegment);
+    }
+
+    private calculatePointRelativePosition(firstSegmentPointX, secondSegmentPointX, firstSegmentPointY, secondSegmentPointY, curPointX, curPointY): number {
+        return (firstSegmentPointX - curPointX) * (secondSegmentPointY - firstSegmentPointY) -
+            (secondSegmentPointX - firstSegmentPointX) * (firstSegmentPointY - curPointY);
     }
 
     private getSelectorDialogOptions(options: IMenuOptions): object {
