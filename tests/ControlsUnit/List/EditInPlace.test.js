@@ -1762,7 +1762,8 @@ define([
          it('commit changes and close popup if validation passed', async function () {
             let
                 isPendingStarted = false,
-                isPendingCanceled = false;
+                isPendingCanceled = false,
+                isPendingDeferredFired = false;
 
             eip.saveOptions({
                listModel: listModel
@@ -1787,17 +1788,22 @@ define([
             });
 
             assert.isTrue(eip._pendingDeferred instanceof Deferred);
+            const nativeCallback = eip._pendingDeferred.callback;
+            eip._pendingDeferred.callback = () => {
+               nativeCallback.apply(eip._pendingDeferred, arguments);
+               isPendingDeferredFired = true;
+            };
 
             eip._children.formController = successValidationFormController;
             eip._editingItem.isChanged = () => true;
 
             // Emulate closing popup. It will call _onPendingFail;
-            let result = new Deferred();
-            eip._onPendingFail(undefined, result);
+            eip._onPendingFail(undefined, eip._pendingDeferred);
 
             assert.isTrue(isPendingStarted);
             assert.isTrue(!!listModel.getItemById(4));
-            assert.isTrue(result.isReady());
+            assert.isTrue(isPendingDeferredFired);
+            assert.isNull(eip._pendingDeferred);
             assert.isFalse(isPendingCanceled);
          });
          it('unregister pending if editing has been canceled', async function () {
