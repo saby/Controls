@@ -234,8 +234,11 @@ var _private = {
    },
 
    addClient: function(self, item) {
-      if (!self._history.client.getRecordById(item.getId())) {
+      let clientItem = self._history.client.getRecordById(item.getId());
+      if (!clientItem) {
          self._history.client.add(_private.getRawHistoryItem(self, item.getId(), item.get('ObjectData'), item.get('HistoryId')));
+      } else {
+         _private.updateDataItem(clientItem, item.get('ObjectData'));
       }
    },
 
@@ -244,12 +247,21 @@ var _private = {
       let pinned = self._history.pinned;
       item.set('pinned', isPinned);
 
-      if (isPinned && !pinned.getRecordById(item.getId())) {
-         pinned.add(this.getRawHistoryItem(self, item.getId(), item.get('ObjectData'), item.get('HistoryId')));
+      if (isPinned) {
+         let pinItem = pinned.getRecordById(item.getId());
+         if (pinItem) {
+            _private.updateDataItem(pinItem, item.get('ObjectData'));
+         } else {
+            pinned.add(this.getRawHistoryItem(self, item.getId(), item.get('ObjectData'), item.get('HistoryId')));
+         }
       } else if (!isPinned) {
          pinned.remove(pinned.getRecordById(item.getId()));
       }
       self.historySource.saveHistory(self._history);
+   },
+
+   updateDataItem: function(item, ObjectData) {
+      item.set('ObjectData', ObjectData);
    },
 
     deleteHistoryItem: function(history, id) {

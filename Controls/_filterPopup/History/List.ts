@@ -92,13 +92,14 @@ var MAX_NUMBER_ITEMS = 5;
          return recordIndex;
       },
 
-      minimizeHistoryItems: function(record) {
-         let historyItems = [];
-         factory(record.get('items')).each((item) => {
+      minimizeHistoryItems: function(items) {
+         factory(items).each((item) => {
             delete item.caption;
-            historyItems.push(item);
          });
-         record.set('items', historyItems);
+      },
+
+      setLinkTextValue: function(data) {
+         data.linkText = _private.getStringHistoryFromItems(data.items, _private.mapByField(data.items, 'resetValue'));
       },
 
       getEditDialogOptions: function(self, item, historyId, savedTextValue) {
@@ -135,10 +136,11 @@ var MAX_NUMBER_ITEMS = 5;
 
       saveFavorite: function(self, record) {
          let editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
-         let ObjectData = Merge(Clone(editItemData), record.getRawData());
-         _private.setObjectData(self._editItem, ObjectData);
+         let ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
+         _private.minimizeHistoryItems(ObjectData.items);
+         _private.setLinkTextValue(ObjectData);
 
-         _private.minimizeHistoryItems(record);
+         _private.setObjectData(self._editItem, ObjectData);
 
          // TODO: Delete with old favorite, leave the branch 'else'
          // Удаляем запись из старых списков, ниже добавим в новые, если ее нет

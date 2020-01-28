@@ -10,7 +10,7 @@ define(
             {id: 'warehouse', value: [], textValue: ''},
             {id: 'sender', value: '', textValue: ''},
             {id: 'author', value: 'Ivanov K.K.', textValue: 'Ivanov K.K.', visibility: true},
-            {id: 'responsible', value: '',  textValue: 'Petrov T.T.', visibility: false}
+            {id: 'responsible', value: 'Petrov T.T.',  textValue: 'Petrov T.T.', visibility: false}
          ];
 
          let defaultConfig = {
@@ -95,8 +95,13 @@ define(
             let dialog = new filterPopup._EditDialog();
             dialog.prepareConfig(dialog, defaultConfig);
 
-            let expectedItems = Clone(items);
-            let resultItems = dialog.getItemsToSave(items, dialog._selectedFilters);
+            let itemsToSave = Clone(items);
+            itemsToSave[4].visibility = true;
+
+            let expectedItems = Clone(itemsToSave);
+            expectedItems[4].value = null;
+            expectedItems[4].textValue = '';
+            let resultItems = dialog.getItemsToSave(itemsToSave, dialog._selectedFilters);
             assert.deepEqual(expectedItems, resultItems);
          });
       });
