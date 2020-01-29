@@ -33,6 +33,7 @@ export interface IView extends IHeading {
  *
  * @class Controls/_spoiler/View
  * @extends UI/Base:Control
+ * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IExpandable
  * @mixes Controls/spoiler:IHeadingOptions
  * @mixes Controls/spoiler:IViewOptions
