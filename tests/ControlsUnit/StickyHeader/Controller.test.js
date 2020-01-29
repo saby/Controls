@@ -357,6 +357,29 @@ define([
             assert.equal(component.getHeadersHeight('bottom'), 0);
          });
 
+         it('should return the correct height after a new header is not at the very top has been registered and fixed.', function () {
+            const data = {
+               id: 2,
+               position: 'top',
+               mode: 'stackable',
+               inst: {
+                  getOffset: function() {
+                     return 10;
+                  },
+                  height: 10
+               }
+            };
+            component._stickyRegisterHandler(event, data, true);
+            component._fixedHandler(event, {
+               id: data.id,
+               fixedPosition: 'top',
+               prevPosition: '',
+               height: 10
+            });
+            assert.equal(component.getHeadersHeight('top'), 0);
+            assert.equal(component.getHeadersHeight('bottom'), 0);
+         });
+
          it('should return the correct height after a new stackable header has been registered and fixed.', function () {
             component._stickyRegisterHandler(event, coreMerge({ mode: 'stackable' }, data, { preferSource: true }), true);
             component._fixedHandler(event, {

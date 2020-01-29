@@ -1,6 +1,8 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_scroll/StickyHeader/Controller/Controller');
 import {TRegisterEventData} from './Utils';
+import StickyHeader from 'Controls/_scroll/StickyHeader/_StickyHeader';
+import {POSITION} from 'Controls/_scroll/StickyHeader/Utils';
 
 // @ts-ignore
 
@@ -117,25 +119,39 @@ class Component extends Control {
             headersStack = this._headersStack[position],
             offset = this._headers[id].inst.getOffset(container, position);
 
-        let headersHeigth = 0;
-
         // We are looking for the position of the first element whose offset is greater than the current one.
         // Insert a new header at this position.
         let index = headersStack.findIndex((headerId) => {
             const headerInst = this._headers[headerId].inst;
-            headersHeigth += headerInst.height;
             return headerInst.getOffset(container, position) > offset;
         });
         index = index === -1 ? headersStack.length : index;
         headersStack.splice(index, 0, id);
 
-        if (((position === 'top' && !container.scrollTop) ||
-            (position === 'bottom' && container.scrollTop + container.clientHeight >= container.scrollHeight))
-                && headersHeigth === offset) {
-            this._headers[id].fixedInitially = true;
-        }
+        this._updateFixedInitially(position);
 
         this._updateTopBottom();
+    }
+
+    private _updateFixedInitially(position: POSITION): void {
+        const
+            container: HTMLElement = this._container,
+            headersStack: number[] = this._headersStack[position];
+
+        let
+            headersHeight: number = 0,
+            headerInst: StickyHeader;
+
+        if ((position === 'top' && !container.scrollTop) ||
+            (position === 'bottom' && container.scrollTop + container.clientHeight >= container.scrollHeight)) {
+            for (let headerId: number of headersStack) {
+                headerInst = this._headers[headerId].inst;
+                if (headersHeight === headerInst.getOffset(container, position)) {
+                    this._headers[headerId].fixedInitially = true;
+                }
+                headersHeight += headerInst.height;
+            }
+        }
     }
 
     private _removeFromHeadersStack(id: number, position: string) {
