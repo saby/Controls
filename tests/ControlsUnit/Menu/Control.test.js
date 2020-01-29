@@ -194,6 +194,160 @@ define(
             assert.isTrue(closed);
          });
 
+         describe('_subMenuResult', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            let menuClosed = false;
+            let container = {x: 0, y: 0};
+            menuControl._closeSubMenu = () => {
+               menuClosed = true;
+            };
+            menuControl._subMenuResult(null, [])
+            assert.isUndefined(menuControl.subMenu);
+            assert.isTrue(menuClosed);
+
+            menuClosed = false;
+            menuControl._subMenuResult(null, container, 'menuOpened');
+            assert.deepEqual(menuControl.subMenu, container);
+            assert.isFalse(menuClosed);
+         });
+
+         describe('_mouseMove', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            let handlerStarted = false;
+            menuControl.startHandleItemTimeout = () => {handlerStarted = true;}
+
+            menuControl._isMouseInOpenedItemArea = false;
+            menuControl._subDropdownItem = true;
+            menuControl._mouseMove();
+            assert.isFalse(handlerStarted);
+
+            menuControl._isMouseInOpenedItemArea = true;
+            menuControl._mouseMove();
+            assert.isTrue(handlerStarted);
+         });
+
+         describe('handleCurrentItem', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            let itemHovered = false;
+            let menuClosed = false;
+            let item = { isNode: () => true,
+               getContents: () => { return {get: () => false} }
+            };
+            menuControl._listModel = {
+               setHoveredItem: () => {itemHovered = true;}
+            };
+
+            menuControl.setSubMenuPosition = () => {};
+            menuControl._closeSubMenu = () => {menuClosed = true};
+
+            it('need open, not in OpenedItemArea', function() {
+               menuControl.handleCurrentItem(item);
+               assert.deepEqual(menuControl._subDropdownItem, item);
+               assert.isTrue(itemHovered);
+            });
+
+            it('need close, not in OpenedItemArea', function() {
+               item = {isNode: () => false};
+               itemHovered = false;
+               menuControl.isMouseInOpenedItemArea = () => false;
+               menuControl.handleCurrentItem(item);
+               assert.isTrue(menuClosed);
+               assert.isTrue(itemHovered);
+            });
+
+            it('need close, in OpenedItemArea', function() {
+               menuClosed = false;
+               itemHovered = false;
+               item = {isNode: () => false};
+               menuControl.isMouseInOpenedItemArea = () => true;
+               menuControl.handleCurrentItem(item);
+               assert.isFalse(menuClosed);
+               assert.isFalse(itemHovered);
+            });
+         });
+
+         describe('setSubMenuPosition', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            menuControl.subMenu = {
+               getBoundingClientRect: () =>{return { x: 10, y: 20, width: 30 }}
+            };
+            menuControl.subMenu.getBoundingClientRect = () => {
+               return { x: 10, y: 20, width: 30 }
+            };
+
+            it('submenu is on the right', function() {
+               menuControl._openSubMenuEvent = {clientX: 0, clientY: 20};
+               menuControl.setSubMenuPosition();
+               assert.equal(menuControl._subMenuPosition.x, 10);
+            });
+            it('submenu is on the left', function() {
+               menuControl._openSubMenuEvent = {clientX: 20, clientY: 20};
+               menuControl.setSubMenuPosition();
+               assert.equal(menuControl._subMenuPosition.x, 40);
+            });
+         });
+
+         describe('isMouseInOpenedItemArea', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            menuControl._openSubMenuEvent = {
+               clientX: 10,
+               clientY: 5
+            };
+            menuControl._subMenuPosition = {
+               x: 50,
+               y: 0,
+               height: 50
+            };
+
+            it('point in opened item area', function() {
+               let curMouseEvent = {
+                  clientX: 40,
+                  clientY: 20
+               };
+               assert.isTrue(menuControl.isMouseInOpenedItemArea(curMouseEvent));
+            });
+
+            it('point out of opened item area', function() {
+               curMouseEvent = {
+                  clientX: 20,
+                  clientY: 30
+               };
+               assert.isFalse(menuControl.isMouseInOpenedItemArea(curMouseEvent));
+            });
+         });
+
+         describe('handleItemTimeoutCallback', function() {
+            let menuOptions = Clone(defaultOptions);
+            let menuControl = getMenu(menuOptions);
+            let menuClosed = false;
+            let itemHadled = false;
+            menuControl._closeSubMenu = () => {menuClosed = true;}
+            menuControl.handleCurrentItem = () => {itemHadled = true;}
+
+            it('item hasnt opened submenu', function() {
+               menuControl._isMouseInOpenedItemArea = true;
+               menuControl.handleItemTimeoutCallback();
+               assert.isFalse(menuControl._isMouseInOpenedItemArea);
+               assert.isFalse(menuClosed);
+               assert.isTrue(itemHadled);
+            });
+
+            it('item has opened submenu', function() {
+               menuControl._isMouseInOpenedItemArea = true;
+               itemHadled = false;
+               menuControl._hoveredItem = {title: 'test'};
+               menuControl._subDropdownItem = {title: 'test1'};
+               menuControl.handleItemTimeoutCallback();
+               assert.isFalse(menuControl._isMouseInOpenedItemArea);
+               assert.isTrue(menuClosed);
+               assert.isTrue(itemHadled);
+            });
+         });
       });
    }
 );

@@ -2178,6 +2178,24 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         }
     }
 
+    setHoveredItem(item: T): void {
+        if (this._hoveredItem === item) {
+            return;
+        }
+        if (this._hoveredItem) {
+            this._hoveredItem.setHovered(false);
+        }
+        if (item) {
+            item.setHovered(true);
+        }
+        this._hoveredItem = item;
+        this._nextVersion();
+    }
+
+    getHoveredItem(): T {
+        return this._hoveredItem;
+    }
+
     getSwipeConfig(): ISwipeConfig {
         return this._swipeConfig;
     }
