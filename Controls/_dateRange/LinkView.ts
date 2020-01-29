@@ -5,7 +5,6 @@ import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');
 import {Logger} from 'UI/Utils';
-import 'css!theme?Controls/dateRange';
 
 /**
  * A link button that displays the period. Supports the change of periods to adjacent.
