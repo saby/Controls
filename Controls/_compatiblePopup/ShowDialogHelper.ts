@@ -1,6 +1,7 @@
 import Deferred = require('Core/Deferred');
 import moduleStubs = require('Core/moduleStubs');
 import isNewEnvironment = require('Core/helpers/isNewEnvironment');
+import {Logger} from 'UI/Utils';
 
 var _private = {
    prepareDeps: function(config) {
@@ -44,6 +45,8 @@ var DialogHelper = {
                      popup.BaseOpener.showDialog(
                         CoreTemplate, config, config._path ? Strategy[config._path] : Strategy
                      );
+                  }, function(err) {
+                     Logger.error(`Не удалось загрузить модули для открытия окна: ${err.requireModules.join(',')}`);
                   });
                });
             });
