@@ -39,7 +39,6 @@ const getDialogConfig = (config: IDialogOpenerOptions): IDialogOpenerOptions => 
     // The dialog is isDefaultOpener by default. For more information,
     // see  {@link Controls/interface/ICanBeDefaultOpener}
     config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
-    config._vdomOnOldPage = true; // Открывается всегда вдомным
     return config;
 };
 
@@ -72,11 +71,6 @@ class Dialog extends BaseOpener<IDialogOpenerOptions> implements IDialogOpener {
 
     static closePopup(popupId: string): void {
         BaseOpener.closeDialog(popupId);
-    }
-
-    static getDefaultOptions(): IDialogOpenerOptions {
-        // На старом WindowManager пофиксили все известные баги, пробую все стики окна открывать всегда вдомными
-        return coreMerge(BaseOpener.getDefaultOptions(), {_vdomOnOldPage: true});
     }
 }
 

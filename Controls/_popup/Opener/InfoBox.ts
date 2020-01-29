@@ -119,7 +119,6 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
                 style: newCfg.style || 'secondary',
                 floatCloseButton: newCfg.floatCloseButton
             },
-            _vdomOnOldPage: true,
             template: 'Controls/popupTemplate:templateInfoBox',
             showDelay: newCfg.showDelay
         };
@@ -196,7 +195,6 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
         const options = BaseOpener.getDefaultOptions();
 
         options.actionOnScroll = 'close';
-        options._vdomOnOldPage = true; // Open vdom popup in the old environment
         return options;
     }
 }
