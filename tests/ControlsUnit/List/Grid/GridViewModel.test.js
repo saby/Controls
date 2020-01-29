@@ -1056,10 +1056,10 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.isTrue(current.multiSelectVisibility === 'visible');
             assert.deepEqual([{}].concat(gridColumns), current.columns, 'Incorrect value "current.columns".');
             assert.deepEqual({
-               left: 'XL',
-               right: 'L',
-               top: 'L',
-               bottom: 'L'
+               left: 'xl',
+               right: 'l',
+               top: 'l',
+               bottom: 'l'
             }, current.itemPadding, 'Incorrect value "current.itemPadding".');
             assert.isTrue(current.rowSeparatorVisibility, 'Incorrect value "current.rowSeparatorVisibility".');
          });
@@ -1934,6 +1934,29 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             );
 
          });
+
+         it('getItemDataByItem: groupPaddingClasses', function () {
+            const groupedVM = new gridMod.GridViewModel({
+               ...cfg,
+               items: new collection.RecordSet({
+                  rawData: [ { id: 1, group: 'once'} ],
+                  keyProperty: 'id'
+               }),
+               groupingKeyCallback: (item) => {
+                  return item.get('group')
+               }
+            });
+            const groupItem = groupedVM.getCurrent();
+            assert.deepEqual(
+                groupItem.groupPaddingClasses,
+                {
+                   left: 'controls-Grid__groupContent__spacingLeft_withCheckboxes_theme-default',
+                   right: 'controls-Grid__groupContent__spacingRight_l_theme-default'
+                }
+            );
+
+         });
+
          it('isFixedCell', function() {
             var testCases = [
                {
