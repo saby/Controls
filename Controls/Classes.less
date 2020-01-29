@@ -187,4 +187,8 @@
 }
 .controls-invalid-container{
   position: relative;
+
+  //Для того, чтобы отображались дочерние элементы с отрицательным z-index-ом, если задается цвет фона. Пример: https://jsfiddle.net/koshka_alesya/df1cqL6s/42/
+  //https://stackoverflow.com/questions/18564974/html-backgrounds-with-z-index0-hidden-by-parent-background
+  z-index: 0;
 }
