@@ -1077,6 +1077,11 @@ var _private = {
             newModelChanged
         ) {
             self._itemsChanged = true;
+            // Update item actions, but only if they were already initialized.
+            // If they were not, they will be updated during initialization anyway.
+            if (self._itemActionsInitialized) {
+                self._updateItemActions();
+            }
         }
         // If BaseControl hasn't mounted yet, there's no reason to call _forceUpdate
         if (self._isMounted) {
@@ -1939,7 +1944,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._itemsChanged) {
             this._shouldNotifyOnDrawItems = true;
-            this._shouldUpdateItemActions = true;
         }
 
         if (this._loadedItems) {

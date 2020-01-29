@@ -2157,16 +2157,10 @@ define([
             baseControl._initItemActions();
             assert.equal(actionsUpdateCount, 1);
          });
-         it('itemsChanged', async function() {
-            baseControl._itemsChanged = true;
-            await baseControl._beforeUpdate(cfg);
-            baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 2);
-         });
          it('_onAfterEndEdit', function() {
             baseControl._onAfterEndEdit({}, {});
             baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 3);
+            assert.equal(actionsUpdateCount, 2);
          });
          it('update on recreating source', async function() {
             let newSource = new sourceLib.Memory({
