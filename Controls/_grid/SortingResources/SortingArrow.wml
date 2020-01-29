@@ -1,1 +1,1 @@
-<svg attr:class="controls-SortingArrow_{{value === 'DESC' ? 'desc' : 'asc'}}" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 12"><path class="cls-1" d="M8,5,5,4.25V12.5H3V4.25L0,5,4,0Z"/></svg>
+<svg attr:class="controls-SortingArrow_{{value === 'DESC' ? 'desc' : 'asc'}}" attr:id="Layer_1" attr:xmlns="http://www.w3.org/2000/svg" attr:viewBox="0 0 8 12"><path class="cls-1" d="M8,5,5,4.25V12.5H3V4.25L0,5,4,0Z"/></svg>
