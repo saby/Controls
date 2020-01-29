@@ -287,6 +287,7 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
             'x': '[А-ЯA-Zа-яa-z0-9ёЁ]'
          };
          defaultOptions.autoWidth = false;
+         defaultOptions.spellCheck = false;
 
          return defaultOptions;
       };

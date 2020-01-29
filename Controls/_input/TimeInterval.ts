@@ -85,6 +85,7 @@ class TimeInterval extends Base {
 
     static getDefaultOptions(): object {
         const defaultOptions = Base.getDefaultOptions();
+        defaultOptions.spellCheck = false;
 
         return defaultOptions;
     }
