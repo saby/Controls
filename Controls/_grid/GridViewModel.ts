@@ -529,8 +529,6 @@ var
         _ladder: null,
         _columnsVersion: 0,
 
-        _cachaedHeaderColumns: null,
-
         constructor: function(cfg) {
             this._options = cfg;
             GridViewModel.superclass.constructor.apply(this, arguments);
@@ -690,34 +688,12 @@ var
         getMultiHeaderOffset: function() {
           return this._multiHeaderOffset;
         },
-        setHeaderCellMinHeight: function(data) {
-            const multiSelectVisibility = this._options.multiSelectVisibility !== 'hidden';
-            const actionsCell = this._shouldAddActionsCell();
-            const headerRows = getRowsArray(
-                data[0],
-                multiSelectVisibility,
-                false,
-                actionsCell
-            );
-            if (!isEqual(headerRows, this._headerRows)) {
-                this._prepareHeaderColumns(data[0], multiSelectVisibility, actionsCell);
-                this._cachaedHeaderColumns = [...data[0]];
-                if (data[1]) { this._setResultOffset(data[1]); }
-                this._nextModelVersion();
-            }
-        },
-        _setResultOffset: function(offset) {
-            this._resultOffset = offset;
-        },
         _shouldAddActionsCell() {
             return shouldAddActionsCell({
                 disableCellStyles: this._options.disableColumnScrollCellStyles,
                 hasColumnScroll: this._options.columnScroll,
                 shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport()
             });
-        },
-        getResultOffset: function() {
-            return this._resultOffset;
         },
         resetHeaderRows: function() {
             this._curHeaderRowIndex = 0;
@@ -866,7 +842,6 @@ var
 
             let cellContentClasses = '';
             let cellStyles = '';
-            let offsetTop = 0;
             let shadowVisibility = 'visible';
 
             if (cell.startRow || cell.startColumn) {
@@ -883,10 +858,6 @@ var
                         headerColumn.colSpan = endColumn - startColumn;
                     }
                 } else {
-                    if (this.isStickyHeader()) {
-                        offsetTop = cell.offsetTop ? cell.offsetTop : 0;
-                        shadowVisibility = (rowIndex === this._headerRows.length - 1 || endRow === this._maxEndRow) && this.getResultsPosition() !== 'top' ? 'visible' : 'hidden';
-                    }
 
                     const additionalColumn = this._options.multiSelectVisibility === 'hidden' ? 0 : 1;
                     const gridStyles = GridLayoutUtil.getMultiHeaderStyles(startColumn, endColumn, startRow, endRow, additionalColumn);
@@ -916,7 +887,6 @@ var
             }
 
             headerColumn.shadowVisibility = shadowVisibility;
-            headerColumn.offsetTop = offsetTop;
             headerColumn.cellStyles = cellStyles;
             headerColumn.cellClasses = cellClasses;
             headerColumn.cellContentClasses = cellContentClasses;
@@ -1098,11 +1068,8 @@ var
                 hasMultiSelect = multiSelectVisibility !== 'hidden';
             this._model.setMultiSelectVisibility(multiSelectVisibility);
             this._prepareColgroupColumns(this._columns, hasMultiSelect);
-            if (this._cachaedHeaderColumns && this._isMultiHeader) {
-                this._prepareHeaderColumns(this._cachaedHeaderColumns, hasMultiSelect, this._shouldAddActionsCell());
-            } else {
-                this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell());
-            }
+            this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell());
+
             this._prepareResultsColumns(this._columns, hasMultiSelect);
         },
 

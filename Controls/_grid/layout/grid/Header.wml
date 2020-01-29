@@ -41,7 +41,6 @@
               mode="stackable"
               task1177692247="{{true}}"
               fixedZIndex="{{headerColumn.zIndex}}"
-              offsetTop="{{headerColumn.offsetTop}}"
               shadowVisibility="{{headerColumn.shadowVisibility}}">
          <!-- Set the listModel option only in order for the update of the internal templates to update -->
          <!-- when the model changes. The 'header' option is an array in which templates can be set. -->
