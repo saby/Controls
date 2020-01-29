@@ -480,9 +480,14 @@ describe('Controls/_display/TileCollectionItem', () => {
     // TODO This test should be moved out of here when the code in
     // isAnimated is removed or moved somewhere
     it('.isAnimated() unsets scaling and positioning if not animated', () => {
+        const given: IChangedData<string> = {};
         const owner = {
             getTileScalingMode(): string {
                 return 'dynamic';
+            },
+            notifyItemChange(item: TileCollectionItem<string>, property: string): void {
+                given.item = item;
+                given.property = property;
             }
         };
 
@@ -502,5 +507,10 @@ describe('Controls/_display/TileCollectionItem', () => {
         assert.isFalse(item.isFixed(), 'item should not be fixed when unscaled');
         assert.isUndefined(item.getFixedPositionStyle(), 'item should not have fixed position when unscaled');
         assert.isFalse(item.canShowActions(), 'item should not show actions when unscaled');
+
+        // canShowActions change should trigger collection update, because
+        // it changes one of the item wrapper classes
+        assert.strictEqual(given.item, item);
+        assert.strictEqual(given.property, 'canShowActions');
     });
 });
