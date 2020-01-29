@@ -1,6 +1,3 @@
-import {detection} from 'Env/Env';
-import * as Sanitize from 'Core/Sanitize';
-
 /**
  * Модуль, в котором реализована функция <b>getTextWidth(parent, child)</b>.
  * Высчитывает ширину переданного текста в пикселях.
@@ -24,19 +21,19 @@ import * as Sanitize from 'Core/Sanitize';
  * @author Мальцев Алексей Александрович
  */
 
-const MIN_IE_EDGE_VERSION: number = 15;
-
-export = function getTextWidth(text: string, fontSize: number): number {
+export = function getTextWidth(text: string, fontSize: number, isPureText: boolean): number {
     const hiddenStyle = 'left:-10000px;top:-10000px;height:auto;width:auto;position:absolute;' + (fontSize ? ('font-size: ' + fontSize + ';') : '');
     const clone: HTMLDivElement = document.createElement('div');
-    const isEdge: boolean = detection.isIE && detection.IEVersion > MIN_IE_EDGE_VERSION;
 
     // устанавливаем стили у клона, дабы он не мозолил глаз.
     // Учитываем, что IE не позволяет напрямую устанавливать значение аттрибута style
     document.all ? clone.style.setAttribute('cssText', hiddenStyle) : clone.setAttribute('style', hiddenStyle);
 
-    // В edge с политикой безопасности проблемы, нет защиты от xss
-    clone.innerHTML = isEdge ? Sanitize(text) : text;
+    if (isPureText) {
+        clone.innerText = text;
+    } else {
+        clone.innerHTML = text;
+    }
 
     document.body.appendChild(clone);
 
