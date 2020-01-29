@@ -66,15 +66,15 @@ function getSiblingItem(direction, item, items, parentProperty, nodeProperty, ro
 var helpers = {
 
     /**
-     *  @typedef {String} MoveDirection
-     *  @variant {String} up Двигаться вверх.
-     *  @variant {String} down Двигаться вниз
+     * @typedef {String} MoveDirection
+     * @variant up Двигаться вверх.
+     * @variant down Двигаться вниз
      */
 
     /*
-     *  @typedef {String} MoveDirection
-     *  @variant {String} up Move up
-     *  @variant {String} down Move down
+     * @typedef {String} MoveDirection
+     * @variant up Move up
+     * @variant down Move down
      */
 
     /**
@@ -85,21 +85,6 @@ var helpers = {
      * @param {Types/collection:RecordSet} items Список всех элементов.
      * @param {Controls/_interface/IHierarchy#parentProperty} parentProperty Имя поля, содержащего сведения о родительском узле.
      * @param {Controls/_interface/IHierarchy#nodeProperty} nodeProperty Имя поля, описывающего тип узла (список, узел, скрытый узел).
-     */
-
-    /*
-     * Helper to display up/down item actions.
-     * @function Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
-     * @param {MoveDirection} direction
-     * @param {Types/entity:Record} item Instance of the item whose action is being processed.
-     * @param {Types/collection:RecordSet} items List of all items.
-     * @param {Controls/_interface/IHierarchy#parentProperty} parentProperty Name of the field that contains information about parent node.
-     * @param {Controls/_interface/IHierarchy#nodeProperty} nodeProperty Name of the field describing the type of the node (list, node, hidden node).
-     * @param {String} root Current root
-     */
-
-    /**
-     * @example
      * В следующем примере разрешается перемещать только элементы, находящиеся в одном родительском элементе.
      * JS:
      * <pre>
@@ -127,6 +112,20 @@ var helpers = {
      *    return result;
      * }
      * </pre>
+     */
+    
+
+    /*
+     * Helper to display up/down item actions.
+     * @function 
+     * @name Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
+     * @param {MoveDirection} direction
+     * @param {Types/entity:Record} item Instance of the item whose action is being processed.
+     * @param {Types/collection:RecordSet} items List of all items.
+     * @param {Controls/_interface/IHierarchy#parentProperty} parentProperty Name of the field that contains information about parent node.
+     * @param {Controls/_interface/IHierarchy#nodeProperty} nodeProperty Name of the field describing the type of the node (list, node, hidden node).
+     * @param {String} root Current root
+     * @example
      */
 
     /*
