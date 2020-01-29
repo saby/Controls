@@ -110,9 +110,9 @@ export default class TileCollectionItem<T> extends CollectionItem<T> {
             // FIXME This is bad, but there is no other obvious place to
             // reset the animation state. Should probably be in that same
             // animation manager
-            this.setCanShowActions(false, true);
             this.setAnimated(false, true);
             this.setFixedPositionStyle('', true);
+            this.setCanShowActions(false);
         }
         return this._$animated;
     }
