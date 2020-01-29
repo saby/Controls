@@ -53,6 +53,7 @@ export interface IHeading extends IExpandable, IFontSize {
  *
  * @class Controls/_spoiler/Heading
  * @extends UI/Base:Control
+ * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:IExpandable
  * @mixes Controls/spoiler:IHeadingOptions
  *
