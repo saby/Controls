@@ -4,11 +4,14 @@
          <Controls._scroll.StickyHeader.Controller
             name="stickyController"
             on:fixed="_fixedHandler()">
-            <!--Реализация области блоков требует наличия следующей структуры controls-BlockLayout > controls-BlockLayout__blockGroup.
-            Добавляем класс controls-BlockLayout__blockGroup, для того чтобы была облюдена структура если использовать controls-BlockLayout на контейнере.
+            <!--Реализация области блоков требует наличия следующей структуры: controls-BlockLayout > controls-BlockLayout__blockGroup.
+            Добавляем класс controls-BlockLayout__blockGroup, для того чтобы была соблюдена структура, когда используется controls-BlockLayout на контейнере.
             Таким образом мы избавляемся от лишней вложенности.
-            https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ws3/ready-solutions/blocks/-->
-            <div name="content"
+            Контейнер с классом controls-BlockLayout имеет несколько дочерних элементов. Из них только контент должен быть группой в
+            соответствии с блочной структурой. Набор групп определяется для каждого типа тега отдельно.
+            Поэтому тег контента должен отличаться от остальных. Например подойдет span.
+            https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/containers/blocks/-->
+            <span name="content"
                  style="{{_displayState.heightFix ? '' : _contentStyles}}"
                  class="controls-Scroll__content controls-BlockLayout__blockGroup
                            {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
@@ -35,7 +38,7 @@
                            on:checkboxClick="_tmplNotify('checkboxClick')"
                            on:actionClick="_tmplNotify('actionClick')"
                            on:editArrowClick="_tmplNotify('editArrowClick')"/>
-            </div>
+            </span>
          </Controls._scroll.StickyHeader.Controller>
       </Controls.event:Register>
    </Controls._scroll.Scroll.Watcher>
