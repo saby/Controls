@@ -29,5 +29,5 @@ import {IMoneyOptions} from 'Controls/decorator';
 import IEditingTemplateOptions from './EditingTemplate'
 
 export default interface IMoneyEditingTemplateOptions extends IEditingTemplateOptions, IMoneyOptions {
-    readonly '[Controls/_list/interface/IMoneyEditingTemplate]': boolean;
+    readonly '[Controls/_list/interface/IMoneyEditingTemplateOptions]': boolean;
 };

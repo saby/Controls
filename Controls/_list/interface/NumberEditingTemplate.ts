@@ -29,5 +29,5 @@ import {INumberOptions} from 'Controls/decorator';
 import IEditingTemplateOptions from './EditingTemplate'
 
 export default interface INumberEditingTemplateOptions extends INumberOptions, IEditingTemplateOptions {
-    readonly '[Controls/_list/interface/INumberEditingTemplate]': boolean;
+    readonly '[Controls/_list/interface/INumberEditingTemplateOptions]': boolean;
 };

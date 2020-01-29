@@ -22,6 +22,8 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes IVirtualScroll Controls/_list/interface/NumberEditingTemplate
+ * @includes IVirtualScroll Controls/_list/interface/MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -48,6 +50,8 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes IVirtualScroll Controls/_list/interface/NumberEditingTemplate
+ * @includes IVirtualScroll Controls/_list/interface/MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */
