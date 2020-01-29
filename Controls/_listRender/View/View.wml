@@ -5,6 +5,7 @@
          itemActions="{{ _options.itemActions }}"
          actionAlignment="{{ _options.actionAlignment }}"
          actionCaptionPosition="{{ _options.actionCaptionPosition }}"
+         contextMenuConfig="{{ _options.contextMenuConfig }}"
          menuIsShown="{{ _dropdownMenuIsOpen }}">
          <Controls._listRender.Containers.ItemActions
             listModel="{{ _collection }}"
