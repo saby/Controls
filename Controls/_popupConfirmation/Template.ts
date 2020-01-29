@@ -28,6 +28,7 @@ import * as template from 'wml!Controls/_popupConfirmation/template';
  * @variant secondary
  * @variant success
  * @variant danger
+ * @variant primary
  * @variant secondary
  */
 
@@ -46,7 +47,7 @@ import * as template from 'wml!Controls/_popupConfirmation/template';
  * @function Controls/_popupConfirmation/Template#close
  */
 
-type TStyle = 'default' | 'danger' | 'secondary' | 'success' ;
+type TStyle = 'default' | 'danger' | 'secondary' | 'success' | 'primary';
 type TSize = 's' | 'l';
 interface IConfirmationTemplate extends IControlOptions {
    bodyContentTemplate?: TemplateFunction;
