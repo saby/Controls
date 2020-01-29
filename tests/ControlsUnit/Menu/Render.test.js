@@ -36,6 +36,24 @@ define(
             return menuControl;
          };
 
+         it('_proxyEvent', function() {
+            let menuRender = getRender();
+            let actualData;
+            let isStopped = false;
+            menuRender._notify = (e, d) => {
+               if (e === 'itemClick') {
+                  actualData = d;
+               }
+            };
+            const event = {
+               type: 'click',
+               stopPropagation: () => {isStopped = true;}
+            };
+            menuRender._proxyEvent(event, 'itemClick', { key: 1 }, 'item1');
+            assert.deepEqual(actualData, [{ key: 1 }, 'item1']);
+            assert.isTrue(isStopped);
+         });
+
          it('getLeftSpacing', function() {
             let menuRender = getRender();
             let renderOptions = {

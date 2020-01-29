@@ -1,6 +1,6 @@
 <div class="controlsDemo__flexRow">
    <div class="controlsDemo__wrapper">
-      <div class="controls-text-label_theme-{{_options.theme}}"> Without parentProperty and nodeProperty</div>
+      <div class="controls-text-label_theme-{{_options.theme}}"> Без parentProperty и nodeProperty</div>
       <Controls.menu:Control
               source="{{_hierarchySource}}"
               selectedKeys="{{_selectedKeys1}}"
@@ -9,7 +9,7 @@
       />
    </div>
    <div class="controlsDemo__wrapper">
-      <div class="controls-text-label_theme-{{_options.theme}}">With parentProperty and nodeProperty</div>
+      <div class="controls-text-label_theme-{{_options.theme}}">С parentProperty и nodeProperty</div>
       <Controls.menu:Control
               source="{{_hierarchySource}}"
               keyProperty="key"
@@ -20,7 +20,7 @@
       />
    </div>
    <div class="controlsDemo__wrapper">
-      <div class="controls-text-label_theme-{{_options.theme}}">With parentProperty and nodeProperty</div>
+      <div class="controls-text-label_theme-{{_options.theme}}">С parentProperty и nodeProperty</div>
       <Controls.menu:Control
               source="{{_hierarchySource2}}"
               keyProperty="key"

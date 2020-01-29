@@ -1,12 +1,13 @@
-<div class="controls-Menu">
+<div class="controls-Menu"
+     attr:ws-no-focus="true">
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Menu__scroll_theme-{{_options.theme}}"
-                              shadowVisible="{{false}}">
+                              topShadowVisibility="hidden"
+                              bottomShadowVisibility="hidden">
       <Controls._menu.Render scope="{{_options}}"
                              listModel="{{_listModel}}"
                              on:itemClick="_itemClick()"
                              on:itemMouseEnter="_itemMouseEnter()"
-                             on:checkBoxClick="_checkBoxClick()"
-      >
+                             on:checkBoxClick="_checkBoxClick()">
          <ws:footerTemplate>
             <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
                <div class="controls-Menu__footer_theme-{{_options.theme}}" on:mouseenter="_closeSubMenu()">
@@ -15,6 +16,9 @@
                                               fontColorStyle="link"
                                               caption="{{_options.moreButtonCaption}}"
                                               on:click="_openSelectorDialog()"/>
+                     <Controls.Container.Async templateName="Controls/lookup:Opener">
+                        <ws:partial template="{{ content.resolvedTemplate }}" name="selectorOpener"/>
+                     </Controls.Container.Async>
                   </ws:if>
                   <ws:else data="{{_expandButtonVisible}}">
                      <div class="controls-Menu__additional">

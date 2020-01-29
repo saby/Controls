@@ -1,4 +1,3 @@
-import tmplNotify = require('Controls/Utils/tmplNotify');
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
 import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
@@ -15,7 +14,6 @@ interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
 
 class MenuRender extends Control<IMenuRenderOptions> {
     protected _template: TemplateFunction = ViewTemplate;
-    protected _proxyEvent: Function = tmplNotify;
     protected _iconSpacing: string;
 
     protected _beforeMount(options: IMenuRenderOptions): void {
@@ -29,11 +27,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem): void {
-        this._notify('itemMouseEnter', [item, event.target]);
-    }
-
-    protected _isEmptyItem(itemData) {
+    protected _isEmptyItem(itemData): boolean {
         return this._options.emptyText && itemData.getContents().getId() === this._options.emptyKey;
     }
 
@@ -48,6 +42,11 @@ class MenuRender extends Control<IMenuRenderOptions> {
             classes += ' controls-Menu__row_pinned';
         }
         return classes;
+    }
+
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        this._notify(eventName, [item, sourceEvent]);
     }
 
     private setListModelOptions(options: IMenuRenderOptions) {
@@ -84,8 +83,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
     private getRightSpacing(options: IMenuRenderOptions): string {
         let rightSpacing = 'l';
         if (!options.rightSpacing) {
-            factory(options.listModel.getItems()).each((item) => {
-                if (item.getContents().get(options.nodeProperty)) {
+            factory(options.listModel.getCollection()).each((item) => {
+                if (item.get(options.nodeProperty)) {
                     rightSpacing = 'menu-expander';
                 }
             });
@@ -109,7 +108,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return iconSpacing;
     }
 
-    static _theme: string[] = ['Controls/menu'];
+    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

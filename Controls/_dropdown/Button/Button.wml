@@ -3,7 +3,7 @@
             name="controller"
             scope="{{_options}}"
             itemTemplate="{{_options.itemTemplate || _itemTemplate}}"
-            headTemplate="{{_options.headTemplate || _options.headerTemplate}}"
+            headerTemplate="{{_options.headTemplate || _options.headerTemplate}}"
             dataLoadCallback="{{_dataLoadCallback}}"
             popupClassName="{{_options.popupClassName || _offsetClassName}} theme_{{_options.theme}}"
             hasIconPin="{{_hasIconPin}}"

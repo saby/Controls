@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Menu/MenuView/Navigation/Index');
+import controlTemplate = require('wml!Controls-demo/Menu/Control/Navigation/Index');
 import {Memory} from 'Types/source';
 import 'css!Controls-demo/Controls-demo';
 

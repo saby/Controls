@@ -1,8 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Menu/MenuView/MultiSelect/Index');
+import controlTemplate = require('wml!Controls-demo/Menu/Control/MultiSelect/Index');
 import {Memory} from 'Types/source';
 import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Menu/MenuView/Menu';
+import 'css!Controls-demo/Menu/Control/Menu';
 
 class MultiSelect extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;

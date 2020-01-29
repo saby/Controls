@@ -1,6 +1,9 @@
 <Controls.listRender:Render
         listModel="{{_options.listModel}}"
-        footerTemplate="{{_options.footerTemplate}}">
+        multiselectVisibility="{{_options.multiSelect ? 'onhover' : 'hidden'}}"
+        footerTemplate="{{_options.footerTemplate}}"
+        on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
+        on:itemClick="_proxyEvent('itemClick')">
    <ws:itemTemplate>
       <ws:partial template="{{_options.itemTemplate}}"
                   itemData="{{itemTemplate.item}}"
@@ -10,7 +13,6 @@
                   iconSpacing="{{_iconSpacing}}"
                   iconSize="{{_options.iconSize}}"
                   multiSelect="{{_options.multiSelect}}"
-                  on:mouseenter="_itemMouseEnter(itemTemplate.item)"
       />
    </ws:itemTemplate>
    <ws:multiSelectTpl>
