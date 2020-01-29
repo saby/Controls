@@ -987,6 +987,9 @@ var CompoundArea = CompoundContainer.extend([
       }], { bubbling: true });
    },
    close: function(arg) {
+      // Если из обработчика на onBeforeClose вызвали повторное закрытие с новыми аргументами,
+      // То защита не даст повторно запустить закрытие окна, но актуальные аргументы обработать нужно.
+      this._closeArgs = arg;
       if (!this.isDestroyed()) {
          if (this._logicParent.waitForPopupCreated) {
             this._waitClose = true;
@@ -1005,11 +1008,11 @@ var CompoundArea = CompoundContainer.extend([
                return false;
             }
             this._isClosing = true;
-            if (this._notifyCompound('onBeforeClose', arg) !== false) {
+            if (this._notifyCompound('onBeforeClose', this._closeArgs) !== false) {
                this._beforeCloseHandlerResult = true;
                this._notifyVDOM('close', null, { bubbling: true });
-               this._notifyCompound('onClose', arg);
-               this._notifyCompound('onAfterClose', arg);
+               this._notifyCompound('onClose', this._closeArgs);
+               this._notifyCompound('onAfterClose', this._closeArgs);
             } else {
                this._beforeCloseHandlerResult = false;
             }
