@@ -23,6 +23,8 @@ export {default as Notification} from 'Controls/_popupTemplate/Notification/Base
 export {default as NotificationSimple} from 'Controls/_popupTemplate/Notification/Simple';
 export {default as StackHeader} from 'Controls/_popupTemplate/Stack/resources/Header';
 export {default as Stack} from 'Controls/_popupTemplate/Stack';
+export {default as DialogHeader} from 'Controls/_popupTemplate/Dialog/DialogHeader';
+export {default as Dialog} from 'Controls/_popupTemplate/Dialog';
 export {default as Sticky} from 'Controls/_popupTemplate/Sticky';
 export {default as IPopupTemplate, IPopupTemplateOptions} from 'Controls/_popupTemplate/interface/IPopupTemplate';
 export {default as INotification, INotificationOptions} from 'Controls/_popupTemplate/Notification/interface/INotification';
@@ -31,7 +33,6 @@ export {default as IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/inte
 export {default as templateInfoBox} from 'Controls/_popupTemplate/InfoBox/Opener/resources/template';
 export {default as BaseController} from 'Controls/_popupTemplate/BaseController';
 
-import Dialog = require('Controls/_popupTemplate/Dialog');
 import DialogController = require('Controls/_popupTemplate/Dialog/Opener/DialogController');
 import StickyController = require('Controls/_popupTemplate/Sticky/StickyController');
 import InfoBoxController = require('Controls/_popupTemplate/InfoBox/Opener/InfoBoxController');
@@ -43,7 +44,6 @@ import PreviewerController = require('Controls/_popupTemplate/Previewer/Previewe
 import StackStrategy = require('Controls/_popupTemplate/Stack/Opener/StackStrategy');
 
 export {
-   Dialog,
    DialogController,
    StickyController,
    StackContent,

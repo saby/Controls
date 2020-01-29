@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Stack/resources/Header');
+import {IStackTemplateOptions} from '../../Stack';
 
 class Header extends Control<IControlOptions> {
     //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=33010df1-501e-4874-a02c-a5f45394a661
@@ -8,10 +9,10 @@ class Header extends Control<IControlOptions> {
      * Закрыть всплывающее окно
      * @function Controls/_popupTemplate/Stack#close
      */
-    close():void {
+    close(): void {
         this._notify('close', [], {bubbling: true});
     }
-    changeMaximizedState() : void {
+    changeMaximizedState(): void {
         /**
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.
@@ -19,7 +20,7 @@ class Header extends Control<IControlOptions> {
         const maximized = this._calculateMaximized(this._options);
         this._notify('maximized', [!maximized], {bubbling: true});
     }
-    _calculateMaximized(options) : Boolean {
+    _calculateMaximized(options: IStackTemplateOptions): Boolean {
         // TODO: https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
         if (!options.stackMinimizedWidth && options.stackMinWidth && options.stackMaxWidth) {
             const middle = (options.stackMinWidth + options.stackMaxWidth) / 2;
