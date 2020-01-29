@@ -1,29 +1,7 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="Заголовок" bind:expanded="_expanded1">
-         <div>Первая контентная область</div>
-      </Controls.spoiler:View>
-   </div>
-   <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="Заголовок" bind:expanded="_expanded2"
-                                captionPosition="left">
-         <div>Вторая контентная область</div>
-      </Controls.spoiler:View>
-   </div>
-   <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="Заголовок" bind:expanded="_expanded3"
-                                fontSize="l">
-         <div>Третья контентная область</div>
-      </Controls.spoiler:View>
-   </div>
-   <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded4">
-         <div>Четвертая контентная область</div>
-      </Controls.spoiler:View>
-   </div>
-   <div class="controlsDemo__cell">
-      <Controls.spoiler:View bind:expanded="_expanded5">
-         <div>Пятая контентная область</div>
+      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded">
+         <div>Контентная область</div>
       </Controls.spoiler:View>
    </div>
 </div>
