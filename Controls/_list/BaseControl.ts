@@ -1866,10 +1866,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (newOptions.searchValue !== this._options.searchValue) {
             this._listViewModel.setSearchValue(newOptions.searchValue);
-
-            if (!newOptions.searchValue) {
-                _private.getPortionedSearch(self).reset();
-            }
+            _private.getPortionedSearch(self).reset();
         }
         if (newOptions.editingConfig !== this._options.editingConfig) {
             this._listViewModel.setEditingConfig(newOptions.editingConfig);

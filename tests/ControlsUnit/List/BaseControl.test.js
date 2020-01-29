@@ -4835,6 +4835,42 @@ define([
          assert.isTrue(portionSearchReseted);
       });
 
+      it('_beforeUpdate with new searchValue', async function() {
+         let cfg = {
+            viewName: 'Controls/List/ListView',
+            sorting: [],
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            keyProperty: 'id',
+            source: source
+         };
+         let instance = new lists.BaseControl(cfg);
+         let cfgClone = { ...cfg };
+         let portionSearchReseted = false;
+
+         instance._portionedSearch = lists.BaseControl._private.getPortionedSearch(instance);
+         instance._portionedSearch.reset = () => {
+            portionSearchReseted = true;
+         };
+
+         instance.saveOptions(cfg);
+         await instance._beforeMount(cfg);
+
+         instance._beforeUpdate(cfg);
+         instance._afterUpdate(cfg);
+
+         assert.isFalse(portionSearchReseted);
+
+
+         cfgClone.searchValue = 'test';
+         instance._beforeUpdate(cfgClone);
+
+         assert.isTrue(portionSearchReseted);
+      });
+
       it('_beforeMount with PrefetchProxy in source', function() {
          let prefetchSource = new sourceLib.PrefetchProxy({
             target: source,
