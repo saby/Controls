@@ -14,7 +14,8 @@
          spellcheck="{{options.spellCheck}}"
          name="{{fieldName}}"
          value="{{calculateValueForTemplate()}}"
-         class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
+         class="controls-InputBase__nativeField_theme_{{options.theme}}
+                controls-Area__realField controls-Area__realField_theme-{{_options.theme}}
                 controls-InputBase__nativeField_theme_{{options.theme}}_caret{{wasActionUser ? 'Filled' : 'Empty'}}
                       {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}"
          placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
