@@ -2,14 +2,16 @@
     <div class="controls-DateLinkView-wrapper">
         <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector' }}">
            <span
-              class="controls-DateLinkView__prev {{ _styleClass }}_theme-{{_options.theme}}"
+              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}} {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftBack()">
            </span>
         </ws:if>
-        <span class="controls-DateLinkView__value-wrapper {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth'}}">
+        <span class="controls-DateLinkView__value-wrapper controls-DateLinkView__value-wrapper_theme-{{_options.theme}}
+                        {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth_theme-' + _options.theme}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
-                    class="controls-DateLinkView__value {{ _styleClass }}_theme-{{_options.theme}} {{ _valueEnabledClass }}"
+                    class="controls-DateLinkView__value controls-DateLinkView__value_theme-{{_options.theme}}
+                            {{ _styleClass }}_theme-{{_options.theme}} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
                     name="openDialogTarget"
                     on:click="_onClick()">
@@ -35,11 +37,11 @@
            </ws:else>
         </span>
         <ws:if data="{{ _clearButtonVisible }}">
-              <span class="controls-DateLinkView__clear" on:click="_clearDate()"></span>
+              <span class="controls-DateLinkView__clear controls-DateLinkView__clear_theme-{{_options.theme}}" on:click="_clearDate()"></span>
         </ws:if>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' }}">
            <span
-              class="controls-DateLinkView__next {{ _styleClass }}_theme-{{_options.theme}}"
+              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}} {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftForward()">
            </span>
         </ws:if>

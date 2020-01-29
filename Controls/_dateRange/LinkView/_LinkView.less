@@ -19,14 +19,19 @@
    content: "\e007";
 }
 
+.controls-DateLinkView__clear_theme-@{themeName},
+.controls-DateLinkView__prev_theme-@{themeName},
+.controls-DateLinkView__next_theme-@{themeName} {
+   font-size: @font-size_DateLinkView-prev-next-buttons;
+   width: @width_DateLinkView-prev-next-buttons;
+}
+
 .controls-DateLinkView__clear,
 .controls-DateLinkView__prev,
 .controls-DateLinkView__next {
    display: inline-block;
-   font-size: @font-size_DateLinkView-prev-next-buttons;
    font-weight: normal;
    text-align: center;
-   width: @width_DateLinkView-prev-next-buttons;
 }
 
 .controls-DateLinkView__style-secondary_theme-@{themeName} {
@@ -62,34 +67,40 @@
    }
 }
 
-.controls-DateLinkView__value-wrapper {
+.controls-DateLinkView__value-wrapper_theme-@{themeName} {
    height: @height_DateLinkView;
+}
+
+.controls-DateLinkView__value-wrapper {
    display: inline-block;
    flex-grow: 1;
    text-align: center;
 }
 
-.controls-DateLinkView__value-wrapper-minWidth {
+.controls-DateLinkView__value-wrapper-minWidth_theme-@{themeName} {
    min-width: @min-width_DateLinkView-value;
 }
+
 .controls-DateLinkView__yearState {
    .controls-DateLinkView__value-wrapper-withArrow {
       min-width: @width_DateLinkView-year-state - @width_DateLinkView-prev-next-buttons*2;
    }
 }
 
-.controls-DateLinkView__value {
+.controls-DateLinkView__value_theme-@{themeName} {
    font-size: @font-size_DateLinkView;
    font-weight: @font-weight_DateLinkView-value;
    padding-top: @padding_DateLinkView-value;
 }
 
-.controls-DateLinkView__clear {
+.controls-DateLinkView__clear_theme-@{themeName} {
    color: @color_CloseButton-light-icon;
    font-family: @font-family_icon_size-s;
-   cursor: pointer;
 }
 
-.controls-DateLinkView__clear:before {
-   content: "\ea27";
+.controls-DateLinkView__clear {
+   cursor: pointer;
+   &:before {
+      content: "\ea27";
+   }
 }
