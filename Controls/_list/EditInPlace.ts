@@ -132,13 +132,15 @@ var
         },
 
         updateModel: function (self, commit) {
-            if (commit) {
+            if (commit && (self._isAdd || self._editingItem.isChanged())) {
                 if (self._options.source) {
+                    //
                     return self._options.source.update(self._editingItem).addCallbacks(function () {
                         _private.acceptChanges(self);
                     }, (error: Error) => {
                         return _private.processError(self, error);
                     });
+
                 }
                 _private.acceptChanges(self);
             }
