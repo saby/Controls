@@ -89,11 +89,11 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         }
     }
 
-    protected close() : void {
+    protected close(): void {
         this._notify('close', [], {bubbling: true});
     }
 
-    protected changeMaximizedState() : void {
+    protected changeMaximizedState(): void {
         /**
          * @event maximized
          * Occurs when you click the expand / collapse button of the panels.

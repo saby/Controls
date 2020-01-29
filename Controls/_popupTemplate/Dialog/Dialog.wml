@@ -1,10 +1,11 @@
 <Controls.dragnDrop:Container name="dragNDrop" on:dragmove="_onDragMove()" on:documentdragend="_onDragEnd()">
     <div class="controls-DialogTemplate controls-DialogTemplate_theme_{{_options.theme}}" ws-tab-cycling="true">
         <ws:if data="{{_options.headingCaption || _options.headerContentTemplate }}">
-            <ws:partial template="wml!Controls/_popupTemplate/Dialog/DialogHeader"
+            <ws:partial template="Controls/_popupTemplate/Dialog/DialogHeader"
                         scope="{{_options}}"
-                        theme="{{_headerTheme}}"
-                        close="{{close}}"/>
+                        on:mousedown="_onMouseDown()"
+                        on:touchstart="_onMouseDown()"
+                        theme="{{_headerTheme}}"/>
         </ws:if>
         <ws:else>
             <div class="controls-DialogTemplate__close-button_without_head">
