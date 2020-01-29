@@ -824,7 +824,6 @@ define([
                   assert.equal(12, treeViewModel._model._root);
                   assert.equal(12, treeControl._root);
                   assert.isTrue(isNeedForceUpdate);
-                  assert.isTrue(sourceController !== treeControl._children.baseControl._sourceController);
                   assert.isTrue(sourceControllersCleared);
                   assert.deepEqual(reloadFilter, {testParentProperty: 12});
                   treeControl._beforeUpdate({root: treeControl._root});
@@ -1111,7 +1110,7 @@ define([
                data: [],
                keyProperty: 'id'
             }),
-            treeControl = correctCreateTreeControl({
+            config = {
                columns: [],
                source: source,
                items: new collection.RecordSet({
@@ -1120,7 +1119,8 @@ define([
                }),
                keyProperty: 'id',
                parentProperty: 'parent'
-            }),
+            },
+            treeControl = correctCreateTreeControl(config),
             treeGridViewModel = treeControl._children.baseControl.getViewModel(),
             reloadOriginal = treeControl._children.baseControl.reload;
 
@@ -1161,14 +1161,17 @@ define([
             };
             treeControl._children.baseControl._sourceController._loader.addCallback(function(result) {
                treeControl._children.baseControl.reload().addCallback(function(res) {
-                  var newFilter = {
+                  const newFilter = {
                      parent: null
                   };
-                  treeControl._beforeUpdate({root: 'testRoot'});
+                  const configClone = {...config};
+                  configClone.root = 'testRoot';
+                  treeControl._beforeUpdate(configClone);
                   treeControl._options.root = 'testRoot';
                   try {
                      assert.deepEqual(treeGridViewModel.getExpandedItems(), []);
                      assert.deepEqual(filterOnOptionChange, newFilter);
+                     assert.isTrue(isSourceControllerDestroyed);
                   } catch (e) {
                      reject(e);
                   }
