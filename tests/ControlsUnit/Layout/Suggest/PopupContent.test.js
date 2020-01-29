@@ -134,7 +134,7 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
    describe('Controls._suggestPopup.Layer.__PopupContent template tests', function() {
 
       it('showContent:false', function(done) {
-         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_ controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><div class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></div><div></div></div></div>';
+         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_ controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></span><div></div></div></div>';
 
          getMarkup(popupContentTemplate, {_options: {showContent: false, target: {offsetWidth: ''}, content: '', stickyPosition: {direction: {vertical: ''}}}}).addCallback(function(res) {
             assert.equal(res, standardMarkup);
@@ -143,7 +143,7 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
       });
 
       it('showContent:true', function(done) {
-         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><div class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></div><div></div></div></div>';
+         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></span><div></div></div></div>';
 
          getMarkup(popupContentTemplate, {_options: {showContent: true, target: {offsetWidth: ''},  content: '', stickyPosition: {direction: {vertical: ''}}}}).addCallback(function(res) {
             assert.equal(res, standardMarkup);
@@ -152,7 +152,7 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
       });
 
       it('target.offsetWidth:300px', function(done) {
-         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_ controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><div class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></div><div></div></div></div>';
+         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_ controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></span><div></div></div></div>';
 
          getMarkup(popupContentTemplate, {_options: {target: {offsetWidth: 300}, content: '', stickyPosition: {direction: {vertical: ''}}}}).addCallback(function(res) {
             assert.equal(res, standardMarkup);
@@ -161,7 +161,7 @@ define(['Controls/_suggestPopup/Layer/__PopupContent', 'wml!Controls/_suggestPop
       });
 
       it('verticalAling', function(done) {
-         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_top controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><div class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></div><div></div></div></div>';
+         var standardMarkup = '<div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_popup controls-Suggest__suggestionsContainer_popup_shadow_top controls-Suggest__suggestionsContainer_hidden"><div class="controls-Scroll ws-flexbox ws-flex-column controls-Suggest__scrollContainer" hasMarkup="true" data-component="Controls/scroll:Container"><span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden"></span><div></div></div></div>';
 
          getMarkup(popupContentTemplate, {_options: {target: {offsetWidth: 300}, content: '', stickyPosition: {direction: {vertical: 'top'}}}}).addCallback(function(res) {
             assert.equal(res, standardMarkup);
