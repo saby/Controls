@@ -123,6 +123,8 @@ define('Controls-demo/OperationsPanel/Panel', [
          } else {
             this._selectedKeys = this._selectedKeys.length ? [] : [null];
          }
+
+         this._isAllSelected = this._selectedKeys.includes(null);
       },
 
       _eventHandler: function(e) {

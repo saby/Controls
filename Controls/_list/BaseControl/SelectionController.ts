@@ -20,6 +20,9 @@ var _private = {
     notifyAndUpdateSelection: function(self, options) {
         const
             selectionCount = self._multiselection.getCount(),
+            itemsCount = self._options.items.getCount(),
+            model = self._options.listModel,
+            root = model.getRoot ? model.getRoot().getContents() : null,
             oldSelectedKeys = options.selectedKeys,
             oldExcludedKeys = options.excludedKeys,
             // selectionCount будет равен нулю, если в списке не отмечено ни одного элемента
@@ -27,7 +30,9 @@ var _private = {
             newSelectedKeys = selectionCount === 0 ? [] : self._multiselection.selectedKeys,
             newExcludedKeys = selectionCount === 0 ? [] : self._multiselection.excludedKeys,
             selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys),
-            excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
+            excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys),
+            isAllSelected = !model.getHasMoreData() && selectionCount === itemsCount ||
+               newSelectedKeys.includes(root) && (newExcludedKeys.length === 0 || newExcludedKeys.length === 1 && newExcludedKeys[0] === root);
 
         if (selectedKeysDiff.added.length || selectedKeysDiff.removed.length) {
             self._notify('selectedKeysChanged', [newSelectedKeys, selectedKeysDiff.added, selectedKeysDiff.removed]);
@@ -57,7 +62,7 @@ var _private = {
          4) Прокидывать событие в Container/Scroll.
          Сработает, но Container/Scroll ничего не должен знать про выделение. И не поможет в ситуациях, когда вместо Container/Scroll любая другая обёртка.
          */
-       self._notify('listSelectedKeysCountChanged', [selectionCount], {bubbling: true});
+       self._notify('listSelectedKeysCountChanged', [selectionCount, isAllSelected], {bubbling: true});
        self._multiselection.updateSelectionForRender();
     },
 

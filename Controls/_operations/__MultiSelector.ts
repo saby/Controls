@@ -35,7 +35,7 @@ export interface IMultiSelectorOptions extends IControlOptions {
    selectedKeys: TKeys;
    excludedKeys: TKeys;
    selectedKeysCount: TCount;
-   root: TKey;
+   isAllSelected: boolean;
 }
 
 export default class MultiSelector extends Control<IMultiSelectorOptions> {
@@ -46,15 +46,15 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
 
    protected _beforeMount(options: IMultiSelectorOptions): void {
       this._menuSource = this._getMenuSource(options);
-      this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.root);
+      this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.isAllSelected);
    }
 
    protected _beforeUpdate(options: IMultiSelectorOptions): void {
       const currOpts = this._options;
       const selectionIsChanged = currOpts.selectedKeys !== options.selectedKeys || currOpts.excludedKeys !== options.excludedKeys;
 
-      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
-         this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.root);
+      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount || currOpts.isAllSelected !== options.isAllSelected) {
+         this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.isAllSelected);
       }
 
       if (selectionIsChanged || currOpts.selectionViewMode !== options.selectionViewMode) {
@@ -71,12 +71,11 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
 
    private _getAdditionalMenuItems(options: IMultiSelectorOptions): Array<Object> {
       let additionalItems: Array<Object> = [];
-      let isAllSelected = options.selectedKeys.includes(options.root) && options.excludedKeys.includes(options.root);
 
       if (options.selectionViewMode === 'selected') {
          additionalItems.push(SHOW_ALL_ITEM);
          // Показываем кнопку если есть выбранные и невыбранные записи
-      } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && (!isAllSelected || options.excludedKeys.length > 1)) {
+      } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
       }
 
@@ -90,12 +89,12 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       });
    }
 
-   private _updateSelection(selectedKeys: TKeys, excludedKeys: TKeys, count: TCount, root: TKey): void {
+   private _updateSelection(selectedKeys: TKeys, excludedKeys: TKeys, count: TCount, isAllSelected: TKey): void {
       const selectedCount = count === undefined ? selectedKeys.length : count;
 
       if (selectedCount > 0 && selectedKeys.length) {
          this._menuCaption = rk('Отмечено') + ': ' + selectedCount;
-      } else if (selectedKeys[0] === root && (!excludedKeys.length || excludedKeys[0] === root && excludedKeys.length === 1)) {
+      } else if (isAllSelected) {
          this._menuCaption = rk('Отмечено всё');
       } else if (selectedCount === null) {
          this._menuCaption = rk('Отмечено');
@@ -115,7 +114,6 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
 
    static getDefaultOptions(): object {
       return {
-         root: null,
          selectedKeys: [],
          excludedKeys: []
       };

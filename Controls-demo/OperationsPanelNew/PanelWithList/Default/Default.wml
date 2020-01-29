@@ -1,4 +1,4 @@
-<div class="demo-Grid__container">
+<div class="controlsDemo__wrapper controlsDemo__minWidth600 controlsDemo__maxWidth800">
       <Controls.operations:Controller
             bind:selectedKeys="_selectedKeys"
             bind:excludedKeys="_excludedKeys"

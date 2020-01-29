@@ -1,35 +1,36 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls-demo/OperationsPanel/PanelWithList/PanelWithList';
+import * as template from 'wml!Controls-demo/OperationsPanelNew/PanelWithList/Default/Default';
 import {Memory} from 'Types/source';
 import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
-import Data = require('Controls-demo/OperationsPanel/Demo/Data');
-import 'wml!Controls-demo/OperationsPanel/Demo/PersonInfo';
+import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
+import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
 import 'css!Controls-demo/OperationsPanel/Demo/Demo';
 
 export default class extends Control {
-   _template: TemplateFunction = template;
-   _panelSource = null;
-   _nodeProperty = 'Раздел@';
-   _parentProperty = 'Раздел';
-   _keyProperty = 'id';
-   _viewSource = null;
-   _gridColumns = null;
-   _selectedKeys = null;
-   _excludedKeys = null;
+   protected _template: TemplateFunction = template;
+   protected _panelSource = null;
+   protected _nodeProperty = 'Раздел@';
+   protected _parentProperty = 'Раздел';
+   protected _keyProperty = 'id';
+   protected _viewSource = null;
+   protected _gridColumns = null;
+   protected _selectedKeys = null;
+   protected _excludedKeys = null;
+   protected _expandedOperationsPanel: boolean;
 
    _beforeMount() {
       this._selectedKeys = [];
       this._excludedKeys = [];
       this._panelSource = new Memory({
          keyProperty: 'id',
-         data: Data.panelItems.slice()
+         data: getPanelData()
       });
       this._gridColumns = [{
-         template: 'wml!Controls-demo/OperationsPanel/Demo/PersonInfo'
+         template: 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo'
       }];
       this._viewSource = new TreeMemory({
          keyProperty: 'id',
-         data: Data.employees
+         data: getListData()
       });
    }
 

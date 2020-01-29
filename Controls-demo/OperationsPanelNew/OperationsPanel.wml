@@ -1,0 +1,37 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/OperationsPanelNew/Base/Index' }}">
+         <a href="{{content.href}}">Базовая панель операций</a>
+      </Router.router:Reference>
+      <Controls-demo.OperationsPanelNew.Base.Index/>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/OperationsPanelNew/RightTemplate/Index' }}">
+         <a href="{{content.href}}">Панель с кастомным шаблоном справа</a>
+      </Router.router:Reference>
+      <Controls-demo.OperationsPanelNew.RightTemplate.Index/>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/OperationsPanelNew/SelectionViewMode/Index' }}">
+         <a href="{{content.href}}">Панель с кнопкой "Показать отмеченные"</a>
+      </Router.router:Reference>
+      <Controls-demo.OperationsPanelNew.SelectionViewMode.Index/>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/OperationsPanelNew/PanelWithList/Index' }}">
+         <a href="{{content.href}}">Панели со списками</a>
+      </Router.router:Reference>
+      <Controls-demo.OperationsPanelNew.PanelWithList.Index/>
+   </div>
+</div>
