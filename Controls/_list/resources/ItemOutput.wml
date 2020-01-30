@@ -9,6 +9,7 @@
       on:mousemove="_onItemMouseMove(itemData)"
       on:wheel="_onItemWheel(itemData)"
       itemActionsTemplate="{{itemActionsTemplate}}"
+      itemActionsClass="{{itemActionsClass}}"
       swipeTemplate="{{swipeTemplate}}"
       multiSelectTpl="{{multiSelectTpl}}"
       editArrowTemplate="{{editArrowTemplate}}"

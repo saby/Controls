@@ -26,5 +26,5 @@
               template="{{itemActionsTemplate}}"
               highlightOnHover="{{highlightOnHover}}"
               itemData="{{itemData}}"
-              itemActionsClass="controls-TileView__itemActions controls-TreeTileView__itemActions_center"/>
+              itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions controls-TreeTileView__itemActions_center'}}"/>
 </div>

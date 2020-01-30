@@ -1,6 +1,7 @@
 <ws:template name="itemTpl">
     <ws:partial
             itemActionsTemplate="{{itemActionsTemplate}}"
+            itemActionsClass="{{itemActionsClass}}"
             groupTemplate="{{groupTemplate}}"
             swipeTemplate="{{swipeTemplate}}"
             multiSelectTpl="{{multiSelectTpl}}"
