@@ -70,40 +70,6 @@ describe('Controls/_listRender/View', () => {
         });
     });
 
-    it('_onDropdownMenuOpenRequested()', () => {
-        const view = new View(defaultCfg);
-
-        let receivedDropdownConfig: unknown;
-        view._children.dropdownMenuOpener = {
-            open(config): void {
-                receivedDropdownConfig = config;
-            }
-        };
-
-        const expectedDropdownConfig = { dropdown: true };
-        view._onDropdownMenuOpenRequested(null, expectedDropdownConfig);
-
-        assert.strictEqual(receivedDropdownConfig, expectedDropdownConfig);
-        assert.isTrue(view._dropdownMenuIsOpen);
-    });
-
-    it('_onDropdownMenuCloseRequested()', () => {
-        const view = new View(defaultCfg);
-
-        let closeCalled = false;
-        view._children.dropdownMenuOpener = {
-            close(): void {
-                closeCalled = true;
-            }
-        };
-        view._dropdownMenuIsOpen = true;
-
-        view._onDropdownMenuCloseRequested();
-
-        assert.isTrue(closeCalled);
-        assert.isFalse(view._dropdownMenuIsOpen);
-    });
-
     describe('_beforeUpdate()', () => {
         it('recreates collection when given a new recordset', () => {
             const view = new View(defaultCfg);
@@ -128,7 +94,10 @@ describe('Controls/_listRender/View', () => {
 
         it('does not recreate collection when given an old recordset', () => {
             const view = new View(defaultCfg);
-            const collection = {};
+            const collection = {
+                getEditingConfig: () => null,
+                setActionsTemplateConfig: () => null
+            };
 
             view._collection = collection;
 

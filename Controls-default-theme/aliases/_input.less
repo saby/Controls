@@ -1,0 +1,197 @@
+//ПОЛЯ ВВОДА
+//Общие Переменные, использующиеся для темизации полей ввода.
+//Размер шрифта в поле ввода xs.
+@font-size_xs_input:                                                        @font-size_xs;
+
+//Размер шрифта в поле ввода s.
+@font-size_s_input:                                                         @font-size_s;
+
+//Размер шрифта в поле ввода m.
+@font-size_m_input:                                                         @font-size_m;
+
+//Размер шрифта в поле ввода l.
+@font-size_l_input:                                                         @font-size_l;
+
+//Размер шрифта в поле ввода xl.
+@font-size_xl_input:                                                        @font-size_xl;
+
+//Размер шрифта в поле ввода 2xl.
+@font-size_2xl_input:                                                       @font-size_2xl;
+
+//Размер шрифта в поле ввода 3xl.
+@font-size_3xl_input:                                                       @font-size_3xl;
+
+//Размер шрифта в поле ввода 4xl.
+@font-size_4xl_input:                                                       @font-size_4xl;
+
+//Размер шрифта в поле ввода 5xl.
+@font-size_5xl_input:                                                       @font-size_5xl;
+
+//Высота поля ввода xs.
+@inline_height_xs_input:                                                    @inline_height_xs;
+
+//Высота поля ввода s.
+@inline_height_s_input:                                                     @inline_height_s;
+
+//Высота поля ввода m.
+@inline_height_m_input:                                                     @inline_height_m;
+
+//Высота поля ввода l.
+@inline_height_l_input:                                                     @inline_height_l;
+
+//Высота поля ввода xl.
+@inline_height_xl_input:                                                    @inline_height_xl;
+
+//Высота поля ввода 2xl.
+@inline_height_2xl_input:                                                   @inline_height_2xl;
+
+//Высота поля ввода по умолчанию.
+@inline_height_default_input:                                               @inline_height_m_input;
+
+//Размер тэга.
+//Примечание: тэг - это цветной индикатор, использующийся в поле ввода для информации о состоянии поля.
+@tag-size:                                                                  8px;
+
+//Цвет подсказки в поле ввода.
+//Примечание: подсказка выводится в поле, когда в него не в введен текст.
+@placeholder-color_inputText:                                               #CCC;
+
+//Толщина обводки полей ввода.
+//Примечание: равна толщине обводки по-умолчанию.
+@border-thickness_inputText:                                                @border-thickness;
+
+//Стиль обводки полей ввода.
+@border-style_inputText:                                                    solid;
+
+//Стиль обводки полей ввода при наведении мыши.
+@border-style_hover_inputText:                                              solid;
+
+//Стиль обводки полей ввода при установке фокуса.
+@border-style_focus_inputText:                                              solid;
+
+//Стиль обводки полей ввода при ошибке валидации.
+@invalid_border-style_inputText:                                            solid;
+
+//Цвет фона полей ввода.
+//Примечание: равен цвету фона по-умолчанию.
+@background-color_inputText:                                                @background-color;
+
+//Цвет фона полей ввода при наведении мыши.
+//Примечание: равен цвету фона по-умолчанию.
+@background-color_hover_inputText:                                          @background-color;
+
+//Цвет фона полей ввода при установке фокуса.
+//Примечание: равен цвету фона по-умолчанию.
+@background-color_focus_inputText:                                          @background-color;
+
+//Цвет фона полей ввода при ошибке валидации.
+//Примечание: равен цвету фона по-умолчанию.
+@invalid_background-color_inputText:                                        @background-color;
+
+//Цвет фона полей ввода в состоянии "только для чтения".
+//Примечание: равен цвету фона по-умолчанию.
+@readonly_background-color_inputText:                                       transparent;
+
+//Цвет границы полей ввода
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+@border-color_inputText:                                                    #EAEAEA #EAEAEA #CCCCCC #EAEAEA;
+
+//Цвет границы полей ввода при наведении мыши.
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+@border-color_hover_inputText:                                              #EAEAEA #EAEAEA #AAB0C1 #EAEAEA;
+
+//Цвет границы полей ввода при установке фокуса.
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+@border-color_focus_inputText:                                              #EAEAEA #EAEAEA #AAB0C1 #EAEAEA;
+
+//Цвет границы полей ввода при ошибке валидации.
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+@invalid_border-color_inputText:                                            @invalid_border-color;
+
+//Цвет границы полей ввода при ошибке валидации при установке фокуса
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+//Примечание: по-умолчанию равен цвету элементов отображающих опасность или ошибку.
+@invalid_focus_border-color_inputText:                                      @invalid_border-color;
+
+//Цвет границы полей ввода в состоянии "только для чтения".
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+//Примечание: по-умолчанию равен цвету элементов отображающих опасность или ошибку.
+@readonly_border-color_inputText:                                           transparent transparent #E4E4E4 transparent;
+
+//Цвет границы многострочных полей ввода в состоянии "только для чтения".
+//Примечание: для задания разных цветов можно использовать несколько значений через пробел.
+@readonly_border-color_inputArea:                                           transparent;
+
+//Цвет каретки в пустом поле ввода.
+@caret-color_empty_inputText:                                               @text-color;
+
+//Цвет каретки в поле ввода, в которое введен текст.
+@caret-color_fill_inputText:                                                @text-color;
+
+//горизонтальные отступы до текста в поле ввода.
+//Примечание: в однострочных полях вертикальный отступ не задается, текст в поле выравнивается по базовой линии
+@padding-horizontal_inputText:                                              4px;
+
+//Переменные многострочного поля ввода
+//вертикальные отступы до текста в многострочном поле ввода.
+//Примечание: в однострочных полях вертикальный отступ не задается, текст в поле выравнивается по базовой линии
+@padding-vertical_inputArea:                                                2px;
+
+//высота строки в многострочном поле с размером шрифта xs.
+@line-height_xs_inputArea:                                                  15px;
+
+//высота строки в многострочном поле с размером шрифта s.
+@line-height_s_inputArea:                                                   17px;
+
+//высота строки в многострочном поле с размером шрифта m.
+@line-height_m_inputArea:                                                   18px;
+
+//высота строки в многострочном поле с размером шрифта l.
+@line-height_l_inputArea:                                                   19px;
+
+//высота строки в многострочном поле с размером шрифта xl.
+@line-height_xl_inputArea:                                                  20px;
+
+//высота строки в многострочном поле с размером шрифта 2xl.
+@line-height_2xl_inputArea:                                                 22px;
+
+//высота строки в многострочном поле с размером шрифта 3xl.
+@line-height_3xl_inputArea:                                                 23px;
+
+//высота строки в многострочном поле с размером шрифта 4xl.
+@line-height_4xl_inputArea:                                                 26px;
+
+//высота строки в многострочном поле с размером шрифта 5xl.
+@line-height_5xl_inputArea:                                                 31px;
+
+//Переменные поля ввода пароля
+//цвет иконки в поле ввода пароля.
+//Примечание: по-умолчанию равен цвету иконок отображающих дополнительную информацию.
+@trigger-color_inputPassword:                                               @unaccented_icon-color;
+
+//размер иконки в поле ввода пароля.
+//Примечание: по-умолчанию равен размеру иконок m.
+@trigger_icon-size_inputPassword:                                           @icon-size_m;
+
+//отступ между иконкой и полем ввода в поле ввода пароля.
+@trigger-offset_inputPassword:                                              4px;
+
+//отступ между иконкой и полем ввода в поле ввода даты.
+@trigger-offset_inputDate:                                                  8px;
+
+//МЕТКИ ДЛЯ ПОЛЕЙ ВВОДА
+//цвет знака сноски у метки
+@asterisk_color_label:                                                      @danger_color;
+
+//высота метки
+@inline_height_default_label:                                               @inline_height_m;
+
+//отступ от метки до контрола при позиционировании с краю от контрола
+
+@offset-horizontal_label:                                                   8px;
+
+//цвет текста метки
+@text-color_label:                                                          @label_text-color;
+
+//размер шрифта метки
+@font-size_default_label:                                                   @font-size_m;

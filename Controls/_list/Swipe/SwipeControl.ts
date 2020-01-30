@@ -21,6 +21,8 @@ import VerticalMeasurer from 'Controls/_list/Swipe/VerticalMeasurer';
 
 import * as swipeTemplate from 'wml!Controls/_list/Swipe/resources/SwipeTemplate';
 
+let displayLib: typeof import('Controls/display');
+
 const MEASURER_NAMES: Record<ISwipeControlOptions['actionAlignment'], IMeasurer> = {
    horizontal: HorizontalMeasurer,
    vertical: VerticalMeasurer
@@ -81,8 +83,13 @@ export default class SwipeControl extends Control {
       this._swipeConfig = null;
       this._currentItemData = null;
       this._notify('closeSwipe', [this._options.listModel.getSwipeItem()]);
-      this._options.listModel.setSwipeItem(null);
-      this._options.listModel.setActiveItem(null);
+      if (this._options.useNewModel) {
+         displayLib.ItemActionsController.setSwipeItem(this._options.listModel, null);
+         displayLib.ItemActionsController.setActiveItem(this._options.listModel, null);
+      } else {
+         this._options.listModel.setSwipeItem(null);
+         this._options.listModel.setActiveItem(null);
+      }
    }
 
    private _updateModel(newOptions: ISwipeControlOptions): void {
@@ -178,7 +185,15 @@ export default class SwipeControl extends Control {
          );
       }
       const actionsItem = this._options.useNewModel ? this._currentItemData : this._currentItemData.actionsItem;
-      this._options.listModel.setItemActions(actionsItem, this._swipeConfig.itemActions);
+      if (this._options.useNewModel) {
+         displayLib.ItemActionsController.setActionsToItem(
+            this._options.listModel,
+            actionsItem.getContents().getId(),
+            this._swipeConfig.itemActions
+         );
+      } else {
+         this._options.listModel.setItemActions(actionsItem, this._swipeConfig.itemActions);
+      }
       if (this._swipeConfig.twoColumns) {
          this._swipeConfig.twoColumnsActions = this._prepareTwoColumns(this._swipeConfig.itemActions.showed);
       }
@@ -193,8 +208,14 @@ export default class SwipeControl extends Control {
       childEvent: ISwipeEvent
    ): void {
       this._actionsHeight = this._getActionsHeight(childEvent.target);
-      listModel.setSwipeItem(itemData);
-      listModel.setActiveItem(itemData);
+      if (this._options.useNewModel) {
+         const key = itemData.getContents().getId();
+         displayLib.ItemActionsController.setSwipeItem(listModel, itemData.getContents().getId());
+         displayLib.ItemActionsController.setActiveItem(listModel, key);
+      } else {
+         listModel.setSwipeItem(itemData);
+         listModel.setActiveItem(itemData);
+      }
 
       //TODO: KINGO
       // запоминаем текущий активный элемент, чтобы мы могли обновить опции на немпри необходимости
@@ -226,6 +247,7 @@ export default class SwipeControl extends Control {
       this._updateModel(newOptions);
       this._setMeasurer(newOptions.actionAlignment);
       if (newOptions.useNewModel) {
+         displayLib = require('Controls/display');
          return import('Controls/listRender').then((listRender) => {
             this._swipeTemplate = listRender.swipeTemplate;
          });

@@ -57,3 +57,26 @@ export {default as TileCollectionItem} from './_display/TileCollectionItem';
 
 export {default as ColumnsCollection} from './_display/ColumnsCollection';
 export {default as ColumnsCollectionItem} from './_display/ColumnsCollectionItem';
+
+import * as EditInPlaceController from './_display/controllers/EditInPlace';
+export { EditInPlaceController };
+
+import * as SelectionController from './_display/controllers/Selection';
+export { SelectionController };
+
+import * as ItemActionsController from './_display/controllers/ItemActions';
+export { ItemActionsController };
+
+import * as VirtualScrollController from './_display/controllers/VirtualScroll';
+export { VirtualScrollController };
+
+import * as VirtualScrollHideController from './_display/controllers/VirtualScrollHide';
+export { VirtualScrollHideController };
+
+export { ICollectionCommand } from './_display/interface';
+
+import * as MarkerCommands from './_display/commands/Marker';
+export { MarkerCommands };
+
+import * as DragCommands from './_display/commands/Drag';
+export { DragCommands };

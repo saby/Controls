@@ -1,31 +1,33 @@
 <div attr:class="controls-ListView controls-TileView" name="itemsContainer">
-   <ws:if data="{{ _options.listModel }}">
-      <ws:partial
-         template="wml!Controls/_listRender/Render/resources/For"
-         collection="{{ _options.listModel }}"
-         keyPrefix="{{ _templateKeyPrefix }}"
+   <ws:partial
+      template="wml!Controls/_listRender/Render/resources/For"
+      collection="{{ _options.listModel }}"
+      keyPrefix="{{ _templateKeyPrefix }}"
 
-         itemActionsPosition="{{ _options.itemActionsPosition }}"
-         itemActionsTemplate="{{ _options.itemActionsTemplate }}"
-         swipeTemplate="{{ _options.swipeTemplate }}"
-         multiSelectTpl="{{ _options.multiSelectTpl }}"
-         isAdd="{{ _options.isAdd }}"
-         itemTemplate="{{ _itemTemplate }}" />
-      <!-- TODO Only dynamic tile is supported at the moment -->
-      <!--ws:if data="{{ _options.tileMode === 'static' && _options.listModel.getCount() > 0 }}">
-         <ws:partial
-            template="wml!Controls/_tile/TileView/resources/InvisibleFor"
-            type="leaf"
-            itemTemplate="{{ _itemTemplate }}"
-            listModel="{{ _options.listModel }}" />
-      </ws:if-->
-      <ws:if data="{{ _options.emptyTemplate }}">
-         <ws:partial template="{{ _options.emptyTemplate }}" attr:class="controls-TileView__flex-grow" />
-      </ws:if>
-      <ws:if data="{{ _options.footerTemplate }}">
-         <div attr:class="controls-TileView__footer">
-            <ws:partial template="{{ _options.footerTemplate }}"/>
-         </div>
-      </ws:if>
+      itemActionsPosition="{{ _options.itemActionsPosition }}"
+      itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+      swipeTemplate="{{ _options.swipeTemplate }}"
+      multiSelectTpl="{{ _options.multiSelectTpl }}"
+      isAdd="{{ _options.isAdd }}"
+      itemTemplate="{{ _itemTemplate }}" />
+   <!-- TODO Only dynamic tile is supported at the moment -->
+   <!--ws:if data="{{ _options.tileMode === 'static' && _options.listModel.getCount() > 0 }}">
+      <ws:partial
+         template="wml!Controls/_tile/TileView/resources/InvisibleFor"
+         type="leaf"
+         itemTemplate="{{ _itemTemplate }}"
+         listModel="{{ _options.listModel }}" />
+   </ws:if-->
+   <ws:if data="{{ _options.emptyTemplate }}">
+      <ws:partial template="{{ _options.emptyTemplate }}" attr:class="controls-TileView__flex-grow" />
    </ws:if>
+   <ws:if data="{{ _options.footerTemplate }}">
+      <div attr:class="controls-TileView__footer">
+         <ws:partial template="{{ _options.footerTemplate }}"/>
+      </div>
+   </ws:if>
+   <Controls.dropdown:Opener
+      name="menuOpener"
+      keyProperty="id"
+      menuStyle="cross" />
 </div>

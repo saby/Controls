@@ -143,8 +143,6 @@ var _private = {
 };
 
 var Search = Base.extend({
-   _roundBorder: true,
-
    _wasActionUser: false,
 
    _beforeMount(): void {

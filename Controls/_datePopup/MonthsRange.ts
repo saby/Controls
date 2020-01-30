@@ -2,7 +2,8 @@ import Control = require('Core/Control');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import {DateRangeModel, Utils as CalendarControlsUtils} from 'Controls/dateRange';
+import {DateRangeModel} from 'Controls/dateRange';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import dateUtils = require('Controls/Utils/Date');
 import MonthsRangeItem from './MonthsRangeItem';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
@@ -33,7 +34,7 @@ class Component extends Control {
     constructor(options) {
         super();
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
-        CalendarControlsUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
+        proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
     }
 
     _beforeMount(options) {

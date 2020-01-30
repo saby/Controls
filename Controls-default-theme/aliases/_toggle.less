@@ -1,0 +1,312 @@
+//КНОПКИ С ЗАЛИПАНИЕМ
+//Общие стили для кнопок с залипанием
+//Тень залипающей кнопки
+@box-shadow_toggleButton_pushButton:                                        none;
+
+//обводка кнопок с залипанием
+//Цвет обводки неосновной кнопки в зажатом состоянии.
+@secondary_toggled_border-color_toggleButton_button:                        @secondary_color;
+
+//Цвет обводки основной кнопки в зажатом состоянии.
+@primary_toggled_border-color_toggleButton_button:                          @primary_color;
+
+//Толщина обводки основной кнопки в зажатом состоянии.
+@secondary_toggled_border-thickness_toggleButton_button:                    2px;
+
+//Толщина обводки неосновной кнопки в зажатом состоянии.
+@primary_toggled_border-thickness_toggleButton_button:                      2px;
+
+//Цвет обводки кнопки-иконки для тулбара в зажатом состоянии.
+@secondary_toggled_border-color_toggleButton_toolButton:                    @secondary_color;
+
+//Цвет обводки залипающей кнопки в зажатом состоянии.
+@secondary_toggled_border-color_toggleButton_pushButton:                    @secondary_color;
+
+//Цвет обводки залипающей кнопки в зажатом состоянии "только для чтения".
+@readonly_toggled_border-color_toggleButton_pushButton:                     @readonly_color;
+
+//Радиус скругления обводки залипающей кнопки
+@border-radius_toggleButton_pushButton:                                     2px;
+
+//цвет границы неосновной залипающей кнопки.
+@secondary_border-color_toggleButton_pushButton:                            transparent;
+
+//цвет границы неосновной залипающей кнопки в зажатом состоянии "только для чтения".
+@readonly_toggled_border-color_toggleButton_pushButton:                     @secondary_active_background-color_toggleButton_pushButton;
+
+//цвета фона кнопок с залипанием
+//цвет фона неосновной залипающей кнопки.
+@secondary_background-color_toggleButton_pushButton:                        transparent;
+
+//цвет фона неосновной залипающей кнопки при наведении мыши.
+@secondary_hover_background-color_toggleButton_pushButton:                  transparent;
+
+//цвет фона неосновной залипающей кнопки при нажатии на нее.
+@secondary_active_background-color_toggleButton_pushButton:                 transparent;
+
+//цвет фона неосновной залипающей кнопки в состоянии "только для чтения".
+@readonly_background-color_toggleButton_pushButton:                         transparent;
+
+//цвет фона неосновной залипающей кнопки в зажатом состоянии.
+@secondary_toggled_background-color_toggleButton_pushButton:                #F3F3F3;
+
+//цвет фона неосновной залипающей кнопки в зажатом состоянии "только для чтения".
+@readonly_toggled_background-color_toggleButton_pushButton:                 transparent;
+
+//контрастный цвет фона неосновной залипающей кнопки.
+@secondary_contrast_background-color_toggleButton_pushButton:               transparent;
+
+//контрастный цвет фона неосновной кнопки при наведении мыши.
+@secondary_contrast_hover_background-color_toggleButton_pushButton:         #F0F5FB;
+
+//контрастный цвет фона неосновной залипающей кнопки при нажатии на нее.
+@secondary_contrast_active_background-color_toggleButton_pushButton:        transparent;
+
+//контрастный цвет фона неосновной залипающей кнопки в состоянии "только для чтения".
+@readonly_contrast_background-color_toggleButton_pushButton:                transparent;
+
+//контрастный цвет фона неосновной залипающей кнопки в зажатом состоянии.
+@secondary_contrast_toggled_background-color_toggleButton_pushButton:       @secondary_toggled_background-color_toggleButton_pushButton;
+
+//контрастный цвет фона неосновной залипающей кнопки в зажатом состоянии "только для чтения".
+@readonly_contrast_toggled_background-color_toggleButton_pushButton:        transparent;
+
+//ПЕРЕКЛЮЧАТЕЛИ
+//размер шрифта переключателя
+@font-size_switcher:                                                        @font-size_m;
+
+//ширина переключателя
+@width_switcher:                                                            46px;
+
+//высота переключателя
+@height_switcher:                                                           @inline_height_m;
+
+//толщина обводки переключателя
+@border-thickness_switcher:                                                 @border-thickness;
+
+//радиус скругления обводки переключателя
+@border-radius_switcher:                                                    @height_switcher/2;
+
+//толщина линии переключателя
+@track_thickness_switcher:                                                  2px;
+
+//длина линии переключателя
+@track_length_switcher:                                                     34px;
+
+//отступ между переключателем и текстом
+@text_offset_switcher:                                                      6px;
+
+//толщина обводки контейнера маркера переключателя
+@marker-box_border-thickness_switcher:                                      2px;
+
+//размер контейнера для маркера переключателя
+@marker-box_size_switcher:                                                  12px;
+
+//размер маркера переключателя
+@marker-size_switcher:                                                      6px;
+
+//цвет обводки переключателя
+@border-color_switcher:                                                     #E4E4E4;
+
+//цвет линии переключателя
+@track_color_switcher:                                                      #CCC;
+
+//цвет линии переключателя в режиме чтения
+@readonly_track_color_switcher:                                             #E4E4E4;
+
+//освной цвет текста переключателя
+@text-color_switcher:                                                       @text-color;
+
+//цвет текста переключателя в выключенном состоянии
+@unselected_text-color_switcher:                                            @unaccented_text-color;
+
+//основной цвет текста переключателя в режиме чтения
+@readonly_text-color_switcher:                                              @text-color;
+
+//цвет текста переключателя в выключенном состоянии в режиме чтения
+@readonly_unselected_text-color_switcher:                                   @readonly_color;
+
+//цвет маркера переключателя
+@marker_color_switcher:                                                     @marker_color;
+
+//цвет маркера переключателя в режиме чтения
+@readonly_marker_color_switcher:                                            @readonly_marker-color;
+
+//цвет обводки маркера переключателя
+@marker-box_border-color_switcher:                                          #CCC;
+
+//цвет обводки маркера переключателя в режиме чтения
+@readonly_marker-box_border-color_switcher:                                 #E4E4E4;
+
+//цвет обводки маркера переключателя при наведении
+@marker-box_hover_border-color_switcher:                                    @marker_color_switcher;
+
+//БОЛЬШОЙ РАЗДЕЛИТЕЛЬ
+//стили для большого разделителя-переключателя
+//Цвет иконки большого разделителя
+@icon-color_toggleBigSeparator:                                             @unaccented_icon-color;
+
+//Цвет иконки большого разделителя при наведении мыши
+@icon-color_hover_toggleBigSeparator:                                       @link_hover_text-color;
+
+//Цвет иконки большого разделителя при нажатии
+@icon-color_active_toggleBigSeparator:                                      @icon-color_hover_toggleBigSeparator;
+
+//Размер иконки большого разделителя
+@icon-size_toggleBigSeparator:                                              @width_toggleBigSeparator;
+
+//Ширина большого разделителя
+@width_toggleBigSeparator:                                                  26px;
+
+//Высота большого разделителя
+@height_toggleBigSeparator:                                                 @width_toggleBigSeparator;
+
+//МАЛЫЙ РАЗДЕЛИТЕЛЬ
+//Стили для разделителя-переключателя
+//Цвет иконки основного малого разделителя
+@primary_icon-color_toggleSeparator:                                        @primary_text-color;
+
+//Цвет иконки неосновного малого разделителя
+@secondary_icon-color_toggleSeparator:				                        @secondary_color;
+
+//Цвет иконки дополнительного малого разделителя
+@unaccented_icon-color_toggleSeparator:                                     @unaccented_icon-color;
+
+//Цвет иконки основного малого разделителя при наведении мыши
+@primary_hover_icon-color_toggleSeparator:                                  @primary_color;
+
+//Цвет иконки неосновного малого разделителя при наведении мыши
+@secondary_hover_icon-color_toggleSeparator:				                @link_hover_text-color;
+
+//Цвет иконки дополнительного малого разделителя при наведении мыши
+@unaccented_hover_icon-color_toggleSeparator:				                @link_hover_text-color;
+
+//Цвет иконки основного малого разделителя при нажатии
+@primary_active_icon-color_toggleSeparator:				                    @primary_hover_icon-color_toggleSeparator;
+
+//Цвет иконки неосновного малого разделителя при нажатии
+@secondary_active_icon-color_toggleSeparator:				                @secondary_hover_icon-color_toggleSeparator;
+
+//Цвет иконки дополнительного малого разделителя при нажатии
+@unaccented_active_icon-color_toggleSeparator:	                            @unaccented_hover_icon-color_toggleSeparator;
+
+//Размер иконки малого разделителя
+@icon-size_toggleSeparator:                                                 @icon-size_s;
+
+//Высота иконки малого разделителя
+@height_toggleSeparator:                                                    @inline_height_default;
+
+//Ширина иконки малого разделителя
+@width_toggleSeparator:                                                     @height_toggleSeparator;
+//ФЛАГ
+//размер шрифта флага
+@font-size_checkbox:                                                        @font-size_m;
+
+//высота флага
+@height_checkbox:                                                           @inline_height_m;
+
+//ширина кликабельной области флага
+@click-area_width_checkbox:                                                 20px;
+
+//цвет обводки маркера
+@marker-box_border-color_checkbox:                                          #CCCCCC;
+
+//цвет обводки маркера в режиме чтения
+@readonly_marker-box_border-color_checkbox:                                 #E4E4E4;
+
+//толщина обводки маркера
+@marker-box_border-thickness_checkbox:                                      @border-thickness;
+
+//размер обводки маркера
+@marker-box_size_checkbox:                                                  12px;
+
+//цвет текста флага
+@text-color_checkbox:                                                       @text-color;
+
+//цвет текста флага в режиме чтения
+@readonly_text-color_checkbox:                                              @readonly_color;
+
+//вертикальный отступ от текста
+@padding-vertical_checkbox:                                                 3px;
+
+//высота текста у флага
+@text_line-height_checkbox:                                                 18px;
+
+//размер контейнера с иконкой
+@true_marker_size_checkbox:                                                 18px;
+
+//левый отступ от контейнера флага до контейнера с иконкой
+@true_marker_padding-left_checkbox:                                         3px;
+
+//нижний отступ от контейнера флага до контейнера с иконкой
+@true_marker_padding-top_checkbox:                                          0;
+
+//размер иконки флага в третьем состоянии
+@tristate_marker_size_checkbox:                                             6px;
+
+//цвет маркера флага
+@marker_color_checkbox:                                                     @marker_color;
+
+//цвет маркера флага в режиме чтения
+@readonly_marker_color_checkbox:                                            @readonly_marker-color;
+
+//отступ между флагами в группе
+@item_offset_checkbox-group:                                                8px;
+
+//правый отступ между флагами в группе
+@item_offset_right_checkbox-group:                                          12px;
+
+//отступ между флагами с наследованием в группе
+@hierarchy_padding-left_checkbox-group:                                     24px;
+
+//RADIOGROUP - группа переключателей
+//отступ между вертикальными переключателями
+@item_offset-vertical_radioGroup:                                           8px;
+
+//отступ между горизонтальными переключателями
+@item_offset-horizontal_radioGroup:                                         12px;
+
+//высота блока переключателя
+@item_height_radioGroup:                                                    @inline_height_m;
+
+//оступ между переключателем и текстом
+@text_offset_radioGroup:                                                    @text_offset_switcher;
+
+//размер шрифта переключателя
+@font-size_radioGroup:                                                      @font-size_switcher;
+
+//цвет текста переключателя
+@text-color_radioGroup:                                                     @text-color_switcher;
+
+//цвет текста переключателя в режиме чтения
+@readonly_text-color_radioGroup:                                            @readonly_text-color_switcher;
+
+//цвет текста не выбранного переключателя
+@unselected_text-color_radioGroup:                                          @unselected_text-color_switcher;
+
+//цвет текста не выбранного переключателя в режиме чтения
+@readonly_unselected_text-color_radioGroup:                                 @readonly_unselected_text-color_switcher;
+
+//цвет маркера переключателя
+@marker_color_radioGroup:                                                   @marker_color_switcher;
+
+//цвет маркера переключателя в режиме чтения
+@readonly_marker_color_radioGroup:                                          @readonly_marker_color_switcher;
+
+//размер маркера переключателя в режиме чтения
+@marker-size_radioGroup:                                                    @marker-size_switcher;
+
+//толщина обводки маркера переключателя
+@marker-box_border-thickness_radioGroup:                                    @marker-box_border-thickness_switcher;
+
+//цвет обводки маркера пееключателя
+@marker-box_border-color_radioGroup:                                        @marker-box_border-color_switcher;
+
+//цвет обводки маркера переключателя в режиме чтения
+@readonly_marker-box_border-color_radioGroup:                               @readonly_marker-box_border-color_switcher;
+
+//цвет обводки маркера при наведении
+@marker-box_hover_border-color_radioGroup:                                  @marker-box_hover_border-color_switcher;
+
+//размер контейнера маркера переключателя
+@marker-box_size_radioGroup:                                                @marker-box_size_switcher;

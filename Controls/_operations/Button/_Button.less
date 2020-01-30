@@ -6,17 +6,17 @@
    cursor: pointer;
 }
 .controls-OperationsButton_theme-@{themeName} {
-   color: @color_OperationsButton-icon;
-   width: @width_OperationsButton;
-   height: @height_OperationsButton;
-   font-size: @font-size_OperationsButton-icon;
-   font-family: @font-family_OperationsButton-icon;
+   color: @icon-color_operationsButton;
+   width: @width_operationsButton;
+   height: @height_operationsButton;
+   font-size: @icon-size_operationsButton;
+   font-family: @icon_font-family_l;
 }
 .controls-OperationsButton_state_disabled_theme-@{themeName} {
-   color: @color_OperationsButton-icon_readOnly;
+   color: @readonly_icon-color_operationsButton;
 }
 .controls-OperationsButton_state_enabled_theme-@{themeName}:active {
-   color: @color_OperationsButton-icon_active;
+   color: @icon-color_active_operationsButton;
 }
 
 .controls-OperationsButton::after {
@@ -27,13 +27,13 @@
    top: 0;
 }
 .controls-OperationsButton_theme-@{themeName}::after {
-   background: @color_OperationsButton-separator;
-   width: @thickness_OperationsButton-separator;
-   height: @height_OperationsButton-separator;
+   background: @separator_color_operationsButton;
+   width: @separator_thickness_operationsButton;
+   height: @separator_length_operationsButton;
 }
 
 .ws-is-hover {
    .controls-OperationsButton_state_enabled_theme-@{themeName}:hover {
-      color: @color_OperationsButton-icon_hovered;
+      color: @icon-color_hover_operationsButton;
    }
 }

@@ -1,0 +1,6 @@
+<ws:if data="{{ useNewModel }}">
+    <ws:partial template="{{ 'Controls/listRender:moneyEditingTemplate' }}" scope="{{ _options }}" />
+</ws:if>
+<ws:else>
+    <ws:partial template="wml!Controls/_list/EditInPlace/decorated/Money" scope="{{ _options }}" />
+</ws:else>

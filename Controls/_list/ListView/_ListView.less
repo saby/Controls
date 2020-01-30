@@ -62,71 +62,88 @@
   padding-bottom: @spacing_ListView-item-between-content-borderBottom;
 }
 
-.controls-ListView__itemContent_withCheckboxes {
+.controls-ListView__itemContent_withCheckboxes,
+.controls-ListView__groupContent__leftPadding_withCheckboxes {
    padding-left: @spacing_ListView-between-content-checkbox + @click-area_width_checkbox;
 }
 
-.controls-ListView__item-leftPadding_default {
+.controls-ListView__item-leftPadding_default,
+.controls-ListView__groupContent__leftPadding_default {
    padding-left: @spacing_ListView-item-between-content-borderLeft_l;
 }
 
-.controls-ListView__item-leftPadding_null {
+.controls-ListView__item-leftPadding_null,
+.controls-ListView__groupContent__leftPadding_null {
    padding-left: 0;
 }
 
-.controls-ListView__item-leftPadding_xs {
+.controls-ListView__item-leftPadding_xs,
+.controls-ListView__groupContent__leftPadding_xs {
    padding-left: @spacing_ListView-item-between-content-borderLeft_xs;
 }
 
-.controls-ListView__item-leftPadding_s {
+.controls-ListView__item-leftPadding_s,
+.controls-ListView__groupContent__leftPadding_s {
    padding-left: @spacing_ListView-item-between-content-borderLeft_s;
 }
 
-.controls-ListView__item-leftPadding_m {
+.controls-ListView__item-leftPadding_m,
+.controls-ListView__groupContent__leftPadding_m {
    padding-left: @spacing_ListView-item-between-content-borderLeft_m;
 }
 
-.controls-ListView__item-leftPadding_l {
+.controls-ListView__item-leftPadding_l,
+.controls-ListView__groupContent__leftPadding_l {
    padding-left: @spacing_ListView-item-between-content-borderLeft_l;
 }
 
-.controls-ListView__item-leftPadding_xl {
+.controls-ListView__item-leftPadding_xl,
+.controls-ListView__groupContent__leftPadding_xl {
    padding-left: @spacing_ListView-item-between-content-borderLeft_xl;
 }
 
-.controls-ListView__item-leftPadding_xxl {
+.controls-ListView__item-leftPadding_xxl,
+.controls-ListView__groupContent__leftPadding_xxl {
    padding-left: @spacing_ListView-item-between-content-borderLeft_xxl;
 }
 
-.controls-ListView__item-rightPadding_default {
+.controls-ListView__item-rightPadding_default,
+.controls-ListView__groupContent__rightPadding_default {
    padding-right: @spacing_ListView-item-between-content-borderRight_l;
 }
 
-.controls-ListView__item-rightPadding_null {
+.controls-ListView__item-rightPadding_null,
+.controls-ListView__groupContent__rightPadding_null {
    padding-right: 0;
 }
 
-.controls-ListView__item-rightPadding_xs {
+.controls-ListView__item-rightPadding_xs,
+.controls-ListView__groupContent__rightPadding_xs {
    padding-right: @spacing_ListView-item-between-content-borderRight_xs;
 }
 
-.controls-ListView__item-rightPadding_s {
+.controls-ListView__item-rightPadding_s,
+.controls-ListView__groupContent__rightPadding_s {
    padding-right: @spacing_ListView-item-between-content-borderRight_s;
 }
 
-.controls-ListView__item-rightPadding_m {
+.controls-ListView__item-rightPadding_m,
+.controls-ListView__groupContent__rightPadding_m {
    padding-right: @spacing_ListView-item-between-content-borderRight_m;
 }
 
-.controls-ListView__item-rightPadding_l {
+.controls-ListView__item-rightPadding_l,
+.controls-ListView__groupContent__rightPadding_l {
    padding-right: @spacing_ListView-item-between-content-borderRight_l;
 }
 
-.controls-ListView__item-rightPadding_xl {
+.controls-ListView__item-rightPadding_xl,
+.controls-ListView__groupContent__rightPadding_xl {
    padding-right: @spacing_ListView-item-between-content-borderRight_xl;
 }
 
-.controls-ListView__item-rightPadding_xxl {
+.controls-ListView__item-rightPadding_xxl,
+.controls-ListView__groupContent__rightPadding_xxl {
    padding-right: @spacing_ListView-item-between-content-borderRight_xxl;
 }
 
@@ -195,10 +212,16 @@
    font-size: @font-size_ListView-groupExpander;
 }
 
+.controls-ListView__groupSeparator-left {
+   margin-right: @spacing_ListView-group-between-text-separator;
+}
+
+.controls-ListView__groupSeparator-right {
+   margin-left: @spacing_ListView-group-between-text-separator;
+}
+
 .controls-ListView__groupContent-text {
    display: inline-block;
-   padding-left: @spacing_ListView-group-between-text-separator;
-   padding-right: @spacing_ListView-group-between-text-separator;
    color: @color_ListView-group-text;
    font-size: @font-size_ListView-group-text;
    white-space: nowrap;

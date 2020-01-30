@@ -17,13 +17,13 @@ define([
 
    describe('Controls/_dateRange/Input', function() {
 
-      describe('_openDialog', function() {
+      describe('openPopup', function() {
          it('should open opener with default options', function() {
             const component = calendarTestUtils.createComponent(dateRange.Input, options);
             component._children.opener = {
                open: sinon.fake()
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
          });
 
@@ -38,7 +38,7 @@ define([
             component._children.opener = {
                open: sinon.fake()
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-PeriodDialog__picker',

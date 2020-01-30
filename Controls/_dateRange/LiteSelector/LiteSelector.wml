@@ -5,7 +5,7 @@
       startValue="{{_rangeModel.startValue}}"
       endValue="{{_rangeModel.endValue}}"
       on:rangeChanged="_rangeChangedHandler()"
-      on:linkClick="_openDialog()"
+      on:linkClick="openPopup()"
       attr:class="controls-DateRangeSelectorLite__view {{_isMinWidth ? 'controls-DateRangeSelectorLite__view_minWidth'}}"
    />
 

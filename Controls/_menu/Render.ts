@@ -1,24 +1,24 @@
-import tmplNotify = require('Controls/Utils/tmplNotify');
-import {IRenderOptions} from 'Controls/listRender';
 import {Control, TemplateFunction} from 'UI/Base';
-import {IMenuOptions} from 'Controls/interface';
-import {RecordSet} from 'Types/collection';
+import {IRenderOptions} from 'Controls/listRender';
+import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Tree, TreeItem} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory} from 'Types/chain';
+import {ActualApi} from 'Controls/buttons';
 
 interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
 }
 
 class MenuRender extends Control<IMenuRenderOptions> {
     protected _template: TemplateFunction = ViewTemplate;
-    protected _proxyEvent: Function = tmplNotify;
+    protected _iconSpacing: string;
 
-    protected _beforeMount(options: IMenuRenderOptions, context: object, receivedState: RecordSet): void {
+    protected _beforeMount(options: IMenuRenderOptions): void {
         this.setListModelOptions(options);
+        this._iconSpacing = this.getIconSpacing(options);
     }
 
     protected _beforeUpdate(newOptions: IMenuRenderOptions): void {
@@ -27,11 +27,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem): void {
-        this._notify('itemMouseEnter', [item, event.target]);
-    }
-
-    protected _isEmptyItem(itemData) {
+    protected _isEmptyItem(itemData): boolean {
         return this._options.emptyText && itemData.getContents().getId() === this._options.emptyKey;
     }
 
@@ -46,6 +42,11 @@ class MenuRender extends Control<IMenuRenderOptions> {
             classes += ' controls-Menu__row_pinned';
         }
         return classes;
+    }
+
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        this._notify(eventName, [item, sourceEvent]);
     }
 
     private setListModelOptions(options: IMenuRenderOptions) {
@@ -82,8 +83,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
     private getRightSpacing(options: IMenuRenderOptions): string {
         let rightSpacing = 'l';
         if (!options.rightSpacing) {
-            factory(options.listModel.getItems()).each((item) => {
-                if (item.getContents().get(options.nodeProperty)) {
+            factory(options.listModel.getCollection()).each((item) => {
+                if (item.get(options.nodeProperty)) {
                     rightSpacing = 'menu-expander';
                 }
             });
@@ -93,7 +94,21 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return rightSpacing;
     }
 
-    static _theme: string[] = ['Controls/menu'];
+    private getIconSpacing(options: IMenuRenderOptions): string {
+        const items = options.listModel.getCollection();
+        const parentProperty = options.parentProperty;
+        let iconSpacing = '', icon;
+
+        factory(items).each((item) => {
+            icon = item.get('icon');
+            if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
+                iconSpacing = ActualApi.iconSize(options.iconSize, icon);
+            }
+        });
+        return iconSpacing;
+    }
+
+    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

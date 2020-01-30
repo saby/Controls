@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+   <Controls.grid:View
+      keyProperty="id"
+      source="{{_viewSource}}"
+      columns="{{_columns}}"
+      resultsPosition="bottom"
+      resultsVisibility="visible"/>
+</div>

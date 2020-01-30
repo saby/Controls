@@ -5,7 +5,7 @@
          scope="{{_options}}"
          startValue="{{_options.value}}"
          endValue="{{_options.value}}"
-         on:linkClick="_openDialog()"
+         on:linkClick="openPopup()"
          on:rangeChanged="_rangeChangedHandler()"
          attr:class="controls-DateLink__view"
       />

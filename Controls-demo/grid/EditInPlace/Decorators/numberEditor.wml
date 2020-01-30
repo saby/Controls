@@ -1,0 +1,12 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:NumberEditingTemplate"
+                    value="{{ itemData.item['documentSign'] }}"
+                    itemData="{{itemData}}"
+                    enabled="{{true}}">
+            <ws:editorTemplate>
+                <Controls.input:Number bind:value="itemData.item['documentSign']" selectOnClick="{{ false }}" />
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>
