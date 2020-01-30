@@ -8,6 +8,7 @@
            on:listExcludedKeysChanged="_notifyHandler('excludedKeysChanged')"
            on:listSelectedKeysCountChanged="_selectedKeysCountChanged()"
            selectedKeysCount="{{ _selectedKeysCount }}"
+           isAllSelected="{{ _isAllSelected }}"
            listMarkedKey="{{_listMarkedKey}}"
            on:selectedTypeChanged="_selectedTypeChangedHandler()"
            on:listMarkedKeyChanged="_listMarkedKeyChangedHandler()"

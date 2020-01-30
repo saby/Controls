@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__flexRow">
+      <div class="controlsDemo__cell controlsDemo__mr4">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/OperationsPanelNew/PanelWithList/Default/Index' }}">
+            <a href="{{content.href}}">Панель со списком</a>
+         </Router.router:Reference>
+         <Controls-demo.OperationsPanelNew.PanelWithList.Default.Index/>
+      </div>
+
+      <div class="controlsDemo__cell controlsDemo__mr4">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/OperationsPanelNew/PanelWithList/EmptyList/Index' }}">
+            <a href="{{content.href}}">Панель с пустым списком</a>
+         </Router.router:Reference>
+         <Controls-demo.OperationsPanelNew.PanelWithList.EmptyList.Index/>
+      </div>
+   </div>
+</div>

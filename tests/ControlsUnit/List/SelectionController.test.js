@@ -98,7 +98,7 @@ define([
             instance._beforeUpdate(newCfg);
             assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
             assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2, false], { bubbling: true }).calledOnce);
 
             // Выбрать все и все записи в исключениях, проверим что selectedKeys сбросится
             newCfg.selectedKeys = [null];
@@ -108,7 +108,7 @@ define([
             assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
             assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
             assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[], [], [null]]).calledOnce);
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0, false], { bubbling: true }).calledOnce);
          });
 
          it('change list model', async function() {
@@ -176,7 +176,7 @@ define([
             assert.isTrue(selectCalled);
             assert.isFalse(unselectCalled);
             assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [5], { bubbling: true }).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [5, false], { bubbling: true }).calledOnce);
          });
 
          it('unselect item', async function() {
@@ -190,7 +190,7 @@ define([
             assert.isFalse(selectCalled);
             assert.isTrue(unselectCalled);
             assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[], [], [1]]).calledOnce);
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0, false], { bubbling: true }).calledOnce);
          });
 
          it('unselect nested item when parent is selected', async function() {
@@ -204,7 +204,7 @@ define([
             assert.isFalse(selectCalled);
             assert.isTrue(unselectCalled);
             assert.isTrue(stubNotify.withArgs('excludedKeysChanged', [[2], [2], []]).calledOnce);
-            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2], { bubbling: true }).calledOnce);
+            assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [2, false], { bubbling: true }).calledOnce);
          });
       });
 
@@ -273,7 +273,7 @@ define([
          instance._options.listModel.updateSelection = sandbox.stub();
          instance._onCollectionChangeHandler();
          assert.isTrue(instance._options.listModel.updateSelection.withArgs({}).calledOnce);
-         assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).called);
+         assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0, false], { bubbling: true }).called);
       });
    });
 });
