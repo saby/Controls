@@ -39,9 +39,9 @@ const correctTopLevelDomainNames = [
 const protocolLinkPrefixPattern = `(?:${protocolNames.join('|')})`.replace(/[a-z]/g, (m) => `[${m + m.toUpperCase()}]`);
 const simpleLinkPrefixPattern = '([\\w\\-]+(?:\\.[a-zA-Z]+)*\\.([a-zA-Z]+)(?::[0-9]+)?)';
 const linkPrefixPattern = `(?:${protocolLinkPrefixPattern}|${simpleLinkPrefixPattern})`;
-const linkPattern = `(${linkPrefixPattern}(?:[^\\s()]*))`;
+const linkPattern = `(${linkPrefixPattern}(?:[^\\s()\\uD800-\\uDFFF]*))`;
 const emailPattern = '([\\wа-яёА-ЯЁ!#$%&\'*+\\-/=?^`{|}~.]+@[^\\s@()]+\\.([\\wа-яёА-ЯЁ]+))';
-const endingPattern = '([^.,:\\s()])';
+const endingPattern = '([^.,:\\s()\\uD800-\\uDFFF])';
 const characterRegExp = /[\wа-яёА-ЯЁ]/;
 const linkParseRegExp = new RegExp(`(?:(?:${emailPattern}|${linkPattern})${endingPattern})|(.|\\s)`, 'g');
 
@@ -101,7 +101,6 @@ function createLinkNode(href: string, text: string = href, isEmail: boolean = fa
         href: isEmail ? 'mailto:' + href : href
     };
     if (!isEmail) {
-        attributes.class = 'asLink';
         attributes.target = '_blank';
         attributes.rel = 'noreferrer noopener';
     }
@@ -224,7 +223,7 @@ export function getUndecoratedLink(linkNode) {
    const newLinkAttributes = objectMerge({}, linkAttributes, { clone: true });
 
    // Save all link attributes, replace only special class name on usual.
-   newLinkAttributes.class = linkAttributes.class.replace(getClasses().link, 'asLink');
+   newLinkAttributes.class = linkAttributes.class.replace(getClasses().link, '');
    return ['a', newLinkAttributes, newLinkAttributes.href];
 }
 
@@ -343,7 +342,7 @@ export function getDecoratedLink(jsonNode): any[]|string {
    const newLinkAttributes = objectMerge({}, linkAttributes, { clone: true });
    const decoratedLinkClasses = getClasses();
 
-   newLinkAttributes.class = ((newLinkAttributes.class ? newLinkAttributes.class.replace('asLink', '') + ' ' : '') +
+   newLinkAttributes.class = (newLinkAttributes.class ? newLinkAttributes.class + ' ' : '' +
       decoratedLinkClasses.link).trim();
    newLinkAttributes.target = '_blank';
 
