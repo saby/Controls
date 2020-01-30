@@ -1,8 +1,8 @@
 /// <amd-module name="Controls/_dataSource/_error/Handler" />
-import Mode from 'Controls/_dataSource/_error/Mode';
+import Mode from './Mode';
 import {
     ViewConfig as ParkingViewConfig
-} from 'Controls/_dataSource/_parking/Handler';
+} from '../_parking/Handler';
 import { IVersionable } from 'Types/entity';
 
 /**
@@ -13,7 +13,7 @@ import { IVersionable } from 'Types/entity';
  * @public
  * @author Санников К.А.
  */
-export interface ViewConfig<TOptions = object> extends ParkingViewConfig<TOptions>, IVersionable {
+export interface ViewConfig<TOptions = object> extends ParkingViewConfig<TOptions>, Partial<IVersionable> {
     /**
      * @name Controls/_dataSource/_error/ViewConfig#mode
      * @cfg {Controls/_dataSource/_error/Mode} [mode]

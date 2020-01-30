@@ -20,13 +20,13 @@ export {
     Handler,
     ViewConfig,
     HandlerConfig
-} from 'Controls/_dataSource/_error/Handler';
-export { default as Controller, Config } from 'Controls/_dataSource/_error/Controller';
-export { default as Mode } from 'Controls/_dataSource/_error/Mode';
-export { default as Container } from 'Controls/_dataSource/_error/Container';
-export { default as DataLoader } from 'Controls/_dataSource/_error/DataLoader';
+} from './_error/Handler';
+export { default as Controller, Config } from './_error/Controller';
+export { default as Mode } from './_error/Mode';
+export { default as Container } from './_error/Container';
+export { default as DataLoader } from './_error/DataLoader';
 export {
     default as IContainer,
     IContainerConfig,
     IContainerConstructor
-} from 'Controls/_dataSource/_error/IContainer';
+} from './_error/IContainer';

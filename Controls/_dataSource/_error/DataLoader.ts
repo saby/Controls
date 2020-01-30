@@ -6,7 +6,7 @@ import requestDataUtil, {ISourceConfig, IRequestDataResult} from 'Controls/_data
 import {PrefetchProxy} from 'Types/source';
 import {ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/_error/Handler';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
-import {fetch} from 'Browser/Transport';
+import {fetch, HTTPStatus } from 'Browser/Transport';
 
 interface IErrorContainerReceivedState {
    sources?: ISourceConfig[];
@@ -20,8 +20,6 @@ interface IErrorContainerOptions extends IControlOptions {
    errorController: Controller;
 }
 
-const ERROR_ON_TIMEOUT = 504;
-
 /**
  * Контрол, позволяющий обработать загрузку из нескольких источников данных. В случае возникновения проблем получения
  * данных, будет выведена соответствующая ошибка.
@@ -33,10 +31,10 @@ const ERROR_ON_TIMEOUT = 504;
  * @author Сухоручкин А.С
  */
 
-export default class DataLoader extends Control<IErrorContainerOptions> {
+export default class DataLoader extends Control<IErrorContainerOptions, IErrorContainerReceivedState> {
    protected _template: TemplateFunction = template;
-   private _sources: ISourceConfig[];
-   private _errorViewConfig: ErrorViewConfig;
+   protected _sources: ISourceConfig[];
+   protected _errorViewConfig: ErrorViewConfig;
    private _errorController: Controller = new Controller({});
 
    protected _beforeMount({sources, errorHandlingEnabled, requestTimeout}: IErrorContainerOptions,
@@ -64,9 +62,9 @@ export default class DataLoader extends Control<IErrorContainerOptions> {
       }
    }
 
-   private _getErrorViewConfig(error: Error): Promise<ErrorViewConfig> {
+   private _getErrorViewConfig(error: Error): Promise<ErrorViewConfig | void> {
       return this._getErrorController().process({
-         error: error,
+         error,
          mode: Mode.include
       });
    }
@@ -75,28 +73,30 @@ export default class DataLoader extends Control<IErrorContainerOptions> {
       return this._options.errorController || this._errorController;
    }
 
-   static load(sources: Array<ISourceConfig>,
+   static load(sources: ISourceConfig[],
                loadDataTimeout?: number,
                sourcesPromises?: Array<Promise<IRequestDataResult>>): Promise<{
-      sources: Array<ISourceConfig>,
-      errors: Array<Error>
+      sources: ISourceConfig[],
+      errors: Error[]
    }> {
-      const sourcesResult: Array<ISourceConfig> = [];
-      const errorsResult: Array<Error> = [];
+      const sourcesResult: ISourceConfig[] = [];
+      const errorsResult: Error[] = [];
 
       const waitSources = sources.map((sourceConfig: ISourceConfig, sourceIndex: number) => {
-         let sourcePromise = sourcesPromises ? sourcesPromises[sourceIndex] : requestDataUtil(sourceConfig);
+         const sourcePromise = sourcesPromises ? sourcesPromises[sourceIndex] : requestDataUtil(sourceConfig);
 
          return wrapTimeout(sourcePromise, loadDataTimeout).catch((err) => {
             // Если данные не получены за отведенное время, сами сгенерируем 504 ошибку
-            err = err instanceof Error ? err : new fetch.Errors.HTTP({
-               httpError: ERROR_ON_TIMEOUT
+            const data = err instanceof Error ? err : new fetch.Errors.HTTP({
+               httpError: HTTPStatus.GatewayTimeout,
+               message: undefined,
+               url: undefined
             });
 
             errorsResult.push(err);
 
             return {
-               data: err
+               data
             };
          }).then((loadDataResult: IRequestDataResult) => {
             sourcesResult[sourceIndex] = DataLoader._createSourceConfig(sourceConfig, loadDataResult);
@@ -168,4 +168,3 @@ export default class DataLoader extends Control<IErrorContainerOptions> {
  * ответа прекратится.
  * @default 5000
  */
-
