@@ -13,6 +13,12 @@
    display: inline-flex;
 }
 
+// Для того, чтобы кнопка выравнивалась в IE.
+.ws-is-ie10 .controls-Input-DateRange__buttonWrapper,
+.ws-is-ie11 .controls-Input-DateRange__buttonWrapper {
+   font-size: 0;
+}
+
 .controls-Input-DateRange__buttonBaseLine::before {
    content: "\200b";
 }
