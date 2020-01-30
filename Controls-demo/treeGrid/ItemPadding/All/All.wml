@@ -11,7 +11,7 @@
                 nodeProperty="type"/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ItemPaddingAll__vertical">
         <div class="controls-text-label_theme-{{_options.theme}}">Вертикальные отступы</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ItemPaddingAll__horizontal">
         <div class="controls-text-label_theme-{{_options.theme}}">Горизонтальные отступы</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
