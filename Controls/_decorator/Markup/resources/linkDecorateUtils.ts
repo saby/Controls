@@ -39,9 +39,9 @@ const correctTopLevelDomainNames = [
 const protocolLinkPrefixPattern = `(?:${protocolNames.join('|')})`.replace(/[a-z]/g, (m) => `[${m + m.toUpperCase()}]`);
 const simpleLinkPrefixPattern = '([\\w\\-]+(?:\\.[a-zA-Z]+)*\\.([a-zA-Z]+)(?::[0-9]+)?)';
 const linkPrefixPattern = `(?:${protocolLinkPrefixPattern}|${simpleLinkPrefixPattern})`;
-const linkPattern = `(${linkPrefixPattern}(?:[^\\s()]*))`;
+const linkPattern = `(${linkPrefixPattern}(?:[^\\s()\\uD800-\\uDFFF]*))`;
 const emailPattern = '([\\wа-яёА-ЯЁ!#$%&\'*+\\-/=?^`{|}~.]+@[^\\s@()]+\\.([\\wа-яёА-ЯЁ]+))';
-const endingPattern = '([^.,:\\s()])';
+const endingPattern = '([^.,:\\s()\\uD800-\\uDFFF])';
 const characterRegExp = /[\wа-яёА-ЯЁ]/;
 const linkParseRegExp = new RegExp(`(?:(?:${emailPattern}|${linkPattern})${endingPattern})|(.|\\s)`, 'g');
 
