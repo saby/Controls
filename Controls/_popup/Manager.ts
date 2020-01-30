@@ -275,6 +275,7 @@ class Manager extends Control<IManagerOptions> {
             this._updateOverlay();
             this._redrawItems();
             this._notify('managerPopupDestroyed', [item, this._popupItems], {bubbling: true});
+            EventBus.channel('popupManager').notify('managerPopupDestroyed', item, this._popupItems);
         });
     }
 
@@ -308,6 +309,7 @@ class Manager extends Control<IManagerOptions> {
         if (item) {
             if (!item.popupOptions.isCompoundTemplate) {
                 this._notify('managerPopupCreated', [item, this._popupItems], {bubbling: true});
+                EventBus.channel('popupManager').notify('managerPopupCreated', item, this._popupItems);
             }
         }
     }
