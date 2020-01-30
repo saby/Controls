@@ -21,45 +21,120 @@ define([
          eventQueue = [];
       });
 
-      it('_updateSelection', function() {
-         var instance = new MultiSelector.default();
-         var
-            selectedKeys = [null],
-            excludedKeys = [],
+      describe('_updateSelection', function() {
+         var selectedKeys, excludedKeys, selectedKeysCount, instance;
+
+         it('selectedKeys is [null]]', async() => {
+            instance = new MultiSelector.default();
+            selectedKeys = [null];
+            excludedKeys = [];
             selectedKeysCount = 0;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отмечено всё');
+         });
 
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отмечено всё');
+         it('selectedKeys is []', async() => {
+            instance = new MultiSelector.default();
+            selectedKeys = [];
+            excludedKeys = [];
+            selectedKeysCount = 0;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отметить');
+         });
 
-         selectedKeys = [];
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отметить');
+         it('selectedKeys is [null]]', async() => {
+            instance = new MultiSelector.default();
+            selectedKeys = [null];
+            excludedKeys = [];
+            selectedKeysCount = 0;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отмечено всё');
+         });
 
-         selectedKeys = [1, 2];
-         selectedKeysCount = 2;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отмечено: 2');
+         it('selectedKeys is [1, 2], selectedKeysCount is 2', async() => {
+            instance = new MultiSelector.default();
+            excludedKeys = [];
+            selectedKeys = [1, 2];
+            selectedKeysCount = 2;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отмечено: 2');
+         });
 
-         selectedKeysCount = undefined;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отмечено: 2');
+         it('selectedKeys is [1, 2], selectedKeysCount is undefined', async() => {
+            instance = new MultiSelector.default();
+            excludedKeys = [];
+            selectedKeys = [1, 2];
+            selectedKeysCount = undefined;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отмечено: 2');
+         });
 
-         selectedKeys = [null];
-         excludedKeys = [1, 2, 3];
-         selectedKeysCount = 1;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отмечено: 1');
+         it('selectedKeys is [null], excludedeKeys is [1,2,3] selectedKeysCount is 1', async() => {
+            instance = new MultiSelector.default();
+            selectedKeys = [null];
+            excludedKeys = [1, 2, 3];
+            selectedKeysCount = 1;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отмечено: 1');
+         });
 
-         excludedKeys = [1, 2, 3, 4];
-         selectedKeysCount = 0;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отметить');
+         it('selectedKeys is [null], excludedeKeys is [1,2,3] selectedKeysCount is 1', async() => {
+            instance = new MultiSelector.default();
+            selectedKeys = [null];
+            excludedKeys = [1, 2, 3, 4];
+            selectedKeysCount = 0;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отметить');
+         });
 
-         excludedKeys = [];
-         selectedKeys = [];
-         selectedKeysCount = 1;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
-         assert.equal(instance._menuCaption, 'Отметить');
+         it('selectedKeys is [null], excludedeKeys is [1,2,3] selectedKeysCount is 1', async() => {
+            instance = new MultiSelector.default();
+            excludedKeys = [];
+            selectedKeys = [];
+            selectedKeysCount = 1;
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               root: null
+            });
+            assert.equal(instance._menuCaption, 'Отметить');
+         });
       });
       it('_getMenuSource', function() {
          let instance = new MultiSelector.default();
@@ -93,7 +168,7 @@ define([
          idItemMenu = 'showSelected';
          instance._onMenuItemActivate({}, recordMenu);
       });
-      it('_beforeMount', function() {
+      it('_beforeMount', async() => {
          var instance = new MultiSelector.default();
          var newOptions = {
             selectedKeys: [null],
@@ -101,18 +176,20 @@ define([
             selectedKeysCount: 0,
             root: null
          };
-         instance._beforeMount(newOptions);
+         await instance._beforeMount(newOptions);
          assert.equal(instance._menuSource._$data.length, 3);
          assert.equal(instance._menuCaption, 'Отмечено всё');
          newOptions.selectedKeys = [];
-         instance._beforeMount(newOptions);
+
+         await instance._beforeMount(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
          newOptions.selectedKeys = [1, 2];
          newOptions.selectedKeysCount = 2;
-         instance._beforeMount(newOptions);
+
+         await instance._beforeMount(newOptions);
          assert.equal(instance._menuCaption, 'Отмечено: 2');
       });
-      it('_beforeUpdate', function() {
+      it('_beforeUpdate', async() => {
          let instance = new MultiSelector.default();
          let newOptions = {
             selectedKeys: [null],
@@ -123,19 +200,19 @@ define([
          let isUpdateMenu = false;
 
          instance._getMenuSource = () =>  isUpdateMenu = true;
-         instance._beforeUpdate(newOptions);
+         await instance._beforeUpdate(newOptions);
          assert.equal(instance._menuCaption, 'Отмечено всё');
          assert.isTrue(isUpdateMenu);
 
          isUpdateMenu = false;
          newOptions.selectedKeys = [];
-         instance._beforeUpdate(newOptions);
+         await instance._beforeUpdate(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
          assert.isTrue(isUpdateMenu);
 
          newOptions.selectedKeys = [1, 2];
          newOptions.selectedKeysCount = 2;
-         instance._beforeUpdate(newOptions);
+         await instance._beforeUpdate(newOptions);
          assert.equal(instance._menuCaption, 'Отмечено: 2');
 
          isUpdateMenu = false;

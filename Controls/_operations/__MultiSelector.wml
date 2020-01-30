@@ -1,9 +1,20 @@
-<Controls.dropdown:Button name="myMenuButton2"
-                          keyProperty="id"
-                          viewMode="link"
-                          style="secondary"
-                          caption="{{_menuCaption}}"
-                          size="{{_options.size}}"
-                          fontSize="{{_options.fontSize}}"
-                          on:onMenuItemActivate="_onMenuItemActivate()"
-                          source="{{_menuSource}}"/>
+<div>
+    <Controls.dropdown:Button name="myMenuButton2"
+                              keyProperty="id"
+                              viewMode="link"
+                              style="secondary"
+                              caption="{{_menuCaption}}"
+                              size="{{_options.size}}"
+                              fontSize="{{_options.fontSize}}"
+                              on:onMenuItemActivate="_onMenuItemActivate()"
+                              source="{{_menuSource}}"/>
+    <Controls.LoadingIndicator
+            name="countIndicator"
+            isGlobal="{{false}}"
+            delay="{{0}}"
+            small="{{true}}"
+            overlay="none"
+            attr:class="ws-inline-flexbox">
+        <div></div>
+    </Controls.LoadingIndicator>
+</div>

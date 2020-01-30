@@ -1,0 +1,19 @@
+<Controls.list:DataContainer source="{{_viewSource}}" filter="{{_filter}}">
+    <Controls.operations:Controller
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys">
+        <div>
+            <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}"/>
+            <Controls.operations:Container>
+                <Controls.list:Container>
+                    <Controls.treeGrid:View
+                            keyProperty="id"
+                            columns="{{_gridColumns}}"
+                            parentProperty="parent"
+                            nodeProperty="type"
+                            multiSelectVisibility="onhover"/>
+                </Controls.list:Container>
+            </Controls.operations:Container>
+        </div>
+    </Controls.operations:Controller>
+</Controls.list:DataContainer>

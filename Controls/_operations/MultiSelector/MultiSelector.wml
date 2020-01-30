@@ -7,6 +7,7 @@
     <Controls._operations.__MultiSelector selectedKeys="{{ _options.selectedKeys }}"
                                           excludedKeys="{{ _options.excludedKeys }}"
                                           selectedKeysCount="{{ _options.selectedKeysCount }}"
+                                          selectedCountConfig="{{ _options.selectedCountConfig }}"
                                           size="{{_options.size}}"
                                           fontSize="{{_options.fontSize}}"
                                           selectionViewMode="{{_options.selectionViewMode}}"
