@@ -3,6 +3,7 @@
       template="{{itemOutputWrapper}}"
       itemOutputWrapper="{{itemOutputWrapper}}"
       listModel="{{listModel}}"
+      itemActionsClass="{{itemActionsClass}}"
       itemActionsTemplate="{{itemActionsTemplate}}"
       swipeTemplate="{{swipeTemplate}}"
       multiSelectTpl="{{multiSelectTpl}}"

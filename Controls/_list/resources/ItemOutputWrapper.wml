@@ -4,6 +4,7 @@
    editingItemData="{{editingItemData}}"
    isAdd="{{isAdd}}"
    itemActionsTemplate="{{itemActionsTemplate}}"
+   itemActionsClass="{{itemActionsClass}}"
    swipeTemplate="{{swipeTemplate}}"
    editArrowTemplate="{{editArrowTemplate}}"
    multiSelectTpl="{{multiSelectTpl}}"
