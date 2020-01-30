@@ -1,36 +1,27 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {INumberFormatOptions, INumberFormat, ITooltipOptions, ITooltip} from 'Controls/interface';
+import {
+    INumberFormatOptions,
+    INumberFormat,
+    ITooltipOptions,
+    ITooltip,
+    IFontColorStyle,
+    IFontColorStyleOptions,
+    IFontSize,
+    IFontSizeOptions,
+    IFontWeight,
+    IFontWeightOptions,
+    getFontWeightTypes
+} from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 import {descriptor} from 'Types/entity';
-import {moneyOptions, moneyUseGrouping, moneyValue} from 'Controls/_decorator/ActualAPI';
+import {moneyOptions, moneyUseGrouping, moneyValue, moneyStyle} from 'Controls/_decorator/ActualAPI';
 import numberToString from 'Controls/Utils/Formatting/numberToString';
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
+// tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
 
 type TValue = string | number | null;
-/**
- * @typedef TStyle
- * @variant default
- * @variant accentResults
- * @variant noAccentResults
- * @variant group
- * @variant basicRegistry
- * @variant noBasicRegistry
- * @variant accentRegistry
- * @variant noAccentRegistry
- * @variant error
- */
-type TStyle =
-    'default'
-    | 'accentResults'
-    | 'noAccentResults'
-    | 'group'
-    | 'basicRegistry'
-    | 'noBasicRegistry'
-    | 'accentRegistry'
-    | 'noAccentRegistry'
-    | 'error';
 
 interface IPaths {
     integer: string;
@@ -43,10 +34,12 @@ interface IPaths {
  * @public
  * @author Красильников А.С.
  */
-export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions {
+export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
+    IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     number: number;
     delimiters: boolean;
     title: string;
+    style: string;
     /**
      * Декорируемое число.
      * @type string|number|null
@@ -54,13 +47,6 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
     value: TValue;
-    /**
-     * Стиль отображения числа в денежном формате.
-     * @type TStyle
-     * @default default
-     * @demo Controls-demo/Decorator/Money/Style/Index
-     */
-    style: TStyle;
 }
 
 /**
@@ -71,6 +57,9 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @extends UI/Base:Control
  *
  * @mixes Controls/interface:ITooltip
+ * @mixes Controls/interface:IFontColorStyle
+ * @mixes Control/interface:IFontWeight
+ * @mixes Control/interface:IFontSize
  * @mixes Controls/interface:INumberFormat
  * @mixes Controls/_decorator/Money/IMoneyOptions
  *
@@ -79,14 +68,21 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  *
  * @author Красильников А.С.
  */
-class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
+class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, IFontColorStyle, IFontSize, IFontWeight {
     private _value: TValue;
     private _useGrouping: boolean;
     private _tooltip: string;
     private _parsedNumber: IPaths;
+    private _fontColorStyle: string;
+    private _fontSize: string;
+    private _readOnly: boolean;
+    private _fontWeight: string;
 
-    readonly '[Controls/_interface/ITooltip]' = true;
-    readonly '[Controls/_interface/INumberFormat]' = true;
+    readonly '[Controls/_interface/ITooltip]': boolean = true;
+    readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
+    readonly '[Controls/_interface/IFontSize]': boolean = true;
+    readonly '[Controls/_interface/IFontWeight]': boolean = true;
+    readonly '[Controls/_interface/INumberFormat]': boolean = true;
 
     protected _options: IMoneyOptions;
     protected _template: TemplateFunction = template;
@@ -95,6 +91,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
     private _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
         return showEmptyDecimals || value !== '.00';
     }
+
 
     private _getTooltip(options: IMoneyOptions): string {
         const actualOptions = moneyOptions(options);
@@ -139,22 +136,33 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
         };
     }
 
+    private _setFontState(options: IMoneyOptions): void {
+        const styles = moneyStyle(options);
+        this._fontSize = styles.fontSize;
+        this._fontWeight = styles.fontWeight;
+        this._fontColorStyle = styles.fontColorStyle;
+    }
+
     protected _beforeMount(options: IMoneyOptions): void {
+        this._setFontState(options);
         this._changeState(options, true);
         this._parsedNumber = this._parseNumber();
         this._tooltip = this._getTooltip(options);
     }
 
-    protected _beforeUpdate(newOptions): void {
+    protected _beforeUpdate(newOptions: IMoneyOptions): void {
+        this._setFontState(newOptions);
         if (this._changeState(newOptions, false)) {
             this._parsedNumber = this._parseNumber();
         }
         this._tooltip = this._getTooltip(newOptions);
     }
 
-    private static FRACTION_LENGTH = 2;
-    private static ZERO_FRACTION_PATH = '0'.repeat(Money.FRACTION_LENGTH);
-    private static SEARCH_PATHS = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${Money.FRACTION_LENGTH}})`);
+    private static FRACTION_LENGTH: number = 2;
+    private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
+    private static SEARCH_PATHS: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${Money.FRACTION_LENGTH}})`);
+
+    static _theme: string[] = ['Controls/Classes', 'Controls/decorator'];
 
     private static toString(value: TValue): string {
         if (value === null) {
@@ -186,29 +194,30 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip {
         return value;
     }
 
-    static getDefaultOptions() {
+    static getDefaultOptions(): Partial<IMoneyOptions> {
         return {
             value: null,
-            style: 'default',
+            fontColorStyle: 'default',
+            fontSize: 'm',
+            fontWeight: 'default',
             useGrouping: true,
             showEmptyDecimals: true
         };
     }
 
-    static getOptionTypes() {
+    /**
+     * https://online.sbis.ru/opendoc.html?guid=30df718d-9d01-4ae0-b5b9-983bdf93cb4d
+     */
+    static getOptionTypes(): Partial<Record<keyof IMoneyOptions, Function>> {
         return {
-            style: descriptor(String).oneOf([
-                'default', 'accentResults', 'noAccentResults',
-                'group', 'basicRegistry', 'noBasicRegistry',
-                'accentRegistry', 'noAccentRegistry', 'error'
-            ]),
+            ...getFontWeightTypes(),
+            fontColorStyle: descriptor(String),
+            fontSize: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
             value: descriptor(String, Number, null)
         };
     }
-
-    static _theme = ['Controls/decorator']
 }
 
 export default Money;
