@@ -1,1 +1,1 @@
-<ws:partial template="{{ itemTemplate }}" scope="{{ _options }}" useNewModel="{{ true }}" />
+<ws:partial template="{{ _options.itemTemplate }}" scope="{{ _options }}" useNewModel="{{ true }}" />
