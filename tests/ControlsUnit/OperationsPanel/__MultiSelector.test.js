@@ -28,37 +28,37 @@ define([
             excludedKeys = [],
             selectedKeysCount = 0;
 
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, true);
          assert.equal(instance._menuCaption, 'Отмечено всё');
 
          selectedKeys = [];
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отметить');
 
          selectedKeys = [1, 2];
          selectedKeysCount = 2;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отмечено: 2');
 
          selectedKeysCount = undefined;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отмечено: 2');
 
          selectedKeys = [null];
          excludedKeys = [1, 2, 3];
          selectedKeysCount = 1;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отмечено: 1');
 
          excludedKeys = [1, 2, 3, 4];
          selectedKeysCount = 0;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отметить');
 
          excludedKeys = [];
          selectedKeys = [];
          selectedKeysCount = 1;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.equal(instance._menuCaption, 'Отметить');
       });
       it('_getMenuSource', function() {
@@ -99,12 +99,12 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          instance._beforeMount(newOptions);
          assert.equal(instance._menuSource._$data.length, 3);
          assert.equal(instance._menuCaption, 'Отмечено всё');
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
          instance._beforeMount(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
          newOptions.selectedKeys = [1, 2];
@@ -118,7 +118,7 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          let isUpdateMenu = false;
 
@@ -128,7 +128,7 @@ define([
          assert.isTrue(isUpdateMenu);
 
          isUpdateMenu = false;
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
          instance._beforeUpdate(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
          assert.isTrue(isUpdateMenu);

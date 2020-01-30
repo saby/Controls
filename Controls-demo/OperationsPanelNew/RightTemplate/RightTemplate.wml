@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth500">
+   <Controls.operations:Panel
+         bind:selectedKeys="_selectedKeys"
+         bind:excludedKeys="_excludedKeys"
+         parentProperty="parent"
+         nodeProperty="@parent"
+         keyProperty="id"
+         source="{{_panelSource}}">
+      <ws:rightTemplate>
+         <Controls.buttons:Button
+               caption="Доп. операции"
+               on:click="_onClickAddBlock()"
+               iconSize="s" icon="icon-Settings"
+               viewMode="link" fontColorStyle="link"
+         />
+      </ws:rightTemplate>
+   </Controls.operations:Panel>
+</div>
