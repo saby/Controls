@@ -1,11 +1,11 @@
 <div>
    <Controls.popup:Stack name="stackPanel"
                                 template="Controls-demo/Popup/Opener/Compatible/resources/demoOldPanel"
-                                closeOnOutsideClick="{{true}}"
+                                closeOnOutsideClick="{{false}}"
                                 isCompoundTemplate="{{ true }}">
       <ws:templateOptions type="stack"/>
    </Controls.popup:Stack>
-   
+
    <div style="padding:5px;">
       <Controls.buttons:Button name="stackButton" caption="stack" on:click="openStack()" attr:class="demo-OpenerCompatible__stackButton"/>
    </div>
