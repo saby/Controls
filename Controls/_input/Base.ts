@@ -877,6 +877,10 @@ var Base = Control.extend({
         }
     },
 
+    _activatedHandler: function(): void {
+        this.activate({enableScreenKeyboard: true, enableScrollToElement: true});
+    },
+
     _focusInHandler: function (event) {
         let firstFocusByTab = this._firstFocus;
 
