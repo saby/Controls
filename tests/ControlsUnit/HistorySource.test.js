@@ -67,6 +67,9 @@ define(
             d: [
                [
                   '5', null, 'TEST_HISTORY_ID_V1'
+               ],
+               [
+                  'idNotExistInData', null, 'TEST_HISTORY_ID_V1'
                ]
             ],
             s: [
@@ -230,6 +233,7 @@ define(
                   historyDef.addCallback(function(data) {
                      let records = data.getAll();
                      assert.isTrue(records.at(0).get('pinned'));
+                     assert.equal(hSource._history.pinned.getCount(), 1);
 
                      hSource.historySource = errorSource;
                      historyDef = hSource.query(query);

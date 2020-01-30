@@ -283,22 +283,42 @@ var _private = {
             }
 
             //removing group allows items to be shown in history items
-            if (historyType === 'pinned') {
-               item.set('pinned', true);
-               item.has('group') && item.set('group', null);
-            }
-            if (historyType === 'recent') {
-               item.set('recent', true);
-               item.has('group') && item.set('group', null);
-            }
-            if (historyType === 'frequent') {
-               item.set('frequent', true);
-               item.has('group') && item.set('group', null);
-            }
+            _private.prepareHistoryItem(item, historyType);
             item.set('HistoryId', historyId);
             items.add(item);
+         } else {
+            _private.itemNotExist(self, id, historyType);
          }
       });
+   },
+
+   prepareHistoryItem(item, historyType) {
+      item.set(historyType, true);
+      item.has('group') && item.set('group', null);
+   },
+
+   itemNotExist(self, id, historyType) {
+      if (historyType === 'pinned') {
+         // удаляем элемент из pinned, если его нет в оригинальных данных,
+         // иначе он будет занимаеть место в запиненных, хотя на самом деле такой записи нет
+         _private.unpinItemById(self, id);
+      }
+   },
+
+   unpinItemById(self, id) {
+      const meta = {'$_pinned': false};
+      const keyProperty = _private.getKeyProperty(self);
+      const rawData = {};
+
+      rawData.pinned = true;
+      rawData[keyProperty] = id;
+
+      const item = new entity.Model({
+         rawData: rawData,
+         keyProperty
+      });
+
+      _private.updatePinned(self, item, meta);
    },
 
    fillFrequentItems: function (self, history, oldItems, items) {
