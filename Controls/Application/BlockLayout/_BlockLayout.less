@@ -1,3 +1,4 @@
+//TODO: https://online.sbis.ru/opendoc.html?guid=99fae5d6-81af-4515-b0a4-c2567901456d
 .controls-BlockLayout {
    overflow: hidden;
    background-color: @background_BlockLayout_between_blocks;
@@ -34,6 +35,7 @@
        * To abandon the "border" is impossible because "outline" is not included in the width value in the calculations.
        * The solution is only used on mobile devices because property outline-offset not support in ie browser.
        */
+
       .ws-is-mobile-platform & {
          border-color: transparent;
          outline: @spacing_BlockLayout_between_blocks / 2 + @border-width_BlockLayout-block + 1 solid @background_BlockLayout_between_blocks;
@@ -47,9 +49,11 @@
 }
 
 .controls-BlockLayout__block {
-   .for(6, { &_style_@{_i} {
-      background-color: ~"@{background_BlockLayout_block_style_@{_i}}";
-   } });
+   .for(6, {
+      &_style_@{_i} {
+         background-color: ~"@{background_BlockLayout_block_style_@{_i}}";
+      }
+   });
 }
 
 /**
@@ -68,6 +72,7 @@ body:not(.ws-is-ie10) .controls-BlockLayout__block:after {
    border: @border-width_BlockLayout-block solid @border-color_BlockLayout-block;
    border-radius: @border-radius_BlockLayout-block;
    box-shadow: @box-shadow_BlockLayout-block;
+
    /**
     * Область между блоками реализуется через border. Тень рисуется поверх каждого блока.
     * Граница соседнего блока может перекрывать тень. Чтобы такого не было нужно расположить тень выше всех.
@@ -78,11 +83,109 @@ body:not(.ws-is-ie10) .controls-BlockLayout__block:after {
 
 .controls-BlockLayout__block_border- {
    @variants: top, right, bottom, left;
-   .for(@variants, { &@{_item} {
-      border-@{_item}: @spacing_BlockLayout_between_blocks solid @background_BlockLayout_between_blocks;
-   } });
+   .for(@variants, {
+      &@{_item} {
+         border-@{_item}: @spacing_BlockLayout_between_blocks solid @background_BlockLayout_between_blocks;
+      }
+   });
 }
 
 .controls-BlockLayout_background {
+   background-color: @background_BlockLayout_between_blocks;
+}
+
+// Темизированные классы
+.controls-BlockLayout_theme-@{themeName} {
+   overflow: hidden;
+   background-color: @background_BlockLayout_between_blocks;
+}
+
+.controls-BlockLayout_detached_theme-@{themeName} {
+   padding-top: @spacing_BlockLayout_between_blocks;
+}
+
+.controls-BlockLayout_theme-@{themeName} > .controls-BlockLayout__blockGroup_theme-@{themeName} {
+   @margin: -@spacing_BlockLayout_between_blocks / 2;
+
+   margin-left: @margin;
+   margin-right: @margin;
+
+   &:first-of-type {
+      margin-top: @margin;
+   }
+
+   &:last-of-type {
+      margin-bottom: @margin;
+   }
+
+   .controls-BlockLayout__block_theme-@{themeName} {
+      position: relative;
+      border-style: solid;
+      border-width: @spacing_BlockLayout_between_blocks / 2 + @border-width_BlockLayout-block;
+      .box-sizing();
+
+      /**
+       * There is space left between blocks on mobile devices when using borders (due to native render).
+       * The color of the blocks borders and the space background is different.
+       * There is no problem when using" outline" size one pixel larger than "border-width".
+       * To abandon the "border" is impossible because "outline" is not included in the width value in the calculations.
+       * The solution is only used on mobile devices because property outline-offset not support in ie browser.
+       */
+
+      .ws-is-mobile-platform & {
+         border-color: transparent;
+         outline: @spacing_BlockLayout_between_blocks / 2 + @border-width_BlockLayout-block + 1 solid @background_BlockLayout_between_blocks;
+         outline-offset: -(@spacing_BlockLayout_between_blocks / 2 + @border-width_BlockLayout-block);
+      }
+
+      .ws-is-desktop-platform & {
+         border-color: @background_BlockLayout_between_blocks;
+      }
+   }
+}
+
+.controls-BlockLayout__block_theme-@{themeName} {
+   .for(6, {
+      &_style_@{_i} {
+         background-color: ~"@{background_BlockLayout_block_style_@{_i}}";
+      }
+   });
+}
+
+/**
+ * TODO: pointer-events работает в ie начиная с 11 версии.
+ * Поэтому живем в ie10 без тени на блоках.
+ * Убрать body:not(.ws-is-ie10), когда откажемся от e10.
+ */
+body:not(.ws-is-ie10) .controls-BlockLayout__block_theme-@{themeName}:after {
+   content: '';
+   position: absolute;
+   pointer-events: none;
+   top: -@border-width_BlockLayout-block;
+   right: -@border-width_BlockLayout-block;
+   bottom: -@border-width_BlockLayout-block;
+   left: -@border-width_BlockLayout-block;
+   border: @border-width_BlockLayout-block solid @border-color_BlockLayout-block;
+   border-radius: @border-radius_BlockLayout-block;
+   box-shadow: @box-shadow_BlockLayout-block;
+
+   /**
+    * Область между блоками реализуется через border. Тень рисуется поверх каждого блока.
+    * Граница соседнего блока может перекрывать тень. Чтобы такого не было нужно расположить тень выше всех.
+    * https://jsfiddle.net/q41Lmb7s/
+    */
+   z-index: 1;
+}
+
+.controls-BlockLayout__block_border- {
+   @variants: top, right, bottom, left;
+   .for(@variants, {
+      &@{_item}_theme-@{themeName} {
+         border-@{_item}: @spacing_BlockLayout_between_blocks solid @background_BlockLayout_between_blocks;
+      }
+   });
+}
+
+.controls-BlockLayout_background_theme-@{themeName} {
    background-color: @background_BlockLayout_between_blocks;
 }
