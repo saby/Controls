@@ -58,7 +58,7 @@ export interface IVirtualScrollConfig {
  * * S - количество элементов, которые будут добавлены/удалены по достижении конца списка отображаемых элементов.
  *
  * Для Controls/grid:View и Controls/treeGrid:View значение опции virtualPageSize должно быть меньше 1000/общее количество столбцов в таблице.
- * @deprecated
+ * @deprecated Опция устарела, используйте опцию {@link virtualScrollConfig}.
  */
 
 /*
@@ -79,7 +79,7 @@ export interface IVirtualScrollConfig {
  * @name Controls/_list/interface/IVirtualScroll#virtualSegmentSize
  * @cfg {number} Количество подгружаемых элементов при скроллировании.
  * @remark Если опция не задана, то virtualSegmentSize высчитывается по формуле virtualPageSize / 4.
- * @deprecated
+ * @deprecated Опция устарела, используйте опцию {@link virtualScrollConfig}.
  */
 
 /**
@@ -94,7 +94,7 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  * @name Controls/_list/interface/IVirtualScroll#virtualScrollMode
  * @cfg {IVirtualScrollMode} Режим скрытия записей в виртуальном скроллинге.
  * @default remove
- * @deprecated
+ * @deprecated Опция устарела, используйте опцию {@link virtualScrollConfig}.
  */
 
 /**
