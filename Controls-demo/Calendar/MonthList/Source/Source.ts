@@ -12,7 +12,7 @@ class DemoControl extends Control<IControlOptions> {
     protected _source: Source = new Source();
     protected _dayTemplate: TemplateFunction = dayTemplate;
 
-    protected _getHeader(date: Date): string {
+    protected _formatMonth(date: Date): string {
         return date ? formatDate(date, formatDate.FULL_MONTH) : '';
     }
 
