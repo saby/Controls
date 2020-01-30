@@ -5,6 +5,7 @@
                                        fontSize="{{_options.multiSelectFontSize}}"
                                        selectedKeysCount="{{ _options.selectedKeysCount }}"
                                        selectionViewMode="{{ _options.selectionViewMode }}"
+                                       selectedCountConfig="{{ _options.selectedCountConfig }}"
                                        root="{{ _options.root }}"
                                        attr:class="{{ _initialized ? '' : 'ws-invisible' }}" />
    <div class="controls-operationsPanelV__actions_theme-{{_options.theme}} controls-operationsPanelV__actions{{ _initialized ? '' : ' controls-operationsPanelV__actions_notInitialized' }}" name="toolbarBlock">

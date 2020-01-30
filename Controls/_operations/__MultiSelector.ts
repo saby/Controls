@@ -4,7 +4,8 @@ import * as template from 'wml!Controls/_operations/__MultiSelector';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {TKeySelection as TKey, TKeysSelection as TKeys} from 'Controls/interface/';
+import {TKeysSelection, ISelectionObject} from 'Controls/interface';
+import {default as getCountUtil, IGetCountCallParams} from 'Controls/_operations/MultiSelector/getCount';
 
 const DEFAULT_ITEMS = [
    {
@@ -29,13 +30,15 @@ const SHOW_ALL_ITEM =  {
    title: rk('Показать все')
 };
 
-type TCount = void|number;
+type TCount = null|number|void;
 
 export interface IMultiSelectorOptions extends IControlOptions {
-   selectedKeys: TKeys;
-   excludedKeys: TKeys;
+   selectedKeys: TKeysSelection;
+   excludedKeys: TKeysSelection;
    selectedKeysCount: TCount;
-   root: TKey;
+   root?: number|string;
+   selectionViewMode?: 'all'|'selected';
+   selectedCountConfig?: IGetCountCallParams;
 }
 
 export default class MultiSelector extends Control<IMultiSelectorOptions> {
@@ -44,21 +47,21 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    protected _sizeChanged: boolean = false;
    protected _menuCaption: string = null;
 
-   protected _beforeMount(options: IMultiSelectorOptions): void {
+   protected _beforeMount(options: IMultiSelectorOptions): Promise<TCount> {
       this._menuSource = this._getMenuSource(options);
-      this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.root);
+      return this._updateMenuCaptionByOptions(options);
    }
 
-   protected _beforeUpdate(options: IMultiSelectorOptions): void {
+   protected _beforeUpdate(options: IMultiSelectorOptions): void|Promise<TCount> {
       const currOpts = this._options;
       const selectionIsChanged = currOpts.selectedKeys !== options.selectedKeys || currOpts.excludedKeys !== options.excludedKeys;
 
-      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
-         this._updateSelection(options.selectedKeys, options.excludedKeys, options.selectedKeysCount, options.root);
-      }
-
       if (selectionIsChanged || currOpts.selectionViewMode !== options.selectionViewMode) {
          this._menuSource = this._getMenuSource(options);
+      }
+
+      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
+         return this._updateMenuCaptionByOptions(options);
       }
    }
 
@@ -69,9 +72,9 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       }
    }
 
-   private _getAdditionalMenuItems(options: IMultiSelectorOptions): Array<Object> {
-      let additionalItems: Array<Object> = [];
-      let isAllSelected = options.selectedKeys.includes(options.root) && options.excludedKeys.includes(options.root);
+   private _getAdditionalMenuItems(options: IMultiSelectorOptions): object[] {
+      const additionalItems = [];
+      const isAllSelected = options.selectedKeys.includes(options.root) && options.excludedKeys.includes(options.root);
 
       if (options.selectionViewMode === 'selected') {
          additionalItems.push(SHOW_ALL_ITEM);
@@ -90,19 +93,60 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       });
    }
 
-   private _updateSelection(selectedKeys: TKeys, excludedKeys: TKeys, count: TCount, root: TKey): void {
-      const selectedCount = count === undefined ? selectedKeys.length : count;
+   private _updateMenuCaptionByOptions(options: IMultiSelectorOptions): Promise<TCount> {
+      const selectedKeys = options.selectedKeys;
+      const excludedKeys = options.excludedKeys;
+      const selection = this._getSelection(selectedKeys, excludedKeys);
 
-      if (selectedCount > 0 && selectedKeys.length) {
-         this._menuCaption = rk('Отмечено') + ': ' + selectedCount;
-      } else if (selectedKeys[0] === root && (!excludedKeys.length || excludedKeys[0] === root && excludedKeys.length === 1)) {
-         this._menuCaption = rk('Отмечено всё');
-      } else if (selectedCount === null) {
-         this._menuCaption = rk('Отмечено');
+      return this._getCount(selection, options.selectedKeysCount).then((countResult) => {
+         this._menuCaption = this._getMenuCaption(selection, countResult, options.root);
+         this._sizeChanged = true;
+      });
+   }
+
+   private _getMenuCaption({selected, excluded}: ISelectionObject, count: TCount, root: number|string): string {
+      let caption;
+
+      if (count > 0 && selected.length) {
+         caption = rk('Отмечено') + ': ' + count;
+      } else if (selected[0] === root && (!excluded.length || excluded[0] === root && excluded.length === 1)) {
+         caption = rk('Отмечено всё');
+      } else if (count === null) {
+         caption = rk('Отмечено');
       } else {
-         this._menuCaption = rk('Отметить');
+         caption = rk('Отметить');
       }
-      this._sizeChanged = true;
+
+      return caption;
+   }
+
+   private _getCount(selection: ISelectionObject, count: TCount): Promise<TCount> {
+      let methodResult;
+      let countResult;
+
+      if (this._isCorrectCount(count) || !this._options.selectedCountConfig) {
+         countResult = count === undefined ? selection.selected.length : count;
+         methodResult = Promise.resolve(countResult);
+      } else {
+         this._children.countIndicator.show();
+         methodResult = getCountUtil.getCount(selection, this._options.selectedCountConfig).then((count) => {
+            this._children.countIndicator.hide();
+            return count;
+         });
+      }
+
+      return methodResult;
+   }
+
+   private _getSelection(selectedKeys: TKeysSelection, excludedKeys: TKeysSelection): ISelectionObject {
+      return {
+         selected: selectedKeys,
+         excluded: excludedKeys
+      };
+   }
+
+   private _isCorrectCount(count: TCount): boolean {
+      return typeof count === 'number' || count === undefined;
    }
 
    protected _onMenuItemActivate(event: SyntheticEvent<'menuItemActivate'>, item: Model): void {
