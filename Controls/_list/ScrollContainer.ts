@@ -288,7 +288,7 @@ export default class ScrollContainer extends Control<IOptions> {
             case 'scrollMoveSync':
                 this.handleListScrollSync(params as IScrollParams);
                 break;
-            case 'viewportResize':
+            case 'viewPortResize':
                 this.updateViewport(params[0], params[1]);
                 break;
             case 'virtualScrollMove':
