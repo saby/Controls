@@ -924,28 +924,30 @@ import 'css!Controls/_dragnDrop/Container';
          },
 
          _onMouseMove: function(event) {
-            if (Env.detection.isIE) {
-               this._onMouseMoveIEFix(event);
-            } else {
-               //Check if the button is pressed while moving.
-               if (!event.nativeEvent.buttons) {
+            if (event.nativeEvent) {
+               if (Env.detection.isIE) {
+                  this._onMouseMoveIEFix(event);
+               } else {
+                  //Check if the button is pressed while moving.
+                  if (!event.nativeEvent.buttons) {
+                     this._dragNDropEnded(event);
+                  }
+               }
+
+               // Не надо вызывать onMove если не нажата кнопка мыши.
+               // Кнопка мыши может быть не нажата в 2 случаях:
+               // 1) Мышь увели за пределы браузера, там отпустили и вернули в браузер
+               // 2) Баг IE, который подробнее описан в методе _onMouseMoveIEFix
+               if (event.nativeEvent.buttons) {
+                  _private.onMove(this, event.nativeEvent);
+               }
+
+               /**
+                * Когда мышь покидает граници экрана, тогда перемещение элемента должно закончиться.
+                */
+               if (event.type === 'mouseleave') {
                   this._dragNDropEnded(event);
                }
-            }
-
-            // Не надо вызывать onMove если не нажата кнопка мыши.
-            // Кнопка мыши может быть не нажата в 2 случаях:
-            // 1) Мышь увели за пределы браузера, там отпустили и вернули в браузер
-            // 2) Баг IE, который подробнее описан в методе _onMouseMoveIEFix
-            if (event.nativeEvent.buttons) {
-               _private.onMove(this, event.nativeEvent);
-            }
-
-            /**
-             * Когда мышь покидает граници экрана, тогда перемещение элемента должно закончиться.
-             */
-            if (event.type === 'mouseleave') {
-               this._dragNDropEnded(event);
             }
          },
 
