@@ -1464,8 +1464,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                column: {},
                cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default controls-Grid__header-cell-checkbox_min-width_theme-default',
                index: 0,
-               colSpan: 1,
-               rowSpan: 1,
                cellContentClasses: '',
                cellStyles: 'grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;',
                shadowVisibility: 'visible',
@@ -1549,8 +1547,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                column: {},
                cellClasses: 'controls-Grid__header-cell controls-Grid__header-cell_theme-default controls-Grid__header-cell_min-height_theme-default controls-Grid__header-cell-checkbox_theme-default controls-Grid__header-cell-checkbox_min-width_theme-default',
                index: 0,
-               rowSpan: 1,
-               colSpan: 1,
                cellContentClasses: '',
                cellStyles: 'grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;',
                shadowVisibility: 'visible',
@@ -2204,6 +2200,24 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                );
             }
 
+         });
+
+         it('should rowspan checkbox th if multiheader', function () {
+            model._headerRows = [
+                [ /* Первая строка шапки */
+                   {
+                      /* Checkbox */
+                      startRow: 0,
+                      startColumn: 0
+                   },
+                   { startColumn: 1 }
+                ],
+                [ /* Вторая строка шапки */ ]
+            ];
+            model._maxEndRow = 3;
+            const checkboxCell = model.getCurrentHeaderColumn(0, 0);
+            assert.equal(checkboxCell.rowSpan, 2);
+            assert.equal(checkboxCell.colSpan, 1);
          });
 
       });
