@@ -122,7 +122,7 @@ class EditDialog extends Control<IEditDialog> {
         };
     }
 
-    static _theme: string[] = ['Controls/filterPopup'];
+    static _theme: string[] = ['Controls/filterPopup', 'Controls/Classes'];
 }
 
 export default EditDialog;

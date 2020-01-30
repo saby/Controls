@@ -951,6 +951,68 @@ define([
                eip.commitEdit();
             });
          });
+
+         describe('update model', function () {
+            let
+                source,
+                sourceUpdated;
+
+            beforeEach(function () {
+               sourceUpdated = false;
+               source = new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: data
+               });
+               source.update = () => {
+                  sourceUpdated = true;
+                  return Deferred.success({})
+               };
+            });
+
+            it('existing item, nothing changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginEdit({ item: listModel.at(0).getContents() });
+               eip.commitEdit();
+               assert.isFalse(sourceUpdated);
+            });
+
+            it('existing item, has changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+               eip.beginEdit({ item: listModel.at(0).getContents() });
+               eip._editingItem.isChanged = () => true;
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
+
+            it('added item, nothing changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginAdd({ item: newItem });
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
+
+            it('added item, has changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+               eip.beginAdd({ item: newItem });
+               eip._editingItem.isChanged = () => true;
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
+         });
       });
 
       describe('cancelEdit', function() {

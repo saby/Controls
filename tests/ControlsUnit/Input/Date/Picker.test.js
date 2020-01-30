@@ -17,13 +17,18 @@ define([
 
    describe('Controls/_input/Date/Picker', function() {
 
-      describe('_openDialog', function() {
+      describe('openPopup', function() {
          it('should open opener with default options', function() {
             const component = calendarTestUtils.createComponent(input.Date, options);
-            component._children.opener = {
-               open: sinon.fake()
+            component._children = {
+               opener: {
+                  open: sinon.fake()
+               },
+               linkView: {
+                  getPopupTarget: sinon.stub().returns()
+               }
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
          });
          it('should open dialog with passed dialog options', function() {
@@ -31,11 +36,17 @@ define([
                extOptions = {
                   readOnly: true
                },
-               component = calendarTestUtils.createComponent(input.Date, extOptions);
-            component._children.opener = {
-               open: sinon.fake()
+               component = calendarTestUtils.createComponent(input.Date, extOptions),
+               TARGET = 'target';
+            component._children = {
+               opener: {
+                  open: sinon.fake()
+               },
+               linkView: {
+                  getPopupTarget: sinon.fake()
+               }
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-PeriodDialog__picker',

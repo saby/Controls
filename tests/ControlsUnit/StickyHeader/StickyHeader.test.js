@@ -3,12 +3,14 @@ define([
    'Controls/scroll',
    'Core/core-merge'
 ], function(
-   StickyHeader,
+   StickyHeaderLib,
    scroll,
    coreMerge
 ) {
 
    'use strict';
+
+   const StickyHeader = StickyHeaderLib.default;
 
    const
       createComponent = function(Component, cfg) {
@@ -91,7 +93,7 @@ define([
             const
                sandbox = sinon.createSandbox(),
                component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'topbottom' });
-            sandbox.replace(StickyHeader._private, 'getComputedStyle', function() {
+            sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px' };
             });
             component._context = {
@@ -118,7 +120,7 @@ define([
                sandbox = sinon.createSandbox(),
                component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'top' });
             let style;
-            sandbox.replace(StickyHeader._private, 'getComputedStyle', function() {
+            sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px', paddingTop: '1px' };
             });
             component._context = {
@@ -146,7 +148,7 @@ define([
                sandbox = sinon.createSandbox(),
                component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'top' });
             let style;
-            sandbox.replace(StickyHeader._private, 'getComputedStyle', function() {
+            sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px', paddingTop: '1px', 'border-top-width': '1px' };
             });
             component._context = {
@@ -176,7 +178,7 @@ define([
             component._model = {fixedPosition: ''};
             sinon.stub(component, '_forceUpdate');
 
-            assert.strictEqual(component._stickyHeadersHeight.top, 0);
+            assert.strictEqual(component._stickyHeadersHeight.top, null);
             component.top = 20;
             assert.strictEqual(component._stickyHeadersHeight.top, 20);
             sinon.assert.called(component._forceUpdate);
@@ -201,7 +203,7 @@ define([
             component._model = {fixedPosition: ''};
             sinon.stub(component, '_forceUpdate');
 
-            assert.strictEqual(component._stickyHeadersHeight.bottom, 0);
+            assert.strictEqual(component._stickyHeadersHeight.bottom, null);
             component.bottom = 20;
             assert.strictEqual(component._stickyHeadersHeight.bottom, 20);
             sinon.assert.called(component._forceUpdate);
@@ -292,13 +294,13 @@ define([
          });
          it('should use previous offsetHeight if container is hidden', function() {
             const component = createComponent(StickyHeader, {});
-            component._offsetHeight = 10;
+            component._height = 10;
             component._container = {
                offsetParent: null,
                offsetHeight: 0
             }
             sinon.stub(component, '_notify');
-            component._fixationStateChangeHandler('', 'top')
+            component._fixationStateChangeHandler('', 'top');
             sinon.assert.calledWith(
                component._notify,
                'fixed',

@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import BaseControl = require('Core/Control');
-import CalendarControlsUtils from './Utils';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');
@@ -105,7 +105,7 @@ var Component = BaseControl.extend({
       this._rangeModel = new DateRangeModel({
          dateConstructor: options.dateConstructor
       });
-      CalendarControlsUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
+      proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
    },
 
    _beforeMount: function(options) {
@@ -153,9 +153,9 @@ var Component = BaseControl.extend({
       _private._updateCaption(this);
    },
 
-   getDialogTarget () {
+   getPopupTarget: function() {
        if (this._options.nextArrowVisibility || this._options.prevArrowVisibility) {
-           return this._children.openDialogTarget;
+           return this._children.openPopupTarget;
        }
       return this._container;
    },

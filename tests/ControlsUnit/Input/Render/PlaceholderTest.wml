@@ -1,7 +1,7 @@
 <div
-   class="controls-Render controls-Render_theme-default controls-Render_textAlign-left controls-Render_state-valid_theme-default
+   class="controls-Render controls-Render_theme-default controls-Render-fontsize-m controls-Render_textAlign-left controls-Render_state-valid_theme-default
           controls-fontsize-m_theme-default controls-Render-fontsize-m_theme-default controls-text-default_theme-default
-          controls-Render_theme_default_fontStyle_default_size_m controls-inlineheight-m_theme-default controls-Render-inlineheight-m_theme-default">
+          controls-inlineheight-m_theme-default controls-Render-inlineheight-m_theme-default">
    <div class="controls-Render__wrapper"><span class="controls-Render__baseline">&#65279;</span>
       <div class="controls-Render__field controls-Render__field_textAlign_left">
          <div>testing the content</div>

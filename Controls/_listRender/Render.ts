@@ -4,8 +4,12 @@ import template = require('wml!Controls/_listRender/Render/Render');
 import defaultItemTemplate = require('wml!Controls/_listRender/Render/resources/ItemTemplateWrapper');
 
 import { SyntheticEvent } from 'Vdom/Vdom';
-import { CollectionItem, Collection } from 'Controls/display';
+import { CollectionItem, Collection, EditInPlaceController, GroupItem } from 'Controls/display';
 import { constants } from 'Env/Env';
+import { Opener as DropdownOpener } from 'Controls/dropdown';
+
+import 'wml!Controls/_listRender/Render/resources/ItemActionsTemplate';
+import 'wml!Controls/_listRender/Render/resources/SwipeTemplate';
 
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
@@ -17,6 +21,7 @@ export interface IRenderOptions extends IControlOptions {
 
 export interface IRenderChildren {
     itemsContainer?: HTMLDivElement;
+    menuOpener?: DropdownOpener;
 }
 
 export default class Render extends Control<IRenderOptions> {
@@ -27,6 +32,8 @@ export default class Render extends Control<IRenderOptions> {
     protected _itemTemplate: TemplateFunction;
 
     protected _pendingResize: boolean = false;
+    protected _currentMenuConfig: unknown = null;
+
     protected _onCollectionChange = (_e: unknown, action: string) => {
         if (action !== 'ch') {
             // Notify resize when items are added, removed or replaced, or
@@ -46,6 +53,16 @@ export default class Render extends Control<IRenderOptions> {
         if (newOptions.listModel !== this._options.listModel) {
             this._subscribeToModelChanges(newOptions.listModel);
         }
+
+        const menuConfig = newOptions.listModel.getActionsMenuConfig();
+        if (menuConfig !== this._currentMenuConfig) {
+            if (menuConfig) {
+                this._children.menuOpener.open(menuConfig, this);
+            } else {
+                this._children.menuOpener.close();
+            }
+            this._currentMenuConfig = menuConfig;
+        }
     }
 
     protected _afterRender(): void {
@@ -57,6 +74,7 @@ export default class Render extends Control<IRenderOptions> {
 
     protected _beforeUnmount(): void {
         this._unsubscribeFromModelChanges(this._options.listModel);
+        this._currentMenuConfig = null;
     }
 
     protected _afterMount(): void {
@@ -71,24 +89,57 @@ export default class Render extends Control<IRenderOptions> {
         e: SyntheticEvent<MouseEvent> & { preventItemEvent?: boolean },
         item: CollectionItem<unknown>
     ): void {
-        if (!e.preventItemEvent && !item.isEditing()) {
-            this._notify('itemClick', [item.getContents(), e], { bubbling: true });
+        if (item instanceof GroupItem) {
+            if (e.target?.closest('.controls-ListView__groupExpander')) {
+                item.toggleExpanded();
+            }
+        } else {
+            if (!e.preventItemEvent && !item.isEditing()) {
+                this._notify('itemClick', [item.getContents(), e], { bubbling: true });
+            }
         }
     }
 
     protected _onItemContextMenu(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
+        if (item instanceof GroupItem) {
+            return;
+        }
         if (
             this._options.contextMenuEnabled !== false &&
             this._options.contextMenuVisibility !== false &&
-            !this._options.listModel.isEditing()
+            !EditInPlaceController.isEditing(this._options.listModel)
         ) {
             this._notify('itemContextMenu', [item, e, false]);
         }
     }
 
     protected _onItemSwipe(e: SyntheticEvent<null>, item: CollectionItem<unknown>): void {
+        if (item instanceof GroupItem) {
+            return;
+        }
+
         e.stopPropagation();
-        this._notify('itemSwipe', [item, e]);
+
+        const itemContainer =
+            (e.target as HTMLElement)
+            .closest('.controls-ListView__itemV');
+
+        const swipeContainer =
+            itemContainer.classList.contains('js-controls-SwipeControl__actionsContainer')
+            ? itemContainer
+            : itemContainer.querySelector('.js-controls-SwipeControl__actionsContainer');
+
+        this._notify('itemSwipe', [item, e, swipeContainer?.clientHeight]);
+    }
+
+    protected _onAnimationEnd(e: SyntheticEvent<null>): void {
+        // TODO Swipe animation has finished. If this was a close animation,
+        // clear swipe state
+    }
+
+    protected _onItemActionsClick(e: SyntheticEvent<MouseEvent>, action: unknown, item: CollectionItem<unknown>): void {
+        e.stopPropagation();
+        this._notify('itemActionClick', [item, action, e]);
     }
 
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
@@ -96,6 +147,9 @@ export default class Render extends Control<IRenderOptions> {
     }
 
     protected _onItemMouseMove(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
+        if (item instanceof GroupItem) {
+            return;
+        }
         this._notify('itemMouseMove', [item, e]);
     }
 
@@ -111,6 +165,9 @@ export default class Render extends Control<IRenderOptions> {
     }
 
     protected _onItemKeyDown(e: SyntheticEvent<KeyboardEvent>, item: CollectionItem<unknown>): void {
+        if (item instanceof GroupItem) {
+            return;
+        }
         if (item.isEditing()) {
             // TODO Will probably be moved to EditInPlace container
             // keydown event should not bubble if processed here, but if we stop propagation
@@ -133,6 +190,8 @@ export default class Render extends Control<IRenderOptions> {
             }
             // Compatibility with BaseControl and EditInPlace control
             this._notify('editingRowKeyDown', [e.nativeEvent], {bubbling: true});
+        } else {
+            this._notify('itemKeyDown', [item, e]);
         }
     }
 

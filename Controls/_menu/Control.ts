@@ -1,12 +1,12 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
-import {IMenuOptions, TKeys} from 'Controls/interface';
+import {default as IMenuControl, IMenuOptions, TKeys} from 'Controls/_menu/interface/IMenuControl';
 import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
 import {ICrud} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem} from 'Controls/display';
+import {Tree, TreeItem, SelectionController} from 'Controls/display';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -14,10 +14,9 @@ import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 
-class MenuControl extends Control<IMenuOptions> {
+class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     protected _template: TemplateFunction = ViewTemplate;
     protected _listModel: Tree;
-    protected _loadItemsPromise: Promise;
     protected _moreButtonVisible: boolean = false;
     protected _expandButtonVisible: boolean = false;
     protected _applyButtonVisible: boolean = false;
@@ -35,8 +34,11 @@ class MenuControl extends Control<IMenuOptions> {
 
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         if (newOptions.root !== this._options.root) {
-            this._closeSubMenu();
-            this._loadItemsPromise = this.loadItems(newOptions);
+            this.loadItems(newOptions);
+        }
+
+        if (newOptions.selectedKeys !== this._options.selectedKeys) {
+            this.setSelectedItems(this._listModel, newOptions.selectedKeys);
         }
     }
 
@@ -49,26 +51,27 @@ class MenuControl extends Control<IMenuOptions> {
         this._listModel = null;
     }
 
-    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, target) {
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>) {
         const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
         const needCloseDropDown = this._subDropdownItem !== item;
         // Close the already opened sub menu. Installation of new data sets new size of the container.
         // If you change the size of the update, you will see the container twitch.
-        if (needCloseDropDown && !needOpenDropDown) {
+        if (needCloseDropDown) {
             this._children.Sticky.close();
             this._subDropdownItem = null;
         }
 
         if (needOpenDropDown) {
             this._subDropdownItem = item;
-            this.openSubDropdown(target, item);
+            this.openSubDropdown(sourceEvent.target, item);
         }
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
-        const treeItem = this._listModel.getItemBySourceId(item.getKey());
+        const key = item.getKey();
+        const treeItem = this._listModel.getItemBySourceKey(key);
         if (this._options.multiSelect && this._selectionChanged && !this._isEmptyItem(treeItem)) {
-            this._listModel.setSelectedItem(treeItem, !treeItem.isSelected());
+            SelectionController.selectItem(this._listModel, key, !treeItem.isSelected());
             this.updateApplyButton();
 
             this._notify('selectedKeysChanged', [this.getSelectedKeys()]);
@@ -110,8 +113,7 @@ class MenuControl extends Control<IMenuOptions> {
     }
 
     protected _openSelectorDialog(): void {
-        const selectorOpener = this._options.selectorOpener;
-        selectorOpener.open(this.getSelectorDialogOptions(this._options));
+        this._children.selectorOpener.open(this.getSelectorDialogOptions(this._options));
     }
 
     private getSelectorDialogOptions(options: IMenuOptions): object {
@@ -120,8 +122,9 @@ class MenuControl extends Control<IMenuOptions> {
         const selectorDialogResult = options.selectorDialogResult;
         const selectorOpener = options.selectorOpener;
 
+        const selectedItems = factory(this._listModel.getSelectedItems()).map((item) => item.getContents()).value();
         let templateConfig = {
-            selectedItems: new List({ items: this._listModel.getSelectedItems() }),
+            selectedItems: new List({ items: selectedItems }),
             handlers: {
                 onSelectComplete: (event, result) => {
                     selectorDialogResult(event, result);
@@ -135,6 +138,9 @@ class MenuControl extends Control<IMenuOptions> {
             templateOptions: templateConfig,
             template: selectorTemplate.templateName,
             isCompoundTemplate: options.isCompoundTemplate,
+            eventHandlers: {
+                onResult: selectorDialogResult
+            },
             handlers: {
                 // Для совместимости.
                 // Старая система фокусов не знает про существование VDOM окна и не может восстановить на нем фокус после закрытия старой панели.
@@ -179,7 +185,7 @@ class MenuControl extends Control<IMenuOptions> {
 
     private createViewModel(items: RecordSet, options: IMenuOptions) {
         this._listModel = this.getCollection(items, options);
-        this._listModel.setSelectedItems(this.getSelectedItems(this._listModel, options.selectedKeys), true);
+        this.setSelectedItems(this._listModel, options.selectedKeys);
     }
 
     private getCollection(items: RecordSet, options: IMenuOptions): Tree {
@@ -190,6 +196,10 @@ class MenuControl extends Control<IMenuOptions> {
             parentProperty: options.parentProperty,
             root: options.root
         });
+    }
+
+    private setSelectedItems(listModel: Tree, keys: TKeys): void {
+        listModel.setSelectedItems(this.getSelectedItems(listModel, keys), true);
     }
 
     private getSourceController({source, navigation, keyProperty}: {source: ICrud, navigation: object, keyProperty: string}): SourceController {
@@ -206,8 +216,8 @@ class MenuControl extends Control<IMenuOptions> {
     private getSelectedItems(listModel: Tree, selectedKeys: TKeys) {
         let items = [];
         factory(selectedKeys).each((key) => {
-            if (listModel.getItemBySourceId(key)) {
-                items.push(listModel.getItemBySourceId(key).getContents());
+            if (listModel.getItemBySourceKey(key)) {
+                items.push(listModel.getItemBySourceKey(key).getContents());
             }
         });
         return items;
@@ -236,7 +246,7 @@ class MenuControl extends Control<IMenuOptions> {
         });
     }
 
-    private openSubDropdown(target: HTMLDivElement, item: TreeItem<Model>): void {
+    private openSubDropdown(target: EventTarget, item: TreeItem<Model>): void {
         // _openSubDropdown is called by debounce and a function call can occur when the control is destroyed,
         // just check _children to make sure, that the control isnt destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {

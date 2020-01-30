@@ -1,4 +1,5 @@
 @color_warning:                       @warning_color; // дублирует стиль новой спецификации, удаляем
+@background-color_default:            @background-color; // дублирует стиль новой спецификации, удаляем
 @color_success:                       @success_color; // дублирует стиль новой спецификации, удаляем
 @color_link:                          @link_text-color; // дублирует стиль новой спецификации, удаляем
 @color_link-hover:                    @link_hover_text-color; // дублирует стиль новой спецификации, удаляем
@@ -91,42 +92,6 @@
 @spacing_InputBase_between-rightBorder-text:         @padding-horizontal_inputText; // дублирует стиль новой спецификации, удаляем
 
 @caret-color_InputBase:                              @caret-color_fill_inputText; // дублирует стиль новой спецификации, удаляем
-
-@border-radius_Render_size_s:                               @inline_height_s / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_m:                               @inline_height_m / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_l:                               @inline_height_l / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_default:                         @inline_height_default / 2; // вообще не нужно, удаляем
-
-//input render
-@font-weight_Render_fontStyle_primary_size_s_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_s_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_m_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_m_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_l_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_l_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_default_val:           bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_default_val:         bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_s_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_m_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_l_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_default_val:           normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_s:               @font-weight_Render_fontStyle_default_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_s:               @font-weight_Render_fontStyle_primary_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_s:             @font-weight_Render_fontStyle_secondary_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_m:               @font-weight_Render_fontStyle_default_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_m:               @font-weight_Render_fontStyle_primary_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_m:             @font-weight_Render_fontStyle_secondary_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_l:               @font-weight_Render_fontStyle_default_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_l:               @font-weight_Render_fontStyle_primary_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_l:             @font-weight_Render_fontStyle_secondary_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_default:         @font-weight_Render_fontStyle_default_size_default_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_default:         @font-weight_Render_fontStyle_primary_size_default_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_default:       @font-weight_Render_fontStyle_secondary_size_default_val; // вообще не нужно, удаляем
-// Render
-@size_Render-tagStyle_val:                                        @tag-size;
-
-@border-color_input_val:                                          #EAEAEA; // вообще не нужно, удаляем
-@border-color-bottom_Render_val:                                  #AAB0C1; // вообще не нужно, удаляем
 
 //DialogTemplate
 @height_DialogTemplate-top-area-val:                                      @header-min-height_dialog; // дублирует стиль новой спецификации, удаляем
@@ -308,123 +273,6 @@
 //for support link with magic color, delete when complete https://online.sbis.ru/opendoc.html?guid=b8228090-19fe-454b-992f-bf31d9e96ca5
 @color_Link_magic:                                     @color_Link_magic_val;
 
-// ToggleButton
-@background_ToggleButton_common_val:                                      @secondary_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_common_val:                                    transparent;
-@background_ToggleButton_pushButton_hovered_val:                          @secondary_contrast_hover_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_pushButton_hovered_val:                        #F0F5FB;
-@background_ToggleButton_pushButton_toggled_val:                          @secondary_toggled_background-color_toggleButton_pushButton;
-@text-shadow_ToggleButton_pushButton_val:                                  none;
-@padding_Button-wrapper-pushButton_size_s_val:                            0;
-
-
-@background_ToggleButton_common:                                                    @background_ToggleButton_common_val;
-@border-color_ToggleButton_common:                                                  @border-color_ToggleButton_common_val;
-
-//toggle link
-@thickness_ToggleButton-border_pushButton:                                         @thickness_border_default;
-@border-radius_ToggleButton_pushButton:                                            @border-radius-ToolButton;
-@color_ToggleButton_pushButton_readOnly:                                           @readonly_color;
-
-@border-color_ToggleButton_pushButton_readOnly:                                    @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton_readOnly:                                      @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton_readOnly_toggled:                            @readonly_color;
-@background_ToggleButton_pushButton_readOnly_toggled:                              @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton:                                             @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton:                                               @background_ToggleButton_common;
-
-@background_ToggleButton_pushButton_toggled:                                       @background_ToggleButton_pushButton_toggled_val;
-
-@height_ToggleButton-pushButton_s:                                                 @height-ToolButton_size-s;
-@min-width_ToggleButton-pushButton_s:                                              @height_ToggleButton-pushButton_s;
-
-@height_ToggleButton-pushButton_m:                                                 @height-ToolButton_size-m;
-@min-width_ToggleButton-pushButton_m:                                              @height_ToggleButton-pushButton_m;
-
-@height_ToggleButton-pushButton_l:                                                 @height-ToolButton_size-l;
-@min-width_ToggleButton-pushButton_l:                                              @height_ToggleButton-pushButton_l;
-
-@color_ToggleButton-icon_pushButton_secondary_hovered:                             @link_hover_text-color;
-@color_ToggleButton_pushButton-text:                                               @text-color;
-@background_ToggleButton_pushButton_hovered:                                       @background_ToggleButton_pushButton_hovered_val;
-@border-color_ToggleButton_pushButton_hovered:                                     @border-color_ToggleButton_pushButton_hovered_val;
-
-@border-color_ToggleButton_toggle_on-info:                  @unaccented_icon-color;
-@border-color_ToggleButton_toggle_on-secondary:             @secondary_color;
-@border-color_ToggleButton_toggle_on-primary:               @color_primary;
-@border-color_ToggleButton_toggle_on-danger:     @danger_color;
-@border-color_ToggleButton_toggle_on-success:    @success_color;
-@border-color_ToggleButton_toggle_on-warning:    @warning_color;
-
-@color_ToggleButton_icon-info_toggle_on:          @unaccented_icon-color;
-@color_ToggleButton_icon-secondary_toggle_on:     @secondary_color;
-@color_ToggleButton_icon-primary_toggle_on:       @color_primary;
-@color_ToggleButton_icon-danger_toggle_on:        @danger_color;
-@color_ToggleButton_icon-success_toggle_on:       @success_color;
-@color_ToggleButton_icon-warning_toggle_on:       @warning_color;
-
-@color_ToggleButton_pushButton-text: @text-color;
-@color_ToggleButton_toolButton-text: @text-color;
-
-@text-shadow_ToggleButton_pushButton: @text-shadow_ToggleButton_pushButton_val;
-
-@padding_Button-wrapper-pushButton_size_s: @padding_Button-wrapper-pushButton_size_s_val;
-@padding_Button-wrapper-pushButton_size_m: @padding_Button-wrapper-pushButton_size_s;
-@padding_Button-wrapper-pushButton_size_l: @padding_Button-wrapper-pushButton_size_s;
-
-@font-size_ToggleButton-pushButton_s: @font-size_m;
-@font-size_ToggleButton-pushButton_m: @font-size_m;
-@font-size_ToggleButton-pushButton_l: @font-size_m;
-//Switcher
-@font-size_Switch:                  @font-size_switcher;
-@font-size_DoubleSwitch:            @font-size_switcher;
-@width_Switch:                      @width_switcher;
-@height_Switch:                     @height_switcher;
-@width_Switch__border:              @border-thickness_switcher;
-@color_Switch__border:              @border-color_switcher;
-@size_Switch__border-radius:        @border-radius_switcher;
-@thickness_Switch-track:            @track_thickness_switcher;
-@length_Switch-track:               @track_length_switcher;
-@spacing_Switch-between-toggle-text: @text_offset_switcher;
-
-@background-color_Switch-track__enabled:    @track_color_switcher;
-@background-color_Switch-track__disabled:   @readonly_track_color_switcher;
-
-@color_Switch-text__enabled_selected:       @text-color_switcher;
-@color_Switch-text__enabled_unselected:     @unselected_text-color_switcher;
-@color_Switch-text__disabled_selected:      @readonly_text-color_switcher;
-@color_Switch-text__disabled_unselected:    @readonly_unselected_text-color_switcher;
-
-@thickness_ToggleCircle-borderCircle-border: @marker-box_border-thickness_switcher;
-@color_ToggleCircle_innerCircle__selected_enabled: @marker_color_switcher;
-@color_ToggleCircle_innerCircle__selected_disabled: @readonly_marker_color_switcher;
-
-@color_ToggleCircle_outerCircle__enabled:          @marker-box_border-color_switcher;
-@color_ToggleCircle_outerCircle__enabled_hovered:  @marker-box_hover_border-color_switcher;
-@color_ToggleCircle_outerCircle__disabled:         @readonly_marker-box_border-color_switcher;
-
-@width_ToggleCircle:            @marker-box_size_switcher;
-@height_ToggleCircle:           @marker-box_size_switcher;
-@size_Switch__ToggleCircle:     @marker-box_size_switcher;
-
-
-//BigSeparator
-@size-BigSeparator__icon:                               @icon-size_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon:                               @icon-color_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon_hovered:                       @icon-color_hover_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-
-// Button/Separator
-@size-Separator:                                                  @height_toggleSeparator;  // дублирует стиль новой спецификации, удаляем
-@size-Separator__icon:                                            @icon-size_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary:                           @secondary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary:                             @primary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional:                          @unaccented_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary_hovered:                   @secondary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary_hovered:                     @primary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional_hovered:                  @unaccented_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-
 //Combobox
 @margin-top_ComboBox-popup:                     -@border-thickness_inputText;
 @spacing_ComboBox-between-arrow-rightBorder:    @trigger_padding-right_combobox;
@@ -549,56 +397,130 @@
 @spacing_DropdownList-iconSize_small-between-iconHead-topBorder:           @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_s) / 2;
 @spacing_DropdownList-iconSize_small-between-iconHead-leftBorder:          @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
 
-//HistoryMenu
-@color_HistoryMenu-pin:                                        @pin-button_icon-color_menu;
-@color_HistoryMenu-pin_hovered:                                @pin-button_hover_icon-color_menu;
-@spacing_HistoryMenu-between-itemCaption-rightBorder:          @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
-@spacing_HistoryMenu-between-pin-rightBorder:                  @pin-button_offset-right_menu;
-@icon-size_HistoryMenu-pin:                                    @pin-button_icon-size_menu;
-
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
-//MenuPopup
-@spacing_MenuButton-between-leftBorder-content:      -(@spacing_default_l + @thickness_border_default);
 
-@shift-top_MenuButton-button-popup:                  -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button-popup:                 -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_m_button);
+//SearchInput
+@border-color_Search_active:                     @border-color_focus_searchInput;
+@background-color_Search:                        @background-color_searchInput;
+@background-color_Search_contrast_background:    @background-color_contrast_searchInput;
+@border-radius_Search:                           @border-radius_default_searchInput;
+@border-right_content_spacing_Search:            @padding-right_searchInput - @border-thickness_inputText;
+@border-left_content_spacing_Search:             @padding-left_searchInput - @border-thickness_inputText;
+@border-color_Search:                            @border-color_searchInput;
+@border-color_Search_readOnly:                   @readonly_border-color_searchInput;
+@background-color_Search_style_header:           @background-color_contrast_searchInput;
+@icon-size_Search:                               @trigger_icon-size_searchInput;
+@color_Search_iconSearch:                        @trigger_icon-color_searchInput;
+@color_Search_iconSearch_hovered:                @trigger_icon-color_hover_searchInput;
+@color_Search_iconSearch_active:                 @trigger_icon-color_active_searchInput;
+@color_Search_iconSearch_readOnly:               @readonly_trigger_icon-color_searchInput;
+@color_Search_iconReset:                         @reset-button_icon-color_searchInput;
+@color_Search-caret_empty:                       @caret-color_empty_searchInput;
+@iconReset-iconSearch_spacing:                   @trigger_offset_searchInput;
 
-@shift-top_MenuButton-button_default-popup:          @shift-top_MenuButton-button-popup;
-@shift-left_MenuButton-button_default-popup:         @shift-left_MenuButton-button-popup;
+//FilterPanel
+//background color of filterPanel
+@background-color_FilterPanel:                                @background-color_vertical_filterPanel;
+@background-color_FilterPanel_horizontal:                     @background-color_horizontal_filterPanel;
 
-@shift-top_MenuButton-button_large-popup:            -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button_large-popup:           -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_l_button);
+//specific filterPanel width
+@width_FilterPanel-size_s:                                    @width_s_filterPanel;
+@width_FilterPanel-size_m:                                    @width_m_filterPanel;
+@width_FilterPanel-size_l:                                    @width_l_filterPanel;
+@width_FilterPanel-size_xl:                                   @width_xl_filterPanel;
+@width_FilterPanel-filtersWrapper-size_m:                     @width_m_filterPanel;
+@width_FilterPanel-filtersWrapper-size_l:                     @width_FilterPanel-filtersWrapper-size_m;
+@width_FilterPanel-HistoryList-size_m:                        @history_width_s_filterPanel;
+@width_FilterPanel-HistoryList-size_l:                        @history_width_l_filterPanel;
 
-@shift-top_MenuButton-button_medium-popup:           -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
+//Header of filterPanel
+@spacing_FilterPanel-between-resetButton-applyButton:         @reset-button_offset-right_filterPanel;
+@spacing_FilterPanel-between-applyButton-closeButton:         @spacing_default_xs;
+@spacing_FilterPanel-between-panelHeading-topTemplate:        @spacing_default_xl;
+@spacing_FilterPanel-between-topTemplate-resetButton:         @header-content_padding-right_filterPanel;
 
-@shift-top_MenuButton-link-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup); // ???
-@shift-left_MenuButton-link-popup:                   @spacing_MenuButton-between-leftBorder-content;
+//Captions of filterPanel blocks
+@font-size_FilterPanel-block-heading:                         @font-size_text_l;
+@color_FilterPanel-block-heading:                             @secondary_text-color_heading;
+@height_FilterPanel-block-heading:                            @inline_height_m;
 
-@shift-top_MenuButton-link_large-popup:              -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
+//common block variables
+@spacing_FilterPanel-content-bottomBorder:                    @spacing_default_l;
 
-@shift-top_MenuButton-toolButton_large-popup:        -((@item_height_menu - @inline_height_xl_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-toolButton_large-popup:       -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - ((@inline_height_xl_button - @icon-size_l) / 2));
+//PropertyGrid
+@spacing_FilterPanel-between-leftBorder-propertyGrid:         @spacing_default_xxl;
+@spacing_FilterPanel-between-rightBorder-propertyGrid:        @spacing_default_l;
+@spacing_FilterPanel-between-topBorder-propertyGrid:          0;
+@spacing_FilterPanel-between-bottomBorder-propertyGrid:       0;
 
-@shift-top_MenuButton-toolButton_medium-popup:       -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_l_button - @icon-size_m) / 2));
-@shift-left_MenuButton-toolButton_medium-popup:      @spacing_MenuButton-between-leftBorder-content + (@inline_height_l_button - @icon-size_m) / 2;
+//AdditionalParams
+@spacing_FilterPanel-between-leftBorder-additionalParams:     @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-additionalParams:    @spacing_default_l;
+@spacing_FilterPanel-between-propertyGrid-additionalParams:   @spacing_default_l;
 
-@shift-top_MenuButton-toolButton_small-popup:        -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_m_button - @icon-size_s) / 2));
-@shift-left_MenuButton-toolButton_small-popup:       @spacing_MenuButton-between-leftBorder-content + (@inline_height_m_button - @icon-size_s) / 2;
+//History vertical
+@spacing_FilterPanel-between-topBorder-history_vertical:      @spacing_default_l;
+@spacing_FilterPanel-between-leftBorder-history_vertical:     @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-history_vertical:    @spacing_default_l;
+@spacing_FilterPanel-between-bottomBorder-history_vertical:   @spacing_default_l;
 
-@shift-top_MenuButton-toolButton_default-popup:      @shift-top_MenuButton-toolButton_small-popup;
-@shift-left_MenuButton-toolButton_default-popup:     @shift-left_MenuButton-toolButton_small-popup;
+@background-color_FilterPanel-history_vertical:               @history_background-color_filterPanel;
 
-@shift-top_MenuButton-link_small-popup:              @shift-top_MenuButton-link-popup;
-@shift-left_MenuButton-link_small-popup:             @shift-left_MenuButton-link-popup;
+@height_FilterPanel-separator:                                @icon-size_toggleBigSeparator;
 
-@shift-top_MenuButton-link_medium-popup:             -((@item_height_menu - @icon-size_m) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-link_medium-popup:            @spacing_MenuButton-between-leftBorder-content;
+//History horizontal
+@spacing_FilterPanel-between-topBorder-history_horizontal:    0;
+@spacing_FilterPanel-between-leftBorder-history_horizontal:   @spacing_default_l;
+@spacing_FilterPanel-between-rightBorder-history_horizontal:  @spacing_default_l;
+@spacing_FilterPanel-between-bottomBorder-history_horizontal: @spacing_default_l;
 
-@shift-top_MenuButton-link_duplicate_medium-popup:   -@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder;
-@shift-left_MenuButton-link_duplicate_medium-popup:  -@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder;
+@border-left_FilterPanel-history_horizontal:                  @separator_thickness_filterPanel solid @separator_color_filterPanel;
 
-@shift-top_MenuButton-link_duplicate_small-popup:    -@spacing_DropdownList-iconSize_small-between-iconHead-topBorder + @border-width_DropdownList;
-@shift-left_MenuButton-link_duplicate_small-popup:   -@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder;
+@max-height_FilterPanel-expandable-block:                     @inline_height_m*5; //max height depends on default control height. By control standard must be visible only 5 rows.
 
+@height_HistoryList-item:                             @inline_height_m;
+@spacing_HistoryList-between-leftBorder-content:      @spacing_default_l;
+@color_HistoryList-item:                              @link_hover_text-color;
+@color_HistoryList_horizontal-item:                   @unaccented_text-color;
+@spacing_HistoryList-between-icon-text:               @spacing_default_l;
 
+@font-size_HistoryList-pin:                           @icon-size_s;
+@color_HistoryList-pin_unpinned:                      @readonly_color;
+@color_HistoryList-pin_pinned:                        @link_hover_text-color;
+@color_HistoryList-pin_hover:                         @link_hover_text-color;
+@color_HistoryList-pin_active:                        @link_hover_text-color;
+
+// FavoriteDialog
+@width_FavoriteEditDialog:                            @width_filterFavoriteDialog;
+@width_FavoriteEditDialog-dropdownItemTpl-comment:    115px;
+
+@spacing_HistoryList_horizontal-between-history-items:   @spacing_default_s;
+@line-height_HistoryList_horizontal-item:                @font-size_xl;
+@max-height_HistoryList_horizontal-item:                 @line-height_HistoryList_horizontal-item * 2;
+
+@color_FilterDropdown-text:                              @link_hover_text-color;
+//AdditionalParams
+@color_AdditionalParams-item:                            @link_hover_text-color;
+@height_AdditionalParams-item:                           @inline_height_m;
+@spacing_AdditionalParams-between-leftBorder-content:    @spacing_default_xl + @spacing_default_s; //icon width + between icon - content spacing
+@spacing_AdditionalParams-between-columns:               @spacing_default_l;
+@min-width_AdditionalParams-leftColumn:                  50%;
+@max-width_AdditionalParams-leftColumn:                  70%;
+
+@height_FilterLink:                                      @inline_height_m;
+@color_FilterLink-text:                                  @link_hover_text-color;
+
+@spacing_PropertyGrid-between-items:                        @spacing_default_xs;
+@spacing_PropertyGrid-between-lastItem-bottomBorder:        @spacing_PropertyGrid-between-lastItem-bottomBorder_val;
+
+@max-width_SimplePanel:                                     @max-width_filterSimplePanel;
+@spacing_SimplePanel-between-applyButton-topBorder:         @apply-button_offset-top_filterSimplePanel;
+@spacing_SimplePanel-between-applyButton-close:             @apply-button_offset-right_filterSimplePanel;
+@color_SimplePanel-dropdown__emptyItem:                     @empty-item_text-color_filterSimplePanel;
+@font-size_SimplePanel-dropdown__emptyItem:                 @empty-item_font-size_filterSimplePanel;
+@shift-top_FilterView-SimplePanel-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup + @popup_padding-vertical_menuPopup);
+@shift-left_FilterView-SimplePanel-popup:                   -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
+
+@height_FilterText:                                         @inline_height_m;
+@font-size_FilterText-reset:                                @icon-size_s;
 //last line

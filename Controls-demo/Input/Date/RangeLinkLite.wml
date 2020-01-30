@@ -57,5 +57,15 @@
             />
          </div>
       </div>
+      <div class="PageBlock__componentWrap">
+         <Controls.dateRange:LiteSelector
+                 bind:startValue="_startValueYear"
+                 bind:endValue="_endValueYear"
+                 prevArrowVisibility="{{true}}"
+                 nextArrowVisibility="{{true}}"
+                 readOnly="{{true}}"
+                 attr:test_name="readonly"
+         />
+      </div>
    </div>
 </div>

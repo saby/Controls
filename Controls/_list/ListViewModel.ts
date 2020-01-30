@@ -23,11 +23,13 @@ var _private = {
         self._stopIndex = stopIndex;
     },
     getItemPadding: function(cfg) {
-        return cfg.itemPadding || {
-            left: 'default',
-            right: 'default',
-            top: 'default',
-            bottom: 'default'
+        const itemPadding = cfg.itemPadding || {};
+        const normalizeValue = (side) => (itemPadding[side] || 'default').toLowerCase();
+        return {
+            left: normalizeValue('left'),
+            right: normalizeValue('right'),
+            top: normalizeValue('top'),
+            bottom: normalizeValue('bottom'),
         };
     },
     getSpacingClassList: function(cfg) {
@@ -83,6 +85,11 @@ var _private = {
         } else {
             return !!(drawnActions && drawnActions.length);
         }
+    },
+    getGroupPaddingClasses(current): { left: string; right: string } {
+        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}`;
+        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}`;
+        return {right, left};
     }
 };
 
@@ -182,6 +189,10 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         if (itemsModelCurrent.itemActions) {
            drawnActions = itemsModelCurrent.itemActions.showed;
+        }
+
+        if (itemsModelCurrent.isGroup) {
+            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent);
         }
 
         itemsModelCurrent.drawActions = _private.needToDrawActions(this._editingItemData, itemsModelCurrent, this._options.editingConfig, drawnActions);

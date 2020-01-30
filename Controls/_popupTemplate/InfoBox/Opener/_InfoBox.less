@@ -1,11 +1,8 @@
-@spacing_Infobox-between-border-arrow: (@length_Infobox-arrow-diagonal - @size_Infobox-arrow)/2;
-
+//складываем все размеры и отступы крестика и вычитаем уже имеющийся отступ для текста, получаем сдвиг для текста
+@text_padding-horizontal_infobox: @close-button_offset-left_infobox + @width_closeButton_link + @close-button_offset-right_infobox - @content_padding-horizontal_infobox;
 
 .controls-InfoBox_theme-@{themeName} {
-   padding-top:   @spacing_Infobox-between-content-border-top;
-   padding-right: @spacing_Infobox-between-content-border-right;
-   padding-bottom: @spacing_Infobox-between-content-border-bottom;
-   padding-left:   @spacing_Infobox-between-content-border-left;
+   padding: @content_padding-vertical_infobox @content_padding-horizontal_infobox;
 }
 
 .controls-InfoBox {
@@ -14,61 +11,34 @@
    overflow: auto;
 }
 
-/**
- * In firefox, the text baseline is 1px higher than the standard. Compensate for this by reducing the indentation between the text and the upper border by 1px.
- * To ensure that the height is not changed let's increase the indentation between the text and the bottom border by 1px.
- * Presumably the problem is in the font. Error written https://online.sbis.ru/opendoc.html?guid=1e389bc5-8be7-4394-abdd-231e3ec040a8
- */
-.ws-is-firefox {
-   .controls-InfoBox_theme-@{themeName} {
-      padding-top: @spacing_Infobox-between-content-border-top - 1;
-   }
-}
-
-.controls-InfoBox__closeButton_theme-@{themeName} {
-   top: @spacing_Infobox-between-top-close-button;
-   right: @spacing_Infobox-between-right-close-button;
-   color: @color_Infobox-close-button;
-
-   &:hover {
-      color: @color_Infobox-close-button_hover;
-   }
-}
-
-.controls-InfoBox__closeButton {
-   position: absolute;
-   cursor: pointer;
-}
-
 .controls-InfoBox__content {
    height: 100%;
 }
 
 .controls-InfoBox__message_margin_theme-@{themeName} {
-   margin-right: @spacing_Infobox-between-message-border;
+   margin-right: @text_padding-horizontal_infobox;
 }
 
 .controls-InfoBox__message_theme-@{themeName} {
-   font-size: @font-size_Infobox-message;
+   font-size: @font-size_infobox;
 }
 
 .controls-InfoBox_floatElement_theme-@{themeName} {
-   width: @size_Infobox-float-element;
-   height: @size_Infobox-float-element;
+   width: @text_padding-horizontal_infobox;
+   height: @text_padding-horizontal_infobox;
 }
 
 .controls-InfoBox_floatElement {
    float: right;
 }
 
-
 /*
    Class to access the constant themes from js
 */
 .controls-InfoBox__themeConstants {
-   margin-left: @length_Infobox-arrow-diagonal;
-   margin-right: @horizontal-offset_Infobox-arrow;
-   margin-bottom: @vertical-offset_Infobox-arrow;
-   margin-top: @spacing_Infobox-between-target-popup;
-   max-width: @max-width_Infobox;
+   margin-left: @arrow_base_length_infobox;
+   margin-right: @arrow_offset_infobox;
+   margin-bottom: @arrow_offset_infobox;
+   margin-top: @target_offset_infobox;
+   max-width: @max-width_infobox;
 }

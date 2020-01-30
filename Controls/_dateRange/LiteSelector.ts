@@ -15,6 +15,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_interface/IDisplayedRanges
+ * @mixes Controls/_interface/IOpenPopup
  * @control
  * @public
  * @category Input
@@ -43,7 +44,7 @@ var Component = BaseSelector.extend({
 
     _getPopupOptions: function() {
         var className;
-        const container = this._children.linkView.getDialogTarget();
+        const container = this._children.linkView.getPopupTarget();
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
             className = 'controls-DateRangeSelectorLite__picker-years-only';
         } else {

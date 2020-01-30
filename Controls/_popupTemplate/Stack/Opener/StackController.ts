@@ -2,6 +2,7 @@ import BaseController from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupSizes, IPopupOptions, IPopupPosition} from 'Controls/popup';
 import StackStrategy = require('Controls/_popupTemplate/Stack/Opener/StackStrategy');
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import collection = require('Types/collection');
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import Deferred = require('Core/Deferred');
@@ -306,8 +307,16 @@ class StackController extends BaseController {
     }
 
     private _getStackParentCoords(): IPopupPosition {
-        const elements = document.getElementsByClassName('controls-Popup__stack-target-container');
-        const targetCoords = TargetCoords.get(elements && elements.length ? elements[0] : document.body);
+        let stackRoot: HTMLDivElement = document.querySelector('.controls-Popup__stack-target-container');
+        if (!isNewEnvironment()) {
+            stackRoot = document.querySelector('.ws-float-area-stack-root');
+            const isNewPageTemplate = document.body.classList.contains('ws-new-page-template');
+            const contentIsBody = stackRoot === document.body;
+            if (!contentIsBody && !isNewPageTemplate && stackRoot) {
+                stackRoot = stackRoot.parentElement;
+            }
+        }
+        const targetCoords = TargetCoords.get(stackRoot || document.body);
         // calc with scroll, because stack popup has fixed position only on desktop and can scroll with page
         const leftPageScroll = detection.isMobilePlatform ? 0 : targetCoords.leftScroll;
         return {

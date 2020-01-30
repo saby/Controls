@@ -81,31 +81,6 @@ define(
             };
             dropdown.Opener._private.setPopupOptions(opener, cfg);
             assert.isTrue(cfg.className === 'myClass');
-
-            dropdown.Opener._private.setTemplateOptions(opener, cfg);
-            let isEqual = true;
-            for (let key of Object.keys(config)) {
-               if (config[key] !== cfg.templateOptions[key] && cfg.templateOptions[key] !== undefined) {
-                  isEqual = false;
-               }
-            }
-            assert.isTrue(isEqual);
-         });
-
-         it('checkIcons', function() {
-            let opener = getOpener(config);
-            dropdown.Opener._private.checkIcons(opener, config);
-            assert.deepEqual(config.templateOptions.iconPadding, { null: 'icon-small' });
-            config.templateOptions.rootKey = 'testKey';
-            dropdown.Opener._private.checkIcons(opener, config);
-            assert.deepEqual(config.templateOptions.iconPadding, { testKey: 'icon-small' });
-         });
-
-         it('getIconSize', function() {
-            let reault = dropdown.Opener._private.getIconSize('icon-add icon-small', 'm');
-            assert.equal(reault, 'icon-medium');
-            reault = dropdown.Opener._private.getIconSize('icon-add icon-small');
-            assert.equal(reault, 'icon-small');
          });
       });
    }

@@ -13,7 +13,7 @@ import {debounce} from 'Types/function';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom'
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 //need to open subdropdowns with a delay
       //otherwise, the interface will slow down.
@@ -147,25 +147,70 @@ import {SyntheticEvent} from 'Vdom/Vdom'
                headConfig.iconSize = options.iconSize || '';
                headConfig.menuStyle = headConfig.menuStyle || 'defaultHead';
 
-               let rootKey = options.parentProperty ? _private.getRootKey(options.rootKey) : options.parentProperty,
-                   iconSizes = ['small', 'medium', 'large'],
+               let iconSizes = ['small', 'medium', 'large'],
                    iconSize;
 
-               if (headConfig.icon) {
+               switch (options.iconSize) {
+                  case 's': iconSize = 'small'; break;
+                  case 'm': iconSize = 'medium'; break;
+                  case 'l': iconSize = 'large';
+               }
+
+               if (headConfig.icon && ! iconSize) {
                   iconSizes.forEach(function(size) {
                      if (headConfig.icon.indexOf('icon-' + size) !== -1) {
                         iconSize = size;
                      }
                   });
                }
-               if (!iconSize && options.iconPadding && options.iconPadding[rootKey]) {
-                  headConfig.icon += ' ' + options.iconPadding[rootKey];
-               }
                if (headConfig.menuStyle === 'duplicateHead') {
                   self._duplicateHeadClassName = 'control-MenuButton-duplicate-head_' + iconSize;
                }
                self._headConfig = headConfig;
             }
+         },
+
+         getIconSize: function (icon, optIconSize) {
+            const iconSizes = ['icon-small', 'icon-medium', 'icon-large', 'icon-size'];
+            if (optIconSize) {
+               switch (optIconSize) {
+                  case 's': return iconSizes[0];
+                  case 'm': return iconSizes[1];
+                  case 'l': return iconSizes[2];
+               }
+            } else {
+               let iconSize = '';
+               iconSizes.forEach((size) => {
+                  if (icon.indexOf(size) !== -1) {
+                     iconSize = size;
+                  }
+               });
+               return iconSize;
+            }
+         },
+
+         getIconPadding: function(self, options) {
+            const parentProperty = options.parentProperty,
+                rootKey = _private.getRootKey(options.rootKey),
+                headerIcon = options.headConfig && options.headConfig.icon || options.showHeader && options.icon,
+                menuStyle = options.headConfig && options.headConfig.menuStyle,
+                optIconSize = options.iconSize;
+            let iconPadding = {}, icon, parentKey;
+
+            // необходимо учесть иконку в шапке
+            if (headerIcon && menuStyle !== 'titleHead') {
+               iconPadding[parentProperty ? rootKey || 'null' : 'undefined'] = _private.getIconSize(headerIcon, optIconSize);
+            } else {
+               chain.factory(options.items).each((item) => {
+                  icon = item.get('icon');
+                  parentKey = item.get(parentProperty);
+                  if (icon && !iconPadding.hasOwnProperty(parentKey)) {
+                     iconPadding[parentKey] = _private.getIconSize(icon, optIconSize);
+                  }
+               });
+            }
+
+            return iconPadding;
          },
 
          isHeadConfigChanged: function(newOptions, oldOptions) {
@@ -201,6 +246,7 @@ import {SyntheticEvent} from 'Vdom/Vdom'
          _listModel: null,
          _subDropdownItem: null,
          _selectionChanged: false,
+         _iconPadding: null,
 
          _beforeMount: function(newOptions) {
             _private.checkDeprecated(newOptions, this);
@@ -228,6 +274,7 @@ import {SyntheticEvent} from 'Vdom/Vdom'
                });
                this._hasHierarchy = this._listModel.hasHierarchy();
                this._hasAdditional = this._listModel.hasAdditional();
+               this._iconPadding = _private.getIconPadding(this, newOptions);
                _private.setPopupOptions(this);
                _private.prepareHeaderConfig(this, newOptions);
             }

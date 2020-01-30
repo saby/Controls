@@ -3,14 +3,13 @@ import getWidthUtil = require('Controls/Utils/getWidth');
 import showSelectorTemplate = require('wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate');
 import inputRender = require('wml!Controls/_lookup/MultipleInput/resources/inputRender');
 
-import 'css!theme?Controls/lookup';
 
-var
+const
     OUTER_INDENT_INPUT = 0,
     SHOW_SELECTOR_WIDTH = 0,
     LIST_OF_DEPENDENT_OPTIONS = ['items', 'displayProperty', 'readOnly', 'placeholder', 'isInputVisible'];
 
-var _private = {
+const _private = {
     initializeConstants: function (theme) {
         if (!SHOW_SELECTOR_WIDTH) {
             // The template runs in isolation from the application, so the theme will not be inherited from Application.
@@ -76,6 +75,7 @@ var LookupMultiSelectorView = BaseLookupView.extend({
     }
 });
 
+LookupMultiSelectorView._theme = ['Controls/lookup'];
 LookupMultiSelectorView.getDefaultOptions = function() {
     return {
         showClearButton: false
