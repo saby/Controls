@@ -102,6 +102,7 @@ define('Controls-demo/Filter/Button/PanelVDom',
                      { key: 2, title: 'My department' }
                   ]
                })},
+               {id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false},
                {id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false},
                {id: 'own', value: 2, resetValue: '', textValue: 'On department', visibility: false, source: new sourceLib.Memory({
                   keyProperty: 'key',
