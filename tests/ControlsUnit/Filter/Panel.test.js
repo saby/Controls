@@ -60,7 +60,7 @@ define(
             filterPopup.DetailPanel._private.loadHistoryItems(panel2, 'TEST_PANEL_HISTORY_ID', false).addCallback(function(items) {
                assert.isOk(filter.HistoryUtils.getHistorySource({historyId: 'TEST_PANEL_HISTORY_ID'})._history);
                assert.isFalse(filter.HistoryUtils.getHistorySource({historyId: 'TEST_PANEL_HISTORY_ID'}).historySource._favorite);
-               assert.equal(items.getCount(), 2);
+               assert.equal(items.getCount(), 0);
                Env.constants.isServerSide = isServerSide;
                done();
             });
@@ -446,6 +446,27 @@ define(
 
             it('filterHistoryItems', function() {
                assert.equal(filterPopup.DetailPanel._private.filterHistoryItems(self, historyItems).getCount(), 1);
+               const unwantedHistoryItems = new collection.RecordSet({
+                  rawData: [
+                     { ObjectData: JSON.stringify([
+                           {
+                              id: 'SomeFilter',
+                              value: '1234',
+                              resetValue: '',
+                              visibility: true,
+                              textValue: '123'
+                           },
+                           {
+                              id: 'Faces',
+                              value: true,
+                              resetValue: true,
+                              visibility: false
+                           }
+                        ])
+                     }
+                  ]
+               });
+               assert.equal(filterPopup.DetailPanel._private.filterHistoryItems(self, unwantedHistoryItems).getCount(), 0);
             });
 
             it('_private:reloadHistoryItems', function() {

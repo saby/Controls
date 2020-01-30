@@ -162,7 +162,7 @@ import {Logger} from 'UI/Utils';
       filterHistoryItems: function(self, items: object[]): object[] {
          function getOriginalItem(self, historyItem: object): object {
             return find(self._items, (originalItem) => {
-               return originalItem.id === historyItem.id;
+               return originalItem.id === historyItem.id || originalItem.value[historyItem.id];
             });
          }
 
@@ -187,9 +187,12 @@ import {Logger} from 'UI/Utils';
                         originalItem = getOriginalItem(self, history[i]);
                         hasResetValue = originalItem && originalItem.hasOwnProperty('resetValue');
 
+                        if (!originalItem) {
+                           validResult = false;
+                           break;
+                        }
                         if (!hasResetValue || hasResetValue && !isEqual(value, getPropValue(originalItem, 'resetValue'))) {
                            validResult = true;
-                           break;
                         }
                      }
                   }
