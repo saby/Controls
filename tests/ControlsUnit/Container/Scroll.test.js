@@ -55,6 +55,8 @@ define(
                top: 'auto',
                bottom: 'auto'
             };
+
+            scroll._isMounted = true;
          });
 
          describe('_shadowVisible', function() {
@@ -206,6 +208,20 @@ define(
                scroll._resizeHandler();
                assert.notStrictEqual(scroll._displayState, oldDisplayState);
                oldDisplayState = scroll._displayState;
+               scroll._resizeHandler();
+               assert.strictEqual(scroll._displayState, oldDisplayState);
+            });
+
+            it('should not update _displayState if the function was called before the control was fully initialized.', function() {
+               let oldDisplayState = scroll._displayState;
+               scroll._pagingState = {};
+               scroll._children.content = {
+                  scrollTop: 100,
+                  scrollHeight: 200,
+                  clientHeight: 100
+               };
+
+               scroll._isMounted = false;
                scroll._resizeHandler();
                assert.strictEqual(scroll._displayState, oldDisplayState);
             });

@@ -395,6 +395,8 @@ var
       _scrollTopAfterDragEnd: undefined,
       _scrollLockedPosition: null,
 
+      _isMounted: false,
+
       constructor: function(cfg) {
          Scroll.superclass.constructor.call(this, cfg);
       },
@@ -436,6 +438,7 @@ var
             _private.updateDisplayState(this, receivedState.displayState);
             this._styleHideScrollbar = receivedState.styleHideScrollbar || ScrollWidthUtil.calcStyleHideScrollbar();
             this._useNativeScrollbar = receivedState.useNativeScrollbar;
+            this._contentStyles = receivedState.contentStyles;
          } else {
             def = new Deferred();
 
@@ -446,6 +449,7 @@ var
                   displayState = {
                      heightFix: ScrollHeightFixUtil.calcHeightFix(),
                      shadowPosition: '',
+                     canScroll: false,
                      shadowEnable: {
                         top: topShadowVisible,
                         bottom: bottomShadowVisible
@@ -464,10 +468,19 @@ var
                self._styleHideScrollbar = styleHideScrollbar;
                self._useNativeScrollbar = useNativeScrollbar;
 
+               //  Сразу же устанавливаем contentStyles как '' на платформах, в которых скрол бар прячется нативными
+               //  средсвами а не маргинами. Иначе по умолчаниюе он равен undefined, а после инициализации
+               //  устанавливается в ''. Это приводит к forceUpdate. Код этой логики грязный, нужен рефакторинг.
+               // https://online.sbis.ru/opendoc.html?guid=0cb8e81e-ba7f-4f98-8384-aa52d200f8c8
+               if (!self._styleHideScrollbar) {
+                  self._contentStyles = '';
+               }
+
                return {
                   displayState: displayState,
                   styleHideScrollbar: styleHideScrollbar,
-                  useNativeScrollbar: useNativeScrollbar
+                  useNativeScrollbar: useNativeScrollbar,
+                  contentStyles: self._contentStyles
                };
             });
 
@@ -549,6 +562,8 @@ var
           if (!newEnv() && window) {
               window.addEventListener('resize', this._resizeHandler);
           }
+
+          this._isMounted = true;
       },
 
       _beforeUpdate: function(options, context) {
@@ -639,6 +654,12 @@ var
       },
 
       _resizeHandler: function() {
+
+         // Событие ресайза может прилететь из _afterMount внутренних контролов
+         // до вызова _afterMount на скрол контейнере.
+         if (!this._isMounted) {
+            return;
+         }
          const displayState = _private.calcDisplayState(this);
 
          if (!isEqual(this._displayState, displayState)) {
