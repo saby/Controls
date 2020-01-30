@@ -413,11 +413,6 @@ export default class VirtualScrollController {
                 this.savedStartIndex += newItems.length;
                 this.setStartIndex(this.startIndex + newItems.length);
             }
-
-            if (this.triggerVisibility[direction] && !this.itemsChanged) {
-                this.recalcRangeToDirection(direction, false);
-                this._options.saveScrollPositionCallback(direction);
-            }
         }
     }
 

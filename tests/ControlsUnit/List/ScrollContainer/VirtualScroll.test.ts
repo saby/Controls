@@ -247,44 +247,14 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
             instance._options.viewModel.getStartIndex = () => instance.startIndex;
-            instance.triggerVisibility = { up: true , down: true };
-            instance.itemsCount = 20;
-            instance.reset();
-            instance.itemsContainer = itemsContainer;
-            instance.viewportHeight = 100;
-            instance.itemsCount = 40;
-            instance.itemsAddedHandler(20, {length: 20} as object[]);
-            // @ts-ignore
-            assert.equal(0, affectingInstance.startIndex);
-            // @ts-ignore
-            assert.equal(25, affectingInstance.stopIndex);
-            instance.itemsCount = 20;
-            instance.reset();
-            instance.actualizeSavedIndexes();
-            instance.itemsCount = 40;
-            instance.recalcItemsHeights();
             instance.itemsFromLoadToDirection = true;
-            instance.itemsAddedHandler(0, {length: 20} as object[]);
-            // @ts-ignore
-            assert.equal(15, affectingInstance.startIndex);
-            // @ts-ignore
-            assert.equal(40, affectingInstance.stopIndex);
-            assert.equal(20, instance.savedStartIndex);
             instance.itemsCount = 20;
-            instance.reset();
-            instance.actualizeSavedIndexes();
+            instance.reset(0);
+            instance.itemsContainer = itemsContainer;
             instance.itemsCount = 40;
-            instance.recalcItemsHeights();
-            instance.triggerVisibility = { up: false, down: false };
-            // @ts-ignore
-            affectingInstance.startIndex = 0;
-            // @ts-ignore
-            affectingInstance.stopIndex = 20;
-            instance.itemsAddedHandler(0, {length: 20} as object[]);
-            // @ts-ignore
-            assert.equal(0, affectingInstance.startIndex);
-            // @ts-ignore
-            assert.equal(20, affectingInstance.stopIndex);
+            instance.itemsAddedHandler(0, {length: 20});
+            assert.equal(instance.stopIndex, 40);
+            assert.equal(instance.startIndex, 20);
         });
         it('itemsRemovedHandler', () => {
             // @ts-ignore
