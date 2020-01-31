@@ -17,7 +17,11 @@ import * as Grouping from 'Controls/_list/Controllers/Grouping';
 
 var _private = {
     isFullCacheResetAction: function(action) {
-        return action === collection.IObservable.ACTION_REMOVE || action === collection.IObservable.ACTION_ADD;
+        return (
+            action === collection.IObservable.ACTION_REMOVE ||
+            action === collection.IObservable.ACTION_ADD ||
+            action === collection.IObservable.ACTION_MOVE
+        );
     },
     checkDeprecated: function(cfg) {
         if (cfg.leftSpacing && !this.leftSpacing) {
