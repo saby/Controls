@@ -58,6 +58,24 @@ var _private = {
             var container = nativeEvent ? nativeEvent.target.closest('.controls-ListView__itemV') : null;
             self._notify('hoveredItemChanged', [item, container]);
         }
+    },
+
+    /**
+     * Проверяет, что markedKey был изменён в модели ListViewModel, например,
+     * в случае, когда заданный в опциях ключ не был найден в пришедших с сервера данных
+     * @param self
+     */
+    checkMarkedKeyHasChangedInModel: function(self) {
+        return self._options.markedKey !== undefined && self._options.markedKey !== null &&
+            self._options.markedKey !== self._listModel.getMarkedKey();
+    },
+
+    /**
+     * Проверяет, если
+     * @param self
+     */
+    checkMarkerShouldBeVisible: function(self) {
+        return self._options.markerVisibility === 'always' || self._options.markerVisibility === 'visible';
     }
 };
 
@@ -163,9 +181,14 @@ var ListView = BaseControl.extend(
             if (!this._options._innerList) {
                 this.resizeNotifyOnListChanged();
             }
-            if (this._options.markedKey === undefined && (this._options.markerVisibility === 'always' || this._options.markerVisibility === 'visible')) {
-                this._notify('markedKeyChanged', [this._listModel.getMarkedKey()]);
-            }
+            // корректное значение _listModel.markedKey устанавливается в BaseControl после получения данных
+            // методом BaseControl.reload() и событие 'onMarkedKeyChanged' модели ListViewModel
+            // вызывается до того, как в ListView._beforeMount() на него делается подписка
+            // может, задействовать Env/Event:Bus?
+            if ((this._options.markedKey === undefined || _private.checkMarkedKeyHasChangedInModel(this)) &&
+                _private.checkMarkerShouldBeVisible(this)) {
+                    this._notify('markedKeyChanged', [this._listModel.getMarkedKey()]);
+                }
         },
 
         _afterRender: function() {
