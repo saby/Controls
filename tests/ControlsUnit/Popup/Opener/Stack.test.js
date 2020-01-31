@@ -36,6 +36,48 @@ define(
             }
          };
 
+         it('get sizes on single/multi popup', () => {
+            const item1 = {
+               id: '1',
+               popupOptions: {}
+            };
+            const item2 = {
+               id: '2',
+               popupOptions: {}
+            };
+            let isCallPrepareSizeWithoutDom = false;
+            let isCallPrepareSize = false;
+            const basePrepareSizeWithoutDOM = popupTemplate.StackController._prepareSizeWithoutDOM;
+            const basePrepareSizes = popupTemplate.StackController._prepareSizes;
+            const baseGetItemPosition = popupTemplate.StackController._getItemPosition;
+
+            popupTemplate.StackController._prepareSizeWithoutDOM = () => {
+               isCallPrepareSizeWithoutDom = true;
+            };
+            popupTemplate.StackController._prepareSizes = () => {
+               isCallPrepareSize = true;
+            };
+            popupTemplate.StackController._getItemPosition = () => ({});
+
+            popupTemplate.StackController._getDefaultConfig(item1);
+            popupTemplate.StackController._elementCreated(item1, {});
+
+            assert.equal(isCallPrepareSizeWithoutDom, true);
+            assert.equal(isCallPrepareSize, false);
+
+            popupTemplate.StackController._getDefaultConfig(item2);
+            isCallPrepareSizeWithoutDom = false;
+            popupTemplate.StackController._elementCreated(item2, {});
+
+            assert.equal(isCallPrepareSizeWithoutDom, false);
+            assert.equal(isCallPrepareSize, true);
+
+            popupTemplate.StackController._stack.clear();
+            popupTemplate.StackController._getItemPosition = baseGetItemPosition;
+            popupTemplate.StackController._prepareSizeWithoutDOM = basePrepareSizeWithoutDOM;
+            popupTemplate.StackController._prepareSizes = basePrepareSizes;
+         });
+
          it('Opener: getConfig', () => {
             let getStackConfig = popupMod.Stack.prototype._getStackConfig;
             let config = getStackConfig();
