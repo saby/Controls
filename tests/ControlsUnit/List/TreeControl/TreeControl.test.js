@@ -1438,7 +1438,7 @@ define([
          treeControl.reload();
          assert.deepEqual([2246, 452815, 457244, 471641], treeControl._children.baseControl.getViewModel().getExpandedItems());
       });
-      it('Expand all', function(done) {
+      it('Expand all', function() {
          var
             treeControl = correctCreateTreeControl({
                source: new sourceLib.Memory({
@@ -1456,16 +1456,26 @@ define([
                expandedItems: [null]
             }),
             treeGridViewModel = treeControl._children.baseControl.getViewModel();
-         setTimeout(function () {
-            assert.deepEqual([null], treeGridViewModel._model._expandedItems);
-            assert.deepEqual([], treeGridViewModel._model._collapsedItems);
-            treeGridViewModel.toggleExpanded(treeGridViewModel._model._display.at(0));
-            setTimeout(function() {
-               assert.deepEqual([null], treeGridViewModel._model._expandedItems);
-               assert.deepEqual([1], treeGridViewModel._model._collapsedItems);
-               done();
+         return new Promise(function(resolve, reject) {
+            setTimeout(function () {
+               try {
+                  assert.deepEqual([null], treeGridViewModel._model._expandedItems);
+                  assert.deepEqual([], treeGridViewModel._model._collapsedItems);
+                  treeGridViewModel.toggleExpanded(treeGridViewModel._model._display.at(0));
+               } catch(e) {
+                  reject(e);
+               }
+               setTimeout(function() {
+                  try {
+                     assert.deepEqual([null], treeGridViewModel._model._expandedItems);
+                     assert.deepEqual([1], treeGridViewModel._model._collapsedItems);
+                     resolve();
+                  } catch(e) {
+                     reject(e);
+                  }
+               }, 10);
             }, 10);
-         }, 10);
+         });
       });
 
       it('expandedItems bindind 1', function(done){
