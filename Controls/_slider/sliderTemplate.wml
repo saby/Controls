@@ -44,7 +44,7 @@
    </div>
    <div if="{{_scaleData && !_options.borderVisible}}" class="controls-Slider__scale">
       <ws:for data="key, segment in _scaleData">
-         <span class="controls-Slider__segment controls-Slider__segment_theme-{{_options.theme}} controls-Slider__segment{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">{{segment.value}}</span>
+         <span class="controls-Slider__segment controls-Slider__segment_theme-{{_options.theme}} controls-Slider__segment{{_options.size=='m' ? '_big' : '_small'}} controls-Slider__segment{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">{{segment.value}}</span>
       </ws:for>
    </div>
 </div>
