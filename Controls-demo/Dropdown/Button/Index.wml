@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Меню с историей</div>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    iconSize="m"
+                    caption="Menu"
+                    source="{{_source}}"/>
+    </div>
+</div>
