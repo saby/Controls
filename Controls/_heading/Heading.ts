@@ -55,6 +55,8 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
    protected _template: TemplateFunction = headingTemplate;
    protected _fontSize: string;
    protected _fontColorStyle: string;
+   protected _stringCaption: boolean;
+
 
    private _prepareOptions(options: IHeadingOptions): void {
       if (options.size) {
@@ -67,6 +69,7 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
       } else {
          this._fontColorStyle = options.fontColorStyle;
       }
+      this._stringCaption = typeof options.caption === 'string';
    }
 
    protected _beforeMount(options: IHeadingOptions): void {
@@ -89,7 +92,8 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
 
    static getOptionTypes(): object {
       return {
-         caption: EntityDescriptor(String),
+         //Caption задается текстом, либо шаблоном, либо разметкой. Разметка приходит в виде объекта
+         caption: EntityDescriptor(Object, String)
       };
    }
 

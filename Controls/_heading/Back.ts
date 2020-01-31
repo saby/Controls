@@ -153,7 +153,8 @@ class Back extends Control<IBackOptions> {
 
     static getOptionTypes(): object {
         return {
-            caption: EntityDescriptor(String).required(),
+            //Caption задается текстом, либо шаблоном, либо разметкой. Разметка приходит в виде объекта
+            caption: EntityDescriptor(Object, String),
             style: EntityDescriptor(String).oneOf([
                 'primary',
                 'secondary',

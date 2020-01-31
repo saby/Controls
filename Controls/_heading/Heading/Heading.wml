@@ -4,4 +4,7 @@
                   controls-Header_{{_options.readOnly ? 'readonly' : 'clickable'}}
                   controls-Header__caption_style-{{_fontColorStyle}}{{_options.readOnly ? '':'_hovered'}}_theme_{{_options.theme}}"
       attr:title="{{_options.tooltip}}"
->{{_options.caption}}</span>
+>
+    <ws:if data="{{_stringCaption}}">{{_options.caption}}</ws:if>
+    <ws:else><ws:partial template="{{_options.caption}}"/></ws:else>
+</span>
