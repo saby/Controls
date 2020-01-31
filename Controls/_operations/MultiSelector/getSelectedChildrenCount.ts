@@ -18,8 +18,6 @@ export default function getSelectedChildrenCount(nodeId: Tkey, selection: ISelec
          let childId: Tkey = childItem.getId();
 
          if (!selection.excluded.includes(childId)) {
-            countSelectedChildren++;
-
             if (isNode(childItem, model, hierarchyRelation) && isHasChildren(childItem, model, hierarchyRelation) && deep !== false) {
                let countSelectedChildren2: number|null = getSelectedChildrenCount(childId, selection, model, hierarchyRelation);
 
@@ -29,6 +27,13 @@ export default function getSelectedChildrenCount(nodeId: Tkey, selection: ISelec
                } else {
                   countSelectedChildren += countSelectedChildren2;
                }
+
+               // Если у выбранного узла есть дети и все они в excluded, то сам узел тоже считаем как не выбранный
+               if (countSelectedChildren2 !== 0) {
+                  countSelectedChildren++;
+               }
+            } else {
+               countSelectedChildren++;
             }
          }
       }

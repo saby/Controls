@@ -88,9 +88,7 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
 
                if (!item || isNode(item, model, hierarchyRelation)) {
                   selectedNodes.push(itemId);
-               }
-
-               if (!selection.excluded.includes(itemId)) {
+               } else if (!selection.excluded.includes(itemId)) {
                   countItemsSelected++;
                }
             }
@@ -110,6 +108,11 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
             } else {
                countItemsSelected += countItemsSelectedInNode;
             }
+
+            // Если у выбранного узла есть дети и все они в excluded, то сам узел тоже считаем как не выбранный
+            if (!selection.excluded.includes(itemId) && (countItemsSelectedInNode !== 0 || !getChildren(nodeKey, model, hierarchyRelation).length)) {
+               countItemsSelected ++;
+            }
          }
       } else if (selection.selected.length) {
          countItemsSelected = null;
@@ -119,22 +122,24 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
    }
 
    getSelectionForModel(selection: ISelection, model: TreeCollection|ViewModel, limit: number, keyProperty: string, hierarchyRelation: relation.Hierarchy): Map<TKey, boolean> {
-      const selectionResult = new Map();
-      const selectedKeysWithEntryPath = this._mergeEntryPath(selection.selected, getItems(model));
+      const selectionResult: Map<TKey, boolean> = new Map();
+      const selectedKeysWithEntryPath: TKeys = this._mergeEntryPath(selection.selected, getItems(model));
 
       getItems(model).forEach((item) => {
          const itemId: TKey = item.getId();
-         const parentId = this._getParentId(itemId, model, hierarchyRelation);
+         const parentId: TKey = this._getParentId(itemId, model, hierarchyRelation);
          let isSelected = !selection.excluded.includes(itemId) && (selection.selected.includes(itemId) ||
             this.isAllSelected(selection, parentId, model, hierarchyRelation));
 
          if (this._options.selectAncestors && isNode(item, model, hierarchyRelation)) {
+            const initialStateSelected: boolean = isSelected;
+
             isSelected = this._getStateNode(itemId, isSelected, {
                selected: selectedKeysWithEntryPath,
                excluded: selection.excluded
             }, model, hierarchyRelation);
 
-            if (!isSelected && (selectedKeysWithEntryPath.includes(itemId))) {
+            if (!initialStateSelected && !isSelected && selectedKeysWithEntryPath.includes(itemId)) {
                isSelected = null;
             }
          }

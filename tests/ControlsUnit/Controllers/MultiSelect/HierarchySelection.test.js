@@ -219,7 +219,7 @@ define([
                assert.deepEqual([null], selectionInstance.selectedKeys);
                assert.deepEqual([null, 2, 5], selectionInstance.excludedKeys);
                assert.deepEqual({1: null, 6: true, 7: true}, selectionInstance._listModel._model._selectedKeys);
-               assert.equal(3, selectionInstance.getCount());
+               assert.equal(2, selectionInstance.getCount());
 
                selectionInstance.select([2]);
                selectionInstance.updateSelectionForRender();
@@ -371,7 +371,7 @@ define([
                assert.deepEqual([1], selectionInstance.selectedKeys);
                assert.deepEqual([5, 2], selectionInstance.excludedKeys);
                assert.deepEqual({1: null}, selectionInstance._listModel._model._selectedKeys);
-               assert.equal(1, selectionInstance.getCount());
+               assert.equal(0, selectionInstance.getCount());
             });
 
             it('sequentially unselect all children inside selected root', function() {
@@ -419,14 +419,14 @@ define([
                assert.deepEqual([null], selectionInstance.selectedKeys);
                assert.deepEqual([null, 7, 6, 5, 4, 3], selectionInstance.excludedKeys);
                assert.deepEqual({1: null, 2: null}, selectionInstance._listModel._model._selectedKeys);
-               assert.equal(2, selectionInstance.getCount());
+               assert.equal(0, selectionInstance.getCount());
 
                selectionInstance.unselect([2]);
                selectionInstance.updateSelectionForRender();
                assert.deepEqual([null], selectionInstance.selectedKeys);
                assert.deepEqual([null, 7, 6, 5, 2], selectionInstance.excludedKeys);
                assert.deepEqual({1: null}, selectionInstance._listModel._model._selectedKeys);
-               assert.equal(1, selectionInstance.getCount());
+               assert.equal(0, selectionInstance.getCount());
 
                selectionInstance.unselect([1]);
                selectionInstance.updateSelectionForRender();
