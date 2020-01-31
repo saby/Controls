@@ -1,13 +1,15 @@
-import Env = require('Env/Env');
 import entity = require('Types/entity');
 import Text = require('Controls/_input/Text');
 import {delay as runDelayed} from 'Types/function';
 import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
-import * as ActualAPI from 'Controls/_input/ActualAPI';
-import 'Controls/decorator';
+
 import {Logger} from 'UI/Utils';
+import {detection, constants} from 'Env/Env';
+import * as ActualAPI from 'Controls/_input/ActualAPI';
+
+import 'Controls/decorator';
 
 
       /**
@@ -118,7 +120,7 @@ import {Logger} from 'UI/Utils';
          },
 
          isPressEnter: function(event) {
-            return event.keyCode === Env.constants.key.enter;
+            return event.keyCode === constants.key.enter;
          },
 
          isPressCtrl: function(event) {
@@ -236,7 +238,7 @@ import {Logger} from 'UI/Utils';
              * Так как размеры textarea зависят от fakeField, поэтому их значения на момент перерисовки страници должны быть одинаковыми. Иначе
              * возникают проблемы 1-2. Чтобы избежать проблем меняем значение fakeField в обработчике.
              */
-            if (Env.detection.isMacOSDesktop || Env.detection.chrome) {
+            if (detection.isMacOSDesktop || detection.chrome) {
                self._children.fakeField.innerText = self._viewModel.displayValue + self._field.scope.emptySymbol;
             }
          }
@@ -301,6 +303,12 @@ import {Logger} from 'UI/Utils';
 
             this._field.template = fieldTemplate;
             this._readOnlyField.template = readOnlyFieldTemplate;
+
+            /**
+             * https://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea
+             */
+            const verWithFixedBug: number = 13;
+            this._field.scope.fixTextPosition = detection.isMobileIOS && detection.IOSVersion < verWithFixedBug;
          },
 
          _isTriggeredChangeEventByEnterKey: function() {
