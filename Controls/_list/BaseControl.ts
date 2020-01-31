@@ -2492,7 +2492,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _itemMouseMove(event, itemData, nativeEvent) {
         this._notify('itemMouseMove', [itemData.item, nativeEvent]);
-        if ((!this._options.itemsDragNDrop || !this._listViewModel.getDragEntity() && !this._listViewModel.getDragItemData()) && !this._showActions) {
+        if (
+            !this._options.useNewModel &&
+            (!this._options.itemsDragNDrop || !this._listViewModel.getDragEntity() && !this._listViewModel.getDragItemData()) &&
+            !this._showActions
+        ) {
             this._showActions = true;
         }
         if (this._options.itemsDragNDrop) {
