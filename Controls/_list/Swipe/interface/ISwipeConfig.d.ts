@@ -9,5 +9,5 @@ export interface ISwipeConfig {
       showed: IItemAction[]
    };
    paddingSize: 's' | 'm' | 'l';
-   twoColumns: boolean;
+   twoColumns?: boolean;
 }

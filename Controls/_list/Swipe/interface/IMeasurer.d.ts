@@ -6,7 +6,8 @@ export interface IMeasurer {
    getSwipeConfig(
       actions: IItemAction[],
       rowHeight: number,
-      actionCaptionPosition: ISwipeControlOptions['actionCaptionPosition']
+      actionCaptionPosition: ISwipeControlOptions['actionCaptionPosition'],
+      menuButtonVisibility?: 'visible'|'adaptive'
    ): ISwipeConfig;
    needIcon(action: IItemAction, actionCaptionPosition: ISwipeControlOptions['actionCaptionPosition'], hasActionWithIcon?: boolean): boolean;
    needTitle(action: IItemAction, actionCaptionPosition: ISwipeControlOptions['actionCaptionPosition']): boolean;
