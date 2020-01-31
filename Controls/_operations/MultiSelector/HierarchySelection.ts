@@ -77,12 +77,12 @@ export default class HierarchySelection extends Selection {
 
    selectAll(): void {
       let rootId: TKey = this._getRoot();
-      let rootInExcluded = this._excludedKeys.includes(rootId);
+      let isNeedAddRootInExcluded = !this._excludedKeys.includes(rootId) || this._selectedKeys.includes(rootId);
 
       this.select([rootId]);
       this._removeChildrenIdsFromSelection(rootId);
 
-      if (!rootInExcluded) {
+      if (isNeedAddRootInExcluded) {
          this._excludedKeys = ArraySimpleValuesUtil.addSubArray(this._excludedKeys, [rootId]);
       }
    }
@@ -97,12 +97,12 @@ export default class HierarchySelection extends Selection {
 
    private _unselectAllInRoot() {
       let rootId: TKey = this._getRoot();
-      let rootInExcluded = this._excludedKeys.includes(rootId);
+      let isNeedRemoveRootInExcluded = this._selectedKeys.includes(rootId);
 
       this.unselect([rootId]);
       this._removeChildrenIdsFromSelection(rootId);
 
-      if (rootInExcluded) {
+      if (isNeedRemoveRootInExcluded) {
          this._excludedKeys = ArraySimpleValuesUtil.removeSubArray(this._excludedKeys, [rootId]);
       }
    }
