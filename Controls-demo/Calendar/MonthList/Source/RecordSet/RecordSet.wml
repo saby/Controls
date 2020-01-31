@@ -9,7 +9,7 @@
             source="{{_source}}"
             dayTemplate="{{_dayTemplate}}"/>
         <div class="controlsDemo__wrapper">
-            <span class="controlsDemo__button" on:click="_updateYear()">Обновить 2020 год</span>
+            <span class="controlsDemo__button controlsDemo__updateYear" on:click="_updateYear()">Обновить 2020 год</span>
         </div>
     </div>
 </ws:partial>

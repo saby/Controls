@@ -1,7 +1,7 @@
 <div class="PageWrap">
    <div class="PageBlock">
       <div class="PageBlock__title">With days and title</div>
-      <div class="PageBlock__componentWrap">
+      <div class="PageBlock__componentWrap controlsDemo-Month__selected">
          <div>_startValue: {{_startValue}}</div>
          <div>_endValue: {{_endValue}}</div>
          <!--<Controls.calendar:Month month="{{_month}}" captionType="text"/>-->
@@ -13,8 +13,8 @@
          </div>
          <div>
             <span>Отображаемый месяц: </span>
-            <Controls.buttons:Button caption="-1 месяц" on:click="_changeMonth(-1)"/>
-            <Controls.buttons:Button caption="+1 месяц" on:click="_changeMonth(1)"/>
+            <Controls.buttons:Button caption="-1 месяц" on:click="_changeMonth(-1)" attr:class="controlsDemo-Month__prev"/>
+            <Controls.buttons:Button caption="+1 месяц" on:click="_changeMonth(1)" attr:class="controlsDemo-Month__next"/>
          </div>
       </div>
    </div>
@@ -28,7 +28,7 @@
 
    <div class="PageBlock">
       <div class="PageBlock__title">Without days and title</div>
-      <div class="PageBlock__componentWrap">
+      <div class="PageBlock__componentWrap controlsDemo-Month__default">
          <Controls.calendar:Month month="{{_month}}" showWeekdays="{{ false }}" selectionType="range"/>
       </div>
    </div>
