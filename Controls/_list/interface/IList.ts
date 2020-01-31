@@ -43,7 +43,7 @@ type TListStyle = 'master'|'default';
 type TVerticalItemPadding = 'S'|null;
 type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|null;
 
-interface IContextMenuConfig {
+export interface IContextMenuConfig {
     items?: RecordSet;
     groupTemplate?: TemplateFunction|string;
     groupProperty?: string;
@@ -457,7 +457,7 @@ export interface IList {
  * @cfg {Function} Функция обратного вызова для определения видимости опций записи.
  * @remark
  * Функция принимает два аргумента:
- * 
+ *
  * * action — объект с конфигурацией опции записи.
  * * item — модель (см. {@link Types/entity:Model}), содержащая данные записи.
  *

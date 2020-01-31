@@ -280,7 +280,7 @@ define(['Controls/_list/Swipe/VerticalMeasurer', 'i18n!ControlsUnit'], function(
 
             });
             it('two columns with more button', function() {
-               var fourActions = [
+               var fiveActions = [
                   {
                      id: 1,
                      icon: 'icon-PhoneNull'
@@ -302,6 +302,59 @@ define(['Controls/_list/Swipe/VerticalMeasurer', 'i18n!ControlsUnit'], function(
                      icon: 'icon-EmptyMessage'
                   },
 
+               ];
+               var result = {
+                  itemActionsSize: 'm',
+                  itemActions: {
+                     all: fiveActions,
+                     showed: [
+                        {
+                           id: 1,
+                           icon: 'icon-PhoneNull'
+                        },
+                        {
+                           id: 2,
+                           icon: 'icon-Erase'
+                        },
+                        {
+                           id: 3,
+                           icon: 'icon-EmptyMessage'
+                        },
+                        {
+                           icon: 'icon-SwipeMenu',
+                           title: rk('Ещё'),
+                           _isMenu: true,
+                           showType: 2
+                        }
+                     ]
+                  },
+                  paddingSize: 's',
+                  twoColumns: true
+               };
+               assert.deepEqual(
+                  result,
+                  VerticalMeasurer.default.getSwipeConfig(fiveActions, 93, 'bottom')
+               );
+
+            });
+            it('menuButtonVisibility = visible', function() {
+               var fourActions = [
+                  {
+                     id: 1,
+                     icon: 'icon-PhoneNull'
+                  },
+                  {
+                     id: 2,
+                     icon: 'icon-Erase'
+                  },
+                  {
+                     id: 3,
+                     icon: 'icon-EmptyMessage'
+                  },
+                  {
+                     id: 4,
+                     icon: 'icon-EmptyMessage'
+                  }
                ];
                var result = {
                   itemActionsSize: 'm',
@@ -329,11 +382,11 @@ define(['Controls/_list/Swipe/VerticalMeasurer', 'i18n!ControlsUnit'], function(
                      ]
                   },
                   paddingSize: 's',
-                  twoColumns: true
+                  twoColumns: false
                };
                assert.deepEqual(
-                  result,
-                  VerticalMeasurer.default.getSwipeConfig(fourActions, 93, 'bottom')
+                   result,
+                   VerticalMeasurer.default.getSwipeConfig(fourActions, 250, 'bottom', 'visible')
                );
 
             });
