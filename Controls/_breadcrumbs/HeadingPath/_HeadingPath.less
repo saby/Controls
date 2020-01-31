@@ -92,12 +92,6 @@
 .controls-BreadCrumbsPath__breadCrumbs_home-path-spacing {
    padding-left: @spacing_Path-between-home-and-crumbs;
 }
-
-.controls-BreadCrumbsPath__homeContainer_withBackButton {
-
-   // sets line-height === content's fontSize for correctly padding rounded border on drag&drop
-  // line-height: 1;
-}
 .controls-BreadCrumbsPath__homeContainer {
    .baseline-fix();
 
@@ -110,8 +104,10 @@
 }
 
 .controls-BreadCrumbsPath__homeContainer_withoutBackButton {
-   margin-left: @spacing_Path-between-home-and-backButton;
-
+   margin-left: @spacing_Path-between-home-and-leftEdge;
+   &:before {
+      font-size: @font-size_BreadCrumbs-baseline;
+   }
 }
 
 .controls-BreadCrumbsPath__backButton_short,
