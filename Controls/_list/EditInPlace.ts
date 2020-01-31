@@ -23,7 +23,6 @@ var
     ],
     _private = {
         beginEdit: function (self, options, isAdd) {
-            _private.registerPending(self);
             var result = self._notify('beforeBeginEdit', [options, !!isAdd]);
             if (!isAdd) {
                 self._originalItem = options.item;
@@ -183,10 +182,6 @@ var
                 self._editingItem.unsubscribe('onPropertyChange', self._resetValidation);
                 self._options.listModel.unsubscribe('onCollectionChange', self._updateIndex);
             }
-            if (self._pendingDeferred && !self._pendingDeferred.isReady()) {
-                self._pendingDeferred.callback();
-            }
-            self._pendingDeferred = null;
             self._originalItem = null;
             self._editingItem = null;
             self._isAdd = null;
@@ -326,14 +321,6 @@ var
             }
             return _private.afterBeginEdit(self, newOptions);
         },
-        registerPending(self): void {
-            if (!self._pendingDeferred || self._pendingDeferred.isReady()) {
-                self._pendingDeferred = new Deferred();
-            }
-            self._notify('registerPending', [self._pendingDeferred, {
-                onPendingFail: self._onPendingFail
-            }], {bubbling: true});
-        },
         getItemIndexWithGrouping(display, groupId, isAddInTop): number {
             /*
             * Если добавление идет в существующуюю группу, то добавляем ей в начало или в конец.
@@ -371,7 +358,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
     _originalItem: null,
     _editingItem: null,
     _endEditDeferred: null,
-    _pendingDeferred: null,
 
 
     constructor: function (options = {}) {
@@ -389,7 +375,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
              */
             this._children.formController.setValidationResult();
         }.bind(this);
-        this._onPendingFail = this._onPendingFail.bind(this);
         this._updateIndex = this._updateIndex.bind(this);
         this.__errorController = options.errorController || new dataSourceError.Controller({});
     },
@@ -680,22 +665,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
             _private.editNextRow(this, !eventOptions.isShiftKey);
         }
         e.stopPropagation();
-    },
-
-    _onPendingFail(forceFinishValue: boolean, pendingDeferred: Promise<boolean>): void {
-        const cancelPending = () => this._notify('cancelFinishingPending', [], {bubbling: true});
-
-        if (this._editingItem && this._editingItem.isChanged()) {
-            this.commitEdit().addCallback((result = {}) => {
-                if (result.validationFailed) {
-                    cancelPending();
-                }
-            }).addErrback(() => {
-                cancelPending();
-            });
-        } else {
-            this.cancelEdit();
-        }
     },
 
     _beforeUnmount: function () {
