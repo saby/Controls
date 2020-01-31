@@ -512,6 +512,11 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchMod.Controller._private.getSearchController(searchController);
             var abortStub = sandbox.stub(searchController._searchController, 'abort');
 
+            searchController._searchValue = '';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.isNull(searchController._searchController);
+            assert.isTrue(abortStub.calledOnce);
+
             searchController._searchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.isNull(searchController._searchController);
