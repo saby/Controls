@@ -35,7 +35,7 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
         }
     }
 
-    private _digitClick(e: SyntheticEvent<Event>, digit: number): void {
+    protected _digitClick(e: SyntheticEvent<Event>, digit: number): void {
         this._notify('onDigitClick', [digit]);
     }
 

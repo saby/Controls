@@ -5,6 +5,7 @@ import clone = require('Core/core-clone');
 import { Map } from 'Types/shim';
 
 import { Collection } from 'Controls/display';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
 import { RecordSet, List } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';

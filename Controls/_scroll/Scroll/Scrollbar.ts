@@ -74,7 +74,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     private _currentCoords: IScrollBarCoords | null = null;
     // Координата точки на ползунке, за которую начинаем тащить
     private _dragPointOffset: number | null = null;
-    private _trackVisible: boolean = false;
+    protected _trackVisible: boolean = false;
 
     protected _afterMount(): void {
         if (this._options.direction === 'horizontal') {
@@ -194,7 +194,6 @@ class Scrollbar extends Control<IScrollBarOptions> {
      */
     private _setSizes(contentSize: number): boolean {
         const verticalDirection = this._options.direction === 'vertical';
-        const horizontalDirection = this._options.direction === 'horizontal';
         const scrollbar = this._children.scrollbar;
         if (!Scrollbar._isScrollBarVisible(scrollbar as HTMLElement)) {
             return false;
@@ -222,7 +221,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         }
     }
 
-    private _scrollbarMouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
+    protected _scrollbarMouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
         const currentCoords = this._getCurrentCoords(this._options.direction);
         const mouseCoord = Scrollbar._getMouseCoord(event.nativeEvent, this._options.direction);
 
@@ -236,7 +235,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._setPosition(position, true);
     }
 
-    private _thumbMouseDownHandler(event: Event): void {
+    protected _thumbMouseDownHandler(event: Event): void {
         // to disable selection while dragging
         event.preventDefault();
 
@@ -244,13 +243,13 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._scrollbarBeginDragHandler(event);
     }
 
-    private _scrollbarTouchStartHandler(event: Event): void {
+    protected _scrollbarTouchStartHandler(event: Event): void {
         if (this._options.direction === 'horizontal') {
             this._scrollbarBeginDragHandler(event);
         }
     }
 
-    private _thumbTouchStartHandler(event: Event): void {
+    protected _thumbTouchStartHandler(event: Event): void {
         event.stopPropagation();
         this._scrollbarBeginDragHandler(event);
     }
@@ -269,7 +268,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._children.dragNDrop.startDragNDrop(null, event);
     }
 
-    private _scrollbarStartDragHandler(): void {
+    protected _scrollbarStartDragHandler(): void {
         this._dragging = true;
         this._notify('draggingChanged', [this._dragging]);
     }
@@ -279,7 +278,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
      * @param {Event} event дескриптор события Vdom
      * @param {Event} nativeEvent дескриптор события мыши.
      */
-    private _scrollbarOnDragHandler(event: SyntheticEvent<Event>, dragObject): void {
+    protected _scrollbarOnDragHandler(event: SyntheticEvent<Event>, dragObject): void {
         const mouseCoord = Scrollbar._getMouseCoord(dragObject.domEvent, this._options.direction);
 
         this._thumbPosition = Scrollbar._getThumbPosition(
@@ -295,7 +294,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     /**
      * Обработчик конца перемещения ползунка мышью.
      */
-    private _scrollbarEndDragHandler(): void {
+    protected _scrollbarEndDragHandler(): void {
         if (this._dragging) {
             this._dragging = false;
             this._notify('draggingChanged', [this._dragging]);
@@ -306,9 +305,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
      * Обработчик прокрутки колесиком мыши.
      * @param {SyntheticEvent} event дескриптор события.
      */
-    private _wheelHandler(event: SyntheticEvent<Event>): void {
+    protected _wheelHandler(event: SyntheticEvent<Event>): void {
         let newPosition = this._position + Scrollbar._calcWheelDelta(detection.firefox, event.nativeEvent.deltaY);
-        const minPosition = 0;
         const maxPosition = this._options.contentSize - this._scrollBarSize;
         if (newPosition < 0) {
             newPosition = 0;

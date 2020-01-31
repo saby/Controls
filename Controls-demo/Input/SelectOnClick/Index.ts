@@ -4,8 +4,8 @@ import controlTemplate = require('wml!Controls-demo/Input/SelectOnClick/SelectOn
 import 'css!Controls-demo/Controls-demo';
 
 class SelectOnClick extends Control<IControlOptions> {
-    private _value: string = 'text';
-    private _placeholder = 'Tooltip';
+    protected _value: string = 'text';
+    protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
 

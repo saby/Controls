@@ -340,7 +340,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         return this._options.itemTemplate;
     }
 
-    private _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
+    protected _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
         return getButtonTemplateOptionsByItem(item);
     }
 

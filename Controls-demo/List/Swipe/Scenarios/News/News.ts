@@ -6,9 +6,9 @@ import { Model } from 'Types/entity';
 import 'css!Controls-demo/List/Swipe/Scenarios/News/News';
 
 export default class News extends Control {
-   private _template: Function = template;
-   private _itemActions: object[];
-   private _source: Memory;
+   protected _template: Function = template;
+   protected _itemActions: object[];
+   protected _source: Memory;
 
    _beforeMount(): void {
       const data = [{
@@ -108,7 +108,7 @@ export default class News extends Control {
       });
    }
 
-   private _visibilityCallback(action: IItemAction, item: Model): boolean {
+   protected _visibilityCallback(action: IItemAction, item: Model): boolean {
       if (action.title === 'Прочитано') {
          return item.get('isNew');
       }

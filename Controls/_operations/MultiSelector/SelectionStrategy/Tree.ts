@@ -8,6 +8,7 @@ import { Map } from 'Types/shim';
 
 import { relation, Record } from 'Types/entity';
 import { Tree as TreeCollection } from 'Controls/display';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
 import { RecordSet } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';

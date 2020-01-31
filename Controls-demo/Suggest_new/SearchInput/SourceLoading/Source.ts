@@ -6,7 +6,7 @@ const SEARCH_DELAY = 3000;
 
 export default class DelaySuggestSource {
    private source: ICrud;
-   private _mixins: any[] = [];
+   protected _mixins: any[] = [];
    constructor(opts) {
       this.source = new SearchMemory(opts);
       this['[Types/_source/ICrud]'] = true;

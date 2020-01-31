@@ -240,7 +240,7 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
         return item.get(options.keyProperty);
     }
 
-    private _valueChangedHandler(e: Event, item: Record, value: boolean | null): void {
+    protected _valueChangedHandler(e: Event, item: Record, value: boolean | null): void {
         const key = this._getItemKey(item, this._options);
         if (value) {
             this._addKey(key);

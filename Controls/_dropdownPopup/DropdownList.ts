@@ -1,7 +1,6 @@
 import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import {Logger} from 'UI/Utils';
-import {isEqual} from 'Types/object';
 import MenuItemsTpl = require('wml!Controls/_dropdownPopup/DropdownList');
 import DropdownViewModel = require('Controls/_dropdownPopup/DropdownViewModel');
 import groupTemplate = require('wml!Controls/_dropdownPopup/defaultGroupTemplate');

@@ -8,7 +8,7 @@ class IsGlobal extends Control<IControlOptions> {
     static _theme: string[] = ['Controls/Classes'];
     private _firstId = null;
 
-    private _firstOpen(): void {
+    protected _firstOpen(): void {
         const cfg = {
             id: this._firstId,
             message: 'first indicator text',

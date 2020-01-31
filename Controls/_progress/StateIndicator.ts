@@ -9,7 +9,6 @@ const defaultColors = [
    'controls-StateIndicator__sector2',
    'controls-StateIndicator__sector3'
 ];
-const DEFAULT_EMPTY_COLOR_CLASS = 'controls-StateIndicator__emptySector';
 const defaultScaleValue = 10;
 const maxPercentValue = 100;
 
@@ -115,7 +114,7 @@ export interface IStateIndicatorOptions extends IControlOptions {
  */
 class StateIndicator extends Control<IStateIndicatorOptions>{
    protected _template: TemplateFunction = stateIndicatorTemplate;
-   private _colorState: number[];
+   protected _colorState: number[];
    private _colors: string[];
    private _numSectors: number = 10;
 
@@ -203,7 +202,7 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
       this._colorState  = this._calculateColorState(opts, this._colors, this._numSectors);
    }
 
-   private _mouseEnterIndicatorHandler(e: SyntheticEvent<MouseEvent>): void {
+   protected _mouseEnterIndicatorHandler(e: SyntheticEvent<MouseEvent>): void {
       this._notify('itemEnter', [e.target]);
    }
 

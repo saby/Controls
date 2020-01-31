@@ -1,6 +1,5 @@
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
 import {Logger} from 'UI/Utils';
-import * as coreMerge from 'Core/core-merge';
 import {IDialogOpener, IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 /**
  * Контрол, открывающий всплывающее окно, которое позиционируется по центру экрана.

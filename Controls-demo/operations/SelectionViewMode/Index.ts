@@ -1,4 +1,4 @@
-import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import {Control} from 'UI/Base';
 import * as template from 'wml!Controls-demo/operations/SelectionViewMode/SelectionViewMode';
 import Memory from 'Controls-demo/operations/SelectionViewMode/Memory';
 import Data = require('Controls-demo/OperationsPanel/Demo/Data');

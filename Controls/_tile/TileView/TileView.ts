@@ -8,7 +8,6 @@ import 'css!theme?Controls/tile';
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient) {
         var
-            result,
             additionalWidth = (itemNewSize.width - itemRect.width) / 2,
             additionalHeightBottom = (itemNewSize.height - itemRect.height * zoomCoefficient),
             additionalHeight = (itemNewSize.height - itemRect.height - additionalHeightBottom) / 2,

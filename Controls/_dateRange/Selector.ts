@@ -4,8 +4,6 @@ import isEmpty = require('Core/helpers/Object/isEmpty');
 import {IDateRangeOptions} from "./interfaces/IDateRange";
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
-import DateRangeModel from './DateRangeModel';
-import CalendarControlsUtils from './Utils';
 import componentTmpl = require('wml!Controls/_dateRange/Selector/Selector');
 import getOptions from 'Controls/Utils/datePopupUtils';
 

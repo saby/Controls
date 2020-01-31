@@ -1,4 +1,3 @@
-import * as simpleResultTpl from 'wml!Controls-demo/grid/resources/ResultCellTemplates/Simple';
 import * as numberResultTpl from 'wml!Controls-demo/grid/resources/ResultCellTemplates/Number';
 import * as countryRatingNumber from 'wml!Controls-demo/grid/resources/CellTemplates/CountryRatingNumber';
 import {constants} from 'Env/Env';

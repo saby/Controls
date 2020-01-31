@@ -19,7 +19,7 @@ import {showType} from 'Controls/Utils/Toolbar';
 import 'wml!Controls/_list/BaseControl/Footer';
 import 'css!theme?Controls/list';
 import {error as dataSourceError} from 'Controls/dataSource';
-import {constants, detection} from 'Env/Env';
+import {constants} from 'Env/Env';
 import ListViewModel from 'Controls/_list/ListViewModel';
 import {ICrud, Memory} from "Types/source";
 import {TouchContextField} from 'Controls/context';
@@ -168,7 +168,6 @@ var _private = {
                     self._pagingLabelData = _private.getPagingLabelData(hasMoreDataDown, self._currentPageSize, self._currentPage);
                 }
                 var
-                    isActive,
                     listModel = self._listViewModel;
 
                 if (cfg.afterReloadCallback) {

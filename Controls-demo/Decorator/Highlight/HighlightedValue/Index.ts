@@ -4,7 +4,7 @@ import 'css!Controls-demo/Controls-demo';
 import 'css!Controls-demo/Decorator/Highlight/HighlightedValue/HighlightedValue';
 
 class HighlightedValue extends Control<IControlOptions> {
-    private _value = 'Наша мама мыла раму.\n' +
+    protected _value = 'Наша мама мыла раму.\n' +
         'Кто бы вымыл нашу маму?\n' +
         'Вся она в песке и пенке,\n' +
         'Поцарапаны коленки.\n' +

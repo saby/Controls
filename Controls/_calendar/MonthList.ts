@@ -63,7 +63,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     protected _template: TemplateFunction = template;
 
-    private _viewSource: BaseSource;
+    protected _viewSource: BaseSource;
     private _startPositionId: string;
     private _positionToScroll: Date;
     private _displayedPosition: Date;
@@ -82,7 +82,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     private _enrichItemsDebounced: Function;
 
-    private _virtualPageSize: number;
+    protected _virtualPageSize: number;
 
     protected _beforeMount(options: IModuleComponentOptions, context?: object, receivedState?: TItems):
                            Promise<TItems> | void {
@@ -189,7 +189,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         this._itemTemplate = options.viewMode === VIEW_MODE.year ?
             options.yearTemplate : options.monthTemplate;
     }
-    private _getTemplate(data): TemplateFunction {
+    protected _getTemplate(data): TemplateFunction {
         switch (data.get('type')) {
             case ITEM_TYPES.header:
                 return this._itemHeaderTemplate;
@@ -257,7 +257,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             dateUtils.getStartOfYear(date) : dateUtils.getStartOfMonth(date);
     }
 
-    private _intersectHandler(event: SyntheticEvent, entries: IntersectionObserverSyntheticEntry[]): void {
+    protected _intersectHandler(event: SyntheticEvent, entries: IntersectionObserverSyntheticEntry[]): void {
         // Don't update if the observer is triggered after hiding the component.
         if (!this.isVisible()) {
             return;
@@ -335,7 +335,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
      * @param {Date} end Конец периода
      * @see Controls/_calendar/interface/IMonthListSource#source
      */
-    private invalidatePeriod(start: Date, end: Date): void {
+    protected invalidatePeriod(start: Date, end: Date): void {
         if (this._extData) {
             this._extData.invalidatePeriod(start, end);
             this._extData.enrichItems(this._displayedDates);
@@ -400,7 +400,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     }
 
-    private _scrollHandler(event: SyntheticEvent, scrollTop: number) {
+    protected _scrollHandler(event: SyntheticEvent, scrollTop: number) {
         this._scrollTop = scrollTop;
         this._enrichItemsDebounced();
     }

@@ -15,7 +15,7 @@ import * as tmplNotify from 'Controls/Utils/tmplNotify';
  * @author Красильников А.С.
  */
 class Mask extends Control<IControlOptions> {
-    private _notifyHandler = tmplNotify;
+    protected _notifyHandler = tmplNotify;
 
     protected _template: TemplateFunction = template;
 

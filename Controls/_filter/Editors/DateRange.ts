@@ -17,7 +17,7 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _template: TemplateFunction = DateRangeTemplate;
     protected _tmplNotify: Function = tmplNotify;
 
-    private _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
+    protected _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
         return import('Controls/dateRange').then((dateRange) => {
             const caption = dateRange.Utils.formatDateRangeCaption.call(null, startValue, endValue, this._options.emptyCaption);
             this._notify('textValueChanged', [caption]);

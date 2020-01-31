@@ -1,4 +1,4 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_operations/Controller/Controller');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 
@@ -35,7 +35,7 @@ export default class MultiSelector extends Control {
    protected _template: TemplateFunction = template;
    protected _selectedKeysCount: number|null;
    protected _listMarkedKey: TKey = null;
-   private _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = tmplNotify;
 
    protected _beforeMount() {
       this._itemOpenHandler = this._itemOpenHandler.bind(this);

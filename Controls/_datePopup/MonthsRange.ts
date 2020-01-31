@@ -20,7 +20,7 @@ import 'css!theme?Controls/datePopup';
  */
 
 class Component extends Control {
-    private _template: Function = componentTmpl;
+    protected _template: Function = componentTmpl;
 
     _proxyEvent: Function = tmplNotify;
 

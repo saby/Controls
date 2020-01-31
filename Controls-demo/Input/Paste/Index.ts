@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Input/Paste/Paste');
 import 'css!Controls-demo/Controls-demo';
 
 class Paste extends Control<IControlOptions> {
-    private _complicate(): void {
+    protected _complicate(): void {
         const complicatingValue: string = Math.random().toString(36).substr(2, 3);
         this._children.password.paste(complicatingValue);
     }

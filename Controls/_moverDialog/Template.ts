@@ -85,10 +85,10 @@ interface IMoverDialogTemplate extends IControlOptions {
  */
 
 export default class extends Control {
-    private _template: TemplateFunction = template;
-    private _itemActions: any[];
-    private _root: string|number;
-    private _expandedItems: any[];
+    protected _template: TemplateFunction = template;
+    protected _itemActions: any[];
+    protected _root: string|number;
+    protected _expandedItems: any[];
     private _columns: TColumns;
 
     protected _beforeMount(options: IMoverDialogTemplate): void {

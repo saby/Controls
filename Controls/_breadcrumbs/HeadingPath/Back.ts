@@ -2,7 +2,7 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/Back');
 
 class Back extends Control {
-   private _template = template;
+   protected _template = template;
 
    /**
     * Presently, the only way to subscribe to a non-bubbling event is to create control in a wml file and subscribe there.

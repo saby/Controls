@@ -27,9 +27,9 @@ function makeItem(item: IFullyLoadedTreeItem): IFullyLoadedTreeItem {
 export default class FullyLoadedTree extends Control {
     protected _template: TemplateFunction = template;
 
-    private _columns = [{ displayProperty: 'title' }];
+    protected _columns = [{ displayProperty: 'title' }];
 
-    private _itemsSource = new Memory({
+    protected _itemsSource = new Memory({
         keyProperty: 'id',
         data: [
             makeItem({ id: 'leaf_1', title: 'Simple leaf' }),
@@ -51,7 +51,7 @@ export default class FullyLoadedTree extends Control {
         }
     });
 
-    private _loadingLog = '';
+    protected _loadingLog = '';
 
     constructor(cfg) {
         super(cfg);
