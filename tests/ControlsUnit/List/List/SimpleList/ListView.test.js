@@ -502,8 +502,6 @@ define([
                   notifyCalled = true;
                }
             };
-
-            console.log('calling AFTERRMOUNT');
             lv._afterMount();
             assert.isFalse(notifyCalled);
          });
