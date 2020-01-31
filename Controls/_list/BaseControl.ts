@@ -182,6 +182,7 @@ var _private = {
                 }
 
                 self._cachedPagingState = null;
+                clearTimeout(self._needPagingTimeout);
 
                 if (listModel) {
                     if (self._options.groupProperty) {
@@ -1546,6 +1547,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     // если пэйджинг в скролле показался то запоним это состояние и не будем проверять до след перезагрузки списка
     _cachedPagingState: false,
+    _needPagingTimeout: null,
 
     _itemTemplate: null,
 
@@ -1748,7 +1750,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (_private.needScrollPaging(this._options.navigation)) {
             // внутри метода проверки используется состояние триггеров, а их IO обновляет не синхронно,
             // поэтому нужен таймаут
-            setTimeout(() => {
+            this._needPagingTimeout = setTimeout(() => {
                 this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);
             }, 18);
         }
