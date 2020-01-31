@@ -312,7 +312,8 @@ function generateData<
             } else if (entityTemplate[key] === 'lorem') {
                 item[key] = forLoremPseudoRandom % 3 === 0 ? `${LOREM.slice(0, 110)}.` : (forLoremPseudoRandom % 2 === 0 ? `${LOREM} ${LOREM}` : `${LOREM.slice(0, 50)}.`);
             } else if (entityTemplate[key] === 'lorem_alter') {
-                item[key] = forLoremPseudoRandom % 5 === 0 ? `${LOREM.slice(0, 110)}.` : (forLoremPseudoRandom % 3 === 1 ? `${LOREM} ${LOREM}` : `${LOREM.slice(0, 50)}.`);
+                const r = Math.floor(Math.random() * 100) % 100;
+                item[key] = r < 50 ? `${LOREM.slice(0, 110)}.` : (r < 70 ? `${LOREM} ${LOREM}` : `${LOREM.slice(0, 50)}.`);
             } else {
                 item[key] = entityTemplate[key];
             }

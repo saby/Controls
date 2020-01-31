@@ -1,10 +1,14 @@
 <ws:template name="renderColumn">
-   <div class="controls-ColumnsView_column">
+   <div class="controls-ColumnsView_column" style="min-width:{{_options.minWidth}}px; max-width:{{_options.maxWidth}}px;">
+      <div class="controls-ColumnsView_column-placeholder" style="min-width:{{_options.minWidth}}px; max-width:{{_options.maxWidth}}px;"></div>
       <ws:partial
               template="wml!Controls/_listRender/Columns/resources/For"
               collection="{{ _options.listModel }}"
               keyPrefix="{{ _templateKeyPrefix }}"
+              columnMinWidth="{{ _options.minWidth }}"
+              columnMaxWidth="{{ _options.maxWidth }}"
               column="{{column}}"
+              columnsCount="{{columnsCount}}"
               itemActionsClass="{{ _options.itemActionsClass }}"
               itemActionsPosition="{{ _options.itemActionsPosition }}"
               itemActionsTemplate="{{ _options.itemActionsTemplate }}"
@@ -17,8 +21,9 @@
 <div attr:class="controls-ListViewV controls-ColumnsView">
    <ws:if data="{{ _options.listModel }}">
       <div attr:class="controls-ColumnsView__itemsContainer" name="itemsContainer">
-        <ws:partial template="renderColumn" column="{{0}}"></ws:partial>
-        <ws:partial template="renderColumn" column="{{1}}"></ws:partial>
+         <ws:for data="i in _columnsCount">
+           <ws:partial template="renderColumn" columnsCount="{{_columnsCount}}" column="{{i}}"/>
+         </ws:for>
       </div>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
@@ -30,4 +35,6 @@
          <ws:partial template="{{ _options.footerTemplate }}" />
       </div>
    </ws:if>
+
+   <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
 </div>

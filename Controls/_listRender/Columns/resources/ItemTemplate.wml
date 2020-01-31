@@ -1,4 +1,7 @@
 <div attr:class="{{ item.getWrapperClasses(highlightOnHover, marker) }}">
+   <ws:if data="{{marker !== false && item.isMarked()}}">
+      <div class="controls-ColumnsView__item_marker"></div>
+   </ws:if>
    <ws:if data="{{ multiSelectVisibility !== 'hidden' }}">
       <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ item.getMultiSelectClasses() }}">
          <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getId() }}"/>
