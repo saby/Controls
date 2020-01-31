@@ -2,6 +2,8 @@ const global = (function() {
    return this || (0, eval)('this');
 })();
 
+// for test in ci. do not merge!!!
+
 const root = process.cwd();
 const fs = require('fs');
 const path = require('path');
