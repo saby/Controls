@@ -1,5 +1,5 @@
 <div class="controls-TileView__itemPaddingContainer {{_listModel.getItemPaddingClasses()}}">
-    <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
+    <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()" on:wheel="_onScroll()">
         <ws:if data="{{_listModel}}">
             <ws:partial
                     template="Controls/list:_forTemplate"
