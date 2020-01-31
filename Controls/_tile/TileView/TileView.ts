@@ -4,6 +4,18 @@ import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TouchContextField} from 'Controls/context';
 import ItemSizeUtils = require('Controls/_tile/TileView/resources/ItemSizeUtils');
 import 'css!theme?Controls/tile';
+import {debounce} from 'Types/function';
+import {ARGUMENT_PROPERTIES} from "tslint/lib/rules/completedDocsRule";
+
+const ZOOM_DELAY = 100;
+const ZOOM_COEFFICIENT = 1.5;
+
+const TILE_SCALING_MODE = {
+    NONE: 'none',
+    OUTSIDE: 'outside',
+    INSIDE: 'inside',
+    OVERLAP: 'overlap'
+};
 
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient) {
@@ -60,6 +72,8 @@ var _private = {
     },
     onScroll: function (self) {
         _private.clearMouseMoveTimeout(self);
+        self._allowHover = false;
+        _private.allowHover(self);
         self._listModel.setHoveredItem(null);
     },
     clearMouseMoveTimeout: function (self) {
@@ -80,6 +94,11 @@ var _private = {
         }
         return result;
     },
+
+    allowHover: debounce((self) => {
+        self._allowHover = true;
+    }, ZOOM_DELAY * 2),
+
     // TODO Нужен синглтон, который говорит, идет ли сейчас перетаскивание
     // https://online.sbis.ru/opendoc.html?guid=a838cfd3-a49b-43a8-821a-838c1344288b
     shouldProcessHover(self): boolean {
@@ -90,24 +109,13 @@ var _private = {
     }
 };
 
-var
-    ZOOM_DELAY = 100,
-    ZOOM_COEFFICIENT = 1.5;
-
-var TILE_SCALING_MODE = {
-    NONE: 'none',
-    OUTSIDE: 'outside',
-    INSIDE: 'inside',
-    OVERLAP: 'overlap'
-};
-
-
 var TileView = ListView.extend({
     _template: template,
     _defaultItemTemplate: defaultItemTpl,
     _hoveredItem: undefined,
     _mouseMoveTimeout: undefined,
     _resizeFromSelf: false,
+    _allowHover: true,
 
     _afterMount: function () {
         this._notify('register', ['controlResize', this, this._onResize], {bubbling: true});
@@ -184,7 +192,8 @@ var TileView = ListView.extend({
         if (
             !isCurrentItemHovered &&
             !this._listModel.getDragEntity() &&
-            _private.shouldProcessHover(this)
+            _private.shouldProcessHover(this) &&
+            this._allowHover
         ) {
             _private.clearMouseMoveTimeout(this);
             this._calculateHoveredItemPosition(event, itemData);

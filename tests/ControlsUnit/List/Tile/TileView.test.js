@@ -512,7 +512,9 @@ define(['Controls/_tile/TileView/TileView',
             clearTimeoutOrigin = clearTimeout;
 
          clearTimeout = function(id) {
-            timeout = id;
+            if (typeof id ==='string') {
+               timeout = id;
+            }
          };
 
          tileView._listModel.setHoveredItem({key: 1});
@@ -521,6 +523,7 @@ define(['Controls/_tile/TileView/TileView',
          assert.equal(tileView._listModel.getHoveredItem(), null);
          assert.equal(timeout, 'timeoutId1');
 
+         tileView._allowHover = true;
          tileView._listModel.setHoveredItem({key: 2});
          tileView._mouseMoveTimeout = 'timeoutId2';
          tileView._onItemWheel();
