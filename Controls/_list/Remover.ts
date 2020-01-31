@@ -99,6 +99,8 @@ var Remover = BaseAction.extend({
                     _private.removeFromSource(self, items).addCallback(function (result) {
                         _private.removeFromItems(self, items);
                         return result;
+                    }).addErrback(function (error) {
+                        self._notify('itemsChangeError', [error]);
                     }).addBoth(function (result) {
                         _private.afterItemsRemove(self, items, result);
                     });

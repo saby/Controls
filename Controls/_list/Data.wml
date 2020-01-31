@@ -1,8 +1,14 @@
-<ws:partial template="{{_options.content}}"
-            on:filterChanged="_filterChanged()"
-            on:rootChanged="_rootChanged()"
-            on:itemsChanged="_itemsChanged()"
-            loading="{{_loading || _options.loading}}"
-            scope="{{_options}}"
-            items="{{_items}}"
-            filter="{{_filter}}"/>
+<Controls.dataSource:error.Container
+   name="errorContainer"
+   viewConfig="{{_error}}"
+>
+   <ws:partial template="{{_options.content}}"
+               on:filterChanged="_filterChanged()"
+               on:rootChanged="_rootChanged()"
+               on:itemsChanged="_itemsChanged()"
+               on:itemsChangeError="_onItemsChangeError()"
+               loading="{{_loading || _options.loading}}"
+               scope="{{_options}}"
+               items="{{_items}}"
+               filter="{{_filter}}"/>
+</Controls.dataSource:error.Container>
