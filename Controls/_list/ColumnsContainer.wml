@@ -1,0 +1,11 @@
+<ws:partial template="{{_options.content}}"
+            name="view"
+            scope="{{_options}}"
+            columnsCount="{{_columnsCount}}"
+            minWidth="{{_minWidth}}"
+            maxWidth="{{_maxWidth}}"
+            on:resize="_resizeHandler()"
+            on:itemsContainerReady="saveItemsContainer()"
+            on:keyDown="_keyDownHandler()"
+/>
+
