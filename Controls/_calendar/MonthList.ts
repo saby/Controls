@@ -113,7 +113,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             if (receivedState) {
                 this._extData.updateData(receivedState);
             } else {
-                this._displayedDates = this._getDisplayedRanges(position, options.virtualPageSize);
+                this._displayedDates = this._getDisplayedRanges(position, options.virtualPageSize, options.viewMode);
                 return this._extData.enrichItems(this._displayedDates);
             }
         }
@@ -174,8 +174,14 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         }
     }
 
-    private  _getDisplayedRanges(position: Date, virtualPageSize: number): number[] {
+    private  _getDisplayedRanges(position: Date, virtualPageSize: number, viewMode: string): number[] {
         const displayedRanges = [];
+        virtualPageSize = Math.ceil(virtualPageSize / 2);
+        if (viewMode === 'year') {
+            virtualPageSize *= 12;
+        }
+        // Загружаем данные для половины отображаемых элементов при серверной верстке, если viewMode='month', остальные
+        // данные будут подгружены на клиенте после построения контрола.
         for (let i = 0; i < virtualPageSize; i++) {
             displayedRanges.push(Date.parse(new Date(position.getFullYear(), position.getMonth() + i)));
         }
