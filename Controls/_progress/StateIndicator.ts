@@ -168,7 +168,7 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
          if (i < _colors.length) {
             // convert to number, ignore negative ones
             itemValue = Math.max(0, + opts.data[i].value || 0);
-            itemNumSectors = Math.floor(itemValue / sectorSize);
+            itemNumSectors = Math.round(itemValue / sectorSize);
             if (itemValue > 0 && itemNumSectors === 0) {
                // if state value is positive and corresponding sector number is 0, increase it by 1 (look specification)
                itemNumSectors = 1;
