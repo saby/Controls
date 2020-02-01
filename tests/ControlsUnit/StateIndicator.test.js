@@ -21,7 +21,7 @@ define([
          opts = {scale:10, data:[{value: 19, className:'', title:''}]};
          colors = psi._setColors(opts.data);
          data = psi._calculateColorState(opts,colors,numSectors);
-         assert.deepEqual([1], data, 'calculateColorState 10 1 test case 3: WrongResult');
+         assert.deepEqual([1, 1], data, 'calculateColorState 10 1 test case 3: WrongResult');
 
          opts = {scale:10, data:[{value: 20, className:'', title:''}]};
          colors = psi._setColors(opts.data);
@@ -31,7 +31,7 @@ define([
          opts = {scale:10, data:[{value: 99, className:'', title:''}]};
          colors = psi._setColors(opts.data);
          data = psi._calculateColorState(opts,colors,numSectors);
-         assert.deepEqual([1,1,1,1,1,1,1,1,1], data, 'calculateColorState 10 1 test case 5: WrongResult');
+         assert.deepEqual([1,1,1,1,1,1,1,1,1,1], data, 'calculateColorState 10 1 test case 5: WrongResult');
 
          opts = {scale:10, data:[{value: 100, className:'', title:''}]};
          colors = psi._setColors(opts.data);
@@ -108,7 +108,7 @@ define([
          opts = {scale:5, data:[{value: 34, className:'', title:''}, {value: 33, className:'', title:''}, {value: 33, className:'', title:''}]};
          colors = psi._setColors(opts.data);
          data = psi._calculateColorState(opts,colors,numSectors);
-         assert.deepEqual([1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3], data, 'calculateColorState 20 3 test case 5: WrongResult');
+         assert.deepEqual([1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,3], data, 'calculateColorState 20 3 test case 5: WrongResult');
 
          opts = {scale:5, data:[{value: 50, className:'', title:''}, {value: 25, className:'', title:''}, {value: 25, className:'', title:''}]};
          colors = psi._setColors(opts.data);
@@ -123,7 +123,7 @@ define([
          numSectors = Math.floor(100 / opts.scale);
          colors = psi._setColors(opts.data);
          data = psi._calculateColorState(opts,colors,numSectors);
-         assert.deepEqual([1,1,2,2,2,2,3,4,4,4,4,4,4], data, 'calculateColorState 20 3 test case 1: WrongResult');
+         assert.deepEqual([1,1,1,2,2,2,2,3,4,4,4,4,4], data, 'calculateColorState 20 3 test case 1: WrongResult');
 
       });
    })
