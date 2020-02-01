@@ -33,8 +33,8 @@ export default class ItemActionsControl extends Control<IItemActionsControlOptio
             (
                 options.listModel !== this._options.listModel ||
                 options.itemActions !== this._options.itemActions ||
-                options.itemActionsProperty !== this._options.itemActionsProperty ||
-                options.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback
+                options.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
+                options.itemActionsProperty
             )
         ) {
             this._assignItemActions(
