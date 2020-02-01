@@ -12,22 +12,22 @@ define([
             excludedKeys = [],
             selectedKeysCount = 0;
 
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, true);
          assert.isTrue(instance._multiSelectStatus);
 
          selectedKeys = [];
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.isFalse(instance._multiSelectStatus);
 
          selectedKeys = [1, 2];
          selectedKeysCount = 2;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.isNull(instance._multiSelectStatus);
 
          selectedKeys = [];
          excludedKeys = [];
          selectedKeysCount = 2;
-         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, null);
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.isFalse(instance._multiSelectStatus);
       });
       it('_onCheckBoxClick', function() {
@@ -50,11 +50,11 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          instance._beforeMount(newOptions);
          assert.isTrue(instance._multiSelectStatus);
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
          instance._beforeMount(newOptions);
          assert.isFalse(instance._multiSelectStatus);
          newOptions.selectedKeys = [1, 2];
@@ -68,11 +68,11 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          instance._beforeUpdate(newOptions);
          assert.isTrue(instance._multiSelectStatus);
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
          instance._beforeUpdate(newOptions);
          assert.isFalse(instance._multiSelectStatus);
          newOptions.selectedKeys = [1, 2];

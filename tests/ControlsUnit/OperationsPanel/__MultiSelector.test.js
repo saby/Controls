@@ -33,7 +33,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: true
             });
             assert.equal(instance._menuCaption, 'Отмечено всё');
          });
@@ -47,7 +47,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отметить');
          });
@@ -61,7 +61,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: true
             });
             assert.equal(instance._menuCaption, 'Отмечено всё');
          });
@@ -75,7 +75,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отмечено: 2');
          });
@@ -89,7 +89,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отмечено: 2');
          });
@@ -103,7 +103,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отмечено: 1');
          });
@@ -117,7 +117,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отметить');
          });
@@ -131,7 +131,7 @@ define([
                selectedKeys: selectedKeys,
                excludedKeys: excludedKeys,
                selectedKeysCount: selectedKeysCount,
-               root: null
+               isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отметить');
          });
@@ -174,12 +174,12 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          await instance._beforeMount(newOptions);
          assert.equal(instance._menuSource._$data.length, 3);
          assert.equal(instance._menuCaption, 'Отмечено всё');
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
 
          await instance._beforeMount(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
@@ -195,7 +195,7 @@ define([
             selectedKeys: [null],
             excludedKeys: [],
             selectedKeysCount: 0,
-            root: null
+            isAllSelected: true
          };
          let isUpdateMenu = false;
 
@@ -205,7 +205,7 @@ define([
          assert.isTrue(isUpdateMenu);
 
          isUpdateMenu = false;
-         newOptions.selectedKeys = [];
+         newOptions.isAllSelected = false;
          await instance._beforeUpdate(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
          assert.isTrue(isUpdateMenu);
