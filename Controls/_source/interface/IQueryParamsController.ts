@@ -1,5 +1,7 @@
 import {IAdditionalQueryParams, Direction} from './IAdditionalQueryParams';
 import {RecordSet} from 'Types/collection';
+import {Record} from 'Types/entity';
+import {Collection} from '../../display';
 
 /**
  * Интерфейс для работы с контроллерами пейджинации
@@ -65,16 +67,27 @@ export interface IQueryParamsController {
     hasMoreData(direction: Direction, rootKey: string|number): boolean|undefined;
 
     /**
-     * Позволяет вручную установить текущее состояние контроллера, например, текущую и следующую страницу, или позицию
-     * для навигации
-     * @param state
+     * Позволяет установить параметры контроллера из Collection<Record>
+     * @param model
      * TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
      */
     /*
-     * Allows manual set of current controller state, i.e. current and next page, or position for navigation
-     * @param state
+     * Allows manual set of current controller state using Collection<Record>
+     * @param model
      */
-    setState(state: any): void;
+    setStateByCollection(model: Collection<Record>): void;
+
+    /**
+     * Устанавливает текущую позицию или страницу
+     * @remark
+     * @param to номер страницы или позиция для перехода
+     */
+    /*
+     * Set current page or position
+     * @remark
+     * @param to page number or position to go to
+     */
+    updatePage(to: number | any): void;
 
     /**
      * Устанавливает текущую страницу в контроллере

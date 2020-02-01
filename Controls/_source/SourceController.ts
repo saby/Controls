@@ -196,7 +196,7 @@ var SourceController = cExtend.extend({
 
    setState: function(state) {
       if (this._queryParamsController) {
-         this._queryParamsController.setState(state);
+         this._queryParamsController.setStateByCollection(state);
       }
    },
 

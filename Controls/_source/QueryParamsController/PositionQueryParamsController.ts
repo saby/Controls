@@ -6,6 +6,8 @@ import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {default as More} from './More';
 import {Logger} from 'UI/Utils';
 
+import { Collection } from 'Controls/display';
+
 interface IPositionHasMore {
     before: boolean;
     after: boolean;
@@ -205,9 +207,16 @@ class PositionQueryParamsController implements IQueryParamsController {
         };
     }
 
-    // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-    // TODO argument type
-    setState(model: any): void {
+    /**
+     * Позволяет установить параметры контроллера из Collection<Record>
+     * @param model
+     * TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
+     */
+    /*
+     * Allows manual set of current controller state using Collection<Record>
+     * @param model
+     */
+    setStateByCollection(model: Collection<Record>): void {
         if (!this._positionByMeta) {
             const beforePosition = model.getFirstItem();
             const afterPosition = model.getLastItem();
@@ -220,10 +229,25 @@ class PositionQueryParamsController implements IQueryParamsController {
         }
     }
 
+    /**
+     * Устанавливает текущую позицию или страницу
+     * @remark
+     * @param to номер страницы или позиция для перехода
+     */
+    /*
+     * Set current page or position
+     * @remark
+     * @param to page number or position to go to
+     */
+    updatePage(to: number | any): void {
+        this._options.position = to;
+    }
+
     calculateState(list: RecordSet, loadDirection: Direction): void {
         let metaNextPosition: PositionBoth;
         let more: HasMore;
 
+        // Look at the Types/source:DataSet there is a remark "don't use 'more' anymore"...
         let edgeElem: Record;
         const meta = list.getMetaData();
         more = meta.more;

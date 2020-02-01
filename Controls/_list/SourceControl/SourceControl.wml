@@ -1,0 +1,9 @@
+<Controls.dataSource:error.Container name="errorContainer" viewConfig="{{ _error }}">
+    <div class="Controls_list-SourceControl__container">
+        <ws:partial template="{{_options.content}}" items="{{ _items }}"></ws:partial>
+        <div class="Controls_listRender-SourceControl__pagingContainer">
+            <!-- scope1 нужен потому что без него dirtyChecking не смотрит на scope при вычислении изменений
+             https://online.sbis.ru/opendoc.html?guid=83c8c334-0e38-413e-9ef0-640d63408c01 -->
+        </div>
+    </div>
+</Controls.dataSource:error.Container>
