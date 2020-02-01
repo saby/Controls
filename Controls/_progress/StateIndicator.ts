@@ -188,6 +188,15 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
          excess = totalSectorsUsed - _numSectors;
          colorValues.splice(longestValueStart, excess);
       }
+      let sum: number = 0;
+      opts.data.forEach((item) => {
+         sum += item.value;
+      });
+
+      // Если сумма значений равна 100%, но при этом мы получили меньше секторов, то прибавим сектор к наибольшему значению.
+      if (totalSectorsUsed < _numSectors && sum === 100 ) {
+         colorValues.splice(longestValueStart, 0,  colorValues[longestValueStart]);
+      }
       return colorValues;
    }
 
