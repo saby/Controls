@@ -2153,6 +2153,11 @@ define([
          };
          baseControl._container = {clientHeight: 100};
          baseControl._afterMount(cfg);
+
+         afterEach(() => {
+            actionsUpdateCount = 0;
+         });
+
          it('_initItemActions', function() {
             baseControl._initItemActions();
             assert.equal(actionsUpdateCount, 1);
@@ -2160,7 +2165,7 @@ define([
          it('_onAfterEndEdit', function() {
             baseControl._onAfterEndEdit({}, {});
             baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 2);
+            assert.equal(actionsUpdateCount, 1);
          });
          it('update on recreating source', async function() {
             let newSource = new sourceLib.Memory({
@@ -2181,18 +2186,29 @@ define([
             };
             await baseControl._beforeUpdate(newCfg);
             baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 2);
+         });
+         it('updates on afterUpdate if model was recreated', function() {
+            baseControl._itemActionsInitialized = true;
+            baseControl._modelRecreated = true;
+
+            lists.BaseControl._private.onListChange(baseControl, null, 'collectionChanged');
+            assert.strictEqual(actionsUpdateCount, 0);
+
+            baseControl._afterUpdate(cfg);
+            assert.isFalse(baseControl._modelRecreated);
+            assert.strictEqual(actionsUpdateCount, 1);
          });
          it('control in error state, should not call update', function() {
             baseControl.__error = true;
             baseControl._updateItemActions();
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 0);
             baseControl.__error = false;
          });
          it('without listViewModel should not call update', function() {
             baseControl._listViewModel = null;
             baseControl._updateItemActions();
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 0);
          });
       });
 
