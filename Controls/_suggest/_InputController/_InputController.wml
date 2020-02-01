@@ -31,11 +31,13 @@
             </ws:partial>
         </ws:if>
 
-        <Controls.LoadingIndicator attr:class="controls-Suggest__indicator" isGlobal="{{false}}" useSpinner="{{true}}" name="indicator">
-            <Controls.event:Register name="inputKeydown" register="inputKeydown">
-                <ws:partial template="suggestTpl" attr:style="width:{{content.suggestWidth}}px"/>
-            </Controls.event:Register>
-        </Controls.LoadingIndicator>
+        <ws:if data="{{_options.suggestTemplate}}">
+           <Controls.LoadingIndicator attr:class="controls-Suggest__indicator" isGlobal="{{false}}" useSpinner="{{true}}" name="indicator">
+               <Controls.event:Register name="inputKeydown" register="inputKeydown">
+                   <ws:partial template="suggestTpl" attr:style="width:{{content.suggestWidth}}px"/>
+               </Controls.event:Register>
+           </Controls.LoadingIndicator>
+        </ws:if>
 
         <ws:if data="{{_options.footerTemplate}}">
             <ws:partial template="{{ _options.footerTemplate.templateName }}" scope="{{_options.footerTemplate.templateOptions}}" searchResult="{{_searchResult}}">
@@ -64,12 +66,14 @@
         </ws:partial>
     </ws:if>
 
-    <Controls.popup:Stack name="stackOpener" on:result="_select()" template="Controls/suggestPopup:Dialog" closeOnOutsideClick="{{true}}">
-        <ws:templateOptions searchValue="{{_searchValue}}" filter="{{_filter}}">
-            <ws:template>
-                <ws:partial template="suggestTpl"/>
-            </ws:template>
-        </ws:templateOptions>
-    </Controls.popup:Stack>
+   <ws:if data="{{_options.suggestTemplate}}">
+       <Controls.popup:Stack name="stackOpener" on:result="_select()" template="Controls/suggestPopup:Dialog" closeOnOutsideClick="{{true}}">
+           <ws:templateOptions searchValue="{{_searchValue}}" filter="{{_filter}}">
+               <ws:template>
+                   <ws:partial template="suggestTpl"/>
+               </ws:template>
+           </ws:templateOptions>
+       </Controls.popup:Stack>
+   </ws:if>
 
 </div>
