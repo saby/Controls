@@ -1805,6 +1805,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     triggerVisibilityChangedHandler(_: SyntheticEvent<Event>, direction: IDireciton, state: boolean): void {
         this._loadTriggerVisibility[direction] = state;
+        if (_private.needScrollPaging(this._options.navigation)) {
+            const doubleRatio = (this._viewSize / this._viewPortSize) > MIN_SCROLL_PAGING_PROPORTION;
+            this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);
+        }
     },
 
     triggerOffsetChangedHandler(_: SyntheticEvent<Event>, top: number, bottom: number): void {
