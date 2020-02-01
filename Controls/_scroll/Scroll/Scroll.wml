@@ -13,7 +13,7 @@
             https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/containers/blocks/-->
             <span name="content"
                  style="{{_displayState.heightFix ? '' : _contentStyles}}"
-                 class="controls-Scroll__content controls-BlockLayout__blockGroup
+                 class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-{{_options.theme}}
                            {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
                            {{_displayState.hasScroll ? 'controls-Scroll__content_possibleScroll'}}
                            {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' : 'controls-Scroll__content_scroll'}}

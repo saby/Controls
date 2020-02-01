@@ -19,7 +19,8 @@ define(
 
             scroll._template = function(inst) {
                inst._options = {
-                  content: Content
+                  content: Content,
+                  theme: 'default'
                };
                var markup = templateFn.call(this, inst);
 
@@ -292,7 +293,7 @@ define(
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden">' +
+                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden">' +
                                           '<div class="controls-Scroll__userContent">test</div>' +
                                        '</span>' +
                                        '<div></div>' +
@@ -302,7 +303,7 @@ define(
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_scroll" style="margin-right: -15px;">' +
+                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_scroll" style="margin-right: -15px;">' +
                                           '<div class="controls-Scroll__userContent">test</div>' +
                                        '</span>' +
                                        '<div></div>' +
