@@ -1,0 +1,8 @@
+<Controls._list.BaseControl scope="{{_options}}"
+                            moveMarkerOnScrollPaging="{{false}}"
+                            name="baseControl">
+    <!--прокидываем itemTemplate т.к. иначе мы не понимаем, что нужно перестраивать partail, потому что изменения только в замыкании функции-->
+    <Controls._list.ColumnsContainer scope="{{_options}}">
+        <ws:partial template="{{_options.viewName}}" itemTemplate="{{_options.itemTemplate}}"/>
+    </Controls._list.ColumnsContainer>
+</Controls._list.BaseControl>

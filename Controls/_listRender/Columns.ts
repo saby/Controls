@@ -1,53 +1,51 @@
-import { TemplateFunction, IControlOptions } from 'UI/Base';
+import { TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls/_listRender/Columns/Columns');
 
 import defaultItemTemplate = require('wml!Controls/_listRender/Columns/resources/ItemTemplate');
 
 import { SyntheticEvent } from 'Vdom/Vdom';
-import { CollectionItem, Collection } from 'Controls/display';
+import {ColumnsCollectionItem } from 'Controls/display';
 import {default as BaseRender, IRenderOptions} from './Render';
+import {IColumnsContainerOptions} from "../_list/ColumnsContainer";
 
-export interface IRenderOptions extends IControlOptions {
-    listModel: Collection<unknown>;
-    contextMenuEnabled?: boolean;
-    contextMenuVisibility?: boolean;
-    multiselectVisibility?: string;
-    itemTemplate?: TemplateFunction;
+export interface IColumnsRenderOptions extends IRenderOptions {
+    minWidth: number;
+    columnsMode: 'auto' | 'fixed';
+    columnsCount: number;
 }
 
-export interface IRenderChildren {
-    itemsContainer?: HTMLDivElement;
-}
+const DEFAULT_COLUMNS_COUNT = 2;
 
 export default class Columns extends BaseRender {
+    protected _options: IColumnsRenderOptions;
     protected _template: TemplateFunction = template;
     protected _itemTemplate: TemplateFunction;
+    private _columnsCount: number = DEFAULT_COLUMNS_COUNT;
 
-    protected _beforeMount(options: IRenderOptions): void {
+    protected _beforeMount(options: IColumnsRenderOptions): void {
+        super._beforeMount.apply(this, arguments);
         this._templateKeyPrefix = `columns-render-${this.getInstanceId()}`;
         this._itemTemplate = options.itemTemplate || defaultItemTemplate;
+        if (options.columnsCount) {
+            this._columnsCount = options.columnsCount;
+        }
+    }
 
-        this._subscribeToModelChanges(options.listModel);
+    protected _beforeUpdate(options: IColumnsContainerOptions): void {
+        if (options.columnsCount !== this._options.columnsCount) {
+            this._columnsCount = options.columnsCount;
+        }
     }
 
     protected _beforeUnmount(): void {
         this._unsubscribeFromModelChanges(this._options.listModel);
     }
 
-    protected _onItemSwipe(e: SyntheticEvent<null>, item: CollectionItem<unknown>): void {
+    protected _resizeHandler(): void {
+        this._notify('resize', []);
+    }
+    protected _onItemSwipe(e: SyntheticEvent<null>, item: ColumnsCollectionItem<unknown>): void {
         e.stopPropagation();
         this._notify('itemSwipe', [item, e]);
-    }
-
-    // Обработка клавиатуры будет реализована по работам с маркером в ColumnsView
-    protected _onItemKeyDown(e: SyntheticEvent<KeyboardEvent>, item: CollectionItem<unknown>): void {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    // Обработка клавиатуры будет реализована по работам с маркером в ColumnsView
-    protected _keyDown(e: SyntheticEvent<KeyboardEvent>): void {
-        e.preventDefault();
-        e.stopPropagation();
     }
 }
