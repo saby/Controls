@@ -117,6 +117,7 @@ var _private = {
  * Содержимое можно переопределить с помощью параметра "contentTemplate".
  * Базовый шаблон Controls/dropdown:inputDefaultContentTemplate по умолчанию отображает только текст.
  * Для отображения иконки и текста используйте шаблон "Controls/dropdown:defaultContentTemplateWithIcon".
+ * Для шаблона пустого элемента определен isEmptyItem = true.
  * @example
  * Отображение иконки и текста.
  *

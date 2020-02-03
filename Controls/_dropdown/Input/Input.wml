@@ -21,7 +21,8 @@
                   tooltip="{{_tooltip}}"
                   countItems="{{_countItems}}"
                   hasMoreText="{{_hasMoreText}}"
-                  isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
+                  isEmptyItem="{{_isEmptyItem}}"
+                  multiSelect="{{_options.multiSelect}}"
                   readOnly="{{_options.readOnly}}"
                   footerTemplate="{{_options.footerTemplate}}"/>
    </ws:content>
