@@ -346,7 +346,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
 
          if (_private.isNeedAbortSearchOnOptionsChanged(currentOptions, this._dataOptions) ||
              _private.isNeedAbortSearchOnOptionsChanged(this._options, newOptions)) {
-            if (this._searchValue) {
+            if (this._searchValue && !newOptions.searchValue) {
                this._searchController.abort(true);
             }
             _private.setInputSearchValue(this, '');
