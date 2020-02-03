@@ -1,8 +1,10 @@
 import View = require('Controls/_list/List');
 import {Logger} from 'UI/Utils';
+import viewTemplate = require('Controls/_list/ColumnsControl');
 
 var Columns = View.extend(/** @lends Controls/_list/List.prototype */{
     _viewName: null,
+    _viewTemplate: viewTemplate,
 
     _checkViewName(useNewModel: boolean): void|Promise<any> {
         if (useNewModel) {

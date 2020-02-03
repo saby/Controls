@@ -3,21 +3,29 @@ import {register} from 'Types/di';
 import {ColumnsCollection} from '../display';
 
 export interface IOptions<T> extends IBaseOptions<T> {
-    column: number;
+    columnProperty: number;
 }
 
 export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
-    protected _$column: number;
+    protected _$columnProperty: string;
+    protected _$column: number = 0;
     protected _$owner: ColumnsCollection<T>;
+    getFixedColumn(): number {
+        return this.getContents().get && this.getContents().get(this._$columnProperty || 'column') || 0;
+    }
     getColumn(): number {
         return this._$column;
+    }
+    setColumn(column: number): void {
+        if (this._$column === column) {
+            return;
+        }
+        this._$column = column;
+        this._nextVersion();
     }
     getWrapperClasses(templateHighlightOnHover: boolean = true, marker: boolean = true): string {
         let result: string = super.getWrapperClasses.apply(this, arguments);
         result += ' controls-ColumnsView__itemV';
-        if (marker && this.isMarked()) {
-            result += ' controls-ColumnsView__item_marked';
-        }
         return result;
     }
     getContentClasses(): string {
