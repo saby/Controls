@@ -5,7 +5,8 @@
         on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
         on:itemClick="_proxyEvent('itemClick')">
    <ws:itemTemplate>
-      <ws:partial template="{{_options.itemTemplate}}"
+      <ws:partial attr:class="{{itemTemplate.item.isHovered() ? ' controls-Menu__row_hovered_theme-' + _options.theme}}"
+                  template="{{_options.itemTemplate}}"
                   itemData="{{itemTemplate.item}}"
                   item="{{itemTemplate.item.getContents()}}"
                   isEmptyItem="{{_isEmptyItem(itemTemplate.item)}}"
