@@ -1,8 +1,7 @@
-<Controls.Container.Async templateName="Controls/dateRange:LiteSelector" >
-   <ws:partial template="{{ content.resolvedTemplate }}"
-               attr:class="controls-FilterEditor-DateRange"
-               scope="{{_options}}"
-               startValue="{{_options.value[0]}}"
-               endValue="{{_options.value[1]}}"
-               on:rangeChanged="_rangeChanged()" />
-</Controls.Container.Async>
+<ws:partial template="{{_options.templateName}}"
+            attr:class="controls-FilterEditor-DateRange"
+            scope="{{_options}}"
+            startValue="{{_options.value[0]}}"
+            endValue="{{_options.value[1]}}"
+            on:rangeChanged="_rangeChanged()"
+/>

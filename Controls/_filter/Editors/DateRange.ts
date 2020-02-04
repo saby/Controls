@@ -25,6 +25,12 @@ class DateRangeEditor extends Control<IControlOptions> {
             this._notify('rangeChanged', [startValue, endValue]);
         });
     }
+
+    static getDefaultOptions() {
+        return {
+            templateName: 'Controls/dateRange:LiteSelector'
+        };
+    }
 }
 /**
  * @event Происходит при изменении выбранного значения.

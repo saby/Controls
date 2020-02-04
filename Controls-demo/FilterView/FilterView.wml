@@ -89,7 +89,7 @@
       </div>
       <div class="controls-demo-FilterView__item">
          <h3>ReadOnly</h3>
-         <Controls.filter:View source="{{_fastButtonItems2}}"
+         <Controls.filter:View source="{{_fastButtonItems}}"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                readOnly="{{true}}"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__readonly" />
