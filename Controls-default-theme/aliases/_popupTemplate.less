@@ -75,9 +75,6 @@
 //Примечание: равен цвету фона по-умолчанию.
 @background-color_sticky:                                                   @background-color;
 
-//Нижний отступ для контента прилипающего блока.
-@content_padding-bottom_sticky:                                             8px;
-
 //Нижний отступ для прилипающего блока.
 @padding-bottom_sticky:                                                     2px;
 
@@ -87,12 +84,12 @@
 //Цвет обводки прилипающего блока.
 @border-color_sticky:                                                       #CCCCCC;
 
-//тень прилипающего блока
-@box-shadow_sticky:                                                         0 0 12px 0 rgba(0,0,0,0.25);
+//Ширина обводки прилипающего блока.
+@border-thickness_sticky:                                                   @border-thickness;
 
 //шапка прилипающего окна
-//горизонтальный отступ слева в шапке прилипающего блока.
-@header_padding-left_sticky:                                                12px;
+// горизонтальный отступ в шапке выпадающего списка
+@header_padding-horizontal_sticky:                                          12px;
 
 //цвет нижней границы шапки прилипающего блока.
 @header_bottom-border-color_sticky:                                         #F0F0F0;
@@ -106,14 +103,8 @@
 //толщина нижней границы шапки прилипающего блока.
 @header_bottom-border-thickness_sticky:                                     @border-thickness;
 
-// размер шрифта шапки выпадающего списка
-@header_font-size_sticky:                                                   @font-size_l;
-
 // минимальная высота шапки выпадающего списка
 @header_min-height_sticky:                                                  32px;
-
-// горизонтальный отступ в шапке выпадающего списка
-@header_padding-horizontal_sticky:                                          12px;
 
 // отступ между кнопкой закрытия и верхней границей выпадающего списка
 @close-button_offset-top_sticky:                                            6px;

@@ -285,9 +285,9 @@
 @height_Dropdown:                                  @height_dropdownSelector;
 @font-size_DropdownList-text:                      @font-size_default_dropdownSelector;
 @font-size_DropdownList-text-baseline:             @font-size_default_dropdownSelector;
-@shift-top_Dropdown-popup:                         -((@item_height_menu - @height_dropdownSelector) / 2 + @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
-@shift-top_Dropdown-head-popup:                    -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
-@shift-left_Dropdown-popup:                        -(@popup_border-thickness_menuPopup + @click-area_width_checkbox);
+@shift-top_Dropdown-popup:                         -((@item_height_menu - @height_dropdownSelector) / 2 + @popup_padding-vertical_menuPopup + @border-thickness_sticky);
+@shift-top_Dropdown-head-popup:                    -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
+@shift-left_Dropdown-popup:                        -(@border-thickness_sticky + @click-area_width_checkbox);
 @color_Dropdown-icon-iconStyle_secondary_hovered:  @link_hover_text-color;
 @color_Dropdown-text:                              @link_text-color;
 @color_Dropdown-text_hovered:                      @link_hover_text-color;
@@ -295,17 +295,17 @@
 
 // dropdownList
 @max-width_DropdownList:                                                @popup_max-width_menuPopup;
-@background_DropdownList:                                               @popup_background-color_menuPopup;
+@background_DropdownList:                                               @background-color_sticky;
 
-@border-width_DropdownList:                                             @popup_border-thickness_menuPopup;
-@border-color_DropdownList:                                             @popup_border-color_menuPopup;
+@border-width_DropdownList:                                             @border-thickness_sticky;
+@border-color_DropdownList:                                             @border-color_sticky;
 
 @spacing_DropdownList-between-topBorder-content:                        @popup_padding-vertical_menuPopup;
 @spacing_DropdownList-between-bottomBorder-content:                     @popup_padding-vertical_menuPopup;
 @spacing_DropdownList-item-between-leftBorder-content:                  @item_padding-horizontal_l_menu;
 @spacing_DropdownList-item-between-rightBorder-content:                 @item_padding-horizontal_l_menu;
 @spacing_DropdownList-withNodes-item-between-rightBorder-content:       @hierarchy_icon_offset-right_menu + @hierarchy_icon-size_menu + @hierarchy_icon_offset-left_menu;
-@spacing_DropdownList_withClose-item-between-rightBorder-content:       @close-button_offset-left_menu + @width_closeButton_link + @close-button_offset-right_menu;
+@spacing_DropdownList_withClose-item-between-rightBorder-content:       @close-button_offset-left_sticky + @width_closeButton_link + @close-button_offset-right_sticky;
 @spacing_DropdownList-withPin-item-between-rightBorder-content:         @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
 
 @box-shadow-color_DropdownList:                                   @popup_box-shadow-color_menuPopup;
@@ -333,11 +333,11 @@
 @width_DropdownList-marker:                                       @marker_width_menu;
 @height_DropdownList-marker:                                      @marker_height_menu;
 
-@background_DropdownList-header:                                  @header_background-color_menuPopup;
+@background_DropdownList-header:                                  @header_background-color_sticky;
 @spacing_DropdownList-header-between-icon-text:                   @item_icon_offset_menu;
 @color_DropdownList-heading:                                      @secondary_text-color;
 
-@shift-top_DropdownList-submenu:                            -(@popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
+@shift-top_DropdownList-submenu:                            -(@popup_padding-vertical_menuPopup + @border-thickness_sticky);
 
 @icon-size_DropdownList-arrow:                              @hierarchy_icon-size_menu;
 @color_DropdownList-arrow:                                  @hierarchy_icon-color_menu;
@@ -346,8 +346,8 @@
 @spacing_DropdownList-item-between-arrow-rightBorder:       @hierarchy_icon_offset-right_menu;
 
 //cross
-@spacing_DropdownList-between-close-rightBorder:      @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
-@spacing_DropdownList-between-close-topBorder:        @close-button_offset-top_menu + @popup_border-thickness_menuPopup;
+@spacing_DropdownList-between-close-rightBorder:      @close-button_offset-right_sticky + @border-thickness_sticky;
+@spacing_DropdownList-between-close-topBorder:        @close-button_offset-top_sticky + @border-thickness_sticky;
 
 @height_DropdownList-arrowSeparator:                  @icon-size_toggleBigSeparator;
 
@@ -392,10 +392,10 @@
 @box-shadow-size_DropdownList-shadowStyle_centerTop-right:        @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
 @box-shadow-size_DropdownList-shadowStyle_centerTop-top:          0 -@popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
 
-@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder:          @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_m) / 2;
-@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder:         @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
-@spacing_DropdownList-iconSize_small-between-iconHead-topBorder:           @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_s) / 2;
-@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder:          @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
+@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder:          @popup_padding-vertical_menuPopup + @border-thickness_sticky + (@item_height_menu - @icon-size_m) / 2;
+@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder:         @item_padding-horizontal_l_menu + @border-thickness_sticky;
+@spacing_DropdownList-iconSize_small-between-iconHead-topBorder:           @popup_padding-vertical_menuPopup + @border-thickness_sticky + (@item_height_menu - @icon-size_s) / 2;
+@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder:          @item_padding-horizontal_l_menu + @border-thickness_sticky;
 
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
 
@@ -533,8 +533,8 @@
 @spacing_SimplePanel-between-applyButton-close:             @apply-button_offset-right_filterSimplePanel;
 @color_SimplePanel-dropdown__emptyItem:                     @empty-item_text-color_filterSimplePanel;
 @font-size_SimplePanel-dropdown__emptyItem:                 @empty-item_font-size_filterSimplePanel;
-@shift-top_FilterView-SimplePanel-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup + @popup_padding-vertical_menuPopup);
-@shift-left_FilterView-SimplePanel-popup:                   -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
+@shift-top_FilterView-SimplePanel-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @border-thickness_sticky + @popup_padding-vertical_menuPopup);
+@shift-left_FilterView-SimplePanel-popup:                   -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
 
 @height_FilterText:                                         @inline_height_m;
 @font-size_FilterText-reset:                                @icon-size_s;
