@@ -1,6 +1,6 @@
 @Library('pipeline') _
 
-def version = '20.3000'
+def version = '20.2000'
 
 node ('controls') {
     checkout_pipeline("rc-${version}")
