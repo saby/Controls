@@ -597,64 +597,29 @@ define(['Controls/_tile/TileView/TileView',
       it('_calculateHoveredItemPosition', function() {
          var
             closestResult = false,
-            document = {
-               documentElement: {
-                  getBoundingClientRect: () => {
-                     return {
-                        top: 0,
-                        bottom: 500,
-                        left: 0,
-                        right: 500,
-                        width: 500,
-                        height: 500
-                     };
-                  }
-               }
-            },
-            itemContainer = {
-               getBoundingClientRect: () => {
-                  return {
-                     top: 100,
-                     bottom: 100,
-                     left: 100,
-                     right: 100,
-                     width: 100,
-                     height: 100
-                  };
-               }
-            },
             setHoveredItemCalled,
             event = {
                target: {
-                  closest: function(str) {
-                     if (str === '.controls-TileView__item') {
-                        return itemContainer;
-                     }
+                  closest: function() {
                      return closestResult;
                   }
                }
             };
 
-         tileView._setHoveredItem = function(itemData, position, startPosition, noZoom) {
+         tileView._setHoveredItem = function() {
             setHoveredItemCalled = true;
-            assert.isTrue(noZoom);
          };
-         let itemData = {
-            dispItem: {
-               isNode: () => false
-            },
 
-         }
          cfg.tileScalingMode = 'none';
          tileView.saveOptions(cfg);
-         tileView._calculateHoveredItemPosition(event, itemData, document);
+         tileView._calculateHoveredItemPosition(event);
          assert.isTrue(setHoveredItemCalled);
 
          cfg.tileScalingMode = 'outside';
          tileView.saveOptions(cfg);
          setHoveredItemCalled = null;
          closestResult = true;
-         tileView._calculateHoveredItemPosition(event, itemData, document);
+         tileView._calculateHoveredItemPosition(event);
          assert.isTrue(setHoveredItemCalled);
       });
    });

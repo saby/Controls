@@ -262,7 +262,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchMod.Controller._private.abortCallback(controller, filter);
 
          assert.isTrue(stubNotify.calledTwice);
-         assert.equal(controller._viewMode, 'testViewMode');
+         assert.equal(controller._viewMode, 'search');
          assert.isFalse(controller._loading);
          assert.equal(controller._misspellValue, '');
          assert.equal(controller._searchValue, '');
