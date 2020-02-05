@@ -461,7 +461,8 @@ var
 
         getColspanForColumnScroll(self): {
             fixedColumns: string,
-            scrollableColumns: string
+            scrollableColumns: string,
+            actions: string
         } {
 
             const stickyColumnsCount = self._options.stickyColumnsCount || 1;
@@ -470,9 +471,12 @@ var
             const center = start + (self._options.stickyColumnsCount || 1);
             const end = start + self._columns.length;
 
+            const scrollableColumnsStyle = `grid-column: ${center} / ${end}; -ms-grid-column: ${center}; -ms-grid-column-span: ${scrollableColumnsCount};`;
+
             return {
                 fixedColumns: `grid-column: ${start} / ${center}; -ms-grid-column: ${start}; -ms-grid-column-span: ${stickyColumnsCount}; z-index: 3;`,
-                scrollableColumns: `grid-column: ${center} / ${end}; -ms-grid-column: ${center}; -ms-grid-column-span: ${scrollableColumnsCount}; z-index: auto;`,
+                scrollableColumns: `${scrollableColumnsStyle} z-index: auto;`,
+                actions: scrollableColumnsStyle
             };
         }
     },
