@@ -8,8 +8,19 @@ import 'css!theme?Controls/paging';
 type TButtonState = 'normal' | 'disabled';
 
 export interface IPagingOptions extends IControlOptions {
+    /**
+     * @cfg {Boolean} Отображать кнопки с номерами страницы.
+     */
     showDigits: boolean;
+    
+    /**
+     * @cfg {Number} Размер страницы.
+     */
     pagesCount: number;
+
+    /**
+     * @cfg {Number} Номер выбранной страницы.
+     */
     selectedPage?: number;
     stateBegin: TButtonState;
     stateEnd: TButtonState;
@@ -18,7 +29,12 @@ export interface IPagingOptions extends IControlOptions {
 }
 
 /**
- *
+ * Контрол для отображения кнопок постраничной навигации.
+ * @class Controls/_paging/Paging
+ * @extends UI/Base:Control
+ * @public
+ * @author Авраменко А.С.
+ * 
  * @mixes Controls/_paging/Paging/Styles
  * @mixes Controls/_paging/Paging/DigitButtons/Styles
  *
@@ -110,3 +126,20 @@ class Paging extends Control<IPagingOptions> {
 }
 
 export default Paging;
+
+/**
+ * @event Происходит при клике по кнопкам перехода к первой, последней, следующей или предыдущей странице.
+ * @name Controls/paging:Paging#onArrowClick
+ * @remark
+ * Событие происходит, когда опция showDigits установлена в значение true.
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {ButtonName} btnName Имя нажатой кнопки.
+ */
+
+ /**
+ * @typedef {String} ButtonName
+ * @variant Begin Кнопка "В начало".
+ * @variant End Кнопка "В конец".
+ * @variant Prev Кнопка "Назад".
+ * @variant Next Кнопка "Вперёд".
+ */
