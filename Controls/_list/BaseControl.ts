@@ -1855,6 +1855,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._isMounted = true;
         const container = this._container[0] || this._container;
         this._viewSize = container.clientHeight;
+        if (this._options.editingConfig && this._options.editingConfig.item) {
+            this._initItemActions();
+        }
         if (this._options.itemsDragNDrop) {
             container.addEventListener('dragstart', this._nativeDragStart);
         }
