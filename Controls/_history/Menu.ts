@@ -1,5 +1,6 @@
 import rk = require('i18n!Controls');
 import {Button as Menu, MenuUtils} from 'Controls/dropdown';
+import {IoC} from "Env/Env";
 import itemTemplate = require('wml!Controls/_history/resources/itemTemplate');
 
 var _private = {
@@ -43,6 +44,7 @@ var HistoryMenu = Menu.extend({
    _hasIconPin: true,
 
    _beforeMount: function (options) {
+      IoC.resolve('ILogger').warn('Контрол history:Menu является устаревшим, используйте dropdown:Button');
       this._offsetClassName = MenuUtils.cssStyleGeneration(options);
    },
 
