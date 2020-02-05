@@ -1,4 +1,4 @@
-<div class="controls-BreadCrumbsPath{{_options.header ? ' controls-BreadCrumbsPath__twoRows' : ''}}">
+<div class="controls-BreadCrumbsPath">
     <div class="controls-BreadCrumbsPath__wrapper">
         <ws:if data="{{ _backButtonCaption && !_options.header }}">
             <Controls._breadcrumbs.HeadingPath.Back backButtonCaption="{{_backButtonCaption}}"
