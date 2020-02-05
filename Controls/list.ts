@@ -14,6 +14,7 @@
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
  * @includes Paging Controls/_paging/Paging
+ * @includes VirtualScroll Controls/_list/Controllers/VirtualScroll
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
