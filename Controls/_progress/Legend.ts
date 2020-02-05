@@ -7,7 +7,8 @@ export interface ILegendOptions extends IControlOptions {
    data?: IIndicatorCategory[];
 }
 /**
- * Легенда для StateIndicator.
+ * Контрол используют для создания легенды к диаграмме состояния процесса (см. {@link https://wi.sbis.ru/docs/js/Controls/progress/StateIndicator/?v=20.2000 Controls/progress:StateIndicator}).
+ * Отображение легенды можно настроить во всплывающем окне при наведении курсора мыши на диаграмму состояния процесса.
  * @class Controls/_progress/Legend
  * @author Колесов В.А.
  * @public
@@ -54,7 +55,8 @@ export default Legend;
 
 /**
  * @name Controls/_progress/Legend#data
- * @cfg {Array.<IndicatorCategory>} Массив легенд диаграммы.
+ * @cfg {Array.<IndicatorCategory>} Конфигурация элементов легенды.
+ * @example
  * <pre class="brush:html">
  *   <Controls.progress:Legend data="{{[{value: 10, className: '', title: 'done'}]}}"/>
  * </pre>

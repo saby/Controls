@@ -1,10 +1,15 @@
 import libHelper = require("Core/library");
-import {IoC} from "Env/Env";
+import { IoC } from "Env/Env";
 
-let cache = {};
+type Module = unknown;
+let cache: Record<string, Promise<Module>> = {};
+interface IParsedName {
+    name: string
+    path: string[]
+}
 
 class ModuleLoader {
-    private getFromLib(lib: any, parsedName: any): any {
+    private getFromLib(lib: Module, parsedName: IParsedName): Module {
         let mod = lib;
         let processed = [];
         parsedName.path.forEach(function (property) {
@@ -20,75 +25,63 @@ class ModuleLoader {
         return mod;
     };
 
-    public loadAsync(name: string): any {
-        let parsedInfo = libHelper.parse(name);
-        let promiseResult;
-        if (this.isCached(parsedInfo.name)) {
-            if(this.isLoaded(parsedInfo.name)) {
-                return new Promise((resolve) => {
-                    let cachedLib = cache[parsedInfo.name];
-                    let loadedModule = this.getFromLib(cachedLib, parsedInfo)
-                    resolve(loadedModule);
-                });
-            } else {
-                promiseResult = cache[parsedInfo.name];
-            }
-        } else {
-            promiseResult = this.requireAsync(parsedInfo.name);
-            this.cacheModule(parsedInfo.name, promiseResult);
+    public loadAsync(name: string): Promise<Module> {
+        if (this.isLoaded(name)) {
+            return Promise.resolve(this.loadSync(name));
         }
-        promiseResult = promiseResult.then((res) => {
+
+        let parsedInfo: IParsedName = libHelper.parse(name);
+        if (this.isCached(parsedInfo.name)) {
+            return cache[parsedInfo.name];
+        }
+
+        let promiseResult = this.requireAsync(parsedInfo.name);
+        cache[parsedInfo.name] = promiseResult = promiseResult.then((res) => {
             let module = this.getFromLib(res, parsedInfo);
-            this.cacheModule(parsedInfo.name, res);
+            delete cache[parsedInfo.name];
             return module;
         }, (e) => {
-            this.cacheModule(parsedInfo.name, {});
+            delete cache[parsedInfo.name];
             let errorMessage = "Couldn't load module " + parsedInfo.name;
             IoC.resolve("ILogger").error(errorMessage, e);
             throw new Error(errorMessage);
         });
+
         return promiseResult;
     };
 
-    public loadSync(name: string): any {
+    public loadSync(name: string): Module {
         let parsedInfo = libHelper.parse(name);
-        let loaded;
-        if (this.isCached(parsedInfo.name)) {
-            loaded = cache[parsedInfo.name];
-        } else {
-            try {
-                loaded = this.requireSync(parsedInfo.name);
-                this.cacheModule(parsedInfo.name, loaded);
-            } catch(e) {
-                IoC.resolve("ILogger").error("Couldn't load module " + parsedInfo.name, e);
-                return null;
-            }
+        try {
+            var loaded = this.requireSync(parsedInfo.name);
+        } catch(e) {
+            IoC.resolve("ILogger").error("Couldn't load module " + parsedInfo.name, e);
+            return null;
+        }
+        if (!loaded) {
+            return null;
         }
         return this.getFromLib(loaded, parsedInfo);
     };
 
-    private cacheModule(name, module) {
-        cache[name] = module;
-    };
-
-    private isLoaded(name) {
-        let parsedInfo = libHelper.parse(name);
-        let cacheValue = cache[parsedInfo.name];
-        if(cacheValue && !(cacheValue instanceof Promise)) {
-            return true;
+    private isLoaded(name: string): boolean {
+        let parsedInfo: IParsedName = libHelper.parse(name);
+        try {
+            return !!require(parsedInfo.name);
+        } catch (_) {
+            return false;
         }
-        return false;
     };
 
-    private isCached(name) {
+    private isCached(name: string): boolean {
         return !!cache[name];
     }
 
-    private requireSync(name): any {
+    private requireSync(name: string): Module {
         return require(name);
     };
 
-    private requireAsync(name): any {
+    private requireAsync(name): Promise<any> {
         return new Promise((resolve, reject) => {
             require([name], resolve, reject);
         });
@@ -97,7 +90,6 @@ class ModuleLoader {
     public clearCache(): void {
         cache = {};
     }
-
 }
 
 export = ModuleLoader;

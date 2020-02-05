@@ -240,39 +240,6 @@ define(['Controls/deprecatedList', 'Types/source', 'Types/collection', 'Core/Def
          assert.isTrue(searchController._options.source instanceof history.Source);
       });
 
-      it('._beforeUnmount', function(done) {
-         /* To reset source */
-         var listLayout = new deprecatedList.Container(listOptions);
-         var context = getFilledContext();
-         var aborted = false;
-         listLayout._beforeMount(listOptions);
-         listLayout._saveContextObject(getEmptyContext());
-
-         deprecatedList.Container._private.abortCallback(listLayout, {});
-
-         listLayout._beforeUpdate(listOptions, context);
-
-         setTimeout(function() {
-            assert.deepEqual(listLayout._filter, {title: 'Sasha'});
-            assert.deepEqual(listLayout._source._$data.query.getRawData(), [
-               { id: 1, title: 'Sasha' },
-               { id: 5, title: 'Sasha' }
-            ]);
-            assert.isTrue(!!listLayout._searchDeferred);
-            assert.isTrue(!!listLayout._searchController);
-            listLayout._searchController.abort = function() {
-               aborted = true;
-            };
-            listLayout._beforeUnmount();
-            setTimeout(function() {
-               assert.isTrue(aborted);
-               assert.equal(listLayout._searchController, undefined);
-               assert.equal(listLayout._searchDeferred, undefined);
-               done();
-            }, 50);
-         }, 50);
-      });
-
       it('._beforeUpdate', function(done) {
          /* Изолированный тест beforeUpdate */
          var

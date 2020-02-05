@@ -877,6 +877,14 @@ var Base = Control.extend({
         }
     },
 
+    _activatedHandler: function(): void {
+        const readOnlyField: boolean = this._options.readOnly || this._field.scope.readOnly;
+
+        if (!readOnlyField) {
+            this.activate({enableScreenKeyboard: true, enableScrollToElement: true});
+        }
+    },
+
     _focusInHandler: function (event) {
         let firstFocusByTab = this._firstFocus;
 

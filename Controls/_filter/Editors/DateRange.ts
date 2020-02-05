@@ -12,6 +12,7 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
  * @extends Core/Control
  * @author Герасимов А.М.
  * @see Controls/filter:View
+ * @public
  */
 class DateRangeEditor extends Control<IControlOptions> {
     protected _template: TemplateFunction = DateRangeTemplate;

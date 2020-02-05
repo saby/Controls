@@ -4,7 +4,7 @@
 
 1. Клонируйте репозиторий с контролами, например в папку `sbis3-controls` (все команды в следующих пунктах нужно будет выполнять в этой папке):
 
-        git clone git@git.sbis.ru:sbis/controls.git /path/to/sbis3-controls
+        git clone git@github.com:saby/wasaby-controls.git /path/to/sbis3-controls
 
 1. Переключите репозиторий на нужную ветку, например rc-19.100:
 

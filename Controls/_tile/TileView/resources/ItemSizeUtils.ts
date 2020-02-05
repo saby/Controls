@@ -9,6 +9,7 @@ export = {
             tileContentRect = tileContent.getBoundingClientRect();
 
         tileContent.classList.add('controls-TileView__item_hovered');
+        tileContent.classList.remove('controls-TileView__item_unfixed');
         tileContent.style.width = tileContentRect.width * zoomCoefficient + 'px';
 
         //Плитка с динамической шириной не увеличивается по высоте, при изменении ширины.
@@ -31,6 +32,7 @@ export = {
         }
         tileContent.style.width = '';
         tileContent.classList.remove('controls-TileView__item_hovered');
+        tileContent.classList.add('controls-TileView__item_unfixed');
 
         return result;
     }
