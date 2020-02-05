@@ -277,6 +277,21 @@ export default class CollectionItem<T> extends mixin<
         return classes;
     }
 
+    isHovered(): boolean {
+        return this._$hovered;
+    }
+
+    setHovered(hovered: boolean, silent?: boolean): void {
+        if (this._$hovered === hovered) {
+            return;
+        }
+        this._$hovered = hovered;
+        this._nextVersion();
+        if (!silent) {
+            this._notifyItemChangeToOwner('hovered');
+        }
+    }
+
     isEditing(): boolean {
         return this._$editing;
     }
@@ -424,6 +439,7 @@ export default class CollectionItem<T> extends mixin<
         }
         this._$editingContents = editingContents;
     }
+
 
     protected _onEditingItemPropertyChange(): void {
         this._notifyItemChangeToOwner('editingContents');
