@@ -1,0 +1,17 @@
+<div>
+    <div class="controls-PeriodLiteDialog__item-background-hovered border-top-hidden{{ !(_options._yearHovered === _currentYear) ? ' ws-hidden'}}"></div>
+    <ws:for data="halfYear in _yearModel">
+        <ws:for data="quarter in halfYear.quarters">
+            <ws:for data="month in quarter.months">
+                <ws:partial
+                        on:click="_onMonthClick(month.date)"
+                        template="{{_options.monthTemplate}}"
+                        month="{{month}}"
+                        formatDate="{{_formatDate}}"
+                        isIconChecked="{{isIconChecked}}"
+                        extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"
+                />
+            </ws:for>
+        </ws:for>
+    </ws:for>
+</div>

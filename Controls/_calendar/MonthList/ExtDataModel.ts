@@ -69,7 +69,7 @@ export default class ExtDataModel extends mixin<VersionableMixin>(VersionableMix
             query: Query = new Query();
 
         if (this._viewMode === 'year') {
-            end.setMonth(end.getMonth() + 11);
+            end.setMonth(11);
             length = dateRangeUtil.getPeriodLengthInMonths(start, end);
         }
         start.setMonth(start.getMonth() - 1);
