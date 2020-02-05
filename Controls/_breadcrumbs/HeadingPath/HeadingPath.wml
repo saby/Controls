@@ -2,19 +2,19 @@
     <div class="controls-BreadCrumbsPath__wrapper">
         <ws:if data="{{ _backButtonCaption && !_options.header }}">
             <Controls._breadcrumbs.HeadingPath.Back backButtonCaption="{{_backButtonCaption}}"
-                                               backButtonClass="{{_backButtonClass}}"
-                                               counterCaption="{{ _getCounterCaption(_options.items) }}"
-                                               showArrowOutsideOfBackButton="{{!_breadCrumbsItems && !_options.rootVisible}}"
-                                               backButtonStyle="{{ _options.backButtonStyle }}"
-                                               showActionButton="{{_options.showActionButton}}"
-                                               afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
-                                               theme="{{_options.theme}}"
-                                               attr:class="{{!_visibleItems ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}}"
-                                               on:backButtonClick="_onBackButtonClick()"
-                                               on:arrowClick="_notifyHandler('arrowClick')"/>
+                                                    backButtonClass="{{_backButtonClass}}"
+                                                    counterCaption="{{ _getCounterCaption(_options.items) }}"
+                                                    showArrowOutsideOfBackButton="{{!_breadCrumbsItems && !_options.rootVisible}}"
+                                                    backButtonStyle="{{ _options.backButtonStyle }}"
+                                                    showActionButton="{{_options.showActionButton}}"
+                                                    afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
+                                                    theme="{{_options.theme}}"
+                                                    attr:class="{{!_visibleItems ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}}"
+                                                    on:backButtonClick="_onBackButtonClick()"
+                                                    on:arrowClick="_notifyHandler('arrowClick')"/>
         </ws:if>
         <ws:if data="{{_visibleItems || _options.rootVisible}}">
-            <div class="controls-BreadCrumbsPath__homeContainer {{_options.header ? 'controls-BreadCrumbsPath__homeContainer_withoutBackButton'}} {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}"
+            <div class="controls-BreadCrumbsPath__homeContainer {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}"
                  on:mouseEnter="_notifyHandler('hoveredItemChanged', _getRootModel(_options.items ? _options.items[0].get(_options.parentProperty) : _options.root, _options.keyProperty))"
                  on:mouseLeave="_notifyHandler('hoveredItemChanged')"
                  on:click="_onHomeClick()">
@@ -22,16 +22,15 @@
             </div>
         </ws:if>
         <ws:if data="{{_visibleItems}}">
-            <Controls._breadcrumbs.View attr:class="controls-BreadCrumbsPath__breadCrumbs_home-path-spacing controls-BreadCrumbsPath__breadCrumbs {{_breadCrumbsClass}}"
-                                       items="{{_breadCrumbsItems}}"
-                                       visibleItems="{{_visibleItems}}"
-                                       keyProperty="{{_options.keyProperty}}"
-                                       displayProperty="{{_options.displayProperty}}"
-                                       highlighter="{{_options.highlighter}}"
-                                       on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
-                                       on:itemClick="_notifyHandler('itemClick')"/>
+            <Controls._breadcrumbs.View
+                    attr:class="controls-BreadCrumbsPath__breadCrumbs_home-path-spacing controls-BreadCrumbsPath__breadCrumbs {{_breadCrumbsClass}}"
+                    items="{{_breadCrumbsItems}}"
+                    visibleItems="{{_visibleItems}}"
+                    keyProperty="{{_options.keyProperty}}"
+                    displayProperty="{{_options.displayProperty}}"
+                    highlighter="{{_options.highlighter}}"
+                    on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                    on:itemClick="_notifyHandler('itemClick')"/>
         </ws:if>
-
-
     </div>
 </div>
