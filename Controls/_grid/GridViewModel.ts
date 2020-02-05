@@ -201,29 +201,15 @@ var
                 return itemIndex === rowCount - 1;
             }
         },
-        prepareRowSeparatorClasses: function(current, theme, editingItem) {
-            let result = '';
-
+        prepareRowSeparatorClasses: function (current, theme, editingItem) {
+            let result = ' ';
             if (current.rowSeparatorVisibility) {
-                const rowCount = current.dispItem.getOwner().getCount();
+                result += `controls-Grid__row-cell_withRowSeparator_theme-${theme}`;
                 if (current.isFirstInGroup && !current.isInHiddenGroup) {
                     result += ' controls-Grid__row-cell_first-row-in-group';
-                } else {
-                    if (current.index === 0) {
-                        result += ' controls-Grid__row-cell_firstRow';
-                        result += ' controls-Grid__row-cell_withRowSeparator_firstRow' + `_theme-${theme}`;
-                    } else {
-                        result += ' controls-Grid__row-cell_withRowSeparator' + `_theme-${theme}`;
-                    }
-                }
-                if (_private.isLastItem(editingItem, rowCount, current.index)) {
-                    result += ` controls-Grid__row-cell_lastRow_theme-${theme}`;
-                    result += ` controls-Grid__row-cell_withRowSeparator_lastRow_theme-${theme}`;
-                } else {
-                    result += ` controls-Grid__row-cell_withRowSeparator_notLastRow_theme-${theme}`;
                 }
             } else {
-                result += ` controls-Grid__row-cell_withoutRowSeparator_theme-${theme}`;
+                result += `controls-Grid__row-cell_withoutRowSeparator_theme-${theme}`;
             }
             return result;
         },
