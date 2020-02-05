@@ -191,7 +191,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 parentProperty: options.parentProperty,
                 nodeProperty: options.nodeProperty,
                 iconSize: options.iconSize,
-                itemTemplateProperty: options.itemTemplateProperty,
                 showHeader: item.get('showHeader'),
                 headConfig: {
                     icon: item.get('icon'),
