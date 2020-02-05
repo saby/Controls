@@ -266,7 +266,6 @@ define(
                         size: 'size',
                         theme: 'default',
                         keyProperty: 'keyProperty',
-                        itemTemplateProperty: 'myTemplate',
                         iconSize: 'm',
                         nodeProperty: '@parent',
                         parentProperty: 'parent'
@@ -288,7 +287,6 @@ define(
                         groupProperty: undefined,
                         groupingKeyCallback: 'groupingKeyCallback',
                         iconSize: 'm',
-                        itemTemplateProperty: 'myTemplate',
                         keyProperty: 'keyProperty',
                         nodeProperty: '@parent',
                         parentProperty: 'parent',

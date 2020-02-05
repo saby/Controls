@@ -119,9 +119,7 @@ var
                 self._options.listModel.restoreMarker();
             }
             _private.resetVariables(self);
-            if (!self._destroyed) {
-                self._setEditingItemData(null, self._options.listModel, self._options);
-            }
+            self._setEditingItemData(null, self._options.listModel, self._options);
         },
 
         createModel: function (self, options) {
