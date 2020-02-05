@@ -2,7 +2,7 @@
         displayedRanges="{{_displayedRanges}}"
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"
-        virtualPageSize="{{15}}">
+        source="{{_options.source}}">
     <ws:yearHeaderTemplate>
         <div
                 on:mouseenter="_onYearMouseEnter(yearHeaderTemplate.date.getFullYear())"
@@ -15,14 +15,13 @@
         </div>
     </ws:yearHeaderTemplate>
     <ws:yearTemplate>
-        <Controls._dateLitePopup.bodyItem
+        <Controls._shortDatePicker.bodyItem
                 attr:class="controls-PeriodLiteDialog_calendarBody"
                 attr:data-date="{{_dateToDataString(yearTemplate.date)}}"
                 scope="{{_options}}"
+                monthTemplate="{{monthTemplate}}"
                 _position="{{_position}}"
                 _yearHovered="{{_yearHovered}}"
-                checkedStart="{{_options.checkedStart}}"
-                checkedEnd="{{_options.checkedEnd}}"
                 formatDate="{{formatDate}}"
                 currentYear="{{yearTemplate.date.getFullYear()}}"
         />

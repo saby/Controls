@@ -76,6 +76,8 @@ var Component = BaseSelector.extend({
 
                 emptyCaption: this._options.emptyCaption,
 
+                source: this._options.source,
+                monthTemplate: this._options.monthTemplate,
                 itemTemplate: this._options.itemTemplate,
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,

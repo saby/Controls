@@ -32,9 +32,8 @@
                  stubTemplate="{{_options.stubTemplate}}"
                  _displayedRanges="{{_displayedRanges}}"
                  _position="{{_position}}"
+                 monthTemplate="{{monthTemplate}}"
                  _yearHovered="{{_yearHovered}}"
-                 checkedStart="{{_options.checkedStart}}"
-                 checkedEnd="{{_options.checkedEnd}}"
                  formatDate="{{_formatDate}}"
          />
       </div>

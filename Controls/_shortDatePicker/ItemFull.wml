@@ -11,16 +11,15 @@
                <div class="controls-PeriodLiteDialog-item__month-wrapper
                            {{ _options._yearHovered === _currentYear || (_halfyearHovered === halfYear.number)? ' controls-PeriodLiteDialog__background-transparent'}}">
                   <ws:for data="month in quarter.months">
-                     <div class="controls-PeriodLiteDialog-item__month-caption controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem-clickable"
-                          on:click="_onMonthClick(month.name)"
-                          title="{{ month.tooltip }}">
-                        <ws:if data="{{ _options.checkedStart || _options.checkedEnd || _options.iconsHandler }}">
-                           <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
-                              <div class="icon-16 icon-Yes icon-done"></div>
-                           </div>
-                        </ws:if>
-                        <ws:partial template="{{monthCaptionTemplate}}" month="{{month.name}}" formatDate="{{_formatDate}}"/>
-                     </div>
+                        <ws:partial
+                                on:click="_onMonthClick(month.date)"
+                                attr:class="controls-PeriodLiteDialog-item__month-caption"
+                                template="{{_options.monthTemplate}}"
+                                month="{{month}}"
+                                formatDate="{{_formatDate}}"
+                                isIconChecked="{{isIconChecked}}"
+                                extData="{{_options.extData && _options.extData[month.date.getMonth()]}}"
+                        />
                   </ws:for>
                </div>
                <div class="controls-PeriodLiteDialog-item__quarter-caption

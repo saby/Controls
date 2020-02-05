@@ -1,11 +1,11 @@
 import BaseControl = require('Core/Control');
 import {date as formatDate} from 'Types/formatter';
 import dateUtils = require('Controls/Utils/Date');
-import 'css!theme?Controls/_dateLitePopup/DateLitePopup';
-import itemMonthsTmpl = require('wml!Controls/_dateLitePopup/ItemMonths');
-import MonthCaption = require('wml!Controls/_dateLitePopup/MonthCaption');
-import itemFullTmpl = require('wml!Controls/_dateLitePopup/ItemFull');
-import itemQuartersTmpl = require('wml!Controls/_dateLitePopup/ItemQuarters');
+import 'css!theme?Controls/_shortDatePicker/DateLitePopup';
+import itemMonthsTmpl = require('wml!Controls/_shortDatePicker/ItemMonths');
+import MonthCaption = require('wml!Controls/_shortDatePicker/MonthCaption');
+import itemFullTmpl = require('wml!Controls/_shortDatePicker/ItemFull');
+import itemQuartersTmpl = require('wml!Controls/_shortDatePicker/ItemQuarters');
 import {Date as WSDate} from "Types/entity";
 
 const Component = BaseControl.extend({
@@ -38,6 +38,15 @@ const Component = BaseControl.extend({
         }
     },
 
+    isIconChecked: function(periods, date) {
+        for (let i = 0; i < periods.length; i++) {
+            if (periods[i][0] < date && periods[i][1] > date) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     _getYearModel: function (year, dateConstructor) {
         const numerals = ['I', 'II', 'III', 'IV'];
         const halfYearsList = [];
@@ -51,7 +60,7 @@ const Component = BaseControl.extend({
                 for (let j = 0; j < 3; j++) {
                     const month = quarterMonth + j;
                     monthsList.push({
-                            name: new dateConstructor(year, month, 1),
+                            date: new dateConstructor(year, month, 1),
                             tooltip: formatDate(new Date(year, month, 1), formatDate.FULL_MONTH)
                         });
                 }
