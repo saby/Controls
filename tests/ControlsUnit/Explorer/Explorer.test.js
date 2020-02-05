@@ -630,7 +630,7 @@ define([
             }, {
                nativeEvent: 123
             }, 3);
-            assert.isTrue(isEventResultReturns);
+            assert.isFalse(isEventResultReturns);
             assert.isTrue(cancelEditCalled);
             assert.deepEqual({
                ...explorer._restoredMarkedKeys,

@@ -6,6 +6,7 @@ define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
       'View/config',
       'View/Executor/TClosure',
       'css!Controls-demo/Input/resources/VdomInputs',
+      'i18n!userTemplate',
    ],
    function(Control, template, tmpl, config, tClosure) {
       'use strict';
@@ -23,6 +24,10 @@ define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
             this._valueChangedNotify();
          },
          _valueChangedNotify: function() {
+            // FIXME: Выполнять компиляцию шаблона руками - запрещено.
+            //  Сейчас для шаблонов выполняется предзагрузка модуля локализации,
+            //  чего не предусмотрено было здесь. Необходимо избавиться от такого вида
+            //  использований функций шаблонизатор.
             this._notify('valueChanged', [tmpl.getFunction(this._value, config, tClosure)]);
          },
          _checkBoxValueChanged: function() {
