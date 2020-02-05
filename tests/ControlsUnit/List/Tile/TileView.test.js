@@ -597,6 +597,7 @@ define(['Controls/_tile/TileView/TileView',
       it('_calculateHoveredItemPosition', function() {
          var
             closestResult = false,
+            noZoomExpectation = undefined,
             document = {
                documentElement: {
                   getBoundingClientRect: () => {
@@ -637,7 +638,7 @@ define(['Controls/_tile/TileView/TileView',
 
          tileView._setHoveredItem = function(itemData, position, startPosition, noZoom) {
             setHoveredItemCalled = true;
-            assert.isTrue(noZoom);
+            assert.equal(noZoomExpectation, noZoom);
          };
          let itemData = {
             dispItem: {
@@ -651,6 +652,7 @@ define(['Controls/_tile/TileView/TileView',
          assert.isTrue(setHoveredItemCalled);
 
          cfg.tileScalingMode = 'outside';
+         noZoomExpectation = true;
          tileView.saveOptions(cfg);
          setHoveredItemCalled = null;
          closestResult = true;
