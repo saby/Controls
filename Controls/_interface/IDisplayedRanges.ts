@@ -19,7 +19,7 @@ export default interface IDisplayedRanges {
 }
 
 /**
- * @name Controls/_calendar/interface/IMonthList#displayedRanges
+ * @name Controls/_interface/IDisplayedRanges#displayedRanges
  * @cfg {Array} Массив отображаемых периодов. Каждый элемент это массив содержащий начало и конец периода.
  *
  * @remark
@@ -41,7 +41,7 @@ export default interface IDisplayedRanges {
  * </pre>
  */
 /**
- * @name Controls/_calendar/interface/IMonthList#stubTemplate
+ * @name Controls/_interface/IDisplayedRanges#stubTemplate
  * @cfg {Function} Шаблон заглушки которая рисуется между отображаемыми периодами {@link displayedRanges}.
  *
  * @remark
@@ -64,5 +64,5 @@ export default interface IDisplayedRanges {
  * </Controls.calendar:MonthList>
  * </pre>
  *
- * @see Controls/_calendar/interface/IMonthList#displayedRanges
+ * @see Controls/_interface/IDisplayedRanges#displayedRanges
  */

@@ -43,6 +43,7 @@
       <Controls.calendar:MonthList
               order="desc"
               virtualPageSize="{{24}}"
+              displayedRanges="{{_displayedRanges}}"
               bind:position="_position"
          class="controls-PeriodLiteDialog__year-list">
          <ws:yearTemplate>
