@@ -4,7 +4,6 @@ import {isEqual} from 'Types/object';
 import Clone = require('Core/core-clone');
 import template = require('wml!Controls/_filterPopup/Panel/AdditionalParams/AdditionalParams');
 import chain = require('Types/chain');
-import 'css!theme?Controls/filterPopup';
 /**
  * Control "Additional params". Used in the filter panel.
  * @class Controls/_filterPopup/Panel/AdditionalParams
@@ -131,6 +130,6 @@ import 'css!theme?Controls/filterPopup';
    });
 
    AdditionalParams._private = _private;
-
+   AdditionalParams._theme = ['Controls/filterPopup'];
    export = AdditionalParams;
 

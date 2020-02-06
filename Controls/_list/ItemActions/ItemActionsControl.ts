@@ -8,8 +8,6 @@ import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { relation } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
 import { constants } from 'Env/Env';
-import 'css!theme?Controls/list';
-
 import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
 
 let displayLib: typeof import('Controls/display');
@@ -271,5 +269,5 @@ ItemActionsControl.getDefaultOptions = function() {
 };
 ItemActionsControl._private = _private;
 ItemActionsControl._isUnitTesting = false;
-
+ItemActionsControl._theme = ['Controls/list'];
 export = ItemActionsControl;

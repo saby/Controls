@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
-import 'css!theme?Controls/masterDetail';
 import {debounce} from 'Types/function';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
@@ -84,6 +83,8 @@ class Base extends Control<IMasterDetail> {
      * С помощью этой опции включается функционал движения границ.
      * Помимо propStorageId необходимо задать опции {@link masterWidth}, {@link masterMinWidth}, {@link masterMaxWidth}.
      */
+
+    static _theme = ['Controls/masterDetail'];
 
     protected _template: TemplateFunction = template;
     protected _selected: boolean|null;

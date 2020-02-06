@@ -41,5 +41,6 @@ import {List} from 'Types/collection';
       };
    };
 
+   SelectorButton._theme = ['Controls/lookup'];
    export = SelectorButton;
 
