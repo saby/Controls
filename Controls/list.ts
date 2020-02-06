@@ -77,7 +77,6 @@ import ListView = require('Controls/_list/ListView');
 import SwipeTemplate = require('wml!Controls/_list/Swipe/resources/SwipeTemplate');
 import SwipeHorizontalMeasurer = require('Controls/_list/Swipe/HorizontalMeasurer');
 import SwipeVerticalMeasurer = require('Controls/_list/Swipe/VerticalMeasurer');
-import 'css!theme?Controls/list';
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import ItemOutputWrapper = require('wml!Controls/_list/resources/ItemOutputWrapper');
 import ItemOutput = require('wml!Controls/_list/resources/ItemOutput');

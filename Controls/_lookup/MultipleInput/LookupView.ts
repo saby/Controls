@@ -3,8 +3,6 @@ import getWidthUtil = require('Controls/Utils/getWidth');
 import showSelectorTemplate = require('wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate');
 import inputRender = require('wml!Controls/_lookup/MultipleInput/resources/inputRender');
 
-import 'css!theme?Controls/lookup';
-
 var
     OUTER_INDENT_INPUT = 0,
     SHOW_SELECTOR_WIDTH = 0,
@@ -83,4 +81,5 @@ LookupMultiSelectorView.getDefaultOptions = function() {
 };
 
 LookupMultiSelectorView._private = _private;
+LookupMultiSelectorView._theme = ['Controls/lookup'];
 export = LookupMultiSelectorView;

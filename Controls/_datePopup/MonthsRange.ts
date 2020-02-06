@@ -6,7 +6,6 @@ import {DateRangeModel, Utils as CalendarControlsUtils} from 'Controls/dateRange
 import dateUtils = require('Controls/Utils/Date');
 import MonthsRangeItem from './MonthsRangeItem';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
-import 'css!theme?Controls/datePopup';
 
 /**
  * Component that allows you to select a period of multiple months.
@@ -73,6 +72,7 @@ class Component extends Control {
             this._selectionViewType = MonthsRangeItem.SELECTION_VEIW_TYPES.days;
         }
     }
+    static _theme = ['Controls/datePopup'];
 }
 
 Component.SELECTION_VEIW_TYPES = MonthsRangeItem.SELECTION_VEIW_TYPES;

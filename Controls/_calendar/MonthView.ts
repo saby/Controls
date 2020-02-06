@@ -10,8 +10,6 @@ import dotTplFn = require('wml!Controls/_calendar/MonthView/MonthView');
 import dayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
 import IMonth from './interfaces/IMonth';
 
-import 'css!theme?Controls/calendar'
-
 var _private = {
    _updateView: function(self, options) {
       var newMonth = options.month || new options.dateConstructor();
@@ -122,5 +120,7 @@ MonthView.getDefaultOptions = function() {
 MonthView.getOptionTypes = function() {
    return IMonth.getOptionTypes();
 };
+
+MonthView._theme = ['Controls/calendar']
 
 export default MonthView;

@@ -12,7 +12,9 @@ class Template extends Control {
    close() {
       this._notify('close', [], { bubbling: true });
    }
+   static _theme = ['Controls/popupConfirmation'];
 }
+
 export default Template;
 /**
  * Базовый шаблон <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/confirmation/'>диалога подтверждения</a>.
