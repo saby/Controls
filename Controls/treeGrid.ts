@@ -4,7 +4,7 @@
  * @includes View Controls/_treeGrid/View
  * @includes ItemTemplate Controls/treeGrid:ItemTemplate
  * @includes ITreeControl Controls/_treeGrid/interface/ITreeControl
- * @includes RowEditor wml!Controls/_treeGrid/TreeGrid/RowEditor
+ * @includes RowEditor Controls/treeGrid:RowEditor
  * @public
  * @author Крайнов Д.О.
  */

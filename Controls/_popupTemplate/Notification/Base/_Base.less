@@ -33,13 +33,18 @@
 }
 
 .controls-Notification__closeButton_theme-@{themeName} {
-    top: @spacing_NotificationBase-between-closeButton-border-top;
-  right: @spacing_NotificationBase-between-closeButton-border-right;
+  width: @width_CloseButton_link + @spacing_NotificationBase-between-closeButton-border-right;
+  height: @height_CloseButton_link + @spacing_NotificationBase-between-closeButton-border-top;
+
 }
 
 .controls-Notification__closeButton {
   position: absolute;
+  top: 0;
+  right: 0;
   z-index: 1;
+  display: flex;
+  align-items: flex-end;
 }
 
 .controls-Notification__simpleTemplate {

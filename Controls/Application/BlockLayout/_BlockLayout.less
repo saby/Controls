@@ -144,9 +144,9 @@ body:not(.ws-is-ie10) .controls-BlockLayout__block:after {
    }
 }
 
-.controls-BlockLayout__block_theme-@{themeName} {
+.controls-BlockLayout__block {
    .for(6, {
-      &_style_@{_i} {
+      &_style_@{_i}_theme-@{themeName} {
          background-color: ~"@{background_BlockLayout_block_style_@{_i}}";
       }
    });

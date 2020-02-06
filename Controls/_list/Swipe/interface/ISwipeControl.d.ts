@@ -1,5 +1,6 @@
 import { IItemAction } from './IItemAction';
 import { IListModel } from 'Controls/_list/interface/IListViewModel';
+import {IContextMenuConfig} from 'Controls/_list/interface/IList';
 
 export type ItemActionsPosition = 'inside' | 'outside' | 'custom';
 
@@ -19,6 +20,7 @@ export interface ISwipeContext {
 export interface ISwipeControlOptions {
    listModel: IListModel;
    itemActions: IItemAction[];
+   contextMenuConfig?: IContextMenuConfig;
    itemActionsPosition?: ItemActionsPosition;
    actionAlignment?: 'horizontal' | 'vertical';
    actionCaptionPosition?: 'right' | 'bottom' | 'none';

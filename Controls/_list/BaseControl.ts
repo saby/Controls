@@ -182,6 +182,7 @@ var _private = {
                 }
 
                 self._cachedPagingState = null;
+                clearTimeout(self._needPagingTimeout);
 
                 if (listModel) {
                     if (self._options.groupProperty) {
@@ -1060,10 +1061,14 @@ var _private = {
             newModelChanged
         ) {
             self._itemsChanged = true;
-            // Update item actions, but only if they were already initialized.
-            // If they were not, they will be updated during initialization anyway.
-            if (self._itemActionsInitialized) {
+            if (self._itemActionsInitialized && !self._modelRecreated) {
+                // If actions were already initialized update them in place
                 self._updateItemActions();
+            } else {
+                // If model was recreated or actions have not been initialized
+                // yet, postpone item actions update until the new model is
+                // received by ItemActionsControl as an option
+                self._shouldUpdateItemActions = true;
             }
         }
         // If BaseControl hasn't mounted yet, there's no reason to call _forceUpdate
@@ -1546,6 +1551,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     // если пэйджинг в скролле показался то запоним это состояние и не будем проверять до след перезагрузки списка
     _cachedPagingState: false,
+    _needPagingTimeout: null,
 
     _itemTemplate: null,
 
@@ -1581,6 +1587,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _itemReloaded: false,
     _itemActionsInitialized: false,
+    _modelRecreated: false,
 
     _portionedSearch: null,
     _portionedSearchInProgress: null,
@@ -1748,7 +1755,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (_private.needScrollPaging(this._options.navigation)) {
             // внутри метода проверки используется состояние триггеров, а их IO обновляет не синхронно,
             // поэтому нужен таймаут
-            setTimeout(() => {
+            this._needPagingTimeout = setTimeout(() => {
                 this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);
             }, 18);
         }
@@ -1765,6 +1772,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     triggerVisibilityChangedHandler(_: SyntheticEvent<Event>, direction: IDireciton, state: boolean): void {
         this._loadTriggerVisibility[direction] = state;
+        if (_private.needScrollPaging(this._options.navigation)) {
+            const doubleRatio = (this._viewSize / this._viewPortSize) > MIN_SCROLL_PAGING_PROPORTION;
+            this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);
+        }
     },
 
     triggerOffsetChangedHandler(_: SyntheticEvent<Event>, top: number, bottom: number): void {
@@ -1842,6 +1853,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 items
             }));
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
+            this._modelRecreated = true;
         }
 
         if (newOptions.groupMethod !== this._options.groupMethod) {
@@ -2081,6 +2093,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
 
         this._scrollPageLocked = false;
+        this._modelRecreated = false;
     },
 
     __onPagingArrowClick: function(e, arrow) {
@@ -2444,7 +2457,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _itemMouseMove(event, itemData, nativeEvent) {
         this._notify('itemMouseMove', [itemData.item, nativeEvent]);
-        if ((!this._options.itemsDragNDrop || !this._listViewModel.getDragEntity() && !this._listViewModel.getDragItemData()) && !this._showActions) {
+        if (
+            !this._options.useNewModel &&
+            (!this._options.itemsDragNDrop || !this._listViewModel.getDragEntity() && !this._listViewModel.getDragItemData()) &&
+            !this._showActions
+        ) {
             this._showActions = true;
         }
         if (this._options.itemsDragNDrop) {

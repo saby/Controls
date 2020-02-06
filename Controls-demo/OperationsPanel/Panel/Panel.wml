@@ -13,6 +13,7 @@
                selectedKeys="{{ _selectedKeys }}"
                excludedKeys="{{ _excludedKeys }}"
                selectedKeysCount="{{ _selectedKeysCount }}"
+               isAllSelected="{{ _isAllSelected }}"
                on:activated="_eventHandler()"
                on:selectedTypeChanged="_selectedTypeChangedHandler()"
                on:deactivated="_eventHandler()"

@@ -91,6 +91,11 @@ const moduleClass = CompoundControl.extend({
          ];
 
          // Совместимость используется только на онлайне. Могу напрямую зарекваерить контроллер Лобастова для получения конфига
+         const isBilling = document.body.classList.contains('billing-page');
+         // Совместимость есть на онлайне и в биллинге. В биллинге нет ViewSettings и движения границ
+         if (isBilling) {
+            this._options._popupOptions.propStorageId = null;
+         }
          if (this._options._popupOptions.propStorageId) {
             deps.push(import('ViewSettings/controller'));
          }

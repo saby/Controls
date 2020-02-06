@@ -36,7 +36,7 @@ export interface IMultiSelectorOptions extends IControlOptions {
    selectedKeys: TKeysSelection;
    excludedKeys: TKeysSelection;
    selectedKeysCount: TCount;
-   root?: number|string;
+   isAllSelected?: boolean;
    selectionViewMode?: 'all'|'selected';
    selectedCountConfig?: IGetCountCallParams;
 }
@@ -74,12 +74,11 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
 
    private _getAdditionalMenuItems(options: IMultiSelectorOptions): object[] {
       const additionalItems = [];
-      const isAllSelected = options.selectedKeys.includes(options.root) && options.excludedKeys.includes(options.root);
 
       if (options.selectionViewMode === 'selected') {
          additionalItems.push(SHOW_ALL_ITEM);
          // Показываем кнопку если есть выбранные и невыбранные записи
-      } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && (!isAllSelected || options.excludedKeys.length > 1)) {
+      } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
       }
 
@@ -99,17 +98,17 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       const selection = this._getSelection(selectedKeys, excludedKeys);
 
       return this._getCount(selection, options.selectedKeysCount).then((countResult) => {
-         this._menuCaption = this._getMenuCaption(selection, countResult, options.root);
+         this._menuCaption = this._getMenuCaption(selection, countResult, options.isAllSelected);
          this._sizeChanged = true;
       });
    }
 
-   private _getMenuCaption({selected, excluded}: ISelectionObject, count: TCount, root: number|string): string {
+   private _getMenuCaption({selected, excluded}: ISelectionObject, count: TCount, isAllSelected: boolean): string {
       let caption;
 
       if (count > 0 && selected.length) {
          caption = rk('Отмечено') + ': ' + count;
-      } else if (selected[0] === root && (!excluded.length || excluded[0] === root && excluded.length === 1)) {
+      } else if (isAllSelected) {
          caption = rk('Отмечено всё');
       } else if (count === null) {
          caption = rk('Отмечено');
@@ -159,7 +158,6 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
 
    static getDefaultOptions(): object {
       return {
-         root: null,
          selectedKeys: [],
          excludedKeys: []
       };

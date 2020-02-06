@@ -34,6 +34,7 @@ import { TKeySelection as TKey } from 'Controls/interface/';
 export default class MultiSelector extends Control {
    protected _template: TemplateFunction = template;
    protected _selectedKeysCount: number|null;
+   protected _isAllSelected: boolean = false;
    protected _listMarkedKey: TKey = null;
    private _notifyHandler: Function = tmplNotify;
 
@@ -49,9 +50,10 @@ export default class MultiSelector extends Control {
       }
    }
 
-   protected _selectedKeysCountChanged(e, count: number|null): void {
+   protected _selectedKeysCountChanged(e, count: number|null, isAllSelected: boolean): void {
       e.stopPropagation();
       this._selectedKeysCount = count;
+      this._isAllSelected = isAllSelected;
 
       // TODO: по этой задаче сделаю так, что опции selectedKeysCount вообще не будет: https://online.sbis.ru/opendoc.html?guid=d9b840ba-8c99-49a5-98d3-78715d10d540
    }

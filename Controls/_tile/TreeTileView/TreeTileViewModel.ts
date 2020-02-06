@@ -40,7 +40,7 @@ var TreeTileViewModel = TreeViewModel.extend({
         if (!nextItem && current.dispItem.isNode()) {
             current.afterItemTemplate = InvisibleFor;
             current.afterItemTemplateOptions = {
-                type: current && current.isNode && current.isNode() ? 'folder' : 'leaf'
+                type: 'folder'
             };
         }
 
