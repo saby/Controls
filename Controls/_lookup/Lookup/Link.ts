@@ -48,6 +48,7 @@ const Link = Control.extend({
       }
    }
 });
+Link._theme = ['Controls/lookup'];
 
 Link._theme = ['Controls/lookup'];
 

@@ -8,7 +8,6 @@ import dateUtils = require('Controls/Utils/Date');
 import componentTmpl = require('wml!Controls/_shortDatePicker/DateLitePopup');
 import listTmpl = require('wml!Controls/_shortDatePicker/List');
 import ItemWrapper = require('wml!Controls/_shortDatePicker/ItemWrapper');
-import 'css!theme?Controls/_shortDatePicker/DateLitePopup';
 import {date as formatDate} from 'Types/formatter';
 import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
@@ -248,5 +247,7 @@ Component.getDefaultOptions = function () {
 Component.getOptionTypes = function () {
     return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
 };
+Component._theme = ['Controls/_dateLitePopup/DateLitePopup'];
 
 export default Component;
+

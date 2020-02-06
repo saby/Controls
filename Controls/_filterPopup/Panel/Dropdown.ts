@@ -1,7 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_filterPopup/Panel/Dropdown/Dropdown');
 import {SyntheticEvent} from 'Vdom/Vdom';
-import 'css!theme?Controls/filterPopup';
    /**
     * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки и используется на панели фильтров.
     * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию скрыто.
@@ -79,4 +78,5 @@ import 'css!theme?Controls/filterPopup';
       };
    };
 
+   FilterDropdown._theme = ['Controls/filterPopup'];
    export = FilterDropdown;
