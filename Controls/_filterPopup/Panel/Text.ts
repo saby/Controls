@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_filterPopup/Panel/Text/Text');
-import 'css!theme?Controls/filterPopup';
 
 /**
     * Контрол, отображающий текст с кнопкой сброса в виде крестика.
@@ -67,7 +66,7 @@ import 'css!theme?Controls/filterPopup';
          value: true
       };
    };
-
+   Text._theme = ['Controls/filterPopup'];
    export = Text;
 
 

@@ -62,6 +62,8 @@ class Template extends Control<IConfirmationTemplate> {
    close(): void {
       this._notify('close', [], { bubbling: true });
    }
+   
+   static _theme = ['Controls/popupConfirmation'];
 
    static getDefaultOptions(): IConfirmationTemplate {
       return {

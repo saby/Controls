@@ -6,7 +6,6 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_suggestPopup/Layer/__PopupLayer');
 import getZIndex = require('Controls/Utils/getZIndex');
 import {detection} from 'Env/Env';
-import 'css!theme?Controls/suggest';
 
 var POPUP_CLASS_NAME = 'controls-Suggest__suggestionsContainer_popup';
 
@@ -100,5 +99,6 @@ var __PopupLayer = Control.extend({
 });
 
 __PopupLayer._private = _private;
+__PopupLayer._theme = ['Controls/suggest'];
 
 export default __PopupLayer;

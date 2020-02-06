@@ -1,7 +1,6 @@
 import BaseControl = require('Core/Control');
 import {date as formatDate} from 'Types/formatter';
 import dateUtils = require('Controls/Utils/Date');
-import 'css!theme?Controls/_shortDatePicker/DateLitePopup';
 import itemMonthsTmpl = require('wml!Controls/_shortDatePicker/ItemMonths');
 import MonthCaption = require('wml!Controls/_shortDatePicker/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_shortDatePicker/ItemFull');
@@ -139,6 +138,7 @@ const Component = BaseControl.extend({
         this._notify('sendResult', [month, dateUtils.getEndOfMonth(month)], {bubbling: true});
     }
 });
+Component._theme = ['Controls/_dateLitePopup/DateLitePopup'];
 
 Component.getDefaultOptions = function () {
     return {

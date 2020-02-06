@@ -9,7 +9,6 @@ import Deferred = require('Core/Deferred');
 import libHelper = require('Core/library');
 import {isEqual} from 'Types/object';
 import {resetFilter} from 'Controls/_filter/resetFilterUtils';
-import 'css!theme?Controls/filter';
 /**
  * Контрол "Кнопка фильтров". Предоставляет возможность отображать и редактировать фильтр в удобном для пользователя виде. Состоит из кнопки-иконки и строкового представления выбранного фильтра.
  * @remark
@@ -259,6 +258,8 @@ FilterButton.getDefaultOptions = function() {
       alignment: 'right'
    };
 };
+
+FilterButton._theme = ['Controls/filter'];
 
 FilterButton._private = _private;
 export = FilterButton;
