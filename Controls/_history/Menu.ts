@@ -1,6 +1,7 @@
 import rk = require('i18n!Controls');
 import {IoC} from "Env/Env";
 import {Button as Menu, MenuUtils} from 'Controls/dropdown';
+import {IoC} from "Env/Env";
 import itemTemplate = require('wml!Controls/_history/resources/itemTemplate');
 
 var _private = {
