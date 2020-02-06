@@ -4,9 +4,11 @@
       <div class="PageBlock__content">
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:LiteSelector
-               checkedStart="{{_checkedStart}}"
-               checkedEnd="{{_checkedEnd}}"
-			   attr:test_name="default_range"/>
+               attr:test_name="default_range">
+               <ws:monthTemplate>
+                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+               </ws:monthTemplate>
+            </Controls.dateRange:LiteSelector>
          </div>
          <div class="PageBlock__componentWrap ControlsDemo-RangeLinkLite_capture">
             <Controls.dateRange:LiteSelector
@@ -25,7 +27,11 @@
                chooseQuarters="{{false}}"
                styleMode="secondary" viewMode="link"
 			   attr:test_name="months_range"
-            />
+            >
+               <ws:monthTemplate>
+                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+               </ws:monthTemplate>
+            </Controls.dateRange:LiteSelector>
          </div>
          <div class="PageBlock__componentWrap">
             <Controls.dateRange:LiteSelector

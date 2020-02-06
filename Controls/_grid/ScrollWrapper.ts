@@ -53,7 +53,6 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
             offset += 1;
         }
         style += `grid-column: ${stickyColumnsCount + 1 + offset} / ${(maxEndColumn ? maxEndColumn : header.length + 1) + offset};`;
-        style += `top: ${options.topOffset}px;`;
         style += `width: ${options.scrollWidth}px`;
         return style;
     }

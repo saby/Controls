@@ -3,21 +3,21 @@ import BaseControl = require('Core/Control');
 import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import getCurrentPeriod = require('Core/helpers/Date/getCurrentPeriod');
-import IPeriodSimpleDialog from './_dateLitePopup/IDateLitePopup';
+import IPeriodSimpleDialog from './IDateLitePopup';
 import dateUtils = require('Controls/Utils/Date');
-import componentTmpl = require('wml!Controls/_dateLitePopup/DateLitePopup');
-import listTmpl = require('wml!Controls/_dateLitePopup/List');
-import ItemWrapper = require('wml!Controls/_dateLitePopup/ItemWrapper');
-import 'css!theme?Controls/_dateLitePopup/DateLitePopup';
+import componentTmpl = require('wml!Controls/_shortDatePicker/DateLitePopup');
+import listTmpl = require('wml!Controls/_shortDatePicker/List');
+import ItemWrapper = require('wml!Controls/_shortDatePicker/ItemWrapper');
 import {date as formatDate} from 'Types/formatter';
+import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
 
 /**
  * Контрол выбора даты или периода.
  *
- * @class Controls/dateLitePopup
+ * @class Controls/shortDatePicker
  * @extends Core/Control
- * @mixes Controls/dateLitePopup/IDateLitePopup
+ * @mixes Controls/shortDatePicker/IDateLitePopup
  * @mixes Controls/_interface/IDisplayedRanges
  * @control
  * @public
@@ -29,9 +29,9 @@ import {Logger} from 'UI/Utils';
 /*
  * Control for date or period selection.
  *
- * @class Controls/dateLitePopup
+ * @class Controls/shortDatePicker
  * @extends Core/Control
- * @mixes Controls/dateLitePopup/IDateLitePopup
+ * @mixes Controls/shortDatePicker/IDateLitePopup
  * @control
  * @public
  * @author Красильников А.С.
@@ -64,6 +64,7 @@ var _private = {
 var Component = BaseControl.extend({
     _template: componentTmpl,
     _defaultListTemplate: listTmpl,
+    monthTemplate: null,
 
     _position: null,
 
@@ -95,9 +96,11 @@ var Component = BaseControl.extend({
             this._position = _private._getYearListPosition(options, options.dateConstructor);
         }
         if (options.range) {
-            Logger.error('dateLitePopup: ' + rk('You should use displayedRanges option instead of range option.'), this);
+            Logger.error('shortDatePicker: ' + rk('You should use displayedRanges option instead of range option.'), this);
         }
         this._displayedRanges = options.displayedRanges || options.range;
+
+        this.monthTemplate = options.monthTemplate || monthTmpl;
     },
 
     _beforeUpdate: function (options) {
@@ -244,5 +247,6 @@ Component.getDefaultOptions = function () {
 Component.getOptionTypes = function () {
     return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
 };
+Component._theme = ['Controls/_dateLitePopup/DateLitePopup'];
 
-export = Component;
+export default Component;

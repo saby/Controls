@@ -114,6 +114,7 @@ export default class ScrollContainer extends Control<IOptions> {
 
     protected _afterMount(): void {
         this.__mounted = true;
+        this.viewSize = this._container.clientHeight;
 
         if (this._options.virtualScrolling) {
             this.virtualScroll.itemsChanged = false;

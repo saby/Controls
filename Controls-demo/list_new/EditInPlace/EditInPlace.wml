@@ -67,7 +67,7 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/list_new/EmptyActionsWithToolBar/EndEdit/Index' }}">
+                                 app="{{ 'Controls-demo/list_new/EditInPlace/EmptyActionsWithToolBar/Index' }}">
             <a href="{{content.href}}">Пустой массив экшенов</a>
         </Router.router:Reference>
         <Controls-demo.list_new.EditInPlace.EmptyActionsWithToolBar.Index/>
@@ -80,6 +80,15 @@
             <a href="{{content.href}}">Редактирование по месту в списке с группировкой</a>
         </Router.router:Reference>
         <Controls-demo.list_new.EditInPlace.Grouped.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/EditInPlace/EditingOnMounting/Index' }}">
+            <a href="{{content.href}}">Редактирование записи открыто при построении</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.EditInPlace.EditingOnMounting.Index />
     </div>
 
 </div>

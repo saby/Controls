@@ -10,8 +10,6 @@ import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemOutputWrapper = require('wml!Controls/_list/resources/ItemOutputWrapper');
 import {isEqual} from "Types/object";
 import 'wml!Controls/_list/resources/ItemOutput';
-import 'css!theme?Controls/list';
-
 var
     DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -266,5 +264,5 @@ ListView.getDefaultOptions = function() {
         headerInEmptyListVisible: true
     };
 };
-
+ListView._theme = ['Controls/list'];
 export = ListView;

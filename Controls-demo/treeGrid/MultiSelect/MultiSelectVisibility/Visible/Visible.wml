@@ -6,5 +6,6 @@
             parentProperty="parent"
             nodeProperty="type"
             multiSelectVisibility="visible"
-            bind:selectedKeys="_selectedKeys"/>
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys"/>
 </div>

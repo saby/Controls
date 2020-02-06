@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_filterPopup/Panel/Link/Link');
-import 'css!theme?Controls/filterPopup';
 
 /**
  * Кнопка-ссылка на панели фильтров.
@@ -66,5 +65,6 @@ var FilterLink = Control.extend({
    }
 
 });
+FilterLink._theme = ['Controls/filterPopup'];
 
 export = FilterLink;

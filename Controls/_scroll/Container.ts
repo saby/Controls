@@ -13,7 +13,6 @@ import {isEqual} from 'Types/object';
 import 'Controls/_scroll/Scroll/Watcher';
 import 'Controls/event';
 import 'Controls/_scroll/Scroll/Scrollbar';
-import 'css!theme?Controls/scroll';
 import * as newEnv from 'Core/helpers/isNewEnvironment';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from "UI/Utils";
@@ -1005,5 +1004,6 @@ Scroll.contextTypes = function() {
 };
 
 Scroll._private = _private;
+Scroll._theme = ['Controls/scroll'];
 
 export = Scroll;

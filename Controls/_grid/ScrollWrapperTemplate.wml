@@ -1,5 +1,11 @@
 <ws:if data="{{_options.gridSupport === 'full'}}">
-    <div style="{{_gridStyle}}" class="controls-Grid_columnScroll_wrapper">
+    <Controls.scroll:StickyHeader
+            attr:class="controls-Grid_columnScroll_wrapper"
+            attr:style="{{_gridStyle}}"
+            mode="stackable"
+            ntype="scroll"
+            fixedZIndex="{{5}}"
+            shadowVisibility="hidden">
         <Controls._scroll.Scroll.Scrollbar
                 name="columnScrollbar"
                 position="{{_options.position}}"
@@ -9,7 +15,7 @@
                 trackVisible="{{_options.trackVisible}}"
                 attr:class="controls-ColumnScroll_theme-{{_options.theme}}"
                 on:positionChanged="_localPositionHandler()"/>
-    </div>
+    </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
 <Controls._scroll.Scroll.Scrollbar
