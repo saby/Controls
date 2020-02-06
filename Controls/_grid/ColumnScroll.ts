@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import ColumnScrollTpl = require('wml!Controls/_grid/ColumnScroll');
-import 'css!theme?Controls/grid';
 import { detection } from 'Env/Env';
 import Entity = require('Types/entity');
 import {isEqualWithSkip} from 'Controls/_grid/utils/GridIsEqualUtil';
@@ -339,4 +338,5 @@ const
        }
    });
 ColumnScroll._private = _private;
+ColumnScroll._theme = ['Controls/grid'];
 export = ColumnScroll;

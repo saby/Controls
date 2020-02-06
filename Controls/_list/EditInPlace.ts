@@ -6,7 +6,6 @@ import getWidthUtil = require('Controls/Utils/getWidth');
 import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
 import Constants = require('Controls/Constants');
 import { error as dataSourceError } from 'Controls/dataSource';
-import 'css!theme?Controls/list';
 
 var
     typographyStyles = [
@@ -682,5 +681,5 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
 });
 
 EditInPlace._private = _private;
-
+EditInPlace._theme = ['Controls/list'];
 export = EditInPlace;

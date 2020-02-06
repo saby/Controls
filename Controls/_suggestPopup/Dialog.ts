@@ -2,7 +2,6 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_suggestPopup/Dialog');
 import {SearchContextField, FilterContextField} from 'Controls/context';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
-import 'css!theme?Controls/suggestPopup';
 
 import 'Controls/popupTemplate';
 
@@ -57,6 +56,7 @@ import 'Controls/popupTemplate';
 
       });
 
+      List._theme = ['Controls/suggestPopup'];
       export = List;
 
 

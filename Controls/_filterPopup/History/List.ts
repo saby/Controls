@@ -12,7 +12,6 @@ import {HistoryUtils} from 'Controls/filter';
 import {factory} from 'Types/chain';
 import {Constants} from 'Controls/history';
 import {convertToSourceDataArray} from 'Controls/_filterPopup/converterFilterStructure';
-import 'css!theme?Controls/filterPopup';
 
 var MAX_NUMBER_ITEMS = 5;
 
@@ -289,6 +288,7 @@ var MAX_NUMBER_ITEMS = 5;
       }
    });
 
+   HistoryList._theme = ['Controls/filterPopup'];
    HistoryList._private = _private;
    export = HistoryList;
 

@@ -5,8 +5,6 @@ import {Controller} from 'Controls/source';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
-import 'css!theme?Controls/suggest';
-
 /**
  * Поле ввода с выпадающим списком с возможностью автодополнения.
  * <a href="/materials/demo-ws4-selector-suggest">Демо-пример</a>.
@@ -169,5 +167,6 @@ Suggest.getDefaultOptions = function() {
 };
 
 Suggest._private = _private;
+Suggest._theme = ['Controls/suggest'];
 
 export default Suggest;

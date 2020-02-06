@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_editableArea/Templates/Editors/Base/Base');
-import 'css!theme?Controls/editableArea';
 
 'use strict';
 
@@ -39,5 +38,7 @@ var Base = Control.extend({
       this._notify('valueChanged', [value]);
    }
 });
+
+Base._theme = ['Controls/editableArea'];
 
 export default Base;

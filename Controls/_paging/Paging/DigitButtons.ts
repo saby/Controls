@@ -10,8 +10,6 @@ export interface IDigitButtonsOptions extends IControlOptions {
     selectedKey?: number;
 }
 
-import 'css!theme?Controls/paging';
-
 const SUR_ELEMENTS_STEP = 3;
 
 type DigitElem = number | '...';
@@ -24,6 +22,8 @@ interface ISurroundElements {
 class DigitButtons extends Control<IDigitButtonsOptions> {
     protected _template: TemplateFunction = dButtonsTemplate;
     _digits: DigitElem[] | null = null;
+
+    static _theme = ['Controls/paging'];
 
     protected _beforeMount(newOptions: IDigitButtonsOptions): void {
         this._digits = DigitButtons._getDrawnDigits(newOptions.count, newOptions.selectedKey);

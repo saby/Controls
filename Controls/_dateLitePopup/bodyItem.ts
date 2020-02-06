@@ -1,7 +1,6 @@
 import BaseControl = require('Core/Control');
 import {date as formatDate} from 'Types/formatter';
 import dateUtils = require('Controls/Utils/Date');
-import 'css!theme?Controls/_dateLitePopup/DateLitePopup';
 import itemMonthsTmpl = require('wml!Controls/_dateLitePopup/ItemMonths');
 import MonthCaption = require('wml!Controls/_dateLitePopup/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_dateLitePopup/ItemFull');
@@ -129,5 +128,6 @@ const Component = BaseControl.extend({
         this._notify('sendResult', [month, dateUtils.getEndOfMonth(month)], {bubbling: true});
     }
 });
+Component._theme = ['Controls/_dateLitePopup/DateLitePopup'];
 
 export = Component;

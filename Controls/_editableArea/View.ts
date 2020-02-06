@@ -3,8 +3,6 @@ import Deferred = require('Core/Deferred');
 import Constants = require('Controls/Constants');
 import template = require('wml!Controls/_editableArea/View');
 import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
-import 'css!theme?Controls/editableArea';
-import 'css!theme?Controls/list';
 
 'use strict';
 var
@@ -174,5 +172,5 @@ View.getDefaultOptions = function () {
       style: 'withoutBackground'
    };
 };
-
+View._theme = ['Controls/list', 'Controls/editableArea'];
 export default View;

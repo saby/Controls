@@ -6,7 +6,6 @@ import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
-import 'css!theme?Controls/popup';
 
 /**
  * @class Controls/_popup/Previewer
@@ -26,6 +25,8 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     _waitTimer: number;
     _isOpened: boolean = false;
     _enableClose: boolean = true;
+
+    static _theme = ['Controls/popup'];
 
     protected _beforeMount(options: IPreviewerOptions): void {
         this._resultHandler = this._resultHandler.bind(this);

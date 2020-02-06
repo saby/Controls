@@ -2,7 +2,6 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_suggest/Input/Input');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {getOptionTypes} from 'Controls/_suggest/Utils';
-import 'css!theme?Controls/suggest';
 
 /**
  * Поле ввода с автодополнением это одострочное поле ввода,
@@ -128,7 +127,7 @@ Suggest.getDefaultOptions = function() {
       minSearchLength: 3
    };
 };
-
+Suggest._theme = ['Controls/suggest'];
 // </editor-fold>
 
 export = Suggest;

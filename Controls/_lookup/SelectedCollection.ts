@@ -10,7 +10,6 @@ import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/Counte
 import {SyntheticEvent} from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
 import { ObservableList } from 'Types/collection';
-import 'css!theme?Controls/lookup';
 
 /**
  * Контрол, отображающий коллекцию элементов.
@@ -45,6 +44,8 @@ class SelectedCollection extends Control {
    protected _contentTemplate: TemplateFunction = ContentTemplate;
    protected _crossTemplate: TemplateFunction = CrossTemplate;
    protected _counterTemplate: TemplateFunction = CounterTemplate;
+
+   static _theme = ['Controls/lookup'];
 
    public static getDefaultOptions(): Object {
       return {

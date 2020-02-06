@@ -1,7 +1,6 @@
 import Control = require('Core/Control');
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_moverDialog/Template/Template');
-import 'css!theme?Controls/_moverDialog/Template/Template';
 import {Record} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TColumns} from 'Controls/grid';
@@ -91,6 +90,8 @@ export default class extends Control {
     private _root: string|number;
     private _expandedItems: any[];
     private _columns: TColumns;
+
+    static _theme = ['Controls/_moverDialog/Template/Template'];
 
     protected _beforeMount(options: IMoverDialogTemplate): void {
         this._itemActions = [{

@@ -9,8 +9,6 @@ import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridView
 import {factory} from 'Types/chain';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
-import 'css!theme?Controls/explorer';
-import 'css!theme?Controls/tile';
 import 'Types/entity';
 
 
@@ -481,6 +479,7 @@ var
       };
    };
 
+   Explorer._theme = ['Controls/tile', 'Controls/explorer'];
    export = Explorer;
 
    /**

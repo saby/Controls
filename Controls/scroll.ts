@@ -28,8 +28,6 @@
  * @author Крайнов Д.О.
  */
 
-import 'css!theme?Controls/scroll';
-
 import Container = require('Controls/_scroll/Container');
 import Watcher = require('Controls/_scroll/Scroll/Watcher');
 import StickyHeader = require('Controls/_scroll/StickyHeader');

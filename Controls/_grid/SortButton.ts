@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_grid/SortButton');
-import 'css!theme?Controls/grid';
 
 /**
  * Graphical control element that used for changing sorting in Grid control
@@ -22,7 +21,7 @@ import 'css!theme?Controls/grid';
  * @name Controls/_grid/SortButton#property
  * @cfg {String} Sorting property.
  */
-export = Control.extend({
+const SortButton = Control.extend({
     _template: template,
 
     _clickHandler: function () {
@@ -30,3 +29,6 @@ export = Control.extend({
     }
 
 });
+
+SortButton._theme = ['Controls/grid'];
+export =SortButton;
