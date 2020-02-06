@@ -1,5 +1,5 @@
 <div>
-   <div id="info_focusout" class="validateDemo_header validateDemo">
+   <div id="info_focusout" class="validateDemo_header">
       Простой валидатор поля ввода. Значение валидируется по событию focusout.
    </div>
    <div class="validateDemo_header_description validateDemo">

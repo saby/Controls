@@ -1,10 +1,11 @@
-<div class="validateDemo">
+<div class="validateDemo validateDemo_formPage">
    <Controls.validate:Controller name="formController">
       <ws:content>
          <div>
-            <div class="validateDemo_header validateDemo">
+            <div class="validateDemo_header">
                Форма с валидацией полей
             </div>
+            <Controls.scroll:Container attr:class="validateDemo_scrollContainer">
             <div class="validateDemo_header_description">
                 В данном примере показано:
                   <ul style="margin-left: 20px;">
@@ -130,6 +131,7 @@
                                            attr:class="ControlsDemo-ValidateInfobox_submit"/>
                </div>
             </div>
+            </Controls.scroll:Container>
          </div>
       </ws:content>
    </Controls.validate:Controller>
