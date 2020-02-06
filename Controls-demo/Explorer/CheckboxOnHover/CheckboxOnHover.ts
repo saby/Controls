@@ -7,7 +7,7 @@ import 'css!Controls-demo/Explorer/Demo/Demo';
 
 class Demo extends Control {
 
-    private _template = template;
+    protected _template = template;
     _viewSource: HierarchicalMemory;
     _viewSourceDynamic: HierarchicalMemory;
     _selectedKeys: Array<number> = [];

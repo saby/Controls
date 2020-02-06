@@ -28,7 +28,6 @@ const prepareConfig = (config: IPreviewerPopupOptions) => {
 
     newConfig.closeOnOutsideClick = true;
     newConfig.className = 'controls-PreviewerController';
-    newConfig._vdomOnOldPage = true;
     return newConfig;
 };
 
@@ -140,12 +139,6 @@ class Previewer extends BaseOpener<IPreviewerOpenerOptions> implements IPreviewe
     // TODO перенести метод в baseOpener, ManagerController здесь не нужен
     static isOpenedPopup(config: IPreviewerPopupOptions): boolean {
         return config && !!ManagerController.find(config.id);
-    }
-
-    static getDefaultOptions(): IPreviewerOpenerOptions {
-        const baseOptions = BaseOpener.getDefaultOptions();
-        baseOptions._vdomOnOldPage = true;
-        return baseOptions;
     }
 }
 

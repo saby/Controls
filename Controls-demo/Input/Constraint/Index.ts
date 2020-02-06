@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Input/Constraint/Constraint'
 import 'css!Controls-demo/Controls-demo';
 
 class Constraint extends Control<IControlOptions> {
-    private _placeholder = 'Tooltip';
+    protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
 

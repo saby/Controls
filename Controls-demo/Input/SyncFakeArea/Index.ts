@@ -3,9 +3,9 @@ import controlTemplate = require('wml!Controls-demo/Input/SyncFakeArea/SyncFakeA
 import 'css!Controls-demo/Controls-demo';
 
 class SyncFakeArea extends Control<IControlOptions> {
-    private _areaValue: '';
+    protected _areaValue: '';
 
-    private _change(): void {
+    protected _change(): void {
         this._areaValue = 'Маленький текст';
     }
 

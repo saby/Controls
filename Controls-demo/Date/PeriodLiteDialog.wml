@@ -1,21 +1,26 @@
 <div class="PageWrap" style="padding-top: 50px;">
    <div class="PageBlock">
-      <div class="PageBlock__title">Controls.dateLitePopup</div>
+      <div class="PageBlock__title">Controls.shortDatePicker:View</div>
       <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-around; flex-wrap: wrap; align-items: flex-start;">
-         <Controls.dateLitePopup
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                year="{{_year}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog__full"
          />
-         <Controls.dateLitePopup
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
+               periods="{{_periods}}"
                checkedStart="{{_checkedStart}}"
                year="{{_year}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog__fullYes"
-         />
-         <Controls.dateLitePopup
+         >
+             <ws:monthTemplate>
+                 <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+             </ws:monthTemplate>
+         </Controls.shortDatePicker:View>
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                year="{{_year}}"
@@ -23,26 +28,32 @@
                chooseQuarters="{{false}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog__months"
          />
-         <Controls.dateLitePopup
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                year="{{_year}}"
                chooseHalfyears="{{false}}"
                chooseQuarters="{{false}}"
+               periods="{{_periods}}"
                checkedStart="{{_checkedStart}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog__monthsYes"
-         />
-         <Controls.dateLitePopup
+         >
+             <ws:monthTemplate>
+                 <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+             </ws:monthTemplate>
+         </Controls.shortDatePicker:View>
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue2}}"
                year="{{_year}}"
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"
+               periods="{{_periods}}"
                checkedStart="2015-02-31"
                checkedEnd="2015-08-31"
 			   attr:class="ControlsDemo-PeriodLiteDialog__quarters"
          />
-         <Controls.dateLitePopup
+         <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue2}}"
                year="{{_year}}"
@@ -50,7 +61,7 @@
                chooseMonths="{{false}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog__quartersYes"
          />
-         <Controls.dateLitePopup
+         <Controls.shortDatePicker:View
                startValue="{{_startValueOnlyYears}}"
                endValue="{{_endValueOnlyYears}}"
                year="{{_year}}"

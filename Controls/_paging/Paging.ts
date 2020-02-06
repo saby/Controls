@@ -25,10 +25,10 @@ export interface IPagingOptions extends IControlOptions {
  */
 class Paging extends Control<IPagingOptions> {
     protected _template: TemplateFunction = pagingTemplate;
-    private _stateBegin: TButtonState = 'normal';
-    private _stateEnd: TButtonState = 'normal';
-    private _stateNext: TButtonState = 'normal';
-    private _statePrev: TButtonState = 'normal';
+    protected _stateBegin: TButtonState = 'normal';
+    protected _stateEnd: TButtonState = 'normal';
+    protected _stateNext: TButtonState = 'normal';
+    protected _statePrev: TButtonState = 'normal';
 
     private _initArrowDefaultStates(config: IPagingOptions): void {
         this._stateBegin = config.stateBegin || 'disabled';
@@ -79,11 +79,11 @@ class Paging extends Control<IPagingOptions> {
         this._initArrowState(newOptions);
     }
 
-    private _digitClick(e: SyntheticEvent<Event>, digit: number): void {
+    protected _digitClick(e: SyntheticEvent<Event>, digit: number): void {
         this._changePage(digit);
     }
 
-    private _arrowClick(e: SyntheticEvent<Event>, btnName: string): void {
+    protected _arrowClick(e: SyntheticEvent<Event>, btnName: string): void {
         let targetPage: number;
         if (this['_state' + btnName] !== 'normal') {
             return;

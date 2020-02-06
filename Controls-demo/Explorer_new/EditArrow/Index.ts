@@ -7,12 +7,12 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getColumns();
-   private _viewMode: string = 'table';
-   private _root = null;
+   protected _viewSource;
+   protected _columns = Gadgets.getColumns();
+   protected _viewMode: string = 'table';
+   protected _root = null;
    private _isBoxOpen = false;
-   private _currentText = '';
+   protected _currentText = '';
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({
@@ -21,7 +21,7 @@ export default class extends Control {
       });
    }
 
-   private _editArrowClick(e,item) {
+   protected _editArrowClick(e,item) {
       if (!this._isBoxOpen) {
          this._currentText = `Arrow was Clicked from item id: ${item.getId()}`
          this._isBoxOpen = true;

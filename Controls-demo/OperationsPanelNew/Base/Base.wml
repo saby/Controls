@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth500">
+   <Controls.operations:Panel
+         bind:selectedKeys="_selectedKeys"
+         bind:excludedKeys="_excludedKeys"
+         isAllSelected="{{_isAllSelected}}"
+         parentProperty="parent"
+         nodeProperty="@parent"
+         keyProperty="id"
+         source="{{_panelSource}}"
+         on:selectedTypeChanged="_selectedTypeChangedHandler()"/>
+</div>

@@ -5,7 +5,7 @@
       </ws:if>
       <ws:else>
          <div class="controls-DropdownList-header theme_{{_options.theme}}">
-            <div if="{{icon}}" class="{{icon}} {{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}}
+            <div if="{{icon}}" class="{{icon}} controls-icon {{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}}
              {{caption ? ' controls-DropdownList__header-icon theme_' + _options.theme}}"></div>
             <div if="{{caption}}" class="controls-DropdownList-header-caption theme_{{_options.theme}}">{{caption}}</div>
          </div>
@@ -14,7 +14,7 @@
 </ws:if>
 <ws:if data="{{menuStyle === 'duplicateHead'}}">
    <div class="controls-MenuButton-duplicate-header theme_{{_options.theme}} {{duplicateHeadClassName}}">
-      <div if="{{icon}}" class="{{icon}}"></div>
+      <div if="{{icon}}" class="{{icon}}  controls-icon {{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}}"></div>
    </div>
 </ws:if>
 <ws:if data="{{menuStyle === 'duplicateSelectedItem'}}">

@@ -3,13 +3,15 @@ import { Collection, Tree as TreeCollection } from 'Controls/display';
 import { relation } from 'Types/entity';
 import { Record } from 'Types/entity';
 import { RecordSet, List } from 'Types/collection';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
 
 
 export function isNode(item: Record, model: ViewModel|TreeCollection, hierarchyRelation: relation.Hierarchy): boolean {
    if (cInstance.instanceOfModule(model, 'Controls/display:Tree')) {
-      return model.getItemBySourceId(item.getId()).isNode();
+      return model.getItemBySourceKey(item.getKey()).isNode();
    } else {
       return hierarchyRelation ? hierarchyRelation.isNode(item) !== null : false;
    }
@@ -17,7 +19,7 @@ export function isNode(item: Record, model: ViewModel|TreeCollection, hierarchyR
 
 export function isHasChildren(item: Record, model: ViewModel|TreeCollection, hierarchyRelation: relation.Hierarchy): boolean {
    if (cInstance.instanceOfModule(model, 'Controls/display:Tree')) {
-      return model.getItemBySourceId(item.getId()).isHasChildren();
+      return model.getItemBySourceKey(item.getKey()).isHasChildren();
    } else {
       return hierarchyRelation ? hierarchyRelation.hasDeclaredChildren(item) !== false : false;
    }

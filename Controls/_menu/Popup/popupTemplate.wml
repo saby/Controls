@@ -1,0 +1,12 @@
+<Controls.popupTemplate:Sticky
+        headerContentTemplate="{{_options.headerTemplate}}"
+        footerContentTemplate="{{_options.footerTemplate}}"
+        closeButtonVisibility="{{_options.closeButtonVisibility}}">
+   <ws:bodyContentTemplate>
+      <Controls._menu.Control
+              scope="{{_options}}"
+              on:selectedKeysChanged="_sendResult('selectedKeysChanged')"
+              on:itemClick="_sendResult('itemClick')"
+      />
+   </ws:bodyContentTemplate>
+</Controls.popupTemplate:Sticky>

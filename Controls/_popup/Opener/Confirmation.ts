@@ -72,7 +72,6 @@ class Confirmation extends Control<IControlOptions> implements IConfirmationOpen
     static openPopup(templateOptions: IConfirmationOptions): Promise<boolean | undefined> {
         return new Promise((resolve) => {
             const config: IConfirmationOpenerOptions = Confirmation._getConfig(templateOptions, resolve);
-            config._vdomOnOldPage = true;
             return BaseOpener.requireModules(config, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
                 BaseOpener.showDialog(result.template, config, result.controller);
             });

@@ -11,7 +11,7 @@ class ResizingLine extends Control<IControlOptions> {
 
     protected _template: TemplateFunction = controlTemplate;
 
-    private _offsetHandler(event: SyntheticEvent<Event>, containerName: string, offset: number): void {
+    protected _offsetHandler(event: SyntheticEvent<Event>, containerName: string, offset: number): void {
         let value: number;
         switch (containerName) {
             case 'leftContainer':

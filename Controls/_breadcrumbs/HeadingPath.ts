@@ -1,14 +1,13 @@
 import Control = require('Core/Control');
 import BreadCrumbsUtil from './Utils';
-import getWidthUtil = require('Controls/Utils/getWidth');
 import {ItemsUtil} from 'Controls/list';
-import FontLoadUtil = require('Controls/Utils/FontLoadUtil');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import applyHighlighter = require('Controls/Utils/applyHighlighter');
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/HeadingPath');
-import backButtonTemplate = require('wml!Controls/_breadcrumbs/HeadingPath/Back');
 import Common from './HeadingPath/Common';
 import 'Controls/heading';
+import 'Controls/Utils/FontLoadUtil';
+import 'wml!Controls/_breadcrumbs/HeadingPath/Back';
 
 var _private = {
    drawItems: function (self, options) {

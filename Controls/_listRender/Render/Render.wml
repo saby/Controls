@@ -7,29 +7,36 @@
             keyPrefix="{{ _templateKeyPrefix }}"
 
             itemActionsPosition="{{ _options.itemActionsPosition }}"
-            itemActionsTemplate="{{ _options.itemActionsTemplate }}"
-            swipeTemplate="{{ _options.swipeTemplate }}"
             multiSelectTpl="{{ _options.multiSelectTpl }}"
             isAdd="{{ _options.isAdd }}"
-            itemTemplate="{{ _itemTemplate }}"/>
+            itemTemplate="{{ _itemTemplate }}"
+
+            itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+            swipeTemplate="{{ _options.swipeTemplate }}" />
       </div>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
       <ws:partial template="{{ _options.emptyTemplate }}" />
    </ws:if>
-   <ws:if data="{{ _options.stickyFooter }}">
-      <Controls.scroll:StickyHeader
-         position="bottom"
-         attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
-         <div>
+   <ws:if data="{{ _options.footerTemplate }}">
+      <ws:if data="{{ _options.stickyFooter }}">
+         <Controls.scroll:StickyHeader
+            position="bottom"
+            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
+            <div>
+               <ws:partial template="{{ _options.footerTemplate }}" />
+            </div>
+         </Controls.scroll:StickyHeader>
+      </ws:if>
+      <ws:else>
+         <div
+            attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
             <ws:partial template="{{ _options.footerTemplate }}" />
          </div>
-      </Controls.scroll:StickyHeader>
+      </ws:else>
    </ws:if>
-   <ws:else>
-      <div
-         attr:class="controls-ListView__footer__paddingLeft_{{ _canHaveMultiselect(_options) ? 'withCheckboxes' : 'default' }}">
-         <ws:partial template="{{ _options.footerTemplate }}" />
-      </div>
-   </ws:else>
+   <Controls.dropdown:Opener
+      name="menuOpener"
+      keyProperty="id"
+      menuStyle="cross" />
 </div>

@@ -10,6 +10,8 @@
          template="{{_options.content}}"
          scope="{{_options}}"
          opener="{{null}}"
+         __key="{{_options.id}}_content"
+         name="{{_options.id}}_content"
          on:sendResult="_sendResult()"
          on:close="_close()"
          on:popupDragEnd="_popupDragEnd()"

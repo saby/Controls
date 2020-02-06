@@ -8,12 +8,12 @@ import 'css!Controls-demo/List/VirtualScroll/resources/Common'
 
 class EqualPages extends Control {
     [x: string]: any;
-    private _template: Function = template;
+    protected _template: Function = template;
     private _listName: string = 'myList';
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _itemsCount: number = 1000;
-    private _virtualPageSize: number = 40;
-    private _navigation = {
+    protected _virtualPageSize: number = 40;
+    protected _navigation = {
         source: 'page',
         view: 'infinity',
         sourceConfig: {

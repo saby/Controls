@@ -3,10 +3,10 @@ import controlTemplate = require('wml!Controls-demo/Input/ValidationStatuses/Val
 import 'css!Controls-demo/Controls-demo';
 
 class ValidationStatuses extends Control<IControlOptions> {
-    private _validValue = ValidationStatuses._defaultValue;
-    private _invalidValue = ValidationStatuses._defaultValue;
-    private _invalidAccentValue = ValidationStatuses._defaultValue;
-    private _placeholder = 'Tooltip';
+    protected _validValue = ValidationStatuses._defaultValue;
+    protected _invalidValue = ValidationStatuses._defaultValue;
+    protected _invalidAccentValue = ValidationStatuses._defaultValue;
+    protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
 
