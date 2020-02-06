@@ -693,7 +693,8 @@ TreeControl._private = _private;
 export = TreeControl;
 
 /**
- * @event Controls/_treeGrid/TreeControl#expandedItemsChanged
+ * @event Controls/_treeGrid/TreeControl#expandedItemsChanged Происходит при нажатии на иконку разворота узла.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Массив с идентификаторами развернутых элементов.
+ * @remark Событие происходит при установленном значении true, узел будет помечен оранжевым маркером.
  */
