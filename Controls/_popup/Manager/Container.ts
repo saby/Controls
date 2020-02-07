@@ -3,7 +3,6 @@ import {List} from 'Types/collection';
 import {IPopupItem} from 'Controls/_popup/interface/IPopup';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import template = require('wml!Controls/_popup/Manager/Container');
-import 'css!theme?Controls/popup';
 
 // step zindex between popups.
 // It should be enough to place all the additional popups (menu, infobox, suggest) on the main popups (stack, window)
@@ -90,6 +89,7 @@ class Container extends Control<IControlOptions> {
 
     // To calculate the zIndex in a compatible notification Manager
     static POPUP_ZINDEX_STEP: number = POPUP_ZINDEX_STEP;
+    static _theme = ['Controls/popup'];
 }
 
 export default Container;
