@@ -1,7 +1,6 @@
 import CommandDispatcher = require('Core/CommandDispatcher');
 import Control = require('Lib/Control/CompoundControl/CompoundControl');
 import template = require('wml!Controls/_compatiblePopup/Notification/Notification');
-import 'css!theme?Controls/compatiblePopup';
 
 /**
  * Замена SBIS3.CONTROLS/NotificationPopup при открытии нотификационных окон через vdom механизм.
@@ -75,5 +74,5 @@ const Compatible = Control.extend({
       }
    }
 });
-
+Compatible._theme = ['Controls/compatiblePopup'];
 export default Compatible;

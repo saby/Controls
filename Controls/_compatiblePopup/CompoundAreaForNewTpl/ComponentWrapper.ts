@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_compatiblePopup/CompoundAreaForNewTpl/ComponentWrapper/ComponentWrapper');
-import 'css!theme?Controls/compatiblePopup';
 
 interface ITemplateOptions {
    _onCloseHandler: Function;
@@ -72,5 +71,5 @@ const ComponentWrapper = Control.extend({
       this._onResizingLineHandler(offset);
    }
 });
-
+ComponentWrapper._theme = ['Controls/compatiblePopup'];
 export default ComponentWrapper;

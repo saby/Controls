@@ -181,7 +181,7 @@ Submit.getDefaultOptions = function () {
       okCaption: rk('ОК')
    };
 };
-
+Submit._theme = ['Controls/popupConfirmation'];
 Submit.getOptionTypes = function () {
    return {
       type: entity.descriptor(String).oneOf([
