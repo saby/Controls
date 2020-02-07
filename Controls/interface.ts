@@ -8,6 +8,7 @@
  * @includes IIconSize Controls/_interface/IIconSize
  * @includes IFontColorStyle Controls/_interface/IFontColorStyle
  * @includes IFontSize Controls/_interface/IFontSize
+ * @includes IFontWeight Controls/_interface/IFontWeight
  * @includes IHeight Controls/_interface/IHeight
  * @includes ISource Controls/_interface/ISource
  * @includes IErrorController Controls/_interface/IErrorController
@@ -29,7 +30,7 @@
  * @includes IFilter Controls/_interface/IFilter
  * @includes INavigation Controls/_interface/INavigation
  * @includes IDisplayedRanges Controls/_interface/IDisplayedRanges
- * @includes IMenu Controls/_interface/IMenu
+ * @includes IOpenPopup Controls/_interface/IOpenPopup
  * @public
  * @author Крайнов Д.О.
  */
@@ -46,6 +47,7 @@ export {default as IIcon, IIconOptions} from './_interface/IIcon';
 export {default as IIconSize, IIconSizeOptions} from './_interface/IIconSize';
 export {default as IFontColorStyle, IFontColorStyleOptions} from './_interface/IFontColorStyle';
 export {default as IFontSize, IFontSizeOptions} from './_interface/IFontSize';
+export {default as IFontWeight, IFontWeightOptions, TFontWeight, getFontWeightTypes} from './_interface/IFontWeight';
 export {default as IHeight, IHeightOptions} from './_interface/IHeight';
 export {default as ISingleSelectable, ISingleSelectableOptions} from './_interface/ISingleSelectable';
 export {default as IMultiSelectable, IMultiSelectableOptions} from './_interface/IMultiSelectable';
@@ -68,4 +70,4 @@ export {default as IFilter, IFilterOptions} from './_interface/IFilter';
 export {default as INavigation, INavigationOptions, INavigationOptionValue} from './_interface/INavigation';
 export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';
 export {default as IDisplayedRanges, IDisplayedRangesOptions} from './_interface/IDisplayedRanges';
-export {default as IMenu, IMenuOptions, IHistoryConfig, TKeys} from './_interface/IMenu';
+export {default as IOpenPopup} from './_interface/IOpenPopup';

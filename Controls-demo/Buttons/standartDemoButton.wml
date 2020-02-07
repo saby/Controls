@@ -379,10 +379,6 @@
                 <Controls.buttons:Button readOnly="{{false}}" iconStyle="danger" iconSize="s" icon="icon-Erase" buttonStyle="secondary" viewMode="toolButton" inlineHeight="l"/>
                 <div class="demo-Button__Label">Delete</div>
             </div>
-            <div attr:class="test_element">
-                <Controls.popupTemplate:CloseButton size="m"/>
-                <div class="demo-Button__Label">Editing close button</div>
-            </div>
         </div>
     </div>
     <h2 class="ControlsDemo__textLink-text">Text link</h2>

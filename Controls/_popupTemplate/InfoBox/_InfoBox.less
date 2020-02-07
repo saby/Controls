@@ -1,4 +1,4 @@
-@spacing_Infobox-between-border-arrow: (@length_Infobox-arrow-diagonal - @size_Infobox-arrow)/2;
+@spacing_Infobox-between-border-arrow: (@arrow_base_length_infobox - @arrow_side_length_infobox)/2;
 .controls-InfoBoxTemplate {
    display: flex;
    height: 100%;
@@ -6,7 +6,7 @@
 .controls-InfoBoxTemplate_theme-@{themeName} {
    //todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=3b0e32ca-240a-4047-a64d-e62af28420e9
    .controls-StickyHeader__background, .controls-Grid__header-cell {
-      background-color: @background-color_Infobox_default;
+      background-color: @background-color_infobox;
    }
 }
 
@@ -23,11 +23,10 @@
 }
 
 .controls-InfoBoxTemplate__arrow_theme-@{themeName} {
-   width: @size_Infobox-arrow;
-   height: @size_Infobox-arrow;
-   border-width: @border-width_Infobox;
-   background: @background-color_Infobox_default;
-   
+   width: @arrow_side_length_infobox;
+   height: @arrow_side_length_infobox;
+   border-width: @border-thickness_infobox;
+   background: @background-color_infobox;
 }
 
 .controls-InfoBoxTemplate__arrow{
@@ -39,65 +38,152 @@
    border-left: none;
 }
 
+//обводка стрелки
 .controls-InfoBoxTemplate__arrow {
-  @variants: default, danger, info, secondary, warning, success, primary;
-  .for(@variants, {
-    &-@{_item}_theme-@{themeName} {
-      border-right-color: ~"@{border-color_Infobox_@{_item}}";
-      border-bottom-color: ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
+  &-danger_theme-@{themeName}{
+    border-right-color: @danger_color;
+    border-bottom-color: @danger_color;
+  }
+  &-warning_theme-@{themeName}{
+    border-right-color: @warning_color;
+    border-bottom-color: @warning_color;
+  }
+  &-success_theme-@{themeName}{
+    border-right-color: @success_color;
+    border-bottom-color: @success_color;
+  }
+  &-primary_theme-@{themeName}{
+    border-right-color: @primary_color;
+    border-bottom-color: @primary_color;
+  }
+  &-info_theme-@{themeName}{
+    border-right-color: @unaccented_color;
+    border-bottom-color: @unaccented_color;
+  }
+  &-secondary_theme-@{themeName}{
+    border-right-color: @secondary_border-color_infobox;
+    border-bottom-color: @secondary_border-color_infobox;
+  }
+  &-default_theme-@{themeName}{
+    border-right-color: @border-color_infobox;
+    border-bottom-color: @border-color_infobox;
+  }
 }
 
-.controls-InfoBoxTemplate_style_outline {
-   @variants: default,  danger;
-  .for(@variants, {
-    &_@{_item}_theme-@{themeName} {
-      background: @background-color_Infobox_default;
-      box-shadow: ~"@{color_Infobox-shadow_@{_item}}" @box-shadow_Infobox;
-      border: @border-width_Infobox solid ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
+.controls-InfoBoxTemplate_style_outline_danger_theme-@{themeName} {
+  background: @background-color_infobox;
+  box-shadow: @invalid_box-shadow-color_infobox @box-shadow-offset_infobox;
+  border: @border-thickness_infobox solid @danger_color;
+}
+
+.controls-InfoBoxTemplate_style_outline_default_theme-@{themeName} {
+  background: @background-color_infobox;
+  box-shadow: @box-shadow-color_infobox @box-shadow-offset_infobox;
+  border: @border-thickness_infobox solid @border-color_infobox;
 }
 
 .controls-InfoBoxTemplate_style_marker_theme-@{themeName} {
-  background: @background-color_Infobox_default;
-  box-shadow: @color_Infobox-shadow_default @box-shadow_Infobox;
-  border: @border-width_Infobox solid @border-color_Infobox_default;
+  background: @background-color_infobox;
+  box-shadow: @box-shadow-color_infobox @box-shadow-offset_infobox;
+  border: @border-thickness_infobox solid @border-color_infobox;
 }
 
-.controls-InfoBoxTemplate_style_marker-top {
-  @variants: default, danger, info, secondary, warning, success, primary;
-  .for(@variants, {
-    &_@{_item}_theme-@{themeName} {
-      border-top: @border-width_Infobox-marker solid ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
+.controls-InfoBoxTemplate_style_marker-top_ {
+   &danger_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @danger_color;
+   }
+   &warning_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @warning_color;
+   }
+   &success_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @success_color;
+   }
+   &primary_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @primary_color;
+   }
+   &info_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @unaccented_color;
+   }
+   &secondary_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @secondary_border-color_infobox;
+   }
+   &default_theme-@{themeName}{
+     border-top: @marker-thickness_infobox solid @border-color_infobox;
+   }
+ }
+
+.controls-InfoBoxTemplate_style_marker-bottom_ {
+  &danger_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @danger_color;
+  }
+  &warning_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @warning_color;
+  }
+  &success_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @success_color;
+  }
+  &primary_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @primary_color;
+  }
+  &info_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @unaccented_color;
+  }
+  &secondary_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  }
+  &default_theme-@{themeName}{
+    border-bottom: @marker-thickness_infobox solid @border-color_infobox;
+  }
 }
-.controls-InfoBoxTemplate_style_marker-bottom {
-  @variants: default, danger, info, secondary, warning, success, primary;
-  .for(@variants, {
-    &_@{_item}_theme-@{themeName} {
-      border-bottom: @border-width_Infobox-marker solid ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
+
+.controls-InfoBoxTemplate_style_marker-left_ {
+  &danger_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @danger_color;
+  }
+  &warning_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @warning_color;
+  }
+  &success_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @success_color;
+  }
+  &primary_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @primary_color;
+  }
+  &info_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @unaccented_color;
+  }
+  &secondary_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  }
+  &default_theme-@{themeName}{
+    border-left: @marker-thickness_infobox solid @border-color_infobox;
+  }
 }
-.controls-InfoBoxTemplate_style_marker-left {
-  @variants: default, danger, info, secondary, warning, success, primary;
-  .for(@variants, {
-    &_@{_item}_theme-@{themeName} {
-      border-left: @border-width_Infobox-marker solid ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
+
+.controls-InfoBoxTemplate_style_marker-right_ {
+  &danger_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @danger_color;
+  }
+  &warning_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @warning_color;
+  }
+  &success_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @success_color;
+  }
+  &primary_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @primary_color;
+  }
+  &info_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @unaccented_color;
+  }
+  &secondary_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  }
+  &default_theme-@{themeName}{
+    border-right: @marker-thickness_infobox solid @border-color_infobox;
+  }
 }
-.controls-InfoBoxTemplate_style_marker-right {
-  @variants: default, danger, info, secondary, warning, success, primary;
-  .for(@variants, {
-    &_@{_item}_theme-@{themeName} {
-      border-right: @border-width_Infobox-marker solid ~"@{border-color_Infobox_@{_item}}";
-    }
-  });
-}
+
 
 .controls-InfoBoxTemplate__content {
    position: relative;
@@ -109,22 +195,28 @@
 }
 
 .controls-InfoBoxTemplate__content_theme-@{themeName} {
-   max-width: @max-width_Infobox;
+   max-width: @max-width_infobox;
 }
 
-.controls-InfoBoxTemplate__closeButton { 
+.controls-InfoBoxTemplate__closeButton {
    position: absolute;
    cursor: pointer;
 }
 
 .controls-InfoBoxTemplate__closeButton_theme-@{themeName} {
-   top: @spacing_Infobox-between-top-close-button;
-   right: @spacing_Infobox-between-right-close-button;
-   color: @color_Infobox-close-button;
+   top: @close-button_offset-top_infobox;
+   right: @close-button_offset-right_infobox;
+}
 
-   &:hover {
-      color: @color_Infobox-close-button_hover;
-   }
+/**
+ * In firefox, the text baseline is 1px higher than the standard.
+ * Compensate for this by reducing the indentation between the close button and the upper border by 1px.
+ * Presumably the problem is in the font. Error written https://online.sbis.ru/opendoc.html?guid=1e389bc5-8be7-4394-abdd-231e3ec040a8
+ */
+.ws-is-firefox {
+  .controls-InfoBoxTemplate__closeButton_theme-@{themeName} {
+    top: @close-button_offset-top_infobox + 1;
+  }
 }
 
 .controls-InfoBoxTemplate__arrow-wrapper {
@@ -132,51 +224,51 @@
 }
 
 .controls-InfoBoxTemplate__arrow-wrapper-top_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-wrapper-bottom_theme-@{themeName} {
-   width: @spacing_Infobox-between-target-popup + 1;
-   height: @spacing_Infobox-between-target-popup;
-  
+   width: @target_offset_infobox + 1;
+   height: @target_offset_infobox;
+
 }
 .controls-InfoBoxTemplate__arrow-wrapper-left_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-wrapper-right_theme-@{themeName} {
-   width: @spacing_Infobox-between-target-popup;
-   height: @spacing_Infobox-between-target-popup + 1;
+   width: @target_offset_infobox;
+   height: @target_offset_infobox + 1;
 }
 
 .controls-InfoBoxTemplate__arrow-top_theme-@{themeName} {
    transform: rotate(-135deg);
-   top: @size_Infobox-arrow/2 - @border-width_Infobox;
+   top: @arrow_side_length_infobox/2 - @border-thickness_infobox;
 }
 
 .controls-InfoBoxTemplate__arrow-bottom_theme-@{themeName} {
    transform: rotate(45deg);
-   bottom: @size_Infobox-arrow/2;
+   bottom: @arrow_side_length_infobox/2;
 }
 
 .controls-InfoBoxTemplate__arrow-top_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-bottom_theme-@{themeName} {
    &.controls-InfoBoxTemplate__arrow-position-start_theme-@{themeName} {
-      left: @horizontal-offset_Infobox-arrow + @spacing_Infobox-between-border-arrow  + @border-width_Infobox;
+      left: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow  + @border-thickness_infobox;
    }
 
    &.controls-InfoBoxTemplate__arrow-position-end_theme-@{themeName} {
-      right: @horizontal-offset_Infobox-arrow + @spacing_Infobox-between-border-arrow + @border-width_Infobox;
+      right: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
    }
 }
 
 .controls-InfoBoxTemplate__arrow-left_theme-@{themeName} {
    transform: rotate(135deg);
-   left: @size_Infobox-arrow/2 - @border-width_Infobox;
+   left: @arrow_side_length_infobox/2 - @border-thickness_infobox;
 }
 
 .controls-InfoBoxTemplate__arrow-right_theme-@{themeName} {
    transform: rotate(-45deg);
-   right: @size_Infobox-arrow/2;
+   right: @arrow_side_length_infobox/2;
 }
 
 .controls-InfoBoxTemplate__arrow-left_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-right_theme-@{themeName} {
    &.controls-InfoBoxTemplate__arrow-position-start_theme-@{themeName} {
-      top: @horizontal-offset_Infobox-arrow + @spacing_Infobox-between-border-arrow + @border-width_Infobox;
+      top: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
    }
    &.controls-InfoBoxTemplate__arrow-position-end_theme-@{themeName} {
-      bottom: @horizontal-offset_Infobox-arrow + @spacing_Infobox-between-border-arrow + @border-width_Infobox;
+      bottom: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
    }
 }
 

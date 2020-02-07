@@ -7,6 +7,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {TKeysSelection, ISelectionObject} from 'Controls/interface';
 import {default as getCountUtil, IGetCountCallParams} from 'Controls/_operations/MultiSelector/getCount';
 
+const DEFAULT_CAPTION = rk('Отметить');
 const DEFAULT_ITEMS = [
    {
       id: 'selectAll',
@@ -60,7 +61,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          this._menuSource = this._getMenuSource(options);
       }
 
-      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
+      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount || currOpts.isAllSelected !== options.isAllSelected) {
          return this._updateMenuCaptionByOptions(options);
       }
    }
@@ -104,16 +105,21 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    }
 
    private _getMenuCaption({selected, excluded}: ISelectionObject, count: TCount, isAllSelected: boolean): string {
+      const hasSelected = !!selected.length;
       let caption;
 
-      if (count > 0 && selected.length) {
-         caption = rk('Отмечено') + ': ' + count;
-      } else if (isAllSelected) {
-         caption = rk('Отмечено всё');
-      } else if (count === null) {
-         caption = rk('Отмечено');
+      if (hasSelected) {
+         if (count > 0) {
+            caption = rk('Отмечено') + ': ' + count;
+         } else if (isAllSelected) {
+            caption = rk('Отмечено всё');
+         } else if (count === null) {
+            caption = rk('Отмечено');
+         } else {
+            caption = DEFAULT_CAPTION;
+         }
       } else {
-         caption = rk('Отметить');
+         caption = DEFAULT_CAPTION;
       }
 
       return caption;

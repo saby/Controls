@@ -1,0 +1,42 @@
+// Разделитель задается верхней границей, которая присутствует всегда (чтобы при включении разделителя таблица не скакала).
+// При выключенном разделителе она прозрачная.
+.controls-Grid__row-cell_theme-@{themeName} {
+   border-top-width: @height_Grid-row-separator;
+   border-top-style: solid;
+}
+
+.controls-Grid__row-cell_withoutRowSeparator_theme-@{themeName} {
+   border-top-color: transparent;
+   border-bottom-color: transparent;
+   min-height: @min-height_Grid-row;
+}
+
+.controls-Grid__row-cell_withRowSeparator_theme-@{themeName} {
+   border-top-color: @border-color_Grid-row-separator;
+   min-height: @min-height_Grid-row;
+}
+
+// Первая строка в таблице с включенным разделителем
+.controls-GridViewV__itemsContainer .controls-Grid__row:first-child .controls-Grid__row-cell_withRowSeparator_theme-@{themeName} {
+   border-top-color: @border-color_Grid-firstRow-separator;
+}
+// Последняя строка в таблице с включенным разделителем
+.controls-GridViewV__itemsContainer .controls-Grid__row:last-child .controls-Grid__row-cell_withRowSeparator_theme-@{themeName} {
+   border-bottom-width: @height_Grid-row-separator;
+   border-bottom-style: solid;
+   border-bottom-color: @border-color_Grid-lastRow-separator;
+   min-height: @min-height_Grid-row + @height_Grid-row-separator;
+}
+
+
+.controls-Grid_table-layout {
+   // В таблицах функцию min-height выполняет height
+   .controls-Grid__row-cell_withoutRowSeparator_@{themeName},
+   .controls-Grid__row-cell_withRowSeparator_theme-@{themeName}{
+      height: @min-height_Grid-row;
+   }
+
+   .controls-GridViewV__itemsContainer .controls-Grid__row:last-child .controls-Grid__row-cell_withRowSeparator_theme-@{themeName} {
+      height: @min-height_Grid-row + @height_Grid-row-separator;
+   }
+}

@@ -43,7 +43,7 @@ export interface IView extends IHeading {
  * @demo Controls-demo/Spoiler/View/Index
  */
 class View extends Control<IViewOptions> implements IView {
-    private _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = tmplNotify;
 
     protected _template: TemplateFunction = template;
 

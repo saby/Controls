@@ -1,6 +1,6 @@
 import Deferred = require('Core/Deferred');
 import {Date as WSDate} from 'Types/entity';
-import { Memory, Query, DataSet } from 'Types/source';
+import { Memory, Query } from 'Types/source';
 import ITEM_TYPES from './ItemTypes';
 import {TemplateFunction} from 'UI/Base';
 import monthListUtils from './Utils';

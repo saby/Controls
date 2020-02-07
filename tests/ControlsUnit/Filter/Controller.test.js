@@ -792,13 +792,19 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
 
       it('_private.updateHistory', function(done) {
          if (Env.constants.isServerSide) { return done(); }
-         var fastFilterItems = [];
-
-         var filterButtonItems = [];
+         const fastFilterItems = [];
+         const filterButtonItems = [];
          let self = {};
+         let historySaveEventFired = false;
+         self._notify = function(eventName) {
+            if (eventName === 'historySave') {
+               historySaveEventFired = true;
+            }
+         };
          Filter._private.addToHistory(self, filterButtonItems, fastFilterItems, 'TEST_HISTORY_ID_2');
          assert.isOk(self._sourceController);
          Filter._private.addToHistory(self, filterButtonItems, fastFilterItems, 'TEST_HISTORY_ID');
+         assert.isTrue(historySaveEventFired);
          Filter._private.getHistoryItems({}, 'TEST_HISTORY_ID').addCallback(function(items) {
             assert.deepEqual(items, {});
             done();

@@ -31,7 +31,7 @@ type GetSourceResult = {
        * @public
        * @author Герасимов А.М.
        */
-      
+
       /*
        * Container component that provides a context field "dataOptions" with necessary data for child containers.
        *
@@ -131,6 +131,7 @@ type GetSourceResult = {
          resolvePrefetchSourceResult: function(self, result: GetSourceResult) {
             if (result.data) {
                if (_private.isEqualItems(self._items, result.data)) {
+                  self._items.setMetaData(result.data.getMetaData());
                   self._items.assign(result.data);
                } else {
                   self._items = result.data;

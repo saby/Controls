@@ -1,3 +1,4 @@
+// @ts-ignore
 import {SbisService, DataSet, ICrud} from 'Types/source';
 import {OptionsToPropertyMixin} from 'Types/entity';
 import CoreExtend = require('Core/core-extend');

@@ -7,9 +7,13 @@ describe('Controls/_list/ScrollContainer', () => {
         const instance = new ScrollController();
         instance._options = {};
         instance.virtualScroll = {};
-        it('flag inited', () => {
+        instance._container = {
+            clientHeight: 100
+        };
+        it('flag inited and viewSize saved', () => {
             instance._afterMount();
             assert.isTrue(instance.__mounted);
+            assert.equal(instance.viewSize, 100);
         });
         it('scroll registered correctly', () => {
             instance._children = {
@@ -355,9 +359,11 @@ describe('Controls/_list/ScrollContainer', () => {
         // @ts-ignore
         const instance = new ScrollController();
         instance.viewModel = {
-            setViewIndices(startIndex, stopIndex) {
-                return startIndex !== this.startIndex || stopIndex !== this.stopIndex;
-            },
+            getViewIterator: () => ({
+                setIndices: (startIndex, stopIndex) =>
+                    startIndex !== instance.viewModel.startIndex ||
+                    stopIndex !== instance.viewModel.stopIndex
+            }),
             startIndex: 0,
             stopIndex: 19
         };

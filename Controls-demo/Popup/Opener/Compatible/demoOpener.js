@@ -90,7 +90,8 @@ define('Controls-demo/Popup/Opener/Compatible/demoOpener',
          openStack: function() {
             this._children.stackPanel.open({
                opener: this._children.stackButton,
-               isCompoundTemplate: true
+               isCompoundTemplate: true,
+               closeOnOutsideClick: true
             });
          },
 

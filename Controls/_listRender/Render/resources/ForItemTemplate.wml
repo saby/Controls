@@ -1,25 +1,40 @@
 <ws:partial
-        template="wml!Controls/_listRender/Render/resources/ItemOutputWrapper"
-        item="{{ item }}"
-        itemTemplate="{{ itemTemplate }}"
-        multiSelectVisibility="{{ collection.getMultiSelectVisibility() }}"
-        searchValue="{{ collection.getSearchValue() }}"
+   template="wml!Controls/_listRender/Render/resources/ItemOutputWrapper"
+   item="{{ item }}"
+   itemTemplate="{{ item.getItemTemplate(itemTemplate, groupTemplate) }}"
+   multiSelectVisibility="{{ collection.getMultiSelectVisibility() }}"
+   searchValue="{{ collection.getSearchValue() }}"
 
-        attr:class="{{collection.isItemHidden(index) ? 'controls-ListView__hiddenContainer'}}"
+   attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
 
-        on:click="_onItemClick(item)"
-        on:contextmenu="_onItemContextMenu(item)"
-        on:swipe="_onItemSwipe(item)"
-        on:mouseenter="_onItemMouseEnter(item)"
-        on:mousedown="_onItemMouseDown(item)"
-        on:mousemove="_onItemMouseMove(item)"
-        on:mouseleave="_onItemMouseLeave(item)"
-        on:wheel="_onItemWheel(item)"
-        on:keydown="_onItemKeyDown(item)"
+   on:click="_onItemClick(item)"
+   on:contextmenu="_onItemContextMenu(item)"
+   on:swipe="_onItemSwipe(item)"
+   on:mouseenter="_onItemMouseEnter(item)"
+   on:mousedown="_onItemMouseDown(item)"
+   on:mousemove="_onItemMouseMove(item)"
+   on:mouseleave="_onItemMouseLeave(item)"
+   on:wheel="_onItemWheel(item)"
+   on:keydown="_onItemKeyDown(item)"
 
-        itemActionsPosition="{{ itemActionsPosition }}"
-        itemActionsTemplate="{{ itemActionsTemplate }}"
-        itemActionsClass="{{ itemActionsClass }}"
-        swipeTemplate="{{ swipeTemplate }}"
-        multiSelectTpl="{{ multiSelectTpl }}"
-        isAdd="{{ isAdd }}"/>
+   multiSelectTpl="{{ multiSelectTpl }}"
+   isAdd="{{ isAdd }}">
+   <ws:itemActionsTemplate>
+      <ws:partial
+         template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'wml!Controls/_listRender/Render/resources/ItemActionsTemplate' }}"
+         scope="{{ collection.getActionsTemplateConfig() }}"
+         item="{{ item }}" />
+      <!-- itemActionsClass -->
+      <!-- using || instead of ws:if because template is constantly being updated otherwise -->
+   </ws:itemActionsTemplate>
+   <ws:swipeTemplate>
+      <ws:partial
+         template="{{ _options.swipeTemplate.swipeTemplate || 'wml!Controls/_listRender/Render/resources/SwipeTemplate' }}"
+         scope="{{ collection.getActionsTemplateConfig() }}"
+         swipeConfig="{{ collection.getSwipeConfig() }}"
+         animationState="open"
+         item="{{ item }}" />
+      <!-- must have an itemActionsClass in TileView, should probably be calculated in model -->
+      <!-- using || instead of ws:if because template is constantly being updated otherwise -->
+   </ws:swipeTemplate>
+</ws:partial>

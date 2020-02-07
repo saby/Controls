@@ -8,6 +8,7 @@ import { Map } from 'Types/shim';
 
 import { relation, Record } from 'Types/entity';
 import { Tree as TreeCollection } from 'Controls/display';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
 import { RecordSet } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';
@@ -58,19 +59,20 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
    }
 
    unSelect(selection: ISelection, keys: TKeys, model: TreeCollection|ViewModel, hierarchyRelation: relation.Hierarchy): ISelection {
-      selection = clone(selection);
+      const selectionClone = clone(selection);
+      let item;
 
       keys.forEach((key) => {
-         let item: Record = getItems(model).getRecordById(key);
+         item = getItems(model).getRecordById(key);
 
          if (!item || isNode(item, model, hierarchyRelation)) {
-            this._unSelectNode(selection, key, model, hierarchyRelation);
+            this._unSelectNode(selectionClone, key, model, hierarchyRelation);
          } else {
-            this._unSelectLeaf(selection, key, model, hierarchyRelation);
+            this._unSelectLeaf(selectionClone, key, model, hierarchyRelation);
          }
       });
 
-      return selection;
+      return selectionClone;
    }
 
    getCount(selection: ISelection, model: TreeCollection|ViewModel, limit: number, hierarchyRelation: relation.Hierarchy): number|null {
@@ -181,11 +183,15 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
    }
 
    private _unSelectLeaf(selection: ISelection, leafId: string|number, model: TreeCollection|ViewModel, hierarchyRelation: relation.Hierarchy): void {
-      let parentId: TKey|undefined = this._getParentId(leafId, model, hierarchyRelation);
+      const parentId = this._getParentId(leafId, model, hierarchyRelation);
 
       ArraySimpleValuesUtil.removeSubArray(selection.selected, [leafId]);
       if (this.isAllSelected(selection, parentId, model, hierarchyRelation)) {
          ArraySimpleValuesUtil.addSubArray(selection.excluded, [leafId]);
+      }
+
+      if (this._isAllChildrenExcluded(selection, parentId, model, hierarchyRelation)) {
+         ArraySimpleValuesUtil.removeSubArray(selection.selected, [parentId]);
       }
    }
 
@@ -287,5 +293,18 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
       }
 
       return stateNode;
+   }
+
+   private _isAllChildrenExcluded(selection: ISelection, nodeId: TKey, model: ViewModel, hierarchyRelation: relation.Hierarchy): boolean {
+      const children = getChildren(nodeId, model, hierarchyRelation);
+      let isExcluded = true;
+
+      children.forEach((item) => {
+         if (!selection.excluded.includes(item.getId())) {
+            isExcluded = false;
+         }
+      });
+
+      return isExcluded;
    }
 }

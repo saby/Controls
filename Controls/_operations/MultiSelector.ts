@@ -14,15 +14,17 @@ var MultiSelector = Control.extend({
          this._updateSelection(newOptions.selectedKeys, newOptions.excludedKeys, newOptions.selectedKeysCount, newOptions.isAllSelected);
       },
 
-      _updateSelection: function(selectedKeys, excludedKeys, count, isAllSelected) {
-         if (isAllSelected) {
+    _updateSelection: function(selectedKeys, excludedKeys, count, isAllSelected) {
+        const hasSelected = selectedKeys.length;
+
+        if (hasSelected && isAllSelected) {
             this._multiSelectStatus = true;
-         } else if (selectedKeys.length && (count > 0 || count === null)) {
+        } else if (hasSelected && (count > 0 || count === null)) {
             this._multiSelectStatus = null;
-         } else {
+        } else {
             this._multiSelectStatus = false;
-         }
-      },
+        }
+    },
 
       _onCheckBoxClick: function() {
          this._notify('selectedTypeChanged', [this._multiSelectStatus === false ? 'selectAll' : 'unselectAll'], {

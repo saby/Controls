@@ -79,14 +79,16 @@ define(['Controls/_filter/Utils/mergeSource'],
                value: '',
                textValue: '',
                resetValue: '',
-               viewMode: 'frequent'
+               viewMode: 'frequent',
+               anyField: 'anyValue123'
             }];
 
             history = [{
                name: 'testId',
                value: 'testValue',
                resetValue: '',
-               textValue: 'textTextValue'
+               textValue: 'textTextValue',
+               anyField: 'anyValue'
             }];
 
             result = [{
@@ -94,7 +96,8 @@ define(['Controls/_filter/Utils/mergeSource'],
                value: 'testValue',
                textValue: 'textTextValue',
                resetValue: '',
-               viewMode: 'frequent'
+               viewMode: 'frequent',
+               anyField: 'anyValue'
             }];
 
             mergeSource.default(items, history);

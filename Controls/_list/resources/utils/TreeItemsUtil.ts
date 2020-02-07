@@ -3,7 +3,6 @@ import entity = require('Types/entity');
 import isPlainObject = require('Core/helpers/Object/isPlainObject');
 
 var
-    _private = {},
     TreeItemsUtil = {
         prepareDisplayProperties: function(items, cfg, filter) {
            var

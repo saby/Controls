@@ -7,22 +7,18 @@ import {isEqual} from 'Types/object';
 import 'css!theme?Controls/filterPopup';
 
 /**
-    * Control PropertyGrid
-    * Provides a user interface for browsing and editing the properties of an object.
-    *
-    * @class Controls/_filterPopup/Panel/PropertyGrid
-    * @extends Core/Control
-    * @mixes Controls/interface/IPropertyGrid
-    * @mixes Controls/_interface/ISource
-    * @mixes Controls/interface/IItemTemplate
-    * @control
-    * @private
-    * @author Золотова Э.Е.
-    *
-    * @css @height_PropertyGrid-item Height of item in the block.
-    * @css @spacing_PropertyGrid-between-items Spacing between items.
-    */
-
+ * Control PropertyGrid
+ * Provides a user interface for browsing and editing the properties of an object.
+ *
+ * @class Controls/_filterPopup/Panel/PropertyGrid
+ * @extends Core/Control
+ * @mixes Controls/interface/IPropertyGrid
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface/IItemTemplate
+ * @control
+ * @private
+ * @author Золотова Э.Е.
+ */
 
    const observableItemProps = ['value', 'textValue', 'visibility'];
 
@@ -122,12 +118,13 @@ import 'css!theme?Controls/filterPopup';
          this._lastVisibleIndex = _private.getLastVisibleItemIndex(newOptions.items);
       },
 
-      _afterUpdate: function() {
+      _afterUpdate(): void {
          // Когда элемент перемещается из блока "Еще можно отобрать" в основной блок,
          // запоминаем индекс этого элемента в _changedIndex.
          // Когда основной блок перестроился, зовем activate, чтобы сфокусировать этот элемент.
          if (this._changedIndex !== -1) {
             this.activate();
+            this._notify('controlResize', [], {bubbling: true});
          }
       },
 

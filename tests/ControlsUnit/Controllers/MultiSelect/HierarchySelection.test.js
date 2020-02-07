@@ -368,10 +368,10 @@ define([
 
                selectionInstance.unselect([2]);
                selectionInstance.updateSelectionForRender();
-               assert.deepEqual([1], selectionInstance.selectedKeys);
+               assert.deepEqual([], selectionInstance.selectedKeys);
                assert.deepEqual([5, 2], selectionInstance.excludedKeys);
-               assert.deepEqual({1: null}, selectionInstance._listModel._model._selectedKeys);
-               assert.equal(1, selectionInstance.getCount());
+               assert.deepEqual({}, selectionInstance._listModel._model._selectedKeys);
+               assert.equal(0, selectionInstance.getCount());
             });
 
             it('sequentially unselect all children inside selected root', function() {
@@ -430,7 +430,7 @@ define([
 
                selectionInstance.unselect([1]);
                selectionInstance.updateSelectionForRender();
-               assert.deepEqual([null], selectionInstance.selectedKeys);
+               assert.deepEqual([], selectionInstance.selectedKeys);
                assert.deepEqual([null, 7, 6, 1], selectionInstance.excludedKeys);
                assert.deepEqual({}, selectionInstance._listModel._model._selectedKeys);
                assert.equal(0, selectionInstance.getCount());
@@ -555,7 +555,7 @@ define([
             selectionInstance.toggleAll();
 
             // Вернулись к начальному
-            assert.deepEqual([1, 6, 4], selectionInstance.selectedKeys);
+            assert.deepEqual([6, 4], selectionInstance.selectedKeys);
             assert.deepEqual([5, 2], selectionInstance.excludedKeys);
          });
 

@@ -1,4 +1,4 @@
-<Controls.calendar:MonthView attr:class="controlsDemo-MonthView__wrapper">
+<Controls.calendar:MonthView attr:class="controlsDemo-MonthView__wrapper" bind:month="_month">
     <ws:dayTemplate>
         <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}">
             <ws:contentTemplate>

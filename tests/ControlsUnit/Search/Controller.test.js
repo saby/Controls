@@ -262,7 +262,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchMod.Controller._private.abortCallback(controller, filter);
 
          assert.isTrue(stubNotify.calledTwice);
-         assert.equal(controller._viewMode, 'testViewMode');
+         assert.equal(controller._viewMode, 'search');
          assert.isFalse(controller._loading);
          assert.equal(controller._misspellValue, '');
          assert.equal(controller._searchValue, '');
@@ -513,6 +513,12 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             var abortStub = sandbox.stub(searchController._searchController, 'abort');
 
             searchController._searchValue = 'test';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.isNull(searchController._searchController);
+            assert.isTrue(abortStub.calledOnce);
+
+            searchController._searchValue = 'test1';
+            defaultOptions._searchValue = 'test1';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.isNull(searchController._searchController);
             assert.isTrue(abortStub.calledOnce);

@@ -9,10 +9,10 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
-   private _suggestTemplate: TemplateFunction = suggestTemplate;
-   private _source: Memory;
-   private _navigation: object;
-   private _maxCountNavigation: object;
+   protected _suggestTemplate: TemplateFunction = suggestTemplate;
+   protected _source: Memory;
+   protected _navigation: object;
+   protected _maxCountNavigation: object;
 
    protected _beforeMount() {
       this._source = new SearchMemory({

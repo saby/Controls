@@ -10,7 +10,7 @@
                {{!!itemData.isActive ? ' controls-TileView__item_active'}}
                {{!!itemData.isSwiped ? ' controls-TileView__item_swiped'}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
-               {{itemData.isScaled ? ' controls-TileView__item_scaled'}}
+               {{itemData.isScaled ? ' controls-TileView__item_scaled': ' controls-TileView__item_unfixed'}}
                {{itemData.isFixed ? ' controls-TileView__item_fixed'}}
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}

@@ -416,7 +416,6 @@ var SuggestLayout = Control.extend({
       _private.close(this);
    },
    _changeValueHandler: function(event, value) {
-      var historyId = this._options.historyId;
       var self = this;
       var shouldSearch;
 

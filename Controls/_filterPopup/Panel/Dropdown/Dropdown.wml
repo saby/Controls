@@ -1,7 +1,6 @@
 <div class="controls-FilterDropdown">
    <Controls.dropdown:Input
            scope="{{_options}}"
-           fontColorStyle="secondary"
            attr:class="controls-FilterDropdown__content"
            on:selectedKeysChanged="_selectedKeysChangedHandler()"
            on:textValueChanged="_textValueChangedHandler()"
@@ -9,20 +8,20 @@
            on:dropDownClose="_dropDownClose()">
       <ws:contentTemplate>
          <ws:if data="{{_options.contentTemplate}}">
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate">
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter">
                <ws:contentTemplate>
                   <div class="controls-FilterDropdown__contentTemplate">
-                     <ws:partial template="{{_options.contentTemplate}}" class="controls-FilterDropdown__text"/>
+                     <ws:partial template="{{_options.contentTemplate}}" class="controls-Dropdown__item_style-filter"/>
                   </div>
                </ws:contentTemplate>
             </ws:partial>
          </ws:if>
          <ws:else>
-            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate"/>
+            <ws:partial template="Controls/dropdown:inputDefaultContentTemplate" style="filter"/>
          </ws:else>
       </ws:contentTemplate>
    </Controls.dropdown:Input>
    <ws:if data="{{_options.showCross}}">
-      <span class="controls-FilterDropdown__reset icon-Close icon-disabled" on:click="_resetHandler()"></span>
+      <span class="controls-FilterDropdown__reset icon-Close" on:click="_resetHandler()"></span>
    </ws:if>
 </div>

@@ -9,7 +9,6 @@ const defaultColors = [
    'controls-StateIndicator__sector2',
    'controls-StateIndicator__sector3'
 ];
-const DEFAULT_EMPTY_COLOR_CLASS = 'controls-StateIndicator__emptySector';
 const defaultScaleValue = 10;
 const maxPercentValue = 100;
 
@@ -72,9 +71,9 @@ export interface IStateIndicatorOptions extends IControlOptions {
 
 /**
  * @typedef {Object} IndicatorCategory
- * @property {Number} value=0 Процент от соответствующей категории.
- * @property {String} className='' Имя css-класса, который будет применяться к секторам этой категории. Если не указано, будет использоваться цвет по умолчанию.
- * @property {String} title='' Название категории.
+ * @property {Number} [value=0] Процент от соответствующей категории.
+ * @property {String} [className=''] Имя css-класса, который будет применяться к секторам этой категории. Если не указано, будет использоваться цвет по умолчанию.
+ * @property {String} [title=''] Название категории.
  */
 
 /*
@@ -115,7 +114,7 @@ export interface IStateIndicatorOptions extends IControlOptions {
  */
 class StateIndicator extends Control<IStateIndicatorOptions>{
    protected _template: TemplateFunction = stateIndicatorTemplate;
-   private _colorState: number[];
+   protected _colorState: number[];
    private _colors: string[];
    private _numSectors: number = 10;
 
@@ -189,6 +188,15 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
          excess = totalSectorsUsed - _numSectors;
          colorValues.splice(longestValueStart, excess);
       }
+      let sum: number = 0;
+      opts.data.forEach((item) => {
+         sum += item.value;
+      });
+
+      // Если сумма значений равна 100%, но при этом мы получили меньше секторов, то прибавим сектор к наибольшему значению.
+      if (totalSectorsUsed < _numSectors && sum === maxPercentValue) {
+         colorValues.splice(longestValueStart, 0,  colorValues[longestValueStart]);
+      }
       return colorValues;
    }
 
@@ -203,7 +211,7 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
       this._colorState  = this._calculateColorState(opts, this._colors, this._numSectors);
    }
 
-   private _mouseEnterIndicatorHandler(e: SyntheticEvent<MouseEvent>): void {
+   protected _mouseEnterIndicatorHandler(e: SyntheticEvent<MouseEvent>): void {
       this._notify('itemEnter', [e.target]);
    }
 

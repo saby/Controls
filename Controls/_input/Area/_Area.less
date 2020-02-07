@@ -50,9 +50,11 @@
     * When using line-height: normal, the row height in Firefox differs from the row height in other browsers.
     * This behavior is independent of the font. Therefore, you must specify the value explicitly.
     */
-   .for(@variants, { &_@{_item} {
-      line-height: ~"@{height_Area_oneLine_size_@{_item}}";
-   } });
+   .for(@variants, {
+      &_@{_item} {
+         line-height: ~"@{height_Area_oneLine_size_@{_item}}";
+      }
+   });
 }
 
 .controls-Area__field_theme_@{themeName}_margin {
@@ -68,14 +70,12 @@
    margin: @padding-vertical_inputArea - 1 @padding-horizontal_inputText @padding-vertical_inputArea + 1 @padding-horizontal_inputText;
 }
 
-.ws-is-mobile-safari, .ws-is-mobile-chrome-ios {
-   // On the iPad, in safari and chrome, textarea has indispensable 3px padding, at left and right sides.
-   // https://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea
-   // To compensate them, we should move textarea to the left by 3px and increase it's width to 6px
-   .controls-Area__realField {
-      margin-left: -3px;
-      width: ~"calc(100% + 6px)";
-   }
+// On the iPad, in safari and chrome, textarea has indispensable 3px padding, at left and right sides.
+// https://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea
+// To compensate them, we should move textarea to the left by 3px and increase it's width to 6px
+.controls-Area__realField_fixTextPosition {
+   margin-left: -3px;
+   width: ~"calc(100% + 6px)";
 }
 
 & {

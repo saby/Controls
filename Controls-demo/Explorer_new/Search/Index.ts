@@ -8,12 +8,12 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getSearchColumns();
-   private _root = null;
-   private _searchStartingWith: string = 'root';
-   private _searchStartingWithSource: Memory = null;
-   private _filter = { demo: 123 };
+   protected _viewSource;
+   protected _columns = Gadgets.getSearchColumns();
+   protected _root = null;
+   protected _searchStartingWith: string = 'root';
+   protected _searchStartingWithSource: Memory = null;
+   protected _filter = { demo: 123 };
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({

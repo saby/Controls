@@ -16,7 +16,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
     private _gridStyle: string = null;
-    private _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
+    protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
     private _needNotifyResize: boolean = false;
 
     protected _beforeMount(options: IHorizontalScrollWrapperOptions): void {
@@ -53,7 +53,6 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
             offset += 1;
         }
         style += `grid-column: ${stickyColumnsCount + 1 + offset} / ${(maxEndColumn ? maxEndColumn : header.length + 1) + offset};`;
-        style += `top: ${options.topOffset}px;`;
         style += `width: ${options.scrollWidth}px`;
         return style;
     }

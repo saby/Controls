@@ -29,7 +29,7 @@ class StringEditor extends Control implements IEditor {
     protected _template: Function = template;
     protected _options: IEditorOptions;
 
-    private value: string = '';
+    protected value: string = '';
     private initialValue: string = '';
 
     _beforeMount(options: IEditorOptions): void {

@@ -10,7 +10,7 @@ export interface IWIPOptions extends IControlOptions {
 
 export default class extends Control<IWIPOptions> {
     protected _template: TemplateFunction = Template;
-    private _canShowTask: boolean = false;
+    protected _canShowTask: boolean = false;
 
     constructor(cfg: IWIPOptions){
         super(cfg);

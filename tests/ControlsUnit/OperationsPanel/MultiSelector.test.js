@@ -19,6 +19,10 @@ define([
          instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);
          assert.isFalse(instance._multiSelectStatus);
 
+         selectedKeys = [];
+         instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, true);
+         assert.isFalse(instance._multiSelectStatus);
+
          selectedKeys = [1, 2];
          selectedKeysCount = 2;
          instance._updateSelection(selectedKeys, excludedKeys, selectedKeysCount, false);

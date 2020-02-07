@@ -36,6 +36,24 @@ define(
             return menuControl;
          };
 
+         it('_proxyEvent', function() {
+            let menuRender = getRender();
+            let actualData;
+            let isStopped = false;
+            menuRender._notify = (e, d) => {
+               if (e === 'itemClick') {
+                  actualData = d;
+               }
+            };
+            const event = {
+               type: 'click',
+               stopPropagation: () => {isStopped = true;}
+            };
+            menuRender._proxyEvent(event, 'itemClick', { key: 1 }, 'item1');
+            assert.deepEqual(actualData, [{ key: 1 }, 'item1']);
+            assert.isTrue(isStopped);
+         });
+
          it('getLeftSpacing', function() {
             let menuRender = getRender();
             let renderOptions = {
@@ -83,6 +101,35 @@ define(
             menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
             assert.equal(renderOptions.listModel.getCollection().getCount(), 5);
          });
+
+         it('getIconSpacing', function() {
+            let menuRender = getRender();
+            let iconItems = [
+               { key: 0, title: 'все страны' },
+               { key: 1, title: 'Россия', icon: 'icon-add' },
+               { key: 2, title: 'США' },
+               { key: 3, title: 'Великобритания' }
+            ];
+            let renderOptions = {
+               listModel: getListModel(iconItems),
+               iconSize: 'm'
+            };
+            let iconSpacing = menuRender.getIconSpacing(renderOptions);
+            assert.equal(iconSpacing, 'm');
+
+            iconItems = [
+               { key: 0, title: 'все страны', node: true },
+               { key: 1, title: 'Россия', icon: 'icon-add', parent: 0 },
+               { key: 2, title: 'США' },
+               { key: 3, title: 'Великобритания' }
+            ];
+            renderOptions.listModel = getListModel(iconItems);
+            renderOptions.parentProperty = 'parent';
+            renderOptions.nodeProperty = 'node';
+            iconSpacing = menuRender.getIconSpacing(renderOptions);
+            assert.equal(iconSpacing, '');
+         });
+
       });
    }
 );

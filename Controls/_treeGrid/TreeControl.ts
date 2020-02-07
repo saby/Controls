@@ -447,7 +447,9 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
             this._root = newOptions.root;
             this._updatedRoot = true;
 
-            baseControl.cancelEdit();
+            if (this._options.editingConfig) {
+                baseControl.cancelEdit();
+            }
             baseControl.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
         }
         //если expandedItems задана статично, то при обновлении в модель будет отдаваться всегда изначальная опция. таким образом происходит отмена разворота папок.

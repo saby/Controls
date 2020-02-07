@@ -950,6 +950,105 @@ define([
                };
                eip.commitEdit();
             });
+
+            it('destroyed immediately after edit item', function(done) {
+               var source = new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: data
+               });
+
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginEdit({
+                  item: listModel.at(0).getContents()
+               });
+
+               eip._editingItem.set('title', '1234');
+
+               let setEditingItemDataCalled = false;
+               eip._setEditingItemData = () => setEditingItemDataCalled = true;
+
+               const originalAfterEndEdit = EditInPlace._private.afterEndEdit;
+               EditInPlace._private.afterEndEdit = (self, commit) => {
+                  originalAfterEndEdit.call(null, self, commit);
+                  EditInPlace._private.afterEndEdit = originalAfterEndEdit;
+                  assert.isFalse(setEditingItemDataCalled);
+                  done();
+               };
+
+               eip._notify = function(event, args) {
+                  if (event === 'afterEndEdit') {
+                     eip._destroyed = true;
+                  }
+               };
+
+               eip.commitEdit();
+            });
+         });
+
+         describe('update model', function () {
+            let
+                source,
+                sourceUpdated;
+
+            beforeEach(function () {
+               sourceUpdated = false;
+               source = new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: data
+               });
+               source.update = () => {
+                  sourceUpdated = true;
+                  return Deferred.success({})
+               };
+            });
+
+            it('existing item, nothing changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginEdit({ item: listModel.at(0).getContents() });
+               eip.commitEdit();
+               assert.isFalse(sourceUpdated);
+            });
+
+            it('existing item, has changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+               eip.beginEdit({ item: listModel.at(0).getContents() });
+               eip._editingItem.isChanged = () => true;
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
+
+            it('added item, nothing changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginAdd({ item: newItem });
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
+
+            it('added item, has changed', function() {
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+               eip.beginAdd({ item: newItem });
+               eip._editingItem.isChanged = () => true;
+               eip.commitEdit();
+               assert.isTrue(sourceUpdated);
+            });
          });
       });
 

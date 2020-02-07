@@ -159,18 +159,18 @@ class Button extends Control<IButtonControlOptions> implements
    protected _template: TemplateFunction = ButtonTemplate;
 
    // Называть _style нельзя, так как это состояние используется для темизации
-   private _buttonStyle: string;
-   private _fontColorStyle: string;
-   private _fontSize: string;
-   private _contrastBackground: boolean;
-   private _hasIcon: boolean;
-   private _viewMode: string;
-   private _height: string;
-   private _caption: string | TemplateFunction;
-   private _stringCaption: boolean;
-   private _icon: string;
-   private _iconSize: string;
-   private _iconStyle: string;
+   protected _buttonStyle: string;
+   protected _fontColorStyle: string;
+   protected _fontSize: string;
+   protected _contrastBackground: boolean;
+   protected _hasIcon: boolean;
+   protected _viewMode: string;
+   protected _height: string;
+   protected _caption: string | TemplateFunction;
+   protected _stringCaption: boolean;
+   protected _icon: string;
+   protected _iconSize: string;
+   protected _iconStyle: string;
    protected _hoverIcon: boolean = true;
 
    protected _beforeMount(options: IButtonControlOptions): void {
@@ -181,13 +181,13 @@ class Button extends Control<IButtonControlOptions> implements
       cssStyleGeneration.call(this, newOptions);
    }
 
-   private _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
+   protected _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
       if (e.nativeEvent.keyCode === 13 && !this._options.readOnly) {
          this._notify('click');
       }
    }
 
-   private _clickHandler(e: SyntheticEvent<MouseEvent>): void {
+   protected _clickHandler(e: SyntheticEvent<MouseEvent>): void {
       if (this._options.readOnly) {
          e.stopPropagation();
       }

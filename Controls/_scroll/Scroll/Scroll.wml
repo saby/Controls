@@ -36,6 +36,7 @@
                            on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
                            on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
                            on:checkboxClick="_tmplNotify('checkboxClick')"
+                           on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
                            on:actionClick="_tmplNotify('actionClick')"
                            on:editArrowClick="_tmplNotify('editArrowClick')"/>
             </span>

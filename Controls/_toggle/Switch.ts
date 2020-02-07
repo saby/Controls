@@ -72,7 +72,7 @@ class Switch extends Control<ISwitchOptions> implements ITooltip, ICheckable, IV
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = SwitchTemplate;
 
-   private _clickHandler(): void {
+   protected _clickHandler(): void {
       if (!this._options.readOnly) {
          this._notify('valueChanged', [!this._options.value]);
       }

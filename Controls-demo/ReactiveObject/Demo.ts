@@ -26,11 +26,11 @@ class Demo extends Control {
     protected _template: TemplateFunction = template;
     private _data: IViewModel = getDefaultViewModel();
 
-    private _toggleVisibilityHandler(): void {
+    protected _toggleVisibilityHandler(): void {
         this._data.visible = !this._data.visible;
     }
 
-    private _toggleImageHandler(): void {
+    protected _toggleImageHandler(): void {
         this._data.url = this._data.url === images.main ? images.alternate : images.main;
     }
 }

@@ -7,8 +7,7 @@
             closeOnOutsideClick="{{true}}"
             actionOnScroll="close"
             template="Controls/lookupPopup:Collection"
-            on:close="_notifyHandler('closeInfoBox')"
-            _vdomOnOldPage="{{true}}">
+            on:close="_notifyHandler('closeInfoBox')">
          <!--toDo https://online.sbis.ru/open_dialog.html?guid=619e58be-2885-4a7e-80f5-7415c5bff2ca-->
          <ws:direction vertical="bottom" horizontal="right"/>
          <ws:targetPoint vertical="bottom" horizontal="left"/>

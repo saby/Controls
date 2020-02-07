@@ -114,6 +114,7 @@ export default class ScrollContainer extends Control<IOptions> {
 
     protected _afterMount(): void {
         this.__mounted = true;
+        this.viewSize = this._container.clientHeight;
 
         if (this._options.virtualScrolling) {
             this.virtualScroll.itemsChanged = false;
@@ -379,7 +380,8 @@ export default class ScrollContainer extends Control<IOptions> {
             pageSize: null,
             segmentSize: null,
             itemHeightProperty: null,
-            viewportHeight: null
+            viewportHeight: null,
+            mode: 'remove'
         };
 
         if (options.virtualScrollConfig) {
@@ -389,6 +391,7 @@ export default class ScrollContainer extends Control<IOptions> {
 
             virtualScrollConfig.segmentSize = options.virtualSegmentSize;
             virtualScrollConfig.pageSize = options.virtualPageSize;
+            virtualScrollConfig.mode = options.virtualScrollMode;
         }
 
         return virtualScrollConfig;
@@ -401,12 +404,12 @@ export default class ScrollContainer extends Control<IOptions> {
      */
     private checkTriggerVisibility(): void {
         if (!this.applyScrollTopCallback) {
-            if (this.triggerVisibility.up) {
-                this.updateViewWindow('up');
-            }
-
             if (this.triggerVisibility.down) {
                 this.updateViewWindow('down');
+            }
+
+            if (this.triggerVisibility.up) {
+                this.updateViewWindow('up');
             }
         }
 
@@ -546,9 +549,10 @@ export default class ScrollContainer extends Control<IOptions> {
      * @param {number} stopIndex
      * @returns {boolean}
      */
+
     private applyIndexesToModel(model: Collection<entityRecord>, startIndex: number, stopIndex: number): boolean {
-        if (model.setViewIndices) {
-            return model.setViewIndices(startIndex, stopIndex);
+        if (model.getViewIterator) {
+            return model.getViewIterator().setIndices(startIndex, stopIndex);
         } else {
             // @ts-ignore
             return model.setIndexes(startIndex, stopIndex);

@@ -57,7 +57,8 @@ describe('Controls/_listRender/Render', () => {
                 if (eventName === 'onCollectionChange') {
                     oldModel.subscribedToChanges = false;
                 }
-            }
+            },
+            getActionsMenuConfig: () => null
         };
         const newModel = {
             subscribedToChanges: false,
@@ -65,7 +66,8 @@ describe('Controls/_listRender/Render', () => {
                 if (eventName === 'onCollectionChange') {
                     newModel.subscribedToChanges = true;
                 }
-            }
+            },
+            getActionsMenuConfig: () => null
         };
 
         beforeEach(() => {
@@ -217,13 +219,11 @@ describe('Controls/_listRender/Render', () => {
     });
 
     it('_onItemContextMenu()', () => {
-        let modelIsEditing = false;
+        let editingItem = null;
         const cfg = {
             ...defaultCfg,
             listModel: {
-                isEditing() {
-                    return modelIsEditing;
-                }
+                find: () => editingItem
             }
         };
 
@@ -263,13 +263,13 @@ describe('Controls/_listRender/Render', () => {
             contextMenuEnabled: true,
             contextMenuVisibility: true
         });
-        modelIsEditing = true;
+        editingItem = {};
         render._onItemContextMenu({}, {});
 
         assert.isFalse(itemContextMenuFired, 'itemContextMenu should not fire when an item is being edited');
 
         const item = {};
-        modelIsEditing = false;
+        editingItem = null;
         render._onItemContextMenu({}, item);
 
         assert.isTrue(itemContextMenuFired, 'itemContextMenu should fire');
@@ -282,11 +282,13 @@ describe('Controls/_listRender/Render', () => {
 
         let itemSwipeFired = false;
         let itemSwipeParameter;
+        let itemSwipeClientHeight;
         let itemSwipeBubbling = false;
         render._notify = (eventName, params, opts) => {
             if (eventName === 'itemSwipe') {
                 itemSwipeFired = true;
                 itemSwipeParameter = params[0];
+                itemSwipeClientHeight = params[2];
                 itemSwipeBubbling = !!(opts && opts.bubbling);
             }
         };
@@ -295,6 +297,14 @@ describe('Controls/_listRender/Render', () => {
         const event = {
             stopPropagation() {
                 stopPropagationCalled = true;
+            },
+            target: {
+                closest: () => ({
+                    classList: {
+                        contains: () => true
+                    },
+                    clientHeight: 123
+                })
             }
         };
 
@@ -305,6 +315,7 @@ describe('Controls/_listRender/Render', () => {
         assert.isTrue(stopPropagationCalled, 'swipe event propagation should have stopped');
         assert.strictEqual(itemSwipeParameter, item);
         assert.isFalse(itemSwipeBubbling, 'itemSwipe should not bubble');
+        assert.strictEqual(itemSwipeClientHeight, 123);
     });
 
     it('_onItemKeyDown()', () => {

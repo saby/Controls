@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import { IOpener, IBaseOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 import * as CoreMerge from 'Core/core-merge';
-import * as cInstance from 'Core/core-instance';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
@@ -47,8 +46,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     private _loadModulesPromise: Promise<ILoadDependencies|Error>;
     private _openerUpdateCallback: Function;
     private _openPopupTimerId: number;
-    private _vdomOnOldPage: boolean;
-    private _action: any; // compatible
 
     protected _afterMount(): void {
         this._openerUpdateCallback = this._updatePopup.bind(this);
@@ -63,34 +60,24 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                 clearTimeout(this._openPopupTimerId);
                 this._openPopupTimerId = null;
             }
-            if (this._useVDOM()) {
-                ManagerController.remove(this._popupId);
-            } else if (this._action) { // todo Compatible
-                this._action.destroy();
-                this._action = null;
-            }
+            ManagerController.remove(this._popupId);
         }
     }
     open(popupOptions: TBaseOpenerOptions, controller: string): Promise<string | undefined> {
-        return new Promise(((resolve, reject) => {
+        return new Promise(((resolve) => {
             this._toggleIndicator(true);
             const cfg: TBaseOpenerOptions = this._getConfig(popupOptions || {});
-            let resultPromise: Promise<string>;
             // TODO Compatible: Если Application не успел загрузить совместимость - грузим сами.
             if (cfg.isCompoundTemplate) {
-                resultPromise = this._compatibleOpen(cfg, controller);
+                this._compatibleOpen(cfg, controller);
             } else {
-                resultPromise = this._openPopup(cfg, controller);
+                this._openPopup(cfg, controller);
             }
 
             // Удалить resultPromise после перевода страниц на application
             // Сейчас эта ветка нужно, чтобы запомнить ws3Action, который откроет окно на старой странице
             // На вдоме отдаем id сразу
-            if (!this._useVDOM()) {
-                resultPromise.then((popupId) => resolve(popupId)).catch(reject);
-            } else {
-                resolve(cfg.id);
-            }
+            resolve(cfg.id);
         }));
     }
 
@@ -100,12 +87,10 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
      */
     close(): void {
         const popupId: string = this._getCurrentPopupId();
-        if (!this._action && popupId) {
+        if (popupId) {
             (BaseOpener.closeDialog(popupId) as Promise<void>).then(() => {
                 this._popupId = null;
             });
-        } else if (!BaseOpener.isNewEnvironment() && this._action) {
-            this._action.closeDialog();
         }
     }
 
@@ -115,14 +100,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
      * @returns {Boolean} Is popup opened
      */
     isOpened(): boolean {
-        // todo Compatible: Для старого окружения не вызываем методы нового Manager'a
-        if (this._useVDOM()) {
-            return !!ManagerController.find(this._getCurrentPopupId());
-        }
-        if (this._action) {
-            return !!this._action.getDialog();
-        }
-        return null;
+        return !!ManagerController.find(this._getCurrentPopupId());
     }
 
     /* Защита от множественного вызова. собираем все синхронные вызовы, открываем окно с последним конфигом */
@@ -133,18 +111,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         this._openPopupTimerId = setTimeout(() => {
             this._openPopupTimerId = null;
             BaseOpener.showDialog(template, cfg, controller, this).addCallback((id: string) => {
-                if (this._useVDOM()) {
-                    this._popupId = id;
-                    // Call redraw to create emitter on scroll after popup opening
-                    this._forceUpdate();
-                } else {
-                    // if old environment and old template, then we haven't compatible layer =>
-                    // hide indicator immediately
-                    if (!isNewEnvironment() && !BaseOpener.isVDOMTemplate(template)) {
-                        this._toggleIndicator(false);
-                    }
-                    this._action = id;
-                }
+                this._popupId = id;
                 resolve(id);
             });
         }, OPEN_POPUP_DEBOUNCE_DELAY);
@@ -190,8 +157,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             this._actionOnScroll = baseConfig.actionOnScroll;
         }
 
-        this._vdomOnOldPage = baseConfig._vdomOnOldPage;
-
         if (this._isPopupDestroyed()) {
             this._popupId = null;
         }
@@ -229,8 +194,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     private _toggleIndicator(visible: boolean): void {
         if (visible) {
             // if popup was opened, then don't show indicator, because we don't have async phase
-            // todo: Compatible if we have action, then we have opened popup on old page
-            if (this._getCurrentPopupId() || this._action) {
+            if (this._getCurrentPopupId()) {
                 return;
             }
             this._indicatorId = this._notify('showIndicator',
@@ -271,10 +235,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         return this._popupId;
     }
 
-    private _useVDOM(): boolean {
-        return BaseOpener.isNewEnvironment() || this._vdomOnOldPage;
-    }
-
     private _isPopupDestroyed(): boolean {
         const popupItem = ManagerController.find(this._getCurrentPopupId());
         return popupItem &&
@@ -295,170 +255,40 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
 
     static showDialog(rootTpl: Control, cfg: IBaseOpenerOptions, controller: Control, opener?: BaseOpener) {
         const def = new Deferred();
-        if (BaseOpener.isNewEnvironment() || cfg._vdomOnOldPage) {
-            if (!BaseOpener.isNewEnvironment()) {
-                BaseOpener.getManager().then(() => {
-                    BaseOpener.getZIndexUtil().addCallback((getZIndex) => {
-                        const popupOpener = opener || cfg.opener;
-                        if (popupOpener) {
-                            // при открытии через статический метод открыватора в верстке нет, нужно взять то что передали в опции
-                            cfg.zIndex = cfg.zIndex || getZIndex(popupOpener);
-                            cfg.theme = popupOpener._options.theme;
-                        }
-                        if (!BaseOpener.isVDOMTemplate(rootTpl)) {
-                            requirejs(['Controls/compatiblePopup'], (compatiblePopup) => {
-                                compatiblePopup.BaseOpener._prepareConfigForOldTemplate(cfg, rootTpl);
-                                BaseOpener._openPopup(cfg, controller, def);
-                            });
-                        } else {
+        if (!BaseOpener.isNewEnvironment()) {
+            BaseOpener.getManager().then(() => {
+                BaseOpener.getZIndexUtil().addCallback((getZIndex) => {
+                    const popupOpener = opener || cfg.opener;
+                    if (popupOpener) {
+                        // при открытии через стат. метод открыватора в верстке нет, нужно взять то что передали в опции
+                        cfg.zIndex = cfg.zIndex || getZIndex(popupOpener);
+                        cfg.theme = popupOpener._options.theme;
+                    }
+                    if (!BaseOpener.isVDOMTemplate(rootTpl)) {
+                        requirejs(['Controls/compatiblePopup'], (compatiblePopup) => {
+                            compatiblePopup.BaseOpener._prepareConfigForOldTemplate(cfg, rootTpl);
                             BaseOpener._openPopup(cfg, controller, def);
-                        }
-                    });
+                        });
+                    } else {
+                        BaseOpener._openPopup(cfg, controller, def);
+                    }
                 });
-            } else if (BaseOpener.isVDOMTemplate(rootTpl) && !(cfg.templateOptions && cfg.templateOptions._initCompoundArea)) {
-                BaseOpener.getManager().then(() => {
-                    BaseOpener._openPopup(cfg, controller, def);
-                });
-            } else {
-                requirejs(['Controls/compatiblePopup'], (compatiblePopup) => {
-                    compatiblePopup.BaseOpener._prepareConfigForOldTemplate(cfg, rootTpl);
-                    BaseOpener._openPopup(cfg, controller, def);
-                });
-            }
+            });
+        } else if (BaseOpener.isVDOMTemplate(rootTpl) && !(cfg.templateOptions && cfg.templateOptions._initCompoundArea)) {
+            BaseOpener.getManager().then(() => {
+                BaseOpener._openPopup(cfg, controller, def);
+            });
         } else {
-            let isFormController = false;
-            let proto = rootTpl.prototype && rootTpl.prototype.__proto__;
-            while (proto && !isFormController) {
-                if (proto._moduleName === 'SBIS3.CONTROLS/FormController') {
-                    isFormController = true;
-                }
-                proto = proto.__proto__;
-            }
-
-            const deps = ['Controls/compatiblePopup'];
-
-            if (isFormController) {
-                deps.push('SBIS3.CONTROLS/Action/List/OpenEditDialog');
-            } else {
-                deps.push('SBIS3.CONTROLS/Action/OpenDialog');
-            }
-
-            let libInfo;
-            if (typeof cfg.template === 'string') {
-                libInfo = parserLib(cfg.template);
-
-                deps.push(libInfo.name);
-            }
-
-            // Нужно чтобы managerWrapper был построен до совместимости в панели, т.к. в нем
-            // регистрируются Listener'ы, лежащие внутри шаблона. Не торможу построение ожиданием Deferred'a,
-            // т.к. после выполняется еще несколько асинхронных операций, ожидающих в том числе этих же зависимостией.
-            BaseOpener.getManager();
-
-            requirejs(deps, (compatiblePopup, Action, Tpl) => {
-                try {
-                    let templateFunction = Tpl;
-                    if (opener && opener._options.closeOnTargetScroll) {
-                        cfg.closeOnTargetScroll = true;
-                    }
-
-                    // get module from library
-                    if (libInfo && libInfo.path.length !== 0) {
-                        cfg.template = Tpl;
-                        libInfo.path.forEach((key) => {
-                            cfg.template = cfg.template[key];
-                            templateFunction = cfg.template;
-                        });
-                    }
-
-                    // get module from default export
-                    if (templateFunction && templateFunction.default) {
-                        templateFunction = templateFunction.default;
-                    }
-
-                    const newCfg = compatiblePopup.BaseOpener._prepareConfigFromNewToOld(cfg,
-                        templateFunction || cfg.template);
-
-                    // Прокинем значение опции theme опенера, если другое не было передано в templateOptions.
-                    // Нужно для открытия окон на старых страницах'.
-                    if (opener && opener._options.theme) {
-                        newCfg.templateOptions = newCfg.templateOptions || {};
-                        newCfg.templateOptions.theme = newCfg.templateOptions.theme || opener._options.theme;
-                    }
-
-                    let action;
-                    let openedDialog = null;
-                    if (typeof cfg.id === 'string') {
-                        cfg.id = null;
-                    }
-                    // Если нет сохраненного dialogMixin'a
-                    if (!(opener && opener._action) && !cfg.id) {
-                        action = new Action({
-                            withIndicator: !isFormController,
-                            closeByFocusOut: true,
-                            dialogCreatedCallback: (newDialog) => openedDialog = newDialog
-                        });
-                    } else {
-                        action = (opener && opener._action) || cfg.id;
-                    }
-
-                    const dialog = action.getDialog();
-                    const compoundArea = dialog && dialog._getTemplateComponent();
-
-                    // Check, if opened VDOM template on oldPage (we have compatible layer), then try reload template.
-                    if (compoundArea && compoundArea._moduleName === 'Controls/compatiblePopup:CompoundAreaNewTpl' &&
-                        !isFormController && compoundArea._options.template === newCfg.template) {
-                        // Redraw template with new options
-                        compatiblePopup.BaseOpener._prepareConfigForNewTemplate(newCfg);
-                        compoundArea.setTemplateOptions(newCfg.componentOptions.templateOptions);
-                        if (dialog.setTarget) {
-                            dialog.setTarget($(newCfg.target));
-                        }
-
-                        if (dialog._finishPopupOpenedDeferred) {
-                            dialog._finishPopupOpenedDeferred();
-                        }
-                    } else {
-                        openedDialog = null;
-                        action.closeDialog();
-                        action._isExecuting = false;
-                        action.execute(newCfg).addCallback(() => {
-                            // Защита от утечки. проверяем, что закрылось окно, которое открывали последним.
-                            // в этом случае дестроим action.
-                            // Т.к. мы создаем его динамически, никто кроме baseOpener его не задестроит
-                            if (action.getDialog() === openedDialog) {
-                                // Этот дестрой не должен звать за собой дестрой панели,
-                                // т.к. она уже в состоянии закрытия
-                                // Если action позовет дестрой панели в этом обработчике,
-                                // то все остальные обработчики на onAfterClose не вызовутся
-                                // т.к. в системе событий есть провека на isDestroyed();
-                                action._closeDialogAfterDestroy = false;
-                                action.destroy();
-                                if (opener && opener._action) {
-                                    opener._action = null;
-                                }
-                                openedDialog = null;
-                            }
-                        });
-                    }
-                    def.callback(action);
-                } catch (err) {
-                    Logger.error('Controls/popup: Ошибка при открытии окна: ' + err.message);
-                }
-
+            requirejs(['Controls/compatiblePopup'], (compatiblePopup) => {
+                compatiblePopup.BaseOpener._prepareConfigForOldTemplate(cfg, rootTpl);
+                BaseOpener._openPopup(cfg, controller, def);
             });
         }
         return def;
     }
 
     static closeDialog(popupId: string): Promise<void> | void {
-        // On old page all vdom popup opening by SBIS3 action
-        if (cInstance.instanceOfMixin(popupId, 'SBIS3.CONTROLS/Action/Mixin/DialogMixin')) {
-            // TODO: COMPATIBLE
-            popupId.closeDialog();
-        } else {
-            return ManagerController.remove(popupId);
-        }
+        return ManagerController.remove(popupId);
     }
 
     /**
@@ -563,7 +393,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             'verticalAlign',
             'offset',
             'direction',
-            '_vdomOnOldPage',
             'corner',
             'targetPoint',
             'targetTracking',
@@ -625,8 +454,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     static getDefaultOptions(): IBaseOpenerOptions {
         return {
             closePopupBeforeUnmount: true,
-            actionOnScroll: 'none',
-            _vdomOnOldPage: false // Always open vdom panel
+            actionOnScroll: 'none'
         };
     }
 

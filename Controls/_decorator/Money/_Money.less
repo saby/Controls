@@ -1,19 +1,66 @@
-.controls-DecoratorMoney_theme_@{themeName} {
+.controls-DecoratorMoney {
    white-space: nowrap;
 }
 
-.controls-DecoratorMoney__fraction_theme_@{themeName} {
-   color: @color_DecoratorMoney-fractional;
-   font-size: @font-size_DecoratorMoney-fractional;
-   font-weight: @font-weight_DecoratorMoney-fractional;
+.controls-DecoratorMoney__integer_fontWeight_default_theme-@{themeName} {
+   font-weight: @font-weight_decoratorMoney;
 }
 
-.controls-DecoratorMoney__integer_theme_@{themeName}_style {
-   @variants: default, accentResults, noAccentResults, group, basicRegistry, noBasicRegistry, accentRegistry, noAccentRegistry, error;
+.controls-DecoratorMoney__integer_fontWeight_bold_theme-@{themeName} {
+   font-weight: @font-weight_bold_decoratorMoney;
+}
 
-   .for(@variants, { &_@{_item} {
-      color: ~"@{color_DecoratorMoney-integer_style_@{_item}}";
-      font-size: ~"@{font-size_DecoratorMoney-integer_style_@{_item}}";
-      font-weight: ~"@{font-weight_DecoratorMoney-integer_style_@{_item}}";
-   } });
+.controls-DecoratorMoney__fraction_theme-@{themeName} {
+   color: @fractional-text-color_decoratorMoney;
+   font-size: @fractional-font-size_decoratorMoney;
+   font-weight: @fractional-font-weight_decoratorMoney;
+}
+
+//Совместимость
+.controls-DecoratorMoney .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_default = @text-color) {
+   color: @color_DecoratorMoney-integer_style_default;
+}
+
+.controls-DecoratorMoney .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentResults = @secondary_text-color) {
+   color: @color_DecoratorMoney-integer_style_accentResults;
+}
+
+.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentResults = @unaccented_text-color) {
+   color: @color_DecoratorMoney-integer_style_noAccentResults;
+}
+
+.controls-DecoratorMoney .controls-text-readonly_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_group = @readonly_color) {
+   color: @color_DecoratorMoney-integer_style_group;
+}
+
+.controls-DecoratorMoney .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_basicRegistry = @text-color) {
+   color: @color_DecoratorMoney-integer_style_basicRegistry;
+}
+
+.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noBasicRegistry = @unaccented_text-color) {
+   color: @color_DecoratorMoney-integer_style_noBasicRegistry;
+}
+
+.controls-DecoratorMoney .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentRegistry = @secondary_text-color) {
+   color: @color_DecoratorMoney-integer_style_accentRegistry;
+}
+
+.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentRegistry = @unaccented_text-color) {
+   color: @color_DecoratorMoney-integer_style_noAccentRegistry;
+}
+
+.controls-DecoratorMoney .controls-text-danger_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_error = @danger_color) {
+   color: @color_DecoratorMoney-integer_style_error;
+}
+
+.controls-DecoratorMoney .controls-DecoratorMoney__fraction_theme-@{themeName} when not (@fractional-text-color_decoratorMoney = @color_DecoratorMoney-fractional) {
+   color: @color_DecoratorMoney-fractional;
+}
+
+.controls-DecoratorMoney .controls-DecoratorMoney__fraction_theme-@{themeName} when not (@fractional-font-size_decoratorMoney = @font-size_DecoratorMoney-fractional) {
+   font-size: @font-size_DecoratorMoney-fractional;
+}
+
+.controls-DecoratorMoney .controls-DecoratorMoney__fraction_theme-@{themeName} when not (@fractional-font-weight_decoratorMoney = @font-weight_DecoratorMoney-fractional) {
+   font-weight: @font-weight_DecoratorMoney-fractional;
 }

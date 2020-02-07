@@ -7,7 +7,7 @@
    />
 
    <ws:if data="{{!_isNewEnvironment()}}">
-      <Controls._popup.Opener.InfoBox name="infoBoxOpener" _vdomOnOldPage="{{true}}"/>
+      <Controls._popup.Opener.InfoBox name="infoBoxOpener"/>
    </ws:if>
    <ws:if data="{{_opened}}">
       <Controls.event:Listener event="scroll" on:scroll="_scrollHandler()"/>

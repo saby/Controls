@@ -73,8 +73,7 @@ const
          if (newContentContainerSize + self._scrollPosition > newContentSize) {
             self._scrollPosition -= (newContentContainerSize + self._scrollPosition) - newContentSize;
          }
-         self._setOffsetForHScroll();
-         self._contentSizeForHScroll = self._contentSize - self._leftOffsetForHScroll;
+         self._contentSizeForHScroll = self._contentSize - self._fixedColumnsWidth;
          _private.drawTransform(self, self._scrollPosition);
          // после расчетов убираем display: none
          _private.removeDisplayFromScroll(self._children.content);
@@ -137,29 +136,6 @@ const
          }
 
       },
-      setOffsetForHScroll (self) {
-          const container = self._children.content;
-          self._offsetForHScroll = 0;
-          self._leftOffsetForHScroll = 0;
-          const HeaderGroup = container.getElementsByClassName('controls-Grid__header')[0] && container.getElementsByClassName('controls-Grid__header')[0].childNodes;
-          if (HeaderGroup && !!HeaderGroup.length) {
-              const firstCell = HeaderGroup[0];
-              if (self._fixedColumnsWidth) {
-                  self._leftOffsetForHScroll = self._fixedColumnsWidth;
-              } else if (self._options.multiSelectVisibility !== 'hidden') {
-                  self._leftOffsetForHScroll = firstCell.offsetWidth + HeaderGroup[1].offsetWidth;
-              } else {
-                  self._leftOffsetForHScroll = firstCell.offsetWidth;
-              }
-              self._offsetForHScroll += firstCell.offsetHeight;
-          }
-          if (self._options.listModel.getResultsPosition() === 'top') {
-              const ResultsContainer = container.getElementsByClassName('controls-Grid__results')[0] && container.getElementsByClassName('controls-Grid__results')[0].childNodes;
-              if (ResultsContainer && !!ResultsContainer.length) {
-                  self._offsetForHScroll += ResultsContainer[0].offsetHeight;
-              }
-          }
-      },
 
       removeDisplayFromScroll: function(container) {
          const scroll = container.getElementsByClassName('controls-Grid_columnScroll_wrapper')[0];
@@ -174,6 +150,13 @@ const
             scroll.style.display = 'none';
          }
       },
+
+       setTopToZero: function(container) {
+           const scroll = container.getElementsByClassName('controls-Grid_columnScroll_wrapper')[0];
+           if (scroll) {
+               scroll.style.top = 0;
+           }
+       },
 
       prepareDebouncedUpdateSizes: function() {
           return debounce(_private.updateSizes, DELAY_UPDATE_SIZES, true);
@@ -233,11 +216,14 @@ const
          }
          if (this._options.stickyColumnsCount !== oldOptions.stickyColumnsCount) {
             _private.updateFixedColumnWidth(this);
-            this._setOffsetForHScroll();
          }
          if (oldOptions.root !== this._options.root) {
              this._contentSize = 0;
              this._contentContainerSize = 0;
+             // TODO: Remove after execution https://online.sbis.ru/opendoc.html?guid=23a81552-092f-4880-bce7-96ca09ee4705
+             // обнулить топ при смене рута,
+             // после построения заголовков, stickyHeader выставил верный топ.
+             _private.setTopToZero(this._children.content);
          }
       },
 
@@ -263,12 +249,6 @@ const
 
       _calculateShadowStyles(position) {
          return _private.calculateShadowStyles(this, position);
-      },
-
-      _setOffsetForHScroll() {
-         if (isFullGridSupport()) {
-            _private.setOffsetForHScroll(this);
-         }
       },
 
       _setScrollPosition: function(position) {

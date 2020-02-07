@@ -2279,69 +2279,6 @@
       }
     }
   },
-  "Controls/popup:Confirmation": {
-    "name": "Controls/popup:Confirmation",
-    "title": "Component that opens the confirmation popup.",
-    "className": "Controls/popup:Confirmation",
-    "kind": "control",
-    "isPublic": true,
-    "category": "Popup",
-    "fullname": "Controls/popup:Confirmation",
-    "properties": {
-      "ws-config": {
-        "title": "Базовая конфигурация",
-        "options": {
-          "name": {
-            "title": "Имя контрола",
-            "type": "String",
-            "default": ""
-          },
-          "style": {
-            "type": "enum",
-            "default": "default",
-            "enum": {
-              "default": "default",
-              "success": "success",
-              "danger": "danger"
-            }
-          },
-          "type": {
-            "type": "enum",
-            "default": "yesnocancel",
-            "enum": {
-              "ok": "ok",
-              "yesno": "yesno",
-              "yesnocancel": "yesnocancel"
-            }
-          },
-          "message": {
-            "type": "String",
-            "default": ""
-          },
-          "details": {
-            "type": "String",
-            "default": ""
-          },
-          "yesCaption": {
-            "type": "String",
-            "default": ""
-          },
-          "noCaption": {
-            "type": "String",
-            "default": ""
-          },
-          "okCaption": {
-            "type": "String",
-            "default": ""
-          },
-          "cancelCaption": {
-            "type": "String",
-            "default": ""
-          }
-        }
-      }
-    }
-  },
   "Controls/popup:Stack": {
     "name": "Controls/popup:Stack",
     "title": "Component that opens the popup to the right of content area at the full height of the screen",

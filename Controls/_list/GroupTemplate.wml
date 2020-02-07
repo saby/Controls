@@ -1,6 +1,8 @@
 <ws:template name="groupTemplate">
    <div class="controls-ListView__groupContent
                {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
+               {{ itemData.groupPaddingClasses.left }}
+               {{ !rightTemplate ? itemData.groupPaddingClasses.right }}
                controls-ListView__groupContent_align-{{textAlign || 'left'}}">
       <ws:if data="{{separator !== false && separatorVisibility !== false && textAlign !== 'left'}}">
          <div class="controls-ListView__groupSeparator-left">&nbsp;</div>
@@ -23,12 +25,14 @@
          <div class="controls-ListView__groupSeparator-right">&nbsp;</div>
       </ws:if>
       <ws:if data="{{!!rightTemplate}}">
-         <ws:partial template="{{rightTemplate}}" attr:class="controls-ListView__groupContent-rightTemplate" itemData="{{itemData}}"/>
+         <div attr:class="controls-ListView__groupContent-rightTemplate {{ itemData.groupPaddingClasses.right }}">
+            <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"/>
+         </div>
       </ws:if>
    </div>
 </ws:template>
 
-<ws:if data="{{itemData.isStickyHeader}}">
+<ws:if data="{{itemData.isStickyHeader && !itemData.virtualScrolling}}">
    <Controls.scroll:StickyHeader
            attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="group-{{itemData.item}}">
             <ws:partial template="groupTemplate" itemData="{{itemData}}"/>

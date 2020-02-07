@@ -4,9 +4,9 @@ import { HierarchicalMemory } from 'Types/source';
 import explorerImages = require('Controls-demo/Explorer/ExplorerImages');
 
 export default class Tile extends Control {
-   private _template: Function = template;
-   private _itemActions: object[];
-   private _source: HierarchicalMemory;
+   protected _template: Function = template;
+   protected _itemActions: object[];
+   protected _source: HierarchicalMemory;
 
    _beforeMount(): void {
       this._itemActions = [

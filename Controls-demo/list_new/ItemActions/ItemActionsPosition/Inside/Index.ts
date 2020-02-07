@@ -7,8 +7,8 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _itemActions = getItemActions();
+    protected _viewSource: Memory;
+    protected _itemActions = getItemActions();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

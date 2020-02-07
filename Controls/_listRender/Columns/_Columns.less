@@ -6,7 +6,7 @@
 
 .controls-ColumnsView_column {
    height: fit-content;
-   max-width: @max-width_ColumnsView_tile + 2 * @side-spacing_ColumnsView_columns;
+   max-width: @max-width_ColumnsView_tile;
 }
 
 .controls-ColumnsView__itemsContainer,
@@ -15,14 +15,11 @@
 }
 
 .controls-ColumnsView__itemV {
-   min-width: @min-width_ColumnsView_tile;
-   max-width: @max-width_ColumnsView_tile;
    width: 100%;
    display: inline-block;
    overflow: hidden;
    margin: @vertical_spacing_ColumnsView_tile 0;
    box-shadow: @shadow_ColumnsView_tile_normal;
-   border: @border_ColumnsView_tile_normal;
    box-sizing: border-box;
 }
 
@@ -30,12 +27,21 @@
    box-shadow: @shadow_ColumnsView_tile_hovered;
 }
 
+.controls-ColumnsView_column,
+.controls-ColumnsView_column-placeholder,
 .controls-ColumnsView__itemContent {
    width: 100%;
 }
 
-.controls-ColumnsView__item_marked {
-   border-color: @border-color_ColumnsView_tile_marked;
+.controls-ColumnsView__item_marker {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   box-sizing: border-box;
+   border: 1px solid @border-color_ColumnsView_tile_marked;
+   pointer-events: none;
 }
 
 .ws-is-hover .controls-BaseControl_showActions {

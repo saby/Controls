@@ -18,6 +18,15 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             }
         },
 
+        _$viewIterator: null,
+        setViewIterator: (viewIterator) => viewModel._$viewIterator = viewIterator,
+        getViewIterator: () => viewModel._$viewIterator,
+
+        _$version: 0,
+        nextVersion: () => viewModel._$version++,
+
+        getCount: () => heights.length,
+
         // mock
         subscribe() {}
     };

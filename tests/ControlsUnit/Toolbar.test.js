@@ -266,6 +266,7 @@ define(
                         size: 'size',
                         theme: 'default',
                         keyProperty: 'keyProperty',
+                        itemTemplateProperty: 'myTemplate',
                         iconSize: 'm',
                         nodeProperty: '@parent',
                         parentProperty: 'parent'
@@ -287,6 +288,7 @@ define(
                         groupProperty: undefined,
                         groupingKeyCallback: 'groupingKeyCallback',
                         iconSize: 'm',
+                        itemTemplateProperty: 'myTemplate',
                         keyProperty: 'keyProperty',
                         nodeProperty: '@parent',
                         parentProperty: 'parent',
@@ -387,7 +389,8 @@ define(
                         itemTemplateProperty: 'itp',
                         groupTemplate: 'groupTemplate',
                         groupingKeyCallback: 'groupingKeyCallback',
-                        groupProperty: undefined
+                        groupProperty: undefined,
+                        footerTemplate: undefined
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfig.call(testSelf), config);

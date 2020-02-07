@@ -3,7 +3,8 @@
 <div class="controls-StickyHeader {{_options.backgroundVisible ? 'controls-StickyHeader__background'}} controls-StickyHeader_position" style="{{_getStyle() + (_options.style || '')}}">
    <!--We use visibility style insted of "if" statement to prevent jumps when scrolling on iPad-->
    <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top
-               {{ !_isShadowVisible('top') ? ' ws-invisible' }}"></div>
+               {{ !_isShadowVisible('top') ? ' ws-invisible' }}"
+         style="{{_topShadowStyle}}"></div>
    <Controls.event:Listener event="updateStickyShadow" on:updateStickyShadow="_updateStickyShadow()"/>
    <Controls.event:Listener event="updateStickyHeight" on:updateStickyHeight="_updateStickyHeight()"/>
    <ws:if data="{{_isSafari13}}">

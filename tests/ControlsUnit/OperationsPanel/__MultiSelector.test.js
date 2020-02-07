@@ -50,6 +50,14 @@ define([
                isAllSelected: false
             });
             assert.equal(instance._menuCaption, 'Отметить');
+
+            await instance._updateMenuCaptionByOptions({
+               selectedKeys: selectedKeys,
+               excludedKeys: excludedKeys,
+               selectedKeysCount: selectedKeysCount,
+               isAllSelected: true
+            });
+            assert.equal(instance._menuCaption, 'Отметить');
          });
 
          it('selectedKeys is [null]]', async() => {
@@ -179,10 +187,11 @@ define([
          await instance._beforeMount(newOptions);
          assert.equal(instance._menuSource._$data.length, 3);
          assert.equal(instance._menuCaption, 'Отмечено всё');
-         newOptions.isAllSelected = false;
 
+         newOptions.isAllSelected = false;
          await instance._beforeMount(newOptions);
          assert.equal(instance._menuCaption, 'Отметить');
+
          newOptions.selectedKeys = [1, 2];
          newOptions.selectedKeysCount = 2;
 

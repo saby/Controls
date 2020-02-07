@@ -10,7 +10,6 @@
 
            position="{{_scrollPosition}}"
            contentSize="{{_contentSizeForHScroll}}"
-           topOffset="{{_offsetForHScroll}}"
            positionChangeHandler="{{_positionHandler}}"
            bind:scrollWidth="_scrollWidth"
            bind:containerSize="_contentContainerSize"

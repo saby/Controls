@@ -1,10 +1,9 @@
-<span
-    attr:class="controls-Button__close theme_{{_options.theme}}"
-    attr:ws-creates-context="false">
-    <span class="controls-Button__close__wrapper controls-Button__close_{{_options.viewMode}}
-                 controls-Button__close_{{_options.viewMode}}_{{_options.transparent ? 'transparent' : 'untransparent'}}
-                 controls-Button__close_{{_options.viewMode}}_{{_options.size}} theme_{{_options.theme}}">
+<span attr:class="controls-Button__close"
+      attr:ws-creates-context="false">
+    <span class="controls-Button__close__wrapper
+                 controls-Button__close_{{_options.viewMode}} controls-Button__close_{{_options.viewMode}}-theme_{{_options.theme}}
+                 controls-Button__close_{{_options.viewMode}}_{{_options.transparent ? 'transparent' : 'untransparent'}}-theme_{{_options.theme}}">
         <!--Если не блочный, то не отображается https://jsfiddle.net/mwst2cxr/-->
-        <div class="controls-Button__close__icon_{{_options.viewMode}} theme_{{_options.theme}}"></div>
+        <div class="controls-Button__close__icon_{{_options.viewMode}}-theme_{{_options.theme}}"></div>
     </span>
 </span>

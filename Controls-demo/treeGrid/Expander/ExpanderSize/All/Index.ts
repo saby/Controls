@@ -7,13 +7,13 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource: Memory;
-   private _columns = Gadgets.getColumnsForFlat();
-   private _expandedItems = [null];
-   private _expandedItemsS = [null];
-   private _expandedItemsM = [null];
-   private _expandedItemsL = [null];
-   private _expandedItemsXl = [null];
+   protected _viewSource: Memory;
+   protected _columns = Gadgets.getColumnsForFlat();
+   protected _expandedItems = [null];
+   protected _expandedItemsS = [null];
+   protected _expandedItemsM = [null];
+   protected _expandedItemsL = [null];
+   protected _expandedItemsXl = [null];
 
 
    protected _beforeMount() {

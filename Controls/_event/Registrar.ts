@@ -1,8 +1,5 @@
 import cExtend = require('Core/core-simpleExtend');
 
-var _private = {
-
-};
 
 var Registrar = cExtend.extend({
 
