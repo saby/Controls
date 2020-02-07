@@ -7,9 +7,6 @@ import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
 import Model = require('Controls/_scroll/StickyHeader/_StickyHeader/Model');
 import template = require('wml!Controls/_scroll/StickyHeader/_StickyHeader/StickyHeader');
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import 'css!theme?Controls/scroll';
-
-
 
 /**
  * Ensures that content sticks to the top of the parent container when scrolling down.
@@ -452,4 +449,5 @@ StickyHeader.getOptionTypes = function() {
    };
 };
 
+StickyHeader._theme = ['Controls/scroll'];
 export = StickyHeader;

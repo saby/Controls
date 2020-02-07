@@ -4,7 +4,6 @@
 import thelpers = require('View/Executor/TClosure');
 import validHtml = require('Core/validHtml');
 import {Logger} from 'UI/Utils';
-import 'css!theme?Controls/decorator';
 
    var markupGenerator,
       defCollection,
@@ -253,6 +252,7 @@ import 'css!theme?Controls/decorator';
    // Template functions should have true "stable" flag to send error on using, for example, some control instead it.
    template.stable = true;
 
+   template._theme = ['Controls/decorator'];
 
    export = template;
 

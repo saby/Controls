@@ -5,7 +5,6 @@ import StringValueConverter = require('Controls/_input/DateTime/StringValueConve
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_input/Date/Picker/Picker');
-import 'css!theme?Controls/input';
 import getOptions from 'Controls/Utils/datePopupUtils';
 
    /**
@@ -107,7 +106,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
       return coreMerge({}, IDateTimeMask.getOptionTypes());
    };
 
-   Component._theme = ['Controls/Classes'];
+   Component._theme = ['Controls/Classes', 'Controls/input'];
 
    export = Component;
 

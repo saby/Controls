@@ -3,7 +3,6 @@ import {Date as WSDate} from 'Types/entity';
 import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import dateUtils = require('Controls/Utils/Date');
 import componentTmpl = require('wml!Controls/_datePopup/YearsRange');
-import 'css!theme?Controls/datePopup';
 
 /**
  * Component that allows you to select periods that are multiples of years.
@@ -149,5 +148,6 @@ Component.getDefaultOptions = function() {
 // Component.getOptionTypes = function() {
 //    return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
 // };
+Component._theme = ['Controls/datePopup'];
 
 export = Component;

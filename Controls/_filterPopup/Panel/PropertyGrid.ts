@@ -4,7 +4,6 @@ import Utils = require('Types/util');
 import Clone = require('Core/core-clone');
 import chain = require('Types/chain');
 import {isEqual} from 'Types/object';
-import 'css!theme?Controls/filterPopup';
 
 /**
     * Control PropertyGrid
@@ -166,7 +165,7 @@ import 'css!theme?Controls/filterPopup';
    });
 
    PropertyGrid._private = _private;
-
+   PropertyGrid._theme = ['Controls/filterPopup'];
    export = PropertyGrid;
 
 
