@@ -1,6 +1,4 @@
 /// <amd-module name='Controls/popupConfirmation' />
-import 'css!theme?Controls/popupConfirmation';
-
 /**
  * Библиотека контролов, которые реализуют содержимое всплывающих окон.
  * @library Controls/popupConfirmation

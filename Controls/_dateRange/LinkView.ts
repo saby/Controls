@@ -179,4 +179,6 @@ Component.getDefaultOptions = IDateLinkView.getDefaultOptions;
 
 Component.getOptionTypes = IDateLinkView.getOptionTypes;
 
+Component._theme = ['Controls/dateRange'];
+
 export default Component;
