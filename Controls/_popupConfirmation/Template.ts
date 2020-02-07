@@ -69,5 +69,6 @@ class Template extends Control<IConfirmationTemplate> {
          style: 'secondary'
       };
    }
+   static _theme = ['Controls/popupConfirmation'];
 }
 export default Template;
