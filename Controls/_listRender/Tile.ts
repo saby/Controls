@@ -14,7 +14,6 @@ const HOVERED_ITEM_CHANGE_DELAY = 150;
 
 export interface ITileRenderOptions extends IRenderOptions {
     listModel: TileCollection<unknown>;
-    tileScalingMode?: string;
 }
 
 export default class TileRender extends BaseRender {
@@ -115,15 +114,17 @@ export default class TileRender extends BaseRender {
 
     protected _setHoveredItemPosition(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem<unknown>): void {
         const target = e.target as HTMLElement;
+        const tileScalingMode = this._options.listModel.getTileScalingMode();
 
-        if (this._options.tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
+        if (tileScalingMode === 'none' || target.closest('.js-controls-TileView__withoutZoom')) {
+            item.setCanShowActions(true);
             return;
         }
 
         const itemContainer: HTMLElement = target.closest('.controls-TileView__item');
         const itemContainerRect = itemContainer.getBoundingClientRect();
 
-        const viewContainer = this._options.tileScalingMode === 'inside'
+        const viewContainer = tileScalingMode === 'inside'
             ? this.getItemsContainer()
             : document && document.documentElement;
         const viewContainerRect = viewContainer.getBoundingClientRect();
@@ -145,7 +146,7 @@ export default class TileRender extends BaseRender {
         // TODO This should probably be moved to some kind of animation manager
         if (targetItemPositionInDocument) {
             const targetPositionStyle = this._convertPositionToStyle(targetItemPositionInDocument);
-            if (this._options.tileScalingMode !== 'overlap') {
+            if (tileScalingMode !== 'overlap') {
                 const startItemPositionInDocument = this._options.listModel.getItemContainerStartPosition(
                     itemContainerRect,
                     documentRect

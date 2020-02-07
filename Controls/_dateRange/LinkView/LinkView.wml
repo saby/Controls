@@ -10,8 +10,9 @@
                         {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth_theme-' + _options.theme}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
-                    class="controls-DateLinkView__value controls-DateLinkView__value_theme-{{_options.theme}}
-                            {{ _styleClass }}_theme-{{_options.theme}} {{ _valueEnabledClass }}"
+                    class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
+                    controls-DateLinkView__value_theme-{{_options.theme}}
+                    {{ _styleClass }}_theme-{{_options.theme}} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
                     name="openPopupTarget"
                     on:click="_onClick()">

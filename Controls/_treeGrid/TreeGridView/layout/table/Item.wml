@@ -42,7 +42,8 @@
                    expanderTemplate="{{itemData.expanderTemplate}}"
                    itemData="{{currentColumn}}"/>
    </ws:else>
-   <ws:if data="{{!itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
+   <!-- В table-layout операции над записью всегда выводятся в последней ячейке, даже при скролле колонок -->
+   <ws:if data="{{itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
        <ws:partial template="itemActionsTemplateChooser"/>
    </ws:if>
 </ws:template>

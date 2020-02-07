@@ -67,7 +67,7 @@ define([
 
          selection.excluded = [2];
          selectResult = treeStrategy.unSelect(selection, [3, 4], model, hierarchyRelation);
-         assert.deepEqual(selectResult.selected, [2]);
+         assert.deepEqual(selectResult.selected, []);
          assert.deepEqual(selectResult.excluded, [2, 3, 4]);
 
 

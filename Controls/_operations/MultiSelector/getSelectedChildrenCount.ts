@@ -3,8 +3,9 @@ import { isNode, isHasChildren, getItems, getChildren } from 'Controls/_operatio
 
 import { relation, Record } from 'Types/entity';
 import { RecordSet, List } from 'Types/collection';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
-import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';
+import {ISelectionObject as ISelection } from 'Controls/interface/';
 
 // Возвращает кол-во выбранных записей в папке, идет в глубь(deep !== false) до первого исключения
 export default function getSelectedChildrenCount(nodeId: Tkey, selection: ISelection, model: ViewModel|TreeCollection, hierarchyRelation: relation.Hierarchy, deep: boolean): number|null {

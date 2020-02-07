@@ -63,7 +63,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     protected _template: TemplateFunction = template;
 
-    private _viewSource: BaseSource;
+    protected _viewSource: BaseSource;
     private _startPositionId: string;
     private _positionToScroll: Date;
     private _displayedPosition: Date;
@@ -82,7 +82,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     private _enrichItemsDebounced: Function;
 
-    private _virtualPageSize: number;
+    protected _virtualPageSize: number;
 
     protected _beforeMount(options: IModuleComponentOptions, context?: object, receivedState?: TItems):
                            Promise<TItems> | void {
@@ -99,12 +99,14 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             Logger.warn('MonthList: Используется устаревшая опция startPosition, используйте опцию position', this);
         }
 
+        const normalizedPosition = this._normalizeStartPosition(position, options.viewMode);
+
         this._enrichItemsDebounced = debounce(this._enrichItems, 150);
 
         this._updateItemTemplate(options);
         this._updateSource(options);
         this._updateVirtualPageSize(options);
-        this._startPositionId = monthListUtils.dateToId(this._normalizeStartPosition(position));
+        this._startPositionId = monthListUtils.dateToId(normalizedPosition);
         this._positionToScroll = position;
         this._displayedPosition = position;
         this._lastNotifiedPositionChangedDate = position;
@@ -113,8 +115,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             if (receivedState) {
                 this._extData.updateData(receivedState);
             } else {
-                this._displayedDates = this._getDisplayedRanges(position, options.virtualPageSize);
-                return this._extData.enrichItems(this._displayedDates);
+                const displayedDates = this._getDisplayedRanges(normalizedPosition, options.virtualPageSize, options.viewMode);
+                return this._extData.enrichItems(displayedDates);
             }
         }
     }
@@ -174,8 +176,11 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         }
     }
 
-    private  _getDisplayedRanges(position: Date, virtualPageSize: number): number[] {
+    private  _getDisplayedRanges(position: Date, virtualPageSize: number, viewMode): number[] {
         const displayedRanges = [];
+        if ( viewMode === 'year') {
+            virtualPageSize *= 12;
+        }
         for (let i = 0; i < virtualPageSize; i++) {
             displayedRanges.push(Date.parse(new Date(position.getFullYear(), position.getMonth() + i)));
         }
@@ -189,7 +194,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         this._itemTemplate = options.viewMode === VIEW_MODE.year ?
             options.yearTemplate : options.monthTemplate;
     }
-    private _getTemplate(data): TemplateFunction {
+    protected _getTemplate(data): TemplateFunction {
         switch (data.get('type')) {
             case ITEM_TYPES.header:
                 return this._itemHeaderTemplate;
@@ -252,12 +257,12 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         }
     }
 
-    private _normalizeStartPosition(date: Date): Date {
-        return this._options.viewMode === VIEW_MODE.year ?
+    private _normalizeStartPosition(date: Date, viewMode?: VIEW_MODE): Date {
+        return (viewMode || this._options.viewMode) === VIEW_MODE.year ?
             dateUtils.getStartOfYear(date) : dateUtils.getStartOfMonth(date);
     }
 
-    private _intersectHandler(event: SyntheticEvent, entries: IntersectionObserverSyntheticEntry[]): void {
+    protected _intersectHandler(event: SyntheticEvent, entries: IntersectionObserverSyntheticEntry[]): void {
         // Don't update if the observer is triggered after hiding the component.
         if (!this.isVisible()) {
             return;
@@ -335,7 +340,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
      * @param {Date} end Конец периода
      * @see Controls/_calendar/interface/IMonthListSource#source
      */
-    private invalidatePeriod(start: Date, end: Date): void {
+    protected invalidatePeriod(start: Date, end: Date): void {
         if (this._extData) {
             this._extData.invalidatePeriod(start, end);
             this._extData.enrichItems(this._displayedDates);
@@ -400,7 +405,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     }
 
-    private _scrollHandler(event: SyntheticEvent, scrollTop: number) {
+    protected _scrollHandler(event: SyntheticEvent, scrollTop: number) {
         this._scrollTop = scrollTop;
         this._enrichItemsDebounced();
     }

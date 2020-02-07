@@ -6,7 +6,7 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
     private dataArray = generateData({
         keyProperty: 'id',
@@ -23,7 +23,7 @@ export default class extends Control {
         });
     }
 
-    private _scrollToItem(e, id: number) {
+    protected _scrollToItem(e, id: number) {
         this._children.list.scrollToItem(id);
     }
 }

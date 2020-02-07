@@ -12,7 +12,7 @@ import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {detection} from 'Env/Env';
 import {object} from 'Types/util';
 import {factory} from 'Types/chain';
-import {RecordSet} from 'Types/collection';
+import {factory as CollectionFactory, RecordSet} from 'Types/collection';
 import {getItemsWithHistory, isHistorySource, getUniqItems, deleteHistorySourceFromConfig} from 'Controls/_filter/HistoryUtils';
 import {hasResetValue} from 'Controls/_filter/resetFilterUtils';
 import {resetFilter} from 'Controls/_filter/resetFilterUtils';
@@ -140,7 +140,7 @@ var _private = {
         return popupItems;
     },
 
-    getFolderIds: function({items, nodeProperty, parentProperty, keyProperty}) {
+    getFolderIds: function(items, {nodeProperty, parentProperty, keyProperty}) {
         let folders = [];
         factory(items).each((item) => {
             if (item.get(nodeProperty) && !item.get(parentProperty)) {
@@ -228,9 +228,43 @@ var _private = {
         return newKeys;
     },
 
-    setItems: function(config, item, newItems) {
-        config.popupItems = getItemsWithHistory(config.popupItems || CoreClone(config.items), newItems,
+    getPreparedItems: function(config, item, newItems, folderId) {
+        const getItemsByParentKey = (items) => {
+            return factory(items).filter((popupItem) => {
+                return popupItem.get(config.parentProperty) === folderId;
+            });
+        };
+
+        let folderItems = getItemsByParentKey(config.popupItems).value(CollectionFactory.recordSet, {
+            adapter: config.popupItems.getAdapter(),
+            keyProperty: config.popupItems.getKeyProperty(),
+            format: config.popupItems.getFormat(),
+            model: config.popupItems.getModel()
+        });
+        let newFolderItems = getItemsByParentKey(newItems).value();
+        folderItems = getItemsWithHistory(folderItems, newFolderItems,
             config.sourceController, item.editorOptions.source, config.keyProperty);
+        folderItems.prepend([config.popupItems.getRecordById(folderId)]);
+        return folderItems;
+    },
+
+    setItems: function(config, item, newItems) {
+        if (config.nodeProperty) {
+            config.popupItems = config.popupItems || config.items.clone();
+            const folders = _private.getFolderIds(config.popupItems, config);
+            let resultItems;
+            factory(folders).each((folderId) => {
+                if (!resultItems) {
+                    resultItems = _private.getPreparedItems(config, item, newItems, folderId);
+                } else {
+                    resultItems.append(_private.getPreparedItems(config, item, newItems, folderId));
+                }
+            });
+            config.popupItems.assign(resultItems);
+        } else {
+            config.popupItems = getItemsWithHistory(config.popupItems || config.items.clone(), newItems,
+                config.sourceController, item.editorOptions.source, config.keyProperty);
+        }
         config.items = getUniqItems(config.items, newItems, config.keyProperty);
     },
 
@@ -374,7 +408,7 @@ var _private = {
 
         let getHierarchySelectedKeys = () => {
             // selectedKeys - { folderId1: [selected keys for folder] , folderId2: [selected keys for folder], ... }
-            let folderIds = _private.getFolderIds(config);
+            let folderIds = _private.getFolderIds(config.items, config);
             factory(folderIds).each((folderId, index) => {
                 selectedKeys[folderId] = [];
                 factory(items).each((item) => {
@@ -425,7 +459,7 @@ var _private = {
     },
 
     prepareHierarchySelection: function(selectedKeys, curConfig, resetValue) {
-        let folderIds = _private.getFolderIds(curConfig);
+        let folderIds = _private.getFolderIds(curConfig.items, curConfig);
         let isEmptySelection = true;
         let onlyFoldersSelected = true;
 
@@ -516,7 +550,7 @@ var _private = {
     },
 
     updateHierarchyHistory: function(currentFilter, selectedItems, source) {
-        let folderIds = _private.getFolderIds(currentFilter);
+        let folderIds = _private.getFolderIds(currentFilter.items, currentFilter);
 
         let getNodeItems = (parentKey) => {
             let nodeItems = [];

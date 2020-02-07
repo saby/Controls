@@ -71,7 +71,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
 class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, IFontColorStyle, IFontSize, IFontWeight {
     private _value: TValue;
     private _useGrouping: boolean;
-    private _tooltip: string;
+    protected _tooltip: string;
     private _parsedNumber: IPaths;
     private _fontColorStyle: string;
     private _fontSize: string;
@@ -88,7 +88,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     protected _template: TemplateFunction = template;
 
     // Used in template
-    private _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
+    protected _isDisplayFractionPath(value: string, showEmptyDecimals: boolean): boolean {
         return showEmptyDecimals || value !== '.00';
     }
 

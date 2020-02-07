@@ -46,7 +46,7 @@ export interface IStickyHeaderOptions extends IControlOptions {
 // For android, use a large patch, because 1 pixel is not enough. For all platforms we use the minimum values since
 // there may be layout problems if the headers will have paddings, margins, etc.
 const
-    ANDROID_GAP_FIX_OFFSET: number = 2,
+    ANDROID_GAP_FIX_OFFSET: number = 3,
     MOBILE_GAP_FIX_OFFSET: number = 1;
 
 interface IStickyHeaderContext {
@@ -94,7 +94,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _notifyHandler: Function = tmplNotify;
 
-    protected _bottomShadowStyle: string = '';
+   _bottomShadowStyle: string = '';
+   _topShadowStyle: string = '';
 
     private _stickyDestroy: boolean = false;
 
@@ -350,8 +351,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             // "bottom" and "right" styles does not work in list header control on ios 13. Use top instead.
             // There's no container at first building of template.
             if (container) {
-                this._bottomShadowStyle = 'bottom: unset; right: unset; top:' + container.offsetHeight + 'px;' +
-                    'width:' + container.offsetWidth + 'px;';
+                const offsetWidth = container.offsetWidth;
+                this._bottomShadowStyle =
+                     `bottom: unset; right: unset; top:${container.offsetHeight}px; width:${offsetWidth}px;`;
+                this._topShadowStyle = `right: unset; width:${offsetWidth}px;`;
             }
         }
     }

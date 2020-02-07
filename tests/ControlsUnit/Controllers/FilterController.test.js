@@ -11,7 +11,7 @@ define(['Controls/operations', 'Types/source'], function (operations, source) {
          assert.deepEqual(filterController._filter, {});
 
          filterController._beforeUpdate({filter: {}, source: sourceInstance, selectionViewMode: 'selected'});
-         assert.isTrue('selectionWithPaths' in filterController._filter);
+         assert.isTrue('SelectionWithPath' in filterController._filter);
       });
    });
 });

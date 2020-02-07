@@ -31,13 +31,13 @@ export default interface IBaseItemTemplateOptions {
     */
    /**
     * @name Controls/list:BaseItemTemplate#itemActionsClass
-    * @cfg {ItemActionsClass} Задаёт расположение для панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опциями записи} внутри элемента.
+    * @cfg {ItemActionsClass} Расположение панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опциями записи} внутри элемента.
     * @default controls-itemActionsV_position_bottomRight
     */
    itemActionsClass?: string;
    /**
     * @name Controls/list:BaseItemTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @default undefined
     * @remark
     * В области видимости шаблона доступен объект **itemData**. Из него можно получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.

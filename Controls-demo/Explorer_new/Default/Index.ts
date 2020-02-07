@@ -7,10 +7,10 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getColumns();
-   private _viewMode: string = 'table';
-   private _root = null;
+   protected _viewSource;
+   protected _columns = Gadgets.getColumns();
+   protected _viewMode: string = 'table';
+   protected _root = null;
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({

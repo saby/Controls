@@ -191,6 +191,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 parentProperty: options.parentProperty,
                 nodeProperty: options.nodeProperty,
                 iconSize: options.iconSize,
+                itemTemplateProperty: options.itemTemplateProperty,
                 showHeader: item.get('showHeader'),
                 headConfig: {
                     icon: item.get('icon'),
@@ -340,7 +341,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         return this._options.itemTemplate;
     }
 
-    private _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
+    protected _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
         return getButtonTemplateOptionsByItem(item);
     }
 

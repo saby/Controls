@@ -1,5 +1,4 @@
 import cClone = require('Core/core-clone');
-import isNewEnvironment = require('Core/helpers/isNewEnvironment');
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
 import getZIndex = require('Controls/Utils/getZIndex');
 import {DefaultOpenerFinder} from 'UI/Focus';

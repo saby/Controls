@@ -31,6 +31,14 @@
   height: @icon-size_m;
   font-family: @icon_font-family_m;
 }
+
+//icon-24 font has a problem with baseline in FF IE
+//todo change font icons to svg
+.controls-icon_size-m_theme-@{themeName} when not(@icon_font-family_m = 'cbuc-icons') {
+  line-height: @icon-size_m - 1;
+}
+
+
 .controls-icon_size-l_theme-@{themeName} {
   font-size: @icon-size_l;
   line-height: @icon-size_l;

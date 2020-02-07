@@ -1,6 +1,8 @@
 <ws:template name="cross">
    <ws:if data="{{!_options.readOnly}}">
-      <span class="controls-FilterView__iconReset_theme-{{_options.theme}} icon-CloseNew" ws-no-focus="{{true}}"></span>
+      <span class="controls-FilterView__iconReset_theme-{{_options.theme}} icon-CloseNew"
+            ws-no-focus="{{true}}"
+            title="{[Сбросить]}"></span>
    </ws:if>
 </ws:template>
 

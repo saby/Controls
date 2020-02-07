@@ -239,6 +239,26 @@ define(
             });
          });
 
+         it('_afterUpdate', function() {
+            let pGrid = getPropertyGrid(config);
+            let controlResizeEventFired = false;
+
+            pGrid.activate = () => {};
+            pGrid._notify = (eventName) => {
+               if (eventName === 'controlResize') {
+                  controlResizeEventFired = true;
+               }
+            };
+
+            pGrid._changedIndex = -1;
+            pGrid._afterUpdate();
+            assert.isFalse(controlResizeEventFired);
+
+            pGrid._changedIndex = 1;
+            pGrid._afterUpdate();
+            assert.isTrue(controlResizeEventFired);
+         });
+
       });
    }
 );

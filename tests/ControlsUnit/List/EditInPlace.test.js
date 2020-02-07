@@ -950,6 +950,43 @@ define([
                };
                eip.commitEdit();
             });
+
+            it('destroyed immediately after edit item', function(done) {
+               var source = new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: data
+               });
+
+               eip.saveOptions({
+                  listModel: listModel,
+                  source: source
+               });
+
+               eip.beginEdit({
+                  item: listModel.at(0).getContents()
+               });
+
+               eip._editingItem.set('title', '1234');
+
+               let setEditingItemDataCalled = false;
+               eip._setEditingItemData = () => setEditingItemDataCalled = true;
+
+               const originalAfterEndEdit = EditInPlace._private.afterEndEdit;
+               EditInPlace._private.afterEndEdit = (self, commit) => {
+                  originalAfterEndEdit.call(null, self, commit);
+                  EditInPlace._private.afterEndEdit = originalAfterEndEdit;
+                  assert.isFalse(setEditingItemDataCalled);
+                  done();
+               };
+
+               eip._notify = function(event, args) {
+                  if (event === 'afterEndEdit') {
+                     eip._destroyed = true;
+                  }
+               };
+
+               eip.commitEdit();
+            });
          });
 
          describe('update model', function () {

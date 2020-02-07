@@ -8,9 +8,9 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _header = getCountriesStats().getDefaultHeader();
-    private _columns = getCountriesStats().getColumnsWithWidths().map((col) => {
+    protected _viewSource: Memory;
+    protected _header = getCountriesStats().getDefaultHeader();
+    protected _columns = getCountriesStats().getColumnsWithWidths().map((col) => {
         switch (col.displayProperty) {
             case 'population':
                 col.result = 143420300;

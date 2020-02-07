@@ -135,10 +135,10 @@ define([
             component._container = { style: { paddingTop: '' } };
 
             style = component._getStyle();
-            assert.include(style, 'min-height:32px;');
-            assert.include(style, 'top: 13px;');
-            assert.include(style, 'margin-top: -2px;');
-            assert.include(style, 'padding-top:3px;');
+            assert.include(style, 'min-height:33px;');
+            assert.include(style, 'top: 12px;');
+            assert.include(style, 'margin-top: -3px;');
+            assert.include(style, 'padding-top:4px;');
 
             sandbox.restore();
          });

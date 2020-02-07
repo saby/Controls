@@ -7,11 +7,11 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getGridColumnsForScroll();
-   private _viewMode: string = 'table';
-   private _root = null;
-   private _header = Gadgets.getHeader();
+   protected _viewSource;
+   protected _columns = Gadgets.getGridColumnsForScroll();
+   protected _viewMode: string = 'table';
+   protected _root = null;
+   protected _header = Gadgets.getHeader();
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({

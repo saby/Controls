@@ -14,7 +14,6 @@
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
  * @includes Paging Controls/_paging/Paging
- * @includes VirtualScroll Controls/_list/Controllers/VirtualScroll
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -22,8 +21,8 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
- * @includes IVirtualScroll Controls/_list/interface/NumberEditingTemplate
- * @includes IVirtualScroll Controls/_list/interface/MoneyEditingTemplate
+ * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -50,8 +49,8 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
- * @includes IVirtualScroll Controls/_list/interface/NumberEditingTemplate
- * @includes IVirtualScroll Controls/_list/interface/MoneyEditingTemplate
+ * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */

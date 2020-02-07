@@ -17,8 +17,8 @@ export default class RenderRedrawDemo extends Control {
 
     private _nextKey: number = 0;
 
-    private _viewSource: Memory;
-    private _navigation: any;
+    protected _viewSource: Memory;
+    protected _navigation: any;
 
     private _counters = [];
 
@@ -53,7 +53,7 @@ export default class RenderRedrawDemo extends Control {
     }
 
     protected _redrawCounters(model): void {
-        this._counters =
+        const counters =
             model.getItemCounters()
                 .map((item, index) => {
                     const oldCount = this._counters[index] && this._counters[index].count;
@@ -65,6 +65,10 @@ export default class RenderRedrawDemo extends Control {
                     };
                 })
                 .filter((item) => !!item.count);
+
+        if (counters.some((c) => c.updated)) {
+            this._counters = counters;
+        }
     }
 
     private _generateListItems(count: number): IListItem[] {

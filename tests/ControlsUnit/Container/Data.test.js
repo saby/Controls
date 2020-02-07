@@ -38,6 +38,23 @@ define(
             return data;
          };
 
+         it('resolvePrefetchSourceResult', function() {
+            var data = getDataWithConfig({source: source, keyProperty: 'id'});
+            var items = new collection.RecordSet();
+            items.setMetaData({
+               newMeta: false
+            });
+            data._items = items;
+
+            var itemsWithAnotherMeta = data._items.clone();
+            itemsWithAnotherMeta.setMetaData({
+               newMeta: true
+            });
+
+            lists.DataContainer._private.resolvePrefetchSourceResult(data, {data: itemsWithAnotherMeta});
+            assert.isTrue(data._items.getMetaData().newMeta);
+         });
+
          it('update source', function(done) {
             var data = getDataWithConfig({source: source, keyProperty: 'id'});
             var newSource = new sourceLib.Memory({

@@ -1,8 +1,8 @@
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import Data = require('Controls-demo/OperationsPanel/Demo/Data');
+import {getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 
-const ENTRY_PATH = Data.employees.map((employeeData) => {
+const ENTRY_PATH = getListData().map((employeeData) => {
    return {
       id: employeeData.id,
       parent: employeeData['Раздел']
@@ -71,7 +71,7 @@ export default class extends Memory {
    query(query) {
       let items = this._$data;
       let filter = query.getWhere();
-      let selection = filter.selectionWithPaths;
+      let selection = filter.SelectionWithPath;
       let parent = filter['Раздел'] instanceof Array ? filter['Раздел'][0] : filter['Раздел'];
 
       if (selection) {

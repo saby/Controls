@@ -1,24 +1,26 @@
-<ws:template name="renderColumn">
-   <div class="controls-ColumnsView_column">
-      <ws:partial
-              template="wml!Controls/_listRender/Columns/resources/For"
-              collection="{{ _options.listModel }}"
-              keyPrefix="{{ _templateKeyPrefix }}"
-              column="{{column}}"
-              itemActionsClass="{{ _options.itemActionsClass }}"
-              itemActionsPosition="{{ _options.itemActionsPosition }}"
-              itemActionsTemplate="{{ _options.itemActionsTemplate }}"
-              swipeTemplate="{{ _options.swipeTemplate }}"
-              multiSelectTpl="{{ _options.multiSelectTpl }}"
-              isAdd="{{ _options.isAdd }}"
-              itemTemplate="{{ _itemTemplate }}"/>
-   </div>
-</ws:template>
 <div attr:class="controls-ListViewV controls-ColumnsView">
    <ws:if data="{{ _options.listModel }}">
       <div attr:class="controls-ColumnsView__itemsContainer" name="itemsContainer">
-        <ws:partial template="renderColumn" column="{{0}}"></ws:partial>
-        <ws:partial template="renderColumn" column="{{1}}"></ws:partial>
+         <ws:for data="i in _options.columnsCount">
+            <div class="controls-ColumnsView_column" style="min-width:{{_options.minWidth}}px; max-width:{{_options.maxWidth}}px;">
+               <div class="controls-ColumnsView_column-placeholder" style="min-width:{{_options.minWidth}}px; max-width:{{_options.maxWidth}}px;"></div>
+               <ws:partial
+                       template="wml!Controls/_listRender/Columns/resources/For"
+                       collection="{{ _options.listModel }}"
+                       keyPrefix="{{ _templateKeyPrefix }}"
+                       columnMinWidth="{{ _options.columnMinWidth }}"
+                       columnMaxWidth="{{ _options.columnMaxWidth }}"
+                       column="{{i}}"
+                       columnsCount="{{_options.columnsCount}}"
+                       itemActionsClass="{{ _options.itemActionsClass }}"
+                       itemActionsPosition="{{ _options.itemActionsPosition }}"
+                       itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+                       swipeTemplate="{{ _options.swipeTemplate }}"
+                       multiSelectTpl="{{ _options.multiSelectTpl }}"
+                       isAdd="{{ _options.isAdd }}"
+                       itemTemplate="{{ _itemTemplate }}"/>
+            </div>
+         </ws:for>
       </div>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
@@ -30,4 +32,6 @@
          <ws:partial template="{{ _options.footerTemplate }}" />
       </div>
    </ws:if>
+
+   <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
 </div>

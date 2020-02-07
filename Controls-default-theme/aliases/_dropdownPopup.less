@@ -1,12 +1,6 @@
 //MENUPOPUP - ОКНО ВЫПАДАЮЩЕГО СПИСКА
 // максимальная ширина списка
 @popup_max-width_menuPopup:                         700px;
-// ширина обводки выпадающего списка
-@popup_border-thickness_menuPopup:                  @border-thickness;
-// цвет обводки выпадающего списка
-@popup_border-color_menuPopup:                      #CCC;
-// цвет фона выпадающего списка
-@popup_background-color_menuPopup:                  @background-color;
 
 // сдвиг тени выпадающего списка
 @popup_box-shadow-offset_menuPopup:                 6px;
@@ -15,18 +9,10 @@
 // цвет тени выпадающего списка
 @popup_box-shadow-color_menuPopup:                  rgba(0, 0, 0, 0.2);
 
-// вертикальный отступ в выпадающем списке
-@popup_padding-vertical_menuPopup:                  2px;
-// цвет фона шапки выпадающего списка
-@header_background-color_menuPopup:                 #F4F4F4;  // должно переехать в sticky
 // размер шрифта шапки выпадающего списка
-@header_font-size_menuPopup:                        @font-size_l;  // должно переехать в sticky
+@header_font-size_menuPopup:                        @font-size_l;  // не нужен, используется Heading.
 // цвет текста в шапке выпадающего списка
-@header_color_menuPopup:                            @secondary_text-color; // должно переехать в sticky
-// минимальная высота шапки выпадающего списка
-@header_min-height_menuPopup:                       32px; // должно переехать в sticky
-// горизонтальный отступ в шапке выпадающего списка
-@header_padding-horizontal_menuPopup:               12px; // должно переехать в sticky
+@header_color_menuPopup:                            @secondary_text-color; // не нужен, используется Heading.
 // минимальная высота футера выпадающего списка
 @footer_min-height_menuPopup:                       32px;
 // отступ кнопки подтверждения выбора в выпадающем списке
@@ -75,12 +61,6 @@
 @hierarchy_icon_offset-right_menu:                 6px;
 // отступ между иконкой иерарзии и текстом в меню
 @hierarchy_icon_offset-left_menu:                  6px;
-// отступ между кнопкой закрытия и верхней границей меню
-@close-button_offset-top_menu:                     6px; // должно переехать в sticky
-// отступ между кнопкой закрытия и правой границей меню
-@close-button_offset-right_menu:                   6px; // должно переехать в sticky
-// отступ между кнопкой закрытия и текстом в меню
-@close-button_offset-left_menu:                    0; // должно переехать в sticky
 // размер иконки запинивания меню
 @pin-button_icon-size_menu:                        @icon-size_s;
 // отступ между кнопкой запинивания и правой границей меню

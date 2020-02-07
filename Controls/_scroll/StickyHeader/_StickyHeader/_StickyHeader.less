@@ -13,6 +13,8 @@
    left: 0;
    right: 0;
    height: 1px;
+   // В safari 13 неправильно рассчитывается ширина, через left: 0; right: 0; Ограничим ее.
+   max-width: 1px;
    position: absolute;
 }
 

@@ -1,4 +1,3 @@
-import {detection} from 'Env/Env';
 import Control = require('Core/Control');
 import coreMerge = require('Core/core-merge');
 import proxyModelEvents from 'Controls/Utils/proxyModelEvents';

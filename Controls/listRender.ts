@@ -12,6 +12,7 @@ export { default as Render, IRenderOptions, IRenderChildren } from 'Controls/_li
 
 export { default as Tile } from 'Controls/_listRender/Tile';
 export { default as Columns } from 'Controls/_listRender/Columns';
+export { default as Grid } from 'Controls/_listRender/Grid';
 export { TileItemTemplateWrapper };
 export { ColumnsItemTemplateWrapper as ColumnsItemTemplate};
 
@@ -30,6 +31,10 @@ import ListView = require('wml!Controls/_listRender/ListView');
 export { ListView };
 
 import TileView = require('wml!Controls/_listRender/TileView');
-import ColumnsView = require('wml!Controls/_listRender/ColumnsView');
 export { TileView };
+
+import ColumnsView = require('wml!Controls/_listRender/ColumnsView');
 export { ColumnsView };
+
+import GridView = require('wml!Controls/_listRender/GridView');
+export { GridView };

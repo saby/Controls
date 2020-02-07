@@ -308,6 +308,21 @@ export default class CollectionItem<T> extends mixin<
         return this._$actions;
     }
 
+    isHovered(): boolean {
+        return this._$hovered;
+    }
+
+    setHovered(hovered: boolean, silent?: boolean): void {
+        if (this._$hovered === hovered) {
+            return;
+        }
+        this._$hovered = hovered;
+        this._nextVersion();
+        if (!silent) {
+            this._notifyItemChangeToOwner('hovered');
+        }
+    }
+
     hasVisibleActions(): boolean {
         return this._$actions && this._$actions.showed && this._$actions.showed.length > 0;
     }

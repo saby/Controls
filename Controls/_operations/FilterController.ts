@@ -34,7 +34,7 @@ export default class OperationsFilterController extends Control<IOperationsFilte
 
       if (selectionViewMode === 'selected') {
          source = source.getOriginal ? source.getOriginal() : source;
-         preparedFilter.selectionWithPaths = selectionToRecord({
+         preparedFilter.SelectionWithPath = selectionToRecord({
             selected: selectedKeys || [],
             excluded: excludedKeys || []
          }, source.getAdapter(), 'all', false);

@@ -556,7 +556,7 @@
  *       ...
  *    </Controls.filter:View>
  * </pre>
- * @function Controls/_list/interface/IList#reset
+ * @function Controls/_list/interface/IList#openDetailPanel
  */
 /*
  * Reset filter.
@@ -575,5 +575,5 @@
  *       ...
  *    </Controls.filter:View>
  * </pre>
- * @function Controls/_list/interface/IList#reset
+ * @function Controls/_list/interface/IList#openDetailPanel
  */

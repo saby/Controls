@@ -10,7 +10,7 @@
    />
 
    <Controls.popup:Sticky name="opener"
-                                 template="Controls/dateLitePopup"
+                                 template="Controls/shortDatePicker:View"
                                  closeOnOutsideClick="{{true}}"
                                  actionOnScroll="close">
       <ws:direction vertical="bottom" horizontal="center"/>

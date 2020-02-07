@@ -47,8 +47,6 @@ var _private = {
    },
 
    searchCallback: function (self, result, filter) {
-      const switcherStr = getSwitcherStrFromData(result.data);
-
       self._loading = false;
 
       if (self._viewMode !== 'search') {
@@ -72,9 +70,6 @@ var _private = {
       if (self._viewMode === 'search') {
          self._searchValue = '';
          self._misspellValue = '';
-         self._viewMode = self._previousViewMode;
-         self._previousViewMode = null;
-
          if (self._options.parentProperty) {
             _private.deleteServiceFilters(filter);
          }

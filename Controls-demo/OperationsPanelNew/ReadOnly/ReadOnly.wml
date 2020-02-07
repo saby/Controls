@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth500">
+   <Controls.operations:Panel
+         bind:selectedKeys="_selectedKeys"
+         bind:excludedKeys="_excludedKeys"
+         parentProperty="parent"
+         nodeProperty="@parent"
+         keyProperty="id"
+         readOnly="{{true}}"
+         source="{{_panelSource}}"/>
+</div>

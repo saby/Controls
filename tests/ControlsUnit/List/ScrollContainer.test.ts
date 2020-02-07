@@ -7,9 +7,13 @@ describe('Controls/_list/ScrollContainer', () => {
         const instance = new ScrollController();
         instance._options = {};
         instance.virtualScroll = {};
-        it('flag inited', () => {
+        instance._container = {
+            clientHeight: 100
+        };
+        it('flag inited and viewSize saved', () => {
             instance._afterMount();
             assert.isTrue(instance.__mounted);
+            assert.equal(instance.viewSize, 100);
         });
         it('scroll registered correctly', () => {
             instance._children = {

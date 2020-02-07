@@ -5,6 +5,8 @@
       </ws:if>
    </div>
    <ws:if data="{{_options.closeButtonVisibility}}">
-       <Controls._popupTemplate.CloseButton class="controls-Notification__closeButton controls-Notification__closeButton_theme-{{_options.theme}}" viewMode="link" on:click="_closeClick()"/>
+      <div class="controls-Notification__closeButton controls-Notification__closeButton_theme-{{_options.theme}} " on:click="_closeClick()">
+         <Controls._popupTemplate.CloseButton viewMode="link" />
+      </div>
    </ws:if>
 </div>

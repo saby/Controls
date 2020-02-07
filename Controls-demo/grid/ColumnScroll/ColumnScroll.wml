@@ -18,4 +18,13 @@
         <Controls-demo.grid.ColumnScroll.ScrollStartPositionEnd.Index/>
     </div>
 
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/ColumnScroll/WithItemActions/Index' }}">
+            <a href="{{content.href}}">Операции над записью в списке с горизонтальным скроллом</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.ColumnScroll.WithItemActions.Index/>
+    </div>
+
 </div>

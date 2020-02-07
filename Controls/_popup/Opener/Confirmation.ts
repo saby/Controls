@@ -20,7 +20,7 @@ import {IConfirmationOpener, IConfirmationOptions} from 'Controls/_popup/interfa
  * @public
  * @category Popup
  * @author Красильников А.С.
- * @demo Controls-demo/Popup/Opener/ConfirmationPG
+ * @demo Controls-demo/Confirmation/Confirmation
  */
 
 interface IConfirmationOpenerOptions extends IBaseOpenerOptions {

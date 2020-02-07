@@ -1193,6 +1193,7 @@ define([
             });
          });
       });
+
       it('TreeControl._private.prepareHasMoreStorage', function() {
          var
             sourceControllers = new Map([
@@ -1405,23 +1406,30 @@ define([
 
          it('cancelEdit on change root', function() {
             var
-               treeControl = correctCreateTreeControl({
-                  columns: [],
-                  source: new sourceLib.Memory(),
-                  items: new collection.RecordSet({
-                     rawData: [],
-                     idProperty: 'id'
-                  }),
-                  root: 'test'
-               }),
+                cfg = {
+                   columns: [],
+                   source: new sourceLib.Memory(),
+                   editingConfig: {},
+                   items: new collection.RecordSet({
+                      rawData: [],
+                      idProperty: 'id'
+                   }),
+                   root: 'test'
+                },
+               treeControl = correctCreateTreeControl(cfg),
                cancelEditCalled = false;
             treeControl._children.baseControl.cancelEdit = function() {
                cancelEditCalled = true;
             };
-            treeControl._beforeUpdate({
-               root: 'test2'
-            });
+
+            treeControl._beforeUpdate({ root: 'test2' });
             assert.isTrue(cancelEditCalled);
+
+            treeControl = correctCreateTreeControl({...cfg, editingConfig: undefined});
+            cancelEditCalled = false;
+
+            treeControl._beforeUpdate({ root: 'test3' });
+            assert.isFalse(cancelEditCalled);
          });
       });
       it('All items collapsed after reload', function() {

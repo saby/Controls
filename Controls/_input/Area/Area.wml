@@ -12,6 +12,7 @@
                         fontSize="{{_options.fontSize}}"
                         fontColorStyle="{{_options.fontColorStyle}}"
                         borderStyle="{{_options.borderStyle}}"
+                        on:activated="_activatedHandler()"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">

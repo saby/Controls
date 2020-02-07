@@ -576,17 +576,25 @@ define([
 
          });
 
-         it('_onItemClick', function() {
+         it('_onItemClick', async function() {
             isNotified = false;
             isWeNotified = false;
 
+            const successfulCommit = Promise.resolve({});
+            const unSuccessfulCommit = Promise.resolve({ validationFailed: true });
+
+            let commitEditResult = successfulCommit;
+
             var
-               explorer = new explorerMod.View({}),
+               explorer = new explorerMod.View({
+                  editingConfig: {}
+               }),
                isEventResultReturns = false,
-               cancelEditCalled = false,
                isPropagationStopped = isNotified = isNativeClickEventExists = false;
 
-            explorer.saveOptions({});
+            explorer.saveOptions({
+               editingConfig: {}
+            });
             explorer._notify = (eName, eArgs) => {
                if (eName === 'itemClick') {
                   assert.equal(3, eArgs[2]);
@@ -603,9 +611,7 @@ define([
                   _children: {
 
                   },
-                  cancelEdit: function() {
-                     cancelEditCalled = true;
-                  }
+                  commitEdit: () => commitEditResult
                }
             };
 
@@ -616,22 +622,28 @@ define([
             };
 
 
-            isEventResultReturns = explorer._onItemClick({
-               stopPropagation: function() {
-                  isPropagationStopped = true;
-               }
-            }, {
-               get: function() {
-                  return true;
-               },
-               getId: function() {
-                  return 'itemId';
-               }
-            }, {
-               nativeEvent: 123
-            }, 3);
-            assert.isTrue(isEventResultReturns);
-            assert.isTrue(cancelEditCalled);
+            await (new Promise((res) => {
+               isEventResultReturns = explorer._onItemClick({
+                  stopPropagation: function() {
+                     isPropagationStopped = true;
+                  }
+               }, {
+                  get: function() {
+                     return true;
+                  },
+                  getId: function() {
+                     return 'itemId';
+                  }
+               }, {
+                  nativeEvent: 123
+               }, 3);
+
+               setTimeout(() => {
+                  res();
+               }, 0);
+            }));
+
+            assert.isFalse(isEventResultReturns);
             assert.deepEqual({
                ...explorer._restoredMarkedKeys,
                itemId: {
@@ -657,20 +669,51 @@ define([
 
             isPropagationStopped = false;
 
-            explorer._onItemClick({
-               stopPropagation: function() {
-                  isPropagationStopped = true;
-               }
-            }, {
-               get: function() {
-                  return true;
-               },
-               getId: function() {
-                  return 'itemIdOneMore';
-               }
-            }, {
-               nativeEvent: 123
+            await new Promise((res) => {
+               explorer._onItemClick({
+                  stopPropagation: function () {
+                     isPropagationStopped = true;
+                  }
+               }, {
+                  get: function () {
+                     return true;
+                  },
+                  getId: function () {
+                     return 'itemIdOneMore';
+                  }
+               }, {
+                  nativeEvent: 123
+               });
+               setTimeout(() => {
+                  res();
+               }, 0);
             });
+
+            assert.isTrue(isPropagationStopped);
+            // Root wasn't changed
+            assert.equal(root, 'itemId');
+
+
+            explorer._notify = () => true;
+            commitEditResult = unSuccessfulCommit;
+            isPropagationStopped = false;
+
+            await new Promise((res) => {
+               explorer._onItemClick({
+                  stopPropagation: () => {
+                     isPropagationStopped = true;
+                  }
+               }, {
+                  get: () => true,
+                  getId: () => 'itemIdOneMore'
+               }, {
+                  nativeEvent: 123
+               });
+               setTimeout(() => {
+                  res();
+               }, 0);
+            });
+
             assert.isTrue(isPropagationStopped);
             // Root wasn't changed
             assert.equal(root, 'itemId');

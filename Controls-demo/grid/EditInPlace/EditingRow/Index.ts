@@ -8,9 +8,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = getPorts().getColumns();
-    private _documentSignMemory;
+    protected _viewSource: Memory;
+    protected _columns = getPorts().getColumns();
+    protected _documentSignMemory;
 
     protected _beforeMount() {
         this._viewSource = new Memory({

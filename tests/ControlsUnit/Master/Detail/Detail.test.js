@@ -54,6 +54,18 @@ define(['Controls/masterDetail'], function(masterDetail) {
          assert.equal(Control._minOffset, 0);
          assert.equal(Control._maxOffset, 99);
          assert.equal(Control._currentWidth, '250px');
+
+         // width=0
+         options = {
+            masterMinWidth: 0,
+            masterWidth: 0,
+            masterMaxWidth: 0
+         };
+         Control._beforeUpdate(options);
+         assert.equal(Control._minOffset, 0);
+         assert.equal(Control._maxOffset, 0);
+         assert.equal(Control._currentWidth, '0px');
+
          Control.destroy();
       });
 

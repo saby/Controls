@@ -165,3 +165,23 @@
  *    </Controls.tile:View>
  * </pre>
  */
+
+ /**
+ * @name Controls/_tile/interface/ITile#tileMode 
+ * @cfg {String} Режим отображения плитки с динамической/фиксированной шириной.
+ * @variant static Отображается плитка с фиксированной шириной.
+ * @variant dynamic Отображается плитка с динамической шириной.
+ * @example
+ * В следующем примере показано, как отобразить плитку с динамической шириной.
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   parentProperty="Раздел"
+ *                   nodeProperty="Раздел@"
+ *                   tileMode="dynamic">
+ *       <ws:itemTemplate>
+ *          ...
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ */

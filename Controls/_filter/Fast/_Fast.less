@@ -125,14 +125,14 @@
    }
 }
 
-@shift-top_default-FastFilter-popup: -((@item_height_menu - @height_filterView) / 2 + @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
+@shift-top_default-FastFilter-popup: -((@item_height_menu - @height_filterView) / 2 + @content_padding-top_sticky + @border-thickness_sticky);
 
 .controls-FastFilter-popup_theme_@{themeName} {
    margin-top: @shift-top_default-FastFilter-popup;
-   margin-left: @item_icon-size_filterView - (@item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup);
+   margin-left: @item_icon-size_filterView - (@item_padding-horizontal_l_menu + @border-thickness_sticky);
 }
 
 .controls-FastFilter_multiSelect-popup_theme_@{themeName} {
    margin-top: @shift-top_default-FastFilter-popup;
-   margin-left: @item_icon-size_filterView - (@click-area_width_checkbox + @popup_border-thickness_menuPopup);
+   margin-left: @item_icon-size_filterView - (@click-area_width_checkbox + @border-thickness_sticky);
 }

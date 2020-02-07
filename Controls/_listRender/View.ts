@@ -82,8 +82,8 @@ export default class View extends Control<IViewOptions> {
         if (
             options.itemActions !== this._options.itemActions ||
             options.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
-            options.itemActionsProperty !== this._options.itemActionsProperty ||
-            (options.itemActions || options.itemActionsProperty) && collectionRecreated
+            (options.itemActions || options.itemActionsProperty) && collectionRecreated ||
+            options.itemActionsProperty
         ) {
             ItemActionsController.resetActionsAssignment(this._collection);
 
@@ -230,6 +230,9 @@ export default class View extends Control<IViewOptions> {
         itemActionsProperty: string,
         itemActionsVisibilityCallback: (action, item) => boolean
     ): void {
+        if (!itemActions && !itemActionsProperty) {
+            return;
+        }
         const actionsGetter =
             itemActionsProperty
             ? (item) => item.getContents().get(itemActionsProperty)

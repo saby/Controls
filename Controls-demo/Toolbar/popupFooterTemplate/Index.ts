@@ -6,13 +6,13 @@ import source = require('Types/source');
 class FooterTemplate extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     static _theme: string[] = ['Controls/Classes'];
-    private _getMemorySource = (items) => {
+    protected _getMemorySource = (items) => {
         return new source.Memory({
             keyProperty: 'id',
             data: items
         });
     };
-    private _defaultItems = [
+    protected _defaultItems = [
         {
             id: '1',
             icon: 'icon-Print',

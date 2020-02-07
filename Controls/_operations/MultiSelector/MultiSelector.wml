@@ -11,6 +11,6 @@
                                           size="{{_options.size}}"
                                           fontSize="{{_options.fontSize}}"
                                           selectionViewMode="{{_options.selectionViewMode}}"
-                                          root="{{_options.root}}"/>
+                                          isAllSelected="{{_options.isAllSelected}}"/>
     <div class="controls-operationsPanelV__multiSelector_separator"></div>
 </div>

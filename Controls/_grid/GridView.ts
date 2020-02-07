@@ -1,6 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
 import {ListView} from 'Controls/list';
-import {detection} from 'Env/Env';
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/_grid/utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';

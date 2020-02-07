@@ -3,8 +3,8 @@
    .flex-direction(column);
 
    max-width: @max-width_filterSimplePanel;
-   border: @popup_border-thickness_menuPopup solid @popup_border-color_menuPopup;
-   background: @popup_background-color_menuPopup;
+   border: @border-thickness_sticky solid @border-color_sticky;
+   background: @background-color_sticky;
    box-sizing: border-box;
    box-shadow: @popup_box-shadow-color_menuPopup 0 0 @popup_box-shadow-offset_menuPopup 0;
    max-height: 100%;
@@ -12,8 +12,8 @@
 }
 
 .controls-SimplePanel__scroll_theme_@{themeName} {
-   margin-top: @popup_padding-vertical_menuPopup;
-   margin-bottom: @popup_padding-vertical_menuPopup;
+   margin-top: @content_padding-top_sticky;
+   margin-bottom: @content_padding-bottom_sticky;
 }
 
 .controls-SimplePanel__block_separator_theme_@{themeName} {
@@ -24,7 +24,7 @@
    margin-left: @grouping_padding-horizontal_menu;
 }
 
-@spacing-between-applyButton-rightBorder: @apply-button_offset-right_filterSimplePanel + @width_closeButton_link + @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
+@spacing-between-applyButton-rightBorder: @apply-button_offset-right_filterSimplePanel + @width_closeButton_link + @close-button_offset-right_sticky + @border-thickness_sticky;
 
 .controls-SimplePanel__applyButton_theme_@{themeName} {
    position: absolute;
@@ -35,8 +35,8 @@
 
 .controls-SimplePanel-cross_theme_@{themeName} {
    position: absolute;
-   right: @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
-   top: @close-button_offset-top_menu + @popup_border-thickness_menuPopup;
+   right: @close-button_offset-right_sticky + @border-thickness_sticky;
+   top: @close-button_offset-top_sticky + @border-thickness_sticky;
    z-index: 2;
 }
 
@@ -56,11 +56,11 @@
    font-weight: bold;
 }
 
-@shift-top_default-SimplePanel-popup: -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup + @popup_padding-vertical_menuPopup);
+@shift-top_default-SimplePanel-popup: -((@item_height_menu - @inline_height_default_link_button) / 2 + @border-thickness_sticky + @content_padding-top_sticky);
 
 .controls-FilterView-SimplePanel-popup {
    margin-top: @shift-top_default-SimplePanel-popup;
-   margin-left: -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
+   margin-left: -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
 }
 
 .controls-FilterView-SimplePanel__buttonTarget-popup {

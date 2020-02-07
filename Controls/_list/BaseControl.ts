@@ -19,7 +19,7 @@ import {showType} from 'Controls/Utils/Toolbar';
 import 'wml!Controls/_list/BaseControl/Footer';
 import 'css!theme?Controls/list';
 import {error as dataSourceError} from 'Controls/dataSource';
-import {constants, detection} from 'Env/Env';
+import {constants} from 'Env/Env';
 import ListViewModel from 'Controls/_list/ListViewModel';
 import {ICrud, Memory} from "Types/source";
 import {TouchContextField} from 'Controls/context';
@@ -168,7 +168,6 @@ var _private = {
                     self._pagingLabelData = _private.getPagingLabelData(hasMoreDataDown, self._currentPageSize, self._currentPage);
                 }
                 var
-                    isActive,
                     listModel = self._listViewModel;
 
                 if (cfg.afterReloadCallback) {
@@ -1078,10 +1077,14 @@ var _private = {
             newModelChanged
         ) {
             self._itemsChanged = true;
-            // Update item actions, but only if they were already initialized.
-            // If they were not, they will be updated during initialization anyway.
-            if (self._itemActionsInitialized) {
+            if (self._itemActionsInitialized && !self._modelRecreated) {
+                // If actions were already initialized update them in place
                 self._updateItemActions();
+            } else {
+                // If model was recreated or actions have not been initialized
+                // yet, postpone item actions update until the new model is
+                // received by ItemActionsControl as an option
+                self._shouldUpdateItemActions = true;
             }
         }
         // If BaseControl hasn't mounted yet, there's no reason to call _forceUpdate
@@ -1622,6 +1625,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _itemReloaded: false,
     _itemActionsInitialized: false,
+    _modelRecreated: false,
 
     _portionedSearch: null,
     _portionedSearchInProgress: null,
@@ -1806,6 +1810,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     triggerVisibilityChangedHandler(_: SyntheticEvent<Event>, direction: IDireciton, state: boolean): void {
         this._loadTriggerVisibility[direction] = state;
+        if (_private.needScrollPaging(this._options.navigation)) {
+            const doubleRatio = (this._viewSize / this._viewPortSize) > MIN_SCROLL_PAGING_PROPORTION;
+            this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);
+        }
     },
 
     triggerOffsetChangedHandler(_: SyntheticEvent<Event>, top: number, bottom: number): void {
@@ -1847,6 +1855,13 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._isMounted = true;
         const container = this._container[0] || this._container;
         this._viewSize = container.clientHeight;
+
+        // при создании списка с редактируемой записью, нужно проинициализировать itemActions.
+        // это нельзя сделать до afterMount из-за того, что ItemActionsControl является ребенком BaseControl и
+        // мы не можем к нему обратиться до того, как контролы будут построены.
+        if (this._options.editingConfig && this._options.editingConfig.item) {
+            this._initItemActions();
+        }
         if (this._options.itemsDragNDrop) {
             container.addEventListener('dragstart', this._nativeDragStart);
         }
@@ -1883,6 +1898,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 items
             }));
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
+            this._modelRecreated = true;
         }
 
         if (newOptions.groupMethod !== this._options.groupMethod) {
@@ -2122,6 +2138,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
 
         this._scrollPageLocked = false;
+        this._modelRecreated = false;
     },
 
     __onPagingArrowClick: function(e, arrow) {
@@ -2280,11 +2297,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     },
 
     _commitEditActionHandler: function() {
-        if (this._options.task1178374430) {
-            this._children.editInPlace.commitAndMoveNextRow();
-        } else {
-            this._children.editInPlace.commitEdit();
-        }
+        this._children.editInPlace.commitAndMoveNextRow();
     },
 
     _cancelEditActionHandler: function() {

@@ -28,9 +28,9 @@ class EditDialog extends Control<IEditDialog> {
     private _textValue: string;
     private _placeholder: string;
     private _isClient: boolean;
-    private _globalSource = globalConfig;
+    protected _globalSource = globalConfig;
     private _selectedFilters: string[];
-    private _source: Memory;
+    protected _source: Memory;
 
     private isDisplayItem(item: object): boolean {
         return item.hasOwnProperty('value') && item.value && item.value.length !== 0 && item.textValue && item.visibility !== false;

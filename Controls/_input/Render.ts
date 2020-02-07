@@ -78,7 +78,7 @@ interface IRenderOptions extends IControlOptions, IHeightOptions,
  */
 
 class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle, IFontSize, IValidationStatus, IBorderStyle {
-    private _tag: SVGElement | null = null;
+    protected _tag: SVGElement | null = null;
     private _contentActive: boolean = false;
 
     protected _state: string;
@@ -121,11 +121,11 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         return this._validationStatus;
     }
 
-    private _tagClickHandler(event: SyntheticEvent<MouseEvent>) {
+    protected _tagClickHandler(event: SyntheticEvent<MouseEvent>) {
         this._notify('tagClick', [this._children.tag]);
     }
 
-    private _tagHoverHandler(event: SyntheticEvent<MouseEvent>) {
+    protected _tagHoverHandler(event: SyntheticEvent<MouseEvent>) {
         this._notify('tagHover', [this._children.tag]);
     }
 

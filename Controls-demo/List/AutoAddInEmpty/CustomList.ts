@@ -4,7 +4,7 @@ import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
-    private _addingItem: Model | null = null;
+    protected _addingItem: Model | null = null;
 
     protected _beforeMount(newOptions) {
         this._addingItem = newOptions.items.getCount() ? null : new Model({

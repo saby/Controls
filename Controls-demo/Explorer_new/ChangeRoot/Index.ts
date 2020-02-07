@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getColumns();
-   private _viewMode: string = 'table';
+   protected _viewSource;
+   protected _columns = Gadgets.getColumns();
+   protected _viewMode: string = 'table';
    private _root = null;
 
    protected _beforeMount() {
@@ -19,7 +19,7 @@ export default class extends Control {
       });
    }
 
-   private _onToggleRoot() {
+   protected _onToggleRoot() {
       if (this._root === null) {
          this._root = 1;
       } else {

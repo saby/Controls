@@ -5,7 +5,7 @@
             <ws:Object>
                <ws:template>
                   <div class="example-Base__wrapper">
-                     <div class="example-Base__specify">Dynamic height</div>
+                     <div class="example-Base__specify demo-ExampleInput__dynamicLabel">Dynamic height</div>
                      <Controls.input:Area placeholder="Helpful tooltip" class="ControlsDemo-ExampleInput_focusText"
                                           maxLines="{{7}}"
                                           bind:value="_dynamicValue"/>
@@ -15,7 +15,7 @@
             <ws:Object spacing="normal">
                <ws:template>
                   <div class="example-Base__wrapper">
-                     <div class="example-Base__specify">Fixed height</div>
+                     <div class="example-Base__specify demo-ExampleInput__fixedLabel">Fixed height</div>
                      <Controls.input:Area placeholder="Helpful tooltip" class="ControlsDemo-ExampleInput_fixedHeightArea"
                                           minLines="{{4}}"
                                           maxLines="{{4}}"

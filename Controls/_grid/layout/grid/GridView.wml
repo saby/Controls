@@ -17,7 +17,6 @@
                 name="horizontalScrollWrapper"
                 position="{{ position }}"
                 contentSize="{{ contentSize }}"
-                topOffset="{{ topOffset }}"
                 gridSupport="full"
                 scrollWidth="{{ scrollWidth }}"
                 listModel="{{ _listModel }}"

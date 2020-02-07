@@ -7,7 +7,9 @@
                              listModel="{{_listModel}}"
                              on:itemClick="_itemClick()"
                              on:itemMouseEnter="_itemMouseEnter()"
-                             on:checkBoxClick="_checkBoxClick()">
+                             on:checkBoxClick="_checkBoxClick()"
+                             on:mouseleave="_mouseOutHandler()"
+                             on:mousemove="_mouseMove()">
          <ws:footerTemplate>
             <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
                <div class="controls-Menu__footer_theme-{{_options.theme}}" on:mouseenter="_closeSubMenu()">

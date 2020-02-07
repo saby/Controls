@@ -1,24 +1,22 @@
 <div class="controlsDemo__wrapper">
-   <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600 controlsDemo__maxWidth800">
+   <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600">
       <Controls.list:ColumnsView
          keyProperty="id"
          useNewModel="{{true}}"
          source="{{ _viewSource }}"
+         columnsMode="auto"
+         itemsReadyCallback="{{_itemsReadyCallback}}"
          itemActionsClass="controls-itemActionsV_position_topRight"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"
-         name="listView2">
-         <ws:navigation source="page" view="infinity">
-            <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
-            <ws:viewConfig pagingMode="direct" ></ws:viewConfig>
-         </ws:navigation>
+         navigation="{{_navigation}}"
+         name="view">
          <ws:itemTemplate>
             <ws:partial template="Controls/listRender:ColumnsItemTemplate" highlightOnHover="{{false}}">
                <ws:contentTemplate>
                   <div class="controlsDemo_ColumnsView_itemTemplate-wrapper">
                      <div class="controlsDemo_ColumnsView_itemTemplate-title">{{itemTemplate.item.getContents().get('title')}}</div>
                      <div class="controlsDemo_ColumnsView_itemTemplate-description">{{itemTemplate.item.getContents().get('description')}}</div>
-
                   </div>
                </ws:contentTemplate>
             </ws:partial>

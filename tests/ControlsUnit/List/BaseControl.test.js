@@ -2128,6 +2128,9 @@ define([
                data: data
             }),
             cfg = {
+               editingConfig: {
+                  item: { id: 1 }
+               },
                viewName: 'Controls/List/ListView',
                source: source,
                keyProperty: 'id',
@@ -2151,16 +2154,25 @@ define([
                }
             }
          };
-         baseControl._container = {clientHeight: 100};
-         baseControl._afterMount(cfg);
+         baseControl._container = { clientHeight: 100 };
+
+         afterEach(() => {
+            actionsUpdateCount = 0;
+         });
+         it('afterMount with editing item', function() {
+            baseControl._afterMount(cfg);
+            assert.equal(actionsUpdateCount, 1);
+         });
+
          it('_initItemActions', function() {
+            baseControl._itemActionsInitialized = false;
             baseControl._initItemActions();
             assert.equal(actionsUpdateCount, 1);
          });
          it('_onAfterEndEdit', function() {
             baseControl._onAfterEndEdit({}, {});
             baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 2);
+            assert.equal(actionsUpdateCount, 1);
          });
          it('update on recreating source', async function() {
             let newSource = new sourceLib.Memory({
@@ -2181,18 +2193,29 @@ define([
             };
             await baseControl._beforeUpdate(newCfg);
             baseControl._afterUpdate(cfg);
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 2);
+         });
+         it('updates on afterUpdate if model was recreated', function() {
+            baseControl._itemActionsInitialized = true;
+            baseControl._modelRecreated = true;
+
+            lists.BaseControl._private.onListChange(baseControl, null, 'collectionChanged');
+            assert.strictEqual(actionsUpdateCount, 0);
+
+            baseControl._afterUpdate(cfg);
+            assert.isFalse(baseControl._modelRecreated);
+            assert.strictEqual(actionsUpdateCount, 1);
          });
          it('control in error state, should not call update', function() {
             baseControl.__error = true;
             baseControl._updateItemActions();
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 0);
             baseControl.__error = false;
          });
          it('without listViewModel should not call update', function() {
             baseControl._listViewModel = null;
             baseControl._updateItemActions();
-            assert.equal(actionsUpdateCount, 4);
+            assert.equal(actionsUpdateCount, 0);
          });
       });
 
@@ -2857,28 +2880,17 @@ define([
                   }
                }
             };
-            let commitDef = cDeferred.success();
             let commitAndMoveDef = cDeferred.success();
             let result;
 
-            var ctrl = new lists.BaseControl(cfg);
+            const ctrl = new lists.BaseControl(cfg);
             ctrl._children = {
                editInPlace: {
-                  commitEdit: function() {
-                     result = commitDef;
-                  },
                   commitAndMoveNextRow: function () {
                      result = commitAndMoveDef;
                   }
                }
             };
-            ctrl._commitEditActionHandler();
-            assert.equal(commitDef, result);
-
-            commitDef = cDeferred.success();
-            commitAndMoveDef = cDeferred.success();
-
-            ctrl._options.task1178374430 = true;
             ctrl._commitEditActionHandler();
             assert.equal(commitAndMoveDef, result);
          });

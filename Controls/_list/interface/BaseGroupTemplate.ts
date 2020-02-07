@@ -1,5 +1,5 @@
 /**
- * Интерфейс для шаблона отображения разделителя {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/ группы} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}. 
+ * Интерфейс для шаблона отображения заголовка {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/ группы} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}. 
  * @interface Controls/list:BaseGroupTemplate
  * @author Авраменко А.С.
  * @public
@@ -7,14 +7,14 @@
 export default interface IBaseGroupTemplateOptions {
    /**
     * @typedef {String} ExpanderAlign
-    * @description Расположение кнопки-экспандера относительно заголовка группы.
-    * @variant left Слева от заголовка группы.
-    * @variant right Справа от заголовка группы.
+    * @description Расположение кнопки-экспандера относительно названия группы.
+    * @variant left Слева от названия группы.
+    * @variant right Справа от названия группы.
     */
 
    /**
     * @name Controls/list:BaseGroupTemplate#expanderAlign
-    * @cfg {ExpanderAlign} Устанавливает расположение кнопки-экспандера относительно заголовка группы.
+    * @cfg {ExpanderAlign} Расположение кнопки-экспандера относительно названия группы.
     * @default left
     * @remark
     * Кнопка-экспандер позволяет сворачивать/разворачивать группу.
@@ -29,7 +29,7 @@ export default interface IBaseGroupTemplateOptions {
    separatorVisibility?: boolean;
    /**
     * @name Controls/list:BaseGroupTemplate#expanderVisible
-    * @cfg {Boolean} Когда опция установлена в значение false, кнопка-экспандер группы будет скрыта.
+    * @cfg {Boolean} Когда опция установлена в значение false, кнопка-экспандер будет скрыта.
     * @default true
     * @remark
     * Кнопка-экспандер позволяет сворачивать/разворачивать группу.
@@ -38,14 +38,14 @@ export default interface IBaseGroupTemplateOptions {
    expanderVisible?: boolean;
    /**
     * @typedef {String} TextAlign
-    * @description Горизонтальное выравнивание заголовка группы.
+    * @description Горизонтальное выравнивание названия группы.
     * @variant right По правому краю.
     * @variant left По левому краю.
     */
 
    /**
     * @name Controls/list:BaseGroupTemplate#textAlign
-    * @cfg {TextAlign|undefined} Устанавливает горизонтальное выравнивание заголовка группы. 
+    * @cfg {TextAlign|undefined} Горизонтальное выравнивание названия группы. 
     * @default undefined 
     * @remark
     * В значении undefined заголовок выравнивается по центру.
@@ -53,7 +53,7 @@ export default interface IBaseGroupTemplateOptions {
    textAlign?: string;
    /**
     * @name Controls/list:BaseGroupTemplate#rightTemplate
-    * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, отображаемый на горизонтальной линии-разделителе в правой части.
+    * @cfg {String|Function|undefined} Пользовательский шаблон, отображаемый на горизонтальной линии-разделителе в правой части.
     * @default undefined
     * @remark
     * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
@@ -121,7 +121,7 @@ export default interface IBaseGroupTemplateOptions {
    rightTemplate?: string;
    /**
     * @name Controls/list:BaseGroupTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий заголовок группы.
+    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий заголовок группы.
     * @remark
     * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
     *

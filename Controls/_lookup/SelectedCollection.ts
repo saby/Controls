@@ -9,7 +9,6 @@ import CrossTemplate = require('wml!Controls/_lookup/SelectedCollection/_CrossTe
 import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/CounterTemplate');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
-import { ObservableList } from 'Types/collection';
 
 /**
  * Контрол, отображающий коллекцию элементов.

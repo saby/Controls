@@ -4,6 +4,7 @@ import cInstance = require('Core/core-instance');
 
 import { Collection, SelectionController } from 'Controls/display';
 import { Rpc, PrefetchProxy } from 'Types/source';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
 import { RecordSet, List } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';

@@ -1,0 +1,16 @@
+<td
+   attr:class="{{ column.getCellClasses(highlightOnHover) }}"
+   attr:style="{{ column.getCellStyles() }}">
+   <ws:if data="{{ column.shouldDisplayMarker() }}">
+      <div attr:class="{{ column.getMarkerClasses() }}"></div>
+   </ws:if>
+   <!-- valign, halign -->
+   <ws:if data="{{ column.getTemplate() }}">
+      <ws:partial
+         template="{{ column.getTemplate() }}"
+         item="{{ column }}" />
+   </ws:if>
+   <ws:else>
+      {{ column.getContents()[column.getDisplayProperty()] }}
+   </ws:else>
+</td>

@@ -3,7 +3,9 @@ import { Collection, Tree as TreeCollection } from 'Controls/display';
 import { relation } from 'Types/entity';
 import { Record } from 'Types/entity';
 import { RecordSet, List } from 'Types/collection';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
 
 

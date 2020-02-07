@@ -33,13 +33,17 @@
 }
 
 .controls-Notification__closeButton_theme-@{themeName} {
-  top: @close-button_offset-top_notification;
-  right: @close-button_offset-right_notification;
+  width: @width_closeButton_link + @close-button_offset-right_notification;
+  height: @height_closeButton_link + @close-button_offset-top_notification;
 }
 
 .controls-Notification__closeButton {
   position: absolute;
+  top: 0;
+  right: 0;
   z-index: 1;
+  display: flex;
+  align-items: flex-end;
 }
 
 .controls-Notification__simpleTemplate {

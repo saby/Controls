@@ -6,8 +6,8 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _selectedKeys: Array<number> = [];
+    protected _viewSource: Memory;
+    protected _selectedKeys: Array<number> = [];
 
     protected _beforeMount() {
         this._viewSource = new Memory({

@@ -6,9 +6,10 @@ define(
       'Types/collection',
       'Controls/history',
       'Core/Deferred',
+      'Types/chain',
       'Core/nativeExtensions'
    ],
-   function(filter, Clone, sourceLib, collection, history, Deferred) {
+   function(filter, Clone, sourceLib, collection, history, Deferred, chain) {
       describe('Filter:View', function() {
 
          let defaultItems = [
@@ -625,8 +626,7 @@ define(
                ],
                keyProperty: 'key'
             });
-            const folders = filter.View._private.getFolderIds({
-               items: items,
+            const folders = filter.View._private.getFolderIds(items, {
                nodeProperty: 'node',
                parentProperty: 'parent',
                keyProperty: 'key'
@@ -1104,6 +1104,29 @@ define(
                view._resultHandler('resultEvent', eventResult);
                assert.strictEqual(view._idOpenSelector, 'document');
                assert.isTrue(isClosed);
+            });
+
+            it('_private::setItems', function() {
+               let newItems = new collection.RecordSet({
+                  rawData: [
+                     { id: 6, title: 'item folder 1', parent: -1 },
+                     { id: 7, title: 'item2 folder 1', parent: -1 },
+                     { id: 8, title: 'item folder 2', parent: -2 }],
+                  keyProperty: 'id'
+               });
+               let expectedResult = [
+                  { id: -1, title: 'Folder 1', node: true, parent: null },
+                  { id: 6, title: 'item folder 1', parent: -1, node: null },
+                  { id: 7, title: 'item2 folder 1', parent: -1, node: null },
+                  { id: 1, title: 'In any state', parent: -1, node: null },
+                  { id: -2, title: 'Folder 2', node: true, parent: null },
+                  { id: 8, title: 'item folder 2', parent: -2, node: null },
+                  { id: 4, title: 'Deleted', parent: -2, node: null }
+               ];
+               filter.View._private.setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
+
+               assert.deepEqual(view._configs.document.popupItems.getRawData(), expectedResult);
+               assert.equal(view._configs.document.items.getCount(), 10);
             });
          });
 

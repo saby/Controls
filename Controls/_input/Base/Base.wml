@@ -14,6 +14,7 @@
                         fontColorStyle="{{_options.fontColorStyle}}"
                         borderStyle="{{_options.borderStyle}}"
                         validationStatus="{{_options.validationStatus}}"
+                        on:activated="_activatedHandler()"
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">

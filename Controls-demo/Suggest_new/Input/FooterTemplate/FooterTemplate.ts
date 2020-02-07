@@ -10,10 +10,10 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
-   private _suggestTemplate: TemplateFunction = suggestTemplate;
-   private _demoFooterTemplate: TemplateFunction = footerTemplate;
-   private _source: Memory;
-   private _navigation: object;
+   protected _suggestTemplate: TemplateFunction = suggestTemplate;
+   protected _demoFooterTemplate: TemplateFunction = footerTemplate;
+   protected _source: Memory;
+   protected _navigation: object;
    protected _beforeMount() {
       this._source = new SearchMemory({
          keyProperty: 'id',

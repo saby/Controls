@@ -30,12 +30,12 @@ const MEASURER_NAMES: Record<ISwipeControlOptions['actionAlignment'], IMeasurer>
 
 export default class SwipeControl extends Control {
    protected _options: ISwipeControlOptions;
-   private _template: Function = template;
+   protected _template: Function = template;
    private _measurer: IMeasurer;
    private _swipeConfig: ISwipeConfig;
    private _animationState: 'close' | 'open' = 'close';
-   private _actionAlignment: 'horizontal' | 'vertical';
-   private _swipeTemplate = swipeTemplate;
+   protected _actionAlignment: 'horizontal' | 'vertical';
+   protected _swipeTemplate = swipeTemplate;
    private _currentItemData: IItemData | null = null;
    private _isActual: boolean = false;
 
@@ -45,7 +45,7 @@ export default class SwipeControl extends Control {
       this._needIcon = this._needIcon.bind(this);
    }
 
-   private _listSwipe(
+   protected _listSwipe(
       event: Event,
       itemData: IItemData,
       childEvent: ISwipeEvent
@@ -58,7 +58,7 @@ export default class SwipeControl extends Control {
       }
    }
 
-   private _onAnimationEnd(): void {
+   protected _onAnimationEnd(): void {
       if (this._animationState === 'close') {
          this._notifyAndResetSwipe();
       }
@@ -152,7 +152,8 @@ export default class SwipeControl extends Control {
    }
    private _updateActionsOnCurrentItem(): void {
       this._setMeasurer(this._options.actionAlignment);
-
+      const menuButtonVisibility = (this._options.contextMenuConfig && (this._options.contextMenuConfig.footerTemplate
+                                   || this._options.contextMenuConfig.headerTemplate)) ? 'visible' : 'adaptive';
       const itemActions = this._options.useNewModel
          ? (this._currentItemData.getActions().all ? this._currentItemData.getActions().all : [])
          : (this._currentItemData.itemActions ? this._currentItemData.itemActions.all : []);
@@ -174,14 +175,16 @@ export default class SwipeControl extends Control {
       this._swipeConfig = this._measurer.getSwipeConfig(
           itemActions,
           this._actionsHeight,
-          this._options.actionCaptionPosition
+          this._options.actionCaptionPosition,
+          menuButtonVisibility
       );
       if (this._needHorizontalRecalc(this._swipeConfig)) {
          this._setMeasurer('horizontal');
          this._swipeConfig = this._measurer.getSwipeConfig(
              itemActions,
              this._actionsHeight,
-             this._options.actionCaptionPosition
+             this._options.actionCaptionPosition,
+             menuButtonVisibility
          );
       }
       const actionsItem = this._options.useNewModel ? this._currentItemData : this._currentItemData.actionsItem;
@@ -227,7 +230,7 @@ export default class SwipeControl extends Control {
       this._animationState = 'open';
    }
 
-   private _onItemActionsClick(
+   protected _onItemActionsClick(
       event: Event,
       action: IItemAction,
       itemData: IItemData
@@ -235,11 +238,11 @@ export default class SwipeControl extends Control {
       aUtil.itemActionsClick(this, event, action, itemData, this._options.listModel, false);
    }
 
-   private _listClick(): void {
+   protected _listClick(): void {
       this.closeSwipe();
    }
 
-   private _listDeactivated(): void {
+   protected _listDeactivated(): void {
       this.closeSwipe();
    }
 
