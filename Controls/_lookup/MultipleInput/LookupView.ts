@@ -83,4 +83,5 @@ LookupMultiSelectorView.getDefaultOptions = function() {
 };
 
 LookupMultiSelectorView._private = _private;
+LookupMultiSelectorView._theme = ['Controls/lookup'];
 export = LookupMultiSelectorView;

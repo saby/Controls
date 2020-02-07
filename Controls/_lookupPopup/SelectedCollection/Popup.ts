@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_lookupPopup/SelectedCollection/Popup');
-import 'css!theme?Controls/popup';
 
 /**
  *
@@ -46,6 +45,6 @@ import 'css!theme?Controls/popup';
             this._options.clickCallback('crossClick', item);
          }
       });
-
+      itemHiddenTemplate._theme = ['Controls/popup'];
       export = itemHiddenTemplate;
 

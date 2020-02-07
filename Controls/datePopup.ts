@@ -14,7 +14,6 @@ import componentTmpl = require('wml!Controls/_datePopup/DatePopup');
 import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
 import {MonthViewDayTemplate} from 'Controls/calendar';
-import 'css!theme?Controls/datePopup';
 import {Controller as ManagerController} from 'Controls/popup';
 import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from "./scroll";
 
@@ -585,4 +584,5 @@ Component.getOptionTypes = function () {
     }, IDateRangeSelectable.getOptionTypes());
 };
 
+Component._theme = ['Controls/datePopup'];
 export = Component;
