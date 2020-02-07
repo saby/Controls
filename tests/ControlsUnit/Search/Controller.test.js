@@ -462,6 +462,12 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
             assert.isNull(searchController._searchController);
             assert.isTrue(searchController._inputSearchValue === '');
+
+            searchController._searchValue = 'test1';
+            defaultOptions._searchValue = 'test1';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.isNull(searchController._searchController);
+            assert.isTrue(abortStub.calledOnce);
          });
 
          it('filter is changed', function() {
