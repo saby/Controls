@@ -43,8 +43,8 @@ var _private = {
       self._startValue = self._displayedStartValue = range[0];
       self._endValue = self._displayedEndValue = range[1];
 
-      self._notify('selectionEnded', [range[0], range[1]]);
       _private.notifyAllDataChanged(self);
+      self._notify('selectionEnded', [range[0], range[1]]);
    },
 
    notifyAllDataChanged: function(self) {

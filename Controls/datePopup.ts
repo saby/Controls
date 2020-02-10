@@ -451,8 +451,10 @@ var Component = BaseControl.extend([EventProxyMixin], {
         _private.selectionChanged(this, start, end ? dateUtils.getEndOfMonth(end) : null);
     },
 
-    _monthsRangeSelectionEnded: function (e, start, end) {
-        _private.sendResult(this, start, dateUtils.getEndOfMonth(end));
+    _monthsRangeSelectionEnded: function(e: SyntheticEvent<Event>, start: Date, end: Date): void {
+        const endOfMonth: Date = dateUtils.getEndOfMonth(end);
+        _private.rangeChanged(this, start, endOfMonth);
+        _private.sendResult(this, start, endOfMonth);
     },
 
     _monthRangeMonthClick: function (e, date) {
