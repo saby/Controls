@@ -1,0 +1,18 @@
+<Controls.shortDatePicker:View>
+    <ws:monthTemplate>
+        <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate">
+            <ws:iconTemplate>
+                <ws:if data="{{_getState()}}">
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Красный]}">
+                        <div class="icon-16 icon-Yes icon-done" style='color: red'></div>
+                    </div>
+                </ws:if>
+                <ws:else>
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Синий]}">
+                        <div class="icon-16 icon-Yes icon-disabled" style='color: blue'></div>
+                    </div>
+                </ws:else>
+            </ws:iconTemplate>
+        </ws:partial>
+    </ws:monthTemplate>
+</Controls.shortDatePicker:View>

@@ -1,0 +1,3 @@
+<div class="controls-demo_LiteSelector-block">
+    <Controls.dateRange:LiteSelector/>
+</div>

@@ -1,0 +1,4 @@
+<Controls.shortDatePicker:View
+        chooseHalfyears="{{false}}"
+        chooseQuarters="{{false}}"
+/>

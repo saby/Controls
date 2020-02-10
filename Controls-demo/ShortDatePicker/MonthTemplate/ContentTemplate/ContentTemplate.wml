@@ -1,6 +1,5 @@
-<Controls.dateRange:LiteSelector
-        source="{{_source}}"
-        attr:test_name="default_range">
+<Controls.shortDatePicker:View
+        source="{{_source}}">
     <ws:monthTemplate>
         <ws:partial periods="{{_displayedRanges2}}" template="Controls/shortDatePicker:MonthTemplate">
             <ws:contentTemplate>
@@ -10,4 +9,4 @@
             </ws:contentTemplate>
         </ws:partial>
     </ws:monthTemplate>
-</Controls.dateRange:LiteSelector>
+</Controls.shortDatePicker:View>
