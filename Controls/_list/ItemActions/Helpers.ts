@@ -79,7 +79,8 @@ var helpers = {
 
     /**
      * Хелпер для отображения панели операций над записью наверху/внизу.
-     * @function Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
+     * @function 
+     * @name Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
      * @param {MoveDirection} direction
      * @param {Types/entity:Record} item Экземпляр элемента, действие которого обрабатывается.
      * @param {Types/collection:RecordSet} items Список всех элементов.
