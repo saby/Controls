@@ -1,20 +1,19 @@
-<Controls.dateRange:LiteSelector
-        source="{{_source}}"
-        attr:test_name="default_range">
+<Controls.shortDatePicker:View
+        source="{{_source}}">
     <ws:monthTemplate>
         <ws:partial template="Controls/shortDatePicker:MonthTemplate">
             <ws:iconTemplate>
-                    <ws:if data="{{iconTemplate.extData}}">
-                        <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
-                            <div class="icon-16 icon-Yes icon-done"></div>
-                        </div>
-                    </ws:if>
-                    <ws:else data="{{iconTemplate.extData === 0}}">
-                        <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц не закрыт]}">
-                            <div class="icon-16 icon-Yes icon-disabled"></div>
-                        </div>
-                    </ws:else>
+                <ws:if data="{{iconTemplate.extData}}">
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
+                        <div class="icon-16 icon-Yes icon-done"></div>
+                    </div>
+                </ws:if>
+                <ws:else data="{{iconTemplate.extData === 0}}">
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц не закрыт]}">
+                        <div class="icon-16 icon-Yes icon-disabled"></div>
+                    </div>
+                </ws:else>
             </ws:iconTemplate>
         </ws:partial>
     </ws:monthTemplate>
-</Controls.dateRange:LiteSelector>
+</Controls.shortDatePicker:View>

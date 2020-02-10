@@ -178,7 +178,7 @@ var Component = BaseControl.extend({
         if (this._options.chooseQuarters || this._options.chooseMonths) {
             return 'controls-PeriodLiteDialog__width-medium';
         }
-        return '';
+        return 'controls-PeriodLiteDialog__width-small';
     },
 
     _getListCssClasses: function () {
