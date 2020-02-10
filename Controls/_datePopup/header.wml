@@ -15,7 +15,7 @@
          on:valueChanged="_toggleStateClick()"
       />
    <!--</div>-->
-   <div if="{{ _headerType === _HEADER_TYPES.link }}" class="controls-PeriodDialog__header-period">
+   <div if="{{ _headerType === _HEADER_TYPES.link }}" class="controls-PeriodDialog__header-period controls-PeriodDialog__header-link">
       <Controls.dateRange:LinkView
          startValue="{{_headerRangeModel.startValue}}"
          endValue="{{_headerRangeModel.endValue}}"
