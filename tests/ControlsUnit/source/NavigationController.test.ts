@@ -4,187 +4,402 @@ import {assert} from 'chai';
 import {NavigationController} from 'Controls/source';
 import {INavigationOptionValue} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
-import {Remote, Query, DataSet, Memory} from 'Types/source';
-import {Record} from 'Types/entity';
-import {TNavigationDirection, TNavigationSource, TNavigationView} from 'Controls/_interface/INavigation';
-import {IOptions} from 'Types/_source/Local';
+import {
+    INavigationPageSourceConfig, INavigationPositionSourceConfig, INavigationSourceConfig,
+    TNavigationDirection
+} from 'Controls/_interface/INavigation';
+import {
+    Direction,
+    IAdditionalQueryParams,
+    IAdditionQueryParamsMeta
+} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {SourceFaker} from 'Controls-demo/List/Utils/listDataGenerator';
 
-export const fakeNavigationControllerNavigation = (source: TNavigationSource, view: TNavigationView, direction: TNavigationDirection, hasMore: boolean): INavigationOptionValue => {
+const fakePageNavigationConfig = (hasMore?: boolean, page: number = 0): INavigationOptionValue<INavigationPageSourceConfig> => {
     return {
-        source,
-        view,
-        viewConfig: {
-            pagingMode: 'direct'
-        },
+        source: 'page',
         sourceConfig: {
-            limit: 10,
-            position: 2,
-            direction,
-            field: 'key',
             pageSize: 3,
-            page: 0,
-            hasMore
-        }
+            page,
+            hasMore: hasMore !== undefined ? hasMore : false
+        } as INavigationPageSourceConfig
     };
 };
 
-export const dataFaker = (query?: Query): Array<{[p: string]: string | number}> => {
-    return [
-        {key: 1, buyerId: 1, date: '2016-06-01 12:12:45', amount: 96},
-        {key: 2, buyerId: 2, date: '2016-06-02 09:01:12', amount: 174},
-        {key: 3, buyerId: 1, date: '2016-06-03 10:24:28', amount: 475},
-        {key: 4, buyerId: 1, date: '2016-06-02 14:12:45', amount: 96},
-        {key: 5, buyerId: 2, date: '2016-06-02 16:01:12', amount: 174},
-        {key: 6, buyerId: 1, date: '2016-06-04 13:24:28', amount: 475},
-        {key: 7, buyerId: 1, date: '2016-06-05 14:12:45', amount: 96},
-        {key: 8, buyerId: 2, date: '2016-06-05 16:01:12', amount: 174},
-        {key: 9, buyerId: 1, date: '2016-06-06 17:24:28', amount: 475}
-    ];
+const fakePositionNavigationConfig = (direction?: TNavigationDirection): INavigationOptionValue<INavigationPositionSourceConfig> => {
+    return {
+        source: 'position',
+        sourceConfig: {
+            limit: 5,
+            position: 55,
+            direction: direction ? direction : 'after',
+            field: 'key'
+        } as INavigationPositionSourceConfig
+    };
 };
 
-class DataSetFaker {
-    private readonly _query: Query;
+const NUMBER_OF_ITEMS = 50;
 
-    constructor(query: Query) {
-        this._query = query;
-    }
+/*
+ * Это действие в контролах производится контролом пейджера при нажатии на кнопку >> или <<
+ * @param currentPage
+ * @param direction
+ */
+const pagerFaker = (currentPage: number): (direction: Direction) => number => {
+    let page = currentPage;
+    return (direction: Direction) => {
+        if (direction === 'down') {
+            page++;
+        } else if (direction === 'up') {
+            page--;
+        }
+        return page;
+    };
+};
 
-    query(): DataSet {
-        return new DataSet({
-            rawData: {
-                orders: dataFaker(this._query),
-                buyers: [
-                    {id: 1, email: 'tony@stark-industries.com', phone: '555-111-222'},
-                    {id: 2, email: 'steve-rogers@avengers.us', phone: '555-222-333'}
-                ],
-                total: {
-                    dateFrom: '2016-06-01 00:00:00',
-                    dateTo: '2016-07-01 00:00:00',
-                    amount: 745,
-                    deals: 9,
-                    completed: 6,
-                    paid: 6,
-                    awaited: 3,
-                    rejected: 0
-                },
-                executeDate: '2016-06-27 11:34:57'
-            },
-            itemsProperty: 'orders',
-            keyProperty: 'key'
-        });
-    }
-    static instance = (query?: Query): DataSetFaker => {
-        return new DataSetFaker(query);
-    }
-}
-
-class NavigationControllerSourceFaker extends Remote {
-    constructor(options?: IOptions) {
-        super(options);
-    }
-
-    create(meta?: object): Promise<Record> {
-        return undefined;
-    }
-
-    destroy(keys: number | string | number[] | string[], meta?: object): Promise<null> {
-        return undefined;
-    }
-
-    query(query?: Query): Promise<DataSet> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(DataSetFaker.instance(query).query());
-            }, 2000);
-        });
-    }
-
-    read(key: number | string, meta?: object): Promise<Record> {
-        return undefined;
-    }
-
-    update(data: Record | RecordSet, meta?: object): Promise<null> {
-        return undefined;
-    }
-
-    static instance(options?: IOptions): NavigationControllerSourceFaker {
-        return new NavigationControllerSourceFaker(options);
-    }
-}
+/*
+ * считает последнее значение ключевого поля от выбранного набора данных
+ * @param rs
+ * @param direction
+ */
+const lastKey = (rs: RecordSet, direction?: Direction): number => {
+    return rs.at(rs.getCount() - 1).getKey() + (direction === 'up' ? 1 : 0);
+};
 
 /**
  * @see also tests/ControlsUnit/Controllers/SourceController.test.js
  */
 describe('Controls/_source/NavigationController', () => {
-    const keyProperty: string = 'id';
+    let source: SourceFaker;
 
-    describe('load', () => {
-        it('Should load data + PagePaginatorController', () => {
-            const source = NavigationControllerSourceFaker.instance();
-            const controller = new NavigationController({
-                source,
-                keyProperty,
-                navigation: fakeNavigationControllerNavigation('page', 'pages', 'after', false)
-            });
-            return controller.load()
-                .then((recordSet) => {
-                    const expectedSet: RecordSet = DataSetFaker.instance().query().getAll();
-                    assert.equal(recordSet.at(0).get('key'), expectedSet.at(0).get('key'));
-                    assert.equal(recordSet.at(1).get('key'), expectedSet.at(1).get('key'));
-                });
-        });
-        it('Should load data + PositionPaginatorController', () => {
-            const source = NavigationControllerSourceFaker.instance();
-            const controller = new NavigationController({
-                source,
-                keyProperty,
-                navigation: fakeNavigationControllerNavigation('position', 'infinity', 'after', false)
-            });
-            return controller.load()
-                .then((recordSet) => {
-                    const expectedSet: RecordSet = DataSetFaker.instance().query().getAll();
-                    assert.equal(recordSet.at(0).get('key'), expectedSet.at(0).get('key'));
-                    assert.equal(recordSet.at(1).get('key'), expectedSet.at(1).get('key'));
-                });
-        });
-        it('Should work with Types/source:Memory', () => {
-            const data = dataFaker();
-            const source = new Memory({
-                keyProperty: 'key',
-                data
-            });
-            const controller = new NavigationController({
-                source,
-                keyProperty: 'key',
-                navigation: fakeNavigationControllerNavigation('page', 'pages', 'after', false)
-            });
-            return controller.load()
-                .then((recordSet) => {
-                    assert.equal(recordSet.at(0).get('key'), data[0].key);
-                    assert.equal(recordSet.at(1).get('key'), data[1].key);
-                });
+    let recordSet: RecordSet;
+    let moreRecordSet: RecordSet;
+    let more2RecordSet: RecordSet;
+
+    beforeEach(() => {
+        source = new SourceFaker({perPage: NUMBER_OF_ITEMS, keyProperty: 'key'});
+        recordSet = source.querySync().getAll();
+        moreRecordSet = source.resetSource(lastKey(recordSet, 'up')).querySync().getAll();
+        more2RecordSet = source.resetSource(lastKey(moreRecordSet, 'up')).querySync().getAll();
+    });
+
+    describe('getQueryParams with source="page" and hasMore=false', () => {
+        let navigation: INavigationOptionValue<INavigationPageSourceConfig>;
+        let controller: NavigationController;
+        let query: IAdditionalQueryParams;
+        let queryMeta: IAdditionQueryParamsMeta;
+
+        beforeEach(() => {
+            navigation = fakePageNavigationConfig();
+            controller = new NavigationController({navigation});
         });
 
-        it('Should correctly merge query params', () => {
-            // Организуем новый сурс
-            const source = new Memory({
-                keyProperty: 'key',
-                data: dataFaker()
+        it('should build query using PageQueryParamsController', () => {
+            query = controller.getQueryParams();
+            queryMeta = query.meta;
+            assert.equal(queryMeta.navigationType, 'Page');
+            assert.equal(query.limit, navigation.sourceConfig.pageSize);
+            assert.equal(query.offset, 0);
+        });
+
+        it('should correctly set particular page number', () => {
+            navigation.sourceConfig.page = 1;
+            controller.setConfig(navigation.sourceConfig);
+            query = controller.getQueryParams();
+            queryMeta = query.meta;
+            assert.equal(query.offset, query.limit);
+        });
+
+        it('should correctly calculate next and then previous page params', () => {
+            const pager = pagerFaker(0);
+
+            // query params for page 0;
+            query = controller.getQueryParams();
+
+            // click >>
+            query = controller.getQueryParams('down');
+            navigation.sourceConfig.page = pager('down');
+            controller.setConfig(navigation.sourceConfig);
+
+            // click <<
+            query = controller.getQueryParams('up');
+
+            assert.equal(query.offset, 0);
+        });
+    });
+
+    describe('getQueryParams with "page" navigation in Old-BaseControl-style', () => {
+        let navigation: INavigationOptionValue<INavigationPageSourceConfig>;
+        let controller: NavigationController;
+        let query: IAdditionalQueryParams;
+
+        // Please consider, that QueryParamsController can not calculate 'up' after 'down' or
+        // 'down' after 'up' w/o resetting current pager config :(
+        describe('should correctly calculate query params with hasMore=false', () => {
+            it('should correctly calculate next page params w/o setting particular page', () => {
+                navigation = fakePageNavigationConfig(false, 0);
+                controller = new NavigationController({navigation});
+                recordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.hasMore === false
+                     */
+                    more: NUMBER_OF_ITEMS
+                });
+                query = controller.getQueryParams();
+                assert.equal(query.offset, 0);
+
+                // click >> (correctly calculates the first query params exactly with this direction values ...)
+                controller.updateQueryProperties(recordSet, null);
+                query = controller.getQueryParams('down');
+
+                assert.equal(query.offset, query.limit);
+
+                moreRecordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.direction !== false'
+                     */
+                    more: NUMBER_OF_ITEMS
+                });
+
+                // click >>
+                controller.updateQueryProperties(moreRecordSet, 'down');
+                query = controller.getQueryParams('down');
+
+                assert.equal(query.offset, query.limit * 2);
             });
 
+            it('should correctly calculate previous page params w/o setting particular page', () => {
+                navigation = fakePageNavigationConfig(false, 2);
+                controller = new NavigationController({navigation});
+                recordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.hasMore === false
+                     */
+                    more: NUMBER_OF_ITEMS
+                });
 
+                // click << (correctly calculates the first query params exactly with this direction values ...)
+                controller.updateQueryProperties(moreRecordSet, null);
+                query = controller.getQueryParams('up');
 
-            // инициализируем контроллер
-            const controller = new NavigationController({
-                source,
-                keyProperty: 'key',
-                navigation: fakeNavigationControllerNavigation('position', 'infinity', 'both', true)
+                assert.equal(query.offset, query.limit);
+
+                moreRecordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.direction !== false'
+                     */
+                    more: NUMBER_OF_ITEMS
+                });
+
+                // click <<
+                controller.updateQueryProperties(moreRecordSet, 'up');
+                query = controller.getQueryParams('up');
+
+                assert.equal(query.offset, 0);
             });
-            const recordSet: RecordSet = DataSetFaker.instance().query().getAll();
-            recordSet.setMetaData({more: { after: true, before: false }, nextPosition: {before: [1], after: [7]}});
-            controller.calculateState(recordSet);
-            return controller.load()
-                .then((recordSet) => {});
+        });
+
+        describe('should correctly calculate query params with hasMore=true', () => {
+            it('should correctly calculate next page params w/o setting particular page', () => {
+                navigation = fakePageNavigationConfig(true, 0);
+                controller = new NavigationController({navigation});
+                recordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.hasMore === false
+                     */
+                    more: true
+                });
+                query = controller.getQueryParams();
+                assert.equal(query.offset, 0);
+
+                // click >> (correctly calculates the first query params exactly with this direction values ...)
+                controller.updateQueryProperties(recordSet, null);
+                query = controller.getQueryParams('down');
+
+                assert.equal(query.offset, query.limit);
+
+                moreRecordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.direction !== false'
+                     */
+                    more: true
+                });
+
+                // click >>
+                controller.updateQueryProperties(moreRecordSet, 'down');
+                query = controller.getQueryParams('down');
+
+                assert.equal(query.offset, query.limit * 2);
+            });
+
+            it('should correctly calculate previous page params w/o setting particular page', () => {
+                navigation = fakePageNavigationConfig(true, 2);
+                controller = new NavigationController({navigation});
+                recordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.hasMore === false
+                     */
+                    more: true
+                });
+
+                // click << (correctly calculates the first query params exactly with this direction values ...)
+                controller.updateQueryProperties(moreRecordSet, null);
+                query = controller.getQueryParams('up');
+
+                assert.equal(query.offset, query.limit);
+
+                moreRecordSet.setMetaData({
+                    /*
+                     * valid when INavigationOptionValue.direction !== false'
+                     */
+                    more: true
+                });
+
+                // click <<
+                controller.updateQueryProperties(moreRecordSet, 'up');
+                query = controller.getQueryParams('up');
+
+                assert.equal(query.offset, 0);
+            });
+        });
+    });
+
+    describe('getQueryParams with source="position" and direction="after"', () => {
+        let navigation: INavigationOptionValue<INavigationPositionSourceConfig>;
+        let controller: NavigationController;
+        let query: IAdditionalQueryParams;
+
+        beforeEach(() => {
+            navigation = fakePositionNavigationConfig('after');
+            controller = new NavigationController({navigation});
+        });
+
+        it('should build query using PositionQueryParamsController', () => {
+            query = controller.getQueryParams();
+            const queryMeta = query.meta;
+            assert.equal(queryMeta.navigationType, 'Position');
+            assert.equal(query.limit, navigation.sourceConfig.limit);
+            const where = query.filter;
+            assert.equal(where['key>='], navigation.sourceConfig.position);
+        });
+
+        it('should correctly build params for first query', () => {
+            recordSet.setMetaData({
+                /*
+                 * valid when INavigationOptionValue.direction !== 'both'
+                 * OR updateQueryProperties.direction is set
+                 */
+                more: true
+            });
+            controller.updateQueryProperties(recordSet, null);
+            query = controller.getQueryParams();
+            const where = query.filter;
+            assert.equal(where['key>='], navigation.sourceConfig.position);
+        });
+
+        it('should correctly calculate next page params', () => {
+            recordSet.setMetaData({
+                /*
+                 * valid anyway
+                 */
+                more: more2RecordSet
+            });
+            controller.updateQueryProperties(recordSet, 'down');
+            query = controller.getQueryParams('down');
+            const where = query.filter;
+            assert.equal(where['key>='], more2RecordSet.getCount() - 1);
+        });
+    });
+
+    describe('getQueryParams with source="position" and direction="both"', () => {
+        let navigation: INavigationOptionValue<INavigationPositionSourceConfig>;
+        let controller: NavigationController;
+        let query: IAdditionalQueryParams;
+
+        beforeEach(() => {
+            navigation = fakePositionNavigationConfig('both');
+            controller = new NavigationController({navigation});
+        });
+
+        it('Should correctly calculate query params', () => {
+            let where;
+            moreRecordSet.setMetaData({
+                more: {
+                    /*
+                     * valid when INavigationOptionValue.direction === 'both'
+                     * and updateQueryProperties.direction isn't set
+                     */
+                    after: true, before: true
+                }
+            });
+            controller.updateQueryProperties(moreRecordSet, null);
+
+            // when we want to go next before current position
+            query = controller.getQueryParams('up');
+            where = query.filter;
+            assert.equal(where['key<='], lastKey(recordSet, 'up'));
+
+            // when we want to go next after current position
+            query = controller.getQueryParams('down');
+            where = query.filter;
+            assert.equal(where['key>='], lastKey(moreRecordSet, 'down'));
+
+            // when we want to calculate params for current position
+            query = controller.getQueryParams();
+            where = query.filter;
+            assert.equal(where['key~'], navigation.sourceConfig.position);
+        });
+
+        it('should correctly calculate previous page params', () => {
+            moreRecordSet.setMetaData({
+                more: {
+                    /*
+                     * valid when INavigationOptionValue.direction === 'both'
+                     * and updateQueryProperties.direction isn't set
+                     */
+                    after: true, before: true
+                }
+            });
+            controller.updateQueryProperties(moreRecordSet, null);
+            more2RecordSet.setMetaData({
+                /*
+                 * valid when INavigationOptionValue.direction !== 'both'
+                 * OR updateQueryProperties.direction is set
+                 */
+                more: true
+            });
+            controller.updateQueryProperties(more2RecordSet, 'up');
+            query = controller.getQueryParams('up');
+            const where = query.filter;
+            assert.equal(where['key<='], lastKey(moreRecordSet, 'up'));
+        });
+    });
+
+    describe('getQueryParams with user defined filter and sort', () => {
+        let navigation: INavigationOptionValue<INavigationSourceConfig>;
+        let controller: NavigationController;
+        let query: IAdditionalQueryParams;
+
+        it('Should correctly merge query params + source="position" + direction="after"', () => {
+            navigation = fakePositionNavigationConfig('after');
+            controller = new NavigationController({navigation});
+            recordSet.setMetaData({
+                /*
+                 * valid when INavigationOptionValue.direction !== 'both'
+                 * OR updateQueryProperties.direction is set
+                 */
+                more: true
+            });
+            controller.updateQueryProperties(recordSet, null);
+            const sorting = [{amount: false}, {buyerId: true}];
+            query = controller.getQueryParams(null, {
+                'buyerId>': 2
+            }, sorting);
+
+            const where = query.filter;
+            assert.equal(where['buyerId>'], 2);
+            assert.equal(where['key>='], (navigation.sourceConfig as INavigationPositionSourceConfig).position);
+            assert.equal(query.sorting[1], sorting[1]);
         });
     });
 });

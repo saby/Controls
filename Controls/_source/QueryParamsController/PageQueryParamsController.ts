@@ -3,10 +3,12 @@ import {RecordSet} from 'Types/collection';
 import {IAdditionalQueryParams, Direction} from '../interface/IAdditionalQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {default as More} from './More';
+import {Collection} from 'Controls/display';
+import {Record} from 'Types/entity';
 
-export interface IPagePaginationOptions {
+export interface IPageQueryParamsControllerOptions {
+    pageSize: number;
     page?: number;
-    pageSize?: number;
     hasMore?: boolean;
 }
 
@@ -18,15 +20,11 @@ class PageQueryParamsController implements IQueryParamsController {
     protected _prevPage: number = -1;
     protected _more: More = null;
     protected _page: number = 0;
-    protected _options: IPagePaginationOptions | null;
+    protected _options: IPageQueryParamsControllerOptions | null;
 
-    constructor(cfg: IPagePaginationOptions) {
+    constructor(cfg: IPageQueryParamsControllerOptions) {
         this._options = cfg;
-        this._page = cfg.page || 0;
-        if (this._page !== undefined) {
-            this._prevPage = this._page - 1;
-            this._nextPage = this._page + 1;
-        }
+        this._setPageNumbers(cfg.page);
         if (!this._options.pageSize) {
             throw new Error('Option pageSize is undefined in PagePagination');
         }
@@ -39,28 +37,41 @@ class PageQueryParamsController implements IQueryParamsController {
         return this._more;
     }
 
-    private validateNavigation(navigationResult: boolean | number | RecordSet): void {
-        const self = this;
-        const validate = (more) => {
-            if (self._options.hasMore === false) {
+    private _processMoreByType(more: boolean | number | RecordSet): void {
+
+        const process = (_more) => {
+            if (this._options.hasMore === false) {
                 // meta.more can be undefined is is not error
-                if (more && (typeof more !== 'number')) {
+                if (_more && (typeof _more !== 'number')) {
                     throw new Error('"more" Parameter has incorrect type. Must be numeric');
                 }
             } else {
                 // meta.more can be undefined is is not error
-                if (more && (typeof more !== 'boolean')) {
+                if (_more && (typeof _more !== 'boolean')) {
                     throw new Error('"more" Parameter has incorrect type. Must be boolean');
                 }
             }
         };
 
-        if (navigationResult && navigationResult.each) {
-            navigationResult.each((navResult) => {
-                validate(navResult.get('nav_result'));
+        if (more && (more instanceof RecordSet)) {
+            more.each((navResult) => {
+                process(navResult.get('nav_result'));
             });
         } else {
-            validate(navigationResult);
+            process(more);
+        }
+    }
+
+    /**
+     * Устанавливает текущую страницу
+     * @param page
+     * @private
+     */
+    private _setPageNumbers(page: number): void {
+        this._page = page || 0;
+        if (this._page !== undefined) {
+            this._prevPage = this._page - 1;
+            this._nextPage = this._page + 1;
         }
     }
 
@@ -90,14 +101,49 @@ class PageQueryParamsController implements IQueryParamsController {
         return addParams;
     }
 
-    setState(state: any): void {
+    /**
+     * Позволяет установить параметры контроллера из Collection<Record>
+     * @param model
+     * TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
+     */
+    /*
+     * Allows manual set of current controller state using Collection<Record>
+     * @param model
+     */
+    setState(model: Collection<Record>): void {
         // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
     }
 
-    calculateState(list: RecordSet, direction: Direction): void {
-        const meta = list.getMetaData();
+    /**
+     * Позволяет устанавить конфиг для контроллера навигации
+     * @remark
+     * @param config INavigationSourceConfig
+     */
+    /*
+     * Allows to set navigation controller config
+     * @remark
+     * @param config INavigationSourceConfig
+     */
+    setConfig(config: IPageQueryParamsControllerOptions): void {
+        this._options = config;
+        this._setPageNumbers(config.page);
+    }
 
-        this.validateNavigation(meta.more);
+    /**
+     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу, или позицию
+     * @param list {Types/collection:RecordSet} объект, содержащий метаданные текущего запроса
+     * @param direction {Direction} направление навигации ('up' или 'down')
+     */
+    /*
+     * Calculates next query params controller state: next page, or position
+     * @param list {Types/collection:RecordSet} object containing meta information for current request
+     * @param direction {Direction} nav direction ('up' or 'down')
+     */
+    updateQueryProperties(list?: RecordSet | {[p: string]: unknown}, direction?: Direction): void {
+        const meta = (list as RecordSet).getMetaData();
+
+        // Look at the Types/source:DataSet there is a remark "don't use 'more' anymore"...
+        this._processMoreByType(meta.more);
         this._getMore().setMoreMeta(meta.more);
 
         if (direction === 'down') {

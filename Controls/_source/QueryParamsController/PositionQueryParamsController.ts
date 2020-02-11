@@ -6,6 +6,8 @@ import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {default as More} from './More';
 import {Logger} from 'UI/Utils';
 
+import { Collection } from 'Controls/display';
+
 interface IPositionHasMore {
     before: boolean;
     after: boolean;
@@ -14,6 +16,11 @@ interface IPositionHasMore {
 declare type FieldCfg = any;
 declare type Field = any[];
 declare type PositionCfg = any;
+
+/**
+ * Позиция, от которой нужно начинать скролл
+ * Является массивом из любых типов (number, date, string и тд)
+ */
 declare type Position = any[];
 
 interface IPositionBoth {
@@ -32,6 +39,12 @@ export interface IPositionQueryParamsControllerOptions {
 }
 
 /**
+ * Навигация по курсору
+ * @remark
+ * Механизм ускоренной выборки записей из таблицы БД относительно т.н. курсора
+ * (фиксированной записи списка).
+ * Функционал может применяться для режима бесконечной подгрузки данных,
+ * где курсором считается первая или последняя запись списка на странице при скролле вверх или вниз соответственно
  * @author Крайнов Дмитрий
  */
 class PositionQueryParamsController implements IQueryParamsController {
@@ -104,7 +117,7 @@ class PositionQueryParamsController implements IQueryParamsController {
         };
     }
 
-    private _processMoreByType(navResult: HasMore, loadDirection: Direction): void {
+    private _processMoreByType(navResult: HasMore, loadDirection?: Direction): void {
         let navDirection: DirectionCfg;
 
         const process = (more, key?) => {
@@ -131,7 +144,7 @@ class PositionQueryParamsController implements IQueryParamsController {
             }
         };
 
-        if (navResult && navResult.each) {
+        if (navResult && (navResult instanceof RecordSet)) {
             if (!this._isMoreCreated()) {
                 this._createMore(navResult);
             } else {
@@ -205,9 +218,16 @@ class PositionQueryParamsController implements IQueryParamsController {
         };
     }
 
-    // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-    // TODO argument type
-    setState(model: any): void {
+    /**
+     * Позволяет установить параметры контроллера из Collection<Record>
+     * @param model
+     * TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
+     */
+    /*
+     * Allows manual set of current controller state using Collection<Record>
+     * @param model
+     */
+    setState(model: Collection<Record>): void {
         if (!this._positionByMeta) {
             const beforePosition = model.getFirstItem();
             const afterPosition = model.getLastItem();
@@ -220,12 +240,37 @@ class PositionQueryParamsController implements IQueryParamsController {
         }
     }
 
-    calculateState(list: RecordSet, loadDirection: Direction): void {
+    /**
+     * Позволяет устанавить конфиг для контроллера навигации
+     * @remark
+     * @param config INavigationSourceConfig
+     */
+    /*
+     * Allows to set navigation controller config
+     * @remark
+     * @param config INavigationSourceConfig
+     */
+    setConfig(config: IPositionQueryParamsControllerOptions): void {
+        this._options = config;
+    }
+
+    /**
+     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу, или позицию
+     * @param list {Types/collection:RecordSet} объект, содержащий метаданные текущего запроса
+     * @param direction {Direction} направление навигации ('up' или 'down')
+     */
+    /*
+     * Calculates next query params controller state: next page, or position
+     * @param list {Types/collection:RecordSet} object containing meta information for current request
+     * @param direction {Direction} nav direction ('up' or 'down')
+     */
+    updateQueryProperties(list?: RecordSet | {[p: string]: unknown}, loadDirection?: Direction): void {
         let metaNextPosition: PositionBoth;
         let more: HasMore;
 
+        // Look at the Types/source:DataSet there is a remark "don't use 'more' anymore"...
         let edgeElem: Record;
-        const meta = list.getMetaData();
+        const meta = (list as RecordSet).getMetaData();
         more = meta.more;
         metaNextPosition = meta.nextPosition;
 
@@ -265,13 +310,13 @@ class PositionQueryParamsController implements IQueryParamsController {
             }
 
         } else {
-            if (list.getCount()) {
+            if ((list as RecordSet).getCount()) {
                 if (loadDirection !== 'down') {
-                    edgeElem = list.at(0);
+                    edgeElem = (list as RecordSet).at(0);
                     this._beforePosition = this._resolvePosition(edgeElem, this._options.field);
                 }
                 if (loadDirection !== 'up') {
-                    edgeElem = list.at(list.getCount() - 1);
+                    edgeElem = (list as RecordSet).at((list as RecordSet).getCount() - 1);
                     this._afterPosition = this._resolvePosition(edgeElem, this._options.field);
                 }
             }

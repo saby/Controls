@@ -32,7 +32,7 @@ import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
-import {INavigationOptionValue} from 'Controls/interface';
+import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INavigation';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -610,7 +610,7 @@ var _private = {
         return  result;
     },
 
-    needLoadByMaxCountNavigation(listViewModel, navigation: INavigationOptionValue): boolean {
+    needLoadByMaxCountNavigation(listViewModel, navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         let result = false;
 
         if (_private.isMaxCountNavigation(navigation) && _private.isMaxCountNavigationConfiguredCorrect(navigation)) {
@@ -623,15 +623,15 @@ var _private = {
         return result;
     },
 
-    getMaxCountFromNavigation(navigation: INavigationOptionValue): number {
+    getMaxCountFromNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): number {
         return navigation.viewConfig.maxCountValue;
     },
 
-    isMaxCountNavigation(navigation: INavigationOptionValue): boolean {
+    isMaxCountNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         return navigation && navigation.view === 'maxCount';
     },
 
-    isMaxCountNavigationConfiguredCorrect(navigation: INavigationOptionValue): boolean {
+    isMaxCountNavigationConfiguredCorrect(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         return navigation.viewConfig && typeof navigation.viewConfig.maxCountValue === 'number';
     },
 
@@ -639,11 +639,11 @@ var _private = {
         return navigationMaxCount >  itemsCount;
     },
 
-    isDemandNavigation(navigation: INavigationOptionValue): boolean {
+    isDemandNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         return navigation && navigation.view === 'demand';
     },
 
-    needShowShadowByNavigation(navigation: INavigationOptionValue, itemsCount: number): boolean {
+    needShowShadowByNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>, itemsCount: number): boolean {
         const isDemand = _private.isDemandNavigation(navigation);
         const isMaxCount = _private.isMaxCountNavigation(navigation);
         let result = true;

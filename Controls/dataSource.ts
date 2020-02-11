@@ -11,4 +11,5 @@ import * as parking from 'Controls/_dataSource/parking';
 import * as error from 'Controls/_dataSource/error';
 import requestDataUtil, {ISourceConfig, IRequestDataResult} from 'Controls/_dataSource/requestDataUtil';
 
-export { parking, error, requestDataUtil, ISourceConfig, IRequestDataResult };
+export {parking, error, requestDataUtil, ISourceConfig, IRequestDataResult};
+export { SourceCrudInterlayer, ISourceErrorConfig } from 'Controls/_dataSource/SourceCrudInterlayer';

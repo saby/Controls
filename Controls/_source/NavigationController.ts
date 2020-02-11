@@ -1,10 +1,8 @@
-import {ICrud, Query, DataSet, QueryOrderSelector, QueryWhere} from 'Types/source';
+import {QueryOrderSelector, QueryWhere} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {Record} from 'Types/entity';
 import {INavigationOptionValue} from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 
-import * as cInstance from 'Core/core-instance';
 import * as cClone from 'Core/core-clone';
 
 import {IQueryParamsController} from './interface/IQueryParamsController';
@@ -16,6 +14,7 @@ import {
     IAdditionalQueryParams,
     IAdditionQueryParamsMeta
 } from './interface/IAdditionalQueryParams';
+import {INavigationSourceConfig} from 'Controls/_interface/INavigation';
 
 /**
  * Вспомогательный интерфейс для определения типа typeof object
@@ -29,9 +28,7 @@ import {
  * @private
  * @author Аверкиев П.А.
  */
-interface IType<T> extends Function {
-    new(...args: any[]): T;
-}
+type IType<T> = new(...args: any[]) => T;
 
 /**
  * Вспомогательный интерфейс для определения простых мапов {[key: string]: any}
@@ -55,7 +52,7 @@ interface IDictionary<T> {
  * Поддерживает два варианта - 'page' и 'position'
  * @class Controls/_source/NavigationControllerFactory
  * @example
- * const cName:INavigationOptionValue = {source: 'page'};
+ * const cName:INavigationOptionValue<INavigationPageSourceConfig> = {source: 'page'};
  * const controller = NavigationControllerFactory.resolve(cName);
  * @private
  * @author Аверкиев П.А.
@@ -66,7 +63,7 @@ interface IDictionary<T> {
  * Supports two variants of navigation query controllers - 'page' and 'position'
  * @class Controls/_source/NavigationControllerFactory
  * @example
- * const cName:INavigationOptionValue = {source: 'page'};
+ * const cName:INavigationOptionValue<INavigationPageSourceConfig> = {source: 'page'};
  * const controller = NavigationControllerFactory.resolve(cName);
  * @private
  * @author Аверкиев П.А.
@@ -77,7 +74,7 @@ class NavigationControllerFactory {
         position: PositionQueryParamsController
     };
 
-    static resolve(navigationOptionValue: INavigationOptionValue): IQueryParamsController {
+    static resolve(navigationOptionValue: INavigationOptionValue<INavigationSourceConfig>): IQueryParamsController {
         if (!navigationOptionValue.source) {
             return;
         }
@@ -101,7 +98,7 @@ class NavigationControllerFactory {
  * const queryBuilder = new QueryParamsBuilder(params);
  * const params2: IAdditionalQueryParams = {filter, meta, offset, limit};
  * const queryBuilder2 = new QueryParamsBuilder(params);
- * const query = queryBuilder.merge(queryBuilder2.raw()).build();
+ * const query = queryBuilder.merge(queryBuilder2.raw()).raw();
  * @private
  * @author Аверкиев П.А.
  */
@@ -148,10 +145,19 @@ class QueryParamsBuilder {
      */
     merge(params: IAdditionalQueryParams): QueryParamsBuilder {
         Object.keys(params).forEach((param) => {
-            if (params[param]) {
+            if (params[param] !== undefined && params[param] !== null) {
                 if (param === 'filter') {
                     const filter: QueryWhere = this._filter ? cClone(this._filter) : {};
                     this._filter = ({...filter, ...params[param]});
+                } else if (param === 'sorting') {
+                    if (!this._sorting) {
+                        this._sorting = params[param];
+                    } else if (Array.isArray(this._sorting) && Array.isArray(params[param])) {
+                        // @ts-ignore
+                        this._sorting = this._sorting.concat(params[param]);
+                    } else {
+                        this._sorting = params[param];
+                    }
                 } else {
                     this[`_${param}`] = params[param];
                 }
@@ -175,63 +181,24 @@ class QueryParamsBuilder {
             meta: this._meta
         };
     }
-
-    /**
-     * Собирает свойства текущего класса в запрос Types/source:Query
-     * @return {Types/source:Query} Объект Query, готовый для передачи в ICrud.query()
-     */
-    /*
-     * Builds current class properties to the Types/source:Query query
-     * @return {Types/source:Query} Query object ready to pass to ICrud.query()
-     */
-    build(): Query {
-        const query = new Query();
-        query.where(this._filter)
-            .offset(this._offset)
-            .limit(this._limit)
-            .orderBy(this._sorting)
-            .meta(this._meta);
-        return query;
-    }
 }
 
 export interface INavigationControllerOptions {
     /**
-     * @name Controls/_source/NavigationController#source
-     * @cfg {Types/source:ICrud} Ресурс для запроса данных
-     */
-    /*
-     * @name Controls/_source/NavigationController#source
-     * @cfg {Types/source:ICrud} Source to request data
-     */
-    source: ICrud;
-
-    /**
      * @name Controls/_source/NavigationController#navigation
-     * @cfg {Types/source:INavigationOptionValue} Опции навигации
+     * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации
      */
     /*
      * @name Controls/_source/NavigationController#navigation
      * @cfg {Types/source:INavigationOptionValue} Navigation options
      */
-    navigation?: INavigationOptionValue;
-
-    /**
-     * @name Controls/_source/NavigationController#keyProperty
-     * @cfg {string} Название поля ключа для Types/source:DataSet
-     */
-    /*
-     * @name Controls/_source/NavigationController#keyProperty
-     * @cfg {string} Name of the key property for Types/source:DataSet
-     */
-    keyProperty: string;
+    navigation?: INavigationOptionValue<INavigationSourceConfig>;
 }
 
 /**
- * Контроллер загрузки данных с учётом постраничной навигации
+ * Контроллер постраничной навигации
  * @remark
- * Хранит состояние навигации INavigationOptionValue и вычисляет на его основании параметры для вызова методов.
- * Позволяет запросить данные из ресурса ICrud с учётом настроек навигации INavigationOptionValue
+ * Хранит состояние навигации INavigationOptionValue<INavigationSourceConfig> и вычисляет на его основании параметры для построения запроса Query
  *
  * @class Controls/source/NavigationController
  *
@@ -240,10 +207,9 @@ export interface INavigationControllerOptions {
  * @author Аверкиев П.А.
  */
 /*
- * Data loading and per-page navigation controller
+ * Per-page navigation controller
  * @remark
- * Stores the navigation state and calculates methods calling params on its base
- * Allows to request data from ICrud source, considering navigation options object (INavigationOptionValue)
+ * Stores the navigation state and calculates on its base params to build Query
  *
  * @class Controls/source/NavigationController
  *
@@ -251,283 +217,87 @@ export interface INavigationControllerOptions {
  * @public
  * @author Аверкиев П.А.
  */
-export default class NavigationController {
+export class NavigationController {
+
     protected _options: INavigationControllerOptions | null;
-    private _loader: Promise<RecordSet>;
-    private readonly _source: ICrud;
+
     private readonly _queryParamsController: IQueryParamsController;
 
     constructor(cfg: INavigationControllerOptions) {
         this._options = cfg;
-        if (NavigationController._isValidCrudSource(this._options.source)) {
-            this._source = this._options.source;
-        }
         if (this._options.navigation) {
             this._queryParamsController = NavigationControllerFactory.resolve(this._options.navigation);
         }
     }
 
     /**
-     * Строит запрос данных на основе переданных параметров filter и sorting и возвращает Promise<RecordSet>.
-     * Если в опцию navigation был передан объект INavigationOptionValue, его filter, sorting и настрйоки пейджинации
+     * Строит запрос данных на основе переданных параметров filter и sorting
+     * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настрйоки пейджинации
      * также одбавляются в запрос.
+     * @param direction {Direction} Направление навигации.
      * @param filter {Types/source:QueryWhere} Настрйоки фильтрации
      * @param sorting {Types/source:QueryOrderSelector} Настрйки сортировки
-     * @param direction {Direction} Направление навигации
      */
     /*
-     * Builds a query based on passed filter and sorting params and returns Promise<RecordSet>.
-     * If INavigationOptionValue is set into the class navigation property, its filter, sorting and pagination settings
+     * Builds a query based on passed filter and sorting params
+     * If INavigationOptionValue<INavigationSourceConfig> is set into the class navigation property, its filter, sorting and pagination settings
      * will also be added to query
+     * @param direction {Direction} navigation direction
      * @param filter {Types/source:QueryWhere} filter settings
      * @param sorting {Types/source:QueryOrderSelector} sorting settings
-     * @param direction {Direction} navigation direction
      */
-    load(filter?: QueryWhere, sorting?: QueryOrderSelector, direction?: Direction): Promise<RecordSet> {
+    getQueryParams(direction?: Direction, filter?: QueryWhere, sorting?: QueryOrderSelector): IAdditionalQueryParams {
         const queryParams = new QueryParamsBuilder({filter, sorting});
-        this._cancelLoading();
         if (this._queryParamsController) {
-            queryParams.merge(NavigationController._getNavigationQueryParams(direction, this._queryParamsController));
+            const queryParamsBuilderOptions = this._queryParamsController.prepareQueryParams(direction);
+            const controllerQueryParams = new QueryParamsBuilder(queryParamsBuilderOptions);
+            queryParams.merge(controllerQueryParams.raw());
         }
-        this._loader = this._callQuery(this._source, this._options.keyProperty, queryParams.build())
-            .then((list: RecordSet) => {
-                if (this._queryParamsController) {
-                    this._queryParamsController.calculateState(list, direction);
-                }
-                return list;
-            })
-            .catch((error) => {
-                return error;
-            });
-        return this._loader;
+        return queryParams.raw();
     }
 
     /**
-     * Проверяет, загружаются ли в данный момент данные
-     */
-    /*
-     * Checks if data is currently loading
-     */
-    isLoading(): boolean {
-        // Promise в проекте работает как Deferred (@see WS.Core/core/polyfill/PromiseAPIDeferred).
-        return this._loader && !this._loader.isReady();
-    }
-
-    /**
-     * Создает пустую запись через источник данных (при этом она не сохраняется в хранилище)
-     * @param [meta] Дополнительные мета данные, которые могут понадобиться для создания записи
-     * @return Асинхронный результат выполнения: в случае успеха вернет {@link Types/_entity/Record} - созданную запись, в случае ошибки - Error.
-     * @see Types/_source/ICrud
-     */
-    create(meta?: object): Promise<Record> {
-        return this._source.create(meta);
-    }
-
-    /**
-     * Обновляет запись в источнике данных
-     * @param data Обновляемая запись или рекордсет
-     * @param [meta] Дополнительные мета данные
-     * @return Асинхронный результат выполнения: в случае успеха ничего не вернет, в случае ошибки - Error.
-     * @see Types/_source/ICrud
-     */
-    update(data: Record | RecordSet, meta?: object): Promise<null> {
-        return this._source.update(data);
-    }
-
-    /**
-     * Читает запись из источника данных
-     * @param key Первичный ключ записи
-     * @param [meta] Дополнительные мета данные
-     * @return Асинхронный результат выполнения: в случае успеха вернет {@link Types/_entity/Record} - прочитанную запись, в случае ошибки - Error.
-     * @see Types/_source/ICrud
-     */
-    read(key: number | string, meta?: object): Promise<Record> {
-        return this._source.read(key, meta);
-    }
-
-    /**
-     * Считает число записей, загружаемых за один запрос
-     */
-    /*
-     * Calculates count of records loaded per request
-     */
-    getLoadedDataCount(): number {
-        if (this._queryParamsController) {
-            return this._queryParamsController.getLoadedDataCount();
-        }
-    }
-
-    /**
-     * Считает количество записей всего по мета информации из текущего состояния контроллера и ключу DataSet
-     * @param rootKey свойство key в DataSet
-     */
-    /*
-     * Calculates total records count by meta information from current controller state and DataSet key
-     * @param rootKey DataSet key property
-     */
-    getAllDataCount(rootKey?: string|number): boolean | number {
-        if (this._queryParamsController) {
-            return this._queryParamsController.getAllDataCount();
-        }
-    }
-
-    /**
-     * Проверяет, есть ли ещё данные для загрузки
-     * @param direction {Direction} nav direction ('up' или 'down')
-     * @param rootKey свойство key в DataSet
-     */
-    /*
-     * Checks if there any more data to load
-     * @param direction {Direction} nav direction ('up' or 'down')
-     * @param rootKey DataSet key property
-     */
-    hasMoreData(direction: Direction, key?: string | number): boolean {
-        if (this._queryParamsController) {
-            return this._queryParamsController.hasMoreData(direction, key);
-        }
-    }
-
-    /**
-     * Вычисляет текущее состояние контроллера, например, текущую и следующую страницу, или позицию для навигации
+     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу, или позицию
      * @param list {Types/collection:RecordSet} объект, содержащий метаданные текущего запроса
      * @param direction {Direction} направление навигации ('up' или 'down')
      */
     /*
-     * Calculates current controller state, i.e. current and next page, or position for navigation
+     * Calculates next query params controller state: next page, or position
      * @param list {Types/collection:RecordSet} object containing meta information for current request
      * @param direction {Direction} nav direction ('up' or 'down')
      */
-    calculateState(list: RecordSet, direction?: Direction): void {
+    updateQueryProperties(list?: RecordSet, direction?: Direction): void {
         if (this._queryParamsController) {
-            this._queryParamsController.calculateState(list);
+            this._queryParamsController.updateQueryProperties(list, direction);
         }
     }
 
     /**
-     * Позволяет вручную установить текущее состояние контроллера, например, текущую и следующую страницу, или позицию
-     * для навигации
-     * @param state
-     * TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
+     * Позволяет устанавить конфиг для контроллера навигации
+     * @remark
+     * @param config INavigationSourceConfig
      */
     /*
-     * Allows manual set of current controller state, i.e. current and next page, or position for navigation
-     * @param state
+     * Allows to set navigation controller config
+     * @remark
+     * @param config INavigationSourceConfig
      */
-    setState(state: any): void {
+    setConfig(config: INavigationSourceConfig): void {
         if (this._queryParamsController) {
-            this._queryParamsController.setState(state);
+            this._queryParamsController.setConfig(config);
         }
     }
 
     /**
-     * Устанавливает текущую страницу в контроллере
-     * при прокрутке при помощи скроллпэйджинга в самое начало или самый конец списка.
-     * @param direction {Direction} направление навигации ('up' или 'down')
+     * разрушает IQueryParamsController
      */
     /*
-     * Set current page in controller when scrolling with "scrollpaging" to the top or bottom of the list
-     * @param direction {Direction} nav direction ('up' or 'down')
-     */
-    setEdgeState(direction: Direction): void {
-        if (this._queryParamsController) {
-            this._queryParamsController.setEdgeState(direction);
-        }
-    }
-
-    /**
-     * Отменяет загрузку данных и разрушает IQueryParamsController
-     */
-    /*
-     * Cancel data loading and destroy current IQueryParamsController
+     * destroy current IQueryParamsController
      */
     destroy(): void {
         if (this._queryParamsController) {
             this._queryParamsController.destroy();
         }
-        this._cancelLoading();
         this._options = null;
-    }
-
-    /**
-     * Выполняет запрос данных DataSet методом ICrud.query()
-     * Возвращает Promise<RecordSet> с результатом выполнения DataSet.getAll()
-     * @param {Types/source:ICrud} dataSource Ресурс данных
-     * @param {string} keyProperty Свойство, используемое в качестве ключа в DataSet
-     * @param {Types/source:Query} query исполняемый запрос с учётом сортировки, фильтрации, параметров пейджинации
-     * @private
-     */
-    /*
-     * Performs the DataSet request using ICrud.query()
-     * and returns Promise<RecordSet> with result of calling DataSet.getAll()
-     * @param {Types/source:ICrud} dataSource Data source
-     * @param {string} keyProperty key property for DataSet
-     * @param {Types/source:Query} query A query built based on sorting, filter and pagination params
-     * @private
-     */
-    private _callQuery(dataSource: ICrud, keyProperty: string, query: Query): Promise<RecordSet> {
-        let sourceQuery: Promise<RecordSet>;
-        // Promise в проекте работает как Deferred (@see WS.Core/core/polyfill/PromiseAPIDeferred).
-        const queryDeferred = dataSource.query(query)
-            .addCallback((dataSet: DataSet) => {
-                if (keyProperty && keyProperty !== dataSet.getKeyProperty()) {
-                    dataSet.setKeyProperty(keyProperty);
-                }
-                return dataSet.getAll ? dataSet.getAll() : dataSet;
-            })
-            .catch(() => {
-                Logger.error('NavigationController: Data is unable to be queried');
-            });
-        /**
-         * Deferred с синхронным кодом статического источника выполняется сихронно.
-         * в итоге в callback релоада мы приходим в тот момент, когда еще не отработал _beforeMount и заполнение опций,
-         * и не можем обратиться к this._options.
-         */
-        if (cInstance.instanceOfModule(dataSource, 'Types/source:Memory')) {
-            sourceQuery = new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(queryDeferred);
-                }, 0);
-            });
-        } else {
-            sourceQuery = queryDeferred;
-        }
-        return sourceQuery;
-    }
-
-    /**
-     * Отменяет текущую загрузку данных
-     * @private
-     */
-    private _cancelLoading(): void {
-        // Promise в проекте работает как Deferred (@see WS.Core/core/polyfill/PromiseAPIDeferred).
-        if (this._loader && !this._loader.isReady()) {
-            this._loader.cancel();
-        }
-    }
-
-    /**
-     * Получает QueryParams из paramsController
-     * @param {Direction} direction
-     * @param paramsController
-     * @private
-     */
-    private static _getNavigationQueryParams(direction: Direction, paramsController: IQueryParamsController)
-        : IAdditionalQueryParams {
-        const {limit, offset, meta, filter} = paramsController.prepareQueryParams(direction);
-        const queryParams = new QueryParamsBuilder({limit, offset, meta, filter});
-        return queryParams.raw();
-    }
-
-    /**
-     * Валидатор, позволяющий убедиться, что для source был точно передан Types/_source/ICrud
-     * @param {Types/source:ICrud} source
-     * @private
-     */
-    private static _isValidCrudSource(source: ICrud): boolean {
-        if (!cInstance.instanceOfMixin(source, 'Types/_source/ICrud')) {
-            Logger.error('NavigationController: Source option has incorrect type');
-            return false;
-        }
-        return true;
     }
 }

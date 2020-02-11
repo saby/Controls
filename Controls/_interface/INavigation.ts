@@ -114,12 +114,22 @@ export interface INavigationPageSourceConfig {
 }
 
 /**
+ * @typedef {Object} SourceConfig
+ * @description Конфигурация навигации (по курсору или постраничная).
+ */
+/**
+ * @typedef {Object} SourceConfig
+ * @description Source configuration for both page-based and position-based (cursor) navigation.
+ */
+export type INavigationSourceConfig = INavigationPositionSourceConfig | INavigationPageSourceConfig;
+
+/**
  * @typedef {String} TotalInfo
  * @description Режим отображения информационной подписи.
  * @variant basic Отображается только общее число записей.
  * @variant extended Отображается общее число записей, номера первой и последней записей на текущей странице, а также размер страницы.
  */
-export type TNavigationTotalIngo = 'basic' | 'extended';
+export type TNavigationTotalInfo = 'basic' | 'extended';
 
 /**
  * @typedef {Object} NavigationViewConfig
@@ -131,7 +141,7 @@ export type TNavigationTotalIngo = 'basic' | 'extended';
  */
 export interface INavigationViewConfig {
     pagingMode?: string;
-    totalInfo?: TNavigationTotalIngo;
+    totalInfo?: TNavigationTotalInfo;
 }
 
 /**
@@ -153,15 +163,15 @@ export interface INavigationViewConfig {
  * @property {PositionSourceConfig|PageSourceConfig} sourceConfig Configuration for data source.
  * @property {NavigationViewConfig} viewConfig Configuration for navigation view.
  */
-export interface INavigationOptionValue {
+export interface INavigationOptionValue<U> {
    source?: TNavigationSource;
    view?: TNavigationView;
-   sourceConfig?: INavigationPageSourceConfig | INavigationPositionSourceConfig;
+   sourceConfig?: U;
    viewConfig?: INavigationViewConfig;
 }
 
-export interface INavigationOptions {
-   navigation?: INavigationOptionValue;
+export interface INavigationOptions<U> {
+   navigation?: INavigationOptionValue<U>;
 }
 
 /**

@@ -149,7 +149,7 @@ var SourceController = cExtend.extend({
          queryParams.meta)
          .addCallback(function(list) {
             if (self._queryParamsController) {
-               self._queryParamsController.calculateState(list, direction);
+               self._queryParamsController.updateQueryProperties(list, direction);
             }
             return list;
          }).addErrback(function(error) {
@@ -190,7 +190,7 @@ var SourceController = cExtend.extend({
 
    calculateState: function(list) {
       if (this._queryParamsController) {
-         this._queryParamsController.calculateState(list);
+         this._queryParamsController.updateQueryProperties(list, null);
       }
    },
 
