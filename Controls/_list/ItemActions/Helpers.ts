@@ -78,13 +78,14 @@ var helpers = {
      */
 
     /**
-     * Хелпер для отображения панели операций над записью наверху/внизу.
+     * Хелпер для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ панели опций записи} наверху/внизу.
      * @function Controls/_list/ItemActions/Helpers#reorderMoveActionsVisibility
-     * @param {MoveDirection} direction
+     * @param {MoveDirection} Направление.
      * @param {Types/entity:Record} item Экземпляр элемента, действие которого обрабатывается.
      * @param {Types/collection:RecordSet} items Список всех элементов.
-     * @param {Controls/_interface/IHierarchy#parentProperty} parentProperty Имя поля, содержащего сведения о родительском узле.
-     * @param {Controls/_interface/IHierarchy#nodeProperty} nodeProperty Имя поля, описывающего тип узла (список, узел, скрытый узел).
+     * @param {String} parentProperty Имя поля, содержащего сведения о родительском узле.
+     * @param {String} nodeProperty Имя поля, описывающего тип узла (список, узел, скрытый узел).
+     * @example
      * В следующем примере разрешается перемещать только элементы, находящиеся в одном родительском элементе.
      * JS:
      * <pre>
