@@ -119,14 +119,14 @@ class Base extends Control<IMasterDetail> {
     private initCurrentWidth(width: string|number): void {
         if (this._isPercentValue(width)) {
             this._currentWidth = String(width);
-        } else if (width) {
+        } else if (width !== undefined) {
             this._currentWidth = width + 'px';
         }
     }
 
     protected _afterMount(options: IMasterDetail): void {
         if (this._canResizing) {
-            this._updateOffset(options);
+            this._currentWidth = this._updateOffset(options);
         }
     }
 
@@ -136,7 +136,7 @@ class Base extends Control<IMasterDetail> {
             options.masterMaxWidth !== this._options.masterMaxWidth) {
             this._currentWidth = null;
             this._canResizing = this._isCanResizing(options);
-            this._updateOffset(options);
+            this._currentWidth = this._updateOffset(options);
         }
     }
 
@@ -145,7 +145,7 @@ class Base extends Control<IMasterDetail> {
         event.stopPropagation();
     }
 
-    private _updateOffset(options: IMasterDetail): void {
+    private _updateOffset(options: IMasterDetail): string {
         if (options.masterWidth !== undefined && options.masterMaxWidth !== undefined && options.masterMinWidth !== undefined) {
             let currentWidth = this._getOffsetValue(this._currentWidth || options.masterWidth);
             this._currentWidth = currentWidth + 'px';
@@ -161,7 +161,7 @@ class Base extends Control<IMasterDetail> {
                 currentWidth -= this._minOffset;
                 this._minOffset = 0;
             }
-            this._currentWidth = currentWidth + 'px';
+            return currentWidth + 'px';
         }
     }
 
