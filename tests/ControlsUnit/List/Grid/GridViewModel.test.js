@@ -1921,9 +1921,18 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.deepEqual(
                 gridMod.GridViewModel._private.getColumnAlignGroupStyles(itemData, 2),
                 {
-                   left: 'grid-column: 1 / 3; -ms-grid-column: 1; -ms-grid-column-span: 2;',
-                   right: 'grid-column: 3 / 4; -ms-grid-column: 3; -ms-grid-column-span: 1;'
+                   left: 'grid-column: 1 / -2; -ms-grid-column: 1; -ms-grid-column-span: 2;',
+                   right: 'grid-column: span 1 / auto; -ms-grid-column: 3; -ms-grid-column-span: 1;'
                 }
+            );
+
+            itemData.columns = [{}, {}, {}, {}, {}, {}, {}];
+            assert.deepEqual(
+               gridMod.GridViewModel._private.getColumnAlignGroupStyles(itemData, 4),
+               {
+                  left: 'grid-column: 1 / -4; -ms-grid-column: 1; -ms-grid-column-span: 4;',
+                  right: 'grid-column: span 3 / auto; -ms-grid-column: 5; -ms-grid-column-span: 3;'
+               }
             );
 
             itemData.hasMultiSelect = true;
@@ -1940,11 +1949,19 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.deepEqual(
                 gridMod.GridViewModel._private.getColumnAlignGroupStyles(itemData, 2),
                 {
-                   left: 'grid-column: 1 / 4; -ms-grid-column: 1; -ms-grid-column-span: 3;',
-                   right: 'grid-column: 4 / 5; -ms-grid-column: 4; -ms-grid-column-span: 1;'
+                   left: 'grid-column: 1 / -2; -ms-grid-column: 1; -ms-grid-column-span: 3;',
+                   right: 'grid-column: span 1 / auto; -ms-grid-column: 4; -ms-grid-column-span: 1;'
                 }
             );
 
+            itemData.columns = [{}, {}, {}, {}, {}, {}, {}, {}];
+            assert.deepEqual(
+               gridMod.GridViewModel._private.getColumnAlignGroupStyles(itemData, 5),
+               {
+                  left: 'grid-column: 1 / -3; -ms-grid-column: 1; -ms-grid-column-span: 6;',
+                  right: 'grid-column: span 2 / auto; -ms-grid-column: 7; -ms-grid-column-span: 2;'
+               }
+            );
 
          });
 

@@ -34,6 +34,11 @@ interface IGridColumn {
     compatibleWidth?: string;
 }
 
+interface IGridItemData {
+    hasMultiSelect: boolean;
+    columns: any[];
+}
+
 interface IColgroupColumn {
     classes: string;
     style: string;
@@ -331,24 +336,30 @@ var
             return version;
         },
 
-        getColumnAlignGroupStyles(itemData: IGridItemData, columnAlignGroup: number = 0): {
+        /**
+         * Производит пересчёт групп объединяемых колонок для заголовков (разделителей) записей
+         * @param itemData информация о записи
+         * @param leftSideItemsCount число колонок в группе (или номер последней колонки)
+         * @private
+         */
+        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0): {
             left: string
             right: string
         } {
+            const additionalTerm = (itemData.hasMultiSelect ? 1 : 0);
+            const result = {left: '', right: ''};
+            const start = 1;
+            const end = itemData.columns.length + 1;
 
-            let
-                start = 1,
-                center = columnAlignGroup + (itemData.hasMultiSelect ? 1 : 0) + 1,
-                stop = itemData.columns.length + 1,
-                result = {right: '', left: ''};
-
-            if (columnAlignGroup) {
-                result.left = `grid-column: ${start} / ${center}; -ms-grid-column: ${start}; -ms-grid-column-span: ${center - 1};`;
-                result.right = `grid-column: ${center} / ${stop}; -ms-grid-column: ${center}; -ms-grid-column-span: ${stop - center};`;
+            if (leftSideItemsCount > 0) {
+                const center = leftSideItemsCount + additionalTerm + 1;
+                result.left = `grid-column: ${start} / ${center - end - 1}; -ms-grid-column: ${start}; -ms-grid-column-span: ${(center - 1)};`;
+                // Расчёт был изменён из-за того, что в случае установки колонки MultiSelect необходимо делать перерасчёт размеров,
+                // но getColumnAlignGroupStyles при добавлении колонки MultiSelect не вызывается
+                result.right = `grid-column: span ${(end - center)} / auto; -ms-grid-column: ${center}; -ms-grid-column-span: ${(end - center)};`;
             } else {
-                result.left = `grid-column: ${start} / ${stop}; -ms-grid-column: ${start}; -ms-grid-column-span: ${stop - 1};`;
+                result.left = `grid-column: ${start} / ${end}; -ms-grid-column: ${start}; -ms-grid-column-span: ${end - 1};`;
             }
-
             return result;
         },
 
@@ -973,8 +984,7 @@ var
         },
 
         setMultiSelectVisibility: function(multiSelectVisibility) {
-            var
-                hasMultiSelect = multiSelectVisibility !== 'hidden';
+            const hasMultiSelect = multiSelectVisibility !== 'hidden';
             this._model.setMultiSelectVisibility(multiSelectVisibility);
             this._prepareColgroupColumns(this._columns, hasMultiSelect);
             this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell(), this._shouldAddStickyLadderCell());
@@ -1163,7 +1173,9 @@ var
             current.style = this._options.style;
             current.multiSelectClassList += current.hasMultiSelect ? ` controls-GridView__checkbox_theme-${this._options.theme}` : '';
 
-            current.getColumnAlignGroupStyles = (columnAlignGroup: number) => _private.getColumnAlignGroupStyles(current, columnAlignGroup);
+            current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
+                _private.getColumnAlignGroupStyles(current, columnAlignGroup)
+            );
 
             const superShouldDrawMarker = current.shouldDrawMarker;
             current.shouldDrawMarker = (marker?: boolean, columnIndex: number): boolean => {

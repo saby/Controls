@@ -1,0 +1,52 @@
+{
+  "Controls/grid:View": {
+    "properties": {
+      "ws-config": {
+        "title": "Базовая конфигурация",
+        "options": {
+          "multiSelectVisibility": {
+            "title": "multiSelectVisibility",
+            "type": "enum",
+            "enum": {
+              "visible": "visible",
+              "hidden": "hidden",
+              "onhover": "onhover"
+            },
+            "default": "hidden"
+          },
+          "selectedKeys": {
+            "title": "selectedKeys",
+            "type": "Array",
+            "readOnly": "true"
+          },
+          "excludedKeys": {
+            "title": "excludedKeys",
+            "type": "Array",
+            "readOnly": "true"
+          },
+          "groupingKeyCallback": {
+            "title": "groupingKeyCallback",
+            "type": "function"
+          },
+          "collapsedGroups": {
+            "type": "Array",
+            "readOnly": "true"
+          },
+          "groupTemplate": {
+            "type": "function|String"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
