@@ -1,0 +1,6 @@
+<Controls-demo.PropertyGrid.PropertyGridWrapper
+        description="{{_metaData}}"
+        dataObject="{{_dataObject}}"
+        componentOpt="{{_componentOptions}}"
+        content="{{_content}}">
+</Controls-demo.PropertyGrid.PropertyGridWrapper>
