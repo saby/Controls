@@ -13,7 +13,7 @@
                <div class="controls-FilterButton__text controls-FilterButton__text_state_{{_getFilterState()}}" title="{{_text}}">{{_text}}</div>
             </div>
             <ws:if data="{{!_options.readOnly && _isItemsChanged}}">
-               <div class="controls-FilterButton__clear icon-CloseNew" on:click="_clearClick()"></div>
+               <div class="controls-FilterButton__clear icon-CloseNew" title="Очистить фильтр" on:click="_clearClick()"></div>
             </ws:if>
          </ws:if>
          <ws:if data="{{_options.lineSpaceTemplate}}">
