@@ -83,6 +83,16 @@ var _private = {
         self._hasResetValues = hasResetValue(items);
     },
 
+    sourcesIsLoaded: function(configs) {
+        let result = true;
+        factory(configs).each((config) => {
+            if (config.sourceController && config.sourceController.isLoading()) {
+                result = false;
+            }
+        });
+        return result;
+    },
+
     calculateStateSourceControllers: function(configs, source) {
         factory(source).each(function(item) {
             if (_private.isFrequentItem(item)) {
@@ -682,7 +692,7 @@ var Filter = Control.extend({
     },
 
     _openPanel(event: SyntheticEvent<'click'>, name?: string): void {
-        if (this._options.panelTemplateName) {
+        if (this._options.panelTemplateName && _private.sourcesIsLoaded(this._configs)) {
             const items = new RecordSet({
                 rawData: _private.getPopupConfig(this, this._configs, this._source)
             });
