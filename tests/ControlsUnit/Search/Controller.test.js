@@ -455,13 +455,15 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
          it('source is changed', function() {
             var options = getDefaultOptions();
+            var searchStarted = false;
             options.source = new sourceLib.Memory();
             searchMod.Controller._private.getSearchController(searchController);
+            searchMod.Controller._private.startSearch = () => {searchStarted = true;};
             searchController._inputSearchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
 
-            assert.isNull(searchController._searchController);
-            assert.isTrue(searchController._inputSearchValue === '');
+            assert.isTrue(searchController._inputSearchValue === 'test');
+            assert.isTrue(searchStarted);
          });
 
          it('filter is changed', function() {
@@ -514,13 +516,6 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
 
             searchController._searchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
-            assert.isNull(searchController._searchController);
-            assert.isTrue(abortStub.calledOnce);
-
-            searchController._searchValue = 'test1';
-            defaultOptions._searchValue = 'test1';
-            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
-            assert.isNull(searchController._searchController);
             assert.isTrue(abortStub.calledOnce);
          });
 
