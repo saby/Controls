@@ -130,6 +130,7 @@ var _private = {
       //aborting of the search may be caused before the search start, because of the delay before searching
       if (self._loading !== null) {
          self._loading = false;
+         self._forceUpdate();
       }
       if (!error || !error.canceled) {
           return new Promise(function(resolve) {

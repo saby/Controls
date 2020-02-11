@@ -2,6 +2,7 @@
    <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
       <Controls._explorer.PathController
                                  scope="{{_options}}"
+                                 itemsPromise="{{_itemsPromise}}"
                                  items="{{_breadCrumbsItems}}"
                                  rootVisible="{{_dragOnBreadCrumbs}}"
                                  highlighter="{{[_breadCrumbsDragHighlighter]}}"

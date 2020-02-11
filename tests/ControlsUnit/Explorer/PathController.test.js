@@ -86,25 +86,6 @@ define([
             }]);
          });
       });
-      describe('needCrumbs', function() {
-         var pathController = new PathController();
-         var needCrumbs = PathController._private.needCrumbs;
-         it('BackButton is in header, items.length === 1', function() {
-            assert.isFalse(needCrumbs([{title:'back'}], ['first'], false));
-         });
-         it('BackButton is not in header, items.length === 1', function() {
-            assert.isTrue(needCrumbs(undefined, ['first'], false));
-         });
-         it('BackButton is in header, items.length === 2', function() {
-            assert.isTrue(needCrumbs([{title:'back'}], ['first','second'], false));
-         });
-         it('items === null', function() {
-            assert.isFalse(needCrumbs(undefined, null, false));
-         });
-         it('items === null, rootVisible (when dragging from folder)', function() {
-            assert.isTrue(needCrumbs(undefined, null, true));
-         });
-      });
       describe('needShadow', function() {
          var needShadow = PathController._private.needShadow;
          it('there is no header, we need shadow', function() {

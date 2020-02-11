@@ -69,6 +69,8 @@ var TreeTileViewModel = TreeViewModel.extend({
         }
 
         current.isScaled = this.isScaled(current);
+        current.isUnscaleable = !current.scalingMode || current.scalingMode === 'none';
+        current.isUnfixed = !current.isScaled && !current.isUnscaleable;
 
         var
             originalGetVersion = current.getVersion;

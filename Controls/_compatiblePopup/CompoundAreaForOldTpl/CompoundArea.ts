@@ -15,7 +15,6 @@ import callNext = require('Core/helpers/Function/callNext');
 import cInstance = require('Core/core-instance');
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
-import 'css!theme?Controls/compatiblePopup';
 
 function removeOperation(operation, array) {
    var idx = arrayFindIndex(array, function(op) {
@@ -161,6 +160,7 @@ var CompoundArea = CompoundContainer.extend([
          if (self._options._initCompoundArea) {
             self._options._initCompoundArea(self);
          }
+         EnvEvent.Bus.globalChannel().notify('onFloatAreaCreating', this);
          self.setEnabled(self._enabled);
       });
       self.once('onAfterLoad', function() {
@@ -187,6 +187,14 @@ var CompoundArea = CompoundContainer.extend([
       });
 
       return rebuildDeferred;
+   },
+
+   getIsStack: function() {
+      return this._options.type === 'stack';
+   },
+
+   getShowOnControlsReady: function() {
+      return true;
    },
 
    _notifyManagerPopupCreated(): void {
@@ -1462,5 +1470,5 @@ var CompoundArea = CompoundContainer.extend([
       return res;
    }
 });
-
+CompoundArea._theme = ['Controls/compatiblePopup'];
 export default CompoundArea;

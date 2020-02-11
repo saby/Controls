@@ -46,6 +46,6 @@ import 'css!theme?Controls/popup';
             this._options.clickCallback('crossClick', item);
          }
       });
-
+      
       export = itemHiddenTemplate;
 

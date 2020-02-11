@@ -43,3 +43,15 @@
 .controls-ConfirmationDialog__button {
    width: 100%;
 }
+
+.controls-Button-inlineheight-confirmation_theme-@{themeName} {
+   height: @height_SubmitPopup-button;
+   border-radius: @border-radius_default_button;
+}
+
+.controls-Button__wrapper_button_confirmation_theme-@{themeName} {
+   padding: 0 @padding-horizontal_default_button - @border-thickness_button;
+   &:before {
+      line-height: @height_SubmitPopup-button - 2 * @border-thickness_button;
+   }
+}

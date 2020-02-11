@@ -300,7 +300,7 @@ const ActualApi = {
                default: height = 'default';
             }
             return height;
-         } else if (viewMode === 'toolButton' || viewMode === 'pushButton') {
+         } else if (viewMode === 'toolButton' || viewMode === 'pushButton' || viewMode === 'functionalButton') {
             switch (optionSize) {
                case 's': height = 'default'; break;
                case 'm': height = 'l'; break;

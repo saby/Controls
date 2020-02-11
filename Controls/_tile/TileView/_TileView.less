@@ -71,8 +71,11 @@
    right: 0;
 }
 
-.controls-TileView__item_unfixed {
+.controls-TileView__item_unfixed, .controls-TileView__item_unscaleable {
    max-height: 100%;
+}
+.controls-TileView__item:hover > .controls-TileView__item_unscaleable {
+   max-height: none;
 }
 
 .controls-TileView__item_animated .controls-itemActionsV {
@@ -111,6 +114,10 @@
 }
 
 .ws-is-hover {
+   .controls-TileView__itemContent_highlightOnHover:hover {
+      background-color: @background-color_TileView-item_hover;
+   }
+
    .controls-ListView__item_shadow_visible, .controls-ListView__item_shadow_onhover {
       &:hover, &.controls-TileView__item_active, &.controls-TileView__item_swiped {
          box-shadow: @box-shadow-size_TileView-item @box-shadow-color_TileView-item_hover;
@@ -121,7 +128,8 @@
    // On ios the tile is positioned absolutely, without increasing. Increases only the caption. It may not fit,
    // if the parent container limits through overflow: hidden.
    // Turn on the display of the caption only for the desktop, so tile does not change the size by swipe on ios .
-   .controls-TileView__item_hovered {
+   .controls-TileView__item_hovered,
+   .controls-TileView__item:hover > .controls-TileView__item_unscaleable {
       .controls-TileView__title_invisible {
          display: block;
       }
@@ -129,7 +137,8 @@
    // On ios, the caption should not be resized. The reason is described above.
    // By hover, activation or swipe caption do not fit in one line are transferred to the next line.
    // Because of this, its size changes. Do the word break on the desktop.
-   .controls-TileView__item_hovered, .controls-TileView__item_active, .controls-TileView__item_swiped {
+   .controls-TileView__item_hovered, .controls-TileView__item_active, .controls-TileView__item_swiped,
+   .controls-TileView__item:hover > .controls-TileView__item_unscaleable {
       .controls-TileView__title {
          white-space: normal;
          word-break: break-all;
@@ -137,15 +146,16 @@
    }
 }
 
-.controls-TileView__item_scaled {
-
+.controls-TileView__item_scaled,
+.controls-TileView__item:hover > .controls-TileView__item_unscaleable {
    // TODO: KINGO
    // чекбоксы на плитке имеют z-index: 1, и, если плитка не увеличена (например навели на чекбокс),
    // то чекбоксы других плиток будут поверх заголовка текущей, если он появился снизу от плитки.
    // Поэтому нужно установить для активной плитки z-index больше чем у чекбоксов
    z-index: 2;
 }
-.controls-TileView__item_hovered, .controls-TileView__item_active, .controls-TileView__item_swiped {
+.controls-TileView__item_hovered, .controls-TileView__item_active, .controls-TileView__item_swiped,
+.controls-TileView__item:hover > .controls-TileView__item_unscaleable {
    .controls-TileView__title, .controls-TileView__title_accent {
       background-color: @background-color_TileView-title;
    }
@@ -246,6 +256,10 @@
 .ws-is-hover:not(.ws-is-mobile-platform) {
    .controls-ListView__item_showActions:hover > .controls-itemActionsV {
       display: inline-block;
+   }
+   .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV {
+      display: inline-block;
+      opacity: 1;
    }
 }
 

@@ -32,9 +32,6 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
          return newHeader;
       },
 
-      needCrumbs: function(header, items, rootVisible) {
-         return !!items && ((!header && items.length > 0) || items.length > 1) || !!rootVisible;
-      },
       getBackButtonCaption(options): string|null {
          return options.items && options.items.length ? ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty) : null;
       },
@@ -60,7 +57,6 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
          const newLastCrumbId = _private.getLastCrumbId(options);
          const newBackButtonCaption = _private.getBackButtonCaption(options);
          this._header = _private.getHeader(this, options, newLastCrumbId, newBackButtonCaption);
-         this._needCrumbs = _private.needCrumbs(this._header, options.items, options.rootVisible);
          this._needShadow = _private.needShadow(this._header, options.header);
       },
 
@@ -69,7 +65,6 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
          const newBackButtonCaption = _private.getBackButtonCaption(newOptions);
          if (this._options.rootVisible !== newOptions.rootVisible || this._lastCrumbId !== newLastCrumbId || this._backButtonCaption !== newBackButtonCaption || !GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
             this._header = _private.getHeader(this, newOptions, newLastCrumbId, newBackButtonCaption);
-            this._needCrumbs = _private.needCrumbs(this._header, newOptions.items, newOptions.rootVisible);
             this._needShadow = _private.needShadow(this._header, newOptions.header);
          }
       },

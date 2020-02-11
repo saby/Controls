@@ -174,20 +174,13 @@ const _private = {
     },
 
     getFakeDivMargins(item) {
-        if (!document) {
-            return {
-                left: 0,
-                top: 0
-            };
-        }
-
         const fakeDiv = _private.getFakeDiv();
         fakeDiv.className = item.popupOptions.className;
 
         const styles = fakeDiv.currentStyle || window.getComputedStyle(fakeDiv);
         return {
-            top: parseInt(styles.marginTop, 10),
-            left: parseInt(styles.marginLeft, 10)
+            top: parseFloat(styles.marginTop),
+            left: parseFloat(styles.marginLeft)
         };
     },
 
@@ -196,6 +189,12 @@ const _private = {
      * Element is created with position absolute and far beyond the screen left position
      */
     getFakeDiv(): HTMLDivElement {
+        if (!document) {
+            return {
+                marginLeft: 0,
+                marginTop: 0
+            };
+        }
         // create fake div on invisible part of window, cause user class can overlap the body
         if (!_fakeDiv) {
             _fakeDiv = document.createElement('div');

@@ -91,7 +91,7 @@ define(
             newOptions.viewMode = 'functionalButton';
             newOptions.size = 'm';
             menu._beforeUpdate(newOptions);
-            assert.equal(menu._offsetClassName, 'controls-MenuButton_functionalButton__m_popup');
+            assert.equal(menu._offsetClassName, 'controls-MenuButton_functionalButton__l_popup');
 
             newOptions.showHeader = false;
             newOptions.viewMode = 'link';

@@ -49,11 +49,9 @@ var Component = RangeSelectionController.extend({
       Component.superclass._prepareState.call(this, state);
    },
 
-   _isExternalChanged: function(valueName, options, oldOptions) {
+   _isExternalChanged: function(valueName: string, options): boolean {
       return options.hasOwnProperty(valueName) &&
-
-         // DateUtil.isDatesEqual(oldOptions[valueName], this['_' + valueName]) &&
-         !DateUtil.isDatesEqual(oldOptions[valueName], options[valueName]);
+         !DateUtil.isDatesEqual(options[valueName], this['_' + valueName]);
    },
 
    _itemClickHandler: function(event, item) {

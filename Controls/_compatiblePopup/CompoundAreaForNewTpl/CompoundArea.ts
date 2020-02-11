@@ -15,7 +15,6 @@ import Deferred = require('Core/Deferred');
 import {constants} from 'Env/Env';
 import {StackStrategy} from 'Controls/popupTemplate';
 import {load} from 'Core/library';
-import 'css!theme?Controls/compatiblePopup';
 import {Logger} from 'UI/Utils';
 
 /**
@@ -590,5 +589,5 @@ const moduleClass = CompoundControl.extend({
 moduleClass.dimensions = {
    resizable: false
 };
-
+moduleClass._theme = ['Controls/compatiblePopup'];
 export default moduleClass;

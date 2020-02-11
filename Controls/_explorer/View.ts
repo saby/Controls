@@ -11,7 +11,7 @@ import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import 'css!theme?Controls/explorer';
 import 'css!theme?Controls/tile';
-import 'Types/entity';
+import 'Types/entity';;
 
 
 var
@@ -106,6 +106,10 @@ var
          },
          serviceDataLoadCallback: function(self, oldData, newData) {
             self._breadCrumbsItems = _private.getPath(newData);
+            if (self._firstLoad) {
+               self._itemsResolver(self._breadCrumbsItems);
+               self._firstLoad = false;
+            }
             _private.updateSubscriptionOnBreadcrumbs(oldData, newData, self._updateHeadingPath);
          },
          itemsReadyCallback: function(self, items) {
@@ -334,6 +338,9 @@ var
       _hoveredBreadCrumb: undefined,
       _virtualScrolling: false,
       _dragControlId: null,
+      _firstLoad: true,
+      _itemsPromise: null,
+      _itemsResolver: null,
 
       _beforeMount: function(cfg) {
          this._serviceDataLoadCallback = _private.serviceDataLoadCallback.bind(null, this);
@@ -342,6 +349,8 @@ var
          this._canStartDragNDrop = _private.canStartDragNDrop.bind(null, this);
          this._updateHeadingPath = this._updateHeadingPath.bind(this);
          this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
+
+         this._itemsPromise = new Promise((res) => { this._itemsResolver = res; });
 
          const root = _private.getRoot(this, cfg.root);
          this._restoredMarkedKeys = {

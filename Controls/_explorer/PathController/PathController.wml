@@ -1,32 +1,19 @@
-<ws:template name="headingPath">
-   <Controls.Container.Async templateName="Controls/breadcrumbs:HeadingPath">
-      <ws:partial template="{{ content.resolvedTemplate }}"
-                  scope="{{_options}}"
-                  name="Path"
-                  header="{{_header}}"
-                  attr:class="controls-Explorer__Path {{_options.style == 'master' ? 'controls-Explorer__Path_style_master'}}"
-                  on:backButtonClick="_notifyHandler('backButtonClick')"
-                  on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
-                  on:arrowActivated="_notifyHandler('arrowActivated')"
-                  on:itemClick="_notifyHandler('itemClick')"
-                  on:itemMouseDown="_notifyHandler('itemMouseDown')"
-                  on:arrowClick="_notifyHandler('arrowClick')"/>
-   </Controls.Container.Async>
-</ws:template>
 <div>
-<ws:if data="{{_needCrumbs}}">
-   <ws:if data="{{_options.stickyHeader}}">
-      <Controls.scroll:StickyHeader mode="stackable" shadowVisibility="{{_needShadow ? 'visible' : 'hidden'}}" fixedZIndex="{{5}}">
-         <ws:partial template="headingPath" />
-      </Controls.scroll:StickyHeader>
-   </ws:if>
-   <ws:else>
-      <ws:partial template="headingPath" />
-   </ws:else>
-</ws:if>
-<ws:partial template="{{ _options.content }}"
-            scope="{{ _options }}"
-            header="{{ _header || _options.header }}"
-            on:backButtonClick="_onBackButtonClick()"
-            on:arrowClick="_notifyHandler('arrowClick')" />
+   <Controls._explorer.PathWrapper
+        scope="{{_options}}"
+        name="Path"
+        needShadow="{{_needShadow}}"
+        header="{{ _header }}"
+        attr:class="controls-Explorer__Path {{_options.style == 'master' ? 'controls-Explorer__Path_style_master'}}"
+        on:backButtonClick="_notifyHandler('backButtonClick')"
+        on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+        on:arrowActivated="_notifyHandler('arrowActivated')"
+        on:itemClick="_notifyHandler('itemClick')"
+        on:itemMouseDown="_notifyHandler('itemMouseDown')"
+        on:arrowClick="_notifyHandler('arrowClick')"/>
+   <ws:partial template="{{ _options.content }}"
+               scope="{{ _options }}"
+               header="{{ _header || _options.header }}"
+               on:backButtonClick="_onBackButtonClick()"
+               on:arrowClick="_notifyHandler('arrowClick')" />
 </div>

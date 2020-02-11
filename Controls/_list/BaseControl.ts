@@ -24,7 +24,7 @@ import ListViewModel from 'Controls/_list/ListViewModel';
 import {ICrud, Memory} from "Types/source";
 import {TouchContextField} from 'Controls/context';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {IDireciton} from './interface/IVirtualScroll';
+import {IDirection} from './interface/IVirtualScroll';
 import {debounce} from 'Types/function';
 import {CssClassList} from "../Utils/CssClassList";
 import {Logger} from 'UI/Utils';
@@ -467,7 +467,20 @@ var _private = {
             if (userCallback && userCallback instanceof Function) {
                 userCallback(addedItems, direction);
             }
-            _private.resolveIndicatorStateAfterReload(self, addedItems, navigation);
+
+            if (
+                self._loadingState === 'all' ||
+                !_private.needScrollCalculation(navigation) ||
+                !self._loadTriggerVisibility[self._loadingState] ||
+                !self._sourceController.hasMoreData(self._loadingState)
+            ) {
+                _private.resolveIndicatorStateAfterReload(self, addedItems, navigation);
+            } else {
+                // If we are loading to a specific direction with scroll calculation enabled,
+                // we should only hide indicator if there are enough items to "push" the load
+                // trigger off the screen.
+                self._hideIndicatorOnTriggerHideDirection = self._loadingState;
+            }
 
             if (self._options.searchValue) {
                 _private.loadToDirectionWithSearchValueEnded(self, addedItems);
@@ -665,7 +678,6 @@ var _private = {
                self._options.dataLoadErrback,
                filter
             );
-            self._hasLoadedData = true;
         }
     },
 
@@ -779,6 +791,7 @@ var _private = {
     onScrollHide: function(self) {
         if (self._pagingVisible) {
             self._pagingVisible = false;
+            self._cachedPagingState = false;
             self._forceUpdate();
         }
         self._isScrollShown = false;
@@ -857,6 +870,7 @@ var _private = {
         self._loadingState = null;
         self._showLoadingIndicatorImage = false;
         self._loadingIndicatorContainerOffsetTop = 0;
+        self._hideIndicatorOnTriggerHideDirection = null;
         if (self._loadingIndicatorTimer) {
             clearTimeout(self._loadingIndicatorTimer);
             self._loadingIndicatorTimer = null;
@@ -883,13 +897,12 @@ var _private = {
                     const hasMoreDataDown = self._sourceController.hasMoreData('down');
 
                     hasMoreData = {
-                        up: hasMoreDataUp || self._hasLoadedData,
-                        down: (hasMoreDataDown || self._hasLoadedData) && _private.allowLoadMoreByPortionedSearch(self)
+                        up: hasMoreDataUp,
+                        down: hasMoreDataDown && _private.allowLoadMoreByPortionedSearch(self)
                     };
                 }
                 self._scrollPagingCtr.handleScrollEdge(params.position, hasMoreData);
             }
-            self._hasLoadedData = false;
         } else {
             if (_private.needScrollPaging(self._options.navigation)) {
                 _private.createScrollPagingController(self).addCallback(function(scrollPagingCtr) {
@@ -969,6 +982,7 @@ var _private = {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButton = true;
                 self._sourceController.cancelLoading();
+                _private.hideIndicator(self);
             },
             searchResetCallback: () => {
                 self._portionedSearchInProgress = false;
@@ -982,6 +996,7 @@ var _private = {
             searchAbortCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._sourceController.cancelLoading();
+                _private.hideIndicator(self);
 
                 _private.disablePagingNextButtons(self);
 
@@ -1465,7 +1480,16 @@ var _private = {
     initializeNavigation: function(self, cfg) {
         self._needScrollCalculation = _private.needScrollCalculation(cfg.navigation);
         self._pagingNavigation = _private.isPagingNavigation(cfg.navigation);
-
+        if (!self._needScrollCalculation) {
+            if (self._scrollPagingCtr) {
+                self._scrollPagingCtr.destroy();
+                self._scrollPagingCtr = null;
+            }
+            self._pagingCfg = null;
+            if (self._pagingVisible) {
+                self._pagingVisible = false;
+            }
+        }
         if (self._pagingNavigation) {
             _private.resetPagingNavigation(self, cfg.navigation);
             self._pageSizeSource = new Memory({
@@ -1596,6 +1620,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _isScrollShown: false,
     _needScrollCalculation: false,
     _loadTriggerVisibility: null,
+    _hideIndicatorOnTriggerHideDirection: null,
     _loadOffsetTop: LOAD_TRIGGER_OFFSET,
     _loadOffsetBottom: LOAD_TRIGGER_OFFSET,
     _loadingIndicatorContainerOffsetTop: 0,
@@ -1621,7 +1646,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _resetScrollAfterReload: false,
     _scrollPageLocked: false,
-    _hasLoadedData: false,
 
     _itemReloaded: false,
     _itemActionsInitialized: false,
@@ -1804,12 +1828,15 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.updateShadowMode(this, placeholderSizes);
     },
 
-    loadMore(_: SyntheticEvent<Event>, direction: IDireciton): void {
+    loadMore(_: SyntheticEvent<Event>, direction: IDirection): void {
         _private.loadToDirectionIfNeed(this, direction, this._options.filter);
     },
 
-    triggerVisibilityChangedHandler(_: SyntheticEvent<Event>, direction: IDireciton, state: boolean): void {
+    triggerVisibilityChangedHandler(_: SyntheticEvent<Event>, direction: IDirection, state: boolean): void {
         this._loadTriggerVisibility[direction] = state;
+        if (!state && this._hideIndicatorOnTriggerHideDirection === direction) {
+            _private.hideIndicator(this);
+        }
         if (_private.needScrollPaging(this._options.navigation)) {
             const doubleRatio = (this._viewSize / this._viewPortSize) > MIN_SCROLL_PAGING_PROPORTION;
             this._pagingVisible = _private.needShowPagingByScrollSize(this, doubleRatio);

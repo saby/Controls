@@ -582,6 +582,25 @@ define(
             StickyStrategy._private._isMobileIOS = () => false;
          });
 
+         it('getFakeDivMargins', () => {
+            StickyController._private.getFakeDiv = () => {
+               return {
+                  currentStyle: {
+                     marginTop: '10.2px',
+                     marginLeft: '11.4px'
+                  }
+               }
+            };
+
+            const item = {
+               popupOptions: {}
+            };
+
+            const margins = StickyController._private.getFakeDivMargins(item);
+            assert.equal(margins.left, 11.4);
+            assert.equal(margins.top, 10.2);
+         });
+
          it('getMargins', () => {
             let margins = {
                top: 1,

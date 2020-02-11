@@ -6,11 +6,14 @@
 
 <ws:template name="defaultContentTpl">
    <div attr:class="controls-TileView__itemContent {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
+               {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover'}}
                js-controls-SwipeControl__actionsContainer
                {{!!itemData.isActive ? ' controls-TileView__item_active'}}
                {{!!itemData.isSwiped ? ' controls-TileView__item_swiped'}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
-               {{itemData.isScaled ? ' controls-TileView__item_scaled': ' controls-TileView__item_unfixed'}}
+               {{itemData.isUnfixed ? ' controls-TileView__item_unfixed' }}
+               {{itemData.isUnscaleable ? ' controls-TileView__item_unscaleable'}}
+               {{itemData.isScaled ? ' controls-TileView__item_scaled' }}
                {{itemData.isFixed ? ' controls-TileView__item_fixed'}}
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}

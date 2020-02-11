@@ -57,9 +57,11 @@
 }
 
 .ws-is-hover {
-   .controls-DateLinkView__style-secondary_clickable_theme-@{themeName}:hover {
+   .controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {
       cursor: pointer;
-      color: @color_DateLinkView-secondaryStyle_hover;
+      &:hover {
+         color: @color_DateLinkView-secondaryStyle_hover;
+      }
    }
 
    .controls-DateLinkView__value-hovered:hover {

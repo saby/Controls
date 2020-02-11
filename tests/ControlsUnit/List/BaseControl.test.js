@@ -653,6 +653,129 @@ define([
          assert.isFalse(ctrl._showContinueSearchButton);
       });
 
+      it('loadToDirection indicator triggerVisibility', async () => {
+         var source = new sourceLib.Memory({
+            keyProperty: 'id',
+            data: data
+         });
+
+         var dataLoadFired = false;
+         var portionSearchTimerReseted = false;
+         var portionSearchReseted = false;
+         var beforeLoadToDirectionCalled = false;
+
+         var cfg = {
+            viewName: 'Controls/List/ListView',
+            dataLoadCallback: function() {
+               dataLoadFired = true;
+            },
+            beforeLoadToDirectionCallback: function() {
+               beforeLoadToDirectionCalled = true;
+            },
+            source: source,
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            navigation: {
+               source: 'infinity',
+               sourceConfig: {
+                  pageSize: 2,
+                  page: 0,
+                  hasMore: false
+               }
+            },
+            searchValue: 'test'
+         };
+
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         ctrl._container = {clientHeight: 100};
+         ctrl._afterMount(cfg);
+         ctrl._loadTriggerVisibility = {
+            up: false,
+            down: true
+         };
+
+         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
+
+         ctrl._loadingIndicatorState = 'down';
+         ctrl._hideIndicatorOnTriggerHideDirection = 'down';
+
+         // Up trigger became visible, no changes to indicator
+         ctrl.triggerVisibilityChangedHandler(null, 'up', true);
+         assert.isNotNull(ctrl._loadingIndicatorState);
+
+         // Down trigger became hidden, hide the indicator
+         ctrl.triggerVisibilityChangedHandler(null, 'down', false);
+         assert.isNull(ctrl._loadingIndicatorState);
+      });
+
+      it('loadToDirection hides indicator with false navigation', async () => {
+         var source = new sourceLib.Memory({
+            keyProperty: 'id',
+            data: data
+         });
+
+         var dataLoadFired = false;
+         var portionSearchTimerReseted = false;
+         var portionSearchReseted = false;
+         var beforeLoadToDirectionCalled = false;
+
+         var cfg = {
+            viewName: 'Controls/List/ListView',
+            dataLoadCallback: function() {
+               dataLoadFired = true;
+            },
+            beforeLoadToDirectionCallback: function() {
+               beforeLoadToDirectionCalled = true;
+            },
+            source: source,
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            navigation: {
+               source: 'infinity',
+               sourceConfig: {
+                  pageSize: 2,
+                  page: 0,
+                  hasMore: false
+               }
+            },
+            searchValue: 'test'
+         };
+
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         ctrl._container = {clientHeight: 100};
+         ctrl._afterMount(cfg);
+         ctrl._loadTriggerVisibility = {
+            up: false,
+            down: true
+         };
+
+         ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
+         ctrl._sourceController.hasMoreData = () => false;
+
+         let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
+         assert.equal(ctrl._loadingState, 'down');
+         ctrl._portionedSearch.continueSearch();
+         await loadPromise;
+
+         assert.isNull(ctrl._loadingIndicatorState);
+      });
+
       it('prepareFooter', function() {
          var
             baseControl = {
@@ -1563,22 +1686,6 @@ define([
                stateEnd: 'normal'
             }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
 
-            // Прокрутили в конец списка, sourceController только что загрузил последнюю пачку данных
-            // (hasMoreData возвращает false),
-            // то кнопки пейджинга в этот момент дизейблить не нужно: до конца еще не до сколлили
-            ctrl._sourceController.hasMoreData = () => false;
-            ctrl._hasLoadedData = true;
-            lists.BaseControl._private.handleListScroll(ctrl, {
-               scrollTop: 200,
-               position: 'down'
-            });
-            assert.deepEqual({
-               stateBegin: 'normal',
-               statePrev: 'normal',
-               stateNext: 'normal',
-               stateEnd: 'normal'
-            }, ctrl._pagingCfg, 'Wrong state of paging arrows after scroll');
-
             ctrl._pagingVisible = true;
             ctrl._abortSearch();
             assert.deepEqual({
@@ -1627,6 +1734,7 @@ define([
                stateEnd: 'normal'
             }, ctrl._pagingCfg, 'Wrong state of paging after scrollHide');
             assert.isFalse(ctrl._pagingVisible, 'Wrong state _pagingVisible after scrollHide');
+            assert.isFalse(ctrl._cachedPagingState, 'Wrong state _cachedPagingState after scrollHide');
 
             lists.BaseControl._private.handleListScroll(ctrl, {
                scrollTop: 200,
@@ -5335,6 +5443,7 @@ define([
                assert.isFalse(baseControl._pagingNavigation);
             });
             it('page navigation', function() {
+               let scrollPagingDestroyed = false;
                cfg.navigation = {
                   view: 'pages',
                   source: 'page',
@@ -5347,7 +5456,12 @@ define([
                      hasMore: false
                   }
                };
+               baseControl._scrollPagingCtr = {
+                  destroy:() => { scrollPagingDestroyed = true }
+               };
                lists.BaseControl._private.initializeNavigation(baseControl, cfg);
+               assert.isTrue(scrollPagingDestroyed);
+               assert.isNull(baseControl._scrollPagingCtr);
                assert.isFalse(baseControl._needScrollCalculation);
                assert.isTrue(baseControl._pagingNavigation);
             });

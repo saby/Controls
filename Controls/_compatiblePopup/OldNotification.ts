@@ -1,6 +1,5 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_compatiblePopup/OldNotification/OldNotification');
-import 'css!theme?Controls/compatiblePopup';
 
 var OldNotification = Control.extend({
    _template: template,
@@ -15,5 +14,5 @@ var OldNotification = Control.extend({
       }
    }
 });
-
+OldNotification._theme = ['Controls/compatiblePopup'];
 export default OldNotification;

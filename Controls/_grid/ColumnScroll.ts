@@ -251,6 +251,22 @@ const
          return _private.calculateShadowStyles(this, position);
       },
 
+      _onFocusInEditingCell(e: SyntheticEvent<FocusEvent>): void {
+           if (e.target.tagName !== 'INPUT' || !this._options.listModel.getEditingItemData() || !this._isDisplayColumnScroll()) {
+               return;
+           }
+           const container = this._children.content;
+           const startShadow = this._children.startShadow;
+           const { right: activeElementRight, left: activeElementLeft  } = e.target.getBoundingClientRect();
+           const { right: containerRight } = container.getBoundingClientRect();
+           const { left: startShadowLeft } = startShadow.getBoundingClientRect();
+           if (activeElementRight > containerRight) {
+               this._setScrollPosition(this._scrollPosition + (activeElementRight - containerRight + (this._children.startShadow.offsetWidth || 0)));
+           } else if (startShadowLeft > activeElementLeft) {
+               this._setScrollPosition(this._scrollPosition - (startShadowLeft - activeElementLeft + (this._children.startShadow.offsetWidth || 0)));
+           }
+       },
+
       _setScrollPosition: function(position) {
           const
               newScrollPosition = Math.round(position);

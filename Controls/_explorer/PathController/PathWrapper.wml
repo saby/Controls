@@ -1,0 +1,29 @@
+<ws:template name="headingPath">
+   <Controls.Container.Async templateName="Controls/breadcrumbs:HeadingPath">
+      <ws:partial template="{{ content.resolvedTemplate }}"
+                  scope="{{_options}}"
+                  items="{{_items}}"
+                  name="Path"
+                  attr:class="controls-Explorer__Path {{_options.style == 'master' ? 'controls-Explorer__Path_style_master'}}"
+                  on:backButtonClick="_notifyHandler('backButtonClick')"
+                  on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                  on:arrowActivated="_notifyHandler('arrowActivated')"
+                  on:itemClick="_notifyHandler('itemClick')"
+                  on:itemMouseDown="_notifyHandler('itemMouseDown')"
+                  on:arrowClick="_notifyHandler('arrowClick')"/>
+   </Controls.Container.Async>
+</ws:template>
+
+<ws:if data="{{_needCrumbs}}">
+   <ws:if data="{{_options.stickyHeader}}">
+      <Controls.scroll:StickyHeader mode="stackable" shadowVisibility="{{_options.needShadow ? 'visible' : 'hidden'}}" fixedZIndex="{{5}}">
+         <ws:partial template="headingPath" />
+      </Controls.scroll:StickyHeader>
+   </ws:if>
+   <ws:else>
+      <ws:partial template="headingPath" />
+   </ws:else>
+</ws:if>
+<ws:else>
+   <invisible-node />
+</ws:else>
