@@ -19,6 +19,7 @@ export interface IScrollBarOptions extends IControlOptions {
     direction: TDirection;
     trackVisible: boolean;
 }
+
 /**
  * Thin scrollbar.
  *
@@ -76,6 +77,12 @@ class Scrollbar extends Control<IScrollBarOptions> {
     private _dragPointOffset: number | null = null;
     protected _trackVisible: boolean = false;
 
+    protected constructor(options: IScrollBarOptions) {
+        super(options);
+        //TODO Compatibility на старых страницах нет Register, который скажет controlResize
+        this._resizeHandler = this._resizeHandler.bind(this);
+    }
+
     protected _afterMount(): void {
         if (this._options.direction === 'horizontal') {
             this._trackVisible = !!this._options.trackVisible;
@@ -84,9 +91,6 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._forceUpdate();
         this._thumbPosition = this._getThumbCoordByScroll(this._scrollBarSize,
             this._thumbSize, this._options.position);
-
-        //TODO Compatibility на старых страницах нет Register, который скажет controlResize
-        this._resizeHandler = this._resizeHandler.bind(this);
         if (!newEnv() && window) {
             window.addEventListener('resize', this._resizeHandler);
         }
@@ -102,7 +106,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         if (shouldUpdatePosition) {
             this._setPosition(this._options.position);
             this._thumbPosition = this._getThumbCoordByScroll(this._scrollBarSize,
-                                                                this._thumbSize, this._options.position);
+                this._thumbSize, this._options.position);
         }
     }
 
@@ -326,7 +330,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._setSizes(this._options.contentSize);
         this._setPosition(this._options.position);
         this._thumbPosition = this._getThumbCoordByScroll(this._scrollBarSize,
-                                                            this._thumbSize, this._options.position);
+            this._thumbSize, this._options.position);
     }
 
     private static _isScrollBarVisible(scrollbar: HTMLElement): boolean {
@@ -364,6 +368,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
 
         return thumbPosition;
     }
+
     /**
      * Посчитать размер ползунка.
      * @param thumb ползунок.
@@ -389,6 +394,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     private static _calcViewportRatio(scrollbarSize: number, contentSize: number): number {
         return scrollbarSize / contentSize;
     }
+
     /**
      * Определяем смещение ползунка.
      * В firefox в дескрипторе события в свойстве deltaY лежит маленькое значение,
@@ -405,7 +411,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     }
 }
 
-Scrollbar.getDefaultOptions = function () {
+Scrollbar.getDefaultOptions = function() {
     return {
         position: 0,
         direction: 'vertical'
