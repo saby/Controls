@@ -112,7 +112,8 @@ define('Controls-demo/Filter/Button/PanelVDom',
                })},
                {id: 'our organisation', value: '', resetValue: '', visibility: false},
                {id: 'document', value: '', resetValue: '', visibility: false},
-               {id: 'operation', value: '', resetValue: '', visibility: false}
+               {id: 'operation', value: '', resetValue: '', visibility: false},
+               {id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false}
             ];
             this._itemsHistory = this._items;
          },
