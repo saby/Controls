@@ -8,10 +8,10 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _gridCaption = 'Характеристики стран';
     private _header = getCountriesStats().getDefaultHeader().slice(1);
-    private _columns = getCountriesStats().getColumnsWithWidths().slice(1);
+    protected _columns = getCountriesStats().getColumnsWithWidths().slice(1);
 
     protected _beforeMount() {
 

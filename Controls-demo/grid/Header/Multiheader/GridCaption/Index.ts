@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _header = getCountriesStats().getMultiHeaderVar2();
-    private _columns = getCountriesStats().getColumnsWithWidths().slice(1);
+    protected _columns = getCountriesStats().getColumnsWithWidths().slice(1);
 
     protected _beforeMount() {
         this._header[0].template = 'wml!Controls-demo/grid/Header/Multiheader/GridCaption/GridCaptionHeaderCell';

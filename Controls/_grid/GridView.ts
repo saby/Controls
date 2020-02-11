@@ -1,6 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
 import {ListView} from 'Controls/list';
-import {detection} from 'Env/Env';
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/_grid/utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
@@ -28,6 +27,7 @@ import * as GroupTemplate from 'wml!Controls/_grid/GroupTemplate';
 
 import {Logger} from 'UI/Utils';
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
+import { shouldAddStickyLadderCell } from 'Controls/_grid/utils/GridLadderUtil';
 
 var
     _private = {
@@ -42,8 +42,10 @@ var
         },
 
         getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
-            // TODO: Удалить после полного перехода на table-layout. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
             let columnsWidths: string[] = hasMultiSelect ? ['max-content'] : [];
+            if (shouldAddStickyLadderCell(columns, self._options.stickyColumn, self._options.listModel.getDragItemData())) {
+                columnsWidths = columnsWidths.concat(['0px']);
+            }
             columnsWidths = columnsWidths.concat(columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth())));
             if (shouldAddActionsCell({
                 hasColumnScroll: self._options.columnScroll,
@@ -54,34 +56,6 @@ var
             }
 
             return GridLayoutUtil.getTemplateColumnsStyle(columnsWidths);
-        },
-
-        getQueryForHeaderCell(isSafari: boolean, cur, multiselectVisibility: number): string {
-            return isSafari ?
-                `div[style*="grid-column-start: ${cur.startColumn + multiselectVisibility}; grid-column-end: ${cur.endColumn + multiselectVisibility}; grid-row-start: ${cur.startRow}; grid-row-end: ${cur.endRow}"]` :
-                `div[style*="grid-area: ${cur.startRow} / ${cur.startColumn + multiselectVisibility} / ${cur.endRow} / ${cur.endColumn + multiselectVisibility}"]`;
-        },
-
-        getHeaderCellOffset(header, cur) {
-            const result = header.reduce((acc, el) => {
-                if (el.endRow < cur.endRow && el.startColumn <= cur.startColumn && el.endColumn >= cur.endColumn) {
-                    acc.push(el);
-                }
-                return acc;
-            }, []);
-            let upperCellsHeight = 0;
-            if (result && !!result.length) {
-                for (const el of result) {
-                    upperCellsHeight += el.height;
-                }
-            }
-            return upperCellsHeight;
-        },
-
-        prepareHeaderCells(header, container, multiselectVisibility) {
-            return header.map((cur) => ({...cur, height: container.querySelector(
-                    _private.getQueryForHeaderCell(detection.safari, cur, multiselectVisibility)
-                ).offsetHeight}));
         },
 
         setBaseTemplates(self: GridView, isFullGridSupport: boolean): void {
@@ -133,7 +107,6 @@ var
         _groupTemplate: GroupTemplate,
         _defaultItemTemplate: DefaultItemTpl,
         _headerContentTemplate: HeaderContentTpl,
-        _isHeaderChanged: false,
 
         _notifyHandler: tmplNotify,
 
@@ -164,7 +137,6 @@ var
                 this._listModel.setColumns(newCfg.columns);
             }
             if (!GridIsEqualUtil.isEqualWithSkip(this._options.header, newCfg.header, { template: true })) {
-                this._isHeaderChanged = true;
                 if (this._listModel._isMultiHeader) {
                     _private._resetScroll(this);
                 }
@@ -188,9 +160,6 @@ var
             if (this._options.resultsTemplate !== newCfg.resultsTemplate) {
                 this._resultsTemplate = newCfg.resultsTemplate || this._baseResultsTemplate;
             }
-            if (this._options.header && this._options.items === null && newCfg.items) {
-               this._isHeaderChanged = true;
-            }
             if (this._options.columnScroll !== newCfg.columnScroll) {
                 this._listModel.setColumnScroll(newCfg.columnScroll);
             }
@@ -210,33 +179,6 @@ var
                 .compile();
         },
 
-
-        _beforePaint(): void {
-            if (this._options.header && this._listModel._isMultiHeader && this._listModel.isStickyHeader() && this._isHeaderChanged && this._listModel.isDrawHeaderWithEmptyList()) {
-                const newHeader = this._setHeaderWithHeight();
-                this._listModel.setHeaderCellMinHeight(newHeader);
-                this._isHeaderChanged = false;
-            }
-        },
-        _setHeaderWithHeight: function() {
-            // todo Сейчас stickyHeader не умеет работать с многоуровневыми Grid-заголовками, это единственный вариант их фиксировать
-            // поправим по задаче: https://online.sbis.ru/opendoc.html?guid=2737fd43-556c-4e7a-b046-41ad0eccd211
-
-            let resultOffset = 0;
-            // toDO Такое получение контейнера до исправления этой ошибки https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            const container = this._container.length !== undefined ? this._container[0] : this._container;
-            const multiselectVisibility = this._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
-            const cellsArray = _private.prepareHeaderCells(this._options.header, container, multiselectVisibility);
-            const newColumns = cellsArray.map((cur) => {
-                    const upperCellsOffset = _private.getHeaderCellOffset(cellsArray, cur);
-                    return {
-                        ...cur,
-                        offsetTop: upperCellsOffset,
-                    };
-            });
-            return [newColumns, resultOffset];
-        },
-
         resizeNotifyOnListChanged(): void {
             GridView.superclass.resizeNotifyOnListChanged.apply(this, arguments);
             if (this._children.columnScroll) {
@@ -247,13 +189,6 @@ var
                 // из-за этого, между обновлениями, тень от скролла рисуется поверх колонок.
                 // Чтобы тень заняла акуальную позицию раньше, нужно вручную установить стиль элементу
                 this._children.columnScroll.updateShadowStyle();
-            }
-        },
-
-        _afterMount(): void {
-            GridView.superclass._afterMount.apply(this, arguments);
-            if (this._options.header && this._listModel._isMultiHeader && this._listModel.isStickyHeader() && this._listModel.isDrawHeaderWithEmptyList()) {
-                this._listModel.setHeaderCellMinHeight(this._setHeaderWithHeight());
             }
         },
 
@@ -289,6 +224,9 @@ var
                     .add('controls-Grid_table-layout')
                     .add('controls-Grid_table-layout_fixed', isFixedLayout)
                     .add('controls-Grid_table-layout_auto', !isFixedLayout);
+            }
+            if (this._listModel.getDragItemData()) {
+                classes.add('controls-Grid_dragging_process');
             }
             return classes.compile();
         },

@@ -12,7 +12,7 @@
 }
 
 .controls-Menu__subMenu_margin_theme-@{themeName} {
-   margin-top: -@popup_padding-vertical_menuPopup;
+   margin-top: -@content_padding-top_sticky;
 }
 
 .controls-Menu__row {
@@ -108,6 +108,10 @@
    text-overflow: ellipsis;
 }
 
+.controls-Menu__content-readOnly {
+   color: @readonly_item_text-color_menu;
+}
+
 .controls-Menu_content_padding_theme-@{themeName} {
    display: flex;
    padding-top: @item_padding-top_menu;
@@ -175,7 +179,7 @@
 }
 
 .controls-ListView__item-rightPadding_menu-close.theme_@{themeName} {
-   padding-right: @close-button_offset-left_menu + @width_closeButton_link + @close-button_offset-right_menu;
+   padding-right: @close-button_offset-left_sticky + @width_closeButton_link + @close-button_offset-right_sticky;
 }
 
 .controls-ListView__item-rightPadding_menu-pin.theme_@{themeName} {
@@ -206,7 +210,7 @@
 }
 
 .ws-is-hover {
-   .controls-Menu__row_state_default_theme-@{themeName}:hover {
+   .controls-Menu__row_hovered_theme-@{themeName} {
       background: @item_hover_background-color_menu;
 
       .controls-Menu__row-checkbox_default {

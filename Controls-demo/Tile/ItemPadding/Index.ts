@@ -6,7 +6,7 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: HierarchicalMemory;
+    protected _viewSource: HierarchicalMemory;
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({

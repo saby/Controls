@@ -1,6 +1,7 @@
 import template = require('wml!Controls/_dragnDrop/ResizingLine/ResizingLine');
 
 import {descriptor} from 'Types/entity';
+// @ts-ignore
 import {Container} from 'Controls/dragnDrop';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -151,7 +152,7 @@ class ResizingLine extends Control<IResizingLineOptions> {
     }
 
     // Use in template.
-    private _isResizing(minOffset: number, maxOffset: number): boolean {
+    protected _isResizing(minOffset: number, maxOffset: number): boolean {
         return minOffset !== 0 || maxOffset !== 0;
     }
 

@@ -1,0 +1,29 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">Без указания selectedKeys</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+      />
+   </div>
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">C selectedKeys</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              selectedKeys="{{[3]}}"
+      />
+   </div>
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">C selectedKeys и множественным выбром</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              selectedKeys="{{[1, 3]}}"
+              multiSelect="{{true}}"
+      />
+   </div>
+</div>

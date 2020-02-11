@@ -7,10 +7,10 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _filter = {};
+    protected _viewSource: Memory;
+    protected _filter = {};
     // private _searchStartingWith: string = 'country';
-    private _columns = getCountriesStats().getColumnsWithFixedWidths();
+    protected _columns = getCountriesStats().getColumnsWithFixedWidths();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

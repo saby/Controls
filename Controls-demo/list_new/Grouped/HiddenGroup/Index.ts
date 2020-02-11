@@ -8,7 +8,7 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
     protected _beforeMount() {
         this._viewSource = new Memory({
@@ -17,7 +17,7 @@ export default class extends Control {
         });
     }
 
-    private _groupingKeyCallback(item: Model): string {
+    protected _groupingKeyCallback(item: Model): string {
         if (item.get('brand') === 'unknown' || !item.get('brand')) {
             return CONSTANTS.view.hiddenGroup;
         }

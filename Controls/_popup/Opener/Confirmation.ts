@@ -20,7 +20,7 @@ import {IConfirmationOpener, IConfirmationOptions} from 'Controls/_popup/interfa
  * @public
  * @category Popup
  * @author Красильников А.С.
- * @demo Controls-demo/Popup/Opener/ConfirmationPG
+ * @demo Controls-demo/Confirmation/Confirmation
  */
 
 interface IConfirmationOpenerOptions extends IBaseOpenerOptions {
@@ -72,7 +72,6 @@ class Confirmation extends Control<IControlOptions> implements IConfirmationOpen
     static openPopup(templateOptions: IConfirmationOptions): Promise<boolean | undefined> {
         return new Promise((resolve) => {
             const config: IConfirmationOpenerOptions = Confirmation._getConfig(templateOptions, resolve);
-            config._vdomOnOldPage = true;
             return BaseOpener.requireModules(config, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
                 BaseOpener.showDialog(result.template, config, result.controller);
             });

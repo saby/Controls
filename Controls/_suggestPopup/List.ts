@@ -6,8 +6,7 @@ import template = require('wml!Controls/_suggestPopup/List/List');
 import clone = require('Core/core-clone');
 import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import { constants, detection } from 'Env/Env';
-import scrollToElement = require('Controls/Utils/scrollToElement');
+import { constants } from 'Env/Env';
 
 
 const DIALOG_PAGE_SIZE = 25;

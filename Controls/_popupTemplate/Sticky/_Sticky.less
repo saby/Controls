@@ -6,9 +6,9 @@
 .controls-StickyTemplate {
    position: relative;
    width: 100%;
-   padding-bottom: @padding-bottom_sticky;
-   background: @border-color_sticky;
-   box-shadow: @box-shadow_sticky;
+   padding-bottom: @content_padding-bottom_sticky;
+   background: @background-color_sticky;
+   border: @border-thickness_sticky solid @border-color_sticky;
 }
 
 .controls-StickyTemplate_theme_@{themeName} {
@@ -20,7 +20,7 @@
    align-items: center;
    justify-content: space-between;
    flex-shrink: 1;
-   padding: @padding-top_sticky @close-button_offset-right_sticky + @close-button_offset-left_sticky + @width_closeButton_link 0 @header_padding-horizontal_sticky;
+   padding: @content_padding-top_sticky @close-button_offset-right_sticky + @close-button_offset-left_sticky + @width_closeButton_link 0 @header_padding-horizontal_sticky;
    height: @header_min-height_sticky;
    border-bottom: @header_bottom-border-thickness_sticky solid @header_bottom-border-color_sticky;
    background: @header_background-color_sticky;
@@ -35,7 +35,7 @@
 
 .controls-StickyTemplate__content-area {
    display: inline-flex;
-   padding: @padding-top_sticky @header_padding-horizontal_sticky 0;
+   padding: @content_padding-top_sticky @header_padding-horizontal_sticky 0;
    flex-direction: column;
    overflow: hidden;
 }
@@ -60,5 +60,4 @@
 
 .controls-StickyTemplate__caption_theme_@{themeName} {
    min-height: @header_min-height_sticky;
-   font-size: @header_font-size_sticky;
 }

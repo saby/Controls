@@ -1,6 +1,5 @@
 <div class="demo-Grid__container">
     <Layout.Browser.Tabs
-       theme="default-Layout"
        attr:class="demo-BrowserTabs"
        bind:tabsSelectedKey = "_selectedKey">
         <ws:items>
@@ -17,7 +16,6 @@
                         </ws:if>
                         <ws:else>
                             <Layout.Browser source="{{_viewSource}}"
-                                            theme="default-Layout"
                                             keyProperty="{{_keyProperty}}"
                                             nodeProperty="{{_nodeProperty}}"
                                             parentProperty="{{_parentProperty}}"

@@ -8,8 +8,8 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = getEditing().getEditingColumns();
+    protected _viewSource: Memory;
+    protected _columns = getEditing().getEditingColumns();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

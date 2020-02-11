@@ -3,13 +3,13 @@ import controlTemplate = require('wml!Controls-demo/Decorator/Highlight/Highligh
 import 'css!Controls-demo/Controls-demo';
 
 class HighlightMode extends Control<IControlOptions> {
-    private _value = 'Наша мама мыла раму.\n' +
+    protected _value = 'Наша мама мыла раму.\n' +
         'Кто бы вымыл нашу маму?\n' +
         'Вся она в песке и пенке,\n' +
         'Поцарапаны коленки.\n' +
         'Если я вдруг магом стану,\n' +
         'Сможет рама вымыть маму.';
-    private _highlightedValue = 'вы мыть маму';
+    protected _highlightedValue = 'вы мыть маму';
     protected _template: TemplateFunction = controlTemplate;
 
     static _theme: string[] = ['Controls/Classes'];

@@ -1,4 +1,4 @@
-<ws:if data="{{isOpened() && (_actionOnScroll !== 'none')}}">
+<ws:if data="{{_actionOnScroll !== 'none'}}">
    <Controls.event:Listener event="scroll" on:scroll="_scrollHandler()"/>
 </ws:if>
 <ws:else>

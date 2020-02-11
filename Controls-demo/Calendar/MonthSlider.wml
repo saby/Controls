@@ -10,6 +10,7 @@
             bind:startValue="_startValue1"
             bind:endValue="_endValue1"
             selectionType="single"
+			attr:class="controlsDemo-MonthSlider__default"
          />
       </div>
 
@@ -47,6 +48,7 @@
             bind:month="_month"
             bind:startValue="_startValue"
             bind:endValue="_endValue"
+			attr:class="controlsDemo-MonthSlider__selected"
          />
 
          <Controls.calendar:MonthSlider

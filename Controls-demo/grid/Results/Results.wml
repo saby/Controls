@@ -1,20 +1,29 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Results/ResultsPosition/Index' }}">
-            <a href="{{content.href}}">Позиция строки итогов</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.Results.ResultsPosition.Index/>
-    </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/grid/Results/ResultsPosition/Index' }}">
+         <a href="{{content.href}}">Позиция строки итогов</a>
+      </Router.router:Reference>
+      <Controls-demo.grid.Results.ResultsPosition.Index/>
+   </div>
 
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/grid/Results/ResultsTemplate/Index' }}">
+   <div class="controlsDemo__cell controlsDemo__flex controlsDemo__flex-jc-sb">
+      <div class="controlsDemo__cell">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/grid/Results/ResultsTemplate/Index' }}">
             <a href="{{content.href}}">Переопределение шаблона строки итогов</a>
-        </Router.router:Reference>
-        <Controls-demo.grid.Results.ResultsTemplate.Index/>
-    </div>
-
+         </Router.router:Reference>
+         <Controls-demo.grid.Results.ResultsTemplate.Index/>
+      </div>
+      <div class="controlsDemo__cell">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/grid/Results/SingleRecordResults/Index' }}">
+            <a href="{{content.href}}">Отображение строки итогов при 1 записи</a>
+         </Router.router:Reference>
+         <Controls-demo.grid.Results.SingleRecordResults.Index/>
+      </div>
+   </div>
 </div>

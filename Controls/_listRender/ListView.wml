@@ -1,0 +1,4 @@
+<Controls._listRender.View
+   collection="Controls/display:Collection"
+   render="Controls/listRender:Render"
+   scope="{{ _options }}" />

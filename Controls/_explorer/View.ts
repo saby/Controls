@@ -413,18 +413,32 @@ var
          // but is not called, because the template has no reactive properties.
          this._forceUpdate();
       },
-      _onItemClick: function(event, item, clickEvent, columnIndex?: number) {
-         event.stopPropagation();
+      _onItemClick(event, item, clickEvent, columnIndex?: number): boolean {
          const res = this._notify('itemClick', [item, clickEvent, columnIndex]);
-         if (res !== false) {
-            if (item.get(this._options.nodeProperty) === ITEM_TYPES.node) {
-                _private.setRestoredKeyObject(this, item.getId());
-                _private.setRoot(this, item.getId());
-                this._isGoingFront = true;
-                this.cancelEdit();
-                return false;
+         event.stopPropagation();
+
+         const changeRoot = () => {
+            _private.setRestoredKeyObject(this, item.getId());
+            _private.setRoot(this, item.getId());
+            this._isGoingFront = true;
+         };
+
+         if (res !== false && item.get(this._options.nodeProperty) === ITEM_TYPES.node) {
+            if (!this._options.editingConfig) {
+               changeRoot();
+            } else {
+               this.commitEdit().addCallback((res = {}) => {
+                  if (!res.validationFailed) {
+                     changeRoot();
+                  }
+               });
             }
+
+            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
+            // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
+            return false;
          }
+
          return res;
       },
       _onBreadCrumbsClick: function(event, item) {

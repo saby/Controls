@@ -47,8 +47,6 @@ var _private = {
    },
 
    searchCallback: function (self, result, filter) {
-      const switcherStr = getSwitcherStrFromData(result.data);
-
       self._loading = false;
 
       if (self._viewMode !== 'search') {

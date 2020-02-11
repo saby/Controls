@@ -1,7 +1,6 @@
-import {detection} from 'Env/Env';
 import Control = require('Core/Control');
 import coreMerge = require('Core/core-merge');
-import CalendarControlsUtils from './Utils';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import DateRangeModel from './DateRangeModel';
 import {StringValueConverter} from 'Controls/input';
 import {IDateTimeMask} from 'Controls/input';
@@ -18,6 +17,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/interface/IDateMask
+ * @mixes Controls/_interface/IOpenPopup
  *
  * @css @width_DateRange-dash Width of dash between input fields.
  * @css @spacing_DateRange-between-dash-date Spacing between dash and input fields.
@@ -68,7 +68,7 @@ var Component = Control.extend([], {
     _beforeMount: function (options) {
         this._rangeModel = new DateRangeModel({ dateConstructor: this._options.dateConstructor });
         this._rangeModel.update(options);
-        CalendarControlsUtils.proxyModelEvents(
+        proxyModelEvents(
             this, this._rangeModel,
             ['startValueChanged', 'endValueChanged', 'rangeChanged', 'valueChanged']
         );
@@ -82,7 +82,7 @@ var Component = Control.extend([], {
         this._rangeModel.destroy();
     },
 
-    _openDialog: function (event) {
+    openPopup: function (event) {
         var cfg = {
             ...getOptions.getCommonOptions(this),
             target: this._container,

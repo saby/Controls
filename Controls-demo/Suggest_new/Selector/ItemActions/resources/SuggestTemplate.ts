@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Suggest_new/Selector/ItemAct
 
 class SuggestTemplate extends Control{
    protected _template: TemplateFunction = controlTemplate;
-   private _itemActions: Memory;
+   protected _itemActions: Memory;
    protected _beforeMount() {
       this._itemActions = [
          {

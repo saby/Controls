@@ -7,7 +7,6 @@
       <module id="686f183d-0bcc-4732-b4e4-6016c2a67a0f" name="Types"/>
       <module id="323fd54f-1fab-42a6-8aea-6726d6392d53" name="Application"/>
       <module id="63e1a7e5-4d75-42fa-91a3-977dc90ff1e1" name="SbisEnv"/>
-      <module id="c7d8e465-1c28-4437-858f-81968ce81dec" name="Controls-theme"/>
       <module id="0df0fce3-53ba-47f8-987d-edf1fd078295" name="WS.Core"/>
       <module id="636177e5-4d75-44fa-9173-977dc90ff111" name="Env"/>
       <module id="656177e2-4d75-42fa-9173-977dc90ff121" name="Browser"/>

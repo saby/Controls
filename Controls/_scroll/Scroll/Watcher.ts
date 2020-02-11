@@ -6,7 +6,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_scroll/Scroll/Watcher/Watcher');
 import {Registrar}  from 'Controls/event';
-import Env = require('Env/Env');
 import isEmpty = require('Core/helpers/Object/isEmpty');
 import {SyntheticEvent} from "Vdom/Vdom"
 

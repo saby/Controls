@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_masterDetail/Base/Base';
 import 'css!theme?Controls/masterDetail';
 import {debounce} from 'Types/function';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
-import {IPropStorage, IPropStorageOptions} from 'Controls/interface';
+import {IPropStorageOptions} from 'Controls/interface';
 
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
@@ -153,7 +153,7 @@ class Base extends Control<IMasterDetail> {
             oldOptions.masterMaxWidth !== newOptions.masterMaxWidth;
     }
 
-    private _selectedMasterValueChangedHandler(event: Event, value: boolean): void {
+    protected _selectedMasterValueChangedHandler(event: Event, value: boolean): void {
         this._selected = value;
         event.stopPropagation();
     }
@@ -186,7 +186,7 @@ class Base extends Control<IMasterDetail> {
         return !!canResizing;
     }
 
-    private _offsetHandler(event: Event, offset: number): void {
+    protected _offsetHandler(event: Event, offset: number): void {
         if (offset !== 0) {
             const width = parseInt(this._currentWidth, 10) + offset;
             this._currentWidth = width + 'px';
@@ -218,7 +218,7 @@ class Base extends Control<IMasterDetail> {
         return this._containerWidth;
     }
 
-    private _resizeHandler(): void {
+    protected _resizeHandler(): void {
         // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
         // Не запускаем реакцию на ресайз, если контрол скрыт (к примеру лежит внутри скпытой области switchableArea)
         if (!this._container.closest('.ws-hidden')) {

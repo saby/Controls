@@ -22,11 +22,17 @@ export function itemActionsClick(self, event, action, itemData, listModel, showA
         }
 
         const itemIndex = isNewModel ? listModel.getSourceIndexByItem(itemData) : itemData.index;
-        let targetContainer;
 
-        targetContainer = Array.prototype.filter.call(container.querySelector('.controls-ListView__itemV').parentNode.children, function (item) {
-            return item.className.indexOf('controls-ListView__itemV') !== -1;
-        })[itemIndex - listModel.getStartIndex()];
+        // Если используется новая модель, Controls/display уже подгружен. Когда переедем
+        // с BaseControl, этот код останется работать только со старой моделью.
+        const startIndex = isNewModel
+            ? require('Controls/display').VirtualScrollController.getStartIndex(listModel)
+            : listModel.getStartIndex();
+
+        const targetContainer = Array.prototype.filter.call(
+            container.querySelector('.controls-ListView__itemV').parentNode.children,
+            (item: HTMLElement) => item.className.includes('controls-ListView__itemV')
+        )[itemIndex - startIndex];
 
         const args = [
             action,

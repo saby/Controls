@@ -1,4 +1,5 @@
 @color_warning:                       @warning_color; // дублирует стиль новой спецификации, удаляем
+@background-color_default:            @background-color; // дублирует стиль новой спецификации, удаляем
 @color_success:                       @success_color; // дублирует стиль новой спецификации, удаляем
 @color_link:                          @link_text-color; // дублирует стиль новой спецификации, удаляем
 @color_link-hover:                    @link_hover_text-color; // дублирует стиль новой спецификации, удаляем
@@ -48,25 +49,347 @@
 @height_control_l:            @inline_height_xl; // дублирует стиль новой спецификации, удаляем
 @height_control_xl:           @inline_height_2xl; // дублирует стиль новой спецификации, удаляем
 
-// Button
-@border-radius-ToolButton_val:                                    @border-radius_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@min-width_Button_common_val:                                     @min-width_button_button; // дублирует стиль новой спецификации, удаляем
-@box-shadow-ToolButton_val:                                       @box-shadow_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@text-shadow_Button_readOnly_val:                                 @text-shadow_button; // дублирует стиль новой спецификации, удаляем
-@text-shadow_Button_button_val:                                   @text-shadow_button; // дублирует стиль новой спецификации, удаляем
-@box-shadow_Button_common_val:                                    @box-shadow_button; // дублирует стиль новой спецификации, удаляем
-@box-shadow_Button_active_val:                                    @box-shadow_button; // дублирует стиль новой спецификации, удаляем
-@box-shadow-ToolButton_activated_val:                             @box-shadow_button; // дублирует стиль новой спецификации, удаляем
-@text-shadow_ToolButton_val:                                      @text-shadow_button; // дублирует стиль новой спецификации, удаляем
-@text-shadow_ToolButton_readOnly_val:                             @text-shadow_button; // дублирует стиль новой спецификации, удаляем
-@background-color-ToolButton_transparent_val:                     @background-color_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@border-color-ToolButton_val:                                     @border-color_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@border-color-ToolButton_readOnly_val:                            @readonly_border-color_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@background-color-ToolButton_val:                                 @background-color_contrast_button_toolButton; // дублирует стиль новой спецификации, удаляем
-@background_Button_button_primary_hovered_val:                    @primary_hover_background-color_button; // дублирует стиль новой спецификации, удаляем
-@background_Button_secondary_active_val:                          @secondary_active_background-color_button; // дублирует стиль новой спецификации, удаляем
-@background_Button_button_primary_active_val:                     @primary_active_background-color_button; // дублирует стиль новой спецификации, удаляем
-@background_Button:                                               @primary_background-color_button; // дублирует стиль новой спецификации, удаляем
+@tensorFontForIE:                         '1.0.3';
+@tensorFontVer:                           '1.0.3';
+@emojiFontVer:                            '1.0.1';
+
+//colors
+@color_shadow_default:              rgba(0,0,0,0.2);
+@color_shadow_popup:                rgba(0,0,0,0.35);
+@color_shadow_danger:               rgba(239, 70, 58, 0.4);
+
+@color_active-element_disabled:		  #313E78;
+@color_separator:                     #EAEAEA;
+
+@background-color_footer:           #F5F5F5;
+@background-color_default:          #FFFFFF;
+@background-color_danger:           #FADADD;
+@background-color_toolbar:          #e5ecf5; //используется в пмо и в тулбаре бтра
+@background_color_editing:          #F3F3F3;
+@background-color_additional:       #F8F8F8;
+@background-color_item_hovered:     #F0F5FB;
+@background-color_header:           #F4F4F4; // Headers in the period dialogs, dropdown and filter panels
+@background-color-text-highlight:   #FFFECE;
+
+@color_border:                      #CCC;
+@color_border_danger:               @color_danger;
+@color_border_disabled:             #E4E4E4;
+@color_border_secondary:            #BDBDBD;
+
+@color_overlay_default:             rgba(0, 0, 0, 0.1);
+
+//sizes
+
+@thickness_border_accent:     2px;
+@height_control_multi_header: 20px;
+@height_s:           18px;
+
+@height_l:           30px;
+
+@height_2xl:         44px;
+
+@line-height_default:       18px;
+@size_shadow_default:       0 0 6px 0;
+
+@border-radius_size_m:        4px;
+
+@spacing_default_xxs:      2px;
+@spacing_default_xs:       4px;
+@spacing_default_s:        6px;
+@spacing_default_m:        8px;
+@spacing_default_l:        12px;
+@spacing_default_xl:       16px;
+@spacing_default_xxl:      24px;
+
+//period dialog
+@color_border_PeriodDialog:       #EAEAEA;
+
+// d'n'd
+@color_drop-target:                                #0055BB;
+@border-radius_DraggingTemplate-icon_val:          8px;
+@font-size_DraggingTemplate-additionalText_val:    13px;
+@height_DraggingTemplate-counter_val:              20px;
+@width_DraggingTemplate-textShadow_val:            24px;
+@width_DraggingTemplate-icon_val:                  40px;
+@height_DraggingTemplate-icon_val:                 40px;
+@width_DraggingTemplate_val:                       200px;
+@color_DraggingTemplate-counter_val:               #FFFFFF;
+@background-color_DraggingTemplate-counter_val:    #0055BB;
+
+// Counter
+@font-size_Counter_size-l:                                       18px;
+@font-size_Counter_size-s:                                       14px;
+@font-size_Counter_size-m:                                       15px;
+@color_Counter_style-primary_hovered:                            #D94700;
+@color_Counter_style-secondary_hovered:                          #0055BB;
+@color_Counter_style-secondary:                                  #313E78;
+@color_Counter_style-primary:                                    #D94700;
+@color_Counter_style-disabled:                                   #999999;
+
+// Separator
+@width-HeaderSeparator:                                          6px;
+@height-HeaderSeparator:                                         10px;
+@spacing-HeaderSeparator_between_headerSeparator_Header:         10px;
+@color_HeaderSeparator_secondary:                                #729EE6;
+@color_HeaderSeparator_primary:                                  #729EE6;
+@color_HeaderSeparator_primary_hovered:                          #729EE6;
+@color_HeaderSeparator_secondary_hovered:                        #729EE6;
+
+// tile
+@color_shadow_light:                rgba(0,0,0,.15);
+@color_shadow_dark:                 rgba(0, 0, 0, 0.45);
+
+//StateIndicator
+@state-indicator-sector-side-padding_val: 6px;
+@state-indicator-sector-width_val: 6px;
+@state-indicator-sector-height_val: 8px;
+@state-indicator-sector-spacing_val: 2px;
+
+// icon urls
+@closeIconSvg-toolButton:            url('../Controls-default-theme/img/DefaultCloseIcon.svg');
+@closeIconSvg-toolButton-hovered:    url('../Controls-default-theme/img/CloseIconHovered.svg');
+@closeIconSvg-link:                  url('../Controls-default-theme/img/LightCloseIcon.svg');
+@closeIconSvg-link_hovered:          url('../Controls-default-theme/img/CloseIconHovered.svg');
+@backArrowOrangeSmall_icon:          url('../Controls-default-theme/img/BackArrowOrangeSmall.svg');
+@backArrowOrange_icon:               url('../Controls-default-theme/img/BackArrowOrange.svg');
+@backArrowBlueSmall_icon:            url('../Controls-default-theme/img/BackArrowBlueSmall.svg');
+@backArrowBlue_icon:                 url('../Controls-default-theme/img/BackArrowBlue.svg');
+@loadingIndicator_icon_l:            url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif');
+@loadingIndicator_icon_s:            url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator-16-16.gif');
+
+// border
+@border-style_solid:       solid;
+
+@line-height_default:         18px;
+
+@width_control_s:             24px;
+@width_control_m:             32px;
+
+// unic vars
+// Image
+@border-radius_Image_m_val:                                       8px;
+
+// Mask
+@paddings_Mask-stretcher:                                         0 2px 0 1px;
+
+// ListView
+@opacity_ListView-item_dragging_val:                              0.6;
+@spacing_ListView-item-between-checkbox-borderTop_val:            3px;
+@spacing_ListView-empty-between-content-borderTop_xxl_val:        44px;
+@spacing_ListView-empty-between-content-borderBottom_xxl_val:     44px;
+@spacing_ListView-empty-between-content-borderTop_xs_val:         0;
+@spacing_ListView-empty-between-content-borderBottom_xs_val:      0;
+@spacing_ListView-item-between-content-borderRight_xs_val:        0;
+@spacing_ListView-item-between-content-borderLeft_xs_val:         0;
+@spacing_ListView-between-content-checkbox_val:                   0;
+@spacing_ListView-empty-between-content-borderTop_xs_val:         0;
+
+@box-shadow_List-masterList-item_selected_val:                    6px 0 6px rgba(0, 0, 0, .15);
+@border-color_List-masterList-item_selected_val:                  #C2D0DE transparent #9CB3CA transparent;
+@background-color_ListView-item_active_val:                       #F0F5FB;
+@background-color_ListView-item_hover_val:                        #F0F5FB;
+@border-color_List-masterList_val:                                #EAEAEA;
+@background-color_List-masterList-details_val:                    transparent;
+@border-width_List-masterList-item-right_val:                     0;
+@border-width_List-masterList-item-left_val:                      0;
+@border-color_List-masterList-item_selected-right_val:            transparent;
+@border-color_List-masterList-item_selected-left_val:             transparent;
+@border-color_List-masterList-item_selected-top_val:              #C2D0DE;
+@border-color_List-masterList-item_selected-bottom_val:           #9CB3CA;
+@padding_List-editAtPlace:                                        4px;
+@background-image_AddButton_enable_val:         url('../Controls-default-theme/img/AddButtonEnable.svg');
+@background-image_AddButton_disable_val:        url('../Controls-default-theme/img/AddButtonDisable.svg');
+@spacing_ListAddButton-between-icon-and-text_val:                 0;
+
+// EmptyTemplate
+@font-size_ListView-empty-template_val: 15px;
+
+// BaseControl
+@border-radius_BaseControl-loadingIndicator_val:                  8px;
+
+// Menu
+@width-IconButton_size-m:                                         24px;
+@width-IconButton_size-l:                                         28px;
+
+// MoveDialog
+@width_MoveDialog_val:                                            408px;
+@height_MoveDialog_val:                                           446px;
+@width_MoveDialog-search_val:                                     184px;
+
+// DateRangeRelationButton
+@color_DateRangeRelationButton-byCapacity_hovered_val:            #999;
+
+// PeriodDialog
+@thickness_PeriodDialog-header-dash_val:                          1px;
+
+// FilterLink
+@color_FilterLink:                                                #313e78;
+
+// SelectedCollection
+@width_SelectedCollection-counter-shadow_val:                     20px;
+
+// Selector
+@min-width_DateRangeSelector_val:                                 150px;
+
+// SelectorLite
+@min-width_DateRangeSelectorLite_val:                             150px;
+
+// Lookup
+@spacing_Lookup-between-inputRender-rightBorder_val:              0;
+@color_Lookup-input-for-comment_val:                              #999999;
+@caret-color_Lookup-input-for-comment_val:                        #999999;
+
+// Suggest
+@box-shadow-size_Suggest-popup-verticalAlign_top_val:             0 -4px 6px;
+@box-shadow-size_Suggest-popup-verticalAlign_bottom_val:          0 4px 6px;
+@margin-top_Suggest__tabs-contentLayer_val:                       0;
+
+// TreeGridView
+@spacing_TreeGridView-row-expander-between-content_borderRight_m_val:     10px;
+@spacing_TreeGridView-row-expander-between-content_borderRight_l_val:     14px;
+@spacing_TreeGridView-row-expander-between-content_borderRight_xl_val:    18px;
+@spacing_TreeGridView-row-expander-between-content_borderLeft_s_val:      0;
+@icon_TreeGridView-expander_node-collapsed_val:                   '\e96e';
+@icon_TreeGridView-expander_node-expanded_val:                    '\e96d';
+@icon_TreeGridView-expander_hiddenNode-collapsed_val:             '\e9c2';
+@icon_TreeGridView-expander_hiddenNode-expanded_val:              '\e9c1';
+@width-TreeGridView-levelPadding_size_s_val:                      20px;
+@width-TreeGridView-levelPadding_size_m_val:                      30px;
+@width-TreeGridView-levelPadding_size_l_val:                      38px;
+@width-TreeGridView-levelPadding_size_xl_val:                     46px;
+@height_TreeTileView-node_val:                                    40px;
+@color_TreeGridView-expander_val:                                 #313E78;
+@border-color_TreeGridView-item_dragging_val:                     #0055BB;
+
+// DialogTemplate
+@spacing_dialogTemplate-between-head-border-right_val:                    48px;
+@line-height_dialogTemplate_caption_val:                                  42px;
+
+@font-weight_dialogTemplate_head_val:                                     bold;
+
+// TileView
+@spacing_TileView-between-title-topBorder_val:                            3px;
+@spacing_TileView-between-title-bottomBorder_val:                         3px;
+@spacing_TileView-between-title-leftBorder_val:                           3px;
+@spacing_TileView-between-title-rightBorder_val:                          3px;
+
+// Grid
+@spacing_Grid-row-between-content-borderLeft_xl_val:                      20px;
+@spacing_Grid-row-between-content-borderRight_xl_val:                     20px;
+@spacing_Grid-row-between-checkbox-borderTop_val:                         3px;
+@min-height_Grid-row_val:                                                 31px;
+@height_Grid-results-cell_val:                                            20px;
+@spacing_Grid-row-between-content-borderLeft_xs_val:                      0;
+@spacing_Grid-row-between-content-borderRight_xs_val:                     0;
+@box-shadow_Grid-masterList-item_selected_val:                            6px 0 6px @color_shadow_light;
+@background-color_Grid-row_hover_val:                                     #F0F5FB;
+@background-color_Grid-row_hover-transparent_val:                         rgba(240,245,251,0);
+@border-color_Grid-row-separator_val:                                     #F5F5F5;
+@spacing_Grid-editArrow_left_val:                                         8px;
+// размер svg-иконки для сортировки
+@height_SortingArrow-icon_val:                                            12px;
+
+// Back
+@spacing_Back_between_icon_caption_standart_val:                          3px;
+@height_ItemActions_outside_val:                                          31px;
+@spacing_ItemActions-between-content-border-top_position_inside_val:      3px;
+@spacing_ItemActions-between-content-border-bottom_position_inside_val:   3px;
+@spacing_ItemActions-between-content-border-top_position_outside_val:     4px;
+@spacing_ItemActions-between-content-border-bottom_position_outside_val:  3px;
+@spacing_ItemActions-between-content-border-left_position_outside_val:    0;
+@background-color_Swipe_val:                                              #F4F9FD;
+@background-color_Swipe-shadow_val:                                       rgba(0, 0, 0, 0.12);
+@background-color_Swipe-separator_val:                                    #EBF1F6;
+@spacing_Swipe-between-vertical-separator-and-border_val:                 3px;
+@spacing_Swipe-between-vertical-and-horizontal-separator_val:             3px;
+@spacing_Swipe-between-actions_top_size_m_val:                            3px;
+@spacing_Swipe-between-actions_bottom_size_m_val:                         3px;
+@max-width_Swipe-title_position_bottom_val:                               160px;
+@max-width_Swipe-title_position_right_val:                                220px;
+@animation-offset-Swipe-left-to-right_val:                                16px;
+@width-Back__icon_size-s_val:                                             9px;
+@width-Back__icon_size-m_val:                                             9px;
+@width-Back__icon_size-l_val:                                             10px;
+@height-Back__icon_size-s_val:                                            11px;
+@height-Back__icon_size-m_val:                                            12px;
+@height-Back__icon_size-l_val:                                            14px;
+@content_Back_secondary_val:                                              '';
+@content_Back_primary_val:                                                '';
+@font-weight_Back_val:                                                    bold;
+@color-Back__caption_style-primary_val:                                   #D94700;
+@color-Back__caption_style-secondary_val:                                 #313E78;
+@color-Back__caption_style-secondary_hovered_val:                         #0055BB;
+
+// Link
+@color_App-link_val:                                                      #313E78;
+@color_App-link_hover_val:                                                #0055BB;
+
+//FilterView TODO: https://online.sbis.ru/opendoc.html?guid=a4b1e32b-4cfa-4b80-be2a-b763b580293a
+@color_FilterView-editor-DateRange_readOnly:                              @label_text-color;
+//FilterDetailPanel
+@color_FilterPanel-DateRange:                                             @color_link-hover;
+
+// BreadCrumbs
+@max-width_BreadCrumbs-menu_val:                                          800px;
+@min-width_BreadCrumbs-text_val:                                          32px;
+@spacing_BreadCrumbs-menu_val:                                            -25px;
+@box-shadow_BreadCrumbs-menu_val:                                         -15px 2px 4px -6px  @background-color_default;
+
+// DigitButton
+@min-width_Paging-digitButton_val:                                        28px;
+@background-color_Paging-digitButton_hover_val:                           #F0F5FB;
+@background-color_Paging-button_hover_val:                                #F0F5FB;
+
+// ProgressBar
+@height-ProgressBar_bar_val:                                              3px;
+@color-ProgressBar__bar_val:                                              #CCC;
+
+// LoadingIndicator
+@color_LoadingIndicator-overlay-default_val:                              transparent;
+
+// Search
+@border-color_Search_val:                                                 transparent;
+@border-color_Search_readOnly_val:                                        transparent;
+@border-color_Search_active_val:                                          #DFDFDF;
+@background-color_Search_val:                                             #F2F2F2;
+@background-color_Search_contrast_background_val:                         #ffffff;
+
+// Misspell
+@text-decoration_Misspell-caption_hover_val:    underline;
+@text-decoration_Misspell-caption_active_val:   underline;
+@font-weight_Misspell-text_val:                 bold;
+@font-weight_Misspell-caption_val:              bold;
+
+//DragBordersContainer
+@size_DragBordersContainer-border_val:          5px;
+@background_DragBordersContainer-area_val:      rgba(204, 204, 204, 0.35);
+
+//Stack ResizingLine
+@resizing-line_mobile_width_stack:        25px;
+@resizing-line_mobile_left_stack:         15px;
+
+//BlockLayout
+@box-shadow_BlockLayout-block_val:              transparent;
+@border-width_BlockLayout-block_val:            0;
+@border-color_BlockLayout-block_val:            transparent;
+@border-radius_BlockLayout-block_val:           0;
+
+@background_BlockLayout_block_style_3_val:      #FBF9F7;
+@background_BlockLayout_block_style_4_val:      #F7F4F0;
+@background_BlockLayout_block_style_5_val:      #F4F9FD;
+
+//PropertyGrid
+@width-PropertyGrid_editor-caption_val:         50%;
+
+//ColumnsView
+@max-width_ColumnsView_tile_val:                400px;
+@min-width_ColumnsView_tile_val:                270px;
+@side-spacing_ColumnsView_columns_val:          8px;
+@vertical_spacing_ColumnsView_tile_val:         4px;
+@shadow_ColumnsView_tile_normal_val:            0 0 4px rgba(0, 0, 0, 0.2);
+@shadow_ColumnsView_tile_hovered_val:           0 0 4px rgba(0, 0, 0, 0.35);
+@border_ColumnsView_tile_normal_val:            1px solid transparent;
+
 
 //Heading
 @color_Heading_primary:                                 @primary_text-color_heading; // дублирует стиль новой спецификации, удаляем
@@ -91,42 +414,6 @@
 @spacing_InputBase_between-rightBorder-text:         @padding-horizontal_inputText; // дублирует стиль новой спецификации, удаляем
 
 @caret-color_InputBase:                              @caret-color_fill_inputText; // дублирует стиль новой спецификации, удаляем
-
-@border-radius_Render_size_s:                               @inline_height_s / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_m:                               @inline_height_m / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_l:                               @inline_height_l / 2; // вообще не нужно, удаляем
-@border-radius_Render_size_default:                         @inline_height_default / 2; // вообще не нужно, удаляем
-
-//input render
-@font-weight_Render_fontStyle_primary_size_s_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_s_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_m_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_m_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_l_val:                 bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_l_val:               bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_default_val:           bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_default_val:         bold; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_s_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_m_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_l_val:                 normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_default_val:           normal; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_s:               @font-weight_Render_fontStyle_default_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_s:               @font-weight_Render_fontStyle_primary_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_s:             @font-weight_Render_fontStyle_secondary_size_s_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_m:               @font-weight_Render_fontStyle_default_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_m:               @font-weight_Render_fontStyle_primary_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_m:             @font-weight_Render_fontStyle_secondary_size_m_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_l:               @font-weight_Render_fontStyle_default_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_l:               @font-weight_Render_fontStyle_primary_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_l:             @font-weight_Render_fontStyle_secondary_size_l_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_default_size_default:         @font-weight_Render_fontStyle_default_size_default_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_primary_size_default:         @font-weight_Render_fontStyle_primary_size_default_val; // вообще не нужно, удаляем
-@font-weight_Render_fontStyle_secondary_size_default:       @font-weight_Render_fontStyle_secondary_size_default_val; // вообще не нужно, удаляем
-// Render
-@size_Render-tagStyle_val:                                        @tag-size;
-
-@border-color_input_val:                                          #EAEAEA; // вообще не нужно, удаляем
-@border-color-bottom_Render_val:                                  #AAB0C1; // вообще не нужно, удаляем
 
 //DialogTemplate
 @height_DialogTemplate-top-area-val:                                      @header-min-height_dialog; // дублирует стиль новой спецификации, удаляем
@@ -169,7 +456,6 @@
 @spacing_StackTemplate-between-header-border:                             39px; //TODO непонятно
 @spacing_DialogTemplate-between-header-border:                            40px; //TODO непонятно
 
-
 // stack
 @color_border_lite:                 #F0F0F0;
 
@@ -207,398 +493,21 @@
 @font-weight_StackTemplate-caption_info:                      @font-weight_StackTemplate-caption_info_val; // вообще не нужно, удаляем
 @background-color_StackTemplate-footer:                        @footer_background-color_stack; // вообще не нужно, удаляем
 
-
-//Buttons
-
-//Эти стили переехали из кнопки. Т.к. в кнопках они больше не нужны а тоггл их использует
-@color_Link_secondary: @color_link;
-@color_Link_secondary_hovered:                         @link_hover_text-color;
-@color_Link_success: @success_color;
-@color_Link_danger: @danger_color;
-@color_Link_info: @color_unselected;
-@color_Link_warning: @warning_color;
-@color_Link_primary: @color_primary;
-@spacing_Button-between-icon-and-text: 6px;
-
-//Link
-//sizes
-@font-size_Link-s:                                     @font-size_xs;
-@font-size_Link-m:                                     @font-size_m;
-@font-size_Link-default:                               @font-size_l;
-@font-size_Link-l:                                     @font-size_l;
-@font-size_Link-xl:                                    @font-size_3xl;
-@font-size_Button_size_s:                              @font-size_m;
-@font-size_Button_size_m:                              @font-size_m;
-@font-size_Button_size_default:                        @font-size_m;
-@font-size_Button_size_l:                              @font-size_xl;
-@color-ToolButton_readOnly:                            @readonly_color;
-
-
-@border-color_Button_button_primary:                   @primary_color;
-@border-color_Button_button_primary_hovered:           @border-color_Button_button_primary;
-
-@border-color_Button_secondary:                        @secondary_color;
-@border-color_Button_secondary_hovered:                @secondary_color;
-
-@color-ToolButton__border_iconStyle-secondary_hovered: #ccc;
-
-@border-color_Button_readOnly:                         @readonly_color;
-@border-width-ToolButton:                              @thickness_border_default;
-@border-style-ToolButton:                              solid;
-@border-color-ToolButton:                              @border-color-ToolButton_val;
-@border-color-ToolButton_readOnly:                     @border-color-ToolButton_readOnly_val;
-
-@text-shadow_ToolButton:                               @text-shadow_ToolButton_val;
-@text-shadow_ToolButton_readOnly:                      @text-shadow_ToolButton_readOnly_val;
-@text-shadow_Button_button:                            @text-shadow_Button_button_val;
-@text-shadow_Button_readOnly:                          @text-shadow_Button_readOnly_val;
-
-@box-shadow_Button_common:                             @box-shadow_Button_common_val;
-@box-shadow_Button_active:                             @box-shadow_Button_active_val;
-@box-shadow-ToolButton:                                @box-shadow-ToolButton_val;
-@box-shadow-ToolButton_activated:                      @box-shadow-ToolButton_activated_val;
-
-
-@background_Button_button_primary:                     @background_Button;
-@background_Button_button_primary_hovered:             @background_Button_button_primary_hovered_val;
-@background_Button_button_primary_active:              @background_Button_button_primary_active_val;
-@background_Button-primary_readOnly:                   @background_Button;
-
-@background_Button_secondary:                          @background_Button;
-@background_Button_secondary_hovered:                  @secondary_hover_background-color_button;
-@background_Button_secondary_active:                   @background_Button_secondary_active_val;
-@background_Button-secondary_readOnly:                 @background_Button;
-
-@background-color-ToolButton:                          @background-color-ToolButton_val;
-@background-color-ToolButton_transparent:              @background-color-ToolButton_transparent_val;
-@background-color-ToolButton_hovered:                  @background-color-ToolButton;
-@background-color-IconButton_transparent_hovered:      @background-color-ToolButton_transparent;
-
-@height_Button_size_s:                                 @inline_height_default;
-@height_Button_size_m:                                 @inline_height_default;
-@height_Button_size_default:                           @inline_height_default;
-@height_Button_size_l:                                 @inline_height_2xl;
-
-@height-ToolButton_size-s:                             @inline_height_default;
-@height-ToolButton_size-m:                             @inline_height_m;
-@height-ToolButton_size-default:                       @inline_height_m;
-@height-ToolButton_size-l:                            @icon-size_l;
-
-@border-radius_Button_size_s:                          @border-radius_m_button;
-@border-radius_Button_size_m:                          @border-radius_m_button;
-@border-radius_Button_size_default:                    @border-radius_default_button;
-@border-radius_Button_size_l:                          @border-radius_2xl_button;
-@border-radius-ToolButton:                             @border-radius-ToolButton_val;
-
-@width-ToolButton_size-s:                              @height-ToolButton_size-s;
-@width-ToolButton_size-m:                              @height-ToolButton_size-m;
-@width-ToolButton_size-default:                        @height-ToolButton_size-m;
-@width-ToolButton_size-l:                              @height-ToolButton_size-l;
-
-@min-width_Button_common:                              @min-width_Button_common_val;
-
-//common
-@thickness_Button__border:                             @border-thickness;
-
-@padding_Button-wrapper_size_s:                        0 12px - @thickness_Button__border;
-@padding_Button-wrapper_size_m:                        0 12px - @thickness_Button__border;
-@padding_Button-wrapper_size_default:                  0 12px - @thickness_Button__border;
-@padding_Button__wrapper_size_l:                       0 24px - @thickness_Button__border;
-
-//for support link with magic color, delete when complete https://online.sbis.ru/opendoc.html?guid=b8228090-19fe-454b-992f-bf31d9e96ca5
-@color_Link_magic:                                     @color_Link_magic_val;
-
-// ToggleButton
-@background_ToggleButton_common_val:                                      @secondary_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_common_val:                                    transparent;
-@background_ToggleButton_pushButton_hovered_val:                          @secondary_contrast_hover_background-color_toggleButton_pushButton;
-@border-color_ToggleButton_pushButton_hovered_val:                        #F0F5FB;
-@background_ToggleButton_pushButton_toggled_val:                          @secondary_toggled_background-color_toggleButton_pushButton;
-@text-shadow_ToggleButton_pushButton_val:                                  none;
-@padding_Button-wrapper-pushButton_size_s_val:                            0;
-
-
-@background_ToggleButton_common:                                                    @background_ToggleButton_common_val;
-@border-color_ToggleButton_common:                                                  @border-color_ToggleButton_common_val;
-
-//toggle link
-@thickness_ToggleButton-border_pushButton:                                         @thickness_border_default;
-@border-radius_ToggleButton_pushButton:                                            @border-radius-ToolButton;
-@color_ToggleButton_pushButton_readOnly:                                           @readonly_color;
-
-@border-color_ToggleButton_pushButton_readOnly:                                    @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton_readOnly:                                      @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton_readOnly_toggled:                            @readonly_color;
-@background_ToggleButton_pushButton_readOnly_toggled:                              @background_ToggleButton_common;
-
-@border-color_ToggleButton_pushButton:                                             @border-color_ToggleButton_common;
-@background_ToggleButton_pushButton:                                               @background_ToggleButton_common;
-
-@background_ToggleButton_pushButton_toggled:                                       @background_ToggleButton_pushButton_toggled_val;
-
-@height_ToggleButton-pushButton_s:                                                 @height-ToolButton_size-s;
-@min-width_ToggleButton-pushButton_s:                                              @height_ToggleButton-pushButton_s;
-
-@height_ToggleButton-pushButton_m:                                                 @height-ToolButton_size-m;
-@min-width_ToggleButton-pushButton_m:                                              @height_ToggleButton-pushButton_m;
-
-@height_ToggleButton-pushButton_l:                                                 @height-ToolButton_size-l;
-@min-width_ToggleButton-pushButton_l:                                              @height_ToggleButton-pushButton_l;
-
-@color_ToggleButton-icon_pushButton_secondary_hovered:                             @link_hover_text-color;
-@color_ToggleButton_pushButton-text:                                               @text-color;
-@background_ToggleButton_pushButton_hovered:                                       @background_ToggleButton_pushButton_hovered_val;
-@border-color_ToggleButton_pushButton_hovered:                                     @border-color_ToggleButton_pushButton_hovered_val;
-
-@border-color_ToggleButton_toggle_on-info:                  @unaccented_icon-color;
-@border-color_ToggleButton_toggle_on-secondary:             @secondary_color;
-@border-color_ToggleButton_toggle_on-primary:               @color_primary;
-@border-color_ToggleButton_toggle_on-danger:     @danger_color;
-@border-color_ToggleButton_toggle_on-success:    @success_color;
-@border-color_ToggleButton_toggle_on-warning:    @warning_color;
-
-@color_ToggleButton_icon-info_toggle_on:          @unaccented_icon-color;
-@color_ToggleButton_icon-secondary_toggle_on:     @secondary_color;
-@color_ToggleButton_icon-primary_toggle_on:       @color_primary;
-@color_ToggleButton_icon-danger_toggle_on:        @danger_color;
-@color_ToggleButton_icon-success_toggle_on:       @success_color;
-@color_ToggleButton_icon-warning_toggle_on:       @warning_color;
-
-@color_ToggleButton_pushButton-text: @text-color;
-@color_ToggleButton_toolButton-text: @text-color;
-
-@text-shadow_ToggleButton_pushButton: @text-shadow_ToggleButton_pushButton_val;
-
-@padding_Button-wrapper-pushButton_size_s: @padding_Button-wrapper-pushButton_size_s_val;
-@padding_Button-wrapper-pushButton_size_m: @padding_Button-wrapper-pushButton_size_s;
-@padding_Button-wrapper-pushButton_size_l: @padding_Button-wrapper-pushButton_size_s;
-
-@font-size_ToggleButton-pushButton_s: @font-size_m;
-@font-size_ToggleButton-pushButton_m: @font-size_m;
-@font-size_ToggleButton-pushButton_l: @font-size_m;
-//Switcher
-@font-size_Switch:                  @font-size_switcher;
-@font-size_DoubleSwitch:            @font-size_switcher;
-@width_Switch:                      @width_switcher;
-@height_Switch:                     @height_switcher;
-@width_Switch__border:              @border-thickness_switcher;
-@color_Switch__border:              @border-color_switcher;
-@size_Switch__border-radius:        @border-radius_switcher;
-@thickness_Switch-track:            @track_thickness_switcher;
-@length_Switch-track:               @track_length_switcher;
-@spacing_Switch-between-toggle-text: @text_offset_switcher;
-
-@background-color_Switch-track__enabled:    @track_color_switcher;
-@background-color_Switch-track__disabled:   @readonly_track_color_switcher;
-
-@color_Switch-text__enabled_selected:       @text-color_switcher;
-@color_Switch-text__enabled_unselected:     @unselected_text-color_switcher;
-@color_Switch-text__disabled_selected:      @readonly_text-color_switcher;
-@color_Switch-text__disabled_unselected:    @readonly_unselected_text-color_switcher;
-
-@thickness_ToggleCircle-borderCircle-border: @marker-box_border-thickness_switcher;
-@color_ToggleCircle_innerCircle__selected_enabled: @marker_color_switcher;
-@color_ToggleCircle_innerCircle__selected_disabled: @readonly_marker_color_switcher;
-
-@color_ToggleCircle_outerCircle__enabled:          @marker-box_border-color_switcher;
-@color_ToggleCircle_outerCircle__enabled_hovered:  @marker-box_hover_border-color_switcher;
-@color_ToggleCircle_outerCircle__disabled:         @readonly_marker-box_border-color_switcher;
-
-@width_ToggleCircle:            @marker-box_size_switcher;
-@height_ToggleCircle:           @marker-box_size_switcher;
-@size_Switch__ToggleCircle:     @marker-box_size_switcher;
-
-
-//BigSeparator
-@size-BigSeparator__icon:                               @icon-size_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon:                               @icon-color_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-@color_BigSeparator-icon_hovered:                       @icon-color_hover_toggleBigSeparator; // дублирует стиль новой спецификации, удаляем
-
-// Button/Separator
-@size-Separator:                                                  @height_toggleSeparator;  // дублирует стиль новой спецификации, удаляем
-@size-Separator__icon:                                            @icon-size_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary:                           @secondary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary:                             @primary_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional:                          @unaccented_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-secondary_hovered:                   @secondary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-primary_hovered:                     @primary_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-@color-Separator__icon_style-additional_hovered:                  @unaccented_hover_icon-color_toggleSeparator; // дублирует стиль новой спецификации, удаляем
-
-//Combobox
-@margin-top_ComboBox-popup:                     -@border-thickness_inputText;
-@spacing_ComboBox-between-arrow-rightBorder:    @trigger_padding-right_combobox;
-
-//Dropdown:Input
-@border-width_Dropdown-style_invalid:              @invalid_border-thickness_dropdownSelector;
-@border-color_Dropdown-style_invalid:              @invalid_border-color_dropdownSelector;
-@color_Dropdown-emptyItem:                         @empty-item_text-color_dropdownSelector;
-@spacing_Dropdown-between-icon-text:               @icon_offset_dropdownSelector;
-@height_Dropdown:                                  @height_dropdownSelector;
-@font-size_DropdownList-text:                      @font-size_default_dropdownSelector;
-@font-size_DropdownList-text-baseline:             @font-size_default_dropdownSelector;
-@shift-top_Dropdown-popup:                         -((@item_height_menu - @height_dropdownSelector) / 2 + @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
-@shift-top_Dropdown-head-popup:                    -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu);
-@shift-left_Dropdown-popup:                        -(@popup_border-thickness_menuPopup + @click-area_width_checkbox);
-@color_Dropdown-icon-iconStyle_secondary_hovered:  @link_hover_text-color;
-@color_Dropdown-text:                              @link_text-color;
-@color_Dropdown-text_hovered:                      @link_hover_text-color;
-@color_Dropdown-icon-iconStyle_secondary_hovered:  @link_hover_text-color;
-
-// dropdownList
-@max-width_DropdownList:                                                @popup_max-width_menuPopup;
-@background_DropdownList:                                               @popup_background-color_menuPopup;
-
-@border-width_DropdownList:                                             @popup_border-thickness_menuPopup;
-@border-color_DropdownList:                                             @popup_border-color_menuPopup;
-
-@spacing_DropdownList-between-topBorder-content:                        @popup_padding-vertical_menuPopup;
-@spacing_DropdownList-between-bottomBorder-content:                     @popup_padding-vertical_menuPopup;
-@spacing_DropdownList-item-between-leftBorder-content:                  @item_padding-horizontal_l_menu;
-@spacing_DropdownList-item-between-rightBorder-content:                 @item_padding-horizontal_l_menu;
-@spacing_DropdownList-withNodes-item-between-rightBorder-content:       @hierarchy_icon_offset-right_menu + @hierarchy_icon-size_menu + @hierarchy_icon_offset-left_menu;
-@spacing_DropdownList_withClose-item-between-rightBorder-content:       @close-button_offset-left_menu + @width_closeButton_link + @close-button_offset-right_menu;
-@spacing_DropdownList-withPin-item-between-rightBorder-content:         @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
-
-@box-shadow-color_DropdownList:                                   @popup_box-shadow-color_menuPopup;
-@height_DropdownList-row:                                         @item_height_menu;
-@font-size_DropdownList:                                          @item_font-size_menu;
-@color_DropdownList__row-text_readOnly:                           @readonly_item_text-color_menu;
-@background_DropdownList-row_hover:                               @item_hover_background-color_menu;
-@background_DropdownList-row_active:                              @item_active_background-color_menu;
-@color_DropdownList-emptyItem:                                    @empty-item_text-color_menu;
-
-@spacing_DropdownList-item-between-topBorder-text:                @item_padding-top_menu;
-@spacing_DropdownList-item-between-bottomBorder-text:             @item_padding-bottom_menu;
-@font-size_DropdownList-row-additionalText-content:               @font-size_xs;
-@color_DropdownList-row-additionalText-content:                   @unaccented_text-color;
-
-@spacing_DropdownList-item-between-icon-text:                     @item_icon_offset_menu;
-@color_DropdownList-icon-iconStyle_primary:                       @primary_color;
-@color_DropdownList-icon-iconStyle_secondary:                     @secondary_color;
-@color_DropdownList-icon-iconStyle_warning:                       @warning_color;
-@color_DropdownList-icon-iconStyle_danger:                        @danger_color;
-@color_DropdownList-icon-iconStyle_success:                       @success_color;
-@color_DropdownList-icon-iconStyle_info:                          @unaccented_icon-color;
-
-@background_DropdownList-marker:                                  @marker_color_menu;
-@width_DropdownList-marker:                                       @marker_width_menu;
-@height_DropdownList-marker:                                      @marker_height_menu;
-
-@background_DropdownList-header:                                  @header_background-color_menuPopup;
-@spacing_DropdownList-header-between-icon-text:                   @item_icon_offset_menu;
-@color_DropdownList-heading:                                      @secondary_text-color;
-
-@shift-top_DropdownList-submenu:                            -(@popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup);
-
-@icon-size_DropdownList-arrow:                              @hierarchy_icon-size_menu;
-@color_DropdownList-arrow:                                  @hierarchy_icon-color_menu;
-@color_DropdownList-arrow_readOnly:                         @readonly_hierarchy_icon-color_menu;
-@spacing_DropdownList-item-between-arrow-topBorder:         (@item_height_menu - @hierarchy_icon-size_menu) / 2;
-@spacing_DropdownList-item-between-arrow-rightBorder:       @hierarchy_icon_offset-right_menu;
-
-//cross
-@spacing_DropdownList-between-close-rightBorder:      @close-button_offset-right_menu + @popup_border-thickness_menuPopup;
-@spacing_DropdownList-between-close-topBorder:        @close-button_offset-top_menu + @popup_border-thickness_menuPopup;
-
-@height_DropdownList-arrowSeparator:                  @icon-size_toggleBigSeparator;
-
-//grouping
-@thickness_DropdownList-group-separator:                       @grouping_separator_thickness_menu;
-@height_DropdownList-group-separator:                          @grouping_separator_thickness_menu;
-@color_DropdownList-group-separator:                           @grouping_separator_color_menu;
-
-@spacing_DropdownList-group-between-content-topBorder:         @grouping_padding-vertical_menu;
-@spacing_DropdownList-group-between-content-rightBorder:       @grouping_padding-horizontal_menu;
-@spacing_DropdownList-group-between-content-bottomBorder:      @grouping_padding-vertical_menu;
-@spacing_DropdownList-group-between-content-leftBorder:        @grouping_padding-horizontal_menu;
-@spacing_DropdownList-group-between-text-separator:            @grouping_padding-horizontal_menu;
-
-@color_DropdownList-group-text:                                @grouping_text-color_menu;
-@font-size_DropdownList-group-text:                            @grouping_font-size_menu;
-
-// checkbox
-@spacing_DropdownList-row-between-checkbox-topBorder:          @spacing_default_xs;
-@spacing_DropdownList-row-between-checkbox-rightBorder:        (@item_height_menu - @height_checkbox) / 2;
-
-//row separator
-@background-color_DropdownList-row_separator:                  @item_separator_color_menu;
-@height_DropdownList-row-separator:                            @item_separator_thickness_menu;
-@spacing_DropdownList-row-between-leftBorder-row-separator:    @item_separator_padding-horizontal_menu;
-@spacing_DropdownList-row-between-rightBorder-row-separator:   @item_separator_padding-horizontal_menu;
-@spacing_DropdownList-row-between-bottomBorder-row-separator:  0;
-
-@min-height_DropdownList-footer:                                           @footer_min-height_menuPopup;
-@spacing_DropdownList-between-footer-bottomBorder:                         @popup_padding-vertical_menuPopup;
-
-@spacing_DropdownList-between-applyButton-rightBorder:                     @apply-button_offset_menuPopup;
-@spacing_DropdownList-between-applyButton-footerContent:                   @apply-button_offset_menuPopup;
-@spacing_DropdownList-between-moreButton-leftBorder:                       @item_padding-horizontal_l_menu;
-@spacing_DropdownList_multiSelect-between-moreButton-leftBorder:           @click-area_width_checkbox;
-
-@box-shadow-size_DropdownList-shadowStyle_center:                 0 0 @popup_box-shadow-offset_menuPopup 0;
-@box-shadow-size_DropdownList-shadowStyle_centerBottom-left:      -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
-@box-shadow-size_DropdownList-shadowStyle_centerBottom-right:     @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
-@box-shadow-size_DropdownList-shadowStyle_centerBottom-bottom:    0 @popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
-@box-shadow-size_DropdownList-shadowStyle_centerTop-left:         -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
-@box-shadow-size_DropdownList-shadowStyle_centerTop-right:        @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
-@box-shadow-size_DropdownList-shadowStyle_centerTop-top:          0 -@popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup @popup_box-shadow-offset_menuPopup;
-
-@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder:          @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_m) / 2;
-@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder:         @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
-@spacing_DropdownList-iconSize_small-between-iconHead-topBorder:           @popup_padding-vertical_menuPopup + @popup_border-thickness_menuPopup + (@item_height_menu - @icon-size_s) / 2;
-@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder:          @item_padding-horizontal_l_menu + @popup_border-thickness_menuPopup;
-
-//HistoryMenu
-@color_HistoryMenu-pin:                                        @pin-button_icon-color_menu;
-@color_HistoryMenu-pin_hovered:                                @pin-button_hover_icon-color_menu;
-@spacing_HistoryMenu-between-itemCaption-rightBorder:          @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
-@spacing_HistoryMenu-between-pin-rightBorder:                  @pin-button_offset-right_menu;
-@icon-size_HistoryMenu-pin:                                    @pin-button_icon-size_menu;
-
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
-//MenuPopup
-@spacing_MenuButton-between-leftBorder-content:      -(@spacing_default_l + @thickness_border_default);
 
-@shift-top_MenuButton-button-popup:                  -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button-popup:                 -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_m_button);
+//decorator:Money
+@color_DecoratorMoney-integer_style_default:                @text-color;
+@color_DecoratorMoney-integer_style_accentResults:          @secondary_text-color;
+@color_DecoratorMoney-integer_style_noAccentResults:        @unaccented_text-color;
+@color_DecoratorMoney-integer_style_group:                  @readonly_color;
+@color_DecoratorMoney-integer_style_basicRegistry:          @text-color;
+@color_DecoratorMoney-integer_style_noBasicRegistry:        @unaccented_text-color;
+@color_DecoratorMoney-integer_style_accentRegistry:         @secondary_text-color;
+@color_DecoratorMoney-integer_style_noAccentRegistry:       @unaccented_text-color;
+@color_DecoratorMoney-integer_style_error:                  @danger_color;
 
-@shift-top_MenuButton-button_default-popup:          @shift-top_MenuButton-button-popup;
-@shift-left_MenuButton-button_default-popup:         @shift-left_MenuButton-button-popup;
-
-@shift-top_MenuButton-button_large-popup:            -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-button_large-popup:           -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - @padding-horizontal_l_button);
-
-@shift-top_MenuButton-button_medium-popup:           -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup);
-
-@shift-top_MenuButton-link-popup:                    -((@item_height_menu - @inline_height_default_link_button) / 2 + @popup_border-thickness_menuPopup); // ???
-@shift-left_MenuButton-link-popup:                   @spacing_MenuButton-between-leftBorder-content;
-
-@shift-top_MenuButton-link_large-popup:              -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup);
-
-@shift-top_MenuButton-toolButton_large-popup:        -((@item_height_menu - @inline_height_xl_button) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-toolButton_large-popup:       -(@popup_border-thickness_menuPopup + @item_padding-horizontal_l_menu - ((@inline_height_xl_button - @icon-size_l) / 2));
-
-@shift-top_MenuButton-toolButton_medium-popup:       -((@item_height_menu - @inline_height_l_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_l_button - @icon-size_m) / 2));
-@shift-left_MenuButton-toolButton_medium-popup:      @spacing_MenuButton-between-leftBorder-content + (@inline_height_l_button - @icon-size_m) / 2;
-
-@shift-top_MenuButton-toolButton_small-popup:        -((@item_height_menu - @inline_height_m_button) / 2 + @popup_border-thickness_menuPopup - ((@inline_height_m_button - @icon-size_s) / 2));
-@shift-left_MenuButton-toolButton_small-popup:       @spacing_MenuButton-between-leftBorder-content + (@inline_height_m_button - @icon-size_s) / 2;
-
-@shift-top_MenuButton-toolButton_default-popup:      @shift-top_MenuButton-toolButton_small-popup;
-@shift-left_MenuButton-toolButton_default-popup:     @shift-left_MenuButton-toolButton_small-popup;
-
-@shift-top_MenuButton-link_small-popup:              @shift-top_MenuButton-link-popup;
-@shift-left_MenuButton-link_small-popup:             @shift-left_MenuButton-link-popup;
-
-@shift-top_MenuButton-link_medium-popup:             -((@item_height_menu - @icon-size_m) / 2 + @popup_border-thickness_menuPopup);
-@shift-left_MenuButton-link_medium-popup:            @spacing_MenuButton-between-leftBorder-content;
-
-@shift-top_MenuButton-link_duplicate_medium-popup:   -@spacing_DropdownList-iconSize_medium-between-iconHead-topBorder;
-@shift-left_MenuButton-link_duplicate_medium-popup:  -@spacing_DropdownList-iconSize_medium-between-iconHead-leftBorder;
-
-@shift-top_MenuButton-link_duplicate_small-popup:    -@spacing_DropdownList-iconSize_small-between-iconHead-topBorder + @border-width_DropdownList;
-@shift-left_MenuButton-link_duplicate_small-popup:   -@spacing_DropdownList-iconSize_small-between-iconHead-leftBorder;
-
+@color_DecoratorMoney-fractional:                           @fractional-text-color_decoratorMoney;
+@font-size_DecoratorMoney-fractional:                       @fractional-font-size_decoratorMoney;
+@font-weight_DecoratorMoney-fractional:                     @fractional-font-weight_decoratorMoney;
 
 //last line

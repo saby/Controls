@@ -31,8 +31,8 @@ export interface IStickyPosition {
 }
 
 export interface IStickyPositionOffset {
-    vertical: number;
-    horizontal: number;
+    vertical?: number;
+    horizontal?: number;
 }
 
 export interface IStickyOpener extends IOpener {
