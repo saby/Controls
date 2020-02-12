@@ -45,8 +45,8 @@ interface IColgroupColumn {
     index: number;
 }
 
-type GridColspanableElements = 'customResults' | 'fixedColumnOfColumnScroll' | 'scrollableColumnOfColumnScroll'
-    | 'editingRow' | 'bottomPadding' | 'emptyTemplate' | 'emptyTemplateAndColumnScroll' | 'footer'
+type GridColspanableElements = 'customResults' | 'fixedColumnOfColumnScroll' | 'scrollableColumnOfColumnScroll' |
+    'colspanedRow' | 'editingRow' | 'bottomPadding' | 'emptyTemplate' | 'emptyTemplateAndColumnScroll' | 'footer'
     | 'headerBreadcrumbs' | 'fullWithoutMultiSelect';
 
 interface IGetColspanStylesForParams {
@@ -407,6 +407,14 @@ var
                 columns: self._options.columns,
                 stickyColumn: self._options.stickyColumn
             });
+        },
+        getTableCellStyles(currentColumn): string {
+            let styles = '';
+            const isCheckbox = currentColumn.hasMultiSelect && currentColumn.columnIndex === 0;
+            if (!isCheckbox && currentColumn.column.width !== 'auto') {
+                styles += `min-width: ${currentColumn.column.width}; max-width: ${currentColumn.column.width};`;
+            }
+            return styles;
         }
     },
 
@@ -1295,7 +1303,9 @@ var
                         getVersion: function() {
                            return _private.calcItemColumnVersion(self, current.getVersion(), current.columnIndex, current.index);
                         },
-                        _preferVersionAPI: true
+                        _preferVersionAPI: true,
+                        gridCellStyles: '',
+                        tableCellStyles: ''
                     };
                 currentColumn.cellClasses = current.getItemColumnCellClasses(current, self._options.theme, self.getEditingItemData());
                 currentColumn.column = current.columns[current.columnIndex];
@@ -1310,6 +1320,10 @@ var
                 }
                 if (stickyColumn) {
                     currentColumn.hiddenForLadder = currentColumn.columnIndex === (current.multiSelectVisibility !== 'hidden' ? stickyColumn.index + 1 : stickyColumn.index);
+                }
+
+                if (current.columnScroll && !GridLayoutUtil.isFullGridSupport()) {
+                    currentColumn.tableCellStyles = _private.getTableCellStyles(currentColumn);
                 }
 
                 // TODO: Проверить. https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
@@ -1692,6 +1706,7 @@ var
                 case 'customResults':
                 case 'emptyTemplate':
                 case 'editingRow':
+                case 'colspanedRow':
                     return this._columns.length;
                 case 'fixedColumnOfColumnScroll':
                     return this._options.stickyColumnsCount || 1;

@@ -79,6 +79,7 @@
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
               controls-TreeGrid__row js-controls-SwipeControl__actionsContainer"
+       style="{{ currentColumn.tableCellStyles }}"
        colspan="{{itemData.getColspanFor((itemData.multiSelectVisibility !== 'hidden' && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
        <div class="controls-TreeGridView__row-cell_innerWrapper">
            <ws:partial template="columnContentWrapper"
