@@ -31,6 +31,7 @@
  * @includes INavigation Controls/_interface/INavigation
  * @includes IDisplayedRanges Controls/_interface/IDisplayedRanges
  * @includes IOpenPopup Controls/_interface/IOpenPopup
+ * @includes ILoadingIndicator Controls/_interface/ILoadingIndicator
  * @public
  * @author Крайнов Д.О.
  */
@@ -71,3 +72,4 @@ export {default as INavigation, INavigationOptions, INavigationOptionValue} from
 export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';
 export {default as IDisplayedRanges, IDisplayedRangesOptions} from './_interface/IDisplayedRanges';
 export {default as IOpenPopup} from './_interface/IOpenPopup';
+export {default as ILoadingIndicator, ILoadingIndicatorOptions}  from './_interface/ILoadingIndicator';

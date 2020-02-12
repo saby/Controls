@@ -2,9 +2,9 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import BaseOpener, {IBaseOpenerOptions} from 'Controls/_popup/Opener/BaseOpener';
 import {IEditOptions, IEditOpener} from 'Controls/_popup/interface/IEdit';
 import template = require('wml!Controls/_popup/Opener/Edit/Edit');
-import CoreMerge = require('Core/core-merge');
-import cInstance = require('Core/core-instance');
-import Deferred = require('Core/Deferred');
+import * as CoreMerge from 'Core/core-merge';
+import * as cInstance from 'Core/core-instance';
+import * as Deferred from 'Core/Deferred';
 /**
  * Контрол, который открывает всплывающее окно с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
  * @remark
@@ -47,12 +47,12 @@ class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
         }
     }
 
-    open(meta, popupOptions) {
+    open(meta, popupOptions): void {
         let config = this._getConfig(meta || {}, popupOptions);
         this._children.Opener.open(config);
     }
 
-    close() {
+    close(): void {
         this._children.Opener.close();
         this._resultHandler = null;
     }

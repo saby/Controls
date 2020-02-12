@@ -1,157 +1,11 @@
-import Control = require('Core/Control');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import tmpl = require('wml!Controls/_LoadingIndicator/LoadingIndicator');
-import randomId = require('Core/helpers/Number/randomId');
-import collection = require('Types/collection');
+import * as randomId from 'Core/helpers/Number/randomId';
+import {List} from 'Types/collection';
 import 'css!theme?Controls/_LoadingIndicator/LoadingIndicator';
+import {ILoadingIndicatorOptions, ILoadingIndicator} from 'Controls/interface';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
-/*
- * @name Controls/LoadingIndicator#isGlobal
- * @cfg {Boolean} Показать индикатор над всей страницей или только над собственным контентом.
- * @remark
- * * true — индикатор позиционируется через position: fixed;
- * * false — индикатор позиционируется через position: absolute.
- * @default true
- */
-
-/*
- * @name Controls/LoadingIndicator#isGlobal
- * @cfg {Boolean} show indicator covering whole page (global) or covering just own content
- * @remark
- * * true — It means position: fixed of indicator's container
- * * false — It means position: absolute of indicator's container
- * @default true
- */
-
-/**
- * @name Controls/LoadingIndicator#message
- * @cfg {String} Текст сообщения индикатора.
- * @default '' (пустая строка)
- * @demo Controls-demo/LoadingIndicator/Message/Index
- */
-
-/*
- * @name Controls/LoadingIndicator#message
- * @cfg {String} message of indicator
- * @default '' (empty string)
- * @demo Controls-demo/LoadingIndicator/Message/Index
- */
-
-/**
- * @typedef {String} Scroll
- * @description Значения, которыми настраивается градиент для прокручивания объекта привязки.
- * @variant '' Без градиента.
- * @variant left Градиент слева направо (увелечение цветового наполнения).
- * @variant right Градиент справа налево.
- * @variant top Градиент сверху вниз.
- * @variant bottom Градиент снизу вверх.
- */
-
-/*
- * @typedef {String} Scroll
- * @variant '' (empty string) no gradient
- * @variant left gradient from left to right (increase of fullness)
- * @variant right gradient from right to left
- * @variant top gradient from top to bottom
- * @variant bottom gradient from bottom to top
- */
-
-/**
- * @name Controls/LoadingIndicator#scroll
- * @cfg {Scroll} Добавляет градиент к фону индикатора для прокручивания объекта привязки.
- * @default '' (пустая строка)
- * @demo Controls-demo/LoadingIndicator/Scroll/Index
- */
-
-/*
- * @name Controls/LoadingIndicator#scroll
- * @cfg {Scroll} add gradient of indicator's background
- * @default '' (empty string)
- * @demo Controls-demo/LoadingIndicator/Scroll/Index
- */
-
-/**
- * @typedef {String} Small
- * @description Значения, которыми настраивается размер индикатора.
- * @variant '' Стандартный размер индикатора
- * @variant small Делает индикатор меньше.
- */
-
-/*
- * @typedef {String} Small
- * @variant '' (empty string) standard size of indicator
- * @variant 'small' make indicator smaller
- */
-
-/**
- * @name Controls/LoadingIndicator#small
- * @cfg {Small} Размер параметров индикатора (полей, фона, границы, ширины, высоты).
- * @default '' (пустая строка)
- * @demo Controls-demo/LoadingIndicator/Small/Index
- */
-
-/*
- * @name Controls/LoadingIndicator#small
- * @cfg {Small} size of some styles of indicator (tuning of margin, background, border, width, height styles)
- * @default '' (empty string)
- * @demo Controls-demo/LoadingIndicator/Small/Index
- */
-
-/**
- * @typedef {Srting} Overlay
- * @description Значения, которыми настраивается оверлей индикатора.
- * @variant default Невидимый фон, индикатор блокирует клики.
- * @variant dark Темный фон, индикатор блокирует клики.
- * @variant none Невидимый фон, индикатор не блокирует клики.
- */
-
-/**
- * @name Controls/LoadingIndicator#overlay
- * @cfg {Overlay} Настройка оверлея индикатора.
- * @default default
- * @demo Controls-demo/LoadingIndicator/Overlay/Index
- */
-
-/*
- * @name Controls/LoadingIndicator#overlay
- * @cfg {Overlay} setting of indicator's overlay
- * @default default
- * @demo Controls-demo/LoadingIndicator/Overlay/Index
- */
-
-/**
- * @name Controls/LoadingIndicator#mods
- * @cfg {Array.<String>|String} Параметр может использоваться для пользовательской настройки индикатора.
- * @remark
- * Параметр mods содержит слова, которые будут добавлены в качестве стиля "controls-loading-indicator_mod-[mod]" в контейнер индикатора.
- * * [] — без использования параметра mods
- * * ['gray'] — серый цвет градиента. Используется с настройками скролла.
- * @default []
- */
-
-/*
- * @name Controls/LoadingIndicator#mods
- * @cfg {Array.<String>|String} It can be using for custom tuning of indicator.
- * mods contains words what will be adding as "controls-loading-indicator_mod-[mod]" style in indicator's container
- * * [] — no mods
- * * ['gray'] — gray color of gradient. it's using with scroll property
- * @default []
- */
-
-/**
- * @name Controls/LoadingIndicator#delay
- * @cfg {Number} Задержка перед началом показа индикатора.
- * @remark
- * Значение задаётся в миллисекундах.
- * @default 2000
- * @demo Controls-demo/LoadingIndicator/Delay/Index
- */
-
-/*
- * @name Controls/LoadingIndicator#delay
- * @cfg {Number} timeout before indicator will be visible
- * @default 2000
- * @demo Controls-demo/LoadingIndicator/Delay/Index
- */
 
 /**
  * Контейнер для контента с возможностью отображения индикатора загрузки.
@@ -170,6 +24,7 @@ import 'css!theme?Controls/_LoadingIndicator/LoadingIndicator';
  *
  * @class Controls/LoadingIndicator
  * @extends Core/Control
+ * @mixes Controls/_interface/ILoadingIndicator
  * @control
  * @author Красильников А.С.
  * @public
@@ -225,6 +80,7 @@ import 'css!theme?Controls/_LoadingIndicator/LoadingIndicator';
  *
  * @class Controls/LoadingIndicator
  * @extends Core/Control
+ * @mixes Controls/_interface/ILoadingIndicator
  * @control
  * @author Красильников А.С.
  * @public
@@ -232,32 +88,31 @@ import 'css!theme?Controls/_LoadingIndicator/LoadingIndicator';
  * @demo Controls-demo/LoadingIndicator/Overlay/Index
  */
 let ManagerController;
-const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
-    _template: tmpl,
-    _isOverlayVisible: false,
-    _isMessageVisible: false,
-    _isPreloading: false,
-    _prevLoading: null,
-    _stack: null,
-    _isLoadingSaved: null,
-    _delay: 2000,
 
-    isGlobal: true,
-    message: '',
-    scroll: '',
-    small: '',
-    overlay: 'default',
-    mods: null,
+class LoadingIndicator extends Control<ILoadingIndicatorOptions>/** @lends Controls/LoadingIndicator.prototype */ {
+    protected _template: TemplateFunction = tmpl;
+    protected _isOverlayVisible: boolean = false;
+    protected _isMessageVisible: boolean = false;
+    protected _isPreloading: boolean = false;
+    protected _prevLoading: null;
+    protected _stack = null;
+    protected _isLoadingSaved = null;
+    protected _delay: number = 2000;
+    protected _mods: Array<string> | string;
+    protected _zIndex: number;
+    protected _delayTimeout;
+    protected _toggleOverlayTimerId;
 
-    _beforeMount(cfg) {
-        this.mods = [];
-        this._stack = new collection.List();
-        this._updateProperties(cfg);
-    },
-    _afterMount(cfg) {
+    protected _beforeMount(options: ILoadingIndicatorOptions): void {
+        this._mods = [];
+        this._stack = new List();
+        this._updateProperties(options);
+    }
+
+    protected _afterMount(cfg): void {
         const self = this;
         if (cfg.mainIndicator) {
-            requirejs(['Controls/popup'], function(popup) {
+            requirejs(['Controls/popup'], function (popup) {
                 // TODO: Индикатор сейчас напрямую зависит от Controls/popup и наоборот
                 // Надо либо пересмотреть формирование библиотек и включить LoadingIndicator в popup,
                 // Либо переписать индикатор так, чтобы зависимостей от Controls/popup не было.
@@ -265,56 +120,43 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
                 ManagerController.setIndicator(self);
             });
         }
-    },
-    _beforeUpdate(cfg) {
-        this._updateProperties(cfg);
-    },
-    _updateProperties(cfg) {
-        if (cfg.isGlobal !== undefined) {
-            this.isGlobal = cfg.isGlobal;
-        }
-        if (cfg.message !== undefined) {
-            this.message = cfg.message;
-        }
-        if (cfg.scroll !== undefined) {
-            this.scroll = cfg.scroll;
-        }
-        if (cfg.small !== undefined) {
-            this.small = cfg.small;
-        }
-        if (cfg.overlay !== undefined) {
-            this.overlay = cfg.overlay;
-        }
-        if (cfg.mods !== undefined) {
+    }
+
+    protected _beforeUpdate(options: ILoadingIndicatorOptions): void {
+        this._updateProperties(options);
+    }
+
+    protected _updateProperties(options: ILoadingIndicatorOptions): void {
+        if (options.mods !== undefined) {
             // todo сделать mods строкой всегда, или вообще удалить опцию
-            if (Array.isArray(cfg.mods)) {
-                this.mods = cfg.mods;
-            } else if (typeof cfg.mods === 'string') {
-                this.mods = [cfg.mods];
+            if (Array.isArray(options.mods)) {
+                this._mods = options.mods;
+            } else if (typeof options.mods === 'string') {
+                this._mods = [options.mods];
             }
         }
-        this.delay = cfg.delay !== undefined ? cfg.delay : this._delay;
-
-    },
+        this._delay = options.delay !== undefined ? options.delay : 2000;
+    }
 
     // Indicator is opened above existing popups.
-    _updateZIndex(config) {
+    protected _updateZIndex(config) {
         const popupItem = ManagerController && ManagerController.find((config || {}).popupId);
         if (popupItem) {
             this._zIndex = popupItem.currentZIndex;
         } else {
             this._zIndex = null;
         }
-    },
-    _showHandler(event, config, waitPromise) {
+    }
+
+    protected _showHandler(event: SyntheticEvent<Event>, config: ILoadingIndicatorOptions, waitPromise: Promise<any>) {
         event.stopPropagation();
         return this._show(config, waitPromise);
-    },
+    }
 
-    _hideHandler(event, id) {
+    protected _hideHandler(event: SyntheticEvent<Event>, id) {
         event.stopPropagation();
         return this._hide(id);
-    },
+    }
 
     /*
      * show indicator (bypassing requests of indicator showing stack)
@@ -335,11 +177,11 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
      * @return {Number} Возвращает id индикатора загрузки. Используется в методе {@link hide} для закрытия индикатора.
      * @see hide
      */
-    show(config, waitPromise) {
+    show(config: ILoadingIndicatorOptions, waitPromise: Promise<any>): string {
         return this._show(config, waitPromise);
-    },
+    }
 
-    _show(config, waitPromise) {
+    protected _show(config: ILoadingIndicatorOptions, waitPromise: Promise<any>): string {
         const newCfg = this._prepareConfig(config, waitPromise);
         const isOpened = this._getItemIndex(newCfg.id) > -1;
         if (isOpened) {
@@ -350,7 +192,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             this._toggleIndicator(true, newCfg);
         }
         return newCfg.id;
-    },
+    }
 
     /*
      * hide indicator (bypassing requests of indicator showing stack)
@@ -362,7 +204,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
      * @param {Number} id Идентификатор индикатора загрузки.
      * @see show
      */
-    hide(id) {
+    hide(id: string): void {
         if (!id) {
 
             // Used public api. In this case, hide the indicator immediately.
@@ -371,22 +213,22 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
         } else {
             this._hide(id);
         }
-    },
+    }
 
-    _hide(id) {
+    protected _hide(id: string): void {
         this._removeItem(id);
         if (this._stack.getCount()) {
             this._toggleIndicator(true, this._stack.at(this._stack.getCount() - 1), true);
         } else {
             this._toggleIndicator(false);
         }
-    },
+    }
 
-    _clearStack() {
+    protected _clearStack(): void {
         this._stack.clear();
-    },
+    }
 
-    _isOpened(config) {
+    protected _isOpened(config?: ILoadingIndicatorOptions) {
         // config is not required parameter. If config object is empty we should always create new Indicator due to absence of ID field in config
         if (!config) {
             return false;
@@ -396,15 +238,15 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             delete config.id;
         }
         return !!config.id;
-    },
+    }
 
-    _waitPromiseHandler(config) {
+    protected _waitPromiseHandler(config: ILoadingIndicatorOptions): void {
         if (this._isOpened(config)) {
             this._hide(config.id);
         }
-    },
+    }
 
-    _prepareConfig(config, waitPromise) {
+    protected _prepareConfig(config: ILoadingIndicatorOptions, waitPromise: Promise<any>): ILoadingIndicatorOptions {
         if (typeof config !== 'object') {
             config = {
                 message: config
@@ -417,7 +259,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             config.id = randomId();
         }
         if (!config.hasOwnProperty('delay')) {
-            config.delay = this.delay;
+            config.delay = this._delay;
         }
 
         if (!config.waitPromise && waitPromise) {
@@ -426,38 +268,38 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             config.waitPromise.catch(this._waitPromiseHandler.bind(this, config));
         }
         return config;
-    },
+    }
 
-    _removeItem(id) {
+    protected _removeItem(id: string): void {
         const index = this._getItemIndex(id);
         if (index > -1) {
             this._stack.removeAt(index);
         }
-    },
+    }
 
-    _replaceItem(id, config) {
+    protected _replaceItem(id: string, config: ILoadingIndicatorOptions) {
         this._removeItem(id);
         this._stack.add(config);
-    },
+    }
 
-    _getItemIndex(id) {
+    protected _getItemIndex(id: string) {
         return this._stack.getIndexByValue('id', id);
-    },
+    }
 
-    _getDelay(config) {
-        return typeof config.delay === 'number' ? config.delay : this.delay;
-    },
+    protected _getDelay(config: ILoadingIndicatorOptions): number {
+        return typeof config.delay === 'number' ? config.delay : this._delay;
+    }
 
-    _getOverlay(overlay: string): string {
+    protected _getOverlay(overlay: string): string {
         // if overlay is visible, but message don't visible, then overlay must be transparent.
         if (this._isOverlayVisible && !this._isMessageVisible) {
             return 'default';
         }
-        return  overlay;
-    },
+        return overlay;
+    }
 
-    _toggleIndicator(visible, config, force) {
-        clearTimeout(this.delayTimeout);
+    protected _toggleIndicator(visible: boolean, config?: ILoadingIndicatorOptions, force?): void {
+        clearTimeout(this._delayTimeout);
         this._updateZIndex(config);
         if (visible) {
             this._toggleOverlayAsync(true, config);
@@ -466,7 +308,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             } else {
                 // if we have indicator in stack, then don't hide overlay
                 this._toggleIndicatorVisible(this._stack.getCount() > 1 && this._isOverlayVisible, config);
-                this.delayTimeout = setTimeout(() => {
+                this._delayTimeout = setTimeout(() => {
                     const lastIndex = this._stack.getCount() - 1;
                     if (lastIndex > -1) {
                         this._toggleIndicatorVisible(true, this._stack.at(lastIndex));
@@ -482,8 +324,9 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             }
         }
         this._forceUpdate();
-    },
-    _toggleOverlayAsync(toggle: boolean, config) {
+    }
+
+    protected _toggleOverlayAsync(toggle: boolean, config: ILoadingIndicatorOptions): void {
         // контролы, которые при ховере показывают окно, теряют свой ховер при показе оверлея,
         // что влечет за собой вызов обработчиков на mouseout + визуально дергается ховер таргета.
         // Делаю небольшую задержку, если окно не имеет в себе асинхронного кода, то оно успеет показаться раньше
@@ -494,18 +337,20 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
         this._toggleOverlayTimerId = setTimeout(() => {
             this._toggleOverlay(toggle, config);
         }, delay);
-    },
-    _toggleOverlay(toggle: boolean, config): void {
+    }
+
+    protected _toggleOverlay(toggle: boolean, config: ILoadingIndicatorOptions): void {
         this._isOverlayVisible = toggle && config.overlay !== 'none';
         this._forceUpdate();
-    },
-    _clearOverlayTimerId() {
+    }
+
+    protected _clearOverlayTimerId(): void {
         if (this._toggleOverlayTimerId) {
             clearTimeout(this._toggleOverlayTimerId);
         }
-    },
+    }
 
-    _toggleIndicatorVisible(toggle: boolean, config?: object): void {
+    protected _toggleIndicatorVisible(toggle: boolean, config?: ILoadingIndicatorOptions): void {
         if (toggle) {
             this._clearOverlayTimerId();
             this._isMessageVisible = true;
@@ -515,6 +360,19 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
             this._isMessageVisible = false;
         }
     }
-});
 
-export = module;
+    static getDefaultOptions(): object {
+        return {
+            delay: 2000,
+            isGlobal: true,
+            message: '',
+            scroll: '',
+            small: '',
+            overlay: 'default',
+            mods: null
+        };
+    }
+
+};
+
+export default LoadingIndicator;
