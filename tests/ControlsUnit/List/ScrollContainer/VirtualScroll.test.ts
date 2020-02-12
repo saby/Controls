@@ -255,6 +255,21 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.itemsAddedHandler(0, {length: 20});
             assert.equal(instance.stopIndex, 40);
             assert.equal(instance.startIndex, 20);
+
+            // @ts-ignore
+            const instanceWithBigPageSize = new VirtualScroll({...defaultOptions, pageSize: 40});
+
+            instanceWithBigPageSize._options.viewModel.getStartIndex = () => instanceWithBigPageSize.startIndex;
+            instanceWithBigPageSize.itemsFromLoadToDirection = true;
+            instanceWithBigPageSize.itemsCount = 20;
+            instanceWithBigPageSize.reset(0);
+            instanceWithBigPageSize.itemsContainer = itemsContainer;
+            instanceWithBigPageSize.itemsCount = 40;
+
+            instanceWithBigPageSize.itemsAddedHandler(0, {length: 20});
+            assert.equal(instanceWithBigPageSize.stopIndex, 40);
+            assert.equal(instanceWithBigPageSize.startIndex, 0);
+            assert.equal(affectingInstance.loadDirection, 'up');
         });
         it('itemsRemovedHandler', () => {
             // @ts-ignore

@@ -143,7 +143,6 @@ export default class VirtualScrollController {
             this.checkIndexesChanged(newStartIndex, newStopIndex, direction);
         }
 
-
         if (needToLoadMore && shouldLoad) {
             this._options.loadMoreCallback(direction);
         }
@@ -334,9 +333,9 @@ export default class VirtualScrollController {
      * @param {number} itemsHeightsCount
      */
     private insertItemsHeights(itemIndex: number, itemsHeightsCount: number): void {
-        let topItemsHeight = this.itemsHeights.slice(0, itemIndex),
-            insertedItemsHeights = [],
-            bottomItemsHeight = this.itemsHeights.slice(itemIndex);
+        const topItemsHeight = this.itemsHeights.slice(0, itemIndex);
+        const insertedItemsHeights = [];
+        const bottomItemsHeight = this.itemsHeights.slice(itemIndex);
 
         for (let i = 0; i < itemsHeightsCount; i++) {
             insertedItemsHeights[i] = 0;
@@ -413,6 +412,11 @@ export default class VirtualScrollController {
                 this.savedStartIndex += newItems.length;
                 this.setStartIndex(this.startIndex + newItems.length);
             }
+
+            if (!this.itemsChanged) {
+                this.shiftRangeBySegment(direction, newItems.length);
+                this._options.saveScrollPositionCallback(direction);
+            }
         }
     }
 
@@ -425,12 +429,28 @@ export default class VirtualScrollController {
         if (this.itemsContainer && !this.itemsChanged) {
             const startIndex =
                 this._options.useNewModel
-                ? displayLib.VirtualScrollController.getStartIndex(this._options.viewModel)
-                : this._options.viewModel.getStartIndex();
+                    ? displayLib.VirtualScrollController.getStartIndex(this._options.viewModel)
+                    : this._options.viewModel.getStartIndex();
             this.recalcRangeToDirection(
                 removedItemsIndex < startIndex ? 'up' : 'down', false
             );
         }
+    }
+
+    private shiftRangeBySegment(direction: IDirection, segment: number): void {
+        this.actualizeSavedIndexes();
+        let startIndex = this.startIndex;
+        let stopIndex = this.stopIndex;
+        const fixedSegmentSize = Math
+            .min(segment, Math.max(this._options.pageSize - (this.stopIndex - this.startIndex), 0));
+
+        if (direction === 'up') {
+            startIndex = Math.max(startIndex - fixedSegmentSize, 0);
+        } else {
+            stopIndex = Math.min(stopIndex + fixedSegmentSize, this.itemsCount);
+        }
+
+        this.checkIndexesChanged(startIndex, stopIndex, direction);
     }
 
     private isScrolledToBottom(): boolean {
@@ -513,7 +533,6 @@ export default class VirtualScrollController {
             let startIndex = this.startIndex;
             let sumHeight = 0;
             const offsetDistance = this.scrollTop - this.triggerOffset - this._options.viewportHeight;
-
 
             while (sumHeight + items[startIndex] < offsetDistance) {
                 sumHeight += items[startIndex];
