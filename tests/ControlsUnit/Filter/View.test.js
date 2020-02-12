@@ -301,11 +301,14 @@ define(
                document: {
                   items: Clone(defaultItems[0]),
                   displayProperty: 'title',
-                  keyProperty: 'id'},
+                  keyProperty: 'id',
+                  source: defaultSource[0].editorOptions.source
+               },
                state: {
                   items: Clone(defaultItems[1]),
                   displayProperty: 'title',
                   keyProperty: 'id',
+                  source: defaultSource[1].editorOptions.source,
                   multiSelect: true}
             };
             view._openPanel();
@@ -321,6 +324,13 @@ define(
 
             view._openPanel('click');
             assert.deepStrictEqual(popupOptions.target, 'filter_container');
+
+            view._configs.state.sourceController = {
+               isLoading: () => { return true; }
+            };
+            popupOptions = null;
+            view._openPanel('click');
+            assert.isNull(popupOptions);
          });
 
          it('_needShowFastFilter', () => {
