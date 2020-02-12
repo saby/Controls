@@ -4,7 +4,6 @@
 
 import BaseLayer from './__BaseLayer';
 import template = require('wml!Controls/_suggestPopup/Layer/__ContentLayer');
-import 'css!theme?Controls/suggest';
 
 var _private = {
    getSizes: function(self, dropDownContainer) {
@@ -130,6 +129,7 @@ var __ContentLayer = BaseLayer.extend({
 
 });
 
+__ContentLayer._theme = ['Controls/suggest', 'Controls/suggestPopup'];
 __ContentLayer._private = _private;
 
 export default __ContentLayer;

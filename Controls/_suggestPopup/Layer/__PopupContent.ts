@@ -1,6 +1,5 @@
 import BaseLayer from './__BaseLayer';
 import {detection} from 'Env/Env';
-import 'css!theme?Controls/suggest';
 import template = require('wml!Controls/_suggestPopup/Layer/__PopupContent');
 
 var _private = {
@@ -78,7 +77,7 @@ var __PopupContent = BaseLayer.extend({
       }
    }
 });
-
+__PopupContent._theme = ['Controls/suggest', 'Controls/suggestPopup'];
 __PopupContent._private = _private;
 
 export default __PopupContent;

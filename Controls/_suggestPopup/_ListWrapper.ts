@@ -14,7 +14,7 @@ import 'Controls/Container/Async';
        * @private
        */
 
-      export = Control.extend({
+      const _ListWrapper = Control.extend({
 
          _template: template,
 
@@ -30,4 +30,5 @@ import 'Controls/Container/Async';
       });
 
 
-
+      _ListWrapper._theme = ['Controls/suggest', 'Controls/suggestPopup'];
+      export = _ListWrapper;

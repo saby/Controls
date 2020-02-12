@@ -12,6 +12,7 @@ class Template extends Control {
    close() {
       this._notify('close', [], { bubbling: true });
    }
+   static _theme: string[] = ['Controls/popupConfirmation'];
 }
 export default Template;
 /**

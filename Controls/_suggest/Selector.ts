@@ -5,7 +5,6 @@ import {Controller} from 'Controls/source';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
-import 'css!theme?Controls/suggest';
 
 /**
  * Поле ввода с выпадающим списком с возможностью автодополнения.
@@ -168,6 +167,7 @@ Suggest.getDefaultOptions = function() {
    };
 };
 
+Suggest._theme = ['Controls/suggest'];
 Suggest._private = _private;
 
 export default Suggest;
