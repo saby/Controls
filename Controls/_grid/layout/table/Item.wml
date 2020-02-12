@@ -49,25 +49,33 @@
     <ws:partial template="columnContent" attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
 </ws:template>
 
+<ws:template name="tableTD">
+    <td colspan="{{ itemData.getColspanFor(colspanFor) }}"
+        style="{{ currentColumn.tableCellStyles }}"
+        attr:key="{{ itemData.getCurrentColumnKey() }}{{ keyPostfix ? ('_' + keyPostfix) : '' }}">
+        <ws:partial template="{{content}}" />
+    </td>
+</ws:template>
+
 <ws:template name="colTpl">
     <ws:if data="{{itemData.columnScroll && colspan}}">
-        <td colspan="{{itemData.getColspanFor('fixedColumnOfColumnScroll')}}" attr:key="{{itemData.getCurrentColumnKey()}}_fixed">
+
+        <!-- При включенном горизонтальном скролле и включенном объединении ячеек, запись представляется двумя блоками: -->
+        <!-- первый растянут на ширину фиксированных ячеек и содержит весь контент записи, второй - растянут на количество -->
+        <!-- нефиксированных ячеек. Второй блок пустой. -->
+        <ws:partial template="tableTD" colspanFor="fixedColumnOfColumnScroll" keyPostfix="_fixed">
             <ws:partial template="columnContentWrapper"/>
-        </td>
-        <td colspan="{{itemData.getColspanFor('scrollableColumnOfColumnScroll')}}" attr:key="{{itemData.getCurrentColumnKey()}}_scrollable">
-        </td>
+        </ws:partial>
+        <ws:partial template="tableTD" colspanFor="scrollableColumnOfColumnScroll" keyPostfix="_scrollable">
+            <ws:partial template="columnContentWrapper"/>
+        </ws:partial>
+
     </ws:if>
     <ws:else>
-        <ws:if data="{{colspan && !(itemData.hasMultiSelect && currentColumn.columnIndex === 0)}}">
-            <td colspan="{{itemData.getColspanFor('editingRow')}}" attr:key="{{itemData.getCurrentColumnKey()}}">
-                <ws:partial template="columnContentWrapper"/>
-            </td>
-        </ws:if>
-        <ws:else>
-            <td attr:key="{{itemData.getCurrentColumnKey()}}">
-                <ws:partial template="columnContentWrapper"/>
-            </td>
-        </ws:else>
+        <!-- При включеном colspan растягиваем контент (если включен мультивыбор, дополнительно выводим под него колонку). -->
+        <ws:partial template="tableTD" colspanFor="{{(colspan && !(itemData.hasMultiSelect && currentColumn.columnIndex === 0)) ? 'colspanedRow' : null}}">
+            <ws:partial template="columnContentWrapper"/>
+        </ws:partial>
     </ws:else>
 </ws:template>
 
