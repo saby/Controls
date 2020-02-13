@@ -156,7 +156,7 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  */
 
 /**
- * @name Controls/_operationsPanel/OperationsPanel#selectedCountConfig
+ * @name Controls/_operations/Panel#selectedCountConfig
  * @cfg {ISelectedCountConfig} Конфигурация для получения счётчика отмеченных записей.
  * @example
  * TS:

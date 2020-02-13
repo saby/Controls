@@ -10,7 +10,7 @@ define('Controls-demo/OperationsPanel/Demo/Data', function() {
          },
          moveOperation: {
             id: 'move',
-            icon: 'icon-Move icon-medium',
+            icon: 'icon-Move',
             '@parent': false,
             title: 'В другой раздел',
             parent: null
