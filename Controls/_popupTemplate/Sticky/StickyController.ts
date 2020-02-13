@@ -255,30 +255,36 @@ class StickyController extends BaseController {
     }
 
     elementAfterUpdated(item, container) {
-        /* start: We remove the set values that affect the size and positioning to get the real size of the content */
-        const width = container.style.width;
-        container.style.width = 'auto';
-        container.style.height = 'auto';
+        // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
+        if (item.popupOptions.target && item.popupOptions.target.closest && !item.popupOptions.target.closest('.ws-hidden')) {
+            /* start: We remove the set values that affect the size and positioning to get the real size of the content */
+            const width = container.style.width;
+            const height = container.style.height;
+            container.style.width = 'auto';
+            container.style.height = 'auto';
 
-        /* end: We remove the set values that affect the size and positioning to get the real size of the content */
+            /* end: We remove the set values that affect the size and positioning to get the real size of the content */
 
-        this.prepareConfig(item, container);
+            this.prepareConfig(item, container);
 
-        /* start: Return all values to the node. Need for vdom synchronizer */
-        container.style.width = width;
-        // После того, как дочерние контролы меняют размеры, они кидают событие controlResize, окно отлавливает событие,
-        // измеряет верстку и выставляет себе новую позицию и размеры. Т.к. это проходит минимум в 2 цикла синхронизации,
-        // то визуально видны прыжки. Уменьшаю на 1 цикл синхронизации простановку размеров
-        // Если ограничивающих размеров нет (контент влезает в экран), то ставим высоту по контенту.
-        container.style.height = item.position.height ? item.position.height + 'px' : 'auto';
+            /* start: Return all values to the node. Need for vdom synchronizer */
+            container.style.width = width;
+            // После того, как дочерние контролы меняют размеры, они кидают событие controlResize, окно отлавливает событие,
+            // измеряет верстку и выставляет себе новую позицию и размеры. Т.к. это проходит минимум в 2 цикла синхронизации,
+            // то визуально видны прыжки. Уменьшаю на 1 цикл синхронизации простановку размеров
+            // Если ограничивающих размеров нет (контент влезает в экран), то ставим высоту по контенту.
+            container.style.height = item.position.height ? item.position.height + 'px' : 'auto';
 
-        /* end: Return all values to the node. Need for vdom synchronizer */
+            /* end: Return all values to the node. Need for vdom synchronizer */
 
-        // toDO выписана задача https://online.sbis.ru/opendoc.html?guid=79cdc24c-cf4c-45da-97b4-7353540a2b1b
-        if (item.popupOptions.resizeCallback instanceof Function) {
-            item.popupOptions.resizeCallback();
+            // toDO выписана задача https://online.sbis.ru/opendoc.html?guid=79cdc24c-cf4c-45da-97b4-7353540a2b1b
+            if (item.popupOptions.resizeCallback instanceof Function) {
+                item.popupOptions.resizeCallback();
+            }
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     resizeInner(item, container): Boolean {
