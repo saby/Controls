@@ -138,7 +138,6 @@ var MAX_NUMBER_ITEMS = 5;
          let editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
          let ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
          _private.minimizeHistoryItems(ObjectData.items);
-         _private.setLinkTextValue(ObjectData);
 
          _private.setObjectData(self._editItem, ObjectData);
 
@@ -194,10 +193,14 @@ var MAX_NUMBER_ITEMS = 5;
        // TODO: Delete with old favorite
        convertToNewFormat: function(self, favoriteList, filterItems) {
          factory(favoriteList).each((favoriteItem) => {
-            let data = favoriteItem.get('data');
-            favoriteItem.get('data').set('items', convertToSourceDataArray(data.get('filter'),  _private.mapByField(filterItems, 'visibility')));
-            data.removeField('filter');
-            data.removeField('viewFilter');
+            let data = favoriteItem.get('data').clone();
+            if (data.get('filter')) {
+               favoriteItem.get('data').set('items', convertToSourceDataArray(data.get('filter'),  _private.mapByField(filterItems, 'visibility')));
+               data.removeField('filter');
+               data.removeField('viewFilter');
+            } else {
+               favoriteItem.get('data').set('items', []);
+            }
          });
       }
    };

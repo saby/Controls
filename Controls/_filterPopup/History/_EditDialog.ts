@@ -111,6 +111,7 @@ class EditDialog extends Control<IEditDialog> {
             if (!selectedFilters.includes(item.id) && this.isDisplayItem(item)) {
                 item.textValue = '';
                 item.value = null;
+                item.visibility = item.visibility === true ? false : item.visibility;
             }
         });
         return resultItems;
