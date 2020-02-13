@@ -108,4 +108,8 @@ export interface IHeaderCell extends IControlOptions {
      * @description Опции, передаваемые в шаблон ячейки заголовка.
      */
     templateOptions?: object;
+    /**
+     * @description Поле, для определения ячейки действий
+     */
+    isActionCell: boolean;
 }

@@ -13,7 +13,7 @@ import {
     getIndexByItem,
     getMaxEndRow,
     getResultsIndex,
-    getRowsArray,
+    getHeaderRowsArray,
     getTopOffset,
     IBaseGridRowIndexOptions
 } from 'Controls/_grid/utils/GridRowIndexUtil';
@@ -99,8 +99,7 @@ var
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
 
 
-            if (columns[columnIndex].actionCell) {
-                return classLists;
+            if (columns[columnIndex].isActionCell) {                return classLists;
             }
             const arrayLengthOffset = params.hasActionCell ? 2 : 1;
             const getCellPadding = (side) => cellPadding && cellPadding[side] ? `_${cellPadding[side]}` : '';
@@ -139,7 +138,7 @@ var
             let preparedClasses = '';
             const { multiSelectVisibility, columnIndex, columns,
                 rowIndex, itemPadding, isBreadCrumbs, style, cell: { endColumn } } = params;
-            if (params.cell.actionCell) {
+            if (params.cell.isActionCell) {
                 return preparedClasses;
             }
             const actionCellOffset = params.hasActionCell ? 1 : 0;
@@ -583,7 +582,7 @@ var
         _prepareHeaderColumns: function(columns, multiSelectVisibility, actionsCell, stickyLadderCell) {
             if (columns && columns.length) {
                 this._isMultiHeader = this.isMultiHeader(columns);
-                this._headerRows = getRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell, stickyLadderCell);
+                this._headerRows = getHeaderRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell, stickyLadderCell);
                 [this._maxEndRow, this._maxEndColumn] = getMaxEndRow(this._headerRows);
             } else if (multiSelectVisibility) {
                 this._headerRows = [{}];
@@ -860,7 +859,7 @@ var
                 this._resultsColumns = [{}].concat(this._resultsColumns);
             }
             if (this._shouldAddActionsCell()) {
-                this._resultsColumns = this._resultsColumns.concat([{ actionCell: true }]);
+                this._resultsColumns = this._resultsColumns.concat([{ isActionCell: true }]);
             }
 
             this.resetResultsColumns();
