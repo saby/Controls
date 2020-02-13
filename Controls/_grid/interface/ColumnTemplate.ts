@@ -50,7 +50,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing** (тип Boolean) — признак {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/edit/ редактирования по месту}.
     * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **column** (тип {@link Controls/_grid/interface/IGridControl/Column.typedef Column.typedef}) — объект с конфигурацией колонки.
+    * * **column** (тип {@link Controls/_grid:IColumn IColumn}) — объект с конфигурацией колонки.
     *
     * Также в области видимости шаблона есть переменная **editArrowTemplate**, которая позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон}. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Работа с переменной показана в примере № 4.
     * @example
