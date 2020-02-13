@@ -526,6 +526,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         const baseConfig = {};
         const usedOptions = [
             'id',
+            'theme',
             'closeByExternalClick',
             'isCompoundTemplate',
             'eventHandlers',
@@ -581,9 +582,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                 baseConfig[option] = options[option];
             }
         }
-
-        delete baseConfig.theme; // todo fix?
-
         const templateOptions = {};
         CoreMerge(templateOptions, baseConfig.templateOptions || {});
         CoreMerge(templateOptions, popupOptions.templateOptions || {}, {rec: false});
