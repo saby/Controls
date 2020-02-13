@@ -71,8 +71,12 @@ abstract class BaseController {
         if (this._checkContainer(item, container, 'elementAfterUpdated')) {
             // We react only after the update phase from the controller
             if (item.popupState === this.POPUP_STATE_UPDATING) {
-                item.popupState = this.POPUP_STATE_UPDATED;
-                return this.elementAfterUpdated && this.elementAfterUpdated.apply(this, arguments);
+                if (item.popupOptions.target && !item.popupOptions.target.closest('.ws-hidden')) {
+                    {
+                        item.popupState = this.POPUP_STATE_UPDATED;
+                        return this.elementAfterUpdated && this.elementAfterUpdated.apply(this, arguments);
+                    }
+                }
             }
         }
         return false;
