@@ -97,11 +97,20 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       const selectedKeys = options.selectedKeys;
       const excludedKeys = options.excludedKeys;
       const selection = this._getSelection(selectedKeys, excludedKeys);
-
-      return this._getCount(selection, options.selectedKeysCount).then((countResult) => {
-         this._menuCaption = this._getMenuCaption(selection, countResult, options.isAllSelected);
+      const getCountCallback = (count) => {
+         this._menuCaption = this._getMenuCaption(selection, count, options.isAllSelected);
          this._sizeChanged = true;
-      });
+      };
+      const getCountResult = this._getCount(selection, options.selectedKeysCount);
+
+      // Если счётчик удаётся посчитать без вызова метода, то надо это делать синхронно,
+      // иначе promise порождает асинхронность и перестроение панели операций будет происходить скачками,
+      // хотя можно было это сделать за одну синхронизацию
+      if (getCountResult instanceof Promise) {
+         getCountResult.then(getCountCallback);
+      } else {
+         getCountCallback(getCountResult);
+      }
    }
 
    private _getMenuCaption({selected, excluded}: ISelectionObject, count: TCount, isAllSelected: boolean): string {
@@ -125,22 +134,20 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       return caption;
    }
 
-   private _getCount(selection: ISelectionObject, count: TCount): Promise<TCount> {
-      let methodResult;
+   private _getCount(selection: ISelectionObject, count: TCount): Promise<TCount>|TCount {
       let countResult;
 
       if (this._isCorrectCount(count) || !this._options.selectedCountConfig) {
          countResult = count === undefined ? selection.selected.length : count;
-         methodResult = Promise.resolve(countResult);
       } else {
          this._children.countIndicator.show();
-         methodResult = getCountUtil.getCount(selection, this._options.selectedCountConfig).then((count) => {
+         countResult = getCountUtil.getCount(selection, this._options.selectedCountConfig).then((count) => {
             this._children.countIndicator.hide();
             return count;
          });
       }
 
-      return methodResult;
+      return countResult;
    }
 
    private _getSelection(selectedKeys: TKeysSelection, excludedKeys: TKeysSelection): ISelectionObject {
