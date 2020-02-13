@@ -200,7 +200,7 @@ var
         prepareRowSeparatorClasses: function (current, theme) {
             let result = '';
             if (current.rowSeparatorVisibility) {
-                result += `controls-Grid__row-cell_withRowSeparator_theme-${theme}`;
+                result += ` controls-Grid__row-cell_withRowSeparator${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? '-l' : ''}_theme-${theme} `;
                 if (current.isFirstInGroup && !current.isInHiddenGroup) {
                     result += ' controls-Grid__row-cell_first-row-in-group';
                 }
@@ -244,7 +244,8 @@ var
             const style = current.style || 'default';
 
             // Стиль колонки
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style}`;
+            const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize}`;
             classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
 
             if (current.columnScroll) {
@@ -1222,6 +1223,7 @@ var
             const itemGroupId = !current.isGroup && this._getItemGroup(current.item);
             current.isInHiddenGroup = itemGroupId === ControlsConstants.view.hiddenGroup;
             current.isFirstInGroup = this._isFirstInGroup(current.item, itemGroupId);
+            current.rowSeparatorSize = this._options.rowSeparatorSize;
 
             if (
                 current.isFirstInGroup &&

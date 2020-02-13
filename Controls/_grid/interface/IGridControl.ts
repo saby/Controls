@@ -327,7 +327,28 @@
  * @default false
  */
 
- /**
+/**
+ * @typedef {String} RowSeparatorSize
+ * @variant s Размер тонкой линии разделителя.
+ * @variant l Размер толстой линии разделителя.
+ */
+
+/**
+ * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
+ * @cfg {RowSeparatorSize} Устанавливает высоту линии разделителя.
+ * @variant s Тонкая линия разделителя строк.
+ * @variant l Широкая линия разделителя строк.
+ * @default s
+ */
+
+/*
+ * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
+ * @cfg {RowSeparatorSize} set row separator height.
+ * @variant s Thin row separator line.
+ * @variant l Wide row separator line.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#resultsTemplate
  * @cfg {Function} Устанавливает шаблон отображения строки итогов.
  * @default Controls/grid:ResultsTemplate

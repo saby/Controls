@@ -214,6 +214,9 @@ define([
          config.selectedKeys = ['testId'];
          config.excludedKeys = ['testId'];
          instance.saveOptions(config);
+         instance.getRoot = () => {
+            return null;
+         };
          await instance._beforeMount(config);
          instance._afterMount();
          const stubNotify = sandbox.stub(instance, '_notify');

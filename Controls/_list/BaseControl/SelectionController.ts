@@ -21,7 +21,7 @@ var _private = {
             selectionCount = self._multiselection.getCount(),
             itemsCount = self._options.items.getCount(),
             model = self._options.listModel,
-            root = model.getRoot ? model.getRoot().getContents() : null,
+            root = model.getRoot && model.getRoot() ? model.getRoot().getContents() : null,
             oldSelectedKeys = options.selectedKeys,
             oldExcludedKeys = options.excludedKeys,
             // selectionCount будет равен нулю, если в списке не отмечено ни одного элемента
@@ -199,9 +199,10 @@ var SelectionController = Control.extend(/** @lends Controls/_list/BaseControl/S
     },
 
     _beforeUnmount: function () {
-        this._multiselection.selectedKeys = [];
-        this._multiselection.excludedKeys = [];
-        _private.notifyAndUpdateSelection(this, this._options);
+        this._options.listModel.updateSelection({});
+        this._notify('selectedKeysChanged', [[], [], this._multiselection.selectedKeys]);
+        this._notify('excludedKeysChanged', [[], [], this._multiselection.excludedKeys]);
+        this._notify('listSelectedKeysCountChanged', [0], {bubbling: true});
         this._multiselection = null;
         this._options.items.unsubscribe('onCollectionChange', this._onCollectionChangeHandler);
         this._onCollectionChangeHandler = null;

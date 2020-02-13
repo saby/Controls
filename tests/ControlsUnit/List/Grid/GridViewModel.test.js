@@ -131,6 +131,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             bottom: 'L'
          },
          rowSeparatorVisibility: true,
+         rowSeparatorSize: 's',
          style: 'default',
          sorting: [{price: 'DESC'}],
          searchValue: 'test'
@@ -606,6 +607,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             let listItemsCount = 3;
             const itemData = {
                rowSeparatorVisibility: true,
+               rowSeparatorSize: 's',
                isFirstInGroup: false,
                index: 0,
                dispItem: {
