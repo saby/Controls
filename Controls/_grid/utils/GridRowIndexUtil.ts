@@ -1,5 +1,6 @@
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
 import {Collection, CollectionItem} from 'Types/display'
+import {IHeaderCell} from '../interface/IHeaderCell';
 
 /**
  * @author Родионов Е.А.
@@ -287,21 +288,24 @@ function getMaxEndRow(array): number[] {
 }
 
 /**
- * Функция создания массива строк хэдера из массива объектов columns.
- * @param {Array} array Массив объектов columns.
- * @param {Boolean} hasMultiselect Отображаются чекбоксы или нет.
+ * Функция создания массива строк хэдера из массива объектов IHeaderCell.
+ * @param {Array} cells Массив объектов IHeaderCell.
+ * @param {Boolean} hasMultiSelect Отображаются чекбоксы или нет.
+ * @param {Boolean} isMultiHeader активированы ли для grid множественные заголовки
+ * @param {Boolean} hasActionsCell Необходимо ли добавлять ячейку действий
  * @return {Array} массив строк хэдера.
- * @example getROwsArray(
+ * @example getHeaderRowsArray(
  *  [{title: 'name', startRow: 1, endRow: 2...}, {title: 'Price', startRow: 2, endRow: 3...}, ...], true
  *  ) -> [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
  */
 
-function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell, stickyLadderCell) {
-    let result = [];
+function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean, stickyLadderCell: boolean): IHeaderCell[][] {
+    let headerRows = [];
+    const preparedCells = prepareCellsArray(cells);
     if (!isMultiHeader) {
-        result.push(array);
+        headerRows.push(preparedCells);
     } else {
-        let sortedArray = array.sort((a, b) => {
+        let sortedArray = preparedCells.sort((a, b) => {
             if (a.startRow > b.startRow) {
                 return 1;
             }
@@ -313,47 +317,65 @@ function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell, stickyL
         for (let i = 1, rows = getRowsCount(sortedArray); i <= rows; i++) {
             const odd = (x) => x.startRow === i || x.isBreadCrumbs;
             const row = takeWhile(odd, sortedArray);
-            result.push(row);
+            headerRows.push(row);
             sortedArray = sortedArray.slice(row.length);
         }
-        result = sortedColumns(result);
+        headerRows = sortedColumns(headerRows);
     }
-    if (stickyLadderCell) {
-        result[0] = [{}, ...result[0]];
+    if (stickyLadderCell || hasMultiSelect) {
+        headerRows[0] = [{}, ...headerRows[0]];
     }
-    if (hasMultiselect) {
-        result[0] = [{}, ...result[0]];
-    }
-    if (actionsCell) {
+    if (hasActionsCell) {
         // We have to calculate at least endColumn here, because it is used
         // by ColumnsScroll ScrollWrapper to get the last column number
-        const firstRow = result[0];
-        result[0] = [
+        const firstRow = headerRows[0];
+        headerRows[0] = [
             ...firstRow,
-            getHeaderActionsCellConfig(array)
+            getHeaderActionsCellConfig(preparedCells)
         ];
     }
-    return result;
+    return headerRows;
 }
 
-function getHeaderActionsCellConfig(header) {
+/**
+ * Производит расчёт параметров экшн-ячейки
+ * @param cells
+ * caption: "Код"
+ */
+function getHeaderActionsCellConfig(cells: IHeaderCell[]): IHeaderCell {
     let minStartRow = Number.MAX_VALUE;
     let maxEndRow = 0;
     let maxEndColumn = 0;
 
-    header.forEach((cell) => {
+    cells.forEach((cell) => {
         minStartRow = cell.startRow < minStartRow ? cell.startRow : minStartRow;
         maxEndRow = cell.endRow > maxEndRow ? cell.endRow : maxEndRow;
         maxEndColumn = cell.endColumn > maxEndColumn ? cell.endColumn : maxEndColumn;
     });
 
     return {
-        actionCell: true,
+        isActionCell: true,
         startRow: minStartRow,
         endRow: maxEndRow,
         startColumn: maxEndColumn,
         endColumn: maxEndColumn + 1
     };
+}
+
+/**
+ * Для расчёта значений в методе getHeaderRowsArray
+ * обязательно наличие у колонок startColumn, endColumn, startRow, endRow
+ * @param cells
+ */
+function prepareCellsArray(cells: IHeaderCell[]): IHeaderCell[] {
+    return cells.map((cell: IHeaderCell, index: number) => {
+        const cellExtension: IHeaderCell = {} as IHeaderCell;
+        cellExtension.startColumn = cell.startColumn || index + 1;
+        cellExtension.endColumn = cell.endColumn || cellExtension.startColumn + 1;
+        cellExtension.startRow = cell.startRow || 1;
+        cellExtension.endRow = cell.endRow || cellExtension.startRow + 1;
+        return {...cell, ...cellExtension};
+    });
 }
 
 export {
@@ -372,6 +394,6 @@ export {
     getFooterIndex,
     getTopOffset,
     getBottomPaddingRowIndex,
-    getRowsArray,
+    getHeaderRowsArray,
     getMaxEndRow
-}
+};
