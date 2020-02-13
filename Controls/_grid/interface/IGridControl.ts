@@ -416,7 +416,9 @@
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark
  * См. <a href="/materials/demo-ws4-edit-arrow">демо-пример</a>
- * Чтобы кнопка отображалась в прикладном шаблоне колонки, следует самостоятельно встроить шаблон {@link Controls/grid:ColumnTemplate#editArrowTemplate} в нужное место.
+ * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона. 
+ * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона. 
+ * Пример использования смотреть {@link Controls/grid:ColumnTemplate#contentTemplate тут}
  * @example
  * <pre>
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
