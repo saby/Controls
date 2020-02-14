@@ -11,9 +11,9 @@ import {
     getIndexByDisplayIndex,
     getIndexById,
     getIndexByItem,
-    getMaxEndRow,
+    getHeaderMaxEndCellData,
     getResultsIndex,
-    getRowsArray,
+    getHeaderRowsArray,
     getTopOffset,
     IBaseGridRowIndexOptions
 } from 'Controls/_grid/utils/GridRowIndexUtil';
@@ -99,7 +99,7 @@ var
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
 
 
-            if (columns[columnIndex].actionCell) {
+            if (columns[columnIndex].isActionCell) {
                 return classLists;
             }
             const arrayLengthOffset = params.hasActionCell ? 2 : 1;
@@ -139,7 +139,7 @@ var
             let preparedClasses = '';
             const { multiSelectVisibility, columnIndex, columns,
                 rowIndex, itemPadding, isBreadCrumbs, style, cell: { endColumn } } = params;
-            if (params.cell.actionCell) {
+            if (params.cell.isActionCell) {
                 return preparedClasses;
             }
             const actionCellOffset = params.hasActionCell ? 1 : 0;
@@ -441,6 +441,8 @@ var
         _ladder: null,
         _columnsVersion: 0,
 
+        _isMultiHeader: null,
+
         constructor: function(cfg) {
             this._options = cfg;
             GridViewModel.superclass.constructor.apply(this, arguments);
@@ -486,7 +488,9 @@ var
             this._model.subscribe('onCollectionChange', this._onCollectionChangeFn);
             this._ladder = _private.prepareLadder(this);
             this._setColumns(this._options.columns);
-            if (this._options.header && this._options.header.length) { this._isMultiHeader = this.isMultiHeader(this._options.header); }
+            if (this._options.header && this._options.header.length) {
+                this._isMultiHeader = this.isMultiHeader(this._options.header);
+            }
             this._setHeader(this._options.header);
             this._updateLastItemKey();
         },
@@ -578,22 +582,28 @@ var
             this._setHeader(columns);
             this._nextModelVersion();
         },
-        isMultiHeader: function(columns) {
+        isMultiHeader: function(columns?: any) {
+            let result = false;
+            if (columns) {
             let k = 0;
             while(columns.length > k) {
                 if (columns[k].endRow > 2) {
-                    return true;
+                        result = true;
                 }
                 k++;
             }
-            return false;
+            } else if (this._isMultiHeader !== null) {
+                result = this._isMultiHeader;
+            }
+            return result;
         },
         _prepareHeaderColumns: function(columns, multiSelectVisibility, actionsCell, stickyLadderCell) {
             if (columns && columns.length) {
                 this._isMultiHeader = this.isMultiHeader(columns);
-                this._headerRows = getRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell, stickyLadderCell);
-                [this._maxEndRow, this._maxEndColumn] = getMaxEndRow(this._headerRows);
-            } else if (multiSelectVisibility) {
+                this._headerRows = getHeaderRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell, stickyLadderCell);
+                const headerMaxEndCellData = getHeaderMaxEndCellData(this._headerRows);
+                this._maxEndRow = headerMaxEndCellData.maxRow;
+                this._maxEndColumn = headerMaxEndCellData.maxColumn;            } else if (multiSelectVisibility) {
                 this._headerRows = [{}];
             } else {
                 this._headerRows = [];
@@ -628,7 +638,7 @@ var
             return this._options.stickyColumnsCount;
         },
 
-        getMaxEndColumn: function() {
+        getHeaderMaxEndColumn: function() {
             return this._maxEndColumn;
         },
 
@@ -737,7 +747,7 @@ var
                     maxEndColumn: this._maxEndColumn,
                     // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
                     isBreadCrumbs: headerColumn.column.isBreadCrumbs,
-                    hasActionCell: this._shouldAddActionsCell(),
+                    hasActionCell: this._shouldAddActionsCell()
                 }, this._options.theme);
                 cellClasses += ' controls-Grid__header-cell_min-width';
             }
@@ -868,7 +878,7 @@ var
                 this._resultsColumns = [{}].concat(this._resultsColumns);
             }
             if (this._shouldAddActionsCell()) {
-                this._resultsColumns = this._resultsColumns.concat([{ actionCell: true }]);
+                this._resultsColumns = this._resultsColumns.concat([{ isActionCell: true }]);
             }
 
             this.resetResultsColumns();

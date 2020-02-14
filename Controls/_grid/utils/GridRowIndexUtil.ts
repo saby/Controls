@@ -1,11 +1,12 @@
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
 import {Collection, CollectionItem} from 'Controls/display'
+import {IHeaderCell} from '../interface/IHeaderCell';
 
 /**
  * @author Родионов Е.А.
  */
 
-
+const SINGLE_HEADER_MAX_ROW = 2;
 
 /**
  * @typedef {Object} IBaseGridRowIndexOptions Конфигурационый объект.
@@ -261,47 +262,53 @@ function getRowsCount(array): number {
 
 /**
  * Функция подсчета максимальной строки в массиве строк.
- * @param {Array} array Массив строк _headerRows.
- * @return {Number} Максимальная строка.
+ * @param {Array} cells Массив строк _headerRows.
+ * @return {Number} Массив Максимальная строка.
  */
-
-function getMaxEndRow(array): number[] {
-    let maxRow = 0;
-    let maxColumn = 0;
-    let isMuliRow = true;
-    if (array.length === 1) {
-        isMuliRow = false;
-        maxRow = 2;
-    }
-    array.forEach((cur) => {
+function getHeaderMaxEndCellData(cells: IHeaderCell[][]): {maxRow: number, maxColumn: number} {
+    const result = {
+        maxRow: 0,
+        maxColumn: 0
+    };
+    const isMultiColumn = cells.length > 1;
+    cells.forEach((cur) => {
         cur.forEach((c) => {
-            if (isMuliRow && c.endRow > maxRow) {
-                maxRow = c.endRow;
+            if (isMultiColumn && c.endRow !== undefined && c.endRow > result.maxRow) {
+                result.maxRow = c.endRow;
             }
-            if (c.endColumn > maxColumn) {
-                maxColumn = c.endColumn;
+            if (c.endColumn !== undefined && c.endColumn > result.maxColumn) {
+                result.maxColumn = c.endColumn;
             }
         });
     });
-    return [maxRow, maxColumn];
+    // If header isn't multiple we should be careful, because endColumn and endRow are unnecessary
+    if (!isMultiColumn) {
+        if (!result.maxColumn) {
+            result.maxColumn = cells[0].length + 1;
+}
+        result.maxRow = SINGLE_HEADER_MAX_ROW;
+    }
+    return result;
 }
 
 /**
- * Функция создания массива строк хэдера из массива объектов columns.
- * @param {Array} array Массив объектов columns.
- * @param {Boolean} hasMultiselect Отображаются чекбоксы или нет.
+ * Функция создания массива строк хэдера из массива объектов IHeaderCell.
+ * @param {Array} cells Массив объектов IHeaderCell.
+ * @param {Boolean} hasMultiSelect Отображаются чекбоксы или нет.
+ * @param {Boolean} isMultiHeader активированы ли для grid множественные заголовки
+ * @param {Boolean} hasActionsCell Необходимо ли добавлять ячейку действий
  * @return {Array} массив строк хэдера.
- * @example getROwsArray(
+ * @example getHeaderRowsArray(
  *  [{title: 'name', startRow: 1, endRow: 2...}, {title: 'Price', startRow: 2, endRow: 3...}, ...], true
  *  ) -> [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
  */
 
-function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell, stickyLadderCell) {
-    let result = [];
+function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean, stickyLadderCell?: boolean): IHeaderCell[][] {
+    let headerRows = [];
     if (!isMultiHeader) {
-        result.push(array);
+        headerRows.push(cells);
     } else {
-        let sortedArray = array.sort((a, b) => {
+        let sortedArray = cells.sort((a, b) => {
             if (a.startRow > b.startRow) {
                 return 1;
             }
@@ -313,42 +320,44 @@ function getRowsArray(array, hasMultiselect, isMultiHeader, actionsCell, stickyL
         for (let i = 1, rows = getRowsCount(sortedArray); i <= rows; i++) {
             const odd = (x) => x.startRow === i || x.isBreadCrumbs;
             const row = takeWhile(odd, sortedArray);
-            result.push(row);
+            headerRows.push(row);
             sortedArray = sortedArray.slice(row.length);
         }
-        result = sortedColumns(result);
+        headerRows = sortedColumns(headerRows);
     }
     if (stickyLadderCell) {
-        result[0] = [{}, ...result[0]];
+        headerRows[0] = [{}, ...headerRows[0]];
     }
     if (hasMultiselect) {
-        result[0] = [{}, ...result[0]];
+        headerRows[0] = [{}, ...headerRows[0]];
     }
-    if (actionsCell) {
-        // We have to calculate at least endColumn here, because it is used
+    if (hasActionsCell) {
+        // For multiple headers we have to calculate at least endColumn here, because it is used
         // by ColumnsScroll ScrollWrapper to get the last column number
-        const firstRow = result[0];
-        result[0] = [
-            ...firstRow,
-            getHeaderActionsCellConfig(array)
-        ];
+        // If header isn't multiple we shouldn't care about startColumn, endColumn etc
+        headerRows[0] = [...headerRows[0], (isMultiHeader ? getHeaderActionsCellConfig(cells) : {isActionCell: true})];
     }
-    return result;
+    return headerRows;
 }
 
-function getHeaderActionsCellConfig(header) {
+/**
+ * Производит расчёт параметров экшн-ячейки
+ * @param cells
+ * caption: "Код"
+ */
+function getHeaderActionsCellConfig(cells: IHeaderCell[]): IHeaderCell {
     let minStartRow = Number.MAX_VALUE;
     let maxEndRow = 0;
     let maxEndColumn = 0;
 
-    header.forEach((cell) => {
+    cells.forEach((cell) => {
         minStartRow = cell.startRow < minStartRow ? cell.startRow : minStartRow;
         maxEndRow = cell.endRow > maxEndRow ? cell.endRow : maxEndRow;
         maxEndColumn = cell.endColumn > maxEndColumn ? cell.endColumn : maxEndColumn;
     });
 
     return {
-        actionCell: true,
+        isActionCell: true,
         startRow: minStartRow,
         endRow: maxEndRow,
         startColumn: maxEndColumn,
@@ -372,6 +381,6 @@ export {
     getFooterIndex,
     getTopOffset,
     getBottomPaddingRowIndex,
-    getRowsArray,
-    getMaxEndRow
-}
+    getHeaderRowsArray,
+    getHeaderMaxEndCellData
+};
