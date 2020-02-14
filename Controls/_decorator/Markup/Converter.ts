@@ -154,6 +154,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
             tagResolver: tagResolver,
             resolverParams: resolverParams
          },
+         _isMarkupConverter: true,
          _moduleName: 'Controls/decorator:Converter'
       }, {}, {}, false);
       return result;

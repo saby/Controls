@@ -495,9 +495,9 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
    },
 
    query: function (query) {
-      var self = this;
-      var where = query.getWhere();
-      var newItems;
+      const self = this;
+      const where = query.getWhere();
+      let newItems;
 
       if (where && where['$_history'] === true) {
          const prepareHistory = () => {
@@ -511,18 +511,21 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
             );
          };
 
-          self._loadDef = self._loadDef && !self._loadDef.isReady() ? self._loadDef : new Deferred();
-          self.historySource.query().addCallback(function (data) {
-              _private.initHistory(self, data);
-              if (self._history.client) {  // TODO Delete with old favorite
+         if (!self._loadDef || self._loadDef.isReady()) {
+            self._loadDef = new Deferred();
+
+            self.historySource.query().addCallback((data) => {
+               _private.initHistory(self, data);
+               if (self._history.client) {  // TODO Delete with old favorite
                   if (_private.deleteOldPinned(self, self._history, query)) {
                      prepareHistory();
                   }
-              } else {
-                 prepareHistory();
-              }
-         });
-          return self._loadDef;
+               } else {
+                  prepareHistory();
+               }
+            });
+         }
+         return self._loadDef;
       }
       return self.originSource.query(query);
    },

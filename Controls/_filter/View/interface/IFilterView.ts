@@ -30,7 +30,7 @@
  * Подробнее читайте {@link Controls/interface/IFilter#filter здесь}.
  * @property {Object} navigation Конфигурация навигации по списку. Настройка навигации источника данных (страницы, смещение, положение) и представления навигации (страницы, бесконечная прокрутка и т. д.).
  * Подробнее читайте {@link Controls/interface/INavigation#navigation здесь}.
- * @property {Types/collection:IList} items Структура фильтров.
+ * @property {String} editorMode Режим отображения редактора. Принимаемые значения см. в документации редактора.
  */
 
 /*

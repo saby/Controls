@@ -2,7 +2,7 @@
     <div class="controls-demo_Wrapper">
         <div class="controls-demo_options-wrapper">
 
-            <Controls-demo.PropertyGridForDemo.PropertyGrid items="{{_options.description}}"
+            <Controls-demo.PropertyGridForDemo.PropertyGrid items="{{_description}}"
                                                             data="{{_options.dataObject}}"
                                                             scopeObject="{{_exampleControlOptions}}"
                                                             name="PropertyGrid"

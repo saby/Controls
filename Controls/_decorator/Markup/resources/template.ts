@@ -235,8 +235,8 @@ import 'css!theme?Controls/decorator';
       }
 
       if (!elements.length) {
-         elements = [isVdom ? markupGenerator.createTag('div', { key: key + '0_' }, [], attrsToDecorate,
-            defCollection, control, key + '0_') : ''];
+         elements = [!control._isMarkupConverter ? markupGenerator.createTag('div', { key: key + '0_' }, [],
+            attrsToDecorate, defCollection, control, key + '0_') : ''];
       }
 
       // Избежим утечки из-за глобальных переменных.

@@ -280,6 +280,7 @@
                  style="primary"
                  caption="One group"
                  iconStyle="primary"
+                 iconSize="s"
                  viewMode="button"
                  showHeader="{{false}}"
                  source="{{_createMemory(_oneGroupItems)}}"

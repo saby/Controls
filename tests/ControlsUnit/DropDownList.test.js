@@ -382,6 +382,12 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
             ddl._beforeMount(ddlConfig);
             assert.deepEqual(ddl._iconPadding, {});
 
+            ddlConfig.headConfig = {
+               icon: 'icon-add'
+            };
+            ddl._beforeMount(ddlConfig);
+            assert.deepEqual(ddl._iconPadding, {});
+
             ddlConfig.iconSize = 'm';
             ddlConfig.items = new collection.RecordSet({
                rawData: [

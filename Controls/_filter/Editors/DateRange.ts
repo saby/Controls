@@ -17,6 +17,11 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
 class DateRangeEditor extends Control<IControlOptions> {
     protected _template: TemplateFunction = DateRangeTemplate;
     protected _tmplNotify: Function = tmplNotify;
+    protected _templateName: string;
+
+    protected _beforeMount(options: IControlOptions): void {
+        this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'Selector' : 'LiteSelector');
+    }
 
     protected _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
         return import('Controls/dateRange').then((dateRange) => {
@@ -25,11 +30,25 @@ class DateRangeEditor extends Control<IControlOptions> {
             this._notify('rangeChanged', [startValue, endValue]);
         });
     }
+
+    static getDefaultOptions() {
+        return {
+            editorMode: 'Lite'
+        };
+    }
 }
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} caption Строковое представление периода дат.
+ */
+
+/**
+ * @name Controls/_filter/Editors/DateRange#editorMode
+ * @cfg {String} Режим отображения редактора.
+ * @variant Selector В качестве редактора используется {@link Controls/dateRange:Selector}.
+ * @variant Lite В качестве редактора используется {@link Controls/dateRange:LiteSelector}.
+ * @default Lite
  */
 export default DateRangeEditor;

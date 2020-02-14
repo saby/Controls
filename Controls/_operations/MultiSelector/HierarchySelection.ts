@@ -77,12 +77,11 @@ export default class HierarchySelection extends Selection {
 
    selectAll(): void {
       let rootId: TKey = this._getRoot();
-      let rootInExcluded = this._excludedKeys.includes(rootId);
 
       this.select([rootId]);
       this._removeChildrenIdsFromSelection(rootId);
 
-      if (!rootInExcluded) {
+      if (!this._excludedKeys.includes(rootId)) {
          this._excludedKeys = ArraySimpleValuesUtil.addSubArray(this._excludedKeys, [rootId]);
       }
    }
@@ -108,16 +107,20 @@ export default class HierarchySelection extends Selection {
    }
 
    toggleAll(): void {
-      let
-         rootId: TKey = this._getRoot(),
-         childrenIdsInRoot: TKeys = getChildrenIds(rootId, this._listModel, this._hierarchyRelation),
-         intersectionChildIdsWithSelectedKeys = ArraySimpleValuesUtil.getIntersection(childrenIdsInRoot, this._selectedKeys),
-         intersectionChildIdsWithExcludedKeys = ArraySimpleValuesUtil.getIntersection(childrenIdsInRoot, this._excludedKeys);
+      const rootId: TKey = this._getRoot();
+      const childrenIdsInRoot = getChildrenIds(rootId, this._listModel, this._hierarchyRelation);
+      const intersectionChildIdsWithSelectedKeys = ArraySimpleValuesUtil.getIntersection(childrenIdsInRoot, this._selectedKeys);
+      const intersectionChildIdsWithExcludedKeys = ArraySimpleValuesUtil.getIntersection(childrenIdsInRoot, this._excludedKeys);
+      const rootExcluded = this._excludedKeys.includes(rootId);
 
       if (this._selectionStrategy.isAllSelected(this.getSelection(), rootId, this._listModel, this._hierarchyRelation)) {
          this._unselectAllInRoot();
       } else {
          this.selectAll();
+      }
+
+      if (rootExcluded) {
+         ArraySimpleValuesUtil.removeSubArray(this._excludedKeys, [rootId]);
       }
 
       this._selectedKeys = ArraySimpleValuesUtil.addSubArray(this._selectedKeys, intersectionChildIdsWithExcludedKeys);

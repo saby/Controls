@@ -531,6 +531,7 @@ define('Controls-demo/FilterView/FilterView',
                {name: 'tagging', value: false, resetValue: false, textValue: 'Marks', viewMode: 'extended', visibility: false}
             ].concat(this._buttonItems);
             this._fastButtonItems2 = Clone(this._fastButtonItems);
+            this._fastButtonItems2[0].editorOptions.editorMode = 'Selector';
             this._fastButtonItems2.push({
                name: 'detailingPeriod',
                value: [1],

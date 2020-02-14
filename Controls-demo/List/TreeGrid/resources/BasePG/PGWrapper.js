@@ -32,6 +32,7 @@ define('Controls-demo/List/TreeGrid/resources/BasePG/PGWrapper',
       var PGWrapper = Control.extend({
          _template: template,
          _metaData: null,
+         _description: null,
          dataTemplates: null,
          myEvent: '',
          _my: myTmpl,
@@ -53,7 +54,7 @@ define('Controls-demo/List/TreeGrid/resources/BasePG/PGWrapper',
             this._demoName = propertyGridUtil.getDemoName(opts.content);
             this._exampleControlOptions = opts.componentOpt;
             var def = new Deferred();
-            opts.description = cMerge(opts.description, opts.dataObject);
+            this._description = cMerge(opts.description, opts.dataObject);
             if (typeof opts.content === 'string') {
                require([opts.content], function() {
                   def.callback();

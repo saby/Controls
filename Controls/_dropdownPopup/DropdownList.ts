@@ -194,10 +194,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
                 headerIcon = options.headConfig && options.headConfig.icon || options.showHeader && options.icon,
                 menuStyle = options.headConfig && options.headConfig.menuStyle,
                 optIconSize = options.iconSize;
+            const hasHeader = options.headerTemplate || options.showHeader;
             let iconPadding = {}, icon, parentKey;
 
             // необходимо учесть иконку в шапке
-            if (headerIcon && menuStyle !== 'titleHead') {
+            if (hasHeader && headerIcon && menuStyle !== 'titleHead') {
                iconPadding[parentProperty ? rootKey || 'null' : 'undefined'] = _private.getIconSize(headerIcon, optIconSize);
             } else {
                chain.factory(options.items).each((item) => {
@@ -454,7 +455,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
             menuStyle: 'defaultHead',
             typeShadow: 'default',
             moreButtonCaption: rk('Еще') + '...',
-            itemPadding: {}
+            itemPadding: {},
+            iconSize: 'm'
          };
       };
 

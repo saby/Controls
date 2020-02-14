@@ -123,14 +123,18 @@ define(['Controls/masterDetail'], function (masterDetail) {
       it('afterRender', () => {
          const Control = new masterDetail.Base();
          let isStartRegister = false;
+         let isSetSettings = false;
          Control._startResizeRegister = () => isStartRegister = true;
+         Control._setSettings = () => isSetSettings = true;
 
          Control._afterRender();
          assert.equal(isStartRegister, false);
+         assert.equal(isSetSettings, false);
 
          Control._currentWidth = 1;
          Control._afterRender();
          assert.equal(isStartRegister, true);
+         assert.equal(isSetSettings, true);
 
          Control.destroy();
       })

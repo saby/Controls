@@ -57,6 +57,7 @@
          bind:selectedKeys="_selectedKeys3"
 			displayProperty="title"
 			keyProperty="id"
+		 iconSize="s"
          source="{{_getIconItems()}}"
 			attr:class="controls-demo-Dropdown"
       />

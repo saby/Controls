@@ -3,6 +3,20 @@ define(['Controls/filter'],
 
       describe('Controls/filter:DateRange', function() {
 
+         it('_beforeMount', () => {
+            var rangeEditor = new filter.DateRangeEditor();
+            rangeEditor._beforeMount({
+               editorMode: 'Lite'
+            });
+            assert.equal(rangeEditor._templateName, 'Controls/dateRange:LiteSelector');
+
+            rangeEditor._beforeMount({
+               editorMode: 'Selector'
+            });
+            assert.equal(rangeEditor._templateName, 'Controls/dateRange:Selector');
+
+         });
+
          it('_rangeChanged', (done) => {
             var rangeEditor = new filter.DateRangeEditor();
             var textValue;

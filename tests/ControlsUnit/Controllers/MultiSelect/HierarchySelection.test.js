@@ -189,6 +189,10 @@ define([
                assert.deepEqual([null], selectionInstance.excludedKeys);
                assert.deepEqual({1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true}, selectionInstance._listModel._model._selectedKeys);
                assert.equal(7, selectionInstance.getCount());
+
+               selectionInstance.selectAll();
+               assert.deepEqual([null], selectionInstance.selectedKeys);
+               assert.deepEqual([null], selectionInstance.excludedKeys);
             });
 
             it('select root in flat list', function() {

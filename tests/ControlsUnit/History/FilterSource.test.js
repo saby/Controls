@@ -2,9 +2,10 @@ define(
    [
       'Controls/history',
       'Types/collection',
-      'Types/entity'
+      'Types/entity',
+      'Types/source'
    ],
-   (historyMod, collection, entity) => {
+   (historyMod, collection, entity, sourceLib) => {
       describe('history:FilterSource', () => {
          let items = [
             {id: 'period', value: [3], resetValue: [1], textValue: 'Past month'},
@@ -180,6 +181,25 @@ define(
             }));
             result = historyMod.FilterSource._private.findItem({}, historyItems, newItem);
             assert.isOk(result);
+         });
+
+         it('query', function() {
+            const query = new sourceLib.Query();
+            const sandbox = sinon.createSandbox();
+            const filterSource = new historyMod.FilterSource({ historySource: {} });
+
+            query.where({
+               '$_history': true
+            });
+
+            sandbox.replace(filterSource, 'historySource', {
+               query: () => Promise.reject()
+            });
+
+            const query1 = filterSource.query(query);
+            const query2 = filterSource.query(query);
+
+            assert.isTrue(query1 === query2);
          });
 
          it('_private::destroy', () => {

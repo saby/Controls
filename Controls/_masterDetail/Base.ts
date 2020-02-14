@@ -123,6 +123,13 @@ class Base extends Control<IMasterDetail> {
         return getSettings([options.propStorageId]);
     }
 
+    private _setSettings(width: number): void {
+        const propStorageId = this._options.propStorageId;
+        if (propStorageId) {
+            setSettings({[propStorageId]: width});
+        }
+    }
+
     private initCurrentWidth(width: string|number): void {
         if (this._isPercentValue(width)) {
             this._currentWidth = String(width);
@@ -136,6 +143,7 @@ class Base extends Control<IMasterDetail> {
     }
 
     protected _afterMount(options: IMasterDetail): void {
+        this._prevCurrentWidth = this._currentWidth;
         if (this._canResizing) {
             this._updateOffset(options);
         }
@@ -157,6 +165,7 @@ class Base extends Control<IMasterDetail> {
         if (this._prevCurrentWidth !== this._currentWidth) {
             this._prevCurrentWidth = this._currentWidth;
             this._startResizeRegister();
+            this._setSettings(parseInt(this._currentWidth, 10));
         }
     }
 
@@ -166,7 +175,9 @@ class Base extends Control<IMasterDetail> {
             target: this._container,
             _bubbling: true
         };
-        this._children.resizeDetect.start(new SyntheticEvent(null, eventCfg));
+        // https://online.sbis.ru/opendoc.html?guid=8aa1c2d6-f471-4a7e-971f-6ff9bfe72079
+        this._children.resizeDetectMaster.start(new SyntheticEvent(null, eventCfg));
+        this._children.resizeDetectDetail.start(new SyntheticEvent(null, eventCfg));
     }
 
     private _isSizeOptionsChanged(oldOptions: IMasterDetail, newOptions: IMasterDetail): boolean {
@@ -213,10 +224,6 @@ class Base extends Control<IMasterDetail> {
             const width = parseInt(this._currentWidth, 10) + offset;
             this._currentWidth = width + 'px';
             this._updateOffset(this._options);
-            const propStorageId = this._options.propStorageId;
-            if (propStorageId) {
-                setSettings({[propStorageId]: width});
-            }
         }
     }
 

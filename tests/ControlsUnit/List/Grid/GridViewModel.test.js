@@ -2071,6 +2071,25 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
          });
 
+         it('TableCellStyles', function() {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'hidden',
+               columns: [
+                  { title: 'first', width: '101px' },
+                  { title: 'second', compatibleWidth: '102px', width: '1fr' },
+                  { title: 'third' }
+               ],
+               columnScroll: true
+            });
+            const current = model.getCurrent();
+            assert.equal(current.getCurrentColumn().tableCellStyles, 'min-width: 101px; max-width: 101px;');
+            current.goToNextColumn();
+            assert.equal(current.getCurrentColumn().tableCellStyles, 'min-width: 102px; max-width: 102px;');
+            current.goToNextColumn();
+            assert.equal(current.getCurrentColumn().tableCellStyles, '');
+         });
+
          it('should rowspan checkbox th if multiheader', function () {
             model._headerRows = [
                 [ /* Первая строка шапки */

@@ -1,5 +1,7 @@
 <ws:template name="date">
-   <Controls.filter:DateRangeEditor scope="{{item.editorOptions}}" value="{{item.value}}" attr:class="controls-FilterPanel__DateRange"/>
+   <Controls.filter:DateRangeEditor scope="{{item.editorOptions}}"
+                                    templateName="{{item.editorTemplateName}}"
+                                    value="{{item.value}}" attr:class="controls-FilterPanel__DateRange"/>
 </ws:template>
 
 <ws:template name="period">

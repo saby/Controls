@@ -67,7 +67,7 @@ const LOAD_TRIGGER_OFFSET = 100;
 const INITIAL_PAGES_COUNT = 1;
 const SET_MARKER_AFTER_SCROLL_DELAY = 100;
 const LIMIT_DRAG_SELECTION = 100;
-
+const PORTIONED_LOAD_META_FIELD = 'iterative';
 const MIN_SCROLL_PAGING_PROPORTION = 2;
 /**
  * Object with state from server side rendering
@@ -458,6 +458,7 @@ var _private = {
     loadToDirection: function(self, direction, userCallback, userErrback, receivedFilter) {
         const navigation = self._options.navigation;
         const listViewModel = self._listViewModel;
+        const isPortionedLoad = _private.isPortionedLoad(self);
         const beforeAddItems = (addedItems) => {
             if (addedItems.getCount()) {
                 self._loadedItems = addedItems;
@@ -483,7 +484,7 @@ var _private = {
                 self._hideIndicatorOnTriggerHideDirection = self._loadingState;
             }
 
-            if (self._options.searchValue) {
+            if (isPortionedLoad) {
                 _private.loadToDirectionWithSearchValueEnded(self, addedItems);
             }
 
@@ -526,7 +527,7 @@ var _private = {
             if (self._options.beforeLoadToDirectionCallback) {
                 self._options.beforeLoadToDirectionCallback(filter, self._options);
             }
-            if (self._options.searchValue) {
+            if (isPortionedLoad) {
                 _private.loadToDirectionWithSearchValueStarted(self);
             }
             _private.setHasMoreData(self._listViewModel, self._sourceController.hasMoreData('down') || self._sourceController.hasMoreData('up'));
@@ -586,7 +587,7 @@ var _private = {
             if (self._loadTriggerVisibility.down || hasNoItems) {
                 _private.onScrollLoadEdge(self, 'down', filter);
             }
-            if (self._options.searchValue) {
+            if (_private.isPortionedLoad(self)) {
                 _private.checkPortionedSearchByScrollTriggerVisibility(self, self._loadTriggerVisibility.down);
             }
         } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, self._options.navigation)) {
@@ -1029,8 +1030,12 @@ var _private = {
         }
     },
 
+    isPortionedLoad(self): boolean {
+        return self._items.getMetaData()[PORTIONED_LOAD_META_FIELD] || self._options.searchValue;
+    },
+
     checkPortionedSearchByScrollTriggerVisibility(self, scrollTriggerVisibility: boolean): void {
-        if (!scrollTriggerVisibility) {
+        if (!scrollTriggerVisibility && self._portionedSearchInProgress) {
             _private.getPortionedSearch(self).resetTimer();
         }
     },

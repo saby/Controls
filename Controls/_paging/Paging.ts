@@ -129,7 +129,7 @@ export default Paging;
 
 /**
  * @event Происходит при клике по кнопкам перехода к первой, последней, следующей или предыдущей странице.
- * @name Controls/paging:Paging#onArrowClick
+ * @name Controls/_paging:Paging#onArrowClick
  * @remark
  * Событие происходит, когда опция showDigits установлена в значение true.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.

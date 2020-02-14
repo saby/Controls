@@ -37,7 +37,9 @@
    <ws:else>
        <ws:partial template="{{currentColumn.template}}"
                    editArrowTemplate="{{editArrowTemplate}}"
-                   attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}{{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"
+                   attr:class=" {{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
+                                {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
+                                {{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"
                    ladderWrapper="{{currentColumn.ladderWrapper}}"
                    expanderTemplate="{{itemData.expanderTemplate}}"
                    itemData="{{currentColumn}}"/>
@@ -81,6 +83,7 @@
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
               controls-TreeGrid__row js-controls-SwipeControl__actionsContainer"
+       style="{{ currentColumn.tableCellStyles }}"
        colspan="{{itemData.getColspanFor((itemData.multiSelectVisibility !== 'hidden' && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
        <div class="controls-TreeGridView__row-cell_innerWrapper">
            <ws:partial template="columnContentWrapper"
