@@ -19,9 +19,6 @@ var _private = {
     notifyAndUpdateSelection: function(self, options) {
         const
             selectionCount = self._multiselection.getCount(),
-            itemsCount = self._options.items.getCount(),
-            model = self._options.listModel,
-            root = model.getRoot && model.getRoot() ? model.getRoot().getContents() : null,
             oldSelectedKeys = options.selectedKeys,
             oldExcludedKeys = options.excludedKeys,
             // selectionCount будет равен нулю, если в списке не отмечено ни одного элемента
@@ -29,9 +26,7 @@ var _private = {
             newSelectedKeys = selectionCount === 0 ? [] : self._multiselection.selectedKeys,
             newExcludedKeys = selectionCount === 0 ? [] : self._multiselection.excludedKeys,
             selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys),
-            excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys),
-            isAllSelected = !model.getHasMoreData() && selectionCount && selectionCount === itemsCount ||
-               newSelectedKeys.includes(root) && (newExcludedKeys.length === 0 || newExcludedKeys.length === 1 && newExcludedKeys[0] === root);
+            excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
 
         if (selectedKeysDiff.added.length || selectedKeysDiff.removed.length) {
             self._notify('selectedKeysChanged', [newSelectedKeys, selectedKeysDiff.added, selectedKeysDiff.removed]);
@@ -61,7 +56,7 @@ var _private = {
          4) Прокидывать событие в Container/Scroll.
          Сработает, но Container/Scroll ничего не должен знать про выделение. И не поможет в ситуациях, когда вместо Container/Scroll любая другая обёртка.
          */
-       self._notify('listSelectedKeysCountChanged', [selectionCount, isAllSelected], {bubbling: true});
+        _private.notifySelectedCountChangedEvent(self, newSelectedKeys, newExcludedKeys);
        self._multiselection.updateSelectionForRender();
     },
 
@@ -71,6 +66,27 @@ var _private = {
             keys.push(item.getId());
         });
         return keys;
+    },
+
+    isAllSelected(self, selectedKeys, excludedKeys): boolean {
+        const model = self._options.listModel;
+        const selectedCount = self._multiselection.getCount();
+        const selectionCountEqualsItemsCount = !model.getHasMoreData() && selectedCount && selectedCount === model.getCount();
+        const root = _private.getRoot(self);
+
+        return !model.getHasMoreData() && selectionCountEqualsItemsCount ||
+            selectedKeys.includes(root) && (excludedKeys.length === 0 || excludedKeys.length === 1 && excludedKeys[0] === root);
+    },
+
+    getRoot(self): number|string|null {
+        const model = self._options.listModel;
+        return model.getRoot && model.getRoot() ? model.getRoot().getContents() : null;
+    },
+
+    notifySelectedCountChangedEvent(self, selectedKeys, excludedKeys): void {
+        const count = self._multiselection.getCount();
+        const isAllSelected = _private.isAllSelected(self, selectedKeys, excludedKeys);
+        self._notify('listSelectedKeysCountChanged', [count, isAllSelected], {bubbling: true});
     },
 
     onCollectionChange: function (event, action, newItems, newItemsIndex, removedItems) {
@@ -152,12 +168,14 @@ var SelectionController = Control.extend(/** @lends Controls/_list/BaseControl/S
         });
     },
 
-    _afterMount: function () {
+    _afterMount(): void {
+        const options = this._options;
+
         this._notify('register', ['selectedTypeChanged', this, _private.selectedTypeChangedHandler], {bubbling: true});
-        this._notify('listSelectedKeysCountChanged', [this._multiselection.getCount()], {bubbling: true});
+        _private.notifySelectedCountChangedEvent(this, options.selectedKeys, options.excludedKeys);
 
         this._onCollectionChangeHandler = _private.onCollectionChange.bind(this);
-        this._options.items.subscribe('onCollectionChange', this._onCollectionChangeHandler);
+        options.items.subscribe('onCollectionChange', this._onCollectionChangeHandler);
     },
 
     _beforeUpdate: function (newOptions) {
