@@ -1,4 +1,4 @@
-<div>
+<div class="BreadCrumbsDemo">
     <h2>Много крошек</h2>
     <Controls.breadcrumbs:Path attr:id="aLotOfCrumbs" items="{{items}}" keyProperty="id"
                                     on:itemClick="_onItemClick()" />
