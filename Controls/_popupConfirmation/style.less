@@ -2,54 +2,63 @@
    display: flex;
    flex-direction: column;
    border-top-style: solid;
+   height: 100%;
+   box-sizing: border-box;
+}
+
+.controls-ConfirmationTemplate_theme-@{themeName} {
    border-top-width: @border-width_InformationPopup;
    background: @background-color_InformationPopup;
    box-shadow: @size_InformationPopup-shadow @color_InformationPopup-shadow;
-   height: 100%;
-   &.controls-ConfirmationTemplate__status-default {
+   &.controls-ConfirmationTemplate__status-default_theme-@{themeName} {
       border-top-color: @border-color_InformationPopup_default;
    }
-
-   &.controls-ConfirmationTemplate__status-success {
+   &.controls-ConfirmationTemplate__status-success_theme-@{themeName} {
       border-top-color: @border-color_InformationPopup_success;
    }
-   &.controls-ConfirmationTemplate__status-danger {
+   &.controls-ConfirmationTemplate__status-danger_theme-@{themeName} {
       border-top-color: @border-color_InformationPopup_danger;
    }
-   &.controls-ConfirmationTemplate__status-confirm {
+   &.controls-ConfirmationTemplate__status-confirm_theme-@{themeName} {
       border-top-color: @border-color_InformationPopup_default;
    }
-
-   box-sizing: border-box;
 }
+
 .controls-ConfirmationTemplate__body {
    height: 100%;
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
+}
+
+.controls-ConfirmationTemplate__body_theme-@{themeName} {
    border-left: @size_SubmitPopup-border solid @border-color_SubmitPopup;
    border-right: @size_SubmitPopup-border solid @border-color_SubmitPopup;
    border-bottom: @size_SubmitPopup-border solid @border-color_SubmitPopup;
 }
+
 .controls-ConfirmationTemplate__main {
    height: 100%;
    flex-shrink: 1;
    overflow: hidden;
    display: flex;
    flex-direction: column;
+}
+
+.controls-ConfirmationTemplate__main_theme-@{themeName} {
    padding: @spacing_SubmitPopup-between-content-border;
 }
 
-.controls-ConfirmationTemplate__footer {
+.controls-ConfirmationTemplate__footer_theme-@{themeName} {
    padding: @spacing_SubmitPopup-between-footer-border;
    border-top: @size_SubmitPopup-border solid @border-color_SubmitPopup-footer-top;
    background: @background-color_SubmitPopup-footer;
 }
 
-.controls-ConfirmationTemplate__size-l {
+.controls-ConfirmationTemplate__size-l_theme-@{themeName} {
    width: @width_ConfirmationTemplate-l;
 }
 
-.controls-ConfirmationTemplate__size-m {
+.controls-ConfirmationTemplate__size-m_theme-@{themeName} {
    width: @width_ConfirmationTemplate-m;
 }

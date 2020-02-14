@@ -1,11 +1,14 @@
-<div class="controls-ConfirmationTemplate controls-ConfirmationTemplate__status-{{_options.style}}{{_options.size == 'l' ? ' controls-ConfirmationTemplate__size-l' : ' controls-ConfirmationTemplate__size-m'}} controls-Popup__isolatedFocusingContext"
+<div class="controls-ConfirmationTemplate controls-ConfirmationTemplate_theme-{{_options.theme}}
+            controls-ConfirmationTemplate__status-{{_options.style}}_theme-{{_options.theme}}
+            {{_options.size == 'l' ? 'controls-ConfirmationTemplate__size-l' : 'controls-ConfirmationTemplate__size-m'}}_theme-{{_options.theme}}
+            controls-Popup__isolatedFocusingContext"
     ws-tab-cycling="true"
     ws-delegates-tabfocus="true">
-    <div class="controls-ConfirmationTemplate__body">
-        <div class="controls-ConfirmationTemplate__main">
+    <div class="controls-ConfirmationTemplate__body controls-ConfirmationTemplate__body_theme-{{_options.theme}}">
+        <div class="controls-ConfirmationTemplate__main controls-ConfirmationTemplate__main_theme-{{_options.theme}}">
             <ws:partial template="{{_options.bodyContentTemplate}}"/>
         </div>
-        <div class="controls-ConfirmationTemplate__footer">
+        <div class="controls-ConfirmationTemplate__footer_theme-{{_options.theme}}">
             <ws:partial template="{{_options.footerContentTemplate}}"/>
         </div>
     </div>
