@@ -7,9 +7,10 @@ define(
       'Controls/history',
       'Core/Deferred',
       'Types/chain',
+      'Controls/_dropdown/dropdownHistoryUtils',
       'Core/nativeExtensions'
    ],
-   function(filter, Clone, sourceLib, collection, history, Deferred, chain) {
+   function(filter, Clone, sourceLib, collection, history, Deferred, chain, historyUtils) {
       describe('Filter:View', function() {
 
          let defaultItems = [
@@ -674,11 +675,17 @@ define(
                   multiSelect: true}
             };
             assert.strictEqual(configs['state'].items.getCount(), 6);
+
+            const sandBox = sinon.createSandbox();
+            let stub = sandBox.stub(historyUtils, 'getSourceFilter');
+
             filter.View._private.loadSelectedItems(source, configs).addCallback(() => {
                assert.strictEqual(configs['state'].popupItems.getCount(), 6);
                assert.strictEqual(configs['state'].items.getCount(), 7);
                assert.deepStrictEqual(configs['state'].items.at(0).getRawData(), {id: 1, title: 'In any state'});
                assert.isTrue(isDataLoad);
+               assert.isFalse(stub.called);
+               sandBox.restore();
                done();
             });
          });

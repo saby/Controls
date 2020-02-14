@@ -290,7 +290,7 @@ var _private = {
 
                     const keyProperty = config.keyProperty;
                     editorOpts.filter[keyProperty] = keys;
-                    let result = _private.loadItemsFromSource({}, editorOpts.source, editorOpts.filter).addCallback((newItems) => {
+                    let result = _private.loadItemsFromSource({}, editorOpts.source, editorOpts.filter, null, null, false).addCallback((newItems) => {
                         // FIXME https://online.sbis.ru/opendoc.html?guid=b6ca9523-38ce-42d3-a3ec-36be075bccfe
                         if (item.editorOptions.dataLoadCallback) {
                             item.editorOptions.dataLoadCallback(newItems);
@@ -304,13 +304,13 @@ var _private = {
         return pDef.done().getResult();
     },
 
-    loadItemsFromSource: function(instance, source, filter, navigation?, dataLoadCallback?) {
+    loadItemsFromSource: function(instance, source, filter, navigation?, dataLoadCallback?, withHistory = true) {
         let queryFilter;
         if (instance.nodeProperty) {
             queryFilter = Merge(filter, {historyId: instance.historyId});
         }
             // As the data source can be history source, then you need to merge the filter
-        queryFilter = historyUtils.getSourceFilter(filter, source);
+        queryFilter = withHistory ? historyUtils.getSourceFilter(filter, source) : filter;
         return _private.getSourceController(instance, source, navigation).load(queryFilter).addCallback(function(items) {
             instance.items = items;
             if (dataLoadCallback) {
