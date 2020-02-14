@@ -1,0 +1,14 @@
+<div class="controls-DropdownList-header theme_{{_options.theme}}">
+   <ws:if data="{{_options.icon}}">
+      <div class="controls-icon {{_options.icon}}
+      controls-Menu__popup_headerIcon_theme-{{_options.theme}}
+      {{_options.iconSize ? 'controls-icon_size-' + _options.iconSize + '_theme-' + _options.theme}}
+          {{_options.headingCaption ? ' controls-Menu__popup_headerIcon_padding_theme-' + _options.theme}}"></div>
+   </ws:if>
+   <Controls.heading:Title attr:class="controls-StickyTemplate__caption_text"
+                           caption="{{_options.headingCaption}}"
+                           style="{{_options.headingStyle}}"
+                           size="{{_options.headingSize}}"
+                           readOnly="{{true}}"
+                           tooltip="{{_options.headingCaption}}"/>
+</div>

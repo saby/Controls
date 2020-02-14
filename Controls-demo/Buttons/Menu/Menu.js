@@ -120,17 +120,17 @@ define('Controls-demo/Buttons/Menu/Menu', [
             ];
 
             this._simpleAdd2 = [
-               { id: 1, title: 'Administrator', icon: 'icon-small icon-AdminInfo' },
+               { id: 1, title: 'Administrator', icon: 'icon-AdminInfo' },
                { id: 2, title: 'Moderator' },
                { id: 3, title: 'Participant' },
-               { id: 4, title: 'Subscriber', icon: 'icon-small icon-Subscribe' }
+               { id: 4, title: 'Subscriber', icon: 'icon-Subscribe' }
             ];
 
             this._simpleAdd3 = [
-               { id: 1, title: 'Administrator', icon: 'icon-small icon-AdminInfo' },
+               { id: 1, title: 'Administrator', icon: 'icon-AdminInfo' },
                { id: 2, title: 'Moderator' },
                { id: 3, title: 'Participant' },
-               { id: 4, title: 'Subscriber', icon: 'icon-small icon-Subscribe' }
+               { id: 4, title: 'Subscriber', icon: 'icon-Subscribe' }
             ];
             this._iconAdd = [
                { id: 1, title: 'Work phone', icon: 'icon-small icon-PhoneWork' },

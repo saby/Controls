@@ -2,9 +2,12 @@ define(
    [
       'Controls/dropdown',
       'Types/source',
-      'Core/core-clone'
+      'Core/core-clone',
+      'Controls/history',
+      'Core/Deferred',
+      'Types/entity'
    ],
-   (dropdown, sourceLib, Clone) => {
+   (dropdown, sourceLib, Clone, history, Deferred, entity) => {
       describe('MenuButton', () => {
          let items = [
             {
@@ -109,6 +112,50 @@ define(
             newOptions.iconSize = 'l';
             menu._beforeUpdate(newOptions);
             assert.equal(menu._offsetClassName, 'controls-MenuButton_link_iconSize-large_duplicate_popup');
+         });
+
+         it('_onPinClickHandler', function() {
+            let actualMeta;
+            let newOptions = Clone(config);
+            newOptions.source = new history.Source({
+               originSource: new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: items
+               }),
+               historySource: new history.Service({
+                  historyId: 'TEST_HISTORY_ID'
+               }),
+               parentProperty: 'parent'
+            });
+            newOptions.source.update = function(item, meta) {
+               actualMeta = meta;
+               item.set('pinned', true);
+               return Deferred.success(false);
+            };
+            let menu = new dropdown.Button(newOptions);
+            menu.saveOptions(newOptions);
+            menu._children = {
+               notificationOpener: {
+                  open: (popupOptions) => {
+                     assert.deepEqual(popupOptions, {
+                        template: 'Controls/popupTemplate:NotificationSimple',
+                        templateOptions: {
+                           style: 'danger',
+                           text: 'Невозможно закрепить более 10 пунктов',
+                           icon: 'Alert'
+                        }
+                     });
+                  }
+               }
+            };
+            let expectedItem = new entity.Model({
+               rawData: {
+                  pinned: false
+               }
+            });
+            menu._onPinClickHandler('pinClicked', expectedItem);
+            assert.isFalse(expectedItem.get('pinned'));
+            assert.deepEqual(actualMeta, { '$_pinned': true });
          });
       });
    }

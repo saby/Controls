@@ -1,4 +1,4 @@
-import {ICrudPlus} from 'Types/source';
+import {ICrudPlus, PrefetchProxy} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory, RecordSet} from 'Types/collection';
 import {descriptor, Record} from 'Types/entity';
@@ -119,8 +119,11 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
      */
     protected _showType: IShowType = showType;
     protected _needShowMenu: boolean = null;
+    protected _fullItemsList: TItems = null;
     protected _items: TItems = null;
     protected _menuItems: TItems = null;
+    protected _source: ICrudPlus = null;
+    protected _menuSource: ICrudPlus = null;
     protected _nodeProperty: string = null;
     protected _parentProperty: string = null;
     protected _menuOptions: object = null;
@@ -152,7 +155,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         return {
             className: `${options.popupClassName} controls-Toolbar__popup__list_theme-${options.theme}`,
             templateOptions: {
-                items: this._menuItems,
+                source: this._menuSource,
                 iconSize: options.iconSize,
                 keyProperty: options.keyProperty,
                 nodeProperty: options.nodeProperty,
@@ -182,8 +185,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 horizontal: 'right'
             },
             templateOptions: {
-                items: this._items,
-                rootKey: item.get(options.keyProperty),
+                source: this._source,
+                root: item.get(options.keyProperty),
                 groupTemplate: options.groupTemplate,
                 groupProperty: options.groupProperty,
                 groupingKeyCallback: options.groupingKeyCallback,
@@ -217,7 +220,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
                 onClose: this._closeHandler
             },
             templateOptions: {
-                showClose: true
+                closeButtonVisibility: true
             }
         };
     }
@@ -227,7 +230,17 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         this._parentProperty = options.parentProperty;
     }
 
-    private _setStateByItems(items: TItems): void {
+    private _createPrefetchProxy(source: ICrudPlus, items: TItems): ICrudPlus {
+        return new PrefetchProxy({
+            target: source,
+            data: {
+                query: items
+            }
+        });
+    }
+
+    private _setStateByItems(items: TItems, source: ICrudPlus): void {
+        this._fullItemsList = items;
         /**
          * TODO: Можно удалить после выполнения https://online.sbis.ru/opendoc.html?guid=fe8e0736-7002-4a5f-b782-ea14e8bfb9be
          */
@@ -237,15 +250,17 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
 
         this._items = actualItems;
         this._menuItems = menuItems;
+        this._source = this._createPrefetchProxy(source, actualItems);
+        this._menuSource = this._createPrefetchProxy(source, menuItems);
         this._needShowMenu = Boolean(menuItems && menuItems.getCount());
     }
 
     private _setStateBySource(source: ICrudPlus): Promise<TItems> {
         return Toolbar._loadItems(source).then((items) => {
-            this._setStateByItems(items);
+            this._setStateByItems(items, source);
 
             return items;
-        })
+        });
     }
 
     private _needChangeState(newOptions: IToolbarOptions): boolean {
@@ -274,7 +289,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         this._menuOptions = this._getMenuOptions();
 
         if (receivedItems) {
-            this._setStateByItems(receivedItems);
+            this._setStateByItems(receivedItems, options.source);
         } else if (options.source) {
             return this._setStateBySource(options.source);
         }
@@ -289,9 +304,9 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
         }
     }
 
-    protected _resultHandler(result): void {
-        if (result.action === 'itemClick') {
-            const item = result.data[0];
+    protected _resultHandler(action, data): void {
+        if (action === 'itemClick') {
+            const item = data;
             this._notify('itemClick', [item]);
 
             /**
@@ -305,6 +320,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
 
     protected _closeHandler(): void {
         this._notify('menuClosed', [], {bubbling: true});
+        this._setStateByItems(this._fullItemsList, this._options.source);
     }
 
     protected _itemClickHandler(event: SyntheticEvent<MouseEvent>, item: TItem): void {

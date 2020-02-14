@@ -2,11 +2,9 @@ define(
    [
       'Controls/history',
       'Types/source',
-      'Core/core-clone',
-      'Types/entity',
-      'Core/Deferred'
+      'Core/core-clone'
    ],
-   function(history, sourceLib, Clone, entity, Deferred) {
+   function(history, sourceLib, Clone) {
       'use strict';
 
       let items = [
@@ -42,17 +40,6 @@ define(
       };
 
       describe('Controls/_history/Menu', function() {
-         it('_private.getMetaPinned', function() {
-            var item = new entity.Model({
-               rawData: {
-                  pinned: false
-               }
-            });
-
-            assert.deepEqual(history.Menu._private.getMetaPinned(item), {
-               $_pinned: true
-            });
-         });
          it('_beforeMount', function() {
             var menu = getHistoryMenu(menuConfig);
             menu._beforeMount(menuConfig);
@@ -71,45 +58,6 @@ define(
             newConfig.size = 's';
             menu._beforeUpdate(newConfig);
             assert.equal(menu._offsetClassName, 'controls-MenuButton_button__default_popup');
-         });
-         it('_onPinClickHandler', function() {
-            var newConfig = Clone(menuConfig);
-            newConfig.source = new history.Source({
-               originSource: new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: items
-               }),
-               historySource: new history.Service({
-                  historyId: 'TEST_HISTORY_ID'
-               }),
-               parentProperty: 'parent'
-            });
-            newConfig.source.update = function(item) {
-               item.set('pinned', true);
-               return Deferred.success(false);
-            };
-            var menu = getHistoryMenu(newConfig);
-            menu._children = {
-               notificationOpener: {
-                  open: (popupOptions) => {
-                     assert.deepEqual(popupOptions, {
-                        template: 'Controls/popupTemplate:NotificationSimple',
-                        templateOptions: {
-                           style: 'danger',
-                           text: 'Невозможно закрепить более 10 пунктов',
-                           icon: 'Alert'
-                        }
-                     });
-                  }
-               }
-            };
-            let pinnedItem = new entity.Model({
-               rawData: {
-                  pinned: false
-               }
-            });
-            menu._onPinClickHandler('pinClicked', [pinnedItem]);
-            assert.isFalse(pinnedItem.get('pinned'));
          });
       });
    }

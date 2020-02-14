@@ -1,15 +1,5 @@
-import rk = require('i18n!Controls');
-import {IoC} from "Env/Env";
 import {Button as Menu, MenuUtils} from 'Controls/dropdown';
-import itemTemplate = require('wml!Controls/_history/resources/itemTemplate');
-
-var _private = {
-   getMetaPinned: function (item) {
-      return {
-         $_pinned: !item.get('pinned')
-      };
-   }
-};
+import {IoC} from "Env/Env";
 
 /**
  * Кнопка меню с историей, клик по которой открывает выпадающий список.
@@ -40,7 +30,6 @@ var _private = {
  */
 
 var HistoryMenu = Menu.extend({
-   _itemTemplate: itemTemplate,
    _hasIconPin: true,
 
    _beforeMount: function (options) {
@@ -53,25 +42,7 @@ var HistoryMenu = Menu.extend({
          this._options.viewMode !== newOptions.viewMode) {
          this._offsetClassName = MenuUtils.cssStyleGeneration(newOptions);
       }
-   },
-
-   _onPinClickHandler: function (event, items) {
-      var self = this;
-      this._options.source.update(items[0].clone(), _private.getMetaPinned(items[0])).addCallback(function (result) {
-         if (!result) {
-            self._children.notificationOpener.open({
-               template: 'Controls/popupTemplate:NotificationSimple',
-               templateOptions: {
-                  style: 'danger',
-                  text: rk('Невозможно закрепить более 10 пунктов'),
-                  icon: 'Alert'
-               }
-            });
-         }
-      });
    }
 });
-
-HistoryMenu._private = _private;
 
 export = HistoryMenu;

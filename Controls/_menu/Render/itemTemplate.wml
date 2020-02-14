@@ -1,25 +1,42 @@
 <div attr:class="controls-Menu__row
-                 {{itemClassList}}
-                 {{marker !== false && itemData.isSelected() && (!multiSelect || isEmptyItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}
+                 controls-DropdownList__row
+                 {{itemData.itemClassList}} theme_{{_options.theme}}
+                 {{marker !== false && treeItem.isSelected() && (!itemData.multiSelect || itemData.isEmptyItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
-   <ws:if data="{{multiSelectTpl && multiSelect}}">
-      <ws:partial template="{{multiSelectTpl}}" scope="{{_options}}" class="{{isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
+   <ws:if data="{{(multiSelectTpl || itemData.multiSelectTpl) && itemData.multiSelect || multiSelect}}">
+      <ws:partial template="{{multiSelectTpl || itemData.multiSelectTpl}}" scope="{{_options}}" class="{{itemData.isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
    </ws:if>
+
    <ws:if data="{{contentTemplate}}">
-      <ws:partial
-              template="{{contentTemplate}}"
-              itemData="{{itemData}}"
-      />
+      <!--If contentTemplate is a string, then use Async to load required module-->
+      <ws:if data="{{(contentTemplate.charAt)}}">
+         <Controls.Container.Async templateName="{{contentTemplate}}">
+            <ws:partial
+                template="{{content.resolvedTemplate}}"
+                itemData="{{itemData}}"
+            />
+         </Controls.Container.Async>
+      </ws:if>
+      <ws:else>
+         <ws:partial
+             template="{{contentTemplate}}"
+             itemData="{{itemData}}"
+         />
+      </ws:else>
    </ws:if>
 
    <ws:else>
-      <ws:partial template="wml!Controls/_menu/Render/contentTemplate" scope="{{_options}}" />
+      <ws:partial template="wml!Controls/_menu/Render/contentTemplate" scope="{{_options}}" item="{{treeItem.getContents()}}" />
    </ws:else>
-   <ws:if data="{{itemData.hasPinned && !itemData.hasChildren && !(item.get('pinned') === true && itemData.hasParent)}}">
-      <div    class="controls-Menu__iconPin_theme-{{_options.theme}} {{itemData.isSwiped ? 'controls-Menu__iconPin_swiped'}}
-                 {{item.get('pinned') === true ? 'controls-Menu__iconUnnpin icon-PinOff' : 'icon-PinNull'}}"></div>
+
+   <ws:if data="{{_options.allowPin !== false &&
+                  treeItem.getContents().has('pinned') &&
+                  !treeItem.isNode() &&
+                  !(treeItem.getContents().get('pinned') === true && treeItem.getParent().getContents() !== null)}}">
+      <ws:partial template="wml!Controls/_menu/Render/pinTemplate" scope="{{_options}}"/>
    </ws:if>
-   <div if="{{itemData.isNode()}}" class="controls-Menu__arrow_theme-{{_options.theme}}
-                                          controls-Menu__arrow_{{item.get('readOnly') ? 'readOnly' : 'default'}}_theme-{{_options.theme}}
-                                          icon-MarkCRightLight"></div>
+
+   <ws:if data="{{treeItem.isNode()}}">
+      <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
+   </ws:if>
 </div>

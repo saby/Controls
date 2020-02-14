@@ -1,0 +1,5 @@
+<div class="controls-Menu__iconPin
+            controls-HistoryMenu__iconPin
+            controls-Menu__iconPin_theme-{{_options.theme}}
+            {{treeItem.isSwiped() ? 'controls-Menu__iconPin_swiped'}}
+            {{treeItem.getContents().get('pinned') === true ? 'controls-Menu__iconUnnpin icon-PinOff' : 'icon-PinNull'}}"></div>

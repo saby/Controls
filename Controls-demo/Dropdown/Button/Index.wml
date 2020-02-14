@@ -5,6 +5,7 @@
                 keyProperty="id"
                 iconSize="m"
                 caption="Menu"
-                source="{{_source}}"/>
+                source="{{_source}}"
+                historyId="testHistoryId"/>
     </div>
 </div>

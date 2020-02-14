@@ -195,7 +195,6 @@
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButton"
                  tooltip="All documents to disk" >
-            <ws:headConfig menuStyle="duplicateHead"/>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -206,7 +205,6 @@
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButtonBig"
                  tooltip="All documents to disk">
-            <ws:headConfig menuStyle="duplicateHead"/>
          </Controls.dropdown:Button>
       </div>
    </div>
@@ -309,9 +307,8 @@
       <div class="ControlsDemo-ButtonsMenu__wrapper">
          <h4>Additional items</h4>
          <Controls.dropdown:Button
+                 headerTemplate="{{null}}"
                  keyProperty="id"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
                  additionalProperty="additional"
                  groupingKeyCallback="{{_groupingKeyCallback}}"
                  groupTemplate="Controls/dropdownPopup:GroupTemplate"
@@ -321,9 +318,6 @@
                  icon="icon-Linked"
                  iconSize="m"
                  source="{{_createMemory(_additionalItems)}}">
-            <ws:headerTemplate>
-               <invisible-node />
-            </ws:headerTemplate>
          </Controls.dropdown:Button>
       </div>
 
@@ -331,8 +325,6 @@
          <h4>Big menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
                  style="secondary"
                  viewMode="link"
                  caption="Big menu"

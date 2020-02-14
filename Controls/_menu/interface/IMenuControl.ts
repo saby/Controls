@@ -17,12 +17,15 @@ export interface IMenuOptions extends IControlOptions, ISourceOptions, IFilter {
     nodeFooterTemplate: TemplateFunction;
     nodeProperty?: string;
     parentProperty?: string;
+    groupProperty?: string;
+    groupTemplate?: TemplateFunction;
     root?: string|number|null;
     selectedKeys?: TKeys;
     selectorTemplate?: object;
     selectorOpener?: object;
     selectorDialogResult?: Function;
     isCompoundTemplate?: boolean;
+    groupingKeyCallback?: Function;
 }
 
 export interface IHistoryConfig {

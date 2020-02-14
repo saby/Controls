@@ -26,6 +26,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _emptyItems: null,
       _titleItems: null,
       _duplicateItems: null,
+      _duplicateItemsData: null,
       _footerItems: null,
       _hierarchyFooterItems: null,
       _defaultMemory: null,
@@ -71,6 +72,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _selectedKeyOneItem: null,
       _selectedKeysOneEmpty: null,
       _selectedKeysWithDescription: null,
+      _duplicateCaption: 'Settlements with employees',
 
 
       _beforeMount: function() {
@@ -151,7 +153,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
          ]);
 
-         this._duplicateItems = this._createMemory([
+         this._duplicateItemsData = [
             {id: 1, title: 'Payment of tax'},
             {id: 2, title: 'Payment to the supplier'},
             {id: 3, title: 'Settlements with suppliers and buyers'},
@@ -159,7 +161,9 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             {id: 5, title: 'Transfers of money'},
             {id: 6, title: 'Taxes and payments to the budget'},
             {id: 7, title: 'Loans and credits'}
-         ]);
+         ];
+
+         this._duplicateItems = this._createMemory(this._duplicateItemsData);
 
          this._footerItems = this._createMemory([
             {id: 1, title: 'Trading'},
@@ -264,9 +268,9 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             { id: 5, title: 'Approval', parent: null, '@parent': false, group: '1' },
             { id: 6, title: 'Coordination', parent: null, '@parent': true },
             { id: 7, title: 'Working out', parent: null, '@parent': false, group: '1' },
-            { id: 8, title: 'Assignment for accounting', parent: 4, '@parent': false },
-            { id: 9, title: 'Assignment for delivery', parent: 4, '@parent': false },
-            { id: 10, title: 'Assignment for logisticians', parent: 4, '@parent': false, group: '3' },
+            { id: 8, title: 'Assignment for accounting', parent: 4, '@parent': false, group: '1' },
+            { id: 9, title: 'Assignment for delivery', parent: 4, '@parent': false, group: '1' },
+            { id: 10, title: 'Assignment for logisticians', parent: 4, '@parent': false, group: '1' },
             { id: 11, title: 'Coordination', parent: 6, group: 'coord' },
             { id: 12, title: 'Negotiate the discount', parent: 6, group: 'coord' },
             { id: 13, title: 'Coordination of change prices', parent: 6, group: 'coord' },
@@ -343,6 +347,10 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             return ControlsConstants.view.hiddenGroup;
          }
          return item.get('group');
+      },
+
+      _selectedKeysHandler: function(event, keys) {
+         this._duplicateCaption = this._duplicateItemsData[keys[0] - 1].title;
       }
    });
    return DropdownDemo;

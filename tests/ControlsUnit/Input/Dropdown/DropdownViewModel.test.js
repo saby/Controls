@@ -334,51 +334,60 @@ define(
          });
 
          it('_private.getSpacingClassList', () => {
-            let itemPadding = {}, multiSelect = true, itemData = { emptyText: 'test' }, hasHierarchy = false;
-            let expectedClassList = 'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
-            let classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            let itemPadding = {}, multiSelect = true, itemData = { emptyText: 'test', item: { get: () => false } }, hasHierarchy = false;
+            let expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
+            let classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             multiSelect = false;
-            expectedClassList = 'controls-DropdownList__item-leftPadding_default controls-DropdownList__item-rightPadding_default';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_default controls-DropdownList__item-rightPadding_default';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             multiSelect = false;
             itemPadding.left = 's';
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             hasHierarchy = true;
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_hierarchy';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_hierarchy';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             itemData.hasClose = true;
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_close';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_close';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             itemData.hasPinned = true;
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_history';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_history';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_multiSelect';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy, true); // hasApplyButton = true
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_multiSelect';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy, true); // hasApplyButton = true
             assert.equal(classList, expectedClassList);
 
-            itemData = {};
+            itemData = { item: { get: () => false } };
             hasHierarchy = false;
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData, hasHierarchy);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
-            itemData = {};
+            itemData = { item: { get: () => false } };
             itemPadding.right = 'm';
-            expectedClassList = 'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_m';
-            classList = DropdownViewModel._private.getSpacingClassList(itemPadding, multiSelect, itemData);
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_m';
+            classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData);
             assert.equal(classList, expectedClassList);
          });
 
@@ -488,18 +497,22 @@ define(
             assert.equal(emptyItem.item.get('id'), 0);
 
             // spacingClassList
-            let expectedClassList = 'controls-DropdownList__item-leftPadding_default controls-DropdownList__item-rightPadding_default';
-            assert.equal(emptyItem.spacingClassList, expectedClassList);
+            let expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__item-leftPadding_default ' +
+               'controls-DropdownList__item-rightPadding_default';
+            assert.equal(emptyItem.itemClassList, expectedClassList);
 
             emptyConfig.multiSelect = true;
-            expectedClassList = 'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
             emptyItem = getEmpty(emptyConfig);
-            assert.equal(emptyItem.spacingClassList, expectedClassList);
+            assert.equal(emptyItem.itemClassList, expectedClassList);
 
             emptyConfig.hasClose = true;
-            expectedClassList = 'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_close';
+            expectedClassList = 'controls-DropdownList__row_state_default ' +
+               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_close';
             emptyItem = getEmpty(emptyConfig);
-            assert.equal(emptyItem.spacingClassList, expectedClassList);
+            assert.equal(emptyItem.itemClassList, expectedClassList);
          });
       })
    });

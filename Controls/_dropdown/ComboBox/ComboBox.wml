@@ -9,12 +9,13 @@
         typeShadow="suggestionsContainer"
         close="{{_onClose}}"
         open="{{_onOpen}}"
+        allowPin="{{false}}"
         selectedItemsChangedCallback="{{_setText}}"
         theme="{{_options.theme}}"
         _dropDownOpener="{{_children.content}}"
         on:selectedItemsChanged="_selectedItemsChangedHandler()"
         attr:class="controls-ComboBox {{_isOpen ? 'controls-ComboBox__opened'}}">
-   <ws:itemPadding right="xs" left="xs"/>
+   <ws:itemPadding right="menu-xs" left="menu-xs"/>
    <ws:content>
       <Controls._dropdown.ComboBox.InputRender
               name="content"

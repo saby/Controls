@@ -1,0 +1,48 @@
+.controls-Menu__popup_theme-@{themeName} {
+   max-width: @popup_max-width_menuPopup;
+}
+
+.controls-Menu__popup-list-padding-top_theme-@{themeName} {
+   padding-bottom: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup-list-padding-bottom_theme-@{themeName} {
+   padding-top: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup-shadow-default_theme-@{themeName} {
+   box-shadow: @popup_box-shadow-color_menuPopup 0 0 @popup_box-shadow-offset_menuPopup 0;
+}
+
+.controls-Menu__popup-direction-vertical-top.controls-Menu__popup-shadow-suggestionsContainer_theme-@{themeName}{
+   box-shadow: @popup_box-shadow-color_menuPopup -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
+   @popup_box-shadow-color_menuPopup @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
+   @popup_box-shadow-color_menuPopup 0 @popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
+}
+
+.controls-Menu__popup-direction-vertical-bottom.controls-Menu__popup-shadow-suggestionsContainer_theme-@{themeName}{
+   box-shadow: @popup_box-shadow-color_menuPopup -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
+   @popup_box-shadow-color_menuPopup @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
+   @popup_box-shadow-color_menuPopup 0 @popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
+}
+
+.controls-StickyTemplate.controls-Menu__popup-direction-vertical-top {
+   flex-direction: column-reverse;
+   padding-bottom: 0;
+}
+
+.controls-Menu__popup-direction-vertical-top {
+   padding-top: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup-direction-vertical-bottom {
+   padding-bottom: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
+   margin-right: @item_icon_offset_menu;
+}
+
+.controls-Menu__popup_headerIcon_theme-@{themeName} {
+   color: @header_color_menuPopup;
+}

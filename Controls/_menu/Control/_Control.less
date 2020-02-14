@@ -12,13 +12,18 @@
 }
 
 .controls-Menu__subMenu_margin_theme-@{themeName} {
-   margin-top: -@content_padding-top_sticky;
+   margin-top: -(@content_padding-top_sticky + @border-thickness_sticky);
 }
 
 .controls-Menu__row {
    position: relative;
    .flexbox();
    .align-items(center);
+
+   &::before {
+      content: '\200b';
+      line-height: 32px;
+   }
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -27,6 +32,19 @@
 
 .controls-Menu__row_state_readOnly_theme-@{themeName} {
    cursor: default;
+}
+
+.controls-Menu__row-separator_theme-@{themeName} {
+   &::after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      background-color: @item_separator_color_menu;
+      height: @item_separator_thickness_menu;
+      left: @item_separator_padding-horizontal_menu;
+      right: @item_separator_padding-horizontal_menu;
+      bottom: 0;
+   }
 }
 
 .controls-Menu__row_selected_theme-@{themeName} {
@@ -68,7 +86,7 @@
    right: 0;
 }
 
-.controls-Menu__row-checkbox_invisible {
+.controls-Menu__row-checkbox_invisible_theme-@{themeName} {
    visibility: hidden;
 }
 
@@ -89,6 +107,11 @@
    flex-shrink: 1;
 }
 
+.controls-Menu__defaultItem_theme-@{themeName},
+.controls-Menu__emptyItem_theme-@{themeName} {
+   font-size: @item_font-size_menu;
+}
+
 .controls-Menu__content_default_theme-@{themeName} {
    color: @item_text-color_menu;
 }
@@ -97,10 +120,16 @@
    color: @readonly_item_text-color_menu;
 }
 
-.controls-Menu__content_singleLine {
+.controls-Menu__content_singleLine_theme-@{themeName} {
    display: flex;
    align-items: center;
    .text-overflow();
+}
+
+.controls-Menu__content_padding_theme-@{themeName} {
+   display: flex;
+   padding-top: @item_padding-top_menu;
+   padding-bottom: @item_padding-bottom_menu;
 }
 
 .controls-Menu__content-wrapper {
@@ -162,28 +191,33 @@
    .inline-flexbox();
 }
 
-.ws-is-hover {
-   .controls-Menu__row:hover {
-      .controls-Menu__iconPin {
-         .inline-flexbox();
-      }
-   }
-
-   .controls-Menu__iconPin_theme-@{themeName}:hover {
-      color: @pin-button_hover_icon-color_menu;
-   }
-}
-
 .controls-ListView__item-rightPadding_menu-expander {
    padding-right: @hierarchy_icon_offset-right_menu + @hierarchy_icon-size_menu + @hierarchy_icon_offset-left_menu;
 }
 
-.controls-ListView__item-rightPadding_menu-close.theme_@{themeName} {
+.controls-ListView__item-rightPadding_menu-close {
    padding-right: @close-button_offset-left_sticky + @width_closeButton_link + @close-button_offset-right_sticky;
 }
 
-.controls-ListView__item-rightPadding_menu-pin.theme_@{themeName} {
+.controls-ListView__item-rightPadding_menu-pin {
    padding-right: @pin-button_offset-left_menu + @pin-button_icon-size_menu + @pin-button_offset-right_menu;
+}
+
+.controls-ListView__item-rightPadding_menu-xs {
+   padding-right: @item_padding-horizontal_s_menu;
+}
+
+.controls-ListView__item-leftPadding_menu-xs {
+   padding-left: @item_padding-horizontal_s_menu;
+}
+
+.controls-Menu__group_separator_theme-@{themeName} {
+   border-bottom: @grouping_separator_thickness_menu solid @grouping_separator_color_menu;
+   margin: @grouping_padding-vertical_menu @grouping_padding-horizontal_menu;
+}
+
+.controls-Menu__groupHidden {
+   display: none;
 }
 
 .controls-Menu__footer_theme-@{themeName} {
@@ -213,13 +247,20 @@
    .controls-Menu__row_hovered_theme-@{themeName} {
       background: @item_hover_background-color_menu;
 
-      .controls-Menu__row-checkbox_default {
+      .controls-Menu__row-checkbox_default_theme-@{themeName} {
          visibility: visible;
       }
+
+      .controls-Menu__iconPin {
+         .inline-flexbox();
+      }
+   }
+   .controls-Menu__iconPin_theme-@{themeName}:hover {
+      color: @pin-button_hover_icon-color_menu;
    }
 }
 .ws-is-no-touch {
-   .controls-Menu__row-checkbox_default {
+   .controls-Menu__row-checkbox_default_theme-@{themeName} {
       visibility: hidden;
    }
 }

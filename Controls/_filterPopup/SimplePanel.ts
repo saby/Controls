@@ -163,7 +163,7 @@ Panel.getDefaultOptions = (): object => {
     };
 };
 
-Panel._theme = ['Controls/filterPopup', 'Controls/dropdownPopup'];
+Panel._theme = ['Controls/filterPopup', 'Controls/dropdownPopup', 'Controls/menu'];
 
 Panel._private = _private;
 

@@ -1,11 +1,12 @@
 <ws:template name="iconTemplate">
-   <ws:if data="{{item.get('icon') || iconSpacing}}">
-      <ws:partial template="wml!Controls/_menu/Render/iconTemplate" scope="{{_options}}"/>
+   <ws:if data="{{item.get('icon') || (iconPadding !== undefined ? iconPadding : itemData.iconPadding) }}">
+      <ws:partial template="wml!Controls/_menu/Render/iconTemplate" scope="{{_options}}" iconPadding="{{itemData.iconPadding}}"/>
    </ws:if>
 </ws:template>
 
 <div class="controls-Menu__content {{item.get('readOnly') ? 'controls-Menu__content-readOnly'}}
-                     controls-Menu__content_{{multiLine ? 'multiLine' : 'singleLine'}}"
+                     controls-Menu__content_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}
+                     controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"
      title="{{item.get(displayProperty || 'title')}}">
    <ws:if data="{{iconAlign !== 'right'}}">
       <ws:partial template="iconTemplate" iconAlign="left"/>

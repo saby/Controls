@@ -1,6 +1,9 @@
-<div class="controls-StickyTemplate__top-area controls-StickyTemplate__top-area_theme_{{_options.theme}}">
-   <div class="controls-StickyTemplate__top-area-content">
-      <ws:if data="{{_options.headingCaption}}">
+<div class="controls-StickyTemplate__top-area
+            controls-StickyTemplate__top-area_theme_{{_options.theme}}
+            controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}_theme_{{_options.theme}}
+            controls-DropdownList-header">
+   <div class="controls-StickyTemplate__top-area-content controls-DropdownList__head">
+      <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
          <div class="controls-StickyTemplate__caption controls-StickyTemplate__caption_theme_{{_options.theme}}">
             <Controls.heading:Title attr:class="controls-StickyTemplate__caption_text"
                                     caption="{{_options.headingCaption}}"
@@ -11,7 +14,7 @@
           </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
-         <div class="controls-StickyTemplate__top-area controls-StickyTemplate__top-area_theme_{{_options.theme}}">
+         <div class="">
             <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
          </div>
       </ws:if>

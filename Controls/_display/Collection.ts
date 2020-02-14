@@ -2100,7 +2100,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     getItemBySourceKey(key: string|number): CollectionItem<S> {
         if (this._$collection['[Types/_collection/RecordSet]']) {
-            if (key !== undefined && key !== null) {
+            if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
                 return this.getItemBySourceItem(record as unknown as S);
             } else {
