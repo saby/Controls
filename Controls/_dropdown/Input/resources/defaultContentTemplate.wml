@@ -3,7 +3,7 @@
    <!-- https://online.sbis.ru/opendoc.html?guid=29c26db8-bb6e-40f3-8613-183b225adbe8 -->
    <div class="controls-Dropdown__content-wrapper_theme-{{_options.theme}}
     {{!readOnly && (countItems === undefined || countItems > 1 || footerTemplate) ? 'controls-Dropdown__text_enabled ' +
-     (isEmptyItem && !fontColorStyle ? 'controls-Dropdown__emptyItem' : 'controls-Dropdown__defaultItem controls-text-' + (fontColorStyle || 'link')) + '_theme-' + _options.theme}}"
+     (isEmptyItem && !multiSelect && !fontColorStyle ? 'controls-Dropdown__emptyItem' : 'controls-Dropdown__defaultItem controls-text-' + (fontColorStyle || 'link')) + '_theme-' + _options.theme}}"
         name="popupTarget">
 
       <ws:if data="{{contentTemplate}}">
