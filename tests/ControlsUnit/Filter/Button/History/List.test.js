@@ -233,7 +233,7 @@ define(
 
             let expectedEditedItem = JSON.stringify({
                items: items,
-               linkText: 'Today, Ivanov K.K.',
+               linkText: 'textLine',
                isClient: false
             });
             List._private.saveFavorite(self, record);

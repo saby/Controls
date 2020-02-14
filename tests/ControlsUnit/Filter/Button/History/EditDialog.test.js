@@ -101,6 +101,7 @@ define(
             let expectedItems = Clone(itemsToSave);
             expectedItems[4].value = null;
             expectedItems[4].textValue = '';
+            expectedItems[4].visibility = false;
             let resultItems = dialog.getItemsToSave(itemsToSave, dialog._selectedFilters);
             assert.deepEqual(expectedItems, resultItems);
          });
