@@ -33,6 +33,7 @@ import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
 import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INavigation';
+import scrollToElement from 'Controls/Utils/scrollToElement';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -205,7 +206,7 @@ var _private = {
                         listModel.setItems(list);
                         const nextKey = listModel.getMarkedKey();
                         if (nextKey && nextKey !== curKey
-                            && self._listViewModel.getCount() && self._isScrollShown
+                            && self._listViewModel.getCount()
                             && !self._options.task46390860 && !self._options.task1177182277
                         ) {
                             self._markedKeyForRestoredScroll = nextKey;
@@ -324,9 +325,11 @@ var _private = {
             _private.scrollToItem(self, key);
         }
     },
-    restoreScrollPosition: function(self) {
-        if (self._markedKeyForRestoredScroll !== null) {
-            _private.scrollToItem(self, self._markedKeyForRestoredScroll);
+    restoreScrollPosition: function (self) {
+        if (self._markedKeyForRestoredScroll !== null && self._isScrollShown) {
+            const currentItemIndex = self._listViewModel.getItems().getIndexByValue(self._options.keyProperty, self._markedKeyForRestoredScroll);
+            const nodeElement = self._children.listView.getItemsContainer().children[currentItemIndex].children[0];
+            scrollToElement(nodeElement, true);
             self._markedKeyForRestoredScroll = null;
         }
     },

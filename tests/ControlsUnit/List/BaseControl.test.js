@@ -2214,7 +2214,8 @@ define([
             setTimeout(function() {
                lists.BaseControl._private.reload(lnBaseControl, lnCfg);
                setTimeout(function() {
-                  assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
+                  // _markedKeyForRestoredScroll известен подскрол не сработает т.к _isScrollShown = false;
+                  assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3);
                   lnCfg = clone(lnCfg);
                   lnCfg.source = lnSource2;
                   lnBaseControl._isScrollShown = true;
