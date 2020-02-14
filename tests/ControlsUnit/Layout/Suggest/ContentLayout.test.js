@@ -82,14 +82,11 @@ define(['Controls/_suggestPopup/Layer/__ContentLayer'], function(__ContentLayer)
 
       it('Suggest::_private.calcHeight', function() {
          var self = getComponentObject();
-         var suggestHeight = 200;
 
          self._container = getContainer({
             top: 100,
             bottom: 0,
-            get height() {
-               return suggestHeight;
-            }
+            height: 400
          });
          self._options.target = getContainer({
             bottom: 324,

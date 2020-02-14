@@ -89,9 +89,8 @@ var _private = {
       var sizes = _private.getSizes(self, dropDownContainer);
       var dropDownContainerSize = _private.getDropDownContainerSize(dropDownContainer);
       var suggestSize = sizes.suggest;
-      var containerSize = sizes.container;
       var height = self._height;
-      var optionValue = containerSize.bottom;
+      var optionValue = suggestSize.top;
       var suggestBottomSideCoord = optionValue + suggestSize.height;
 
       if (suggestBottomSideCoord < 0) {
