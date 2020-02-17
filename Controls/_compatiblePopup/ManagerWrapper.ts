@@ -45,8 +45,20 @@ var ManagerWrapper = Control.extend({
    },
 
    startResizeEmitter(event: Event): void {
+      // запустим перепозиционирование вдомных окон (инициатор _onResizeHandler в слое совместимости)
+      // Не запускаем только для подсказки, т.к. она на апдейт закрывается
       if (!this._destroyed) {
-          this._resizePage(event);
+         // защита на случай если не подмешалась совместимость
+         if (this._children.PopupContainer.getChildControls) {
+            this._children.PopupContainer.getChildControls(null, false, (instance) => {
+               return instance._moduleName === 'Controls/_popup/Manager/Popup' && instance._options.template !== 'Controls/popupTemplate:templateInfoBox';
+            }).each((popup) => {
+               // На всякий случай если фильтр вернет не то
+               if (popup._controlResizeOuterHandler) {
+                  popup._controlResizeOuterHandler();
+               }
+            });
+         }
       }
    },
 
