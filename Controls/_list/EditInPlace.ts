@@ -694,7 +694,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
     _onPendingFail(shouldSave: boolean, pendingDeferred: Promise<boolean>): void {
         const cancelPending = () => this._notify('cancelFinishingPending', [], {bubbling: true});
 
-        if (!(this._options.task1178703576 && !shouldSave) && this._editingItem && this._editingItem.isChanged()) {
+        if (shouldSave && this._editingItem && this._editingItem.isChanged()) {
             return this.commitEdit().addCallback((result = {}) => {
                 if (result.validationFailed) {
                     cancelPending();
