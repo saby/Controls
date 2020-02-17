@@ -3,7 +3,13 @@ import {assert} from 'chai';
 
 describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
     const heights = [20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40, 20, 40];
-    const children = heights.map((offsetHeight) => ({offsetHeight: offsetHeight, className: '', getBoundingClientRect() { return {height: this.offsetHeight}}}));
+    const children = heights.map((offsetHeight) => ({
+        offsetHeight: offsetHeight,
+        className: '',
+        getBoundingClientRect() {
+            return {height: this.offsetHeight}
+        }
+    }));
     const itemsContainer = {children, offsetHeight: 600};
     const viewModel = {
         at(index) {
@@ -17,9 +23,19 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 }
             }
         },
+        getStartIndex(): number {
+            return this._vs.startIndex;
+        },
+        getStopIndex(): number {
+            return this._vs.stopIndex;
+        },
+        setVSInstance(instance: VirtualScroll): void {
+            this._vs = instance;
+        },
 
         // mock
-        subscribe() {}
+        subscribe() {
+        }
     };
     describe('common virtual scroll', () => {
         const affectingInstance = {
@@ -65,6 +81,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 ...defaultOptions,
                 pageSize: 100
             });
+            instance._options.viewModel.setVSInstance(instance);
+
 
             // @ts-ignore
             assert.equal(25, instance._options.segmentSize, 'middle page size');
@@ -74,6 +92,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 ...defaultOptions,
                 pageSize: 3
             });
+            instance._options.viewModel.setVSInstance(instance);
+
 
             assert.equal(1, instance._options.segmentSize, 'minimum page size');
         });
@@ -84,6 +104,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 ...defaultOptions,
                 pageSize: 4
             });
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
 
@@ -108,6 +130,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
                 viewModel,
                 itemHeightProperty: 'height'
             });
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -120,6 +144,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('recalcItemsHeights', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -141,6 +167,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('getItemsHeights', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -151,6 +179,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('can scroll to item', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -167,6 +197,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('recalcFromScrollTop', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -184,6 +216,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('getActiveElement', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
             instance.reset();
@@ -203,6 +237,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('recalcToDirection', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
 
             instance.itemsCount = 20;
 
@@ -237,7 +273,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('itemsAddedHandler', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
-            instance._options.viewModel.getStartIndex = () => instance.startIndex;
+            instance._options.viewModel.setVSInstance(instance);
+
             instance.itemsFromLoadToDirection = true;
             instance.itemsCount = 20;
             instance.reset(0);
@@ -249,8 +286,9 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
 
             // @ts-ignore
             const instanceWithBigPageSize = new VirtualScroll({...defaultOptions, pageSize: 40});
+            instanceWithBigPageSize._options.viewModel.setVSInstance(instanceWithBigPageSize);
 
-            instanceWithBigPageSize._options.viewModel.getStartIndex = () => instanceWithBigPageSize.startIndex;
+
             instanceWithBigPageSize.itemsFromLoadToDirection = true;
             instanceWithBigPageSize.itemsCount = 20;
             instanceWithBigPageSize.reset(0);
@@ -265,7 +303,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('itemsRemovedHandler', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
-            instance._options.viewModel.getStartIndex = () => instance.startIndex;
+            instance._options.viewModel.setVSInstance(instance);
+
             instance.itemsCount = 20;
             instance.reset();
             instance.itemsChanged = false;
@@ -280,6 +319,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         it('set items container', () => {
             // @ts-ignore
             const instance = new VirtualScroll(defaultOptions);
+            instance._options.viewModel.setVSInstance(instance);
+
             instance.itemsContainer = itemsContainer;
             assert.equal(instance.itemsContainerHeight, itemsContainer.offsetHeight);
         });

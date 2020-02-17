@@ -173,9 +173,7 @@ export default class VirtualScrollController {
             }
         }
 
-        this._options.indexesChangedCallback(this.startIndex, this.stopIndex);
-        this._options.placeholderChangedCallback(this.calcPlaceholderSize());
-
+        this.checkIndexesChanged(this.startIndex, this.stopIndex);
     }
 
     /**
@@ -387,7 +385,7 @@ export default class VirtualScrollController {
                 this.reset();
             }
 
-            this._options.indexesChangedCallback(this.startIndex, this.stopIndex);
+            this.checkIndexesChanged(this.startIndex, this.stopIndex);
         }
     }
 
@@ -456,9 +454,12 @@ export default class VirtualScrollController {
      * @param {string} direction
      */
     private checkIndexesChanged(newStartIndex: number, newStopIndex: number, direction?: string): void {
-        if (this.stopIndex !== newStopIndex || this.startIndex !== newStartIndex) {
-            this._options.indexesChangedCallback(this.startIndex = newStartIndex, this.stopIndex = newStopIndex, direction);
-            this._options.placeholderChangedCallback(this.calcPlaceholderSize());
+        if (this._options.viewModel.getStartIndex() !== newStartIndex
+            || this._options.viewModel.getStopIndex() !== newStopIndex) {
+            this._options
+                .indexesChangedCallback(this.startIndex = newStartIndex, this.stopIndex = newStopIndex, direction);
+            this._options
+                .placeholderChangedCallback(this.calcPlaceholderSize());
         }
     }
 
