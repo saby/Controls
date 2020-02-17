@@ -78,9 +78,11 @@
 .controls-Path__backButtonArrow_readonly {
    color: @color_Path-backButtonArrow_readonly;
 }
-
+//Необходимо добавить отступ шеврону для того, чтобы он не наезжал на кнопку назад. Отодвигаем на ширину иконки, не считая паддинга после кнопки.
+//Так как ширина и высота иконки шеврона равна размеру @font-size_Path-backButtonArrow, отодвигаем на эту величину.
+//TODO remove after TODO https://online.sbis.ru/opendoc.html?guid=aedf32aa-28db-40b7-abae-e740021cc782
 .controls-BreadCrumbsPath__backButtonArrow_outsideBackButton {
-   margin-right: -@spacing_Path-between-home-and-backButton;
+   margin-right: -(@font-size_Path-backButtonArrow - @spacing_Path-between-home-and-backButton);
 }
 
 .controls-BreadCrumbsPath__counter {
