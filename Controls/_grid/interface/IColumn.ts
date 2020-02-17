@@ -127,7 +127,6 @@ export interface IColumn {
      * @default auto
      * @remark
      * В качестве значения свойства можно указать только пиксели (px) или проценты (%).
-     * Если свойство не задано, применяется значение "auto".
      */
     stickyProperty?: string;
     /**
