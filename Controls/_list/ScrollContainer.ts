@@ -311,11 +311,28 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     private _setCollectionIndices(collection: Collection<Record>, {start, stop}: IRange): void {
-        if (collection.getViewIterator) {
-            return collection.getViewIterator().setIndices(start, stop);
-        } else {
+        let collectionStartIndex: number;
+        let collectionStopIndex: number;
+
+        if (collection.getViewIterator()) {
             // @ts-ignore
-            return collection.setIndexes(start, stop);
+            collectionStartIndex = collection.getViewIterator().getStartIndex();
+            // @ts-ignore
+            collectionStopIndex = collection.getViewIterator().getStopIndex();
+        } else {
+            collectionStartIndex = collection.getStartIndex();
+            collectionStopIndex = collection.getStopIndex();
+        }
+
+        if (collectionStartIndex !== start || collectionStopIndex !== stop) {
+
+            if (collection.getViewIterator) {
+                // @ts-ignore
+                return collection.getViewIterator().setIndices(start, stop);
+            } else {
+                // @ts-ignore
+                return collection.setIndexes(start, stop);
+            }
         }
     }
 
