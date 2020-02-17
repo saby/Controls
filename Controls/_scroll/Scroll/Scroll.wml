@@ -62,10 +62,10 @@
          attr:style="{{_scrollbarStyles}}"/>
    </ws:if>
    <ws:if data="{{_displayState.shadowEnable.top}}">
-      <div class="controls-Scroll__shadow controls-Scroll__shadow_top {{!_shadowVisible('top') ? ' ws-invisible'}}"></div>
+      <div class="controls-Scroll__shadow{{!!_isSafari13? '-safari13'}} controls-Scroll__shadow_top {{!_shadowVisible('top') ? ' ws-invisible'}}"></div>
    </ws:if>
    <ws:if data="{{_displayState.shadowEnable.bottom}}">
-      <div class="controls-Scroll__shadow controls-Scroll__shadow_bottom {{!_shadowVisible('bottom') ? ' ws-invisible'}}"></div>
+      <div class="controls-Scroll__shadow{{!!_isSafari13? '-safari13'}} controls-Scroll__shadow_bottom {{!_shadowVisible('bottom') ? ' ws-invisible'}}"></div>
    </ws:if>
    <ws:if data="{{_pagingState.visible}}">
          <Controls.paging:Paging class="controls-Scroll__paging"

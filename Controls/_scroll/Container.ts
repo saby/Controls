@@ -391,6 +391,7 @@ var
 
       _topPlaceholderSize: 0,
       _bottomPlaceholderSize: 0,
+       _isSafari13: null,
 
       _scrollTopAfterDragEnd: undefined,
       _scrollLockedPosition: null,
@@ -409,6 +410,7 @@ var
          if ('shadowVisible' in options) {
             Logger.warn('Controls/scroll:Container: Опция shadowVisible устарела, используйте topShadowVisibility и bottomShadowVisibility.', self);
          }
+          this._isSafari13 = this._isSafari13();
 
          //TODO Compatibility на старых страницах нет Register, который скажет controlResize
          this._resizeHandler = this._resizeHandler.bind(this);
@@ -497,6 +499,10 @@ var
                return def;
             }
          }
+      },
+
+      _isSafari13: function() {
+          return Env.detection.safariVersion >= 13;
       },
 
       _afterMount: function() {
