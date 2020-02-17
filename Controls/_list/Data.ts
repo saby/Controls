@@ -6,6 +6,7 @@ import clone = require('Core/core-clone');
 import getPrefetchSource from './getPrefetchSource';
 import {ContextOptions} from 'Controls/context';
 import {isEqual} from "Types/object"
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {RecordSet} from 'Types/collection';
@@ -171,7 +172,11 @@ type GetSourceResult = {
 
             _private.resolveOptions(this, options);
 
-            if (receivedState) {
+            // Нужна для редкого случая, когда на старой странице на сервере строится wasaby контрол,
+            // В этом случае создаётся два окружения wasaby контролов, но с одним хранилищем ключей для VDOM'a,
+            // по этой причине в контрол может приходить некорректный receivedState
+            // Ошибка https://online.sbis.ru/opendoc.html?guid=73eaea65-e064-4244-96c2-6d5a7fcbd476
+            if (receivedState && isNewEnvironment()) {
                source = options.source instanceof PrefetchProxy ? options.source.getOriginal() : options.source;
 
                // need to create PrefetchProxy with source from options, because event subscriptions is not work on server
