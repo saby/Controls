@@ -9,6 +9,7 @@ import { TKeySelection as TKey } from 'Controls/interface/';
  * Контроллер для работы с множественным выбором.
  * Передает состояние массового выделения дочерним контролам.
  * Подробное описание и инструкцию по настройке читайте <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/operations/'>здесь</a>.
+ * Controls/operations:Controller отслеживает появление маркера в списке и передаёт текущий ключ элемента на котором стоит маркер для Controls/operationsPanel:Containter, через опцию listMarkedKey.
  *
  * @class Controls/_operations/Controller
  * @extends Core/Control
