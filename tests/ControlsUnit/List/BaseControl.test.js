@@ -1426,10 +1426,12 @@ define([
       });
       */
 
-      it('indicator', function() {
+      it('indicator', async function() {
          var cfg = {};
          var ctrl = new lists.BaseControl(cfg);
-
+         ctrl._container = {
+            getBoundingClientRect: () => ({})
+         };
          ctrl._scrollTop = 200;
 
          assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
@@ -1448,14 +1450,14 @@ define([
          lists.BaseControl._private.showIndicator(ctrl);
          assert.equal(ctrl._loadingState, 'all', 'Wrong loading state');
          assert.equal(ctrl._loadingIndicatorState, 'all', 'Wrong loading state');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 200, 'Wrong top offset');
+         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
          lists.BaseControl._private.hideIndicator(ctrl);
 
          lists.BaseControl._private.showIndicator(ctrl);
          assert.equal(ctrl._loadingState, 'all', 'Wrong loading state');
          assert.equal(ctrl._loadingIndicatorState, 'all', 'Wrong loading state');
          assert.isTrue(!!ctrl._loadingIndicatorTimer, 'Loading timer should created');
-         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 200, 'Wrong top offset');
+         assert.equal(ctrl._loadingIndicatorContainerOffsetTop, 0, 'Wrong top offset');
 
          // картинка должнa появляться через 2000 мс, проверим, что её нет сразу
          assert.isFalse(!!ctrl._showLoadingIndicatorImage, 'Wrong loading indicator image state');
@@ -4806,6 +4808,14 @@ define([
       });
 
       it('getListTopOffset', function () {
+         let resultsHeight = 0;
+         let headerHeight = 0;
+
+         const enableHeader = () => { bc._children.listView.getHeaderHeight = () => headerHeight };
+         const disableHeader = () => { bc._children.listView.getHeaderHeight = undefined };
+         const enableResults = () => { bc._children.listView.getResultsHeight = () => resultsHeight };
+         const disableResults = () => { bc._children.listView.getResultsHeight = undefined };
+
          const bc = {
             _children: {
                listView: {
@@ -4813,10 +4823,33 @@ define([
             }
          };
          assert.equal(lists.BaseControl._private.getListTopOffset(bc), 0);
-         bc._children.listView.getHeaderHeight = () => 40;
+
+         enableHeader();
+         headerHeight = 40;
          assert.equal(lists.BaseControl._private.getListTopOffset(bc), 40);
-         bc._children.listView.getResultsHeight = () => 30;
+
+         enableResults();
+         resultsHeight = 30;
          assert.equal(lists.BaseControl._private.getListTopOffset(bc), 70);
+
+         disableHeader();
+         disableResults();
+
+         /* Список находится в скроллконтейнере, но не личном. До списка лежит контент */
+         bc._isMounted = false;
+         bc._isScrollShown = true;
+         bc._viewPortRect = {
+            top: 100
+         };
+         bc._scrollTop = 1000;
+         bc._container = {
+            getBoundingClientRect() {
+               return {
+                  y: -900
+               };
+            }
+         };
+         assert.equal(lists.BaseControl._private.getListTopOffset(bc), 200);
       });
 
       it('_itemMouseMove: notify draggingItemMouseMove', async function() {

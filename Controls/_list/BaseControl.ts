@@ -40,6 +40,8 @@ var
     defaultSelectedKeys = [],
     defaultExcludedKeys = [];
 
+const INDICATOR_DELAY = 2000;
+
 const PAGE_SIZE_ARRAY = [{id: 1, title: '5', pageSize: 5},
     {id: 2, title: '10', pageSize: 10},
     {id: 3, title: '25', pageSize: 25},
@@ -834,26 +836,33 @@ var _private = {
         };
     },
 
-    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all'): void {
+    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all'): Promise<string> {
         if (!self._isMounted || self._loadingState === 'all') {
-            return;
+            return Promise.resolve();
         }
-
+        let indicatorShownPromise: Promise<string>;
         self._loadingState = direction;
         if (direction === 'all') {
             self._loadingIndicatorState = self._loadingState;
-            self._loadingIndicatorContainerOffsetTop = self._scrollTop + _private.getListTopOffset(self);
         }
         if (!self._loadingIndicatorTimer) {
-            self._loadingIndicatorTimer = setTimeout(function() {
-                self._loadingIndicatorTimer = null;
-                if (self._loadingState) {
-                    self._loadingIndicatorState = self._loadingState;
-                    self._showLoadingIndicatorImage = true;
-                    self._notify('controlResize');
-                }
-            }, 2000);
+            indicatorShownPromise = new Promise((resolve) => {
+                self._loadingIndicatorTimer = setTimeout(() => {
+                    self._loadingIndicatorTimer = null;
+                    if (self._loadingState) {
+                        self._loadingIndicatorState = self._loadingState;
+                        self._loadingIndicatorContainerOffsetTop = self._scrollTop + _private.getListTopOffset(self);
+                        self._showLoadingIndicatorImage = true;
+                        self._notify('controlResize');
+                    }
+                    resolve();
+                }, INDICATOR_DELAY);
+            });
+        } else {
+            indicatorShownPromise = Promise.resolve(self._loadingIndicatorTimer);
         }
+
+        return indicatorShownPromise;
     },
 
     hideIndicator(self): void {
@@ -1418,7 +1427,7 @@ var _private = {
             source: source,
             navigation: navigation,
             keyProperty: keyProperty
-        })
+        });
     },
 
     checkRequiredOptions: function(options) {
@@ -1511,6 +1520,12 @@ var _private = {
     getListTopOffset(self): number {
         const view = self._children && self._children.listView;
         let height = 0;
+        if (self._isMounted) {
+            const viewRect = (self._container[0] || self._container).getBoundingClientRect();
+            if (self._isScrollShown || (self._needScrollCalculation && viewRect && self._viewPortRect)) {
+                height = viewRect.y + self._scrollTop - self._viewPortRect.top;
+            }
+        }
         if (view && view.getHeaderHeight) {
             height += view.getHeaderHeight();
         }
