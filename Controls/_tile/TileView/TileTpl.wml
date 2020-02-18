@@ -54,6 +54,7 @@
                   template="{{itemActionsTemplate}}"
                   highlightOnHover="{{highlightOnHover}}"
                   itemData="{{itemData}}"
+                  isTile="{{true}}"
                   itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions controls-TileView__itemActions_bottomRight'}}"/>
       <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
                   template="{{swipeTemplate}}"
