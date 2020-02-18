@@ -1,1 +1,1 @@
-<div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_theme_{{options.theme}}_margin">{{value}}</div>
+<div name="readOnlyField" class="controls-InputBase__field_readOnly {{autoWidth ? 'controls-InputBase__field_readOnly_autoWidth'}} controls-{{controlName}}__field_theme_{{options.theme}}_margin">{{value}}</div>
