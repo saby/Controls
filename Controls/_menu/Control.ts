@@ -59,12 +59,13 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         const rootChanged = newOptions.root !== this._options.root;
         const sourceChanged = newOptions.source !== this._options.source;
+        const filterChanged = newOptions.filter !== this._options.filter;
 
         if (sourceChanged) {
             this._sourceController = null;
         }
 
-        if (rootChanged || sourceChanged) {
+        if (rootChanged || sourceChanged || filterChanged) {
             this.loadItems(newOptions);
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
@@ -468,6 +469,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
         templateOptions.additionalProperty = null;
+        delete templateOptions.searchParam;
 
         templateOptions.source = this.getSourceSubMenu(templateOptions.root);
         return templateOptions;

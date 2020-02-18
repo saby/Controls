@@ -4,6 +4,8 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'Types/source',
    'Controls-demo/Input/Dropdown/historySourceDropdown',
    'Controls/Constants',
+   'Controls-demo/Search/SearchMemory',
+   'Controls-demo/Utils/MemorySourceFilter',
    'wml!Controls-demo/Input/Dropdown/itemTemplateDropdown',
    'css!Controls-demo/Input/Dropdown/Dropdown',
    'Controls/dropdown',
@@ -12,7 +14,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'wml!Controls-demo/Input/Dropdown/footerTemplateDropdown',
    'wml!Controls-demo/Input/Dropdown/footerHierarchyItem',
    'wml!Controls-demo/Input/Dropdown/StackTemplateDdl'
-], function(Control, template, source, historySource, ControlsConstants) {
+], function(Control, template, source, historySource, ControlsConstants, SearchMemory, MemorySourceFilter) {
 
    'use strict';
 
@@ -21,6 +23,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _simpleItems: null,
       _subItems: null,
       _hierarchyItems: null,
+      _searchItems: null,
       _iconItems: null,
       _myTemplateItems: null,
       _emptyItems: null,
@@ -72,8 +75,8 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _selectedKeyOneItem: null,
       _selectedKeysOneEmpty: null,
       _selectedKeysWithDescription: null,
+      _selectedKeysSearch: null,
       _duplicateCaption: 'Settlements with employees',
-
 
       _beforeMount: function() {
          this._simpleItems = this._createMemory([
@@ -105,7 +108,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             {id: 7, title: 'Drafts', text: 'Drafts'}
          ]);
 
-         this._hierarchyItems = this._createMemory([
+         this._hierarchyItemsData = [
             {id: 1, title: 'Task in development', parent: null, '@parent': false},
             {id: 2, title: 'Error in development', parent: null, '@parent': false},
             {id: 3, title: 'Application', parent: null, '@parent': false},
@@ -115,7 +118,16 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             {id: 7, title: 'Assignment for accounting', parent: 4, '@parent': false},
             {id: 8, title: 'Assignment for delivery', parent: 4, '@parent': false},
             {id: 9, title: 'Assignment for logisticians', parent: 4, '@parent': false}
-         ]);
+         ];
+
+         this._hierarchyItems = this._createMemory(this._hierarchyItemsData);
+
+         this._searchItems = new SearchMemory({
+            keyProperty: 'id',
+            data: this._hierarchyItemsData,
+            searchParam: 'title',
+            filter: MemorySourceFilter()
+         });
 
          this._iconItems = this._createMemory([
             {id: 1, title: 'In the work', icon: 'icon-Trade'},
@@ -313,6 +325,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
          this._selectedKeyOneItem = [1];
          this._selectedKeysOneEmpty = [1];
          this._selectedKeysWithDescription = [1];
+         this._selectedKeysSearch = [1];
       },
       _createMemory: function(items) {
          return new source.Memory({

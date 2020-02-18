@@ -1,32 +1,50 @@
-<Controls.popupTemplate:Sticky
-        attr:class="controls-DropdownList__popup
+<ws:template name="menuPopup" >
+   <Controls.popupTemplate:Sticky
+           attr:class="controls-DropdownList__popup
                     controls-Menu__popup
                     controls-Menu__popup_theme-{{_options.theme}}
                     controls-Menu__popup-direction-vertical-{{_verticalDirection}}
                     controls-Menu__popup-shadow-{{_options.typeShadow ? _options.typeShadow : 'default'}}_theme-{{_options.theme}}
                     {{_options.dropdownClassName}}"
-        attr:style="width: {{_options.width ? _options.width + 'px'}}"
-        icon="{{_headingIcon}}"
-        caption="{{_headingCaption}}"
-        headingCaption="{{_headingCaption}}"
-        iconSize="{{_options.iconSize}}"
-        headerContentTemplate="{{_headerTemplate}}"
-        footerContentTemplate="{{_options.footerTemplate}}"
-        closeButtonVisibility="{{_options.closeButtonVisibility || _options.showClose === true}}"
-        on:headerClick="_close()"
-        on:footerClick="_footerClick()">
-   <ws:bodyContentTemplate>
-      <Controls._menu.Control
-              attr:class="controls-Menu__popup-list-padding-{{_verticalDirection}}_theme-{{_options.theme}}"
-              scope="{{_options}}"
-              itemPadding="{{_itemPadding}}"
-              on:selectedKeysChanged="_sendResult('selectedKeysChanged')"
-              on:itemClick="_sendResult('itemClick')"
-              on:applyClick="_sendResult('applyClick')"
-              on:moreButtonClick="_sendResult('selectorDialogOpened')"
-              on:pinClick="_sendResult('pinClick')"
-              on:menuOpened="_sendResult('menuOpened')"
-              on:beforeSubMenuOpen="_prepareSubMenuConfig()"
-      />
-   </ws:bodyContentTemplate>
-</Controls.popupTemplate:Sticky>
+           attr:style="width: {{_options.width ? _options.width + 'px'}}"
+           icon="{{_headingIcon}}"
+           caption="{{_headingCaption}}"
+           headingCaption="{{_headingCaption}}"
+           iconSize="{{_options.iconSize}}"
+           headerContentTemplate="{{_headerTemplate}}"
+           footerContentTemplate="{{_options.footerTemplate}}"
+           closeButtonVisibility="{{_closeButtonVisibility}}"
+           on:headerClick="_close()"
+           on:footerClick="_footerClick()">
+      <ws:bodyContentTemplate>
+         <Controls._menu.Control
+                 attr:class="controls-Menu__popup-list-padding-{{_verticalDirection}}_theme-{{_options.theme}}"
+                 scope="{{_options}}"
+                 itemPadding="{{_itemPadding}}"
+                 on:selectedKeysChanged="_sendResult('selectedKeysChanged')"
+                 on:itemClick="_sendResult('itemClick')"
+                 on:applyClick="_sendResult('applyClick')"
+                 on:moreButtonClick="_sendResult('selectorDialogOpened')"
+                 on:pinClick="_sendResult('pinClick')"
+                 on:menuOpened="_sendResult('menuOpened')"
+                 on:beforeSubMenuOpen="_prepareSubMenuConfig()"
+         />
+      </ws:bodyContentTemplate>
+   </Controls.popupTemplate:Sticky>
+</ws:template>
+
+<ws:if data="{{_options.searchParam}}">
+   <Controls.Container.Async templateName="Controls/list:DataContainer">
+      <ws:partial
+              template="{{content.resolvedTemplate}}" scope="{{_options}}">
+         <ws:partial
+                 template="{{_searchController}}" scope="{{_options}}">
+            <ws:partial template="menuPopup" />
+         </ws:partial>
+      </ws:partial>
+   </Controls.Container.Async>
+
+</ws:if>
+<ws:else>
+   <ws:partial template="menuPopup" />
+</ws:else>

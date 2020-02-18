@@ -259,6 +259,12 @@ type GetSourceResult = {
          }
       });
 
+      Data.getDefaultOptions = () => {
+         return {
+            filter: {}
+         };
+      };
+
       Data._private = _private;
       export = Data;
 

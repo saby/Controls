@@ -517,7 +517,7 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
             self.historySource.query().addCallback((data) => {
                _private.initHistory(self, data);
                if (self._history.client) {  // TODO Delete with old favorite
-                  if (_private.deleteOldPinned(self, self._history, query)) {
+                  if (true) {
                      prepareHistory();
                   }
                } else {

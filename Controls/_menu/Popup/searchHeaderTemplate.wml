@@ -1,0 +1,7 @@
+<Controls.Container.Async templateName="Controls/search:InputContainer">
+   <ws:partial
+           template="{{content.resolvedTemplate}}"
+           placeholder="{{searchPlaceholder}}">
+      <ws:partial template="Controls/search:Input" scope="{{_options}}"/>
+   </ws:partial>
+</Controls.Container.Async>
