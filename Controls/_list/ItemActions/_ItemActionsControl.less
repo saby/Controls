@@ -1,13 +1,21 @@
 .controls-itemActionsV {
   align-items:center;
   display: none;
+  background: transparent;
   position:absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
 }
 
 .controls-itemActionsV__wrapper {
    height: 100%;
    display: inline-flex;
    align-items: center;
+   pointer-events: auto;
+   position: absolute;
 }
 
 .controls-itemActionsV__wrapper-isEditing {
