@@ -1,6 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
 import * as headerTemplate from 'wml!Controls/_menu/Popup/headerTemplate';
+import * as searchHeaderTemplate from 'wml!Controls/_menu/Popup/searchHeaderTemplate';
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
@@ -20,15 +21,20 @@ import * as headerTemplate from 'wml!Controls/_menu/Popup/headerTemplate';
 
 class Popup extends Control<IControlOptions> {
     protected _template: TemplateFunction = PopupTemplate;
-    protected _headerTemplate: TemplateFunction;
+    protected _headerTemplate: TemplateFunction|string;
     protected _headingCaption: string;
     protected _headingIcon: string;
     protected _itemPadding: object;
     protected _verticalDirection: string = 'bottom';
     protected _horizontalDirection: string = 'right';
+    protected _searchController: string = 'Controls/search:Controller';
 
     protected _beforeMount(options: IControlOptions): void {
-        if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
+        this._closeButtonVisibility = options.closeButtonVisibility || options.showClose === true || options.searchParam !== undefined;
+
+        if (options.searchParam) {
+            this._headerTemplate = searchHeaderTemplate;
+        } else if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
             if (options.headConfig) {
                 this._headingCaption = options.headConfig.caption;
             } else {
@@ -71,7 +77,9 @@ class Popup extends Control<IControlOptions> {
     }
 
     protected _close(): void {
-        this._notify('close', [], {bubbling: true});
+        if (!this._options.searchParam) {
+            this._notify('close', [], {bubbling: true});
+        }
     }
 
     protected _footerClick(event, sourceEvent): void {

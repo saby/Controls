@@ -12,7 +12,11 @@
       <ws:partial template="iconTemplate" iconAlign="left"/>
    </ws:if>
    <div class="controls-Menu__content-wrapper">
-      {{item.get(displayProperty || 'title')}}
+      <Controls.decorator:Highlight highlightedValue="{{searchValue}}">
+         <ws:value>
+            <ws:String>{{item.get(displayProperty || 'title')}}</ws:String>
+         </ws:value>
+      </Controls.decorator:Highlight>
       <ws:if data="{{iconAlign === 'right'}}">
          <ws:partial template="iconTemplate" iconAlign="right" />
       </ws:if>

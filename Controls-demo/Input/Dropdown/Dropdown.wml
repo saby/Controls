@@ -321,6 +321,20 @@
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
+         <h4>With search</h4>
+         <div>
+            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysSearch"
+                                     searchParam="title"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     parentProperty="parent"
+                                     nodeProperty="@parent"
+                                     attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__search"
+                                     source="{{_searchItems}}">
+            </Controls.dropdown:Input>
+         </div>
+      </div>
+      <div class="ControlsDemo-InputDropdown__wrapper">
          <h4>ReadOnly</h4>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysReadOnly"

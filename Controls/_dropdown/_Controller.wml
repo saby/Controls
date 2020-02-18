@@ -45,6 +45,7 @@
               typeShadow="{{_options.typeShadow}}"
               itemPadding="{{_options.itemPadding}}"
               allowPin="{{_options.allowPin && _hasHistory()}}"
+              searchParam="{{_options.searchParam}}"
               theme="{{_options.theme}}"/>
    </Controls.popup:Sticky>
    <ws:if data="{{_options.selectorTemplate}}">
