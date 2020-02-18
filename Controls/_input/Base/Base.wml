@@ -29,6 +29,7 @@
       <ws:if data="{{_options.readOnly}}">
          <ws:partial options="{{_options}}"
                      scope="{{_readOnlyField.scope}}"
+                     autoWidth="{{_autoWidth}}"
                      value="{{_viewModel.displayValue}}"
                      template="{{_readOnlyField.template}}"/>
       </ws:if>
