@@ -50,11 +50,6 @@ const deprecatedClassesOfButton = {
    buttonDefault: {
       style: 'secondary',
       type: 'button'
-   },
-
-   buttonAdd: {
-      style: 'primary',
-      type: 'button'
    }
 };
 const _iconRegExp: RegExp = new RegExp('icon-(large|small|medium|default|16|24|32)\\b');
