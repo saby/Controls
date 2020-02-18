@@ -11,6 +11,18 @@
     </ws:else>
 </ws:template>
 
+<ws:template name="tagTemplate">
+   <svg name="tag"
+        viewBox="0 0 1 1"
+        xmlns="http://www.w3.org/2000/svg"
+        class="controls-Render__tagStyle_theme-{{_options.theme}}
+                     controls-Render__tagStyle_style-{{templateTagStyle}}_theme-{{_options.theme}}"
+        on:click="_tagClickHandler()"
+        on:mouseenter="_tagHoverHandler()">
+      <polygon points="0,0 1,1 1,0"/>
+   </svg>
+</ws:template>
+
 <ws:template name="cellContent">
     <ws:if data="{{contentTemplate}}">
         <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}" editArrowTemplate="{{editArrowTemplate}}"/>
@@ -27,6 +39,14 @@
         <ws:if data="{{itemData.showEditArrow && itemData.columnIndex === 0}}">
             <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
         </ws:if>
+    </ws:else>
+    <ws:if data="{{tagStyle}}">
+       <ws:partial template="tagTemplate" templateTagStyle="{{tagStyle}}"/>
+    </ws:if>
+    <ws:else>
+       <ws:if data="{{itemData.column.tagStyleProperty}}">
+          <ws:partial template="tagTemplate" templateTagStyle="{{itemData.item.get(itemData.column.tagStyleProperty)}}"/>
+       </ws:if>
     </ws:else>
 </ws:template>
 
