@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+   <Controls.grid:View
+      keyProperty="id"
+      source="{{_viewSource}}"
+      columns="{{_columns}}">
+      <ws:itemTemplate>
+         <ws:partial template="Controls/grid:ItemTemplate" highlightOnHover="{{true}}"/>
+      </ws:itemTemplate>
+   </Controls.grid:View>
+</div>
