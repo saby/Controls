@@ -4,6 +4,7 @@
                startValue="{{_options.value[0]}}"
                endValue="{{_options.value[1]}}"
                emptyCaption="{{_emptyCaption}}"
+               clearButtonVisibility="{{!_reset && _options.clearButtonVisibility}}"
                attr:class="controls-FilterEditor-DateRange"
                on:rangeChanged="_rangeChanged()" />
 </Controls.Container.Async>

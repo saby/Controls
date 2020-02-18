@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {isEqual} from 'Types/object';
 import DateRangeTemplate = require('wml!Controls/_filter/Editors/DateRange');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 
@@ -19,22 +20,38 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _tmplNotify: Function = tmplNotify;
     protected _templateName: string;
     protected _emptyCaption: string;
+    protected _reset: boolean = false;
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
         this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'Selector' : 'LiteSelector');
         if (options.emptyCaption) {
             this._emptyCaption = options.emptyCaption;
         } else if (options.resetValue) {
+            if (isEqual(options.value, options.resetValue)) {
+                this._reset = true;
+            }
             return this.getCaption(options.resetValue[0], options.resetValue[1]).then((caption) => {
                 this._emptyCaption = caption;
             });
         }
     }
 
+    protected _beforeUpdate(newOptions: IControlOptions): Promise<void>|void {
+        if (this._options.value !== newOptions.value) {
+            this._reset = isEqual(newOptions.value, newOptions.resetValue);
+        }
+    }
+
     private _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
         return this.getCaption(startValue, endValue).then((caption) => {
             this._notify('textValueChanged', [caption]);
-            this._notify('rangeChanged', [startValue, endValue]);
+            if (!startValue && !endValue && this._options.resetValue || isEqual([startValue, endValue], this._options.resetValue)) {
+                this._notify('rangeChanged', [this._options.resetValue[0], this._options.resetValue[1]]);
+                this._reset = true;
+            } else {
+                this._notify('rangeChanged', [startValue, endValue]);
+                this._reset = false;
+            }
         });
     }
 
