@@ -146,4 +146,10 @@ export default class Container extends Control implements IContainer {
             templateName
         };
     }
+
+    /**
+     * Нужно загружать стили для показа диалога сразу.
+     * При возникновении ошибки они могут не загрузиться (нет связи или сервис недоступен).
+     */
+    static _theme: string[] = ['Controls/popupConfirmation'];
 }

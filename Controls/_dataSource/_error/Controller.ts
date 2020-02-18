@@ -4,10 +4,12 @@ import {
     Handler,
     HandlerConfig,
     ViewConfig
-} from 'Controls/_dataSource/_error/Handler';
-import Mode from 'Controls/_dataSource/_error/Mode';
+} from './Handler';
+import Mode from './Mode';
 import { fetch } from 'Browser/Transport';
 import { IVersionable } from 'Types/entity';
+import { constants } from 'Env/Env';
+import { Confirmation } from 'Controls/popup';
 
 const { Errors } = fetch;
 const { Abort } = Errors;
@@ -90,12 +92,13 @@ const prepareConfig = <T extends Error = Error>(config: HandlerConfig<T> | T): H
  */
 export default class ErrorController {
     private __controller: ParkingController;
+
     constructor(config: Config) {
         // Поле ApplicationConfig, в котором содержатся названия модулей с обработчиками ошибок
         const configField = 'errorHandlers';
         // Загружаем модули обработчиков заранее, чтобы была возможность использовать их при разрыве соединения
         loadHandlers(configField);
-        this.__controller = new ParkingController({configField, ...config});
+        this.__controller = new ParkingController({ configField, ...config });
     }
 
     destroy(): void {
@@ -159,8 +162,42 @@ export default class ErrorController {
         const message = config.error.message;
         const style = 'danger';
         const type = 'ok';
-        // @ts-ignore
-        import('Controls/popup').then((popup) => { popup.Confirmation.openPopup({ type, style, message }); });
-    }
 
+        importConfirmation().then((Confirmation) => {
+            Confirmation.openPopup({
+                type,
+                style,
+                message
+            });
+        }, () => {
+            if (constants.isBrowserPlatform) {
+                alert(message);
+            }
+        });
+    }
+}
+
+/**
+ * Загрузить всё необходимое для показа диалога.
+ * @returns {Promise} Промис с Controls/popup:Confirmation.
+ * Если что-то не загрузилось, то промис завершится с ошибкой.
+ */
+function importConfirmation(): Promise<typeof Confirmation> {
+    // Предварительно загрузить темизированные стили для диалога.
+    // Без этого стили загружаются только в момент показа диалога.
+    // Но когда потребуется показать сообщение о потере соединения, стили уже не смогут загрузиться.
+    const confirmationModule = 'Controls/popupConfirmation';
+    const importThemedStyles = Promise.all([
+        import('Core/Themes/ThemesController'),
+        import('Core/Themes/ThemesControllerNew')
+    ]).then(([OldTheme, Theme]) => Theme.getInstance().loadCss(
+        confirmationModule,
+        OldTheme.getInstance().getCurrentTheme()
+    ));
+
+    return Promise.all([
+        import('Controls/popup'),
+        import(confirmationModule),
+        importThemedStyles
+    ]).then(([popup]) => popup.Confirmation);
 }
