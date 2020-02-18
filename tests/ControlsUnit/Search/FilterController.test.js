@@ -8,7 +8,7 @@ define(['Controls/search'], function(search) {
             searchValue: 'test'
          });
 
-         assert.deepEqual(filterController._filter, { title: 'test' });
+         assert.deepEqual(filterController._filter, {  'Разворот': 'С разворотом', 'usePages': 'full', title: 'test' });
 
          filterController._filter = null;
          filterController._beforeMount({
@@ -16,6 +16,17 @@ define(['Controls/search'], function(search) {
          });
          assert.deepEqual(filterController._filter, {});
       });
+
+      it('_beforeMount with short option searchValue', () => {
+         var filterController = new search.FilterController();
+         filterController._beforeMount({
+            minSearchLength: 3,
+            searchParam: 'title',
+            searchValue: 'te'
+         });
+         assert.deepEqual(filterController._filter, {});
+      });
+
       it('_beforeUpdate', () => {
          var filterController = new search.FilterController();
          filterController.saveOptions({
