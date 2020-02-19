@@ -58,6 +58,7 @@
                                     on:editArrowClick="_notifyHandler('editArrowClick')"
                                     itemsReadyCallback="{{_itemsReadyCallback}}"
                                     serviceDataLoadCallback="{{_serviceDataLoadCallback}}"
+                                    dataLoadErrback="{{_dataLoadErrback}}"
                                     itemsSetCallback="{{_itemsSetCallback}}"/>
       </Controls._explorer.PathController>
    </Controls.dragnDrop:Container>
