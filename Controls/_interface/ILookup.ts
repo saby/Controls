@@ -7,7 +7,7 @@ export interface ILookupOptions {
  *
  * @interface Controls/_interface/ILookup
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 /*
  * Interface for fields and selection buttons.

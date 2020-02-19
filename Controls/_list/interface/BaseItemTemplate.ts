@@ -1,4 +1,12 @@
 /**
+ * @typedef {String} TCursor
+ * @description Значения для типа курсора, отображаемого при наведении на элемент списка.
+ * @variant default Стандартный указатель (стрелка).
+ * @variant pointer Указатель.
+ */
+export type TCursor = 'default' | 'pointer' | 'right';
+
+/**
  * Интерфейс для шаблона отображения элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
  * @interface Controls/list:BaseItemTemplate
  * @author Авраменко А.С.
@@ -13,11 +21,11 @@ export default interface IBaseItemTemplateOptions {
     */
    highlightOnHover?: boolean;
    /**
-    * @name Controls/list:BaseItemTemplate#clickable
-    * @cfg {Boolean} Когда опция установлена в значение true, элемент доступен для клика, и используется {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсор} pointer. В значении false элемент недоступен для клика, и используется курсор default.
-    * @default true
+    * @name Controls/list:BaseItemTemplate#cursor
+    * @cfg {TCursor} Устанавливает тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
+    * @default pointer
     */
-   clickable?: boolean;
+   cursor?: TCursor;
    /**
     * @name Controls/list:BaseItemTemplate#marker
     * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/select/marker/ маркером}.

@@ -3,7 +3,6 @@
  */
 import Control = require('Core/Control');
 import template = require('wml!Controls/_lookup/Lookup/Link/LookUp_Link');
-import 'css!theme?Controls/lookup';
 
 /**
  * Кнопка-ссылка для использования внутри подсказки поля связи.
@@ -14,7 +13,7 @@ import 'css!theme?Controls/lookup';
  * @mixes Controls/_lookup/Lookup/Link/LookupLinkStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 /*
  * Label for use within the link field.
@@ -25,7 +24,7 @@ import 'css!theme?Controls/lookup';
  * @mixes Controls/_lookup/Lookup/Link/LookupLinkStyles
  * @control
  * @public
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  */
 
 const Link = Control.extend({
@@ -49,5 +48,7 @@ const Link = Control.extend({
       }
    }
 });
+
+Link._theme = ['Controls/lookup'];
 
 export = Link;

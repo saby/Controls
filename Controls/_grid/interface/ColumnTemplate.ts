@@ -1,4 +1,12 @@
 /**
+ * @typedef {String} TCursor
+ * @description Значения для типа курсора, отображаемого при наведении на ячейку.
+ * @variant default Стандартный указатель (стрелка).
+ * @variant pointer Указатель.
+ */
+export type TCursor = 'default' | 'pointer' | 'right';
+
+/**
  * Шаблон, который по умолчанию используется для отображения ячеек в контроле {@link Controls/grid:View Таблица}.
  * @class Controls/grid:ColumnTemplate
  * @author Авраменко А.С.
@@ -37,13 +45,13 @@
     * @see Controls/grid:IGridControl#showEditArrow
     * @remark
     * В области видимости шаблона доступен объект **itemData** со следующими свойствами:
-    * 
+    *
     * * **columnIndex** — порядковый номер колонки. Отсчет от 0.
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing** (тип Boolean) — признак {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/edit/ редактирования по месту}.
     * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **column** (тип {@link Controls/_grid/interface/IGridControl/Column.typedef Column.typedef}) — объект с конфигурацией колонки.
-    * 
+    * * **column** (тип {@link Controls/_grid/interface/IColumn IColumn}) — объект с конфигурацией колонки.
+    *
     * Также в области видимости шаблона есть переменная **editArrowTemplate**, которая позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон}. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}. Работа с переменной показана в примере № 4.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
@@ -66,10 +74,10 @@
     *    </ws:columns>
     * </Controls.grid:View>
     * </pre>
-    * 
+    *
     * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
     * <pre class="brush: html">
-    * <!-- file1.wml --> 
+    * <!-- file1.wml -->
     * <Controls.grid:View>
     *    <ws:columns>
     *       <ws:Array>
@@ -82,7 +90,7 @@
     *    </ws:columns>
     * </Controls.grid:View>
     * </pre>
-    * 
+    *
     * <pre class="brush: html">
     * <!-- file2.wml -->
     * <ws:partial template="Controls/grid:ColumnTemplate">
@@ -91,9 +99,9 @@
     *    </ws:contentTemplate>
     * </ws:partial>
     * </pre>
-    * 
+    *
     * **Пример 3.** Шаблон contentTemplate сконфигурирован в отдельном WML-файле.
-    * 
+    *
     * <pre class="brush: html">
     * <Controls.grid:View>
     *    <ws:columns>
@@ -111,15 +119,15 @@
     *    </ws:columns>
     * </Controls.grid:View>
     * </pre>
-    * 
+    *
     * <pre class="brush: html">
     * <!-- file2.wml -->
     * <div title="{{contentTemplate.itemData.item.Name}}">
     *    {{contentTemplate.itemData.item.Name}}
     * </div>
     * </pre>
-    * 
-    * **Пример 4.** Следующий пример настраивает контрол так, что для первой колонки задан пользовательский шаблон. При этом добавлено отображение кнопки-шеврона.
+    *
+    * **Пример 4.** Следующий пример настраивает контрол так, что для первой колонки задан пользовательский шаблон. При этом добавлено отображение стрелки-шеврона.
     * <pre class="brush: html">
     * <Controls.grid:View>
     *    <ws:columns>
@@ -142,4 +150,11 @@
     * </pre>
     */
    contentTemplate?: string;
+
+    /**
+     * @name Controls/grid:ColumnTemplate#cursor
+     * @cfg {TCursor} Устанавливает тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах ячейки.
+     * @default pointer
+     */
+    cursor?: TCursor;
 }

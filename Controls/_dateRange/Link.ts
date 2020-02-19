@@ -10,6 +10,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @extends Core/Control
  * @mixes Controls/interface/IInputDateTime
  * @mixes Controls/interface/ILinkView
+ * @mixes Controls/_interface/IOpenPopup
  * @control
  * @public
  * @category Input
@@ -21,8 +22,8 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 var Component = BaseControl.extend({
    _template: componentTmpl,
 
-   _openDialog: function(event) {
-      const container = this._children.linkView.getDialogTarget();
+   openPopup: function(event) {
+      const container = this._children.linkView.getPopupTarget();
       var cfg = {
          ...getOptions.getCommonOptions(this),
          target: container,

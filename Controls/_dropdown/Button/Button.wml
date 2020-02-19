@@ -2,8 +2,11 @@
     <Controls._dropdown._Controller
             name="controller"
             scope="{{_options}}"
-            itemTemplate="{{_options.itemTemplate || _itemTemplate}}"
-            headTemplate="{{_options.headTemplate || _options.headerTemplate}}"
+            headingCaption="{{_options.caption}}"
+            headingIcon="{{_options.icon}}"
+            headingIconSize="{{_options.iconSize}}"
+            itemTemplate="{{_options.itemTemplate}}"
+            headerTemplate="{{_options.headTemplate || _options.headerTemplate}}"
             dataLoadCallback="{{_dataLoadCallback}}"
             popupClassName="{{_options.popupClassName || _offsetClassName}} theme_{{_options.theme}}"
             hasIconPin="{{_hasIconPin}}"

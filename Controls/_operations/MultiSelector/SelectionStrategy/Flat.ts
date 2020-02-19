@@ -5,6 +5,7 @@ import clone = require('Core/core-clone');
 import { Map } from 'Types/shim';
 
 import { Collection } from 'Controls/display';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
 import { RecordSet, List } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';
@@ -16,7 +17,7 @@ const ALL_SELECTION_VALUE = null;
  * @class Controls/_operations/MultiSelector/SelectionStrategy/Flat
  * @control
  * @private
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 export default class FlatSelectionStrategy implements ISelectionStrategy {
    select(selection: ISelection, keys: TKeys): ISelection {

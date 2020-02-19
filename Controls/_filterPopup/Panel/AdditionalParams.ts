@@ -5,25 +5,14 @@ import Clone = require('Core/core-clone');
 import template = require('wml!Controls/_filterPopup/Panel/AdditionalParams/AdditionalParams');
 import chain = require('Types/chain');
 import 'css!theme?Controls/filterPopup';
-   /**
-    * Control "Additional params". Used in the filter panel.
-    * @class Controls/_filterPopup/Panel/AdditionalParams
-    * @extends Core/Control
-    * @control
-    * @private
-    * @author Герасимов А.М.
-    *
-    * @css @max-height_FilterPanel-items Maximum height of the folded block.
-    * @css @font-size_FilterPanel-caption Font size of the header.
-    * @css @color_FilterPanel-caption Color of the header.
-    * @css @height_FilterPanel-caption Height of the header.
-    * @css @margin_AdditionalParams-items Indent to the left of the edge for the elements.
-    * @css @color_AdditionalParams-item Color of item in the block.
-    * @css @height_AdditionalParams-item Height of item in the block.
-    * @css @height_AdditionalParams-arrow Height of the arrow to unfold the block.
-    */
-
-
+/**
+ * Control "Additional params". Used in the filter panel.
+ * @class Controls/_filterPopup/Panel/AdditionalParams
+ * @extends Core/Control
+ * @control
+ * @private
+ * @author Герасимов А.М.
+ */
 
    var MAX_NUMBER_ITEMS_COLUMN = 5;
 

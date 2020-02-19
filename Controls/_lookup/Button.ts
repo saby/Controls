@@ -24,7 +24,7 @@ import template = require('wml!Controls/_lookup/Button/SelectorButton');
  * @mixes Controls/_interface/ITextValue
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Buttons/SelectorButtonPG
  */
 /*
@@ -43,7 +43,7 @@ import template = require('wml!Controls/_lookup/Button/SelectorButton');
  * @mixes Controls/_lookup/Button/SelectorButtonStyles
  * @control
  * @public
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Buttons/SelectorButtonPG
  */
 

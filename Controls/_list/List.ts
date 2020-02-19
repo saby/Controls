@@ -117,8 +117,8 @@ var ListControl = Control.extend(/** @lends Controls/_list/List.prototype */{
         return listControl.reloadItem.apply(listControl, arguments);
     },
 
-    scrollToItem(key: string|number, toBottom: boolean): Promise<void> {
-        return this._children.listControl.scrollToItem(key, toBottom);
+    scrollToItem(key: string|number, toBottom: boolean, force: boolean): Promise<void> {
+        return this._children.listControl.scrollToItem(key, toBottom, force);
     },
 
     beginEdit: function(options) {
@@ -144,7 +144,7 @@ ListControl.getDefaultOptions = function() {
     return {
         multiSelectVisibility: 'hidden',
         stickyHeader: true,
-        style: 'default'
+        style: 'default',
     };
 };
 

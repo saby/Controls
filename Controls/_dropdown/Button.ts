@@ -1,3 +1,4 @@
+import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import template = require('wml!Controls/_dropdown/Button/Button');
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
@@ -67,7 +68,6 @@ import ActualApi from 'Controls/_buttons/ActualApi';
 var Button = Control.extend({
    _template: template,
    _tmplNotify: tmplNotify,
-   _filter: null,
 
    constructor: function () {
       Button.superclass.constructor.apply(this, arguments);
@@ -116,6 +116,25 @@ var Button = Control.extend({
       }
 
       return handlerResult;
+   },
+
+   _onPinClickHandler: function (event, item) {
+      var self = this;
+      const meta =  {
+         $_pinned: !item.get('pinned')
+      };
+      this._options.source.update(item.clone(), meta).addCallback(function (result) {
+         if (!result) {
+            self._children.notificationOpener.open({
+               template: 'Controls/popupTemplate:NotificationSimple',
+               templateOptions: {
+                  style: 'danger',
+                  text: rk('Невозможно закрепить более 10 пунктов'),
+                  icon: 'Alert'
+               }
+            });
+         }
+      });
    },
 
    _deactivated: function() {

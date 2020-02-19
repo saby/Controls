@@ -72,7 +72,6 @@
            name="StickyOpener"
            className="controls-FilterView-popup"
            closeOnOutsideClick="{{true}}"
-           _vdomOnOldPage="{{true}}"
            on:result="_resultHandler()">
    </Controls.popup:Sticky>
    <ws:if data="{{_hasSelectorTemplate}}">

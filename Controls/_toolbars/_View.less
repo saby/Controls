@@ -34,12 +34,17 @@
     content: "\200b";
   }
 }
+
 .controls-Toolbar__menu {
-  .inline-flexbox();
-  cursor: pointer;
+   display: inline-flex;
 }
+
+.controls-Toolbar__menu_enabled {
+   cursor: pointer;
+}
+
 .ws-is-hover {
-  .controls-Toolbar__menu_theme-@{themeName}:hover {
+  .controls-Toolbar__menu_enabled_theme-@{themeName}:hover {
     color: @icon-color_hover_toolbar;
   }
 }

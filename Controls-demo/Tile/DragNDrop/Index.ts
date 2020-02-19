@@ -9,10 +9,10 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _selectedKeys = [];
+   protected _viewSource;
+   protected _selectedKeys = [];
    private _itemsFirst = null;
-   private _itemsReadyCallback = this._itemsReady.bind(this);
+   protected _itemsReadyCallback = this._itemsReady.bind(this);
 
    protected _beforeMount() {
       this._viewSource = new HierarchicalMemory({
@@ -26,7 +26,7 @@ export default class extends Control {
       this._itemsFirst = items;
    }
 
-   private _dragStart(event, items) {
+   protected _dragStart(event, items) {
       var firstItem = this._itemsFirst.getRecordById(items[0]);
 
       return new Dnd.ItemsEntity({
@@ -36,7 +36,7 @@ export default class extends Control {
       });
    };
 
-   private _dragEnd(event, entity, target, position) {
+   protected _dragEnd(event, entity, target, position) {
       this._children.listMover.moveItems(entity.getItems(), target, position);
    };
 }

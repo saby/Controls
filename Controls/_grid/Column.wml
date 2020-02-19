@@ -30,6 +30,7 @@
     </ws:else>
 </ws:template>
 
-<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_L_theme-{{_options.theme}}">
+<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_L_theme-{{_options.theme}}
+            {{itemData.classList.padding.getAll()}} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}">
     <ws:partial template="cellContent"/>
 </div>

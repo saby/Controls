@@ -243,21 +243,11 @@ class Checkbox extends Control<ICheckboxOptions> implements ICaption,
       this._notify('valueChanged', [value]);
    }
 
-   private _clickHandler(): void {
+   protected _clickHandler(): void {
       if (!this._options.readOnly) {
          const map = this._options.triState ? mapTriState : mapBoolState;
          this._notifyChangeValue(map[this._options.value + '']);
       }
-   }
-
-   // Удалено в 20.1100
-   private _isTemplate(icon: TemplateFunction | string): boolean {
-      if (typeof icon === 'function') {
-         Logger.error('Controls.toggle:Checkbox: Опция icon должна иметь тип string.', this);
-         return true;
-      }
-
-      return false;
    }
 
    static _theme: string[] = ['Controls/toggle', 'Controls/Classes'];

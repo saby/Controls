@@ -10,7 +10,7 @@ export default class extends Control {
     private _viewSource: Memory;
     private _itemsCount: number = 1000;
 
-    private get _page() {
+    protected get _page() {
         return Math.ceil(this._itemsCount / 100 );
     }
 
@@ -22,7 +22,7 @@ export default class extends Control {
         }
     });
 
-    private _addItem() {
+    protected _addItem() {
         this._viewSource.update(new RecordSet({
             rawData: [{
                 id: ++this._itemsCount,

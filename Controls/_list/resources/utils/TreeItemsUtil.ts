@@ -1,9 +1,8 @@
-import display = require('Types/display');
+import display = require('Controls/display');
 import entity = require('Types/entity');
 import isPlainObject = require('Core/helpers/Object/isPlainObject');
 
 var
-    _private = {},
     TreeItemsUtil = {
         prepareDisplayProperties: function(items, cfg, filter) {
            var
@@ -48,6 +47,7 @@ var
               displayProperties.rootEnumerable = true;
            }
            displayProperties.root = root;
+           displayProperties.compatibleReset = true;
            return displayProperties;
         },
         getDefaultDisplayTree: function (items, cfg, filter) {

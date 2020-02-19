@@ -4,7 +4,6 @@ import {Date as WSDate} from 'Types/entity';
 import ILinkView from './interfaces/ILinkView';
 import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
 import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelector');
-import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
  * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
@@ -15,6 +14,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_interface/IDisplayedRanges
+ * @mixes Controls/_interface/IOpenPopup
  * @control
  * @public
  * @category Input
@@ -43,7 +43,7 @@ var Component = BaseSelector.extend({
 
     _getPopupOptions: function() {
         var className;
-        const container = this._children.linkView.getDialogTarget();
+        const container = this._children.linkView.getPopupTarget();
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
             className = 'controls-DateRangeSelectorLite__picker-years-only';
         } else {
@@ -76,6 +76,8 @@ var Component = BaseSelector.extend({
 
                 emptyCaption: this._options.emptyCaption,
 
+                source: this._options.source,
+                monthTemplate: this._options.monthTemplate,
                 itemTemplate: this._options.itemTemplate,
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,

@@ -1,53 +1,63 @@
 .controls-Render_state-search-valid_theme-@{themeName} {
-   border-color: @border-color_Search;
-   background: @background-color_Search;
+   border-color: @border-color_searchInput;
+   background: @background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
+
 .controls-Render_state-searchContrast-valid_theme-@{themeName} {
-   border-color: @border-color_Search;
-   background: @background-color_Search_contrast_background;
+   border-color: @border-color_contrast_searchInput;
+   background: @background-color_contrast_searchInput;
+   border-radius: @border-radius_default_searchInput;
+}
+
+.controls-Render_state-search-valid-active_theme-@{themeName} {
+   border-color: @border-color_focus_searchInput;
+   background: @background-color_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
+}
+
+.controls-Render_state-searchContrast-valid-active_theme-@{themeName} {
+   border-color: @border-color_contrast_focus_searchInput;
+   background: @background-color_contrast_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
+}
+
+.controls-Render_state-search-valid_theme-@{themeName}:focus-within {
+   border-color: @border-color_focus_searchInput;
+   background: @background-color_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
+}
+
+.controls-Render_state-searchContrast-valid_theme-@{themeName}:focus-within {
+   border-color: @border-color_contrast_focus_searchInput;
+   background: @background-color_contrast_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .ws-is-hover {
    .controls-Render_state-search-valid_theme-@{themeName}:hover {
-      border-color: @border-color_Search_active;
+      border-color: @border-color_hover_searchInput;
    }
+
    .controls-Render_state-searchContrast-valid_theme-@{themeName}:hover {
-      border-color: @border-color_Search_active;
+      border-color: @border-color_contrast_hover_searchInput;
    }
-}
-
-.controls-Render_state-search-valid-active_theme-@{themeName} {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search;
-}
-
-.controls-Render_state-searchContrast-valid-active_theme-@{themeName} {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search_contrast_background;
 }
 
 .controls-Render_state-search-readonly_theme-@{themeName} {
-   border-color: @border-color_Search_readOnly;
-   background: @background-color_Search;
+   border-color: @readonly_border-color_searchInput;
+   background: @readonly_background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .controls-Render_state-searchContrast-readonly_theme-@{themeName} {
-   border-color: @border-color_Search_readOnly;
-   background: @background-color_Search_contrast_background;
-}
-
-.controls-Render_state-search-valid_theme-@{themeName}:focus-within {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search;
-}
-
-.controls-Render_state-searchContrast-valid_theme-@{themeName}:focus-within {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search_contrast_background;
+   border-color: @readonly_border-color_searchInput;
+   background: @readonly_contrast_background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .controls-Search__field_theme_@{themeName}_margin {
-   margin: 0 @iconReset-iconSearch_spacing 0 @border-left_content_spacing_Search;
+   margin: 0 @reset-button_offset-left_searchInput 0 (@padding-left_searchInput - @border-thickness_inputText);
 }
 
 .controls-Search__buttons {
@@ -55,64 +65,72 @@
    align-self: center;
 }
 
-.controls-Search__button_theme-@{themeName} {
-   .icon-size(@icon-size_Search);
-}
-
-.controls-Search__button_enabled_theme-@{themeName} {
+.controls-Search__button_enabled {
    cursor: pointer;
 }
 
-.controls-Search__button_readOnly_theme-@{themeName} {
+.controls-Search__button_readOnly {
    cursor: default;
 }
 
-.controls-Search__searchButton_theme_@{themeName}_position {
-   margin-right: @border-right_content_spacing_Search;
-}
-
-.controls-Search__resetButton_theme_@{themeName}_position {
-   margin-right: @iconReset-iconSearch_spacing;
+.controls-Search__searchButton_theme-@{themeName} {
+   .icon-size(@trigger_icon-size_searchInput);
 }
 
 .controls-Search__searchButton_theme_@{themeName}_color {
-   color: @color_Search_iconSearch;
-}
-
-.controls-Search__searchButton_theme_@{themeName}_color:active {
-   color: @color_Search_iconSearch_active;
-}
-
-.ws-is-hover {
-   .controls-Render_theme_@{themeName}_style_search:hover {
-      border-color: @border-color_Search_active;
-      background: @background-color_Search;
-   }
-   .controls-Search__searchButton_theme_@{themeName}_color:hover {
-      color: @color_Search_iconSearch_hovered;
-   }
+   color: @trigger_icon-color_searchInput;
 }
 
 .controls-Search__searchButton_theme_@{themeName}_color_readOnly {
-   color: @color_Search_iconSearch_readOnly;
+   color: @readonly_trigger_icon-color_searchInput;
+}
+
+.controls-Search__resetButton_theme-@{themeName} {
+   .icon-size(@reset-button_icon-size_searchInput);
 }
 
 .controls-Search__resetButton_theme_@{themeName}_color {
-   color: @color_Search_iconReset;
+   color: @reset-button_icon-color_searchInput;
+}
+
+.controls-Search__searchButton_theme_@{themeName}_color:active {
+   color: @trigger_icon-color_active_searchInput;
+}
+
+.controls-Search__resetButton_theme_@{themeName}_color:active {
+   color: @reset-button_active_icon-color_searchInput;
+}
+
+.ws-is-hover {
+   .controls-Search__searchButton_theme_@{themeName}_color:hover {
+      color: @trigger_icon-color_hover_searchInput;
+   }
+
+   .controls-Search__resetButton_theme_@{themeName}_color:hover {
+      color: @reset-button_hover_icon-color_searchInput;
+   }
+}
+
+.controls-Search__searchButton_theme_@{themeName}_position {
+   margin-right: @padding-right_searchInput - @border-thickness_inputText;
+}
+
+.controls-Search__resetButton_theme_@{themeName}_position {
+   margin-right: @trigger_offset_searchInput;
 }
 
 .controls-Search__nativeField_theme_@{themeName}_caretEmpty {
-   caret-color: @color_Search-caret_empty;
+   caret-color: @caret-color_empty_searchInput;
 }
 
 .controls-Search__nativeField_theme_@{themeName}_caretFilled {
-   caret-color: @caret-color_fill_inputText;
+   caret-color: @caret-color_fill_searchInput;
 }
 
 //ios doesn't support dynamic color change of caret
 //demo https://jsfiddle.net/gersasha/ew03jha4/2/
 .ws-is-mobile-safari {
    .controls-Search__nativeField_theme_@{themeName}_caretEmpty {
-      caret-color: @caret-color_fill_inputText;
+      caret-color: @caret-color_fill_searchInput;
    }
 }

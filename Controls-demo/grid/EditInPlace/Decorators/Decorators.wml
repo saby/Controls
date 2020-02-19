@@ -1,0 +1,12 @@
+<div class="controlsDemo__cell">
+    <Controls.grid:View
+            name="grid"
+            keyProperty="id"
+            source="{{ _viewSource }}"
+            header="{{ _header }}"
+            columns="{{ _columns }}">
+        <ws:editingConfig>
+            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
+        </ws:editingConfig>
+    </Controls.grid:View>
+</div>

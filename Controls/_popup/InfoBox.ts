@@ -20,7 +20,7 @@ import template = require('wml!Controls/_popup/InfoBox/InfoBox');
  *
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/InfoBox/InfoBoxPG
+ * @demo Controls-demo/InfoBox/InfoBox
  */
 
 const CALM_DELAY: number = 100; // During what time should not move the mouse to start opening the popup.

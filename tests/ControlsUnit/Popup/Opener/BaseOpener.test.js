@@ -1,8 +1,9 @@
 define(
    [
-      'Controls/popup'
+      'Controls/popup',
+      'i18n!ControlsUnits'
    ],
-   (popup) => {
+   (popup, rk) => {
       'use strict';
 
       describe('Controls/_popup/Opener/BaseOpener', () => {
@@ -25,7 +26,6 @@ define(
             };
             var popupOptions = {
                closeOnOutsideClick: true,
-               _vdomOnOldPage: true,
                actionOnScroll: 'close',
                templateOptions: {
                   type: 'stack',
@@ -43,10 +43,8 @@ define(
             assert.equal(baseConfig.opener, null);
             assert.equal(baseConfig.actionOnScroll, 'close');
             assert.equal(opener._actionOnScroll, 'close');
-            assert.equal(opener._vdomOnOldPage, true);
             let opener2 = new popup.BaseOpener();
             popupOptions = {
-               _vdomOnOldPage: false,
                templateOptions: {
                   type: 'stack',
                   name: 'popupOptions'
@@ -56,7 +54,6 @@ define(
             popupOptions.templateOptions.opener = 123;
             baseConfig = opener2._getConfig(popupOptions);
             assert.equal(opener2._actionOnScroll, 'none');
-            assert.equal(opener2._vdomOnOldPage, false);
             assert.equal(baseConfig.templateOptions.opener, undefined);
 
             opener.destroy();

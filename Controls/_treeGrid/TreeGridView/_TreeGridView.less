@@ -124,6 +124,27 @@
 .controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
    content: @icon_TreeGridView-expander_hiddenNode-expanded;
 }
+
+.controls-TreeGrid__row-expander__spacingTop_default_theme-@{themeName} {
+   margin-top: @margin-top_TreeGridView-expander_default;
+}
+.controls-TreeGrid__row-expander__spacingTop_m_theme-@{themeName} {
+   margin-top: @margin-top_TreeGridView-expander_s;
+}
+.controls-TreeGrid__row-expander__spacingTop_l_theme-@{themeName} {
+   margin-top: @margin-top_TreeGridView-expander_l;
+}
+
+.controls-TreeGrid__row-expander__spacingBottom_default_theme-@{themeName} {
+   margin-bottom: @margin-bottom_TreeGridView-expander_default;
+}
+.controls-TreeGrid__row-expander__spacingBottom_m_theme-@{themeName} {
+   margin-bottom: @margin-bottom_TreeGridView-expander_s;
+}
+.controls-TreeGrid__row-expander__spacingBottom_l_theme-@{themeName} {
+   margin-bottom: @margin-bottom_TreeGridView-expander_l;
+}
+
 .controls-TreeGrid__row {
    display: inline-flex;
 }
@@ -169,7 +190,9 @@
 .controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText {
   font-size: @font-size_TreeGridView-row-cell-item;
 }
-
+.controls-Grid__row-cell__content.controls-TreeGrid__row-cell__firstColumn__contentSpacing_null {
+   padding-left: 0;
+}
 // For right vertiacal align of items inside block with display: table-cell.
 .controls-Grid_table-layout .controls-TreeGridView__row-cell_innerWrapper {
    display: flex;

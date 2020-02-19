@@ -1278,6 +1278,9 @@ define([
 
          // Without marker
          lists.BaseControl._private.enterHandler({
+            _options: {
+               useNewModel: false
+            },
             getViewModel: function() {
                return {
                   getMarkedItem: function() {
@@ -1295,6 +1298,9 @@ define([
          var mockedEvent = { target: 'myTestTarget' };
          // With marker
          lists.BaseControl._private.enterHandler({
+            _options: {
+               useNewModel: false
+            },
             getViewModel: function() {
                return {
                   getMarkedItem: function() {
@@ -3213,28 +3219,17 @@ define([
                   }
                }
             };
-            let commitDef = cDeferred.success();
             let commitAndMoveDef = cDeferred.success();
             let result;
 
-            var ctrl = new lists.BaseControl(cfg);
+            const ctrl = new lists.BaseControl(cfg);
             ctrl._children = {
                editInPlace: {
-                  commitEdit: function() {
-                     result = commitDef;
-                  },
                   commitAndMoveNextRow: function () {
                      result = commitAndMoveDef;
                   }
                }
             };
-            ctrl._commitEditActionHandler();
-            assert.equal(commitDef, result);
-
-            commitDef = cDeferred.success();
-            commitAndMoveDef = cDeferred.success();
-
-            ctrl._options.task1178374430 = true;
             ctrl._commitEditActionHandler();
             assert.equal(commitAndMoveDef, result);
          });

@@ -6,8 +6,8 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: HierarchicalMemory;
-    private _columns: object[];
+    protected _viewSource: HierarchicalMemory;
+    protected _columns: object[];
     private _selectedKeys: [];
     private _excludedKeys: [];
     private _filter: object;

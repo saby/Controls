@@ -1,4 +1,4 @@
-import displayLib = require('Types/display');
+import displayLib = require('Controls/display');
 import cInstance = require('Core/core-instance');
 import Utils = require('Types/util');
 
@@ -22,6 +22,7 @@ var ItemsUtil = {
         // https://online.sbis.ru/opendoc.html?guid=e070a968-f6dd-486b-bd44-4da47198529e
         projCfg.unique = true;
         projCfg.filter = filter;
+        projCfg.compatibleReset = true;
         return displayLib.Abstract.getDefaultDisplay(items, projCfg);
     },
 

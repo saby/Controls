@@ -18,9 +18,9 @@
         </Controls.calendar:MonthList>
 
         <div class="controlsDemo__wrapper">
-            <span class="controlsDemo__button" on:click="_scrollToDate(2019, 0, 1)">Скролировать к 01.01.2019</span>
-            <span class="controlsDemo__button" on:click="_scrollToDate(2019, 2, 1)">Скролировать к 01.03.2019</span>
-            <span class="controlsDemo__button" on:click="_scrollToDate(2019, 5, 10)">Скролировать к 10.06.2019</span>
+            <span class="controlsDemo__button controlsDemo__scrollToDate1" on:click="_scrollToDate(2019, 0, 1)">Скролировать к 01.01.2019</span>
+            <span class="controlsDemo__button controlsDemo__scrollToDate2" on:click="_scrollToDate(2019, 2, 1)">Скролировать к 01.03.2019</span>
+            <span class="controlsDemo__button controlsDemo__scrollToDate3" on:click="_scrollToDate(2019, 5, 10)">Скролировать к 10.06.2019</span>
         </div>
     </div>
 </ws:partial>

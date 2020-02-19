@@ -1,7 +1,7 @@
 /**
  * @mixin Controls/_lookup/Lookup/Link/LookupLinkStyles
  * @private
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  *
  * @css @font-size_LookupLink Размер ссылки.
  * @ccs @line-height_LookupLink Высота ссылки.
@@ -12,7 +12,7 @@
 /*
  * @mixin Controls/_lookup/Lookup/Link/LookupLinkStyles
  * @private
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  *
  * @css @font-size_LookupLink The size of the link.
  * @ccs @line-height_LookupLink The height of the link.

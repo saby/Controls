@@ -1,7 +1,7 @@
 /**
  * @mixin Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @private
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  *
  * @css @color_SelectedCollection-item_accent Цвет элемента для стиля "accent".
  * @css @color_SelectedCollection-item_primary Цвет элемента для стиля "primary".
@@ -29,7 +29,7 @@
 /*
  * @mixin Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @private
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  *
  * @css @color_SelectedCollection-item_accent The element color for the "accent" style.
  * @css @color_SelectedCollection-item_primary The element color for the "primary" style.

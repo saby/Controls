@@ -10,10 +10,10 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     private _viewSource: Memory;
     private _columns = getEditing().getEditingColumns();
-    private _markedKey;
-    private _dataLoadCallback = this._dataCallback.bind(this);
-    private _items;
-    private _viewModel;
+    protected _markedKey;
+    protected _dataLoadCallback = this._dataCallback.bind(this);
+    protected _items;
+    protected _viewModel;
     private _showType = {
         //show only in Menu
         MENU: 0,
@@ -22,7 +22,7 @@ export default class extends Control {
         //show only in Toolbar
         TOOLBAR: 2
     };
-    private _itemActions = [{
+    protected _itemActions = [{
         id: 1,
         icon: 'icon-Erase icon-error',
         title: 'delete',
@@ -48,7 +48,7 @@ export default class extends Control {
         this._items = items;
     }
 
-    private _afterItemsRemove(e,i) {
+    protected _afterItemsRemove(e,i) {
         this._toggleAddButton();
     }
 

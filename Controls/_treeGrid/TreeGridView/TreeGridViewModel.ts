@@ -148,14 +148,18 @@ var
                 currentColumn.prepareExpanderClasses = current.prepareExpanderClasses;
 
                 currentColumn.isExpanded = current.isExpanded;
-                currentColumn.cellClasses += ' controls-TreeGrid__row-cell' + `_theme-${theme}`;
+                currentColumn.classList.base += ` controls-TreeGrid__row-cell_theme-${theme}`;
 
                 if (currentColumn.nodeType) {
-                    currentColumn.cellClasses += ' controls-TreeGrid__row-cell__node' + `_theme-${theme}`;
+                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__node_theme-${theme}`;
                 } else if (currentColumn.nodeType === false) {
-                    currentColumn.cellClasses += ' controls-TreeGrid__row-cell__hiddenNode' + `_theme-${theme}`;
+                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__hiddenNode_theme-${theme}`;
                 } else {
-                    currentColumn.cellClasses += ' controls-TreeGrid__row-cell__item' + `_theme-${theme}`;
+                    currentColumn.classList.base += ` controls-TreeGrid__row-cell__item_theme-${theme}`;
+                }
+
+                if (currentColumn.columnIndex === 0 && !current.hasMultiSelect) {
+                    currentColumn.classList.padding.left += ' controls-TreeGrid__row-cell__firstColumn__contentSpacing_null';
                 }
 
                 return currentColumn;

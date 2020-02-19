@@ -5,13 +5,13 @@ define('Controls/interface/ISelectorDialog', [
     * Интерфейс для контролов, открывающих диалоговое окно выбора.
     * @interface Controls/interface/ISelectorDialog
     * @public
-    * @author Капустин И.А.
+    * @author Герасимов А.М.
     */
    /*
     * Interface for controls that open selector dialog.
     * @interface Controls/interface/ISelectorDialog
     * @public
-    * @author Kapustin I.A.
+    * @author Герасимов А.М.
     */
 
    /**

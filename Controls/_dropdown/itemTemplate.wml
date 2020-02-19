@@ -1,69 +1,7 @@
-<ws:template name="iconTemplate">
-   <ws:if data="{{itemData.icon || (iconPadding[itemData.getPropValue(itemData.item, parentProperty)])}}">
-      <div class="{{itemData.getPropValue(itemData.item, displayProperty || 'title') ?
-                     'controls-DropdownList__icon controls-DropdownList__icon-' + iconAlign + '_theme-' + _options.theme}}
-                     controls-icon_style-{{(itemData.getPropValue(itemData.item, 'readOnly') ? 'readonly' : itemData.iconStyle) + '_theme-' + _options.theme}}
-                     {{itemData.iconSize ? 'controls-icon_size-' + itemData.iconSize + '_theme-' + _options.theme}}
-                     {{iconPadding[itemData.getPropValue(itemData.item, parentProperty)]}} {{itemData.icon}} theme_{{_options.theme}}"></div>
-   </ws:if>
-</ws:template>
-
-<div attr:class="controls-DropdownList__row controls-DropdownList__row_state_{{itemData.getPropValue(itemData.item, 'readOnly') ? 'readOnly' : 'default'}}
-                 {{marker !== false && itemData.isSelected && (!itemData.multiSelect || itemData.emptyText) ? 'controls-DropdownList__selected'}}
-                 {{itemData.spacingClassList}}
-                 {{itemData.getPropValue(itemData.item, 'pinned') === true && !itemData.hasParent ?  'controls-DropdownList__row_pinned'}}
-                 controls-DropdownList__row_{{multiLine ? 'multiLine' : 'singleLine'}} theme_{{_options.theme}}">
-   <ws:if data="{{(multiSelect !== undefined ? multiSelect : itemData.multiSelect) && !itemData.emptyText}}">
-      <Controls.Container.Async templateName="Controls/toggle:Checkbox"
-                                attr:class="controls-DropdownList__row-checkbox theme_{{_options.theme}}
-                                   controls-DropdownList__row-checkbox-{{checkBoxAlign === 'right' ? 'right' : 'left'}}_theme_{{_options.theme}}
-                                   controls-DropdownList__row-checkbox_{{itemData.isSelected ? 'active' : 'default'}}_theme_{{_options.theme}}">
-         <ws:templateOptions value="{{itemData.isSelected}}" />
-      </Controls.Container.Async>
-   </ws:if>
-   <ws:if data="{{contentTemplate}}">
-      <!--If contentTemplate is a string, then use Async to load required module-->
-      <ws:if data="{{(contentTemplate.charAt)}}">
-         <Controls.Container.Async templateName="{{contentTemplate}}">
-            <ws:partial
-                template="{{content.resolvedTemplate}}"
-                itemData="{{itemData}}"
-            />
-         </Controls.Container.Async>
-      </ws:if>
-      <ws:else>
-         <ws:partial
-             template="{{contentTemplate}}"
-             itemData="{{itemData}}"
-         />
-      </ws:else>
-   </ws:if>
-
-   <ws:else>
-      <div class="controls-DropdownList__content
-                  controls-DropdownList__content_{{itemData.getPropValue(itemData.item, 'readOnly') ? 'readOnly'}}_theme-{{_options.theme}}
-                  controls-DropdownList__content_{{multiLine ? 'multiLine' : 'singleLine'}}
-                  controls-DropdownList__content_{{additionalTextTemplate ? 'padding'}} theme_{{_options.theme}}"
-           title="{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}">
-         <ws:if data="{{iconAlign !== 'right'}}">
-            <ws:partial template="iconTemplate" iconAlign="left"/>
-         </ws:if>
-         <div class="controls-DropdownList__content-wrapper">
-            {{itemData.getPropValue(itemData.item, displayProperty || 'title')}}
-            <ws:if data="{{iconAlign === 'right'}}">
-               <ws:partial template="iconTemplate" iconAlign="right" />
-            </ws:if>
-            <ws:if data="{{additionalTextTemplate}}">
-               <ws:partial template="{{additionalTextTemplate}}"
-                           class="controls-DropdownList__row-additionalText_theme-{{_options.theme}}"/>
-            </ws:if>
-         </div>
-      </div>
-   </ws:else>
-   <ws:if data="{{itemData.hasPinned && !itemData.hasChildren && !(itemData.getPropValue(itemData.item, 'pinned') === true && itemData.hasParent)}}">
-      <div    class="controls-HistoryMenu__iconPin {{itemData.isSwiped ? 'controls-HistoryMenu__iconPin_swiped'}}
-              {{itemData.getPropValue(itemData.item, 'pinned') === true ? 'controls-HistoryMenu__iconUnnpin icon-PinOff' : 'icon-PinNull'}} theme_{{_options.theme}}"></div>
-   </ws:if>
-   <div if="{{itemData.hasChildren}}" class="controls-DropdownList__arrow controls-DropdownList__arrow_{{(readOnly || itemData.getPropValue(itemData.item, 'readOnly')) ? 'readOnly' : 'default'}}
-                                       icon-MarkCRightLight theme_{{_options.theme}}"></div>
-</div>
+<Controls.Container.Async templateName="Controls/menu:ItemTemplate">
+   <ws:partial
+           template="{{content.resolvedTemplate}}"
+           scope="{{_options}}"
+           treeItem="{{itemData.treeItem}}"
+   />
+</Controls.Container.Async>

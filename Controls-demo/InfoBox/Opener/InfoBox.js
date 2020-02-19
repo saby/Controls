@@ -131,10 +131,10 @@ define('Controls-demo/InfoBox/Opener/InfoBox',
             }, {
                header: 'Style',
                items: [{
-                  text: 'DEFAULT',
+                  text: 'UNACCENTED',
                   cfg: {
                      message: message,
-                     style: 'default'
+                     style: 'unaccented'
                   }
                }, {
                   text: 'DANGER',

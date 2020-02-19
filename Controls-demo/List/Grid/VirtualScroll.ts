@@ -7,9 +7,9 @@ import 'css!Controls-demo/List/Grid/resources/VirtualScroll/VirtualScroll'
 
 
 class GridVirtualScroll extends Control {
-    private _template: Function = template;
-    private _viewSource: Memory;
-    private _columns = [
+    protected _template: Function = template;
+    protected _viewSource: Memory;
+    protected _columns = [
         {
             displayProperty: 'idName',
             width: 'auto'

@@ -61,7 +61,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          this._menuSource = this._getMenuSource(options);
       }
 
-      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
+      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount || currOpts.isAllSelected !== options.isAllSelected) {
          return this._updateMenuCaptionByOptions(options);
       }
    }

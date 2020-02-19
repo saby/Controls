@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _itemActions = getItemActions();
-    private _selectedKeys = [0, 2];
+    protected _viewSource: Memory;
+    protected _itemActions = getItemActions();
+    protected _selectedKeys = [0, 2];
 
     protected _beforeMount() {
         this._viewSource = new Memory({

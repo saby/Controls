@@ -78,6 +78,15 @@ define('Controls-demo/Confirmation/Confirmation',
                      details: DETAILS,
                      style: 'danger'
                   }
+               }, {
+                  caption: 'PRIMARY',
+                  test_name: 'primary',
+                  background: '#D94700',
+                  cfg: {
+                     message: MESSAGE,
+                     details: DETAILS,
+                     style: 'primary'
+                  }
                }]
             },
             {

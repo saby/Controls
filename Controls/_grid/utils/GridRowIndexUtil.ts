@@ -1,5 +1,5 @@
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
-import {Collection, CollectionItem} from 'Types/display'
+import {Collection, CollectionItem} from 'Controls/display'
 import {IHeaderCell} from '../interface/IHeaderCell';
 
 /**
@@ -10,7 +10,7 @@ const SINGLE_HEADER_MAX_ROW = 2;
 
 /**
  * @typedef {Object} IBaseGridRowIndexOptions Конфигурационый объект.
- * @param {'Types/display'} display Проекция элементов списка.
+ * @param {'Controls/display'} display Проекция элементов списка.
  * @param {Boolean} hasHeader Флаг, указывающий на наличие заголовка в таблице.
  * @param {"top" | "bottom" | null} resultsPosition Позиция результатов таблицы. Null, если результаты не выводятся.
  */
@@ -32,7 +32,7 @@ type ItemId = { id: string };
 
 /**
  * @typedef {Object} DisplayItem Объект расширяющий базовую конфигурацию для получения индекса записи по элементу проекции.
- * @param {'Types/display:CollectionItem'} item Элемент проекции таблицы.
+ * @param {'Controls/display:CollectionItem'} item Элемент проекции таблицы.
  */
 type DisplayItem = { item: CollectionItem<unknown> };
 
@@ -285,7 +285,7 @@ function getHeaderMaxEndCellData(cells: IHeaderCell[][]): {maxRow: number, maxCo
     if (!isMultiColumn) {
         if (!result.maxColumn) {
             result.maxColumn = cells[0].length + 1;
-        }
+}
         result.maxRow = SINGLE_HEADER_MAX_ROW;
     }
     return result;
@@ -302,7 +302,8 @@ function getHeaderMaxEndCellData(cells: IHeaderCell[][]): {maxRow: number, maxCo
  *  [{title: 'name', startRow: 1, endRow: 2...}, {title: 'Price', startRow: 2, endRow: 3...}, ...], true
  *  ) -> [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
  */
-function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean): IHeaderCell[][] {
+
+function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean, stickyLadderCell?: boolean): IHeaderCell[][] {
     let headerRows = [];
     if (!isMultiHeader) {
         headerRows.push(cells);
@@ -323,6 +324,9 @@ function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMul
             sortedArray = sortedArray.slice(row.length);
         }
         headerRows = sortedColumns(headerRows);
+    }
+    if (stickyLadderCell) {
+        headerRows[0] = [{}, ...headerRows[0]];
     }
     if (hasMultiSelect) {
         headerRows[0] = [{}, ...headerRows[0]];

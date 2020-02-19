@@ -22,6 +22,8 @@ import ControlsConstants = require('Controls/Constants');
 import collection = require('Types/collection');
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
+import {createClassListCollection} from "../Utils/CssClassList";
+import { shouldAddStickyLadderCell, prepareLadder,  isSupportLadder, getStickyColumn} from 'Controls/_grid/utils/GridLadderUtil';
 
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
@@ -80,9 +82,6 @@ var
         getCellStyle: function(self, itemData, currentColumn, colspan) {
            var
                style = '';
-           if (currentColumn.styleForLadder) {
-              style += currentColumn.styleForLadder;
-           }
            if (colspan) {
                 style += self.getColspanStylesFor(
                     'fullWithoutMultiSelect',
@@ -97,51 +96,43 @@ var
         getPaddingCellClasses: function(params, theme) {
             const { columns, columnIndex } = params;
             const { cellPadding } = columns[columnIndex];
-            var
-                preparedClasses = '';
+            const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
+
 
             if (columns[columnIndex].isActionCell) {
-                return preparedClasses;
+                return classLists;
             }
             const arrayLengthOffset = params.hasActionCell ? 2 : 1;
+            const getCellPadding = (side) => cellPadding && cellPadding[side] ? `_${cellPadding[side]}` : '';
+
             // Колонки
-            if (params.multiSelectVisibility ? params.columnIndex > 1 : params.columnIndex > 0) {
-                preparedClasses += (cellPadding && cellPadding.left ? ` controls-Grid__cell_spacingLeft_${cellPadding.left}` : ' controls-Grid__cell_spacingLeft') + `_theme-${theme}`;
+            if (params.hasMultiSelect ? params.columnIndex > 1 : params.columnIndex > 0) {
+                classLists.left += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme}`;
             }
             if (params.columnIndex < params.columns.length - arrayLengthOffset) {
-                preparedClasses += (cellPadding && cellPadding.right ? ` controls-Grid__cell_spacingRight_${cellPadding.right}` : ' controls-Grid__cell_spacingRight') + `_theme-${theme}`;
+                classLists.right += ` controls-Grid__cell_spacingRight${getCellPadding('right')}_theme-${theme}`;
             }
 
             // Отступ для первой колонки. Если режим мультиселект, то отступ обеспечивается чекбоксом.
-            if (params.columnIndex === 0 && !params.multiSelectVisibility) {
-                preparedClasses += ' controls-Grid__cell_spacingFirstCol_' + (params.itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
+            if (params.columnIndex === 0 && !params.hasMultiSelect) {
+                classLists.left += ` controls-Grid__cell_spacingFirstCol_${params.itemPadding.left}_theme-${theme}`;
             }
 
             // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
             if (params.isBreadCrumbs) {
-               preparedClasses += ' controls-Grid__cell_spacingFirstCol_null' + `_theme-${theme}`;
+                classLists.left += ` controls-Grid__cell_spacingFirstCol_null_theme-${theme}`;
             }
-
-            // Стиль колонки
-            preparedClasses += ' controls-Grid__cell_' + (params.style || 'default');
 
             // Отступ для последней колонки
             if (params.columnIndex === params.columns.length - arrayLengthOffset) {
-                preparedClasses += ' controls-Grid__cell_spacingLastCol_' + (params.itemPadding.right || 'default').toLowerCase() + `_theme-${theme}`;
+                classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
-                preparedClasses += ' controls-Grid__row-cell_rowSpacingTop_' + (params.itemPadding.top || 'default').toLowerCase() + `_theme-${theme}`;
-                preparedClasses += ' controls-Grid__row-cell_rowSpacingBottom_' + (params.itemPadding.bottom || 'default').toLowerCase() + `_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
-            return preparedClasses;
-        },
-
-        getPaddingForCheckBox: function({ theme, itemPadding }) {
-            let preparedClasses = '';
-            preparedClasses += ' controls-Grid__row-cell_rowSpacingTop_' + (itemPadding.top || 'default').toLowerCase() + `_theme-${theme}`;
-            preparedClasses += ' controls-Grid__row-cell_rowSpacingBottom_' + (itemPadding.bottom || 'default').toLowerCase() + `_theme-${theme}`;
-            return preparedClasses;
+            return classLists;
         },
 
         getPaddingHeaderCellClasses: function(params, theme) {
@@ -206,10 +197,10 @@ var
                 return itemIndex === rowCount - 1;
             }
         },
-        prepareRowSeparatorClasses: function (current, theme, editingItem) {
-            let result = ' ';
+        prepareRowSeparatorClasses: function (current, theme) {
+            let result = '';
             if (current.rowSeparatorVisibility) {
-                result += `controls-Grid__row-cell_withRowSeparator_theme-${theme}`;
+                result += ` controls-Grid__row-cell_withRowSeparator${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? '-l' : ''}_theme-${theme} `;
                 if (current.isFirstInGroup && !current.isInHiddenGroup) {
                     result += ' controls-Grid__row-cell_first-row-in-group';
                 }
@@ -247,154 +238,52 @@ var
             return result;
         },
 
-        getItemColumnCellClasses: function(current, theme, editingItem) {
-            const cellClasses = `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} `;
+        getItemColumnCellClasses: function(current, theme) {
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
+            const classLists = createClassListCollection('base', 'padding', 'columnScroll');
+            const style = current.style || 'default';
+
+            // Стиль колонки
+            const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize}`;
+            classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
 
             if (current.columnScroll) {
-                cellClasses += _private.getColumnScrollCellClasses(current, theme);
+                classLists.columnScroll += _private.getColumnScrollCellClasses(current, theme);
             } else if (!checkBoxCell) {
-                cellClasses += ' controls-Grid__cell_fit';
+                classLists.base += ' controls-Grid__cell_fit';
             }
-            cellClasses += (current.isEditing ? ' controls-Grid__row-cell-background-editing' : ' controls-Grid__row-cell-background-hover') + `_theme-${theme}`;
 
-            var currentStyle = current.style || 'default';
-
-            cellClasses += _private.prepareRowSeparatorClasses(current, theme, editingItem);
+            if (current.isEditing) {
+                classLists.base += ` controls-Grid__row-cell-background-editing_theme-${theme}`;
+            } else {
+                classLists.base += ` controls-Grid__row-cell-background-hover_theme-${theme}`
+            }
 
             // Если включен множественный выбор и рендерится первая колонка с чекбоксом
             if (checkBoxCell) {
-                cellClasses += ' controls-Grid__row-cell-checkbox' + `_theme-${theme}`;
-                cellClasses += _private.getPaddingForCheckBox({ theme, itemPadding: current.itemPadding});
+                classLists.base += ` controls-Grid__row-cell-checkbox_theme-${theme}`;
+                classLists.padding = createClassListCollection('top', 'bottom');
+                classLists.padding.top = `controls-Grid__row-cell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
+                classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`
             } else {
-                cellClasses += _private.getPaddingCellClasses({
-                    columns: current.columns,
-                    style: current.style,
-                    columnIndex: current.columnIndex,
-                    multiSelectVisibility: current.multiSelectVisibility !== 'hidden',
-                    itemPadding: current.itemPadding,
-                }, theme);
+                classLists.padding = _private.getPaddingCellClasses(current, theme);
             }
 
             if (current.isSelected) {
-                cellClasses += ' controls-Grid__row-cell_selected controls-Grid__row-cell_selected-' + currentStyle + `_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
 
                 if (current.columnIndex === 0) {
-                    cellClasses += ' controls-Grid__row-cell_selected__first-' + currentStyle + `_theme-${theme}`;
+                    classLists.base += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
                 }
                 if (current.columnIndex === current.getLastColumnIndex()) {
-                    cellClasses += ' controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-' + currentStyle + `_theme-${theme}`;
+                    classLists.base += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
                 }
             } else if (current.columnIndex === current.getLastColumnIndex()) {
-                cellClasses += ' controls-Grid__row-cell__last controls-Grid__row-cell__last-' + currentStyle + `_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell__last controls-Grid__row-cell__last-${style}_theme-${theme}`;
             }
 
-            return cellClasses;
-        },
-        getStickyColumn: function(cfg) {
-            var
-                result;
-            if (cfg.stickyColumn) {
-                result = {
-                    index: cfg.stickyColumn.index,
-                    property: cfg.stickyColumn.property
-                };
-            } else if (cfg.columns) {
-                for (var idx = 0; idx < cfg.columns.length; idx++) {
-                    if (cfg.columns[idx].stickyProperty) {
-                        result = {
-                            index: idx,
-                            property: cfg.columns[idx].stickyProperty
-                        };
-                        break;
-                    }
-                }
-            }
-            return result;
-        },
-        prepareLadder: function(self) {
-            var
-                fIdx, idx, item, prevItem,
-                ladderProperties = self._options.ladderProperties,
-                stickyColumn = _private.getStickyColumn(self._options),
-                supportLadder = self._isSupportLadder(ladderProperties),
-                supportSticky = !!stickyColumn,
-                ladder = {}, ladderState = {}, stickyLadder = {},
-                stickyLadderState = {
-                    ladderLength: 1
-                };
-
-            if (!supportLadder && !supportSticky) {
-                return {};
-            }
-
-            function processLadder(params) {
-                var
-                    value = params.value,
-                    prevValue = params.prevValue,
-                    state = params.state;
-
-                // isEqual works with any types
-                if (isEqual(value, prevValue)) {
-                    state.ladderLength++;
-                } else {
-                    params.ladder.ladderLength = state.ladderLength;
-                    state.ladderLength = 1;
-                }
-            }
-
-            function processStickyLadder(params) {
-                processLadder(params);
-                if (params.ladder.ladderLength && params.ladder.ladderLength > 1 && !detection.isNotFullGridSupport) {
-                    params.ladder.headingStyle = 'grid-area: ' +
-                        (params.itemIndex + 1) + ' / ' +
-                        '1 / ' +
-                        'span ' + params.ladder.ladderLength + ' / ' +
-                        'span 1;';
-                }
-            }
-
-            if (supportLadder) {
-                for (fIdx = 0; fIdx < ladderProperties.length; fIdx++) {
-                    ladderState[ladderProperties[fIdx]] = {
-                        ladderLength: 1
-                    };
-                }
-            }
-
-            for (idx = self._model.getStopIndex() - 1; idx >= self._model.getStartIndex(); idx--) {
-                item = self._model.getDisplay().at(idx).getContents();
-                prevItem = idx - 1 >= 0 ? self._model.getDisplay().at(idx - 1).getContents() : null;
-
-                if (supportLadder) {
-                    ladder[idx] = {};
-                    for (fIdx = 0; fIdx < ladderProperties.length; fIdx++) {
-                        ladder[idx][ladderProperties[fIdx]] = {};
-                        processLadder({
-                            itemIndex: idx,
-                            value: item.get ? item.get(ladderProperties[fIdx]) : undefined,
-                            prevValue: prevItem && prevItem.get ? prevItem.get(ladderProperties[fIdx]) : undefined,
-                            state: ladderState[ladderProperties[fIdx]],
-                            ladder: ladder[idx][ladderProperties[fIdx]]
-                        });
-                    }
-                }
-
-                if (supportSticky) {
-                    stickyLadder[idx] = {};
-                    processStickyLadder({
-                        itemIndex: idx,
-                        value: item.get(stickyColumn.property),
-                        prevValue: prevItem ? prevItem.get(stickyColumn.property) : undefined,
-                        state: stickyLadderState,
-                        ladder: stickyLadder[idx]
-                    });
-                }
-            }
-            return {
-                ladder: ladder,
-                stickyLadder: stickyLadder
-            };
+            return classLists;
         },
 
         getSortingDirectionByProp: function(sorting, prop) {
@@ -490,6 +379,31 @@ var
                 actions: scrollableColumnsStyle
             };
         },
+
+        getGroupPaddingClasses(current, theme): { left: string, right: string } {
+            let right = `controls-Grid__groupContent__spacingRight_${current.itemPadding.right}_theme-${theme}`;
+            let left =  'controls-Grid__groupContent__spacingLeft_';
+            if (current.hasMultiSelect) {
+                left += `withCheckboxes_theme-${theme}`;
+            } else {
+                left += `${current.itemPadding.left}_theme-${theme}`;
+            }
+            return { left, right };
+        },
+
+        prepareLadder(self) {
+            if (!self._isSupportLadder(self._options.ladderProperties)) {
+                return {};
+            }
+            return prepareLadder({
+                ladderProperties: self._options.ladderProperties,
+                startIndex: self.getStartIndex(),
+                stopIndex: self.getStopIndex(),
+                display: self.getDisplay(),
+                columns: self._options.columns,
+                stickyColumn: self._options.stickyColumn
+            });
+        },
         getTableCellStyles(currentColumn): string {
             let styles = '';
             const isCheckbox = currentColumn.hasMultiSelect && currentColumn.columnIndex === 0;
@@ -527,8 +441,6 @@ var
         _ladder: null,
         _columnsVersion: 0,
 
-        _cachaedHeaderColumns: null,
-
         _isMultiHeader: null,
 
         constructor: function(cfg) {
@@ -536,8 +448,11 @@ var
             GridViewModel.superclass.constructor.apply(this, arguments);
             this._model = this._createModel(cfg);
             this._onListChangeFn = function(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
-                if (changesType === 'collectionChanged') {
+                if (changesType === 'collectionChanged' || changesType === 'indexesChanged') {
                     this._ladder = _private.prepareLadder(this);
+                    if (changesType === 'indexesChanged') {
+                        this._nextModelVersion();
+                    }
                 }
                 this._nextVersion();
                 this._notify('onListChange', changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
@@ -580,7 +495,7 @@ var
             this._updateLastItemKey();
         },
         _isSupportLadder(ladderProperties: []): boolean {
-            return !!(ladderProperties && ladderProperties.length);
+            return isSupportLadder(ladderProperties);
         },
         setTheme(theme: string): void {
             this._options.theme = theme;
@@ -658,7 +573,8 @@ var
             this._prepareHeaderColumns(
                 this._header,
                 this._options.multiSelectVisibility !== 'hidden',
-                this._shouldAddActionsCell()
+                this._shouldAddActionsCell(),
+                this._shouldAddStickyLadderCell()
             );
         },
 
@@ -669,26 +585,25 @@ var
         isMultiHeader: function(columns?: any) {
             let result = false;
             if (columns) {
-                let k = 0;
-                while (columns.length > k) {
-                    if (columns[k].endRow > 2) {
+            let k = 0;
+            while(columns.length > k) {
+                if (columns[k].endRow > 2) {
                         result = true;
-                    }
-                    k++;
                 }
+                k++;
+            }
             } else if (this._isMultiHeader !== null) {
                 result = this._isMultiHeader;
             }
             return result;
         },
-        _prepareHeaderColumns: function(columns, multiSelectVisibility, actionsCell) {
+        _prepareHeaderColumns: function(columns, multiSelectVisibility, actionsCell, stickyLadderCell) {
             if (columns && columns.length) {
                 this._isMultiHeader = this.isMultiHeader(columns);
-                this._headerRows = getHeaderRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell);
+                this._headerRows = getHeaderRowsArray(columns, multiSelectVisibility, this._isMultiHeader, actionsCell, stickyLadderCell);
                 const headerMaxEndCellData = getHeaderMaxEndCellData(this._headerRows);
                 this._maxEndRow = headerMaxEndCellData.maxRow;
-                this._maxEndColumn = headerMaxEndCellData.maxColumn;
-            } else if (multiSelectVisibility) {
+                this._maxEndColumn = headerMaxEndCellData.maxColumn;            } else if (multiSelectVisibility) {
                 this._headerRows = [{}];
             } else {
                 this._headerRows = [];
@@ -699,25 +614,6 @@ var
         getMultiHeaderOffset: function() {
           return this._multiHeaderOffset;
         },
-        setHeaderCellMinHeight: function(data) {
-            const multiSelectVisibility = this._options.multiSelectVisibility !== 'hidden';
-            const actionsCell = this._shouldAddActionsCell();
-            const headerRows = getHeaderRowsArray(
-                data[0],
-                multiSelectVisibility,
-                false,
-                actionsCell
-            );
-            if (!isEqual(headerRows, this._headerRows)) {
-                this._prepareHeaderColumns(data[0], multiSelectVisibility, actionsCell);
-                this._cachaedHeaderColumns = [...data[0]];
-                if (data[1]) { this._setResultOffset(data[1]); }
-                this._nextModelVersion();
-            }
-        },
-        _setResultOffset: function(offset) {
-            this._resultOffset = offset;
-        },
         _shouldAddActionsCell() {
             return shouldAddActionsCell({
                 disableCellStyles: this._options.disableColumnScrollCellStyles,
@@ -725,8 +621,11 @@ var
                 shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport()
             });
         },
-        getResultOffset: function() {
-            return this._resultOffset;
+        _shouldAddStickyLadderCell() {
+            return shouldAddStickyLadderCell(
+                this._options.columns,
+                this._options.stickyColumn,
+                this.getDragItemData());
         },
         resetHeaderRows: function() {
             this._curHeaderRowIndex = 0;
@@ -875,7 +774,6 @@ var
 
             let cellContentClasses = '';
             let cellStyles = '';
-            let offsetTop = 0;
             let shadowVisibility = 'visible';
 
             if (cell.startRow || cell.startColumn) {
@@ -892,10 +790,6 @@ var
                         headerColumn.colSpan = endColumn - startColumn;
                     }
                 } else {
-                    if (this.isStickyHeader()) {
-                        offsetTop = cell.offsetTop ? cell.offsetTop : 0;
-                        shadowVisibility = (rowIndex === this._headerRows.length - 1 || endRow === this._maxEndRow) && this.getResultsPosition() !== 'top' ? 'visible' : 'hidden';
-                    }
 
                     const additionalColumn = this._options.multiSelectVisibility === 'hidden' ? 0 : 1;
                     const gridStyles = GridLayoutUtil.getMultiHeaderStyles(startColumn, endColumn, startRow, endRow, additionalColumn);
@@ -925,7 +819,6 @@ var
             }
 
             headerColumn.shadowVisibility = shadowVisibility;
-            headerColumn.offsetTop = offsetTop;
             headerColumn.cellStyles = cellStyles;
             headerColumn.cellClasses = cellClasses;
             headerColumn.cellContentClasses = cellContentClasses;
@@ -981,7 +874,9 @@ var
             } else {
                 this._resultsColumns = columns;
             }
-
+            if (this._shouldAddStickyLadderCell()) {
+                this._resultsColumns = [{}].concat(this._resultsColumns);
+            }
             if (this._shouldAddActionsCell()) {
                 this._resultsColumns = this._resultsColumns.concat([{ isActionCell: true }]);
             }
@@ -996,7 +891,7 @@ var
         getCurrentResultsColumn: function() {
             var
                 columnIndex = this._curResultsColumnIndex,
-                cellClasses = `controls-Grid__results-cell controls-Grid__results-cell_theme-${this._options.theme}`,
+                cellClasses = `controls-Grid__results-cell controls-Grid__cell_${this._options.style} controls-Grid__results-cell_theme-${this._options.theme}`,
                 resultsColumn = {
                     column: this._resultsColumns[columnIndex],
                     index: columnIndex
@@ -1026,15 +921,15 @@ var
             if ((this._options.multiSelectVisibility !== 'hidden') && columnIndex === 0) {
                 cellClasses += ' controls-Grid__results-cell-checkbox' + `_theme-${this._options.theme}`;
             } else {
-                cellClasses += _private.getPaddingCellClasses({
+                cellClasses += ' ' + _private.getPaddingCellClasses({
                     style: this._options.style,
                     columns: this._resultsColumns,
                     columnIndex: columnIndex,
-                    multiSelectVisibility: this._options.multiSelectVisibility !== 'hidden',
+                    hasMultiSelect: this._options.multiSelectVisibility !== 'hidden',
                     itemPadding: this._model.getItemPadding(),
                     isResult: true,
                     hasActionCell: this._shouldAddActionsCell(),
-                }, this._options.theme);
+                }, this._options.theme).getAll();
             }
             resultsColumn.cellClasses = cellClasses;
             return resultsColumn;
@@ -1106,11 +1001,8 @@ var
             const hasMultiSelect = multiSelectVisibility !== 'hidden';
             this._model.setMultiSelectVisibility(multiSelectVisibility);
             this._prepareColgroupColumns(this._columns, hasMultiSelect);
-            if (this._cachaedHeaderColumns && this._isMultiHeader) {
-                this._prepareHeaderColumns(this._cachaedHeaderColumns, hasMultiSelect, this._shouldAddActionsCell());
-            } else {
-                this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell());
-            }
+            this._prepareHeaderColumns(this._header, hasMultiSelect, this._shouldAddActionsCell(), this._shouldAddStickyLadderCell());
+
             this._prepareResultsColumns(this._columns, hasMultiSelect);
         },
 
@@ -1271,7 +1163,7 @@ var
             var
                 self = this,
                 current = this._model.getItemDataByItem(dispItem),
-                stickyColumn, isStickedColumn;
+                stickyColumn;
 
             if (current._gridViewModelCached) {
                 return current;
@@ -1279,7 +1171,10 @@ var
                 current._gridViewModelCached = true;
             }
 
-            stickyColumn = _private.getStickyColumn(this._options)
+            stickyColumn = getStickyColumn({
+                stickyColumn: this._options.stickyColumn,
+                columns: this._options.columns
+            });
 
             current.isFullGridSupport = this.isFullGridSupport.bind(this);
             current.resolveBaseItemTemplate = this._baseItemTemplateResolver;
@@ -1323,9 +1218,8 @@ var
 
             current.isHovered = !!self._model.getHoveredItem() && self._model.getHoveredItem().getId() === current.key;
 
-            if (stickyColumn && !detection.isNotFullGridSupport) {
+            if (stickyColumn && !detection.isNotFullGridSupport && !current.dragTargetPosition) {
                 current.styleLadderHeading = self._ladder.stickyLadder[current.index].headingStyle;
-                current.stickyColumnIndex = stickyColumn.index;
             }
 
             // TODO: Разобраться, зачем это. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
@@ -1337,13 +1231,17 @@ var
             }
 
             if (current.isGroup) {
-                current.groupResultsSpacingClass = ' controls-Grid__cell_spacingLastCol_' + ((current.itemPadding && current.itemPadding.right) || current.rightSpacing || 'default').toLowerCase() + `_theme-${this._options.theme}`;
+                current.groupPaddingClasses = _private.getGroupPaddingClasses(current, this._options.theme);
+                current.shouldFixGroupOnColumn = (columnAlignGroup?: number) => {
+                    return columnAlignGroup !== undefined && columnAlignGroup < current.columns.length - (current.hasMultiSelect ? 1 : 0)
+                };
                 return current;
             }
 
             const itemGroupId = !current.isGroup && this._getItemGroup(current.item);
             current.isInHiddenGroup = itemGroupId === ControlsConstants.view.hiddenGroup;
             current.isFirstInGroup = this._isFirstInGroup(current.item, itemGroupId);
+            current.rowSeparatorSize = this._options.rowSeparatorSize;
 
             if (
                 current.isFirstInGroup &&
@@ -1365,8 +1263,6 @@ var
                 return self._calcItemVersion(current.item, current.key, current.index);
             };
 
-            current.getItemColumnCellClasses = _private.getItemColumnCellClasses;
-
             current.resetColumnIndex = () => {
                 current.columnIndex = 0;
             };
@@ -1387,6 +1283,8 @@ var
             current.isDrawActions = _private.isDrawActions;
             current.isActionsColumn = _private.isActionsColumn;
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
+
+            current.getItemColumnCellClasses = _private.getItemColumnCellClasses;
 
             current.getCurrentColumnKey = function() {
                 return self._columnsVersion + '_' +
@@ -1416,7 +1314,7 @@ var
                         gridCellStyles: '',
                         tableCellStyles: ''
                     };
-                currentColumn.cellClasses = current.getItemColumnCellClasses(current, self._options.theme, self.getEditingItemData());
+                currentColumn.classList = _private.getItemColumnCellClasses(current, self._options.theme);
                 currentColumn.column = current.columns[current.columnIndex];
                 currentColumn.template = currentColumn.column.template ? currentColumn.column.template : self._columnTemplate;
                 if (self._isSupportLadder(self._options.ladderProperties)) {
@@ -1428,17 +1326,7 @@ var
                     currentColumn.searchValue = current.searchValue;
                 }
                 if (stickyColumn) {
-                    isStickedColumn = stickyColumn.index === (current.multiSelectVisibility !== 'hidden' ? currentColumn.columnIndex + 1 : currentColumn.columnIndex);
-                    if (detection.isNotFullGridSupport) {
-                        currentColumn.hiddenForLadder = isStickedColumn && !self._ladder.stickyLadder[current.index].ladderLength;
-                    } else {
-                        currentColumn.hiddenForLadder = isStickedColumn && self._ladder.stickyLadder[current.index].ladderLength !== 1;
-                        currentColumn.styleForLadder = currentColumn.cellStyleForLadder = 'grid-area: ' +
-                            (current.index + 1) + ' / ' +
-                            (currentColumn.columnIndex + 1) + ' / ' +
-                            'span 1 / ' +
-                            'span 1;';
-                    }
+                    currentColumn.hiddenForLadder = currentColumn.columnIndex === (current.multiSelectVisibility !== 'hidden' ? stickyColumn.index + 1 : stickyColumn.index);
                 }
 
                 if (current.columnScroll && !GridLayoutUtil.isFullGridSupport()) {
@@ -1652,6 +1540,10 @@ var
 
         setDragItemData: function(itemData) {
             this._model.setDragItemData(itemData);
+            if (getStickyColumn({ stickyColumn: this._options.stickyColumn, columns: this._options.columns })) {
+                this._setHeader(this._options.header);
+                this._prepareResultsColumns(this._columns, this._options.multiSelectVisibility !== 'hidden');
+            }
         },
 
         getDragItemData: function() {

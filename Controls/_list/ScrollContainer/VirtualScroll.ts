@@ -1,163 +1,91 @@
-import {IDirection} from '../interface/IVirtualScroll';
-import {Record as entityRecord} from 'Types/entity';
-import {CollectionItem} from 'Controls/display';
-import {IObservable} from 'Types/collection';
-import * as getDimension from 'Controls/Utils/getDimensions';
-import {Collection} from 'Controls/display';
+import {
+    IRange,
+    IContainerHeights,
+    IDirection,
+    IItemsHeights,
+    IVirtualScrollOptions, IPlaceholders,
+    IRangeShiftResult
+} from './interfaces';
 
-const DEFAULT_VIRTUAL_PAGE_SIZE = 100;
-const DEFAULT_PAGE_SIZE_TO_SEGMENT_RELATION = 1 / 4;
+export default class VirtualScroll {
+    private _containerHeightsData: IContainerHeights = {scroll: 0, trigger: 0, viewport: 0};
+    private _options: IVirtualScrollOptions;
+    private _itemsHeightData: IItemsHeights = {itemsHeights: [], itemsOffsets: []};
+    private _range: IRange = {start: 0, stop: 0};
+    private _oldRange: IRange = {start: 0, stop: 0};
+    private _savedDirection: IDirection;
+    private _itemsCount: number;
 
-type IVirtualItem = number;
+    rangeChanged: boolean;
 
-interface IVirtualScrollControllerOptions {
-    pageSize: number;
-    segmentSize: number;
-    indexesChangedCallback: Function;
-    loadMoreCallback: Function;
-    placeholderChangedCallback: Function;
-    saveScrollPositionCallback: Function;
-    itemHeightProperty: string;
-    viewModel: Collection<entityRecord>;
-    useNewModel: boolean;
-    viewportHeight: number;
-}
-
-type IPlaceholders = [number, number];
-
-/**
- * Контроллер расчета видимых данных
- * @author Волоцкой В.Д.
- */
-export default class VirtualScrollController {
-    private startIndex: number = 0;
-    private stopIndex: number = 0;
-    private savedStartIndex: number = 0;
-    private itemsHeights: IVirtualItem[] = [];
-    private itemsOffsets: number[] = [];
-    private _options: IVirtualScrollControllerOptions;
-    triggerVisibility: {
-        up: boolean;
-        down: boolean;
-    } = {up: false, down: false};
-    triggerOffset: number = 0;
-    itemsCount: number = 0;
-    // Флаг того, что поменялся набор записей, необходим для пересчета высот
-    itemsChanged: boolean = false;
-
-    set viewportHeight(value: number) {
-        this._options.viewportHeight = value;
+    readonly get isNeedToRestorePosition(): boolean {
+        return Boolean(this._savedDirection);
     }
 
-    get viewportHeight(): number {
-        return this._options.viewportHeight;
+    constructor(
+        options: Partial<IVirtualScrollOptions>,
+        containerData: Partial<IContainerHeights>
+    ) {
+        this.setOptions(options);
+        this.applyContainerHeightsData(containerData);
     }
 
-    scrollTop: number = 0;
-    itemsContainerHeight: number = 0;
-    itemsFromLoadToDirection: boolean = false;
+    setOptions(options: Partial<IVirtualScrollOptions>): void {
+        const pageSize = options.pageSize;
+        let segmentSize: number = options.segmentSize;
 
-    private _itemsContainer: HTMLElement;
+        if (!segmentSize) {
+            segmentSize = pageSize ? Math.ceil(pageSize / 4) : 0;
+        }
 
-    set itemsContainer(container: HTMLElement) {
-        this._itemsContainer = container;
-        this.recalcItemsHeights();
+        this._options = {...this._options, ...{segmentSize, pageSize}};
     }
 
-    get itemsContainer(): HTMLElement {
-        return this._itemsContainer;
-    }
-
-    constructor(options: IVirtualScrollControllerOptions) {
-        const pageSize = options.pageSize || DEFAULT_VIRTUAL_PAGE_SIZE;
-        const segmentSize = options.segmentSize || Math.ceil(pageSize * DEFAULT_PAGE_SIZE_TO_SEGMENT_RELATION);
-        this._options = {
-            ...options,
-            pageSize, segmentSize
-        };
-        this.subscribeToModelChange(options.viewModel, options.useNewModel);
+    applyContainerHeightsData(containerData: Partial<IContainerHeights>): void {
+        this._containerHeightsData = {...this._containerHeightsData, ...containerData};
     }
 
     /**
-     * Пересчет индексов "видимого" набора данных от индекса
-     * @param {number} itemIndex
+     * Создает новый диапазон видимых индексов
+     * @remark Используется при инициализации
+     * @param startIndex Начальный индекс создаваемого диапазона
+     * @param itemsCount Общее количество элементов
+     * @param itemsHeights Высоты элементов
      */
-    recalcRangeFromIndex(itemIndex: number): void {
-        let newStartIndex = this.startIndex;
-        let newStopIndex = this.stopIndex;
+    resetRange(startIndex: number, itemsCount: number, itemsHeights?: Partial<IItemsHeights>): IRangeShiftResult {
+        this._itemsCount = itemsCount;
 
-        if (this._options.pageSize < this.itemsCount) {
-            newStartIndex = itemIndex;
-            newStopIndex = newStartIndex + this._options.pageSize;
+        if (itemsHeights) {
+            this._itemsHeightData = {...this._itemsHeightData, ...itemsHeights};
 
-            if (newStopIndex >= this.itemsCount) {
-                newStopIndex = this.itemsCount;
-                newStartIndex = newStopIndex - this._options.pageSize;
-            }
+            return this._createRangeByItemHeightProperty(startIndex, itemsCount);
         } else {
-            newStartIndex = 0;
-            newStopIndex = this.itemsCount;
-        }
-
-        this.checkIndexesChanged(newStartIndex, newStopIndex);
-    }
-
-    /**
-     * Пересчет индексов "видимого" набора данных при скроллировании
-     * @param {IDirection} direction
-     * @param {boolean} shouldLoad
-     */
-    recalcRangeToDirection(direction: IDirection, shouldLoad: boolean = true): void {
-        this.actualizeSavedIndexes();
-        const segmentSize = this._options.segmentSize;
-        let newStartIndex = this.startIndex;
-        let newStopIndex = this.stopIndex;
-        let needToLoadMore: boolean = false;
-
-        if (this.startIndex === 0 && direction === 'up' || this.stopIndex === this.itemsCount && direction === 'down') {
-            needToLoadMore = true;
-        } else {
-            const quantity = this.getItemsToHideQuantity(direction);
-
-            if (direction === 'up') {
-                if (newStartIndex <= segmentSize) {
-                    needToLoadMore = true;
-                }
-
-                newStartIndex = Math.max(0, newStartIndex - segmentSize);
-                newStopIndex -= quantity;
-            } else {
-                if (newStopIndex + segmentSize >= this.itemsCount) {
-                    needToLoadMore = true;
-                }
-
-                newStopIndex = Math.min(newStopIndex + segmentSize, this.itemsCount);
-                newStartIndex += quantity;
-            }
-
-            this.checkIndexesChanged(newStartIndex, newStopIndex, direction);
-        }
-
-        if (needToLoadMore && shouldLoad) {
-            this._options.loadMoreCallback(direction);
+            return this._createRangeByIndex(startIndex, itemsCount);
         }
     }
 
     /**
-     * Вычисление индексов "видимого" набора данных от scrollTop
-     * @remark Необходимо вызывать при изменении виртуального scrollTop
+     * Рассчет видимых индексов от позиции скролла
+     * @remark
+     * Вызывается при смещении скролла за счет движения скроллбара
      */
-    recalcRangeFromScrollTop(): void {
-        const scrollTop = this.scrollTop;
-        let newStartIndex = 0;
+    shiftRangeToScrollPosition(virtualScrollPosition: number): IRangeShiftResult {
+        const itemsHeights = this._itemsHeightData.itemsHeights;
+        const pageSize = this._options.pageSize;
+        const itemsCount = this._itemsCount;
+        const triggerHeight = this._containerHeightsData.trigger;
+
+        let start = 0;
+        let stop: number;
         let tempPlaceholderSize = 0;
-        while (tempPlaceholderSize + this.itemsHeights[newStartIndex] <= scrollTop - this.triggerOffset) {
-            tempPlaceholderSize += this.itemsHeights[newStartIndex];
-            newStartIndex++;
+
+        while (tempPlaceholderSize + itemsHeights[start] <= virtualScrollPosition - triggerHeight) {
+            tempPlaceholderSize += itemsHeights[start];
+            start++;
         }
 
-        this.startIndex = Math.max(newStartIndex - (Math.trunc(this._options.pageSize / 2)), 0);
-        this.stopIndex = Math.min(this.startIndex + this._options.pageSize, this.itemsCount);
+        start = Math.max(start - (Math.trunc(pageSize / 2)), 0);
+        stop = Math.min(start + pageSize, itemsCount);
 
         // Если мы скроллим быстро к концу списка, startIndex может вычислиться такой,
         // что число отрисовываемых записей будет меньше virtualPageSize (например если
@@ -166,98 +94,212 @@ export default class VirtualScrollController {
         // Нам нужно всегда рендерить virtualPageSize записей, если это возможно, т. е. когда
         // в коллекции достаточно записей. Поэтому если мы находимся в конце списка, пробуем
         // отодвинуть startIndex назад так, чтобы отрисовывалось нужное число записей.
-        if (this.stopIndex === this.itemsCount) {
-            const missingCount = this._options.pageSize - (this.stopIndex - this.startIndex);
+        if (stop === itemsCount) {
+            const missingCount = pageSize - (stop - start);
             if (missingCount > 0) {
-                this.startIndex = Math.max(this.startIndex - missingCount, 0);
+                start = Math.max(start - missingCount, 0);
             }
         }
 
-        this._options.indexesChangedCallback(this.startIndex, this.stopIndex);
-        this._options.placeholderChangedCallback(this.calcPlaceholderSize());
-
+        return this._setRange({start, stop});
     }
 
     /**
-     * Обнуляет данные о записях, стартует виртуальный скроллинг с нуля
+     * Производит смещение диапазона за счет добавления новых элементов
+     * @param addIndex индекс начиная с которого происходит вставка элементов
+     * @param count количество вставляемых элементов
      */
-    reset(startIndex?: number): void {
-        this.itemsHeights = [];
-        this.itemsOffsets = [];
-        const initialIndex = startIndex || 0;
+    insertItems(addIndex: number, count: number): IRangeShiftResult {
+        const direction = addIndex <= this._range.start ? 'up' : 'down';
+        this._itemsCount += count;
+        this._insertItemHeights(addIndex, count);
 
-        if (this._options.itemHeightProperty) {
-            this.recalcFromItemHeightProperty(initialIndex);
-        } else {
-            this.recalcRangeFromIndex(initialIndex);
+        if (direction === 'up') {
+            this._oldRange.start += count;
+            this._updateStartIndex(this._range.start + count);
         }
-        this.actualizeSavedIndexes();
+
+        // TODO Поправить после исправления
+        // https://online.sbis.ru/opendoc.html?guid=63490db6-53f7-411a-9603-0fcbe5838b9a
+        if (!this._options.pageSize) {
+            this._oldRange = {...this._range};
+            return this._setRange({start: 0, stop: this._itemsCount});
+        } else {
+            return this._setRange(
+                this.rangeChanged ? this._range : this._shiftRangeBySegment(direction, count)
+            );
+        }
     }
 
     /**
-     * Пересчитывает высота "видимого" набора данных
+     * Производит смещение диапазона за счет удаления элементов
+     * @param removeIndex индекс начиная с которого происходит удаление элементов
+     * @param count количество удаляемых элементов
      */
-    recalcItemsHeights(): void {
-        const startIndex = this.startIndex;
-        const items = this._itemsContainer.children;
-        const updateLength = Math.min(this.stopIndex - startIndex, items.length);
+    removeItems(removeIndex: number, count: number): IRangeShiftResult {
+        const direction = removeIndex < this._range.start ? 'up' : 'down';
+        this._itemsCount -= count;
+        this._removeItemHeights(removeIndex, count);
 
-        this.updateItemsHeights(startIndex, updateLength);
-        this.itemsContainerHeight = this._itemsContainer.offsetHeight;
+        return this._setRange(
+            this.rangeChanged ? this._range : this._shiftRangeBySegment(direction, count)
+        );
     }
 
-    actualizeSavedIndexes(): void {
-        this.savedStartIndex = this.startIndex;
+    /**
+     * Производит смещение диапазона по направлению на segmentSize
+     * @param direction
+     */
+    shiftRange(direction: IDirection): IRangeShiftResult {
+        this._oldRange = {...this._range};
+        this._savedDirection = direction;
+        const itemsHeightsData = this._itemsHeightData;
+        const itemsCount = this._itemsCount;
+        const segmentSize = this._options.segmentSize;
+        let {start, stop} = this._range;
+
+        if (segmentSize) {
+            const quantity = this._getItemsToHideQuantity(direction);
+
+            if (direction === 'up') {
+                start = Math.max(0, start - segmentSize);
+                stop -= quantity;
+            } else {
+                stop = Math.min(stop + segmentSize, itemsCount);
+                start += quantity;
+            }
+        } else {
+            start = 0;
+            stop = itemsCount;
+        }
+
+        return this._setRange({start, stop});
     }
 
-    getRestoredScrollPosition(direction: IDirection): number {
-        return direction === 'up' ? this.scrollTop + this.getItemsHeights(this.startIndex, this.savedStartIndex) :
-            this.scrollTop - this.getItemsHeights(this.savedStartIndex, this.startIndex);
+    /**
+     * Запоминает данные из ресайза вьюпорта на инстанс
+     * @param viewportHeight
+     * @param triggerHeight
+     * @param itemsContainer
+     */
+    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
+        this.applyContainerHeightsData({viewport: viewportHeight, trigger: triggerHeight});
+        this._updateItemsHeights(itemsContainer);
+    }
+
+    /**
+     * Запоминает данные из ресайза вью на инстанс
+     * @param viewHeight
+     * @param triggerHeight
+     * @param itemsContainer
+     */
+    resizeView(viewHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
+        this.applyContainerHeightsData({scroll: viewHeight, trigger: triggerHeight});
+        this._updateItemsHeights(itemsContainer);
+    }
+
+    /**
+     * Обновляет данные об элементах
+     * @param container
+     */
+    updateItemsHeights(container: HTMLElement): void {
+        this._updateItemsHeights(container);
+        this.rangeChanged = false;
+    }
+
+    /**
+     * Возвращает восстановленную позицию скролла по направлению
+     * @param scrollTop
+     */
+    getPositionToRestore(scrollTop: number): number {
+        const itemsHeights = this._itemsHeightData.itemsHeights;
+        let savedPosition: number;
+
+        if (this._savedDirection) {
+            savedPosition = this._savedDirection === 'up' ?
+                scrollTop + this._getItemsHeightsSum(this._range.start, this._oldRange.start, itemsHeights) :
+                scrollTop - this._getItemsHeightsSum(this._oldRange.start, this._range.start, itemsHeights);
+        }
+
+        this._savedDirection = undefined;
+
+        return savedPosition;
+    }
+
+    getItemContainerByIndex(index: number, itemsContainer: HTMLElement): HTMLElement {
+        let startChildrenIndex = 0;
+
+        for (let i = startChildrenIndex, len = itemsContainer.children.length; i < len; i++) {
+            if (itemsContainer.children[i].className.indexOf('controls-ListView__hiddenContainer') === -1) {
+                startChildrenIndex = i;
+                break;
+            }
+        }
+
+        return itemsContainer.children[startChildrenIndex + index - this._range.start] as HTMLElement;
+    }
+
+    /**
+     * Проверяет что виртуальное окно находится на переданном краю
+     * @param edge
+     */
+    isRangeOnEdge(edge: IDirection): boolean {
+        return edge === 'up' ? this._range.start === 0 : this._range.stop === this._itemsCount;
     }
 
     /**
      * Проверяет возможность подскроллить к элементу
-     * @param {number} index
-     * @returns {boolean}
+     * @param itemIndex
+     * @param toBottom
+     * @param force
      */
-    canScrollToItem(index: number): boolean {
+    canScrollToItem(itemIndex: number, toBottom: boolean, force: boolean): boolean {
         let canScroll = false;
+        const {viewport, scroll: scrollHeight} = this._containerHeightsData;
+        const itemOffset = this._itemsHeightData.itemsOffsets[itemIndex];
 
-        if (this.stopIndex === this.itemsCount) {
+        if (this._range.stop === this._itemsCount) {
             canScroll = true;
-        } else if (this.startIndex <= index && this.stopIndex > index) {
-            if (this._options.viewportHeight < this.itemsContainerHeight - this.itemsOffsets[index]) {
-                canScroll = true;
-            }
+        } else if (this._isItemInRange(itemIndex) &&
+            (toBottom || !force || (viewport < scrollHeight - itemOffset))) {
+            canScroll = true;
         }
 
         return canScroll;
     }
 
     /**
-     * Выставляет стартовый индекс виртуальнного скролла
-     * @param {number} index
-     * @remark Нужен для загрузки данных вверх, так как в таком случае произойдет сдвиг "видимого" набора данных
+     * Возвращает индекс активного элемента
+     * @param scrollTop
      */
-    setStartIndex(index: number): void {
-        this.startIndex = Math.max(0, index);
-        this.stopIndex = Math.min(this.itemsCount, this.startIndex + this._options.pageSize);
-    }
+    getActiveElementIndex(scrollTop: number): number {
+        const {viewport, scroll} = this._containerHeightsData;
+        let fixedScrollTop: number;
 
-    getActiveElement(): number {
-        if (!this.itemsHeights.length) {
+        // На тач устройствах scroll может заходить за пределы границ контейнера,
+        // такие ситуации нужно корректировать под крайние максимальные и минимальные значения
+        // scrollTop
+        if (scrollTop < 0) {
+            fixedScrollTop = 0;
+        } else if (viewport + scrollTop > scroll) {
+            fixedScrollTop = scroll - viewport;
+        } else {
+            fixedScrollTop = scrollTop;
+        }
+
+        if (!this._itemsCount) {
             return undefined;
-        } else if (this.isScrolledToBottom()) {
-            return this.stopIndex - 1;
-        } else if (this.isScrolledToTop()) {
-            return this.startIndex;
+        } else if (this.isRangeOnEdge('up') && fixedScrollTop === 0) {
+            return this._range.start;
+        } else if (this.isRangeOnEdge('down') && fixedScrollTop + viewport === scroll) {
+            return this._range.stop - 1;
         } else {
             let itemIndex;
-            const halfDivider = 2;
-            const viewportCenter = this.scrollTop + (this._options.viewportHeight / halfDivider);
+            const {itemsOffsets} = this._itemsHeightData;
+            const viewportCenter = fixedScrollTop + viewport / 2;
 
-            for (let i = this.startIndex; i < this.stopIndex; i++) {
-                if (this.itemsOffsets[i] < viewportCenter) {
+            for (let i = this._range.start ; i < this._range.stop; i++) {
+                if (itemsOffsets[i] < viewportCenter) {
                     itemIndex = i;
                 } else {
                     break;
@@ -268,27 +310,97 @@ export default class VirtualScrollController {
         }
     }
 
-    getItemOffset(index: number): number {
-        return this.itemsOffsets[index];
+    /**
+     * Проверяет наличие элемента в диапазоне по его индексу
+     * @param itemIndex
+     */
+    private _isItemInRange(itemIndex: number): boolean {
+        return this._range.start <= itemIndex && this._range.stop > itemIndex;
     }
 
     /**
-     * Высчитывает индексы видимого набора исходя из itemHeightProperty
-     * @param {number} startIndex
-     * @remark Если разработчик знает данные о высотах элементов и viewport, то он может указать их в данных элемента
-     * и рассчет видимого набора элементов будет выполнен без подсчета высот элементов
+     * Получает размеры распорок исходя из текущего range
+     * @private
      */
-    private recalcFromItemHeightProperty(startIndex: number): void {
-        let sumHeight = 0;
-        let stopIndex: number;
+    private _getPlaceholders(): IPlaceholders {
+        return {
+            top: this._getItemsHeightsSum(
+                0,
+                this._range.start,
+                this._itemsHeightData.itemsHeights
+            ),
+            bottom: this._getItemsHeightsSum(
+                this._range.stop,
+                this._itemsHeightData.itemsHeights.length,
+                this._itemsHeightData.itemsHeights
+            )
+        };
+    }
 
-        for (let i = startIndex; i < this.itemsCount; i++) {
-            const itemHeight = this._options.viewModel.at(i).getContents().get(this._options.itemHeightProperty);
-            if (sumHeight + itemHeight <= this._options.viewportHeight) {
+    /**
+     * Обновляет данные о высотах элементов
+     * @param container
+     * @private
+     */
+    private _updateItemsHeights(container: HTMLElement): void {
+        let sum = 0;
+        let startChildrenIndex = 0;
+
+        for (let i = startChildrenIndex, len = container.children.length; i < len; i++) {
+            if (container.children[i].className.indexOf('controls-ListView__hiddenContainer') === -1) {
+                startChildrenIndex = i;
+                break;
+            }
+        }
+
+        for (let i = 0, len = Math.min(container.children.length, this._range.stop - this._range.start); i < len; i++) {
+            const itemHeight = container.children[startChildrenIndex + i].getBoundingClientRect().height;
+
+            this._itemsHeightData.itemsHeights[this._range.start + i] = itemHeight;
+            this._itemsHeightData.itemsOffsets[this._range.start + i] = sum;
+            sum += itemHeight;
+        }
+    }
+
+    /**
+     * Расчет видимых индексов от заранее высчитанных высот
+     * @remark
+     * Используется для оптимизаций частных случаев, когда построить один лишний элемент будет очень дорого,
+     * например если один элемент это огромный пункт с кучей контролов внутри)
+     * @param startIndex Начальный индекс
+     * @param itemsCount Количество элементов
+     */
+    private _createRangeByItemHeightProperty(startIndex: number, itemsCount: number): IRangeShiftResult {
+        const itemsHeights = this._itemsHeightData.itemsHeights;
+        const viewportHeight = this._containerHeightsData.viewport;
+
+        let sumHeight = 0;
+        let stop: number;
+        let start: number = startIndex;
+
+        for (let i = start; i < itemsCount; i++) {
+            const itemHeight = itemsHeights[i];
+            if (sumHeight + itemHeight <= viewportHeight) {
                 sumHeight += itemHeight;
             } else {
-                stopIndex = i;
+                stop = i;
                 break;
+            }
+        }
+
+        if (typeof stop === 'undefined' || stop === itemsCount - 1) {
+            stop = itemsCount - 1;
+            sumHeight = 0;
+
+            for (let i = stop; i > 0; i--) {
+                const itemHeight = itemsHeights[i];
+
+                if (sumHeight + itemHeight <= viewportHeight) {
+                    sumHeight += itemHeight;
+                } else {
+                    start = i;
+                    break;
+                }
             }
         }
 
@@ -299,231 +411,155 @@ export default class VirtualScrollController {
          * Если бы мы не добавили единицу, то получили бы startIndex = 0 и stopIndex = 2, но так как итерируюется
          * пока i < stopIndex, то мы получим не три отрисованных элемента, а 2
          */
-        this.checkIndexesChanged(startIndex, stopIndex + 1);
+        return this._setRange({start, stop: stop + 1});
     }
 
     /**
-     * Возвращает сумму высот элементов с startIndex до stopIndex
-     * @param {number} startIndex
-     * @param {number} stopIndex
-     * @returns {number}
+     * Расчет видимых индексов от переданного индекса
+     * @remark
+     * Вызывается при инциализации виртуального скролла от переданного индекса
+     * @param startIndex
+     * @param itemsCount
      */
-    private getItemsHeights(startIndex: number, stopIndex: number): number {
-        let height = 0;
-        const fixedStartIndex = Math.max(startIndex, 0);
-        const fixedStopIndex = Math.min(stopIndex, this.itemsHeights.length);
-        const items = this.itemsHeights;
+    private _createRangeByIndex(startIndex: number, itemsCount: number): IRangeShiftResult {
+        const pageSize = this._options.pageSize;
+        let start;
+        let stop;
 
-        for (let i = fixedStartIndex; i < fixedStopIndex; i++) {
-            height += items[i];
+        if (pageSize && pageSize < itemsCount) {
+            start = startIndex;
+            stop = start + pageSize;
+
+            if (stop >= itemsCount) {
+                stop = itemsCount;
+                start = stop - pageSize;
+            }
+        } else {
+            start = 0;
+            stop = itemsCount;
         }
 
-        return height;
+        return this._setRange({start, stop});
     }
 
-    /**
-     * Добавляет высоты записей
-     * @remark Используется при загрузке вверх, когда необходимо сместить индексы записей
-     * @param {number} itemIndex
-     * @param {number} itemsHeightsCount
-     */
-    private insertItemsHeights(itemIndex: number, itemsHeightsCount: number): void {
-        const topItemsHeight = this.itemsHeights.slice(0, itemIndex);
-        const insertedItemsHeights = [];
-        const bottomItemsHeight = this.itemsHeights.slice(itemIndex);
+    private _updateStartIndex(index: number): void {
+        const start = Math.max(0, index);
+        const stop = Math.min(this._itemsCount, start + this._options.pageSize);
 
-        for (let i = 0; i < itemsHeightsCount; i++) {
+        this._range = {
+            start, stop
+        };
+    }
+
+    private _insertItemHeights(insertIndex: number, length: number): void {
+        const topItemsHeight = this._itemsHeightData.itemsHeights.slice(0, insertIndex + 1);
+        const insertedItemsHeights = [];
+        const bottomItemsHeight = this._itemsHeightData.itemsHeights.slice(insertIndex + 1);
+
+        for (let i = 0; i < length; i++) {
             insertedItemsHeights[i] = 0;
         }
 
-        this.itemsHeights = [...topItemsHeight, ...insertedItemsHeights, ...bottomItemsHeight];
+        this._itemsHeightData = {
+            ...this._itemsHeightData,
+            itemsHeights: topItemsHeight.concat(insertedItemsHeights, bottomItemsHeight)
+        };
     }
 
-    /**
-     * Удаляет высоты записей
-     * @param {number} itemIndex
-     * @param {number} itemsHeightsCount
-     */
-    private cutItemsHeights(itemIndex: number, itemsHeightsCount: number): void {
-        this.itemsHeights.splice(itemIndex, itemsHeightsCount);
+    private _removeItemHeights(removeIndex: number, length: number): void {
+        this._itemsHeightData.itemsHeights.splice(removeIndex + 1, length);
     }
 
-    private subscribeToModelChange(model: Collection<entityRecord>, useNewModel: boolean) {
-        if (useNewModel) {
-            model.subscribe('onCollectionChange', (...args: unknown[]) => {
-                this.collectionChangedHandler.apply(this, [args[0], null, ...args.slice(1)]);
-            });
-        } else {
-            model.subscribe('onListChange', this.collectionChangedHandler);
-        }
-    }
-
-    /**
-     * Обработчик смены данных в модели
-     * @param {string} event
-     * @param {string} changesType
-     * @param {string} action
-     * @param {CollectionItem<entityRecord>[]} newItems
-     * @param {number} newItemsIndex
-     * @param {CollectionItem<entityRecord>[]} removedItems
-     * @param {number} removedItemsIndex
-     */
-    private collectionChangedHandler = (event: string, changesType: string, action: string, newItems: Array<CollectionItem<entityRecord>>,
-                                        newItemsIndex: number, removedItems: Array<CollectionItem<entityRecord>>, removedItemsIndex: number): void => {
-        const newModelChanged = this._options.useNewModel && action && action !== IObservable.ACTION_CHANGE;
-
-        if ((changesType === 'collectionChanged' || newModelChanged) && action) {
-            this.itemsCount = this._options.viewModel.getCount();
-
-            if (action === IObservable.ACTION_ADD || action === IObservable.ACTION_MOVE) {
-                this.itemsAddedHandler(newItemsIndex, newItems);
-            }
-
-            if (action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_MOVE) {
-                this.itemsRemovedHandler(removedItemsIndex, removedItems);
-            }
-
-            this._options.indexesChangedCallback(this.startIndex, this.stopIndex);
-        }
-    }
-
-    private itemsAddedHandler(newItemsIndex: number, newItems: object[]): void {
-        this.insertItemsHeights(newItemsIndex, newItems.length);
-
-        // Обновляем виртуальный скроллинг, только если он инициализирован, так как в другом случае,
-        // мы уже не можем на него повлиять
-        if (this.itemsContainer) {
-            const direction = newItemsIndex <= this._options.viewModel.getStartIndex() ? 'up' : 'down';
-
-            if (direction === 'up' && this.itemsFromLoadToDirection) {
-                this.savedStartIndex += newItems.length;
-                this.setStartIndex(this.startIndex + newItems.length);
-            }
-
-            if (!this.itemsChanged) {
-                this.shiftRangeBySegment(direction, newItems.length);
-                this._options.saveScrollPositionCallback(direction);
-            }
-        }
-    }
-
-    private itemsRemovedHandler(removedItemsIndex: number, removedItems: object[]): void {
-        this.cutItemsHeights(removedItemsIndex, removedItems.length);
-
-        // Сдвигаем виртуальный скролл только если он уже проинициализирован. Если коллекция
-        // изменилась после создания BaseControl'a, но до инициализации скролла, (или сразу
-        // после уничтожения BaseControl), сдвинуть его мы все равно не можем.
-        if (this.itemsContainer && !this.itemsChanged) {
-            const direction = removedItemsIndex < this._options.viewModel.getStartIndex() ? 'up' : 'down';
-            this.shiftRangeBySegment(direction, removedItems.length);
-            this._options.saveScrollPositionCallback(direction);
-        }
-    }
-
-    private shiftRangeBySegment(direction: IDirection, segment: number): void {
-        this.actualizeSavedIndexes();
-        let startIndex = this.startIndex;
-        let stopIndex = this.stopIndex;
+    private _shiftRangeBySegment(direction: IDirection, segmentSize: number): IRange {
+        this._savedDirection = direction;
+        this._oldRange = {...this._range};
         const fixedSegmentSize = Math
-            .min(segment, Math.max(this._options.pageSize - (this.stopIndex - this.startIndex), 0));
+            .min(segmentSize, Math.max(this._options.pageSize - (this._range.stop - this._range.start), 0));
+        const itemsCount = this._itemsCount;
+        let {start, stop} = this._range;
 
         if (direction === 'up') {
-            startIndex = Math.max(startIndex - fixedSegmentSize, 0);
+            start = Math.max(0, start - fixedSegmentSize);
         } else {
-            stopIndex = Math.min(stopIndex + fixedSegmentSize, this.itemsCount);
+            stop = Math.min(stop + fixedSegmentSize, itemsCount);
         }
 
-        this.checkIndexesChanged(startIndex, stopIndex, direction);
-    }
-
-    private isScrolledToBottom(): boolean {
-        return this.stopIndex === this.itemsCount &&
-            this.scrollTop + this._options.viewportHeight === this.itemsContainerHeight;
-    }
-
-    private isScrolledToTop(): boolean {
-        return this.scrollTop === 0 && this.startIndex === 0;
+        return {
+            start, stop
+        };
     }
 
     /**
-     * Проверяет поменялись ли индексы "видимого" набора данных
-     * @param {number} newStartIndex
-     * @param {number} newStopIndex
-     * @param {string} direction
+     * Рассчитывает сколько элементов нужно скрыть
+     * @remark Оставляем элементов с запасом на 2 вьюпорта для плавного скроллинга
      */
-    private checkIndexesChanged(newStartIndex: number, newStopIndex: number, direction?: string): void {
-        if (this.stopIndex !== newStopIndex || this.startIndex !== newStartIndex) {
-            this._options.indexesChangedCallback(this.startIndex = newStartIndex, this.stopIndex = newStopIndex, direction);
-            this._options.placeholderChangedCallback(this.calcPlaceholderSize());
+    private _getItemsToHideQuantity(direction: string): number {
+        if (direction === 'up') {
+            return this._getItemsToHideQuantityToUp();
+        } else {
+            return this._getItemsToHideQuantityToDown();
         }
     }
 
     /**
-     * Вычисляет размеры виртуальных распорок
-     * @returns {IPlaceholders}
+     * Рассчитывает сколько элементов нужно скрыть сверху
      */
-    private calcPlaceholderSize(): IPlaceholders {
-        return [
-            this.getItemsHeights(0, this.startIndex),
-            this.getItemsHeights(this.stopIndex, this.itemsCount)
-        ];
-    }
-
-    /**
-     * Обновляет высоты "видимого" набора данных
-     * @param {number} startUpdateIndex
-     * @param {number} updateLength
-     */
-    private updateItemsHeights(startUpdateIndex: number, updateLength: number): void {
-        let startChildrenIndex = 0;
-        let sum = 0;
-
-        for (let i = startChildrenIndex, len = this._itemsContainer.children.length; i < len; i++) {
-            if (this._itemsContainer.children[i].className.indexOf('controls-ListView__hiddenContainer') === -1) {
-                startChildrenIndex = i;
-                break;
-            }
-        }
-
-        for (let i = 0; i < updateLength; i++) {
-            const itemHeight = getDimension(this._itemsContainer.children[startChildrenIndex + i] as HTMLElement).height;
-
-            this.itemsHeights[startUpdateIndex + i] = itemHeight;
-            this.itemsOffsets[startUpdateIndex + i] = sum;
-            sum += itemHeight;
-        }
-    }
-
-    /**
-     * Вычисляет количество элементов, которые необходимо скрыть
-     * @remark Оставляем запас в 2 viewport, чтобы обеспечить плавное скроллирование
-     * @param {IDirection} direction
-     * @returns {number}
-     */
-    private getItemsToHideQuantity(direction: IDirection): number {
+    private _getItemsToHideQuantityToUp(): number {
         let quantity = 0;
-        const items = this.itemsHeights;
+        let stop = this._range.stop - 1;
+        const {viewport, trigger} = this._containerHeightsData;
+        const {itemsOffsets} = this._itemsHeightData;
+        const offsetDistance = viewport * 2 + trigger;
 
-        if (direction === 'up') {
-            let stopIndex = this.stopIndex - 1;
-            const offsetDistance = this._options.viewportHeight * 2 + this.scrollTop + this.triggerOffset;
-
-            while (this.itemsOffsets[stopIndex] > offsetDistance) {
-                stopIndex--;
-                quantity++;
-            }
-        } else {
-            let startIndex = this.startIndex;
-            let sumHeight = 0;
-            const offsetDistance = this.scrollTop - this.triggerOffset - this._options.viewportHeight;
-
-            while (sumHeight + items[startIndex] < offsetDistance) {
-                sumHeight += items[startIndex];
-                quantity++;
-                startIndex++;
-            }
+        while (itemsOffsets[stop] > offsetDistance) {
+            stop--;
+            quantity++;
         }
 
         return quantity;
+    }
+
+    /**
+     * Рассчитывает сколько элементов нужно скрыть сверху
+     */
+    private _getItemsToHideQuantityToDown(): number {
+        let quantity = 0;
+        let start = this._range.start;
+        let sumHeight = 0;
+        const {viewport, trigger, scroll} = this._containerHeightsData;
+        const {itemsHeights} = this._itemsHeightData;
+        const offsetDistance = (scroll - viewport) - trigger - viewport;
+
+        while (sumHeight + itemsHeights[start] < offsetDistance) {
+            sumHeight += itemsHeights[start];
+            quantity++;
+            start++;
+        }
+
+        return quantity;
+    }
+
+    private _setRange(range: IRange): IRangeShiftResult {
+        if (range.start !== this._range.start || range.stop !== this._range.stop) {
+            this._range = range;
+            this.rangeChanged = true;
+        }
+
+        return {
+            range: this._range,
+            placeholders: this._getPlaceholders()
+        };
+    }
+
+    private _getItemsHeightsSum(startIndex: number, stopIndex: number, itemsHeights: number[]): number {
+        let sum = 0;
+        const fixedStartIndex = Math.max(startIndex, 0);
+        const fixedStopIndex = Math.min(stopIndex, itemsHeights.length);
+
+        for (let i = fixedStartIndex; i < fixedStopIndex; i++) {
+            sum += itemsHeights[i] || 0;
+        }
+
+        return sum;
     }
 }

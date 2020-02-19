@@ -95,16 +95,20 @@ define('Controls-demo/Buttons/Menu/historySourceMenu',
          });
       }
 
-      function createMemory() {
-         var srcData = new source.DataSet({
+      function createDataSet(frData, pinData, recData) {
+         return new source.DataSet({
             rawData: {
-               frequent: createRecordSet(frequentData),
-               pinned: createRecordSet(pinnedData),
-               recent: createRecordSet(recentData)
+               frequent: createRecordSet(frData),
+               pinned: createRecordSet(pinData),
+               recent: createRecordSet(recData)
             },
             itemsProperty: '',
             keyProperty: 'ObjectId'
          });
+      }
+
+      function createMemory() {
+         var srcData = createDataSet(frequentData, pinnedData, recentData);
          var hs = new history.Source({
             originSource: new source.Memory({
                keyProperty: 'id',
@@ -131,7 +135,34 @@ define('Controls-demo/Buttons/Menu/historySourceMenu',
          hs.query(query);
 
          // Заглушка, чтобы демка не ломилась не сервис истории
-         hs.historySource.update = function() {
+         hs.historySource.update = function(item, meta) {
+            var pinned = srcData.getRow().get('pinned');
+            var recent = srcData.getRow().get('recent');
+            var historyItem;
+            if (meta['$_pinned']) {
+               historyItem = new entity.Model({
+                  rawData: {
+                     d: [String(item.getId()), item.getId()],
+                     s: [{ n: 'ObjectId', t: 'Строка' },
+                        { n: 'HistoryId', t: 'Строка' }]
+                  },
+                  adapter: pinned.getAdapter()
+               });
+               pinned.append([historyItem]);
+            } else if (meta['$_pinned'] === false) {
+               pinned.remove(pinned.getRecordById(item.getId()));
+            } else if (meta['$_history'] && !recent.getRecordById(item.getId())) {
+               historyItem = new entity.Model({
+                  rawData: {
+                     d: [String(item.getId()), item.getId()],
+                     s: [{ n: 'ObjectId', t: 'Строка' },
+                        { n: 'HistoryId', t: 'Строка' }]
+                  },
+                  adapter: pinned.getAdapter()
+               });
+               recent.prepend([historyItem]);
+            }
+            srcData = createDataSet(frequentData, pinned.getRawData(), recentData);
             return {};
          };
          hs.historySource.query();

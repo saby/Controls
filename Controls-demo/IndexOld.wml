@@ -263,8 +263,6 @@
    <div class="demo_controls_list_section">
       <h1>InfoBox</h1>
       <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FInfoBox">InfoBox</a>
-      <br />
-      <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FInfoBoxPG">InfoBox PG</a>
        <br />
       <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FOpener%252FInfoBox">Opener/InfoBox</a>
       <br/>
@@ -272,8 +270,6 @@
 
       <h1>Confirmation</h1>
       <a href="/Controls-demo/app/Controls-demo%252FConfirmation%252FConfirmation">Confirmation</a>
-      <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FPopup%252FOpener%252FConfirmationPG">ConfirmationPG</a>
       <br/>
       <a href="/Controls-demo/app/Controls-demo%252FPopup%252FTemplates%252FConfirmationTemplatePG">Confirmation Template</a>
 

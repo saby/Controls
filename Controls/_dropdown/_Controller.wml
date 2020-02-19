@@ -3,12 +3,20 @@
                on:click="_clickHandler()"
                on:keydown="_keyDown()"/>
 
-   <Controls._dropdown.Opener name="DropdownOpener"
-                             on:open="_onOpen()"
-                             on:close="_onClose()"
-                             on:result="_onResult()"
-                             className="{{_options.popupClassName}}">
+   <Controls.popup:Sticky name="DropdownOpener"
+                          template="Controls/menu:Popup"
+                          closeOnOutsideClick="{{true}}"
+                          actionOnScroll="close"
+                          on:open="_onOpen()"
+                          on:close="_onClose()"
+                          on:result="_onResult()"
+                          className="{{_options.popupClassName}}">
       <ws:templateOptions
+              closeButtonVisibility="{{false}}"
+              headingCaption="{{_options.headingCaption}}"
+              headingIcon="{{_options.headingIcon}}"
+              headingIconSize="{{_options.headingIconSize}}"
+              navigation="{{_options.navigation}}"
               keyProperty="{{_options.keyProperty}}"
               displayProperty="{{_options.displayProperty}}"
               parentProperty="{{_options.parentProperty}}"
@@ -16,12 +24,10 @@
               nodeProperty="{{_options.nodeProperty}}"
               itemTemplateProperty="{{_options.itemTemplateProperty}}"
               itemTemplate="{{_options.itemTemplate}}"
-              headTemplate="{{_options.headTemplate}}"
-              headerTemplate="{{_options.headerTemplate}}"
+              headerTemplate="{{_options.headTemplate || _options.headerTemplate}}"
               groupTemplate="{{_options.groupTemplate}}"
               groupProperty="{{_options.groupProperty}}"
               groupingKeyCallback="{{_options.groupingKeyCallback}}"
-              groupMethod="{{_options.groupMethod}}"
               dropdownClassName="{{_options.dropdownClassName}}"
               footerTemplate="{{_options.footerTemplate}}"
               nodeFooterTemplate="{{_options.nodeFooterTemplate}}"
@@ -38,12 +44,12 @@
               caption="{{_options.caption}}"
               typeShadow="{{_options.typeShadow}}"
               itemPadding="{{_options.itemPadding}}"
-              hasIconPin="{{_options.hasIconPin}}"
+              allowPin="{{_options.allowPin && _hasHistory()}}"
               theme="{{_options.theme}}"/>
-   </Controls._dropdown.Opener>
+   </Controls.popup:Sticky>
    <ws:if data="{{_options.selectorTemplate}}">
       <Controls.Container.Async templateName="Controls/lookup:Opener">
-            <ws:partial template="{{ content.resolvedTemplate }}" name="selectorOpener" on:result="_onSelectorTemplateResult()"/>
+         <ws:partial template="{{ content.resolvedTemplate }}" name="selectorOpener" on:result="_onSelectorTemplateResult()"/>
       </Controls.Container.Async>
    </ws:if>
 </div>

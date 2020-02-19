@@ -1,15 +1,15 @@
 /* global define, describe, it, assert */
 define([
    'Core/core-merge',
-   'Controls/dateLitePopup',
+   'Controls/shortDatePicker',
    'Controls/Utils/Date',
    'ControlsUnit/Calendar/Utils',
    'Types/entity',
    'Types/formatter',
-   'wml!Controls/_dateLitePopup/ItemFull',
-   'wml!Controls/_dateLitePopup/ItemMonths',
-   'wml!Controls/_dateLitePopup/ItemQuarters',
-   'Controls/_dateLitePopup/bodyItem',
+   'wml!Controls/_shortDatePicker/ItemFull',
+   'wml!Controls/_shortDatePicker/ItemMonths',
+   'wml!Controls/_shortDatePicker/ItemQuarters',
+   'Controls/_shortDatePicker/bodyItem',
    "Types/entity",
    'Core/core-instance'
 ], function(
@@ -61,13 +61,13 @@ define([
                      fullName: formatDate.date(new Date(year, 0, 1), 'QQQQr'),
                      tooltip: formatDate.date(new Date(year, 0, 1), formatDate.date.FULL_QUATER),
                      months: [{
-                        name: new Date(year, 0, 1),
+                        date: new Date(year, 0, 1),
                         tooltip: formatDate.date(new Date(year, 0, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 1, 1),
+                        date: new Date(year, 1, 1),
                         tooltip: formatDate.date(new Date(year, 1, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 2, 1),
+                        date: new Date(year, 2, 1),
                         tooltip: formatDate.date(new Date(year, 2, 1), formatDate.date.FULL_MONTH)
                      }],
                      number: 0
@@ -76,13 +76,13 @@ define([
                      fullName: formatDate.date(new Date(year, 3, 1), 'QQQQr'),
                      tooltip: formatDate.date(new Date(year, 3, 1), formatDate.date.FULL_QUATER),
                      months: [{
-                        name: new Date(year, 3, 1),
+                        date: new Date(year, 3, 1),
                         tooltip: formatDate.date(new Date(year, 3, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 4, 1),
+                        date: new Date(year, 4, 1),
                         tooltip: formatDate.date(new Date(year, 4, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 5, 1),
+                        date: new Date(year, 5, 1),
                         tooltip: formatDate.date(new Date(year, 5, 1), formatDate.date.FULL_MONTH)
                      }],
                      number: 1
@@ -96,13 +96,13 @@ define([
                      fullName: formatDate.date(new Date(year, 6, 1), 'QQQQr'),
                      tooltip: formatDate.date(new Date(year, 6, 1), formatDate.date.FULL_QUATER),
                      months: [{
-                        name: new Date(year, 6, 1),
+                        date: new Date(year, 6, 1),
                         tooltip: formatDate.date(new Date(year, 6, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 7, 1),
+                        date: new Date(year, 7, 1),
                         tooltip: formatDate.date(new Date(year, 7, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 8, 1),
+                        date: new Date(year, 8, 1),
                         tooltip: formatDate.date(new Date(year, 8, 1), formatDate.date.FULL_MONTH)
                      }],
                      number: 2
@@ -111,13 +111,13 @@ define([
                      fullName: formatDate.date(new Date(year, 9, 1), 'QQQQr'),
                      tooltip: formatDate.date(new Date(year, 9, 1), formatDate.date.FULL_QUATER),
                      months: [{
-                        name: new Date(year, 9, 1),
+                        date: new Date(year, 9, 1),
                         tooltip: formatDate.date(new Date(year, 9, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 10, 1),
+                        date: new Date(year, 10, 1),
                         tooltip: formatDate.date(new Date(year, 10, 1), formatDate.date.FULL_MONTH)
                      }, {
-                        name: new Date(year, 11, 1),
+                        date: new Date(year, 11, 1),
                         tooltip: formatDate.date(new Date(year, 11, 1), formatDate.date.FULL_MONTH)
                      }],
                      number: 3
@@ -148,7 +148,7 @@ define([
             const component = calendarTestUtils.createComponent(bodyItem, {}),
                year = (new Date()).getFullYear(),
                yearModel = component._getYearModel(year, entity.Date);
-            assert.isTrue(cInstance.instanceOfModule(yearModel[0].quarters[0].months[0].name, 'Types/entity:Date'));
+            assert.isTrue(cInstance.instanceOfModule(yearModel[0].quarters[0].months[0].date, 'Types/entity:Date'));
          });
       });
 
@@ -163,7 +163,7 @@ define([
             it('should generate sendResult event with correct date type', function() {
                const sandbox = sinon.sandbox.create(),
                   component = calendarTestUtils.createComponent(
-                     PeriodLiteDialog, { dateConstructor: test.dateConstructor });
+                     PeriodLiteDialog.View, { dateConstructor: test.dateConstructor });
 
                sandbox.stub(component, '_notify').callsFake(function fakeFn(eventName, eventArgs) {
                   if (eventName === 'sendResult') {
@@ -182,7 +182,7 @@ define([
       describe('_onYearClick', function() {
          it('should generate sendResult event', function() {
             const sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodLiteDialog, {});
+               component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {});
             sandbox.stub(component, '_notify');
             component._onYearClick(null, 2000);
 
@@ -191,7 +191,7 @@ define([
             sandbox.restore();
          });
          it('should not generate events if year selection is disabled', function() {
-            const component = calendarTestUtils.createComponent(PeriodLiteDialog, {chooseYears: false});
+            const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {chooseYears: false});
             sinon.stub(component, '_notify');
             component._onYearClick(null, 2000);
 
@@ -202,12 +202,12 @@ define([
 
       describe('_onYearMouseEnter', function() {
          it('should set year to _yearHovered', function() {
-            const component = calendarTestUtils.createComponent(PeriodLiteDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {});
             component._onYearMouseEnter(null,2019);
             assert.deepEqual(component._yearHovered, 2019);
          });
          it('should not set year to _yearHovered', function() {
-            const component = calendarTestUtils.createComponent(PeriodLiteDialog, {chooseYears: false});
+            const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {chooseYears: false});
             component._onYearMouseEnter();
             assert.deepEqual(component._yearHovered, null);
          });
@@ -255,7 +255,7 @@ define([
       describe('_onPrevYearBtnClick', function() {
          it('should update year', function() {
             const sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodLiteDialog, {year: new Date(2000, 0, 1)});
+               component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {year: new Date(2000, 0, 1)});
             sandbox.stub(component, '_notify');
             component._onPrevYearBtnClick(null, 0);
 
@@ -268,7 +268,7 @@ define([
       describe('_onNextYearBtnClick', function() {
          it('should update year', function() {
             const sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodLiteDialog, {year: new Date(2000, 0, 1)});
+               component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {year: new Date(2000, 0, 1)});
             sandbox.stub(component, '_notify');
             component._onNextYearBtnClick(null, 0);
 
@@ -293,7 +293,7 @@ define([
             [currentYear + 3, currentYear + 3]
          ].forEach(function(test) {
             it(`should return ${test[1]} for ${test[0]} year`, function() {
-               let result = PeriodLiteDialog._private._getYearListPosition({ startValue: new Date(test[0], 0, 1) }, Date).getFullYear();
+               let result = PeriodLiteDialog.View._private._getYearListPosition({ startValue: new Date(test[0], 0, 1) }, Date).getFullYear();
                assert.equal(result, test[1]);
             });
          });
@@ -314,7 +314,7 @@ define([
             css: 'controls-PeriodLiteDialog__vLayoutItem-clickable'
          }].forEach(function(test) {
             it(`should return "${test.css}". options: ${test.options}, year: ${test.year}`, function() {
-               const component = calendarTestUtils.createComponent(PeriodLiteDialog, test.options);
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, test.options);
                assert.include(
                   component._getYearItemCssClasses(test.year),
                   test.css

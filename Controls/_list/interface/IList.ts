@@ -734,6 +734,7 @@ export interface IList {
  * @function Controls/_list/interface/IList#scrollToItem
  * @param {String|Number} key Идентификатор элемента коллекции, к которому осуществляется прокручивание.
  * @param {Boolean} toBottom Определяет, будет ли виден нижний край элемента. По умолчанию нижний край элемента виден.
+ * @param {Boolean} force Определяет, нужно ли подскролливать к границе элемента, если он виден
  * @example
  *  <pre>
  *      _buttonClick: function() {

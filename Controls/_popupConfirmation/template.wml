@@ -1,7 +1,7 @@
 <div class="controls-ConfirmationTemplate controls-ConfirmationTemplate_theme-{{_options.theme}}
             controls-ConfirmationTemplate__status-{{_options.style}}
             controls-ConfirmationTemplate__status-{{_options.style}}_theme-{{_options.theme}}
-            {{_options.size == 'l' ? 'controls-ConfirmationTemplate__size-l' : 'controls-ConfirmationTemplate__size-m'}}_theme-{{_options.theme}}
+            controls-ConfirmationTemplate__size-{{_options.size}}_theme-{{_options.theme}}
             controls-Popup__isolatedFocusingContext"
     ws-tab-cycling="true"
     ws-delegates-tabfocus="true">

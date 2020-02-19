@@ -4,6 +4,7 @@
 import {BaseViewModel, getStyle, ItemsUtil, ItemsViewModel} from 'Controls/list';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
+import * as multiSelectTpl from 'wml!Controls/_dropdownPopup/multiSelectTpl';
 import entity = require('Types/entity');
 
 var _private = {
@@ -70,16 +71,31 @@ var _private = {
             return result;
          },
 
-         getSpacingClassList: function(itemPadding, multiSelect, itemData, hasHierarchy, hasApplyButton?) {
-            const paddings = itemPadding || {};
-            let classList = '';
-            if (multiSelect && itemData.emptyText) {
-               classList = 'controls-DropdownList__emptyItem-leftPadding_multiSelect';
-            } else if (!multiSelect) {
-               classList = 'controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
+         getClassList: function(itemPadding, multiSelect, itemData, hasHierarchy, hasApplyButton?) {
+            const item = itemData.item;
+            let classes = 'controls-DropdownList__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
+
+            if (item.get('pinned') === true && !itemData.hasParent) {
+               classes += ' controls-DropdownList__row_pinned';
             }
-            classList += ' controls-DropdownList__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, hasApplyButton);
-            return classList;
+
+            const paddings = itemPadding || {};
+            if (multiSelect && itemData.emptyText) {
+               classes += ' controls-DropdownList__emptyItem-leftPadding_multiSelect';
+            } else if (!multiSelect) {
+               classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
+            }
+            classes += ' controls-DropdownList__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, hasApplyButton);
+            return classes;
+         },
+
+         getNewTreeItem(currentItem): object {
+            return {
+               isNode: () => currentItem.hasChildren,
+               isSelected: () => currentItem.isSelected,
+               getContents: () => currentItem.item,
+               getParent: () => {return {getContents: () => currentItem.hasParent}}
+            };
          }
    };
 
@@ -217,7 +233,11 @@ var _private = {
             itemsModelCurrent.multiSelect = this._options.multiSelect;
             itemsModelCurrent.hasClose = this._options.hasClose;
             itemsModelCurrent.hasPinned = this._options.hasIconPin && itemsModelCurrent.item.has('pinned');
-            itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.multiSelect, itemsModelCurrent, this.hasHierarchy());
+            itemsModelCurrent.itemClassList = _private.getClassList(this._options.itemPadding, this._options.multiSelect, itemsModelCurrent, this.hasHierarchy());
+            itemsModelCurrent.multiSelectTpl = multiSelectTpl;
+
+            // Для совместимости с menu:Control
+            itemsModelCurrent.treeItem = _private.getNewTreeItem(itemsModelCurrent);
             return itemsModelCurrent;
          },
          _isItemSelected: function(item) {
@@ -296,7 +316,10 @@ var _private = {
                emptyItem.getPropValue = ItemsUtil.getPropertyValue;
                emptyItem.emptyText = this._options.emptyText;
                emptyItem.hasClose = this._options.hasClose;
-               emptyItem.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.multiSelect, emptyItem, this.hasHierarchy(), this._options.hasApplyButton);
+               emptyItem.itemClassList = _private.getClassList(this._options.itemPadding, this._options.multiSelect, emptyItem, this.hasHierarchy(), this._options.hasApplyButton);
+
+               // Для совместимости с menu:Control
+               emptyItem.treeItem = _private.getNewTreeItem(emptyItem);
                return emptyItem;
             }
          }

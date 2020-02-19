@@ -7,8 +7,8 @@ import cInstance = require('Core/core-instance');
 
 import { Tree as TreeCollection } from 'Controls/display';
 import { Rpc, PrefetchProxy } from 'Types/source';
+// @ts-ignore
 import { ViewModel } from 'Controls/treeGrid';
-import { RecordSet } from 'Types/collection';
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface/';
 import TreeSelectionStrategy from 'Controls/_operations/MultiSelector/SelectionStrategy/Tree';
 

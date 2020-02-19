@@ -1,22 +1,25 @@
 <Controls.listRender:Render
         listModel="{{_options.listModel}}"
-        footerTemplate="{{_options.footerTemplate}}">
+        multiselectVisibility="{{_options.multiSelect ? 'onhover' : 'hidden'}}"
+        multiSelectTpl="{{_multiSelectTpl}}"
+        footerTemplate="{{_options.footerTemplate}}"
+        on:itemMouseLeave="_proxyEvent('itemMouseLeave')"
+        on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
+        on:itemClick="_proxyEvent('itemClick')">
    <ws:itemTemplate>
-      <ws:partial template="{{_options.itemTemplate}}"
-                  itemData="{{itemTemplate.item}}"
-                  item="{{itemTemplate.item.getContents()}}"
-                  isEmptyItem="{{_isEmptyItem(itemTemplate.item)}}"
-                  itemClassList="{{_getClassList(itemTemplate.item)}}"
-                  multiSelect="{{_options.multiSelect}}"
-                  on:mouseenter="_itemMouseEnter(itemTemplate.item)"
+      <ws:partial template="{{itemTemplate.item.getContents().get(_options.itemTemplateProperty) || _options.itemTemplate}}"
+                  attr:class="{{_getClassList(itemTemplate.item)}}"
+                  itemData="{{_getItemData(itemTemplate.item)}}"
+                  treeItem="{{itemTemplate.item}}"
+                  scope="{{_options}}"
       />
+      <ws:if data="{{_options.allowPin && _isVisibleSeparator(itemTemplate.item)}}">
+         <div class="controls-Menu__group_separator_theme-{{_options.theme}}" attr:key="{{itemTemplate.item.getUid()}} + '_separator'"></div>
+      </ws:if>
    </ws:itemTemplate>
-   <ws:multiSelectTpl>
-      <Controls.Container.Async templateName="Controls/toggle:Checkbox"
-                                on:valueChanged="_proxyEvent('checkBoxClick')"
-                                attr:class="controls-Menu__row-checkbox-{{checkBoxAlign === 'right' ? 'right' : 'left'}}_theme-{{_options.theme}}
-                                                  controls-Menu__row-checkbox_{{multiSelectTpl.itemData.isSelected() ? 'active' : 'default'}}_theme-{{_options.theme}}">
-         <ws:templateOptions value="{{multiSelectTpl.itemData.isSelected()}}" />
-      </Controls.Container.Async>
-   </ws:multiSelectTpl>
+   <ws:groupTemplate>
+      <ws:if data="{{_options.groupTemplate && _isGroupVisible(groupTemplate.item)}}">
+         <ws:partial template="{{_options.groupTemplate}}" />
+      </ws:if>
+   </ws:groupTemplate>
 </Controls.listRender:Render>

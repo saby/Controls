@@ -33,7 +33,7 @@ export interface INotificationSimpleOptions extends IControlOptions, INotificati
 
 class NotificationSimple extends Control<INotificationSimpleOptions> implements INotification {
     protected _template: TemplateFunction = template;
-    private _iconStyle: String;
+    protected _iconStyle: String;
 
     private _prepareIconStyle(popupOptions: INotificationSimpleOptions): String {
         switch (popupOptions.style) {

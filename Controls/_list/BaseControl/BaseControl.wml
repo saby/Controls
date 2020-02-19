@@ -83,9 +83,10 @@
 <ws:template name="viewTpl">
     <Controls._list.ScrollContainer
             name="scrollController"
-            on:scrollMoveSync="scrollMoveSyncHandler()"
+            on:scrollPositionChanged="scrollMoveSyncHandler()"
             on:scrollMove="scrollMoveHandler()"
             on:loadMore="loadMore()"
+            on:viewResize="_viewResize()"
             on:viewportResize="viewportResizeHandler()"
             on:canScroll="canScrollHandler()"
             on:cantScroll="cantScrollHandler()"
@@ -94,10 +95,8 @@
             on:triggerVisibilityChanged="triggerVisibilityChangedHandler()"
             on:triggerOffsetChanged="triggerOffsetChangedHandler()"
             on:activeElementChanged="_notifyHandler('activeElementChanged')"
-            on:viewResize="_viewResize()"
             on:changeIndicatorState="changeIndicatorStateHandler()"
-            viewModel="{{_listViewModel}}"
-            observeScroll="{{_needScrollCalculation}}"
+            collection="{{_listViewModel}}"
             scope="{{_options}}">
         <Controls._list.EditInPlace
                 name="editInPlace"
@@ -237,12 +236,13 @@
                 <Controls.paging:Paging attr:class="controls-BaseControl__scrollPaging" scope="{{_pagingCfg}}" scope1="{{_pagingCfg}}" on:onArrowClick="__onPagingArrowClick()"></Controls.paging:Paging>
             </div>
         </ws:if>
-        <Controls.dropdown:Opener
+        <Controls.popup:Sticky
             name="itemActionsOpener"
-            keyProperty="id"
-            menuStyle="cross">
+            template="Controls/dropdownPopup:List"
+            closeOnOutsideClick="{{true}}"
+            actionOnScroll="close">
             <ws:fittingMode vertical="overflow"/>
-        </Controls.dropdown:Opener>
+        </Controls.popup:Sticky>
         <ws:if data="{{ _items && _needSelectionController }}">
             <!--TODO: нельзя сюда добавлять Container.Async, т.к. события перестают стрелять. Ошибка на эту тему: https://online.sbis.ru/opendoc.html?guid=e3ad3d85-8cfc-4dc4-84dd-84b08db05e26-->
             <Controls._list.BaseControl.SelectionController

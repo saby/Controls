@@ -55,8 +55,8 @@ var ListControl = Control.extend(/** @lends Controls/_list/ListControl.prototype
         return baseControl.reloadItem.apply(baseControl, arguments);
     },
 
-    scrollToItem(key: string|number, toBottom: boolean): void {
-        return this._children.baseControl.scrollToItem(key, toBottom);
+    scrollToItem(key: string|number, toBottom: boolean, force: boolean): void {
+        return this._children.baseControl.scrollToItem(key, toBottom, force);
     },
 });
 

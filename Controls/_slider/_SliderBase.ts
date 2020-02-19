@@ -9,8 +9,8 @@ export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
 
 class SliderBase extends Control<ISliderBaseOptions> {
     private _tooltipPosition: number | null = null;
-    private _tooltipValue: string | null = null;
-    private _isDrag: boolean = false;
+    protected _tooltipValue: string | null = null;
+    protected _isDrag: boolean = false;
 
     _getValue(event: SyntheticEvent<MouseEvent | TouchEvent>): number {
         const targetX = Utils.getNativeEventPageX(event);

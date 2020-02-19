@@ -16,7 +16,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
     private _gridStyle: string = null;
-    private _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
+    protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
     private _needNotifyResize: boolean = false;
 
     protected _beforeMount(options: IHorizontalScrollWrapperOptions): void {

@@ -20,7 +20,6 @@
                 </svg>
             </div>
             <ws:partial template="wml!Controls/_toggle/Checkbox/resources/CheckboxCaption"
-                        isTemplate="{{_isTemplate}}"
                         readOnly="{{_options.value !== null && !_options.value ? _options.readOnly : false}}"
                         icon="{{_options.icon}}"
                         iconSize="{{_options.iconSize}}"

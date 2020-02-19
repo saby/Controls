@@ -6,7 +6,7 @@ define([
    'Types/source',
    'Types/entity',
    'Types/collection',
-   'Types/display',
+   'Controls/display',
    'Controls/_list/ItemActions/Utils/Actions',
    'Controls/Utils/Toolbar'
 ], function(lists, source, entity, collection, display, aUtil, tUtil) {

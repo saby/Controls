@@ -36,7 +36,7 @@ export default interface IDisplayedRanges {
  * <pre>
  * <Controls.calendar:MonthList
  *    viewMode="month"
- *    displayedRanges="_displayedRanges"
+ *    displayedRanges="{{_displayedRanges}}"
  *    />
  * </pre>
  */

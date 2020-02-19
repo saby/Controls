@@ -9,10 +9,10 @@ import {ISortingSelectorOptions, ISortingParam} from 'Controls/interface/ISortin
 
 class SortingSelector extends Control<ISortingSelectorOptions> {
     protected _template: TemplateFunction = template;
-    private _selectedKeys: [number|string];
+    protected _selectedKeys: [number|string];
     private _currentParamName: string = null;
     private _currentOrder: 'ASC'|'DESC' = null;
-    private _source: Memory;
+    protected _source: Memory;
 
     protected _beforeMount(options: ISortingSelectorOptions): void {
         this.updateConfig(options.sortingParams, options.value);
@@ -57,7 +57,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         this._notify('valueChanged', [[]]);
     }
 
-    private _selectedKeysChangedHandler(e: SyntheticEvent<Event>, [key]: [number|string]): boolean | void {
+    protected _selectedKeysChangedHandler(e: SyntheticEvent<Event>, [key]: [number|string]): boolean | void {
         if (this._options.sortingParams[key].paramName === null) {
             this._resetValue();
             this._selectedKeys = [key];
@@ -71,11 +71,11 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
         newValue[0][param] = order;
         this._notify('valueChanged', [newValue]);
     }
-    private _switchValue(): void {
+    protected _switchValue(): void {
         const newValue: string = this._currentOrder === 'ASC' ? 'DESC' : 'ASC';
         this._setValue(this._currentParamName, newValue);
     }
-    private _itemArrowClick(e: SyntheticEvent<Event>, item: Record, order: 'ASC'|'DESC'): void {
+    protected _itemArrowClick(e: SyntheticEvent<Event>, item: Record, order: 'ASC'|'DESC'): void {
         const param = item.get('paramName');
         this._selectedKeys = [item.get('id')];
         this._children.dropdown.closeMenu();

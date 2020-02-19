@@ -1,6 +1,6 @@
 <div class="ControlsDemo-ButtonsMenu" style="padding: 50px;">
-   <div class="ControlsDemo-ButtonsMenu__horWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__firstWrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__oneItemWrapper">
          <h4 id="oneItemLabel">One item</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -12,7 +12,7 @@
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo-ButtonsMenu__oneItem"
                  tooltip="Create"/>
       </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__simpleWrapper">
          <h4>Simple</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -25,7 +25,7 @@
                  tooltip="Create"/>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconWrapper">
          <h4>Icons</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -37,7 +37,7 @@
                  tooltip="Download"/>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__subparagraphsWrapper">
          <h4>Subparagraphs</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -50,7 +50,7 @@
                  tooltip="Reports"/>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__commentsWrapper">
          <h4>Comments</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -66,7 +66,7 @@
             <ws:headConfig caption="Add" menuStyle="titleHead"/>
          </Controls.dropdown:Button>
       </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noIconsWrapper">
          <h4>Without icons</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -80,8 +80,8 @@
                  tooltip="Add topic"/>
       </div>
    </div>
-   <div class="ControlsDemo-ButtonsMenu__horWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__secondWrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__addWrapper">
          <h4>Icon replaced by the text "Add"</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -119,7 +119,7 @@
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__headerWrapper">
          <h4>Icon with text displayed in the header</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -154,13 +154,13 @@
                  iconSize="m"
                  inlineHeight="l"
                  source="{{_createMemory(_iconAddMedium)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderBig"
+                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderCircle"
                  tooltip="Add">
             <ws:headConfig caption="Add"/>
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__historyWrapper">
          <h4>Menu with history</h4>
          <Controls.history:Menu
                  keyProperty="id"
@@ -184,7 +184,7 @@
          </Controls.history:Menu>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconButtonsWrapper">
          <h4>Menu with icon button</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -195,7 +195,6 @@
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButton"
                  tooltip="All documents to disk" >
-            <ws:headConfig menuStyle="duplicateHead"/>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -206,12 +205,11 @@
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButtonBig"
                  tooltip="All documents to disk">
-            <ws:headConfig menuStyle="duplicateHead"/>
          </Controls.dropdown:Button>
       </div>
    </div>
-   <div class="ControlsDemo-ButtonsMenu__horWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__thirdWrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__levelsWrapper">
          <h4>Menu with multiple levels</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -226,7 +224,7 @@
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__inactiveWrapper">
          <h4>With inactive items</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -240,7 +238,7 @@
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__groupsWrapper">
          <h4>Grouping in the menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -291,7 +289,7 @@
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__multilevelWrapper">
          <h4>Multilevel hierarchy</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -305,13 +303,12 @@
       </div>
    </div>
 
-   <div class="ControlsDemo-ButtonsMenu__horWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__fourthWrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__additionalWrapper">
          <h4>Additional items</h4>
          <Controls.dropdown:Button
+                 headerTemplate="{{null}}"
                  keyProperty="id"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
                  additionalProperty="additional"
                  groupingKeyCallback="{{_groupingKeyCallback}}"
                  groupTemplate="Controls/dropdownPopup:GroupTemplate"
@@ -321,25 +318,20 @@
                  icon="icon-Linked"
                  iconSize="m"
                  source="{{_createMemory(_additionalItems)}}">
-            <ws:headerTemplate>
-               <invisible-node />
-            </ws:headerTemplate>
          </Controls.dropdown:Button>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__bigMenuWrapper">
          <h4>Big menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
                  style="secondary"
                  viewMode="link"
                  caption="Big menu"
                  source="{{_createMemory(_bigItems)}}">
          </Controls.dropdown:Button>
       </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__scrollWrapper">
          <h4>Scrolling in the menu</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
@@ -366,7 +358,7 @@
                  tooltip="Subtask">
          </Controls.dropdown:Button>
       </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper">
+      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noItemsWrapper">
          <h4 id="noItems">No items with footer</h4>
          <Controls.dropdown:Button
                  keyProperty="id"

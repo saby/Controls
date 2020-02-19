@@ -1,0 +1,8 @@
+<div attr:class="controls-Grid__row controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-Grid__row_highlightOnHover_default_theme-default controls-Grid__row_default_theme-default">
+   <ws:for data="column in item.getColumns()">
+      <ws:partial
+         template="wml!Controls/_listRender/Grid/grid/Column"
+         attr:key="{{ column.getInstanceId() }}"
+         column="{{ column }}" />
+   </ws:for>
+</div>

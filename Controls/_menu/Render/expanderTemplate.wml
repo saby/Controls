@@ -1,0 +1,3 @@
+<div class="controls-Menu__arrow_theme-{{_options.theme}}
+            controls-Menu__arrow_{{item.contents.readOnly ? 'readOnly' : 'default'}}_theme-{{_options.theme}}
+            icon-MarkCRightLight"></div>

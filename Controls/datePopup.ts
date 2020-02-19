@@ -7,7 +7,6 @@ import {dateMaskConstants} from 'Controls/interface';
 import {IRangeSelectable} from 'Controls/dateRange';
 import {DateRangeModel, IDateRangeSelectable} from 'Controls/dateRange';
 import EventProxyMixin from './_datePopup/Mixin/EventProxy';
-import MonthsRange from './_datePopup/MonthsRange';
 import periodDialogUtils from './_datePopup/Utils';
 import dateUtils = require('Controls/Utils/Date');
 import dateRangeUtil = require('Controls/Utils/DateRangeUtil');

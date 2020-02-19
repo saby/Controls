@@ -5,7 +5,6 @@ import toString from 'Controls/Utils/Formatting/toString';
 import {parse} from 'Controls/_input/Number/parse';
 import {format} from 'Controls/_input/Number/format';
 import {decimalSplitter} from 'Controls/_input/Number/constant';
-import {startingPosition} from "../Number/startingPosition";
 
 class ViewModel extends BaseViewModel {
     protected _convertToValue(displayValue: string): string | number {

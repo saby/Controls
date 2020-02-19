@@ -1,0 +1,28 @@
+<div class="controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem-clickable"
+     title="{{ month.tooltip }}">
+    <div class="controls-PeriodLiteDialog__vLayoutItem-caption">
+        <ws:if data="{{!!contentTemplate}}">
+            <ws:partial template="{{contentTemplate}}" value="{{month.date}}"/>
+        </ws:if>
+        <ws:else>
+            {{ formatDate(month.date, "MMMM") }}
+        </ws:else>
+        <ws:if data="{{!!iconTemplate}}">
+            <ws:partial template="{{iconTemplate}}" value="{{month.date}}" extData="{{extData}}"/>
+        </ws:if>
+        <ws:else>
+            <ws:if data="{{!!periods}}">
+                <ws:if data="{{isIconChecked(periods, month.date)}}">
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
+                        <div class="icon-16 icon-Yes icon-done"></div>
+                    </div>
+                </ws:if>
+                <ws:else>
+                    <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Месяц закрыт]}">
+                        <div class="icon-16 icon-Yes icon-disabled"></div>
+                    </div>
+                </ws:else>
+            </ws:if>
+        </ws:else>
+    </div>
+</div>

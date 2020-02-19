@@ -134,7 +134,7 @@ define('Controls-demo/Toolbar/ToolbarVdom', [
                   icon: 'icon-medium icon-Groups',
                   fontColorStyle: 'secondary',
                   title: 'Совещания',
-                  '@parent': true,
+                  '@parent': false,
                   parent: null,
                   additional: true
                },
@@ -154,6 +154,7 @@ define('Controls-demo/Toolbar/ToolbarVdom', [
                   id: '1',
                   icon: 'icon-Print icon-medium',
                   title: 'Распечатать',
+                  readOnly: false,
                   '@parent': false,
                   parent: null
                },

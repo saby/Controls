@@ -1,5 +1,4 @@
 import BaseControl = require('Core/Control');
-import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import DateUtil = require('Controls/Utils/Date');

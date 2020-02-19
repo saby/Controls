@@ -9,8 +9,6 @@ import CrossTemplate = require('wml!Controls/_lookup/SelectedCollection/_CrossTe
 import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/CounterTemplate');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
-import { ObservableList } from 'Types/collection';
-import 'css!theme?Controls/lookup';
 
 /**
  * Контрол, отображающий коллекцию элементов.
@@ -20,7 +18,7 @@ import 'css!theme?Controls/lookup';
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 /*
  * Control, that display collection of items.
@@ -29,7 +27,7 @@ import 'css!theme?Controls/lookup';
  * @extends Core/Control
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @control
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  */
 
 
@@ -46,7 +44,8 @@ class SelectedCollection extends Control {
    protected _crossTemplate: TemplateFunction = CrossTemplate;
    protected _counterTemplate: TemplateFunction = CounterTemplate;
 
-   public static getDefaultOptions(): Object {
+   static _theme: string[] = ['Controls/lookup'];
+   static getDefaultOptions(): Object {
       return {
          itemTemplate: ItemTemplate,
          itemsLayout: 'default'

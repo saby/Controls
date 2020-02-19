@@ -33,7 +33,7 @@ import template = require('wml!Controls/_lookup/Lookup/Lookup');
  * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Input/Lookup/LookupPropertyGrid
  */
 /*
@@ -69,7 +69,7 @@ import template = require('wml!Controls/_lookup/Lookup/Lookup');
  * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Input/Lookup/LookupPropertyGrid
  */
 

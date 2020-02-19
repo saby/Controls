@@ -17,7 +17,7 @@ export interface IItemTemplateOptions {
      * Базовый шаблон itemTemplate поддерживает следующие параметры:
      * - contentTemplate {Function} — Шаблон содержимого элемента;
      * - highlightOnHover {Boolean} — Выделять элемент при наведении на него курсора мыши.
-     * - clickable {Boolean} - Тип курсора (false - default или true - pointer) По умолчанию true.
+     * - cursor {TCursor} - Устанавливает тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
      *
      * В области видимости шаблона доступен объект itemData, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).
      *

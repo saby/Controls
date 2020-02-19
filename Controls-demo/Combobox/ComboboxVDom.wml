@@ -1,79 +1,82 @@
-<div class="ControlsDemo-ComboboxVDOM">
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>Simple</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
-                               keyProperty="id"
-                               displayProperty="title"
-                               bind:selectedKey="_selectedKey"
-                               attr:class="ControlsDemo-ComboboxVDOM__simple"/>
-   </div>
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>With the option of selecting an empty value</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
-                               keyProperty="id"
-                               emptyText="{{true}}"
-                               displayProperty="title"
-                               bind:selectedKey="_selectedKey3"
-                               attr:class="ControlsDemo-ComboboxVDOM__emptyValue"/>
-   </div>
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>With scroll</h4>
-      <Controls.dropdown:Combobox source="{{_getMultiData()}}"
-                               keyProperty="id"
-                               displayProperty="title"
-                               bind:selectedKey="_selectedKey2"
-                               dropdownClassName="ControlsDemo-ComboboxVDOM__popupScroll"
-                               attr:class="ControlsDemo-ComboboxVDOM__withScroll"/>
-   </div>
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__flexRow ControlsDemo-ComboboxVDOM__width270 controlsDemo__height300">
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">ReadOnly</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
+                                     displayProperty="title"
+                                     keyProperty="id"
+                                     bind:selectedKey="_selectedKeyReadOnly"
+                                     readOnly="{{true}}"
+                                     attr:class="ControlsDemo-ComboboxVDOM__ReadOnly"/>
+      </div>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">Simple</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKey"
+                                     attr:class="ControlsDemo-ComboboxVDOM__simple"/>
+      </div>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">With empty value</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
+                                     keyProperty="id"
+                                     emptyText="{{true}}"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKey3"
+                                     attr:class="ControlsDemo-ComboboxVDOM__emptyValue"/>
+      </div>
 
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>With application styles and comment</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsCode)}}"
-                               keyProperty="id"
-                               displayProperty="text"
-                               itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
-                               bind:selectedKey="_selectedKey4"
-                               attr:class="ControlsDemo-ComboboxVDOM__application"/>
-   </div>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">With application styles and comment</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsCode)}}"
+                                     keyProperty="id"
+                                     displayProperty="text"
+                                     itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
+                                     bind:selectedKey="_selectedKey4"
+                                     attr:class="ControlsDemo-ComboboxVDOM__application"/>
+      </div>
 
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>With application styles and a comment and a null value</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsCode)}}"
-                               keyProperty="id"
-                               emptyText="{{true}}"
-                               displayProperty="text"
-                               itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
-                               bind:selectedKey="_selectedKey5"
-                               attr:class="ControlsDemo-ComboboxVDOM__withNull"/>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">With styles, comment and null value</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsCode)}}"
+                                     keyProperty="id"
+                                     emptyText="{{true}}"
+                                     displayProperty="text"
+                                     itemTemplate="wml!Controls-demo/Combobox/itemTemplateCombobox"
+                                     bind:selectedKey="_selectedKey5"
+                                     attr:class="ControlsDemo-ComboboxVDOM__withNull"/>
+      </div>
    </div>
+   <div class="controlsDemo__flexRow ControlsDemo-ComboboxVDOM__width270 controlsDemo__height300 controlsDemo__margin-top">
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">With multi-line items</div>
+         <Controls.dropdown:Combobox source="{{_createMemory(_itemsWorkers)}}"
+                                     keyProperty="id"
+                                     popupClassName="ControlsDemo-ComboboxVDOM__popup"
+                                     displayProperty="title"
+                                     itemTemplate="wml!Controls-demo/Combobox/itemTemplateMultiline"
+                                     bind:selectedKey="_selectedKey6"
+                                     attr:class="ControlsDemo-ComboboxVDOM__itemBig"/>
+      </div>
 
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>With multi-line items</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsWorkers)}}"
-                               keyProperty="id"
-                               popupClassName="ControlsDemo-ComboboxVDOM__popup"
-                               displayProperty="title"
-                               itemTemplate="wml!Controls-demo/Combobox/itemTemplateMultiline"
-                               bind:selectedKey="_selectedKey6"
-                               attr:class="ControlsDemo-ComboboxVDOM__itemBig"/>
-   </div>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">History combobox</div>
+         <Controls.dropdown:Combobox source="{{_historySource}}"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKeyHistory"
+                                     attr:class="ControlsDemo-ComboboxVDOM__history"/>
+      </div>
 
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>History combobox</h4>
-      <Controls.dropdown:Combobox source="{{_historySource}}"
-                                 keyProperty="id"
-                                 displayProperty="title"
-                                 bind:selectedKey="_selectedKeyHistory"
-                                 attr:class="ControlsDemo-ComboboxVDOM__history"/>
-   </div>
-
-   <div class="ControlsDemo-ComboboxVDOM__wrapper">
-      <h4>ReadOnly</h4>
-      <Controls.dropdown:Combobox source="{{_createMemory(_itemsRegions)}}"
-                               displayProperty="title"
-                               keyProperty="id"
-                               bind:selectedKey="_selectedKeyReadOnly"
-                               readOnly="{{true}}"
-                               attr:class="ControlsDemo-ComboboxVDOM__ReadOnly"/>
+      <div class="controlsDemo__wrapper">
+         <div class="controls-text-label_theme-{{_options.theme}}">With scroll</div>
+         <Controls.dropdown:Combobox source="{{_getMultiData()}}"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKey2"
+                                     dropdownClassName="ControlsDemo-ComboboxVDOM__popupScroll"
+                                     attr:class="ControlsDemo-ComboboxVDOM__withScroll"/>
+      </div>
    </div>
 </div>

@@ -1,5 +1,5 @@
 import {IControlOptions, TemplateFunction} from 'UI/base';
-import {ICellPadding, TCellAlign, TCellVerticalAlign} from 'Controls/grid';
+import {TCellAlign, TCellVerticalAlign} from 'Controls/grid';
 
 /**
  * @typedef {String} THeader

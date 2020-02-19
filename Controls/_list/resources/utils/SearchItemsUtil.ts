@@ -1,4 +1,4 @@
-import display = require('Types/display');
+import display = require('Controls/display');
 import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
 
 var

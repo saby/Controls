@@ -29,7 +29,7 @@ class EnumEditor extends Control implements IEditor {
     protected _template: Function = template;
     protected _options: IEditorOptions;
 
-    private selectedKey: string = '';
+    protected selectedKey: string = '';
 
     _beforeMount(options: IEditorOptions): void {
         this._enum = options.propertyValue;

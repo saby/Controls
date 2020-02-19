@@ -1,0 +1,351 @@
+@months-in-year_PeriodLiteDialog: 12;
+@quarters-in-year_PeriodLiteDialog: 4;
+@displayed-years_PeriodLiteDialog: 5;
+
+.controls-PeriodLiteDialog__container () {
+   position: relative;
+   height: auto;
+}
+
+.controls-PeriodLiteDialog__container-caption () {
+   box-sizing: border-box;
+   cursor: pointer;
+   display: none;
+   height: 100%;
+   padding: 0;
+   position: absolute;
+   top: 0;
+}
+
+.controls-PeriodLiteDialog__container-month-caption () {
+   .controls-PeriodLiteDialog__container-caption();
+}
+
+.controls-PeriodLiteDialog {
+   box-sizing: padding-box;
+   .user-select();
+   background-color: @background-color_PeriodLiteDialog;
+   border: @border-width_DateLitePopup solid @border-color_DateLitePopup;
+   border-radius: 0;
+   box-shadow: @box-shadow-color_DateLitePopup @box-shadow-size_DateLitePopup-shadowStyle_center;
+   color: @color_text_default;
+   padding: 0;
+   height: 100%;
+}
+
+.controls-PeriodLiteDialog__homeButton {
+   align-self: center;
+}
+
+.controls-PeriodLiteDialog__body {
+   font-size: @font-size_PeriodLiteDialog;
+}
+
+.controls-PeriodLiteDialog__width-big {
+   min-width: @min-width_PeriodLiteDialog;
+}
+.controls-PeriodLiteDialog__width-medium {
+   width: @min-width_PeriodLiteDialog-medium;
+}
+
+.controls-PeriodLiteDialog__vLayout {
+   background-color: @background-color_PeriodLiteDialog;
+}
+
+.controls-PeriodLiteDialog__vLayoutItem {
+   cursor: pointer;
+   position: relative;
+   box-sizing: border-box;
+   border: solid @border-width_PeriodLiteDialog_hovered transparent;
+
+   ~ .controls-PeriodLiteDialog__vLayoutItem {
+      margin-top: -1px;
+   }
+}
+
+.controls-PeriodLiteDialog__vLayoutItem-clickable {
+   &:hover {
+      border-color: @border-color_PeriodLiteDialog_hovered;
+      background-color: @background-color_PeriodLiteDialog_hovered;
+   }
+   &:active {
+      border-color: @border-color_PeriodLiteDialog_hovered;
+   }
+}
+
+.controls-PeriodLiteDialog__vLayoutItem-caption {
+   height: @standart-line-height_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * 2;
+   line-height: @standart-line-height_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * 2;
+}
+
+.controls-PeriodLiteDialog__item-background-hovered {
+   border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
+   background-color: @background-color_PeriodLiteDialog_hovered;
+   position: absolute;
+   top: 0;
+   height: 100%;
+   width: 100%;
+   box-sizing: border-box;
+}
+
+.controls-PeriodLiteDialog__yearHeader-background-hovered {
+   border-color: @border-color_PeriodLiteDialog_hovered !important;
+}
+
+.controls-PeriodLiteDialog__background-transparent {
+   background-color: transparent !important;
+}
+
+.controls-PeriodLiteDialog__text-align-center {
+   text-align: center;
+}
+
+.controls-PeriodLiteDialog__currentValue {
+   font-size:  @font-size_PeriodLiteDialog-currentValue;
+   font-weight: @font-weight_PeriodLiteDialog-currentValue;
+   color: @color_PeriodLiteDialog-currentValue;
+   text-align: center;
+   height: @height_PeriodLiteDialog-currentValue - @border-width_DateLitePopup;
+   line-height: @height_PeriodLiteDialog-currentValue - @border-width_DateLitePopup;
+   border-bottom: none;
+   padding: 0 @padding-left-right_PeriodLiteDialog-currentValue;
+   margin-bottom: 0;
+   background-color: @bg-color_PeriodLiteDialog-currentValue;
+   cursor: pointer;
+}
+
+.controls-PeriodLiteDialog__yearWrapper {
+   padding-bottom: @border-width_PeriodLiteDialog_hovered ;
+   position: relative;
+   background-color: @bg-color_PeriodLiteDialog-yearWrapper;
+   height: @height_PeriodLiteDialog-year;
+   box-sizing: border-box;
+   display: flex;
+   align-items: stretch;
+   border: 1px solid transparent;
+   border-bottom: none;
+}
+
+.controls-PeriodLiteDialog__year-prev,
+.controls-PeriodLiteDialog__year-next {
+   cursor: pointer;
+   font-size: @font-size_PeriodLiteDialog-year-prev-next-btns;
+   color: @color_PeriodLiteDialog-year_prev_next;
+   text-align: center;
+   height: @height_PeriodLiteDialog-year;
+   width: @width_PeriodLiteDialog-year-prev-next-btns;
+   line-height: @height_PeriodLiteDialog-year - @border-width_PeriodLiteDialog_hovered;
+   &:hover {
+      color: @color_PeriodLiteDialog-year-prev-next_hovered;
+   }
+}
+.controls-PeriodLiteDialog__year-prev:before {
+   content: "\e008 ";
+}
+.controls-PeriodLiteDialog__year-next:before {
+   content: "\e007";
+}
+
+.controls-PeriodLiteDialog__home-wrapper {
+   display: flex;
+   justify-content: center;
+   width: @width_PeriodLiteDialog-home-icon;
+}
+.controls-PeriodLiteDialog__home-wrapper-lite {
+   display: flex;
+   width: @width_PeriodLiteDialog-home-icon-lite;
+}
+
+.controls-PeriodLiteDialog__year {
+   color: @color_PeriodLiteDialog-year;
+   font-size: @font-size_PeriodLiteDialog-year;
+   font-weight: bold;
+   height: @height_PeriodLiteDialog-year;
+   line-height: @height_PeriodLiteDialog-year;
+   vertical-align: middle;
+   flex-grow: 1;
+}
+
+.controls-PeriodLiteDialog__year-center-lite {
+   display: flex;
+   justify-content: center;
+   margin-right: @width_PeriodLiteDialog-home-icon-lite;
+}
+
+.controls-PeriodLiteDialog__year-medium {
+   padding-left: @padding-left_PeriodLiteDialog-year;
+}
+
+.controls-PeriodLiteDialog__year-clickable{
+   cursor: pointer;
+   &:hover {
+      background-color: inherit;
+   }
+}
+
+.controls-PeriodLiteDialog-item {
+   margin-top: 0;
+}
+
+.controls-PeriodLiteDialog-item-yearList-years {
+   cursor: pointer;
+   position: relative;
+   box-sizing: border-box;
+   min-width: @min-width_PeriodLiteDialog-item-years;
+   height: @standart-line-height_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered;
+}
+
+.controls-PeriodLiteDialog__yearList-year {
+   border: 1px solid transparent;
+}
+
+.controls-PeriodLiteDialog__bodyWrapper {
+   position: relative;
+   background-color: @indents-color_PeriodLiteDialog;
+}
+
+.controls-PeriodLiteDialog-item__halfYear {
+   .controls-PeriodLiteDialog__container();
+
+   margin-bottom: @indents_PeriodLiteDialog;
+
+   &:last-child {
+      margin-bottom: 0;
+   }
+}
+
+.controls-PeriodLiteDialog-item__halfYear-caption {
+   .controls-PeriodLiteDialog__container-caption();
+   color: @color_PeriodLiteDialog-link;
+   display: flex;
+   width: @width_PeriodLiteDialog-halfyear-caption;
+   right: initial;
+   left: 0;
+   background-color: @background-color_PeriodLiteDialog;
+   justify-content: center;
+   align-items: center;
+}
+
+.controls-PeriodLiteDialog-item__quarter {
+   .controls-PeriodLiteDialog__container();
+   margin: @margin_PeriodLiteDialog-quarter;
+}
+
+.controls-PeriodLiteDialog-item__quarter:nth-last-of-type(2) {
+   margin-bottom: 0;
+}
+
+.controls-PeriodLiteDialog-item__quarter-caption {
+   .controls-PeriodLiteDialog__container-caption();
+   display: flex;
+   left: 0;
+   background-color: @background-color_PeriodLiteDialog;
+   color: @color_PeriodLiteDialog-link;
+   position: absolute;
+   width: @width_PeriodLiteDialog-quarter-caption;
+   justify-content: center;
+   align-items: center;
+
+   &:hover {
+      color: @color_PeriodLiteDialog-quarter-caption_hovered;
+   }
+}
+
+.controls-PeriodLiteDialog-item__month-caption {
+   padding: @padding_PeriodLiteDialog-month;
+
+}
+
+.controls-PeriodLiteDialog-item__checkBox {
+   display: flex;
+   position: absolute;
+   top: 0;
+   right: @right_PeriodLiteDialog-checkbox - @border-width_PeriodLiteDialog_hovered;
+   align-items: center;
+   height: 100%;
+}
+
+.controls-PeriodLiteDialog-item__month-wrapper {
+   background-color: @background-color_PeriodLiteDialog;
+   margin: @margin_PeriodLiteDialog-month;
+}
+
+.controls-PeriodLiteDialog__years-bold {
+   font-weight: bold;
+   color: @color_PeriodLiteDialog-years-only-curent-year;
+}
+
+.controls-PeriodLiteDialog__years-prev,
+.controls-PeriodLiteDialog__years-next {
+   cursor: pointer;
+   color: @color_PeriodLiteDialog-link;
+   text-align: center;
+   height: @height_PeriodLiteDialog-year - @border-width_DateLitePopup;
+   line-height: @height_PeriodLiteDialog-year - @border-width_DateLitePopup;
+   font-size: @font-size_PeriodLiteDialog-year-prev-next-btns;
+   font-weight: normal;
+   &:hover {
+      color: @color_PeriodLiteDialog-link_hovered;
+   }
+}
+
+.controls-PeriodLiteDialog__years-home {
+   text-align: center;
+   margin: @margin_PeriodLiteDialog-home-button;
+}
+
+.controls-PeriodLiteDialog__selectedYear {
+   font-weight: bold;
+   color: @color_PeriodLiteDialog-selected-year;
+}
+
+.controls-PeriodLiteDialog__fullYear-listElement {
+   position: relative;
+   height: @height_PeriodLiteDialog-currentValue + @indents_PeriodLiteDialog;
+   background-color: #fff;
+   color: @color_PeriodLiteDialog-year;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.controls-PeriodLiteDialog__fullYear-listElement_bottom-line {
+   &:after{
+      content: '';
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      border-bottom: solid @indents_PeriodLiteDialog @indents-color_PeriodLiteDialog;
+   }
+}
+
+.controls-PeriodLiteDialog__month-list {
+   height: @standart-line-height_PeriodLiteDialog * @months-in-year_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * (@months-in-year_PeriodLiteDialog - 1);
+}
+
+.controls-PeriodLiteDialog__quarter-list {
+   height: @standart-line-height_PeriodLiteDialog * @quarters-in-year_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * (@quarters-in-year_PeriodLiteDialog - 1);
+}
+
+.controls-PeriodLiteDialog__fullYear-list {
+   height: @standart-line-height_PeriodLiteDialog * @months-in-year_PeriodLiteDialog + @indents_PeriodLiteDialog;
+}
+
+.controls-PeriodLiteDialog__year-list {
+   height: @standart-line-height_PeriodLiteDialog * @displayed-years_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * (@displayed-years_PeriodLiteDialog - 1);
+}
+
+.controls-PeriodLiteDialog_fullYear-list-hovered {
+   border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
+   border-bottom: none;
+   margin-top: -1px;
+}
+
+.border-top-hidden {
+   border-top: none;
+}
+
+.controls-PeriodLiteDialog_calendarBody {
+   position: relative;
+   border-bottom: @indents_PeriodLiteDialog solid @indents-color_PeriodLiteDialog;
+}

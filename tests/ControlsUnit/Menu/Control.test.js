@@ -53,7 +53,7 @@ define(
             });
          });
 
-         it('_loadItems check _expandButtonVisible', function() {
+         it('_loadItems check navigation', function() {
             let menuControl = getMenu();
             let menuOptions = Clone(defaultOptions);
             menuOptions.navigation = {
@@ -64,53 +64,61 @@ define(
             return new Promise((resolve) => {
                menuControl.loadItems(menuOptions).addCallback((items) => {
                   assert.equal(items.getCount(), 2);
-                  assert.isTrue(menuControl._expandButtonVisible);
                   resolve();
                });
             });
          });
 
-         it('_itemClick', function() {
-            let menuControl = getMenu();
-            let selectedItem;
-            menuControl._notify = (e, data) => {
-               if (e === 'itemClick') {
-                  selectedItem = data[0];
-               }
-            };
-            menuControl._listModel = getListModel();
-            menuControl._itemClick('itemClick', new entity.Model({
-               rawData: defaultItems[1],
-               keyProperty: 'key'
-            }));
-            assert.equal(selectedItem.getKey(), 1);
-         });
+         describe('_itemClick', function() {
+            let menuControl;
+            let selectedItem, selectedKeys, pinItem, item;
 
-         it('_itemClick multiSelect=true', function() {
-            let menuControl = getMenu();
-            menuControl._options.multiSelect = true;
-            let selectedItem, selectedKeys;
-            menuControl._notify = (e, data) => {
-               if (e === 'selectedKeysChanged') {
-                  selectedKeys = data[0];
-               } else if (e === 'itemClick') {
-                  selectedItem = data[0];
-               }
-            };
-            menuControl._listModel = getListModel();
+            beforeEach(function() {
+               menuControl = getMenu();
+               menuControl._listModel = getListModel();
 
-            menuControl._itemClick('itemClick', new entity.Model({
-               rawData: defaultItems[1],
-               keyProperty: 'key'
-            }));
-            assert.equal(selectedItem.getKey(), 1);
+               menuControl._notify = (e, data) => {
+                  if (e === 'selectedKeysChanged') {
+                     selectedKeys = data[0];
+                  } else if (e === 'itemClick') {
+                     selectedItem = data[0];
+                  } else if (e === 'pinClick') {
+                     pinItem = data[0];
+                  }
+               };
+               item = new entity.Model({
+                  rawData: defaultItems[1],
+                  keyProperty: 'key'
+               });
+            });
+            it('check selected item', function() {
+               menuControl._itemClick('itemClick', item, {});
+               assert.equal(selectedItem.getKey(), 1);
+            });
 
-            menuControl._selectionChanged = true;
-            menuControl._itemClick('itemClick', new entity.Model({
-               rawData: defaultItems[1],
-               keyProperty: 'key'
-            }));
-            assert.equal(selectedKeys[0], 1);
+            it('multiSelect=true', function() {
+               menuControl._options.multiSelect = true;
+
+               menuControl._itemClick('itemClick', item, {});
+               assert.equal(selectedItem.getKey(), 1);
+
+               menuControl._selectionChanged = true;
+               menuControl._itemClick('itemClick', item, {});
+               assert.equal(selectedKeys[0], 1);
+            });
+
+            it('check pinClick', function() {
+               let isPinClick = false;
+               let nativeEvent = {
+                  target: { closest: () => isPinClick }
+               };
+               menuControl._itemClick('itemClick', item, nativeEvent);
+               assert.isUndefined(pinItem);
+
+               isPinClick = true;
+               menuControl._itemClick('itemClick', item, nativeEvent);
+               assert.equal(pinItem.getId(), item.getId());
+            });
          });
 
          it('getTemplateOptions', function() {
@@ -119,8 +127,13 @@ define(
             expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
             expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
             expectedOptions.closeButtonVisibility = false;
+            expectedOptions.showHeader = false;
+            expectedOptions.headerTemplate = null;
+            expectedOptions.additionalProperty = null;
 
             let menuControl = getMenu();
+            menuControl._listModel = getListModel();
+
             let item = new display.TreeItem({
                contents: new entity.Model({
                   rawData: { key: 1, title: '111' },
@@ -132,33 +145,33 @@ define(
             assert.deepEqual(resultOptions, expectedOptions);
          });
 
-         it('needShowApplyButton', function() {
+         it('isSelectedKeysChanged', function() {
             let menuControl = getMenu();
             let initKeys = [];
-            let result = menuControl.needShowApplyButton([], initKeys);
+            let result = menuControl.isSelectedKeysChanged([], initKeys);
             assert.isFalse(result);
 
-            result = menuControl.needShowApplyButton([2], initKeys);
+            result = menuControl.isSelectedKeysChanged([2], initKeys);
             assert.isTrue(result);
 
             initKeys = [2, 1];
-            result = menuControl.needShowApplyButton([1, 2], initKeys);
+            result = menuControl.isSelectedKeysChanged([1, 2], initKeys);
             assert.isFalse(result);
          });
 
-         it('getSelectedItems', function() {
+         it('getSelectedItemsByKeys', function() {
             let listModel = getListModel();
             let menuControl = getMenu();
             let selectedKeys = [2, 3];
-            let selectedItems = menuControl.getSelectedItems(listModel, selectedKeys);
+            let selectedItems = menuControl.getSelectedItemsByKeys(listModel, selectedKeys);
             assert.equal(selectedItems.length, 2);
 
             selectedKeys = [];
-            selectedItems = menuControl.getSelectedItems(listModel, selectedKeys);
+            selectedItems = menuControl.getSelectedItemsByKeys(listModel, selectedKeys);
             assert.equal(selectedItems.length, 0);
          });
 
-         it('getSelectorDialogOptions', function() {
+         it('_openSelectorDialog', function() {
             let menuOptions = Clone(defaultOptions);
             menuOptions.selectorTemplate = {
                templateName: 'DialogTemplate.wml',
@@ -171,13 +184,14 @@ define(
             let menuControl = getMenu(menuOptions);
             menuControl._listModel = getListModel();
 
-            let selectCompleted = false, closed = false;
+            let selectCompleted = false, closed = false, opened = false, actualOptions;
             menuControl._options.selectorOpener = {
+               open: (tplOptions) => { opened = true; actualOptions = tplOptions; },
                close: () => { closed = true; }
             };
             menuControl._options.selectorDialogResult = () => {selectCompleted = true};
 
-            let actualOptions = menuControl.getSelectorDialogOptions(menuOptions);
+            menuControl._openSelectorDialog(menuOptions);
 
             assert.strictEqual(actualOptions.template, menuOptions.selectorTemplate.templateName);
             assert.strictEqual(actualOptions.isCompoundTemplate, menuOptions.isCompoundTemplate);
@@ -186,8 +200,7 @@ define(
             assert.strictEqual(actualOptions.templateOptions.option2, '2');
             assert.isOk(actualOptions.templateOptions.handlers.onSelectComplete);
             assert.isFalse(actualOptions.hasOwnProperty('opener'));
-
-
+            assert.isTrue(opened);
 
             actualOptions.templateOptions.handlers.onSelectComplete();
             assert.isTrue(selectCompleted);
