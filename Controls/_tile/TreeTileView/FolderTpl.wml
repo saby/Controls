@@ -26,5 +26,6 @@
               template="{{itemActionsTemplate}}"
               highlightOnHover="{{highlightOnHover}}"
               itemData="{{itemData}}"
+              isTile="{{true}}"
               itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions controls-TreeTileView__itemActions_center'}}"/>
 </div>
