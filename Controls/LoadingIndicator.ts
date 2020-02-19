@@ -248,6 +248,8 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
     small: '',
     overlay: 'default',
     mods: null,
+    _overlayDiv: null,
+    _messageDiv: null,
 
     _beforeMount(cfg) {
         this.mods = [];
@@ -265,9 +267,15 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
                 ManagerController.setIndicator(self);
             });
         }
+
+        // TODO Откатить DOM-решение или доказать невозмодность другого в задаче по ссылке ниже.
+        // https://online.sbis.ru/opendoc.html?guid=2bd41176-8896-4a0a-a04d-a93b8a4c3a2d
+        this._createOverlay();
+        this._redrawOverlay();
     },
     _beforeUpdate(cfg) {
         this._updateProperties(cfg);
+        this._redrawOverlay();
     },
     _updateProperties(cfg) {
         if (cfg.isGlobal !== undefined) {
@@ -497,7 +505,7 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
     },
     _toggleOverlay(toggle: boolean, config): void {
         this._isOverlayVisible = toggle && config.overlay !== 'none';
-        this._forceUpdate();
+        this._redrawOverlay();
     },
     _clearOverlayTimerId() {
         if (this._toggleOverlayTimerId) {
@@ -514,6 +522,89 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
         } else {
             this._isMessageVisible = false;
         }
+        this._redrawOverlay();
+    },
+
+    _createOverlay(): void {
+        const overlayDiv = document.createElement('div');
+        overlayDiv.setAttribute('data-vdomignore', 'true');
+        overlayDiv.setAttribute('tabindex', '1');
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'controls-loading-indicator-in';
+
+        this._overlayDiv = overlayDiv;
+        this._messageDiv = messageDiv;
+    },
+
+    _redrawOverlay(): void {
+        const overlayDiv = this._overlayDiv;
+        const messageDiv = this._messageDiv;
+        const container = this._container;
+
+        if (!container) {
+            return;
+        }
+
+        const currentOverlayVisibility = !!overlayDiv.parentElement;
+        const nextOverlayVisibility = this._isOverlayVisible;
+        if (nextOverlayVisibility) {
+            const newOverlayClassName = this._calculateOverlayClassName();
+            if (overlayDiv.className !== newOverlayClassName) {
+                overlayDiv.className = newOverlayClassName;
+            }
+            if (this._zIndex) {
+                overlayDiv.setAttribute('style', 'z-index: ' + this._zIndex);
+            }
+        }
+        if (currentOverlayVisibility !== nextOverlayVisibility) {
+            if (nextOverlayVisibility) {
+                container.appendChild(overlayDiv);
+            } else {
+                container.removeChild(overlayDiv);
+            }
+        }
+
+        const currentMessageVisibility = !!messageDiv.parentElement;
+        const nextMessageVisibility = this._isMessageVisible;
+        if (nextMessageVisibility && messageDiv.innerText !== this.message) {
+            messageDiv.innerText = this.message;
+        }
+        if (currentMessageVisibility !== nextMessageVisibility) {
+            if (nextMessageVisibility) {
+                overlayDiv.appendChild(messageDiv);
+            } else {
+                overlayDiv.removeChild(messageDiv);
+            }
+        }
+    },
+
+    _calculateOverlayClassName(): string {
+        const classList = ['controls-loading-indicator', 'controls-Popup__isolatedFocusingContext'];
+
+        classList.push(this.isGlobal ? 'controls-loading-indicator_global' : 'controls-loading-indicator_local');
+
+        if (this.message) {
+            classList.push('controls-loading-indicator_text');
+        }
+        if (this.scroll) {
+            classList.push('controls-loading-indicator_scroll');
+            classList.push('controls-loading-indicator_sided controls-loading-indicator_sided-' + this.scroll);
+        }
+        if (this.small) {
+            classList.push('controls-loading-indicator_small');
+            if (this.small !== 'yes') {
+                classList.push('controls-loading-indicator_sided controls-loading-indicator_sided-' + this.small);
+            }
+        }
+        if (this.overlay) {
+            classList.push('controls-loading-indicator_overlay-' + this._getOverlay(this.overlay));
+        }
+        if (this?.mods?.length) {
+            classList.concat(this.mods.map((mod) => 'controls-loading-indicator_mod-' + mod));
+        }
+
+        return classList.join(' ');
     }
 });
 
