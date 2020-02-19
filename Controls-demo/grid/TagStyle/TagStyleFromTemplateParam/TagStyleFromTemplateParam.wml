@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+   <Controls.grid:View
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:columns>
+         <ws:Array>
+            <ws:Object displayProperty="number" width="40px">
+               <ws:template>
+                  <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}" itemData="{{itemData}}"/>
+               </ws:template>
+            </ws:Object>
+            <ws:Object displayProperty="country" width="300px"/>
+            <ws:Object displayProperty="capital"/>
+            <ws:Object displayProperty="population" width="max-content" compatibleWidth="98px">
+               <ws:template>
+                  <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}" itemData="{{itemData}}" tagStyle="{{itemData ? itemData.item.get('tagStyle') : null}}"/>
+               </ws:template>
+            </ws:Object>
+            <ws:Object displayProperty="square"/>
+            <ws:Object displayProperty="populationDensity"/>
+         </ws:Array>
+      </ws:columns>
+   </Controls.grid:View>
+</div>
