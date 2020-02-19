@@ -12,11 +12,22 @@ define([
    const options = {
       rangeModel: new dateRange.DateRangeModel(),
       mask: 'DD.MM.YYYY',
-      value: new Date(2018, 0, 1),
+      startValue: new Date(2018, 0, 1),
+      endValue: new Date(2018, 0, 1),
       replacer: ' ',
    };
 
    describe('Controls/dateRange/Selector', function() {
+      describe('_beforeUpdate', function() {
+         it('should not generate exceptions if value option is set', function() {
+            const component = calendarTestUtils.createComponent(dateRange.Selector, options);
+            component._beforeUpdate({
+               startValue: options.startValue,
+               endValue: options.endValue,
+               value: []
+            });
+         });
+      });
 
       describe('_rangeChangedHandler', function() {
          it('should set range on model', function() {

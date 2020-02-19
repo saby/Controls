@@ -31,6 +31,8 @@ var Component = BaseControl.extend({
          className: 'controls-PeriodDialog__picker',
          templateOptions: {
             ...getOptions.getTemplateOptions(this),
+            startValue: this._options.value,
+            endValue: this._options.value,
             headerType: 'link',
             closeButtonEnabled: true,
             rangeselect: false,
