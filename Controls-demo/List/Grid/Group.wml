@@ -6,7 +6,6 @@
          source="{{_viewSource}}"
          header="{{_gridHeader}}"
          columns="{{_gridColumns}}"
-         groupHistoryId="myStore"
          groupingKeyCallback="{{_groupingKeyCallback}}"
          groupTemplate="wml!Controls-demo/List/Grid/DemoGroupTemplate"/>
 </div>

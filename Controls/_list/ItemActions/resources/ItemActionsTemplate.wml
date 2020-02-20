@@ -1,15 +1,8 @@
 <ws:template name="localItemActionsTemplate">
-    <div attr:class="controls-itemActionsV
-            {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
-            {{itemActionsPosition !== 'outside' ? itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight' : ''}}
-            controls-itemActionsV_{{itemActionsPosition}}
-            {{getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding)}}
-            {{itemData.isEditing ? 'controls-itemActionsV_editing'}}
-            {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
-            {{itemData.isActive && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
-            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}
-            {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
-        <div attr:class="controls-itemActionsV__wrapper">
+    <div attr:class="{{itemData.getItemActionsClasses(itemData, isTile, false, itemActionsClass,
+        toolbarVisibility, actionMenuIsShown, highlightOnHover, style, getContainerPaddingClass, itemPadding)}}">
+        <div attr:class="{{itemData.getItemActionsWrapperClasses(itemData, isTile, itemActionsPosition, highlightOnHover, style,
+            getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility)}}">
             <ws:partial
                     template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
                     itemData="{{itemData}}"
@@ -26,7 +19,7 @@
         </div>
     </div>
 </ws:template>
-<!-- TODO moved to Grid/Item.wml after complete task: https://online.sbis.ru/opendoc.html?guid=d473668a-3c9a-43b9-a59c-b994cbf873bd -->
+        <!-- TODO moved to Grid/Item.wml after complete task: https://online.sbis.ru/opendoc.html?guid=d473668a-3c9a-43b9-a59c-b994cbf873bd -->
 <ws:if data="{{!!itemActionsContainerStyles}}">
     <div class="controls-itemActionsV__container" style="{{itemActionsContainerStyles}}">
         <ws:partial template="localItemActionsTemplate"/>
