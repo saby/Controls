@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/treeGrid:View дереве}.
  * @class Controls/treeGrid:ItemTemplate
- * @mixes Controls/list:BaseItemTemplate
+ * @mixes Controls/grid:BaseGridItemTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplate
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
@@ -10,13 +10,7 @@
  * <pre class="brush: html">
  * <Controls.treeGrid:View>
  *    <ws:itemTemplate>
- *       <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="null" expanderSize="l" expanderIcon="node">
- *          <ws:contentTemplate>
- *             <div title="{{contentTemplate.itemData.item.Name}}">
- *                {{contentTemplate.itemData.item.Name}}
- *             </div>
- *          </ws:contentTemplate>
- *       </ws:partial>
+ *       <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="null" expanderSize="l" expanderIcon="node" />
  *    </ws:itemTemplate>
  * </Controls.treeGrid:View>
  * </pre>
