@@ -644,6 +644,12 @@ define([
          await ctrl._beforeMount(cfg);
          ctrl._container = {clientHeight: 100};
          ctrl._afterMount(cfg);
+         ctrl._children = {
+            scrollController: {
+               startChainUpdate() {},
+               stopChainUpdate() {}
+            }
+         };
 
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
 
@@ -706,6 +712,12 @@ define([
          await ctrl._beforeMount(cfg);
          ctrl._container = {clientHeight: 100};
          ctrl._afterMount(cfg);
+         ctrl._children = {
+            scrollController: {
+               startChainUpdate() {},
+               stopChainUpdate() {}
+            }
+         };
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
 
          metaData = ctrl._items.getMetaData();
@@ -761,6 +773,12 @@ define([
          await ctrl._beforeMount(cfg);
          ctrl._container = {clientHeight: 100};
          ctrl._afterMount(cfg);
+         ctrl._children = {
+            scrollController: {
+               startChainUpdate() {},
+               stopChainUpdate() {}
+            }
+         };
 
          let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
          assert.equal(ctrl._loadingState, 'down');
@@ -917,6 +935,12 @@ define([
          ctrl._loadTriggerVisibility = {
             up: false,
             down: true
+         };
+         ctrl._children = {
+            scrollController: {
+               startChainUpdate() {},
+               stopChainUpdate() {}
+            }
          };
 
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
@@ -1434,6 +1458,12 @@ define([
          await baseControl._beforeMount(cfg);
          baseControl._container = {clientHeight: 100, getBoundingClientRect: () => ({ y: 0 }) };
          baseControl._afterMount(cfg);
+         baseControl._children = {
+            scrollController: {
+               startChainUpdate() {},
+               stopChainUpdate() {}
+            }
+         };
 
          const loadPromise = lists.BaseControl._private.loadToDirection(baseControl, 'up');
          assert.equal(baseControl._loadingState, 'up');
@@ -5441,6 +5471,12 @@ define([
             ctrl.saveOptions(cfg);
             await ctrl._beforeMount(cfg);
             ctrl._container = {clientHeight: 100};
+            ctrl._children = {
+               scrollController: {
+                  startChainUpdate() {},
+                  stopChainUpdate() {}
+               }
+            };
             ctrl._afterMount(cfg);
 
             assert.isNull(ctrl._loadedItems);

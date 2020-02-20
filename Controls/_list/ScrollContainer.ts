@@ -52,6 +52,13 @@ interface IOptions extends IControlOptions, ICompatibilityOptions {
     activeElement: string|number;
 }
 
+/**
+ * Класс для управления скроллированием в списках
+ * @author Волоцкой В.Д.
+ * @control Controls/_list/ScrollContainer
+ * @extends UI/Base:Control
+ * @private
+ */
 export default class ScrollContainer extends Control<IOptions> {
     protected _template: TemplateFunction = template;
     protected _children: {
@@ -244,6 +251,20 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     /**
+     * Начинает цепочку обновлений коллекции
+     */
+    startChainUpdate(): void {
+        this._virtualScroll.startChainUpdate();
+    }
+
+    /**
+     * Заканчивает цепочку обновлений коллекции
+     */
+    stopChainUpdate(): void {
+        this._virtualScroll.stopChainUpdate();
+    }
+
+    /**
      * Проверка на видимость триггеров
      * @remark Иногда, уже после загрузки данных триггер остается видимым, в таком случае вызвать повторную загрузку
      * данных
@@ -323,11 +344,24 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     private _setCollectionIndices(collection: Collection<Record>, {start, stop}: IRange): void {
+        let collectionStartIndex: number;
+        let collectionStopIndex: number;
+
         if (collection.getViewIterator) {
-            return collection.getViewIterator().setIndices(start, stop);
+            collectionStartIndex = displayLib.VirtualScrollController.getStartIndex(collection);
+            collectionStopIndex = displayLib.VirtualScrollController.getStopIndex(collection);
         } else {
-            // @ts-ignore
-            return collection.setIndexes(start, stop);
+            collectionStartIndex = collection.getStartIndex();
+            collectionStopIndex = collection.getStopIndex();
+        }
+
+        if (collectionStartIndex !== start || collectionStopIndex !== stop) {
+            if (collection.getViewIterator) {
+                return collection.getViewIterator().setIndices(start, stop);
+            } else {
+                // @ts-ignore
+                return collection.setIndexes(start, stop);
+            }
         }
     }
 
@@ -342,6 +376,7 @@ export default class ScrollContainer extends Control<IOptions> {
         }
 
         this._triggerVisibility[triggerName] = triggerVisible;
+        this._virtualScroll.applyTriggerVisibility(triggerName, triggerVisible);
         // TODO Совместимость необходимо удалить после переписывания baseControl
         this._notify('triggerVisibilityChanged', [triggerName, triggerVisible]);
     }
@@ -483,6 +518,15 @@ export default class ScrollContainer extends Control<IOptions> {
             if (action === IObservable.ACTION_RESET) {
                 this._initVirtualScroll(this._options);
             }
+        }
+
+        // Если произошли изменения индексов в модели, значит был пересчитан range
+        // даже если внутри состояния виртуального скролла этого не произошло
+        // такое может произойти на старой модели, так как она сама управляет индексами
+        // при загрузке новой пачки элементов
+        // TODO Совместимость
+        if (changesType === 'indexesChanged') {
+            this._virtualScroll.rangeChanged = true;
         }
     }
 
