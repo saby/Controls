@@ -98,6 +98,17 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         });
 
         it('at begining', () => {
+            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 120}},
+                instance.insertItems(0, 2));
+        });
+        it('at begining with chain update', () => {
+            instance.startChainUpdate();
+            assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
+                instance.insertItems(0, 2));
+        });
+        it('at begining with chain update with trigger visibility', () => {
+            instance.startChainUpdate();
+            instance.applyTriggerVisibility('down', true);
             assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
                 instance.insertItems(0, 2));
         });
@@ -107,6 +118,14 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         });
         it('at ending', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
+                instance.insertItems(3, 1));
+        });
+        it('chain update', () => {
+            instance.startChainUpdate();
+            instance.insertItems(3, 1);
+            instance.insertItems(3, 1);
+
+            assert.deepEqual({range: {start: 0, stop: 8}, placeholders: {top: 0, bottom: 0}},
                 instance.insertItems(3, 1));
         });
     });

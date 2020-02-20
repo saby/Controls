@@ -15,6 +15,14 @@ export default class VirtualScroll {
     private _oldRange: IRange = {start: 0, stop: 0};
     private _savedDirection: IDirection;
     private _itemsCount: number;
+    private _chainUpdate: boolean;
+    private _triggerVisibility: {
+        up: boolean;
+        down: boolean;
+    } = {
+        up: false,
+        down: false
+    };
 
     rangeChanged: boolean;
 
@@ -41,8 +49,20 @@ export default class VirtualScroll {
         this._options = {...this._options, ...{segmentSize, pageSize}};
     }
 
+    startChainUpdate(): void {
+        this._chainUpdate = true;
+    }
+
+    stopChainUpdate(): void {
+        this._chainUpdate = false;
+    }
+
     applyContainerHeightsData(containerData: Partial<IContainerHeights>): void {
         this._containerHeightsData = {...this._containerHeightsData, ...containerData};
+    }
+
+    applyTriggerVisibility(triggerName: IDirection, isVisible: boolean): void {
+        this._triggerVisibility[triggerName] = isVisible;
     }
 
     /**
@@ -114,19 +134,22 @@ export default class VirtualScroll {
         this._itemsCount += count;
         this._insertItemHeights(addIndex, count);
 
-        if (direction === 'up') {
-            this._oldRange.start += count;
-            this._updateStartIndex(this._range.start + count);
-        }
-
-        // TODO Поправить после исправления
-        // https://online.sbis.ru/opendoc.html?guid=63490db6-53f7-411a-9603-0fcbe5838b9a
-        if (!this._options.pageSize) {
-            this._oldRange = {...this._range};
-            return this._setRange({start: 0, stop: this._itemsCount});
+        if (direction === 'down') {
+            if (this._chainUpdate && !this._triggerVisibility[direction]) {
+                return this.shiftRange(direction);
+            } else {
+                return this._setRange(
+                    this._shiftRangeBySegment(direction, count)
+                );
+            }
         } else {
+            if (this._chainUpdate) {
+                this._oldRange.start += count;
+                this._updateStartIndex(this._range.start + count);
+            }
+
             return this._setRange(
-                this.rangeChanged ? this._range : this._shiftRangeBySegment(direction, count)
+                this._shiftRangeBySegment(direction, count)
             );
         }
     }
@@ -222,6 +245,7 @@ export default class VirtualScroll {
         }
 
         this._savedDirection = undefined;
+        this._oldRange = {...this._range};
 
         return savedPosition;
     }
@@ -480,7 +504,6 @@ export default class VirtualScroll {
 
     private _shiftRangeBySegment(direction: IDirection, segmentSize: number): IRange {
         this._savedDirection = direction;
-        this._oldRange = {...this._range};
         const fixedSegmentSize = Math
             .min(segmentSize, Math.max(this._options.pageSize - (this._range.stop - this._range.start), 0));
         const itemsCount = this._itemsCount;
