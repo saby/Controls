@@ -4,6 +4,7 @@ import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'css!Controls-demo/Controls-demo';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
+import {IGridViewItemData} from '../../../../Controls/_grid/interface/IGridViewItemData';
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -24,6 +25,24 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             keyProperty: 'id',
             data
         });
+    }
+
+    /**
+     * Эти хандлеры срабатывают при клике на Tag в шаблоне Column.wml
+     * @private
+     */
+    protected _onTagClickHandler(event: Event, itemData: IGridViewItemData): void {
+        console.log('tagClick event is caught!');
+        console.log(itemData);
+    }
+
+    /**
+     * Эти хандлеры срабатывают при наведении на Tag в шаблоне Column.wml
+     * @private
+     */
+    protected _onTagHoverHandler(event: Event, itemData: IGridViewItemData): void {
+        console.log('tagHover event is caught!');
+        console.log(itemData);
     }
 
     private _getModifiedData(): any {

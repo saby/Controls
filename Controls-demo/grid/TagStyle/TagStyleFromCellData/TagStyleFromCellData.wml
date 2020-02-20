@@ -2,6 +2,9 @@
    <Controls.grid:View
       keyProperty="id"
       source="{{_viewSource}}"
-      columns="{{_columns}}">
+      columns="{{_columns}}"
+      on:tagClick="_onTagClickHandler()"
+      on:tagHover="_onTagHoverHandler()"
+   >
    </Controls.grid:View>
 </div>
