@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в контроле {@link Controls/grid:View Таблица}.
  * @class Controls/grid:ItemTemplate
- * @mixes Controls/list:BaseItemTemplate
+ * @mixes Controls/grid:BaseGridItemTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/IGridItemTemplate#itemTemplate
  * @see Controls/interface/IGridItemTemplate#itemTemplateProperty
