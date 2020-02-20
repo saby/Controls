@@ -1,7 +1,10 @@
 <div>
    <h1>Двухколоночный браузер</h1>
-   <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
-   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId1="master111">
+   <div class="controlsDemo__flexRow">
+      <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
+      <Controls.buttons:Button attr:class="controlsDemo__ml1" caption="Set width = 1000" on:click="_clickHandler()"/>
+   </div>
+   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId1="master111" name="MasterDetailBase">
       <ws:master>
 
          <div>
@@ -107,8 +110,11 @@
          </div>
       </ws:detail>
    </Controls.masterDetail:Base>
-   <h3>Ширина мастера может меняться от 10% до 50% контейнера. Начальная ширина 10%.</h3>
-   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%">
+   <div class="controlsDemo__flexRow">
+      <h3>Ширина мастера может меняться от 10% до 50% контейнера. Начальная ширина 10%. </h3>
+      <Controls.buttons:Button attr:class="controlsDemo__ml1" caption="Set width = 1920" on:click="_clickHandler1()"/>
+   </div>
+   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%" name="masterDetailBase1">
       <ws:master>
 
          <div>
