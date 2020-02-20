@@ -94,5 +94,16 @@ define(["Controls/_propertyGrid/PropertyGrid"], function(PropertyGrid) {
             });
         });
 
+        describe('_beforeUpdate', () => {
+            it ('property changed', function() {
+                var pg = new PropertyGrid();
+                pg._beforeMount(configWithEditingObject.options);
+                configWithEditingObject.options.editingObject.booleanField = true;
+                pg._beforeUpdate(configWithEditingObject.options);
+
+                assert.isTrue(pg.items.at(1).get('propertyValue'));
+            });
+        });
+
     });
 });

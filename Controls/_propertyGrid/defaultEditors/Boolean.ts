@@ -36,6 +36,12 @@ class BooleanEditor extends Control implements IEditor {
         this.value = options.propertyValue;
     }
 
+    _beforeUpdate(newOptions: IEditorOptions): void {
+        if (this._options.propertyValue !== newOptions.propertyValue) {
+            this.value = newOptions.propertyValue;
+        }
+    }
+
     _valueChanged(event: Event, value: boolean): void {
         this.value = value;
         this._notify('propertyValueChanged', [value], {bubbling: true});
