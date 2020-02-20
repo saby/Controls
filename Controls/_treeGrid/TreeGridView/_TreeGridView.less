@@ -170,6 +170,72 @@
   font-size: @font-size_TreeGridView-row-cell-item;
 }
 
+// Отступы подвала слева
+.controls-TreeGrid__nodeFooterContent_spacingLeft-default_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_default;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-null_theme-@{themeName} {
+   padding-left: 0;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xs_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_xs;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-s_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_s;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-m_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_m;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-l_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_l;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xl_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_xl;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingLeft-xxl_theme-@{themeName} {
+   padding-left: @spacing_Grid-row-between-content-borderLeft_xxl;
+}
+
+// Отступы подвала справа
+.controls-TreeGrid__nodeFooterContent_spacingRight-default_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_default;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-null_theme-@{themeName} {
+   padding-right: 0;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xs_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_xs;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-s_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_s;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-m_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_m;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-l_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_l;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xl_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_xl;
+}
+
+.controls-TreeGrid__nodeFooterContent_spacingRight-xxl_theme-@{themeName} {
+   padding-right: @spacing_Grid-row-between-content-borderRight_xxl;
+}
+
 // For right vertiacal align of items inside block with display: table-cell.
 .controls-Grid_table-layout .controls-TreeGridView__row-cell_innerWrapper {
    display: flex;
@@ -196,7 +262,7 @@
    .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:hover:before {
       color: @color_TreeGridView-expander_hover_master;
    }
-   
+
    .controls-BaseControl_showActions {
       .controls-Grid__row:hover > .controls-TreeGrid__row-cell_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
          display: inline-block;

@@ -10,7 +10,7 @@
 </ws:template>
 
 <ws:template name="footerContent">
-    <div class="controls-TreeGrid__nodeFooterContent controls-TreeGrid__nodeFooterContent_theme-{{theme}}" style="{{footer.colspanStyles || ''}}">
+    <div class="{{footer.classes}}" style="{{footer.colspanStyles || ''}}">
         <ws:for data="i in footer.level">
             <div class="controls-TreeGrid__row-levelPadding {{footer.getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
         </ws:for>
