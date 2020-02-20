@@ -379,8 +379,14 @@ describe('Controls/_list/ScrollContainer', () => {
         // @ts-ignore
         const instance = new ScrollController();
         instance.viewModel = {
-            setViewIndices(startIndex, stopIndex) {
+            setViewIndices(startIndex: number, stopIndex: number): boolean {
                 return startIndex !== this.startIndex || stopIndex !== this.stopIndex;
+            },
+            getStartIndex(): number {
+                return instance.viewModel.startIndex;
+            },
+            getStopIndex(): number {
+                return instance.viewModel.stopIndex;
             },
             startIndex: 0,
             stopIndex: 19
