@@ -33,6 +33,8 @@ import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
 import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INavigation';
+import {CollectionItem} from 'Controls/display';
+import {Model} from 'saby-types/Types/entity';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -2601,6 +2603,23 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._currentPageSize = item.get('pageSize');
         this._applyPagingNavigationState({pageSize: this._currentPageSize});
     },
+
+    /**
+     * Хандлер клика на Tag в _columnTagTemplate.wml
+     * @private
+     */
+    _onTagClickHandler(event: Event, data: { dispItem?: CollectionItem<Model>; columnIndex?: number; }): void {
+        this._notify('tagClick', [data.dispItem, data.columnIndex, event]);
+    },
+
+    /**
+     * Хандлер наведения на Tag в _columnTagTemplate.wml
+     * @private
+     */
+    _onTagHoverHandler(event: Event, data: { dispItem?: CollectionItem<Model>; columnIndex?: number; }): void {
+        this._notify('tagHover', [data.dispItem, data.columnIndex, event]);
+    },
+
     _applyPagingNavigationState: function(params) {
         var newNavigation = cClone(this._options.navigation);
         if (params.pageSize) {

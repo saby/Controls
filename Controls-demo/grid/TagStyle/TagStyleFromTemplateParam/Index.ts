@@ -4,7 +4,7 @@ import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'css!Controls-demo/Controls-demo';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-import {IGridViewItemData} from '../../../../Controls/_grid/interface/IGridViewItemData';
+import {CollectionItem} from 'Controls/display';
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -29,20 +29,32 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
 
     /**
      * Эти хандлеры срабатывают при клике на Tag в шаблоне Column.wml
+     * @param event
+     * @param item
+     * @param columnIndex
+     * @param nativeEvent
      * @private
      */
-    protected _onTagClickHandler(event: Event, itemData: IGridViewItemData): void {
+    protected _onTagClickCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
         console.log('tagClick event is caught!');
-        console.log(itemData);
+        console.log(item);
+        console.log(nativeEvent);
+        console.log(columnIndex);
     }
 
     /**
      * Эти хандлеры срабатывают при наведении на Tag в шаблоне Column.wml
+     * @param event
+     * @param item
+     * @param columnIndex
+     * @param nativeEvent
      * @private
      */
-    protected _onTagHoverHandler(event: Event, itemData: IGridViewItemData): void {
+    protected _onTagHoverCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
         console.log('tagHover event is caught!');
-        console.log(itemData);
+        console.log(item);
+        console.log(nativeEvent);
+        console.log(columnIndex);
     }
 
     private _getModifiedData(): any {

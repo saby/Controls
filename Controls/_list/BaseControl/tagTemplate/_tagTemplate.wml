@@ -1,0 +1,13 @@
+<!-- Шаблон тега (Уголка) -->
+<!-- @param: templateTagStyle -->
+<!-- @param: itemData -->
+<!-- @param: _options -->
+<svg name="tag"
+     viewBox="0 0 1 1"
+     xmlns="http://www.w3.org/2000/svg"
+     class="controls-Grid__tag_theme-{{_options.theme}}
+                     controls-Grid__tag_style-{{templateTagStyle}}_theme-{{_options.theme}}"
+     on:click="_onTagClickHandler(itemData)"
+     on:mouseenter="_onTagHoverHandler(itemData)">
+   <polygon points="0,0 1,1 1,0"/>
+</svg>

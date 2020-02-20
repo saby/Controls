@@ -32,7 +32,8 @@
                         ladderWrapper="{{currentColumn.ladderWrapper}}"
                         attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                              {{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"
-                        itemData="{{currentColumn}}"/>
+                        itemData="{{currentColumn}}"
+                        tagTemplate="{{tagTemplate}}"/>
         </ws:else>
     </ws:else>
     <!-- В table-layout операции над записью всегда выводятся в последней ячейке, даже при скролле колонок -->

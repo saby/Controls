@@ -2,6 +2,8 @@
    <Controls.grid:View
       keyProperty="id"
       source="{{_viewSource}}"
+      on:tagClick="_onTagClickCustomHandler()"
+      on:tagHover="_onTagHoverCustomHandler()"
    >
       <ws:columns>
          <ws:Array>

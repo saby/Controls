@@ -165,6 +165,9 @@
                 on:hoveredItemChanged="_onHoveredItemChanged()"
                 on:itemSwipe="_listSwipe()"
         >
+           <ws:tagTemplate>
+              <ws:partial template="wml!Controls/_list/BaseControl/tagTemplate/_tagTemplate"/>
+           </ws:tagTemplate>
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>

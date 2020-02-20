@@ -710,3 +710,23 @@
 .controls-Grid__cell-content_full-height {
    height: 100%;
 }
+
+.controls-Grid__tag_theme-@{themeName} {
+   top: 0;
+   right: 0;
+   cursor: pointer;
+   position: absolute;
+   width: @tag-size;
+   height: @tag-size;
+}
+
+.controls-Grid__tag_style- {
+   @variants: danger, primary, success, secondary, warning;
+   .for(@variants, { &@{_item}_theme-@{themeName} {
+      fill: ~"@{@{_item}_color}";
+   } });
+}
+
+.controls-Grid__tag_style-info_theme-@{themeName} {
+   fill: @unaccented_color;
+}

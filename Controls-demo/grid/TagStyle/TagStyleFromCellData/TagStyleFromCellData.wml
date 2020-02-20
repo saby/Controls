@@ -3,8 +3,8 @@
       keyProperty="id"
       source="{{_viewSource}}"
       columns="{{_columns}}"
-      on:tagClick="_onTagClickHandler()"
-      on:tagHover="_onTagHoverHandler()"
+      on:tagClick="_onTagClickCustomHandler()"
+      on:tagHover="_onTagHoverCustomHandler()"
    >
    </Controls.grid:View>
 </div>
