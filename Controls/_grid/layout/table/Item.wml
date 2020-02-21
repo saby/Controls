@@ -36,6 +36,7 @@
                         itemData="{{currentColumn}}"/>
         </ws:else>
     </ws:else>
+    <!-- Без скролла колонок операции выводятся в последней ячейке таблицы. -->
     <ws:if data="{{!itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan)}}">
         <ws:partial template="itemActionsTemplateChooser"/>
     </ws:if>
@@ -84,7 +85,10 @@
         </ws:partial>
     </ws:else>
 
-    <!-- В table-layout операции над записью всегда выводятся в последней ячейке, даже при скролле колонок -->
+    <!-- При скролле колонок операции над записью выводятся в отдельной ячейке после всех ячеек строки. -->
+    <!-- Позиционируются прижатыми к правому краю с помощью отрицательного translateX на максимально возможную величину -->
+    <!-- скролла(как если бы колонки были полностью проскролены). -->
+    <!-- Стиль смещения задается в ColumnScroll. Ячейка не должна иметь ширины, чтобы быть идеально прижатой справа. -->
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan)}}">
         <ws:partial template="tableTD" keyPostfix="_actions"
                     attr:class="controls-Grid-table-layout__itemActions__container"

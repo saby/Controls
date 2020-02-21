@@ -44,8 +44,8 @@
                    expanderTemplate="{{itemData.expanderTemplate}}"
                    itemData="{{currentColumn}}"/>
    </ws:else>
-   <!-- В table-layout операции над записью всегда выводятся в последней ячейке, даже при скролле колонок -->
-   <ws:if data="{{itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
+    <!-- Без скролла колонок операции выводятся в последней ячейке таблицы. -->
+   <ws:if data="{{!itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
        <ws:partial template="itemActionsTemplateChooser"/>
    </ws:if>
 </ws:template>
@@ -91,6 +91,25 @@
                        {{itemData.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>
        </div>
    </td>
+
+    <!-- При скролле колонок операции над записью выводятся в отдельной ячейке после всех ячеек строки. -->
+    <!-- Позиционируются прижатыми к правому краю с помощью отрицательного translateX на максимально возможную величину -->
+    <!-- скролла(как если бы колонки были полностью проскролены). -->
+    <!-- Стиль смещения задается в ColumnScroll. Ячейка не должна иметь ширины, чтобы быть идеально прижатой справа. -->
+    <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
+        <td class="controls-Grid-table-layout__itemActions__container {{currentColumn.cellClasses}}
+              {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
+              {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
+              {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
+              {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
+              controls-TreeGrid__row js-controls-SwipeControl__actionsContainer"
+            colspan="1"
+            style="width: 0; min-width: 0; max-width: 0; padding: 0px; overflow: visible; z-index: 3;">
+            <div class="controls-TreeGridView__row-cell_innerWrapper">
+                <ws:partial template="itemActionsTemplateChooser"/>
+            </div>
+        </td>
+    </ws:if>
 </ws:template>
 
 <tr class="controls-Grid__row {{itemData.calcCursorClasses(clickable)}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}

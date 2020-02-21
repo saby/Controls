@@ -13,9 +13,13 @@ export default class extends Control {
     private _header = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount() {
+        const data = getCountriesStats().getData();
+        const country = data[2].country;
+        data[2].country = `${country} ${country} ${country} ${country} ${country} ${country}`;
+
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getCountriesStats().getData()
+            data
         });
     }
 }

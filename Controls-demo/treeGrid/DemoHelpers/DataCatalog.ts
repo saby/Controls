@@ -356,6 +356,63 @@ export const Gadgets = {
             }
         ];
     },
+    getColumnsForColumnScroll() {
+        return [
+            {
+                displayProperty: 'id',
+                width: '60px'
+            },
+            {
+                displayProperty: 'title',
+                width: '200px'
+            },
+            {
+                displayProperty: 'country',
+                width: '150px'
+            },
+            {
+                displayProperty: 'rating',
+                width: '60px'
+            },
+            {
+                displayProperty: 'hasChild',
+                width: '120px'
+            },
+            {
+                displayProperty: 'country',
+                width: '120px'
+            },
+            {
+                displayProperty: 'rating',
+                width: '120px'
+            }
+        ];
+    },
+    getHeaderForColumnScroll() {
+        return [
+            {
+                title: '#'
+            },
+            {
+                title: 'Бренд'
+            },
+            {
+                title: 'Страна производителя'
+            },
+            {
+                title: 'Рейтинг'
+            },
+            {
+                title: 'Есть товары?'
+            },
+            {
+                title: 'Еще раз страна'
+            },
+            {
+                title: 'Еще раз рейтинг'
+            }
+        ];
+    },
     getGridColumnsForFlat() {
         return [
             {
