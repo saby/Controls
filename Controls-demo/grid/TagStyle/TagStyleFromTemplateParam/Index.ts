@@ -10,7 +10,23 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _viewSource: Memory;
     protected _columns: any;
 
-    protected _tagStyleProperty: string;
+    // Номер выбранной колонки
+    protected _currentColumnIndex: number = null;
+
+    // Тип события
+    protected _currentEvent: string;
+
+    // Значение выбранной колонки
+    protected _currentValue: string;
+
+    // Настройка MultiSelect
+    protected _multiSelectVisibility: string;
+
+    // for actions
+    protected _itemActions: IItemAction[];
+
+    // for toolbar
+    protected _toolbarItemsSource: Memory;
 
     constructor(cfg: any) {
         super(cfg);
@@ -24,6 +40,65 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             keyProperty: 'id',
             data
         });
+    }
+
+    /**
+     * Эти хандлеры срабатывают при клике на Tag в шаблоне Column.wml
+     * @param event
+     * @param item
+     * @param columnIndex
+     * @param nativeEvent
+     * @private
+     */
+    protected _onTagClickCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
+        this._currentColumnIndex = columnIndex;
+        this._currentEvent = 'click';
+        this._currentValue = item.getContents().get('population');
+    }
+
+    /**
+     * Эти хандлеры срабатывают при наведении на Tag в шаблоне Column.wml
+     * @param event
+     * @param item
+     * @param columnIndex
+     * @param nativeEvent
+     * @private
+     */
+    protected _onTagHoverCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
+        this._currentColumnIndex = columnIndex;
+        this._currentEvent = 'hover';
+        this._currentValue = item.getContents().get('population');
+    }
+
+    /**
+     * Определяет показывать ли действия на колонке
+     * @param action
+     * @param item
+     * @private
+     */
+    protected _showAction(action: IItemAction, item: Record): boolean {
+        if (item.get('id') === '471329') {
+            return action.id !== 2 && action.id !== 3;
+        }
+        if (action.id === 5) {
+            return false;
+        }
+        if (item.get('id') === '448390') {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Обрабатывает клик по тулбару
+     * @param event
+     * @param item
+     * @private
+     */
+    protected _onToolbarItemClick(event: Event, item: any) {
+        if (item.getId() === '1') {
+            this._multiSelectVisibility = this._multiSelectVisibility === 'hidden' ? 'visible' : 'hidden';
+        }
     }
 
     private _getModifiedData(): any {
