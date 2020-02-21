@@ -8,8 +8,7 @@
 }
 
 .controls-Lookup__inputRender {
-  padding-left: @spacing_Lookup-between-inputRender-leftBorder;
-  padding-right: @spacing_Lookup-between-inputRender-rightBorder;
+  padding-left: @padding-horizontal_inputText;
 }
 
 .controls-Lookup__inputRender .controls-Render__wrapper {
@@ -18,12 +17,12 @@
 }
 
 .controls-Lookup__inputRender_multiLine {
-  min-height: @min-height_Lookup-input-render_multiLine;
+  min-height: @min-height_multiline_lookupInput;
 }
 
 .controls-Lookup__inputRender_multiLine .controls-Render__wrapper {
   display: block;
-  width: ~"calc(100% - @{spacing_Lookup-multiLine-between-inputRenderWrapper-rightBorderLookup})";
+  width: ~"calc(100% - @{trigger_width_lookupInput})";
 }
 
 /*
@@ -34,49 +33,49 @@
 .controls-Lookup__fieldWrapper.controls-InputBase__field {
   margin: 0;
   box-sizing: border-box;
-  border-right: @spacing_Lookup-between-input-afterFieldWrapper solid transparent;
+  border-right: @trigger_offset_lookupInput solid transparent;
 }
 
 .controls-Lookup__fieldWrapper-size-default {
-   height: @height_Lookup-input-wrapper_default;
-   line-height: @line-height_Lookup-input-wrapper_default;
+   height: @inline_height_default_input;
+   line-height: @inline_height_default_input;
 }
 
 .controls-Lookup__fieldWrapper-size-m {
-   height: @height_Lookup-input-wrapper_default;
-   line-height: @line-height_Lookup-input-wrapper_default;
+   height: @inline_height_m_input;
+   line-height: @inline_height_m_input;
 }
 
 .controls-Lookup__fieldWrapper-size-xs {
-  height: @height_Lookup-input-wrapper_xs;
-  line-height: @line-height_Lookup-input-wrapper_xs;
+  height: @inline_height_xs_input;
+  line-height: @inline_height_xs_input;
 }
 
 .controls-Lookup__fieldWrapper-size-s {
-  height: @height_Lookup-input-wrapper_s;
-  line-height: @line-height_Lookup-input-wrapper_s;
+  height: @inline_height_s_input;
+  line-height: @inline_height_s_input;
 }
 
 .controls-Lookup__fieldWrapper-size-l {
-   height: @height_Lookup-input-wrapper_l;
-   line-height: @line-height_Lookup-input-wrapper_l;
+   height: @inline_height_l_input;
+   line-height: @inline_height_l_input;
 }
 
 .controls-Lookup__fieldWrapper-size-xl {
-   height: @height_Lookup-input-wrapper_xl;
-   line-height: @line-height_Lookup-input-wrapper_xl;
+   height: @inline_height_xl_input;
+   line-height: @inline_height_xl_input;
 }
 
 .controls-Lookup__fieldWrapper-size-2xl {
-   height: @height_Lookup-input-wrapper_2xl;
-   line-height: @line-height_Lookup-input-wrapper_2xl;
+   height: @inline_height_2xl_input;
+   line-height: @inline_height_2xl_input;
 }
 
 .controls-Lookup__fieldWrapper_content_width_custom {
   display: inline-flex;
 }
 
-/* toDO !KINGO В Safari выравнивание по базовой линии inline-flex элементов и 
+/* toDO !KINGO В Safari выравнивание по базовой линии inline-flex элементов и
    inline элементов в две строки не работает. Даже без наших стилей. Даже с line-height. */
 .ws-is-mobile-safari,
 .ws-is-desktop-safari {
@@ -91,10 +90,10 @@
 }
 
 .controls-Lookup__fieldWrapper_for_comment {
-  color: @color_Lookup-input-for-comment;
+  color: @comment_text-color_lookupInput;
 
   .controls-InputBase__nativeField_theme_@{themeName} {
-    caret-color: @caret-color_Lookup-input-for-comment;
+    caret-color: @comment_text-color_lookupInput;
   }
 }
 
@@ -117,7 +116,7 @@
 .controls-Lookup__afterFieldWrapper_multiLine {
   position: absolute;
   top: 0;
-  right: -@spacing_Lookup-multiLine-between-inputRenderWrapper-rightBorderLookup;
+  right: -@trigger_width_lookupInput;
   justify-content: space-between;
   flex-flow: column;
 }
@@ -129,36 +128,35 @@
 }
 
 .controls-Lookup__showSelector_theme_@{themeName} {
-  .icon-size-without-important(@font-size_Lookup-showSelector);
-  padding: @spacing_Lookup-between-showSelector-border;
-  color: @color_Lookup-showSelector;
+  .icon-size-without-important(@trigger_icon-size_lookupInput);
+  padding: @trigger_offset_lookupInput;
+  color: @trigger_icon-color_lookupInput;
 }
 
 .ws-is-hover {
   .controls-Lookup__showSelector_theme_@{themeName}:hover {
-    color: @color_Lookup-showSelector_hovered;
+    color: @trigger_hover_icon-color_lookupInput;
   }
 }
 
 .controls-Lookup__showSelector_theme_@{themeName}:active {
-  color: @color_Lookup-showSelector_active;
+  color: @trigger_active_icon-color_lookupInput;
 }
 
-
 .controls-Lookup__clearRecords_theme_@{themeName} {
-  .icon-size-without-important(@font-size_Lookup-clearRecords);
-  padding: @spacing_Lookup-between-clearRecords-border;
-  color: @color_Lookup-clearRecords;
+  .icon-size-without-important(@reset-button_icon-size_lookupInput);
+  padding: @reset-button_offset_lookupSelector;
+  color: @reset-button_icon-color_lookupInput;
 }
 
 .ws-is-hover {
   .controls-Lookup__clearRecords_theme_@{themeName}:hover {
-    color: @color_Lookup-clearRecords_hovered;
+    color: @reset-button_hover_icon-color_lookupInput;
   }
 }
 
 .controls-Lookup__clearRecords_theme_@{themeName}:active {
-  color: @color_Lookup-clearRecords_active;
+  color: @reset-button_active_icon-color_lookupInput;
 }
 
 .controls-Lookup__clearRecords_multiLine {
@@ -182,7 +180,7 @@
 }
 
 .controls-Lookup__counter {
-  height: @height_Lookup-counter;
+  height: @inline_height_default_label - 2 * @border-thickness_inputText;
 }
 
 // Метка внутри поля связи должна быть инлайновой, иначе она не троиточиться
