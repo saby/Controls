@@ -15,7 +15,7 @@ const { Errors } = fetch;
 const { Abort } = Errors;
 
 export type Config = {
-    handlers?: Handler[]
+    handlers?: Handler[];
 };
 
 /// region helpers
@@ -187,8 +187,8 @@ function importConfirmation(): Promise<typeof Confirmation> {
     // Без этого стили загружаются только в момент показа диалога.
     // Но когда потребуется показать сообщение о потере соединения, стили уже не смогут загрузиться.
     const confirmationModule = 'Controls/popupConfirmation';
-    const importThemedStyles = import('Core/Themes/ThemesControllerNew')
-        .then((Theme) => Theme.getInstance().loadCssWithAppTheme(confirmationModule));
+    const importThemedStyles = import('UI/theme/controller').then(({ getThemeController }) =>
+        getThemeController().get(confirmationModule));
 
     return Promise.all([
         import('Controls/popup'),
