@@ -142,6 +142,6 @@ class PropertyGrid extends Control  {
     }
 }
 
-PropertyGrid._theme = ['Controls/_propertyGrid/PropertyGrid'];
+PropertyGrid._theme = ['Controls/propertyGrid'];
 
 export = PropertyGrid;
