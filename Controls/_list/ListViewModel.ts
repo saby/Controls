@@ -183,7 +183,7 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
 
         itemsModelCurrent.shouldDrawMarker = (marker: boolean) => {
-            const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden';
+            const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden' && !itemsModelCurrent.isEditing;
             return canDrawMarker && (itemsModelCurrent.isAdd ? true : _private.isSelected(self, itemsModelCurrent));
         };
 
