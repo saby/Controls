@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+   <Controls.operations:Controller name="multiSelector">
+      <div>
+         <div class="controlsDemo-toolbar-panel">
+            <Controls.toolbars:View
+               name="myFlatToolbar"
+               attr:id="Toolbar"
+               keyProperty="id"
+               itemTemplateProperty="myTemplate"
+               source="{{_toolbarItemsSource}}"
+               on:itemClick="_onToolbarItemClick()"
+            />&nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' + _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
+         </div>
+         <Controls.operations:Container>
+            <Controls.grid:View
+               keyProperty="id"
+               source="{{_viewSource}}"
+               columns="{{_columns}}"
+               multiSelectVisibility="{{_multiSelectVisibility}}"
+               itemActions="{{_itemActions}}"
+               itemActionVisibilityCallback="{{_showAction}}"
+               itemActionsPosition="outside"
+               on:tagClick="_onTagClickCustomHandler()"
+               on:tagHover="_onTagHoverCustomHandler()"
+            >
+            </Controls.grid:View>
+         </Controls.operations:Container>
+      </div>
+   </Controls.operations:Controller>
+</div>

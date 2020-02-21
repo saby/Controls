@@ -11,7 +11,8 @@
       editingItemData="{{editingItemData}}"
       isAdd="{{isAdd}}"
       itemTemplate="{{itemTemplate}}"
-      itemActionsPosition="{{itemActionsPosition}}" />
+      itemActionsPosition="{{itemActionsPosition}}"
+      tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 <ws:template name="addItem">
    <ws:partial
@@ -22,7 +23,8 @@
            swipeTemplate="{{swipeTemplate}}"
            multiSelectTpl="{{multiSelectTpl}}"
            itemData="{{editingItemData}}"
-           actionsType="{{itemActionsPosition}}"/>
+           actionsType="{{itemActionsPosition}}"
+           tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 <ws:template name="groupOutputLocalTemplate">
    <ws:partial
