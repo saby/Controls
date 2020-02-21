@@ -4,7 +4,7 @@
       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/grid/TagStyle/TagStyleFromCellData/Index' }}">
-         <a href="{{content.href}}">Из данных в ячейке</a>
+         <a href="{{content.href}}">Из данных в ячейке (tagStyleProperty)</a>
       </Router.router:Reference>
       <Controls-demo.grid.TagStyle.TagStyleFromCellData.Index/>
    </div>
@@ -13,7 +13,7 @@
       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                state="/Controls-demo/app/:app"
                                app="{{ 'Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/Index' }}">
-         <a href="{{content.href}}">Из параметра шаблона для колонки</a>
+         <a href="{{content.href}}">Из параметра шаблона для колонки (tagStyle)</a>
       </Router.router:Reference>
       <Controls-demo.grid.TagStyle.TagStyleFromTemplateParam.Index/>
    </div>
