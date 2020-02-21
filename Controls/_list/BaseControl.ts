@@ -2608,16 +2608,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      * Хандлер клика на Tag в _columnTagTemplate.wml
      * @private
      */
-    _onTagClickHandler(event: Event, data: { dispItem?: CollectionItem<Model>; columnIndex?: number; }): void {
-        this._notify('tagClick', [data.dispItem, data.columnIndex, event]);
+    _onTagClickHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagClick', [dispItem, columnIndex, event]);
     },
 
     /**
      * Хандлер наведения на Tag в _columnTagTemplate.wml
      * @private
      */
-    _onTagHoverHandler(event: Event, data: { dispItem?: CollectionItem<Model>; columnIndex?: number; }): void {
-        this._notify('tagHover', [data.dispItem, data.columnIndex, event]);
+    _onTagHoverHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagHover', [dispItem, columnIndex, event]);
     },
 
     _applyPagingNavigationState: function(params) {

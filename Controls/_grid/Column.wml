@@ -30,11 +30,11 @@
     </ws:else>
     <ws:if data="{{tagTemplate !== undefined}}">
        <ws:if data="{{tagStyle}}">
-          <ws:partial template="{{tagTemplate}}" templateTagStyle="{{tagStyle}}" itemData="{{itemData}}"/>
+          <ws:partial template="{{tagTemplate}}" tagStyle="{{tagStyle}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
        </ws:if>
        <ws:else>
           <ws:if data="{{itemData.column.tagStyleProperty}}">
-             <ws:partial template="{{tagTemplate}}" templateTagStyle="{{itemData.item.get(itemData.column.tagStyleProperty)}}" itemData="{{itemData}}"/>
+             <ws:partial template="{{tagTemplate}}" tagStyle="{{itemData.item.get(itemData.column.tagStyleProperty)}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
           </ws:if>
        </ws:else>
     </ws:if>
