@@ -22,23 +22,40 @@ const actions: IItemAction[] = [
     }
 ];
 
+const toolbarItems = [
+    {
+        id: '1',
+        icon: 'icon-Check icon-medium',
+        title: 'Включить/выключить MultiSelect',
+        '@parent': true,
+        parent: null
+    }
+];
+
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
 
-    protected _tagStyleProperty: string;
+    protected _multiSelectVisibility: string;
 
     /// for actions
     protected _itemActions: IItemAction[];
 
+    // for toolbar
+    protected _toolbarItemsSource: Memory;
+
     constructor(cfg: any) {
         super(cfg);
-        this._tagStyleProperty = 'customProperty';
         this._itemActions = actions;
+        this._multiSelectVisibility = 'hidden';
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
         const data = this._getModifiedData().slice(0, 12);
+        this._toolbarItemsSource = new Memory({
+            keyProperty: 'id',
+            data: toolbarItems
+        });
         this._viewSource = new Memory({
             keyProperty: 'id',
             data
@@ -75,8 +92,12 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
         console.log(columnIndex);
     }
 
-    // For actions section
-
+    /**
+     * Определяет показывать ли действия на колонке
+     * @param action
+     * @param item
+     * @private
+     */
     protected _showAction(action: IItemAction, item: Record): boolean {
         if (item.get('id') === '471329') {
             return action.id !== 2 && action.id !== 3;
@@ -90,7 +111,17 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
         return true;
     }
 
-    // End for actions section
+    /**
+     * Обрабатывает клик по тулбару
+     * @param event
+     * @param item
+     * @private
+     */
+    protected _onToolbarItemClick(event: Event, item: any) {
+        if (item.getId() === '1') {
+            this._multiSelectVisibility = this._multiSelectVisibility === 'hidden' ? 'visible' : 'hidden';
+        }
+    }
 
     private _getModifiedData(): any {
         const styleVariants = [

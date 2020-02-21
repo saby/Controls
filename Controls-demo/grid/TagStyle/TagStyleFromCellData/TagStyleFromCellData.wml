@@ -1,18 +1,30 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
    <Controls.operations:Controller name="multiSelector">
-      <Controls.operations:Container>
-         <Controls.grid:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            columns="{{_columns}}"
-            multiSelectVisibility="visible"
-            itemActions="{{_itemActions}}"
-            itemActionVisibilityCallback="{{_showAction}}"
-            itemActionsPosition="outside"
-            on:tagClick="_onTagClickCustomHandler()"
-            on:tagHover="_onTagHoverCustomHandler()"
-         >
-         </Controls.grid:View>
-      </Controls.operations:Container>
+      <div>
+         <div class="controlsDemo-operationsPanel controlsDemo-operationsPanel_theme-default">
+            <Controls.toolbars:View
+               name="myFlatToolbar"
+               attr:id="Toolbar"
+               keyProperty="id"
+               itemTemplateProperty="myTemplate"
+               source="{{_toolbarItemsSource}}"
+               on:itemClick="_onToolbarItemClick()"
+            />
+         </div>
+         <Controls.operations:Container>
+            <Controls.grid:View
+               keyProperty="id"
+               source="{{_viewSource}}"
+               columns="{{_columns}}"
+               multiSelectVisibility="{{_multiSelectVisibility}}"
+               itemActions="{{_itemActions}}"
+               itemActionVisibilityCallback="{{_showAction}}"
+               itemActionsPosition="outside"
+               on:tagClick="_onTagClickCustomHandler()"
+               on:tagHover="_onTagHoverCustomHandler()"
+            >
+            </Controls.grid:View>
+         </Controls.operations:Container>
+      </div>
    </Controls.operations:Controller>
 </div>
