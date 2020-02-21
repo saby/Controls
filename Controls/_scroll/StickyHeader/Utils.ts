@@ -16,6 +16,7 @@ export const enum MODE {
 export type TRegisterEventData = {
    id: number;
    inst?: object;
+   container: HTMLElement;
    position?: string;
    mode?: string;
 };

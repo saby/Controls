@@ -152,7 +152,7 @@ export default class Group extends Control<IControlOptions> {
                 this._notify('stickyRegister', [{
                     id: this._index,
                     inst: this,
-                    position: data.position,
+                    container: this._container,position: data.position,
                     mode: data.mode,
                 }, true], {bubbling: true});
                 this._isRegistry = true;

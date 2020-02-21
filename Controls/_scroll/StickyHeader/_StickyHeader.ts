@@ -114,7 +114,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._notify('stickyRegister', [{
             id: this._index,
             inst: this,
-            position: this._options.position,
+            container: this._container,position: this._options.position,
             mode: this._options.mode
         }, true], {bubbling: true});
         this._observer = new IntersectionObserver(this._observeHandler);

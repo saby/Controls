@@ -59,6 +59,11 @@ define([
             scrollHeight: 100,
             clientHeight: 100
          };
+         sinon.stub(scroll._stickyHeaderController, '_isVisible').returns(true);
+      });
+
+      afterEach(function() {
+         sinon.restore();
       });
 
       describe('_stickyRegisterHandler', function() {
