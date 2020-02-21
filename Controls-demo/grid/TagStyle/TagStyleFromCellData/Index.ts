@@ -1,5 +1,3 @@
-
-
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
@@ -26,15 +24,6 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     // Значение выбранной колонки
     protected _currentValue: string;
 
-    // Настройка MultiSelect
-    protected _multiSelectVisibility: string;
-
-    // Тип события
-    protected _currentEvent: string;
-
-    // Значение выбранной колонки
-    protected _currentValue: string;
-
     constructor(cfg: any) {
         super(cfg);
         this._tagStyleProperty = 'customProperty';
@@ -50,7 +39,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при клике на Tag в шаблоне BaseControl.wml
+     * Эти хандлеры срабатывают при клике на Tag в шаблоне _tagTemplate.wml
      * @param event
      * @param item
      * @param columnIndex
@@ -64,7 +53,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при наведении на Tag в шаблоне BaseControl.wml
+     * Эти хандлеры срабатывают при наведении на Tag в шаблоне _tagTemplate.wml
      * @param event
      * @param item
      * @param columnIndex
