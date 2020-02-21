@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
    <Controls.operations:Controller name="multiSelector">
       <div>
-         <div class="controlsDemo-operationsPanel controlsDemo-operationsPanel_theme-default">
+         <div class="controlsDemo-toolbar-panel">
             <Controls.toolbars:View
                name="myFlatToolbar"
                attr:id="Toolbar"
@@ -9,7 +9,7 @@
                itemTemplateProperty="myTemplate"
                source="{{_toolbarItemsSource}}"
                on:itemClick="_onToolbarItemClick()"
-            />
+            />&nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' + _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
          </div>
          <Controls.operations:Container>
             <Controls.grid:View

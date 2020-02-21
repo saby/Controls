@@ -36,9 +36,19 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
 
+    // Номер выбранной колонки
+    protected _currentColumnIndex: number = null;
+
+    // Тип события
+    protected _currentEvent: string;
+
+    // Значение выбранной колонки
+    protected _currentValue: string;
+
+    // Настройка MultiSelect
     protected _multiSelectVisibility: string;
 
-    /// for actions
+    // for actions
     protected _itemActions: IItemAction[];
 
     // for toolbar
@@ -71,10 +81,9 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagClickCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
-        console.log('tagClick event is caught!');
-        console.log(item);
-        console.log(nativeEvent);
-        console.log(columnIndex);
+        this._currentColumnIndex = columnIndex;
+        this._currentEvent = 'click';
+        this._currentValue = item.getContents().get('population');
     }
 
     /**
@@ -86,10 +95,9 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * @private
      */
     protected _onTagHoverCustomHandler(event: Event, item: CollectionItem<any>, columnIndex: number, nativeEvent: Event): void {
-        console.log('tagHover event is caught!');
-        console.log(item);
-        console.log(nativeEvent);
-        console.log(columnIndex);
+        this._currentColumnIndex = columnIndex;
+        this._currentEvent = 'hover';
+        this._currentValue = item.getContents().get('population');
     }
 
     /**
