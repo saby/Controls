@@ -2,35 +2,11 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {Record} from 'Types/entity';
 import {CollectionItem} from 'Controls/display';
-import {IItemAction} from 'Controls/_list/Swipe/interface/IItemAction';
 
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'css!Controls-demo/Controls-demo';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-
-const actions: IItemAction[] = [
-    {
-        id: 1,
-        icon: 'icon-primary icon-PhoneNull',
-        title: 'phone'
-    },
-    {
-        id: 2,
-        icon: 'icon-primary icon-EmptyMessage',
-        title: 'message'
-    }
-];
-
-const toolbarItems = [
-    {
-        id: '1',
-        icon: 'icon-Check icon-medium',
-        title: 'Включить/выключить MultiSelect',
-        '@parent': true,
-        parent: null
-    }
-];
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -45,27 +21,8 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     // Значение выбранной колонки
     protected _currentValue: string;
 
-    // Настройка MultiSelect
-    protected _multiSelectVisibility: string;
-
-    // for actions
-    protected _itemActions: IItemAction[];
-
-    // for toolbar
-    protected _toolbarItemsSource: Memory;
-
-    constructor(cfg: any) {
-        super(cfg);
-        this._itemActions = actions;
-        this._multiSelectVisibility = 'hidden';
-    }
-
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        const data = this._getModifiedData().slice(0, 12);
-        this._toolbarItemsSource = new Memory({
-            keyProperty: 'id',
-            data: toolbarItems
-        });
+        const data = this._getModifiedData().slice(0, 14);
         this._viewSource = new Memory({
             keyProperty: 'id',
             data
@@ -73,7 +30,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при клике на Tag в шаблоне Column.wml
+     * Эти хандлеры срабатывают при клике на Tag в шаблоне _tagTemplate.wml
      * @param event
      * @param item
      * @param columnIndex
@@ -87,7 +44,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при наведении на Tag в шаблоне Column.wml
+     * Эти хандлеры срабатывают при наведении на Tag в шаблоне _tagTemplate.wml
      * @param event
      * @param item
      * @param columnIndex
@@ -100,39 +57,9 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
         this._currentValue = item.getContents().get('population');
     }
 
-    /**
-     * Определяет показывать ли действия на колонке
-     * @param action
-     * @param item
-     * @private
-     */
-    protected _showAction(action: IItemAction, item: Record): boolean {
-        if (item.get('id') === '471329') {
-            return action.id !== 2 && action.id !== 3;
-        }
-        if (action.id === 5) {
-            return false;
-        }
-        if (item.get('id') === '448390') {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Обрабатывает клик по тулбару
-     * @param event
-     * @param item
-     * @private
-     */
-    protected _onToolbarItemClick(event: Event, item: any) {
-        if (item.getId() === '1') {
-            this._multiSelectVisibility = this._multiSelectVisibility === 'hidden' ? 'visible' : 'hidden';
-        }
-    }
-
     private _getModifiedData(): any {
         const styleVariants = [
+            null,
             'info',
             'danger',
             'primary',
