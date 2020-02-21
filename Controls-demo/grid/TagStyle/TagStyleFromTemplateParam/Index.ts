@@ -1,22 +1,40 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
+import {Record} from 'Types/entity';
+import {CollectionItem} from 'Controls/display';
+import {IItemAction} from 'Controls/_list/Swipe/interface/IItemAction';
+
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import 'css!Controls-demo/Controls-demo';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromTemplateParam/TagStyleFromTemplateParam';
-import {CollectionItem} from 'Controls/display';
+
+const actions: IItemAction[] = [
+    {
+        id: 1,
+        icon: 'icon-primary icon-PhoneNull',
+        title: 'phone'
+    },
+    {
+        id: 2,
+        icon: 'icon-primary icon-EmptyMessage',
+        title: 'message'
+    }
+];
 
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns: any;
 
     protected _tagStyleProperty: string;
+
+    /// for actions
+    protected _itemActions: IItemAction[];
 
     constructor(cfg: any) {
         super(cfg);
         this._tagStyleProperty = 'customProperty';
-        this._columns =  getCountriesStats().getColumnsWithFixedWidths();
+        this._itemActions = actions;
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
@@ -56,6 +74,23 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
         console.log(nativeEvent);
         console.log(columnIndex);
     }
+
+    // For actions section
+
+    protected _showAction(action: IItemAction, item: Record): boolean {
+        if (item.get('id') === '471329') {
+            return action.id !== 2 && action.id !== 3;
+        }
+        if (action.id === 5) {
+            return false;
+        }
+        if (item.get('id') === '448390') {
+            return false;
+        }
+        return true;
+    }
+
+    // End for actions section
 
     private _getModifiedData(): any {
         const styleVariants = [

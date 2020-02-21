@@ -1,10 +1,18 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
-   <Controls.grid:View
-      keyProperty="id"
-      source="{{_viewSource}}"
-      columns="{{_columns}}"
-      on:tagClick="_onTagClickCustomHandler()"
-      on:tagHover="_onTagHoverCustomHandler()"
-   >
-   </Controls.grid:View>
+   <Controls.operations:Controller name="multiSelector">
+      <Controls.operations:Container>
+         <Controls.grid:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            multiSelectVisibility="visible"
+            itemActions="{{_itemActions}}"
+            itemActionVisibilityCallback="{{_showAction}}"
+            itemActionsPosition="outside"
+            on:tagClick="_onTagClickCustomHandler()"
+            on:tagHover="_onTagHoverCustomHandler()"
+         >
+         </Controls.grid:View>
+      </Controls.operations:Container>
+   </Controls.operations:Controller>
 </div>
