@@ -39,9 +39,35 @@
   line-height: @icon-size_m - 1;
 }
 
-//отключаем сглаживание. Ждем svg https://online.sbis.ru/opendoc.html?guid=90761cbd-04f8-4fad-be7d-8c1707bdd30e
+//Приходится включить svg на конкретную иконку
 .icon-RoundPlus.controls-icon_size-s_theme-@{themeName} {
-  transform: rotate(360deg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  &:before {
+    display: inline-block;
+    content: '';
+    background-image: @addBtnSvg16;
+    background-size: contain;
+    pointer-events: none;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.icon-RoundPlus.controls-icon_size-m_theme-@{themeName} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  &:before {
+    display: inline-block;
+    content: '';
+    background-image: @addBtnSvg24;
+    background-size: contain;
+    pointer-events: none;
+    width: 16px;
+    height: 16px;
+  }
 }
 //end todo
 
