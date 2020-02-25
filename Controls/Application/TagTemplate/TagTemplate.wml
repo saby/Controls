@@ -1,7 +1,5 @@
 <!-- Шаблон тега (Уголка) -->
 <!-- @param: tagStyle 'info' | 'danger' | 'primary' | 'success' | 'warning' | 'secondary' -->
-<!-- @param: onTagClickHandler Обработчик события клика-->
-<!-- @param: onTagHoverHandler Обработчик события наведения-->
 <!-- @param: [_options] Опции текущего scope-->
 <svg attr:name="tag"
      viewBox="0 0 1 1"
