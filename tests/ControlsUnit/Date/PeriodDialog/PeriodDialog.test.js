@@ -319,13 +319,23 @@ define([
       });
 
       describe('_toggleStateClick', function() {
-         it('should toggle state and set correct displayed date.', function() {
-            const component = calendarTestUtils.createComponent(
-               PeriodDialog, { startValue: new Date(2019, 3, 10), endValue: new Date(2019, 5, 0) });
-            assert.strictEqual(component._state, component._STATES.year);
-            component._toggleStateClick();
-            assert.strictEqual(component._state, component._STATES.month);
-            assert(dateUtils.isDatesEqual(component._displayedDate, new Date(2019, 3, 10)));
+         [{
+            options: { startValue: new Date(2019, 3, 10), endValue: new Date(2019, 5, 0) },
+            state: PeriodDialog._STATES.year,
+            displayedDate: new Date(2019, 3, 1)
+         }, {
+            options: { startValue: new Date(2019, 3, 10), endValue: new Date(2019, 5, 0) },
+            state: PeriodDialog._STATES.month,
+            displayedDate: new Date(2019, 0, 1)
+         }].forEach(function(test) {
+            it('should toggle state and set correct displayed date.', function() {
+               const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+               component._state = test.state;
+               component._toggleStateClick();
+               assert.strictEqual(component._state,
+                  test.state === component._STATES.year ? component._STATES.month : component._STATES.year);
+               assert(dateUtils.isDatesEqual(component._displayedDate, test.displayedDate));
+            });
          });
       });
 

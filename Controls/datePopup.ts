@@ -237,8 +237,11 @@ var _private = {
         },
 
         toggleState: function(self, date?: Date): void {
-            self._displayedDate = date || self._options.startValue || self._options.endValue || new Date();
             self._state = self._state === STATES.year ? STATES.month : STATES.year;
+
+            self._displayedDate = date || self._options.startValue || self._options.endValue || new Date();
+            self._displayedDate = self._state === STATES.year ?
+                dateUtils.getStartOfYear(self._displayedDate) : dateUtils.getStartOfMonth(self._displayedDate);
         },
 
         isMaskWithDays: function(mask: string) {
@@ -538,6 +541,7 @@ Component._private = _private;
 
 Component.SELECTION_TYPES = IRangeSelectable.SELECTION_TYPES;
 Component.HEADER_TYPES = HEADER_TYPES;
+Component._STATES = STATES;
 
 Component.getDefaultOptions = function () {
     return coreMerge({
