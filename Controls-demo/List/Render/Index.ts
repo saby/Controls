@@ -32,14 +32,14 @@ export default class RenderDemo extends Control {
                 title: 'phone',
                 style: 'success',
                 iconStyle: 'success',
-                showType: 0,
+                showType: 2,
                 handler: (item) => alert(`phone clicked at ${item.getId()}`)
             },
             {
                 id: 2,
                 icon: 'icon-Edit',
                 title: 'edit',
-                showType: 0,
+                showType: 2,
                 handler: (item) => this._children.listView.beginEdit({ item })
             },
             {
@@ -48,7 +48,7 @@ export default class RenderDemo extends Control {
                 style: 'error',
                 iconStyle: 'error',
                 title: 'delete',
-                showType: 0,
+                showType: 2,
                 handler: (item) => window.model.getCollection().remove(item)
             }
         ];
