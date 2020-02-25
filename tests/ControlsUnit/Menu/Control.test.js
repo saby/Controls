@@ -235,6 +235,22 @@ define(
             assert.isFalse(isVisible);
          });
 
+         it('_calculateActionsConfig', function() {
+            let menuControl = getMenu();
+            let listModel = getListModel();
+
+            const expectedConfig = {
+               itemActionsPosition: 'inside',
+               actionCaptionPosition: 'none',
+               actionAlignment: 'horizontal',
+               style: 'default',
+               itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-default'
+            };
+
+            menuControl._calculateActionsConfig(listModel, {theme: 'default'});
+            assert.deepEqual(listMode.getActionsTemplateConfig(), expextedConfig);
+         });
+
       });
    }
 );
