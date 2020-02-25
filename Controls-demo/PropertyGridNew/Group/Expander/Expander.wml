@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <Controls.propertyGrid:PropertyGrid
+            bind:editingObject="_editingObject"
+            source="{{_source}}">
+        <ws:groupTemplate>
+            <ws:partial template="Controls/propertyGrid:GroupTemplate" expanderVisible="{{true}}"/>
+        </ws:groupTemplate>
+    </Controls.propertyGrid:PropertyGrid>
+</div>

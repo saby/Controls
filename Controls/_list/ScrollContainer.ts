@@ -49,7 +49,7 @@ interface IOptions extends IControlOptions, ICompatibilityOptions {
         viewportHeight?: number;
     };
     collection: Collection<Record>;
-    activeElement: string|number;
+    activeElement: string | number;
 }
 
 export default class ScrollContainer extends Control<IOptions> {
@@ -192,7 +192,7 @@ export default class ScrollContainer extends Control<IOptions> {
      * @remark Функция подскролливает к записи, если это возможно, в противном случае вызовется перестроение
      * от элемента
      */
-    scrollToItem(key: string|number, toBottom: boolean = true, force: boolean = false): Promise<void> {
+    scrollToItem(key: string | number, toBottom: boolean = true, force: boolean = false): Promise<void> {
         const index = this._options.collection.getIndexByKey(key);
 
         if (index !== -1) {
@@ -214,19 +214,21 @@ export default class ScrollContainer extends Control<IOptions> {
                 if (this._virtualScroll.canScrollToItem(index, toBottom, force)) {
                     scrollCallback();
                 } else if (force) {
-                    // Нельзя менять диапазон отображемых элементов во время перерисовки
-                    // поэтому нужно перенести scrollToItem на следующий цикл синхронизации
-                    if (this._virtualScroll.rangeChanged) {
-                        this._restoreScrollResolve = () => {
-                            this.scrollToItem(key, toBottom, force);
-                        };
-                    } else {
-                        const rangeShiftResult = this._virtualScroll
-                            .resetRange(index, this._options.collection.getCount());
-                        this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
-                        this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
-                        this._restoreScrollResolve = scrollCallback;
-                    }
+                    this._inertialScrolling.callAfterScrollStopped(() => {
+                        // Нельзя менять диапазон отображемых элементов во время перерисовки
+                        // поэтому нужно перенести scrollToItem на следующий цикл синхронизации
+                        if (this._virtualScroll.rangeChanged) {
+                            this._restoreScrollResolve = () => {
+                                this.scrollToItem(key, toBottom, force).then(resolve);
+                            };
+                        } else {
+                            const rangeShiftResult = this._virtualScroll
+                                .resetRange(index, this._options.collection.getCount());
+                            this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
+                            this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+                            this._restoreScrollResolve = scrollCallback;
+                        }
+                    });
                 } else {
                     resolve();
                 }
@@ -410,11 +412,11 @@ export default class ScrollContainer extends Control<IOptions> {
      * @private
      */
     private _recalcToDirection(direction: IDirection): void {
-        if (!this._virtualScroll.rangeChanged) {
-            if (this._virtualScroll.isRangeOnEdge(direction)) {
-                this._notifyLoadMore(direction);
-            } else {
-                this._inertialScrolling.callAfterScrollStopped(() => {
+        if (this._virtualScroll.isRangeOnEdge(direction)) {
+            this._notifyLoadMore(direction);
+        } else {
+            this._inertialScrolling.callAfterScrollStopped(() => {
+                if (!this._virtualScroll.rangeChanged) {
                     const rangeShiftResult = this._virtualScroll.shiftRange(direction);
                     this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
                     this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
@@ -422,8 +424,8 @@ export default class ScrollContainer extends Control<IOptions> {
                     if (this._virtualScroll.isRangeOnEdge(direction)) {
                         this._notifyLoadMore(direction);
                     }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -454,6 +456,7 @@ export default class ScrollContainer extends Control<IOptions> {
             this.checkTriggerVisibilityWithTimeout();
         }
     }
+
     /**
      * Нотифицирует скролл контейнеру о том, что нужно подскролить к переданной позиции
      * @param position
@@ -536,7 +539,7 @@ export default class ScrollContainer extends Control<IOptions> {
         this._placeholders = placeholders;
 
         if (this.__mounted) {
-            this._notify('updatePlaceholdersSize', [placeholders], { bubbling: true });
+            this._notify('updatePlaceholdersSize', [placeholders], {bubbling: true});
         }
     }
 

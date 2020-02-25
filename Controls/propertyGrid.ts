@@ -2,6 +2,7 @@
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
  * @library Controls/propertyGrid
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
+ * @includes GroupTemplate Controls/_propertyGrid/groupTemplate
  * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
  * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
@@ -16,6 +17,7 @@
  * PropertyGrid library
  * @library Controls/propertyGrid
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
+ * @includes GroupTemplate Controls/_propertyGrid/groupTemplate
  * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
  * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
@@ -34,6 +36,7 @@ import EnumEditor = require("Controls/_propertyGrid/defaultEditors/Enum");
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
 import IProperty = require("Controls/_propertyGrid/IProperty");
+import GroupTemplate = require("wml!Controls/_propertyGrid/groupTemplate");
 
 export {
     PropertyGrid,
@@ -43,5 +46,6 @@ export {
     EnumEditor,
     IPropertyGrid,
     IEditor,
-    IProperty
-}
+    IProperty,
+    GroupTemplate
+};

@@ -113,6 +113,7 @@ class PropertyGrid extends Control  {
         this.items = getPropertyGridItems(options.editingObject, options.source);
         this.itemsViewModel = new ItemsViewModel({
             items: this.items,
+            collapsedGroups: options.collapsedGroups,
             keyProperty: PROPERTY_NAME_FIELD,
             groupProperty: PROPERTY_GROUP_FIELD
         });
@@ -124,6 +125,10 @@ class PropertyGrid extends Control  {
         if (newOptions.editingObject !== this._options.editingObject || newOptions.source !== this._options.source) {
             this.items = getPropertyGridItems(newOptions.editingObject, newOptions.source);
             this.itemsViewModel.setItems(this.items);
+        }
+
+        if (newOptions.collapsedGroups !== this._options.collapsedGroups) {
+            this.itemsViewModel.setCollapsedGroups(newOptions.collapsedGroups);
         }
     }
 
@@ -139,6 +144,15 @@ class PropertyGrid extends Control  {
 
         event.stopPropagation();
         this._notify('editingObjectChanged', [editingObjectClone]);
+    }
+
+    private _groupClick(event, displayItem): void {
+        const groupId = displayItem.getContents();
+        const isExpandClick = event.target.closest('.controls-PropertyGrid__groupExpander');
+
+        if (isExpandClick) {
+            this.itemsViewModel.toggleGroup(groupId, !this.itemsViewModel.isGroupExpanded(groupId));
+        }
     }
 }
 
