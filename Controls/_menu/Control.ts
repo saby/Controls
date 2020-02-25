@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Tree, TreeItem, SelectionController, ItemActionsController, CollectionItem} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -83,20 +83,53 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._listModel = null;
     }
 
+    private _mouseEnterHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
+    protected _touchStartHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
         this._hoveredItemIndex = null;
         this._listModel.setHoveredItem(null);
         clearTimeout(this._handleCurrentItemTimeout);
     }
 
-    private _mouseMove(event: SyntheticEvent<MouseEvent>): void {
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
             this.startHandleItemTimeout();
         }
     }
 
-    private _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         this.handleCurrentItem(item, sourceEvent.target, sourceEvent.nativeEvent);
+    }
+
+    protected _itemSwipe(e: SyntheticEvent<null>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<TouchEvent>, swipeContainerHeight: number): void {
+        switch (swipeEvent.nativeEvent.direction) {
+            case 'left':
+                ItemActionsController.activateSwipe(
+                    this._listModel,
+                    item.getContents().getKey(),
+                    swipeContainerHeight
+                );
+                break;
+            default:
+                ItemActionsController.deactivateSwipe(this._listModel);
+                break;
+        }
+    }
+
+    protected _itemActionClick(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, action, clickEvent): void {
+        ItemActionsController.processActionClick(
+            this._listModel,
+            item.getContents().getKey(),
+            action,
+            clickEvent,
+            false
+        );
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model, nativeEvent: MouseEvent): void {
@@ -212,6 +245,9 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
         if (!this._isMouseInOpenedItemArea) {
             this._listModel.setHoveredItem(item);
+            // ItemActionsController.resetActionsAssignment(this._listModel);
+            // this._mouseEnterHandler();
+
         }
 
         // Close the already opened sub menu. Installation of new data sets new size of the container.
@@ -346,12 +382,25 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     private getCollection(items: RecordSet, options: IMenuOptions): Tree {
         let listModel = new Tree({
             collection: items,
+            itemActions: options.itemActions,
             keyProperty: options.keyProperty,
             nodeProperty: options.nodeProperty,
             parentProperty: options.parentProperty,
             root: options.root,
             filter: this.displayFilter.bind(this, options)
         });
+
+        ItemActionsController.calculateActionsTemplateConfig(
+            listModel,
+            {
+                itemActionsPosition: 'inside',
+                actionCaptionPosition: 'none',
+                actionAlignment: 'horizontal',
+                style: 'default',
+                itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-' + options.theme
+            }
+        );
+
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
         }
@@ -487,6 +536,25 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             });
         }
         return source;
+    }
+
+    private _assignItemActions(options): void {
+        const itemActions = options.itemActions;
+        const itemActionsProperty = options.itemActionsProperty;
+        const itemActionsVisibilityCallback = options.itemActionsVisibilityCallback;
+
+        if (!itemActions && !itemActionsProperty) {
+            return;
+        }
+        const actionsGetter =
+            itemActionsProperty
+                ? (item) => item.getContents().get(itemActionsProperty)
+                : () => itemActions;
+        ItemActionsController.assignActions(
+            this._listModel,
+            actionsGetter,
+            itemActionsVisibilityCallback
+        );
     }
 
     static _theme: string[] = ['Controls/menu', 'Controls/dropdownPopup'];
