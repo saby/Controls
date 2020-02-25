@@ -1,4 +1,4 @@
-<div>
+<Controls.scroll:Container attr:class="validateDemo_scroll">
    <div id="info_focusout" class="validateDemo_header validateDemo">
       Простой валидатор поля ввода. Значение валидируется по событию focusout.
    </div>
@@ -60,4 +60,4 @@
       </div>
    </div>
    <Controls-demo.Input.Validate.FormController/>
-</div>
+</Controls.scroll:Container>

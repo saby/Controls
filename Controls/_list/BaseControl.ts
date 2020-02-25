@@ -209,7 +209,7 @@ var _private = {
                         const nextKey = listModel.getMarkedKey();
                         if (nextKey && nextKey !== curKey
                             && self._listViewModel.getCount()
-                            && !self._options.task46390860 && !self._options.task1177182277
+                            && !self._options.task46390860 && !self._options.task1177182277 && !cfg.task1178786918
                         ) {
                             self._markedKeyForRestoredScroll = nextKey;
                         }
@@ -510,10 +510,6 @@ var _private = {
             if (isPortionedLoad) {
                 _private.loadToDirectionWithSearchValueEnded(self, addedItems);
             }
-
-            if (self._options.virtualScrolling && self._isMounted) {
-                self._children.scrollController.itemsFromLoadToDirection = true;
-            }
         };
 
         const afterAddItems = (countCurrentItems, addedItems) => {
@@ -526,7 +522,7 @@ var _private = {
                 _private.checkLoadToDirectionCapability(self);
             }
             if (self._options.virtualScrolling && self._isMounted) {
-                self._children.scrollController.itemsFromLoadToDirection = false;
+                self._children.scrollController.itemsFromLoadToDirection = null;
             }
 
             _private.prepareFooter(self, self._options.navigation, self._sourceController);
@@ -562,6 +558,10 @@ var _private = {
                 //надо инициировать подгрузку порции записей, больше за нас это никто не сделает.
                 //Под опцией, потому что в другом месте это приведет к ошибке. Хорошее решение будет в задаче ссылка на которую приведена
                 const countCurrentItems = self._listViewModel.getCount();
+
+                if (self._options.virtualScrolling && self._isMounted) {
+                    self._children.scrollController.itemsFromLoadToDirection = direction;
+                }
 
                 if (direction === 'down') {
                     beforeAddItems(addedItems);

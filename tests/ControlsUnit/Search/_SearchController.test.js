@@ -166,6 +166,7 @@ define(
             var searchController = new searchLib._SearchController({
                minSearchLength: 3,
                source: source,
+               keyProperty: 'id',
                filter: {}
             });
 
@@ -183,6 +184,8 @@ define(
 
                   return originalSearch.apply(search, arguments);
                };
+
+               assert.equal(search._sourceController._options.keyProperty, 'id');
 
                return searchController.search('1', true).then(() => {
                   assert.isTrue(searched);

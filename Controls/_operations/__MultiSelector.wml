@@ -1,4 +1,4 @@
-<div>
+<div class="controls-operationsPanelV__container">
     <Controls.dropdown:Button name="myMenuButton2"
                               keyProperty="id"
                               viewMode="link"
@@ -8,13 +8,9 @@
                               fontSize="{{_options.fontSize}}"
                               on:onMenuItemActivate="_onMenuItemActivate()"
                               source="{{_menuSource}}"/>
-    <Controls.LoadingIndicator
-            name="countIndicator"
-            isGlobal="{{false}}"
-            delay="{{0}}"
-            small="{{true}}"
-            overlay="none"
-            attr:class="ws-inline-flexbox">
-        <div></div>
-    </Controls.LoadingIndicator>
+    <ws:if data="{{_countLoading}}">
+        <div class="controls-operationsPanelV__loadingIndicatorImg-wrapper" name="LoadingIndicator">
+            <div class="controls-operationsPanelV__loadingIndicatorImg"></div>
+        </div>
+    </ws:if>
 </div>

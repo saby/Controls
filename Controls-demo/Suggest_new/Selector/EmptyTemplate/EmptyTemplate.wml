@@ -2,7 +2,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Шаблон пустого списка с кнопкой</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNewSelector__emptyWithButton"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -17,7 +17,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Шаблон пустого списка по умолчанию</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNewSelector__emptyDefault"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

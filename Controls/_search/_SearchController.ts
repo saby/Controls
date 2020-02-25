@@ -16,6 +16,7 @@ var _private = {
                sorting: self._options.sorting,
                navigation: self._options.navigation,
                searchDelay: self._options.searchDelay,
+               keyProperty: self._options.keyProperty,
                searchStartCallback: self._options.searchStartCallback
             });
          }

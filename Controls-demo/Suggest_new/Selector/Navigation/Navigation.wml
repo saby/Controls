@@ -2,7 +2,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Постраничная навигация</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNewSelector__pageNav"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -16,7 +16,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Без указания настроек навигации</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNewSelector__noSettingsNav"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"
@@ -29,7 +29,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Подгружать данные, пока не будет достигут порог</div>
       <Controls.suggest:Selector
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNewSelector__autoLoadNav"
               bind:value="_maxCountValue"
               displayProperty="title"
               searchParam="title"

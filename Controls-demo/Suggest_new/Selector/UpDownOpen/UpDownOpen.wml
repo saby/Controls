@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">Открытие автодополнения вниз</div>
         <Controls.suggest:Input
-                attr:class="controlsDemo__input"
+                attr:class="controlsDemo__input demo-SuggestNewSelector__openDown"
                 bind:value="_suggestDownValue"
                 displayProperty="title"
                 searchParam="title"
@@ -17,7 +17,7 @@
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_down">
         <div class="controls-text-label_theme-{{_options.theme}}">Открытие автодополнения вверх</div>
         <Controls.suggest:Input
-                attr:class="controlsDemo__input"
+                attr:class="controlsDemo__input demo-SuggestNewSelector__openUp"
                 bind:value="_suggestUpValue"
                 displayProperty="title"
                 searchParam="title"

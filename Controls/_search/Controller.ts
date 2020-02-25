@@ -26,6 +26,7 @@ var _private = {
             source: options.source,
             sorting: options.sorting,
             navigation: options.navigation,
+            keyProperty: options.keyProperty,
             searchCallback: _private.searchCallback.bind(self, self),
             abortCallback: _private.abortCallback.bind(self, self),
             searchStartCallback: _private.searchStartCallback.bind(self, self),
