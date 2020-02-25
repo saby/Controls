@@ -1,0 +1,19 @@
+.controls-Application__tag_theme-@{themeName} {
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  position: absolute;
+  width: @tag-size;
+  height: @tag-size;
+}
+
+.controls-Application__tag_style- {
+  @variants: danger, primary, success, secondary, warning;
+  .for(@variants, { &@{_item}_theme-@{themeName} {
+    fill: ~"@{@{_item}_color}";
+  } });
+}
+
+.controls-Application__tag_style-info_theme-@{themeName} {
+  fill: @unaccented_color;
+}
