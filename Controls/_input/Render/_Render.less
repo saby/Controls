@@ -168,26 +168,6 @@
    background-color: @invalid_focus_background-color;
 }
 
-.controls-Render__tagStyle_theme-@{themeName} {
-   top: 0;
-   right: 0;
-   cursor: pointer;
-   position: absolute;
-   width: @tag-size;
-   height: @tag-size;
-}
-
-.controls-Render__tagStyle_style- {
-   @variants: danger, primary, success, secondary, warning;
-   .for(@variants, { &@{_item}_theme-@{themeName} {
-      fill: ~"@{@{_item}_color}";
-   } });
-}
-
-.controls-Render__tagStyle_style-info_theme-@{themeName} {
-   fill: @unaccented_color;
-}
-
 .controls-Render_textAlign {
    @variants: right, left;
    .for(@variants, { &-@{_item} {
