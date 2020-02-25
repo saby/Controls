@@ -80,7 +80,7 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
  * По умолчанию propertyGrid будет автоматически генерировать все свойства для данного объекта.
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends Core/Control
- * @interface Controls/_propertyGrid/IPropertyGrid
+ * @mixes Controls/_propertyGrid/IPropertyGrid
  * @control
  * @public
  * @author Герасимов А.М.
@@ -92,7 +92,7 @@ function getPropertyGridItems(editingObject: Object, source: IProperty[]): Prope
  * By default the propertyGrid will autogenerate all the properties for a given object
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends Core/Control
- * @interface Controls/_propertyGrid/IPropertyGrid
+ * @mixes Controls/_propertyGrid/IPropertyGrid
  * @control
  * @public
  * @author Герасимов А.М.

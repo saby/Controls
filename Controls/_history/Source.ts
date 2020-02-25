@@ -543,7 +543,8 @@ var Source = CoreExtend.extend([sourceLib.ISource, entity.OptionsToPropertyMixin
                result = new sourceLib.DataSet({
                   rawData: newItems.getRawData(true),
                   keyProperty: newItems.getKeyProperty(),
-                  adapter: newItems.getAdapter()
+                  adapter: newItems.getAdapter(),
+                  model: newItems.getModel()
                });
             } else if (isCancelled) {
                // Необходимо вернуть ошибку из deferred'a, чтобы вся цепочка завершилась ошибкой

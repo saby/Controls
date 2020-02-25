@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__base">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/Base/Index' }}">
@@ -8,7 +8,7 @@
         <Controls-demo.list_new.Grouped.Base.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__hiddenGroup">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/HiddenGroup/Index' }}">
@@ -17,7 +17,7 @@
         <Controls-demo.list_new.Grouped.HiddenGroup.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ListGrouped__alignTitleGroup">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/CaptionAlign/Index' }}">
@@ -26,7 +26,7 @@
         <Controls-demo.list_new.Grouped.CaptionAlign.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noSeparator">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Index' }}">
@@ -35,7 +35,7 @@
         <Controls-demo.list_new.Grouped.WithoutSeparator.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noExpander">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/WithoutExpander/Index' }}">
@@ -44,7 +44,7 @@
         <Controls-demo.list_new.Grouped.WithoutExpander.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2" attr:style="max-width: 400px;">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__longGroupCaption" attr:style="max-width: 400px;">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/LongGroupName/Index' }}">
@@ -53,7 +53,7 @@
         <Controls-demo.list_new.Grouped.LongGroupName.Index />
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupCaption">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/ContentTemplate/Index' }}">
@@ -62,7 +62,7 @@
         <Controls-demo.list_new.Grouped.ContentTemplate.Index />
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr2">
+    <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/RightTemplate/Index' }}">

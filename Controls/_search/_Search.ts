@@ -15,6 +15,7 @@ var _private = {
    initSourceController: function(self, options) {
       self._sourceController = new Controller({
          source: options.source,
+         keyProperty: options.keyProperty,
          navigation: options.navigation
       });
    },

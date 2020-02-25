@@ -9,7 +9,7 @@
         </ws:else>
     </div>
     <ws:if data="{{expanderVisible}}">
-        <div title="{{itemData.isGroupExpanded ? '{[Свернуть]}' : '{[Развернуть]}'}}"
+        <div title="{{itemData.isGroupExpanded ? 'Свернуть' : 'Развернуть'}}"
              class="controls-PropertyGrid__groupExpander
                     controls-icon
                     controls-icon_size-s_theme-{{theme}}
