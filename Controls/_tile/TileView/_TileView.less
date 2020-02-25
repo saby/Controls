@@ -61,6 +61,12 @@
    opacity: 0;
 }
 
+.ws-is-ie12 .controls-TileView__item .controls-itemActionsV {
+   display: inline-flex;
+   opacity: 0;
+   align-items: center;
+}
+
 .controls-TileView__itemContent {
    background-color: @background-color_TileView-item;
    box-sizing: border-box;
@@ -203,9 +209,17 @@
 .controls-itemActionsV.controls-TileView__itemActions {
    padding: 0;
 }
+
+.ws-is-ie12 .controls-itemActionsV__wrapper.controls-TileView__itemActions {
+   padding: 0;
+}
 //TODO: end
 
 .controls-itemActionsV.controls-TileView__itemActions {
+   background-color: @background-color_TileView-title;
+}
+
+.ws-is-ie12 .controls-itemActionsV__wrapper.controls-TileView__itemActions {
    background-color: @background-color_TileView-title;
 }
 
