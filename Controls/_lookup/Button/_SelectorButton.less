@@ -1,33 +1,33 @@
 .controls-Selectorbutton {
    max-width: 100%;
-   min-height: @min-height_SelectorButton;
+   min-height: @min-height_lookupSelector;
    display: inline-block;
    align-items: center;
 }
 
 .controls-Selectorbutton_empty {
    display: inline-flex;
-   height: @min-height_SelectorButton;
+   height: @item_height_lookupSelectedCollection;
 }
 
 .controls-Selectorbutton__button-reset {
-   font-size: @font-size_SelectorButton-button-reset;
-   color: @color_SelectorButton-button-reset;
+   font-size: @reset-button_font-size_lookupSelector;
+   color: @reset-button_text-color_lookupSelector;
    cursor: pointer;
 }
 
 .controls-Selectorbutton_button-more {
-   font-size: @font-size_SelectorButton-button-more;
-   color: @color_SelectorButton-button-more;
-   margin-right: @spacing_SelectorButton-between-buttonMore-buttonReset;
+   font-size: @more-button_font-size_lookupSelector;
+   color: @more-button_text-color_lookupSelector;
+   margin-right: @more-button_offset_lookupSelector;
    cursor: pointer;
 }
 
 .controls-Selectorbutton_button-more:after,
 .controls-Selectorbutton__button-reset:after {
    content: "\200b";
-   font-size: @font-size_SelectedCollection-size_m;
-   line-height: @line-height_SelectedCollection-item;
+   font-size: @font-size_default_label;
+   line-height: @inline_height_default_label;
 }
 
 .ws-is-hover {
@@ -43,25 +43,25 @@
 }
 
 .controls-Selectorbutton_selectedItem_single {
-   color: @color_Selectorbutton-single-item;
+   color: @text-color_lookupSelector;
 }
 
 .ws-is-hover {
    .controls-Selectorbutton_selectedItem_single:hover {
-      color: @color_Selectorbutton-single-item_hovered;
+      color: @text-color_hover_lookupSelector;
    }
 }
 
 .controls-Selectorbutton_selectedItem_single:active {
-   color: @color_Selectorbutton-single-item_active;
+   color: @text-color_active_lookupSelector;
 }
 
 .controls-Selectorbutton_button-select_readOnly {
-   font-size: @font-size_SelectorButton-button-select_readOnly;
+   font-size: @font-size_m;
 }
 
 .controls-Selectorbutton_selectedCollection_multiSelect {
-   padding-right: @spacing_SelectorButton-multiSelect-between-buttonMore-selectedCollection;
+   padding-right: @item_offset_lookupSelectedCollection;
 }
 
 .controls-Selectorbutton_link {

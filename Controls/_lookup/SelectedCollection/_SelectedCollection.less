@@ -2,7 +2,7 @@
     .flex-shrink(0);
     .inline-flexbox();
     .align-items(baseline);
-    padding-right: @spacing_SelectedCollection-between-items;
+    padding-right: @item_offset_lookupSelectedCollection;
     box-sizing: border-box;
     max-width: 100%;
 }
@@ -14,7 +14,7 @@
 
 .controls-SelectedCollection__InfoBox {
     display: inline-block;
-    line-height: @line-height_SelectedCollection-item;
+    line-height: @counter_height_lookupSelectedCollection;
 }
 
 .controls-SelectedCollection__InfoBox_fixed {
@@ -22,37 +22,37 @@
     position: absolute;
     left: 0;
     top: 0;
-    background: @background_SelectedCollection-counter;
+    background: @counter_background-color_lookupSelectedCollection;
 }
 
 .controls-SelectedCollection__InfoBox_fixed:after {
     content: '';
     position: absolute;
-    right: -@width_SelectedCollection-counter-shadow;
-    width: @width_SelectedCollection-counter-shadow;
+    right: -@counter_shadow-blur_lookupSelectedCollection;
+    width: @counter_shadow-blur_lookupSelectedCollection;
     top: 0;
     bottom: 0;
-    .horizontal-gradient(@background_SelectedCollection-counter, rgba(255, 255, 255, 0));
+    .horizontal-gradient(@counter_background-color_lookupSelectedCollection, rgba(255, 255, 255, 0));
     background-color: transparent;
 }
 
 .controls-SelectedCollection__counterItems {
-    font-size: @font-size_SelectedCollection-counter;
-    color: @color_SelectedCollection-counter;
-    padding-right: @spacing_SelectedCollection-between-counter-items;
+    font-size: @counter_font-size_lookupSelectedCollection;
+    color: @counter_text-color_lookupSelectedCollection;
+    padding-right: @counter_offset_lookupSelectedCollection;
     box-sizing: border-box;
     cursor: pointer;
 }
 
 .ws-is-hover {
     .controls-SelectedCollection__counterItems:hover {
-        color: @color_SelectedCollection-counter_hover;
+        color: @counter_hover_text-color_lookupSelectedCollection;
         text-decoration: underline;
     }
 }
 
 .controls-SelectedCollection__counterItems:active {
-    color: @color_SelectedCollection-counter_active;
+    color: @counter_active_text-color_lookupSelectedCollection;
 
     .controls-SelectedCollection__counter,
     .controls-SelectedCollection__counter-ellipsis {
@@ -70,9 +70,9 @@
 }
 
 .controls-SelectedCollection__item__cross {
-    .icon-size-without-important(@icon-size_SelectedCollection-cross);
+    .icon-size-without-important(@item_reset-button_icon-size_lookupCollection);
     .flex-shrink(0);
-    color: @color_SelectedCollection-cross;
+    color: @unaccented_icon-color;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -87,7 +87,7 @@
 
 .controls-SelectedCollection__item__caption-wrapper-default,
 .controls-SelectedCollection__item__caption-wrapper-oneRow {
-    line-height: @line-height_SelectedCollection-item;
+    line-height: @item_height_lookupSelectedCollection;
 }
 
 .controls-SelectedCollection__item__caption {
@@ -96,23 +96,23 @@
 
 .controls-SelectedCollection__item__caption-size-default,
 .controls-SelectedCollection__item__caption-size-m {
-    font-size: @font-size_SelectedCollection-size_m;
+    font-size: @font-size_m;
 }
 
 .controls-SelectedCollection__item__caption-size-l {
-    font-size: @font-size_SelectedCollection-size_l;
+    font-size: @font-size_l;
 }
 
 .controls-SelectedCollection__item__caption-size-xl {
-    font-size: @font-size_SelectedCollection-size_xl;
+    font-size: @font-size_xl;
 }
 
 .controls-SelectedCollection__item__caption-size-2xl {
-    font-size: @font-size_SelectedCollection-size_2xl;
+    font-size: @font-size_2xl;
 }
 
 .controls-SelectedCollection__item__caption-size-3xl {
-    font-size: @font-size_SelectedCollection-size_3xl;
+    font-size: @font-size_3xl;
 }
 
 .controls-SelectedCollection__item__caption-style-bold,
@@ -127,11 +127,11 @@
 }
 
 .controls-SelectedCollection__item__caption-style-accent {
-    color: @color_SelectedCollection-item_accent;
+    color: @secondary_text-color;
 }
 
 .controls-SelectedCollection__item__caption-style-primary {
-    color: @color_SelectedCollection-item_primary;
+    color: @primary_text-color;
 }
 
 .controls-SelectedCollection__collection {
@@ -145,7 +145,7 @@
 .controls-SelectedCollection__collection-default:after,
 .controls-SelectedCollection__collection-oneRow:after {
     content: '\200b';
-    line-height: @line-height_SelectedCollection-item;;
+    line-height: @item_height_lookupSelectedCollection;
 }
 
 .controls-SelectedCollection__collection_singleLine {
