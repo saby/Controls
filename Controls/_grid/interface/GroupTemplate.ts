@@ -19,7 +19,7 @@
  * </Controls.grid:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/grouping/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link https://wasaby.dev/docs/js/Controls/grid/GroupTemplate здесь}.
  * @public
  */
 export default interface IGroupTemplateOptions {
