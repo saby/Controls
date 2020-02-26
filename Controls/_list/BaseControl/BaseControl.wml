@@ -167,7 +167,7 @@
                 on:itemSwipe="_listSwipe()"
         >
            <ws:tagTemplate>
-              <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
+              <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
                           on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
                           on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
            </ws:tagTemplate>

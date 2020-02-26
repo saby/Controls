@@ -32,7 +32,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при клике на Tag в шаблоне _tagTemplate.wml
+     * Эти хандлеры срабатывают при клике на Tag в шаблоне BaseControl.wml
      * @param event
      * @param item
      * @param columnIndex
@@ -46,7 +46,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     /**
-     * Эти хандлеры срабатывают при наведении на Tag в шаблоне _tagTemplate.wml
+     * Эти хандлеры срабатывают при наведении на Tag в шаблоне BaseControl.wml
      * @param event
      * @param item
      * @param columnIndex

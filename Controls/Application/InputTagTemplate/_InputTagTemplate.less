@@ -1,4 +1,4 @@
-.controls-Application__tag_theme-@{themeName} {
+.controls-InputTag__tag_theme-@{themeName} {
   top: 0;
   right: 0;
   cursor: pointer;
@@ -7,13 +7,13 @@
   height: @tag-size;
 }
 
-.controls-Application__tag_style- {
+.controls-InputTag_style- {
   @variants: danger, primary, success, secondary, warning;
   .for(@variants, { &@{_item}_theme-@{themeName} {
     fill: ~"@{@{_item}_color}";
   } });
 }
 
-.controls-Application__tag_style-info_theme-@{themeName} {
+.controls-InputTag_style-info_theme-@{themeName} {
   fill: @unaccented_color;
 }
