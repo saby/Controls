@@ -60,6 +60,16 @@ define(
             scroll._isMounted = true;
          });
 
+         describe('_afterUpdate', function() {
+            it('should not update state if control is invisible', function () {
+               sinon.stub(scroll, '_isVisible').returns(false);
+               sinon.stub(scrollMod.Container._private, 'calcDisplayState');
+               scroll._afterUpdate();
+               sinon.assert.notCalled(scrollMod.Container._private.calcDisplayState);
+               sinon.restore();
+            });
+         });
+
          describe('_shadowVisible', function() {
             [{
                title: "shouldn't display shadow if there are fixed headers",
