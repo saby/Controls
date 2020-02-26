@@ -575,6 +575,11 @@ var
       },
 
       _afterUpdate: function() {
+         // Нельзя рассчитать состояние для скрытого скрол контейнера
+         if (!this._isVisible()) {
+            return;
+         }
+
          var displayState = _private.calcDisplayState(this);
 
          if (!isEqual(this._displayState, displayState)) {
@@ -620,7 +625,7 @@ var
          // поэтому св-во не является реактивным и для обновления надо позвать _forceUpdate
          // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
          // Не запускаем перерисовку, если контрол скрыт
-         if (!this._container.closest('.ws-hidden')) {
+         if (!this._isVisible()) {
             this._shadowVisibilityByInnerComponents = shadowVisibleObject;
             this._forceUpdate();
          }
@@ -665,7 +670,7 @@ var
          }
          // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
          // Не реагируем на ресайз, если контрол скрыт
-         if (this._container.closest('.ws-hidden')) {
+         if (!this._isVisible()) {
             return;
          }
          const displayState = _private.calcDisplayState(this);
@@ -995,6 +1000,12 @@ var
          setTimeout(() => {
             this._scrollLockedPosition = null;
          }, _private.KEYBOARD_SHOWING_DURATION);
+      },
+
+      _isVisible: function(): boolean {
+         // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
+         // Не запускаем перерисовку, если контрол скрыт
+         return !this._container.closest('.ws-hidden');
       }
    });
 
