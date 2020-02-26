@@ -132,6 +132,13 @@
   display: flex;
 }
 
+.ws-is-ie10, .ws-is-ie11 {
+  .controls-Grid__row-cell {
+    // Хак. Css свойство position не специфицировано для table::td. Таблица и дерево позиционирует некоторые вещи абсолютно относительно ячейки.
+    // В IE position: relative в сумме с заданной высотой позволяют объяснить браузеру, что ячейка должна быть релативной.
+    height: 1px;
+  }
+}
 
 .ws-is-not-full-grid-support,
 .controls-Grid_partial-support_theme-@{themeName} {
