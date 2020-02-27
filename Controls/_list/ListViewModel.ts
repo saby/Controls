@@ -10,6 +10,7 @@ import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { CollectionItem } from 'Types/display';
 import { CssClassList } from "../Utils/CssClassList";
+import {detection} from 'Env/Env';
 
 /**
  *
@@ -83,6 +84,27 @@ var _private = {
         } else {
             return !!(drawnActions && drawnActions.length);
         }
+    },
+    getItemActionsClasses(itemData, isTile, itemActionsPosition, itemActionsClass,
+        toolbarVisibility, actionMenuIsShown): string {
+        let classList = 'controls-itemActionsV' + (true ? ' controls-itemActionsV_full_item_size' : '');
+        classList += itemActionsPosition ? ` controls-itemActionsV_${itemActionsPosition}` : '';
+        classList += itemData.isActive && actionMenuIsShown ? ' controls-itemActionsV_visible' : '';
+        classList += itemData.isSwiped ? ' controls-itemActionsV_swiped' : '';
+        classList += itemData.itemActionsColumnScrollDraw ? ' controls-itemActionsV_columnScrollDraw' : '';
+        return classList;
+    },
+    getItemActionsWrapperClasses(itemData, isTile, itemActionsPosition, highlightOnHover, style,
+     getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility): string {
+        let classList = 'controls-itemActionsV__wrapper';
+        classList += '  controls-itemActionsV__wrapper_absolute';
+        classList += itemData.isEditing ? ' controls-itemActionsV_editing' : '';
+        classList += itemData.isEditing && toolbarVisibility ? ' controls-itemActionsV_editingToolbarVisible' : '';
+        classList += ` controls-itemActionsV_${itemActionsPosition}`;
+        classList += itemActionsPosition !== 'outside' ? itemActionsClass ? ' ' + itemActionsClass : ' controls-itemActionsV_position_bottomRight' : '';
+        classList += highlightOnHover !== false ? ' controls-itemActionsV_style_' + (style ? style : 'default') : '';
+        classList += getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding);
+        return classList;
     }
 };
 
@@ -187,6 +209,9 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
            drawnActions = itemsModelCurrent.itemActions.showed;
         }
 
+        itemsModelCurrent.isIE12 = detection.isIE12;
+        itemsModelCurrent.getItemActionsClasses = _private.getItemActionsClasses;
+        itemsModelCurrent.getItemActionsWrapperClasses = _private.getItemActionsWrapperClasses;
         itemsModelCurrent.drawActions = _private.needToDrawActions(this._editingItemData, itemsModelCurrent, this._options.editingConfig, drawnActions);
 
         if (itemsModelCurrent.drawActions && drawnActions) {
