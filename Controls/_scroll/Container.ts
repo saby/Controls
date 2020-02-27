@@ -925,7 +925,7 @@ var
        * Scrolls to the bottom of the container.
        * @function Controls/_scroll/Container#scrollToBottom
        */
-      scrollToBottom: function() {
+      scrollToBottom() {
          _private.setScrollTop(this, _private.getScrollHeight(this._children.content)  - this._children.content.clientHeight + this._topPlaceholderSize);
       },
 
