@@ -479,7 +479,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
 
     // TODO Compatible
     static getManager(_options: IControlOptions = {}): Promise<void> {
-        if (!ManagerWrapperCreatingPromise) {
+        if (!ManagerWrapperCreatingPromise || _options.theme !== ManagerWrapperCreatingPromise._options?.theme) {
             if (!isNewEnvironment()) {
                 const managerContainer = document.createElement('div');
                 managerContainer.classList.add('controls-PopupContainer');
@@ -491,6 +491,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
                         Creator(compatiblePopup.ManagerWrapper, cfg, managerContainer).then(resolve);
                     }, reject);
                 });
+                ManagerWrapperCreatingPromise._options = _options;
             } else {
                 // Защита от случаев, когда позвали открытие окна до полного построения страницы
                 if (ManagerController.getManager()) {
