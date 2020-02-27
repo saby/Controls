@@ -111,7 +111,7 @@ define([
                }
             };
             bc._dotsClick({
-               target: 123,
+               currentTarget: 123,
                stopPropagation: function() {
                   stopPropagationCalled = true;
                }
