@@ -239,7 +239,8 @@ var ItemsViewModel = BaseViewModel.extend({
             self = this,
             itemData = {
                 getPropValue: ItemsUtil.getPropertyValue,
-                style: this._options.style,
+                style: this._options.style || 'default',
+                theme: this._options.theme,
                 keyProperty: this._options.keyProperty,
                 displayProperty: this._options.displayProperty,
                 index: this._display.getIndex(dispItem),

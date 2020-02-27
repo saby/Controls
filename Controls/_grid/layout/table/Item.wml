@@ -17,7 +17,7 @@
 </ws:template>
 
 <ws:template name="columnContent">
-    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
+    <ws:if data="{{ currentColumn.isCheckboxColumn }}">
         <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
             <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" checkboxReadOnly="{{checkboxReadOnly}}"/>
         </ws:partial>
@@ -30,9 +30,9 @@
             <ws:partial template="{{currentColumn.template}}"
                         editArrowTemplate="{{editArrowTemplate}}"
                         ladderWrapper="{{currentColumn.ladderWrapper}}"
-                        attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
-                             {{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"
-                        itemData="{{currentColumn}}"/>
+                        itemData="{{currentColumn}}"
+                        attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align}}
+                                    {{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"/>
         </ws:else>
     </ws:else>
     <!-- Без скролла колонок операции выводятся в последней ячейке таблицы. -->
@@ -43,7 +43,7 @@
 
 <ws:template name="columnContentWrapper">
     <ws:if data="{{itemData.shouldDrawMarker(marker, currentColumn.columnIndex)}}">
-        <div attr:class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
+        <div class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
     </ws:if>
     <ws:partial template="columnContent" attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
 </ws:template>
@@ -52,15 +52,8 @@
     <td colspan="{{ itemData.getColspanFor(colspanFor) }}"
         style="{{ currentColumn.tableCellStyles }}"
         attr:key="{{ itemData.getCurrentColumnKey() }}{{ keyPostfix ? ('_' + keyPostfix) : '' }}"
-        attr:class="js-controls-SwipeControl__actionsContainer
-                    {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
-                    {{itemData.hasMultiSelect && itemData.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
-                    {{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}
-                    {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
-                    {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
-                    {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
-                    controls-Grid__cell_valign_{{currentColumn.column.valign || 'baseline'}}
-                    {{className || ''}}">
+        class="{{ currentColumn.getCellClasses({'marker': marker, 'highlightOnHover': highlightOnHover}) }}
+               {{ currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder' }}">
         <ws:partial template="{{content}}" />
     </td>
 </ws:template>
@@ -100,8 +93,7 @@
 
 </ws:template>
 
-<tr class="controls-Grid__row {{itemData.calcCursorClasses(clickable, cursor)}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}
-           {{highlightOnHover !== false ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}}">
+<tr class="{{itemData.getRowClasses({'clickable': clickable, 'cursor': cursor, 'highlightOnHover': highlightOnHover})}}">
     <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
         <ws:partial template="colTpl" currentColumn="{{itemData.getCurrentColumn()}}"/>
     </ws:for>

@@ -56,6 +56,11 @@ interface IGetColspanStylesForParams {
     maxEndRow?: number;
 }
 
+// Controls/_list/ListViewModel::IListItemTemplateParams
+interface IGridItemTemplateParams extends IListItemTemplateParams {
+
+}
+
 var
     _private = {
         calcItemColumnVersion: function(self, itemVersion, columnIndex, index) {
@@ -241,12 +246,16 @@ var
         getItemColumnCellClasses: function(current, theme) {
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
             const classLists = createClassListCollection('base', 'padding', 'columnScroll');
-            const style = current.style || 'default';
+            const style = current.style;
 
             // Стиль колонки
             const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize}`;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize} js-controls-SwipeControl__actionsContainer`;
             classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
+
+            if (!!current.isDragging) {
+                classLists.base += ' controls-ListView__item_dragging';
+            }
 
             if (current.columnScroll) {
                 classLists.columnScroll += _private.getColumnScrollCellClasses(current, theme);
@@ -1191,9 +1200,20 @@ var
             current.style = this._options.style;
             current.multiSelectClassList += current.hasMultiSelect ? ` controls-GridView__checkbox_theme-${this._options.theme}` : '';
 
+
             current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
                 _private.getColumnAlignGroupStyles(current, columnAlignGroup)
             );
+
+            current.getRowClasses = (params: IGridItemTemplateParams) => {
+                let classes = `controls-Grid__row controls-Grid__row_${current.style}_theme-${current.theme}`;
+                classes += current.calcCursorClasses(params.clickable, params.cursor);
+
+                if (params.highlightOnHover !== false) {
+                    classes += ` controls-Grid__row_highlightOnHover_${current.style}_theme-${current.theme}`;
+                }
+                return classes;
+            };
 
             const superShouldDrawMarker = current.shouldDrawMarker;
             current.shouldDrawMarker = (marker?: boolean, columnIndex: number): boolean => {
@@ -1316,11 +1336,34 @@ var
                         },
                         _preferVersionAPI: true,
                         gridCellStyles: '',
-                        tableCellStyles: ''
+                        tableCellStyles: '',
+                        isCheckboxColumn: current.hasMultiSelect && current.columnIndex === 0
                     };
                 currentColumn.classList = _private.getItemColumnCellClasses(current, self._options.theme);
                 currentColumn.column = current.columns[current.columnIndex];
                 currentColumn.template = currentColumn.column.template ? currentColumn.column.template : self._columnTemplate;
+
+                currentColumn.getCellClasses = (params) => {
+                    const classLists = currentColumn.classList;
+
+                    if (!!current.isActive && params.highlightOnHover !== false) {
+                        classLists.base += ` controls-GridView__item_active_theme-${current.theme}`;
+                    }
+
+                    if (current.styleLadderHeading && currentColumn.hiddenForLadder) {
+                        classLists.base += ' controls-Grid__row-ladder-cell';
+                    }
+
+                    // Первая колонка с включенным маркером.
+                    if (!GridLayoutUtil.isFullGridSupport()) {
+                        if (params.marker !== false && current.markerVisibility !== 'hidden' && current.isSelected && current.columnIndex === 0) {
+                            classLists.base += ` controls-Grid__row-cell_selected__first_theme-${current.theme}`;
+                        }
+                        classLists.base += ` controls-Grid__cell_valign_${currentColumn.column.valign || 'baseline'}`;
+                    }
+                    return `${classLists.base} ${classLists.columnScroll} ${currentColumn.isCheckboxColumn ? classLists.padding.getAll() : ''}`;
+                };
+
                 if (self._isSupportLadder(self._options.ladderProperties)) {
                     currentColumn.ladder = self._ladder.ladder[current.index];
                     currentColumn.ladderWrapper = LadderWrapper;
