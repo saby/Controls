@@ -98,16 +98,28 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         });
 
         it('at begining', () => {
-            assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
-                instance.insertItems(0, 2));
+            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 120}},
+                instance.insertItems(0, 2, {up: false, down: false}));
         });
         it('at middle', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(5, 2));
+                instance.insertItems(5, 2, {up: false, down: false}));
         });
         it('at ending', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                instance.insertItems(3, 1));
+                instance.insertItems(3, 1, {up: false, down: false}));
+        });
+        it('with up predictive direction', () => {
+            assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
+                instance.insertItems(0, 2, {up: false, down: false}, 'up'));
+        });
+        it('with down predictive direction', () => {
+            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
+                instance.insertItems(3, 1, {up: false, down: false}, 'down'));
+        });
+        it('with predictive direction and trigger visibility', () => {
+                assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
+                    instance.insertItems(3, 1, {up: false, down: true}, 'down'));
         });
     });
     describe('.removeItems', () => {

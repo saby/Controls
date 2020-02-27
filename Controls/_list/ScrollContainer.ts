@@ -9,7 +9,8 @@ import {
     IPlaceholders,
     IRange,
     IVirtualScrollOptions,
-    IDirection
+    IDirection,
+    ITriggerState
 } from './ScrollContainer/interfaces';
 import {Logger} from 'UI/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -69,10 +70,7 @@ export default class ScrollContainer extends Control<IOptions> {
     private _lastScrollTop: number = 0;
     private _placeholders: IPlaceholders;
 
-    private _triggerVisibility: {
-        up: boolean;
-        down: boolean;
-    } = {up: false, down: false};
+    private _triggerVisibility: ITriggerState = {up: false, down: false};
 
     private _restoreScrollResolve: Function;
     private _applyScrollTopCallback: Function;
@@ -80,6 +78,10 @@ export default class ScrollContainer extends Control<IOptions> {
 
     private _indicatorState: IDirection;
     private _indicatorTimeout: number;
+
+    private _addItemsDirection: IDirection;
+    private _addItemsIndex: number;
+    private _addItems: object[] = [];
 
     // Флаг, который необходимо включать, чтобы не реагировать на скроллы происходящие вследствие
     // подскроллов создаваемых самим контролом (scrollToItem, восстановление позиции скролла после перерисовок)
@@ -182,6 +184,20 @@ export default class ScrollContainer extends Control<IOptions> {
                 this._notify(eventName, [params as IScrollParams]);
                 break;
         }
+    }
+
+    startBatchAdding(direction: IDirection): void {
+        this._addItemsDirection = direction;
+    }
+
+    stopBatchAdding(): void {
+        const direction = this._addItemsDirection;
+        this._addItemsDirection = null;
+
+        this._itemsAddedHandler(this._addItemsIndex, this._addItems, direction);
+
+        this._addItems = [];
+        this._addItemsIndex = null;
     }
 
     /**
@@ -524,12 +540,23 @@ export default class ScrollContainer extends Control<IOptions> {
      * Обработатывает добавление элементов в коллекцию
      * @param addIndex
      * @param items
+     * @param direction направление добавления
      * @private
      */
-    private _itemsAddedHandler(addIndex: number, items: object[]): void {
-        const rangeShiftResult = this._virtualScroll.insertItems(addIndex, items.length);
-        this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
-        this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+    private _itemsAddedHandler(addIndex: number, items: object[], direction?: IDirection): void {
+        if (this._addItemsDirection) {
+            this._addItems.push(...items);
+            this._addItemsIndex = addIndex;
+        } else {
+            const rangeShiftResult = this._virtualScroll.insertItems(
+                addIndex,
+                items.length,
+                this._triggerVisibility,
+                direction
+            );
+            this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
+            this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+        }
     }
 
     /**
