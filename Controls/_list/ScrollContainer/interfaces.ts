@@ -46,4 +46,9 @@ export interface IPlaceholders {
     bottom: number;
 }
 
+export interface ITriggerState {
+    up: boolean;
+    down: boolean;
+}
+
 export type IDirection = 'up' | 'down';
