@@ -42,6 +42,8 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _oneItem: null,
       _multiItems: null,
       _itemsWithDescription: null,
+      _itemActionsItems: null,
+      _itemActionsSource: null,
       _selectedKeysSimple: null,
       _selectedKeysSub: null,
       _selectedKeysHierarchy: null,
@@ -72,8 +74,9 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _selectedKeyOneItem: null,
       _selectedKeysOneEmpty: null,
       _selectedKeysWithDescription: null,
+      _selectedKeysItemActions: null,
       _duplicateCaption: 'Settlements with employees',
-
+      _itemActions: null,
 
       _beforeMount: function() {
          this._simpleItems = this._createMemory([
@@ -280,6 +283,15 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             { id: 1, title: 'adaptive', description: 'infrequently used accordion sections are hidden' },
             { id: 2, title: 'full', description: 'all accordion sections are visible' }
          ]);
+         this._itemActionsItems = [
+            { id: 1, title: 'DNS' },
+            { id: 2, title: 'M.Video' },
+            { id: 3, title: 'Citilink' },
+            { id: 4, title: 'Eldorado' },
+            { id: 5, title: 'Wildberries' },
+            { id: 6, title: 'Ozon' }
+         ];
+         this._itemActionsSource = this._createMemory(this._itemActionsItems);
          this._multiItems = this._getMultiData();
          this._historySource = historySource.createMemory();
          this._historySourceMulti = historySource.createMemory();
@@ -313,6 +325,38 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
          this._selectedKeyOneItem = [1];
          this._selectedKeysOneEmpty = [1];
          this._selectedKeysWithDescription = [1];
+         this._selectedKeysSearch = [1];
+         this._selectedKeysItemActions = [1];
+
+         this._itemActions = [
+            {
+               id: 1,
+               icon: 'icon-Edit',
+               iconStyle: 'secondary',
+               title: 'edit',
+               showType: 2,
+               handler: function(item) {
+                  alert('Edit clicked at ' + item.getId());
+               }
+            },
+            {
+               id: 2,
+               icon: 'icon-Erase',
+               iconStyle: 'danger',
+               title: 'delete',
+               showType: 2,
+               handler: (function(item) {
+                  if (this._itemActionsItems.length <= 2) {
+                     this._itemActions = null;
+                  }
+                  const index = this._itemActionsItems.findIndex((actionItem) => {
+                     return actionItem.id === item.getId();
+                  });
+                  this._itemActionsItems.splice(index, 1);
+                  this._itemActionsSource = this._createMemory(this._itemActionsItems);
+               }).bind(this)
+            }
+         ];
       },
       _createMemory: function(items) {
          return new source.Memory({
