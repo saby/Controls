@@ -243,6 +243,11 @@
    align-items: center;
 }
 
+.controls-Menu__itemActions_position_rightCenter_theme-@{themeName} {
+   top: (@item_height_menu - @height_ItemActions_inside) / 2;
+   right: 0;
+}
+
 .ws-is-hover {
    .controls-Menu__row_hovered_theme-@{themeName} {
       background: @item_hover_background-color_menu;
@@ -253,6 +258,10 @@
 
       .controls-Menu__iconPin {
          .inline-flexbox();
+      }
+
+      .controls-itemActionsV {
+         display: inline-block;
       }
    }
    .controls-Menu__iconPin_theme-@{themeName}:hover {

@@ -95,7 +95,8 @@ var _private = {
                isSelected: () => currentItem.isSelected,
                getContents: () => currentItem.item,
                isSwiped: () => currentItem.isSwiped,
-               getParent: () => {return {getContents: () => currentItem.hasParent}}
+               getParent: () => {return {getContents: () => currentItem.hasParent}},
+               shouldDisplayActions: () => {return false}
             };
          }
    };
