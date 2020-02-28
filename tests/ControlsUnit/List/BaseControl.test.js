@@ -2547,13 +2547,15 @@ define([
             baseControl._beforeMount(cfg);
          });
          it('without itemActions nothing should happen', function() {
-           baseControl._beforeUpdate({
-              ...cfg,
-              itemActions: null,
-              itemActionsProperty: null
-           });
-           baseControl._updateItemActions();
-           assert.equal(actionsUpdateCount, 0);
+            baseControl._beforeUpdate({
+               ...cfg,
+               itemActions: null,
+               itemActionsProperty: null
+            });
+            baseControl._children.itemActions = undefined;
+            actionsUpdateCount = 0;
+            baseControl._updateItemActions();
+            assert.equal(actionsUpdateCount, 0);
          });
       });
 
