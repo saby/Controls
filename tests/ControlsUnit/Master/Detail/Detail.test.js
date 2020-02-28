@@ -27,6 +27,8 @@ define(['Controls/masterDetail'], function (masterDetail) {
 
          Control._beforeMount(options).then((result) => {
             assert.equal(result, '300px');
+            assert.equal(Control._currentMinWidth, '100px');
+            assert.equal(Control._currentMaxWidth, '300px');
             Control.destroy();
             done();
          });
@@ -89,7 +91,6 @@ define(['Controls/masterDetail'], function (masterDetail) {
          assert.equal(Control._maxOffset, 99);
          assert.equal(Control._currentWidth, '250px');
 
-         // width=0
          options = {
             masterMinWidth: 0,
             masterWidth: 0,
@@ -98,6 +99,8 @@ define(['Controls/masterDetail'], function (masterDetail) {
          Control._beforeUpdate(options);
          assert.equal(Control._minOffset, 0);
          assert.equal(Control._maxOffset, 0);
+         assert.equal(Control._currentMinWidth, '0px');
+         assert.equal(Control._currentMaxWidth, '0px');
          assert.equal(Control._currentWidth, '0px');
 
          Control.destroy();

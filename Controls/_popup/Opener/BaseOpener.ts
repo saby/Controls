@@ -478,7 +478,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     }
 
     // TODO Compatible
-    static getManager(_options: IControlOptions = {}): Promise<void> {
+    static getManager(): Promise<void> {
         if (!ManagerWrapperCreatingPromise) {
             if (!isNewEnvironment()) {
                 const managerContainer = document.createElement('div');
@@ -487,8 +487,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
 
                 ManagerWrapperCreatingPromise = new Promise((resolve, reject) => {
                     require(['Core/Creator', 'Controls/compatiblePopup'], (Creator, compatiblePopup) => {
-                        const cfg = _options.theme ? { theme: _options.theme } : {};
-                        Creator(compatiblePopup.ManagerWrapper, cfg, managerContainer).then(resolve);
+                        Creator(compatiblePopup.ManagerWrapper, {}, managerContainer).then(resolve);
                     }, reject);
                 });
             } else {

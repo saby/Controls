@@ -2,7 +2,8 @@
             controls-itemActionsV__action_style_{{action.style}}
             controls-itemActionsV__action_iconStyle_{{action.iconStyle}}"
       attr:title="{{!!action.title ? action.title}}"
-      on:click="_onItemActionsClick(action, itemData)">
+      on:click="_onItemActionsClick(action, itemData)"
+      attr:ws-no-focus="true">
     <ws:if data="{{!!action.icon}}">
         <i attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}}"/>
     </ws:if>

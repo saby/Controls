@@ -28,16 +28,23 @@ import entity = require('Types/entity');
  *  либо же только на события ближайшего такого контрола
  */
 
+function getConfig(options: any) {
+   return {
+      listenAll: !!options.listenAll
+   };
+}
+
 var EventListener = Control.extend({
    _template: template,
+   config: null,
+   _beforeMount: function() {
+      this.config = getConfig(this._options);
+   },
    _afterMount: function() {
-      let config = {
-         listenAll: !!this._options.listenAll
-      };
-      this._notify('register', [this._options.event, this, this.callback, config], {bubbling: true});
+      this._notify('register', [this._options.event, this, this.callback, this.config], {bubbling: true});
    },
    _beforeUnmount: function() {
-      this._notify('unregister', [this._options.event, this], {bubbling: true});
+      this._notify('unregister', [this._options.event, this, this.config], {bubbling: true});
    },
    callback: function() {
       this._notify(this._options.event, Array.prototype.slice.call(arguments));
