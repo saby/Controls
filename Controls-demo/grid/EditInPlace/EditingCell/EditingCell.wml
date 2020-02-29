@@ -14,7 +14,7 @@
                             on:afterEndEdit="_toggleAddButton()"
                             columns="{{_columns}}">
                         <ws:editingConfig>
-                            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
+                            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
                         </ws:editingConfig>
                         <ws:footerTemplate>
                             <Controls.list:AddButton caption="Add record" on:click="list.beginAdd()" class="test_add_record_1"/>
