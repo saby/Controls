@@ -13,6 +13,7 @@ import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRed
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import * as isEmpty from 'Core/helpers/Object/isEmpty';
 
 //need to open subdropdowns with a delay
       //otherwise, the interface will slow down.
@@ -212,7 +213,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
                });
             }
 
-            return iconPadding;
+            return isEmpty(iconPadding) ? undefined : iconPadding;
          },
 
          isHeadConfigChanged: function(newOptions, oldOptions) {
