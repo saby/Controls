@@ -109,7 +109,7 @@ import 'css!theme?Controls/filterPopup';
       },
 
       _beforeUpdate: function(newOptions) {
-         if (!isEqual(newOptions.items, this._items)) {
+         if (!isEqual(newOptions.items, this._options.items)) {
             this._changedIndex = _private.getIndexChangedVisibility(newOptions.items, this._items);
             _private.setItems(this, _private.cloneItems(newOptions.items));
          } else {
