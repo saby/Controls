@@ -2336,12 +2336,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              */
             e.stopPropagation();
         }
-        if (this._options.useNewModel) {
-            const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
-            markCommand.execute(this._listViewModel);
-        } else {
-            var newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
-            this._listViewModel.setMarkedKey(newKey);
+        // При редактировании по месту маркер появляется только если в списке больше одной записи.
+        // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+        if (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1)) {
+            if (this._options.useNewModel) {
+                const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
+                markCommand.execute(this._listViewModel);
+            } else {
+                const newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
+                this._listViewModel.setMarkedKey(newKey);
+            }
         }
     },
 
