@@ -1,7 +1,15 @@
 <div class="controls-ScrollController">
     <div name="topVirtualScrollTrigger" style="position: relative; top: 0;"></div>
     <div name="topLoadTrigger"></div>
-    <ws:partial template="{{_options.content}}" listModel="{{_options.collection}}" on:itemsContainerReady="_itemsContainerReadyHandler()" on:controlResize="_viewResize()" scope="{{_options}}"/>
+    <ws:partial template="{{_options.content}}"
+                listModel="{{_options.collection}}"
+                scope="{{_options}}"
+                on:updateShadowMode="_stopBubblingEvent()"
+                on:updatePlaceholdersSize="_stopBubblingEvent()"
+                on:saveScrollPosition="_stopBubblingEvent()"
+                on:restoreScrollPosition="_stopBubblingEvent()"
+                on:itemsContainerReady="_itemsContainerReadyHandler()"
+                on:controlResize="_viewResize()"/>
     <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
     <div name="bottomLoadTrigger"></div>
     <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>

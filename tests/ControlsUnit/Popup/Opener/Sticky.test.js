@@ -677,6 +677,55 @@ define(
                top: 3
             }, StickyController._private.getMargins(item));
          });
+         it('moveContainer', () => {
+            let position = {
+               right: -10
+            };
+            let flagRestrict = false;
+            let restrictContainer = StickyStrategy._private.restrictContainer;
+            StickyStrategy._private.restrictContainer = () => { flagRestrict = !flagRestrict};
+
+            // если начальная позиция отрицательная
+            StickyStrategy._private.moveContainer({}, position, '', 80);
+            assert.strictEqual(flagRestrict, false);
+
+            // если начальная позиция положительная, но есть перекрытие
+            position.right = 60;
+            StickyStrategy._private.moveContainer({}, position, '', 80);
+            assert.strictEqual(flagRestrict, true);
+
+            StickyStrategy._private.restrictContainer = restrictContainer;
+         });
+         it('checkOverflow', () => {
+            let position = {
+               right: -10,
+               bottom: -20
+            };
+            let result = 0;
+
+            //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=41b3a01c-72e1-418b-937f-ca795dacf508
+            let isMobileIOS = StickyStrategy._private._isMobileIOS;
+            StickyStrategy._private._isMobileIOS = () => true;
+
+            // правый и нижний край не влезли
+            result = StickyStrategy._private.checkOverflow({}, {}, position, 'horizontal');
+            assert.strictEqual(result, 10);
+            result = StickyStrategy._private.checkOverflow({}, {}, position, 'vettical');
+            assert.strictEqual(result, 20);
+
+            position = {
+               left: -10,
+               top: -20
+            };
+
+            // левый и верхний край не влезли
+            result = StickyStrategy._private.checkOverflow({}, {}, position, 'horizontal');
+            assert.strictEqual(result, 10);
+            result = StickyStrategy._private.checkOverflow({}, {}, position, 'vettical');
+            assert.strictEqual(result, 20);
+
+            StickyStrategy._private._isMobileIOS = isMobileIOS;
+         });
       });
    }
 );
