@@ -10,8 +10,8 @@ define([
       it('initializingWay', (done) => {
          let FC = new form.Controller();
 
-         let baseReadRecordBeforeMount = form.Controller._private.readRecordBeforeMount;
-         let baseCreateRecordBeforeMount = form.Controller._private.createRecordBeforeMount;
+         let baseReadRecordBeforeMount = form.Controller._readRecordBeforeMount;
+         let baseCreateRecordBeforeMount = form.Controller._createRecordBeforeMount;
          let cfg = {
             record: new entity.Record(),
          };
@@ -19,12 +19,12 @@ define([
          let isReading = false;
          let isCreating = false;
 
-         form.Controller._private.readRecordBeforeMount = () => {
+         FC._readRecordBeforeMount = () => {
             isReading = true;
             return Promise.resolve({ data: true });
          };
 
-         form.Controller._private.createRecordBeforeMount = () => {
+         FC._createRecordBeforeMount = () => {
             isCreating = true;
             return Promise.resolve({ data: true });
          };
@@ -84,19 +84,21 @@ define([
          });
 
          Promise.all([p1, p2, p3, p4]).then(() => {
-            form.Controller._private.readRecordBeforeMount = baseReadRecordBeforeMount;
-            form.Controller._private.createRecordBeforeMount = baseCreateRecordBeforeMount;
+            form.Controller._readRecordBeforeMount = baseReadRecordBeforeMount;
+            form.Controller._createRecordBeforeMount = baseCreateRecordBeforeMount;
             FC.destroy();
             done();
          });
       });
 
-      it('registerPending', () => {
-         let FC = new form.Controller();
+      it('registerPending', async () => {
+         let updatePromise;
+        let FC = new form.Controller();
          FC._createChangeRecordPending();
          assert.isTrue(FC._pendingPromise !== undefined);
-         FC.update = () => (new Deferred()).callback({});
+         FC.update = () => new Promise((res) => updatePromise = res);
          FC._confirmDialogResult(true, new Deferred());
+         await updatePromise({});
          assert.isTrue(FC._pendingPromise === null);
 
          FC._createChangeRecordPending();
@@ -105,23 +107,32 @@ define([
          FC.destroy();
       });
 
-      it('beforeUpdate', () => {
+      it('beforeUpdate', async () => {
          let FC = new form.Controller();
          let setRecordCalled = false;
          let readCalled = false;
          let createCalled = false;
          let createDeferred = new Deferred();
+         let createPromiseResolver;
+         let createPromiseResolverUpdate;
+         let createPromiseResolverShow;
+         let createPromiseResolverReed;
+         let createPromiseResolverDelete;
+         let createPromise;
 
          FC._setRecord = () => {
             setRecordCalled = true;
          };
          FC.read = () => {
             readCalled = true;
+            return new Promise((res) => {
+               createPromiseResolverReed = res;
+            });
          };
          FC.create = () => {
             createCalled = true;
-            createDeferred = new Deferred();
-            return createDeferred;
+            createPromise = new Promise((res) => { createPromiseResolver = res; });
+            return createPromise;
          };
 
          FC._beforeUpdate({
@@ -155,7 +166,8 @@ define([
          assert.equal(createCalled, true);
          assert.equal(FC._isNewRecord, false);
 
-         createDeferred.callback();
+         await createPromiseResolver();
+
          assert.equal(FC._isNewRecord, true);
 
          createCalled = false;
@@ -163,11 +175,15 @@ define([
          let confirmPopupCalled = false;
          FC._showConfirmPopup = () => {
             confirmPopupCalled = true;
-            return (new Deferred()).callback(true);
+            return new Promise((res) => {
+               createPromiseResolverShow = res;
+            });
          };
          FC.update = () => {
             updateCalled = true;
-            return (new Deferred()).callback();
+            return new Promise((res) => {
+               createPromiseResolverUpdate = res;
+            });
          };
          let record = {
             isChanged: () => true
@@ -177,6 +193,9 @@ define([
             record: record,
             key: 'key'
          });
+         await createPromiseResolverShow(true);
+         await createPromiseResolverUpdate();
+         await createPromiseResolverReed();
 
          assert.equal(setRecordCalled, false);
          assert.equal(confirmPopupCalled, true);
@@ -187,7 +206,9 @@ define([
 
          FC._showConfirmPopup = () => {
             confirmPopupCalled = true;
-            return (new Deferred()).callback(false);
+            return new Promise((res) => {
+               createPromiseResolverShow = res;
+            });
          };
 
          updateCalled = false;
@@ -196,12 +217,17 @@ define([
          let isDeleteRecord = false;
          FC._tryDeleteNewRecord = () => {
             isDeleteRecord = true;
-            return (new Deferred()).callback();
+            return new Promise((res) => {
+               createPromiseResolverDelete = res;
+            });
          };
          FC._beforeUpdate({
             record: record,
             key: 'key'
          });
+         await createPromiseResolverShow(false);
+         await createPromiseResolverDelete();
+
 
          assert.equal(setRecordCalled, false);
          assert.equal(confirmPopupCalled, true);
@@ -213,18 +239,23 @@ define([
          FC.destroy();
       });
 
-      it('FormController update', () => {
+      it('FormController update', (done) => {
+         let isUpdatedCalled = false;
          let FC = new form.Controller();
          let validation = {
-            submit: () => (new Deferred()).callback({})
+            submit: () => Promise.resolve(true)
          };
          let crud = {
-            update: () => (new Deferred()).errback()
+            update: () => Promise.resolve()
          };
          FC._children = { crud, validation };
          FC._processError = () => {};
-         let updateDeferred = FC._update();
-         assert.equal(updateDeferred.isReady(), true);
+         FC._update().then(() => {
+            isUpdatedCalled = true;
+            assert.isTrue(isUpdatedCalled);
+            done();
+            FC.destroy();
+         });
       });
 
       it('beforeUnmount', () => {
@@ -294,18 +325,22 @@ define([
          sandbox.restore();
       });
 
-      it('_confirmDialogResult', () => {
+      it('_confirmDialogResult', (done) => {
          let FC = new form.Controller();
-         FC.update = () => (new Deferred()).errback('update error');
-         let def = new Deferred();
+         let promise = new Promise((resolve, reject) => {
+            reject('update error');
+         });
+         FC.update = () => promise;
          let calledEventName;
          FC._notify = (event) => {
             calledEventName = event;
          };
-         FC._confirmDialogResult(true, def);
-         assert.equal(def.isReady(), false);
-         assert.equal(calledEventName, 'cancelFinishingPending');
-         FC.destroy();
+         FC._confirmDialogResult(true, new Promise(()=>{}));
+         promise.catch(() => {
+            assert.equal(calledEventName, 'cancelFinishingPending');
+            FC.destroy();
+            done();
+         })
       });
 
       it('requestCustomUpdate isNewRecord', () => {

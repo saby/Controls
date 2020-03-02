@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require("wml!Controls-demo/dateRange/LiteSelector/NotSpecified/NotSpecified");
+import template = require("wml!Controls-demo/dateRange/LiteSelector/ValueNotSpecified/ValueNotSpecified");
 import 'css!Controls-demo/Controls-demo';
 import 'css!Controls-demo/dateRange/LiteSelector/LiteSelector';
 

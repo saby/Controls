@@ -139,6 +139,13 @@ export default class ScrollContainer extends Control<IOptions> {
         this._itemsContainer = itemsContainer;
     }
 
+    protected _stopBubblingEvent(event: SyntheticEvent<Event>): void {
+        // В некоторых кейсах (например ScrollViewer) внутри списков могут находиться
+        // другие списки, которые также будут нотифицировать события управления скроллом и тенью
+        // Необходимо их останавливать, чтобы скроллом управлял только самый верхний список
+        event.stopPropagation();
+    }
+
     protected _viewResize(): void {
         this._viewHeight = this._container.offsetHeight;
         this._updateTriggerOffset(this._viewHeight, this._viewportHeight);

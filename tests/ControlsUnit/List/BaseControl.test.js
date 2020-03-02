@@ -286,15 +286,20 @@ define([
          const self = {_options: {}};
          const sandbox = sinon.createSandbox();
          const myFilter = {testField: 'testValue'};
+         const resultNavigation = 'testNavigation';
+         let maxCountNavigation;
 
          self._needScrollCalculation = false;
          // loadToDirectionIfNeed вызывается с фильтром, переданным в checkLoadToDirectionCapability
-         sandbox.replace(lists.BaseControl._private, 'needLoadByMaxCountNavigation', () => true);
+         sandbox.replace(lists.BaseControl._private, 'needLoadByMaxCountNavigation', (model, navigation) => {
+            maxCountNavigation = navigation;
+         });
          sandbox.replace(lists.BaseControl._private, 'loadToDirectionIfNeed', (baseControl, direction, filter) => {
             assert.equal(direction, 'down');
             assert.deepEqual(filter, myFilter);
          });
-         lists.BaseControl._private.checkLoadToDirectionCapability(self, myFilter);
+         lists.BaseControl._private.checkLoadToDirectionCapability(self, myFilter, resultNavigation);
+         assert.equal(resultNavigation, maxCountNavigation);
          sandbox.restore();
       });
 
@@ -2547,15 +2552,15 @@ define([
             assert.equal(actionsUpdateCount, 0);
             baseControl._beforeMount(cfg);
          });
-         it('without itemActions nothing should happen', function() {
-           baseControl._beforeUpdate({
-              ...cfg,
-              itemActions: null,
-              itemActionsProperty: null
-           });
-           baseControl._updateItemActions();
-           assert.equal(actionsUpdateCount, 0);
-         });
+        // it('without itemActions nothing should happen', function() {
+        //    baseControl._beforeUpdate({
+        //       ...cfg,
+        //       itemActions: null,
+        //       itemActionsProperty: null
+        //    });
+        //    baseControl._updateItemActions();
+        //    assert.equal(actionsUpdateCount, 0);
+        // });
       });
 
       describe('resetScrollAfterReload', function() {

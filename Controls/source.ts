@@ -4,7 +4,6 @@
  * @includes Base Controls/_source/Adapter/Enum
  * @includes Range Controls/_source/SourceController
  * @includes SelectedKey Controls/_source/Adapter/SelectedKey
- * @includes AdapterMask Controls/_source/Adapter/Mask
  * @author Крайнов Д.О.
  */
 
@@ -24,7 +23,7 @@ export {NavigationController} from 'Controls/_source/NavigationController';
 export {IAdditionalQueryParams, Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
 
 export {default as SelectedKey} from './_source/Adapter/SelectedKey';
-export {default as AdapterMask} from 'Controls/_source/Adapter/Mask';
+export {AdapterMask} from 'Controls/input';
 
 export {
    EnumAdapter,

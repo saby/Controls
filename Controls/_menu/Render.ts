@@ -105,13 +105,20 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 
     private addEmptyItem(listModel: Tree, options: IMenuRenderOptions): void {
-        let data = {};
+        const collection = listModel.getCollection();
+        const emptyItem = new Model({
+            keyProperty: options.keyProperty,
+            format: collection.getFormat(),
+            adapter: collection.getAdapter()
+        });
+        const data = {};
+
         data[options.keyProperty] = options.emptyKey;
         data[options.displayProperty] = options.emptyText;
-        listModel.getCollection().prepend([new Model({
-            keyProperty: options.keyProperty,
-            rawData: data
-        })]);
+
+        emptyItem.set(data);
+        collection.prepend([emptyItem]);
+
         if (options.selectedKeys.includes(options.emptyKey)) {
             SelectionController.selectItem(listModel, options.emptyKey, true);
         }

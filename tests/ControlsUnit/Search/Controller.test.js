@@ -477,6 +477,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchMod.Controller._private.getSearchController(searchController);
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.deepEqual(searchController._searchController.getFilter(), {test: 'testValue'});
+            assert.isTrue(searchController._searchController.getFilter() === options.filter);
 
             // filter and navigation changed
             options.filter = {test: 'testValue', test1: 'testValue1'};

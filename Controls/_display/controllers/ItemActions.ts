@@ -265,7 +265,8 @@ export function prepareActionsMenuConfig(
                 horizontal: isContext ? 'right' : 'left'
             },
             className: 'controls-DropdownList__margin-head controls-Toolbar__popup__list_theme-',
-            nativeEvent: isContext ? clickEvent.nativeEvent : null
+            nativeEvent: isContext ? clickEvent.nativeEvent : null,
+            autofocus: false
         };
 
         setActiveItem(collection, itemKey);

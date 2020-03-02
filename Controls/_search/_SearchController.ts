@@ -53,12 +53,11 @@ var _private = {
       });
    },
 
-   abort: function(self, force) {
-      _private.getSearch(self).addCallback(function(search) {
-         search.abort(force).addCallback(function() {
-            var filter = self._options.filter;
+   abort(self, force: boolean): void {
+      _private.getSearch(self).addCallback((search) => {
+         search.abort(force).addCallback(() => {
+            const filter = clone(self._options.filter);
             delete filter[self._options.searchParam];
-            filter = clone(filter);
             if (self._options.abortCallback) {
                self._options.abortCallback(filter);
             }
@@ -95,12 +94,13 @@ var SearchController = extend({
    search: function(value, force) {
       const valueLength = value.length;
       const searchByValueChanged = this._options.minSearchLength !== null;
+      const forceAbort = valueLength ? force : true;
       let result;
 
       if ((searchByValueChanged && valueLength >= this._options.minSearchLength) || (force && valueLength)) {
          result = _private.search(this, value, force);
       } else if (searchByValueChanged || !valueLength) {
-         result = _private.abort(this);
+         result = _private.abort(this, forceAbort);
       }
 
       return result;

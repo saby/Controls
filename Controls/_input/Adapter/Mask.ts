@@ -1,12 +1,13 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_source/Adapter/Mask/Mask';
-import {Mask as InputMask, MaskFormatterValue} from 'Controls/input';
+import * as InputMask from 'Controls/_input/Mask';
+import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
+import * as template from 'wml!Controls/_input/Adapter/Mask/Mask';
 import * as tmplNotify from 'Controls/Utils/tmplNotify';
 
 /**
  * Контрол обертка над полем ввода маски. Обеспечивает работу со значением с разделителями.
  *
- * @class Controls/_source/Adapter/Mask
+ * @class Controls/_input/Adapter/Mask
  * @extends UI/_base/Control
  *
  * @public

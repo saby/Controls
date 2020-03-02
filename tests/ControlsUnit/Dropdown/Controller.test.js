@@ -586,17 +586,27 @@ define(
             });
          });
 
-         // it('_private::loadItems', () => {
-         //    let hasErrBack = false;
-         //    const controllerConfig = { ...config };
-         //    controllerConfig.dataLoadErrback = function() {
-         //       hasErrBack = true;
-         //    };
-         //    let dropdownController = getDropdownController(controllerConfig);
-         //    dropdown._Controller._private.loadItems(dropdownController, controllerConfig);
-         //    dropdownController._beforeUnmount();
-         //    assert.isTrue(hasErrBack);
-         // });
+         it('_private::loadItems', () => {
+            const controllerConfig = { ...config };
+            controllerConfig.dataLoadCallback = function(loadedItems) {
+               const item = new entity.Record({
+                  rawData: {
+                     id: '9',
+                     title: 'Запись 9'
+                  }
+               });
+               loadedItems.add(item);
+            };
+            let dropdownController = getDropdownController(controllerConfig);
+            return new Promise((resolve) => {
+               dropdown._Controller._private.loadItems(dropdownController, controllerConfig).then(() => {
+                  dropdownController._menuSource.query().then((menuItems) => {
+                     assert.isTrue(!!menuItems.getRecordById('9'));
+                     resolve();
+                  });
+               });
+            });
+         });
 
          it('_private::getItemsTemplates', () => {
             let dropdownController = getDropdownController(config);
