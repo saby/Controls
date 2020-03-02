@@ -671,8 +671,6 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._inputActive = true;
          suggestComponent._suggestMarkedKey = 'test';
 
-         sandbox.stub(suggestComponent, '_notify');
-
          suggestComponent._beforeUpdate({suggestState: false, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl',  value: 'te'});
          assert.isFalse(suggestComponent._showContent, null);
          assert.equal(suggestComponent._loading, null);
@@ -689,6 +687,8 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          assert.deepEqual(suggestComponent._filter, {testSearchParam: 'test'});
          assert.equal(suggestComponent._searchValue, 'test');
 
+         sandbox.stub(suggestComponent, '_notify');
+
          suggestComponent._options.suggestState = true;
          suggestComponent._options.value = 'test';
          suggestComponent._beforeUpdate({suggestState: true, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl', value: ''});
@@ -699,6 +699,13 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._beforeUpdate({suggestState: false, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl', value: '', searchParam: 'testSearchParam'});
          assert.deepEqual(suggestComponent._filter, {testSearchParam: ''});
          assert.equal(suggestComponent._searchValue, '');
+         sinon.assert.calledOnce(suggestComponent._notify);
+
+         suggestComponent._options.suggestState = true;
+         suggestComponent._options.value = '';
+         suggestComponent._beforeUpdate({suggestState: false, value: 'test'});
+         assert.equal(suggestComponent._searchValue, 'test');
+         sinon.assert.calledOnce(suggestComponent._notify);
 
          sandbox.restore();
       });

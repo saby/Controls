@@ -105,7 +105,6 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
  * @extends UI/Base:Control
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IIconSize
- * @mixes Controls/interface:IItemTemplate
  * @mixes Controls/_toolbars/IToolbarOptions
  * @mixes Controls/_toolbars/IToolbarSource
  * @mixes Controls/interface/IItemTemplate

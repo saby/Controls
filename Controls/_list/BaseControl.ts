@@ -33,6 +33,8 @@ import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
 import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INavigation';
+import {CollectionItem} from 'Controls/display';
+import {Model} from 'saby-types/Types/entity';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -236,8 +238,8 @@ var _private = {
                 }
 
                 // If received list is empty, make another request. If it’s not empty, the following page will be requested in resize event handler after current items are rendered on the page.
-                if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, cfg.navigation)) {
-                    _private.checkLoadToDirectionCapability(self, filter);
+                if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, navigation)) {
+                    _private.checkLoadToDirectionCapability(self, filter, navigation);
                 }
             }).addErrback(function(error) {
                 return _private.processError(self, {
@@ -517,7 +519,7 @@ var _private = {
             // handler after current items are rendered on the page.
             if (_private.needLoadNextPageAfterLoad(addedItems, listViewModel, navigation) ||
                 (self._options.task1176625749 && countCurrentItems === cnt2)) {
-                _private.checkLoadToDirectionCapability(self);
+                _private.checkLoadToDirectionCapability(self, self._options.filter, navigation);
             }
             if (self._options.virtualScrolling && self._isMounted) {
                 self._children.scrollController.itemsFromLoadToDirection = null;
@@ -584,7 +586,7 @@ var _private = {
         Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
     },
 
-    checkLoadToDirectionCapability: function(self, filter) {
+    checkLoadToDirectionCapability: function(self, filter, navigation) {
         if (self._destroyed) {
             return;
         }
@@ -609,7 +611,7 @@ var _private = {
             if (_private.isPortionedLoad(self)) {
                 _private.checkPortionedSearchByScrollTriggerVisibility(self, self._loadTriggerVisibility.down);
             }
-        } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, self._options.navigation)) {
+        } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, navigation)) {
             _private.loadToDirectionIfNeed(self, 'down', filter);
         }
     },
@@ -1233,7 +1235,8 @@ var _private = {
                     targetPoint: {vertical: 'top', horizontal: 'right'},
                     direction: {horizontal: context ? 'right' : 'left'},
                     className: 'controls-Toolbar__popup__list_theme-' + self._options.theme,
-                    nativeEvent: context ? childEvent.nativeEvent : false
+                    nativeEvent: context ? childEvent.nativeEvent : false,
+                    autofocus: false
                 });
                 self._menuIsShown = true;
                 self._forceUpdate();
@@ -1286,7 +1289,8 @@ var _private = {
                         onResult: self._actionsMenuResultHandler,
                         onClose: self._closeActionsMenu
                     },
-                    className: 'controls-DropdownList__margin-head'
+                    className: 'controls-DropdownList__margin-head',
+                    autofocus: false
                 });
                 self._actionMenuIsShown = true;
                 self._forceUpdate();
@@ -2622,6 +2626,23 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._currentPageSize = item.get('pageSize');
         this._applyPagingNavigationState({pageSize: this._currentPageSize});
     },
+
+    /**
+     * Хандлер клика на Tag в BaseControl.wml
+     * @private
+     */
+    _onTagClickHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagClick', [dispItem, columnIndex, event]);
+    },
+
+    /**
+     * Хандлер наведения на Tag в BaseControl.wml
+     * @private
+     */
+    _onTagHoverHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagHover', [dispItem, columnIndex, event]);
+    },
+
     _applyPagingNavigationState: function(params) {
         var newNavigation = cClone(this._options.navigation);
         if (params.pageSize) {

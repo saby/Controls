@@ -32,14 +32,9 @@
       </ws:if>
    </div>
    <ws:if data="{{_options.tagStyle}}">
-      <svg name="tag"
-           viewBox="0 0 1 1"
-           xmlns="http://www.w3.org/2000/svg"
-           class="controls-Render__tagStyle_theme-{{_options.theme}}
-                  controls-Render__tagStyle_style-{{_options.tagStyle}}_theme-{{_options.theme}}"
-           on:click="_tagClickHandler()"
-           on:mouseenter="_tagHoverHandler()">
-         <polygon points="0,0 1,1 1,0"/>
-      </svg>
+      <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
+                  tagStyle="{{_options.tagStyle}}"
+                  on:click="_tagClickHandler()"
+                  on:mouseenter="_tagHoverHandler()"/>
    </ws:if>
 </div>

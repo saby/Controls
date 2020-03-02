@@ -325,7 +325,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
 
       if (this._searchController) {
          if (filter) {
-            this._searchController.setFilter(clone(filter));
+            this._searchController.setFilter(filter);
          }
 
          if (isNeedRestartSearch && this._searchValue) {
