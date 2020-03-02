@@ -1,4 +1,4 @@
-<Controls.popup:Sticky name="suggestPopup" _vdomOnOldPage="{{true}}" scope="{{_popupOptions}} ">
+<Controls.popup:Sticky name="suggestPopup" scope="{{_popupOptions}} ">
    <ws:template>
       <ws:partial template="Controls/_suggestPopup/Layer/__PopupContent"
                   name="popupContent"

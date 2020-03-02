@@ -10,10 +10,10 @@ import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/fifthColumn';
 import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/sixthColumn';
 
 export default class Shipments extends Control {
-   private _template: Function = template;
-   private _itemActions: object[];
-   private _columns: object[];
-   private _source: HierarchicalMemory;
+   protected _template: Function = template;
+   protected _itemActions: object[];
+   protected _columns: object[];
+   protected _source: HierarchicalMemory;
 
    _beforeMount(): void {
       this._itemActions = [

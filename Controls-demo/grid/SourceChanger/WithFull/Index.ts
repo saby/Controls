@@ -10,8 +10,7 @@ const { data, data2 } = changeSourceData();
 class demoSource extends Memory {
     queryNumber: number = 0;
     pending: Promise<any>;
-    private query(query) {
-        const self = this;
+    protected query(query) {
         const args = arguments;
         return this.pending.then(() => {
             return super.query.apply(this, args).addCallback((items) => {
@@ -29,7 +28,7 @@ class demoSource extends Memory {
 }
 
 class initialMemory extends Memory {
-    private query(query) {
+    protected query(query) {
         return super.query.apply(this, arguments).addCallback((items) => {
             const rawData = items.getRawData();
             rawData.meta.more = false;
@@ -41,13 +40,12 @@ class initialMemory extends Memory {
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _viewSource2: Memory;
-    private _columns = getCountriesStats().getColumnsForLoad();
+    protected _columns = getCountriesStats().getColumnsForLoad();
     private _resolve = null;
 
     protected _beforeMount() {
-        const self = this;
         this._viewSource = new initialMemory({
             keyProperty: 'id',
             data: data
@@ -69,13 +67,13 @@ export default class extends Control {
         });
     }
 
-    private _onPen() {
+    protected _onPen() {
         const self = this;
         this._resolve();
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
     }
 
-    private _onChangeSource() {
+    protected _onChangeSource() {
         const self = this;
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
         this._viewSource2.queryNumber = 0;

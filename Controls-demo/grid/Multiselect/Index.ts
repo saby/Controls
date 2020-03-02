@@ -7,8 +7,8 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = getCountriesStats().getColumnsWithoutWidths();
+    protected _viewSource: Memory;
+    protected _columns = getCountriesStats().getColumnsWithoutWidths();
     private _multiselect: 'visible'|'hidden'|'onhover' = 'visible';
 
     protected _beforeMount() {
@@ -17,7 +17,7 @@ export default class extends Control {
             data: getCountriesStats().getData()
         });
     }
-    private _onToggle() {
+    protected _onToggle() {
         switch (this._multiselect) {
             case 'visible':
                this._multiselect = 'hidden';

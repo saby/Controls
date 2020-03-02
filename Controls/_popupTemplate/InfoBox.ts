@@ -12,7 +12,7 @@ import {IStickyPopupPosition, TVertical, THorizontal} from './Sticky/StickyContr
  */
 
 type TArrowPosition = 'start' | 'end' | 'center';
-type TStyle = 'default' | 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary';
+type TStyle = 'default' | 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary' | 'unaccented';
 type TStyleType = 'marker' | 'outline';
 
 export interface IInfoboxTemplateOptions extends IControlOptions {

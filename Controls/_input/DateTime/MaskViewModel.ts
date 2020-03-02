@@ -3,7 +3,7 @@ import dateUtils = require('Controls/Utils/Date');
 import ViewModel = require('Controls/_input/Mask/ViewModel');
 
 class ModuleClass extends ViewModel {
-    private handleInput(splitValue, inputType) {
+    protected handleInput(splitValue, inputType) {
         let _stringValueConverter = new StringValueConverter({replacer: this.options.replacer}),
             date,
             textLength;

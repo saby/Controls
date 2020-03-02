@@ -55,7 +55,7 @@ class OperationsButton extends Control<IOperationsButtonOptions> implements IExp
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = ButtonTemplate;
 
-   private _onClick(): void {
+   protected _onClick(): void {
       if (!this._options.readOnly) {
          this._notify('expandedChanged', [!this._options.expanded]);
       }

@@ -61,7 +61,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          this._menuSource = this._getMenuSource(options);
       }
 
-      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount) {
+      if (selectionIsChanged || currOpts.selectedKeysCount !== options.selectedKeysCount || currOpts.isAllSelected !== options.isAllSelected) {
          return this._updateMenuCaptionByOptions(options);
       }
    }
@@ -107,7 +107,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       // иначе promise порождает асинхронность и перестроение панели операций будет происходить скачками,
       // хотя можно было это сделать за одну синхронизацию
       if (getCountResult instanceof Promise) {
-         getCountResult.then(getCountCallback);
+         return getCountResult.then(getCountCallback);
       } else {
          getCountCallback(getCountResult);
       }

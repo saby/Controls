@@ -1,13 +1,12 @@
 <div class="controls-Render controls-Render_theme-{{_options.theme}}
+            controls-Render-fontsize-{{_fontSize}}
             controls-Render_textAlign-{{_options.textAlign}}
             controls-Render_state-{{_state}}_theme-{{_options.theme}}
             controls-fontsize-{{_fontSize}}{{_fontSize !== 'inherit' ? '_theme-' + _options.theme}}
             {{_fontSize !== 'inherit' ? 'controls-Render-fontsize-' + _fontSize + '_theme-' + _options.theme}}
             controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-            controls-Render_theme_{{_options.theme}}_fontStyle_{{_options.fontStyle}}_size_{{_options.size}}
             {{_options.multiline ? 'controls-Render_multiline' :
-            'controls-inlineheight-' + _inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _inlineHeight + '_theme-' + _options.theme}}
-            {{_options.roundBorder ? 'controls-Render_theme_' + _options.theme + '_size_' + _inlineHeight + '_roundBorder'}}">
+            'controls-inlineheight-' + _inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _inlineHeight + '_theme-' + _options.theme}}">
    <div class="controls-Render__wrapper">
       <ws:if data="{{!_options.multiline}}">
          <span class="controls-Render__baseline">&#65279;</span>
@@ -33,14 +32,9 @@
       </ws:if>
    </div>
    <ws:if data="{{_options.tagStyle}}">
-      <svg name="tag"
-           viewBox="0 0 1 1"
-           xmlns="http://www.w3.org/2000/svg"
-           class="controls-Render__tagStyle_theme-{{_options.theme}}
-                  controls-Render__tagStyle_style-{{_options.tagStyle}}_theme-{{_options.theme}}"
-           on:click="_tagClickHandler()"
-           on:mouseenter="_tagHoverHandler()">
-         <polygon points="0,0 1,1 1,0"/>
-      </svg>
+      <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
+                  tagStyle="{{_options.tagStyle}}"
+                  on:click="_tagClickHandler()"
+                  on:mouseenter="_tagHoverHandler()"/>
    </ws:if>
 </div>

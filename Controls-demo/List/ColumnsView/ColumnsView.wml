@@ -1,0 +1,33 @@
+<div attr:style="display: flex; justify-content: space-around; flex-direction: column;">
+    <Controls.list:SourceControl
+            name="sourceControl"
+            source="{{ _itemsSource }}"
+    >
+        <ws:content>
+            <Controls.listRender:ListView
+                    keyProperty="id"
+                    displayProperty="title"
+                    items="{{ items }}"
+                    multiSelectVisibility="hidden"
+                    itemActions="{{ _itemActions }}">
+            </Controls.listRender:ListView>
+        </ws:content>
+        <ws:navigation source="page" view="infinite">
+            <ws:sourceConfig pageSize="{{_pageSize}}" page="{{0}}" hasMore="{{false}}"/>
+        </ws:navigation>
+    </Controls.list:SourceControl>
+    <Controls.buttons:Button
+            attr:class="controls-BaseControl__loadMore"
+            viewMode="link"
+            fontColorStyle="link"
+            caption="Сгенерировать ещё"
+            on:click="_onLoadMoreClick()"
+            readOnly="{{false}}"/>
+    <Controls.buttons:Button
+            attr:class="controls-BaseControl__loadMore"
+            viewMode="link"
+            fontColorStyle="link"
+            caption="{{_needToFail ? 'не' : ''}} выдавать ошибку"
+            on:click="_onNeedToFailToggleClick()"
+            readOnly="{{false}}"/>
+</div>

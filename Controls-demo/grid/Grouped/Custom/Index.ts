@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = getTasks().getDefaultColumns();
-    private _groupingKeyCallback = (item) => {
+    protected _viewSource: Memory;
+    protected _columns = getTasks().getDefaultColumns();
+    protected _groupingKeyCallback = (item) => {
         return item.get('fullName');
     }
 

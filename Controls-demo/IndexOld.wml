@@ -1,497 +1,505 @@
 <div class="demo_controls_list_wrapper">
    <div class="demo_controls_list_section">
       <div>
-         <a href="/Controls-demo/demo.html?cname=Controls-demo/Example/Example">Example</a>
+         <a href="Controls-demo/demo.html?cname=Controls-demo/Example/Example">Example</a>
       </div>
 
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/IndexOld' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/IndexOld' }}">
             <a href="{{content.href}}">RootRouter</a>
          </Router.router:Reference>
       </div>
       <h1>List <small style="color: #CCC; font-size: 16px">PG</small></h1>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FBasePG'}}">List/Base</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FBasePG'}}">List/Base</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FItemTemplatePG'}}">List/ItemTemplate</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FItemTemplatePG'}}">List/ItemTemplate</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FGroupPG'}}">List/Group</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FGroupPG'}}">List/Group</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FMultiselectPG'}}">List/Multiselect</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FMultiselectPG'}}">List/Multiselect</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FItemActionsPG'}}">List/ItemActions</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FItemActionsPG'}}">List/ItemActions</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FList%252FEditableListPG'}}">List/EditableList</a>
+         <a href="{{'Controls-demo%252FList%252FList%252FEditableListPG'}}">List/EditableList</a>
       </div>
 
       <h1>Grid <small style="color: #CCC; font-size: 16px">PG</small></h1>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FBasePG'}}">Grid/Base</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FBasePG'}}">Grid/Base</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FItemActionsPG'}}">Grid/ItemActions</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FItemActionsPG'}}">Grid/ItemActions</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FMultiselectPG'}}">Grid/Multiselect</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FMultiselectPG'}}">Grid/Multiselect</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FGroupPG'}}">Grid/Group</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FGroupPG'}}">Grid/Group</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FItemTemplatePG'}}">Grid/ItemTemplate</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FItemTemplatePG'}}">Grid/ItemTemplate</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FEditableGridPG'}}">Grid/Editable</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FEditableGridPG'}}">Grid/Editable</a>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FGrid%252FStickyPG'}}">Grid/Sticky</a>
+         <a href="{{'Controls-demo%252FList%252FGrid%252FStickyPG'}}">Grid/Sticky</a>
       </div>
 
       <h1>TreeGrid <small style="color: #CCC; font-size: 16px">PG</small></h1>
        <div>
-           <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FTreeGrid%252FBasePG'}}">TreeGrid/Base</a>
+           <a href="{{'Controls-demo%252FList%252FTreeGrid%252FBasePG'}}">TreeGrid/Base</a>
        </div>
        <div>
-           <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FTreeGrid%252FExtendedPG'}}">TreeGrid/Extended</a>
+           <a href="{{'Controls-demo%252FList%252FTreeGrid%252FExtendedPG'}}">TreeGrid/Extended</a>
        </div>
        <div>
-           <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FTreeGrid%252FItemTemplatePG'}}">TreeGrid/ItemTemplate</a>
+           <a href="{{'Controls-demo%252FList%252FTreeGrid%252FItemTemplatePG'}}">TreeGrid/ItemTemplate</a>
        </div>
 
       <h1>List</h1>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/list_new/Index' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/list_new/Index' }}">
             <a href="{{content.href}}">list_new</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
             <a href="{{content.href}}">grid_new</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/treeGrid/Index' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/treeGrid/Index' }}">
             <a href="{{content.href}}">treeGrid_new</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/Tile/Index' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Tile/Index' }}">
             <a href="{{content.href}}">tile_new</a>
          </Router.router:Reference>
       </div>
       <div>
-         <a href="{{'/Controls-demo/app/Controls-demo%252FList%252FBase'}}">List/Base</a>
+         <a href="{{'Controls-demo%252FList%252FBase'}}">List/Base</a>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/ScrollPaging' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/ScrollPaging' }}">
             <a href="{{content.href}}">List/ScrollPaging</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/NoScrollPaging' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/NoScrollPaging' }}">
             <a href="{{content.href}}">List/NoScrollPaging</a>
           </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/NavigationSwitching' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/NavigationSwitching' }}">
             <a href="{{content.href}}">List/NavigationSwitching</a>
          </Router.router:Reference>
       </div>
 
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll' }}">
             <a href="{{content.href}}">List/VirtualScroll</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/VirtualScroll' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/VirtualScroll' }}">
             <a href="{{content.href}}">Grid/VirtualScroll</a>
          </Router.router:Reference>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FMultiselect">
+         <a href="Controls-demo%252FList%252FMultiselect">
             List/Multiselect
          </a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FGroup">List/Group</a>
+         <a href="Controls-demo%252FList%252FGroup">List/Group</a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FGrid%252FGrid">List/Grid</a>
+         <a href="Controls-demo%252FList%252FGrid%252FGrid">List/Grid</a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FTree%252FTree">List/Tree</a>
+         <a href="Controls-demo%252FList%252FTree%252FTree">List/Tree</a>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/SingleExpand' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/SingleExpand' }}">
             <a href="{{content.href}}">Tree/SingleExpand</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/EditArrow' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/EditArrow' }}">
             <a href="{{content.href}}">Tree/EditArrow</a>
          </Router.router:Reference>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FTree%252FTreeWithPhoto">List/TreeWithPhoto</a>
+         <a href="Controls-demo%252FList%252FTree%252FTreeWithPhoto">List/TreeWithPhoto</a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FTree%252FMultiSelection%252FMultiSelection">Tree/MultiSelection</a>
+         <a href="Controls-demo%252FList%252FTree%252FMultiSelection%252FMultiSelection">Tree/MultiSelection</a>
       </div>
       <h1>Explorer</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FExplorer%252FExplorer">Explorer</a>
+         <a href="Controls-demo%252FExplorer%252FExplorer">Explorer</a>
       </div>
       <h1>MasterDetail</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FMasterDetail%252FDemo">MasterDetail</a>
+         <a href="Controls-demo%252FMasterDetail%252FDemo">MasterDetail</a>
       </div>
       <h1>Paging</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FPaging">Paging</a>
+         <a href="Controls-demo%252FList%252FPaging">Paging</a>
       </div>
       <h1>ItemActions</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FItemActions">
+         <a href="Controls-demo%252FList%252FItemActions">
             ItemActions
          </a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FSwipe">
+         <a href="Controls-demo%252FList%252FSwipe">
             Swipe
          </a>
       </div>
       <h1>DragNDrop</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FDragNDrop%252FContainer">DragNDrop</a>
+         <a href="Controls-demo%252FDragNDrop%252FContainer">DragNDrop</a>
       </div>
       <h1>Actions</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FRemove">Remove</a>
+         <a href="Controls-demo%252FList%252FRemove">Remove</a>
          <br/>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FMover">Mover</a>
+         <a href="Controls-demo%252FList%252FMover">Mover</a>
       </div>
       <h1>Edit And Remove Operations</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FEditAndRemoveOperations">
+         <a href="Controls-demo%252FList%252FEditAndRemoveOperations">
             Base
          </a>
       </div>
       <h1>Label</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FLabel%252FLabel">Label</a>
+      <a href="Controls-demo%252FLabel%252FLabel">Label</a>
 
       <h1>VirtualScroll <small style="color: #CCC; font-size: 16px">List + MemorySource</small></h1>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/AllLoaded' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/AllLoaded' }}">
             <a href="{{content.href}}">Без загрузки данных с источника. Показ с первой записи</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/LoadBottom' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/LoadBottom' }}">
             <a href="{{content.href}}">Загрузка вниз. Показ с первой записи</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/EqualPages' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/EqualPages' }}">
             <a href="{{content.href}}">Загрузка вниз. Страница навигации = виртуальной странице</a>
          </Router.router:Reference>
       </div>
       <div>
-         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/FromLastPage' }}">
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll/FromLastPage' }}">
             <a href="{{content.href}}">Загрузка вверх. Показ с последней страницы</a>
          </Router.router:Reference>
       </div>
 
    </div>
+
+   <div class="demo_controls_list_section">
+      <h1>Grid new</h1>
+      <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
+         <a href="{{content.href}}">New grid demos</a>
+      </Router.router:Reference>
+      <hr/>
+      <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/TagStyle/Index' }}">
+         <a href="{{content.href}}">Применение tagStyle или tagStyleProperty к колонкам</a>
+      </Router.router:Reference>
+   </div>
+
    <div class="demo_controls_list_section">
       <h1>Buttons</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FButtons%252FButtonsVdom">Buttons: baseline demo</a>
+         <a href="Controls-demo%252FButtons%252FBaseline%252FIndex">Buttons: baseline demo</a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FButtons%252FdemoButtons">Buttons: styles demo</a>
+         <a href="Controls-demo%252FButtons%252FstandartDemoButton">Buttons: styles demo</a>
       </div>
 
       <h1>Dropdown</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FDropdown%252FMenuVdom?withoutLayout=true">
+      <a href="Controls-demo%252FDropdown%252FMenuVdom?withoutLayout=true">
          Dropdown
       </a>
 
       <h1>Search</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FSearch%252FSearchVDom">
+      <a href="Controls-demo%252FSearch%252FSearchVDom">
          Search
       </a>
       <h1>Checkbox</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FCheckbox%252FCheckbox">
+      <a href="Controls-demo%252FCheckbox%252FCheckbox">
          Checkbox
       </a>
 
       <h1>SearchLayout</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FLayouts%252FSearchLayout">
+      <a href="Controls-demo%252FLayouts%252FSearchLayout">
          SearchLayout
       </a>
 
       <h1>Input</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FVDomInputs%252FVDomInputs">Input</a>
+         <a href="Controls-demo%252FInput%252FVDomInputs%252FVDomInputs">Input</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FMoney%252FMoney">Money</a>
+         <a href="Controls-demo%252FInput%252FMoney%252FMoney">Money</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FText%252FText">InputText</a>
+         <a href="Controls-demo%252FInput%252FText%252FText">InputText</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FArea%252FArea">InputArea</a>
+         <a href="Controls-demo%252FInput%252FArea%252FArea">InputArea</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FNumber%252FNumber">InputNumber</a>
+         <a href="Controls-demo%252FInput%252FNumber%252FNumber">InputNumber</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FPhone%252FPhone">InputPhone</a>
+         <a href="Controls-demo%252FInput%252FPhone%252FPhone">InputPhone</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FMask%252FMask">InputMask</a>
+         <a href="Controls-demo%252FInput%252FMask%252FMask">InputMask</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FPassword%252FPassword">Password</a>
+         <a href="Controls-demo%252FInput%252FPassword%252FPassword">Password</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FThemesDemo%252FThemesDemo">ThemesDemo</a>
+         <a href="Controls-demo%252FInput%252FThemesDemo%252FThemesDemo">ThemesDemo</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FComboBox%252FComboBox">ComboBox</a>
+         <a href="Controls-demo%252FInput%252FComboBox%252FComboBox">ComboBox</a>
          <br />
-         <a href="/Controls-demo/app/Controls-demo%252FInput%252FSuggest%252FSuggest">Suggest</a>
+         <a href="Controls-demo%252FInput%252FSuggest%252FSuggest">Suggest</a>
       </div>
    </div>
    <div class="demo_controls_list_section">
       <h1>InfoBox</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FInfoBox">InfoBox</a>
-      <br />
-      <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FInfoBoxPG">InfoBox PG</a>
+      <a href="Controls-demo%252FInfoBox%252FInfoBox">InfoBox</a>
        <br />
-      <a href="/Controls-demo/app/Controls-demo%252FInfoBox%252FOpener%252FInfoBox">Opener/InfoBox</a>
+      <a href="Controls-demo%252FInfoBox%252FOpener%252FInfoBox">Opener/InfoBox</a>
       <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FInput%252FValidate%252FValidateInfobox"> ValidateInfoBox</a>
+      <a href="Controls-demo%252FInput%252FValidate%252FValidateInfobox"> ValidateInfoBox</a>
 
       <h1>Confirmation</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FConfirmation%252FConfirmation">Confirmation</a>
+      <a href="Controls-demo%252FConfirmation%252FConfirmation">Confirmation</a>
       <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FPopup%252FOpener%252FConfirmationPG">ConfirmationPG</a>
-      <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FPopup%252FTemplates%252FConfirmationTemplatePG">Confirmation Template</a>
+      <a href="Controls-demo%252FPopup%252FTemplates%252FConfirmationTemplatePG">Confirmation Template</a>
 
       <h1>Stack</h1>
-       <a href="/Controls-demo/app/Controls-demo%252FPopup%252FOpener%252FStackPG">StackPG</a>
+       <a href="Controls-demo%252FPopup%252FOpener%252FStackPG">StackPG</a>
       <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FPopup%252FTemplates%252FStackTemplatePG">Stack Template</a>
+      <a href="Controls-demo%252FPopup%252FTemplates%252FStackTemplatePG">Stack Template</a>
 
       <h1>Notification</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FNotificationDemo%252FNotificationDemo">Notification</a>
+      <a href="Controls-demo%252FNotificationDemo%252FNotificationDemo">Notification</a>
       <br/>
-       <a href="/Controls-demo/app/Controls-demo%252FPopup%252FOpener%252FNotificationPG">NotificationPG</a>
+       <a href="Controls-demo%252FPopup%252FOpener%252FNotificationPG">NotificationPG</a>
 
       <h1>TabButtons</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FTabs%252FButtons?compat=true">
+      <a href="Controls-demo%252FTabs%252FButtons?compat=true">
          TabButtons
       </a>
       <h1>Switchers</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FSwitch%252FSwitchDemo?compat=true">
+         <a href="Controls-demo%252FSwitch%252FSwitchDemo?compat=true">
             Switch
          </a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FSwitch%252FDoubleSwitchDemo?compat=true">
+         <a href="Controls-demo%252FSwitch%252FDoubleSwitchDemo?compat=true">
             DoubleSwitch
          </a>
       </div>
       <h1>EditInPlace</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FEditInPlace">Base</a>
-         <a href="/Controls-demo/app/Controls-demo%252FList%252FEditInPlace%252FHover">
+         <a href="Controls-demo%252FList%252FEditInPlace">Base</a>
+         <a href="Controls-demo%252FList%252FEditInPlace%252FHover">
             Hover
          </a>
       </div>
 
       <h1>Headers</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FHeaders%252FstandartDemoHeader">Headers</a>
+      <a href="Controls-demo%252FHeaders%252FstandartDemoHeader">Headers</a>
       <br/>
-      <a href="/Controls-demo/app/Controls-demo%252FHeaders%252FheaderDemo">Headers2</a>
+      <a href="Controls-demo%252FHeaders%252FheaderDemo">Headers2</a>
    </div>
    <div class="demo_controls_list_section">
       <h1>FastFilter</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FFastFilter%252FFastFilter?withoutLayout=true">
+      <a href="Controls-demo%252FFastFilter%252FFastFilter?withoutLayout=true">
          FastData
       </a>
       <h1>BreadCrumbs</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FBreadCrumbs%252FBreadCrumbs">
+         <a href="Controls-demo%252FBreadCrumbs%252FBreadCrumbs">
             BreadCrumbs
          </a>
       </div>
 
       <h1>OperationsPanel</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FOperationsPanel%252FPanel">
+         <a href="Controls-demo%252FOperationsPanel%252FPanel">
             OperationsPanel
          </a>
       </div>
 
       <h1>EditableArea</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FEditableArea%252FEditableArea">
+         <a href="Controls-demo%252FEditableArea%252FEditableArea">
             EditableArea
          </a>
       </div>
 
       <h1>Toolbar</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FToolbar%252FToolbarVdom">
+         <a href="Controls-demo%252FToolbar%252FToolbarVdom">
             Toolbar
          </a>
       </div>
 
       <h1>RadioGroup</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FRadioGroup%252FRadioGroupDemo">
+      <a href="Controls-demo%252FRadioGroup%252FRadioGroupDemo">
          RadioGroup
       </a>
 
       <h1>ReactiveObject</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FReactiveObject%252FDemo">
+      <a href="Controls-demo%252FReactiveObject%252FDemo">
          Demo
       </a>
 
       <h1>Spoiler</h1>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FIndex">Heading</a>
+         <a href="Controls-demo%252FSpoiler%252FHeading%252FIndex">Heading</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FCaptions%252FIndex">Captions</a>
+            <a href="Controls-demo%252FSpoiler%252FHeading%252FCaptions%252FIndex">Captions</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FCaptionPosition%252FIndex">CaptionPosition</a>
+            <a href="Controls-demo%252FSpoiler%252FHeading%252FCaptionPosition%252FIndex">CaptionPosition</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FHeading%252FFontSize%252FIndex">FontSize</a>
+            <a href="Controls-demo%252FSpoiler%252FHeading%252FFontSize%252FIndex">FontSize</a>
          </li>
       </ul>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FView%252FIndex">View</a>
+         <a href="Controls-demo%252FSpoiler%252FView%252FIndex">View</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
+            <a href="Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
          </li>
       </ul>
-
+      
       <h1>Decorator</h1>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FWrapURLs%252FIndex">WrapURLs</a>
+         <a href="Controls-demo%252FDecorator%252FWrapURLs%252FIndex">WrapURLs</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FWrapURLs%252FIndex">value</a>
+            <a href="Controls-demo%252FDecorator%252FWrapURLs%252FIndex">value</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FWrapURLs%252FNewTab%252FIndex">NewTab</a>
+            <a href="Controls-demo%252FDecorator%252FWrapURLs%252FNewTab%252FIndex">NewTab</a>
          </li>
       </ul>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FPhone%252FIndex">Phone</a>
+         <a href="Controls-demo%252FDecorator%252FPhone%252FIndex">Phone</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FPhone%252FIndex">value</a>
+            <a href="Controls-demo%252FDecorator%252FPhone%252FIndex">value</a>
          </li>
       </ul>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FNumber%252FIndex">Number</a>
+         <a href="Controls-demo%252FDecorator%252FNumber%252FIndex">Number</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FNumber%252FValue%252FIndex">value</a>
+            <a href="Controls-demo%252FDecorator%252FNumber%252FValue%252FIndex">value</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FNumber%252FRoundMode%252FIndex">roundMode</a>
+            <a href="Controls-demo%252FDecorator%252FNumber%252FRoundMode%252FIndex">roundMode</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FNumber%252FFractionSize%252FIndex">fractionSize</a>
+            <a href="Controls-demo%252FDecorator%252FNumber%252FFractionSize%252FIndex">fractionSize</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FNumber%252FUseGrouping%252FIndex">useGrouping</a>
+            <a href="Controls-demo%252FDecorator%252FNumber%252FUseGrouping%252FIndex">useGrouping</a>
          </li>
       </ul>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FMoney%252FIndex">Money</a>
+         <a href="Controls-demo%252FDecorator%252FMoney%252FIndex">Money</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FMoney%252FValue%252FIndex">value</a>
+            <a href="Controls-demo%252FDecorator%252FMoney%252FValue%252FIndex">value</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FMoney%252FStyle%252FIndex">style</a>
+            <a href="Controls-demo%252FDecorator%252FMoney%252FStyle%252FIndex">style</a>
          </li>
       </ul>
       <h2>
-         <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FHighlight%252FIndex">Highlight</a>
+         <a href="Controls-demo%252FDecorator%252FHighlight%252FIndex">Highlight</a>
       </h2>
       <ul>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FHighlight%252FHighlightMode%252FIndex">highlightMode</a>
+            <a href="Controls-demo%252FDecorator%252FHighlight%252FHighlightMode%252FIndex">highlightMode</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FHighlight%252FHighlightedValue%252FIndex">highlightedValue</a>
+            <a href="Controls-demo%252FDecorator%252FHighlight%252FHighlightedValue%252FIndex">highlightedValue</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FHighlight%252FClassName%252FIndex">className</a>
+            <a href="Controls-demo%252FDecorator%252FHighlight%252FClassName%252FIndex">className</a>
          </li>
          <li>
-            <a href="/Controls-demo/app/Controls-demo%252FDecorator%252FHighlight%252FValue%252FIndex">value</a>
+            <a href="Controls-demo%252FDecorator%252FHighlight%252FValue%252FIndex">value</a>
          </li>
       </ul>
    </div>
    <div class="demo_controls_list_section">
       <h1>FormController</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FFormController%252FFormController?withoutLayout=true">
+      <a href="Controls-demo%252FFormController%252FFormController?withoutLayout=true">
          FormController
       </a>
 
       <h1>Progress</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FIndicator%252FProgressBar%252FProgressBar">
+         <a href="Controls-demo%252FIndicator%252FProgressBar%252FProgressBar">
             Bar
          </a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FStateIndicator%252FStateIndicatorDemo">
+         <a href="Controls-demo%252FStateIndicator%252FStateIndicatorDemo">
             StateIndicator
          </a>
       </div>
 
       <h1>PropertyGrid</h1>
-      <a href="/Controls-demo/app/Controls-demo%252FPropertyGridNew%252FPropertyGrid?withoutLayout=true">
+      <a href="Controls-demo%252FPropertyGridNew%252FPropertyGrid?withoutLayout=true">
          PropertyGrid
       </a>
 
       <h1>CompoundContainer</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FCompound%252FCompoundDemo">
+         <a href="Controls-demo%252FCompound%252FCompoundDemo">
             CompoundDemo
          </a>
       </div>
 
       <h1>Slider</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FSlider%252FBase%252FSliderBaseDemo">
+         <a href="Controls-demo%252FSlider%252FBase%252FSliderBaseDemo">
             Base
          </a>
       </div>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FSlider%252FRange%252FSliderRangeDemo">
+         <a href="Controls-demo%252FSlider%252FRange%252FSliderRangeDemo">
             Range
          </a>
       </div>
       <h1>Async Controls</h1>
       <div>
-         <a href="/Controls-demo/app/Controls-demo%252FAsyncTest%252FAsyncTestDemo">
+         <a href="Controls-demo%252FAsyncTest%252FAsyncTestDemo">
             AsyncDemo
          </a>
       </div>

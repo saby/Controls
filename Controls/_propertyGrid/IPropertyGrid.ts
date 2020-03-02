@@ -84,5 +84,39 @@ export interface IPropertyGrid {
  * @name Controls/_propertyGrid/IPropertyGrid#collapsedGroups
  * @cfg {Array} List of collapsed group identifiers.
  * Group identifiers are calculated from the property values specified in groupProperty.
- */ 
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#GroupTemplate
+ * @cfg {String|function} Устанавливает шаблон отображения заголовка группы.
+ * @default Controls/propertyGrid:GroupTemplate
+ * @example
+ * Далее показано как изменить параметры шаблона.
+ * <pre class="brush: html">
+ * <Controls.propertyGrid:PropertyGrid>
+ *    <ws:groupTemplate>
+ *       <ws:partial template="Controls/propertyGrid:GroupTemplate"
+ *          expanderVisible="{{true}}"
+ *          scope="{{groupTemplate}}">
+ *          <ws:contentTemplate>
+ *             <span class="myGroupTitle">ИНТЕРВАЛЫ И ОТСТУПЫ</span>
+ *             <ws:if data="{{!contentTemplate.itemData.isGroupExpanded}}">
+ *                 <div class="myGroupIndicator">Без отступов</div>
+ *             </ws:if>
+ *          </ws:contentTemplate>
+ *       </ws:partial>
+ *    </ws:groupTemplate>
+ * </Controls.propertyGrid:PropertyGrid>
+ * </pre>
+ * @remark
+ * Подробнее о параметрах шаблона Controls/propertyGrid:GroupTemplate читайте {@link Controls/propertyGrid:GroupTemplate здесь}.
+ * @see collapsedGroups
+ * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#collapsedGroups
+ * @cfg {Array.<String>} Список идентификаторов свернутых групп.
+ * @see groupTemplate
+ */
 

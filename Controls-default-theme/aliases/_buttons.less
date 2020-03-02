@@ -1,0 +1,194 @@
+//отступ между иконкой и надписью в кнопке.
+
+@icon-offset_button:            6px;
+
+
+
+// Горизонтальные отступы до текста в кнопке
+
+@padding-horizontal_xs_button:                 12px;
+@padding-horizontal_s_button:                  12px;
+@padding-horizontal_m_button:                  12px;
+@padding-horizontal_l_button:                  24px;
+@padding-horizontal_xl_button:                 24px;
+@padding-horizontal_2xl_button:                24px;
+@padding-horizontal_default_button:            12px;
+
+
+
+// Размеры шрифта
+//
+// Общие размеры шрифта кнопок
+
+@font-size_xs_button:                    @font-size_xs;
+@font-size_s_button:                     @font-size_s;
+@font-size_m_button:                     @font-size_m;
+@font-size_l_button:                     @font-size_l;
+@font-size_xl_button:                    @font-size_xl;
+@font-size_2xl_button:                   @font-size_2xl;
+@font-size_3xl_button:                   @font-size_3xl;
+@font-size_4xl_button:                   @font-size_4xl;
+@font-size_5xl_button:                   @font-size_5xl;
+
+// Размеры шрифта кнопок в режиме отображения по-умолчанию
+
+@font-size_xs_button_button:             @font-size_xs_button;
+@font-size_s_button_button:              @font-size_s_button;
+@font-size_m_button_button:              @font-size_m_button;
+@font-size_l_button_button:              @font-size_l_button;
+@font-size_xl_button_button:             @font-size_xl_button;
+@font-size_2xl_button_button:            @font-size_2xl_button;
+@font-size_3xl_button_button:            @font-size_3xl_button;
+@font-size_4xl_button_button:            @font-size_4xl_button;
+@font-size_5xl_button_button:            @font-size_5xl_button;
+
+// Размеры шрифта кнопок в режиме отображения ссылки
+
+@font-size_xs_button_link:               @font-size_xs_button;
+@font-size_s_button_link:                @font-size_s_button;
+@font-size_m_button_link:                @font-size_m_button;
+@font-size_l_button_link:                @font-size_l_button;
+@font-size_xl_button_link:               @font-size_xl_button;
+@font-size_2xl_button_link:              @font-size_2xl_button;
+@font-size_3xl_button_link:              @font-size_3xl_button;
+@font-size_4xl_button_link:              @font-size_4xl_button;
+@font-size_5xl_button_link:              @font-size_5xl_button;
+
+
+
+// Высоты кнопок
+
+@inline_height_xs_button:                 @inline_height_xs;
+@inline_height_s_button:                  @inline_height_s;
+@inline_height_m_button:                  @inline_height_m;
+@inline_height_l_button:                  @inline_height_l;
+@inline_height_xl_button:                 @inline_height_xl;
+@inline_height_2xl_button:                @inline_height_2xl;
+@inline_height_default_button:            @inline_height_m_button;
+
+
+
+// Радиус скругления обводки
+//
+// Общий радиус скругления обводки
+
+@border-radius_xs_button:                                  @inline_height_xs / 2;
+@border-radius_s_button:                                   @inline_height_s / 2;
+@border-radius_m_button:                                   @inline_height_m / 2;
+@border-radius_l_button:                                   @inline_height_l / 2;
+@border-radius_xl_button:                                  @inline_height_xl / 2;
+@border-radius_2xl_button:                                 @inline_height_2xl / 2;
+@border-radius_default_button:                             @inline_height_default / 2;
+
+// Радиус скругления обводки кнопки-иконки для тулбара.
+
+@border-radius_button_toolButton:                          2px;
+
+// Радиус скругления обводки функциональной кнопки
+
+@border-radius_xs_button_functionalButton:                 @inline_height_xs / 2;
+@border-radius_s_button_functionalButton:                  @inline_height_s / 2;
+@border-radius_m_button_functionalButton:                  @inline_height_m / 2;
+@border-radius_l_button_functionalButton:                  @inline_height_l / 2;
+@border-radius_xl_button_functionalButton:                 @inline_height_xl / 2;
+@border-radius_2xl_button_functionalButton:                @inline_height_2xl / 2;
+@border-radius_default_button_functionalButton:            @inline_height_default / 2;
+
+
+
+// Минимальная ширина кнопки в режиме отображения "по умолчанию".
+
+@min-width_button_button:            @inline_height_default_button + (@border-radius_m_button * 2 * @border-thickness_button);
+
+
+
+// Цвета текста кнопок
+//
+// Общие цвета текста кнопок
+
+@text-color_button:                            @text-color;
+@hover_text-color_button:                      @text-color_button;
+@readonly_text-color_button:                   @readonly_color;
+
+// Цвета текста кнопок в режиме отображения "по умолчанию" в режиме "только для чтения"
+
+@readonly_text-color_button_button:            @readonly_text-color_button;
+
+// Цвета текста кнопок в режиме отображения ссылки
+
+@primary_text-color_button_link:               @primary_text-color;
+@secondary_text-color_button_link:             @secondary_text-color;
+
+
+
+
+// Фон кнопок
+//
+// Общие цвета фона кнопок
+
+@primary_background-color_button:                                      transparent;
+@primary_contrast_background-color_button:                             @background-color;
+@primary_hover_background-color_button:                                #FDECD9;
+@primary_active_background-color_button:                               #FDD2C0;
+@secondary_background-color_button:                                    transparent;
+@secondary_contrast_background-color_button:                           @background-color;
+@secondary_hover_background-color_button:                              #F0F5FB;
+@secondary_active_background-color_button:                             #E1ECF6;
+@readonly_background-color_button:                                     transparent;
+@readonly_contrast_background-color_button:                            @background-color;
+
+// Цвет фона кнопок в режиме отображения тулбара
+
+@background-color_button_toolButton:                                   transparent;
+@background-color_contrast_button_toolButton:                          #F8F8F8;
+@background-color_hover_button_toolButton:                             @background-color_button_toolButton;
+@background-color_contrast_hover_button_toolButton:                    @background-color_contrast_button_toolButton;
+@background-color_active_button_toolButton:                            @background-color_button_toolButton;
+@background-color_contrast_active_button_toolButton:                   @background-color_contrast_button_toolButton;
+
+// Цвет фона кнопок в режиме отображения функциональной кнопки
+
+@secondary_background-color_button_functionalButton:                   #0a7ed7;
+@primary_background-color_button_functionalButton:                     @primary_color;
+@readonly_background-color_button_functionalButton:                    transparent;
+@unaccented_background-color_button_functionalButton:                  #7694B8;
+@secondary_hover_background-color_button_functionalButton:             #1f8ee3;
+@success_hover_background-color_button_functionalButton:               #38ad4e;
+@danger_hover_background-color_button_functionalButton:                #D36B6B;
+@unaccented_hover_background-color_button_functionalButton:            #92AAC7;
+@secondary_active_background-color_button_functionalButton:            @secondary_hover_background-color_button_functionalButton;
+@success_active_background-color_button_functionalButton:              @success_hover_background-color_button_functionalButton;
+@danger_active_background-color_button_functionalButton:               @danger_hover_background-color_button_functionalButton;
+@unaccented_active_background-color_button_functionalButton:           @unaccented_hover_background-color_button_functionalButton;
+
+
+// Обводка кнопок
+//
+// Толщина обводки кнопки.
+
+@border-thickness_button:                                  @border-thickness;
+
+// Цвета обводки кнопок
+
+@primary_border-color_button:                              @primary_color;
+@secondary_border-color_button:                            @secondary_color;
+@readonly_border-color_button:                             @readonly_color;
+@border-color_button_toolButton:                           rgba(0, 0, 0, 0.08);
+@border-color_hover_button_toolButton:                     #CCC;
+@readonly_border-color_button_toolButton:                  rgba(0, 0, 0, 0.08);
+@readonly_border-color_button_functionalButton:            rgba(0, 0, 0, 0.08);
+
+
+
+// Тени
+//
+// Тень текста кнопки
+// Примечание: в режиме "только для чтения" тень текста всегда отключена
+
+@text-shadow_button:                            none;
+
+// Тень контейнера кнопки
+
+@box-shadow_button:                             none;
+@box-shadow_button_toolButton:                  0 1px 4px rgba(0, 0, 0, 0.05);
+@box-shadow_button_functionalButton:            0 1px 4px rgba(0, 0, 0, 0.05);

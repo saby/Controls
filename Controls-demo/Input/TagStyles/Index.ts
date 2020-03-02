@@ -3,12 +3,12 @@ import controlTemplate = require('wml!Controls-demo/Input/TagStyles/TagStyles');
 import 'css!Controls-demo/Controls-demo';
 
 class TagStyles extends Control<IControlOptions> {
-    private _primaryValue = TagStyles._defaultValue;
-    private _secondaryValue = TagStyles._defaultValue;
-    private _successValue = TagStyles._defaultValue;
-    private _warningValue = TagStyles._defaultValue;
-    private _dangerValue = TagStyles._defaultValue;
-    private _placeholder = 'Tooltip';
+    protected _primaryValue = TagStyles._defaultValue;
+    protected _secondaryValue = TagStyles._defaultValue;
+    protected _successValue = TagStyles._defaultValue;
+    protected _warningValue = TagStyles._defaultValue;
+    protected _dangerValue = TagStyles._defaultValue;
+    protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
 

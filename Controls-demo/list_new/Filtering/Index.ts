@@ -6,9 +6,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
-    private _filter = {
+    protected _filter = {
         title: ['Notebooks', 'Tablets', 'Laptop computers']
     };
 

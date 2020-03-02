@@ -145,7 +145,7 @@ class ModuleClass {
         return end.getFullYear() * 12 + end.getMonth() - start.getFullYear() * 12 - start.getMonth();
     }
 
-    private _getChangedIndex(ranges: Array<Date>): number {
+    protected _getChangedIndex(ranges: Array<Date>): number {
         for (var i in this.ranges) {
             if (!dateUtils.isDatesEqual(this.ranges[i][0], ranges[i][0]) || !dateUtils.isDatesEqual(this.ranges[i][1], ranges[i][1])) {
                 return parseInt(i, 10);

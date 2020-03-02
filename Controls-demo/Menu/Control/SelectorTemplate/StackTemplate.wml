@@ -1,0 +1,28 @@
+<Controls.lookupPopup:Controller scope="{{_options}}" name="SelectorController">
+   <Controls.popupTemplate:Stack on:selectedKeysChanged="_selectedKeysChanged()" headingCaption="Выберите организацию" attr:class="demo-selector__flatList demo-StackSelector-dropdown">
+      <ws:headerContentTemplate>
+         <div attr:class="ControlsDemo-FlatListSelector-header">
+            <ws:if data="{{_options.multiSelect && _selectionChanged}}">
+               <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{[Выбрать]}" on:click="_selectComplete()" attr:class="ControlsDemo-FlatListSelector-confirmButton"/>
+            </ws:if>
+         </div>
+      </ws:headerContentTemplate>
+      <ws:bodyContentTemplate>
+         <Controls.list:DataContainer source="{{_source}}" keyProperty="key" filter="{{_filter}}">
+            <Controls.lookupPopup:Container multiSelect="{{_options.multiSelect}}">
+               <Controls.operations:Controller>
+                  <Controls.list:Container>
+                     <Controls.operations:Container>
+                        <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect}}">
+                           <Controls.scroll:Container attr:class="demo-selector__scroll">
+                              <Controls.list:View class="ControlsDemo-Selector__flatList" emptyTemplate="Не найдено"  multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
+                           </Controls.scroll:Container>
+                        </Controls.lookupPopup:ListContainer>
+                     </Controls.operations:Container>
+                  </Controls.list:Container>
+               </Controls.operations:Controller>
+            </Controls.lookupPopup:Container>
+         </Controls.list:DataContainer>
+      </ws:bodyContentTemplate>
+   </Controls.popupTemplate:Stack>
+</Controls.lookupPopup:Controller>

@@ -7,12 +7,12 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _columns = Gadgets.getGridColumns();
-   private _viewMode: string = 'table';
-   private _root = null;
+   protected _viewSource;
+   protected _columns = Gadgets.getGridColumns();
+   protected _viewMode: string = 'table';
+   protected _root = null;
    private _multiselect: 'visible'|'hidden'|'onhover' = 'visible';
-   private _header = Gadgets.getHeader();
+   protected _header = Gadgets.getHeader();
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({
@@ -21,7 +21,7 @@ export default class extends Control {
       });
    }
 
-   private _onToggle() {
+   protected _onToggle() {
       switch (this._multiselect) {
          case 'visible':
             this._multiselect = 'hidden';

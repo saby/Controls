@@ -34,7 +34,8 @@ var _private = {
  * @control
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Calendar/MonthSlider
+ * @demo Controls-demo/Calendar/MonthSlider/SelectionType/Index
+ * @demo Controls-demo/Calendar/MonthSlider/ReadOnly/Index
  *
  */
 

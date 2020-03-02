@@ -192,7 +192,7 @@ var Controller = Control.extend({
       }
    },
 
-   _selectComplete(event: SyntheticEvent<'selectComplete'>, multiSelect: boolean): void {
+   _selectComplete(event?: SyntheticEvent<'selectComplete'>, multiSelect?: boolean): void {
       const selectCallback = (selectResult) => {
          this._notify('sendResult', [selectResult], {bubbling: true});
          this._notify('close', [], {bubbling: true});
@@ -236,6 +236,10 @@ var Controller = Control.extend({
       return {
          selectorControllerContext: new SelectorContext(this._selectedItems)
       };
+   },
+
+   selectComplete(): void {
+      this._selectComplete();
    }
 
 });

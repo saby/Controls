@@ -4,7 +4,7 @@
  * @includes Selector Controls/_filter/Button
  * @includes Fast Controls/_filter/Fast
  * @includes View Controls/_filter/View
- * @includes ViewItemTemplate Controls/_filter/View/ItemTemplate
+ * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ButtonContainer Controls/_filter/Button/Container
  * @includes FastContainer Controls/_filter/Fast/Container
  * @includes ViewContainer Controls/_filter/View/Container
@@ -23,6 +23,7 @@
  * @includes Selector Controls/_filter/Button
  * @includes Fast Controls/_filter/Fast
  * @includes View Controls/_filter/View
+ * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ButtonContainer Controls/_filter/Button/Container
  * @includes FastContainer Controls/_filter/Fast/Container
  * @includes ViewContainer Controls/_filter/View/Container

@@ -93,7 +93,7 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
       this._toggleHoverState = !!toggledState;
    }
 
-   private _clickTextHandler(e: SyntheticEvent<Event>, _nextValue: boolean): void {
+   protected _clickTextHandler(e: SyntheticEvent<Event>, _nextValue: boolean): void {
       if (this._options.value !== _nextValue && !this._options.readOnly) {
          this._notifyChanged();
          this._toggleSwitchHoverState(e, false);
@@ -104,7 +104,7 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
       this._notify('valueChanged', [!this._options.value]);
    }
 
-   private _clickToggleHandler(): void {
+   protected _clickToggleHandler(): void {
       if (!this._options.readOnly) {
          this._notifyChanged();
       }

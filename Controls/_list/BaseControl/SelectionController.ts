@@ -4,7 +4,6 @@ import collection = require('Types/collection');
 import Deferred = require('Core/Deferred');
 import template = require('wml!Controls/_list/BaseControl/SelectionController');
 import {isEqual} from 'Types/object';
-import merge = require('Core/core-merge');
 
 /**
  * @class Controls/_list/BaseControl/SelectionController
@@ -147,6 +146,21 @@ var _private = {
               }
            });
         });
+    },
+
+    isSelectionChanged(self, newOptions): boolean {
+        return !isEqual(newOptions.selectedKeys, self._multiselection.selectedKeys) ||
+               !isEqual(newOptions.excludedKeys, self._multiselection.excludedKeys);
+    },
+
+    shouldResetSelection(self, newOptions): boolean {
+        const listFilterChanged = !isEqual(self._options.filter, newOptions.filter);
+        const rootChanged = self._options.root !== newOptions.root;
+        const isAllSelected = _private.isAllSelected(self,
+                                                     self._multiselection.selectedKeys,
+                                                     self._multiselection.excludedKeys);
+
+        return rootChanged || (isAllSelected && listFilterChanged);
     }
 };
 
@@ -180,30 +194,31 @@ var SelectionController = Control.extend(/** @lends Controls/_list/BaseControl/S
     },
 
     _beforeUpdate: function (newOptions) {
-        let
-           itemsIsChanged = newOptions.items !== this._options.items,
-           modelIsChanged = this._options.listModel !== newOptions.listModel,
-           selectionChanged = !isEqual(newOptions.selectedKeys, this._multiselection.selectedKeys) ||
-              !isEqual(newOptions.excludedKeys, this._multiselection.excludedKeys);
+        const itemsChanged = newOptions.items !== this._options.items;
+        const modelChanged = this._options.listModel !== newOptions.listModel;
+        const selectionChanged = _private.isSelectionChanged(this, newOptions);
 
         if (this._options.keyProperty !== newOptions.keyProperty) {
            this._multiselection.setKeyProperty(newOptions.keyProperty);
         }
 
-        if (modelIsChanged) {
+        if (modelChanged) {
             this._multiselection.setListModel(newOptions.listModel);
         }
 
-        if (itemsIsChanged) {
+        if (itemsChanged) {
             this._options.items.unsubscribe('onCollectionChange', this._onCollectionChangeHandler);
             newOptions.items.subscribe('onCollectionChange', this._onCollectionChangeHandler);
         }
 
-        if (selectionChanged) {
+        if (_private.shouldResetSelection(this, newOptions)) {
+            this._multiselection.selectedKeys = [];
+            this._multiselection.excludedKeys = [];
+        } else if (selectionChanged) {
             this._multiselection.selectedKeys = newOptions.selectedKeys;
             this._multiselection.excludedKeys = newOptions.excludedKeys;
             _private.notifyAndUpdateSelection(this, newOptions);
-        } else if (itemsIsChanged || modelIsChanged) {
+        } else if (itemsChanged || modelChanged) {
            this._multiselection.updateSelectionForRender();
         }
     },

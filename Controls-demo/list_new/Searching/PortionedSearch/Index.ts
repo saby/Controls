@@ -6,8 +6,8 @@ import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: PortionedSearchSource = null;
-    private _filter: Object = null;
+    protected _viewSource: PortionedSearchSource = null;
+    protected _filter: Object = null;
     private _dataArray: object[] = generateData({count: 100, entityTemplate: {title: 'lorem'}});
     private _searchValue: string = '';
 
@@ -30,14 +30,14 @@ export default class extends Control {
         this._filter = {};
     }
 
-    private _startSearch(): void {
+    protected _startSearch(): void {
         this._searchValue = 'lorem';
         this._filter = {
            title: this._searchValue
         };
     }
 
-    private _resetSearch(): void {
+    protected _resetSearch(): void {
         this._searchValue = '';
         this._filter = {};
     }

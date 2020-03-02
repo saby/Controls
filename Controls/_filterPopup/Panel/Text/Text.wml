@@ -1,6 +1,6 @@
 <div class="controls-FilterText">
    <div class="controls-FilterText__wrapper">
       <div class="controls-FilterPanelText-caption">{{_options.caption}}</div>
-      <span class="controls-FilterText__reset icon-Close icon-disabled" on:click="_resetHandler()"></span>
+      <span class="controls-FilterText__reset icon-Close" on:click="_resetHandler()"></span>
    </div>
 </div>

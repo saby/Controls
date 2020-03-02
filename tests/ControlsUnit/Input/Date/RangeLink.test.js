@@ -45,7 +45,7 @@ define([
          });
       });
 
-      describe('_openDialog', function() {
+      describe('openPopup', function() {
          it('should open opener with default options', function() {
             const
                opts = cMerge({
@@ -61,12 +61,12 @@ define([
                   open: sinon.fake()
                },
                linkView: {
-                  getDialogTarget: sinon.stub().returns(TARGET)
+                   getPopupTarget: sinon.stub().returns(TARGET)
                }
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
-            sinon.assert.called(component._children.linkView.getDialogTarget);
+            sinon.assert.called(component._children.linkView.getPopupTarget);
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-DatePopup__selector-marginTop controls-DatePopup__selector-marginLeft',
                target: TARGET,
@@ -92,10 +92,10 @@ define([
                   open: sinon.fake()
                },
                linkView: {
-                  getDialogTarget: sinon.fake()
+                   getPopupTarget: sinon.fake()
                }
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-DatePopup__selector-marginTop controls-DatePopup__selector-marginLeft',
                templateOptions: {
@@ -137,10 +137,10 @@ define([
                         open: sinon.fake()
                      },
                      linkView: {
-                        getDialogTarget: sinon.fake()
+                         getPopupTarget: sinon.fake()
                      }
                   };
-                  component._openDialog();
+                  component.openPopup();
                   sinon.assert.calledWith(component._children.opener.open, sinon.match({
                      className: 'controls-DatePopup__selector-marginTop controls-DatePopup__selector-marginLeft'
                   }));
@@ -167,10 +167,10 @@ define([
                         open: sinon.fake()
                      },
                      linkView: {
-                        getDialogTarget: sinon.fake()
+                         getPopupTarget: sinon.fake()
                      }
                   };
-                  component._openDialog();
+                  component.openPopup();
                   sinon.assert.calledWith(component._children.opener.open, sinon.match({
                      className: 'controls-DatePopup__selector-marginTop controls-DatePopup__selector-marginLeft-withoutModeBtn'
                   }));

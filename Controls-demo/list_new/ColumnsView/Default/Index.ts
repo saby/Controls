@@ -9,9 +9,9 @@ const NUMBER_OF_ITEMS = 1000;
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
 
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
-    private _navigation: any;
+    protected _navigation: any;
 
     private _dataArray: Array<{id: number, title: string}>;
 

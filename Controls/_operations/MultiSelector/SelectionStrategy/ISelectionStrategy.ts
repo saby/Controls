@@ -1,5 +1,6 @@
 import { Collection } from 'Controls/display';
 import { Rpc, PrefetchProxy } from 'Types/source';
+// @ts-ignore
 import { ListViewModel } from 'Controls/list';
 import { relation } from 'Types/entity';
 import { TKeySelection as TKey, ISelectionObject as ISelection} from 'Controls/interface/';

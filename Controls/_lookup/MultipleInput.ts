@@ -30,10 +30,9 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
- * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 /*
  * “Lookup:MultipleInput” is an input field with auto-completion and the ability to select a value from the directory. It differs from the usual lookup: input in that only one value can be selected from each directory.
@@ -62,10 +61,9 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
- * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 
 var MultipleInput = Control.extend({

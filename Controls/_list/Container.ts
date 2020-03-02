@@ -5,7 +5,7 @@ import {ContextOptions as DataOptions} from 'Controls/context';
 /**
  * Контрол-контейнер для списка. Передает опции из контекста в список.
  *
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/component-kinds/'>здесь</a>.
+ * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/'>здесь</a>.
  *
  * @class Controls/_list/Container
  * @extends Core/Control

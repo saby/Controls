@@ -1,6 +1,8 @@
 <ws:template name="groupTemplate">
    <div class="controls-ListView__groupContent
                {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}
+               {{ itemData.groupPaddingClasses.left }}
+               {{ !rightTemplate ? itemData.groupPaddingClasses.right }}
                controls-ListView__groupContent_align-{{textAlign || 'left'}}">
       <ws:if data="{{separator !== false && separatorVisibility !== false && textAlign !== 'left'}}">
          <div class="controls-ListView__groupSeparator-left">&nbsp;</div>
@@ -23,7 +25,9 @@
          <div class="controls-ListView__groupSeparator-right">&nbsp;</div>
       </ws:if>
       <ws:if data="{{!!rightTemplate}}">
-         <ws:partial template="{{rightTemplate}}" attr:class="controls-ListView__groupContent-rightTemplate" itemData="{{itemData}}"/>
+         <div attr:class="controls-ListView__groupContent-rightTemplate {{ itemData.groupPaddingClasses.right }}">
+            <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"/>
+         </div>
       </ws:if>
    </div>
 </ws:template>

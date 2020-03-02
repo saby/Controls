@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+    <Controls.calendar:MonthSlider
+            bind:month="_month"
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            readOnly="{{true}}"
+    />
+</div>

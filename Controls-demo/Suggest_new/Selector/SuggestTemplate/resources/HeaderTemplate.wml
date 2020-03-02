@@ -1,0 +1,1 @@
+<ws:partial template="Controls/grid:HeaderContent" colData="{{colData}}"/>

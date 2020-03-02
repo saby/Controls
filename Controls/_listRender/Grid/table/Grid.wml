@@ -1,0 +1,29 @@
+<table attr:class="{{ _getGridClasses() }}" attr:style="{{ _getGridStyles() }}">
+   <!-- Заголовок таблицы -->
+   <!-- Результаты сверху -->
+   <!-- Скроллбар горизонтального скролла -->
+
+   <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
+      <ws:partial
+         template="wml!Controls/_listRender/Render/resources/For"
+         collection="{{ _options.listModel }}"
+         keyPrefix="{{ _templateKeyPrefix }}"
+
+         itemActionsPosition="{{ _options.itemActionsPosition }}"
+         itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+         swipeTemplate="{{ _options.swipeTemplate }}"
+         multiSelectTpl="{{ _options.multiSelectTpl }}"
+         isAdd="{{ _options.isAdd }}"
+         itemTemplate="{{ _itemTemplate }}"/>
+   </tbody>
+
+   <!-- Отступ под последней записью вслучае, если в таблице есть операции над записью "вне строки" -->
+   <!-- Шаблон пустой таблицы -->
+   <!-- Результаты снизу -->
+   <!-- Подвал таблицы -->
+
+   <Controls.dropdown:Opener
+      name="menuOpener"
+      keyProperty="id"
+      menuStyle="cross" />
+</table>

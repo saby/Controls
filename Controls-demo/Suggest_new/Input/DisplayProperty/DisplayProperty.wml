@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
          <div class="controls-text-label_theme-{{_options.theme}}">Отображение в поле ввода имени руководителя отдела</div>
          <Controls.suggest:Input
-                 attr:class="controlsDemo__input"
+                 attr:class="controlsDemo__input demo-SuggestNew__displayProperty"
                  bind:value="_suggestDownValue"
                  displayProperty="owner"
                  searchParam="title"

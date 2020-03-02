@@ -1,0 +1,11 @@
+<ws:partial template="wml!Controls/_list/EditInPlace/baseEditingTemplate" scope="{{ _options }}">
+    <ws:viewTemplate>
+        <Controls.decorator:Number
+                value="{{ value }}"
+                fractionSize="{{ fractionSize }}"
+                roundMode="{{ roundMode }}"
+                useGrouping="{{ useGrouping }}"
+                readOnly="{{ readOnly }}"
+        />
+    </ws:viewTemplate>
+</ws:partial>

@@ -9,9 +9,9 @@ import {SyntheticEvent} from "Vdom/Vdom";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
     private _itemActions = getItemActions();
-    private _clickedMessage: string;
+    protected _clickedMessage: string;
 
     protected _beforeMount() {
         this._itemActions[0].handler = (item: Model): void => {
@@ -24,11 +24,11 @@ export default class extends Control {
         });
     }
 
-    private _actionClick(e: SyntheticEvent<null>, itemAction, item: Model): void {
+    protected _actionClick(e: SyntheticEvent<null>, itemAction, item: Model): void {
         this._clickedMessage = `Кликнули на операцию "${itemAction.title}" у элемента с id="${item.getId()}".`;
     }
 
-    private _clearMessage(): void {
+    protected _clearMessage(): void {
         this._clickedMessage = '';
     }
 }

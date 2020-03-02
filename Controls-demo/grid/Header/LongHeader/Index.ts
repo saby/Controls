@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _header = getCountriesStats().getLongHeader();
-    private _columns = getCountriesStats().getColumnsWithFixedWidths();
+    protected _viewSource: Memory;
+    protected _header = getCountriesStats().getLongHeader();
+    protected _columns = getCountriesStats().getColumnsWithFixedWidths();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

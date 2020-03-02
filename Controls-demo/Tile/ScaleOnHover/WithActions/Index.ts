@@ -8,8 +8,8 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource;
-   private _itemActions = Gadgets.getActions();
+   protected _viewSource;
+   protected _itemActions = Gadgets.getActions();
 
    protected _beforeMount() {
       this._viewSource = new HierarchicalMemory({

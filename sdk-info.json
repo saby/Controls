@@ -2,8 +2,6 @@
     "ui-modules":
     [
 		 "Controls",
-         "Controls-theme",
          "Controls-default-theme"
-
     ]
 }

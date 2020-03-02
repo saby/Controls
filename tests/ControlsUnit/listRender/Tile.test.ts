@@ -5,7 +5,8 @@ import { Tile } from 'Controls/listRender';
 describe('Controls/_listRender/Tile', () => {
     const defaultCfg = {
         listModel: {
-            destroyed: true
+            destroyed: true,
+            getActionsMenuConfig: () => null
         }
     };
 

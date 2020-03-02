@@ -93,7 +93,8 @@ import viewName = require('Controls/_grid/GridView');
    Grid.getDefaultOptions = function() {
       return {
          stickyHeader: true,
-         stickyColumnsCount: 1
+         stickyColumnsCount: 1,
+         rowSeparatorSize: 's',
       };
    };
 

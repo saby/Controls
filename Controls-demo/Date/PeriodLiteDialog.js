@@ -9,6 +9,7 @@ define('Controls-demo/Date/PeriodLiteDialog', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _periods: [[new Date(2017, 3), new Date(2020, 5)]],
       _year: new Date(2017, 0, 1),
       _startValue: new Date(2017, 0, 1),
       _endValue: new Date(2017, 1, 0),

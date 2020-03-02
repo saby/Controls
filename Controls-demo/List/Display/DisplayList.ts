@@ -78,7 +78,7 @@ export default class DisplayList<TItem> extends Control<IDisplayListOptions> {
         ) as Collection<TItem>;
     }
 
-    private _onItemClick(e: SyntheticEvent<MouseEvent>, item: CollectionItem<TItem>): void {
+    protected _onItemClick(e: SyntheticEvent<MouseEvent>, item: CollectionItem<TItem>): void {
         // TODO remove, this is for demo
         this._collection.setMarkedItem(item);
         this._notify('itemClick', [item.getContents(), e], { bubbling: true });

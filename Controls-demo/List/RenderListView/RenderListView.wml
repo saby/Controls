@@ -1,0 +1,63 @@
+<div attr:style="display: flex; justify-content: space-around;">
+   <Controls.scroll:Container scn="1" attr:style="width: 50%; height: 600px;">
+      <Controls.listRender:ListView
+         keyProperty="key"
+         displayProperty="title"
+         items="{{ _items }}"
+         multiSelectVisibility="hidden"
+         itemActions="{{ _itemActions }}"
+         groupingKeyCallback="{{ _groupingKeyCallback }}"
+
+         attr:name="listView"
+         attr:class="listViewContainer">
+         <ws:editingConfig toolbarVisibility="{{ true }}" />
+         <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+               <ws:contentTemplate>
+                  <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.item.contents.title }}" enabled="{{ true }}">
+                     <ws:editorTemplate>
+                        <Controls.input:Text bind:value="itemTemplate.item.contents.title" selectOnClick="{{ false }}" />
+                     </ws:editorTemplate>
+                  </ws:partial>
+               </ws:contentTemplate>
+            </ws:partial>
+         </ws:itemTemplate>
+      </Controls.listRender:ListView>
+   </Controls.scroll:Container>
+   <Controls.scroll:Container attr:style="width: 40%; height: 600px;">
+      <div>
+         <div>
+            <h4>Edit in place</h4>
+            <ws:if data="{{ !_isEditInPlace && !_isAddInPlace }}">
+               <div>
+                  <input attr:name="editInPlaceItemKeyInput" type="text" placeholder="item key"/>
+                  <button on:click="_startEditInPlace()">Start edit</button>
+               </div>
+               <div>
+                  <select attr:name="addInPlacePositionSelect">
+                     <option value="top">top</option>
+                     <option value="bottom">bottom</option>
+                  </select>
+                  <button on:click="_startAddInPlace()">Start add</button>
+               </div>
+            </ws:if>
+            <ws:else>
+               <button on:click="_stopInPlace()">Stop edit in place</button>
+            </ws:else>
+         </div>
+         <div attr:style="margin-top: 18px;">
+            <h4>Drag</h4>
+            <ws:if data="{{ !_isDrag }}">
+               <input attr:name="dragItemKeysInput" type="text" placeholder="dragged item keys (comma-separated)"/>
+               <input attr:name="dragAvatarKeyInput" type="text" placeholder="avatar item key"/>
+               <button on:click="_startDrag()">Enable drag mode</button>
+            </ws:if>
+            <ws:else>
+               <input attr:name="dragAvatarPositionInput" type="text" placeholder="current drag position (index)" />
+               <button on:click="_moveDrag()">Move drag</button>
+               <button on:click="_stopDrag()">Stop drag</button>
+            </ws:else>
+         </div>
+      </div>
+   </Controls.scroll:Container>
+</div>

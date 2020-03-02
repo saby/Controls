@@ -1,4 +1,3 @@
-import rk = require('i18n!Controls');
 import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import cInstance = require('Core/core-instance');

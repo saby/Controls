@@ -97,7 +97,9 @@ define(['Controls/treeGrid',
                item: {},
                getCurrentColumn: function() {
                   return {
-                     cellClasses: ''
+                     classList: {
+                        base: ''
+                     }
                   };
                }
             };
@@ -107,7 +109,7 @@ define(['Controls/treeGrid',
          assert.isTrue(!!itemData.getCurrentColumn);
          var
             currentColumn = itemData.getCurrentColumn();
-         assert.equal(currentColumn.cellClasses, ' controls-TreeGrid__row-cell_theme-default controls-TreeGrid__row-cell__item_theme-default');
+         assert.equal(currentColumn.classList.base, ' controls-TreeGrid__row-cell_theme-default controls-TreeGrid__row-cell__item_theme-default');
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });
 
@@ -159,17 +161,17 @@ define(['Controls/treeGrid',
                 columns: initialColumns
              });
          current = model.getCurrent();
-         checkCellClasses(current.getCurrentColumn().cellClasses, itemTypes.node);
+         checkCellClasses(current.getCurrentColumn().classList.base, itemTypes.node);
 
          assert.equal(current.getCurrentColumn().prepareExpanderClasses, current.prepareExpanderClasses);
          model.goToNext();
 
          current = model.getCurrent();
-         checkCellClasses(current.getCurrentColumn().cellClasses, itemTypes.hiddenNode);
+         checkCellClasses(current.getCurrentColumn().classList.base, itemTypes.hiddenNode);
          model.goToNext();
 
          current = model.getCurrent();
-         checkCellClasses(current.getCurrentColumn().cellClasses, itemTypes.item);
+         checkCellClasses(current.getCurrentColumn().classList.base, itemTypes.item);
       });
 
 

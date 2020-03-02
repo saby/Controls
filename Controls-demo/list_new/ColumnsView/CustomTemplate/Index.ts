@@ -9,13 +9,13 @@ const NUMBER_OF_ITEMS = 50;
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
 
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
-    private _navigation: any;
+    protected _navigation: any;
 
-    private _itemActions: [object];
+    protected _itemActions: [object];
 
-    private _items: [object];
+    protected _items: [object];
 
     private _dataArray: Array<{id: number, title: string, description: string}>;
 

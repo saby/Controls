@@ -31,11 +31,13 @@
 /**
  * @name Controls/_explorer/interface/IExplorer#viewMode
  * @cfg {ExplorerViewMode} Режим отображения списка.
+ * @demo Controls-demo/Explorer/Explorer
  */
 
 /*
  * @name Controls/_explorer/interface/IExplorer#viewMode
  * @cfg {explorerViewMode} List view mode.
+ * @demo Controls-demo/Explorer/Explorer
  */
 
 /**

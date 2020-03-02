@@ -1,58 +1,63 @@
 <div>
    <h1>Двухколоночный браузер</h1>
-   <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
-   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId1="master111">
-      <ws:master>
-
-         <div>
-            <div class="controls-demo_MasterDetail_master_search">
-               <Controls.search:Input placeholder="Введите"
-                                      attr:class="controls-demo_MasterDetail_master_search_input"/>
+   <div class="controlsDemo__flexRow">
+      <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
+      <div class="ws-link controlsDemo__ml1" on:click="_firstHandler()">Set width = 1000</div>
+   </div>
+   <Controls.event:Register name="resizeDetect" register="controlResize">
+      <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" attr:style="width: {{_firstBaseWidth}}" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId1="master111" name="MasterDetailBase">
+         <ws:master>
+            <div>
+               <div class="controls-demo_MasterDetail_master_search">
+                  <Controls.search:Input placeholder="Введите"
+                                         attr:class="controls-demo_MasterDetail_master_search_input"/>
+               </div>
+               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
+                  <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
+                     <Controls.grid:View
+                             source="{{_masterSource}}"
+                             keyProperty="id"
+                             parentProperty="Раздел"
+                             style="master"
+                             nodeProperty="Раздел@"
+                             markerVisibility="visible"
+                             itemActions="{{_itemActions}}"
+                             columns="{{gridColumns}}"
+                     >
+                     </Controls.grid:View>
+                  </Controls.masterDetail:List>
+               </Controls.scroll:Container>
             </div>
-            <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
-               <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                  <Controls.grid:View
-                     source="{{_masterSource}}"
-                     keyProperty="id"
-                     parentProperty="Раздел"
-                     style="master"
-                     nodeProperty="Раздел@"
-                     markerVisibility="visible"
-                     itemActions="{{_itemActions}}"
-                     columns="{{gridColumns}}"
+         </ws:master>
+         <ws:detail>
+            <div class="ws-flex-grow-1">
+               <div class="controls-demo_MasterDetail_detail_search">
+                  <Controls.search:Input placeholder="Введите"/>
+               </div>
+               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
+                  <Controls.list:View
+                          keyProperty="id"
+                          source="{{_detailSource}}"
                   >
-                  </Controls.grid:View>
-               </Controls.masterDetail:List>
-            </Controls.scroll:Container>
-         </div>
-      </ws:master>
-      <ws:detail>
-         <div class="ws-flex-grow-1">
-            <div class="controls-demo_MasterDetail_detail_search">
-               <Controls.search:Input placeholder="Введите"/>
+                     <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                     </ws:filter>
+                     <ws:itemTemplate>
+                        <ws:partial template="Controls/list:ItemTemplate">
+                           <ws:contentTemplate>
+                              <ws:partial
+                                      item="{{itemTemplate.itemData.item}}"
+                                      template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                              />
+                           </ws:contentTemplate>
+                        </ws:partial>
+                     </ws:itemTemplate>
+                  </Controls.list:View>
+               </Controls.scroll:Container>
             </div>
-            <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
-               <Controls.list:View
-                  keyProperty="id"
-                  source="{{_detailSource}}"
-               >
-                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
-                  </ws:filter>
-                  <ws:itemTemplate>
-                     <ws:partial template="Controls/list:ItemTemplate">
-                        <ws:contentTemplate>
-                           <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
-                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
-                           />
-                        </ws:contentTemplate>
-                     </ws:partial>
-                  </ws:itemTemplate>
-               </Controls.list:View>
-            </Controls.scroll:Container>
-         </div>
-      </ws:detail>
-   </Controls.masterDetail:Base>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </Controls.event:Register>
+
    <h3>Ширина мастера может меняться от 200px до 500px. Начальная ширина 27%. </h3>
    <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Second"  masterMinWidth="{{200}}" masterMaxWidth="{{500}}" masterWidth="27%">
       <ws:master>
@@ -107,56 +112,62 @@
          </div>
       </ws:detail>
    </Controls.masterDetail:Base>
-   <h3>Ширина мастера может меняться от 10% до 50% контейнера. Начальная ширина 10%.</h3>
-   <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%">
-      <ws:master>
+   <div class="controlsDemo__flexRow">
+      <h3>Ширина мастера может меняться от 10% до 50% контейнера. Начальная ширина 10%. </h3>
+      <div class="ws-link controlsDemo__ml1" on:click="_secondHandlerIncrease()">Set width = 1920</div>
+      <div class="ws-link controlsDemo__ml1" on:click="_secondHandlerDecrease()">Set width = 1000</div>
+   </div>
+   <Controls.event:Register name="resizeDetect1" register="controlResize">
+      <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" attr:style="width: {{_secondBaseWidth}}" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%" name="masterDetailBase1">
+         <ws:master>
 
-         <div>
-            <div class="controls-demo_MasterDetail_master_search">
-               <Controls.search:Input placeholder="Введите"
-                                      attr:class="controls-demo_MasterDetail_master_search_input"/>
+            <div>
+               <div class="controls-demo_MasterDetail_master_search">
+                  <Controls.search:Input placeholder="Введите"
+                                         attr:class="controls-demo_MasterDetail_master_search_input"/>
+               </div>
+               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
+                  <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
+                     <Controls.treeGrid:View
+                        source="{{_masterSource}}"
+                        keyProperty="id"
+                        parentProperty="Раздел"
+                        style="master"
+                        nodeProperty="Раздел@"
+                        markerVisibility="visible"
+                        itemActions="{{_itemActions}}"
+                        columns="{{gridColumns}}"
+                     >
+                     </Controls.treeGrid:View>
+                  </Controls.masterDetail:List>
+               </Controls.scroll:Container>
             </div>
-            <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
-               <Controls.masterDetail:List selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                  <Controls.treeGrid:View
-                     source="{{_masterSource}}"
+         </ws:master>
+         <ws:detail>
+            <div class="ws-flex-grow-1">
+               <div class="ws-flexbox controls-demo_MasterDetail_detail_search">
+                  <Controls.search:Input placeholder="Введите"/>
+               </div>
+               <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
+                  <Controls.list:View
                      keyProperty="id"
-                     parentProperty="Раздел"
-                     style="master"
-                     nodeProperty="Раздел@"
-                     markerVisibility="visible"
-                     itemActions="{{_itemActions}}"
-                     columns="{{gridColumns}}"
-                  >
-                  </Controls.treeGrid:View>
-               </Controls.masterDetail:List>
-            </Controls.scroll:Container>
-         </div>
-      </ws:master>
-      <ws:detail>
-         <div class="ws-flex-grow-1">
-            <div class="ws-flexbox controls-demo_MasterDetail_detail_search">
-               <Controls.search:Input placeholder="Введите"/>
+                     source="{{_detailSource}}">
+                     <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
+                     </ws:filter>
+                     <ws:itemTemplate>
+                        <ws:partial template="Controls/list:ItemTemplate">
+                           <ws:contentTemplate>
+                              <ws:partial
+                                      item="{{itemTemplate.itemData.item}}"
+                                      template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
+                              />
+                           </ws:contentTemplate>
+                        </ws:partial>
+                     </ws:itemTemplate>
+                  </Controls.list:View>
+               </Controls.scroll:Container>
             </div>
-            <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
-               <Controls.list:View
-                  keyProperty="id"
-                  source="{{_detailSource}}">
-                  <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
-                  </ws:filter>
-                  <ws:itemTemplate>
-                     <ws:partial template="Controls/list:ItemTemplate">
-                        <ws:contentTemplate>
-                           <ws:partial
-                                   item="{{itemTemplate.itemData.item}}"
-                                   template="wml!Controls-demo/MasterDetail/itemTemplates/TaskItemTemplate"
-                           />
-                        </ws:contentTemplate>
-                     </ws:partial>
-                  </ws:itemTemplate>
-               </Controls.list:View>
-            </Controls.scroll:Container>
-         </div>
-      </ws:detail>
-   </Controls.masterDetail:Base>
+         </ws:detail>
+      </Controls.masterDetail:Base>
+   </Controls.event:Register>
 </div>

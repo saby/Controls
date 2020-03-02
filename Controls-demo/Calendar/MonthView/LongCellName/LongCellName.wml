@@ -1,18 +1,28 @@
-<Controls.calendar:MonthView attr:class="controlsDemo-MonthView__wrapper" bind:month="_month">
+<Controls.calendar:MonthView attr:class="controlsDemo-MonthView__wrapper controlsDemo__ml1" bind:month="_month">
     <ws:dayTemplate>
         <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}">
             <ws:contentTemplate>
-                <ws:if data="{{contentTemplate.value.day !== 10 && contentTemplate.value.day !== 21}}">
+                <ws:if data="{{contentTemplate.value.day !== 10 && contentTemplate.value.day !== 21 &&
+                               contentTemplate.value.day !== 1 && contentTemplate.value.day !== 4 && contentTemplate.value.day !== 26}}">
                     <div>
                         {{contentTemplate.value.day}}
                     </div>
                 </ws:if>
                 <ws:else>
-                    <ws:if data="{{contentTemplate.value.day !== 21}}">
-                        Verylong
+                    <ws:if data="{{contentTemplate.value.day === 21}}">
+                        Very long text test
                     </ws:if>
+                    <ws:else data="{{contentTemplate.value.day === 4}}">
+                        Verylong
+                    </ws:else>
+                    <ws:else data="{{contentTemplate.value.day === 1}}">
+                        Very long text test
+                    </ws:else>
+                    <ws:else data="{{contentTemplate.value.day ===26}}">
+                        Very long text test
+                    </ws:else>
                     <ws:else>
-                        Very long text
+                        Verylong
                     </ws:else>
                 </ws:else>
             </ws:contentTemplate>

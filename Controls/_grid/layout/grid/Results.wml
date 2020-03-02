@@ -47,8 +47,7 @@
       <ws:partial template="{{listModel.isStickyHeader() ? 'stickyCell' : 'cell'}}"
                   listModel="{{ listModel }}"
                   multiSelectVisibility="{{listModel.getMultiSelectVisibility()}}"
-                  currentResultsColumn="{{listModel.getCurrentResultsColumn()}}"
-                  offset="{{listModel.getResultOffset() ? listModel.getResultOffset()}}"/>
+                  currentResultsColumn="{{listModel.getCurrentResultsColumn()}}"/>
    </ws:for>
 </ws:else>
 </div>

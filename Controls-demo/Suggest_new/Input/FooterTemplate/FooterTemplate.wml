@@ -1,8 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Настриваемый шаблон подвала</div>
+      <div class="controls-text-label_theme-{{_options.theme}}">Шаблон подвала со стандартной кнопкой открытия</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNew__templateFooter"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -11,13 +11,28 @@
           <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/SuggestTemplate">
               <ws:templateOptions demoClass="demo-SuggestInputList"/>
           </ws:suggestTemplate>
-          <ws:footerTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/FooterTemplate"/>
+          <ws:footerTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/StandartFooterTemplate"/>
       </Controls.suggest:Input>
   </div>
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+       <div class="controls-text-label_theme-{{_options.theme}}">Шаблон подвала со своей кнопкой открытия</div>
+       <Controls.suggest:Input
+               attr:class="controlsDemo__input demo-SuggestNew__selfButtonFooter"
+               bind:value="_suggestStandartValue"
+               displayProperty="title"
+               searchParam="title"
+               navigation="{{_navigation}}"
+               source="{{_source}}">
+           <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/SuggestTemplate">
+               <ws:templateOptions demoClass="demo-SuggestInputList"/>
+           </ws:suggestTemplate>
+           <ws:footerTemplate templateName="Controls-demo/Suggest_new/Input/FooterTemplate/resources/FooterTemplate"/>
+       </Controls.suggest:Input>
+   </div>
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Без подвала</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNew__noFooter"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

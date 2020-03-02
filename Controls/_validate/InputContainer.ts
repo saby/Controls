@@ -17,7 +17,7 @@ import template = require('wml!Controls/_validate/InputContainer');
 class Input extends Container {
     _template: TemplateFunction = template;
     _shouldValidate: boolean;
-    private _deactivatedHandler() {
+    protected _deactivatedHandler() {
         if (!this._options.readOnly) {
             this._shouldValidate = true;
             this._forceUpdate();

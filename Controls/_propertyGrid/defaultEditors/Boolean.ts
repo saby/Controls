@@ -30,10 +30,16 @@ class BooleanEditor extends Control implements IEditor {
     protected _template: Function = template;
     protected _options: IEditorOptions;
 
-    private value: boolean;
+    protected value: boolean;
 
     _beforeMount(options: IEditorOptions): void {
         this.value = options.propertyValue;
+    }
+
+    _beforeUpdate(newOptions: IEditorOptions): void {
+        if (this._options.propertyValue !== newOptions.propertyValue) {
+            this.value = newOptions.propertyValue;
+        }
     }
 
     _valueChanged(event: Event, value: boolean): void {

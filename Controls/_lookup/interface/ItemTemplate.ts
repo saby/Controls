@@ -2,7 +2,7 @@
  * Шаблон, который по умолчанию используется для отображения выбранных значений в контролах {@link Controls/lookup:Input} и {@link Controls/lookup:Selector}.
  * 
  * @class Controls/lookup:ItemTemplate
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  * @public
  * @see Controls/lookup
  * @see Controls/lookup:Input

@@ -2,6 +2,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth300">
       <div class="controls-text-label_theme-{{_options.theme}}">list:View в шаблоне автодополнения</div>
       <Controls.suggest:SearchInput
+              attr:class="demo-SuggestNewSearch__listView"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -15,6 +16,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">grid:View в шаблоне автодополнения</div>
       <Controls.suggest:SearchInput
+              attr:class="demo-SuggestNewSearch__gridView"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

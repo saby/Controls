@@ -169,6 +169,9 @@ var
             expanderClasses += ' controls-TreeGrid__row-expander_size_' + (expanderSize || 'default') + `_theme-${theme}`;
             expanderClasses += ' js-controls-ListView__notEditable';
 
+            expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${itemData.itemPadding.top}_theme-${theme}`;
+            expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${itemData.itemPadding.bottom}_theme-${theme}`;
+
             if (expanderIcon) {
                 expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
                 expanderClasses += expanderIconClass;

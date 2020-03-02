@@ -1,144 +1,91 @@
-.controls-Button__close.theme_@{themeName} {
+.controls-Button__close {
    display: inline-block;
 }
 
-.theme_@{themeName}.controls-Button__close__wrapper:before {
-   content: "\200b";
-}
-
-.controls-Button__close__icon_toolButton.theme_@{themeName} {
-   background-image: @background-image_CloseButton-toolButton;
-   height: @height_CloseButton-icon_toolButton;
-   width: @width_CloseButton-icon_toolButton;
-   display: inline-block;
-}
-.controls-Button__close__icon_popup.theme_@{themeName} {
-   background-image: @background-image_CloseButton-popup;
-   height: @height_CloseButton-icon_popup;
-   width: @width_CloseButton-icon_popup;
-   display: inline-block;
-}
-
-.controls-Button__close__wrapper.theme_@{themeName} {
+.controls-Button__close__wrapper {
    display: inline-flex;
    align-items: center;
    justify-content: center;
    cursor: pointer;
-}
-
-.controls-Button__close_toolButton_transparent.theme_@{themeName} {
-   background-color: @background-color_CloseButton_toolButton_transparent;
-}
-.controls-Button__close_popup_transparent.theme_@{themeName} {
-   background-color: @background-color_CloseButton_popup_transparent;
-}
-.controls-Button__close_toolButton_untransparent.theme_@{themeName} {
-   background-color: @background-color_CloseButton_primary_untransparent;
-}
-.controls-Button__close_popup_untransparent:active.theme_@{themeName} {
-   background-color: @background-color_CloseButton-primary-untransparent_active;
-}
-.controls-Button__close_popup_untransparent.theme_@{themeName} {
-   background-color: @background-color_CloseButton_primary_untransparent;
-}
-.controls-Button__close_toolButton_untransparent:active.theme_@{themeName} {
-   background-color: @background-color_CloseButton-primary-untransparent_active;
-}
-.controls-Button__close_toolButton_transparent:active.theme_@{themeName} {
-   background-color: @background-color_CloseButton-primary-transparent_active;
-}
-.controls-Button__close_popup_transparent:active.theme_@{themeName} {
-   background-color: @background-color_CloseButton-popup-transparent_active;
-}
-
-.controls-Button__close_toolButton_l.theme_@{themeName} {
-   width: @width_CloseButton_toolButton_l;
-   height: @height_CloseButton_toolButton_l;
-}
-.controls-Button__close_popup_l.theme_@{themeName} {
-   width: @width_CloseButton_popup;
-   height: @height_CloseButton_popup;
-}
-
-.controls-Button__close_toolButton_l.theme_@{themeName}, .controls-Button__close_toolButton_m.theme_@{themeName} {
-   border: solid @border-color_CloseButton_toolButton;
-   box-sizing: border-box;
-   border-width: @border-top-width_CloseButton_toolButton @border-right-width_CloseButton_toolButton @border-bottom-width_CloseButton_toolButton @border-left-width_CloseButton_toolButton;
-   border-radius: @border-top-radius_CloseButton_toolButton @border-right-radius_CloseButton_toolButton @border-bottom-radius_CloseButton_toolButton @border-left-radius_CloseButton_toolButton;
-   box-shadow: @box-shadow_CloseButton_toolButton;
-}
-
-.controls-Button__close_popup_l.theme_@{themeName} {
-   border: solid @border-color_CloseButton_popup;
-   box-sizing: border-box;
-   border-width: @border-top-width_CloseButton_popup @border-right-width_CloseButton_popup @border-bottom-width_CloseButton_popup @border-left-width_CloseButton_popup;
-   border-radius: @border-top-radius_CloseButton_popup @border-right-radius_CloseButton_popup @border-bottom-radius_CloseButton_popup @border-left-radius_CloseButton_popup;
-   box-shadow: @box-shadow_CloseButton_popup;
-}
-
-.controls-Button__close_toolButton_m.theme_@{themeName} {
-   width: @width_CloseButton_toolButton_m;
-   height: @height_CloseButton_toolButton_m;
-}
-
-.controls-Button__close_link_l.theme_@{themeName}, .controls-Button__close_link_m.theme_@{themeName} {
-   font-family: @font-family_CloseButton_link;
-   width: @width_CloseButton_link;
-   height: @height_CloseButton_link;
-}
-
-.controls-Button__close__icon_link.theme_@{themeName} {
-   background-image: @background-image_CloseButton-link;
-   height: @height_CloseButton-icon_link;
-   width: @width_CloseButton-icon_link;
-}
-
-.controls-Button__close__icon_link:active.theme_@{themeName} {
-   background-image: @background-image_CloseButton-link_active;
-}
-
-.controls-Button__close_toolButton:active.theme_@{themeName} {
-   border-color: @border-color_CloseButton_toolButton_active;
-   box-shadow: @box-shadow_CloseButton-toolButton_active;
-   .controls-Button__close__icon_default:active, .controls-Button__close__icon_primary {
-      background-image: @background-image_CloseButton-toolButton_active;
+   &:before {
+      content: "\200b";
    }
 }
-.controls-Button__close_popup:active.theme_@{themeName} {
-   border-color: @border-color_CloseButton_popup_active;
-   box-shadow: @box-shadow_CloseButton-popup_active;
-   .controls-Button__close__icon_default:active, .controls-Button__close__icon_primary {
-      background-image: @background-image_CloseButton-popup_active;
+
+.controls-Button__close__icon_toolButton-theme_@{themeName} {
+   background-image: @icon_background-image_closeButton_toolButton;
+   height: @icon-size_closeButton_toolButton;
+   width: @icon-size_closeButton_toolButton;
+   display: inline-block;
+   &:active {
+      background-image: @icon_hovered_background-image_closeButton_toolButton;
    }
+}
+
+.controls-Button__close__icon_link-theme_@{themeName} {
+   background-image: @icon_background-image_closeButton_link;
+   height: @icon-size_closeButton_link;
+   width: @icon-size_closeButton_link;
+   &:active {
+      background-image: @icon_hovered_background-image_closeButton_link;
+   }
+}
+
+.controls-Button__close_toolButton_transparent-theme_@{themeName} {
+   background-color: @background-color_closeButton_toolButton;
+   &:active {
+      background-color: @background-color_active_closeButton_toolButton;
+   }
+}
+
+.controls-Button__close_toolButton_untransparent-theme_@{themeName} {
+   background-color: @contrast_background-color_closeButton_toolButton;
+   &:active {
+      background-color: @contrast_active_background-color_closeButton_toolButton;
+   }
+}
+
+.controls-Button__close_toolButton-theme_@{themeName} {
+   width: @width_closeButton_toolButton;
+   height: @height_closeButton_toolButton;
+   border-color: @border-color_closeButton_toolButton;
+   border-width: @border-thickness_closeButton_toolButton;
+   border-radius: @border-radius_closeButton_toolButton;
+   box-shadow: @box-shadow_closeButton_toolButton;
+   &:active {
+      border-color: @border-color_active_closeButton_toolButton;
+      box-shadow: @box-shadow_closeButton_toolButton; //none
+   }
+}
+
+.controls-Button__close_toolButton {
+   border-style: solid;
+   box-sizing: border-box;
+}
+
+.controls-Button__close_link-theme_@{themeName} {
+   font-family: @icon_font-family_m;
+   width: @width_closeButton_link;
+   height: @height_closeButton_link;
 }
 
 .ws-is-hover{
-   .controls-Button__close__icon_link:hover.theme_@{themeName}, .controls-Button__close__icon_link:hover.theme_@{themeName} {
-      background-image: @background-image_CloseButton-link_hovered;
+   .controls-Button__close__icon_link-theme_@{themeName}:hover {
+      background-image: @icon_hovered_background-image_closeButton_link;
+   }
+   .controls-Button__close__icon_toolButton-theme_@{themeName}:hover {
+      background-image: @icon_hovered_background-image_closeButton_toolButton;
    }
 
-   .controls-Button__close_toolButton:hover.theme_@{themeName} {
-      border-color: @border-color_CloseButton_toolButton_hover;
-      .controls-Button__close__icon_toolButton, .controls-Button__close__icon_toolButton {
-         background-image: @background-image_CloseButton-toolButton_hovered;
-      }
+   .controls-Button__close_toolButton-theme_@{themeName}:hover {
+      border-color: @border-color_hover_closeButton_toolButton;
    }
-   .controls-Button__close_popup:hover.theme_@{themeName} {
-      border-color: @border-color_CloseButton_popup_hover;
-      .controls-Button__close__icon_popup, .controls-Button__close__icon_popup {
-         background-image: @background-image_CloseButton-popup_hovered;
-      }
+
+   .controls-Button__close_toolButton_untransparent-theme_@{themeName}:hover {
+      background-color: @contrast_hover_background-color_closeButton_toolButton;
    }
-   .controls-Button__close_toolButton_untransparent:hover.theme_@{themeName} {
-      background-color: @background-color_CloseButton-primary-untransparent_hovered;
-   }
-   .controls-Button__close_popup_untransparent:hover.theme_@{themeName} {
-      background-color: @background-color_CloseButton-primary-untransparent_hovered;
-   }
-   .controls-Button__close_toolButton_transparent:hover.theme_@{themeName} {
-      background-color: @background-color_CloseButton-primary-transparent_hovered;
-   }
-   .controls-Button__close_popup_transparent:hover.theme_@{themeName} {
-      background-color: @background-color_CloseButton-popup-transparent_hovered;
+
+   .controls-Button__close_toolButton_transparent-theme_@{themeName}:hover {
+      background-color: @background-color_hover_closeButton_toolButton;
    }
 }

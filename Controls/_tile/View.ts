@@ -15,6 +15,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
+ * @mixes Controls/interface/IContentTemplate
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilter

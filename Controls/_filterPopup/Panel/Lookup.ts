@@ -34,7 +34,7 @@ import 'Controls/lookup';
  * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  *
  * @css @spacing_FilterPanelLookup-between-lookup-link Отступ между полем связи и кнопкой-ссылкой, когда они расположены на одной строке.
  */

@@ -4,7 +4,7 @@ import 'css!Controls-demo/Controls-demo';
 import 'css!Controls-demo/Input/Placeholders/Placeholders';
 
 class Placeholders extends Control<IControlOptions> {
-    private _value: string = '';
+    protected _value: string = '';
 
     protected _template: TemplateFunction = controlTemplate;
 

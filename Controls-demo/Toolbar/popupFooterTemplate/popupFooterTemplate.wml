@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.toolbars:View
+                name="myToolbar"
+                attr:id="Toolbar"
+                parentProperty="parent"
+                nodeProperty="@parent"
+                keyProperty="id"
+                source="{{_getMemorySource(_defaultItems)}}"
+                popupClassName="controls-Toolbar_test_popupClassName"
+                itemsSpacing="big"
+                iconSize="m"
+        >
+            <ws:popupFooterTemplate>
+                <div class="controls-text-label_theme-{{_options.theme}}"
+                     style="text-align: center; padding: 10px; width: 200px">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam.
+                </div>
+            </ws:popupFooterTemplate>
+        </Controls.toolbars:View>
+    </div>
+</div>

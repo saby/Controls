@@ -210,11 +210,12 @@
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysDuplicate"
                                      keyProperty="id"
                                      displayProperty="title"
+                                     on:selectedKeysChanged="_selectedKeysHandler()"
                                      attr:class="demo-InputDropdown__withDuplicate ControlsDemo-InputDropdown__item"
                                      source="{{_duplicateItems}}">
                <ws:headerTemplate>
                   <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
-                     <ws:partial template="{{ content.resolvedTemplate }}" scope="{{headerTemplate}}"/>
+                     <ws:partial template="{{ content.resolvedTemplate }}" scope="{{headerTemplate}}" caption="{{_duplicateCaption}}"/>
                   </Controls.Container.Async>
                </ws:headerTemplate>
             </Controls.dropdown:Input>

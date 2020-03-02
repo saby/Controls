@@ -123,7 +123,7 @@ define('Controls-demo/Dropdown/MenuVdom', [
                { parent: null, '@parent': true },
                { parent: null, '@parent': false },
                { parent: null, '@parent': true },
-               { parent: '1', '@parent': false },
+               { parent: '1', '@parent': true },
                { parent: '4', '@parent': false },
                { parent: '4', '@parent': false },
                { parent: '3', '@parent': true },

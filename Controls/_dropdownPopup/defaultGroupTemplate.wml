@@ -1,17 +1,17 @@
 <ws:if data="{{showText !== true}}">
-   <div class="controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
+   <div class="{{item.isHiddenGroup() ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
 </ws:if>
 <ws:else>
-   <div class="controls-DropdownList__group_content theme_{{_options.theme}}">
+   <div class="{{item.isHiddenGroup() ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_content theme_{{_options.theme}}">
       <ws:if data="{{textAlign !== 'left' && showText !== false}}">
          <div class="controls-DropdownList__group_separator_left controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
       </ws:if>
          <div class="controls-DropdownList__group_content-text theme_{{_options.theme}} {{ !contentTemplate ? 'controls-DropdownList__group_content_textAlign-'+textAlign+'_theme-'+_options.theme }}">
             <ws:if data="{{!!contentTemplate}}">
-               <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}"/>
+               <ws:partial template="{{contentTemplate}}" itemData="{{item}}" />
             </ws:if>
             <ws:else>
-               {{itemData.item}}
+               {{item.getContents()}}
             </ws:else>
          </div>
       <ws:if data="{{textAlign !== 'right' && showText !== false}}">

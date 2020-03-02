@@ -42,7 +42,7 @@ class DateRangeEditor extends Control<IControlOptions> {
         }
     }
 
-    private _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
+    protected _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
         return this.getCaption(startValue, endValue).then((caption) => {
             this._notify('textValueChanged', [caption]);
             if (!startValue && !endValue && this._options.resetValue || isEqual([startValue, endValue], this._options.resetValue)) {

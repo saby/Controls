@@ -27,7 +27,7 @@ export default class extends Control {
         return groupId === 'apple' ? Constants.view.hiddenGroup : groupId;
     }
 
-    private _onBeforeBeginEdit(e: SyntheticEvent<null>, options: { item?: Model }, isAdd: boolean): Promise<{item: Model}> | void {
+    protected _onBeforeBeginEdit(e: SyntheticEvent<null>, options: { item?: Model }, isAdd: boolean): Promise<{item: Model}> | void {
         if (!isAdd) {
             this._activeGroup = this._groupingKeyCallback(options.item);
             return;
@@ -40,7 +40,7 @@ export default class extends Control {
         }) as unknown as Promise<{item: Model}>;
     }
 
-    private _beginAdd(): void {
+    protected _beginAdd(): void {
         this._children.list.beginAdd();
     }
 }

@@ -8,7 +8,7 @@ import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     private _moverItemsCount: number;
-    private _filter: object = {};
+    protected _filter: object = {};
 
     protected _beforeMount(): any {
         this._dataLoadCallback = this._dataLoadCallback.bind(this);

@@ -2,8 +2,7 @@ define('Controls-demo/LongRender/LongRenderDemo',
    [
       'Core/Control',
       'Env/Env',
-      'wml!Controls-demo/LongRender/LongRenderDemo',
-      'css!Controls-demo/LongRender/LongRenderDemo',
+      'wml!Controls-demo/LongRender/LongRenderDemo'
    ],
    function(Control, Env, template) {
       'use strict';

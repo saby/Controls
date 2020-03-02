@@ -1,4 +1,4 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ISlider, ISliderOptions} from './interface/ISlider';
@@ -65,10 +65,10 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    private _value: number = undefined;
    private _lineData: ILineData = undefined;
    private _pointData: IPointDataList = undefined;
-   private _scaleData: IScaleData[] = undefined;
+   protected _scaleData: IScaleData[] = undefined;
    private _tooltipPosition: number | null = null;
-   private _tooltipValue: string | null = null;
-   private _isDrag: boolean = false;
+   protected _tooltipValue: string | null = null;
+   protected _isDrag: boolean = false;
 
    private _render(minValue: number, maxValue: number, value: number): void {
       const rangeLength = maxValue - minValue;
@@ -120,7 +120,7 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       this._renderTooltip(options.minValue, options.maxValue, this._tooltipPosition);
    }
 
-   private _mouseDownAndTouchStartHandler(event: SyntheticEvent<MouseEvent | TouchEvent>): void {
+   protected _mouseDownAndTouchStartHandler(event: SyntheticEvent<MouseEvent | TouchEvent>): void {
       if (!this._options.readOnly) {
          this._isDrag = true;
          this._value = this._getValue(event);
@@ -129,7 +129,7 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       }
    }
 
-   private _onDragNDropHandler(e: SyntheticEvent<Event>, dragObject) {
+   protected _onDragNDropHandler(e: SyntheticEvent<Event>, dragObject) {
       if (!this._options.readOnly) {
          const box = this._children.area.getBoundingClientRect();
          const ratio = Utils.getRatio(dragObject.position.x, box.left + window.pageXOffset, box.width);

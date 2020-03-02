@@ -1,0 +1,27 @@
+<div class="controlsDemo__wrapper">
+<Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+                <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_searchStartingWith}}">
+                        <div class="ws-fragment">
+                                <Controls.search:InputContainer>
+                                        <Controls.search:Input/>
+                                </Controls.search:InputContainer>
+                                <Controls.list:Container>
+                                        <Controls.operations:Container>
+                                                <Controls.explorer:View
+                                                    source="{{_viewSource}}"
+                                                    itemActions="{{_itemActions}}"
+                                                    bind:root="_root"
+                                                    attr:class="demo-Explorer ControlsDemo-Explorer"
+                                                    keyProperty="id"
+                                                    displayProperty="title"
+                                                    parentProperty="parent"
+                                                    nodeProperty="parent@"
+                                                    columns="{{_columns}}">
+                                                </Controls.explorer:View>
+                                        </Controls.operations:Container>
+                                </Controls.list:Container>
+                        </div>
+                </Controls.search:Controller>
+</Controls.list:DataContainer>
+</div>
+

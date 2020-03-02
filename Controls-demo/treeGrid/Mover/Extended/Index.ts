@@ -7,11 +7,11 @@ import {TColumns} from 'Controls/grid';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: HierarchicalMemory;
+    protected _viewSource: HierarchicalMemory;
     private _selectedKeys: [] = [];
     private _excludedKeys: [] = [];
     private _filter: object = {};
-    private _columns: TColumns;
+    protected _columns: TColumns;
 
     protected _beforeMount(): any {
         this._columns = [{

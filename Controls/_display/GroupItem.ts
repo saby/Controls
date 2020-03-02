@@ -2,6 +2,7 @@ import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionIt
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from './ExpandableMixin';
 import {mixin} from 'Types/util';
 import {register} from 'Types/di';
+import { TemplateFunction } from 'UI/Base';
 
 interface IOptions<T> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
 }
@@ -24,6 +25,17 @@ export default class GroupItem<T> extends mixin<
     constructor(options?: IOptions<T>) {
         super(options);
         ExpandableMixin.call(this);
+    }
+
+    isHiddenGroup(): boolean {
+        return this._$contents === 'CONTROLS_HIDDEN_GROUP';
+    }
+
+    getItemTemplate(
+        userItemTemplate: TemplateFunction|string,
+        userGroupTemplate?: TemplateFunction|string
+    ): TemplateFunction|string {
+        return userGroupTemplate || 'Controls/listRender:groupTemplate';
     }
 }
 

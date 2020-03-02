@@ -6,7 +6,6 @@ const getStickyConfig = (config) => {
     config = config || {};
     config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
     // Открывается всегда вдомным
-    config._vdomOnOldPage = config.hasOwnProperty('_vdomOnOldPage') ? config._vdomOnOldPage : true;
     return config;
 };
 
@@ -66,11 +65,6 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
 
     static closePopup(popupId: string): void {
         BaseOpener.closeDialog(popupId);
-    }
-
-    static getDefaultOptions(): IStickyOpenerOptions {
-        // На старом WindowManager пофиксили все известные баги, пробую все стики окна открывать всегда вдомными
-        return {...BaseOpener.getDefaultOptions(), ...{_vdomOnOldPage: true}};
     }
 }
 

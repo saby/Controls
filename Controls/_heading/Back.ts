@@ -119,8 +119,8 @@ const MODERN_IE_VERSION = 11;
 
 class Back extends Control<IBackOptions> {
     protected _template: TemplateFunction = backTemplate;
-    private _isOldIe: Boolean = false;
-    private _style: TBackStyle;
+    protected _isOldIe: Boolean = false;
+    protected _style: TBackStyle;
 
     private _convertOldStyleToNew(options: IBackOptions): void {
         if (options.style === 'default') {

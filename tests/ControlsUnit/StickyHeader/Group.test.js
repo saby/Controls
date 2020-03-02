@@ -1,9 +1,11 @@
 define([
    'Controls/scroll',
-   'Core/core-merge'
+   'Core/core-merge',
+   'Controls/_scroll/StickyHeader/Utils'
 ], function(
    scroll,
-   coreMerge
+   coreMerge,
+   Utils
 ) {
 
    'use strict';
@@ -189,8 +191,9 @@ define([
             component._headers[0] = {
                inst: {
                   top: 0
-               }
-            }
+               },
+               top: 0
+            };
             component.top = 20;
             assert.strictEqual(component._headers[0].inst.top, 20);
          });
@@ -202,8 +205,9 @@ define([
             component._headers[0] = {
                inst: {
                   bottom: 0
-               }
-            }
+               },
+               bottom: 0
+            };
             component.bottom = 20;
             assert.strictEqual(component._headers[0].inst.bottom, 20);
          });
@@ -232,6 +236,21 @@ define([
       });
 
       describe('_stickyRegisterHandler', function() {
+         let data = {
+            id: 2,
+            inst: {
+               _container: {}
+            }
+         };
+
+         beforeEach(() => {
+            sinon.stub(Utils, 'getOffset').returns(0);
+         });
+
+         afterEach(() => {
+            sinon.restore();
+         });
+
          it('should stopImmediatePropagation event', function() {
             const
                component = createComponent(scroll.Group, options);
@@ -239,7 +258,7 @@ define([
                blockUpdate: false,
                stopImmediatePropagation: sinon.fake()
             };
-            component._stickyRegisterHandler(event, { id: 2 }, true);
+            component._stickyRegisterHandler(event, data, true);
             sinon.assert.calledOnce(event.stopImmediatePropagation);
          });
          it('should register new header', function() {
@@ -249,10 +268,9 @@ define([
                event = {
                   blockUpdate: false,
                   stopImmediatePropagation: sinon.fake()
-               },
-               param = { id: 2 };
-            component._stickyRegisterHandler(event, param, true);
-            assert.deepEqual(component._headers, { 2: param });
+               };
+            component._stickyRegisterHandler(event, data, true);
+            assert.property(component._headers, data.id);
          });
          it('should unregister deleted header', function() {
             const
@@ -260,11 +278,10 @@ define([
             let event = {
                   blockUpdate: false,
                   stopImmediatePropagation: sinon.fake()
-               },
-               id = 2;
-            component._headers[id] = { id: id };
-            component._stickyRegisterHandler(event, { id: id }, false);
-            assert.isUndefined(component._headers[id]);
+               };
+            component._headers[data.id] = { id: data.id };
+            component._stickyRegisterHandler(event, data, false);
+            assert.isUndefined(component._headers[data.id]);
          });
 
          it('should generate event on first header registered', function() {
@@ -275,7 +292,7 @@ define([
                };
 
             sinon.stub(component, '_notify');
-            component._stickyRegisterHandler(event, { id: 2 }, true);
+            component._stickyRegisterHandler(event, data, true);
 
             sinon.assert.calledWith(component._notify, 'stickyRegister');
             sinon.restore();
@@ -287,12 +304,11 @@ define([
                event = {
                   stopImmediatePropagation: sinon.fake()
                };
-            component._stickyRegisterHandler(event, { id: 2 }, true);
+            component._stickyRegisterHandler(event, data, true);
             sinon.stub(component, '_notify');
-            component._stickyRegisterHandler(event, { id: 3 }, true);
+            component._stickyRegisterHandler(event, { id: 3, inst: data.inst }, true);
 
             sinon.assert.notCalled(component._notify);
-            sinon.restore();
          });
 
          it('should generate event on last header unregistered', function() {
@@ -301,12 +317,11 @@ define([
                event = {
                   stopImmediatePropagation: sinon.fake()
                };
-            component._stickyRegisterHandler(event, { id: 2 }, true);
+            component._stickyRegisterHandler(event, data, true);
             sinon.stub(component, '_notify');
-            component._stickyRegisterHandler(event, { id: 2 }, false);
+            component._stickyRegisterHandler(event, data, false);
 
             sinon.assert.calledWith(component._notify, 'stickyRegister');
-            sinon.restore();
          });
 
          it('should not generate event on not last header unregistered', function() {
@@ -315,10 +330,10 @@ define([
                event = {
                   stopImmediatePropagation: sinon.fake()
                };
-            component._stickyRegisterHandler(event, { id: 2 }, true);
-            component._stickyRegisterHandler(event, { id: 3 }, true);
+            component._stickyRegisterHandler(event, data, true);
+            component._stickyRegisterHandler(event, { id: 3, inst: data.inst }, true);
             sinon.stub(component, '_notify');
-            component._stickyRegisterHandler(event, { id: 3 }, false);
+            component._stickyRegisterHandler(event, { id: 3, inst: data.inst }, false);
 
             sinon.assert.notCalled(component._notify);
             sinon.restore();

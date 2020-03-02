@@ -22,10 +22,10 @@ class HotKeysContainer extends Control<IControlOptions> {
     protected _defaultActions = [{keyCode: constants.key.up}, {keyCode: constants.key.down}, {keyCode: constants.key.enter}];
     // Этого кода не будет, когда добавится еще один хук жизненного цикла - "заморозка".
     // https://online.sbis.ru/opendoc.html?guid=ba32a992-5f5b-4f00-9b6a-73f62871a193
-    private _afterMount(): void {
+    protected _afterMount(): void {
         this._notify('registerKeyHook', [this], { bubbling: true});
     }
-    private _beforeUnmount(): void {
+    protected _beforeUnmount(): void {
         this._notify('unregisterKeyHook', [this], { bubbling: true});
     }
     register(): void {

@@ -17,7 +17,7 @@ define([
 
    describe('Controls/Input/Date/Link', function() {
 
-      describe('_openDialog', function() {
+      describe('openPopup', function() {
          it('should open opener', function() {
             const component = calendarTestUtils.createComponent(dateRange.Link, options);
             component._children = {
@@ -25,10 +25,10 @@ define([
                   open: sinon.fake()
                },
                linkView: {
-                  getDialogTarget: sinon.stub().returns()
+                   getPopupTarget: sinon.stub().returns()
                }
             };
-            component._openDialog();
+            component.openPopup();
             sinon.assert.called(component._children.opener.open);
          });
       });

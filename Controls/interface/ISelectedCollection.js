@@ -5,13 +5,13 @@ define('Controls/interface/ISelectedCollection', [
     * Интерфейс для выбора элементов из списка.
     * @interface Controls/interface/ISelectedCollection
     * @public
-    * @author Капустин И.А.
+    * @author Герасимов А.М.
     */
    /*
     * Interface to select items from the list.
     * @interface Controls/interface/ISelectedCollection
     * @public
-    * @author Kapustin I.A.
+    * @author Герасимов А.М.
     */
 
    /**

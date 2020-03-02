@@ -58,7 +58,7 @@ export default interface IBaseGroupTemplateOptions {
     * @remark
     * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
     * 
-    * * {@link String|Number item} — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
+    * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
     * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для таблицы.
     * 
     * @example
@@ -125,7 +125,7 @@ export default interface IBaseGroupTemplateOptions {
     * @remark
     * В области видимости шаблона доступна переменная **itemData** со следующими свойствами:
     *
-    * * {@link String|Number item} — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
+    * * item — идентификатор отрисовываемой группы, полученный из {@link Controls/interface/IGroupedGrid#groupProperty groupProperty}.
     * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для списка.
     * 
     * @example

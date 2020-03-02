@@ -1,0 +1,5 @@
+<Controls.shortDatePicker:View>
+    <ws:monthTemplate>
+        <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
+    </ws:monthTemplate>
+</Controls.shortDatePicker:View>

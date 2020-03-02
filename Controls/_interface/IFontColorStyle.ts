@@ -33,6 +33,7 @@ export default interface IFontColorStyle {
  * @variant default
  * @demo Controls-demo/Buttons/FontStyles/Index
  * @demo Controls-demo/Input/FontStyles/Index
+ * @demo Controls-demo/Decorator/Money/FontColorStyle/Index
  * @remark
  * Стиль цвета текста задается константой из стандартного набора цветов, который определен для текущей темы оформления.
  * @example

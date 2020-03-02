@@ -42,7 +42,7 @@ class More {
 
     getMoreMeta(key?: TKey): unknown {
         let moreResult: unknown;
-        let moreIndex: Number;
+        let moreIndex: number;
 
         if (this.more) {
             if (key !== undefined) {

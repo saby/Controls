@@ -1,0 +1,22 @@
+.controlsDemo-StickyHeader-MultiHeader__headers {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
+
+.controlsDemo-StickyHeader-MultiHeader__headers-wrapper {
+   display: contents;
+}
+
+.controlsDemo-StickyHeader-MultiHeader__header1 {
+   grid-area: ~"1 / 1 / 3 / 2";
+}
+.controlsDemo-StickyHeader-MultiHeader__header2 {
+   grid-area: ~"1 / 2 / 2 / 3";
+}
+.controlsDemo-StickyHeader-MultiHeader__header3 {
+   grid-area: ~"2 / 2 / 3 / 3";
+}
+
+.controlsDemo-StickyHeader-MultiHeader__content {
+   grid-area: ~"3 / 1 / 3 / 3";
+}

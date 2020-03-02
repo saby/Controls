@@ -5,7 +5,7 @@ import {Memory} from "Types/source"
 export default class extends Control {
     protected _template: TemplateFunction = template;
 
-    private _source = new Memory({
+    protected _source = new Memory({
         keyProperty: 'id',
         data: []
     });

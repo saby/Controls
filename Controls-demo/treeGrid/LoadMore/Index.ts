@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = Gadgets.getGridColumnsForFlat();
-    private _navigation = {
+    protected _viewSource: Memory;
+    protected _columns = Gadgets.getGridColumnsForFlat();
+    protected _navigation = {
         source: 'page',
         view: 'demand',
         sourceConfig: {

@@ -150,8 +150,8 @@ define([
          ins._registrar = registrarMock;
          const nativeMockStart = ins._registrar.start;
          ins._registrar.start = (eType, params) => {
-            if (eType === 'viewPortResize') {
-               assert.equal(params[0], 300, 'Wrong new height of container');
+            if (eType === 'viewportResize') {
+               assert.equal(params.clientHeight, 300, 'Wrong new height of container');
             }
             nativeMockStart(eType);
          };
@@ -170,7 +170,7 @@ define([
          evType = [];
          scrollMod.Watcher._private.onResizeContainer(ins, containerMock, true);
          assert.deepEqual({clientHeight: 300, scrollHeight: 400}, ins._sizeCache, 'Wrong size cache values');
-         assert.deepEqual(['canScroll', 'viewPortResize', 'scrollResize'], evType);
+         assert.deepEqual(['canScroll', 'viewportResize', 'scrollResize'], evType);
          registrarMock.start = nativeMockStart;
       });
 

@@ -4,7 +4,7 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = controlTemplate;
-   private _errors: string[] = null;
+   protected _errors: string[] = null;
 
    protected _beforeMount(): void {
       this._errors = [

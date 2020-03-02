@@ -1,0 +1,40 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=single</div>
+        <Controls.calendar:MonthSlider
+            bind:month="_month"
+            bind:startValue="_startValue1"
+            bind:endValue="_endValue1"
+            selectionType="single"
+            attr:class="controlsDemo-MonthSlider__default"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=quantum</div>
+        <Controls.calendar:MonthSlider
+            bind:month="_month2"
+            bind:startValue="_startValue2"
+            bind:endValue="_endValue2"
+            selectionType="quantum"
+            quantum="{{ {'days': [5]} }}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=range</div>
+        <Controls.calendar:MonthSlider
+            bind:month="_month3"
+            bind:startValue="_startValue3"
+            bind:endValue="_endValue3"
+            selectionType="range"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">selectionType=disable</div>
+        <Controls.calendar:MonthSlider
+            bind:month="_month4"
+            bind:startValue="_startValue4"
+            bind:endValue="_endValue4"
+            selectionType="disable"
+        />
+    </div>
+</div>

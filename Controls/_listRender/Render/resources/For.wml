@@ -1,6 +1,6 @@
 <ws:for data="index, item in collection.getViewIterator()">
    <ws:partial
       template="wml!Controls/_listRender/Render/resources/ForItemTemplate"
-      scope="{{_options}}"
+      scope="{{ _options }}"
       attr:key="{{ keyPrefix }}-{{ item.getUid() }}" />
 </ws:for>

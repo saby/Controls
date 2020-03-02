@@ -246,13 +246,13 @@
  * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
- /**
+/**
  * @name Controls/_treeGrid/interface/ITreeControl#markItemByExpanderClick
- * @cfg {Boolean} Определяет, нужно ли выделять узел оранжевым маркером.
- * @remark Узел отмечается оранжевым маркером при клике на иконку разворота узла, если значение true.
+ * @cfg {Boolean} Определяет, нужно ли выделять узел маркером.
+ * @remark Узел отмечается маркером при клике на иконку разворота узла, если значение true.
  * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * См. <a href="/materials/demo-ws4-tree-grid-item-template">демо-пример</a>
-*/
+ */
 
 /**
  * @event Controls/_treeGrid/interface/ITreeControl#itemExpanded Происходит после развертывания узла.

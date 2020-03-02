@@ -122,7 +122,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
             headingStyle: 'secondary',
             closeButtonVisibility: true,
             headingSize: 'l',
-            closeButtonViewMode: 'popup',
+            closeButtonViewMode: 'toolButton',
             closeButtonTransparent: true,
             headerBorderVisible: true,
         };

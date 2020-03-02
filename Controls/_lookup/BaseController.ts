@@ -151,7 +151,7 @@ var _private = {
     * @extends Core/Control
     * @control
     * @private
-    * @author Капустин И.А.
+    * @author Герасимов А.М.
     */
    /*
     * The controller of the selected collection is used in the communication fields and the selection buttons from the directory.
@@ -160,7 +160,7 @@ var _private = {
     * @extends Core/Control
     * @control
     * @private
-    * @author Kapustin I.A.
+    * @author Герасимов А.М.
     */
 
    var CollectionController = Control.extend({

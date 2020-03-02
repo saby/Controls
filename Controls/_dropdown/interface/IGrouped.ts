@@ -15,7 +15,8 @@ export default IGrouped;
 
 export interface IGroupedOptions {
     /**
-     * Шаблон группировки.
+     * @name Controls/_dropdown/interface/IGrouped#groupTemplate
+     * @cfg {Function} Шаблон группировки.
      * @remark
      * Для определения шаблона вызовите базовый шаблон - "Controls/dropdownPopup:GroupTemplate".
      * Шаблон должен быть помещен в компонент с помощью тега <ws:partial> с атрибутом "template".
@@ -57,7 +58,8 @@ export interface IGroupedOptions {
      */
     groupTemplate: TemplateFunction;
     /**
-     * Функция обратного вызова для получения идентификатора группы элемента списка.
+     * @name Controls/_dropdown/interface/IGrouped#groupProperty
+     * @cfg {String} Функция обратного вызова для получения идентификатора группы элемента списка.
      * @param item элемент списка.
      * @example
      * TMPL:

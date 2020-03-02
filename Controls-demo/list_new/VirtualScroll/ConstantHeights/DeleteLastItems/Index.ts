@@ -17,7 +17,7 @@ export default class extends Control {
         }
     });
 
-    private _removeItems() {
+    protected _removeItems() {
         const keys = [];
         for (let i = 0; i < 10; i++) {
             keys.push(this._itemsCount - 1 - i);

@@ -1,0 +1,27 @@
+<div attr:class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{ item.isHiddenGroup() ? 'controls-ListView__groupHidden' : 'controls-ListView__group' }}">
+   <div attr:class="controls-ListView__groupContent {{ expanderVisible === false ? ' controls-ListView__groupContent_cursor-default' : '' }}">
+      <ws:if data="{{ separator !== false && separatorVisibility !== false && textAlign !== 'left' }}">
+         <div attr:class="controls-ListView__groupSeparator-left">&nbsp;</div>
+      </ws:if>
+      <div attr:class="
+         controls-ListView__groupContent-text
+         {{ expanderVisible !== false ? ' controls-ListView__groupExpander' +
+         (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right' : ' controls-ListView__groupExpander_left') +
+         (!item.isExpanded() ?
+         ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
+            ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'') }}">
+         <ws:if data="{{ !!contentTemplate }}">
+            <ws:partial template="{{ contentTemplate }}" item="{{ item }}" />
+         </ws:if>
+         <ws:else>
+            {{ item.getContents() }}
+         </ws:else>
+      </div>
+      <ws:if data="{{ separator !== false && separatorVisibility !== false && textAlign !== 'right' }}">
+         <div attr:class="controls-ListView__groupSeparator-right">&nbsp;</div>
+      </ws:if>
+      <ws:if data="{{ !!rightTemplate }}">
+         <ws:partial template="{{ rightTemplate }}" attr:class="controls-ListView__groupContent-rightTemplate" item="{{ item }}" />
+      </ws:if>
+   </div>
+</div>

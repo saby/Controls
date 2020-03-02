@@ -144,7 +144,7 @@ ListControl.getDefaultOptions = function() {
     return {
         multiSelectVisibility: 'hidden',
         stickyHeader: true,
-        style: 'default'
+        style: 'default',
     };
 };
 

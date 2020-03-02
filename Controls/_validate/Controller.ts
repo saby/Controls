@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_validate/Controller');
+// @ts-ignore
 import ValidateContainer = require('wml!Controls/_validate/Container');
 import {Logger} from 'UI/Utils';
 import {IValidateConfig} from 'Controls/_validate/Container';

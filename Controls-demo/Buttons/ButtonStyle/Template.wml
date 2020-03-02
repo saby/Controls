@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=button, buttonStyle=[primary, secondary]</div>
+        <Controls.buttons:Button caption="Button" buttonStyle="primary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button caption="Button" buttonStyle="secondary"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton, buttonStyle=[secondary, success, danger], different iconStyles</div>
+        <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="secondary" iconSize="s" buttonStyle="secondary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="success" iconSize="s" buttonStyle="success"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="danger" iconSize="s" buttonStyle="danger"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=[primary, secondary, success, danger, unaccented], iconStyle=contrast</div>
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="primary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="secondary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="success"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="danger"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="unaccented"></Controls.buttons:Button>
+    </div>
+
+</div>

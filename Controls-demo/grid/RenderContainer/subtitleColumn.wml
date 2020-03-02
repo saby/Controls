@@ -1,0 +1,3 @@
+<div attr:style="color: blue;">
+   {{ item.getContents().subtitle }}
+</div>

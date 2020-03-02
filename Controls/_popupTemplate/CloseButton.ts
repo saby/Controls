@@ -13,20 +13,6 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
     * См. <a href="/materials/demo-ws4-buttons">демо-пример</a>
     *
     */
-   /*
-    * Specialized type of button for closing windows.
-    *
-    * <a href="/materials/demo-ws4-buttons">Demo-example</a>.
-    *
-    * @class Controls/_popupTemplate/CloseButton
-    * @extends Core/Control
-    * @control
-    * @public
-    * @author Красильников А.С.
-    * @demo Controls-demo/Buttons/Close/CloseDemo
-    * @mixes Controls/_buttons/interface/IClick
-    *
-    */
 
    /**
     * @name Controls/_popupTemplate/CloseButton#viewMode
@@ -37,28 +23,11 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
     * @example
     * Отображение в виде ссылки:
     * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="link" size="l"/>
+    *    <Controls.popupTemplate:CloseButton viewMode="link"/>
     * </pre>
     * Отображение как кнопки панели инструментов:
     * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" size="l"/>
-    * </pre>
-    */
-
-   /*
-    * @name Controls/_popupTemplate/CloseButton#viewMode
-    * @cfg {String} Close button display view mode.
-    * @variant toolButton  Close display style as button toolButton.
-    * @variant link Close display style as button link.
-    * @default toolButton
-    * @example
-    * Close button display as link.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="link" size="l"/>
-    * </pre>
-    * Close button display as toolButton.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" size="l"/>
+    *    <Controls.popupTemplate:CloseButton viewMode="toolButton"/>
     * </pre>
     */
 
@@ -71,81 +40,25 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
     * @example
     * Кнопка "Закрыть" с прозрачным фоном:
     * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}" size="l"/>
+    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}"/>
     * </pre>
     * Кнопка "Закрыть" с непрозрачным фоном.
     * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}" size="l"/>
+    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}"/>
     * </pre>
     */
 
-   /*
-    * @name Controls/_popupTemplate/CloseButton#transparent
-    * @cfg {String} Determines whether close button background color.
-    * @variant true Close button has transparent background.
-    * @variant false Close button has their viewmode's background.
-    * @default true
-    * @example
-    * Close button has transparent background.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}" size="l"/>
-    * </pre>
-    * Close button has toolButton's background.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}" size="l"/>
-    * </pre>
-    */
+class CloseButton extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
 
-   /**
-    * @name Controls/_popupTemplate/CloseButton#size
-    * @cfg {String} Устанавливает размер кнопки. Значение задается общими обозначениями размера.
-    * @variant l Большой размер кнопки.
-    * @variant m Средний размер кнопки.
-    * @default m
-    * @remark
-    * Размер устанавливается только для кнопок вида toolButton.
-    * @example
-    * Устанавливается большой размер кнопки:
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}" size="l"/>
-    * </pre>
-    * Устанавливается средний размер кнопки:
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}" size="m"/>
-    * </pre>
-    */
+   static _theme: string[] = ['Controls/popupTemplate'];
 
-   /*
-    * @name Controls/_popupTemplate/CloseButton#size
-    * @cfg {String} Close button size. The value is given by common size notations.
-    * @variant l Large button size.
-    * @variant m Medium button size.
-    * @default m
-    * @remark
-    * Close button has this size only in toolButton view mode.
-    * @example
-    * Close button has l size.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{true}}" size="l"/>
-    * </pre>
-    * Close button has m size.
-    * <pre>
-    *    <Controls.popupTemplate:CloseButton viewMode="toolButton" transparent="{{false}}" size="m"/>
-    * </pre>
-    */
-
-   class CloseButton extends Control<IControlOptions> {
-      protected _template: TemplateFunction = template;
-
-      static _theme: string[] = ['Controls/popupTemplate'];
-
-      static getDefaultOptions(): object {
-         return {
-            size: 'l',
-            viewMode: 'toolButton',
-            transparent: true
-         };
-      }
+   static getDefaultOptions(): object {
+      return {
+         viewMode: 'toolButton',
+         transparent: true
+      };
    }
+}
 
-   export default CloseButton;
+export default CloseButton;

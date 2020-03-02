@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth500">
+<div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth550">
 
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"

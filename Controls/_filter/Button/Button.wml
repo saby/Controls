@@ -32,7 +32,6 @@
    <Controls.popup:Sticky
            name="filterStickyOpener"
            scope="{{_popupOptions}}"
-           _vdomOnOldPage="{{true}}"
            autofocus="{{true}}"
            on:result="_onFilterChanged()"
    >

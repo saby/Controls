@@ -1,0 +1,39 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">Без указания selectorTemplate</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+      />
+   </div>
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">C selectorTemplate и navigation</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              selectedKeys="{{_selectedKeys}}"
+              selectorDialogResult="{{_resultSingleSelect}}"
+              navigation="{{_navigation}}">
+         <ws:selectorTemplate templateName="Controls-demo/Menu/Control/SelectorTemplate/StackTemplate">
+            <ws:templateOptions multiSelect="{{false}}" items="{{_items}}"/>
+         </ws:selectorTemplate>
+      </Controls.menu:Control>
+   </div>
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">C selectorTemplate и navigation</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              selectedKeys="{{_selectedKeysMultiSelect}}"
+              multiSelect="{{true}}"
+              selectorDialogResult="{{_resultMultiSelect}}"
+              navigation="{{_navigation}}">
+         <ws:selectorTemplate templateName="Controls-demo/Menu/Control/SelectorTemplate/StackTemplate">
+            <ws:templateOptions multiSelect="{{true}}" items="{{_items}}"/>
+         </ws:selectorTemplate>
+      </Controls.menu:Control>
+   </div>
+</div>

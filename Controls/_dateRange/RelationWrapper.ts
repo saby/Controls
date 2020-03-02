@@ -160,7 +160,7 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  */
 
 class Component extends Control {
-    private _template: Function = template;
+    protected _template: Function = template;
 
     _onRangeChanged(event, startValue: Date, endValue: Date): void {
         this._notify('rangeChanged', [startValue, endValue]);

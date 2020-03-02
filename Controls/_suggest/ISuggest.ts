@@ -23,6 +23,7 @@ type ISuggest = ISuggest & {
        * @name Controls/_suggest/ISuggest#displayProperty
        * @cfg {String} Имя свойства элемента, значение которого отобразится в поле ввода поле выбора записи.
        * @remark
+       * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
        * @example
        * myModule.js
        * <pre>
@@ -61,6 +62,7 @@ type ISuggest = ISuggest & {
        * @name Controls/_suggest/ISuggest#displayProperty
        * @cfg {String} Name of the item property which content will be displayed.
        * @remark
+       * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
        * @example
        * myModule.js
        * <pre>

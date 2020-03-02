@@ -3,7 +3,6 @@ import Env = require('Env/Env');
 import entity = require('Types/entity');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import {isEqual} from 'Types/object';
-import getTextWidth = require('Controls/Utils/getTextWidth');
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';
 import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
@@ -17,7 +16,6 @@ import {
     getInputType,
     getAdaptiveInputType,
     IInputType,
-    INativeInputType,
     ISplitValue
 } from 'Controls/_input/Base/InputUtil';
 import MobileFocusController from 'Controls/_input/Base/MobileFocusController';

@@ -6,6 +6,7 @@ import { Memory as MemorySource } from 'Types/source';
 import { Model } from 'Types/entity';
 import { MaskResolver } from 'Router/router';
 
+// @ts-ignore
 import { View as ListViewOld } from 'Controls/list';
 import DisplayList from 'Controls-demo/List/Display/DisplayList';
 
@@ -39,12 +40,12 @@ export default class DisplayListDemo extends Control {
 
     private _viewSource: MemorySource;
 
-    private _counterData: any[] = null;
+    protected _counterData: any[] = null;
     private _useNewList: boolean;
     private _addRowsCount: number = 1;
     private _removeRowId: number = 1;
 
-    private _templateKeyPrefix: string;
+    protected _templateKeyPrefix: string;
 
     protected _beforeMount(options): void {
         // for demo
@@ -65,17 +66,17 @@ export default class DisplayListDemo extends Control {
         this._useNewList = !noDisplay;
     }
 
-    private _onItemClick(e: SyntheticEvent<MouseEvent>, item: Model): void {
+    protected _onItemClick(e: SyntheticEvent<MouseEvent>, item: Model): void {
         const title = item.get('title');
         item.set('title', `${title} clicked`);
         this._viewSource.update(item);
     }
 
-    private _updateCounters(e: SyntheticEvent<null>, counters: any): void {
+    protected _updateCounters(e: SyntheticEvent<null>, counters: any): void {
         this._counterData = counters;
     }
 
-    private _addRows(): void {
+    protected _addRows(): void {
         const newRows = generateListElements(this._addRowsCount);
         const createPromises = newRows.map(this._viewSource.create.bind(this._viewSource));
 
@@ -93,7 +94,7 @@ export default class DisplayListDemo extends Control {
         });
     }
 
-    private _removeRow(): void {
+    protected _removeRow(): void {
         if (this._useNewList) {
             // Удаление из нового списка
             this._children.listView.removeItem(this._removeRowId);

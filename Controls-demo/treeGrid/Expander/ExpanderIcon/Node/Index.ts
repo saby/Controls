@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   private _viewSource: Memory;
-   private _columns = Gadgets.getColumnsForFlat();
-   private _expandedItems = [null];
+   protected _viewSource: Memory;
+   protected _columns = Gadgets.getColumnsForFlat();
+   protected _expandedItems = [null];
 
 
    protected _beforeMount() {

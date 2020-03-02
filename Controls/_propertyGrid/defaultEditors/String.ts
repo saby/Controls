@@ -29,12 +29,19 @@ class StringEditor extends Control implements IEditor {
     protected _template: Function = template;
     protected _options: IEditorOptions;
 
-    private value: string = '';
+    protected value: string = '';
     private initialValue: string = '';
 
     _beforeMount(options: IEditorOptions): void {
         this.value = options.propertyValue;
         this.initialValue = options.propertyValue;
+    }
+
+    _beforeUpdate(newOptions: IEditorOptions): void {
+        if (this._options.propertyValue !== newOptions.propertyValue) {
+            this.value = newOptions.propertyValue;
+            this.initialValue = newOptions.propertyValue;
+        }
     }
 
     _inputCompleted(event: Event, value: string): void {

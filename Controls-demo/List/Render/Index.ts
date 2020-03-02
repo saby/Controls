@@ -2,7 +2,6 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/List/Render/Render');
 
 import { Memory } from 'Types/source';
-import { SyntheticEvent } from 'Vdom/Vdom';
 
 interface IListItem {
     key: number;
@@ -15,11 +14,11 @@ export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
 
     private _nextKey: number = 0;
-    private _viewSource: Memory;
-    private _multiSelectVisibility: string = 'hidden';
+    protected _viewSource: Memory;
+    protected _multiSelectVisibility: string = 'hidden';
 
-    private _itemActions: any;
-    private _navigation: any;
+    protected _itemActions: any;
+    protected _navigation: any;
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

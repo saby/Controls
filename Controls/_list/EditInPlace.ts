@@ -8,6 +8,8 @@ import Constants = require('Controls/Constants');
 import { error as dataSourceError } from 'Controls/dataSource';
 import 'css!theme?Controls/list';
 
+let displayLib: typeof import('Controls/display');
+
 var
     typographyStyles = [
         'fontFamily',
@@ -133,13 +135,15 @@ var
         },
 
         updateModel: function (self, commit) {
-            if (commit) {
+            if (commit && (self._isAdd || self._editingItem.isChanged())) {
                 if (self._options.source) {
+                    //
                     return self._options.source.update(self._editingItem).addCallbacks(function () {
                         _private.acceptChanges(self);
                     }, (error: Error) => {
                         return _private.processError(self, error);
                     });
+
                 }
                 _private.acceptChanges(self);
             }
@@ -284,7 +288,7 @@ var
 
             // TODO no hasParentInItems for new model at the moment
             if (self._options.useNewModel) {
-                originalItem = listModel.getItemBySourceId(editingItem.get(listModel.getKeyProperty()));
+                originalItem = listModel.getItemBySourceKey(editingItem.get(listModel.getKeyProperty()));
             } else {
                 originalItem = listModel.getItemById(editingItem.get(listModel._options.keyProperty), listModel._options.keyProperty);
             }
@@ -406,12 +410,15 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                 this._setEditingItemData(this._editingItem, newOptions.listModel, newOptions);
                 if (!this._isAdd) {
                     if (newOptions.useNewModel) {
-                        this._originalItem = newOptions.listModel.getItemBySourceId(this._editingItem.get(newOptions.listModel.getKeyProperty())).getContents();
+                        this._originalItem = newOptions.listModel.getItemBySourceKey(this._editingItem.get(newOptions.listModel.getKeyProperty())).getContents();
                     } else {
                         this._originalItem = newOptions.listModel.getItemById(this._editingItem.get(newOptions.listModel._options.keyProperty), newOptions.listModel._options.keyProperty).getContents();
                     }
                 }
             }
+        }
+        if (newOptions.useNewModel) {
+            displayLib = require('Controls/display');
         }
         this._sequentialEditing = _private.getSequentialEditing(newOptions);
     },
@@ -596,7 +603,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
     _setEditingItemData: function (item, listModel, options) {
         if (!item) {
             if (options.useNewModel) {
-                listModel.setEditingItem(null);
+                displayLib.EditInPlaceController.endEdit(listModel);
             } else {
                 listModel._setEditingItemData(null);
             }
@@ -606,7 +613,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
 
         let editingItemProjection;
         if (options.useNewModel) {
-            editingItemProjection = listModel.getItemBySourceId(this._editingItem.get(listModel.getKeyProperty()));
+            editingItemProjection = listModel.getItemBySourceKey(this._editingItem.get(listModel.getKeyProperty()));
         } else {
             editingItemProjection = listModel.getItemById(this._editingItem.get(listModel._options.keyProperty), listModel._options.keyProperty);
         }
@@ -621,8 +628,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
         }
 
         if (options.useNewModel) {
-            this._editingItemData = editingItemProjection;
-            listModel.setEditingItem(this._editingItemData, item);
+            displayLib.EditInPlaceController.beginEdit(listModel, item.getId(), item);
         } else {
             this._editingItemData = listModel.getItemDataByItem(editingItemProjection);
 
@@ -645,7 +651,8 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
 
         if (this._isAdd) {
             if (options.useNewModel) {
-                listModel.setMarkedItem(this._editingItemData);
+                const markCommand = new displayLib.MarkerCommands.Mark(this._editingItemData.getContents().getId());
+                markCommand.execute(listModel);
             } else {
                 listModel.markAddingItem();
             }

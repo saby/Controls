@@ -2,6 +2,7 @@
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/list:View плоском списке}.
  * @class Controls/list:ItemTemplate
  * @mixes Controls/list:BaseItemTemplate
+ * @mixes Controls/list:IContentTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/IItemTemplate#itemTemplate
  * @see Controls/interface/IItemTemplate#itemTemplateProperty

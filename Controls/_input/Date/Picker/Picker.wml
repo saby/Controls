@@ -26,7 +26,7 @@
          <span
                  attr:class="controls-Input-DatePicker__button controls-icon icon-Calendar2 controls-icon_style-secondary_theme-{{_options.theme}}"
                  iconStyle="secondary"
-                 on:click="_openDialog()">
+                 on:click="openPopup()">
          </span>
       </span>
    </span>

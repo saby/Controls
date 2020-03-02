@@ -30,7 +30,7 @@ export interface INotificationBaseOptions extends IControlOptions, INotification
 
 class Notification extends Control<INotificationBaseOptions> implements INotification{
     protected _template: TemplateFunction = template;
-    private _borderStyle: String;
+    protected _borderStyle: String;
     private _prepareBorderStyle(popupOptions: INotificationBaseOptions): String {
         switch (popupOptions.style) {
             case 'warning':
@@ -53,7 +53,7 @@ class Notification extends Control<INotificationBaseOptions> implements INotific
         this._borderStyle = this._prepareBorderStyle(options);
     }
 
-    private _closeClick(ev: Event): void {
+    protected _closeClick(ev: Event): void {
         // Клик по крестику закрытия не должен всплывать выше и обрабатываться событием click на контейнере
         ev.stopPropagation();
         this._notify('close', []);

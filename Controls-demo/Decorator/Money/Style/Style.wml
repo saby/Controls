@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">style = accentResults</div>
-      <Controls.decorator:Money value="{{_value}}" style="accentResults"/>
+      <Controls.decorator:Money value="{{_value}}" style="accentResults" />
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">style = noAccentResults</div>

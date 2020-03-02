@@ -11,8 +11,8 @@
                      on:selectedKeyChanged="_valueChangedHandler(index)"/>
       </div>
    </ws:template>
-   <div class="controls-FilterPanel__caption">{[Еще можно отобрать]}</div>
-   <div class="controls-AdditionalParams__items {{_isMaxHeight ? 'controls-FilterPanel_block-maxHeight'}}">
+   <div class="controls-AdditionalParams__heading">{[Еще можно отобрать]}</div>
+   <div class="controls-AdditionalParams__items {{_isMaxHeight ? 'controls-AdditionalParams_block-maxHeight'}}">
       <div class="controls-AdditionalParams__items-leftColumn">
          <ws:for data="index, item in _options.items">
             <ws:if data="{{!_isItemVisible(item) && _columns.leftColumn.indexOf(index) !== -1}}">

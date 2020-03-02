@@ -22,7 +22,7 @@ class DeepTree extends Control {
 
     protected _template: Function = template;
 
-    private _viewSource = new Memory({
+    protected _viewSource = new Memory({
         keyProperty: 'id',
         data: [
             getItem('1', { nodeType: true, parent: null, group: 'group_1'}),
@@ -39,11 +39,11 @@ class DeepTree extends Control {
     });
 
 
-    private _columns = [{displayProperty: 'title'}];
+    protected _columns = [{displayProperty: 'title'}];
 
-    private _header = [{title: 'Название'}];
+    protected _header = [{title: 'Название'}];
 
-    private _groupingKeyCallback(item) {
+    protected _groupingKeyCallback(item) {
         return item.get('group');
     }
 

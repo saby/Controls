@@ -9,12 +9,12 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource;
-    private _columns = Gadgets.getColumns();
-    private _viewMode: string = 'tile';
-    private _root = null;
-    private _selectedKeys = [];
-    private _itemsReadyCallback = this._itemsReady.bind(this);
+    protected _viewSource;
+    protected _columns = Gadgets.getColumns();
+    protected _viewMode: string = 'tile';
+    protected _root = null;
+    protected _selectedKeys = [];
+    protected _itemsReadyCallback = this._itemsReady.bind(this);
     private _multiselect: 'visible'|'hidden' = 'hidden';
 
     protected _beforeMount() {
@@ -29,7 +29,7 @@ export default class extends Control {
         this._items = items;
     }
 
-    private _dragStart(_, items) {
+    protected _dragStart(_, items) {
         let hasBadItems = false;
         const firstItem = this._items.getRecordById(items[0]);
 
@@ -46,11 +46,11 @@ export default class extends Control {
         });
     }
 
-    private _dragEnd(_, entity, target, position) {
+    protected _dragEnd(_, entity, target, position) {
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
 
-    private _onToggle() {
+    protected _onToggle() {
         this._multiselect = this._multiselect === 'visible' ? 'hidden' : 'visible';
     }
 

@@ -1,34 +1,24 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=button</div>
-        <Controls.buttons:Button caption="Button"></Controls.buttons:Button>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=button, buttonStyle=primary</div>
-        <Controls.buttons:Button caption="Button" buttonStyle="primary"></Controls.buttons:Button>
+        <Controls.buttons:Button caption="Button"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button caption="Button" buttonStyle="primary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button caption="Button" icon="icon-ThumbUp2" iconStyle="success" iconSize="s"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button icon="icon-Send" iconStyle="primary" buttonStyle="primary" iconSize="m"></Controls.buttons:Button>{{' '}}
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link</div>
-        <Controls.buttons:Button caption="Button" viewMode="link"></Controls.buttons:Button>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link, without caption</div>
-        <Controls.buttons:Button viewMode="link" icon="icon-Author" ></Controls.buttons:Button>
+        <Controls.buttons:Button caption="Button" viewMode="link"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="link" icon="icon-Erase" iconStyle="danger"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button caption="Button" viewMode="link" icon="icon-Author" iconSize="s"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton</div>
         <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="secondary" iconSize="s"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=success</div>
-        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="success"></Controls.buttons:Button>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=secondary</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton</div>
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="success"></Controls.buttons:Button>{{' '}}
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="secondary"></Controls.buttons:Button>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton, buttonStyle=danger</div>
-        <Controls.buttons:Button viewMode="functionalButton" icon="icon-VideoCall2" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="danger"></Controls.buttons:Button>
     </div>
 </div>

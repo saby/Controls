@@ -181,7 +181,7 @@
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы. Колонки объекты реализующие интерфейс {@link Controls/grid:IColumn IColumn}
  * <a href="/materials/demo-ws4-grid-base">Example</a>
- * @remark Перед отрисовкой убедитесь, что {@link Types/display:Collection Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
+ * @remark Перед отрисовкой убедитесь, что {@link Controls/display:Collection Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
  * @example
  * <pre>
  * _columns = [
@@ -212,7 +212,7 @@
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {TColumns} Describes grid's columns.
  * <a href="/materials/demo-ws4-grid-base">Example</a>
- * @remark Before rendering, make sure that {@link Types/display:Collection Collection} contains required data, when the {@link Controls/_grid/interface/IGridControl#columns columns} option changes. Call asynchronous 'reload' method before changing {@link Controls/_grid/interface/IGridControl#columns columns} option, if necessary.
+ * @remark Before rendering, make sure that {@link Controls/display:Collection Collection} contains required data, when the {@link Controls/_grid/interface/IGridControl#columns columns} option changes. Call asynchronous 'reload' method before changing {@link Controls/_grid/interface/IGridControl#columns columns} option, if necessary.
  * @example
  * <pre>
  * _columns = [
@@ -327,7 +327,28 @@
  * @default false
  */
 
- /**
+/**
+ * @typedef {String} RowSeparatorSize
+ * @variant s Размер тонкой линии разделителя.
+ * @variant l Размер толстой линии разделителя.
+ */
+
+/**
+ * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
+ * @cfg {RowSeparatorSize} Устанавливает высоту линии разделителя.
+ * @variant s Тонкая линия разделителя строк.
+ * @variant l Широкая линия разделителя строк.
+ * @default s
+ */
+
+/*
+ * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
+ * @cfg {RowSeparatorSize} set row separator height.
+ * @variant s Thin row separator line.
+ * @variant l Wide row separator line.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#resultsTemplate
  * @cfg {Function} Устанавливает шаблон отображения строки итогов.
  * @default Controls/grid:ResultsTemplate
@@ -395,7 +416,9 @@
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark
  * См. <a href="/materials/demo-ws4-edit-arrow">демо-пример</a>
- * Чтобы кнопка отображалась в прикладном шаблоне колонки, следует самостоятельно встроить шаблон {@link Controls/grid:ColumnTemplate#editArrowTemplate} в нужное место.
+ * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона. 
+ * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона. 
+ * Пример использования смотреть {@link Controls/grid:ColumnTemplate#contentTemplate тут}
  * @example
  * <pre>
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>

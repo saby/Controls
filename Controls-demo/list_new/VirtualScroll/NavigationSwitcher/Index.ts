@@ -11,7 +11,7 @@ export interface INavigationSwitcherOptions extends IControlOptions {
 
 export class NavigationSwitcher extends Control<INavigationSwitcherOptions> {
     protected _template: TemplateFunction = Template;
-    private _navigation = null;
+    protected _navigation = null;
 
     _beforeMount(newOptions: INavigationSwitcherOptions){
         this._navigation = this.getNavigation({
@@ -22,7 +22,7 @@ export class NavigationSwitcher extends Control<INavigationSwitcherOptions> {
         });
     }
 
-    private _switchNavigation(e, pageSize?: number) {
+    protected _switchNavigation(e, pageSize?: number) {
         this._navigation = this.getNavigation({
             pageSize: pageSize,
             totalCount: this._options.totalCount

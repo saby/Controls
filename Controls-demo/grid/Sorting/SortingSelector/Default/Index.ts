@@ -7,10 +7,10 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _sortingParams: object[] = [];
+    protected _sortingParams: object[] = [];
     private _sorting: object[] = [];
-    private _viewSource: Memory;
-    private _columns: object[] = getCountriesStats().getColumnsWithWidths();
+    protected _viewSource: Memory;
+    protected _columns: object[] = getCountriesStats().getColumnsWithWidths();
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

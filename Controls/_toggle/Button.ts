@@ -208,18 +208,18 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
     // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
     protected _template: TemplateFunction = ToggleButtonTemplate;
 
-    private _buttonStyle: string;
-    private _fontColorStyle: string;
-    private _fontSize: string;
-    private _contrastBackground: boolean;
-    private _hasIcon: boolean;
-    private _viewMode: string;
-    private _height: string;
+    protected _buttonStyle: string;
+    protected _fontColorStyle: string;
+    protected _fontSize: string;
+    protected _contrastBackground: boolean;
+    protected _hasIcon: boolean;
+    protected _viewMode: string;
+    protected _height: string;
     private _caption: string | TemplateFunction;
-    private _stringCaption: boolean;
+    protected _stringCaption: boolean;
     private _icon: string;
-    private _iconSize: string;
-    private _iconStyle: string;
+    protected _iconSize: string;
+    protected _iconStyle: string;
     protected _hoverIcon: boolean = true;
 
     private _calculateState(newOptions: IToggleButtonOptions): void {
@@ -245,13 +245,13 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         }
     }
 
-    private _clickHandler(): void {
+    protected _clickHandler(): void {
         if (!this._options.readOnly) {
             this._notify('valueChanged', [!this._options.value]);
         }
     }
 
-    private _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
+    protected _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
         if (e.nativeEvent.keyCode === constants.key.enter && !this._options.readOnly) {
             this._notify('click');
         }

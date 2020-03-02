@@ -286,7 +286,7 @@ ListView.getDefaultOptions = function() {
     return {
         contextMenuVisibility: true,
         markerVisibility: 'onactivated',
-        headerInEmptyListVisible: true
+        headerInEmptyListVisible: true,
     };
 };
 

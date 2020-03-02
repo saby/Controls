@@ -16,7 +16,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
     private _gridStyle: string = null;
-    private _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
+    protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
     private _needNotifyResize: boolean = false;
 
     protected _beforeMount(options: IHorizontalScrollWrapperOptions): void {
@@ -46,7 +46,12 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         let style = '';
         let offset = 0;
         const listModel = options.listModel;
+        // Учёт колонки с чекбоксами для выбора записей
         if (listModel.getMultiSelectVisibility() !== 'hidden') {
+            offset += 1;
+        }
+        // Учёт колонки с лесенкой
+        if (listModel.shouldAddStickyLadderCell()) {
             offset += 1;
         }
         const maxEndColumn = listModel.getHeaderMaxEndColumn();

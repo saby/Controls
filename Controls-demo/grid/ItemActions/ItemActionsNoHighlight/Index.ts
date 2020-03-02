@@ -8,8 +8,8 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _columns = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
+    protected _viewSource: Memory;
+    protected _columns = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
     if (i === 5) {
         return {
             ...cur,
@@ -18,7 +18,7 @@ export default class extends Control {
         }
     return cur;
     });
-    private _itemActions = getItemActions();
+    protected _itemActions = getItemActions();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

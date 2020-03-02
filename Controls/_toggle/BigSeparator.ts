@@ -63,7 +63,7 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable {
       }
    }
 
-   private _clickHandler(): void {
+   protected _clickHandler(): void {
       this._notify('valueChanged', [!this._options.value]);
    }
 

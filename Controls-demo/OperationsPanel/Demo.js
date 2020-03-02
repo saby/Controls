@@ -4,12 +4,13 @@ define('Controls-demo/OperationsPanel/Demo', [
    'Types/source',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/OperationsPanel/Demo/Data',
+   'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog',
    'Controls/list',
    'css!Controls-demo/OperationsPanel/Demo/Demo',
    'wml!Controls-demo/OperationsPanel/Demo/PersonInfo',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterButtonEngineTemplate',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterPanelItemsTemplate'
-], function(Control, template, source, TreeMemory, Data, lists) {
+], function(Control, template, source, TreeMemory, Data, DataCatalog, lists) {
    'use strict';
 
    var filterButtonData = [{
@@ -56,11 +57,11 @@ define('Controls-demo/OperationsPanel/Demo', [
          }];
          this._viewSource = new TreeMemory({
             keyProperty: 'id',
-            data: Data.employees
+            data: DataCatalog.getListData()
          });
          this._moverSource = new source.HierarchicalMemory({
             keyProperty: 'id',
-            data: Data.employees,
+            data: DataCatalog.getListData(),
             parentProperty: 'Раздел',
             filter: function(item, where) {
                var filter = Object.keys(where);
@@ -204,7 +205,7 @@ define('Controls-demo/OperationsPanel/Demo', [
       },
 
       _getPanelSource: function() {
-         var items = Data.panelItems.slice();
+         var items = DataCatalog.getPanelData().slice();
 
          if (this._selectedKeys && this._selectedKeys.length) {
             items.unshift(Data.removeOperation);

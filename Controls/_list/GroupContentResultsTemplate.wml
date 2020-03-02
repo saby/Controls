@@ -1,4 +1,4 @@
-<div class="controls-ListView__groupContent-results {{itemData.groupResultsSpacingClass}}">
+<div class="controls-ListView__groupContent-results">
    <ws:if data="{{!!contentTemplate}}">
       <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}"/>
    </ws:if>

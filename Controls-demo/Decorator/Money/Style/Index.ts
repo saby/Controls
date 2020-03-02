@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Decorator/Money/Style/Style'
 import 'css!Controls-demo/Controls-demo';
 
 class Style extends Control<IControlOptions> {
-    private _value = '123.45';
+    protected _value = '123.45';
     protected _template: TemplateFunction = controlTemplate;
 
     static _theme: string[] = ['Controls/Classes'];

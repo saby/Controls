@@ -230,7 +230,7 @@
 			 parentProperty="parent"
 			 nodeProperty="@parent"
 			 source="{{_getHierarchyItems()}}">
-			 <ws:headConfig menuStyle="duplicateHead" blabla="123"/>
+			 <ws:headConfig icon="icon-Author" />
 		  </Controls.dropdown:Button>
 	   </div>
 	   <div style="padding: 5px;">Дублирование большой иконки
@@ -244,7 +244,7 @@
 			 parentProperty="parent"
 			 nodeProperty="@parent"
 			 source="{{_getHierarchyItems()}}">
-			 <ws:headConfig menuStyle="duplicateHead" />
+			 <ws:headConfig icon="icon-Author" />
 		  </Controls.dropdown:Button>
 	   </div>
   </div>

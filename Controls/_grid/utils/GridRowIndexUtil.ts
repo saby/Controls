@@ -1,5 +1,5 @@
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
-import {Collection, CollectionItem} from 'Types/display'
+import {Collection, CollectionItem} from 'Controls/display'
 import {IHeaderCell} from '../interface/IHeaderCell';
 
 /**
@@ -10,7 +10,7 @@ const SINGLE_HEADER_MAX_ROW = 2;
 
 /**
  * @typedef {Object} IBaseGridRowIndexOptions Конфигурационый объект.
- * @param {'Types/display'} display Проекция элементов списка.
+ * @param {'Controls/display'} display Проекция элементов списка.
  * @param {Boolean} hasHeader Флаг, указывающий на наличие заголовка в таблице.
  * @param {"top" | "bottom" | null} resultsPosition Позиция результатов таблицы. Null, если результаты не выводятся.
  */
@@ -32,7 +32,7 @@ type ItemId = { id: string };
 
 /**
  * @typedef {Object} DisplayItem Объект расширяющий базовую конфигурацию для получения индекса записи по элементу проекции.
- * @param {'Types/display:CollectionItem'} item Элемент проекции таблицы.
+ * @param {'Controls/display:CollectionItem'} item Элемент проекции таблицы.
  */
 type DisplayItem = { item: CollectionItem<unknown> };
 
@@ -284,7 +284,7 @@ function getHeaderMaxEndCellData(headerRows: IHeaderCell[][]): {maxRow: number, 
     if (!isMultiColumn) {
         if (!result.maxColumn) {
             result.maxColumn = headerRows[0].length; // calculating w/o consideration of multiselect column
-        }
+}
         result.maxRow = SINGLE_HEADER_MAX_ROW;
     }
     return result;
@@ -293,15 +293,24 @@ function getHeaderMaxEndCellData(headerRows: IHeaderCell[][]): {maxRow: number, 
 /**
  * Функция создания массива строк хэдера из массива объектов IHeaderCell.
  * @param {Array} cells Массив объектов IHeaderCell.
- * @param {Boolean} hasMultiSelect Отображаются чекбоксы или нет.
- * @param {Boolean} isMultiHeader активированы ли для grid множественные заголовки
- * @param {Boolean} hasActionsCell Необходимо ли добавлять ячейку действий
+ * @param {Boolean} [hasMultiSelect] Отображаются чекбоксы или нет.
+ * @param {Boolean} [isMultiHeader] активированы ли для grid множественные заголовки
+ * @param {Boolean} [hasActionsCell] Необходимо ли добавлять ячейку действий
+ * @param {Boolean} [stickyLadderCell] Необходимо ли добавлять ячейку для "лесенки"
  * @return {Array} массив строк хэдера.
- * @example getHeaderRowsArray(
- *  [{title: 'name', startRow: 1, endRow: 2...}, {title: 'Price', startRow: 2, endRow: 3...}, ...], true
- *  ) -> [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
+ * @example
+ * const headerCells: IHeaderCell[] = [{title: 'name', startRow: 1, endRow: 2...}, {title: 'Price', startRow: 2, endRow: 3...}, ...];
+ * let headerRowsArray = getHeaderRowsArray(headerCells, true, true, false, false);
+ * // [[{}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
+ *
+ * let headerRowsArray = getHeaderRowsArray(headerCells, true, true, false, true);
+ * // [[{}, {}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ...]
+ *
+ * let headerRowsArray = getHeaderRowsArray(headerCells, true, true, true, true);
+ * // [[{}, {}, {title: 'name', startRow: 1, endRow: 2...}}], [{{title: 'Price', startRow: 2, endRow: 3...}}], ..., {isActionCell: true, endColumn: ...}]
  */
-function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean): IHeaderCell[][] {
+
+function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMultiHeader?: boolean, hasActionsCell?: boolean, stickyLadderCell?: boolean): IHeaderCell[][] {
     let headerRows = [];
     if (!isMultiHeader) {
         headerRows.push(cells);
@@ -322,6 +331,9 @@ function getHeaderRowsArray(cells: IHeaderCell[], hasMultiSelect: boolean, isMul
             sortedArray = sortedArray.slice(row.length);
         }
         headerRows = sortedColumns(headerRows);
+    }
+    if (stickyLadderCell) {
+        headerRows[0] = [{}, ...headerRows[0]];
     }
     if (hasMultiSelect) {
         headerRows[0] = [{}, ...headerRows[0]];
@@ -346,6 +358,7 @@ function getHeaderActionsCellConfig(headerRow: IHeaderCell[], isMultiHeader: boo
     let maxEndColumn = 0;
 
     // If not isMultiHeader we only need next endColumn
+    // Note! 2 = (headerRow.length + ActionsCell + 1) to have correct grid right endColumn
     if (!isMultiHeader) {
         return {
             isActionCell: true,

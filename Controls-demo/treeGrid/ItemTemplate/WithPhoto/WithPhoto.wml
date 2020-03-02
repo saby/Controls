@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper_fixed_width">
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper16">
         <div>16px image</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGrid16"
@@ -15,7 +15,7 @@
         </Controls.treeGrid:View>
     </div>
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper24">
         <div>24px image</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGrid24"
@@ -30,7 +30,7 @@
         </Controls.treeGrid:View>
     </div>
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper32">
         <div>32px image</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGrid32"
@@ -45,7 +45,7 @@
         </Controls.treeGrid:View>
     </div>
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper40">
         <div>40px image</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGrid40"
@@ -60,7 +60,7 @@
         </Controls.treeGrid:View>
     </div>
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapperTwoLevels">
         <div>Two levels tree</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGridTwoLevels"
@@ -75,7 +75,7 @@
         </Controls.treeGrid:View>
     </div>
 
-    <div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapperTwoLevelsNoFoto">
         <div>Two levels tree without photo</div>
         <Controls.treeGrid:View
                 attr:class="demoTreeWithProto__treeGridTwoLevels"

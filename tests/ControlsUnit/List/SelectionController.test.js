@@ -154,6 +154,40 @@ define([
             assert.isFalse(initialListModel.updateSelection.called);
             assert.isTrue(newCfg.listModel.updateSelection.withArgs({}).calledOnce);
          });
+
+         it('change filter', async function () {
+            var newCfg = Object.assign({}, cfg);
+            await instance._beforeMount(cfg);
+            instance._afterMount();
+
+            newCfg.selectedKeys = [null];
+            newCfg.excludedKeys = [null];
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+
+            newCfg.filter = {testField: 'testValue'};
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, []);
+            assert.deepEqual(instance._multiselection.excludedKeys, []);
+         });
+
+         it('change root', async function () {
+            var newCfg = Object.assign({}, cfg);
+            await instance._beforeMount(cfg);
+            instance._afterMount();
+
+            newCfg.selectedKeys = [1, 2];
+            newCfg.excludedKeys = [3];
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+
+            newCfg.root = 4;
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, []);
+            assert.deepEqual(instance._multiselection.excludedKeys, []);
+         });
       });
 
       describe('onCheckBoxClick', function() {

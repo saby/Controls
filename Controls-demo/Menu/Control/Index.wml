@@ -1,0 +1,74 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/Source/Index' }}">
+         <a href="{{content.href}}">Source</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.Source.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/MultiSelect/Index' }}">
+         <a href="{{content.href}}">MultiSelect</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.MultiSelect.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/EmptyText/Index' }}">
+         <a href="{{content.href}}">EmptyText, EmptyKey</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.EmptyText.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/Navigation/Index' }}">
+         <a href="{{content.href}}">Navigation</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.Navigation.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/ParentProperty/Index' }}">
+         <a href="{{content.href}}">ParentProperty, NodeProperty</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.ParentProperty.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/IconSize/Index' }}">
+         <a href="{{content.href}}">IconSize</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.IconSize.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/SelectedKeys/Index' }}">
+         <a href="{{content.href}}">SelectedKeys</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.SelectedKeys.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/SelectorTemplate/Index' }}">
+         <a href="{{content.href}}">SelectorTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.SelectorTemplate.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Menu/Control/Root/Index' }}">
+         <a href="{{content.href}}">Root</a>
+      </Router.router:Reference>
+      <Controls-demo.Menu.Control.Root.Index/>
+   </div>
+</div>

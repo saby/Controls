@@ -27,9 +27,9 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
 
 class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
     readonly '[Controls/_popup/interface/IEditOpener]': boolean;
-    private _template: TemplateFunction = template;
+    protected _template: TemplateFunction = template;
     private _resultHandler: Function;
-    private _openerTemplate: Control;
+    protected _openerTemplate: Control;
     private _linkedKey: string = null; // key to obtain a synchronized record
     private _children: {
         Opener: BaseOpener

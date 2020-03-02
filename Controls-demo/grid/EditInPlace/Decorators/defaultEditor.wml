@@ -1,0 +1,12 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate"
+                    value="{{ itemData.item['document'] }}"
+                    itemData="{{itemData}}"
+                    enabled="{{true}}">
+            <ws:editorTemplate>
+                <Controls.input:Text bind:value="itemData.item['document']" selectOnClick="{{ false }}" />
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>

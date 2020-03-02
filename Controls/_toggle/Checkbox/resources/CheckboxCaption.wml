@@ -6,13 +6,8 @@
             <ws:partial template="{{caption}}"/>
         </ws:if>
         <ws:else data="{{icon}}">
-            <ws:if data="{{isTemplate(icon)}}">
-                <ws:partial template="{{icon}}"/>
-            </ws:if>
-            <ws:else>
-                <i class="controls-icon {{icon}} controls-icon_size-{{iconSize}}_theme-{{_options.theme}}
+            <i class="controls-icon {{icon}} controls-icon_size-{{iconSize}}_theme-{{_options.theme}}
                           controls-icon_style-{{iconStyle}}_theme-{{_options.theme}}"/>
-            </ws:else>
         </ws:else>
     </div>
 </ws:if>

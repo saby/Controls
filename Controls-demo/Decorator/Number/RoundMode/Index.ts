@@ -3,8 +3,8 @@ import controlTemplate = require('wml!Controls-demo/Decorator/Number/RoundMode/R
 import 'css!Controls-demo/Controls-demo';
 
 class RoundMode extends Control<IControlOptions> {
-    private _value = '12345.67890';
-    private _fractionSize = 2;
+    protected _value = '12345.67890';
+    protected _fractionSize = 2;
 
     protected _template: TemplateFunction = controlTemplate;
 

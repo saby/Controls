@@ -1,20 +1,16 @@
 <div class="controls-ScrollController">
-    <ws:if data="{{_options.observeScroll}}">
-        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;"></div>
-        <div name="topLoadTrigger"></div>
-    </ws:if>
+    <div name="topVirtualScrollTrigger" style="position: relative; top: 0;"></div>
+    <div name="topLoadTrigger"></div>
     <ws:partial template="{{_options.content}}"
-                listModel="{{_options.viewModel}}"
+                listModel="{{_options.collection}}"
                 scope="{{_options}}"
-                on:updateShadowMode="stopBubblingEvent()"
-                on:updatePlaceholdersSize="stopBubblingEvent()"
-                on:saveScrollPosition="stopBubblingEvent()"
-                on:restoreScrollPosition="stopBubblingEvent()"
-                on:itemsContainerReady="itemsContainerReadyHandler()"
-                on:controlResize="viewResizeHandler()"/>
-    <ws:if data="{{_options.observeScroll}}">
-        <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
-        <div name="bottomLoadTrigger"></div>
-        <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="emitListScrollHandler()" name="scrollEmitter"/>
-    </ws:if>
+                on:updateShadowMode="_stopBubblingEvent()"
+                on:updatePlaceholdersSize="_stopBubblingEvent()"
+                on:saveScrollPosition="_stopBubblingEvent()"
+                on:restoreScrollPosition="_stopBubblingEvent()"
+                on:itemsContainerReady="_itemsContainerReadyHandler()"
+                on:controlResize="_viewResize()"/>
+    <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
+    <div name="bottomLoadTrigger"></div>
+    <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
 </div>

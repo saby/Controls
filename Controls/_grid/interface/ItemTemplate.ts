@@ -11,11 +11,7 @@
  * <pre class="brush: html">
  * <Controls.grid:View>
  *    <ws:itemTemplate>
- *       <ws:partial template="Controls/grid:ItemTemplate" marker="{{false}}" scope="{{ itemTemplate }}">
- *          <ws:contentTemplate>
- *             {{contentTemplate.itemData.item.title}}
- *          </ws:contentTemplate>
- *       </ws:partial>
+ *       <ws:partial template="Controls/grid:ItemTemplate" marker="{{false}}" scope="{{ itemTemplate }}" />
  *    </ws:itemTemplate>
  * </Controls.grid:View>
  * </pre>

@@ -1,0 +1,3 @@
+<Controls.suggestPopup:ListContainer attr:class="{{_options.classListWrapper}} {{_options.dialogMode ? 'controlsDemo__childWidth400'}}">
+    <Controls.list:View displayProperty="title" keyProperty="id"/>
+</Controls.suggestPopup:ListContainer>

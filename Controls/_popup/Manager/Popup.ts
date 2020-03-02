@@ -146,8 +146,6 @@ class Popup extends Control<IPopupControlOptions> {
     }
 
     protected _registerOpenerUpdateCallback(event: SyntheticEvent<Event>, callback: UpdateCallback): void {
-        this._openersUpdateCallback = this._openersUpdateCallback
-            .filter((updateCallback) => !updateCallback._isNeedless);
         this._openersUpdateCallback.push(callback);
     }
 

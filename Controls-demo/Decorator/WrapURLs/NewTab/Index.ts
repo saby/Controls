@@ -3,7 +3,7 @@ import controlTemplate = require('wml!Controls-demo/Decorator/WrapURLs/NewTab/Ne
 import 'css!Controls-demo/Controls-demo';
 
 class NewTab extends Control<IControlOptions> {
-    private _value = 'Самая популярная поисковая система мира - это Google. Попробуйте сами https://www.google.com/.';
+    protected _value = 'Самая популярная поисковая система мира - это Google. Попробуйте сами https://www.google.com/.';
 
     protected _template: TemplateFunction = controlTemplate;
 

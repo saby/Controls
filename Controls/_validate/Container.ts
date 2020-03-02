@@ -322,7 +322,7 @@ class ValidateContainer extends Control {
         }
     }
 
-    private _getValidStatus(contentActive: boolean): ValidationStatus {
+    protected _getValidStatus(contentActive: boolean): ValidationStatus {
         //ie is not support focus-within
         if (this._isValidResult()) {
             return contentActive ? 'invalidAccent' : 'invalid';

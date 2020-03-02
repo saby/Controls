@@ -17,8 +17,8 @@ export default class RenderRedrawDemo extends Control {
 
     private _nextKey: number = 0;
 
-    private _viewSource: Memory;
-    private _navigation: any;
+    protected _viewSource: Memory;
+    protected _navigation: any;
 
     private _counters = [];
 

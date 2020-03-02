@@ -4,9 +4,11 @@ define(
       'ControlsUnit/resources/TemplateUtil',
       'Controls/_scroll/StickyHeader/_StickyHeader'
    ],
-   function(scroll, TemplateUtil, _StickyHeader) {
+   function(scroll, TemplateUtil, _StickyHeaderLib) {
 
       'use strict';
+
+      const  _StickyHeader = _StickyHeaderLib.default;
 
       describe('Controls.StickyHeader.Template', function() {
          var ctrl, template, inst;
@@ -45,7 +47,7 @@ define(
                inst._isStickySupport = true;
                inst._options.content = TemplateUtil.content;
 
-               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-StickyHeader__background controls-StickyHeader_position" style="top: 0px;">' +
+               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-StickyHeader__background controls-StickyHeader_position">' +
                                                 '<div class="controls-Scroll__shadow controls-StickyHeader__shadow-top ws-invisible"></div>' +
                                                 '<div></div><div></div>' +
                                                 '<div class="controls-StickyHeader__observationTargetTop" style="top: -3px;"></div>' +
@@ -65,6 +67,8 @@ define(
                inst._options.shadowVisibility = 'visible';
                inst._reverseOffsetStyle = ctrl._reverseOffsetStyle;
                inst._getBottomShadowStyle = ctrl._getBottomShadowStyle;
+               inst._getNormalizedContainer = ctrl._getNormalizedContainer;
+               inst._getComputedStyle = () => { return {}; };
                template = TemplateUtil.clearTemplate(ctrl._template);
             });
 
@@ -87,7 +91,7 @@ define(
 
                inst._isMobilePlatform = true;
                inst._model.fixedPosition = 'top';
-               sandbox.replace(_StickyHeader._private, 'getComputedStyle', function() {
+               sandbox.replace(inst, '_getComputedStyle', function() {
                   return { paddingTop: '0px' };
                });
                inst._container = { style: { paddingTop: '' } };

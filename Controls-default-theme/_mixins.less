@@ -1,0 +1,138 @@
+.text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-select(@select: none) {
+  user-select: @select;
+}
+
+.box-sizing(@type: border-box) {
+  box-sizing: @type;
+}
+
+.box-shadow(@string) {
+  box-shadow: @string;
+}
+
+.horizontal-gradient(@startColor: #eee, @endColor: white, @direction: left) {
+  background-color: @startColor;
+  background-image: -webkit-gradient(linear, @direction top, right top, from(@startColor), to(@endColor));
+  background-image: -webkit-linear-gradient(@direction, @startColor, @endColor);
+  background-image: -moz-linear-gradient(@direction, @startColor, @endColor);
+  background-image: -ms-linear-gradient(@direction, @startColor, @endColor);
+  background-image: -o-linear-gradient(@direction, @startColor, @endColor);
+}
+
+.translate3d(@x, @y: 0, @z: 0) {
+  -webkit-transform: translate3d(@x, @y, @z);
+  -moz-transform: translate3d(@x, @y, @z);
+  -ms-transform: translate3d(@x, @y, @z);
+  -o-transform: translate3d(@x, @y, @z);
+}
+.inline-flexbox() {
+  display: inline-flex;
+}
+
+.flexbox() {
+  display: flex;
+}
+
+.flex-direction(@direction: row){
+  flex-direction: @direction;
+
+  //Additional styles to make it possible to reduce the size of flex elements.
+  //Read more: https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+  & when (@direction = row) or (@direction = row-reverse) {
+    min-width: 0;
+  }
+  & when (@direction = column) or (@direction = column-reverse){
+    min-height: 0;
+  }
+}
+
+// Use .flex-shrink() forced: in IE10-11 flex-shrink is 0 by default (1 is default value defined in the specification)
+.flex-shrink(@shrink: 1) {
+  flex-shrink: @shrink;
+}
+
+// Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch
+.align-self(@align: auto) {
+  align-self: @align;
+}
+
+.justify-content(@justify: flex-start) {
+  justify-content: @justify;
+}
+
+.align-items(@align: stretch) {
+  align-items: @align;
+}
+
+//Position: sticky for grid in Safari and other browsers
+.position-sticky() {
+  position: sticky;
+}
+
+.button-wrapper-default-style() {
+  .inline-flexbox();
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  .align-items(center);
+}
+
+.baseline-fix() {
+  &:before {
+    content: '\200b'; //zero width space
+    width: 0;
+    display: inline-block;
+    visibility: hidden;
+  }
+}
+
+//------------------------------------------------//
+// mixins for _flex and SBIS3.CONTROLS less files
+
+.flex-wrap(@wrap) {
+  flex-wrap: @wrap;
+}
+
+.flex-grow(@grow: 0) {
+  flex-grow: @grow;
+}
+
+// Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch
+.align-content(@align: stretch) {
+  align-content: @align;
+}
+.order(@val) {
+  order: @val;
+}
+
+//---------------Имитация цикла for---------------//
+.for(@_i, @_n, @callback) when not (@_i = (@_n + 1)){
+  @callback();
+  .for(@_i + 1, @_n, @callback);
+}
+
+.for(@array, @callback) when (isnumber(@array)) {
+  .for(@_i: 1, @array, @callback);
+}
+
+.for(@array, @callback) when not (isnumber(@array)) {
+  .for-recursive(@array, length(@array), @callback);
+}
+
+.for-recursive(@array, @_i, @callback) when (@_i > 0) {
+  & {
+    @_item: extract(@array, @_i);
+    @callback();
+  }
+  .for-recursive(@array, (@_i - 1), @callback);
+}

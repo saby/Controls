@@ -45,7 +45,7 @@ export interface IHighlightOptions extends IControlOptions {
      * Режим подсветки.
      * @type HighlightMode
      * @default substring
-     * @demo @demo Controls-demo/Decorator/Highlight/HighlightMode/Index
+     * @demo Controls-demo/Decorator/Highlight/HighlightMode/Index
      */
     highlightMode: HighlightMode;
 }

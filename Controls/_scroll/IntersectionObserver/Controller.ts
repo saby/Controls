@@ -42,7 +42,7 @@ class  ModuleComponent extends Control<IIntersectionObserverControllerOptions> {
    protected _observer: IntersectionObserver;
    protected _items: object = {};
 
-   private _registerHandler(event: SyntheticEvent, instId: string, observerName: string, element: HTMLElement, data: object): void {
+   protected _registerHandler(event: SyntheticEvent, instId: string, observerName: string, element: HTMLElement, data: object): void {
       if (observerName === this._options.observerName) {
          this._items[instId] = {
             instId,
@@ -53,7 +53,7 @@ class  ModuleComponent extends Control<IIntersectionObserverControllerOptions> {
       }
    }
 
-   private _unregisterHandler(event: SyntheticEvent, instId: string): void {
+   protected _unregisterHandler(event: SyntheticEvent, instId: string): void {
       // TODO: remove after complete https://online.sbis.ru/opendoc.html?guid=310360e5-ab07-4aa2-8327-f5f8422aedd9
       // _beforeUnmount in IntersectionObserverController called 2 times.
       if (!this._items[instId]) {

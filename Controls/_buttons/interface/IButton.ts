@@ -65,7 +65,7 @@ export interface IButton {
  * @default secondary
  * @remark
  * Стиль может влиять на цвет фона или цвет границы для различных значений режима отображения (viewMode).
- * @demo Controls-demo/Buttons/ViewModes/Index
+ * @demo Controls-demo/Buttons/ButtonStyle/Index
  * @example
  * Кнопка со стилем "Primary" с иконкой по умолчанию.
  * <pre>

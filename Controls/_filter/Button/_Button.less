@@ -1,194 +1,205 @@
 .controls-FilterButton {
-	height: @height_FilterButton;
-	display: inline-block;
-	min-width: @min-width_FilterButton;
+   height: @height_filterView;
+   display: inline-block;
+   min-width: @height_filterView + @filterButton_offset_filterView;
 }
 
 .controls-FilterButton__state_changed {
-	flex-shrink: 999;
+   flex-shrink: 999;
 }
 
 .controls-FilterButton_right__state_changed {
-	min-width: @font-size_FilterButton_arrow + @min-width_FilterButton_text + @font-size_FilterButton_clear + @spacing_FilterButton_between_icon_text + @height_FilterButton;
+   min-width: @item_icon-size_filterView + @item_text_min-width_filterView + @item_icon-size_filterView + @item_spacing_filterView + @width_filterButton_filterView;
 }
 
 .controls-FilterButton_left__state_changed {
-	min-width: @height_FilterButton + @spacing_FilterButton_between_icon_text + @min-width_FilterButton_text + @font-size_FilterButton_clear;
+   min-width: @width_filterButton_filterView + @item_spacing_filterView + @item_text_min-width_filterView + @item_icon-size_filterView;
 }
 
 .controls-FilterButton__icon_state_default {
-	color: @color_FilterButton_icon;
-	background-color: @background-color_FilterButton-icon;
-	box-shadow: @box-shadow-size_FilterButton-icon @box-shadow-color_FilterButton-icon;
-	cursor: pointer;
+   color: @icon-color_filterButton_filterView;
+   background-color: @background-color_filterButton_filterView;
+   box-shadow: @box-shadow_filterButton_filterView;
+   cursor: pointer;
 }
 
 .ws-is-hover {
-	.controls-FilterButton__icon_state_default:hover {
-		color: @color_FilterButton_icon_hover;
-		background-color: @background-color_FilterButton-icon_hover;
-	}
+   .controls-FilterButton__icon_state_default:hover {
+      color: @hover_icon-color_filterButton_filterView;
+      background-color: @background-color_hover_filterButton_filterView;
+   }
 }
 
 .controls-FilterButton__icon_state_default:active {
-	color: @color_FilterButton_icon_active;
-	background-color: @background-color_FilterButton-icon_active;
+   color: @active_icon-color_filterButton_filterView;
+   background-color: @background-color_active_filterButton_filterView;
 }
 
 .controls-FilterButton__icon_state_disabled {
-	color: @color_FilterButton_icon_readOnly;
-	background-color: @background-color_FilterButton-icon_readOnly;
+   color: @readonly_item_icon-color_filterView;
 }
 
 .controls-FilterButton__spaceTemplate_left {
-	order: -1;
-	margin-right: @spacing_FilterButton_between_icon_spaceTemplate;
+   order: -1;
+   margin-right: @filterButton_offset_filterView;
 }
 
 .controls-FilterButton__spaceTemplate_right {
-	margin-left: @spacing_FilterButton_between_icon_spaceTemplate;
+   margin-left: @filterButton_offset_filterView;
 }
 
 .controls-FilterButton__icon_left {
-	order: -2;
-	margin-right: @spacing_FilterButton_between_icon_text;
+   order: -2;
+   margin-right: @filterButton_offset_filterView;
 }
 
 .controls-FilterButton__icon_right {
-	margin-left: @spacing_FilterButton_between_icon_text;
+   margin-left: @filterButton_offset_filterView;
 }
 
 .controls-FilterButton__wrapper {
-	.inline-flexbox();
-	.align-items(center);
-	max-width: 100%;
-	height: 100%;
+   .inline-flexbox();
+   .align-items(center);
+
+   max-width: 100%;
+   height: 100%;
 }
 
-.controls-FilterButton__wrapper:before {
-	content: "\200b";
-	order: -3;
+.controls-FilterButton__wrapper::before {
+   content: "\200b";
+   order: -3;
 }
 
 .controls-FilterButton__textLine-wrapper {
-	.inline-flexbox();
-	.align-items(baseline);
-	min-width: 0;
-	flex-shrink: 1;
+   .inline-flexbox();
+   .align-items(baseline);
+
+   min-width: 0;
+   flex-shrink: 1;
 }
 
-.controls-FilterButton__textLine-wrapper:before {
-	content: '\200b';
-	line-height: @height_FilterButton;
+.controls-FilterButton__textLine-wrapper::before {
+   content: '\200b';
+   line-height: @height_filterView;
 }
 
 .controls-FilterButton__text-wrapper {
-	.inline-flexbox();
-	flex-shrink: 1;
-	.align-items(baseline);
-	min-width: 0;
+   .inline-flexbox();
+   .align-items(baseline);
+
+   flex-shrink: 1;
+   min-width: 0;
 }
 
 .controls-FilterButton__text-wrapper:before {
-	content: '\200b';
+   content: '\200b';
 }
 
 .ws-is-hover {
-	.controls-FilterButton__text-wrapper_state_default:hover {
-		cursor: pointer;
-		
-		.controls-FilterButton__text {
-			color: @color_FilterButton_text_hover;
-			text-decoration: underline;
-		}
-		.controls-FilterButton__arrow {
-			color: @color_FilterButton_arrow_hover;
-		}
-	}
+   .controls-FilterButton__text-wrapper_state_default:hover {
+      cursor: pointer;
+
+      .controls-FilterButton__text {
+         color: @item_hover_color_filterView;
+         text-decoration: underline;
+      }
+
+      .controls-FilterButton__arrow {
+         color: @item_hover_icon-color_filterView;
+      }
+   }
 }
 
 .controls-FilterButton__text-wrapper_state_default:active {
-	.controls-FilterButton__text {
-		color: @color_FilterButton_text_hover;
-		text-decoration: underline;
-	}
-	.controls-FilterButton__arrow {
-		color: @color_FilterButton_arrow_active;
-	}
+   .controls-FilterButton__text {
+      color: @item_active_color_filterView;
+      text-decoration: underline;
+   }
+
+   .controls-FilterButton__arrow {
+      color: @item_active_icon-color_filterView;
+   }
 }
 
 .controls-FilterButton__text {
-	.text-overflow();
-	flex-shrink: 1;
-	font-size: @font-size_FilterButton_text;
-	text-shadow: @text-shadow-size_FilterButton-text @text-shadow-color_FilterButton-text;
+   .text-overflow();
+
+   flex-shrink: 1;
+   font-size: @item_font-size_filterView;
 }
 
 .controls-FilterButton__text_state_default {
-	color: @color_FilterButton_text;
+   color: @item_color_filterView;
 }
 
 .controls-FilterButton__text_state_disabled {
-	color: @color_FilterButton_text_readOnly;
+   color: @readonly_item_color_filterView;
 }
 
 .controls-FilterButton__arrow_state_default {
-	color: @color_FilterButton_arrow;
+   color: @item_icon-color_filterView;
 }
 
 .controls-FilterButton__arrow_state_disabled {
-	color: @color_FilterButton_arrow_readOnly;
+   color: @readonly_item_color_filterView;
 }
 
 .controls-FilterButton__clear {
-	color: @color_FilterButton_clear;
-	cursor: pointer;
+   color: @reset-button_icon-color_filterView;
+   cursor: pointer;
 }
 
 .controls-FilterButton__icon {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	.icon-size-without-important(@font-size_FilterButton_icon, @font-family_FilterButton_icon);
-	width: @width_FilterButton_icon;
-	height: @height_FilterButton_icon;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   .icon-size-without-important(@icon-size_filterButton_filterView, @icon_font-family_m);
+
+   width: @width_filterButton_filterView;
+   height: @height_filterButton_filterView;
 }
 
-.controls-FilterButton__clear, .controls-FilterButton__arrow {
-	.inline-flexbox();
-	.align-items(center);
+.controls-FilterButton__clear,
+.controls-FilterButton__arrow {
+   .inline-flexbox();
+   .align-items(center);
 }
 
 .controls-FilterButton__arrow {
-	.icon-size-without-important(@font-size_FilterButton_arrow, @font-family_FilterButton_arrow);
-	align-self: center;
+   .icon-size-without-important(@item_icon-size_filterView);
+
+   align-self: center;
 }
 
 .controls-FilterButton__clear {
-	.icon-size-without-important(@font-size_FilterButton_clear, @font-family_FilterButton_clear);
+   .icon-size-without-important(@reset-button_icon-size_filterView);
 }
 
-.controls-FilterButton__clear, .controls-FilterButton__arrow, .controls-FilterButton__icon {
-	.flex-shrink(0);
+.controls-FilterButton__clear,
+.controls-FilterButton__arrow,
+.controls-FilterButton__icon {
+   .flex-shrink(0);
 }
 
-/* ****************Для совместимости со старой панелью ****************/
+/* ****************Для совместимости со старой панелью *************** */
 .controls-FilterButton {
-	position: relative;
+   position: relative;
 }
+
 .controls-FilterButton__oldTemplate {
-	position: absolute;
-	top: 0;
-	width: 1px;
-	height: 1px;
-	visibility: hidden;
+   position: absolute;
+   top: 0;
+   width: 1px;
+   height: 1px;
+   visibility: hidden;
 }
 
 .controls-FilterButton__oldTemplate_left {
-	left: 0;
+   left: 0;
 }
 
 .controls-FilterButton__oldTemplate_right {
-	right: 0;
+   right: 0;
 }
-/********************************************************************/
+
+/* ****************************************************************** */

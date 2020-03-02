@@ -33,7 +33,7 @@ type TSelectedKeys = Array<string | number>;
 
 class SelectedKeyAdapter extends Control<ISelectedKeyAdapterOptions> {
    protected _template: TemplateFunction = SelectedKeyAdapterTemplate;
-   private _selectedKeys: TSelectedKeys;
+   protected _selectedKeys: TSelectedKeys;
 
    private _getSelectedKeys(selectedKey: number | string): TSelectedKeys  {
       return (selectedKey === null || selectedKey === undefined) ? [] : [selectedKey];
@@ -49,7 +49,7 @@ class SelectedKeyAdapter extends Control<ISelectedKeyAdapterOptions> {
       }
    }
 
-   private _selectedKeysChanged(event: SyntheticEvent<Event>, keys: TSelectedKeys): Boolean|undefined  {
+   protected _selectedKeysChanged(event: SyntheticEvent<Event>, keys: TSelectedKeys): Boolean|undefined  {
       event.stopPropagation();
       const selectedKey = keys.length ? keys[0] : null;
       return this._notify('selectedKeyChanged', [selectedKey]);

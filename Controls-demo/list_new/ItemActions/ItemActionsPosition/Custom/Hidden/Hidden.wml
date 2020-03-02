@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom"/>
+</div>

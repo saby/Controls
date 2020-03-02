@@ -1,10 +1,7 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
             itemData="{{itemData}}"
             multiLine="{{true}}">
-   <ws:contentTemplate>
-      <div class="control-FavoriteEditDialog__dropdownItemTpl">
-         <div>{{itemData.getPropValue(itemData.item, 'title')}}</div>
-         <div class="control-FavoriteEditDialog__dropdownItemTpl-comment">{{itemData.getPropValue(itemData.item, 'comment')}}</div>
-      </div>
-   </ws:contentTemplate>
+   <ws:additionalTextTemplate>
+      <div>{{itemData.item.get('comment')}}</div>
+   </ws:additionalTextTemplate>
 </ws:partial>

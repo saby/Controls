@@ -1,5 +1,5 @@
 /*import basic style to application.less*/
-@import "Controls-default-theme/fonts/_TensorFont";
+@import "Controls-default-theme/fonts/TensorFont";
 @import "Controls-default-theme/fonts/cbus-icons";
 
 //
@@ -28,7 +28,7 @@
    }
 }
 
-@import "Controls-default-theme/helpers/_flex";
+@import "_flex";
 
 //icons compatibility with new params
 //тут определяю только размеры иконок. Делаю это через новые алиасы, чтоб работала темизация. Вообще от этих иконок избавлюсь по проекту
@@ -88,17 +88,4 @@
    text-transform: none;
    line-height: 1;
    display: inline-block;
-}
-
-.ws-link {
-   cursor: pointer;
-   text-decoration: none;
-   background-color: transparent;
-   color: @color_App-link;
-}
-
-.ws-is-hover .ws-link:hover,
-.ws-link:active {
-   text-decoration: underline;
-   color: @color_App-link_hover;
 }

@@ -1,7 +1,7 @@
 /**
  * Библиотека контролов, которые предназначены для отображения заголовков и декоративных элементов в заголовках.
  * Сложные заголовки включают весь перечисленный функционал. Они формируются путём композиции контролов, входящих в состав библиотек {@link Controls/heading:Title}, {@link Controls/heading:Separator} и {@link Controls/heading:Counter}.
- * Подробнее о работе с заголовками читайте в <a href='/doc/platform/developmentapl/interface-development/controls/heading/'>руководстве разработчика</a>.
+ * Подробнее о работе с заголовками читайте в <a href='/doc/platform/developmentapl/interface-development/controls/content-managment/heading/'>руководстве разработчика</a>.
  * @library Controls/heading
  * @includes Title Controls/_heading/Heading
  * @includes Back Controls/_heading/Back

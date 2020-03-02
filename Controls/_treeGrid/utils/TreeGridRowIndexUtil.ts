@@ -1,6 +1,6 @@
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
 import { relation } from 'Types/entity'
-import { Collection, CollectionItem } from 'Types/display'
+import { Collection, CollectionItem } from 'Controls/display'
 
 
 /**
@@ -27,7 +27,7 @@ type ItemId = { id: string };
 
 /**
  * @typedef {Object} DisplayItem Объект расширяющий базовую конфигурацию для получения индекса записи по элементу проекции.
- * @param {'Types/display:CollectionItem'} item Элемент проекции таблицы.
+ * @param {'Controls/display:CollectionItem'} item Элемент проекции таблицы.
  */
 type DisplayItem = { item: CollectionItem<unknown> };
 
@@ -45,7 +45,7 @@ type HasEmptyTemplate = { hasEmptyTemplate: boolean };
 
 /**
  * @typedef {Object} IBaseTreeGridRowIndexOptions Конфигурационый объект.
- * @param {'Types/display'} display Проекция элементов списка.
+ * @param {'Controls/display'} display Проекция элементов списка.
  * @param {Boolean} hasHeader Флаг, указывающий на наличие заголовка в дереве.
  * @param {"top" | "bottom" | null} resultsPosition Позиция результатов в дереве. Null, если результаты не выводятся.
  * @param {'Types/entity:relation.Hierarchy'} hierarchyRelation Объект, представляющий иерархические отношения дерева.

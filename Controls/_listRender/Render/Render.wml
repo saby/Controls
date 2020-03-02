@@ -7,11 +7,13 @@
             keyPrefix="{{ _templateKeyPrefix }}"
 
             itemActionsPosition="{{ _options.itemActionsPosition }}"
-            itemActionsTemplate="{{ _options.itemActionsTemplate }}"
-            swipeTemplate="{{ _options.swipeTemplate }}"
             multiSelectTpl="{{ _options.multiSelectTpl }}"
             isAdd="{{ _options.isAdd }}"
-            itemTemplate="{{ _options.itemTemplate }}"/>
+            itemTemplate="{{ _options.itemTemplate }}"
+            groupTemplate="{{ _options.groupTemplate }}"
+
+            itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+            swipeTemplate="{{ _options.swipeTemplate }}" />
       </div>
    </ws:if>
    <ws:if data="{{ _options.emptyTemplate }}">
@@ -34,4 +36,8 @@
          </div>
       </ws:else>
    </ws:if>
+   <Controls.dropdown:Opener
+      name="menuOpener"
+      keyProperty="id"
+      menuStyle="cross" />
 </div>

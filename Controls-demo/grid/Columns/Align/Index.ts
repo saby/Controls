@@ -7,9 +7,9 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
-    private _columns = getCountriesStats().getColumnsWithAlign();
+    protected _columns = getCountriesStats().getColumnsWithAlign();
 
     protected _beforeMount() {
         this._viewSource = new Memory({

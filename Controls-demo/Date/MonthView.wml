@@ -1,13 +1,13 @@
 <div class="PageWrap">
    <div class="PageBlock">
       <div class="PageBlock__title">With days and title</div>
-      <div class="PageBlock__componentWrap">
+      <div class="PageBlock__componentWrap controlsDemo-Month__default">
          <!--<Controls.Calendar.MonthView month="{{_month}}" captionType="text"/>-->
          <Controls.calendar:MonthView month="{{_month}}" showCaption="{{true}}"/>
          <div>
             <span>Отображаемый месяц: </span>
-            <Controls.buttons:Button caption="-1 месяц" buttonStyle="primary" on:click="_changeMonth(-1)"/>
-            <Controls.buttons:Button caption="+1 месяц" buttonStyle="primary" on:click="_changeMonth(1)"/>
+            <Controls.buttons:Button caption="-1 месяц" buttonStyle="primary" on:click="_changeMonth(-1)" attr:class="controlsDemo-Month__prev"/>
+            <Controls.buttons:Button caption="+1 месяц" buttonStyle="primary" on:click="_changeMonth(1)" attr:class="controlsDemo-Month__next"/>
          </div>
       </div>
    </div>

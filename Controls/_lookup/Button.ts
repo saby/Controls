@@ -20,11 +20,10 @@ import template = require('wml!Controls/_lookup/Button/SelectorButton');
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IFontColorStyle
  * @mixes Controls/interface/IFontSize
- * @mixes Controls/_lookup/Button/SelectorButtonStyles
  * @mixes Controls/_interface/ITextValue
  * @control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Buttons/SelectorButtonPG
  */
 /*
@@ -40,10 +39,9 @@ import template = require('wml!Controls/_lookup/Button/SelectorButton');
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISource
- * @mixes Controls/_lookup/Button/SelectorButtonStyles
  * @control
  * @public
- * @author Kapustin I.A.
+ * @author Герасимов А.М.
  * @demo Controls-demo/Buttons/SelectorButtonPG
  */
 

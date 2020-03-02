@@ -7,7 +7,8 @@ define('Controls-demo/MasterDetail/Demo', [
    'wml!Controls-demo/MasterDetail/itemTemplates/masterItemTemplate',
    'Controls-demo/MasterDetail/DemoSource',
    'Env/Env',
-   'css!Controls-demo/MasterDetail/Demo'
+   'css!Controls-demo/MasterDetail/Demo',
+   'css!Controls-demo/Controls-demo'
 ], function(Control, template, data, cClone, source, itemTemplate, DemoSource, Env) {
    return Control.extend({
       _template: template,
@@ -33,6 +34,21 @@ define('Controls-demo/MasterDetail/Demo', [
             keyProperty: 'id',
             data: cClone(data.master)
          });
+      },
+
+      _firstHandler: function() {
+         this._firstBaseWidth = '1000px';
+         this._children.resizeDetect.start();
+      },
+
+      _secondHandlerIncrease: function() {
+         this._secondBaseWidth = '1920px';
+         this._children.resizeDetect1.start();
+      },
+
+      _secondHandlerDecrease: function() {
+         this._secondBaseWidth = '1000px';
+         this._children.resizeDetect1.start();
       },
 
       gridColumns: [

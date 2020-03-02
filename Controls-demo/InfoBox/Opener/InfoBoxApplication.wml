@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="InfoBox" demoname="Controls-demo/InfoBox/Opener/InfoBox.wml">
-    <ws:content>
-        <Controls-demo.InfoBox.Opener.InfoBox/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

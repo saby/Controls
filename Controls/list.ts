@@ -4,6 +4,7 @@
  * @includes AddButton Controls/_list/AddButton
  * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/list:BaseItemTemplate
+ * @includes IContentTemplate Controls/list:ContentTemplate
  * @includes ItemTemplate Controls/list:ItemTemplate
  * @includes EmptyTemplate Controls/list:EmptyTemplate
  * @includes BaseGroupTemplate Controls/list:BaseGroupTemplate
@@ -21,6 +22,9 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
+ * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -31,6 +35,7 @@
  * @includes AddButton Controls/_list/AddButton
  * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/list:BaseItemTemplate
+ * @includes IContentTemplate Controls/list:IContentTemplate
  * @includes ItemTemplate Controls/list:ItemTemplate
  * @includes EmptyTemplate Controls/list:EmptyTemplate
  * @includes BaseGroupTemplate Controls/list:BaseGroupTemplate
@@ -47,6 +52,9 @@
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
  * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
+ * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -67,6 +75,9 @@ import _itemActionsForTemplate = require('wml!Controls/_list/ItemActions/resourc
 
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
+import BaseEditingTemplate = require('wml!Controls/_list/EditInPlace/baseEditingTemplate');
+import MoneyEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/MoneyChooser');
+import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated/NumberChooser');
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ItemActionsControl = require('Controls/_list/ItemActions/ItemActionsControl');
@@ -114,6 +125,9 @@ export {
 
     GridLayoutUtil,
     EditingTemplate,
+    BaseEditingTemplate,
+    MoneyEditingTemplate,
+    NumberEditingTemplate,
     ItemActionsHelpers,
     BaseViewModel,
     ItemActionsControl,
@@ -139,3 +153,5 @@ export {
     IVirtualScrollConfig,
     IList
 };
+
+export {default as SourceControl} from 'Controls/_list/SourceControl';

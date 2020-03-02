@@ -96,7 +96,7 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
     }
 
     // for tests
-    private _getCompatibleConfig(BaseOpenerCompat: any, config: INotificationPopupOptions) {
+    protected _getCompatibleConfig(BaseOpenerCompat: any, config: INotificationPopupOptions) {
         return getCompatibleConfig(BaseOpenerCompat, config);
     }
 

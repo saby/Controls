@@ -2,7 +2,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Поиск без задержки</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input demo-SuggestNew__noDelay"
               bind:value="_suggestCustomValue"
               displayProperty="title"
               searchParam="title"
@@ -17,7 +17,7 @@
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Поиск с задержкой 1.5 секунды</div>
       <Controls.suggest:Input
-              attr:class="controlsDemo__input"
+              attr:class="controlsDemo__input  demo-SuggestNew__withDelay"
               bind:value="_suggestDefaultValue"
               displayProperty="title"
               searchParam="title"

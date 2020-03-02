@@ -1,22 +1,21 @@
 <Controls._popupTemplate.InfoBox stickyPosition="{{_options.stickyPosition}}" closeButtonVisibility="{{false}}" style="{{_options.style}}" styleType="{{_options.styleType}}">
    <div class="controls-InfoBox controls-InfoBox_theme-{{_options.theme}}" on:mouseenter="_sendResult()" on:mouseleave="_sendResult()">
-      <Controls._popupTemplate.CloseButton attr:class="controls-InfoBox__closeButton controls-InfoBox__closeButton_theme-{{_options.theme}}" on:click="_close()" viewMode="link" attr:ws-no-focus="true"/>
+      <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton controls-InfoBoxTemplate__closeButton_theme-{{_options.theme}}" on:click="_close()" viewMode="link" attr:ws-no-focus="true"/>
       <ws:if data="{{_options.floatCloseButton}}">
          <div class="controls-InfoBox_floatElement controls-InfoBox_floatElement_theme-{{ _options.theme }}"></div>
       </ws:if>
-
       <ws:if data="{{_options.template}}">
          <ws:partial
             template="{{_options.template}}"
             scope="{{_options.templateOptions}}"
-            class="controls-InfoBox__content controls-InfoBox__message controls-InfoBox__message_theme-{{_options.theme}} {{!_options.floatCloseButton ? ' controls-InfoBox__message_margin controls-InfoBox__message_margin_theme-' + _options.theme}}">
+            class="controls-InfoBox__content controls-InfoBox__message controls-InfoBox__message_theme-{{_options.theme}}
+                  {{!_options.floatCloseButton ? 'controls-InfoBox__message_margin_theme-' + _options.theme}}">
          </ws:partial>
       </ws:if>
       <ws:else>
-         <div class="{{!_options.floatCloseButton ? 'controls-InfoBox__message_margin controls-InfoBox__message_margin_theme-' + _options.theme}}">
-            <div class="controls-InfoBox__message controls-InfoBox__message_theme-{{_options.theme}}">
+         <div class="controls-InfoBox__message controls-InfoBox__message_theme-{{_options.theme}}
+                     {{!_options.floatCloseButton ? 'controls-InfoBox__message_margin_theme-' + _options.theme}}">
                {{_options.message}}
-            </div>
          </div>
       </ws:else>
    </div>

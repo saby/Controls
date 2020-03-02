@@ -374,7 +374,7 @@ var SuggestLayout = Control.extend({
       if ((needSearchOnValueChanged || valueCleared) && this._searchValue !== newOptions.value) {
          this._searchValue = newOptions.value;
 
-         if (this._options.suggestState) {
+         if (this._options.suggestState && newOptions.suggestState) {
             _private.updateSuggestState(this);
          }
       }
@@ -416,7 +416,6 @@ var SuggestLayout = Control.extend({
       _private.close(this);
    },
    _changeValueHandler: function(event, value) {
-      var historyId = this._options.historyId;
       var self = this;
       var shouldSearch;
 

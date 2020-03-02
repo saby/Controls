@@ -15,14 +15,13 @@ export default class extends Control {
         });
     }
 
-    private _reloadList(): void {
+    protected _reloadList(): void {
         this._slowDownSource(this._viewSource, 3000);
         this._children.list.reload();
     }
 
     private _slowDownSource(source: Memory, timeMs: number) {
         const originalQuery = source.query;
-        const self = this;
 
         source.query = function() {
             const args = arguments;

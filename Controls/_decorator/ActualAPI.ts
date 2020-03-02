@@ -4,7 +4,72 @@
  */
 
 import {Logger} from 'UI/Utils';
+import {IMoneyOptions} from 'Controls/_decorator/Money';
 import {IHighlightOptions} from 'Controls/_decorator/Highlight';
+
+interface IActualMoneyFont {
+    fontSize: string;
+    fontWeight: string;
+    fontColorStyle: string;
+}
+
+export function styleOptions(style: string): IActualMoneyFont {
+    switch (style) {
+        case 'accentResults':
+            return {
+                fontColorStyle: 'secondary', fontSize: 'l', fontWeight: 'bold'
+            };
+        case 'noAccentResults':
+            return {
+                fontColorStyle: 'unaccented', fontSize: 'l', fontWeight: 'bold'
+            };
+        case 'group':
+            return {
+                fontColorStyle: 'readonly', fontSize: 'm', fontWeight: 'default'
+            };
+        case 'basicRegistry':
+            return {
+                fontColorStyle: 'default', fontSize: 'm', fontWeight: 'default'
+            };
+        case 'noBasicRegistry':
+            return {
+                fontColorStyle: 'unaccented', fontSize: 'm', fontWeight: 'default'
+            };
+        case 'accentRegistry':
+            return {
+                fontColorStyle: 'secondary', fontSize: 'l', fontWeight: 'bold'
+            };
+        case 'noAccentRegistry':
+            return {
+                fontColorStyle: 'unaccented', fontSize: 'l', fontWeight: 'bold'
+            };
+        case 'error':
+            return {
+                fontColorStyle: 'danger', fontSize: 'm', fontWeight: 'bold'
+            };
+        case 'default':
+            return {
+                fontColorStyle: 'default', fontSize: 'm', fontWeight: 'default'
+            };
+        default:
+            return {
+                fontColorStyle: 'default', fontSize: 'm', fontWeight: 'default'
+            };
+    }
+}
+
+export function moneyStyle(options: IMoneyOptions): IActualMoneyFont {
+    if ('style' in options) {
+        Logger.warn('Controls.decorator:Money - опция style устарела, используйте опции fontSize, fontWeight, fontColorStyle.');
+        return styleOptions(options.style);
+    }
+
+    return {
+        fontSize: options.fontSize,
+        fontWeight: options.fontWeight,
+        fontColorStyle: options.readOnly ? 'readonly' : options.fontColorStyle
+    };
+}
 
 export function wrapURLsValue(text?: string, value?: string, useLogging: boolean = false): string {
     if (typeof text === 'string') {

@@ -16,7 +16,7 @@
             </ws:monthTemplate>
         </Controls.calendar:MonthList>
         <div class="controlsDemo__wrapper">
-            <span class="controlsDemo__button" on:click="_updateYear()">Обновить 2019 год</span>
+            <span class="controlsDemo__button controlsDemo__updateYear" on:click="_updateYear()">Обновить 2019 год</span>
         </div>
     </div>
 </ws:partial>

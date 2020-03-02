@@ -26,10 +26,7 @@ import buttonLib = require('Controls/buttons');
    }
 
    function cssStyleGeneration(options) {
-      let menuStyle = options.headConfig && options.headConfig.menuStyle,
-         currentButtonClass;
-
-      currentButtonClass = buttonLib.ActualApi.styleToViewMode(options.style);
+      let currentButtonClass = buttonLib.ActualApi.styleToViewMode(options.style);
 
       // для каждого размера вызывающего элемента создаем класс, который выравнивает popup через margin.
       var offsetClassName = 'controls-MenuButton_' + (currentButtonClass.viewMode || options.viewMode);
@@ -43,11 +40,10 @@ import buttonLib = require('Controls/buttons');
          // поэтому необходимо это учесть при сдвиге
          offsetClassName += '_iconSize-' + (getIconSize(options) || 'medium');
       }
-      offsetClassName += (((menuStyle === 'duplicateHead' && options.showHeader) || (!options.headerTemplate && !options.showHeader)) ? '_duplicate' : '') + '_popup';
+      offsetClassName += ((!options.headerTemplate && !options.showHeader) ? '_duplicate' : '') + '_popup';
       return offsetClassName;
    }
 
    export = {
-      cssStyleGeneration: cssStyleGeneration
+      cssStyleGeneration
    };
-

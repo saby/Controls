@@ -99,7 +99,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         return config;
     }
 
-    private _open(event: SyntheticEvent<MouseEvent>): void {
+    protected _open(event: SyntheticEvent<MouseEvent>): void {
         const type: string = this._getType(event.type);
         this.open(type);
     }

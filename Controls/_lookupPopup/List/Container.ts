@@ -9,7 +9,7 @@ import {showType} from 'Controls/Utils/Toolbar';
  * Также добавляет действие «Выбрать» в иерархические списки.
  * Используется внутри Controls/lookupPopup:Controller и Controls/lookupPopup:Container.
  *
- * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/'>статье</a>.
+ * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
  *
  * <a href="/materials/demo/demo-ws4-engine-selector-browser">Пример</a> использования контрола.
  *

@@ -6,7 +6,7 @@ import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _menuSource: Memory = null;
+    protected _menuSource: Memory = null;
 
     protected _beforeMount(): void {
         const items = [

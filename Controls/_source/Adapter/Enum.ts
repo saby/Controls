@@ -40,9 +40,9 @@ interface IRawDataElem {
 class EnumAdapter extends Control {
 
    protected _template: TemplateFunction = EnumTemplate;
-   private _source: Memory = null;
+   protected _source: Memory = null;
    private _enum: Enum<string> = null;
-   private _selectedKey: string;
+   protected _selectedKey: string;
 
    private _getArrayFromEnum(enumInstance: Enum<string>): IRawDataElem[] {
       const arr = [];
@@ -87,7 +87,7 @@ class EnumAdapter extends Control {
       }
    }
 
-   private _changeKey(e: SyntheticEvent<Event>, key: string | string[]): void {
+   protected _changeKey(e: SyntheticEvent<Event>, key: string | string[]): void {
       let resultKey: string;
       // support of multiselection in dropdown
       if (key instanceof Array) {

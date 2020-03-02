@@ -6,7 +6,7 @@ class LoadingIndicatorPopup extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
     static _theme: string[] = ['Controls/Classes'];
-    private _load(): void {
+    protected _load(): void {
         this._children.dialog.open();
     }
 }

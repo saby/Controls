@@ -1,3 +1,3 @@
 <div class="ControlsDemo-Suggest_empty">
-    <Controls.buttons:Button attr:class="ControlsDemo-Suggest__empty-button" caption="Это новое" buttonStyle="primary" viewMode="button"/>
+    <Controls.buttons:Button attr:class="ControlsDemo-Suggest__empty-button" inlineHeight="2xl" caption="Это новое" buttonStyle="primary" viewMode="button"/>
 </div>

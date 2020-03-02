@@ -9,7 +9,7 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
+    protected _viewSource: Memory;
 
     protected _beforeMount() {
         this._viewSource = new Memory({
@@ -18,7 +18,7 @@ export default class extends Control {
         })
     }
 
-    private _beforeEndEdit(e: SyntheticEvent<null>, item: Model) {
+    protected _beforeEndEdit(e: SyntheticEvent<null>, item: Model) {
         if (item.get('id') === 1 && item.get('beforeEndEditTitle') === '') {
             return CONSTANTS.editing.CANCEL;
         }

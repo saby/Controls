@@ -5,18 +5,9 @@ import {Date as WSDate, DateTime, Time} from 'Types/entity';
 import Model = require('Controls/_input/DateTime/Model');
 import {DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, getMaskType, TIME_MASK_TYPE} from './DateTime/Utils';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
+import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_input/DateTime/DateTime');
-
-//TODO Копипаста из модуля Controls/_dateRange/Utils, чтобы убрать закчиливание библиотек.
-// https://online.sbis.ru/opendoc.html?guid=33a2d809-9c38-4dd4-bb3a-054afbf49bcc
-function proxyModelEvents(component, model, eventNames) {
-   eventNames.forEach(function(eventName) {
-      model.subscribe(eventName, function(event, value) {
-         component._notify(eventName, value);
-      });
-   });
-}
 
 /**
  * Базовое универсальное поле ввода даты и времени. Позволяет вводить дату и время одновременно или по отдельности. Данные вводятся только с помощью клавиатуры.

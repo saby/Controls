@@ -8,7 +8,7 @@ import collection = require('Types/collection');
  * @control
  * @extends Core/Control
  * @public
- * @author Капустин И.А.
+ * @author Герасимов А.М.
  */
 
 /**

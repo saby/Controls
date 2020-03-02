@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            itemActions="{{_itemActions}}"
+            itemActionsClass="myClass"
+            itemActionsPosition="custom">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <div>
+                        {{contentTemplate.itemData.item.get('title')}}
+                    </div>
+                    <div style="height: 50px; display: flex; justify-content: center;">
+                        <div style="position: relative; width: 50%;  height: 100%;">
+                            <ws:partial template="{{contentTemplate.itemActionsTemplate}}"/>
+                        </div>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>
