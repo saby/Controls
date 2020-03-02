@@ -201,7 +201,7 @@ import template = require('wml!Controls/_dateRange/RelationController/RelationCo
 /**
  * @name Controls/_dateRange/RelationController#content
  * @cfg {Content} Содержимое контрола. Контроллер устанавливает периоды и тип параметров связи в шаблоне.
- * Шаблон может содержать контролы выбора периода. 
+ * Шаблон может содержать контролы выбора периода.
  * Каждый контрол выбора периода должен быть обернут в {@link Controls/_dateRange/RelationWrapper}. Также шаблон может содержать {@link Controls/_dateRange/RelationButton}.
  * @example
  * <pre class="brush: html">
@@ -261,7 +261,7 @@ import template = require('wml!Controls/_dateRange/RelationController/RelationCo
  */
 
 /**
- * @event Происходит при изменении типа привязки. 
+ * @event Происходит при изменении типа привязки.
  * @event Controls/_dateRange/RelationController#bindTypeChanged
  * @param {BindType} bindType Новое значение типа привязки.
  * @example
@@ -308,7 +308,10 @@ import template = require('wml!Controls/_dateRange/RelationController/RelationCo
 
 /**
  * @event Controls/_dateRange/RelationController#periodsChanged Происходит при изменении хотя бы одного из периодов.
- * @param {Array} value Массив с периодами.
+ * @param {Array} periods Массив с новыми периодами.
+ * @param {Array} oldPeriods Массив со старыми периодами.
+ * @remark
+ * В качестве параметров приходят массивы массивов. Вложенные массивы содержат 2 элемента, начала и конец периода.
  * @example
  * <pre class="brush: html">
  *    <Controls.dateRange:RelationController on:periodsChanged="_periodsChangedHandler()"/>
@@ -401,7 +404,7 @@ var _private = {
             }
         }
         if (changed) {
-            self._notify('periodsChanged');
+            self._notify('periodsChanged', [newRanges, ranges]);
         }
     }
 };
