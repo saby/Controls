@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Tree, Search, TreeItem, SelectionController} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -61,16 +61,27 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         const rootChanged = newOptions.root !== this._options.root;
         const sourceChanged = newOptions.source !== this._options.source;
+        const filterChanged = newOptions.filter !== this._options.filter;
 
         if (sourceChanged) {
             this._sourceController = null;
         }
 
-        if (rootChanged || sourceChanged) {
+        if (rootChanged || sourceChanged || filterChanged) {
             this.loadItems(newOptions);
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this.setSelectedItems(this._listModel, newOptions.selectedKeys);
+        }
+    }
+
+    protected _afterRender(oldOptions: IMenuOptions): void {
+        const rootChanged = oldOptions.root !== this._options.root;
+        const sourceChanged = oldOptions.source !== this._options.source;
+        const filterChanged = oldOptions.filter !== this._options.filter;
+
+        if (rootChanged || sourceChanged || filterChanged) {
+            this._notify('controlResize', [], {bubbling: true});
         }
     }
 
@@ -201,7 +212,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
     private handleCurrentItem(item: TreeItem<Model>, target, nativeEvent): void {
         this._hoveredItemIndex = this._listModel.getIndex(item);
-        const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
+        const needOpenDropDown = item.isNode && item.isNode() && !item.getContents().get('readOnly');
         const needCloseDropDown = this.subMenu && this._subDropdownItem && this._subDropdownItem !== item;
         this.setItemParamsOnHandle(item, target, nativeEvent);
 
@@ -344,14 +355,20 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private getCollection(items: RecordSet, options: IMenuOptions): Tree {
-        let listModel = new Tree({
+        const collectionConfig = {
             collection: items,
             keyProperty: options.keyProperty,
             nodeProperty: options.nodeProperty,
             parentProperty: options.parentProperty,
             root: options.root,
-            filter: this.displayFilter.bind(this, options)
-        });
+            unique: true
+        };
+        let listModel;
+        if (options.searchParam && options.searchValue) {
+            listModel = new Search(collectionConfig);
+        } else {
+            listModel = new Tree({...collectionConfig, filter: this.displayFilter.bind(this, options)});
+        }
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
         }
@@ -417,14 +434,18 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private loadItems(options: IMenuOptions): Deferred<RecordSet> {
-        let filter = Clone(options.filter) || {};
-        filter[options.parentProperty] = options.root;
-        return this.getSourceController(options).load(filter).addCallback((items) => {
+        return this.getSourceController(options).load(this._prepareFilter(options)).addCallback((items) => {
             this.createViewModel(items, options);
             this._moreButtonVisible = options.selectorTemplate && this.getSourceController(options).hasMoreData('down');
             this._expandButtonVisible = this.isExpandButtonVisible(items, options.additionalProperty, options.root);
             return items;
         });
+    }
+
+    private _prepareFilter(options: IMenuOptions): object {
+        let filter = Clone(options.filter) || {};
+        filter[options.parentProperty] = options.root;
+        return filter;
     }
 
     private isExpandButtonVisible(items: RecordSet, additionalProperty: string, root: string): boolean {
@@ -474,6 +495,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
         templateOptions.additionalProperty = null;
+        templateOptions.searchParam = null;
 
         templateOptions.source = this.getSourceSubMenu(templateOptions.root);
         return templateOptions;

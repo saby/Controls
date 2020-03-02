@@ -22,7 +22,7 @@
 
    &::before {
       content: '\200b';
-      line-height: 32px;
+      line-height: @item_height_menu;
    }
 }
 
@@ -145,6 +145,10 @@
    display: flex;
    padding-top: @item_padding-top_menu;
    padding-bottom: @item_padding-bottom_menu;
+}
+
+.controls-Menu__content_levelPadding_theme-@{themeName} {
+   padding-left: @search_item_padding-left_menu;
 }
 
 .controls-Menu__row-additionalText_theme-@{themeName} {

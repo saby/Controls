@@ -73,7 +73,7 @@ define('Controls-demo/Explorer/ExplorerMemory', [
                }));
             } else {
                query.where(function(item) {
-                  if (filter.parent && filter.parent.indexOf) {
+                  if (filter.parent && filter.parent.forEach) {
                      for (var i = 0; i < filter.parent.length; i++) {
                         if (item.get('parent') === filter.parent[i]) {
                            return true;
@@ -83,9 +83,8 @@ define('Controls-demo/Explorer/ExplorerMemory', [
                   } else {
                      if (parent !== undefined) {
                         return item.get('parent') === parent;
-                     } else {
-                        return item.get('parent') === null;
                      }
+                     return true;
                   }
                });
                TreeMemory.superclass.query.apply(this, arguments).addCallback(function(data) {

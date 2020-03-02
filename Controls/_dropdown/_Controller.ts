@@ -464,6 +464,7 @@ var _Controller = Control.extend({
                selectorOpener: this._children.selectorOpener,
                selectorDialogResult: this._onSelectorTemplateResult.bind(this)
             },
+            fittingMode: this._options.searchParam ? 'fixed' : 'adaptive',
             target: this._container,
             targetPoint: this._options.targetPoint,
             opener: this,

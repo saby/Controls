@@ -74,6 +74,7 @@ var _private = {
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/interface/ISearch
  * @control
  * @public
  * @author Золотова Э.Е.
