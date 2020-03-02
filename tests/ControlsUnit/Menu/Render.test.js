@@ -165,8 +165,11 @@ define(
             renderOptions.nodeProperty = 'node';
             iconPadding = menuRender.getIconPadding(renderOptions);
             assert.equal(iconPadding, '');
-         });
 
+            renderOptions.headingIcon = 'icon-Add';
+            iconPadding = menuRender.getIconPadding(renderOptions);
+            assert.equal(iconPadding, '');
+         });
       });
    }
 );

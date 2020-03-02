@@ -152,18 +152,13 @@ class MenuRender extends Control<IMenuRenderOptions> {
         const items = options.listModel.getCollection();
         const parentProperty = options.parentProperty;
         let iconPadding = '', icon;
-        let headingIcon = options.headConfig?.icon || options.headingIcon;
 
-        if (options.root === null && headingIcon && (!options.headConfig || options.headConfig.menuStyle !== 'titleHead')) {
-            iconPadding = ActualApi.iconSize(options.iconSize, headingIcon) || 'm';
-        } else {
-            factory(items).each((item) => {
-                icon = item.get('icon');
-                if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
-                    iconPadding = ActualApi.iconSize(options.iconSize, icon) || 'm';
-                }
-            });
-        }
+        factory(items).each((item) => {
+            icon = item.get('icon');
+            if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
+                iconPadding = ActualApi.iconSize(options.iconSize, icon) || 'm';
+            }
+        });
         return iconPadding;
     }
 
