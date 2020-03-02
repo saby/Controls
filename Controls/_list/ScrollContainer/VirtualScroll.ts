@@ -183,9 +183,10 @@ export default class VirtualScroll {
      * @param triggerHeight
      * @param itemsContainer
      */
-    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
-        this.applyContainerHeightsData({viewport: viewportHeight, trigger: triggerHeight});
-        this._updateItemsHeights(itemsContainer);
+    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
+        this._handleResize({
+            viewport: viewportHeight, trigger: triggerHeight
+        }, itemsContainer);
     }
 
     /**
@@ -194,9 +195,10 @@ export default class VirtualScroll {
      * @param triggerHeight
      * @param itemsContainer
      */
-    resizeView(viewHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
-        this.applyContainerHeightsData({scroll: viewHeight, trigger: triggerHeight});
-        this._updateItemsHeights(itemsContainer);
+    resizeView(viewHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
+        this._handleResize({
+            scroll: viewHeight, trigger: triggerHeight
+        }, itemsContainer);
     }
 
     /**
@@ -316,6 +318,14 @@ export default class VirtualScroll {
             }
 
             return itemIndex;
+        }
+    }
+
+    private _handleResize(containerHeights: Partial<IContainerHeights>, itemsContainer?: HTMLElement): void {
+        this.applyContainerHeightsData(containerHeights);
+
+        if (itemsContainer) {
+            this._updateItemsHeights(itemsContainer);
         }
     }
 
