@@ -510,7 +510,7 @@ define('Controls/interface/IDropdown', [], function() {
    /**
     * Открывает выпадающий список.
     * @function Controls/interface/IDropdown#openMenu
-    * @param {Object} popupOptions Конфигурация прилипающего блока {@link https://wi.sbis.ru/docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
+    * @param {Object} popupOptions Конфигурация прилипающего блока {@link https://wi.sbis.ru/docs/js/Controls/popup/IStickyPopupOptions/ popupOptions}
     * @example
     * WML:
     * <pre>

@@ -645,7 +645,7 @@ define('Controls/interface/IFilterPanel', [], function() {
    /**
     * @name Controls/interface/IFilterPanel#historyId
     * @cfg {String} Уникальный идентификатор для сохранения истории.
-    * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>инструкции</a>.
+    * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/'>инструкции</a>.
     */
 
    /*

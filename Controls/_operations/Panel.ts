@@ -9,19 +9,13 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  * @class Controls/_operations/Panel
  * @extends Core/Control
  * @mixes Controls/_toolbars/IToolbarSource
- * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
  * @public
- * @author Авраменко А.С.
- * @demo Controls-demo/OperationsPanel/Panel
- * 
- *
- * @css @background-color_OperationsPanel Background color of the panel.
- * @css @height_OperationsPanel Height of the panel.
- * @css @spacing_OperationsPanel-between-items Spacing between items.
- * @css @margin_OperationsPanel__rightTemplate Margin of rightTemplate.
+ * @author Герасимов А.М.
+ * @demo Controls-demo/OperationsPanelNew/Base/Index
+ * @demo Controls-demo/OperationsPanelNew/ReadOnly/Index
  */
 
 /*
@@ -31,26 +25,30 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  *
  * @class Controls/_operations/Panel
  * @extends Core/Control
- * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * @control
  * @public
- * @author Авраменко А.С.
- * @demo Controls-demo/OperationsPanel/Panel
- *
- * @css @background-color_OperationsPanel Background color of the panel.
- * @css @height_OperationsPanel Height of the panel.
- * @css @spacing_OperationsPanel-between-items Spacing between items.
- * @css @margin_OperationsPanel__rightTemplate Margin of rightTemplate.
+ * @author Герасимов А.М.
+ * @demo Controls-demo/OperationsPanelNew/Base/Index
  */
 
 /**
  * @name Controls/_operations/Panel#rightTemplate
  * @cfg {String|Function} Шаблон, отображаемый в правой части панели массового выбора.
+ * @demo Controls-demo/OperationsPanelNew/RightTemplate/Index
  * @example
  * <pre class="brush: html">
- * <Controls.operations:Panel rightTemplate="wml!MyModule/OperationsPanelRightTemplate" />
+ * <Controls.operations:Panel>
+ *     <ws:rightTemplate>
+ *         <Controls.buttons:Button caption="Доп. операции"
+ *                                  on:click="_onClickAddBlock()"
+ *                                  iconSize="s"
+ *                                  icon="icon-Settings"
+ *                                  viewMode="link"
+ *                                  fontColorStyle="link"
+ *     </ws:rightTemplate>
+ * </Controls.operations:Panel>
  * </pre>
  */
 
@@ -76,6 +74,10 @@ import template = require('wml!Controls/_operations/Panel/Panel');
  * @name Controls/_operations/Panel#itemClick
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} item Элемент, по которому произвели клик.
+ * @param {Object} nativeEvent Объект нативного события браузера
+ * @param {Object} selection Объект, который содержит свойства selected и excluded.
+ * selected - это массив идентификаторов отмеченных записей.
+ * excluded - это массив идентификаторов исключённых записей
  * @example
  * <pre class="brush: html">
  * <!-- WML -->
@@ -133,6 +135,7 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 /**
  * @name Controls/_operations/Panel#selectionViewMode
  * @cfg {SelectionViewMode} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
+ * @demo Controls-demo/OperationsPanelNew/SelectionViewMode/Index.ts
  * @default null
  * @example
  * <pre class="brush: js">
@@ -158,6 +161,8 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 /**
  * @name Controls/_operations/Panel#selectedCountConfig
  * @cfg {ISelectedCountConfig} Конфигурация для получения счётчика отмеченных записей.
+ * @demo Controls-demo/operations/SelectedCountConfig/Index
+ * @default undefined
  * @example
  * TS:
  * <pre>

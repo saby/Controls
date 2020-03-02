@@ -1,4 +1,4 @@
-<div class="controls-Menu"
+<div class="controls-menu"
      attr:ws-no-focus="true">
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                           controls-Menu__scroll

@@ -401,18 +401,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     static _isSafari13(): boolean {
-        // TODO remove after complete https://online.sbis.ru/opendoc.html?guid=14d98228-de34-4ad3-92a3-4d7fe8770097
-        if (detection.safari) {
-            const safariVersionMatching = detection.userAgent.match(/Version\/([0-9\.]*)/);
-            if (safariVersionMatching) {
-                return parseInt(safariVersionMatching[1], 10) >= 13;
-            }
-        }
-        // Check chrome ang safari on ios 13.
-        if (detection.isMobileIOS && detection.IOSVersion >= 13) {
-            return true;
-        }
-        return false;
+        return detection.safariVersion >= 13;
     }
 
     static contextTypes(): IStickyHeaderContext {

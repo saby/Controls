@@ -17,11 +17,13 @@ define('Controls-demo/RootRouter', [
       {
          _template: template,
          isReloading: false,
-         _pathName: '/Controls-demo/app/Controls-demo%2FIndexOld',
+         showMenu: true,
+         pathName: 'Controls-demo/app/Controls-demo%2FIndexOld',
          reload: function() {
             this.isReloading = true;
-            // РџСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РґРµРјРєРё СЃР±СЂР°СЃС‹РІР°РµРј РІСЃРµ С‡С‚Рѕ Р»РµР¶РёС‚ РІ settingsController (Р·Р°РґР°РµС‚СЃСЏ РЅР° application);
-            window.localStorage.setItem('controlSettingsStorage', '{}');
+            // При обновлении демки сбрасываем все что лежит в settingsController (задается на application);
+            // здесь падает рендеринг на wi.sbis-doc
+            //window.localStorage.setItem('controlSettingsStorage', '{}');
          },
 
          _afterMount: function() {
@@ -35,7 +37,7 @@ define('Controls-demo/RootRouter', [
          _isMenuButtonVisible: function() {
             var location = this._getLocation();
             if (location) {
-               return location.pathname !== this._pathName;
+               return location.pathname !== this._options.appRoot + this.pathName;
             }
             return null;
          },
@@ -45,7 +47,7 @@ define('Controls-demo/RootRouter', [
          },
 
          goHomeHandler: function() {
-            window.location = this._pathName;
+            window.location = this._options.appRoot + this.pathName;
          },
          _getLocation: function() {
             if (AppInit.isInit()) {

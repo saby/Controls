@@ -132,6 +132,8 @@
    border-top: @border-width_BaseControl-scrollPaging-top solid @border-color_BaseControl-scrollPaging;
 }
 
-.controls-Scroll__content_paging {
+.controls-Scroll__content_paging::after {
    padding-bottom: @height_Paging-button;
+   content: '';
+   display: block;
 }

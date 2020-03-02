@@ -228,8 +228,9 @@ define(
             };
 
             let originalAbort = searchController._search.abort;
-            searchController._search.abort = function() {
+            searchController._search.abort = function(force) {
                reseted = true;
+               forced = force;
                return originalAbort.apply(searchController._search, arguments);
             };
 
@@ -252,6 +253,7 @@ define(
             reseted = false;
             searchController._search.search('').then(() => {
                assert.isTrue(reseted);
+               assert.isTrue(forced);
             });
          });
       });

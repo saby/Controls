@@ -9,7 +9,7 @@
          <link data-vdomignore="true" rel="shortcut icon" href="/Controls-demo/wasaby.ico?v=1" type="image/x-icon"/>
       </ws:head>
       <ws:content>
-         <Controls-demo.RootRouter correctTemplate="{{_correctTemplate}}"/>
+         <Controls-demo.RootRouter correctTemplate="{{_correctTemplate}}" scope="{{_options}}"/>
       </ws:content>
    </Controls.Application>
 </Controls-demo.ContainerTheme>

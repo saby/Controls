@@ -166,6 +166,11 @@
                 on:hoveredItemChanged="_onHoveredItemChanged()"
                 on:itemSwipe="_listSwipe()"
         >
+           <ws:tagTemplate>
+              <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
+                          on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
+                          on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
+           </ws:tagTemplate>
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>
@@ -262,6 +267,7 @@
                 nodesSourceControllers="{{_options.nodesSourceControllers}}"
                 selectDescendants="{{_options.selectDescendants}}"
                 selectAncestors="{{_options.selectAncestors}}"
+                root="{{_options.root}}"
                 on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
             />
