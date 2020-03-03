@@ -718,3 +718,12 @@
 .controls-Grid__cell-content_full-height {
    height: 100%;
 }
+
+.controls-Grid__cell_tag {
+   position: relative;
+   width: @spacing_Grid-tag-from-right-text;
+
+   .controls-InputTag_theme-@{themeName} {
+      top: -@spacing_Grid-tag-from-baseline;
+   }
+}
