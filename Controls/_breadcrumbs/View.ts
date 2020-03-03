@@ -49,12 +49,20 @@ var BreadCrumbsView = Control.extend({
                 item.set('indentation', index);
             });
             this._children.menuOpener.open({
-                target: e.target,
+                target: e.currentTarget,
                 templateOptions: {
                     items: rs,
                     itemTemplate: menuItemTemplate,
                     displayProperty: this._options.displayProperty
-                }
+                },
+                targetPoint: {
+                    vertical: 'bottom',
+                    horizontal: 'left'
+                },
+                direction: {
+                    horizontal: 'right'
+                },
+                fittingMode: 'overflow'
             });
             e.stopPropagation();
     },

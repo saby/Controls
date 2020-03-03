@@ -70,6 +70,12 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     * @param {Object} items items
     */
 
+   /**
+    * @event Controls/_filterPopup/DetailPanel#historyApply Происходит при применении фильтра из истории фильтров.
+    * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+    * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
+    */
+
 
    var getPropValue = Utils.object.getPropertyValue.bind(Utils);
    var setPropValue = Utils.object.setPropertyValue.bind(Utils);
@@ -341,6 +347,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          };
 
          if (history) {
+            this._notify('historyApply', [curItems]);
             apply(curItems);
          } else {
             _private.validate(this).addCallback(function (result) {

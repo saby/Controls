@@ -4,6 +4,7 @@ import {debounce} from 'Types/function';
 import {Base as BaseSource} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import {detection} from 'Env/Env';
 import {IMonthListSource, IMonthListSourceOptions} from './interfaces/IMonthListSource';
 import {IMonthList, IMonthListOptions} from './interfaces/IMonthList';
 import {IMonthListVirtualPageSize, IMonthListVirtualPageSizeOptions} from './interfaces/IMonthListVirtualPageSize';
@@ -282,16 +283,21 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             if (entry.data.type !== ITEM_TYPES.body) {
                 continue;
             }
-            const entryDate = entry.data.date;
+            const entryDate: Date = entry.data.date;
+            const rootBounds: DOMRect = entry.nativeEntry.rootBounds;
+            // На Ipad приходит уже не актуальное положение элементов.
+            // При дальнейшем скролировании обсервер уже не вызывается.
+            const boundingClientRect: DOMRect = detection.isMobileIOS ?
+                entry.nativeEntry.target.getBoundingClientRect() : entry.nativeEntry.boundingClientRect;
 
             // We select only those containers that are not fully displayed
             // and intersect with the scrolled container in its upper part, or lie higher.
-            if (entry.nativeEntry.boundingClientRect.top - entry.nativeEntry.rootBounds.top <= 0) {
-                if (entry.nativeEntry.boundingClientRect.bottom - entry.nativeEntry.rootBounds.top > 0) {
+            if (boundingClientRect.top - rootBounds.top <= 0) {
+                if (boundingClientRect.bottom - rootBounds.top > 0) {
                     // If the bottom of the container lies at or below the top of the scrolled container, then we found the right date
                     date = entryDate;
                     break;
-                } else if (entry.nativeEntry.rootBounds.top - entry.nativeEntry.boundingClientRect.bottom < entry.nativeEntry.target.offsetHeight) {
+                } else if (rootBounds.top - boundingClientRect.bottom < entry.nativeEntry.target.offsetHeight) {
                     // If the container is completely invisible and lies on top of the scrolled area,
                     // then the next container may intersect with the scrolled area.
                     // We save the date, and check the following. This condition branch is needed,

@@ -3234,6 +3234,10 @@ define([
             const ctrl = new lists.BaseControl(cfg);
             ctrl._children = {
                editInPlace: {
+                  commitEdit: function() {
+                     result = commitDef;
+                     return result;
+                  },
                   commitAndMoveNextRow: function () {
                      result = commitAndMoveDef;
                   }
@@ -3241,6 +3245,63 @@ define([
             };
             ctrl._commitEditActionHandler();
             assert.equal(commitAndMoveDef, result);
+         });
+
+         it('commitEditActionHandler twice', function (done) {
+            var cfg = {
+               viewName: 'Controls/List/ListView',
+               source: source,
+               viewConfig: {
+                  keyProperty: 'id'
+               },
+               viewModelConfig: {
+                  items: rs,
+                  keyProperty: 'id',
+                  selectedKeys: [1, 3]
+               },
+               viewModelConstructor: lists.ListViewModel,
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 6,
+                     page: 0,
+                     hasMore: false
+                  },
+                  view: 'infinity',
+                  viewConfig: {
+                     pagingMode: 'direct'
+                  }
+               }
+            };
+            let commitDef = new cDeferred();
+            let result;
+            let count = 0;
+
+            var ctrl = new lists.BaseControl(cfg);
+            ctrl._children = {
+               editInPlace: {
+                  commitEdit: function() {
+                     result = commitDef;
+                     count++;
+                     return result;
+                  }
+               }
+            };
+            assert.isTrue(ctrl._canCommitByAction);
+            ctrl._commitEditActionHandler();
+            assert.equal(count, 1);
+            assert.isFalse(ctrl._canCommitByAction);
+
+            ctrl._commitEditActionHandler();
+            assert.equal(count, 1);
+            assert.isFalse(ctrl._canCommitByAction);
+
+            commitDef.then(() => {
+               assert.isTrue(ctrl._canCommitByAction);
+               done();
+            });
+
+            commitDef.callback();
          });
 
          it('commitEdit, readOnly: true', function() {
