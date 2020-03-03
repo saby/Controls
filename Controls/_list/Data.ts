@@ -263,6 +263,10 @@ type GetSourceResult = {
             return {
                dataOptions: this._dataOptionsContext
             };
+         },
+
+         _onItemsChangeError: function(event, error) {
+            this._children.itemsErrorRegistrar.start(error);
          }
       });
 
