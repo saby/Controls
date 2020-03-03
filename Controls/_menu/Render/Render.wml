@@ -3,11 +3,12 @@
         multiselectVisibility="{{_options.multiSelect ? 'onhover' : 'hidden'}}"
         multiSelectTpl="{{_multiSelectTpl}}"
         footerTemplate="{{_options.footerTemplate}}"
+        emptyTemplate="{{!_options.listModel.getCount() ? _options.emptyTemplate : null}}"
         on:itemMouseLeave="_proxyEvent('itemMouseLeave')"
         on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
-        on:itemClick="_proxyEvent('itemClick')">
+        on:itemClick="_itemClick()">
    <ws:itemTemplate>
-      <ws:partial template="{{itemTemplate.item.getContents().get(_options.itemTemplateProperty) || _options.itemTemplate}}"
+      <ws:partial template="{{itemTemplate.item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
                   attr:class="{{_getClassList(itemTemplate.item)}}"
                   itemData="{{_getItemData(itemTemplate.item)}}"
                   treeItem="{{itemTemplate.item}}"

@@ -19,7 +19,9 @@
          </div>
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
-         <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button controls-StickyTemplate__close_button_theme_{{_options.theme}}"
+         <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button
+                                                          controls-StickyTemplate__close_button_theme_{{_options.theme}}
+                                                          controls-StickyTemplate__close_button-with-header_theme-{{_options.theme}}"
                                               viewMode="link"
                                               on:click="close()"/>
       </ws:if>

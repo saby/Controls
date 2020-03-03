@@ -11,8 +11,12 @@
  */
 
 import ItemTemplate = require('wml!Controls/_menu/Render/itemTemplate');
+import EmptyTemplate = require('wml!Controls/_menu/Render/empty');
 
 export {default as Control} from 'Controls/_menu/Control';
 export {default as Render} from 'Controls/_menu/Render';
 export {default as Popup} from 'Controls/_menu/Popup';
-export {ItemTemplate};
+export {
+    ItemTemplate,
+    EmptyTemplate
+};
