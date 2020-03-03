@@ -1,6 +1,6 @@
 <div class="controls-StickyTemplate__top-area
             controls-StickyTemplate__top-area_theme_{{_options.theme}}
-            controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}_theme_{{_options.theme}}
+            {{_options.closeButtonVisibility ? controls-StickyTemplate__top-area-withClose}}_theme_{{_options.theme}}
             controls-DropdownList-header">
    <div class="controls-StickyTemplate__top-area-content controls-DropdownList__head">
       <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
@@ -14,9 +14,7 @@
           </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
-         <div class="">
-            <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
-         </div>
+         <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button controls-StickyTemplate__close_button_theme_{{_options.theme}}"

@@ -2,11 +2,11 @@
    max-width: @popup_max-width_menuPopup;
 }
 
-.controls-Menu__popup-list-padding-top_theme-@{themeName} {
+.controls-Menu__popup-list-verticalDirection-top_padding_theme-@{themeName} {
    padding-bottom: @content_padding-top_sticky;
 }
 
-.controls-Menu__popup-list-padding-bottom_theme-@{themeName} {
+.controls-Menu__popup-list-verticalDirection-bottom_padding_theme-@{themeName} {
    padding-top: @content_padding-top_sticky;
 }
 
@@ -37,6 +37,13 @@
 
 .controls-Menu__popup-direction-vertical-bottom {
    padding-bottom: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup-header_theme-@{themeName} {
+   display: flex;
+   align-items: center;
+   overflow: hidden;
+   padding: 0 @header_padding-horizontal_sticky;
 }
 
 .controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
