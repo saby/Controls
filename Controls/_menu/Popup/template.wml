@@ -17,7 +17,7 @@
         on:footerClick="_footerClick()">
    <ws:bodyContentTemplate>
       <Controls._menu.Control
-              attr:class="controls-Menu__popup-list-padding-{{_verticalDirection}}_theme-{{_options.theme}}"
+              attr:class="controls-Menu__popup-list-verticalDirection-{{_verticalDirection}}_padding_theme-{{_options.theme}}"
               scope="{{_options}}"
               itemPadding="{{_itemPadding}}"
               on:selectedKeysChanged="_sendResult('selectedKeysChanged')"
