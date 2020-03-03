@@ -153,29 +153,13 @@ define([
       });
 
       describe('_onHomeClick', function() {
-         [{
-            dateConstructor: typesEntity.Date,
-            dateModule: 'Types/entity:Date'
-         }, {
-            dateConstructor: typesEntity.DateTime,
-            dateModule: 'Types/entity:DateTime'
-         }].forEach(function(test) {
-            it('should generate sendResult event with correct date type', function() {
-               const sandbox = sinon.sandbox.create(),
-                  component = calendarTestUtils.createComponent(
-                     PeriodLiteDialog.View, { dateConstructor: test.dateConstructor });
+         it('Should set correct position', function() {
+            const component = calendarTestUtils.createComponent(
+               PeriodLiteDialog.View, { dateConstructor: typesEntity.Date });
+            component._position = new Date(2015, 1);
+            component._onHomeClick();
 
-               sandbox.stub(component, '_notify').callsFake(function fakeFn(eventName, eventArgs) {
-                  if (eventName === 'sendResult') {
-                     assert.deepEqual(eventArgs[0]._moduleName, test.dateModule);
-                     assert.deepEqual(eventArgs[1]._moduleName, test.dateModule);
-                  }
-               });
-               component._onHomeClick();
-               sinon.assert.calledWith(component._notify, 'sendResult');
-
-               sandbox.restore();
-            });
+            assert.isTrue(DateUtils.isDatesEqual(component._position, new Date()));
          });
       });
 

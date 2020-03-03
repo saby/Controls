@@ -157,20 +157,7 @@ var Component = BaseControl.extend({
     },
 
     _onHomeClick: function () {
-        var periodType = 'year', period;
-        if (this._options.chooseMonths) {
-            periodType = 'month';
-        } else if (this._options.chooseQuarters) {
-            periodType = 'quarter';
-        } else if (this._options.chooseHalfyears) {
-            periodType = 'halfyear';
-        }
-        period = getCurrentPeriod(periodType);
-        this.setYear((new Date()).getFullYear());
-        this._notify(
-            'sendResult',
-            [new this._options.dateConstructor(period[0]), new this._options.dateConstructor(period[1])],
-            {bubbling: true});
+        this._position = new Date();
     },
 
     _onHeaderClick: function () {
