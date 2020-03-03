@@ -1693,7 +1693,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _portionedSearch: null,
     _portionedSearchInProgress: null,
     _showContinueSearchButton: false,
-    _canCommitByAction: true,
 
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
@@ -2370,12 +2369,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (this._options.task1178374430) {
             this._children.editInPlace.commitAndMoveNextRow();
         } else {
-            if (this._canCommitByAction) {
-                this._canCommitByAction = false;
-                this._children.editInPlace.commitEdit().then(() => {
-                    this._canCommitByAction = true;
-                });
-            }
+            this._children.editInPlace.commitEdit();
         }
     },
 
