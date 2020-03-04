@@ -376,7 +376,12 @@ export default class VirtualScroll {
         }
 
         for (let i = 0, len = Math.min(container.children.length, this._range.stop - this._range.start); i < len; i++) {
-            const itemHeight = getDimensions(container.children[startChildrenIndex + i] as HTMLElement).height;
+
+            // В FF и IE есть дробные пиксели, из-за них может пострадать точность восстановления скролла, поэтому
+            // нужно округлять высоты
+            const itemHeight = Math.round(
+                getDimensions(container.children[startChildrenIndex + i] as HTMLElement).height
+            );
 
             this._itemsHeightData.itemsHeights[this._range.start + i] = itemHeight;
             this._itemsHeightData.itemsOffsets[this._range.start + i] = sum;
