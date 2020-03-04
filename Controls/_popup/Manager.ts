@@ -3,7 +3,7 @@ import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import {IPopupItem, IPopupOptions, IPopupController} from 'Controls/_popup/interface/IPopup';
+import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import {goUpByControlTree} from 'UI/Focus';
 import {delay as runDelayed} from 'Types/function';
 import {List} from 'Types/collection';
@@ -547,8 +547,51 @@ class Manager extends Control<IManagerOptions> {
     }
 
     private _redrawItems(): void {
+        this._updateZIndex();
         this._popupItems._nextVersion();
         ManagerController.getContainer().setPopupItems(this._popupItems);
+    }
+
+    private _updateZIndex(): void {
+        const popupList = this._preparePopupList();
+        const POPUP_ZINDEX_STEP = 10;
+        const TOP_POPUP_ZINDEX_STEP = 1000;
+        this._popupItems.each((item: IPopupItem, index: number) => {
+            // todo Нужно будет удалить поддержку опции zIndex, теперь есть zIndexCallback
+            let customZIndex: number = item.popupOptions.zIndex;
+            const currentItem = popupList.at(index);
+            if (item.popupOptions.zIndexCallback) {
+                customZIndex = item.popupOptions.zIndexCallback(currentItem, popupList);
+            }
+            const step = item.popupOptions.topPopup ? TOP_POPUP_ZINDEX_STEP : POPUP_ZINDEX_STEP;
+            const calculatedZIndex: number = currentItem.parentZIndex ? currentItem.parentZIndex + step : null;
+            const baseZIndex: number = (index + 1) * step;
+
+            item.currentZIndex = customZIndex || calculatedZIndex || baseZIndex;
+        });
+    }
+
+    private _preparePopupList(): List<IPopupItemInfo> {
+        const popupList: List<IPopupItemInfo> = new List();
+        this._popupItems.each((item: IPopupItem) => {
+            let parentZIndex = null;
+            if (item.parentId) {
+                const index = this._popupItems && this._popupItems.getIndexByValue('id', item.parentId);
+                if (index > -1) {
+                    parentZIndex = this._popupItems.at(index).currentZIndex;
+                }
+            }
+            popupList.add({
+                id: item.id,
+                type: item.controller.TYPE,
+                parentId: item.parentId,
+                parentZIndex,
+                popupOptions: {
+                    maximize: !!item.popupOptions.maximize // for notification popup
+                }
+            });
+        });
+        return popupList;
     }
 
     private _controllerVisibilityChangeHandler(): void {

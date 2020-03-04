@@ -81,10 +81,10 @@ var _private = {
              self._filter = _private.prepareFilterForQuery(self, options);
 
              return sourceController.load(self._filter).addCallback((items) => {
-                self._setItems(items);
                 if (options.dataLoadCallback) {
                    options.dataLoadCallback(items);
                 }
+                self._setItems(items);
                 _private.updateSelectedItems(self,
                     options.emptyText,
                     options.selectedKeys,
@@ -410,6 +410,10 @@ var _Controller = Control.extend({
    },
 
    _beforeUpdate: function (newOptions) {
+      if (newOptions.readOnly && newOptions.readOnly !== this._options.readOnly) {
+          _private.closeDropdownList(this);
+      }
+
       if (_private.templateOptionsChanged(newOptions, this._options)) {
          this._depsDeferred = null;
          if (this._isOpened) {

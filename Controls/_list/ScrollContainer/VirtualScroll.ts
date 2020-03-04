@@ -6,6 +6,7 @@ import {
     IVirtualScrollOptions, IPlaceholders,
     IRangeShiftResult, ITriggerState
 } from './interfaces';
+import * as getDimensions from 'Controls/Utils/getDimensions';
 
 export default class VirtualScroll {
     private _containerHeightsData: IContainerHeights = {scroll: 0, trigger: 0, viewport: 0};
@@ -188,9 +189,12 @@ export default class VirtualScroll {
      * @param triggerHeight
      * @param itemsContainer
      */
-    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
+    resizeViewport(viewportHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
         this.applyContainerHeightsData({viewport: viewportHeight, trigger: triggerHeight});
-        this._updateItemsHeights(itemsContainer);
+
+        if (itemsContainer) {
+            this._updateItemsHeights(itemsContainer);
+        }
     }
 
     /**
@@ -199,9 +203,12 @@ export default class VirtualScroll {
      * @param triggerHeight
      * @param itemsContainer
      */
-    resizeView(viewHeight: number, triggerHeight: number, itemsContainer: HTMLElement): void {
+    resizeView(viewHeight: number, triggerHeight: number, itemsContainer?: HTMLElement): void {
         this.applyContainerHeightsData({scroll: viewHeight, trigger: triggerHeight});
-        this._updateItemsHeights(itemsContainer);
+
+        if (itemsContainer) {
+            this._updateItemsHeights(itemsContainer);
+        }
     }
 
     /**
@@ -369,7 +376,7 @@ export default class VirtualScroll {
         }
 
         for (let i = 0, len = Math.min(container.children.length, this._range.stop - this._range.start); i < len; i++) {
-            const itemHeight = container.children[startChildrenIndex + i].getBoundingClientRect().height;
+            const itemHeight = getDimensions(container.children[startChildrenIndex + i] as HTMLElement).height;
 
             this._itemsHeightData.itemsHeights[this._range.start + i] = itemHeight;
             this._itemsHeightData.itemsOffsets[this._range.start + i] = sum;

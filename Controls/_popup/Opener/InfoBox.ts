@@ -1,4 +1,5 @@
 import cClone = require('Core/core-clone');
+import {IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
 import getZIndex = require('Controls/Utils/getZIndex');
 import {DefaultOpenerFinder} from 'UI/Focus';
@@ -97,7 +98,7 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
         }
 
         // Find opener for InfoBox
-        if (!newCfg.opener) {
+        if (!newCfg.opener && newCfg.target) {
             newCfg.opener = DefaultOpenerFinder.find(newCfg.target);
         }
         return {
@@ -110,6 +111,11 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
             eventHandlers: newCfg.eventHandlers,
             closeOnOutsideClick: newCfg.closeOnOutsideClick,
             opener: newCfg.opener,
+            zIndexCallback: (item: IPopupItemInfo) => {
+                if (item.parentZIndex) {
+                    return item.parentZIndex + 1;
+                }
+            },
             templateOptions: { // for template: Opener/InfoBox/resources/template
                 template: newCfg.template,
                 templateOptions: newCfg.templateOptions, // for user template: newCfg.template

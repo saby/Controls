@@ -718,3 +718,12 @@
 .controls-Grid__cell-content_full-height {
    height: 100%;
 }
+
+.controls-Grid__cell_tag {
+   position: relative;
+   right: -@tag_offset-vertical_gridView;
+
+   .controls-InputTag_theme-@{themeName} {
+      top: -@tag_offset-horizontal_gridView;
+   }
+}

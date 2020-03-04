@@ -9,7 +9,7 @@
 }
 
 .controls-Input-DateRange__buttonWrapper {
-   padding-left: @spacing_DateRange-between-input-button;
+   padding-left: @trigger-offset_inputDate;
    display: inline-flex;
 }
 
@@ -19,18 +19,18 @@
 
 .controls-Input-DateRange__button {
    cursor: pointer;
-   font-size: @size_DateRange-icon;
-   line-height: @size_DateRange-icon;
-   width: @size_DateRange-icon;
-   height: @size_DateRange-icon;
-   font-family: @font-family_DateRange;
+   font-size: @trigger_icon-size_inputDate;
+   line-height: @trigger_icon-size_inputDate;
+   width: @trigger_icon-size_inputDate;
+   height: @trigger_icon-size_inputDate;
+   font-family: @icon_font-family_s;
 }
 
 .controls-Input-DateRange__dash {
    display: inline-block;
-   width: @width_DateRange-dash;
-   margin: 0 @spacing_DateRange-between-dash-date;
-   border-top: @thickness_DateRange-dash solid @color_DateRange-dash;
+   width: @dash_length_dateRangeInput;
+   margin: 0 @dash_padding-horizontal_dateRangeInput;
+   border-top: @dash_thickness_dateRangeInput solid @dash_color_dateRangeInput;
    vertical-align: middle;
 }
 
@@ -41,13 +41,13 @@
 
 .ws-is-hover {
    .controls-Input-DateRange__button:hover {
-      color: @color_DateRange-calendar-icon_hover;
+      color: @trigger_hover_icon-color_inputDate;
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
    .controls-Input-DateRange__button:active {
-      color: @color_DateRange-calendar-icon_hover;
+      color: @trigger_active_icon-color_inputDate;
    }
 }

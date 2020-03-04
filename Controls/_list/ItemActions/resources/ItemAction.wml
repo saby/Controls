@@ -1,13 +1,13 @@
 <div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding
             controls-itemActionsV__action_style_{{action.style}}
             controls-itemActionsV__action_iconStyle_{{action.iconStyle}}"
-      attr:title="{{!!action.title ? action.title}}"
+      attr:title="{{tooltip}}"
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">
-    <ws:if data="{{!!action.icon}}">
-        <i attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}}"/>
+    <ws:if data="{{hasIcon}}">
+        <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}} {{hasTitle ? ' controls-itemActionsV__icon-with-title'}}"></div>
     </ws:if>
-    <ws:if data="{{!action.icon && action.title}}">
+    <ws:if data="{{hasTitle}}">
         <span class="controls-itemActionsV__action_title">{{action.title}}</span>
     </ws:if>
 </div>

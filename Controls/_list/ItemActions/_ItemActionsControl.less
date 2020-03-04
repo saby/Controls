@@ -137,7 +137,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   box-sizing: border-box;
   flex-shrink: 0;
   position: relative;
@@ -187,7 +187,8 @@
 }
 
 .ws-is-hover {
-   .controls-itemActionsV__action_title:hover {
+
+   .controls-itemActionsV__action:hover .controls-itemActionsV__action_title {
       color: @color_ItemActions-title_hover;
       text-decoration: underline;
    }
@@ -220,4 +221,8 @@
 .controls-itemActionsV_columnScrollDraw {
    position: absolute;
    right: 0;
+}
+
+.controls-itemActionsV__icon-with-title {
+   padding-right: @spacing_ItemActions-between-icon-and-title;
 }

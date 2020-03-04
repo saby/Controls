@@ -143,15 +143,6 @@ class InfoBoxController extends StickyController.constructor {
         return baseConfig;
     }
 
-    getCustomZIndex(popupItems: collection.List<IPopupItem>, item: IPopupItem): number|null {
-        const parentItem: IPopupItem = this._findItemById(popupItems, item.parentId);
-        if (parentItem) {
-            const parentZIndex = parentItem.currentZIndex;
-            return parentZIndex + 1;
-        }
-        return null;
-    }
-
     prepareConfig(item: IPopupItem, sizes: IPopupSizes): IPopupItem {
         cMerge(item.popupOptions, this._prepareConfig(item.popupOptions.position, item.popupOptions.target));
         return super.prepareConfig.apply(this, arguments);

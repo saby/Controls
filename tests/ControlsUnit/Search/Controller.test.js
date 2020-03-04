@@ -248,6 +248,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
       it('_private.abortCallback', function() {
          var controller = getSearchController();
          var filter = { 'Разворот': 'С разворотом', 'usePages': 'full', test: 'test' };
+         var notified = false;
 
          controller._viewMode = 'search';
          controller._previousViewMode = 'testViewMode';
@@ -278,6 +279,13 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchMod.Controller._private.abortCallback(controller, filter);
          assert.isTrue(stubNotify.withArgs('filterChanged', [filter]).calledOnce);
          assert.deepEqual(filter, {test: 'test'});
+
+         controller._searchValue = '';
+         controller._notify = function() {
+            notified = true;
+         };
+         searchMod.Controller._private.abortCallback(controller, filter);
+         assert.isFalse(notified);
       });
 
       it('_private.dataLoadCallback', function() {

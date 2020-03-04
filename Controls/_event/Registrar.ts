@@ -1,5 +1,8 @@
 import cExtend = require('Core/core-simpleExtend');
 
+export interface IRegistrarConfig {
+   listenAll?: boolean
+}
 
 var Registrar = cExtend.extend({
 
@@ -11,7 +14,7 @@ var Registrar = cExtend.extend({
       this._options = cfg;
    },
 
-   register: function(event, component, callback, config: any = {}) {
+   register: function(event, component, callback, config: IRegistrarConfig = {}) {
       this._registry[component.getInstanceId()] = {
          component: component,
          callback: callback
@@ -27,9 +30,11 @@ var Registrar = cExtend.extend({
          event.stopPropagation();
       }
    },
-   unregister: function(event, component) {
+   unregister: function(event, component, config: IRegistrarConfig = {}) {
       delete this._registry[component.getInstanceId()];
-      event.stopPropagation();
+      if (!config.listenAll) {
+         event.stopPropagation();
+      }
    },
    start: function() {
       if (!this._registry) {

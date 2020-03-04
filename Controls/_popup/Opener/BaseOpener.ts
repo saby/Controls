@@ -404,10 +404,12 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             'corner',
             'targetPoint',
             'targetTracking',
+            'topPopup',
             'locationStrategy',
             'fittingMode',
             'actionOnScroll',
-            'isWS3Compatible'
+            'isWS3Compatible',
+            'zIndexCallback'
         ];
 
         // merge _options to popupOptions

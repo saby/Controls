@@ -1,5 +1,7 @@
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import {IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
+import {List} from 'Types/collection';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {INotificationPopupOptions, INotificationOpener} from '../interface/INotification';
 
@@ -23,9 +25,24 @@ interface INotificationOpenerOptions extends INotificationPopupOptions, IBaseOpe
 
 const POPUP_CONTROLLER = 'Controls/popupTemplate:NotificationController';
 
-const BASE_OPTIONS = {
-    autofocus: false,
-    autoClose: true
+const findItemById = (popupItems: List<IPopupItemInfo>, id: string): IPopupItemInfo | null => {
+    const index = popupItems && popupItems.getIndexByValue('id', id);
+    if (index > -1) {
+        return popupItems.at(index);
+    }
+    return null;
+};
+
+const isLinkedPopup = (popupItems: List<IPopupItemInfo>,
+                       parentItem: IPopupItemInfo,
+                       item: IPopupItemInfo): boolean => {
+    while (item && item.parentId) {
+        item = findItemById(popupItems, item.parentId);
+        if (item === parentItem) {
+            return true;
+        }
+    }
+    return false;
 };
 
 const compatibleOpen = (popupOptions: INotificationPopupOptions): Promise<string> => {
@@ -127,6 +144,26 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
     static getDefaultOptions(): INotificationOpenerOptions {
         return {...BaseOpener.getDefaultOptions(), ...BASE_OPTIONS};
     }
+
+    static zIndexCallback(item: IPopupItemInfo, popupItems: List<IPopupItemInfo>): number {
+        const count: number = popupItems.getCount();
+        const zIndexStep: number = 10;
+        const baseZIndex: number = 100;
+        for (let i = 0; i < count; i++) {
+            // if popups are linked, then notification must be higher then parent
+            if (popupItems.at(i).popupOptions.maximize && !isLinkedPopup(popupItems, popupItems.at(i), item)) {
+                const maximizedPopupZIndex = (i + 1) * zIndexStep;
+                return maximizedPopupZIndex - 1;
+            }
+        }
+        return baseZIndex;
+    }
 }
+
+const BASE_OPTIONS = {
+    autofocus: false,
+    autoClose: true,
+    zIndexCallback: Notification.zIndexCallback
+};
 
 export default Notification;

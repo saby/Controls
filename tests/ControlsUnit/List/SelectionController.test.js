@@ -154,6 +154,42 @@ define([
             assert.isFalse(initialListModel.updateSelection.called);
             assert.isTrue(newCfg.listModel.updateSelection.withArgs({}).calledOnce);
          });
+
+         it('change filter', async function () {
+            var newCfg = Object.assign({}, cfg);
+            await instance._beforeMount(cfg);
+            instance._afterMount();
+
+            newCfg.selectedKeys = [null];
+            newCfg.excludedKeys = [null];
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+
+            newCfg.filter = {testField: 'testValue'};
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+            assert.isTrue(instance._resetSelection);
+         });
+
+         it('change root', async function () {
+            var newCfg = Object.assign({}, cfg);
+            await instance._beforeMount(cfg);
+            instance._afterMount();
+
+            newCfg.selectedKeys = [1, 2];
+            newCfg.excludedKeys = [3];
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+
+            newCfg.root = 4;
+            instance._beforeUpdate(newCfg);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+            assert.isTrue(instance._resetSelection);
+         });
       });
 
       describe('onCheckBoxClick', function() {
@@ -281,6 +317,22 @@ define([
                }
             }));
             assert.isFalse(instance._multiselection.unselect.called);
+         });
+
+         it('assign', async function() {
+            const cfgWithSelectedKeys = {...cfg};
+            cfgWithSelectedKeys.selectedKeys = [1];
+            cfgWithSelectedKeys.excludedKeys = [2];
+            await instance._beforeMount(cfgWithSelectedKeys);
+            instance._afterMount();
+
+            assert.deepEqual(instance._multiselection.selectedKeys, [1]);
+            assert.deepEqual(instance._multiselection.excludedKeys, [2]);
+
+            instance._resetSelection = true;
+            instance._options.items.assign([instance._options.items.getRecordById(3)]);
+            assert.deepEqual(instance._multiselection.selectedKeys, []);
+            assert.deepEqual(instance._multiselection.excludedKeys, []);
          });
       });
 

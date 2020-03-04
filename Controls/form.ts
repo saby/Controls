@@ -16,14 +16,13 @@
  * @includes PrimaryAction Controls/_form/PrimaryAction
  * @public
  * @author Крайнов Д.О.
- */ 
+ */
 
-import Controller = require('Controls/_form/FormController');
 import Crud = require('Controls/_form/Crud');
 
 export {default as PrimaryAction} from './_form/PrimaryAction';
 
 export {
-    Controller,
     Crud
 };
+export {default as Controller} from './_form/FormController';

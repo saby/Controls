@@ -48,10 +48,6 @@
 //Высота поля ввода по умолчанию.
 @inline_height_default_input:                                               @inline_height_m_input;
 
-//Размер тэга.
-//Примечание: тэг - это цветной индикатор, использующийся в поле ввода для информации о состоянии поля.
-@tag-size:                                                                  8px;
-
 //Цвет подсказки в поле ввода.
 //Примечание: подсказка выводится в поле, когда в него не в введен текст.
 @placeholder-color_inputText:                                               #CCC;
@@ -178,6 +174,18 @@
 
 //отступ между иконкой и полем ввода в поле ввода даты.
 @trigger-offset_inputDate:                                                  8px;
+
+//размер иконки в поле ввода даты.
+@trigger_icon-size_inputDate:                                               @icon-size_s;
+
+//цвет иконки в поле ввода даты.
+@trigger_icon-color_inputDate:                                              @secondary_color;
+
+//цвет иконки в поле ввода даты при наведении мыши.
+@trigger_hover_icon-color_inputDate:                                        @link_hover_text-color;
+
+//цвет иконки в поле ввода даты при нажатии.
+@trigger_active_icon-color_inputDate:                                       @trigger_hover_icon-color_inputDate;
 
 //МЕТКИ ДЛЯ ПОЛЕЙ ВВОДА
 //цвет знака сноски у метки

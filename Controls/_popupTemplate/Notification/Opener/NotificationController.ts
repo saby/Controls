@@ -68,22 +68,6 @@ class NotificationController extends BaseController {
         }
     }
 
-    getCustomZIndex(popupItems: collection.List<INotificationItem>, item: INotificationItem): number {
-        // Notification windows must be above all popup windows
-        // will be fixed by https://online.sbis.ru/opendoc.html?guid=e6a136fc-be49-46f3-84d5-be135fae4761
-        const count: number = popupItems.getCount();
-        const zIndexStep: number = 10;
-        const baseZIndex: number = 100;
-        for (let i = 0; i < count; i++) {
-            // if popups are linked, then notification must be higher then parent
-            if (popupItems.at(i).popupOptions.maximize && !this._isLinkedPopup(popupItems, popupItems.at(i), item)) {
-                const maximizedPopupZIndex = (i + 1) * zIndexStep;
-                return maximizedPopupZIndex - 1;
-            }
-        }
-        return baseZIndex;
-    }
-
     getDefaultConfig(item: INotificationItem): void {
         super.getDefaultConfig.apply(this, arguments);
         this._setNotificationContent(item);
@@ -111,24 +95,6 @@ class NotificationController extends BaseController {
 
     private _setNotificationContent(item: INotificationItem): void {
         item.popupOptions.content = NotificationContent;
-    }
-    private _findItemById(popupItems: collection.List<INotificationItem>, id: string): INotificationItem | null {
-        const index = popupItems && popupItems.getIndexByValue('id', id);
-        if (index > -1) {
-            return popupItems.at(index);
-        }
-        return null;
-    }
-    private _isLinkedPopup(popupItems: collection.List<INotificationItem>,
-                           parentItem: INotificationItem,
-                           item: INotificationItem): boolean {
-        while (item && item.parentId) {
-            item = this._findItemById(popupItems, item.parentId);
-            if (item === parentItem) {
-                return true;
-            }
-        }
-        return false;
     }
 }
 export = new NotificationController();

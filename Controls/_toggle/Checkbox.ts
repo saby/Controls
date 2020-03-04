@@ -26,7 +26,7 @@ export interface ICheckboxOptions extends IControlOptions, ICaptionOptions, IIco
  * @public
  * @author Красильников А.С.
  * @category Toggle
- * @demo Controls-demo/Checkbox/CheckBoxDemoPG
+ * @demo Controls-demo/Checkbox/CheckBox
  */
 
 /*

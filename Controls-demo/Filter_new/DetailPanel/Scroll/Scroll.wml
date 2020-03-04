@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <Controls.filter:View
+      source="{{_source}}"
+      on:itemsChanged="_itemsChangedHandler()"
+      detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">
+      <ws:detailPanelTemplateOptions
+         className="controls-demo-FilterView__scrollDemo controls-demo-FilterView__limitHeight"
+         additionalTemplateProperty="additionalTemplate"/>
+   </Controls.filter:View>
+</div>

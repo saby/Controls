@@ -404,6 +404,7 @@ define('Controls/interface/IFilterPanel', [], function() {
 
    /**
     * @name Controls/interface/IFilterPanel#additionalTemplateProperty
+    * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
     * @cfg {String} Имя свойства элемента, содержащего шаблон отображения элемента в блоке "Еще можно отобрать". Если параметр не задан, вместо него используется additionalTemplate.
     * @remark
     * Для отображения фильтра в дополнительном блоке необходимо указать visibility: false.
@@ -547,7 +548,13 @@ define('Controls/interface/IFilterPanel', [], function() {
     */
 
    /**
+    * @name Controls/interface/IFilterPanel#applyButtonCaption
+    * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
+    * @cfg {String} Текст на кнопке применения фильтрации.
+
+   /**
     * @name Controls/interface/IFilterPanel#itemTemplateProperty
+    * @demo Controls-demo/Filter_new/FilterView/Source/ItemTemplateProperty/Index
     * @cfg {String} Имя параметра, содержащего шаблон отображения элемента. Если не установлен, вместо него используется "itemTemplate".
     * @remark
     * Для отображения в строке, которая формируется значениями элементов, необходимо выполнить bind:textValue="item.textValue".
@@ -645,6 +652,8 @@ define('Controls/interface/IFilterPanel', [], function() {
    /**
     * @name Controls/interface/IFilterPanel#historyId
     * @cfg {String} Уникальный идентификатор для сохранения истории.
+    * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/'>инструкции</a>.
+    * @demo Controls-demo/Filter_new/FilterView/DetailPanel/HistoryId/Index
     * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>инструкции</a>.
     */
 

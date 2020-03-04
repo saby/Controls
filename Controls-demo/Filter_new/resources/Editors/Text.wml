@@ -1,0 +1,4 @@
+<Controls.input:Text
+   on:valueChanged="valueChangedHandler()"
+   value="{{_options.item.value}}"
+/>

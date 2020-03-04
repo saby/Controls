@@ -19,7 +19,7 @@
    </ws:itemTemplate>
    <ws:groupTemplate>
       <ws:if data="{{_options.groupTemplate && _isGroupVisible(groupTemplate.item)}}">
-         <ws:partial template="{{_options.groupTemplate}}" />
+         <ws:partial template="{{_options.groupTemplate}}" itemData="{{groupTemplate.item}}"/>
       </ws:if>
    </ws:groupTemplate>
 </Controls.listRender:Render>

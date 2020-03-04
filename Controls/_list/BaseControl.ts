@@ -33,6 +33,8 @@ import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
 import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INavigation';
+import {CollectionItem} from 'Controls/display';
+import {Model} from 'saby-types/Types/entity';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -2334,12 +2336,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              */
             e.stopPropagation();
         }
-        if (this._options.useNewModel) {
-            const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
-            markCommand.execute(this._listViewModel);
-        } else {
-            var newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
-            this._listViewModel.setMarkedKey(newKey);
+        // При редактировании по месту маркер появляется только если в списке больше одной записи.
+        // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+        if (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1)) {
+            if (this._options.useNewModel) {
+                const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
+                markCommand.execute(this._listViewModel);
+            } else {
+                const newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
+                this._listViewModel.setMarkedKey(newKey);
+            }
         }
     },
 
@@ -2622,8 +2628,26 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     },
     _changePageSize: function(e, item) {
         this._currentPageSize = item.get('pageSize');
+        this._currentPage = 1;
         this._applyPagingNavigationState({pageSize: this._currentPageSize});
     },
+
+    /**
+     * Хандлер клика на Tag в BaseControl.wml
+     * @private
+     */
+    _onTagClickHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagClick', [dispItem, columnIndex, event]);
+    },
+
+    /**
+     * Хандлер наведения на Tag в BaseControl.wml
+     * @private
+     */
+    _onTagHoverHandler(event: Event, dispItem: CollectionItem<Model>, columnIndex: number): void {
+        this._notify('tagHover', [dispItem, columnIndex, event]);
+    },
+
     _applyPagingNavigationState: function(params) {
         var newNavigation = cClone(this._options.navigation);
         if (params.pageSize) {

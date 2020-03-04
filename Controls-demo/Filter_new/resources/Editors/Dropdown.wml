@@ -1,0 +1,8 @@
+<Controls.filterPopup:Dropdown
+   multiSelect="{{true}}"
+   bind:selectedKeys="_options.item.value"
+   bind:textValue="_options.item.textValue"
+   keyProperty="id"
+   displayProperty="title"
+   source="{{_options.item.editorOptions.source}}"
+/>
