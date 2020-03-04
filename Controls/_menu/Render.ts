@@ -86,7 +86,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _isGroupVisible(groupItem): boolean {
         let collection = groupItem.getOwner();
         let itemsGroupCount = collection.getGroupItems(groupItem.getContents()).length;
-        return itemsGroupCount > 0 && itemsGroupCount !== collection.getCount(true);
+        return !groupItem.isHiddenGroup() && itemsGroupCount > 0 && itemsGroupCount !== collection.getCount(true);
     }
 
     private _isHistoryItem(item: Model): boolean {
