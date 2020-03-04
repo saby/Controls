@@ -39,7 +39,7 @@ class Popup extends Control<IControlOptions> {
             if (this._headingIcon && !options.headerTemplate) {
                 this._headerTemplate = headerTemplate;
             } else {
-                this._headerTemplate = options.headerTemplate;
+                this._headerTemplate = options.headerContentTemplate;
             }
         }
         if (options.itemPadding) {
@@ -70,7 +70,7 @@ class Popup extends Control<IControlOptions> {
         this._notify('sendResult', ['menuOpened', this._container], {bubbling: true});
     }
 
-    protected _close(): void {
+    protected _headerClick(): void {
         this._notify('close', [], {bubbling: true});
     }
 

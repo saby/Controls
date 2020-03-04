@@ -14,9 +14,7 @@
           </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
-         <div class="">
-            <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
-         </div>
+         <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stickyOptions}}" theme="{{_options.theme}}"/>
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button controls-StickyTemplate__close_button_theme_{{_options.theme}}"
