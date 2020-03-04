@@ -1,4 +1,4 @@
-.controls-BreadCrumbsView__items {
+.controls-BreadCrumbsView__items_theme-@{themeName} {
    display: inline-flex;
    overflow: hidden;
    height: @height_BreadCrumbs-items;
@@ -34,12 +34,15 @@
    max-width: 100%;
    white-space: nowrap;
    .baseline-fix();
+}
+.controls-BreadCrumbsView__crumb_theme-@{themeName} {
+   color: @color_BreadCrumbs-title;
    height: @height_BreadCrumbs-items;
    &:before {
       font-size: @font-size_BreadCrumbs-baseline;
    }
 }
-.controls-BreadCrumbsView__menu {
+.controls-BreadCrumbsView__menu_theme-@{themeName} {
    float: right;
    position: relative;
    bottom: @height_BreadCrumbs-items;
@@ -49,11 +52,13 @@
    position: absolute;
    top: 0;
    .baseline-fix();
+   cursor: pointer;
+   padding-right: 1px;
+}
+.controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
    left: @spacing_BreadCrumbs-menu;
    background: @background-color_BreadCrumbs-menu;
    box-shadow: @box-shadow_BreadCrumbs-menu;
-   cursor: pointer;
-   padding-right: 1px;
    height: @height_BreadCrumbs-items;
    &:before {
       font-size: @font-size_BreadCrumbs-baseline;
@@ -100,25 +105,27 @@
    display: inline;
 }
 
-.controls-BreadCrumbsView__title_enabled {
+.controls-BreadCrumbsView__title_enabled_theme-@{themeName} {
    cursor: pointer;
 }
 
 .controls-BreadCrumbsView__title {
    .text-overflow();
-   color: @color_BreadCrumbs-title;
-   font-size: @font-size_BreadCrumbs-title;
    display: inline;
 }
 
-.controls-BreadCrumbsView__arrow {
+.controls-BreadCrumbsView__title_theme-@{themeName} {
+   font-size: @font-size_BreadCrumbs-title;
+}
+
+.controls-BreadCrumbsView__arrow_theme-@{themeName} {
    .icon(@font-size_BreadCrumbs-arrow);
    color: @color_BreadCrumbs-arrow;
    flex-shrink: 0;
    display: inline;
 }
 
-.controls-BreadCrumbsView__arrow_enabled {
+.controls-BreadCrumbsView__arrow_enabled_theme-@{themeName} {
    cursor: pointer;
 }
 
@@ -131,7 +138,7 @@
    max-width: @max-width_BreadCrumbs-menu;
 }
 
-.controls-BreadCrumbsView__menuItem {
+.controls-BreadCrumbsView__menuItem_theme-@{themeName} {
    .baseline-fix();
    max-width: 100%;
    display: inline-flex;
@@ -146,7 +153,7 @@
    width: 100%;
 }
 
-.controls-BreadCrumbsView__indentation {
+.controls-BreadCrumbsView__indentation_theme-@{themeName} {
    .icon(@font-size_BreadCrumbs-hierarchyIcon);
    color: @color_BreadCrumbs-hierarchyIcon;
    align-self: flex-start;
@@ -155,7 +162,7 @@
 
 .ws-is-hover {
    .controls-BreadCrumbsView__crumb:hover, .controls-BreadCrumbsView__menu__dots:hover {
-      .controls-BreadCrumbsView__title_enabled {
+      .controls-BreadCrumbsView__title_enabled_theme-@{themeName} {
          color: @color_BreadCrumbs-title_hovered;
          text-decoration: underline;
       }
@@ -183,7 +190,7 @@
 .ws-is-ie12 {
 
    //В Edge без явного указания ширины контейнера неправильно работает float, из-за чего точки не падают вниз. Пример: https://jsfiddle.net/q70vkn94/
-   .controls-BreadCrumbsView__menu {
+   .controls-BreadCrumbsView__menu_theme-@{themeName} {
       width: 1px;
    }
 }

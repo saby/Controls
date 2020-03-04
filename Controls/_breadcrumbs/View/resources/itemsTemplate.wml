@@ -1,5 +1,5 @@
 <div class="controls-BreadCrumbsView__itemsTemplate">
-    <div attr:class="controls-BreadCrumbsView__items">
+    <div attr:class="controls-BreadCrumbsView__items_theme-{{_options.theme}}">
 
         <ws:template name="templatePart">
             <ws:partial
@@ -35,12 +35,12 @@
                         />
                     </ws:if>
                 </ws:for>
-                <div class="controls-BreadCrumbsView__menu" >
-                    <div class="controls-BreadCrumbsView__menu__dots" on:click="_dotsClick()">
-                        <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled"></span>
+                <div class="controls-BreadCrumbsView__menu_theme-{{_options.theme}}" >
+                    <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:click="_dotsClick()">
+                        <span class="controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled_theme-{{_options.theme}}"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
                               title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
-                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled">...
+                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled_theme-{{_options.theme}}">...
                             </span>
                         </span>
                     </div>

@@ -1,7 +1,7 @@
-<div class="controls-BreadCrumbsView__menuItem">
+<div class="controls-BreadCrumbsView__menuItem_theme-{{_options.theme}}">
     <ws:if data="{{itemData.item.indentation}}">
         <ws:for data="i in itemData.item.indentation">
-            <div class="controls-BreadCrumbsView__indentation{{i === itemData.item.indentation - 1 ? ' icon-Way' : ''}}"></div>
+            <div class="controls-BreadCrumbsView__indentation{{i === itemData.item.indentation - 1 ? ' icon-Way' : ''}}_theme-{{_options.theme}}">vvv</div>
         </ws:for>
     </ws:if>
     <span class="controls-BreadCrumbsView__menuTitle">{{itemData.getPropValue(itemData.item, itemData.displayProperty)}}</span>

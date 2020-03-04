@@ -18,7 +18,7 @@
                  on:mouseEnter="_notifyHandler('hoveredItemChanged', _getRootModel(_options.items ? _options.items[0].get(_options.parentProperty) : _options.root, _options.keyProperty))"
                  on:mouseLeave="_notifyHandler('hoveredItemChanged')"
                  on:click="_onHomeClick()">
-                <div class="controls-BreadCrumbsPath__home icon-Home3"></div>
+                <div class="controls-BreadCrumbsPath__home_theme-{{_options.theme}} icon-Home3"></div>
             </div>
         </ws:if>
         <ws:if data="{{_visibleItems}}">
