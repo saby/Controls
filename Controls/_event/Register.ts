@@ -7,12 +7,13 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_event/Register');
 import Registrar = require('Controls/_event/Registrar');
 import entity = require('Types/entity');
-import {IRegistrarConfig} from './Registrar';
 
-let EventRegistrator = Control.extend({
+
+
+var EventRegistrator = Control.extend({
    _template: template,
    _registrar: null,
-   _beforeMount(newOptions) {
+   _beforeMount: function(newOptions) {
       if (typeof window !== 'undefined') {
          this._forceUpdate = function() {
             // Do nothing
@@ -21,20 +22,20 @@ let EventRegistrator = Control.extend({
          this._registrar = new Registrar({ register: newOptions.register });
       }
    },
-   _registerIt(event, registerType, component, callback, config:IRegistrarConfig = {}) {
+   _registerIt: function(event, registerType, component, callback, config = {}) {
       if (registerType === this._options.register) {
          this._registrar.register(event, component, callback, config);
       }
    },
-   _unRegisterIt(event, registerType, component, config: IRegistrarConfig = {}) {
+   _unRegisterIt: function(event, registerType, component) {
       if (registerType === this._options.register) {
-         this._registrar.unregister(event, component, config);
+         this._registrar.unregister(event, component);
       }
    },
-   start() {
+   start: function() {
       this._registrar.start.apply(this._registrar, arguments);
    },
-   _beforeUnmount() {
+   _beforeUnmount: function() {
       if (this._registrar) {
          this._registrar.destroy();
          this._registrar = null;

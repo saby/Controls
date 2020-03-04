@@ -48,7 +48,6 @@ var ManagerWrapper = Control.extend({
       // запустим перепозиционирование вдомных окон (инициатор _onResizeHandler в слое совместимости)
       // Не запускаем только для подсказки, т.к. она на апдейт закрывается
       if (!this._destroyed) {
-         this._resizePage(event);
          // защита на случай если не подмешалась совместимость
          if (this._children.PopupContainer.getChildControls) {
             const popups = this._children.PopupContainer.getChildControls(null, false, (instance) => {
