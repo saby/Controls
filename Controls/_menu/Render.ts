@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
 import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
-import {Tree, GroupItem, SelectionController} from 'Controls/display';
+import {Tree, TreeItem, SelectionController} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
@@ -49,30 +49,37 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
-        if (!(item instanceof GroupItem)) {
-            this._notify(eventName, [item, sourceEvent]);
+        this._notify(eventName, [item, sourceEvent]);
+    }
+
+    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        if (item instanceof Model) {
+            this._notify('itemClick', [item, sourceEvent]);
         }
     }
 
     protected _getClassList(treeItem): string {
         const item = treeItem.getContents();
         let classes = treeItem.getContentClasses();
-        classes += ' controls-Menu__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
-        if (treeItem.isHovered() && !item.get('readOnly')) {
-            classes += ' controls-Menu__row_hovered_theme-' + this._options.theme;
-        }
-        if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
-            classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
-        } else {
-            classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
-        }
-        if (item.get('pinned') === true && treeItem.getParent().getContents() === null) {
-            classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
-        }
-        if (this._options.listModel.getLast() !== treeItem) {
-            classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+        if (item.get) {
+            classes += ' controls-Menu__row_state_' + (item.get('readOnly') ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
+            if (treeItem.isHovered() && !item.get('readOnly')) {
+                classes += ' controls-Menu__row_hovered_theme-' + this._options.theme;
+            }
+            if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
+                classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+            } else {
+                classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
+            }
+            if (item.get('pinned') === true && treeItem.getParent().getContents() === null) {
+                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+            }
+            if (this._options.listModel.getLast() !== treeItem) {
+                classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+            }
         }
         return classes;
     }
@@ -99,7 +106,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
             left: this.getLeftSpacing(options),
             right: this.getRightSpacing(options)
         });
-        if (options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
+        if (!options.searchValue && options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
             this.addEmptyItem(options.listModel, options);
         }
     }
@@ -148,12 +155,12 @@ class MenuRender extends Control<IMenuRenderOptions> {
         let headingIcon = options.headConfig?.icon || options.headingIcon;
 
         if (options.root === null && headingIcon && (!options.headConfig || options.headConfig.menuStyle !== 'titleHead')) {
-            iconPadding = ActualApi.iconSize(options.iconSize, headingIcon) || 'm';
+            iconPadding = ActualApi.iconSize(options.iconSize, headingIcon);
         } else {
             factory(items).each((item) => {
                 icon = item.get('icon');
                 if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
-                    iconPadding = ActualApi.iconSize(options.iconSize, icon) || 'm';
+                    iconPadding = ActualApi.iconSize(options.iconSize, icon);
                 }
             });
         }

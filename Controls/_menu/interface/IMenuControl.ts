@@ -1,9 +1,9 @@
 import {IControlOptions, TemplateFunction} from 'UI/Base';
-import {ISourceOptions, IFilter} from 'Controls/interface';
+import {ISourceOptions, IFilterOptions} from 'Controls/interface';
 
 export type TKeys = string[]|number[];
 
-export interface IMenuOptions extends IControlOptions, ISourceOptions, IFilter {
+export interface IMenuOptions extends IControlOptions, ISourceOptions, IFilterOptions {
     displayProperty: string;
     itemTemplate?: TemplateFunction;
     emptyText?: string;

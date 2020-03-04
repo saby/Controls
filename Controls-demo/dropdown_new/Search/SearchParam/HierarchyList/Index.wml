@@ -1,0 +1,13 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.dropdown:Input
+              source="{{_source}}"
+              keyProperty="id"
+              bind:selectedKeys="_selectedKeys"
+              displayProperty="title"
+              searchParam="title"
+              parentProperty="parent"
+              nodeProperty="@parent"
+      />
+   </div>
+</div>

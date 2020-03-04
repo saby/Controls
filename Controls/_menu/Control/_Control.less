@@ -22,7 +22,7 @@
 
    &::before {
       content: '\200b';
-      line-height: 32px;
+      line-height: @item_height_menu;
    }
 }
 
@@ -147,6 +147,10 @@
    padding-bottom: @item_padding-bottom_menu;
 }
 
+.controls-Menu__content_levelPadding_theme-@{themeName} {
+   padding-left: @search_item_padding-left_menu;
+}
+
 .controls-Menu__row-additionalText_theme-@{themeName} {
    font-size: @font-size_xs;
    color: @unaccented_text-color;
@@ -241,6 +245,11 @@
    padding-left: @apply-button_offset_menuPopup;
    margin-left: auto;
    align-items: center;
+}
+
+.controls-Menu__emptyTemplate_theme-@{themeName} {
+   padding-left: @item_padding-horizontal_l_menu;
+   padding-right: @item_padding-horizontal_l_menu;
 }
 
 .ws-is-hover {
