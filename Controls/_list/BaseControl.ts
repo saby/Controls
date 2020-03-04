@@ -550,6 +550,10 @@ var _private = {
                     self._children.scrollController.itemsFromLoadToDirection = direction;
                 }
 
+                if (self._isMounted && self?._children?.scrollController) {
+                    self._children.scrollController.saveScrollDirection(direction);
+                }
+
                 if (direction === 'down') {
                     beforeAddItems(addedItems);
                     if (self._options.useNewModel) {

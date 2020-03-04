@@ -33,6 +33,7 @@ export default class VirtualScrollController {
     private startIndex: number = 0;
     private stopIndex: number = 0;
     private savedStartIndex: number = 0;
+    private savedStopIndex: number = 0;
     private itemsHeights: IVirtualItem[] = [];
     private itemsOffsets: number[] = [];
     private _options: IVirtualScrollControllerOptions;
@@ -110,7 +111,6 @@ export default class VirtualScrollController {
      * @param {boolean} shouldLoad
      */
     recalcRangeToDirection(direction: IDirection, shouldLoad: boolean = true): void {
-        this.actualizeSavedIndexes();
         const segmentSize = this._options.segmentSize;
         let newStartIndex = this.startIndex;
         let newStopIndex = this.stopIndex;
@@ -122,17 +122,9 @@ export default class VirtualScrollController {
             const quantity = this.getItemsToHideQuantity(direction);
 
             if (direction === 'up') {
-                if (newStartIndex <= segmentSize) {
-                    needToLoadMore = true;
-                }
-
                 newStartIndex = Math.max(0, newStartIndex - segmentSize);
                 newStopIndex -= quantity;
             } else {
-                if (newStopIndex + segmentSize >= this.itemsCount) {
-                    needToLoadMore = true;
-                }
-
                 newStopIndex = Math.min(newStopIndex + segmentSize, this.itemsCount);
                 newStartIndex += quantity;
             }
@@ -210,11 +202,13 @@ export default class VirtualScrollController {
 
     actualizeSavedIndexes(): void {
         this.savedStartIndex = this.startIndex;
+        this.savedStopIndex = this.stopIndex;
     }
 
-    getRestoredScrollPosition(direction: IDirection): number {
-        return direction === 'up' ? this.scrollTop + this.getItemsHeights(this.startIndex, this.savedStartIndex) :
-            this.scrollTop - this.getItemsHeights(this.savedStartIndex, this.startIndex);
+    getHeightDifference(direction: IDirection): number {
+        return direction === 'up' ?
+            this.getItemsHeights(this.stopIndex, this.savedStopIndex) :
+            this.getItemsHeights(this.savedStartIndex, this.startIndex);
     }
 
     getItemContainerByIndex(itemIndex: number): HTMLElement {
@@ -426,8 +420,10 @@ export default class VirtualScrollController {
             || (newItemsIndex <= this._options.viewModel.getStartIndex() ? 'up' : 'down');
 
             if (direction === 'up' && this.itemsFromLoadToDirection) {
+                this.startIndex = Math.min(this.itemsCount, this.startIndex + newItems.length);
+                this.stopIndex = Math.min(this.itemsCount, this.stopIndex + newItems.length);
                 this.savedStartIndex += newItems.length;
-                this.setStartIndex(this.startIndex + newItems.length);
+                this.savedStopIndex += newItems.length;
             }
 
             if (direction === 'down') {

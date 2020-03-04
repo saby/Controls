@@ -952,13 +952,12 @@ var
          }
       },
 
-      _saveScrollPosition: function(e) {
-         /**
-          * Only closest scroll container should react to this event, so we have to stop propagation here.
-          * Otherwise we can accidentally scroll a wrong element.
-          */
-         e.stopPropagation();
-         // todo KINGO. Костыль с родословной из старых списков. Инерционный скролл приводит к дерганью: мы уже
+      _saveScrollPosition(event: SyntheticEvent<Event>): void {
+         // На это событие должен реагировать только ближайший скролл контейнер.
+         // В противном случае произойдет подскролл в ненужном контейнере
+         event.stopPropagation();
+
+         // Инерционный скролл приводит к дерганью: мы уже
          // восстановили скролл, но инерционный скролл продолжает работать и после восстановления, как итог - прыжки,
          // дерганья и лишняя загрузка данных.
          // Поэтому перед восстановлением позиции скрола отключаем инерционный скролл, а затем включаем его обратно.
@@ -966,20 +965,26 @@ var
          if (Env.detection.isMobileIOS) {
             this.setOverflowScrolling('auto');
          }
+
+         this._savedScrollTop = this._children.content.scrollTop;
+         this._savedScrollPosition = this._children.content.scrollHeight - this._savedScrollTop;
       },
 
-      _restoreScrollPosition: function(e: SyntheticEvent<Event>, position: number): void {
-         /**
-          * Only closest scroll container should react to this event, so we have to stop propagation here.
-          * Otherwise we can accidentally scroll a wrong element.
-          */
-         e.stopPropagation();
-         this._children.scrollWatcher.setScrollTop(position, true);
-          // todo KINGO. Костыль с родословной из старых списков. Инерционный скролл приводит к дерганью: мы уже
+      _restoreScrollPosition(event: SyntheticEvent<Event>, heightDifference: number, direction: string): void {
+         // На это событие должен реагировать только ближайший скролл контейнер.
+         // В противном случае произойдет подскролл в ненужном контейнере
+         event.stopPropagation();
+
+         const newPosition = direction === 'up' ?
+             this._children.content.scrollHeight - this._savedScrollPosition + heightDifference :
+             this._savedScrollTop - heightDifference;
+
+         this._children.scrollWatcher.setScrollTop(newPosition, true);
+
+         // Инерционный скролл приводит к дерганью: мы уже
          // восстановили скролл, но инерционный скролл продолжает работать и после восстановления, как итог - прыжки,
          // дерганья и лишняя загрузка данных.
          // Поэтому перед восстановлением позиции скрола отключаем инерционный скролл, а затем включаем его обратно.
-         // https://popmotion.io/blog/20170704-manually-set-scroll-while-ios-momentum-scroll-bounces/
          if (Env.detection.isMobileIOS) {
             this.setOverflowScrolling('');
          }

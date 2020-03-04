@@ -228,12 +228,26 @@ export default class ScrollContainer extends Control<IOptions> {
 
         if (this.saveScrollPosition) {
             if (this.savedScrollDirection) {
-                this.scrollToPosition(this.virtualScroll.getRestoredScrollPosition(this.savedScrollDirection));
+                this.restoreScrollPosition();
             }
+            this.virtualScroll.actualizeSavedIndexes();
             this.saveScrollPosition = false;
             this.savedScrollDirection = null;
             this.checkTriggerVisibilityWithTimeout();
         }
+    }
+
+    private restoreScrollPosition(): void {
+        const direction = this.savedScrollDirection;
+        let heightDifference = 0;
+
+        if (this._options.virtualScrolling) {
+            heightDifference = this.virtualScroll.getHeightDifference(direction);
+        }
+
+        this.fakeScroll = true;
+        this._notify('restoreScrollPosition', [heightDifference, direction], {bubbling: true});
+        this.fakeScroll = false;
     }
 
     /**
@@ -428,6 +442,10 @@ export default class ScrollContainer extends Control<IOptions> {
         }, TRIGGER_VISIBILITY_DELAY);
     }
 
+    saveScrollDirection(direction: IDirection): void {
+        this.saveScrollPositionCallback(direction);
+    }
+
     private getItemContainerByIndex(itemIndex: number): HTMLElement {
         if (this._options.virtualScrolling) {
             return this.virtualScroll.getItemContainerByIndex(itemIndex);
@@ -472,12 +490,6 @@ export default class ScrollContainer extends Control<IOptions> {
             }
         }
 
-    }
-
-    private scrollToPosition(position: number): void {
-        this.fakeScroll = true;
-        this._notify('restoreScrollPosition', [position], {bubbling: true});
-        this.fakeScroll = false;
     }
 
     /**
