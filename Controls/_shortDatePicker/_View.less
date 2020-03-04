@@ -366,9 +366,16 @@
 }
 
 .controls-PeriodLiteDialog_fullYear-list-hovered {
-   border: solid @border-thickness_shortDatePicker @item_hover_border-color_shortDatePicker;
-   border-bottom: none;
-   margin-top: -1px;
+   &:before {
+      content: '';
+      position: absolute;
+      width: @width_shortDatePicker - 2 * @item_border-thickness_shortDatePicker;
+      height: @header_height_shortDatePicker + @separator_thickness_shortDatePicker;
+      top: -@item_border-thickness_shortDatePicker;
+      left: 0;
+      border: solid @item_border-thickness_shortDatePicker @item_hover_border-color_shortDatePicker;
+      border-bottom: none;
+  }
 }
 
 .border-top-hidden {
