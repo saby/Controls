@@ -336,9 +336,16 @@
 }
 
 .controls-PeriodLiteDialog_fullYear-list-hovered {
-   border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
-   border-bottom: none;
-   margin-top: -1px;
+   &:before {
+      content: '';
+      position: absolute;
+      width: @min-width_PeriodLiteDialog - 2 * @border-width_PeriodLiteDialog_hovered;
+      height: @height_PeriodLiteDialog-currentValue + @indents_PeriodLiteDialog;
+      top: -@border-width_PeriodLiteDialog_hovered;
+      left: 0;
+      border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
+      border-bottom: none;
+   }
 }
 
 .border-top-hidden {
