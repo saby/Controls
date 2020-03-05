@@ -26,7 +26,12 @@
    @popup_box-shadow-color_menuPopup 0 @popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
 }
 
-.controls-StickyTemplate.controls-Menu__popup-direction-vertical-top {
+.controls-StickyTemplate.controls-Menu__popup-reverse {
+   flex-direction: column-reverse;
+   padding-bottom: 0;
+}
+
+.controls-Menu__popup-content.controls-Menu__popup-reverse {
    flex-direction: column-reverse;
    padding-bottom: 0;
 }
@@ -37,6 +42,13 @@
 
 .controls-Menu__popup-direction-vertical-bottom {
    padding-bottom: @content_padding-top_sticky;
+}
+
+.controls-Menu__popup-content {
+   max-height: 100%;
+   overflow: hidden;
+   display: flex;
+   flex-direction: column;
 }
 
 .controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
