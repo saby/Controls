@@ -209,7 +209,7 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
    reset: function() {
       resetFilter(this._items);
       this._notify('filterChanged', [{}]);
-      this._notify('itemsChanged', [this._items]);
+      this._notify('itemsChanged', [Utils.object.clone(this._items)]);
       this._text = '';
    },
 
