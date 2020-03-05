@@ -617,6 +617,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _processError(error: Error, mode?: dataSourceError.Mode): Promise<ICrudResult> {
         return this.__errorController.process({
             error,
+            theme: this._options.theme,
             mode: mode || dataSourceError.Mode.include
         }).then((errorConfig: dataSourceError.ViewConfig) => {
             this._showError(errorConfig);

@@ -1,4 +1,4 @@
-/* global define, beforeEach, afterEach, describe, it, assert */
+/* global define, beforeEach, afterEach, describe, it, assert, sinon */
 define([
    'Controls/dataSource',
    'Env/Env',
@@ -6,8 +6,19 @@ define([
 ], function(dataSource, Env, Transport) {
    describe('Controls/dataSource:error.Controller', function() {
       const Controller = dataSource.error.Controller;
+      let controller;
+      let popupHelper;
 
-      Controller.prototype._getDefault = () => undefined;
+      function createController() {
+         popupHelper = {
+            openConfirmation: sinon.stub().returns(Promise.resolve())
+         };
+         controller = new Controller({}, popupHelper);
+      }
+
+      afterEach(() => {
+         sinon.restore();
+      });
 
       it('is defined', function() {
          assert.isDefined(Controller);
@@ -15,12 +26,12 @@ define([
 
       it('is constructor', function() {
          assert.isFunction(Controller);
-         const controller = new Controller({});
+         createController();
          assert.instanceOf(controller, Controller);
       });
 
       describe('addHandler()', function() {
-         const controller = new Controller({});
+         createController();
 
          it('adds to __handlers', function() {
             const handler = () => undefined;
@@ -40,7 +51,7 @@ define([
       });
 
       describe('removeHandler()', function() {
-         const controller = new Controller({});
+         createController();
 
          it('is function', function() {
             assert.isFunction(controller.removeHandler);
@@ -64,11 +75,10 @@ define([
       });
 
       describe('process()', function() {
-         let controller;
          let error;
 
          beforeEach(function() {
-            controller = new Controller({});
+            createController();
             error = new Error('test error');
          });
 
@@ -105,7 +115,7 @@ define([
             return controller.process(error);
          });
 
-         it('doesn\'t call with Abort error', function() {
+         it('doesn\'t call handlers with Abort error', function() {
             addFailHandler();
             return controller.process(new Transport.fetch.Errors.Abort('test page'));
          });
@@ -129,7 +139,7 @@ define([
             return controller.process(error).then(() => Promise.all(promises));
          });
 
-         it('stop calling when find answer', function() {
+         it('stops calling handlers after receiving an answer', function() {
             for (let i = 0; i < 5; i++) {
                controller.addHandler(() => undefined);
             }
@@ -154,6 +164,24 @@ define([
                   template: result.template,
                   options: result.options
                });
+            });
+         });
+
+         it('shows default dialog if gets no result from handlers', function() {
+            for (let i = 0; i < 5; i++) {
+               controller.addHandler(() => undefined);
+            }
+            const theme = 'test';
+            return controller.process({
+               error,
+               theme
+            }).then((viewConfig) => {
+               assert.isUndefined(viewConfig, 'returns undefined');
+               assert.isTrue(popupHelper.openConfirmation.calledOnce, 'openConfirmation called');
+               assert.include(popupHelper.openConfirmation.getCall(0).args[0], {
+                  theme,
+                  message: error.message
+               }, 'openConfirmation called with theme and message');
             });
          });
 
