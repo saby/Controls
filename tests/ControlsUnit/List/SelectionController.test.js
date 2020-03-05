@@ -188,7 +188,7 @@ define([
             instance._beforeUpdate(newCfg);
             assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
             assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
-            assert.isTrue(instance._resetSelection);
+            assert.isFalse(instance._resetSelection);
          });
       });
 

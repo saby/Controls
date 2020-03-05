@@ -175,7 +175,7 @@ var _private = {
         const rootChanged = self._options.root !== newOptions.root;
         const isAllSelected = _private.isAllSelectedInRoot(self, _private.getRoot(self));
 
-        return rootChanged || (isAllSelected && listFilterChanged);
+        return isAllSelected && (rootChanged || listFilterChanged);
     }
 };
 
