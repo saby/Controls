@@ -42,6 +42,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
             iconPadding: this._iconPadding,
             iconSize: this._options.iconSize,
             multiSelect: this._options.multiSelect,
+            parentProperty: this._options.parentProperty,
+            nodeProperty: this._options.nodeProperty,
             multiSelectTpl,
             getPropValue: ItemsUtil.getPropertyValue,
             isEmptyItem: this._isEmptyItem(item),
@@ -68,7 +70,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         } else {
             classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
         }
-        if (item.get('pinned') === true && treeItem.getParent().getContents() === null) {
+        if (item.get('pinned') === true && !this.hasParent(item)) {
             classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
         }
         if (this._options.listModel.getLast() !== treeItem) {
@@ -80,13 +82,17 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _isVisibleSeparator(treeItem): boolean {
         const item = treeItem.getContents();
         const nextItem = treeItem.getOwner().getNext(treeItem)?.getContents();
-        return nextItem && this._isHistoryItem(item) && !treeItem.getParent().getContents() && !this._isHistoryItem(nextItem);
+        return nextItem && this._isHistoryItem(item) && !this.hasParent(treeItem.getContents()) && !this._isHistoryItem(nextItem);
     }
 
     protected _isGroupVisible(groupItem): boolean {
         let collection = groupItem.getOwner();
         let itemsGroupCount = collection.getGroupItems(groupItem.getContents()).length;
         return itemsGroupCount > 0 && itemsGroupCount !== collection.getCount(true);
+    }
+
+    private hasParent(item: Model): boolean {
+        return item.get(this._options.parentProperty) !== undefined && item.get(this._options.parentProperty) !== null;
     }
 
     private _isHistoryItem(item: Model): boolean {
@@ -138,7 +144,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         let rightSpacing = 'l';
         if (!options.itemPadding.right) {
             factory(options.listModel).each((item) => {
-                if (item.isNode && item.isNode()) {
+                if (item.getContents().get && item.getContents().get(options.nodeProperty)) {
                     rightSpacing = 'menu-expander';
                 }
             });

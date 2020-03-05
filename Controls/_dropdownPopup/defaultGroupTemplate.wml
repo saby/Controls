@@ -1,8 +1,8 @@
 <ws:if data="{{showText !== true}}">
-   <div class="{{(itemData ? itemData.isHiddenGroup() : item.isHiddenGroup()) ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
+   <div class="{{itemData.isHiddenGroup() ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
 </ws:if>
 <ws:else>
-   <div class="{{(itemData ? itemData.isHiddenGroup() : item.isHiddenGroup()) ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_content theme_{{_options.theme}}">
+   <div class="{{itemData.isHiddenGroup() ? 'controls-Menu__groupHidden'}} controls-DropdownList__group_content theme_{{_options.theme}}">
       <ws:if data="{{textAlign !== 'left' && showText !== false}}">
          <div class="controls-DropdownList__group_separator_left controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
       </ws:if>
@@ -11,7 +11,7 @@
                <ws:partial template="{{contentTemplate}}" itemData="{{item}}" />
             </ws:if>
             <ws:else>
-               {{itemData ? itemData.item : item.getContents()}}
+               {{itemData.item !== undefined ? itemData.item : itemData.getContents()}}
             </ws:else>
          </div>
       <ws:if data="{{textAlign !== 'right' && showText !== false}}">

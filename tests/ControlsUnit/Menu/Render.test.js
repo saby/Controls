@@ -94,7 +94,8 @@ define(
             let menuRender = getRender();
             let renderOptions = {
                listModel: getListModel(),
-               itemPadding: {}
+               itemPadding: {},
+               nodeProperty: 'node'
             };
             let rightSpacing = menuRender.getRightSpacing(renderOptions);
             assert.equal(rightSpacing, 'l');
