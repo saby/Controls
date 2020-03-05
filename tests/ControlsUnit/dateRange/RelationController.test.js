@@ -120,6 +120,27 @@ define([
             sinon.assert.neverCalledWith(component._notify, 'periodsChanged');
             sandbox.restore();
          });
+
+         it ('should generate an event periodChanged with correct arguments ', function() {
+            let
+               options = {
+                  startValue0: new Date(2014, 0, 1),
+                  endValue0: new Date(2014, 0, 31),
+                  startValue1:new Date(2015, 0, 1),
+                  endValue1:new Date(2015, 0, 31)
+               },
+               component = calendarTestUtils.createComponent(RelationController, options),
+               sandbox = sinon.sandbox.create();
+
+            sandbox.stub(component, '_notify').returns(function(event,eventName,period, oldPeriod) {
+               assert.equal(+period[0][0], +new Date(2013, 0, 1));
+               assert.equal(+period[0][1], +new Date(2013, 0, 31));
+               assert.equal(+period[1][0], +new Date(2014, 0, 1));
+               assert.equal(+period[1][1], +new Date(2014, 0, 31));
+            });
+            component._onRelationWrapperRangeChanged(null, new Date(2013, 0, 1), new Date(2013, 0, 31), 0);
+            sandbox.restore();
+         });
       });
 
       describe('step = null', function () {
