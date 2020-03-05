@@ -269,7 +269,6 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
 
         // TODO Откатить DOM-решение или доказать невозмодность другого в задаче по ссылке ниже.
         // https://online.sbis.ru/opendoc.html?guid=2bd41176-8896-4a0a-a04d-a93b8a4c3a2d
-        this._createOverlay();
         this._redrawOverlay();
     },
     _beforeUpdate(cfg) {
@@ -537,13 +536,16 @@ const module = Control.extend(/** @lends Controls/LoadingIndicator.prototype */{
     },
 
     _redrawOverlay(): void {
-        const overlayDiv = this._overlayDiv;
-        const messageDiv = this._messageDiv;
         const container = this._container;
-
         if (!container) {
             return;
         }
+        if (!this._overlayDiv) {
+            this._createOverlay();
+        }
+
+        const overlayDiv = this._overlayDiv;
+        const messageDiv = this._messageDiv;
 
         const currentOverlayVisibility = !!overlayDiv.parentElement;
         const nextOverlayVisibility = this._isOverlayVisible;

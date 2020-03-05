@@ -1,12 +1,12 @@
 <div class="controlsDemo__wrapper">
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__cell demo-InputCallback__maxLength">
       <div class="controls-text-label_theme-{{_options.theme}}">Поле ввода числа с максимальной длинной {{_maxLength}}
          знаков. Минус учитывается!
       </div>
       <Controls.input:Number attr:class="controlsDemo__input" placeholder="Enter number"
                              inputCallback="{{_lengthCallback}}" precision="{{0}}"/>
    </div>
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__cell demo-InputCallback__timeInterval">
       <div class="controls-text-label_theme-{{_options.theme}}">Поле ввода интервала от 00:00 до 24:00.
       </div>
       <Controls.input:TimeInterval bind:value="_timeIntervalValue" mask="HH:MM" inputCallback="{{_hoursFormat}}"/>

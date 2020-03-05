@@ -2,7 +2,7 @@
    <h1>Двухколоночный браузер</h1>
    <div class="controlsDemo__flexRow">
       <h3>Ширина мастера может меняться от 200px до 50% контейнера. Начальная ширина 27%. </h3>
-      <Controls.buttons:Button attr:class="controlsDemo__ml1" caption="Set width = 1000" on:click="_clickHandler()"/>
+      <div class="ws-link controlsDemo__ml1" on:click="_firstHandler()">Set width = 1000</div>
    </div>
    <Controls.event:Register name="resizeDetect" register="controlResize">
       <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_First" attr:style="width: {{_firstBaseWidth}}" masterMinWidth="{{200}}" masterMaxWidth="50%" masterWidth="27%" propStorageId1="master111" name="MasterDetailBase">
@@ -114,7 +114,8 @@
    </Controls.masterDetail:Base>
    <div class="controlsDemo__flexRow">
       <h3>Ширина мастера может меняться от 10% до 50% контейнера. Начальная ширина 10%. </h3>
-      <Controls.buttons:Button attr:class="controlsDemo__ml1" caption="Set width = 1920" on:click="_clickHandler1()"/>
+      <div class="ws-link controlsDemo__ml1" on:click="_secondHandlerIncrease()">Set width = 1920</div>
+      <div class="ws-link controlsDemo__ml1" on:click="_secondHandlerDecrease()">Set width = 1000</div>
    </div>
    <Controls.event:Register name="resizeDetect1" register="controlResize">
       <Controls.masterDetail:Base attr:class="controls-demo_MasterDetail controls-demo_Third" attr:style="width: {{_secondBaseWidth}}" masterMinWidth="10%" masterMaxWidth="50%" masterWidth="10%" name="masterDetailBase1">

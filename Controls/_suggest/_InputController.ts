@@ -374,7 +374,7 @@ var SuggestLayout = Control.extend({
       if ((needSearchOnValueChanged || valueCleared) && this._searchValue !== newOptions.value) {
          this._searchValue = newOptions.value;
 
-         if (this._options.suggestState) {
+         if (this._options.suggestState && newOptions.suggestState) {
             _private.updateSuggestState(this);
          }
       }
@@ -513,6 +513,9 @@ var SuggestLayout = Control.extend({
    },
    _searchErrback: function(error) {
       _private.searchErrback(this, error);
+      if (this._options.searchErrorCallback) {
+         this._options.searchErrorCallback();
+      }
    },
    _showAllClick: function() {
       var filter = clone(this._filter) || {};

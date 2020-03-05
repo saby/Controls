@@ -98,7 +98,7 @@ export interface IColumn {
      * @remark
      * Подробнее о параметрах шаблона Controls/grid:ColumnTemplate читайте {@link Controls/grid:ColumnTemplate здесь}.
      * Подробнее о создании пользовательского шаблона читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/column/ здесь}.
-     * 
+     *
      */
     template?: TemplateFunction;
     /**
@@ -136,8 +136,8 @@ export interface IColumn {
      */
     textOverflow?: TOverflow;
     /**
-     * @name Controls/grid:IColumn#CellPadding
-     * @cfg {ICellPadding} Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней. 
+     * @name Controls/grid:IColumn#cellPadding
+     * @cfg {ICellPadding} Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.
      * @example
      * <pre class="brush: js">
      * columns: [{

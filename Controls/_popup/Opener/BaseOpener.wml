@@ -1,5 +1,5 @@
 <ws:if data="{{_actionOnScroll !== 'none'}}">
-   <Controls.event:Listener event="scroll" on:scroll="_scrollHandler()"  listenAll="{{_isMobileIOS()}}"/>
+   <Controls.event:Listener event="scroll" on:scroll="_scrollHandler()"  listenAll="{{true}}"/>
 </ws:if>
 <ws:else>
    <div></div>

@@ -8,11 +8,7 @@ import {
 import Mode from './Mode';
 import { fetch } from 'Browser/Transport';
 import { IVersionable } from 'Types/entity';
-import { constants } from 'Env/Env';
-import { Confirmation } from 'Controls/popup';
-
-const { Errors } = fetch;
-const { Abort } = Errors;
+import Popup from './Popup';
 
 export type Config = {
     handlers?: Handler[]
@@ -36,7 +32,7 @@ const getIVersion = (): IVersionable => {
 
 const isNeedHandle = (error: Error): boolean => {
     return !(
-        (error instanceof Abort) ||
+        (error instanceof fetch.Errors.Abort) ||
         // @ts-ignore
         error.processed ||
         // @ts-ignore
@@ -56,6 +52,15 @@ const prepareConfig = <T extends Error = Error>(config: HandlerConfig<T> | T): H
         ...config
     };
 };
+
+let popupHelper: Popup;
+function getPopupHelper(): Popup {
+    if (!popupHelper) {
+        popupHelper = new Popup();
+    }
+
+    return popupHelper;
+}
 
 /// endregion helpers
 
@@ -93,17 +98,17 @@ const prepareConfig = <T extends Error = Error>(config: HandlerConfig<T> | T): H
 export default class ErrorController {
     private __controller: ParkingController;
 
-    constructor(config: Config) {
-        // Поле ApplicationConfig, в котором содержатся названия модулей с обработчиками ошибок
-        const configField = 'errorHandlers';
-        // Загружаем модули обработчиков заранее, чтобы была возможность использовать их при разрыве соединения
-        loadHandlers(configField);
-        this.__controller = new ParkingController({ configField, ...config });
+    constructor(config: Config, private _popupHelper: Popup = getPopupHelper()) {
+        this.__controller = new ParkingController({
+            configField: ErrorController.CONFIG_FIELD,
+            ...config
+        });
     }
 
     destroy(): void {
         this.__controller.destroy();
         delete this.__controller;
+        delete this._popupHelper;
     }
 
     /**
@@ -159,40 +164,18 @@ export default class ErrorController {
     }
 
     private _getDefault<T extends Error = Error>(config: HandlerConfig<T>): void {
-        const message = config.error.message;
-        const style = 'danger';
-        const type = 'ok';
-
-        importConfirmation().then((Confirmation) => {
-            Confirmation.openPopup({
-                type,
-                style,
-                message
-            });
-        }, () => {
-            if (constants.isBrowserPlatform) {
-                alert(message);
-            }
+        this._popupHelper.openConfirmation({
+            type: 'ok',
+            style: 'danger',
+            message: config.error.message
         });
     }
+
+    /**
+     * Поле ApplicationConfig, в котором содержатся названия модулей с обработчиками ошибок.
+     */
+    static readonly CONFIG_FIELD: string = 'errorHandlers';
 }
 
-/**
- * Загрузить всё необходимое для показа диалога.
- * @returns {Promise} Промис с Controls/popup:Confirmation.
- * Если что-то не загрузилось, то промис завершится с ошибкой.
- */
-function importConfirmation(): Promise<typeof Confirmation> {
-    // Предварительно загрузить темизированные стили для диалога.
-    // Без этого стили загружаются только в момент показа диалога.
-    // Но когда потребуется показать сообщение о потере соединения, стили уже не смогут загрузиться.
-    const confirmationModule = 'Controls/popupConfirmation';
-    const importThemedStyles = import('Core/Themes/ThemesControllerNew')
-        .then((Theme) => Theme.getInstance().loadCssWithAppTheme(confirmationModule));
-
-    return Promise.all([
-        import('Controls/popup'),
-        import(confirmationModule),
-        importThemedStyles
-    ]).then(([popup]) => popup.Confirmation);
-}
+// Загружаем модули обработчиков заранее, чтобы была возможность использовать их при разрыве соединения.
+loadHandlers(ErrorController.CONFIG_FIELD);

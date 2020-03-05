@@ -1,11 +1,26 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth500">
-   <Controls.operations:Panel
-         bind:selectedKeys="_selectedKeys"
-         bind:excludedKeys="_excludedKeys"
-         isAllSelected="{{_isAllSelected}}"
-         parentProperty="parent"
-         nodeProperty="@parent"
-         keyProperty="id"
-         source="{{_panelSource}}"
-         on:selectedTypeChanged="_selectedTypeChangedHandler()"/>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Base</div>
+      <Controls.operations:Panel
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys"
+            isAllSelected="{{_isAllSelected}}"
+            parentProperty="parent"
+            nodeProperty="@parent"
+            keyProperty="id"
+            source="{{_panelSource}}"
+            on:selectedTypeChanged="_selectedTypeChangedHandler()"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">long caption</div>
+      <Controls.operations:Panel
+              bind:selectedKeys="_selectedKeysForPanelWithLongCaption"
+              bind:excludedKeys="_excludedKeysForPanelWithLongCaption"
+              isAllSelected="{{_isAllSelected}}"
+              parentProperty="parent"
+              nodeProperty="@parent"
+              keyProperty="id"
+              source="{{_panelSourceWithLongCaption}}"
+              on:selectedTypeChanged="_selectedTypeChangedHandler()"/>
+   </div>
 </div>

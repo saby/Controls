@@ -17,7 +17,7 @@ export interface IStickyPopupOptions extends IBasePopupOptions {
     height?: number;
     maxHeight?: number;
     target?: HTMLElement | EventTarget | Control;
-    actionOnScroll?: string;
+    actionOnScroll?: 'close' | 'track' | 'none';
     targetPoint?: IStickyPosition;
     direction?: IStickyPosition;
     offset?: IStickyPositionOffset;
@@ -43,6 +43,7 @@ export interface IStickyOpener extends IOpener {
  * @typedef {Object} PopupOptions
  * @description Конфигурация прилипающего блока.
  * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
+ * @property {String} actionOnScroll Определяет реакцию всплывающего окна на скролл родительской области.
  * @property {Boolean} modal Определяет, будет ли открываемое окно блокировать работу пользователя с родительским приложением.
  * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
  * @property {Boolean} closeOnOutsideClick Определяет возможность закрытия всплывающего окна по клику вне.

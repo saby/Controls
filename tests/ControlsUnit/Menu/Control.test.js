@@ -159,6 +159,15 @@ define(
             assert.isFalse(result);
          });
 
+         it('_footerMouseEnter', function() {
+            let menuControl = getMenu();
+            menuControl._hoveredItemIndex = 1;
+            menuControl._listModel = getListModel();
+            menuControl._footerMouseEnter();
+            assert.isNull(menuControl._hoveredItemIndex);
+            assert.isNull(menuControl._listModel._hoveredItem);
+         });
+
          it('getSelectedItemsByKeys', function() {
             let listModel = getListModel();
             let menuControl = getMenu();

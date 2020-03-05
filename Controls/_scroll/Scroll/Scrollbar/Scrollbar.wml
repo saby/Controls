@@ -7,7 +7,7 @@
      on:wheel="_wheelHandler()"
      on:mousedown="_scrollbarMouseDownHandler()"
      on:touchstart="_scrollbarTouchStartHandler()">
-   <Controls.dragnDrop:Container name="dragNDrop" on:dragstart="_scrollbarStartDragHandler()" on:dragmove="_scrollbarOnDragHandler()" on:documentdragend="_scrollbarEndDragHandler()">
+   <Controls.dragnDrop:Container name="dragNDrop" resetTextSelection="{{false}}" on:dragstart="_scrollbarStartDragHandler()" on:dragmove="_scrollbarOnDragHandler()" on:documentdragend="_scrollbarEndDragHandler()">
       <div name="thumb" class="controls-VScrollbar__thumbWrapper controls-VScrollbar__thumbWrapper_{{_options.direction}}"
            on:mousedown="_thumbMouseDownHandler()"
            style="{{_options.direction === 'vertical' ? 'height' : 'width'}}: {{_thumbSize}}px; transform: translate{{_options.direction === 'vertical' ? 'Y' : 'X'}}({{_thumbPosition}}px);">

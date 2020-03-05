@@ -35,6 +35,7 @@ export default class extends Control {
         });
     };
     protected _dragEnd(_, entity, target, position) {
+        this._selectedKeys = [];
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
     protected _onToggle() {

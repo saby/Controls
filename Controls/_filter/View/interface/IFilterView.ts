@@ -94,8 +94,9 @@
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#source
- * @cfg {Array.<FilterItem>} Устанавливает список полей фильтра и их конфигурацию. 
+ * @cfg {Array.<FilterItem>} Устанавливает список полей фильтра и их конфигурацию.
  * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола.
+ * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
  * @example
  * Пример настройки для двух фильтров.
  * Первый фильтр отобразится в главном блоке "Отбираются" и не будет сохранен в истории.
@@ -152,7 +153,7 @@
  * TMPL:
  * <pre>
  *    <Controls.filter:View
- *       source="{{_source}}" 
+ *       source="{{_source}}"
  *       detailPanelTemplateName="wml!MyModule/detailPanelTemplate"
  *       panelTemplateName="Controls/filterPopup:SimplePanel"/>
  * </pre>
@@ -206,7 +207,7 @@
  *    items="{{_items}}"
  *    detailPanelTemplateName="wml!MyModule/panelTemplate"/>
  * </pre>
- * 
+ *
  * <pre>
  * <!-- MyModule/panelTemplate.wml -->
  * <Controls.filterPopup:DetailPanel>
@@ -214,7 +215,7 @@
  *    <ws:additionalTemplate templateName="wml!MyModule/additionalBlockTemplate"/>
  * </Controls.filterPopup:DetailPanel>
  * </pre>
- * 
+ *
  * <pre>
  * // MyModule.js
  * _items: null,
@@ -398,7 +399,7 @@
  * @typedef {String} Alignment
  * @variant right Кнопка прикреплена к правому краю. Всплывающая панель открывается влево. Строка выбранных фильтров отображается слева от кнопки.
  * @variant left Кнопка прикреплена к левому краю. Всплывающая панель открывается вправо. Строка выбранных фильтров отображается справа от кнопки.
- */ 
+ */
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#alignment
@@ -417,7 +418,7 @@
  * @typedef {String} Alignment
  * right The button is attached to the right edge, the pop-up panel opens to the left.
  * left The button is attached to the left edge, the pop-up panel opens to the right.
- */ 
+ */
 
 /*
  * @name Controls/_filter/View/interface/IFilterView#alignment

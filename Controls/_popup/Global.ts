@@ -24,19 +24,29 @@ const Global = Control.extend({
    _template: template,
    _infoBoxId: null,
    _afterMount() {
-      // В старом окружении регистрируем GlobalPopup, чтобы к нему был доступ.
-      // На вдоме ничего не зарегистрируется, т.к. слой совместимости там не подгрузится
-      let ManagerWrapperControllerModule = 'Controls/Popup/Compatible/ManagerWrapper/Controller';
-      let ManagerWrapperController = requirejs.defined(ManagerWrapperControllerModule) ? requirejs(ManagerWrapperControllerModule).default : null;
-
-      // COMPATIBLE: В слое совместимости для каждого окна с vdom шаблоном создается Global.js. Это нужно для работы событий по
-      // открытию глобальный окон (openInfobox, etc). Но глобальные опенеры должны быть одни для всех из созданных Global.js
-      // Код ниже делает создание глобальных опенеров единоразовым, при создании второго и следующего инстанса Global.js
-      // в качестве опенеров ему передаются уже созданные опенеры у первого инстанста
+      let ManagerWrapperController = this._getManagerWrapperController();
+      // COMPATIBLE: В слое совместимости для каждого окна с vdom шаблоном создается Global.js. Это нужно для работы
+      // событий по открытию глобальный окон (openInfobox, etc). Но глобальные опенеры должны быть одни для всех из
+      // созданных Global.js. Код ниже делает создание глобальных опенеров единоразовым, при создании второго и
+      // следующего инстанса Global.js в качестве опенеров ему передаются уже созданные опенеры у первого инстанста
       // На Vdom странице Global.js всегда один.
       if (ManagerWrapperController && !ManagerWrapperController.getGlobalPopup()) {
          ManagerWrapperController.registerGlobalPopup(this);
       }
+   },
+
+   _beforeUnmount(): void {
+      let ManagerWrapperController = this._getManagerWrapperController();
+      if (ManagerWrapperController && ManagerWrapperController.getGlobalPopup() === this) {
+         ManagerWrapperController.registerGlobalPopup(null);
+      }
+   },
+
+   _getManagerWrapperController() {
+      // В старом окружении регистрируем GlobalPopup, чтобы к нему был доступ.
+      // На вдоме ничего не зарегистрируется, т.к. слой совместимости там не подгрузится
+      let ManagerWrapperControllerMod = 'Controls/Popup/Compatible/ManagerWrapper/Controller';
+      return requirejs.defined(ManagerWrapperControllerMod) ? requirejs(ManagerWrapperControllerMod).default : null;
    },
 
    _openInfoBoxHandler(event, config) {

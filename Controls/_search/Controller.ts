@@ -61,7 +61,7 @@ var _private = {
 
    abortCallback: function (self, filter) {
       self._loading = false;
-      if (self._viewMode === 'search') {
+      if (self._viewMode === 'search' && self._searchValue) {
          self._searchValue = '';
          self._misspellValue = '';
          _deleteServiceFilters(self._options, filter);
@@ -307,9 +307,9 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
       var filter;
 
       this._dataOptions = context.dataOptions;
-      const isNeedRestartSearch = _private.isNeedRestartSearchOnOptionsChanged(currentOptions, this._dataOptions) ||
-          _private.isNeedRestartSearchOnOptionsChanged(this._options, newOptions);
-      const searchValue = isNeedRestartSearch ? this._inputSearchValue : newOptions.searchValue;
+      const needRecreateSearchController = _private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
+          _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions);
+      const searchValue = needRecreateSearchController ? this._inputSearchValue : newOptions.searchValue;
 
       if (!isEqual(this._options.filter, newOptions.filter)) {
          filter = newOptions.filter;
@@ -328,12 +328,12 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
             this._searchController.setFilter(filter);
          }
 
-         if (isNeedRestartSearch && this._searchValue) {
+         if ((_private.isNeedRestartSearchOnOptionsChanged(currentOptions, this._dataOptions) ||
+             _private.isNeedRestartSearchOnOptionsChanged(this._options, newOptions)) && this._searchValue) {
             this._searchController.abort(true);
          }
 
-         if (_private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
-             _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions)) {
+         if (needRecreateSearchController) {
             this._searchController = null;
          }
 
@@ -341,9 +341,9 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
             this._searchController.setSorting(newOptions.sorting);
          }
       }
-      if (_private.isSearchValueChanged(this, searchValue) || searchValue && isNeedRestartSearch) {
+      if (_private.isSearchValueChanged(this, searchValue) || searchValue && needRecreateSearchController) {
          _private.startSearch(this, searchValue);
-         if (this._searchValue !== searchValue) {
+         if (searchValue !== this._inputSearchValue) {
             _private.setInputSearchValue(this, searchValue);
          }
       }

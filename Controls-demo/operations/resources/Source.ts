@@ -36,7 +36,7 @@ function isInExcluded(id:string|number, excluded: number[]|string[]): boolean {
 
 export default class extends Memory {
     call(command: string, data: object) {
-        const selection = data.filter.selection;
+        const selection = data.filter.get('selection');
         let marked = selection.get('marked');
         const excluded = selection.get('excluded');
         const items = new RecordSet({

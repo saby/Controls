@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+   <Controls.filter:View
+      on:itemsChanged="_itemsChangedHandler()"
+      source="{{_source}}"
+      detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">
+   </Controls.filter:View>
+</div>

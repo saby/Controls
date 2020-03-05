@@ -2624,6 +2624,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     },
     _changePageSize: function(e, item) {
         this._currentPageSize = item.get('pageSize');
+        this._currentPage = 1;
         this._applyPagingNavigationState({pageSize: this._currentPageSize});
     },
 

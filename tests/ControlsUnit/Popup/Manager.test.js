@@ -530,6 +530,42 @@ define(
             }
             assert.equal(false, hasError, 'Не смогли вызвать обработку анимании на контроллере')
          });
+
+         it('calculateZIndex', () => {
+            let Manager = getManager();
+            const controller = {
+               getDefaultConfig: () => {}
+            };
+            const item1 = {
+               id: 1
+            };
+            Manager.show(item1, controller);
+            assert.equal(Manager._popupItems.at(0).currentZIndex, 10);
+
+            const item2 = {
+               id: 2,
+               topPopup: true
+            };
+            Manager.show(item2, controller);
+            assert.equal(Manager._popupItems.at(1).currentZIndex, 2000);
+
+            const item3 = {
+               id: 3,
+            };
+            Manager.show(item3, controller);
+            Manager._popupItems.at(2).parentId = 2;
+            Manager._updateZIndex();
+            assert.equal(Manager._popupItems.at(2).currentZIndex, 2010);
+
+            const item4 = {
+               id: 2,
+               zIndexCallback: () => 5000
+            };
+            Manager.show(item4, controller);
+            assert.equal(Manager._popupItems.at(3).currentZIndex, 5000);
+
+            Manager.destroy();
+         })
       });
    }
 );

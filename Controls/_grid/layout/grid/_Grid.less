@@ -1,4 +1,7 @@
 @z-index-Grid-results-cell: 1;
+.get-padding-top(@padding-top: 0px) {
+   padding-top: calc(@padding-top - (@height_Grid-row-separator-l - @height_Grid-row-separator));
+}
 
 .controls-Grid {
    display: -ms-grid;
@@ -140,8 +143,8 @@
    box-sizing: border-box;
    position: relative;
 }
-.controls-Grid__itemAction {
-   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у колонок results;
+.controls-Grid__itemAction.controls-itemActionsV_outside {
+   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
 }
 
 
@@ -259,6 +262,10 @@
    }
 }
 
+.controls-Grid__row-cell-wide-sep_rowSpacingTop_default_theme-@{themeName} {
+  .get-padding-top(@spacing_Grid-row-between-content-borderTop_default);
+}
+
 .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_default;
 }
@@ -266,11 +273,19 @@
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_default;
 }
 
+.controls-Grid__row-cell-wide-sep_rowSpacingTop_m_theme-@{themeName} {
+   .get-padding-top(@spacing_Grid-row-between-content-borderTop_s);
+}
+
 .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_s;
 }
 .controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_s;
+}
+
+.controls-Grid__row-cell-wide-sep_rowSpacingTop_l_theme-@{themeName} {
+   .get-padding-top(@spacing_Grid-row-between-content-borderTop_l);
 }
 
 .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName} {

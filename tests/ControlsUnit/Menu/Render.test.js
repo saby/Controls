@@ -27,6 +27,23 @@ define(
             });
          };
 
+         let getListModelWithSbisAdapter = function() {
+            return new display.Tree({
+               collection: new collection.RecordSet({
+                  rawData: {
+                     _type: 'recordset',
+                     d: [],
+                     s: [
+                        { n: 'id', t: 'Строка' },
+                        { n: 'title', t: 'Строка' },
+                     ]
+                  },
+                  keyProperty: 'id',
+                  adapter: new entity.adapter.Sbis()
+               })
+            });
+         };
+
          let defaultOptions = {
             listModel: getListModel()
          };
@@ -77,7 +94,8 @@ define(
             let menuRender = getRender();
             let renderOptions = {
                listModel: getListModel(),
-               itemPadding: {}
+               itemPadding: {},
+               nodeProperty: 'node'
             };
             let rightSpacing = menuRender.getRightSpacing(renderOptions);
             assert.equal(rightSpacing, 'l');
@@ -98,18 +116,22 @@ define(
             beforeEach(function() {
                menuRender = getRender();
                renderOptions = {
-                  listModel: getListModel(),
+                  listModel: getListModelWithSbisAdapter(),
                   emptyText: 'Not selected',
                   emptyKey: null,
-                  keyProperty: 'key',
+                  keyProperty: 'id',
+                  displayProperty: 'title',
                   selectedKeys: []
                };
             });
 
             it('check items count', function() {
                menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
-               assert.equal(renderOptions.listModel.getCount(), 5);
+               assert.equal(renderOptions.listModel.getCount(), 1);
+               assert.equal(renderOptions.listModel.getCollection().at(0).get('title'), 'Not selected');
+               assert.equal(renderOptions.listModel.getCollection().at(0).get('id'), null);
             });
+
             it('check selected empty item', function() {
                renderOptions.selectedKeys = [null];
                menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
@@ -117,6 +139,53 @@ define(
             });
          });
 
+         describe('_isGroupVisible', function() {
+            let getGroup = (item) => {
+               if (!item.get('group')) {
+                  return 'CONTROLS_HIDDEN_GROUP';
+               }
+               return item.get('group');
+            };
+            it('simple', function() {
+               let groupListModel = getListModel([
+                  { key: 0, title: 'все страны' },
+                  { key: 1, title: 'Россия', icon: 'icon-add' },
+                  { key: 2, title: 'США', group: '2' },
+                  { key: 3, title: 'Великобритания', group: '2' },
+                  { key: 4, title: 'Великобритания', group: '2' },
+                  { key: 5, title: 'Великобритания', group: '3' }
+               ]);
+               groupListModel.setGroup(getGroup);
+
+               let menuRender = getRender(
+                  { listModel: groupListModel }
+               );
+
+               let result = menuRender._isGroupVisible(groupListModel.at(0));
+               assert.isFalse(result);
+
+               result = menuRender._isGroupVisible(groupListModel.at(3));
+               assert.isTrue(result);
+            });
+
+            it('one group', function() {
+               let groupListModel = getListModel([
+                  { key: 0, title: 'все страны', group: '2' },
+                  { key: 1, title: 'Россия', icon: 'icon-add', group: '2' },
+                  { key: 2, title: 'США', group: '2' },
+                  { key: 3, title: 'Великобритания', group: '2' },
+                  { key: 4, title: 'Великобритания', group: '2' }
+               ]);
+               groupListModel.setGroup(getGroup);
+
+               let menuRender = getRender(
+                  { listModel: groupListModel }
+               );
+
+               let result = menuRender._isGroupVisible(groupListModel.at(0));
+               assert.isFalse(result);
+            });
+         });
 
          it('getIconPadding', function() {
             let menuRender = getRender();
@@ -142,6 +211,10 @@ define(
             renderOptions.listModel = getListModel(iconItems);
             renderOptions.parentProperty = 'parent';
             renderOptions.nodeProperty = 'node';
+            iconPadding = menuRender.getIconPadding(renderOptions);
+            assert.equal(iconPadding, '');
+
+            renderOptions.headingIcon = 'icon-Add';
             iconPadding = menuRender.getIconPadding(renderOptions);
             assert.equal(iconPadding, '');
          });

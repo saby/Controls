@@ -99,7 +99,7 @@ define(
                id: 1,
                popupOptions: {}
             });
-            let zIndex = NotificationController.getCustomZIndex(list);
+            let zIndex = popup.Notification.zIndexCallback({}, list);
             assert.equal(zIndex, 100);
 
             list.add({
@@ -109,7 +109,7 @@ define(
                }
             });
 
-            zIndex = NotificationController.getCustomZIndex(list);
+            zIndex = popup.Notification.zIndexCallback({}, list);
             assert.equal(zIndex, 19);
 
             let item = {
@@ -118,7 +118,7 @@ define(
                popupOptions: {}
             };
             list.add(item);
-            zIndex = NotificationController.getCustomZIndex(list, item);
+            zIndex = popup.Notification.zIndexCallback(item, list);
             assert.equal(zIndex, 100);
 
          });

@@ -58,8 +58,8 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  *
  * @mixes Controls/interface:ITooltip
  * @mixes Controls/interface:IFontColorStyle
- * @mixes Control/interface:IFontWeight
- * @mixes Control/interface:IFontSize
+ * @mixes Controls/interface:IFontWeight
+ * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:INumberFormat
  * @mixes Controls/_decorator/Money/IMoneyOptions
  *

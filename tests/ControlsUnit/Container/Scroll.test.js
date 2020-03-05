@@ -386,7 +386,7 @@ define(
                scroll._saveScrollPosition({stopPropagation: function(){}});
                scroll._children.content.scrollHeight += addedHeight;
                scroll._restoreScrollPosition({stopPropagation: function(){}}, 0);
-               assert.equal(scroll._children.content.scrollTop, 0);
+               assert.equal(scroll._children.content.scrollTop, 10);
             });
          });
 

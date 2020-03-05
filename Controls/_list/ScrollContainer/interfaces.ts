@@ -51,4 +51,9 @@ export interface ITriggerState {
     down: boolean;
 }
 
+export interface IScrollRestoreParams {
+    direction: IDirection;
+    heightDifference: number;
+}
+
 export type IDirection = 'up' | 'down';

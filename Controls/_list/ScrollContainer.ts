@@ -135,6 +135,8 @@ export default class ScrollContainer extends Control<IOptions> {
 
     protected _beforeUnmount(): void {
         clearTimeout(this._checkTriggerVisibilityTimeout);
+        this._options.collection.unsubscribe('onListChange', this._collectionChangedHandler);
+        this._options.collection.unsubscribe('onCollectionChange', this._collectionChangedHandler);
     }
 
     protected _itemsContainerReadyHandler(_: SyntheticEvent<Event>, itemsContainer: HTMLElement): void {
@@ -450,10 +452,6 @@ export default class ScrollContainer extends Control<IOptions> {
                     const rangeShiftResult = this._virtualScroll.shiftRange(direction);
                     this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
                     this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
-
-                    if (this._virtualScroll.isRangeOnEdge(direction)) {
-                        this._notifyLoadMore(direction);
-                    }
                 }
             });
         }
@@ -479,7 +477,7 @@ export default class ScrollContainer extends Control<IOptions> {
         }
 
         if (this._virtualScroll.isNeedToRestorePosition) {
-            this._scrollToPosition(this._virtualScroll.getPositionToRestore(this._lastScrollTop));
+            this._restoreScrollPosition();
             this.checkTriggerVisibilityWithTimeout();
         } else if (this._restoreScrollResolve) {
             // В результате _restoreScrollResolve он может сам себя перезаписать
@@ -499,12 +497,13 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     /**
-     * Нотифицирует скролл контейнеру о том, что нужно подскролить к переданной позиции
-     * @param position
+     * Нотифицирует скролл контейнеру о том, что нужно восстановить скролл
      */
-    private _scrollToPosition(position: number): void {
+    private _restoreScrollPosition(): void {
+        const {direction, heightDifference} = this._virtualScroll.getParamsToRestoreScroll();
+
         this._fakeScroll = true;
-        this._notify('restoreScrollPosition', [position], {bubbling: true});
+        this._notify('restoreScrollPosition', [heightDifference, direction], {bubbling: true});
         this._fakeScroll = false;
     }
 

@@ -306,16 +306,24 @@
    color: @color_PeriodLiteDialog-year;
    font-weight: bold;
    cursor: pointer;
-}
 
-.controls-PeriodLiteDialog__fullYear-listElement_bottom-line {
-   &:after{
+   &:after {
       content: '';
       position: absolute;
       width: 100%;
       bottom: 0;
       left: 0;
       border-bottom: solid @indents_PeriodLiteDialog @indents-color_PeriodLiteDialog;
+   }
+}
+
+.controls-PeriodLiteDialog__fullYear-listElement:hover {
+   border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
+   border-bottom: none;
+   margin-top: -1px;
+
+   &::after {
+      border: none;
    }
 }
 
@@ -333,12 +341,6 @@
 
 .controls-PeriodLiteDialog__year-list {
    height: @standart-line-height_PeriodLiteDialog * @displayed-years_PeriodLiteDialog - @border-width_PeriodLiteDialog_hovered * (@displayed-years_PeriodLiteDialog - 1);
-}
-
-.controls-PeriodLiteDialog_fullYear-list-hovered {
-   border: solid @border-width_PeriodLiteDialog_hovered @border-color_PeriodLiteDialog_hovered;
-   border-bottom: none;
-   margin-top: -1px;
 }
 
 .border-top-hidden {

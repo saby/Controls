@@ -15,10 +15,10 @@ import {
     IIconSize,
     IIconSizeOptions,
     IItemTemplate,
-    IItemTemplateOptions,
-    ISource,
-    ISourceOptions
+    IItemTemplateOptions
 } from 'Controls/interface';
+
+import {IToolbarSourceOptions, default as IToolbarSource} from 'Controls/_toolbars/IToolbarSource';
 import {IButtonOptions} from 'Controls/buttons';
 import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 
@@ -71,8 +71,7 @@ export interface IMenuOptions {
  * @public
  * @author Красильников А.С.
  */
-export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
-    ISourceOptions, IIconSizeOptions, IItemTemplateOptions, IGroupedOptions {
+export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions, IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions {
     /**
      * Имя класса, которое будет добавлено к атрибуту class на корневой ноде выпадающего меню.
      */
@@ -105,7 +104,6 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
  * @extends UI/Base:Control
  * @mixes Controls/interface:IHierarchy
  * @mixes Controls/interface:IIconSize
- * @mixes Controls/interface:IItemTemplate
  * @mixes Controls/_toolbars/IToolbarOptions
  * @mixes Controls/_toolbars/IToolbarSource
  * @mixes Controls/interface/IItemTemplate
@@ -114,7 +112,7 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions,
  * @author Красильников А.С.
  * @demo Controls-demo/Toolbar/ToolbarVdom
  */
-class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, ISource, IIconSize, IItemTemplate, IGrouped {
+class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IIconSize, IItemTemplate, IGrouped, IToolbarSource {
     /*
      * Used in template
      */
@@ -138,7 +136,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IS
     };
 
     readonly '[Controls/_interface/IHierarchy]': boolean = true;
-    readonly '[Controls/_interface/ISource]': boolean = true;
+    readonly '[Controls/_toolbars/IToolbarSource]': boolean = true;
     readonly '[Controls/_interface/IIconSize]': boolean = true;
     readonly '[Controls/_interface/IItemTemplate]': boolean = true;
     readonly '[Controls/_dropdown/interface/IGrouped]': boolean = true;

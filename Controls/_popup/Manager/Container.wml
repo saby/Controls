@@ -2,7 +2,7 @@
    <ws:for data="index, item in _popupItems">
       <ws:if data="{{index === _overlayId}}">
          <div class="controls-Container__overlay" on:mousedown="_overlayClickHandler()"
-              style="z-index: {{_getPopupZIndex(item, index) - 1}};"></div>
+              style="z-index: {{item.currentZIndex}};"></div>
       </ws:if>
       <Controls.Pending name="{{item.id}}_registrator" attr:key="{{item.id}}">
          <UI.HotKeys:Dispatcher>
@@ -12,7 +12,7 @@
                                            attr:class="controls-Container__popup
                    {{_popupItems.getCount() - 1 === index ? 'controls-Scroll_webkitOverflowScrollingTouch'}}
                    {{item.popupOptions.className}} {{item.position.hidden ? 'ws-invisible'}}"
-                                           attr:style="z-index: {{_getPopupZIndex(item, index, item)}};
+                                           attr:style="z-index: {{item.currentZIndex}};
                    position: {{item.position.position !== undefined ? item.position.position : 'absolute'}};
                    left: {{item.position.left === undefined ? 'auto' : item.position.left + 'px'}};
                    right: {{item.position.right === undefined ? 'auto' : item.position.right + 'px'}};

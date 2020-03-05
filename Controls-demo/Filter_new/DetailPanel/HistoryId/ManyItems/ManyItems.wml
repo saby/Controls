@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+   <Controls.filter:View
+      source="{{_source}}"
+      detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">
+      <ws:detailPanelTemplateOptions
+         historyId="DEMO_HISTORY_ID2"
+         additionalTemplateProperty="additionalTemplate"/>
+   </Controls.filter:View>
+</div>

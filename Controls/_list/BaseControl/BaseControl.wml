@@ -267,6 +267,7 @@
                 nodesSourceControllers="{{_options.nodesSourceControllers}}"
                 selectDescendants="{{_options.selectDescendants}}"
                 selectAncestors="{{_options.selectAncestors}}"
+                root="{{_options.root}}"
                 on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
             />

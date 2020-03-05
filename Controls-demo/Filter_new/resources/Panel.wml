@@ -1,0 +1,9 @@
+<Controls.filterPopup:DetailPanel
+   attr:class="controls-FilterPanel__width-{{_options.width || 'm'}} {{_options.className || ''}}"
+   headingCaption="{{_options.headingCaption}}"
+   items="{{_options.items}}"
+   itemTemplateProperty="itemTemplate"
+   additionalTemplateProperty="{{_options.additionalTemplateProperty}}"
+   historyId="{{_options.historyId}}"
+   applyButtonCaption="{{_options.applyButtonCaption}}">
+</Controls.filterPopup:DetailPanel>
