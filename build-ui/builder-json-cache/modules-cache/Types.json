@@ -1,0 +1,2581 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/chain.ts": {
+   "componentName": "Types/chain",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_chain/factory",
+    "Types/_chain/Abstract",
+    "Types/_chain/Objectwise"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/collection.ts": {
+   "componentName": "Types/collection",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/enumerableComparator",
+    "Types/_collection/Enum",
+    "Types/_collection/enumerator",
+    "Types/_collection/EventRaisingMixin",
+    "Types/_collection/factory",
+    "Types/_collection/format",
+    "Types/_collection/Flags",
+    "Types/_collection/IEnum",
+    "Types/_collection/IFlags",
+    "Types/_collection/IEnumerable",
+    "Types/_collection/IEnumerator",
+    "Types/_collection/IList",
+    "Types/_collection/IndexedEnumeratorMixin",
+    "Types/_collection/IObservable",
+    "Types/_collection/List",
+    "Types/_collection/ObservableList",
+    "Types/_collection/RecordSet"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/declarations.ts": {
+   "componentName": "Types/declarations",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_declarations"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/di.ts": {
+   "componentName": "Types/di",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/display.ts": {
+   "componentName": "Types/display",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/entity.ts": {
+   "componentName": "Types/entity",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/adapter",
+    "Types/_entity/CancelablePromise",
+    "Types/_entity/CloneableMixin",
+    "Types/_entity/compare",
+    "Types/_entity/Date",
+    "Types/_entity/DateTime",
+    "Types/_entity/descriptor",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/factory",
+    "Types/_entity/format",
+    "Types/_entity/FormattableMixin",
+    "Types/_entity/functor",
+    "Types/_entity/Guid",
+    "Types/_entity/Identity",
+    "Types/_entity/ICloneable",
+    "Types/_entity/IEquatable",
+    "Types/_entity/IInstantiable",
+    "Types/_entity/InstantiableMixin",
+    "Types/_entity/IObject",
+    "Types/_entity/IObservableObject",
+    "Types/_entity/IProducible",
+    "Types/_entity/ISerializable",
+    "Types/_entity/IVersionable",
+    "Types/_entity/ManyToManyMixin",
+    "Types/_entity/Model",
+    "Types/_entity/OptionsToPropertyMixin",
+    "Types/_entity/ObservableMixin",
+    "Types/_entity/ReactiveObject",
+    "Types/_entity/ReadWriteMixin",
+    "Types/_entity/Record",
+    "Types/_entity/relation",
+    "Types/_entity/SerializableMixin",
+    "Types/_entity/Time",
+    "Types/_entity/TimeInterval",
+    "Types/_entity/VersionableMixin",
+    "Types/_entity/JSONML"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/formatter.ts": {
+   "componentName": "Types/formatter",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/cyrTranslit",
+    "Types/_formatter/date",
+    "Types/_formatter/dateFromSql",
+    "Types/_formatter/dateToSql",
+    "Types/_formatter/jsonReplacer",
+    "Types/_formatter/jsonReviver",
+    "Types/_formatter/numberRoman",
+    "Types/_formatter/numberWords",
+    "Types/_formatter/number",
+    "Types/_formatter/period",
+    "Types/_formatter/retrospect"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/function.ts": {
+   "componentName": "Types/function",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_function/debounce",
+    "Types/_function/delay",
+    "Types/_function/memoize",
+    "Types/_function/once",
+    "Types/_function/throttle"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/object.ts": {
+   "componentName": "Types/object",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_object/isEqual",
+    "Types/_object/merge"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/shim.ts": {
+   "componentName": "Types/shim",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_shim/Map",
+    "Types/_shim/Set"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/source.ts": {
+   "componentName": "Types/source",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_source/Base",
+    "Types/_source/DataSet",
+    "Types/_source/HierarchicalMemory",
+    "Types/_source/ICrud",
+    "Types/_source/ICrudPlus",
+    "Types/_source/IData",
+    "Types/_source/IDecorator",
+    "Types/_source/IProvider",
+    "Types/_source/IRpc",
+    "Types/_source/Local",
+    "Types/_source/Memory",
+    "Types/_source/PrefetchProxy",
+    "Types/_source/provider",
+    "Types/_source/Query",
+    "Types/_source/Remote",
+    "Types/_source/Rpc",
+    "Types/_source/SbisService"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/util.ts": {
+   "componentName": "Types/util",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_util/logger",
+    "Types/_util/object",
+    "Types/_util/mixin",
+    "Types/_util/protect",
+    "Types/_util/deprecateExtend"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_declarations.ts": {
+   "componentName": "Types/_declarations",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Abstract.ts": {
+   "componentName": "Types/_chain/Abstract",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/util",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Arraywise.ts": {
+   "componentName": "Types/_chain/Arraywise",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/collection"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Concatenated.ts": {
+   "componentName": "Types/_chain/Concatenated",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/ConcatenatedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/ConcatenatedEnumerator.ts": {
+   "componentName": "Types/_chain/ConcatenatedEnumerator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/collection"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Counted.ts": {
+   "componentName": "Types/_chain/Counted",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/collection",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Enumerable.ts": {
+   "componentName": "Types/_chain/Enumerable",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/factory.ts": {
+   "componentName": "Types/_chain/factory",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_chain/Abstract",
+    "Types/_chain/Arraywise",
+    "Types/_chain/Objectwise",
+    "Types/_chain/Enumerable",
+    "Types/_chain/Concatenated",
+    "Types/_chain/Counted",
+    "Types/_chain/Filtered",
+    "Types/_chain/Flattened",
+    "Types/_chain/Grouped",
+    "Types/_chain/Mapped",
+    "Types/_chain/Reversed",
+    "Types/_chain/Sliced",
+    "Types/_chain/Sorted",
+    "Types/_chain/Uniquely",
+    "Types/_chain/Zipped",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Filtered.ts": {
+   "componentName": "Types/_chain/Filtered",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/FilteredEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/FilteredEnumerator.ts": {
+   "componentName": "Types/_chain/FilteredEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Flattened.ts": {
+   "componentName": "Types/_chain/Flattened",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/FlattenedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/FlattenedEnumerator.ts": {
+   "componentName": "Types/_chain/FlattenedEnumerator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_chain/FlattenedMover"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/FlattenedMover.ts": {
+   "componentName": "Types/_chain/FlattenedMover",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/collection"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Grouped.ts": {
+   "componentName": "Types/_chain/Grouped",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/collection",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/IndexedEnumerator.ts": {
+   "componentName": "Types/_chain/IndexedEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Mapped.ts": {
+   "componentName": "Types/_chain/Mapped",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/MappedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/MappedEnumerator.ts": {
+   "componentName": "Types/_chain/MappedEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Objectwise.ts": {
+   "componentName": "Types/_chain/Objectwise",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/collection"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Reversed.ts": {
+   "componentName": "Types/_chain/Reversed",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/ReversedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/ReversedEnumerator.ts": {
+   "componentName": "Types/_chain/ReversedEnumerator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/IndexedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/SlicedEnumerator.ts": {
+   "componentName": "Types/_chain/SlicedEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Sliced.ts": {
+   "componentName": "Types/_chain/Sliced",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/SlicedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Sorted.ts": {
+   "componentName": "Types/_chain/Sorted",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/SortedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/SortedEnumerator.ts": {
+   "componentName": "Types/_chain/SortedEnumerator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/IndexedEnumerator",
+    "Types/_chain/SortWrapper"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/SortWrapper.ts": {
+   "componentName": "Types/_chain/SortWrapper",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Uniquely.ts": {
+   "componentName": "Types/_chain/Uniquely",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/UniquelyEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/UniquelyEnumerator.ts": {
+   "componentName": "Types/_chain/UniquelyEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/Zipped.ts": {
+   "componentName": "Types/_chain/Zipped",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_chain/Abstract",
+    "Types/_chain/ZippedEnumerator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_chain/ZippedEnumerator.ts": {
+   "componentName": "Types/_chain/ZippedEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/Dictionary.ts": {
+   "componentName": "Types/_collection/Dictionary",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/enumerator/Arraywise",
+    "Types/_collection/enumerator/Objectwise",
+    "Types/entity",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/Enum.ts": {
+   "componentName": "Types/_collection/Enum",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/Dictionary",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/enumerableComparator.ts": {
+   "componentName": "Types/_collection/enumerableComparator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/IObservable"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/enumerator.ts": {
+   "componentName": "Types/_collection/enumerator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/enumerator/Arraywise",
+    "Types/_collection/enumerator/Mapwise",
+    "Types/_collection/enumerator/Objectwise"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/EventRaisingMixin.ts": {
+   "componentName": "Types/_collection/EventRaisingMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/enumerableComparator",
+    "Types/_collection/IObservable"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/factory.ts": {
+   "componentName": "Types/_collection/factory",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/factory/list",
+    "Types/_collection/factory/recordSet"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/Flags.ts": {
+   "componentName": "Types/_collection/Flags",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/Dictionary",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/format.ts": {
+   "componentName": "Types/_collection/format",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/format/factory",
+    "Types/_collection/format/Format"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IEnum.ts": {
+   "componentName": "Types/_collection/IEnum",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IEnumerable.ts": {
+   "componentName": "Types/_collection/IEnumerable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IFlags.ts": {
+   "componentName": "Types/_collection/IFlags",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IEnumerator.ts": {
+   "componentName": "Types/_collection/IEnumerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IIndexedCollection.ts": {
+   "componentName": "Types/_collection/IIndexedCollection",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IList.ts": {
+   "componentName": "Types/_collection/IList",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/Indexer.ts": {
+   "componentName": "Types/_collection/Indexer",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IObservable.ts": {
+   "componentName": "Types/_collection/IObservable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/IndexedEnumeratorMixin.ts": {
+   "componentName": "Types/_collection/IndexedEnumeratorMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/IObservable",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/List.ts": {
+   "componentName": "Types/_collection/List",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/IObservable",
+    "Types/_collection/enumerator/Arraywise",
+    "Types/_collection/Indexer",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/ObservableList.ts": {
+   "componentName": "Types/_collection/ObservableList",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/IObservable",
+    "Types/_collection/List",
+    "Types/_collection/EventRaisingMixin",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/RecordSet.ts": {
+   "componentName": "Types/_collection/RecordSet",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/IObservable",
+    "Types/_collection/ObservableList",
+    "Types/_collection/enumerator/Arraywise",
+    "Types/_collection/Indexer",
+    "Types/entity",
+    "Types/di",
+    "Types/util",
+    "Types/object"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/cyrTranslit.ts": {
+   "componentName": "Types/_formatter/cyrTranslit",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/date.ts": {
+   "componentName": "Types/_formatter/date",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/numberRoman",
+    "Core/helpers/i18n/locales"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/dateFromSql.ts": {
+   "componentName": "Types/_formatter/dateFromSql",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/dateToSql.ts": {
+   "componentName": "Types/_formatter/dateToSql",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/date"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/jsonReplacer.ts": {
+   "componentName": "Types/_formatter/jsonReplacer",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/jsonReviver.ts": {
+   "componentName": "Types/_formatter/jsonReviver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/number.ts": {
+   "componentName": "Types/_formatter/number",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/i18n",
+    "i18n!Types/_formatter/number"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/numberRoman.ts": {
+   "componentName": "Types/_formatter/numberRoman",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/period.ts": {
+   "componentName": "Types/_formatter/period",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/date"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/numberWords.ts": {
+   "componentName": "Types/_formatter/numberWords",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/_numberWords/ru",
+    "Types/_formatter/_numberWords/en",
+    "Core/i18n",
+    "i18n!Types/_formatter/numberWords"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/retrospect.ts": {
+   "componentName": "Types/_formatter/retrospect",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/date",
+    "Core/i18n",
+    "i18n!Types/_formatter/retrospect"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter.ts": {
+   "componentName": "Types/_entity/adapter",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/adapter/Abstract",
+    "Types/_entity/adapter/Cow",
+    "Types/_entity/adapter/Json",
+    "Types/_entity/adapter/IAdapter",
+    "Types/_entity/adapter/IDataHolder",
+    "Types/_entity/adapter/IDecorator",
+    "Types/_entity/adapter/IMetaData",
+    "Types/_entity/adapter/IRecord",
+    "Types/_entity/adapter/ITable",
+    "Types/_entity/adapter/RecordSet",
+    "Types/_entity/adapter/RecordSetRecord",
+    "Types/_entity/adapter/RecordSetTable",
+    "Types/_entity/adapter/Sbis",
+    "Types/_entity/adapter/SbisFieldType",
+    "Types/_entity/adapter/SbisRecord",
+    "Types/_entity/adapter/SbisTable",
+    "Types/_entity/adapter/GenericFormatMixin"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/CancelablePromise.ts": {
+   "componentName": "Types/_entity/CancelablePromise",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/CloneableMixin.ts": {
+   "componentName": "Types/_entity/CloneableMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util",
+    "Core/Serializer"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/compare.ts": {
+   "componentName": "Types/_entity/compare",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/compare/dateDifference"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Date.ts": {
+   "componentName": "Types/_entity/Date",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DateTime",
+    "Types/_entity/dateParser",
+    "Types/_entity/SerializableMixin",
+    "Types/formatter",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/dateParser.ts": {
+   "componentName": "Types/_entity/dateParser",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/DateTime.ts": {
+   "componentName": "Types/_entity/DateTime",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/SerializableMixin",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/descriptor.ts": {
+   "componentName": "Types/_entity/descriptor",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/DestroyableMixin.ts": {
+   "componentName": "Types/_entity/DestroyableMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/factory.ts": {
+   "componentName": "Types/_entity/factory",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/DateTime",
+    "Types/_entity/format",
+    "Types/_entity/TimeInterval",
+    "Types/_entity/Date",
+    "Types/_entity/Time",
+    "Types/di",
+    "Types/formatter",
+    "Core/defaultRenders"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format.ts": {
+   "componentName": "Types/_entity/format",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/format/Field",
+    "Types/_entity/format/ArrayField",
+    "Types/_entity/format/BinaryField",
+    "Types/_entity/format/BooleanField",
+    "Types/_entity/format/DateField",
+    "Types/_entity/format/DateTimeField",
+    "Types/_entity/format/DictionaryField",
+    "Types/_entity/format/EnumField",
+    "Types/_entity/format/fieldsFactory",
+    "Types/_entity/format/FlagsField",
+    "Types/_entity/format/HierarchyField",
+    "Types/_entity/format/IdentityField",
+    "Types/_entity/format/IntegerField",
+    "Types/_entity/format/LinkField",
+    "Types/_entity/format/MoneyField",
+    "Types/_entity/format/ObjectField",
+    "Types/_entity/format/RealField",
+    "Types/_entity/format/RecordField",
+    "Types/_entity/format/RecordSetField",
+    "Types/_entity/format/RpcFileField",
+    "Types/_entity/format/StringField",
+    "Types/_entity/format/TimeField",
+    "Types/_entity/format/TimeIntervalField",
+    "Types/_entity/format/UniversalField",
+    "Types/_entity/format/UuidField",
+    "Types/_entity/format/XmlField"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/FormattableMixin.ts": {
+   "componentName": "Types/_entity/FormattableMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/format",
+    "Types/_entity/adapter",
+    "Types/di",
+    "Types/util",
+    "Types/_entity/adapter/SbisFormatFinder"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/functor.ts": {
+   "componentName": "Types/_entity/functor",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/functor/Compute",
+    "Types/_entity/functor/Track"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Guid.ts": {
+   "componentName": "Types/_entity/Guid",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Identity.ts": {
+   "componentName": "Types/_entity/Identity",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ICloneable.ts": {
+   "componentName": "Types/_entity/ICloneable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IEquatable.ts": {
+   "componentName": "Types/_entity/IEquatable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IInstantiable.ts": {
+   "componentName": "Types/_entity/IInstantiable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/InstantiableMixin.ts": {
+   "componentName": "Types/_entity/InstantiableMixin",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IObject.ts": {
+   "componentName": "Types/_entity/IObject",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IObservableObject.ts": {
+   "componentName": "Types/_entity/IObservableObject",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IProducible.ts": {
+   "componentName": "Types/_entity/IProducible",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ISerializable.ts": {
+   "componentName": "Types/_entity/ISerializable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IStateful.ts": {
+   "componentName": "Types/_entity/IStateful",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/JSONML.ts": {
+   "componentName": "Types/_entity/JSONML",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/IVersionable.ts": {
+   "componentName": "Types/_entity/IVersionable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ManyToManyMixin.ts": {
+   "componentName": "Types/_entity/ManyToManyMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/relation/ManyToMany"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Model.ts": {
+   "componentName": "Types/_entity/Model",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/Record",
+    "Types/_entity/InstantiableMixin",
+    "Types/_entity/functor",
+    "Types/di",
+    "Types/util",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ObservableMixin.ts": {
+   "componentName": "Types/_entity/ObservableMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Event"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/OptionsToPropertyMixin.ts": {
+   "componentName": "Types/_entity/OptionsToPropertyMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ReactiveObject.ts": {
+   "componentName": "Types/_entity/ReactiveObject",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/VersionableMixin",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/ReadWriteMixin.ts": {
+   "componentName": "Types/_entity/ReadWriteMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/OptionsToPropertyMixin",
+    "Types/_entity/ObservableMixin",
+    "Types/_entity/ManyToManyMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Record.ts": {
+   "componentName": "Types/_entity/Record",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/factory",
+    "Types/_entity/OptionsToPropertyMixin",
+    "Types/_entity/ObservableMixin",
+    "Types/_entity/SerializableMixin",
+    "Types/_entity/CloneableMixin",
+    "Types/_entity/ManyToManyMixin",
+    "Types/_entity/ReadWriteMixin",
+    "Types/_entity/FormattableMixin",
+    "Types/_entity/VersionableMixin",
+    "Types/di",
+    "Types/util",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/relation.ts": {
+   "componentName": "Types/_entity/relation",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/relation/Hierarchy",
+    "Types/_entity/relation/IReceiver",
+    "Types/_entity/relation/ManyToMany"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/SerializableMixin.ts": {
+   "componentName": "Types/_entity/SerializableMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/Time.ts": {
+   "componentName": "Types/_entity/Time",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DateTime",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/VersionableMixin.ts": {
+   "componentName": "Types/_entity/VersionableMixin",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/TimeInterval.ts": {
+   "componentName": "Types/_entity/TimeInterval",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_function/debounce.ts": {
+   "componentName": "Types/_function/debounce",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_function/delay.ts": {
+   "componentName": "Types/_function/delay",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_function/memoize.ts": {
+   "componentName": "Types/_function/memoize",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_function/once.ts": {
+   "componentName": "Types/_function/once",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_function/throttle.ts": {
+   "componentName": "Types/_function/throttle",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_object/merge.ts": {
+   "componentName": "Types/_object/merge",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/shim"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_object/isEqual.ts": {
+   "componentName": "Types/_object/isEqual",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_shim/Map.ts": {
+   "componentName": "Types/_shim/Map",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_shim/Set"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_shim/Set.ts": {
+   "componentName": "Types/_shim/Set",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_util/deprecateExtend.ts": {
+   "componentName": "Types/_util/deprecateExtend",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_util/logger"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_util/logger.ts": {
+   "componentName": "Types/_util/logger",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_util/mixin.ts": {
+   "componentName": "Types/_util/mixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_util/object.ts": {
+   "componentName": "Types/_util/object",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/shim",
+    "Core/Serializer"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_util/protect.ts": {
+   "componentName": "Types/_util/protect",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Base.ts": {
+   "componentName": "Types/_source/Base",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/OptionsMixin",
+    "Types/_source/LazyMixin",
+    "Types/_source/DataMixin",
+    "Types/entity",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/BindingMixin.ts": {
+   "componentName": "Types/_source/BindingMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/DataCrudMixin.ts": {
+   "componentName": "Types/_source/DataCrudMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/DataMixin.ts": {
+   "componentName": "Types/_source/DataMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/DataSet.ts": {
+   "componentName": "Types/_source/DataSet",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/EndpointMixin.ts": {
+   "componentName": "Types/_source/EndpointMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/HierarchicalMemory.ts": {
+   "componentName": "Types/_source/HierarchicalMemory",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Memory",
+    "Types/entity",
+    "Types/util",
+    "Core/Deferred"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/ICrud.ts": {
+   "componentName": "Types/_source/ICrud",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/ICrudPlus.ts": {
+   "componentName": "Types/_source/ICrudPlus",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/IData.ts": {
+   "componentName": "Types/_source/IData",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/IDecorator.ts": {
+   "componentName": "Types/_source/IDecorator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/IRpc.ts": {
+   "componentName": "Types/_source/IRpc",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/IProvider.ts": {
+   "componentName": "Types/_source/IProvider",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/jsonize.ts": {
+   "componentName": "Types/_source/jsonize",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/entity",
+    "Types/formatter"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/LazyMixin.ts": {
+   "componentName": "Types/_source/LazyMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Local.ts": {
+   "componentName": "Types/_source/Local",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Base",
+    "Types/_source/DataMixin",
+    "Types/_source/DataCrudMixin",
+    "Types/_source/Query",
+    "Types/util",
+    "Core/Deferred",
+    "Core/helpers/Number/randomId"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/LocalSession.ts": {
+   "componentName": "Types/_source/LocalSession",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Query",
+    "Types/entity",
+    "Types/collection",
+    "Types/di",
+    "Types/util",
+    "Types/object",
+    "Browser/Storage",
+    "Core/Deferred"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Memory.ts": {
+   "componentName": "Types/_source/Memory",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Local",
+    "Types/di",
+    "Types/util",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/OptionsMixin.ts": {
+   "componentName": "Types/_source/OptionsMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/PrefetchProxy.ts": {
+   "componentName": "Types/_source/PrefetchProxy",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/util",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/provider.ts": {
+   "componentName": "Types/_source/provider",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_source/provider/IAbstract",
+    "Types/_source/provider/IChannel",
+    "Types/_source/provider/INotify",
+    "Types/_source/provider/SbisBusinessLogic"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Query.ts": {
+   "componentName": "Types/_source/Query",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Remote.ts": {
+   "componentName": "Types/_source/Remote",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Base",
+    "Types/_source/DataMixin",
+    "Types/_source/DataCrudMixin",
+    "Types/_source/BindingMixin",
+    "Types/_source/EndpointMixin",
+    "Types/_source/OptionsMixin",
+    "Types/_source/Query",
+    "Types/_source/jsonize",
+    "Types/entity",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/Rpc.ts": {
+   "componentName": "Types/_source/Rpc",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Remote",
+    "Core/Deferred"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/SbisService.ts": {
+   "componentName": "Types/_source/SbisService",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_source/Rpc",
+    "Types/_source/OptionsMixin",
+    "Types/_source/DataMixin",
+    "Types/_source/Query",
+    "Types/entity",
+    "Types/di",
+    "Types/util",
+    "Core/ParallelDeferred"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/enumerator/Arraywise.ts": {
+   "componentName": "Types/_collection/enumerator/Arraywise",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_collection/IndexedEnumeratorMixin",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/enumerator/Mapwise.ts": {
+   "componentName": "Types/_collection/enumerator/Mapwise",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/shim"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/enumerator/Objectwise.ts": {
+   "componentName": "Types/_collection/enumerator/Objectwise",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/factory/list.ts": {
+   "componentName": "Types/_collection/factory/list",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/List"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/factory/recordSet.ts": {
+   "componentName": "Types/_collection/factory/recordSet",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/format/factory.ts": {
+   "componentName": "Types/_collection/format/factory",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_collection/format/Format",
+    "Types/entity",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_collection/format/Format.ts": {
+   "componentName": "Types/_collection/format/Format",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/_collection/List",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/_numberWords/en.ts": {
+   "componentName": "Types/_formatter/_numberWords/en",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/_numberWords/utils",
+    "Core/i18n",
+    "i18n!Types/_formatter/_numberWords/en"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/_numberWords/ru.ts": {
+   "componentName": "Types/_formatter/_numberWords/ru",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_formatter/_numberWords/utils",
+    "Core/i18n",
+    "i18n!Types/_formatter/_numberWords/ru"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_formatter/_numberWords/utils.ts": {
+   "componentName": "Types/_formatter/_numberWords/utils",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/Abstract.ts": {
+   "componentName": "Types/_entity/adapter/Abstract",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/SerializableMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/Cow.ts": {
+   "componentName": "Types/_entity/adapter/Cow",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/adapter/Abstract",
+    "Types/_entity/adapter/CowTable",
+    "Types/_entity/adapter/CowRecord",
+    "Types/_entity/SerializableMixin",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/CowRecord.ts": {
+   "componentName": "Types/_entity/adapter/CowRecord",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/CowTable.ts": {
+   "componentName": "Types/_entity/adapter/CowTable",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/GenericFormatMixin.ts": {
+   "componentName": "Types/_entity/adapter/GenericFormatMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/format"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IAdapter.ts": {
+   "componentName": "Types/_entity/adapter/IAdapter",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IDataHolder.ts": {
+   "componentName": "Types/_entity/adapter/IDataHolder",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IDecorator.ts": {
+   "componentName": "Types/_entity/adapter/IDecorator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IFormatController.ts": {
+   "componentName": "Types/_entity/adapter/IFormatController",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IRecord.ts": {
+   "componentName": "Types/_entity/adapter/IRecord",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/IMetaData.ts": {
+   "componentName": "Types/_entity/adapter/IMetaData",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/Json.ts": {
+   "componentName": "Types/_entity/adapter/Json",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/adapter/Abstract",
+    "Types/_entity/adapter/JsonTable",
+    "Types/_entity/adapter/JsonRecord",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/ITable.ts": {
+   "componentName": "Types/_entity/adapter/ITable",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/JsonFormatMixin.ts": {
+   "componentName": "Types/_entity/adapter/JsonFormatMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/format"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/JsonRecord.ts": {
+   "componentName": "Types/_entity/adapter/JsonRecord",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/GenericFormatMixin",
+    "Types/_entity/adapter/JsonFormatMixin",
+    "Types/_entity/format",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/JsonTable.ts": {
+   "componentName": "Types/_entity/adapter/JsonTable",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/GenericFormatMixin",
+    "Types/_entity/adapter/JsonFormatMixin",
+    "Types/_entity/adapter/JsonRecord",
+    "Types/shim",
+    "Types/util",
+    "Types/object"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/RecordSet.ts": {
+   "componentName": "Types/_entity/adapter/RecordSet",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/adapter/Abstract",
+    "Types/_entity/adapter/RecordSetTable",
+    "Types/_entity/adapter/RecordSetRecord",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/RecordSetRecord.ts": {
+   "componentName": "Types/_entity/adapter/RecordSetRecord",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/GenericFormatMixin",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/Sbis.ts": {
+   "componentName": "Types/_entity/adapter/Sbis",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/adapter/Abstract",
+    "Types/_entity/adapter/SbisTable",
+    "Types/_entity/adapter/SbisRecord",
+    "Types/_entity/adapter/SbisFieldType",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/RecordSetTable.ts": {
+   "componentName": "Types/_entity/adapter/RecordSetTable",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/GenericFormatMixin",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/SbisFieldType.ts": {
+   "componentName": "Types/_entity/adapter/SbisFieldType",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/SbisFormatFinder.ts": {
+   "componentName": "Types/_entity/adapter/SbisFormatFinder",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/shim"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/SbisRecord.ts": {
+   "componentName": "Types/_entity/adapter/SbisRecord",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/SbisFormatMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/SbisFormatMixin.ts": {
+   "componentName": "Types/_entity/adapter/SbisFormatMixin",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/adapter/SbisFieldType",
+    "Types/_entity/factory",
+    "Types/_entity/format",
+    "Types/_entity/format/MoneyField",
+    "Types/shim",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/adapter/SbisTable.ts": {
+   "componentName": "Types/_entity/adapter/SbisTable",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/adapter/SbisFormatMixin",
+    "Types/_entity/adapter/SbisRecord",
+    "Types/_entity/format",
+    "Types/util",
+    "Types/object"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/compare/dateDifference.ts": {
+   "componentName": "Types/_entity/compare/dateDifference",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/ArrayField.ts": {
+   "componentName": "Types/_entity/format/ArrayField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/BinaryField.ts": {
+   "componentName": "Types/_entity/format/BinaryField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/BooleanField.ts": {
+   "componentName": "Types/_entity/format/BooleanField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/DateField.ts": {
+   "componentName": "Types/_entity/format/DateField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/formatter",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/DateTimeField.ts": {
+   "componentName": "Types/_entity/format/DateTimeField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/DictionaryField.ts": {
+   "componentName": "Types/_entity/format/DictionaryField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/EnumField.ts": {
+   "componentName": "Types/_entity/format/EnumField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/DictionaryField",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/Field.ts": {
+   "componentName": "Types/_entity/format/Field",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/util",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/OptionsToPropertyMixin",
+    "Types/_entity/SerializableMixin",
+    "Types/_entity/CloneableMixin",
+    "Types/object"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/fieldsFactory.ts": {
+   "componentName": "Types/_entity/format/fieldsFactory",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/_entity/format/BooleanField",
+    "Types/_entity/format/IntegerField",
+    "Types/_entity/format/RealField",
+    "Types/_entity/format/MoneyField",
+    "Types/_entity/format/StringField",
+    "Types/_entity/format/XmlField",
+    "Types/_entity/format/DateTimeField",
+    "Types/_entity/format/DateField",
+    "Types/_entity/format/TimeField",
+    "Types/_entity/format/TimeIntervalField",
+    "Types/_entity/format/LinkField",
+    "Types/_entity/format/IdentityField",
+    "Types/_entity/format/EnumField",
+    "Types/_entity/format/FlagsField",
+    "Types/_entity/format/RecordField",
+    "Types/_entity/format/RecordSetField",
+    "Types/_entity/format/BinaryField",
+    "Types/_entity/format/UuidField",
+    "Types/_entity/format/RpcFileField",
+    "Types/_entity/format/ObjectField",
+    "Types/_entity/format/ArrayField",
+    "Types/di",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/HierarchyField.ts": {
+   "componentName": "Types/_entity/format/HierarchyField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/FlagsField.ts": {
+   "componentName": "Types/_entity/format/FlagsField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/DictionaryField",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/IntegerField.ts": {
+   "componentName": "Types/_entity/format/IntegerField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/IdentityField.ts": {
+   "componentName": "Types/_entity/format/IdentityField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/LinkField.ts": {
+   "componentName": "Types/_entity/format/LinkField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/MoneyField.ts": {
+   "componentName": "Types/_entity/format/MoneyField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/RealField",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/ObjectField.ts": {
+   "componentName": "Types/_entity/format/ObjectField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/RealField.ts": {
+   "componentName": "Types/_entity/format/RealField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/RecordField.ts": {
+   "componentName": "Types/_entity/format/RecordField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/RecordSetField.ts": {
+   "componentName": "Types/_entity/format/RecordSetField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/RpcFileField.ts": {
+   "componentName": "Types/_entity/format/RpcFileField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/StringField.ts": {
+   "componentName": "Types/_entity/format/StringField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/TimeField.ts": {
+   "componentName": "Types/_entity/format/TimeField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/formatter",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/TimeIntervalField.ts": {
+   "componentName": "Types/_entity/format/TimeIntervalField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/UuidField.ts": {
+   "componentName": "Types/_entity/format/UuidField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/XmlField.ts": {
+   "componentName": "Types/_entity/format/XmlField",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/format/Field",
+    "Types/di"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/format/UniversalField.ts": {
+   "componentName": "Types/_entity/format/UniversalField",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/di"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/functor/Abstract.ts": {
+   "componentName": "Types/_entity/functor/Abstract",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/util"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/functor/Compute.ts": {
+   "componentName": "Types/_entity/functor/Compute",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/functor/Abstract"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/functor/Track.ts": {
+   "componentName": "Types/_entity/functor/Track",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/functor/Abstract"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/relation/IReceiver.ts": {
+   "componentName": "Types/_entity/relation/IReceiver",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/relation/Hierarchy.ts": {
+   "componentName": "Types/_entity/relation/Hierarchy",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/_entity/OptionsToPropertyMixin",
+    "Types/util"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/relation/ManyToMany.ts": {
+   "componentName": "Types/_entity/relation/ManyToMany",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_entity/relation/OneToMany.ts": {
+   "componentName": "Types/_entity/relation/OneToMany",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/_entity/DestroyableMixin",
+    "Types/shim"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/provider/IAbstract.ts": {
+   "componentName": "Types/_source/provider/IAbstract",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/provider/IChannel.ts": {
+   "componentName": "Types/_source/provider/IChannel",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/provider/INotify.ts": {
+   "componentName": "Types/_source/provider/INotify",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Types/_source/provider/SbisBusinessLogic.ts": {
+   "componentName": "Types/_source/provider/SbisBusinessLogic",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Types/entity",
+    "Types/di",
+    "Types/util",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

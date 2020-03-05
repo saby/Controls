@@ -1,0 +1,1026 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder.js": {
+   "componentName": "View/Builder",
+   "componentDep": [
+    "View/Builder/Tmpl"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/config.js": {
+   "componentName": "View/config",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/decorators.js": {
+   "componentName": "View/decorators",
+   "componentDep": [
+    "Env/Env",
+    "Core/markup/ParserUtilities",
+    "Core/helpers/i18n/wordCaseByNumber",
+    "Core/Sanitize",
+    "Core/helpers/String/escapeHtml",
+    "Core/helpers/String/linkWrap",
+    "Core/helpers/String/escapeTagsFromStr"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Logger.js": {
+   "componentName": "View/Logger",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner.js": {
+   "componentName": "View/Runner",
+   "componentDep": [
+    "View/Executor/TClosure"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl.js": {
+   "componentName": "View/Builder/Tmpl",
+   "componentDep": [
+    "View/Builder/Tmpl/traverse",
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/function",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/Expressions.ts": {
+   "componentName": "View/Executor/Expressions",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Expressions/Attr",
+    "View/Executor/_Expressions/AttrHelper",
+    "View/Executor/_Expressions/ContextResolver",
+    "View/Executor/_Expressions/Decorate",
+    "View/Executor/_Expressions/Event",
+    "View/Executor/_Expressions/Focus",
+    "View/Executor/_Expressions/RawMarkupNode",
+    "View/Executor/_Expressions/Rights",
+    "View/Executor/_Expressions/Scope",
+    "View/Executor/_Expressions/Subscriber"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/GeneratorCompatible.ts": {
+   "componentName": "View/Executor/GeneratorCompatible",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Markup/Text/Generator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/Markup.ts": {
+   "componentName": "View/Executor/Markup",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Markup/Text/Generator",
+    "View/Executor/_Markup/Vdom/Generator",
+    "View/Executor/_Markup/Text/FunctionHeaderTemplate"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/TClosure.ts": {
+   "componentName": "View/Executor/TClosure",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Serializer",
+    "Core/i18n",
+    "Env/Env",
+    "UI/Utils",
+    "View/config",
+    "View/Executor/Markup",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "Core/helpers/Object/isPlainObject"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/Utils.ts": {
+   "componentName": "View/Executor/Utils",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Utils/Class",
+    "View/Executor/_Utils/Common",
+    "View/Executor/_Utils/Compatible",
+    "View/Executor/_Utils/ConfigResolver",
+    "View/Executor/_Utils/OptionsResolver",
+    "View/Executor/_Utils/RequireHelper",
+    "View/Executor/_Utils/Vdom",
+    "View/Executor/_Utils/VoidTags"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/common.js": {
+   "componentName": "View/Runner/common",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/focusHelper.js": {
+   "componentName": "View/Runner/focusHelper",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/markupGenerator.js": {
+   "componentName": "View/Runner/markupGenerator",
+   "componentDep": [
+    "View/Executor/Markup",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/requireHelper.js": {
+   "componentName": "View/Runner/requireHelper",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/tclosure.js": {
+   "componentName": "View/Runner/tclosure",
+   "componentDep": [
+    "View/Executor/TClosure",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/vdomutils.js": {
+   "componentName": "View/Runner/vdomutils",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/checkDomHandler.js": {
+   "componentName": "View/Builder/Tmpl/checkDomHandler"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/function.js": {
+   "componentName": "View/Builder/Tmpl/function",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/expressions/event",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/modules/control",
+    "View/Builder/Tmpl/modules/if",
+    "View/Builder/Tmpl/modules/for",
+    "View/Builder/Tmpl/modules/else",
+    "View/Builder/Tmpl/modules/partial",
+    "View/Builder/Tmpl/modules/template",
+    "View/Builder/Tmpl/modules/utils/tag",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/utils/parse",
+    "Core/helpers/Function/shallowClone",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/decorators.js": {
+   "componentName": "View/Builder/Tmpl/decorators",
+   "componentDep": [
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/traverse.js": {
+   "componentName": "View/Builder/Tmpl/traverse",
+   "componentDep": [
+    "Core/htmlparser2",
+    "View/Builder/Tmpl/modules/utils/names",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/expressions/statement",
+    "View/Builder/Tmpl/modules/control",
+    "View/Builder/Tmpl/modules/template",
+    "View/Builder/Tmpl/modules/partial",
+    "View/Builder/Tmpl/modules/for",
+    "View/Builder/Tmpl/expressions/dirtyCheckingPatch",
+    "View/Builder/Tmpl/handlers/third-party/dom",
+    "View/Builder/Tmpl/checkDomHandler",
+    "View/Builder/Tmpl/modules/utils/tag",
+    "View/Builder/Tmpl/modules/utils/parse",
+    "View/Builder/Tmpl/expressions/event",
+    "View/Builder/Tmpl/expressions/bind",
+    "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+    "Core/helpers/Array/uniq",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Attr.ts": {
+   "componentName": "View/Executor/_Expressions/Attr",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Expressions/Event",
+    "View/Executor/_Expressions/AttrHelper",
+    "View/Executor/_Expressions/Focus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/ContextResolver.ts": {
+   "componentName": "View/Executor/_Expressions/ContextResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/Utils",
+    "Core/DataContext"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/AttrHelper.ts": {
+   "componentName": "View/Executor/_Expressions/AttrHelper",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Decorate.ts": {
+   "componentName": "View/Executor/_Expressions/Decorate",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Expressions/AttrHelper"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Event.ts": {
+   "componentName": "View/Executor/_Expressions/Event",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Focus.ts": {
+   "componentName": "View/Executor/_Expressions/Focus",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Expressions/AttrHelper"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/RawMarkupNode.ts": {
+   "componentName": "View/Executor/_Expressions/RawMarkupNode",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/_Expressions/Focus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Rights.ts": {
+   "componentName": "View/Executor/_Expressions/Rights",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/Object/isPlainObject",
+    "UI/Utils",
+    "View/Executor/_Utils/RequireHelper"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Scope.ts": {
+   "componentName": "View/Executor/_Expressions/Scope",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/ReactiveObserver"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Expressions/Subscriber.ts": {
+   "componentName": "View/Executor/_Expressions/Subscriber",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Builder.ts": {
+   "componentName": "View/Executor/_Markup/Builder",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Utils",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "Application/Env",
+    "Application/Initializer",
+    "Core/helpers/isNewEnvironment",
+    "View/Executor/_Markup/Generator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Generator.ts": {
+   "componentName": "View/Executor/_Markup/Generator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Env/Env",
+    "Core/helpers/Number/randomId",
+    "UI/Utils",
+    "View/Executor/Utils",
+    "View/Executor/Expressions",
+    "View/Executor/_Utils/ConfigResolver",
+    "View/Executor/_Utils/VoidTags"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/IBuilder.ts": {
+   "componentName": "View/Executor/_Markup/IBuilder",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/IGenerator.ts": {
+   "componentName": "View/Executor/_Markup/IGenerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/IGeneratorType.ts": {
+   "componentName": "View/Executor/_Markup/IGeneratorType",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/ChildrenManager.ts": {
+   "componentName": "View/Executor/_Utils/ChildrenManager",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/function"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/Class.ts": {
+   "componentName": "View/Executor/_Utils/Class",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/Common.ts": {
+   "componentName": "View/Executor/_Utils/Common",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "UI/Utils",
+    "View/Executor/_Expressions/Attr",
+    "View/Executor/_Utils/RequireHelper",
+    "Core/ReactiveObserver"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/Compatible.ts": {
+   "componentName": "View/Executor/_Utils/Compatible",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/Function/shallowClone",
+    "Env/Env",
+    "UI/Utils",
+    "View/Executor/_Utils/OptionsResolver",
+    "View/Executor/Expressions"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/ConfigResolver.ts": {
+   "componentName": "View/Executor/_Utils/ConfigResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-merge",
+    "Env/Env",
+    "View/Executor/_Utils/Common",
+    "View/Executor/Expressions"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/OptionsResolver.ts": {
+   "componentName": "View/Executor/_Utils/OptionsResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/RequireHelper.ts": {
+   "componentName": "View/Executor/_Utils/RequireHelper",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/Vdom.ts": {
+   "componentName": "View/Executor/_Utils/Vdom",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Env",
+    "Application/Initializer",
+    "UI/Utils",
+    "Inferno/third-party/index",
+    "View/Executor/Expressions",
+    "View/Executor/_Utils/OptionsResolver",
+    "View/Executor/_Utils/Common",
+    "Inferno/third-party/hydrate"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Utils/VoidTags.ts": {
+   "componentName": "View/Executor/_Utils/VoidTags",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/config/resolver.js": {
+   "componentName": "View/Runner/config/resolver",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/attr.js": {
+   "componentName": "View/Runner/expressions/attr",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/attrHelper.js": {
+   "componentName": "View/Runner/expressions/attrHelper",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/compatible.js": {
+   "componentName": "View/Runner/expressions/compatible",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/decorate.js": {
+   "componentName": "View/Runner/expressions/decorate",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/contextResolver.js": {
+   "componentName": "View/Runner/expressions/contextResolver",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/event.js": {
+   "componentName": "View/Runner/expressions/event",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/RawMarkupNode.js": {
+   "componentName": "View/Runner/expressions/RawMarkupNode",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/scope.js": {
+   "componentName": "View/Runner/expressions/scope",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/subscriber.js": {
+   "componentName": "View/Runner/expressions/subscriber",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/expressions/rights.js": {
+   "componentName": "View/Runner/expressions/rights",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Vdom/markupGenerator.js": {
+   "componentName": "View/Runner/Vdom/markupGenerator",
+   "componentDep": [
+    "View/Executor/Markup",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Text/markupGenerator.js": {
+   "componentName": "View/Runner/Text/markupGenerator",
+   "componentDep": [
+    "View/Executor/Markup",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Text/markupGeneratorCompatible.js": {
+   "componentName": "View/Runner/Text/markupGeneratorCompatible",
+   "componentDep": [
+    "View/Executor/GeneratorCompatible",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/codegen/templates.js": {
+   "componentName": "View/Builder/Tmpl/codegen/templates",
+   "componentDep": [
+    "text!View/Builder/Tmpl/codegen/templates/define.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/for.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/foreach.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/bind.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/event.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/head.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/body.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/localization.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/stringTemplate.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/functionTemplate.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/objectTemplate.jstpl",
+    "text!View/Builder/Tmpl/codegen/templates/includedTemplate.jstpl"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/bind.js": {
+   "componentName": "View/Builder/Tmpl/expressions/bind",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/expressions/event",
+    "View/Builder/Tmpl/expressions/statement",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/dirtyCheckingPatch.js": {
+   "componentName": "View/Builder/Tmpl/expressions/dirtyCheckingPatch",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/event",
+    "View/Builder/Tmpl/expressions/statement",
+    "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+    "View/Builder/Tmpl/modules/utils/tag",
+    "Core/helpers/Function/shallowClone",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/event.js": {
+   "componentName": "View/Builder/Tmpl/expressions/event",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/expressions/types",
+    "UI/Utils",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/process.js": {
+   "componentName": "View/Builder/Tmpl/expressions/process",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/types",
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/statement.js": {
+   "componentName": "View/Builder/Tmpl/expressions/statement",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/third-party/parser"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/types.js": {
+   "componentName": "View/Builder/Tmpl/expressions/types",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/decorators",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/control.js": {
+   "componentName": "View/Builder/Tmpl/modules/control",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/utils/tag",
+    "View/Builder/Tmpl/modules/partial",
+    "View/Builder/Tmpl/modules/utils/loader",
+    "View/Builder/Tmpl/modules/utils/common"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data.js": {
+   "componentName": "View/Builder/Tmpl/modules/data",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/string",
+    "View/Builder/Tmpl/modules/data/array",
+    "View/Builder/Tmpl/modules/data/object",
+    "View/Builder/Tmpl/modules/data/number",
+    "View/Builder/Tmpl/modules/data/boolean",
+    "View/Builder/Tmpl/modules/data/function",
+    "View/Builder/Tmpl/modules/data/value"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/else.js": {
+   "componentName": "View/Builder/Tmpl/modules/else",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/for.js": {
+   "componentName": "View/Builder/Tmpl/modules/for",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/expressions/third-party/parser",
+    "UI/Utils",
+    "Core/Deferred",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/if.js": {
+   "componentName": "View/Builder/Tmpl/modules/if",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/template.js": {
+   "componentName": "View/Builder/Tmpl/modules/template",
+   "componentDep": [
+    "UI/Utils",
+    "Core/Deferred",
+    "View/config"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/partial.js": {
+   "componentName": "View/Builder/Tmpl/modules/partial",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data",
+    "View/Builder/Tmpl/modules/utils/names",
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/modules/utils/parse",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/utils/loader",
+    "Core/Deferred",
+    "View/Builder/Tmpl/modules/utils/common"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Compatible/Builder.ts": {
+   "componentName": "View/Executor/_Markup/Compatible/Builder",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/core-extend-initializer",
+    "Core/helpers/Number/randomId",
+    "Core/markup/ParserUtilities",
+    "UI/Utils",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "Application/Env",
+    "Application/Initializer",
+    "Core/Serializer",
+    "View/Executor/_Markup/Compatible/Helper",
+    "View/Executor/_Markup/Generator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Compatible/Generator.ts": {
+   "componentName": "View/Executor/_Markup/Compatible/Generator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "View/Executor/_Markup/Generator",
+    "View/Executor/_Markup/Compatible/Builder",
+    "UI/Utils",
+    "View/Executor/Utils",
+    "Core/helpers/Function/shallowClone"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Compatible/Helper.ts": {
+   "componentName": "View/Executor/_Markup/Compatible/Helper",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/markup/ParserUtilities",
+    "Core/helpers/Number/randomId",
+    "Core/core-extend-initializer",
+    "UI/Utils",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "Core/ContextBinder",
+    "Core/Context",
+    "View/Executor/_Utils/Compatible",
+    "Core/helpers/Hcontrol/configStorage"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Compatible/IGenerator.ts": {
+   "componentName": "View/Executor/_Markup/Compatible/IGenerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Text/FunctionHeaderTemplate.ts": {
+   "componentName": "View/Executor/_Markup/Text/FunctionHeaderTemplate",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Text/Generator.ts": {
+   "componentName": "View/Executor/_Markup/Text/Generator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "View/Executor/_Markup/Generator",
+    "View/Executor/_Markup/Builder",
+    "View/Executor/Utils",
+    "View/Executor/Expressions",
+    "UI/Utils",
+    "View/Executor/_Markup/Compatible/Generator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Text/IGenerator.ts": {
+   "componentName": "View/Executor/_Markup/Text/IGenerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Vdom/Generator.ts": {
+   "componentName": "View/Executor/_Markup/Vdom/Generator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/helpers/Array/flatten",
+    "UI/Utils",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "View/Executor/_Utils/ChildrenManager",
+    "View/Executor/_Markup/Generator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Vdom/IGenerator.ts": {
+   "componentName": "View/Executor/_Markup/Vdom/IGenerator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Executor/_Markup/Vdom/IGeneratorType.ts": {
+   "componentName": "View/Executor/_Markup/Vdom/IGeneratorType",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Vdom/third-party/boomerang-1.568.0.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Vdom/utils/optionsResolver.js": {
+   "componentName": "View/Runner/Vdom/utils/optionsResolver",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Text/templates/objectFunctionHeaderTemplate.js": {
+   "componentName": "View/Runner/Text/templates/objectFunctionHeaderTemplate",
+   "componentDep": [
+    "View/Executor/Markup",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Runner/Text/utils/class.js": {
+   "componentName": "View/Runner/Text/utils/class",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/expressions/third-party/parser.js": {
+   "componentName": "View/Builder/Tmpl/expressions/third-party/parser"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/handlers/third-party/dom.js": {
+   "componentName": "View/Builder/Tmpl/handlers/third-party/dom"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/array.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/array",
+   "componentDep": [
+    "UI/Utils",
+    "View/Builder/Tmpl/modules/utils/parse",
+    "View/Builder/Tmpl/modules/utils/tag",
+    "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/expressions/dirtyCheckingPatch",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/boolean.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/boolean"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/function.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/function",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/modules/utils/parse"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/number.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/number"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/object.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/object",
+   "componentDep": [
+    "UI/Utils",
+    "View/Builder/Tmpl/expressions/dirtyCheckingPatch",
+    "View/Builder/Tmpl/modules/utils/tag",
+    "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/modules/utils/parse",
+    "View/Builder/Tmpl/codegen/templates"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/string.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/string"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/value.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/value"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/utils/common.js": {
+   "componentName": "View/Builder/Tmpl/modules/utils/common",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/utils/loader.js": {
+   "componentName": "View/Builder/Tmpl/modules/utils/loader",
+   "componentDep": [
+    "require",
+    "UI/Utils",
+    "Core/Deferred",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/modules/utils/names"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/utils/names.js": {
+   "componentName": "View/Builder/Tmpl/modules/utils/names",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/utils/common"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/utils/parse.js": {
+   "componentName": "View/Builder/Tmpl/modules/utils/parse",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator",
+    "View/Builder/Tmpl/modules/utils/common",
+    "View/Builder/Tmpl/expressions/process",
+    "View/Builder/Tmpl/expressions/statement",
+    "View/Builder/Tmpl/expressions/bind",
+    "View/Builder/Tmpl/expressions/event",
+    "View/Executor/Expressions",
+    "Core/helpers/Object/isEmpty"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/utils/tag.js": {
+   "componentName": "View/Builder/Tmpl/modules/utils/tag",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+    "View/config"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/utils/dataTypesCreator.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/utils/dataTypesCreator",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/utils/functionStringCreator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/View/Builder/Tmpl/modules/data/utils/functionStringCreator.js": {
+   "componentName": "View/Builder/Tmpl/modules/data/utils/functionStringCreator"
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

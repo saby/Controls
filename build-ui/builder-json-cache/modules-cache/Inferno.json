@@ -1,0 +1,60 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/hydrate.dev.js": {
+   "componentName": "Inferno/third-party/hydrate.dev",
+   "componentDep": [
+    "Inferno/third-party/hydrate"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/hydrate.min.js": {
+   "componentName": "Inferno/third-party/hydrate.min",
+   "componentDep": [
+    "Inferno/third-party/hydrate"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/hydrate.js": {
+   "componentName": "Inferno/third-party/hydrate",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Core/helpers/String/unEscapeASCII",
+    "Env/Env",
+    "Inferno/third-party/index",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/index.dev.js": {
+   "componentName": "Inferno/third-party/index.dev",
+   "componentDep": [
+    "Inferno/third-party/index"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/index.js": {
+   "componentName": "Inferno/third-party/index",
+   "componentDep": [
+    "View/Executor/Expressions",
+    "Core/helpers/String/unEscapeASCII",
+    "Env/Env",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Inferno/third-party/index.min.js": {
+   "componentName": "Inferno/third-party/index.min",
+   "componentDep": [
+    "Inferno/third-party/index"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

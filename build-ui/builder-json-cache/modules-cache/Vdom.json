@@ -1,0 +1,335 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/DevtoolsHook.ts": {
+   "componentName": "Vdom/DevtoolsHook",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Vdom.ts": {
+   "componentName": "Vdom/Vdom",
+   "componentDep": [
+    "require",
+    "exports",
+    "Vdom/_private/Synchronizer/resources/Debug",
+    "Vdom/_private/Synchronizer/resources/DirtyChecking",
+    "Vdom/_private/Synchronizer/resources/DirtyCheckingCompatible",
+    "Vdom/_private/Synchronizer/resources/Hooks",
+    "Vdom/_private/Synchronizer/resources/SwipeController",
+    "Vdom/_private/Synchronizer/resources/VdomMarkup",
+    "Vdom/_private/Utils/Functional",
+    "Vdom/_private/Utils/Monad",
+    "UI/Utils",
+    "Vdom/_private/Synchronizer/Synchronizer",
+    "Vdom/_private/Synchronizer/resources/OptionsGetter",
+    "Vdom/_private/Synchronizer/resources/DOMEnvironment",
+    "Vdom/_private/Synchronizer/resources/Environment",
+    "Vdom/_private/Synchronizer/resources/runDelayedRebuild",
+    "Vdom/_private/Synchronizer/resources/SyntheticEvent"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/Synchronizer.js": {
+   "componentName": "Vdom/Synchronizer/Synchronizer",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Utils/Monad.js": {
+   "componentName": "Vdom/Utils/Monad",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Utils/Functional.js": {
+   "componentName": "Vdom/Utils/Functional",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/Debug.js": {
+   "componentName": "Vdom/Synchronizer/resources/Debug",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/DirtyChecking.js": {
+   "componentName": "Vdom/Synchronizer/resources/DirtyChecking",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/DOMEnvironment.js": {
+   "componentName": "Vdom/Synchronizer/resources/DOMEnvironment",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/DirtyCheckingCompatible.js": {
+   "componentName": "Vdom/Synchronizer/resources/DirtyCheckingCompatible",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/Environment.js": {
+   "componentName": "Vdom/Synchronizer/resources/Environment",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/Hooks.js": {
+   "componentName": "Vdom/Synchronizer/resources/Hooks",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/runDelayedRebuild.js": {
+   "componentName": "Vdom/Synchronizer/resources/runDelayedRebuild",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/SyntheticEvent.js": {
+   "componentName": "Vdom/Synchronizer/resources/SyntheticEvent",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/SwipeController.js": {
+   "componentName": "Vdom/Synchronizer/resources/SwipeController",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/Synchronizer/resources/VdomMarkup.js": {
+   "componentName": "Vdom/Synchronizer/resources/VdomMarkup",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/interfaces.ts": {
+   "componentName": "Vdom/_private/Synchronizer/interfaces",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/Synchronizer.ts": {
+   "componentName": "Vdom/_private/Synchronizer/Synchronizer",
+   "componentDep": [
+    "require",
+    "exports",
+    "Vdom/_private/Synchronizer/resources/Debug",
+    "Vdom/_private/Utils/Monad",
+    "Vdom/_private/Synchronizer/resources/DirtyChecking",
+    "Vdom/_private/Synchronizer/resources/DOMEnvironment",
+    "Vdom/_private/Synchronizer/resources/runDelayedRebuild",
+    "Core/helpers/Object/isEmpty",
+    "Core/helpers/Array/uniq",
+    "Core/Serializer",
+    "View/Executor/Utils",
+    "UI/Utils",
+    "Vdom/DevtoolsHook",
+    "UI/Focus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Utils/Functional.ts": {
+   "componentName": "Vdom/_private/Utils/Functional",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Utils/Monad.ts": {
+   "componentName": "Vdom/_private/Utils/Monad",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Utils/ResetScrolling.ts": {
+   "componentName": "Vdom/_private/Utils/ResetScrolling",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/Debug.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/Debug",
+   "componentDep": [
+    "require",
+    "exports",
+    "Vdom/_private/Synchronizer/resources/VdomMarkup",
+    "View/Executor/Utils",
+    "Vdom/_private/Synchronizer/resources/DirtyChecking",
+    "View/Executor/TClosure",
+    "Core/helpers/Object/isEmpty"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/DirtyChecking.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/DirtyChecking",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Vdom/_private/Utils/Monad",
+    "Vdom/_private/Utils/Functional",
+    "View/Executor/Expressions",
+    "Vdom/_private/Synchronizer/resources/VdomMarkup",
+    "View/Executor/Utils",
+    "View/Executor/Expressions",
+    "Core/helpers/Function/shallowClone",
+    "Vdom/_private/Synchronizer/resources/runDelayedRebuild",
+    "Core/Serializer",
+    "UI/Utils",
+    "Vdom/_private/Synchronizer/resources/DirtyCheckingCompatible",
+    "Core/ReactiveObserver",
+    "Vdom/DevtoolsHook"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/DirtyCheckingCompatible.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/DirtyCheckingCompatible",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/Utils",
+    "View/Executor/TClosure"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/DOMEnvironment.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/DOMEnvironment",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Core/helpers/Array/findIndex",
+    "Core/helpers/isNewEnvironment",
+    "UI/Utils",
+    "UI/Focus",
+    "Vdom/_private/Synchronizer/resources/runDelayedRebuild",
+    "Vdom/_private/Synchronizer/resources/VdomMarkup",
+    "Vdom/_private/Synchronizer/resources/Hooks",
+    "Vdom/_private/Synchronizer/resources/SyntheticEvent",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "Vdom/_private/Synchronizer/resources/Environment",
+    "Vdom/_private/Synchronizer/resources/SwipeController",
+    "Vdom/DevtoolsHook"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/Environment.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/Environment",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/Hooks.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/Hooks",
+   "componentDep": [
+    "require",
+    "exports",
+    "View/Executor/Expressions",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/OptionsGetter.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/OptionsGetter",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/runDelayedRebuild.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/runDelayedRebuild",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/function",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/SwipeController.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/SwipeController",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/SyntheticEvent.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/SyntheticEvent",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/TabIndex.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/TabIndex",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/Focus"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Vdom/_private/Synchronizer/resources/VdomMarkup.ts": {
+   "componentName": "Vdom/_private/Synchronizer/resources/VdomMarkup",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "View/Executor/Utils",
+    "Core/helpers/Array/flatten",
+    "Vdom/_private/Utils/Monad",
+    "Vdom/_private/Synchronizer/resources/Hooks",
+    "UI/Utils"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

@@ -1,0 +1,166 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/router.ts": {
+   "componentName": "Router/router",
+   "componentDep": [
+    "require",
+    "exports",
+    "Router/_private/Controller",
+    "Router/_private/Data",
+    "Router/_private/History",
+    "Router/_private/MaskResolver",
+    "Router/_private/UrlRewriter",
+    "Router/_private/Reference",
+    "Router/_private/Route",
+    "Router/_private/Popup",
+    "Router/_private/List"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/ServerRouting.ts": {
+   "componentName": "Router/ServerRouting",
+   "componentDep": [
+    "require",
+    "exports",
+    "Router/router"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/Controller.ts": {
+   "componentName": "Router/_private/Controller",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Env",
+    "Router/_private/Data",
+    "Router/_private/MaskResolver",
+    "Router/_private/History",
+    "Router/_private/UrlRewriter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/Data.ts": {
+   "componentName": "Router/_private/Data",
+   "componentDep": [
+    "require",
+    "exports",
+    "Router/_private/StoreManager",
+    "Router/_private/UrlRewriter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/History.ts": {
+   "componentName": "Router/_private/History",
+   "componentDep": [
+    "require",
+    "exports",
+    "Router/_private/UrlRewriter",
+    "Router/_private/Data"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/List.ts": {
+   "componentName": "Router/_private/List",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!Router/_private/List",
+    "Router/_private/MaskResolver",
+    "Router/_private/Controller"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/MaskResolver.ts": {
+   "componentName": "Router/_private/MaskResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Router/_private/Data",
+    "Router/_private/UrlRewriter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/Popup.ts": {
+   "componentName": "Router/_private/Popup",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!Router/_private/Popup",
+    "Router/_private/Controller",
+    "Router/_private/MaskResolver",
+    "Router/_private/History"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/Reference.ts": {
+   "componentName": "Router/_private/Reference",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!Router/_private/Reference",
+    "Router/_private/Controller",
+    "Router/_private/MaskResolver",
+    "Router/_private/UrlRewriter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/Route.ts": {
+   "componentName": "Router/_private/Route",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!Router/_private/Route",
+    "Router/_private/Controller",
+    "Router/_private/Data",
+    "Router/_private/MaskResolver",
+    "Router/_private/History"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/StoreManager.ts": {
+   "componentName": "Router/_private/StoreManager",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Initializer",
+    "Application/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Router/_private/UrlRewriter.ts": {
+   "componentName": "Router/_private/UrlRewriter",
+   "componentDep": [
+    "require",
+    "exports",
+    "router"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

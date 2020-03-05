@@ -1,0 +1,571 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/Base.ts": {
+   "componentName": "UI/Base",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_base/Control",
+    "UI/_base/HTML",
+    "UI/_base/Document",
+    "UI/_base/StateReceiver",
+    "UI/_base/AppData",
+    "UI/_base/Start",
+    "UI/_base/HeadController",
+    "UI/_base/HeadData",
+    "UI/_base/DepsCollector",
+    "wml!UI/_base/Route",
+    "UI/_base/interface/IHTML",
+    "UI/_base/interface/IRootTemplate",
+    "UI/_base/Creator",
+    "UI/_base/startApplication"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/Focus.ts": {
+   "componentName": "UI/Focus",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_focus/ElementFinder",
+    "UI/_focus/Events",
+    "UI/_focus/BoundaryElements",
+    "UI/_focus/Focus",
+    "UI/_focus/Activate",
+    "UI/_focus/PreventFocus",
+    "UI/_focus/RestoreFocus",
+    "UI/_focus/goUpByControlTree",
+    "UI/_focus/DefaultOpenerFinder"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/HotKeys.ts": {
+   "componentName": "UI/HotKeys",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_hotKeys/KeyHook",
+    "UI/_hotKeys/Dispatcher",
+    "UI/_hotKeys/KeyStop"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/Utils.ts": {
+   "componentName": "UI/Utils",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_utils/Logger",
+    "UI/_utils/Purifier"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/controller.ts": {
+   "componentName": "UI/theme/controller",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/theme/_controller/Controller",
+    "UI/theme/_controller/css/Base"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/Activate.ts": {
+   "componentName": "UI/_focus/Activate",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_focus/ElementFinder",
+    "UI/_focus/Focus",
+    "UI/_focus/goUpByControlTree",
+    "Core/helpers/Hcontrol/isElementVisible"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/BoundaryElements.ts": {
+   "componentName": "UI/_focus/BoundaryElements",
+   "componentDep": [
+    "require",
+    "exports",
+    "Inferno/third-party/index"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/DefaultOpenerFinder.ts": {
+   "componentName": "UI/_focus/DefaultOpenerFinder",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-instance",
+    "UI/_focus/goUpByControlTree",
+    "UI/Utils"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/Events.ts": {
+   "componentName": "UI/_focus/Events",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_focus/goUpByControlTree",
+    "Env/Env",
+    "UI/Utils"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/ElementFinder.ts": {
+   "componentName": "UI/_focus/ElementFinder",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/Focus.ts": {
+   "componentName": "UI/_focus/Focus",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "UI/Utils",
+    "UI/_focus/_ResetScrolling",
+    "UI/_focus/ElementFinder",
+    "UI/_focus/Events"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/goUpByControlTree.ts": {
+   "componentName": "UI/_focus/goUpByControlTree",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/PreventFocus.ts": {
+   "componentName": "UI/_focus/PreventFocus",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/RestoreFocus.ts": {
+   "componentName": "UI/_focus/RestoreFocus",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_focus/goUpByControlTree",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "UI/_focus/Events",
+    "UI/_focus/Focus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_focus/_ResetScrolling.ts": {
+   "componentName": "UI/_focus/_ResetScrolling",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/AppData.ts": {
+   "componentName": "UI/_base/AppData",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/Control.ts": {
+   "componentName": "UI/_base/Control",
+   "componentDep": [
+    "require",
+    "exports",
+    "wml!UI/_base/Control",
+    "Vdom/Vdom",
+    "View/Executor/Utils",
+    "View/Executor/Expressions",
+    "UI/Focus",
+    "UI/Utils",
+    "Env/Env",
+    "Core/Themes/ThemesControllerNew",
+    "Core/PromiseLib/PromiseLib",
+    "Core/ReactiveObserver",
+    "View/Executor/Expressions",
+    "View/Executor/Utils",
+    "View/Executor/Markup",
+    "Vdom/Vdom",
+    "Vdom/DevtoolsHook",
+    "UI/Focus",
+    "UI/_base/startApplication",
+    "UI/_base/HeadData",
+    "Inferno/third-party/hydrate"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/Creator.ts": {
+   "componentName": "UI/_base/Creator",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/DepsCollector.ts": {
+   "componentName": "UI/_base/DepsCollector",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/Utils",
+    "Env/Env",
+    "Core/i18n"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/Document.ts": {
+   "componentName": "UI/_base/Document",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/Document/Document",
+    "Core/Themes/ThemesController",
+    "Application/Env",
+    "UI/_base/HeadData",
+    "UI/_base/AppData",
+    "UI/_base/startApplication"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HeadController.ts": {
+   "componentName": "UI/_base/HeadController",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HeadData.ts": {
+   "componentName": "UI/_base/HeadData",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/Themes/ThemesController",
+    "UI/_base/PageDeps",
+    "Application/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HTML.ts": {
+   "componentName": "UI/_base/HTML",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/HTML/HTML",
+    "Env/Env",
+    "Core/Themes/ThemesController",
+    "Core/LinkResolver/LinkResolver",
+    "Core/helpers/getResourceUrl",
+    "UI/_base/AppData",
+    "UI/_base/HeadData",
+    "UI/_base/MountChecker"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/PageDeps.ts": {
+   "componentName": "UI/_base/PageDeps",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Env",
+    "UI/_base/DepsCollector"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/MountChecker.ts": {
+   "componentName": "UI/_base/MountChecker",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/Start.ts": {
+   "componentName": "UI/_base/Start",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_base/Control",
+    "Application/Env",
+    "Application/Initializer",
+    "UI/_base/startApplication"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/startApplication.ts": {
+   "componentName": "UI/_base/startApplication",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Initializer",
+    "SbisEnv/PresentationService",
+    "UI/_base/StateReceiver"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/StateReceiver.ts": {
+   "componentName": "UI/_base/StateReceiver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Serializer",
+    "View/Executor/Utils",
+    "UI/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_hotKeys/Dispatcher.ts": {
+   "componentName": "UI/_hotKeys/Dispatcher",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!UI/_hotKeys/Dispatcher",
+    "UI/Focus",
+    "Env/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_hotKeys/KeyHook.ts": {
+   "componentName": "UI/_hotKeys/KeyHook",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!UI/_hotKeys/KeyHook",
+    "UI/Focus",
+    "UI/_hotKeys/Dispatcher"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_hotKeys/KeyStop.ts": {
+   "componentName": "UI/_hotKeys/KeyStop",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/Base",
+    "wml!UI/_hotKeys/KeyStop"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_utils/Logger.ts": {
+   "componentName": "UI/_utils/Logger",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_utils/Purifier.ts": {
+   "componentName": "UI/_utils/Purifier",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_utils/Purifier/purifyInstance"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/Controller.ts": {
+   "componentName": "UI/theme/_controller/Controller",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/theme/_controller/css/Base",
+    "UI/theme/_controller/Loader",
+    "UI/theme/_controller/css/LinkSP",
+    "UI/theme/_controller/css/Link",
+    "UI/theme/_controller/Store",
+    "Env/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/Loader.ts": {
+   "componentName": "UI/theme/_controller/Loader",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/LinkResolver/LinkResolver",
+    "Env/Env",
+    "UI/theme/_controller/css/Base",
+    "Browser/Transport"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/Store.ts": {
+   "componentName": "UI/theme/_controller/Store",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HTML/Head.ts": {
+   "componentName": "UI/_base/HTML/Head",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/HTML/Head",
+    "Env/Env",
+    "Core/Themes/ThemesControllerNew",
+    "UI/_base/HeadData"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HTML/JsLinks.ts": {
+   "componentName": "UI/_base/HTML/JsLinks",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/HTML/JsLinks",
+    "UI/_base/HeadData"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HTML/StartApplicationScript.ts": {
+   "componentName": "UI/_base/HTML/StartApplicationScript",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/HTML/StartApplicationScript",
+    "UI/_base/HeadData"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/HTML/Wait.ts": {
+   "componentName": "UI/_base/HTML/Wait",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/_base/Control",
+    "wml!UI/_base/HTML/Wait",
+    "UI/_base/HeadData"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/interface/IHTML.ts": {
+   "componentName": "UI/_base/interface/IHTML",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_base/interface/IRootTemplate.ts": {
+   "componentName": "UI/_base/interface/IRootTemplate",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/_utils/Purifier/purifyInstance.ts": {
+   "componentName": "UI/_utils/Purifier/purifyInstance",
+   "componentDep": [
+    "require",
+    "exports",
+    "UI/_utils/Logger"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/css/Base.ts": {
+   "componentName": "UI/theme/_controller/css/Base",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/css/Link.ts": {
+   "componentName": "UI/theme/_controller/css/Link",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/theme/_controller/css/Base"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/UI/theme/_controller/css/LinkSP.ts": {
+   "componentName": "UI/theme/_controller/css/LinkSP",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "UI/theme/_controller/css/Base"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

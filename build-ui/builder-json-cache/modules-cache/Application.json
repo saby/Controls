@@ -1,0 +1,246 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/Config.ts": {
+   "componentName": "Application/Config",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Request",
+    "Application/_Config/Config"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/Env.ts": {
+   "componentName": "Application/Env",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/_Env/Browser/Env",
+    "Application/_Env/QueryParams",
+    "Application/_Env/Browser/StateReceiver",
+    "Application/_Env/Console",
+    "Application/Request"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/Initializer.ts": {
+   "componentName": "Application/Initializer",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Config",
+    "Application/Env",
+    "Application/Request"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/Interface.ts": {
+   "componentName": "Application/Interface",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Application/_Interface/IConsole",
+    "Application/_Interface/ICookie",
+    "Application/_Interface/IConfig",
+    "Application/_Interface/IEnv",
+    "Application/_Interface/ILocation",
+    "Application/_Interface/ISerializableState",
+    "Application/_Interface/IStore",
+    "Application/_Interface/IStateReceiver",
+    "Application/_Interface/IRequest"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/Request.ts": {
+   "componentName": "Application/Request",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/_Request/Request",
+    "Application/_Request/Store"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Type.ts": {
+   "componentName": "Application/_Type",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Config/Config.ts": {
+   "componentName": "Application/_Config/Config",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/Console.ts": {
+   "componentName": "Application/_Env/Console",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/ObjectStore.ts": {
+   "componentName": "Application/_Env/ObjectStore",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/QueryParams.ts": {
+   "componentName": "Application/_Env/QueryParams",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Request/FakeWebStorage.ts": {
+   "componentName": "Application/_Request/FakeWebStorage",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Request/Request.ts": {
+   "componentName": "Application/_Request/Request",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/_Request/FakeWebStorage",
+    "Application/_Request/Store"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Request/Store.ts": {
+   "componentName": "Application/_Request/Store",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IConfig.ts": {
+   "componentName": "Application/_Interface/IConfig",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IConsole.ts": {
+   "componentName": "Application/_Interface/IConsole",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/ICookie.ts": {
+   "componentName": "Application/_Interface/ICookie",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IEnv.ts": {
+   "componentName": "Application/_Interface/IEnv",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/ILocation.ts": {
+   "componentName": "Application/_Interface/ILocation",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IRequest.ts": {
+   "componentName": "Application/_Interface/IRequest",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/ISerializableState.ts": {
+   "componentName": "Application/_Interface/ISerializableState",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IStateReceiver.ts": {
+   "componentName": "Application/_Interface/IStateReceiver",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Interface/IStore.ts": {
+   "componentName": "Application/_Interface/IStore",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/Browser/Cookie.ts": {
+   "componentName": "Application/_Env/Browser/Cookie",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/Browser/Env.ts": {
+   "componentName": "Application/_Env/Browser/Env",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/_Env/Browser/Cookie",
+    "Application/_Env/Console",
+    "Application/_Env/ObjectStore",
+    "Application/Request"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Application/_Env/Browser/StateReceiver.ts": {
+   "componentName": "Application/_Env/Browser/StateReceiver",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

@@ -1,0 +1,3517 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/_declarations.ts": {
+   "componentName": "WS.Core/_declarations",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/bignumWrapper.js": {
+   "componentName": "WS/ext/bignumWrapper",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Abstract.compatible.js": {
+   "componentName": "Core/Abstract.compatible",
+   "componentDep": [
+    "Env/Event",
+    "Core/helpers/Object/find",
+    "Env/Env",
+    "Core/helpers/Object/isPlainObject",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Abstract.js": {
+   "componentName": "Core/Abstract",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Abstract.compatible",
+    "Core/helpers/Function/shallowClone",
+    "Env/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/AbstractConfigOld.ts": {
+   "componentName": "Core/AbstractConfigOld",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Config",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/app-init.js": {
+   "componentName": "Core/app-init",
+   "componentDep": [
+    "Core/core-merge",
+    "Env/Env",
+    "Core/Themes/ThemesController",
+    "native-css",
+    "Application/Initializer",
+    "Application/Env",
+    "Controls/Application/StateReceiver",
+    "Core/polyfill/PromiseAPIDeferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/app-start.js": {
+   "componentName": "Core/app-start",
+   "componentDep": [
+    "require",
+    "Core/Control",
+    "Application/Env",
+    "Application/Initializer",
+    "Env/Env",
+    "Core/Themes/ThemesController",
+    "native-css"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/app.js": {
+   "componentName": "Core/app",
+   "componentDep": [
+    "Core/app-start",
+    "Core/app-init"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/app2.js": {
+   "componentName": "Core/app2",
+   "componentDep": [
+    "Core/app-start",
+    "Core/app-init"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/apply-contents.ts": {
+   "componentName": "Core/apply-contents",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/Object/isEmpty",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/AuthError.js": {
+   "componentName": "Core/AuthError",
+   "componentDep": [
+    "Core/UserInfo",
+    "Env/Event",
+    "Browser/Event"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/base64.js": {
+   "componentName": "Core/base64",
+   "componentDep": [
+    "Core/iconv"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/BodyClasses.js": {
+   "componentName": "Core/BodyClasses",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/bom-define.ts": {
+   "componentName": "Core/bom-define",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ClientsGlobalConfig.ts": {
+   "componentName": "Core/ClientsGlobalConfig",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Config",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ClientsGlobalConfigOld.ts": {
+   "componentName": "Core/ClientsGlobalConfigOld",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Config",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/CommandDispatcher.js": {
+   "componentName": "Core/CommandDispatcher",
+   "componentDep": [
+    "Core/core-extend",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/compatibility.ts": {
+   "componentName": "Core/compatibility",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/CompoundContainer.js": {
+   "componentName": "Core/CompoundContainer",
+   "componentDep": [
+    "Core/Control",
+    "tmpl!Core/CompoundContainer",
+    "Env/Env",
+    "Core/Deferred",
+    "Core/moduleStubs",
+    "Env/Event",
+    "Core/ControlBatchUpdater",
+    "Core/helpers/Hcontrol/makeInstanceCompatible",
+    "Types/object",
+    "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "Core/Abstract.compatible",
+    "Lib/Control/Control.compatible",
+    "Lib/Control/BaseCompatible/BaseCompatible"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ConsoleLogger.js": {
+   "componentName": "Core/ConsoleLogger",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/constants.ts": {
+   "componentName": "Core/constants",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextBinder.js": {
+   "componentName": "Core/ContextBinder",
+   "componentDep": [
+    "Core/Context",
+    "Core/Abstract",
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Object/isEmpty",
+    "Core/helpers/Array/findIndex",
+    "Env/Env",
+    "Core/core-merge",
+    "Core/core-clone",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-instance"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Context.js": {
+   "componentName": "Core/Context",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Abstract",
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Object/find",
+    "Core/helpers/Array/findIndex",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-instance",
+    "Env/Env",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Control.js": {
+   "componentName": "Core/Control",
+   "componentDep": [
+    "UI/Base"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ControlBatchUpdater.js": {
+   "componentName": "Core/ControlBatchUpdater",
+   "componentDep": [
+    "Core/core-extend",
+    "Env/Env",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Core/core-instance",
+    "Core/helpers/Object/isEmpty",
+    "Types/function",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/cookie.ts": {
+   "componentName": "Core/cookie",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-attach.js": {
+   "componentName": "Core/core-attach",
+   "componentDep": [
+    "Deprecated/core-attach",
+    "Core/deprecated"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-classicExtend.js": {
+   "componentName": "Core/core-classicExtend",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-base.js": {
+   "componentName": "Core/core-base",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/core-merge",
+    "Env/Event",
+    "Core/Context",
+    "Browser/Transport",
+    "Core/WindowManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-clone.js": {
+   "componentName": "Core/core-clone",
+   "componentDep": [
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-config.js": {
+   "componentName": "Core/core-config",
+   "componentDep": [
+    "Core/core-config-min"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-config-min.js": {
+   "componentName": "Core/core-config-min",
+   "componentDep": [
+    "Env/Env",
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-debug.ts": {
+   "componentName": "Core/core-debug",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-extend-initializer.js": {
+   "componentName": "Core/core-extend-initializer",
+   "componentDep": [
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-merge",
+    "Core/property-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-extend.js": {
+   "componentName": "Core/core-extend",
+   "componentDep": [
+    "require",
+    "Core/core-extend-initializer",
+    "Core/helpers/Function/callAround",
+    "Core/helpers/Function/callNext",
+    "Core/helpers/Function/callBefore",
+    "Core/helpers/Function/callIf",
+    "Core/helpers/Object/isEmpty",
+    "Core/helpers/Object/find",
+    "Core/helpers/Function/forAliveOnly",
+    "Core/core-merge",
+    "Core/core-hash",
+    "Core/property-merge",
+    "Core/core-classicExtend",
+    "Core/core-simpleExtend",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-extensions.js": {
+   "componentName": "Core/core-extensions",
+   "componentDep": [
+    "Env/Env",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Core/RightsManager",
+    "Core/ExtensionsManager",
+    "View/Executor/Markup",
+    "is!browser?Core/ContextField/Flags",
+    "is!browser?Core/ContextField/Record",
+    "is!browser?Core/ContextField/Enum",
+    "is!browser?Core/ContextField/List"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-hash.js": {
+   "componentName": "Core/core-hash",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-init-min.js": {
+   "componentName": "Core/core-init-min",
+   "componentDep": [
+    "Core/apply-contents",
+    "Core/nativeExtensions",
+    "Core/BodyClasses",
+    "Core/Deferred",
+    "Env/Env",
+    "Env/Event",
+    "Core/core-config-min",
+    "Core/Context",
+    "Core/polyfill/PromiseAPIDeferred",
+    "is!browser?Lib/Control/CompoundControl/CompoundControl",
+    "Browser/Transport"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-instance.js": {
+   "componentName": "Core/core-instance",
+   "componentDep": [
+    "require",
+    "Core/library"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-init.js": {
+   "componentName": "Core/core-init",
+   "componentDep": [
+    "Core/core-init-min",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-merge.ts": {
+   "componentName": "Core/core-merge",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-migrate-min.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-migrate.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-ready.js": {
+   "componentName": "Core/core-ready",
+   "componentDep": [
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-min.js": {
+   "componentName": "Core/core-min",
+   "componentDep": [
+    "Core/core-ready",
+    "Core/core-init-min",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core.js": {
+   "componentName": "Core/core",
+   "componentDep": [
+    "Core/core-ready",
+    "Core/core-init",
+    "i18n!Core/core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/core-simpleExtend.js": {
+   "componentName": "Core/core-simpleExtend",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Creator.js": {
+   "componentName": "Core/Creator",
+   "componentDep": [
+    "UI/Base"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/css-resolve.js": {
+   "componentName": "Core/css-resolve",
+   "componentDep": [
+    "Core/helpers/getVersionedLink"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/DataContext.js": {
+   "componentName": "Core/DataContext",
+   "componentDep": [
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Date.js": {
+   "componentName": "Core/Date",
+   "componentDep": [
+    "Types/formatter",
+    "Core/helpers/Date/strftime",
+    "Core/helpers/i18n/locales",
+    "Core/helpers/checkCompatibleLayer",
+    "Env/Env",
+    "Core/i18n"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/defaultRenders.js": {
+   "componentName": "Core/defaultRenders",
+   "componentDep": [
+    "require",
+    "Types/formatter"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Deferred.ts": {
+   "componentName": "Core/Deferred",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/DependencyResolver.js": {
+   "componentName": "Core/DependencyResolver"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/deprecated.js": {
+   "componentName": "Core/deprecated",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/detection.ts": {
+   "componentName": "Core/detection",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/EventBus.ts": {
+   "componentName": "Core/EventBus",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/EventBusChannel.ts": {
+   "componentName": "Core/EventBusChannel",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/EventObject.ts": {
+   "componentName": "Core/EventObject",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/generatePageURL.js": {
+   "componentName": "Core/generatePageURL",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Object/isEmpty",
+    "Browser/Transport"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ExtensionsManager.js": {
+   "componentName": "Core/ExtensionsManager",
+   "componentDep": [
+    "Core/helpers/Object/isEmpty",
+    "Env/Env",
+    "Core/Deferred",
+    "optional!Types/source"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/generateURL.js": {
+   "componentName": "Core/generateURL",
+   "componentDep": [
+    "Core/generatePageURL"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/HashManager.js": {
+   "componentName": "Core/HashManager",
+   "componentDep": [
+    "require",
+    "Core/helpers/Object/isEmpty",
+    "Env/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/htmlparser2.js": {
+   "componentName": "Core/htmlparser2",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/i18n.ts": {
+   "componentName": "Core/i18n",
+   "componentDep": [
+    "require",
+    "exports",
+    "I18n/i18n",
+    "Env/Env",
+    "Core/i18n/Locale",
+    "i18n!Core/i18n"
+   ],
+   "isNavigation": false,
+   "patchedText": "define('Core/i18n', [\n    'require',\n    'exports',\n    'I18n/i18n',\n    'Env/Env',\n    'Core/i18n/Locale',\n    'i18n!Core/i18n'\n], function (require, exports, i18n_1, Env_1, Locale_1) {\n    'use strict';\n    var global = function () {\n        return this || (0, eval)('this');\n    }();\n    var contents = global.contents || {\n        modules: {},\n        buildnumber: '',\n        availableLanguage: {}\n    };\n    var NAME_EVENT_CHANGE_LOCALE = 'profiles.person.change_favorited_language';\n    var EXPIRES_IGNORE_LANG = 0.0015;\n    var EXPIRES_IGNORE_LANG_BL = 365;\n    if (needSubscribe()) {\n        (new Promise(function (resolve_1, reject_1) {\n            require(['Browser/Event'], resolve_1, reject_1);\n        }).then(function (event) {\n            event.Server.serverChannel(NAME_EVENT_CHANGE_LOCALE).subscribe('onmessage', function (eventData, locale) {\n                var newValue = locale.get('NewValue');\n                var currentValue = i18n_1.Configuration.load();\n                if (contents.availableLanguage.hasOwnProperty(newValue) && newValue !== currentValue) {\n                    SbisI18n.setLang(newValue, false).catch(function (err) {\n                        Env_1.IoC.resolve('ILogger').error('Localization', 'Couldn\\'t set locale', err);\n                    });\n                }\n            });\n        }).catch(function (err) {\n            require.onError(err);\n        }))\n    }\n    function needSubscribe() {\n        return Env_1.constants.isBrowserPlatform && contents.modules.hasOwnProperty('EngineLanguage') && contents.modules.hasOwnProperty('PersonProfile');\n    }\n    var SbisI18n = function () {\n        function SbisI18n() {\n        }\n        SbisI18n.rk = function (key, context, pluralNumber) {\n            return Locale_1.default.rk(key, context, pluralNumber);\n        };\n        SbisI18n.isEnabled = function () {\n            return Locale_1.default.isEnabled();\n        };\n        SbisI18n.setLocalizationBL = function () {\n            if (!Locale_1.default.availableLanguage.hasOwnProperty(Env_1.cookie.get('lang'))) {\n                Env_1.cookie.set('bl_lang_ignore', 1, {\n                    expires: EXPIRES_IGNORE_LANG_BL,\n                    path: '/'\n                });\n            } else if (Env_1.cookie.get('bl_lang_ignore')) {\n                Env_1.cookie.set('bl_lang_ignore', null, { path: '/' });\n            }\n        };\n        SbisI18n.setLang = function (locale, setPersonLang) {\n            if (setPersonLang === void 0) {\n                setPersonLang = true;\n            }\n            return new Promise(function (resolve, reject) {\n                try {\n                    i18n_1.Configuration.save(locale);\n                    Env_1.cookie.set('lang_ignor', 1, {\n                        expires: EXPIRES_IGNORE_LANG,\n                        path: '/'\n                    });\n                    SbisI18n.setLocalizationBL();\n                    if (Env_1.constants.modules.hasOwnProperty('PersonProfile') && setPersonLang) {\n                        var userInfoModuleName = 'EngineUser/Info';\n                        (new Promise(function (resolve_2, reject_2) {\n                            require([userInfoModuleName], resolve_2, reject_2);\n                        }).then(function (EngineUser) {\n                            if (!EngineUser.Info.get('isClient')) {\n                                (new Promise(function (resolve_3, reject_3) {\n                                    require(['Types/source'], resolve_3, reject_3);\n                                }).then(function (source) {\n                                    new source.SbisService({ endpoint: 'ProfileServicePerson' }).call('SetFavoritedLanguage', { Value: locale }).then(function () {\n                                        resolve();\n                                    });\n                                }).catch(function (err) {\n                                    require.onError(err);\n                                }))\n                            } else {\n                                resolve();\n                            }\n                        }).catch(function (err) {\n                            require.onError(err);\n                        }))\n                    } else {\n                        resolve();\n                    }\n                } catch (err) {\n                    reject(err);\n                }\n            });\n        };\n        SbisI18n.getLang = function () {\n            return Locale_1.default.lang;\n        };\n        SbisI18n.getDefaultLang = function () {\n            return Locale_1.default.defaultLocale;\n        };\n        SbisI18n.setDict = function (dict, name, locale) {\n            i18n_1.Locale.setDictionary(dict, name, locale);\n        };\n        SbisI18n.hasLang = function (locale) {\n            return Locale_1.default.isSupportedLocale(locale);\n        };\n        Object.defineProperty(SbisI18n, '_dictNames', {\n            get: function () {\n                return i18n_1.Locale.settedDictionaries();\n            },\n            enumerable: true,\n            configurable: true\n        });\n        Object.defineProperty(SbisI18n, '_rkString', {\n            get: function () {\n                return String;\n            },\n            enumerable: true,\n            configurable: true\n        });\n        return SbisI18n;\n    }();\n    if (Env_1.constants.isBrowserPlatform) {\n        SbisI18n.setLocalizationBL();\n    }\n    return SbisI18n;\n});"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/IAttachLoader.js": {
+   "componentName": "Core/IAttachLoader",
+   "componentDep": [
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/iconv.js": {
+   "componentName": "Core/iconv",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Indicator.js": {
+   "componentName": "Core/Indicator",
+   "componentDep": [
+    "require"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/IoC.ts": {
+   "componentName": "Core/IoC",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/jquery-dblclick.js": {
+   "componentName": "Core/jquery-dblclick",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/js-template-doT.js": {
+   "componentName": "Core/js-template-doT",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Number/randomId",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/library.ts": {
+   "componentName": "Core/library",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/load-contents.ts": {
+   "componentName": "Core/load-contents",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/LicenseManager.js": {
+   "componentName": "Core/LicenseManager"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/LocalStorageNative.ts": {
+   "componentName": "Core/LocalStorageNative",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Storage",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/MicroSession.js": {
+   "componentName": "Core/MicroSession",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Object/isEmpty"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/moduleStubs.js": {
+   "componentName": "Core/moduleStubs",
+   "componentDep": [
+    "require",
+    "Env/Env",
+    "Core/Deferred",
+    "WS.Core/ext/requirejs/extras/errorHandler",
+    "Core/library"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/multiService.js": {
+   "componentName": "Core/multiService",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions.js": {
+   "componentName": "Core/nativeExtensions",
+   "componentDep": [
+    "Core/Date",
+    "Core/nativeExtensions/Function",
+    "Core/nativeExtensions/Object",
+    "Core/nativeExtensions/Array",
+    "Core/nativeExtensions/String"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ParallelDeferred.js": {
+   "componentName": "Core/ParallelDeferred",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ParserUtilities.js": {
+   "componentName": "Core/ParserUtilities",
+   "componentDep": [
+    "Core/markup/ParserUtilities"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/patchRequireJS.ts": {
+   "componentName": "Core/patchRequireJS",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/pathResolver.ts": {
+   "componentName": "Core/pathResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/PrintDialogHTMLView.js": {
+   "componentName": "Core/PrintDialogHTMLView",
+   "componentDep": [
+    "Core/core-merge",
+    "Core/helpers/Function/shallowClone",
+    "Core/WindowManager",
+    "Core/moduleStubs"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill.js": {
+   "componentName": "Core/polyfill"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/property-merge.js": {
+   "componentName": "Core/property-merge",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ReactiveObserver.js": {
+   "componentName": "Core/ReactiveObserver",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/RightsManager.js": {
+   "componentName": "Core/RightsManager",
+   "componentDep": [
+    "require",
+    "Env/Env",
+    "Core/helpers/Object/isEmpty",
+    "Core/helpers/Object/find",
+    "Core/Deferred",
+    "Core/core-instance"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/s3ds.js": {
+   "componentName": "Core/s3ds",
+   "componentDep": [
+    "Env/Env",
+    "Types/function"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Sanitize.js": {
+   "componentName": "Core/Sanitize",
+   "componentDep": [
+    "Core/markup/ParserUtilities",
+    "Core/validHtml",
+    "Core/core-merge",
+    "Core/core-clone",
+    "Core/helpers/String/escapeHtml",
+    "Core/helpers/String/unEscapeASCII"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Serializer.js": {
+   "componentName": "Core/Serializer",
+   "componentDep": [
+    "require",
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Number/randomId",
+    "Core/library",
+    "Env/Env",
+    "Core/TemplateDeserialization"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/SessionStorage.ts": {
+   "componentName": "Core/SessionStorage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Storage",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Storage.js": {
+   "componentName": "Core/Storage",
+   "componentDep": [
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/TemplateDeserialization.js": {
+   "componentName": "Core/TemplateDeserialization",
+   "componentDep": [
+    "require"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/TimeTester.js": {
+   "componentName": "Core/TimeTester",
+   "componentDep": [
+    "Core/Control",
+    "wml!Core/TimeTester"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/TrickyAccessNotifier.js": {
+   "componentName": "Core/TrickyAccessNotifier"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/UserConfig.ts": {
+   "componentName": "Core/UserConfig",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Config",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/UserConfigOld.ts": {
+   "componentName": "Core/UserConfigOld",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Config",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/UserInfo.js": {
+   "componentName": "Core/UserInfo",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/utf8-base64.js": {
+   "componentName": "Core/utf8-base64",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/validHtml.js": {
+   "componentName": "Core/validHtml",
+   "componentDep": [
+    "Core/helpers/Object/find"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/WindowAttachLoader.js": {
+   "componentName": "Core/WindowAttachLoader",
+   "componentDep": [
+    "require",
+    "Core/IAttachLoader",
+    "Env/Env",
+    "Core/deprecated"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/xslt-async.js": {
+   "componentName": "Core/xslt-async",
+   "componentDep": [
+    "Env/Env",
+    "Core/core-extend",
+    "Core/helpers/axo",
+    "Core/Deferred",
+    "Core/ParallelDeferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/WindowManager.js": {
+   "componentName": "Core/WindowManager",
+   "componentDep": [
+    "Core/Abstract",
+    "Core/ControlBatchUpdater",
+    "Core/core-instance",
+    "Env/Env",
+    "is!browser?jquery"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/core-min.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/core.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/ajax-emulator.ts": {
+   "componentName": "Transport/ajax-emulator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/attachTemplate.ts": {
+   "componentName": "Transport/attachTemplate",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/BLObject.js": {
+   "componentName": "Transport/BLObject",
+   "componentDep": [
+    "Deprecated/BLObject",
+    "Core/deprecated"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/deserializeURLData.ts": {
+   "componentName": "Transport/deserializeURLData",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/Errors.ts": {
+   "componentName": "Transport/Errors",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/fetch.ts": {
+   "componentName": "Transport/fetch",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/getRpcInvocationUrl.ts": {
+   "componentName": "Transport/getRpcInvocationUrl",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/HTTPError.ts": {
+   "componentName": "Transport/HTTPError",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/ITransport.ts": {
+   "componentName": "Transport/ITransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/nodeType.ts": {
+   "componentName": "Transport/nodeType",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/prepareGetRPCInvocationURL.ts": {
+   "componentName": "Transport/prepareGetRPCInvocationURL",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/Record.ts": {
+   "componentName": "Transport/Record",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RecordSet.ts": {
+   "componentName": "Transport/RecordSet",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RecordTypes.ts": {
+   "componentName": "Transport/RecordTypes",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RecordSetToXMLSerializer.ts": {
+   "componentName": "Transport/RecordSetToXMLSerializer",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RPCJSON.ts": {
+   "componentName": "Transport/RPCJSON",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/ReportPrinter.ts": {
+   "componentName": "Transport/ReportPrinter",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/serializeURLData.ts": {
+   "componentName": "Transport/serializeURLData",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/TransportError.ts": {
+   "componentName": "Transport/TransportError",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/XHRTransport.ts": {
+   "componentName": "Transport/XHRTransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/_utils.ts": {
+   "componentName": "Transport/_utils",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/tslib.js": {
+   "componentName": "tslib",
+   "componentDep": [
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/bundles.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/config.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/require.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/Base.js": {
+   "componentName": "Core/ContextField/Base",
+   "componentDep": [
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/Enum.js": {
+   "componentName": "Core/ContextField/Enum",
+   "componentDep": [
+    "Core/ContextField/Base",
+    "Types/collection",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/Flags.js": {
+   "componentName": "Core/ContextField/Flags",
+   "componentDep": [
+    "Core/ContextField/RecordMixin",
+    "Core/ContextField/Base",
+    "Types/collection",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/List.js": {
+   "componentName": "Core/ContextField/List",
+   "componentDep": [
+    "Core/ContextField/Base",
+    "Types/collection",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/Record.js": {
+   "componentName": "Core/ContextField/Record",
+   "componentDep": [
+    "Core/ContextField/RecordMixin",
+    "Core/ContextField/Base",
+    "Types/entity",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/ContextField/RecordMixin.js": {
+   "componentName": "Core/ContextField/RecordMixin",
+   "componentDep": [
+    "Types/shim",
+    "Types/collection",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/CssLoader/CssLoader.js": {
+   "componentName": "Core/CssLoader/CssLoader",
+   "componentDep": [
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/dom/checkCapsLock.js": {
+   "componentName": "Core/dom/checkCapsLock"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/dom/getTouchEventClientCoords.js": {
+   "componentName": "Core/dom/getTouchEventClientCoords"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/dom/getTouchEventCoords.js": {
+   "componentName": "Core/dom/getTouchEventCoords"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/dom/keyDown.js": {
+   "componentName": "Core/dom/keyDown",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/dom/wheel.js": {
+   "componentName": "Core/dom/wheel",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/detection/isIncognito.ts": {
+   "componentName": "Core/detection/isIncognito",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/axo.js": {
+   "componentName": "Core/helpers/axo",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/collection.js": {
+   "componentName": "Core/helpers/collection",
+   "componentDep": [
+    "Core/helpers/Function/callNext",
+    "Env/Event"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/checkCompatibleLayer.js": {
+   "componentName": "Core/helpers/checkCompatibleLayer",
+   "componentDep": [
+    "Core/helpers/isNewEnvironmentDom",
+    "Core/helpers/isCompatibleLoaded",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/getResourceUrl.js": {
+   "componentName": "Core/helpers/getResourceUrl",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/getStackTrace.js": {
+   "componentName": "Core/helpers/getStackTrace"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/getType.js": {
+   "componentName": "Core/helpers/getType"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/isCompatibleLoaded.js": {
+   "componentName": "Core/helpers/isCompatibleLoaded",
+   "componentDep": [
+    "require"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/getVersionedLink.js": {
+   "componentName": "Core/helpers/getVersionedLink",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/isNewEnvironmentDom.js": {
+   "componentName": "Core/helpers/isNewEnvironmentDom"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/isNewEnvironment.js": {
+   "componentName": "Core/helpers/isNewEnvironment",
+   "componentDep": [
+    "Application/Initializer",
+    "Application/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/openFile.js": {
+   "componentName": "Core/helpers/openFile",
+   "componentDep": [
+    "Core/moduleStubs",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/vdomCtxFields.js": {
+   "componentName": "Core/helpers/vdomCtxFields",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Env/Env",
+    "Controls/scroll",
+    "optional!Controls/context",
+    "optional!UserActivity/ActivityContextField"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/VdomCtxPlugin.js": {
+   "componentName": "Core/helpers/VdomCtxPlugin",
+   "componentDep": [
+    "View/Executor/Utils",
+    "Core/Control"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/i18n/Loader.ts": {
+   "componentName": "Core/i18n/Loader",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "I18n/i18n",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/i18n/loaderOfConfiguration.routes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/i18n/Locale.ts": {
+   "componentName": "Core/i18n/Locale",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "I18n/i18n",
+    "Core/i18n/Loader"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/markup/parse.js": {
+   "componentName": "Core/markup/parse",
+   "componentDep": [
+    "require",
+    "Core/Serializer",
+    "Env/Env",
+    "Core/core-merge",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/helpers/Hcontrol/variableStorage"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/markup/ParserUtilities.js": {
+   "componentName": "Core/markup/ParserUtilities",
+   "componentDep": [
+    "require",
+    "Core/htmlparser2",
+    "Core/helpers/Number/randomId",
+    "Core/markup/parse",
+    "Core/helpers/Hcontrol/variableStorage",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/core-extend-initializer",
+    "Core/RightsManager",
+    "Core/ContextBinder",
+    "Core/helpers/Function/shallowClone",
+    "Core/Abstract",
+    "Env/Env",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/LinkResolver/LinkResolver.ts": {
+   "componentName": "Core/LinkResolver/LinkResolver",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/getResourceUrl",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions/Array.js": {
+   "componentName": "Core/nativeExtensions/Array",
+   "componentDep": [
+    "Core/nativeExtensions/deprecated",
+    "Core/helpers/Array/isPlainArray",
+    "Core/helpers/Array/clone",
+    "Core/helpers/Array/indexOf",
+    "Core/helpers/Array/lastIndexOf",
+    "Core/helpers/Array/remove",
+    "Core/helpers/Array/insert"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions/Function.js": {
+   "componentName": "Core/nativeExtensions/Function",
+   "componentDep": [
+    "Core/nativeExtensions/deprecated",
+    "Types/function",
+    "Core/helpers/Function/callAround",
+    "Core/helpers/Function/callBefore",
+    "Core/helpers/Function/callBeforeWithCondition",
+    "Core/helpers/Function/callNext",
+    "Core/helpers/Function/callNextWithCondition",
+    "Core/helpers/Function/callIf",
+    "Core/helpers/Function/once"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions/deprecated.js": {
+   "componentName": "Core/nativeExtensions/deprecated"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions/String.js": {
+   "componentName": "Core/nativeExtensions/String",
+   "componentDep": [
+    "Core/nativeExtensions/deprecated",
+    "Core/helpers/String/beginsWith",
+    "Core/helpers/String/ucFirst",
+    "Core/helpers/String/lcFirst",
+    "Core/helpers/String/trim"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/nativeExtensions/Object.js": {
+   "componentName": "Core/nativeExtensions/Object",
+   "componentDep": [
+    "Core/nativeExtensions/deprecated",
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Object/isEmpty",
+    "Core/helpers/Object/isValid",
+    "Core/helpers/Object/sortedPairs"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/PromiseLib/PromiseLib.js": {
+   "componentName": "Core/PromiseLib/PromiseLib",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/fetch.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/AbortController.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Promise.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/PromiseAPIDeferred.ts": {
+   "componentName": "Core/polyfill/PromiseAPIDeferred",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/Deferred"
+   ],
+   "isNavigation": false,
+   "patchedText": "define('Core/polyfill/PromiseAPIDeferred', [\n    'require',\n    'exports',\n    'tslib',\n    'Core/Deferred'\n], function (require, exports, tslib_1, Deferred) {\n    'use strict';\n    Object.defineProperty(exports, '__esModule', { value: true });\n    Object.defineProperties(Promise.prototype, {\n        addCallback: { value: addCallback },\n        addCallbacks: { value: addCallbacks },\n        addErrback: { value: addErrback },\n        addBoth: { value: addBoth },\n        callback: { value: callback },\n        cancel: { value: cancel },\n        createDependent: { value: createDependent },\n        dependOn: { value: dependOn },\n        errback: { value: errback },\n        getResult: { value: getResult },\n        isCallbacksLocked: { value: isCallbacksLocked },\n        isReady: { value: isReady },\n        isSuccessful: { value: isSuccessful }\n    });\n    function addCallback(onFulfilled) {\n        var def = new DeferredFromPromise().addCallback(onFulfilled);\n        return bindCallbacks(this, def);\n    }\n    function addErrback(onRejected) {\n        var def = new DeferredFromPromise().addErrback(onRejected);\n        return bindCallbacks(this, def);\n    }\n    function addCallbacks(onFulfilled, onRejected) {\n        var def = new DeferredFromPromise().addCallbacks(onFulfilled, onRejected);\n        return bindCallbacks(this, def);\n    }\n    function addBoth(onFulfilled) {\n        var def = new DeferredFromPromise().addBoth(onFulfilled);\n        return bindCallbacks(this, def);\n    }\n    function callback() {\n        throw new Error('Нельзя вызвать метод callback у Promise');\n    }\n    function errback() {\n        throw new Error('Нельзя вызвать метод errback у Promise');\n    }\n    function dependOn(master) {\n        if (master instanceof Promise && !(master instanceof Deferred)) {\n            return Promise.reject(new Error('Нельзя вызвать метод dependOn у Promise'));\n        }\n        var onFulfilled;\n        var onReject;\n        var promise = new Promise(function (resolve, reject) {\n            onFulfilled = resolve;\n            onReject = reject;\n        });\n        master.addCallbacks(function (res) {\n            onFulfilled(res);\n            return res;\n        }, function (err) {\n            onReject(err);\n            return err;\n        });\n        return promise;\n    }\n    function createDependent() {\n        return this.then(function (value) {\n            return value;\n        }, function (error) {\n            throw error;\n        });\n    }\n    function isCallbacksLocked() {\n        return false;\n    }\n    function isReady(withChain) {\n        if (withChain === void 0) {\n            withChain = false;\n        }\n        return true;\n    }\n    function cancel() {\n        throw new Error('Вызыван метод cancel у Promise');\n    }\n    function getResult() {\n        logWarn('Вызыван метод getResult у Promise');\n    }\n    function isSuccessful() {\n        logWarn('Вызыван метод isSuccessful у Promise');\n    }\n    function logWarn(message) {\n        (new Promise(function (resolve_1, reject_1) {\n            require(['Env/Env'], resolve_1, reject_1);\n        }).then(function (_a) {\n            var IoC = _a.IoC;\n            IoC.resolve('ILogger').warn('Core/polyfill/PromiseAPIDeferred', message);\n        }).catch(function (err) {\n            require.onError(err);\n        }))\n    }\n    function skipLogExecutionTime(callback) {\n        if (Promise.skipLogExecutionTime) {\n            return Promise.skipLogExecutionTime(callback);\n        }\n        return callback;\n    }\n    function bindCallbacks(promise, deferred) {\n        var noWarn = true;\n        promise.then(skipLogExecutionTime(function (res) {\n            if (deferred.isReady()) {\n                return;\n            }\n            if (res instanceof Error) {\n                deferred.errback(res, noWarn);\n                return;\n            }\n            deferred.callback(res, noWarn);\n        }), skipLogExecutionTime(function (err) {\n            if (deferred.isReady()) {\n                return;\n            }\n            deferred.errback(err, noWarn);\n        }));\n        return deferred;\n    }\n    var DeferredFromPromise = function (_super) {\n        tslib_1.__extends(DeferredFromPromise, _super);\n        function DeferredFromPromise() {\n            return _super !== null && _super.apply(this, arguments) || this;\n        }\n        DeferredFromPromise.prototype.callback = function (result, noWarn) {\n            if (noWarn === void 0) {\n                noWarn = false;\n            }\n            if (noWarn) {\n                return _super.prototype.callback.call(this, result);\n            }\n            DeferredFromPromise.warnForbiddenMethod('callback');\n            return _super.prototype.callback.call(this, result);\n        };\n        DeferredFromPromise.prototype.errback = function (error, noWarn) {\n            if (noWarn === void 0) {\n                noWarn = false;\n            }\n            if (noWarn) {\n                return _super.prototype.errback.call(this, error);\n            }\n            DeferredFromPromise.warnForbiddenMethod('errback');\n            return _super.prototype.errback.call(this, error);\n        };\n        DeferredFromPromise.prototype.cancel = function (noWarn) {\n            if (noWarn === void 0) {\n                noWarn = false;\n            }\n            if (noWarn) {\n                return _super.prototype.cancel.call(this);\n            }\n            DeferredFromPromise.warnForbiddenMethod('cancel');\n            return _super.prototype.cancel.call(this);\n        };\n        DeferredFromPromise.warnForbiddenMethod = function (method) {\n            logWarn('\\n            Вызван метод ' + method + ' у deferred, полученного из Promise:\\n            повлиять на исходный Promise невозможно!\\n            ');\n        };\n        return DeferredFromPromise;\n    }(Deferred);\n});"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/setImmediate.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/WeakMap.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Themes/ThemesController.js": {
+   "componentName": "Core/Themes/ThemesController",
+   "componentDep": [
+    "Core/core-extend",
+    "Env/Env",
+    "Application/Env",
+    "Application/Initializer",
+    "Core/CssLoader/CssLoader",
+    "Core/LinkResolver/LinkResolver"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/Themes/ThemesControllerNew.js": {
+   "componentName": "Core/Themes/ThemesControllerNew",
+   "componentDep": [
+    "Core/core-extend",
+    "Env/Env",
+    "Core/CssLoader/CssLoader",
+    "Core/LinkResolver/LinkResolver",
+    "Core/Themes/ThemesController"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/config.js": {
+   "componentName": "Core/tmpl/config",
+   "componentDep": [
+    "View/config"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/tmplstr.js": {
+   "componentName": "Core/tmpl/tmplstr",
+   "componentDep": [
+    "View/Builder/Tmpl",
+    "View/Executor/TClosure",
+    "View/config"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/vdomutils.js": {
+   "componentName": "Core/vdom/vdomutils",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/css/styles/RichContentStyles.js": {
+   "componentName": "WS/css/styles/RichContentStyles",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Cache/Cache.js": {
+   "componentName": "Lib/Cache/Cache",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Autosize-plugin.js": {
+   "componentName": "Lib/Control/Autosize-plugin",
+   "componentDep": [
+    "jquery"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Control.js": {
+   "componentName": "Lib/Control/Control",
+   "componentDep": [
+    "Core/core-extend",
+    "Lib/Control/Control.compatible",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-hash",
+    "Core/core-instance",
+    "Core/helpers/String/unEscapeHtml",
+    "Core/helpers/Function/memoize",
+    "Env/Event",
+    "Core/Deferred",
+    "Core/CommandDispatcher",
+    "Core/Abstract",
+    "Lib/Mixins/DataBoundMixin",
+    "Core/markup/ParserUtilities",
+    "Lib/NavigationController/NavigationController",
+    "Core/ControlBatchUpdater",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/Context",
+    "Env/Env",
+    "Core/helpers/Hcontrol/replaceContainer",
+    "Core/helpers/Hcontrol/focusControl",
+    "Lib/Control/ControlGoodCode",
+    "UI/Utils",
+    "UI/Focus",
+    "Core/ContextBinder",
+    "Lib/Control/AttributeCfgParser/AttributeCfgParser"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Control.compatible.js": {
+   "componentName": "Lib/Control/Control.compatible",
+   "componentDep": [
+    "Core/ControlBatchUpdater",
+    "Env/Env",
+    "Core/helpers/Number/randomId",
+    "Core/core-instance",
+    "Core/core-merge",
+    "Core/ContextBinder",
+    "Core/helpers/Object/find",
+    "Core/CommandDispatcher",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "Core/helpers/Hcontrol/focusControl",
+    "Core/helpers/Hcontrol/isVdomEnvironment",
+    "View/Executor/TClosure",
+    "View/Executor/Utils",
+    "Types/function",
+    "Core/Deferred",
+    "is!browser?jquery"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/ControlGoodCode.js": {
+   "componentName": "Lib/Control/ControlGoodCode",
+   "componentDep": [
+    "Env/Env",
+    "Core/Deferred",
+    "Core/core-merge",
+    "Core/ControlBatchUpdater",
+    "Core/core-instance"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/CoreValidators/CoreValidators.js": {
+   "componentName": "Lib/CoreValidators/CoreValidators",
+   "componentDep": [
+    "Lib/Control/Control",
+    "Core/core-instance",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/DemoModule/Summator.js": {
+   "componentName": "Lib/DemoModule/Summator"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/FloatAreaManager/FloatAreaManager.js": {
+   "componentName": "Lib/FloatAreaManager/FloatAreaManager",
+   "componentDep": [
+    "Env/Env",
+    "Core/Deferred",
+    "Core/WindowManager",
+    "Env/Event",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-instance",
+    "Lib/LayoutManager/LayoutManager",
+    "Core/helpers/Object/find",
+    "Core/helpers/Array/findIndex",
+    "Core/helpers/Function/memoize",
+    "Core/helpers/Hcontrol/getScrollWidth",
+    "Core/dom/wheel",
+    "UI/Focus",
+    "Core/Abstract",
+    "css!Lib/FloatAreaManager/FloatAreaManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/LayoutManager/LayoutManager.js": {
+   "componentName": "Lib/LayoutManager/LayoutManager",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Object/find",
+    "Env/Event",
+    "Lib/StickyHeader/StickyHeaderManager/StickyHeaderManager",
+    "is!browser?jquery"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/KbLayoutRevert/KbLayoutRevert.js": {
+   "componentName": "Lib/KbLayoutRevert/KbLayoutRevert",
+   "componentDep": [
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/BreakClickBySelectMixin.js": {
+   "componentName": "Lib/Mixins/BreakClickBySelectMixin",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/CompoundActiveFixMixin.js": {
+   "componentName": "Lib/Mixins/CompoundActiveFixMixin",
+   "componentDep": [
+    "Lib/Control/AreaAbstract/AreaAbstract",
+    "Lib/Control/Control"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/DataBoundMixin.js": {
+   "componentName": "Lib/Mixins/DataBoundMixin",
+   "componentDep": [
+    "Core/helpers/Number/randomId",
+    "Env/Env",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/HasItemsMixin.js": {
+   "componentName": "Lib/Mixins/HasItemsMixin"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/HasTabsMixin.js": {
+   "componentName": "Lib/Mixins/HasTabsMixin"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/LikeWindowMixin.js": {
+   "componentName": "Lib/Mixins/LikeWindowMixin",
+   "componentDep": [
+    "Core/CommandDispatcher",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/PendingOperationParentMixin.js": {
+   "componentName": "Lib/Mixins/PendingOperationParentMixin",
+   "componentDep": [
+    "Core/helpers/Function/callBefore",
+    "Core/helpers/Function/callNext",
+    "Core/helpers/Array/findIndex",
+    "Core/core-merge",
+    "Core/core-clone",
+    "Lib/Mixins/PendingOperationProducerMixin",
+    "Core/CommandDispatcher",
+    "Core/Deferred",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Mixins/PendingOperationProducerMixin.js": {
+   "componentName": "Lib/Mixins/PendingOperationProducerMixin",
+   "componentDep": [
+    "Core/helpers/Array/findIndex"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/NavigationController/NavigationController.js": {
+   "componentName": "Lib/NavigationController/NavigationController",
+   "componentDep": [
+    "Env/Env",
+    "Env/Event",
+    "Core/Deferred",
+    "Core/core-clone",
+    "Core/HashManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/PopupOnChangeLang/Button.ts": {
+   "componentName": "Lib/PopupOnChangeLang/Button",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Control",
+    "wml!Lib/PopupOnChangeLang/button",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/ServerEvent/Bus.ts": {
+   "componentName": "Lib/ServerEvent/Bus",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Storage/LocalStorage.ts": {
+   "componentName": "Lib/Storage/LocalStorage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Storage",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Tab/Message.ts": {
+   "componentName": "Lib/Tab/Message",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Type/CustomType.js": {
+   "componentName": "Lib/Type/CustomType",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/property-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/TabMessage/TabMessage.ts": {
+   "componentName": "Lib/TabMessage/TabMessage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Event",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/bootup-min.js": {
+   "componentName": "bootup-min",
+   "componentDep": [
+    "require",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Env/Event",
+    "Core/core-instance",
+    "Core/Context",
+    "Env/Env",
+    "Core/CommandDispatcher",
+    "Core/helpers/Array/uniq",
+    "Core/helpers/Hcontrol/doAutofocus",
+    "Core/helpers/Hcontrol/getChildContainers",
+    "Core/Serializer",
+    "Core/markup/parse",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/moduleStubs",
+    "View/decorators",
+    "Core/helpers/VdomCtxPlugin",
+    "Core/helpers/vdomCtxFields",
+    "Core/helpers/Hcontrol/makeInstanceCompatible",
+    "is!compatibleLayer?Lib/Control/Control.compatible",
+    "is!compatibleLayer?Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "is!compatibleLayer?Lib/Control/BaseCompatible/BaseCompatible"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/bootup.js": {
+   "componentName": "bootup",
+   "componentDep": [
+    "bootup-min",
+    "Deprecated/Serializer"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/CustomPacker.js": {
+   "componentName": "WS.Core/res/js/CustomPacker",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Deferred",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/CustomPacker.routes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/DependenciesGraph.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/DependenciesResolver.js": {
+   "componentName": "WS.Core/res/js/DependenciesResolver",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Deferred",
+    "Env/Env",
+    "json!resources/module-dependencies"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/DependenciesResolver.routes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/res/js/old-bootup.js": {
+   "componentName": "old-bootup",
+   "componentDep": [
+    "require",
+    "Env/Env",
+    "Core/core-merge",
+    "SBIS3.CONTROLS/Utils/InformationPopupManager",
+    "Core/Context",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Env/Event",
+    "Core/CommandDispatcher",
+    "Core/HashManager",
+    "Core/WindowManager",
+    "Browser/Transport",
+    "Deprecated/Record",
+    "Deprecated/RecordSet",
+    "Browser/TransportOld",
+    "Lib/Control/Control",
+    "bootup"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RPC/Body.ts": {
+   "componentName": "Transport/RPC/Body",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RPC/Error.ts": {
+   "componentName": "Transport/RPC/Error",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RPC/ErrorCreator.ts": {
+   "componentName": "Transport/RPC/ErrorCreator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/RPC/Headers.ts": {
+   "componentName": "Transport/RPC/Headers",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/Templates/CompoundControlTemplate.ts": {
+   "componentName": "Transport/Templates/CompoundControlTemplate",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/Templates/EmptyTemplate.ts": {
+   "componentName": "Transport/Templates/EmptyTemplate",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/Templates/Template.ts": {
+   "componentName": "Transport/Templates/Template",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/TransportOld",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/XHR/ErrorText.ts": {
+   "componentName": "Transport/XHR/ErrorText",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/URL/getHostName.ts": {
+   "componentName": "Transport/URL/getHostName",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/URL/getQueryParam.ts": {
+   "componentName": "Transport/URL/getQueryParam",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/transport/URL/getUrl.ts": {
+   "componentName": "Transport/URL/getUrl",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Transport",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/autoload.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/autoload",
+   "componentDep": [
+    "require",
+    "exports",
+    "WS.Core/ext/requirejs/extras/errorHandler",
+    "WS.Core/ext/requirejs/extras/resourceLoadHandler",
+    "WS.Core/ext/requirejs/extras/patchDefine",
+    "WS.Core/ext/requirejs/extras/utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/dynamicConfig.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/dynamicConfig",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/errorHandler.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/errorHandler",
+   "componentDep": [
+    "require",
+    "exports",
+    "WS.Core/ext/requirejs/extras/patchDefine",
+    "WS.Core/ext/requirejs/extras/utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/patchDefine.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/patchDefine",
+   "componentDep": [
+    "require",
+    "exports",
+    "WS.Core/ext/requirejs/extras/utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/resourceLoadHandler.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/resourceLoadHandler",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/extras/utils.ts": {
+   "componentName": "WS.Core/ext/requirejs/extras/utils",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/cdn.js": {
+   "componentName": "cdn",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/browser.js": {
+   "componentName": "browser"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/css.js": {
+   "componentName": "css",
+   "componentDep": [
+    "native-css",
+    "Core/pathResolver",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/datasource.js": {
+   "componentName": "datasource",
+   "componentDep": [
+    "Core/pathResolver",
+    "Env/Env",
+    "text"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/html.js": {
+   "componentName": "html",
+   "componentDep": [
+    "Core/pathResolver",
+    "Core/js-template-doT",
+    "Env/Env",
+    "text"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/is-api.js": {
+   "componentName": "is-api"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/i18n.ts": {
+   "componentName": "i18n",
+   "componentDep": [
+    "require",
+    "exports",
+    "I18n/i18n",
+    "Env/Env",
+    "Core/i18n/Locale",
+    "Core/i18n/Loader",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "text",
+    "native-css"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/is.js": {
+   "componentName": "is",
+   "componentDep": [
+    "module",
+    "is-api",
+    "require",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/json.js": {
+   "componentName": "json",
+   "componentDep": [
+    "text",
+    "Core/pathResolver"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/native-css.js": {
+   "componentName": "native-css",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/normalize.js": {
+   "componentName": "normalize",
+   "componentDep": [
+    "require",
+    "module"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/optional.js": {
+   "componentName": "optional",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/order.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/preload.js": {
+   "componentName": "preload"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/template.js": {
+   "componentName": "template"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/text.js": {
+   "componentName": "text",
+   "componentDep": [
+    "module"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/tmpl.js": {
+   "componentName": "tmpl",
+   "componentDep": [
+    "View/config",
+    "Core/pathResolver",
+    "Env/Env",
+    "View/Executor/TClosure",
+    "wml"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/wml.js": {
+   "componentName": "wml",
+   "componentDep": [
+    "text",
+    "WS.Core/ext/requirejs/extras/patchDefine",
+    "View/config",
+    "Core/pathResolver",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/ext/requirejs/plugins/xml.js": {
+   "componentName": "xml",
+   "componentDep": [
+    "text",
+    "Core/pathResolver"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/clone.ts": {
+   "componentName": "Core/helpers/Array/clone",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/findIndex.ts": {
+   "componentName": "Core/helpers/Array/findIndex",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/flatten.ts": {
+   "componentName": "Core/helpers/Array/flatten",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/indexOf.ts": {
+   "componentName": "Core/helpers/Array/indexOf",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/isPlainArray.ts": {
+   "componentName": "Core/helpers/Array/isPlainArray",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/insert.ts": {
+   "componentName": "Core/helpers/Array/insert",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/lastIndexOf.ts": {
+   "componentName": "Core/helpers/Array/lastIndexOf",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/remove.ts": {
+   "componentName": "Core/helpers/Array/remove",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Array/uniq.ts": {
+   "componentName": "Core/helpers/Array/uniq",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/compareDates.js": {
+   "componentName": "Core/helpers/Date/compareDates",
+   "componentDep": [
+    "Types/formatter"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/dateFromISO.js": {
+   "componentName": "Core/helpers/Date/dateFromISO"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/getCurrentPeriod.js": {
+   "componentName": "Core/helpers/Date/getCurrentPeriod",
+   "componentDep": [
+    "Core/helpers/Date/periodTypes"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/getPeriodLength.js": {
+   "componentName": "Core/helpers/Date/getPeriodLength"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/getFormattedDateRange.js": {
+   "componentName": "Core/helpers/Date/getFormattedDateRange",
+   "componentDep": [
+    "Core/helpers/String/format",
+    "Core/helpers/Date/strftime",
+    "Core/helpers/i18n/locales",
+    "Types/formatter"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/getPeriodLengthInMonthByType.js": {
+   "componentName": "Core/helpers/Date/getPeriodLengthInMonthByType",
+   "componentDep": [
+    "Core/helpers/Date/periodTypes"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/getPeriodType.js": {
+   "componentName": "Core/helpers/Date/getPeriodType",
+   "componentDep": [
+    "Core/helpers/Date/periodTypes"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/isISODate.js": {
+   "componentName": "Core/helpers/Date/isISODate"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/periodTypes.js": {
+   "componentName": "Core/helpers/Date/periodTypes"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Date/strftime.js": {
+   "componentName": "Core/helpers/Date/strftime",
+   "componentDep": [
+    "Core/helpers/i18n/locales"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callAround.ts": {
+   "componentName": "Core/helpers/Function/callAround",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callBefore.ts": {
+   "componentName": "Core/helpers/Function/callBefore",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callBeforeWithCondition.ts": {
+   "componentName": "Core/helpers/Function/callBeforeWithCondition",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/Function/callBefore"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callNext.ts": {
+   "componentName": "Core/helpers/Function/callNext",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callIf.ts": {
+   "componentName": "Core/helpers/Function/callIf",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/forAliveDeferred.ts": {
+   "componentName": "Core/helpers/Function/forAliveDeferred",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/callNextWithCondition.ts": {
+   "componentName": "Core/helpers/Function/callNextWithCondition",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/helpers/Function/callNext"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/forAliveOnly.ts": {
+   "componentName": "Core/helpers/Function/forAliveOnly",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/memoize.ts": {
+   "componentName": "Core/helpers/Function/memoize",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/once.ts": {
+   "componentName": "Core/helpers/Function/once",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Function/shallowClone.ts": {
+   "componentName": "Core/helpers/Function/shallowClone",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/i18n/locales.js": {
+   "componentName": "Core/helpers/i18n/locales",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/i18n"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/i18n/moneyToWritten.js": {
+   "componentName": "Core/helpers/i18n/moneyToWritten"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/i18n/wordCaseByNumber.js": {
+   "componentName": "Core/helpers/i18n/wordCaseByNumber",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/configStorage.js": {
+   "componentName": "Core/helpers/Hcontrol/configStorage",
+   "componentDep": [
+    "Core/helpers/Number/randomId"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/focusControl.js": {
+   "componentName": "Core/helpers/Hcontrol/focusControl",
+   "componentDep": [
+    "UI/Focus"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/doAutofocus.js": {
+   "componentName": "Core/helpers/Hcontrol/doAutofocus",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Hcontrol/isElementVisible"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/getChildContainers.js": {
+   "componentName": "Core/helpers/Hcontrol/getChildContainers"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/getElementCachedDim.js": {
+   "componentName": "Core/helpers/Hcontrol/getElementCachedDim"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/getScrollWidth.js": {
+   "componentName": "Core/helpers/Hcontrol/getScrollWidth"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/hasScrollbar.js": {
+   "componentName": "Core/helpers/Hcontrol/hasScrollbar"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/isElementVisible.js": {
+   "componentName": "Core/helpers/Hcontrol/isElementVisible"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/isVdomEnvironment.js": {
+   "componentName": "Core/helpers/Hcontrol/isVdomEnvironment"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/isScrollable.js": {
+   "componentName": "Core/helpers/Hcontrol/isScrollable"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/makeInstanceCompatible.js": {
+   "componentName": "Core/helpers/Hcontrol/makeInstanceCompatible",
+   "componentDep": [
+    "UI/Base",
+    "Core/Abstract.compatible",
+    "Lib/Control/Control.compatible",
+    "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "Lib/Control/BaseCompatible/BaseCompatible"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/mergeAttributes.js": {
+   "componentName": "Core/helpers/Hcontrol/mergeAttributes"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/openErrorsReportDialog.js": {
+   "componentName": "Core/helpers/Hcontrol/openErrorsReportDialog",
+   "componentDep": [
+    "require",
+    "Core/Deferred",
+    "Core/WindowManager",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/replaceContainer.js": {
+   "componentName": "Core/helpers/Hcontrol/replaceContainer",
+   "componentDep": [
+    "Core/helpers/Hcontrol/mergeAttributes",
+    "Core/helpers/Object/find"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/screen.js": {
+   "componentName": "Core/helpers/Hcontrol/screen"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/saveToFile.js": {
+   "componentName": "Core/helpers/Hcontrol/saveToFile",
+   "componentDep": [
+    "Env/Env",
+    "Browser/Transport",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/setElementCachedSize.js": {
+   "componentName": "Core/helpers/Hcontrol/setElementCachedSize"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/showFloatArea.js": {
+   "componentName": "Core/helpers/Hcontrol/showFloatArea",
+   "componentDep": [
+    "Core/moduleStubs",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/showHoverFloatArea.js": {
+   "componentName": "Core/helpers/Hcontrol/showHoverFloatArea",
+   "componentDep": [
+    "Core/helpers/Hcontrol/showFloatArea"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/toggleLocalIndicator.js": {
+   "componentName": "Core/helpers/Hcontrol/toggleLocalIndicator"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/trackElement.js": {
+   "componentName": "Core/helpers/Hcontrol/trackElement",
+   "componentDep": [
+    "Env/Env",
+    "Core/helpers/Number/randomId",
+    "Env/Event",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "Core/ControlBatchUpdater"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Hcontrol/variableStorage.js": {
+   "componentName": "Core/helpers/Hcontrol/variableStorage"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Number/randomId.ts": {
+   "componentName": "Core/helpers/Number/randomId",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/find.js": {
+   "componentName": "Core/helpers/Object/find",
+   "componentDep": [
+    "Core/helpers/Object/findKey",
+    "Core/helpers/Array/findIndex"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/findKey.js": {
+   "componentName": "Core/helpers/Object/findKey",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/getPropertyType.js": {
+   "componentName": "Core/helpers/Object/getPropertyType",
+   "componentDep": [
+    "Core/helpers/getType"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/isEmpty.ts": {
+   "componentName": "Core/helpers/Object/isEmpty",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/isPlainObject.js": {
+   "componentName": "Core/helpers/Object/isPlainObject"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/isValid.js": {
+   "componentName": "Core/helpers/Object/isValid",
+   "componentDep": [
+    "Core/helpers/Object/isEmpty"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/Object/sortedPairs.js": {
+   "componentName": "Core/helpers/Object/sortedPairs"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/diffAt.js": {
+   "componentName": "Core/helpers/String/diffAt"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/beginsWith.js": {
+   "componentName": "Core/helpers/String/beginsWith"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/escapeASCII.js": {
+   "componentName": "Core/helpers/String/escapeASCII"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/escapeHtml.js": {
+   "componentName": "Core/helpers/String/escapeHtml"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/escapeTagsFromStr.js": {
+   "componentName": "Core/helpers/String/escapeTagsFromStr"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/escapeUnicode.js": {
+   "componentName": "Core/helpers/String/escapeUnicode"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/lcFirst.js": {
+   "componentName": "Core/helpers/String/lcFirst"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/format.js": {
+   "componentName": "Core/helpers/String/format",
+   "componentDep": [
+    "require",
+    "Core/helpers/Date/strftime",
+    "Core/defaultRenders"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/linkWrap.js": {
+   "componentName": "Core/helpers/String/linkWrap",
+   "componentDep": [
+    "i18n!WS.Core",
+    "Core/helpers/String/wrapFileOpener"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/trim.js": {
+   "componentName": "Core/helpers/String/trim"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/ucFirst.js": {
+   "componentName": "Core/helpers/String/ucFirst"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/unEscapeASCII.js": {
+   "componentName": "Core/helpers/String/unEscapeASCII"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/wrapFileOpener.js": {
+   "componentName": "Core/helpers/String/wrapFileOpener",
+   "componentDep": [
+    "require",
+    "Env/Env",
+    "Core/helpers/openFile"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/String/unEscapeHtml.js": {
+   "componentName": "Core/helpers/String/unEscapeHtml"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/vital/objectsDiff.js": {
+   "componentName": "Core/helpers/vital/objectsDiff",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/helpers/vital/processImagePath.js": {
+   "componentName": "Core/helpers/vital/processImagePath",
+   "componentDep": [
+    "require",
+    "Env/Env",
+    "Core/helpers/getVersionedLink"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Array/find.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Array/findIndex.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Array/from.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Array/includes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Array/isArray.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Element/classList.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Element/closest.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Element/matches.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Element/remove.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Math/trunc.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Number/isNaN.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/assign.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/create.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/keys.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/getPrototypeOf.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/setPrototypeOf.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/Object/values-entries.ts": {
+   "componentName": "Core/polyfill/Object/values-entries",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/String/fromCodePoint.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/String/includes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/String/repeat.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/String/startsWith.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/polyfill/String/trim.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/configResolver.js": {
+   "componentName": "Core/tmpl/js/configResolver",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/dirtyCheckingPatch.js": {
+   "componentName": "Core/tmpl/js/dirtyCheckingPatch",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/dirtyCheckingPatch"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/markupGenerator.js": {
+   "componentName": "Core/tmpl/js/markupGenerator",
+   "componentDep": [
+    "View/Executor/Markup"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/optionsResolver.js": {
+   "componentName": "Core/tmpl/js/optionsResolver",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/processingToFunction.js": {
+   "componentName": "Core/tmpl/js/processingToFunction",
+   "componentDep": [
+    "View/Builder/Tmpl/function"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/processingToString.js": {
+   "componentName": "Core/tmpl/js/processingToString",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/textMarkupGenerator.js": {
+   "componentName": "Core/tmpl/js/textMarkupGenerator",
+   "componentDep": [
+    "View/Executor/Markup"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/tclosure.js": {
+   "componentName": "Core/tmpl/js/tclosure",
+   "componentDep": [
+    "View/Executor/TClosure"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/traverse.js": {
+   "componentName": "Core/tmpl/js/traverse",
+   "componentDep": [
+    "View/Builder/Tmpl/traverse"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/Synchronizer.js": {
+   "componentName": "Core/vdom/Synchronizer/Synchronizer",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Utils/Functional.js": {
+   "componentName": "Core/vdom/Utils/Functional",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Utils/Monad.js": {
+   "componentName": "Core/vdom/Utils/Monad",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/AreaAbstract/AreaAbstract.compatible.js": {
+   "componentName": "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+   "componentDep": [
+    "Core/Context",
+    "Core/helpers/Object/isPlainObject",
+    "Core/core-instance",
+    "Core/WindowManager",
+    "Core/helpers/Object/find",
+    "Core/helpers/Array/findIndex",
+    "Env/Env",
+    "Core/Deferred",
+    "Lib/Control/AttributeCfgParser/AttributeCfgParser",
+    "Core/helpers/String/escapeHtml",
+    "Core/core-classicExtend",
+    "Core/helpers/Hcontrol/getChildContainers",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "Core/helpers/Hcontrol/focusControl",
+    "Core/helpers/Hcontrol/setElementCachedSize",
+    "Lib/Control/Control",
+    "Core/helpers/String/unEscapeHtml",
+    "UI/Focus",
+    "i18n!WS.Core"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/AreaAbstract/AreaAbstract.js": {
+   "componentName": "Lib/Control/AreaAbstract/AreaAbstract",
+   "componentDep": [
+    "require",
+    "Core/core-extend",
+    "Core/library",
+    "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "Core/ControlBatchUpdater",
+    "Core/core-clone",
+    "Core/helpers/Object/find",
+    "Core/helpers/Hcontrol/getElementCachedDim",
+    "Core/helpers/Hcontrol/isVdomEnvironment",
+    "Core/WindowManager",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Env/Env",
+    "Lib/Control/Control",
+    "Core/core-instance",
+    "Core/CommandDispatcher",
+    "Lib/Mixins/BreakClickBySelectMixin",
+    "Browser/Transport",
+    "i18n!WS.Core",
+    "UI/Utils",
+    "Core/helpers/Object/isPlainObject",
+    "Core/helpers/Array/findIndex",
+    "Core/Context",
+    "css!Lib/Control/AreaAbstract/AreaAbstract"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/AttributeCfgParser/AttributeCfgParser.js": {
+   "componentName": "Lib/Control/AttributeCfgParser/AttributeCfgParser",
+   "componentDep": [
+    "Core/helpers/Object/isEmpty"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/BaseCompatible/BaseCompatible.js": {
+   "componentName": "Lib/Control/BaseCompatible/BaseCompatible",
+   "componentDep": [
+    "View/Executor/TClosure",
+    "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "Lib/Control/Control.compatible",
+    "Core/Abstract.compatible",
+    "Env/Event",
+    "Core/helpers/Function/shallowClone",
+    "Core/core-hash",
+    "Core/CommandDispatcher",
+    "Core/WindowManager",
+    "Core/core-instance",
+    "Core/helpers/Function/forAliveOnly",
+    "Env/Env",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Core/markup/parse",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/ContextBinder",
+    "Core/helpers/Number/randomId",
+    "Vdom/Vdom",
+    "UI/Focus",
+    "Core/core-extend-initializer",
+    "Core/helpers/Hcontrol/replaceContainer",
+    "Core/helpers/Hcontrol/getChildContainers",
+    "View/Executor/Expressions",
+    "Core/core-extend",
+    "Core/core-simpleExtend",
+    "Core/ControlBatchUpdater",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Dialog/Dialog.js": {
+   "componentName": "Lib/Control/Dialog/Dialog",
+   "componentDep": [
+    "Lib/Control/Window/Window",
+    "Lib/Control/ModalOverlay/ModalOverlay"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/CompoundControl/CompoundControl.js": {
+   "componentName": "Lib/Control/CompoundControl/CompoundControl",
+   "componentDep": [
+    "require",
+    "Core/helpers/Number/randomId",
+    "Core/core-instance",
+    "Core/moduleStubs",
+    "Core/Abstract.compatible",
+    "Lib/Control/Control.compatible",
+    "Lib/Control/AreaAbstract/AreaAbstract.compatible",
+    "Lib/Control/BaseCompatible/BaseCompatible",
+    "Env/Event",
+    "Core/ParallelDeferred",
+    "Lib/Control/AreaAbstract/AreaAbstract",
+    "Core/markup/parse",
+    "Core/helpers/Hcontrol/configStorage",
+    "Core/ContextBinder",
+    "View/Executor/Utils",
+    "Core/helpers/Hcontrol/getChildContainers",
+    "Core/helpers/Hcontrol/replaceContainer",
+    "Core/helpers/Hcontrol/makeInstanceCompatible",
+    "Core/library",
+    "Vdom/Vdom",
+    "UI/Utils",
+    "Lib/Control/AttributeCfgParser/AttributeCfgParser",
+    "Lib/Control/Control",
+    "i18n!Lib/Control/CompoundControl/CompoundControl",
+    "View/decorators",
+    "Core/Context"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/FloatArea/FloatArea.js": {
+   "componentName": "Lib/Control/FloatArea/FloatArea",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/library",
+    "Core/helpers/isNewEnvironment",
+    "Core/helpers/Function/once",
+    "Core/helpers/Object/find",
+    "Core/helpers/Function/forAliveOnly",
+    "Core/helpers/Function/memoize",
+    "require",
+    "Core/helpers/Object/isEmpty",
+    "Core/WindowManager",
+    "Env/Event",
+    "Core/CommandDispatcher",
+    "Env/Env",
+    "Lib/Control/TemplatedArea/TemplatedArea",
+    "Lib/FloatAreaManager/FloatAreaManager",
+    "Lib/Control/ModalOverlay/ModalOverlay",
+    "Lib/Mixins/LikeWindowMixin",
+    "Browser/TransportOld",
+    "Core/markup/ParserUtilities",
+    "Core/core-instance",
+    "Core/core-clone",
+    "Core/helpers/Function/shallowClone",
+    "Core/ControlBatchUpdater",
+    "Lib/Mixins/PendingOperationParentMixin",
+    "Core/Deferred",
+    "Core/helpers/Hcontrol/screen",
+    "Core/helpers/Hcontrol/trackElement",
+    "Core/helpers/Hcontrol/doAutofocus",
+    "Core/helpers/Hcontrol/getScrollWidth",
+    "is!browser?Lib/LayoutManager/LayoutManager",
+    "UI/Focus",
+    "i18n!WS.Core",
+    "Core/helpers/Array/findIndex",
+    "Core/Context",
+    "css!Lib/Control/FloatArea/FloatArea",
+    "is!browser?/cdn/JQuery/jquery-ui/1.12.1.2/jquery-ui-position-min.js"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/HTMLView/HTMLView.js": {
+   "componentName": "Lib/Control/HTMLView/HTMLView",
+   "componentDep": [
+    "Core/helpers/Number/randomId",
+    "Core/helpers/Function/forAliveOnly",
+    "Core/dom/wheel",
+    "Core/dom/keyDown",
+    "Core/helpers/Hcontrol/getScrollWidth",
+    "Core/helpers/Hcontrol/hasScrollbar",
+    "Core/helpers/Hcontrol/setElementCachedSize",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Env/Env",
+    "Lib/Control/TemplatedAreaAbstract/TemplatedAreaAbstract",
+    "Lib/Control/LoadingIndicator/LoadingIndicator",
+    "Core/helpers/getResourceUrl",
+    "css!Lib/Control/HTMLView/HTMLView"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Infobox/Infobox.js": {
+   "componentName": "Lib/Control/Infobox/Infobox",
+   "componentDep": [
+    "Core/core-instance",
+    "Core/helpers/Hcontrol/trackElement",
+    "Core/Deferred",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "Env/Env",
+    "Core/helpers/String/escapeTagsFromStr",
+    "Core/Abstract",
+    "Types/function",
+    "tmpl!Lib/Control/Infobox/Infobox",
+    "Core/WindowManager",
+    "css!Lib/Control/Infobox/Infobox",
+    "is!browser?/cdn/JQuery/jquery-ui/1.12.1.2/jquery-ui-position-min.js"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/InfoboxContent/InfoboxContent.js": {
+   "componentName": "Lib/Control/InfoboxContent/InfoboxContent",
+   "componentDep": [
+    "require",
+    "Lib/Control/CompoundControl/CompoundControl",
+    "tmpl!Lib/Control/InfoboxContent/InfoboxContent",
+    "Core/Sanitize",
+    "Core/js-template-doT"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/InfoboxTrigger/InfoboxTrigger.js": {
+   "componentName": "Lib/Control/InfoboxTrigger/InfoboxTrigger",
+   "componentDep": [
+    "Lib/Control/Control",
+    "Lib/Control/Infobox/Infobox",
+    "html!Lib/Control/InfoboxTrigger/InfoboxTrigger",
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/LayerCompatible/LayerCompatible.js": {
+   "componentName": "Lib/Control/LayerCompatible/LayerCompatible",
+   "componentDep": [
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Core/helpers/isNewEnvironmentDom",
+    "Env/Env",
+    "Core/ExtensionsManager",
+    "Core/moduleStubs",
+    "Types/source",
+    "Core/Themes/ThemesController",
+    "Lib/Control/LayerCompatible/RightsCompatible"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/LayerCompatible/RightsCompatible.ts": {
+   "componentName": "Lib/Control/LayerCompatible/RightsCompatible",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/Storage",
+    "optional!Permission/access",
+    "Core/RightsManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/LoadingIndicator/LoadingIndicator.js": {
+   "componentName": "Lib/Control/LoadingIndicator/LoadingIndicator",
+   "componentDep": [
+    "Core/WindowManager",
+    "Core/helpers/isNewEnvironment",
+    "Lib/Control/Control",
+    "tmpl!Lib/Control/LoadingIndicator/LoadingIndicator",
+    "Lib/Control/Window/Window",
+    "Lib/Control/ProgressBar/ProgressBar",
+    "Lib/Control/ModalOverlay/ModalOverlay",
+    "Core/helpers/String/escapeTagsFromStr",
+    "Env/Env",
+    "Core/Deferred",
+    "i18n!WS.Core",
+    "css!Lib/Control/LoadingIndicator/LoadingIndicator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Master/Master.js": {
+   "componentName": "Lib/Control/Master/Master",
+   "componentDep": [
+    "Core/core-instance",
+    "Core/Deferred",
+    "Core/CommandDispatcher",
+    "Lib/Control/CompoundControl/CompoundControl",
+    "Lib/Control/TemplatedArea/TemplatedArea"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/ModalOverlay/ModalOverlay.js": {
+   "componentName": "Lib/Control/ModalOverlay/ModalOverlay",
+   "componentDep": [
+    "Core/WindowManager",
+    "Core/Abstract",
+    "Core/helpers/isNewEnvironment",
+    "css!Lib/Control/ModalOverlay/ModalOverlay"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Paging/Paging.js": {
+   "componentName": "Lib/Control/Paging/Paging",
+   "componentDep": [
+    "Core/Deferred",
+    "Lib/Control/Control",
+    "tmpl!Lib/Control/Paging/Paging",
+    "html!Lib/Control/Paging/Pages_list",
+    "css!Lib/Control/Paging/Paging",
+    "i18n!Lib/Control/Paging/Paging"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/ProgressBar/ProgressBar.js": {
+   "componentName": "Lib/Control/ProgressBar/ProgressBar",
+   "componentDep": [
+    "Lib/Control/Control",
+    "tmpl!Lib/Control/ProgressBar/ProgressBar",
+    "css!Lib/Control/ProgressBar/ProgressBar"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/SwitchableArea/SwitchableArea.js": {
+   "componentName": "Lib/Control/SwitchableArea/SwitchableArea",
+   "componentDep": [
+    "Core/core-merge",
+    "Core/helpers/Hcontrol/replaceContainer",
+    "Core/helpers/collection",
+    "Core/Deferred",
+    "Core/moduleStubs",
+    "Lib/Control/CompoundControl/CompoundControl",
+    "Lib/Control/SwitchableArea/SwitchableAreaItem",
+    "tmpl!Lib/Control/SwitchableArea/SwitchableArea",
+    "tmpl!Lib/Control/SwitchableArea/SwitchableArea_area",
+    "Core/helpers/Number/randomId",
+    "Env/Env",
+    "Core/Sanitize"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/SwitchableArea/SwitchableAreaItem.js": {
+   "componentName": "Lib/Control/SwitchableArea/SwitchableAreaItem",
+   "componentDep": [
+    "Core/helpers/Number/randomId",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Lib/Control/CompoundControl/CompoundControl"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/TemplatedArea/TemplatedArea.js": {
+   "componentName": "Lib/Control/TemplatedArea/TemplatedArea",
+   "componentDep": [
+    "Core/core-instance",
+    "Core/helpers/Function/forAliveOnly",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Lib/Control/TemplatedAreaAbstract/TemplatedAreaAbstract"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/TemplatedAreaAbstract/TemplatedAreaAbstract.js": {
+   "componentName": "Lib/Control/TemplatedAreaAbstract/TemplatedAreaAbstract",
+   "componentDep": [
+    "Core/core-merge",
+    "Browser/TransportOld",
+    "Core/helpers/String/escapeHtml",
+    "Core/Deferred",
+    "Env/Env",
+    "Lib/Control/AreaAbstract/AreaAbstract"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/Window/Window.js": {
+   "componentName": "Lib/Control/Window/Window",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/helpers/isNewEnvironment",
+    "require",
+    "Core/core-instance",
+    "Core/helpers/Function/callNext",
+    "Core/helpers/Function/forAliveOnly",
+    "Core/WindowManager",
+    "Core/CommandDispatcher",
+    "Env/Env",
+    "Core/helpers/Hcontrol/doAutofocus",
+    "Lib/Control/TemplatedAreaAbstract/TemplatedAreaAbstract",
+    "Lib/Control/ModalOverlay/ModalOverlay",
+    "Lib/FloatAreaManager/FloatAreaManager",
+    "Lib/Mixins/LikeWindowMixin",
+    "Lib/Mixins/PendingOperationParentMixin",
+    "Core/Deferred",
+    "Env/Event",
+    "Core/dom/wheel",
+    "Core/dom/getTouchEventCoords",
+    "Core/dom/getTouchEventClientCoords",
+    "i18n!WS.Core",
+    "css!Lib/Control/FloatArea/FloatArea"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/DemoModule/test/test-Summator.js": {
+   "componentName": "Lib/DemoModule/test/test-Summator",
+   "componentDep": [
+    "Lib/DemoModule/Summator"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/StickyHeader/StickyHeaderManager/StickyHeaderManager.js": {
+   "componentName": "Lib/StickyHeader/StickyHeaderManager/StickyHeaderManager",
+   "componentDep": [
+    "Env/Env",
+    "Env/Event",
+    "UI/Focus",
+    "UI/Utils",
+    "css!Lib/StickyHeader/StickyHeaderManager/StickyHeaderManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/StickyHeader/StickyHeaderMediator/StickyHeaderMediator.js": {
+   "componentName": "Lib/StickyHeader/StickyHeaderMediator/StickyHeaderMediator",
+   "componentDep": [
+    "Core/Abstract",
+    "Env/Event",
+    "Env/Env",
+    "Core/helpers/Hcontrol/isElementVisible",
+    "Core/core-instance",
+    "Types/function",
+    "Lib/StickyHeader/StickyHeaderManager/StickyHeaderManager"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Type/TDataSource/TDataSource.js": {
+   "componentName": "Lib/Type/TDataSource/TDataSource",
+   "componentDep": [
+    "Core/helpers/getType",
+    "Lib/Type/CustomType",
+    "Lib/Type/TReaderParams/TReaderParams"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Type/TReaderParams/TReaderParams.js": {
+   "componentName": "Lib/Type/TReaderParams/TReaderParams",
+   "componentDep": [
+    "Lib/Type/CustomType"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/else.js": {
+   "componentName": "Core/tmpl/js/astModules2/else",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/else"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/for.js": {
+   "componentName": "Core/tmpl/js/astModules2/for",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/for"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/if.js": {
+   "componentName": "Core/tmpl/js/astModules2/if",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/if"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/module.js": {
+   "componentName": "Core/tmpl/js/astModules2/module",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/control"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/partial.js": {
+   "componentName": "Core/tmpl/js/astModules2/partial",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/partial"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/template.js": {
+   "componentName": "Core/tmpl/js/astModules2/template",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/template"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/jison/beforejs.js": {
+   "componentName": "Core/tmpl/js/jison/beforejs",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/third-party/parser"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/jison/domhandler.js": {
+   "componentName": "Core/tmpl/js/jison/domhandler",
+   "componentDep": [
+    "View/Builder/Tmpl/handlers/third-party/dom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/jison/htmlparser.js": {
+   "componentName": "Core/tmpl/js/jison/htmlparser"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/attrExpressions.js": {
+   "componentName": "Core/tmpl/js/helpers2/attrExpressions",
+   "componentDep": [
+    "View/Executor/Expressions"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/bindExpressions.js": {
+   "componentName": "Core/tmpl/js/helpers2/bindExpressions",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/bind"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/compatibleHelpers.js": {
+   "componentName": "Core/tmpl/js/helpers2/compatibleHelpers",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/decorators.js": {
+   "componentName": "Core/tmpl/js/helpers2/decorators",
+   "componentDep": [
+    "View/Builder/Tmpl/decorators"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/contextResolver.js": {
+   "componentName": "Core/tmpl/js/helpers2/contextResolver",
+   "componentDep": [
+    "View/Executor/Expressions"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/entityHelpers.js": {
+   "componentName": "Core/tmpl/js/helpers2/entityHelpers",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/utils/common"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/eventExpressions.js": {
+   "componentName": "Core/tmpl/js/helpers2/eventExpressions",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/eventSubscriber.js": {
+   "componentName": "Core/tmpl/js/helpers2/eventSubscriber",
+   "componentDep": [
+    "View/Executor/Expressions"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/expressions.js": {
+   "componentName": "Core/tmpl/js/helpers2/expressions",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/types"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/extractServiceOptions.js": {
+   "componentName": "Core/tmpl/js/helpers2/extractServiceOptions",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/injectedDataForce.js": {
+   "componentName": "Core/tmpl/js/helpers2/injectedDataForce",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/processExpressions.js": {
+   "componentName": "Core/tmpl/js/helpers2/processExpressions",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/process"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers2/utils.js": {
+   "componentName": "Core/tmpl/js/helpers2/utils",
+   "componentDep": [
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers/decorators.js": {
+   "componentName": "Core/tmpl/js/helpers/decorators",
+   "componentDep": [
+    "View/decorators"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers/processStatement.js": {
+   "componentName": "Core/tmpl/js/helpers/processStatement",
+   "componentDep": [
+    "View/Builder/Tmpl/expressions/statement"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/helpers/straightFromFileAMD.js": {
+   "componentName": "Core/tmpl/js/helpers/straightFromFileAMD",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/utils/loader"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/vdom/vdomutils.js": {
+   "componentName": "Core/tmpl/js/vdom/vdomutils",
+   "componentDep": [
+    "View/Executor/Utils"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/Debug.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/Debug",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/DirtyChecking.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/DirtyChecking",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/DirtyCheckingCompatible.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/DirtyCheckingCompatible",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/DOMEnvironment.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/DOMEnvironment",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/Environment.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/Environment",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/Hooks.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/Hooks",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/SwipeController.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/SwipeController",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/SyntheticEvent.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/SyntheticEvent",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/vdom/Synchronizer/resources/VdomMarkup.js": {
+   "componentName": "Core/vdom/Synchronizer/resources/VdomMarkup",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/BaseCompatible/Mixins/WsCompatibleConstructor.js": {
+   "componentName": "Lib/Control/BaseCompatible/Mixins/WsCompatibleConstructor",
+   "componentDep": [
+    "Core/core-extend",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/SwitchableArea/design/DesignPlugin.js": {
+   "componentName": "Lib/Control/SwitchableArea/design/DesignPlugin",
+   "componentDep": [
+    "Lib/Control/SwitchableArea/SwitchableArea",
+    "css!Lib/Control/SwitchableArea/design/DesignPlugin"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/TemplatedArea/design/design.js": {
+   "componentName": "Lib/Control/TemplatedArea/design/design",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/lib/Control/TemplatedArea/design/DesignPlugin.js": {
+   "componentName": "Lib/Control/TemplatedArea/design/DesignPlugin",
+   "componentDep": [
+    "Lib/Control/TemplatedArea/TemplatedArea"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/array.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/array",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/array"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/function.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/function",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/function"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/boolean.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/boolean",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/boolean"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/number.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/number",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/number"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/object.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/object",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/object"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/string.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/string",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/string"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/WS.Core/core/tmpl/js/astModules2/data/value.js": {
+   "componentName": "Core/tmpl/js/astModules2/data/value",
+   "componentDep": [
+    "View/Builder/Tmpl/modules/data/value"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

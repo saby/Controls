@@ -1,0 +1,1300 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/Event.ts": {
+   "componentName": "Browser/Event",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/Bus",
+    "Browser/_Event/Broadcast/Message",
+    "Core/polyfill"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/Storage.ts": {
+   "componentName": "Browser/Storage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Storage/utils",
+    "Browser/_Storage/Local",
+    "Browser/_Storage/LocalNative",
+    "Browser/_Storage/Session"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/Transport.ts": {
+   "componentName": "Browser/Transport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/fetch",
+    "Browser/_Transport/URL",
+    "Browser/_Transport/RPC",
+    "Browser/_Transport/ajax-emulator",
+    "Browser/_Transport/ITransport",
+    "Browser/_Transport/RPCJSON",
+    "Browser/_Transport/XHR",
+    "Browser/_Transport/HTTPStatus",
+    "i18n!Browser/Transport",
+    "Core/polyfill"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/TransportOld.ts": {
+   "componentName": "Browser/TransportOld",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_TransportOld/ReportPrinter",
+    "Browser/_TransportOld/RecordTypes",
+    "Browser/_TransportOld/RecordSetToXMLSerializer",
+    "Browser/_TransportOld/RecordSet",
+    "Browser/_TransportOld/Record",
+    "Browser/_TransportOld/prepareGetRPCInvocationURL",
+    "Browser/_TransportOld/nodeType",
+    "Browser/_TransportOld/attachTemplate",
+    "Browser/_TransportOld/CompoundControlTemplate",
+    "Browser/_TransportOld/EmptyTemplate",
+    "Browser/_TransportOld/Template",
+    "Browser/_TransportOld/FastTemplate",
+    "Browser/_TransportOld/XMLTemplate",
+    "Browser/_TransportOld/BLObject"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/Local.ts": {
+   "componentName": "Browser/_Storage/Local",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Event",
+    "Browser/_Storage/NativeGetter",
+    "Browser/_Storage/utils/item",
+    "Browser/_Storage/utils/prefix",
+    "Types/entity"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/LocalNative.ts": {
+   "componentName": "Browser/_Storage/LocalNative",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/UserInfo",
+    "Env/Env",
+    "Env/Constants",
+    "Core/helpers/String/format",
+    "i18n!Browser",
+    "Browser/_Storage/_storage",
+    "Env/Event"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/NativeGetter.ts": {
+   "componentName": "Browser/_Storage/NativeGetter",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Browser/_Storage/LocalNative",
+    "Browser/_Storage/utils",
+    "Env/Env",
+    "Browser/_Storage/utils/item"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/Session.ts": {
+   "componentName": "Browser/_Storage/Session",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/UserInfo",
+    "Env/Env",
+    "Env/Constants",
+    "Browser/_Storage/_storage"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/utils.ts": {
+   "componentName": "Browser/_Storage/utils",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Storage/utils/item",
+    "Browser/_Storage/utils/prefix"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/_storage.ts": {
+   "componentName": "Browser/_Storage/_storage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Constants",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/ajax-emulator.ts": {
+   "componentName": "Browser/_Transport/ajax-emulator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/fetch.ts": {
+   "componentName": "Browser/_Transport/fetch",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/fetch/Errors",
+    "Browser/_Transport/fetch/fetch",
+    "Browser/_Transport/fetch/responseParser",
+    "Browser/_Transport/fetch/interface"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/HTTPStatus.ts": {
+   "componentName": "Browser/_Transport/HTTPStatus",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/ITransport.ts": {
+   "componentName": "Browser/_Transport/ITransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-extend"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC.ts": {
+   "componentName": "Browser/_Transport/RPC",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/RPC/Body",
+    "Browser/_Transport/RPC/ErrorCreator",
+    "Browser/_Transport/RPC/Headers",
+    "Browser/_Transport/RPC/Error",
+    "Browser/_Transport/RPC/getInvocationUrl"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPCJSON.ts": {
+   "componentName": "Browser/_Transport/RPCJSON",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/core-extend",
+    "Env/Constants",
+    "Env/Env",
+    "Browser/_Transport/RPC/Body",
+    "Browser/_Transport/RPC/Headers",
+    "Browser/_Transport/RPC/request",
+    "Browser/_Transport/RPC/fallback",
+    "Browser/_Transport/RPC/ErrorCreator",
+    "i18n!Browser",
+    "Browser/_Transport/RPC/PSRPC",
+    "Browser/_Transport/XHR"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL.ts": {
+   "componentName": "Browser/_Transport/URL",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/URL/deserializeData",
+    "Browser/_Transport/URL/serializeData",
+    "Browser/_Transport/URL/getHostName",
+    "Browser/_Transport/URL/getQueryParam",
+    "Browser/_Transport/URL/getUrl"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/XHR.ts": {
+   "componentName": "Browser/_Transport/XHR",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Env/Constants",
+    "Core/Deferred",
+    "Core/UserInfo",
+    "Browser/_Transport/ajax-emulator",
+    "Browser/_Transport/ITransport",
+    "Browser/_Transport/fetch",
+    "Env/Event"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/_utils.ts": {
+   "componentName": "Browser/_Transport/_utils",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/attachTemplate.js": {
+   "componentName": "Browser/_TransportOld/attachTemplate",
+   "componentDep": [
+    "Core/Deferred",
+    "Env/Env",
+    "Core/Storage",
+    "Core/library",
+    "Browser/_TransportOld/EmptyTemplate",
+    "Browser/_TransportOld/FastTemplate",
+    "Browser/_TransportOld/XMLTemplate",
+    "Browser/_TransportOld/CompoundControlTemplate",
+    "Browser/_TransportOld/loadTemplateFile"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/CompoundControlTemplate.js": {
+   "componentName": "Browser/_TransportOld/CompoundControlTemplate",
+   "componentDep": [
+    "Browser/_TransportOld/Template",
+    "Core/core-merge",
+    "Core/property-merge",
+    "Core/helpers/Number/randomId"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/BLObject.js": {
+   "componentName": "Browser/_TransportOld/BLObject",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/EmptyTemplate.js": {
+   "componentName": "Browser/_TransportOld/EmptyTemplate",
+   "componentDep": [
+    "Browser/_TransportOld/Template"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/FastTemplate.js": {
+   "componentName": "Browser/_TransportOld/FastTemplate",
+   "componentDep": [
+    "Browser/_TransportOld/Template",
+    "Env/Env",
+    "Core/helpers/Number/randomId",
+    "Browser/_TransportOld/importCoreAttch",
+    "Core/Context",
+    "Core/Deferred",
+    "Core/CommandDispatcher",
+    "Core/core-instance",
+    "Core/moduleStubs",
+    "i18n!Browser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/importCoreAttch.js": {
+   "componentName": "Browser/_TransportOld/importCoreAttch",
+   "componentDep": [
+    "Core/moduleStubs"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/loadTemplateFile.js": {
+   "componentName": "Browser/_TransportOld/loadTemplateFile",
+   "componentDep": [
+    "Core/Deferred",
+    "Env/Env",
+    "Core/Storage",
+    "Browser/_TransportOld/nodeType"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/nodeType.js": {
+   "componentName": "Browser/_TransportOld/nodeType",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/prepareGetRPCInvocationURL.js": {
+   "componentName": "Browser/_TransportOld/prepareGetRPCInvocationURL",
+   "componentDep": [
+    "Browser/_Transport/RPC",
+    "Env/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/Record.js": {
+   "componentName": "Browser/_TransportOld/Record",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/RecordSet.js": {
+   "componentName": "Browser/_TransportOld/RecordSet",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/RecordSetToXMLSerializer.js": {
+   "componentName": "Browser/_TransportOld/RecordSetToXMLSerializer",
+   "componentDep": [
+    "Core/helpers/axo",
+    "Core/core-instance",
+    "Env/Env",
+    "i18n!Browser"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/ReportPrinter.js": {
+   "componentName": "Browser/_TransportOld/ReportPrinter",
+   "componentDep": [
+    "Core/core-extend",
+    "Core/Deferred",
+    "Core/xslt-async",
+    "Browser/_TransportOld/RecordSetToXMLSerializer"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/RecordTypes.js": {
+   "componentName": "Browser/_TransportOld/RecordTypes",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/Template.js": {
+   "componentName": "Browser/_TransportOld/Template",
+   "componentDep": [
+    "require",
+    "Core/core-extend",
+    "Core/library",
+    "Core/ParallelDeferred",
+    "Core/Deferred",
+    "Env/Env",
+    "View/Executor/Utils",
+    "Browser/_TransportOld/nodeType"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_TransportOld/XMLTemplate.js": {
+   "componentName": "Browser/_TransportOld/XMLTemplate",
+   "componentDep": [
+    "Browser/_TransportOld/Template",
+    "Env/Env",
+    "Browser/_TransportOld/nodeType",
+    "Browser/_TransportOld/loadTemplateFile",
+    "Core/Deferred",
+    "Core/ParallelDeferred",
+    "Browser/_TransportOld/importCoreAttch",
+    "Core/Context",
+    "Core/CommandDispatcher",
+    "Core/helpers/Object/isEmpty",
+    "Core/core-instance",
+    "Core/helpers/Number/randomId",
+    "i18n!Browser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/Message.ts": {
+   "componentName": "Browser/_Event/Broadcast/Message",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Env/Constants",
+    "Types/entity",
+    "Browser/_Event/Broadcast/Transport/LocalStorage",
+    "Browser/_Event/Broadcast/Transport/BroadCast",
+    "Browser/_Event/Broadcast/Transport/Fake",
+    "Browser/_Event/Broadcast/FakeMessage"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/FakeMessage.ts": {
+   "componentName": "Browser/_Event/Broadcast/FakeMessage",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/Transport.ts": {
+   "componentName": "Browser/_Event/Broadcast/Transport",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/Bus.ts": {
+   "componentName": "Browser/_Event/Server/Bus",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Env/Constants",
+    "Env/Event",
+    "Browser/Storage",
+    "Env/Env",
+    "Browser/_Event/Server/_class/Constants",
+    "Browser/_Event/Server/_class/logger/WatchDogAggregator",
+    "Browser/_Event/Server/_class/Subscribe",
+    "Browser/_Event/Server/_class/SubscribeContainer",
+    "Browser/_Event/Server/_class/transport/ExclusiveProxy",
+    "Browser/_Event/Server/_class/Events",
+    "Browser/_Event/Server/_class/logger/ConnectWatchDog"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/DebugUtils.ts": {
+   "componentName": "Browser/_Event/Server/DebugUtils",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/interfaces.ts": {
+   "componentName": "Browser/_Event/Server/interfaces",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/ResponseConverter.ts": {
+   "componentName": "Browser/_Event/Server/ResponseConverter",
+   "componentDep": [
+    "require",
+    "exports",
+    "optional!Types/entity",
+    "optional!Types/collection"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/utils/item.ts": {
+   "componentName": "Browser/_Storage/utils/item",
+   "componentDep": [
+    "require",
+    "exports",
+    "Types/formatter"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Storage/utils/prefix.ts": {
+   "componentName": "Browser/_Storage/utils/prefix",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/Sbis/fetch.ts": {
+   "componentName": "Browser/_Transport/Sbis/fetch",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Transport/fetch/fetch",
+    "Browser/_Transport/fetch/Errors",
+    "Env/Constants",
+    "Core/UserInfo",
+    "Env/Event",
+    "Browser/_Transport/_utils",
+    "Browser/_Transport/fetch/responseParser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/fetch/Errors.ts": {
+   "componentName": "Browser/_Transport/fetch/Errors",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "i18n!Browser",
+    "Core/core-classicExtend",
+    "Browser/_Transport/HTTPStatus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/fetch/fetch.ts": {
+   "componentName": "Browser/_Transport/fetch/fetch",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Env/Env",
+    "Browser/_Transport/fetch/Errors",
+    "Browser/_Transport/_utils"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/fetch/interface.ts": {
+   "componentName": "Browser/_Transport/fetch/interface",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/fetch/responseParser.ts": {
+   "componentName": "Browser/_Transport/fetch/responseParser",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/fetch/Errors"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/Body.ts": {
+   "componentName": "Browser/_Transport/RPC/Body",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Constants",
+    "Browser/_Transport/URL",
+    "i18n!Browser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/Error.ts": {
+   "componentName": "Browser/_Transport/RPC/Error",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Transport/fetch/Errors"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/ErrorCreator.ts": {
+   "componentName": "Browser/_Transport/RPC/ErrorCreator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/RPC/Error",
+    "Env/Constants",
+    "Browser/_Transport/fetch/Errors"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/fallback.ts": {
+   "componentName": "Browser/_Transport/RPC/fallback",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/getFetchConfig.ts": {
+   "componentName": "Browser/_Transport/RPC/getFetchConfig",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/RPC/Body",
+    "Browser/_Transport/RPC/Headers",
+    "Env/Constants"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/getInvocationUrl.ts": {
+   "componentName": "Browser/_Transport/RPC/getInvocationUrl",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Constants",
+    "Browser/_Transport/URL"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/Headers.ts": {
+   "componentName": "Browser/_Transport/RPC/Headers",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Core/UserInfo",
+    "Core/i18n/Locale",
+    "Types/formatter",
+    "Core/base64",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/PSEnv.ts": {
+   "componentName": "Browser/_Transport/RPC/PSEnv",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/PSRPC.ts": {
+   "componentName": "Browser/_Transport/RPC/PSRPC",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "i18n!Browser",
+    "Env/Env",
+    "Browser/_Transport/RPC/Error",
+    "Browser/_Transport/fetch/Errors",
+    "Browser/_Transport/HTTPStatus"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/request.ts": {
+   "componentName": "Browser/_Transport/RPC/request",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Browser/_Transport/RPC/Body",
+    "Browser/_Transport/RPC/ErrorCreator",
+    "Core/Deferred"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/RPC.ts": {
+   "componentName": "Browser/_Transport/RPC/RPC",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Transport/Sbis/fetch",
+    "Browser/_Transport/_utils",
+    "Browser/_Transport/RPC/Body",
+    "Browser/_Transport/RPC/ErrorCreator",
+    "Env/Event",
+    "Browser/_Transport/RPC/getFetchConfig",
+    "Browser/_Transport/fetch/Errors",
+    "i18n!Browser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/RPC/types.ts": {
+   "componentName": "Browser/_Transport/RPC/types",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL/deserializeData.ts": {
+   "componentName": "Browser/_Transport/URL/deserializeData",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/base64"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL/getHostName.ts": {
+   "componentName": "Browser/_Transport/URL/getHostName",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL/getQueryParam.ts": {
+   "componentName": "Browser/_Transport/URL/getQueryParam",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL/getUrl.ts": {
+   "componentName": "Browser/_Transport/URL/getUrl",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Transport/URL/serializeData.ts": {
+   "componentName": "Browser/_Transport/URL/serializeData",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/base64"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/Transport/BroadCast.ts": {
+   "componentName": "Browser/_Event/Broadcast/Transport/BroadCast",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Storage",
+    "Types/entity"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/Transport/LocalStorage.ts": {
+   "componentName": "Browser/_Event/Broadcast/Transport/LocalStorage",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/Storage",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Broadcast/Transport/Fake.ts": {
+   "componentName": "Browser/_Event/Broadcast/Transport/Fake",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/AckSender.ts": {
+   "componentName": "Browser/_Event/Server/native/AckSender",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/HashedCounter.ts": {
+   "componentName": "Browser/_Event/Server/native/HashedCounter",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/native/_IndexedDB/Writer",
+    "Browser/_Event/Server/native/_IndexedDB/Reader",
+    "Browser/_Event/Server/native/_IndexedDB/AdapterStomp",
+    "Browser/_Event/Server/native/_IndexedDB/AdapterEvent",
+    "Browser/_Event/Server/native/_IndexedDB/Connector"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/SockjsEmulator.ts": {
+   "componentName": "Browser/_Event/Server/native/SockjsEmulator",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/_class/Events"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/resources/sockjs-1.0.3.js": {
+   "componentDep": []
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/resources/stomp.js": {
+   "componentName": "Browser/_Event/Server/resources/stomp",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker/subscribe.ts": {
+   "componentName": "Browser/_Event/Server/worker/subscribe",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker/subscribe-controller.ts": {
+   "componentName": "Browser/_Event/Server/worker/subscribe-controller",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/worker/subscribe",
+    "Browser/_Event/Server/native/HashedCounter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker-connect/Constants.ts": {
+   "componentName": "Browser/_Event/Server/worker-connect/Constants",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker-connect/SwConnect.ts": {
+   "componentName": "Browser/_Event/Server/worker-connect/SwConnect",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/worker-connect/Constants",
+    "Browser/_Event/Server/worker-connect/messages/Page"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker-connect/WorkerBuilder.ts": {
+   "componentName": "Browser/_Event/Server/worker-connect/WorkerBuilder",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/Deferred",
+    "Browser/_Event/Server/worker-connect/SwConnect"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/ConnectOptions.ts": {
+   "componentName": "Browser/_Event/Server/_class/ConnectOptions",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/_class/Constants"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/Constants.ts": {
+   "componentName": "Browser/_Event/Server/_class/Constants",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/DeviceEnv.ts": {
+   "componentName": "Browser/_Event/Server/_class/DeviceEnv",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Env/Env",
+    "Browser/Transport",
+    "Browser/_Event/Server/_class/Constants",
+    "Browser/_Event/Server/_class/ConnectOptions"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/Events.ts": {
+   "componentName": "Browser/_Event/Server/_class/Events",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/Notifier.ts": {
+   "componentName": "Browser/_Event/Server/_class/Notifier",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Event",
+    "Browser/_Event/Server/ResponseConverter",
+    "Browser/_Event/Server/_class/logger/WatchDogAggregator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/RabbitEnv.ts": {
+   "componentName": "Browser/_Event/Server/_class/RabbitEnv",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Core/Deferred",
+    "Browser/Transport",
+    "Browser/_Event/Server/_class/Constants"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/Subscribe.ts": {
+   "componentName": "Browser/_Event/Server/_class/Subscribe",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Event/Server/_class/Constants"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/SubscribeContainer.ts": {
+   "componentName": "Browser/_Event/Server/_class/SubscribeContainer",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/native/HashedCounter"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/AdapterEvent.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/AdapterEvent",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/IAdapterStorage.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/IAdapterStorage",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/Connector.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/Connector",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Browser/_Event/Server/native/_IndexedDB/Writer",
+    "Browser/_Event/Server/native/_IndexedDB/Reader"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/AdapterStomp.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/AdapterStomp",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/Reader.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/Reader",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/native/_IndexedDB/Writer.ts": {
+   "componentName": "Browser/_Event/Server/native/_IndexedDB/Writer",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker-connect/messages/Page.ts": {
+   "componentName": "Browser/_Event/Server/worker-connect/messages/Page",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/worker-connect/messages/Sw.ts": {
+   "componentName": "Browser/_Event/Server/worker-connect/messages/Sw",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/creator/CreatorExclusive.ts": {
+   "componentName": "Browser/_Event/Server/_class/creator/CreatorExclusive",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Browser/_Event/Server/_class/creator/TransportConnect",
+    "Browser/_Event/Server/_class/transport/LocalPageTransport"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/creator/CreatorExclusiveSockJs.ts": {
+   "componentName": "Browser/_Event/Server/_class/creator/CreatorExclusiveSockJs",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Event/Server/_class/creator/CreatorExclusive",
+    "Browser/_Event/Server/_class/creator/TransportConnect"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/creator/CreatorSockJs.ts": {
+   "componentName": "Browser/_Event/Server/_class/creator/CreatorSockJs",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Event/Server/_class/creator/CreatorWebSocket",
+    "Browser/_Event/Server/_class/creator/TransportConnect"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/creator/CreatorWebSocket.ts": {
+   "componentName": "Browser/_Event/Server/_class/creator/CreatorWebSocket",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "Core/UserInfo",
+    "Browser/Storage",
+    "Browser/_Event/Server/_class/creator/TransportConnect",
+    "Browser/_Event/Server/_class/transport/Constants",
+    "Browser/_Event/Server/_class/transport/LocalMainTransport",
+    "Browser/_Event/Server/_class/transport/LocalSlaveTransport"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/creator/TransportConnect.ts": {
+   "componentName": "Browser/_Event/Server/_class/creator/TransportConnect",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/native/SockjsEmulator",
+    "Browser/_Event/Server/resources/stomp"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/deliver/Browser.ts": {
+   "componentName": "Browser/_Event/Server/_class/deliver/Browser",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Broadcast/Message"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/deliver/DeliveryChooser.ts": {
+   "componentName": "Browser/_Event/Server/_class/deliver/DeliveryChooser",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Env/Env",
+    "Browser/_Event/Server/_class/Notifier",
+    "Browser/_Event/Server/_class/deliver/Browser",
+    "Browser/_Event/Server/_class/deliver/Page"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/deliver/IndexedDB.ts": {
+   "componentName": "Browser/_Event/Server/_class/deliver/IndexedDB",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/native/_IndexedDB"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/deliver/Page.ts": {
+   "componentName": "Browser/_Event/Server/_class/deliver/Page",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/Constants.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/Constants",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/ExclusiveProxy.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/ExclusiveProxy",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Browser/Storage",
+    "Browser/_Event/Server/_class/Constants",
+    "Browser/_Event/Server/_class/DeviceEnv",
+    "Browser/_Event/Server/_class/transport/TransportChooser",
+    "Browser/_Event/Server/_class/Subscribe",
+    "Browser/_Event/Server/DebugUtils"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/LocalMainTransport.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/LocalMainTransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/UserInfo",
+    "Browser/_Event/Broadcast/Message",
+    "Browser/Storage",
+    "Browser/_Event/Server/_class/transport/Constants",
+    "Browser/_Event/Server/_class/transport/LocalPageTransport",
+    "Browser/_Event/Server/_class/Subscribe",
+    "Browser/_Event/Server/_class/Events"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/LocalPageTransport.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/LocalPageTransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/Deferred",
+    "Env/Env",
+    "Browser/Storage",
+    "Browser/_Event/Server/_class/transport/Transport",
+    "Browser/_Event/Server/_class/SubscribeContainer",
+    "Browser/_Event/Server/native/AckSender",
+    "Browser/_Event/Server/native/_IndexedDB/Connector",
+    "Browser/_Event/Server/native/_IndexedDB/AdapterStomp",
+    "Browser/_Event/Server/_class/transport/StompHeaderBuilder"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/LocalSlaveTransport.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/LocalSlaveTransport",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Browser/_Event/Broadcast/Message",
+    "Browser/Storage",
+    "Browser/_Event/Server/_class/transport/Constants",
+    "Browser/_Event/Server/_class/transport/Transport",
+    "Browser/_Event/Server/_class/Events",
+    "Browser/_Event/Server/_class/SubscribeContainer"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/StompHeaderBuilder.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/StompHeaderBuilder",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/Transport.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/Transport",
+   "componentDep": [
+    "require",
+    "exports",
+    "Browser/_Event/Server/_class/logger/WatchDogAggregator"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/transport/TransportChooser.ts": {
+   "componentName": "Browser/_Event/Server/_class/transport/TransportChooser",
+   "componentDep": [
+    "require",
+    "exports",
+    "Core/Deferred",
+    "Browser/_Event/Server/_class/logger/WatchDogAggregator",
+    "Browser/_Event/Server/_class/RabbitEnv",
+    "Browser/_Event/Server/_class/creator/CreatorWebSocket",
+    "Browser/_Event/Server/_class/creator/CreatorSockJs",
+    "Browser/_Event/Server/_class/creator/CreatorExclusive",
+    "Browser/_Event/Server/_class/creator/CreatorExclusiveSockJs",
+    "Browser/_Event/Server/_class/deliver/DeliveryChooser"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/logger/ConfirmLogger.ts": {
+   "componentName": "Browser/_Event/Server/_class/logger/ConfirmLogger",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/logger/ConnectWatchDog.ts": {
+   "componentName": "Browser/_Event/Server/_class/logger/ConnectWatchDog",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/logger/ConsoleWatchDog.ts": {
+   "componentName": "Browser/_Event/Server/_class/logger/ConsoleWatchDog",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/Browser/_Event/Server/_class/logger/WatchDogAggregator.ts": {
+   "componentName": "Browser/_Event/Server/_class/logger/WatchDogAggregator",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

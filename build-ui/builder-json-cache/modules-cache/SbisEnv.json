@@ -1,0 +1,59 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/SbisEnv/PresentationService.ts": {
+   "componentName": "SbisEnv/PresentationService",
+   "componentDep": [
+    "require",
+    "exports",
+    "SbisEnv/_PresentationService/Cookie",
+    "SbisEnv/_PresentationService/Console",
+    "SbisEnv/_PresentationService/Location"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/SbisEnv/StartApplication.ts": {
+   "componentName": "SbisEnv/StartApplication",
+   "componentDep": [
+    "require",
+    "exports",
+    "Application/Initializer",
+    "SbisEnv/PresentationService"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/SbisEnv/_PresentationService/Console.ts": {
+   "componentName": "SbisEnv/_PresentationService/Console",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/SbisEnv/_PresentationService/Cookie.ts": {
+   "componentName": "SbisEnv/_PresentationService/Cookie",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/SbisEnv/_PresentationService/Location.ts": {
+   "componentName": "SbisEnv/_PresentationService/Location",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

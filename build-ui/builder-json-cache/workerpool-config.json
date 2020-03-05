@@ -1,0 +1,1 @@
+{"systemMaxWorkers":8,"maxWorkers":7,"forkOpts":{"env":{"logs":"","main-process-cwd":"C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\sbis3-builder","required-modules":"[]"},"execArgv":["--max-old-space-size=1024"]}}

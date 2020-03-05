@@ -1,0 +1,82 @@
+{
+ "cache": "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache",
+ "output": "C:\\works\\gh\\ws2\\wasaby-controls\\application",
+ "logs": "C:/works/gh/ws2/wasaby-controls/application/logs",
+ "typescript": true,
+ "contents": true,
+ "joinedMeta": true,
+ "clearOutput": true,
+ "less": true,
+ "themes": true,
+ "symlinks": false,
+ "modules": [
+  {
+   "name": "ControlsUnit",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\tests\\ControlsUnit"
+  },
+  {
+   "name": "Controls",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\Controls"
+  },
+  {
+   "name": "Types",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\saby-types\\Types"
+  },
+  {
+   "name": "Env",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\rmi\\src\\client\\Env"
+  },
+  {
+   "name": "Browser",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\rmi\\src\\client\\Browser"
+  },
+  {
+   "name": "I18n",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\saby-i18n\\I18n"
+  },
+  {
+   "name": "WS.Core",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\sbis3-ws\\WS.Core"
+  },
+  {
+   "name": "View",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\sbis3-ws\\View"
+  },
+  {
+   "name": "Inferno",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\saby-inferno\\Inferno"
+  },
+  {
+   "name": "UI",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\saby-ui\\UI"
+  },
+  {
+   "name": "Vdom",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\sbis3-ws\\Vdom"
+  },
+  {
+   "name": "SbisEnv",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\rmi\\src\\client\\SbisEnv"
+  },
+  {
+   "name": "Application",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\wasaby-app\\src\\Application"
+  },
+  {
+   "name": "Controls-default-theme",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\Controls-default-theme"
+  },
+  {
+   "name": "Controls-demo",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\Controls-demo"
+  },
+  {
+   "name": "Router",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\Router\\Router"
+  },
+  {
+   "name": "SbisEnvUI",
+   "path": "C:\\works\\gh\\ws2\\wasaby-controls\\node_modules\\wasaby-cli\\store\\_repos\\rmi\\src\\client\\SbisEnvUI"
+  }
+ ]
+}

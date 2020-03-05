@@ -1,0 +1,91 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/CustomAsserts.ts": {
+   "componentName": "ControlsUnit/CustomAsserts",
+   "componentDep": [
+    "require",
+    "exports",
+    "chai"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/ListData.js": {
+   "componentName": "ControlsUnit/ListData"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestControlAsync.js": {
+   "componentName": "ControlsUnit/Async/TestControlAsync",
+   "componentDep": [
+    "UI/Base",
+    "wml!ControlsUnit/Async/TestControlAsync"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestControlSync.js": {
+   "componentName": "ControlsUnit/Async/TestControlSync",
+   "componentDep": [
+    "UI/Base",
+    "wml!ControlsUnit/Async/TestControlSync"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestLibraryAsync.js": {
+   "componentDep": [
+    "tslib",
+    "UI/Base",
+    "wml!ControlsUnit/Async/TestControlAsync"
+   ]
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestModuleAsync.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestModuleAsyncTwice.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Async/TestModuleSync.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Calendar/Utils.js": {
+   "componentName": "ControlsUnit/Calendar/Utils",
+   "componentDep": [
+    "Core/core-clone",
+    "Core/core-merge"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/resources/ProxyCall.js": {
+   "componentName": "ControlsUnit/resources/ProxyCall",
+   "componentDep": [],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/resources/TemplateUtil.js": {
+   "componentName": "ControlsUnit/resources/TemplateUtil",
+   "componentDep": [
+    "Core/helpers/String/unEscapeASCII",
+    "wml!ControlsUnit/resources/SimpleContent"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Input/Base/InputUtility.js": {
+   "componentName": "ControlsUnit/Input/Base/InputUtility",
+   "componentDep": [
+    "Vdom/Vdom"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/ControlsUnit/Filter/Button/History/testHistorySource.js": {
+   "componentName": "ControlsUnit/Filter/Button/History/testHistorySource",
+   "componentDep": [
+    "Core/Control",
+    "Types/di",
+    "Controls/history",
+    "Core/Deferred",
+    "Types/source",
+    "Types/collection",
+    "Types/entity",
+    "Core/Serializer"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}

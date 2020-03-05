@@ -1,0 +1,11 @@
+{
+ "Controls-default-theme": {
+  "type": "new",
+  "moduleName": "Controls",
+  "themeName": "default",
+  "modifiers": [
+   "",
+   "dark"
+  ]
+ }
+}

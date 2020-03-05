@@ -1,0 +1,128 @@
+{
+ "componentsInfo": {
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/i18n.ts": {
+   "componentName": "I18n/i18n",
+   "componentDep": [
+    "require",
+    "exports",
+    "I18n/_i18n/Locale",
+    "I18n/_i18n/Configuration",
+    "I18n/_i18n/IConfiguration",
+    "I18n/_i18n/Loader"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locale.routes.js": {},
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/Configuration.ts": {
+   "componentName": "I18n/_i18n/Configuration",
+   "componentDep": [
+    "require",
+    "exports",
+    "Env/Env",
+    "I18n/_i18n/Const"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/Const.ts": {
+   "componentName": "I18n/_i18n/Const",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/IConfiguration.ts": {
+   "componentName": "I18n/_i18n/IConfiguration",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/Loader.ts": {
+   "componentName": "I18n/_i18n/Loader",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "Core/Deferred",
+    "I18n/_i18n/Const",
+    "Env/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false,
+   "patchedText": "define('I18n/_i18n/Loader', [\n    'require',\n    'exports',\n    'tslib',\n    'Core/Deferred',\n    'I18n/_i18n/Const',\n    'Env/Env'\n], function (require, exports, tslib_1, Deferred, Const_1, Env_1) {\n    'use strict';\n    Object.defineProperty(exports, '__esModule', { value: true });\n    var deferredModulesInfo = {};\n    var modulesInfo = {};\n    var Loader = function () {\n        function Loader() {\n        }\n        Loader.isLoadedModule = function (moduleName) {\n            return deferredModulesInfo.hasOwnProperty(moduleName);\n        };\n        Loader.getAvailableDictionary = function (moduleName, loader) {\n            if (Loader.isLoadedModule(moduleName)) {\n                return deferredModulesInfo[moduleName].addCallback(function () {\n                    return modulesInfo[moduleName];\n                });\n            }\n            if (typeof loader === 'string') {\n                deferredModulesInfo[moduleName] = Loader.loadContents(loader, moduleName).addCallback(function (info) {\n                    modulesInfo[moduleName] = info;\n                    return modulesInfo[moduleName];\n                });\n            }\n            if (typeof loader === 'function') {\n                deferredModulesInfo[moduleName] = new Deferred();\n                var result = loader();\n                if (result instanceof Promise) {\n                    result.then(function (info) {\n                        modulesInfo[moduleName] = info;\n                        deferredModulesInfo[moduleName].callback(modulesInfo[moduleName]);\n                    });\n                }\n                if (result instanceof Array) {\n                    modulesInfo[moduleName] = result;\n                    deferredModulesInfo[moduleName].callback(modulesInfo[moduleName]);\n                }\n            }\n            if (typeof loader === 'object') {\n                deferredModulesInfo[moduleName] = new Deferred();\n                modulesInfo[moduleName] = Loader.extractAvailableDictionaries(moduleName, loader);\n                deferredModulesInfo[moduleName].callback(modulesInfo[moduleName]);\n            }\n            return deferredModulesInfo[moduleName];\n        };\n        Loader.loadContents = function (url, moduleName) {\n            var result = new Deferred();\n            if (Env_1.constants.isBrowserPlatform) {\n                fetch(url, { credentials: 'include' }).then(function (response) {\n                    if (response.ok) {\n                        response.json().then(function (contents) {\n                            result.callback(Loader.extractAvailableDictionaries(moduleName, contents));\n                        }, function (err) {\n                            result.errback(err);\n                        });\n                    } else {\n                        result.errback(response.status);\n                    }\n                }, function (err) {\n                    result.errback(err);\n                });\n            } else {\n                (new Promise(function (resolve_1, reject_1) {\n                    require([url], resolve_1, reject_1);\n                }).then(function (contents) {\n                    result.callback(Loader.extractAvailableDictionaries(moduleName, contents));\n                }, function (err) {\n                    result.errback(err);\n                }).catch(function (err) {\n                    require.onError(err);\n                }))\n            }\n            return result;\n        };\n        Loader.extractAvailableDictionaries = function (moduleName, contents) {\n            if (contents.modules && contents.modules[moduleName] && contents.modules[moduleName].dict) {\n                return contents.modules[moduleName].dict;\n            }\n            return [];\n        };\n        Loader.loadModule = function (nameModule, loader) {\n            if (Loader.isLoadedModule(nameModule)) {\n                return deferredModulesInfo[nameModule].addCallback(function () {\n                    return modulesInfo[nameModule];\n                });\n            }\n            deferredModulesInfo[nameModule] = Loader.loadMetaInfo(nameModule, loader).addCallback(function (info) {\n                modulesInfo[nameModule] = info;\n                return modulesInfo[nameModule];\n            });\n            return deferredModulesInfo[nameModule];\n        };\n        Loader.loadConfiguration = function (locale, loader) {\n            if (loader === void 0) {\n                loader = require;\n            }\n            var result = new Deferred();\n            var _a = locale.split('-'), language = _a[0], country = _a[1];\n            var configurations = [];\n            if (language && Const_1.default.availableLang.includes(language)) {\n                configurations.push('I18n/locales/language/' + language);\n                if (country && Const_1.default.availableCountry.includes(country)) {\n                    configurations.push('I18n/locales/format/' + country);\n                } else {\n                    configurations.push('I18n/locales/format/' + Const_1.default.defaultCountry[language]);\n                }\n            }\n            loader(configurations, function (base, additional) {\n                if (base) {\n                    var code = '' + base.default.code + (additional ? '-' + additional.default.code : '');\n                    result.callback(tslib_1.__assign(tslib_1.__assign(tslib_1.__assign({}, base.default), additional.default), { code: code }));\n                } else {\n                    result.errback('Language ' + language + ' is not supported');\n                }\n            }, function (err) {\n                result.errback(err);\n            });\n            return result;\n        };\n        Loader.loadMetaInfo = function (nameModule, loader) {\n            if (loader === void 0) {\n                loader = require;\n            }\n            var def = new Deferred();\n            loader(['optional!' + nameModule + '/.builder/module'], function (info) {\n                var infoDict = {};\n                if (info instanceof Object && info.dict) {\n                    for (var _i = 0, _a = info.dict; _i < _a.length; _i++) {\n                        var nameDict = _a[_i];\n                        var langAndExtDict = nameDict.split('.');\n                        infoDict[langAndExtDict[0]] = infoDict[langAndExtDict[0]] || [];\n                        infoDict[langAndExtDict[0]].push(langAndExtDict[1] ? langAndExtDict[1] : 'json');\n                    }\n                }\n                def.callback(infoDict);\n            }, function () {\n                def.callback({});\n            });\n            return def;\n        };\n        return Loader;\n    }();\n    exports.default = Loader;\n});"
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/Locale.ts": {
+   "componentName": "I18n/_i18n/Locale",
+   "componentDep": [
+    "require",
+    "exports",
+    "tslib",
+    "I18n/_i18n/RkString",
+    "Env/Env",
+    "I18n/_i18n/Const",
+    "Env/Env"
+   ],
+   "privateDependencies": true,
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/_i18n/RkString.ts": {
+   "componentName": "I18n/_i18n/RkString",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locales/format/GB.ts": {
+   "componentName": "I18n/locales/format/GB",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locales/format/RU.ts": {
+   "componentName": "I18n/locales/format/RU",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locales/format/US.ts": {
+   "componentName": "I18n/locales/format/US",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locales/language/en.ts": {
+   "componentName": "I18n/locales/language/en",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  },
+  "C:/works/gh/ws2/wasaby-controls/build-ui/builder-json-cache/temp-modules/I18n/locales/language/ru.ts": {
+   "componentName": "I18n/locales/language/ru",
+   "componentDep": [
+    "require",
+    "exports"
+   ],
+   "isNavigation": false
+  }
+ },
+ "routesInfo": {},
+ "markupCache": {},
+ "esCompileCache": {},
+ "versionedModules": {},
+ "cdnModules": {},
+ "newThemesModules": {},
+ "lessConfig": ""
+}
