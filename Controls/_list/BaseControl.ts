@@ -1416,6 +1416,7 @@ var _private = {
         }
         return self.__errorController.process({
             error: config.error,
+            theme: self._options.theme,
             mode: config.mode || dataSourceError.Mode.include
         }).then((errorConfig) => {
             _private.showError(self, errorConfig);

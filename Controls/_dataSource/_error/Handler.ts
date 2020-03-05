@@ -38,6 +38,12 @@ export interface HandlerConfig<T extends Error = Error> {
      * @cfg {Controls/_dataSource/_error/Mode} Способ отображения ошибки (на всё окно / диалог / внутри компонента)
      */
     mode: Mode;
+
+    /**
+     * @name Controls/_dataSource/_error/HandlerConfig#theme
+     * @cfg {String} Тема для окон уведомлений, которые контроллер показывает, если не удалось распознать ошибку.
+     */
+    theme?: string;
 }
 
 /**

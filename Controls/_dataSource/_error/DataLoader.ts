@@ -65,6 +65,7 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
    private _getErrorViewConfig(error: Error): Promise<ErrorViewConfig | void> {
       return this._getErrorController().process({
          error,
+         theme: this._options.theme,
          mode: Mode.include
       });
    }
