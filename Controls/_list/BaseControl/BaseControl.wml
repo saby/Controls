@@ -105,7 +105,6 @@
                 on:afterBeginEdit="_onAfterBeginEdit()"
                 on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
                 on:afterEndEdit="_onAfterEndEdit()"
-                task1178703576="{{_options.task1178703576}}"
                 listModel="{{_listViewModel}}"
                 multiSelectVisibility="{{_options.multiSelectVisibility}}"
                 errorController="{{ __errorController }}"
