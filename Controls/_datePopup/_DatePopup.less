@@ -24,14 +24,14 @@
    display: flex;
    min-height: 1px;
    flex-direction: column;
-   background-color: @background-color_PeriodDialog;
+   background-color: @background-color_datePicker;
    width: @width_PeriodDialog;
-   border: @border-width_PeriodDialog solid @border-color_PeriodDialog;
-   box-shadow: @size_shadow_default @color_shadow_popup;
+   border: @border-thickness_datePicker solid @border-color_datePicker;
+   box-shadow: @box-shadow-size_datePicker @box-shadow-color_datePicker;
 }
 
 .controls-PeriodDialog__body {
-   max-height: @height_PeriodDialog - @height_PeriodDialog-header;
+   max-height: @height_PeriodDialog - @header_height_datePicker;
 }
 
 .controls-DatePopup__selector-marginTop {
@@ -50,16 +50,16 @@
 // Header
 .controls-PeriodDialog__header {
    flex-shrink: 0;
-   background-color: @background-color__PeriodDialog-header;
-   padding-left: @spacing_PeriodDialog-header-between-borderLeft-content;
+   background-color: @header_background-color_datePicker;
+   padding-left: @header_padding-left_datePicker;
    box-sizing: border-box;
    display: flex;
    align-items: center;
-   height: @height_PeriodDialog-header;
+   height: @header_height_datePicker;
 }
 
 .controls-PeriodDialog__stateButton {
-   padding-right: @spacing_PeriodDialog-header-between-stateButton-date;
+   padding-right: @switcher_offset_datePicker;
 }
 
 .controls-PeriodDialog__header-period {
@@ -67,15 +67,15 @@
 }
 
 .controls-PeriodDialog__header-rangeDash {
-   width: @width_PeriodDialog-header-dash;
-   border-bottom: @thickness_PeriodDialog-header-dash solid @color_PeriodDialog-header-dash;
-   margin: 0 @spacing_PeriodDialog-header-between-dash-date;
+   width: @dash_length_dateRangeInput;
+   border-bottom: @dash_thickness_dateRangeInput solid @dash_color_dateRangeInput;
+   margin: 0 @dash_padding-horizontal_dateRangeInput;
    display: inline-block;
    vertical-align: middle;
 }
 
 .controls-PeriodDialog__applyButton {
-   margin: 0 @spacing_PeriodDialog-header-between-applyButton-otherElements;
+   margin: 0 @apply-button_offset_datePicker;
 }
 
 .controls-PeriodDialog__homeButton {
@@ -90,10 +90,10 @@
 }
 
 .controls-PeriodDialog__homeButton-icon {
-   font-size: @home-button_icon-size_datePopup;
-   line-height: @home-button_icon-size_datePopup;
-   width: @home-button_icon-size_datePopup;
-   height: @home-button_icon-size_datePopup;
+   font-size: @home_icon-size_datePicker;;
+   line-height: @home_icon-size_datePicker;
+   width: @home_icon-size_datePicker;
+   height: @home_icon-size_datePicker;
    font-family: @icon_font-family_s;
 }
 

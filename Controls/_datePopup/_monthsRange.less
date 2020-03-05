@@ -4,12 +4,12 @@
 }
 
 .controls-PeriodDialog-MonthsRange__header {
-   height: @height_PeriodDialog-monthRange-header;
-   line-height: @height_PeriodDialog-monthRange-header;
+   height: @yearlist_heading_height_datePicker;
+   line-height: @yearlist_heading_height_datePicker;
    text-align: center;
-   color: @color_PeriodDialog-monthRange-header;
-   font-size: @font-size_PeriodDialog-monthRange-header;
-   font-weight: bold;
+   color: @yearlist_heading_text-color_datePicker;
+   font-size: @yearlist_heading_font-size_datePicker;
+   font-weight: @yearlist_heading_font-weight_datePicker;
    border-top: (@border-width_PeriodDialog-monthRange-additional - @border-width_PeriodDialog-monthRange) solid @border-color_PeriodDialog-monthRange;
    border-bottom: (@border-width_PeriodDialog-monthRange-additional - @outline_PeriodDialog-monthRange-month - @border-width_PeriodDialog-monthRange) solid @border-color_PeriodDialog-monthRange;
 }
@@ -36,16 +36,17 @@
 
 .controls-PeriodDialog-MonthsRange__halfYearsPanel-button,
 .controls-PeriodDialog-MonthsRange__quarterButton {
-   width: @width_PeriodDialog-years-leftRight - (@border-width_PeriodDialog-monthRange-additional - @border-width_PeriodDialog-monthRange);
+   width: @yearnav_arrow_width_datePicker - (@border-width_PeriodDialog-monthRange-additional - @border-width_PeriodDialog-monthRange);
    flex-grow: 1;
    display: flex;
    align-items: center;
    justify-content: center;
    border-bottom: @border-width_PeriodDialog-monthRange solid @border-color_PeriodDialog-monthRange;
-   color: @color_PeriodDialog-monthRange-halfyearsAndQuarters;
 }
 .controls-PeriodDialog-MonthsRange__quarterButton {
-   background-color: @background-color_PeriodDialog;
+   color: @yearlist_quarters_text-color_datePicker;
+   font-size: @yearlist_quarters_font-size_datePicker;
+   background-color: @yearlist_quarters_background-color_datePicker;
 }
 .controls-PeriodDialog-MonthsRange__quarter-hovered {
    .controls-PeriodDialog-MonthsRange__quarterButton {
@@ -61,7 +62,8 @@
 }
 
 .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
-   font-size: @font-size_PeriodDialog-monthRange-halfYears;
+   color: @yearlist_halfyears_text-color_datePicker;
+   font-size: @yearlist_halfyears_font-size_datePicker;
    border-left: (@border-width_PeriodDialog-monthRange-additional - @border-width_PeriodDialog-monthRange) solid @border-color_PeriodDialog-monthRange;
 }
 .controls-PeriodDialog-MonthsRange__quarterButton {
@@ -85,7 +87,7 @@
    .box-sizing(border-box);
    .flex-shrink(0);
    z-index: 2;
-   padding: 0 @spacing_PeriodDialog-monthRange-monthWrapper-between-content-leftRightBorder;
+   padding: @yearlist_month_padding_datePicker;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -94,8 +96,8 @@
 .controls-PeriodDialog-MonthsRange__item {
    border-right: @border-width_PeriodDialog-monthRange solid @border-color_PeriodDialog-monthRange;
    border-bottom: @border-width_PeriodDialog-monthRange solid @border-color_PeriodDialog-monthRange;
-   height: @height_PeriodDialog-monthRange-monthWrapper + @border-width_PeriodDialog-monthRange;
-   width: @width_PeriodDialog-monthRange-monthWrapper + @border-width_PeriodDialog-monthRange;
+   height: @yearlist_month_width_datePicker;
+   width: @yearlist_month_height_datePicker;
 }
 
 .controls-PeriodDialog-MonthsRange__item-selected {
@@ -107,8 +109,8 @@
 
 .controls-PeriodDialog-MonthsRange__month_title {
    text-align: center;
-   color: @color_PeriodDialog-monthRange-month-title;
-   font-size: @font-size_PeriodDialog-monthRange-month-title;
+   color: @yearlist_month_heading_text-color_datePicker;
+   font-size: @yearlist_month_heading_font-size_datePicker;
    font-weight: normal;
    height: @height_PeriodDialog-monthRange-month-title;
 }
@@ -128,7 +130,7 @@
       position: absolute;
       top: -@border-width_PeriodDialog-monthRange;
       bottom: 0;
-      left: @width_PeriodDialog-years-leftRight - @border-width_PeriodDialog-monthRange;
+      left: @yearnav_arrow_width_datePicker - @border-width_PeriodDialog-monthRange;
       right: -@border-width_PeriodDialog-monthRange;
       border: solid @border-width_PeriodDialog-monthRange @border-color_PeriodDialog-monthRange-halfyearsAndQuarters_selected;
       z-index: 3;
