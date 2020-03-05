@@ -38,7 +38,8 @@
     <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
                                                     headingStyle="{{_options.headingStyle}}"
                                                     attr:class="controls-PanelFilter
-                                                    controls-FilterPanel__{{_options.orientation}}">
+                                                    controls-FilterPanel__{{_options.orientation}}
+                                                    {{_hasHistory ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
              <div class="controls-FilterPanel__header-topTemplate">
