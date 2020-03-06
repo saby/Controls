@@ -8,9 +8,6 @@ import { CollectionItem, Collection, EditInPlaceController, GroupItem } from 'Co
 import { constants } from 'Env/Env';
 import { Opener as DropdownOpener } from 'Controls/dropdown';
 
-import 'wml!Controls/_listRender/Render/resources/ItemActionsTemplate';
-import 'wml!Controls/_listRender/Render/resources/SwipeTemplate';
-
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
     contextMenuEnabled?: boolean;

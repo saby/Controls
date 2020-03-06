@@ -21,14 +21,14 @@
    isAdd="{{ isAdd }}">
    <ws:itemActionsTemplate>
       <ws:partial
-         template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'wml!Controls/_listRender/Render/resources/ItemActionsTemplate' }}"
+         template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'Controls/listRender:itemActionsTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          item="{{ item }}" />
       <!-- using || instead of ws:if because template is constantly being updated otherwise -->
    </ws:itemActionsTemplate>
    <ws:swipeTemplate>
       <ws:partial
-         template="{{ _options.swipeTemplate.swipeTemplate || 'wml!Controls/_listRender/Render/resources/SwipeTemplate' }}"
+         template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/listRender:swipeTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          swipeConfig="{{ collection.getSwipeConfig() }}"
          animationState="open"
