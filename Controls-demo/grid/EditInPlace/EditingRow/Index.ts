@@ -8,9 +8,10 @@ import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource: Memory;
-    protected _columns = getPorts().getColumns();
-    protected _documentSignMemory;
+    private _viewSource: Memory;
+    private _header = getPorts().getHeader();
+    private _columns = getPorts().getColumns();
+    private _documentSignMemory;
 
     protected _beforeMount() {
         this._viewSource = new Memory({
@@ -22,7 +23,6 @@ export default class extends Control {
             keyProperty: 'id',
             data: getPorts().getDocumentSigns()
         });
-
 
     }
 }

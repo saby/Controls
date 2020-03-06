@@ -1,7 +1,9 @@
-<div class="controlsDemo__cell">
+<div class="controlsDemo__cell controlsDemo__inline-flex">
     <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
+            rowSeparatorVisibility="{{true}}"
+            header="{{ _header }}"
             columns="{{_columns}}">
         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>

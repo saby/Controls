@@ -771,6 +771,29 @@ function getPorts() {
                 shipper: null
             }
         ],
+        getHeader: () => [
+            {
+                title: 'Номер'
+            },
+            {
+                title: 'Признак ТД',
+                displayProperty: 'documentSign'
+            },
+            {
+                title: '№ документа',
+                width: '200px',
+                displayProperty: 'document'
+            },
+            {
+                title: 'Описание',
+                width: '150px',
+                displayProperty: 'description'
+            },
+            {
+                title: 'Базовый тариф',
+                displayProperty: 'taxBase'
+            }
+        ],
         getColumns: () => [
             {
                 width: '100px',
@@ -785,7 +808,7 @@ function getPorts() {
                 displayProperty: 'document'
             },
             {
-                width: '1fr',
+                width: '200px',
                 displayProperty: 'description'
             },
             {
