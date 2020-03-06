@@ -154,10 +154,7 @@ var Component = BaseControl.extend({
    },
 
    getPopupTarget: function() {
-       if (this._options.nextArrowVisibility || this._options.prevArrowVisibility) {
-           return this._children.openPopupTarget;
-       }
-      return this._container;
+      return this._children.openPopupTarget || this._container;
    },
 
    _onClick: function() {
