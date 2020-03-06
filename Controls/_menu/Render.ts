@@ -80,8 +80,10 @@ class MenuRender extends Control<IMenuRenderOptions> {
 
     protected _isVisibleSeparator(treeItem): boolean {
         const item = treeItem.getContents();
-        const nextItem = treeItem.getOwner().getNext(treeItem)?.getContents();
-        return nextItem && this._isHistoryItem(item) && !this.hasParent(treeItem.getContents()) && !this._isHistoryItem(nextItem);
+        const index = treeItem.getOwner().getIndex(treeItem);
+        const nextItem = treeItem.getOwner().at(index + 1);
+        const isGroupNext = nextItem instanceof GroupItem;
+        return !isGroupNext && nextItem?.getContents() && this._isHistoryItem(item) && !this.hasParent(treeItem.getContents()) && !this._isHistoryItem(nextItem.getContents());
     }
 
     protected _isGroupVisible(groupItem: GroupItem): boolean {

@@ -139,14 +139,14 @@ define(
             });
          });
 
-         describe('_isGroupVisible', function() {
+         describe('grouping', function() {
             let getGroup = (item) => {
                if (!item.get('group')) {
                   return 'CONTROLS_HIDDEN_GROUP';
                }
                return item.get('group');
             };
-            it('simple', function() {
+            it('_isGroupVisible simple', function() {
                let groupListModel = getListModel([
                   { key: 0, title: 'все страны' },
                   { key: 1, title: 'Россия', icon: 'icon-add' },
@@ -168,7 +168,7 @@ define(
                assert.isTrue(result);
             });
 
-            it('one group', function() {
+            it('_isGroupVisible one group', function() {
                let groupListModel = getListModel([
                   { key: 0, title: 'все страны', group: '2' },
                   { key: 1, title: 'Россия', icon: 'icon-add', group: '2' },
@@ -183,6 +183,32 @@ define(
                );
 
                let result = menuRender._isGroupVisible(groupListModel.at(0));
+               assert.isFalse(result);
+            });
+
+            it('_isVisibleSeparator', function() {
+               let groupListModel = getListModel([
+                  { key: 0, title: 'все страны' },
+                  { key: 1, title: 'Россия', icon: 'icon-add' },
+                  { key: 2, title: 'США', group: '2' },
+                  { key: 3, title: 'Великобритания', group: '2' },
+                  { key: 4, title: 'Великобритания', group: '2' },
+                  { key: 5, title: 'Великобритания', group: '3' }
+               ]);
+               groupListModel.setGroup(getGroup);
+
+               let menuRender = getRender(
+                  { listModel: groupListModel }
+               );
+               let result = menuRender._isVisibleSeparator(groupListModel.at(1));
+               assert.isFalse(!!result);
+
+               groupListModel.at(1).getContents().set('pinned', true);
+               result = menuRender._isVisibleSeparator(groupListModel.at(1));
+               assert.isTrue(result);
+
+               groupListModel.at(2).getContents().set('pinned', true);
+               result = menuRender._isVisibleSeparator(groupListModel.at(2));
                assert.isFalse(result);
             });
          });
