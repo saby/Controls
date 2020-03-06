@@ -1302,6 +1302,7 @@ var
                         isEditing: current.isEditing,
                         isActive: current.isActive,
                         showEditArrow: current.showEditArrow,
+                        itemPadding: current.itemPadding,
                         getVersion: () => {
                            return _private.calcItemColumnVersion(self, current.getVersion(), current.columnIndex, current.index);
                         },

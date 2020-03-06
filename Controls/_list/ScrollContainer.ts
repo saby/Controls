@@ -363,10 +363,10 @@ export default class ScrollContainer extends Control<IOptions> {
 
         if (collectionStartIndex !== start || collectionStopIndex !== stop) {
             if (collection.getViewIterator) {
-                return collection.getViewIterator().setIndices(start, stop);
+                collection.getViewIterator().setIndices(start, stop);
             } else {
                 // @ts-ignore
-                return collection.setIndexes(start, stop);
+                collection.setIndexes(start, stop);
             }
         }
 
