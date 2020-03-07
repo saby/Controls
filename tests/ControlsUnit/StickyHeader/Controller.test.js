@@ -76,6 +76,7 @@ define([
                blockUpdate: false,
                stopImmediatePropagation: sinon.fake()
             };
+            component._afterMount({});
             component._stickyRegisterHandler(event, data, true);
             sinon.assert.calledOnce(event.stopImmediatePropagation);
          });
@@ -93,6 +94,7 @@ define([
                      stopImmediatePropagation: sinon.fake()
                   },
                   data = getRegisterObject(test);
+               component._afterMount({});
                component._stickyRegisterHandler(event, data, true);
                assert.deepOwnInclude(component._headers[data.id], data);
                if (test.position === 'topbottom') {
@@ -103,6 +105,35 @@ define([
                }
             });
          });
+
+         [{
+            position: 'top'
+         }, {
+            position: 'bottom',
+         }, {
+            position: 'topbottom'
+         }].forEach(function(test) {
+            it(`should put headers in delayedHeaders collection, after afterMount register on position ${test.position}`, function() {
+               let
+                  event = {
+                     stopImmediatePropagation: sinon.fake()
+                  },
+                  data = getRegisterObject(test);
+               component._stickyRegisterHandler(event, data, true);
+               component._stickyRegisterHandler(event, data, true);
+               assert.equal(component._delayedHeaders.length, 2);
+               component._afterMount({});
+               assert.equal(component._delayedHeaders.length, 0);
+               if (test.position === 'topbottom'){
+                  assert.equal(component._headersStack['top'].length, 2);
+                  assert.equal(component._headersStack['bottom'].length, 2);
+               } else{
+                  assert.equal(component._headersStack[test.position].length, 2);
+               }
+            });
+         });
+
+
 
          [{
             position: 'top',
@@ -129,6 +160,7 @@ define([
                   },
                   data = getRegisterObject(test);
 
+               component._afterMount({});
                component._container.scrollTop = test.scrollTop || 0;
                component._container.scrollHeight = test.scrollHeight || 100;
                component._container.clientHeight = test.clientHeight || 100;
@@ -148,7 +180,7 @@ define([
          }, {
             position: 'topbottom'
          }].forEach(function(test) {
-            it('should unregister deleted header on position ${test.position}', function() {
+            it(`should unregister deleted header on position ${test.position}`, function() {
                let event = {
                      blockUpdate: false,
                      stopImmediatePropagation: sinon.fake()
@@ -185,6 +217,7 @@ define([
                      }
                   }
                };
+               component._afterMount({});
                component._stickyRegisterHandler(event, header, true);
             });
             assert.deepEqual(component._headersStack.top, [0, 2, 1]);
@@ -351,6 +384,7 @@ define([
             assert.equal(component.getHeadersHeight('bottom'), 0);
          });
          it('should return the correct height after a new replaceable header has been registered and fixed.', function () {
+            component._afterMount({});
             component._stickyRegisterHandler(event, data, true);
             component._fixedHandler(event, {
                   id: data.id,
@@ -374,6 +408,7 @@ define([
                   height: 10
                }
             };
+            component._afterMount({});
             component._stickyRegisterHandler(event, data, true);
             component._fixedHandler(event, {
                id: data.id,
@@ -386,6 +421,7 @@ define([
          });
 
          it('should return the correct height after a new stackable header has been registered and fixed.', function () {
+            component._afterMount({});
             component._stickyRegisterHandler(event, coreMerge({ mode: 'stackable' }, data, { preferSource: true }), true);
             component._fixedHandler(event, {
                   id: data.id,
