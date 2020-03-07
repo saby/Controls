@@ -4301,6 +4301,15 @@ describe('Controls/_display/Collection', () => {
         assert.strictEqual(collection.getSearchValue(), searchValue);
     });
 
+    it('.setSearchValue()', () => {
+        const searchValue = 'searchValue';
+        const collection = new CollectionDisplay({
+            collection: []
+        });
+        collection.setSearchValue(searchValue);
+        assert.strictEqual(collection.getSearchValue(), searchValue);
+    });
+
     describe('.setViewIndices()', () => {
         it('changes the start and stop index and increases the version', () => {
             const collection = new CollectionDisplay({

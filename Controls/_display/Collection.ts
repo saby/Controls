@@ -2105,6 +2105,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$searchValue;
     }
 
+    setSearchValue(searchValue: string): void {
+        this._$searchValue = searchValue;
+    }
+
     getStartIndex(): number {
         return this._startIndex;
     }
