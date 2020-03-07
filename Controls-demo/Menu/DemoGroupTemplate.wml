@@ -1,5 +1,7 @@
-<ws:partial template="Controls/dropdownPopup:GroupTemplate"
-            itemData="{{itemData}}"
-            showText="{{true}}"
-            textAlign="right"
-/>
+<ws:if data="{{itemData.getContents()}}">
+   <ws:partial template="Controls/dropdownPopup:GroupTemplate"
+               itemData="{{itemData}}"
+               showText="{{true}}"
+               textAlign="right"
+   />
+</ws:if>

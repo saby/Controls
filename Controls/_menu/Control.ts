@@ -435,7 +435,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private groupMethod(options: IMenuOptions, item: Model): string {
-        return item.get(options.groupProperty);
+        return item.get(options.groupProperty) || '';
     }
 
     private setSelectedItems(listModel: Tree, keys: TKeys): void {

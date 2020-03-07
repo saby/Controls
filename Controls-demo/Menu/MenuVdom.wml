@@ -27,6 +27,7 @@
               parentProperty="parent"
               nodeProperty="@parent"
               source="{{_getHierarchyMenuItems()}}"
-              itemsGroup="{{_itemsGroupText}}"/>
+              groupProperty="group"
+              groupTemplate="wml!Controls-demo/Menu/DemoGroupTemplate"/>
    </div>
 </div>
