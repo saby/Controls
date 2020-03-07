@@ -353,6 +353,11 @@ var Component = BaseControl.extend([EventProxyMixin], {
             this._yearRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
         }
 
+        if ((this._state === STATES.year && this._displayedDate.getFullYear() === new Date().getFullYear()) ||
+            (this._state === STATES.month && this._displayedDate.getMonth() === new Date().getMonth())) {
+            this._homeButtonVisible = false;
+        }
+
         this._headerType = options.headerType;
     },
 
