@@ -58,7 +58,6 @@
   align-items: center;
   display: inline-flex;
   height: 100%;
-  overflow: hidden;
   box-sizing: border-box;
   background-color: transparent;
   background-image: linear-gradient(to right, transparent, @background-color_Swipe-shadow @width_Swipe-shadow, @background-color_Swipe @width_Swipe-shadow, @background-color_Swipe 100%);
@@ -83,6 +82,17 @@
 
 .controls-Swipe_open {
   animation: itemActionsSwipeOpen 0.35s 0ms ease;
+}
+
+.controls-ListView__item__marked_master .controls-Swipe_open::after {
+  content: '';
+  z-index: 1;
+  height: 100%;
+  top: 0;
+  width: @border-width_List-masterList-right;
+  position: absolute;
+  right: -@border-width_List-masterList-right;
+  background-color: @background-color_Swipe;
 }
 
 .controls-Swipe_close {
