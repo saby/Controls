@@ -67,6 +67,10 @@ interface IPosition {
       checkOverflow: function(popupCfg, targetCoords, position, direction) {
          var isHorizontal = direction === 'horizontal';
          if (position.hasOwnProperty(isHorizontal ? 'right' : 'bottom')) {
+            //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=41b3a01c-72e1-418b-937f-ca795dacf508
+            if (_private._isMobileIOS() && position[isHorizontal ? 'right' : 'bottom'] < 0) {
+               return -(position[isHorizontal ? 'right' : 'bottom']);
+            }
             return popupCfg.sizes[isHorizontal ? 'width' : 'height'] - (_private.getTargetCoords(popupCfg, targetCoords, isHorizontal ? 'right' : 'bottom', direction) - targetCoords[isHorizontal ? 'leftScroll' : 'topScroll']);
          }
          //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=41b3a01c-72e1-418b-937f-ca795dacf508
@@ -99,9 +103,15 @@ interface IPosition {
          popupCfg.sizes.margins[direction === 'horizontal' ? 'left' : 'top'] *= -1;
       },
 
-      moveContainer: function(popupCfg, position, sizeProperty, positionOverflow) {
-         var positionProperty = Object.keys(position)[0];
-         position[positionProperty] -= positionOverflow;
+      moveContainer: function(popupCfg, position: IPosition, sizeProperty: string, positionOverflow: number) {
+         const positionProperty = Object.keys(position)[0];
+         let overflow = positionOverflow;
+         // Reset position and overflow, if the original position is outside of the window
+         if (position[positionProperty] < 0) {
+            position[positionProperty] = overflow = 0;
+         }
+
+         position[positionProperty] -= overflow;
          if (position[positionProperty] < 0) {
             _private.restrictContainer(position, sizeProperty, popupCfg, -position[positionProperty]);
             position[positionProperty] = 0;

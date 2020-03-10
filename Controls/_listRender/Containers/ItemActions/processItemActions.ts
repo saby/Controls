@@ -75,7 +75,8 @@ export function openActionsMenu(
                 horizontal: isContext ? 'right' : 'left'
             },
             className: `controls-Toolbar__popup__list_theme-${this._options.theme}`,
-            nativeEvent: isContext ? event.nativeEvent : false
+            nativeEvent: isContext ? event.nativeEvent : false,
+            autofocus: false
         };
 
         // TODO Move this to manager
@@ -122,7 +123,8 @@ function openActionsSubmenu(
                 onResult: closeHandler,
                 onClose: closeHandler
             },
-            className: 'controls-DropdownList__margin-head'
+            className: 'controls-DropdownList__margin-head',
+            autofocus: false
         };
 
         this._options.listModel.setActiveItem(item);

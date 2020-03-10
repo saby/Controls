@@ -15,9 +15,5 @@
             name="menuOpener"
             keyProperty="id"
             className="controls-BreadCrumbsController__menu">
-        <ws:targetPoint vertical="top"
-                   horizontal="right"/>
-        <ws:direction horizontal="left"/>
     </Controls.dropdown:Opener>
-
 </div>

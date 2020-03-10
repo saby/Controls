@@ -4292,6 +4292,15 @@ describe('Controls/_display/Collection', () => {
         )
     });
 
+    it('.setSearchValue()', () => {
+        const searchValue = 'searchValue';
+        const collection = new CollectionDisplay({
+            collection: []
+        });
+        collection.setSearchValue(searchValue);
+        assert.strictEqual(collection.getSearchValue(), searchValue);
+    });
+
     it('.getSearchValue()', () => {
         const searchValue = 'searchValue';
         const collection = new CollectionDisplay({

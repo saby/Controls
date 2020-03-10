@@ -140,13 +140,13 @@ class Base extends Control<IMasterDetail> {
         // Чтобы верстка визуально не прыгала после оживления, вешаю minWidth и maxWidth сразу на контейнер мастера.
         if (this._isPercentValue(options.masterMaxWidth)) {
             this._currentMaxWidth = options.masterMaxWidth as string;
-        } else if (options.masterMaxWidth) {
+        } else if (options.masterMaxWidth !== undefined) {
             this._currentMaxWidth = `${options.masterMaxWidth}px`;
         }
 
         if (this._isPercentValue(options.masterMinWidth)) {
             this._currentMinWidth = options.masterMinWidth as string;
-        } else if (options.masterMinWidth) {
+        } else if (options.masterMinWidth !== undefined) {
             this._currentMinWidth = `${options.masterMinWidth}px`;
         }
     }

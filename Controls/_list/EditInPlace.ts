@@ -32,13 +32,6 @@ var
             self._editingItem = options.item.clone();
             self._setEditingItemData(self._editingItem, self._options.listModel, self._options);
             self._notify('afterBeginEdit', [self._editingItem, isAdd]);
-
-            /**
-             * This code exists because there's no way to declaratively change editing item, so the users are forced to write something like this:
-             * editingItem.set('field', 'value').
-             */
-            self._editingItem.subscribe('onPropertyChange', self._resetValidation);
-
             return options;
         },
 
@@ -603,6 +596,12 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
             this._editingItemData = null;
             return;
         }
+
+        /**
+         * This code exists because there's no way to declaratively change editing item, so the users are forced to write something like this:
+         * editingItem.set('field', 'value').
+         */
+        this._editingItem.subscribe('onPropertyChange', this._resetValidation);
 
         let editingItemProjection;
         if (options.useNewModel) {

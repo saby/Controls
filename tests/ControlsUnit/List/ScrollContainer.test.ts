@@ -146,7 +146,7 @@ describe('Controls/_list/ScrollContainer', () => {
             };
             instance.virtualScroll = {
                 scrollTop: 100,
-                getRestoredScrollPosition() {
+                getHeightDifference() {
                     return 102;
                 },
                 actualizeSavedIndexes() {
@@ -159,7 +159,7 @@ describe('Controls/_list/ScrollContainer', () => {
             instance.triggerVisibility = {};
             instance._afterRender();
             assert.isTrue(instance.eventParams.bubbling);
-            assert.equal(102, instance.eventArguments[0]);
+            assert.equal(0, instance.eventArguments[0]);
             assert.isFalse(instance.saveScrollPosition);
             assert.isNull(instance.savedScrollDirection);
         });

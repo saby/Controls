@@ -20,6 +20,7 @@ class Component extends Control {
     // Если созданный заголвок невидим, то мы не можем посчитать его позицию.
     // Учтем эти заголовки после ближайшего события ресайза.
     private _delayedHeaders: TRegisterEventData[] = [];
+    private _stickyControllerMounted = false;
 
     _beforeMount(options) {
         this._headersStack = {
@@ -31,6 +32,11 @@ class Component extends Control {
             bottom: []
         };
         this._headers = {};
+    }
+
+    _afterMount(options) {
+        this._stickyControllerMounted = true;
+        this._registerDelayed();
     }
 
     /**
@@ -62,18 +68,31 @@ class Component extends Control {
     }
 
     _stickyRegisterHandler(event, data: TRegisterEventData, register: boolean): void {
-        this._register(data, register)
+        this._register(data, register, true);
+        this._clearOffsetCache();
         event.stopImmediatePropagation();
     }
 
-    _register(data: TRegisterEventData, register: boolean): void {
+    _register(data: TRegisterEventData, register: boolean, update: boolean): void {
         if (register) {
             this._headers[data.id] = {
                 ...data,
-                fixedInitially: false
+                fixedInitially: false,
+                offset: {}
             };
-            if (Component._isVisible(data.container)) {
+            // Если контрол невидимый или еще не замонтирован, то отложим регистрацию заголовков.
+            // Невидимые заголовки мы не можем обсчитать, нельзя узнать их размеры. Обсчитаем их по событию ресайза.
+            // Дети монтируются раньше родителей, и в скролируемой области может быть несколько заголовков.
+            // Запускать рассчет положения заголвоков при каждой регистрации заголовка дорого.
+            // Обсчитаем все зафиксированные заголовки за один проход после того как контроллер замонтировался
+            // (все внутрение заголовки зарегистрировались).
+            if (Component._isVisible(data.container) && this._stickyControllerMounted) {
                 this._addToHeadersStack(data.id, data.position);
+                if (update) {
+                    this._updateFixedInitially('top');
+                    this._updateFixedInitially('bottom');
+                    this._updateTopBottom();
+                }
             } else {
                 this._delayedHeaders.push(data);
             }
@@ -106,14 +125,36 @@ class Component extends Control {
     }
 
     _resizeHandler() {
+        // Игнорируем все собятия ресайза до _afterMount.
+        // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
+        if (this._stickyControllerMounted) {
+            this._registerDelayed();
+        }
+    }
+
+    _registerDelayed() {
+        const delayedHeadersCount = this._delayedHeaders.length;
+
+        if (!delayedHeadersCount) {
+            return;
+        }
+
         this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
             if (Component._isVisible(header.container)) {
-                this._register(header, true);
+                // Регистрируем заголовок, но не обновляем его положение,
+                // сделаем это после того как зарегистрируем все заголовки.
+                this._register(header, true, false);
                 return false;
             }
             return true;
         });
-        this._updateTopBottom();
+
+        if (delayedHeadersCount !== this._delayedHeaders.length) {
+            this._updateFixedInitially('top');
+            this._updateFixedInitially('bottom');
+            this._updateTopBottom();
+            this._clearOffsetCache();
+        }
     }
 
     /**
@@ -129,6 +170,33 @@ class Component extends Control {
         }
     }
 
+    /**
+     * Возвращает смещение заголовка относительно контейнера контроллера.
+     * Кэширует вычисленные положения заголовков чтобы не вычислять их повторно. Несмотря на то, что мы не вносим
+     * изменений в дом дерево, вызовы getBoundingClientRect выполняются достаточно долго.
+     * После всех рассчетов необходимо вызывать _clearOffsetCache, что бы очистить кэш.
+     * @param id
+     * @param position
+     * @private
+     */
+    private _getHeaderOffset(id: number, position: string) {
+        const header = this._headers[id];
+        if (header.offset[position] === undefined) {
+            header.offset[position] = header.inst.getOffset(this._container, position);
+        }
+        return header.offset[position];
+    }
+
+    /**
+     * Очищает кэш вычисленных смещений заголовков относительно контроллера.
+     * @private
+     */
+    private _clearOffsetCache() {
+        for (let headerId: number in this._headers) {
+            this._headers[headerId].offset = {};
+        }
+    }
+
     private _addToHeadersStack(id: number, position: string) {
         if (position === 'topbottom') {
             this._addToHeadersStack(id, 'top');
@@ -138,20 +206,16 @@ class Component extends Control {
         //TODO https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
         const container = (this._container && this._container.get) ? this._container.get(0) : this._container,
             headersStack = this._headersStack[position],
-            offset = this._headers[id].inst.getOffset(container, position);
+            offset = this._getHeaderOffset(id, position);
 
         // We are looking for the position of the first element whose offset is greater than the current one.
         // Insert a new header at this position.
         let index = headersStack.findIndex((headerId) => {
             const headerInst = this._headers[headerId].inst;
-            return headerInst.getOffset(container, position) > offset;
+            return this._getHeaderOffset(headerId, position) > offset;
         });
         index = index === -1 ? headersStack.length : index;
         headersStack.splice(index, 0, id);
-
-        this._updateFixedInitially(position);
-
-        this._updateTopBottom();
     }
 
     private _updateFixedInitially(position: POSITION): void {
@@ -167,7 +231,7 @@ class Component extends Control {
             (position === 'bottom' && container.scrollTop + container.clientHeight >= container.scrollHeight)) {
             for (let headerId: number of headersStack) {
                 headerInst = this._headers[headerId].inst;
-                if (headersHeight === headerInst.getOffset(container, position)) {
+                if (headersHeight === this._getHeaderOffset(headerId, position)) {
                     this._headers[headerId].fixedInitially = true;
                 }
                 headersHeight += headerInst.height;

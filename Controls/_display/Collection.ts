@@ -2101,6 +2101,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._itemActionsManager.getActiveItem() as CollectionItem<S>;
     }
 
+    setSearchValue(searchValue: string): void {
+        this._$searchValue = searchValue;
+    }
+
     getSearchValue(): string {
         return this._$searchValue;
     }
