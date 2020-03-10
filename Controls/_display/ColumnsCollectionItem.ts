@@ -32,6 +32,9 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         return ' controls-ColumnsView__itemContent';
     }
 
+    getItemActionClasses(itemActionsPosition: string): string {
+        return `controls-ColumnsView__itemActionsV_${itemActionsPosition}`;
+    }
 }
 
 Object.assign(ColumnsCollectionItem.prototype, {
