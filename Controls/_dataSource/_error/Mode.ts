@@ -18,6 +18,11 @@ enum Mode {
      */
     page = 'page',
     /**
+     * @name Controls/_dataSource/_error/Mode#routing
+     * @cfg {string} В браузере - во всю страницу, при серверном рендеринге - изменить HTTP-код ответа
+     */
+    routing = 'routing',
+    /**
      * @name Controls/_dataSource/_error/Mode#include
      * @cfg {string} в области контрола
      */

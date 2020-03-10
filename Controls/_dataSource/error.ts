@@ -31,3 +31,4 @@ export {
     IContainerConstructor
 } from './_error/IContainer';
 export { default as Popup } from './_error/Popup';
+export { default as routing } from './_error/routing';
