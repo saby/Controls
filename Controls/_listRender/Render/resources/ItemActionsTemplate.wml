@@ -2,7 +2,7 @@
     <div attr:class="controls-itemActionsV
             {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + style }}
             {{itemActionsPosition !== 'outside' ? itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight' : ''}}
-            controls-itemActionsV_{{itemActionsPosition}}
+            {{item.getItemActionClasses(itemActionsPosition)}}
             {{item.isEditing() ? 'controls-itemActionsV_editing'}}
             {{item.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
             {{item.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}

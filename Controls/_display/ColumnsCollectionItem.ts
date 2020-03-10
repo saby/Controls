@@ -32,6 +32,14 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         return ' controls-ColumnsView__itemContent';
     }
 
+    /**
+     * Классы CSS для отображения действий над записью (в ItemActionsTemplate)
+     * @param itemActionsPosition позиция по отношению к записи: 'inside' | 'outside'
+     * @overrides
+     */
+    getItemActionClasses(itemActionsPosition: string): string {
+        return `controls-ColumnsView__itemActionsV_${itemActionsPosition}`;
+    }
 }
 
 Object.assign(ColumnsCollectionItem.prototype, {

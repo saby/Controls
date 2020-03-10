@@ -372,6 +372,14 @@ export default class CollectionItem<T> extends mixin<
             ${this.isEditing() ? 'controls-ListView__item_editing' : ''}`;
     }
 
+    /**
+     * Классы CSS для отображения действий над записью (в ItemActionsTemplate)
+     * @param itemActionsPosition позиция по отношению к записи: 'inside' | 'outside'
+     */
+    getItemActionClasses(itemActionsPosition: string): string {
+        return `controls-itemActionsV_${itemActionsPosition}`;
+    }
+
     getContentClasses(): string {
         return `controls-ListView__itemContent ${this._getSpacingClasses()}`;
     }
