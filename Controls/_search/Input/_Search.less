@@ -1,29 +1,49 @@
-.controls-Render_state-search-valid_theme-@{themeName} {
+.controls-Render_state-search-valid_theme-@{themeName},
+.controls-Render_state-search-invalid_theme-@{themeName},
+.controls-Render_state-search-invalidAccent_theme-@{themeName} {
    border-color: @border-color_Search;
    background: @background-color_Search;
 }
-.controls-Render_state-searchContrast-valid_theme-@{themeName} {
+
+.controls-Render_state-searchContrast-valid_theme-@{themeName},
+.controls-Render_state-searchContrast-invalid_theme-@{themeName},
+.controls-Render_state-searchContrast-invalidAccent_theme-@{themeName} {
    border-color: @border-color_Search;
+   background: @background-color_Search_contrast_background;
+}
+
+.controls-Render_state-search-valid-active_theme-@{themeName},
+.controls-Render_state-search-invalid-active_theme-@{themeName},
+.controls-Render_state-search-invalidAccent-active_theme-@{themeName},
+.controls-Render_state-search-valid_theme-@{themeName}:focus-within,
+.controls-Render_state-search-invalid_theme-@{themeName}:focus-within,
+.controls-Render_state-search-invalidAccent_theme-@{themeName}:focus-within {
+   border-color: @border-color_Search_active;
+   background: @background-color_Search;
+}
+
+.controls-Render_state-searchContrast-valid-active_theme-@{themeName},
+.controls-Render_state-searchContrast-invalid-active_theme-@{themeName},
+.controls-Render_state-searchContrast-invalidAccent-active_theme-@{themeName},
+.controls-Render_state-searchContrast-valid_theme-@{themeName}:focus-within,
+.controls-Render_state-searchContrast-invalid_theme-@{themeName}:focus-within,
+.controls-Render_state-searchContrast-invalidAccent_theme-@{themeName}:focus-within {
+   border-color: @border-color_Search_active;
    background: @background-color_Search_contrast_background;
 }
 
 .ws-is-hover {
-   .controls-Render_state-search-valid_theme-@{themeName}:hover {
+   .controls-Render_state-search-valid_theme-@{themeName}:hover,
+   .controls-Render_state-search-invalid_theme-@{themeName}:hover,
+   .controls-Render_state-search-invalidAccent_theme-@{themeName}:hover {
       border-color: @border-color_Search_active;
    }
-   .controls-Render_state-searchContrast-valid_theme-@{themeName}:hover {
+
+   .controls-Render_state-searchContrast-valid_theme-@{themeName}:hover,
+   .controls-Render_state-searchContrast-invalid_theme-@{themeName}:hover,
+   .controls-Render_state-searchContrast-invalidAccent_theme-@{themeName}:hover {
       border-color: @border-color_Search_active;
    }
-}
-
-.controls-Render_state-search-valid-active_theme-@{themeName} {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search;
-}
-
-.controls-Render_state-searchContrast-valid-active_theme-@{themeName} {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search_contrast_background;
 }
 
 .controls-Render_state-search-readonly_theme-@{themeName} {
@@ -33,16 +53,6 @@
 
 .controls-Render_state-searchContrast-readonly_theme-@{themeName} {
    border-color: @border-color_Search_readOnly;
-   background: @background-color_Search_contrast_background;
-}
-
-.controls-Render_state-search-valid_theme-@{themeName}:focus-within {
-   border-color: @border-color_Search_active;
-   background: @background-color_Search;
-}
-
-.controls-Render_state-searchContrast-valid_theme-@{themeName}:focus-within {
-   border-color: @border-color_Search_active;
    background: @background-color_Search_contrast_background;
 }
 
