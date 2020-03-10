@@ -207,3 +207,23 @@
   //https://stackoverflow.com/questions/18564974/html-backgrounds-with-z-index0-hidden-by-parent-background
   z-index: 0;
 }
+
+.controls__tag_theme-@{themeName} {
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  position: absolute;
+  width: @tag-size;
+  height: @tag-size;
+}
+
+.controls__tag_style- {
+  @variants: danger, primary, success, secondary, warning;
+  .for(@variants, { &@{_item}_theme-@{themeName} {
+    fill: ~"@{@{_item}_color}";
+  } });
+}
+
+.controls__tag_style-info_theme-@{themeName} {
+  fill: @unaccented_color;
+}

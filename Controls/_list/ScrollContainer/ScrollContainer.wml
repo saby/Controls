@@ -4,6 +4,7 @@
     <ws:partial template="{{_options.content}}"
                 listModel="{{_options.collection}}"
                 scope="{{_options}}"
+                on:doScroll="_stopBubblingEvent()"
                 on:updateShadowMode="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"

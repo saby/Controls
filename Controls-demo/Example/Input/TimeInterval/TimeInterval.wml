@@ -9,7 +9,7 @@
             </ws:Object>
             <ws:Object autoWidth="{{true}}" spacing="normal">
                <ws:template>
-                  <Controls.input:TimeInterval bind:value="_default2Value" mask="HH:MM:SS"/>
+                  <Controls.input:TimeInterval bind:value="_default2Value" mask="HH:MM:SS" attr:class="Controls-Demo_TimeInterval__HHMMSS"/>
                </ws:template>
             </ws:Object>
             <ws:Object autoWidth="{{true}}" spacing="normal">

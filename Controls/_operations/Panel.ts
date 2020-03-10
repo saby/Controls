@@ -135,8 +135,9 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 /**
  * @name Controls/_operations/Panel#selectionViewMode
  * @cfg {SelectionViewMode} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
- * @demo Controls-demo/OperationsPanelNew/SelectionViewMode/Index.ts
+ * @demo Controls-demo/OperationsPanelNew/SelectionViewMode/Index
  * @default null
+ * @remark Вызываемый списочный метод нужно перевести на использование функции ShowMarked, о которой подробнее можно прочитать {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/logic/list/list-iterator/show-marked/ здесь}.
  * @example
  * <pre class="brush: js">
  * // JavaScript

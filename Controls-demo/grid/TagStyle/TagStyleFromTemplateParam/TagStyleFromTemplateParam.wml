@@ -19,7 +19,7 @@
                 </ws:Object>
                 <ws:Object displayProperty="country" width="300px"/>
                 <ws:Object displayProperty="capital"/>
-                <ws:Object displayProperty="population" width="max-content" compatibleWidth="98px">
+                <ws:Object displayProperty="population" width="max-content" compatibleWidth="98px" align="right">
                     <ws:template>
                         <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}"
                                     tagStyle="{{template.itemData.item.get('tagStyle')}}"/>

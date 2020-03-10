@@ -28,7 +28,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * Подробнее о работе с контролом читайте {@link https://wasaby.dev/doc/platform/controls/list-environment/filter-search/filter-view здесь}.
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
- * 
+ *
  * При клике на кнопку-иконку или строковое представления открывается панель фильтров, созданная на основе {@link Controls/filterPopup:DetailPanel}.
  * При клике на параметры быстрого фильтра открывается панель "Быстрых фильтров", созданная на основе {@link Controls/filterPopup:SimplePanel}.
  *
@@ -39,7 +39,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * @public
  * @author Золотова Э.Е.
  * @demo Controls-demo/FilterView/ItemTemplates/Index
- * 
+ *
  * @see Controls/filterPopup:SimplePanel
  * @see Controls/filterPopup:DetailPanel
  * @see Controls/filter:ViewContainer
@@ -821,6 +821,7 @@ var Filter = Control.extend({
                 if (object.getPropertyValue(item, 'visibility') !== undefined) {
                     object.setPropertyValue(item, 'visibility', false);
                 }
+                item.textValue = '';
             }
         });
         _private.notifyChanges(this, this._source);

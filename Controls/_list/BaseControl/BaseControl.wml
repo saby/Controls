@@ -163,11 +163,12 @@
                 on:itemMouseEnter="_itemMouseEnter()"
                 on:itemMouseMove="_itemMouseMove()"
                 on:itemMouseLeave="_itemMouseLeave()"
-                on:hoveredItemChanged="_onHoveredItemChanged()"
+                on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                on:hoveredCellChanged="_notifyHandler('hoveredCellChanged')"
                 on:itemSwipe="_listSwipe()"
         >
            <ws:tagTemplate>
-              <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
+              <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
                           on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
                           on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
            </ws:tagTemplate>
@@ -272,5 +273,9 @@
                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
             />
         </ws:if>
+
+        <Controls.event:Listener
+           event="dataError"
+           on:dataError="_onDataError()"/>
     </div>
 </Controls.dataSource:error.Container>

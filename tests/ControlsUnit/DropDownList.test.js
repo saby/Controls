@@ -372,21 +372,21 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
             ddlConfig = {...ddlConfig, ...config2};
             let ddl = getDropDownListWithConfig(ddlConfig);
             ddl._beforeMount(ddlConfig);
-            assert.deepEqual(ddl._iconPadding, { 'null': 'icon-medium' });
+            assert.equal(ddl._iconPadding, 'icon-medium');
 
             ddlConfig.iconSize = 's';
             ddl._beforeMount(ddlConfig);
-            assert.deepEqual(ddl._iconPadding, { 'null': 'icon-small' });
+            assert.equal(ddl._iconPadding, 'icon-small');
 
             ddlConfig.showHeader = false;
             ddl._beforeMount(ddlConfig);
-            assert.deepEqual(ddl._iconPadding, {});
+            assert.isUndefined(ddl._iconPadding);
 
             ddlConfig.headConfig = {
                icon: 'icon-add'
             };
             ddl._beforeMount(ddlConfig);
-            assert.deepEqual(ddl._iconPadding, {});
+            assert.isUndefined(ddl._iconPadding);
 
             ddlConfig.iconSize = 'm';
             ddlConfig.items = new collection.RecordSet({
@@ -398,9 +398,11 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
                ],
                keyProperty: 'key'
             });
-            ddl._beforeMount(ddlConfig);
-            ddl.root = 'first';
-            assert.deepEqual(ddl._iconPadding, { 'first': 'icon-medium' });
+
+            let config = Clone(ddlConfig);
+            config.rootKey = 'first';
+            ddl._beforeMount(config);
+            assert.equal(ddl._iconPadding, 'icon-medium');
          });
       });
 

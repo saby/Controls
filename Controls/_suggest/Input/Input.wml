@@ -3,6 +3,7 @@
         on:deactivated="_deactivated()"
         searchStartCallback="{{_searchStart}}"
         searchEndCallback="{{_searchEnd}}"
+        searchErrorCallback="{{_searchError}}"
         suggestTemplate="{{_options.suggestTemplate}}"
         footerTemplate="{{_options.footerTemplate}}"
         minSearchLength="{{_options.minSearchLength}}"

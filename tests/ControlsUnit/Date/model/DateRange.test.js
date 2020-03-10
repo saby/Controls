@@ -1,9 +1,11 @@
 define([
    'Core/core-instance',
-   'Controls/dateRange'
+   'Controls/dateRange',
+   'Types/entity'
 ], function(
    cInstance,
-   dateRange
+   dateRange,
+   typesEntity
 ) {
    'use strict';
 
@@ -169,7 +171,8 @@ define([
          it('should return correct start value', function () {
             const model = new dateRange.RelationController(),
                options = {
-                  bindType: "normal"
+                  bindType: "normal",
+                  dateConstructor: typesEntity.DateTime,
                };
 
             model._beforeMount(options);
@@ -206,7 +209,8 @@ define([
          it('should return correct end value', function () {
             const model = new dateRange.RelationController(),
                options = {
-                  bindType: "normal"
+                  bindType: "normal",
+                  dateConstructor: typesEntity.DateTime,
                };
 
             model._beforeMount(options);

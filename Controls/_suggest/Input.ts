@@ -66,6 +66,7 @@ var Suggest = Control.extend({
    _beforeMount: function() {
       this._searchStart = this._searchStart.bind(this);
       this._searchEnd = this._searchEnd.bind(this);
+      this._searchError = this._searchError.bind(this);
    },
 
    // </editor-fold>
@@ -115,8 +116,11 @@ var Suggest = Control.extend({
    _searchEnd: function() {
       this._searchState = false;
       this._forceUpdate();
-   }
+   },
 
+   _searchError: function() {
+      this._searchState = false;
+   }
    // </editor-fold>
 
 });

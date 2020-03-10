@@ -1,0 +1,6 @@
+<Controls.filter:DateRangeEditor
+   attr:class="controls-FilterPanel__DateRange"
+   scope="{{_options.item.editorOptions}}"
+   templateName="{{_options.item.editorTemplateName}}"
+   value="{{_options.item.value}}" resetValue="{{_options.item.resetValue}}"
+/>

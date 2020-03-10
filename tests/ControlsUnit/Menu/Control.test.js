@@ -69,6 +69,21 @@ define(
             });
          });
 
+         it('getCollection', function() {
+            let menuControl = new menu.Control();
+            let items = new collection.RecordSet({
+               rawData: defaultItems.map((item) => {
+                  item.group = item.key < 2 ? '1' : '2';
+                  return item;
+               }),
+               keyProperty: 'key'
+            });
+            let listModel = menuControl.getCollection(items, {
+               groupProperty: 'group'
+            });
+            assert.instanceOf(listModel.at(0), display.GroupItem);
+         });
+
          describe('_itemClick', function() {
             let menuControl;
             let selectedItem, selectedKeys, pinItem, item;
@@ -157,6 +172,15 @@ define(
             initKeys = [2, 1];
             result = menuControl.isSelectedKeysChanged([1, 2], initKeys);
             assert.isFalse(result);
+         });
+
+         it('_footerMouseEnter', function() {
+            let menuControl = getMenu();
+            menuControl._hoveredItemIndex = 1;
+            menuControl._listModel = getListModel();
+            menuControl._footerMouseEnter();
+            assert.isNull(menuControl._hoveredItemIndex);
+            assert.isNull(menuControl._listModel._hoveredItem);
          });
 
          it('getSelectedItemsByKeys', function() {

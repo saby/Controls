@@ -70,6 +70,7 @@ export interface IPopupOptions extends IBasePopupOptions {
 }
 
 export interface IPopupController {
+   TYPE: string;
    POPUP_STATE_INITIALIZING: string;
    POPUP_STATE_CREATING: string;
    POPUP_STATE_CREATED: string;
@@ -86,6 +87,16 @@ export interface IPopupController {
    _popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean;
    _elementAnimated(item: IPopupItem): boolean;
    _elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean;
+}
+
+export interface IPopupItemInfo {
+   id: string;
+   type: string;
+   parentId: string;
+   parentZIndex: null|number;
+   popupOptions: {
+      maximize: boolean
+   };
 }
 
 export default interface IPopup {

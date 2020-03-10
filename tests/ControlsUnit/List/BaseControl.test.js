@@ -2200,6 +2200,7 @@ define([
 
       it('_processError', function() {
          var self = {
+            _options: {},
             _loadingState: 'all',
             _notify: () => {
             },
@@ -2552,15 +2553,17 @@ define([
             assert.equal(actionsUpdateCount, 0);
             baseControl._beforeMount(cfg);
          });
-        // it('without itemActions nothing should happen', function() {
-        //    baseControl._beforeUpdate({
-        //       ...cfg,
-        //       itemActions: null,
-        //       itemActionsProperty: null
-        //    });
-        //    baseControl._updateItemActions();
-        //    assert.equal(actionsUpdateCount, 0);
-        // });
+         it('without itemActions nothing should happen', function() {
+            baseControl._beforeUpdate({
+               ...cfg,
+               itemActions: null,
+               itemActionsProperty: null
+            });
+            baseControl._children.itemActions = undefined;
+            actionsUpdateCount = 0;
+            baseControl._updateItemActions();
+            assert.equal(actionsUpdateCount, 0);
+         });
       });
 
       describe('resetScrollAfterReload', function() {
@@ -5837,6 +5840,7 @@ define([
                expectedSourceConfig.pageSize = 100;
                expectedSourceConfig.hasMore = false;
                baseControl._changePageSize({}, {id: 1, title: 100, get: function() {return this.title;}});
+               assert.equal(baseControl._currentPage, 1);
                expectedSourceConfig.page = 1;
                baseControl.__pagingChangePage({}, 2);
             });

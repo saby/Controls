@@ -198,6 +198,8 @@ define('Controls-demo/OperationsPanel/Demo', [
          if (hasErrors) {
             this._children.list.reload();
          }
+
+         return false;
       },
 
       _itemsReadyCallback: function(items) {

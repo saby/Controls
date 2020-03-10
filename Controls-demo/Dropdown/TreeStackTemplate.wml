@@ -1,5 +1,7 @@
 <Controls.lookupPopup:Controller scope="{{_options}}" name="SelectorController" >
-   <Controls.popupTemplate:Stack on:selectedKeysChanged="_selectedKeysChanged()" headingCaption="Выберите организацию" attr:class="demo-selector__flatList demo-StackSelector-dropdown">
+   <Controls.popupTemplate:Stack on:selectedKeysChanged="_selectedKeysChanged()"
+                                 headingCaption="{{_options.headingCaption || 'Выберите организацию'}}"
+                                 attr:class="demo-selector__flatList demo-StackSelector-dropdown {{_options.className}}">
       <ws:headerContentTemplate>
          <div attr:class="ControlsDemo-FlatListSelector-header">
             <ws:if data="{{_options.multiSelect && _selectionChanged}}">

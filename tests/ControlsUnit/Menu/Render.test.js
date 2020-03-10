@@ -94,7 +94,8 @@ define(
             let menuRender = getRender();
             let renderOptions = {
                listModel: getListModel(),
-               itemPadding: {}
+               itemPadding: {},
+               nodeProperty: 'node'
             };
             let rightSpacing = menuRender.getRightSpacing(renderOptions);
             assert.equal(rightSpacing, 'l');
@@ -138,6 +139,53 @@ define(
             });
          });
 
+         describe('_isGroupVisible', function() {
+            let getGroup = (item) => {
+               if (!item.get('group')) {
+                  return 'CONTROLS_HIDDEN_GROUP';
+               }
+               return item.get('group');
+            };
+            it('simple', function() {
+               let groupListModel = getListModel([
+                  { key: 0, title: 'все страны' },
+                  { key: 1, title: 'Россия', icon: 'icon-add' },
+                  { key: 2, title: 'США', group: '2' },
+                  { key: 3, title: 'Великобритания', group: '2' },
+                  { key: 4, title: 'Великобритания', group: '2' },
+                  { key: 5, title: 'Великобритания', group: '3' }
+               ]);
+               groupListModel.setGroup(getGroup);
+
+               let menuRender = getRender(
+                  { listModel: groupListModel }
+               );
+
+               let result = menuRender._isGroupVisible(groupListModel.at(0));
+               assert.isFalse(result);
+
+               result = menuRender._isGroupVisible(groupListModel.at(3));
+               assert.isTrue(result);
+            });
+
+            it('one group', function() {
+               let groupListModel = getListModel([
+                  { key: 0, title: 'все страны', group: '2' },
+                  { key: 1, title: 'Россия', icon: 'icon-add', group: '2' },
+                  { key: 2, title: 'США', group: '2' },
+                  { key: 3, title: 'Великобритания', group: '2' },
+                  { key: 4, title: 'Великобритания', group: '2' }
+               ]);
+               groupListModel.setGroup(getGroup);
+
+               let menuRender = getRender(
+                  { listModel: groupListModel }
+               );
+
+               let result = menuRender._isGroupVisible(groupListModel.at(0));
+               assert.isFalse(result);
+            });
+         });
 
          it('getIconPadding', function() {
             let menuRender = getRender();
@@ -163,6 +211,10 @@ define(
             renderOptions.listModel = getListModel(iconItems);
             renderOptions.parentProperty = 'parent';
             renderOptions.nodeProperty = 'node';
+            iconPadding = menuRender.getIconPadding(renderOptions);
+            assert.equal(iconPadding, '');
+
+            renderOptions.headingIcon = 'icon-Add';
             iconPadding = menuRender.getIconPadding(renderOptions);
             assert.equal(iconPadding, '');
          });

@@ -80,14 +80,6 @@ class Container extends Control<IControlOptions> {
         event.stopPropagation();
     }
 
-    protected _getPopupZIndex(item: IPopupItem, index: number): number {
-        // TODO: По работе с простановкой zindex окнам этот код должен уехать в manager
-        const customZIndex = item.controller.getCustomZIndex(this._popupItems, item);
-        const zIndex = item.popupOptions.zIndex || customZIndex || (index + 1) * POPUP_ZINDEX_STEP;
-        item.currentZIndex = zIndex;
-        return zIndex;
-    }
-
     // To calculate the zIndex in a compatible notification Manager
     static POPUP_ZINDEX_STEP: number = POPUP_ZINDEX_STEP;
 }

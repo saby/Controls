@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__checkboxes">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/MultiSelect/MultiSelectVisibility/Index' }}">
@@ -9,7 +9,7 @@
         <Controls-demo.treeGrid.MultiSelect.MultiSelectVisibility.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__selectParent">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectAncestors/Index' }}">
@@ -18,7 +18,7 @@
         <Controls-demo.treeGrid.MultiSelect.SelectAncestors.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__selectChild">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/MultiSelect/SelectDescendants/Index' }}">

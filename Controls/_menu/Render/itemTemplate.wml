@@ -31,12 +31,12 @@
 
    <ws:if data="{{_options.allowPin !== false &&
                   treeItem.getContents().has('pinned') &&
-                  !treeItem.isNode() &&
-                  !(treeItem.getContents().get('pinned') === true && treeItem.getParent().getContents() !== null)}}">
+                  !treeItem.getContents().get(itemData.nodeProperty) &&
+                  !(treeItem.getContents().get('pinned') === true && treeItem.getContents().get(itemData.parentProperty))}}">
       <ws:partial template="wml!Controls/_menu/Render/pinTemplate" scope="{{_options}}"/>
    </ws:if>
 
-   <ws:if data="{{treeItem.isNode()}}">
+   <ws:if data="{{treeItem.getContents().get(itemData.nodeProperty)}}">
       <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
    </ws:if>
 </div>

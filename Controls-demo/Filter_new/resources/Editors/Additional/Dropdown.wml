@@ -1,0 +1,10 @@
+<Controls.filterPopup:Dropdown
+   multiSelect="{{true}}"
+   selectedKeys="{{_options.item.value}}"
+   emptyText="{{_options.item.editorOptions.emptyText}}"
+   on:selectedKeysChanged="_selectedKeysChangedHandler()"
+   on:textValueChangedHandler="_textValueChangedHandler()"
+   keyProperty="id"
+   displayProperty="title"
+   source="{{_options.item.editorOptions.source}}"
+/>

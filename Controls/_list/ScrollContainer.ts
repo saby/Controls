@@ -9,7 +9,8 @@ import {
     IPlaceholders,
     IRange,
     IVirtualScrollOptions,
-    IDirection
+    IDirection,
+    ITriggerState
 } from './ScrollContainer/interfaces';
 import {Logger} from 'UI/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -69,10 +70,7 @@ export default class ScrollContainer extends Control<IOptions> {
     private _lastScrollTop: number = 0;
     private _placeholders: IPlaceholders;
 
-    private _triggerVisibility: {
-        up: boolean;
-        down: boolean;
-    } = {up: false, down: false};
+    private _triggerVisibility: ITriggerState = {up: false, down: false};
 
     private _restoreScrollResolve: Function;
     private _applyScrollTopCallback: Function;
@@ -80,6 +78,10 @@ export default class ScrollContainer extends Control<IOptions> {
 
     private _indicatorState: IDirection;
     private _indicatorTimeout: number;
+
+    private _addItemsDirection: IDirection;
+    private _addItemsIndex: number;
+    private _addItems: object[] = [];
 
     // Флаг, который необходимо включать, чтобы не реагировать на скроллы происходящие вследствие
     // подскроллов создаваемых самим контролом (scrollToItem, восстановление позиции скролла после перерисовок)
@@ -133,6 +135,8 @@ export default class ScrollContainer extends Control<IOptions> {
 
     protected _beforeUnmount(): void {
         clearTimeout(this._checkTriggerVisibilityTimeout);
+        this._options.collection.unsubscribe('onListChange', this._collectionChangedHandler);
+        this._options.collection.unsubscribe('onCollectionChange', this._collectionChangedHandler);
     }
 
     protected _itemsContainerReadyHandler(_: SyntheticEvent<Event>, itemsContainer: HTMLElement): void {
@@ -189,6 +193,20 @@ export default class ScrollContainer extends Control<IOptions> {
                 this._notify(eventName, [params as IScrollParams]);
                 break;
         }
+    }
+
+    startBatchAdding(direction: IDirection): void {
+        this._addItemsDirection = direction;
+    }
+
+    stopBatchAdding(): void {
+        const direction = this._addItemsDirection;
+        this._addItemsDirection = null;
+
+        this._itemsAddedHandler(this._addItemsIndex, this._addItems, direction);
+
+        this._addItems = [];
+        this._addItemsIndex = null;
     }
 
     /**
@@ -345,10 +363,10 @@ export default class ScrollContainer extends Control<IOptions> {
 
         if (collectionStartIndex !== start || collectionStopIndex !== stop) {
             if (collection.getViewIterator) {
-                return collection.getViewIterator().setIndices(start, stop);
+                collection.getViewIterator().setIndices(start, stop);
             } else {
                 // @ts-ignore
-                return collection.setIndexes(start, stop);
+                collection.setIndexes(start, stop);
             }
         }
 
@@ -434,10 +452,6 @@ export default class ScrollContainer extends Control<IOptions> {
                     const rangeShiftResult = this._virtualScroll.shiftRange(direction);
                     this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
                     this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
-
-                    if (this._virtualScroll.isRangeOnEdge(direction)) {
-                        this._notifyLoadMore(direction);
-                    }
                 }
             });
         }
@@ -463,7 +477,7 @@ export default class ScrollContainer extends Control<IOptions> {
         }
 
         if (this._virtualScroll.isNeedToRestorePosition) {
-            this._scrollToPosition(this._virtualScroll.getPositionToRestore(this._lastScrollTop));
+            this._restoreScrollPosition();
             this.checkTriggerVisibilityWithTimeout();
         } else if (this._restoreScrollResolve) {
             // В результате _restoreScrollResolve он может сам себя перезаписать
@@ -483,12 +497,13 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     /**
-     * Нотифицирует скролл контейнеру о том, что нужно подскролить к переданной позиции
-     * @param position
+     * Нотифицирует скролл контейнеру о том, что нужно восстановить скролл
      */
-    private _scrollToPosition(position: number): void {
+    private _restoreScrollPosition(): void {
+        const {direction, heightDifference} = this._virtualScroll.getParamsToRestoreScroll();
+
         this._fakeScroll = true;
-        this._notify('restoreScrollPosition', [position], {bubbling: true});
+        this._notify('restoreScrollPosition', [heightDifference, direction], {bubbling: true});
         this._fakeScroll = false;
     }
 
@@ -531,12 +546,23 @@ export default class ScrollContainer extends Control<IOptions> {
      * Обработатывает добавление элементов в коллекцию
      * @param addIndex
      * @param items
+     * @param direction направление добавления
      * @private
      */
-    private _itemsAddedHandler(addIndex: number, items: object[]): void {
-        const rangeShiftResult = this._virtualScroll.insertItems(addIndex, items.length);
-        this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
-        this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+    private _itemsAddedHandler(addIndex: number, items: object[], direction?: IDirection): void {
+        if (this._addItemsDirection) {
+            this._addItems.push(...items);
+            this._addItemsIndex = addIndex;
+        } else {
+            const rangeShiftResult = this._virtualScroll.insertItems(
+                addIndex,
+                items.length,
+                this._triggerVisibility,
+                direction
+            );
+            this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
+            this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+        }
     }
 
     /**

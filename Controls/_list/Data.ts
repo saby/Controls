@@ -263,6 +263,10 @@ type GetSourceResult = {
             return {
                dataOptions: this._dataOptionsContext
             };
+         },
+
+         _onDataError: function(event, errbackConfig) {
+            this._children.dataErrorRegistrar.start(errbackConfig);
          }
       });
 

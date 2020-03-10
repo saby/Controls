@@ -168,8 +168,9 @@ define([
 
             newCfg.filter = {testField: 'testValue'};
             instance._beforeUpdate(newCfg);
-            assert.deepEqual(instance._multiselection.selectedKeys, []);
-            assert.deepEqual(instance._multiselection.excludedKeys, []);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+            assert.isTrue(instance._resetSelection);
          });
 
          it('change root', async function () {
@@ -185,8 +186,9 @@ define([
 
             newCfg.root = 4;
             instance._beforeUpdate(newCfg);
-            assert.deepEqual(instance._multiselection.selectedKeys, []);
-            assert.deepEqual(instance._multiselection.excludedKeys, []);
+            assert.deepEqual(instance._multiselection.selectedKeys, newCfg.selectedKeys);
+            assert.deepEqual(instance._multiselection.excludedKeys, newCfg.excludedKeys);
+            assert.isFalse(instance._resetSelection);
          });
       });
 
@@ -315,6 +317,22 @@ define([
                }
             }));
             assert.isFalse(instance._multiselection.unselect.called);
+         });
+
+         it('assign', async function() {
+            const cfgWithSelectedKeys = {...cfg};
+            cfgWithSelectedKeys.selectedKeys = [1];
+            cfgWithSelectedKeys.excludedKeys = [2];
+            await instance._beforeMount(cfgWithSelectedKeys);
+            instance._afterMount();
+
+            assert.deepEqual(instance._multiselection.selectedKeys, [1]);
+            assert.deepEqual(instance._multiselection.excludedKeys, [2]);
+
+            instance._resetSelection = true;
+            instance._options.items.assign([instance._options.items.getRecordById(3)]);
+            assert.deepEqual(instance._multiselection.selectedKeys, []);
+            assert.deepEqual(instance._multiselection.excludedKeys, []);
          });
       });
 

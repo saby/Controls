@@ -293,7 +293,7 @@ define(['Controls/treeGrid',
 
          let nodeFooter = model.getItemDataByItem.call(model).nodeFooters[0];
          assert.equal(nodeFooter.rowIndex, 2);
-         assert.equal(nodeFooter.colspanStyles, 'grid-column-start: 2; grid-column-end: 3; grid-row-start: 3; grid-row-end: 4;');
+         assert.equal(nodeFooter.colspanStyles, 'grid-column-start: 2; grid-column-end: 4;');
 
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });

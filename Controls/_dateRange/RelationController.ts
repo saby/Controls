@@ -1,6 +1,7 @@
 import Control = require('Core/Control');
 import Model from './RelationController/Model';
 import template = require('wml!Controls/_dateRange/RelationController/RelationController');
+import {Date as WSDate} from 'Types/entity';
 
 /**
  * Контроллер, который позволяет связать несколько контролов для ввода периода.
@@ -201,7 +202,7 @@ import template = require('wml!Controls/_dateRange/RelationController/RelationCo
 /**
  * @name Controls/_dateRange/RelationController#content
  * @cfg {Content} Содержимое контрола. Контроллер устанавливает периоды и тип параметров связи в шаблоне.
- * Шаблон может содержать контролы выбора периода. 
+ * Шаблон может содержать контролы выбора периода.
  * Каждый контрол выбора периода должен быть обернут в {@link Controls/_dateRange/RelationWrapper}. Также шаблон может содержать {@link Controls/_dateRange/RelationButton}.
  * @example
  * <pre class="brush: html">
@@ -261,7 +262,7 @@ import template = require('wml!Controls/_dateRange/RelationController/RelationCo
  */
 
 /**
- * @event Происходит при изменении типа привязки. 
+ * @event Происходит при изменении типа привязки.
  * @event Controls/_dateRange/RelationController#bindTypeChanged
  * @param {BindType} bindType Новое значение типа привязки.
  * @example
@@ -452,7 +453,8 @@ var Component = Control.extend({
 
 Component.getDefaultOptions = function () {
     return {
-        bindType: 'normal'
+        bindType: 'normal',
+        dateConstructor: WSDate
     };
 };
 //

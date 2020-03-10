@@ -94,10 +94,10 @@ var
         },
 
         getPaddingCellClasses: function(params, theme) {
-            const { columns, columnIndex } = params;
+            const { columns, columnIndex, rowSeparatorSize } = params;
             const { cellPadding } = columns[columnIndex];
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
-
+            const isWideRowSeparator = rowSeparatorSize === 'l';
 
             if (columns[columnIndex].isActionCell) {
                 return classLists;
@@ -128,7 +128,7 @@ var
                 classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
-                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell${isWideRowSeparator ? '-wide-sep' : ''}_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
                 classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
@@ -474,7 +474,7 @@ var
                         action === collection.IObservable.ACTION_ADD ||
                         action === collection.IObservable.ACTION_REMOVE
                     ) &&
-                    !this._options.disableColumnScrollCellStyles
+                    !this._options.columnScroll
                 ) {
                     event.setResult('updatePrefix');
                 }
@@ -616,7 +616,6 @@ var
         },
         _shouldAddActionsCell() {
             return shouldAddActionsCell({
-                disableCellStyles: this._options.disableColumnScrollCellStyles,
                 hasColumnScroll: this._options.columnScroll,
                 shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport()
             });
@@ -1258,8 +1257,8 @@ var
             }
 
             current.itemActionsDrawPosition =
-                this._options.disableColumnScrollCellStyles ? 'after' : 'before';
-            current.itemActionsColumnScrollDraw = this._options.columnScroll && this._options.disableColumnScrollCellStyles;
+                this._options.columnScroll ? 'after' : 'before';
+            current.itemActionsColumnScrollDraw = this._options.columnScroll;
 
             current.columnIndex = 0;
 
@@ -1310,6 +1309,7 @@ var
                         isEditing: current.isEditing,
                         isActive: current.isActive,
                         showEditArrow: current.showEditArrow,
+                        itemPadding: current.itemPadding,
                         getVersion: () => {
                            return _private.calcItemColumnVersion(self, current.getVersion(), current.columnIndex, current.index);
                         },
@@ -1336,19 +1336,8 @@ var
                     currentColumn.tableCellStyles = _private.getTableCellStyles(currentColumn);
                 }
 
-                // TODO: Проверить. https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
-                if (current.columnScroll && !self._options.disableColumnScrollCellStyles) {
-                    currentColumn.gridCellStyles = GridLayoutUtil.getCellStyles({
-                        rowStart: current.rowIndex,
-                        columnStart: currentColumn.columnIndex
-                    });
-                } else {
-                    currentColumn.gridCellStyles = '';
-                }
-
-                if (current.columnScroll && self._options.disableColumnScrollCellStyles) {
+                if (current.columnScroll) {
                     currentColumn.itemActionsGridCellStyles =
-                        currentColumn.gridCellStyles +
                         ' position: sticky; overflow: visible; display: inline-block; right: 0;';
                 }
 

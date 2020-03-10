@@ -44,17 +44,18 @@ define(
             let popupList = new collection.List();
             let infoBoxItem = {
                id: 2,
-               parentId: 1
+               parentZIndex: 10
             };
             popupList.add({
                id: 1,
                currentZIndex: 10
             });
             popupList.add(infoBoxItem);
-            let zIndex = popupTemplate.InfoBoxController.getCustomZIndex(popupList, infoBoxItem);
+            const zIndexCallback = popup.Infobox._getInfoBoxConfig({}).zIndexCallback;
+            let zIndex = zIndexCallback(infoBoxItem, popupList);
             assert.equal(zIndex, 11);
-            infoBoxItem.parentId = 3;
-            zIndex = popupTemplate.InfoBoxController.getCustomZIndex(popupList, infoBoxItem);
+            infoBoxItem.parentZIndex = null;
+            zIndex = zIndexCallback(infoBoxItem, popupList);
             assert.equal(zIndex, null);
             popupList.destroy();
          });

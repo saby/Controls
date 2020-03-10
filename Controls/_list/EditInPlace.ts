@@ -162,6 +162,7 @@ var
 
             return self.__errorController.process({
                 error,
+                theme: self._options.theme,
                 mode: dataSourceError.Mode.dialog
             }).then((errorConfig: dataSourceError.ViewConfig) => {
                 self._children.errorContainer.show(errorConfig);

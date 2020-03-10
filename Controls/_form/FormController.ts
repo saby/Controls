@@ -544,6 +544,7 @@ import dataSource = require('Controls/dataSource');
          var self = this;
          return self.__errorController.process({
             error: error,
+            theme: this._options.theme,
             mode: mode || dataSource.error.Mode.include
          }).then(function(errorConfig) {
             self._showError(errorConfig);

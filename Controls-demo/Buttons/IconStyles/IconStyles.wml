@@ -31,4 +31,8 @@
         <div class="controls-text-label_theme-{{_options.theme}}">iconStyle=default</div>
         <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconSize="s" iconStyle="default"></Controls.buttons:Button>
     </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">iconStyle=contrast</div>
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Author" iconSize="s" iconStyle="contrast"></Controls.buttons:Button>
+    </div>
 </div>

@@ -20,7 +20,7 @@ define('Controls/interface/IBreadCrumbs', [
 
    /**
     * @name Controls/interface/IBreadCrumbs#items
-    * @cfg {Array.<Object>} Массив хлебных крошек.
+    * @cfg {Array.<Record>} Массив хлебных крошек.
     */
 
    /*

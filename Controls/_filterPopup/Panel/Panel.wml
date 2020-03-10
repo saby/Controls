@@ -15,6 +15,9 @@
               on:itemsChanged="_itemsChangedHandler()"
               attr:class="controls-FilterPanel__AdditionalParams {{!_historyId || !_historyItems.getCount() || _options.orientation === 'horizontal' ? 'controls-FilterPanel_lastBlock'}}"/>
    </ws:if>
+   <ws:if data="{{_options.footerTemplate}}">
+      <ws:partial template="{{_options.footerTemplate}}"/>
+   </ws:if>
 </ws:template>
 
 <ws:template name="history">
@@ -38,7 +41,8 @@
     <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
                                                     headingStyle="{{_options.headingStyle}}"
                                                     attr:class="controls-PanelFilter
-                                                    controls-FilterPanel__{{_options.orientation}}">
+                                                    controls-FilterPanel__{{_options.orientation}}
+                                                    {{_hasHistory ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
              <div class="controls-FilterPanel__header-topTemplate">

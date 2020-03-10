@@ -46,4 +46,14 @@ export interface IPlaceholders {
     bottom: number;
 }
 
+export interface ITriggerState {
+    up: boolean;
+    down: boolean;
+}
+
+export interface IScrollRestoreParams {
+    direction: IDirection;
+    heightDifference: number;
+}
+
 export type IDirection = 'up' | 'down';

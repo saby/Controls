@@ -5,6 +5,7 @@ import 'css!theme?Controls/moverDialog';
 import {Record} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TColumns} from 'Controls/grid';
+import rk = require('i18n!Controls');
 
 interface IMoverDialogTemplate extends IControlOptions {
     displayProperty: string;

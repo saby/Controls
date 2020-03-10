@@ -31,6 +31,7 @@
                         attr:class="demo-Grid__control"
                         markerVisibility="{{_expandedOperationsPanel ? 'visible' : _options.markerVisibility}}"
                         multiSelectVisibility="{{_expandedOperationsPanel ? 'visible'}}"
+                        navigation="{{_navigation}}"
                         source="{{_viewSource}}"
                         keyProperty="{{_keyProperty}}"
                         nodeProperty="{{_nodeProperty}}"

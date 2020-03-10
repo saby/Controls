@@ -513,6 +513,9 @@ var SuggestLayout = Control.extend({
    },
    _searchErrback: function(error) {
       _private.searchErrback(this, error);
+      if (this._options.searchErrorCallback) {
+         this._options.searchErrorCallback();
+      }
    },
    _showAllClick: function() {
       var filter = clone(this._filter) || {};

@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Filter_new/DetailPanel/HistoryId/Default/Index' }}">
+         <a href="{{content.href}}">Панель с "Ранее отбирались"</a>
+      </Router.router:Reference>
+      <Controls-demo.Filter_new.DetailPanel.HistoryId.Default.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Filter_new/DetailPanel/HistoryId/ManyItems/Index' }}">
+         <a href="{{content.href}}">Панель c большим количеством айтемов в "Ранее отбирались</a>
+      </Router.router:Reference>
+      <Controls-demo.Filter_new.DetailPanel.HistoryId.ManyItems.Index/>
+   </div>
+</div>

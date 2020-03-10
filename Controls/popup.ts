@@ -77,7 +77,7 @@ export {default as PreviewerTarget} from './_popup/Previewer';
 export {default as InfoboxTarget} from './_popup/InfoBox';
 export {default as PreviewerTemplate} from './_popup/Previewer/PreviewerTemplate';
 
-export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers} from './_popup/interface/IPopup';
+export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
 export {IBasePopupOptions} from './_popup/interface/IBaseOpener';
 export {IStackPopupOptions} from './_popup/interface/IStack';
 export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset} from './_popup/interface/ISticky';

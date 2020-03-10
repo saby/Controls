@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Collection, Tree, TreeItem, SelectionController} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -177,7 +177,13 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    protected _closeSubMenu(needOpenDropDown): void {
+    protected _footerMouseEnter(): void {
+        this._hoveredItemIndex = null;
+        this._listModel.setHoveredItem(null);
+        this._closeSubMenu();
+    }
+
+    private _closeSubMenu(needOpenDropDown): void {
         if (this._children.Sticky) {
             this._children.Sticky.close();
         }
@@ -201,7 +207,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
     private handleCurrentItem(item: TreeItem<Model>, target, nativeEvent): void {
         this._hoveredItemIndex = this._listModel.getIndex(item);
-        const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
+        const needOpenDropDown = item.getContents().get(this._options.nodeProperty) && !item.getContents().get('readOnly');
         const needCloseDropDown = this.subMenu && this._subDropdownItem && this._subDropdownItem !== item;
         this.setItemParamsOnHandle(item, target, nativeEvent);
 
@@ -253,7 +259,16 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             this._openSubMenuEvent.clientX,this._subMenuPosition.y +
             this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
 
-        return Math.sign(firstSegment) === Math.sign(secondSegment) && Math.sign(firstSegment) === Math.sign(thirdSegment);
+        return this._getSign(firstSegment) === this._getSign(secondSegment) && this._getSign(firstSegment) === this._getSign(thirdSegment);
+    }
+
+    // FIXME https://online.sbis.ru/opendoc.html?guid=923f813d-7ed2-4e7d-94d8-65b0b733a4bd
+    private _getSign(x: number) {
+        x = +x;
+        if (x === 0 || isNaN(x)) {
+            return x;
+        }
+        return x > 0 ? 1 : -1;
     }
 
     private calculatePointRelativePosition(firstSegmentPointX, secondSegmentPointX, firstSegmentPointY, secondSegmentPointY, curPointX, curPointY): number {
@@ -343,20 +358,18 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this.setSelectedItems(this._listModel, options.selectedKeys);
     }
 
-    private getCollection(items: RecordSet, options: IMenuOptions): Tree {
-        let listModel = new Tree({
+    private getCollection(items: RecordSet, options: IMenuOptions): Collection {
+        // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
+        let listModel = new Collection({
             collection: items,
             keyProperty: options.keyProperty,
-            nodeProperty: options.nodeProperty,
-            parentProperty: options.parentProperty,
-            root: options.root,
             filter: this.displayFilter.bind(this, options)
         });
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
         }
         if (options.groupProperty) {
-            listModel.setGroup(this.groupMethod.bind(this));
+            listModel.setGroup(this.groupMethod.bind(this, options));
         } else if (options.groupingKeyCallback) {
             listModel.setGroup(options.groupingKeyCallback);
         }
@@ -386,8 +399,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return isVisible;
     }
 
-    private groupMethod(item: Model): string {
-        return item.get(this._options.groupProperty);
+    private groupMethod(options: IMenuOptions, item: Model): string {
+        return item.get(options.groupProperty);
     }
 
     private setSelectedItems(listModel: Tree, keys: TKeys): void {

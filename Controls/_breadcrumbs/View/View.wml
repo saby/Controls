@@ -17,9 +17,6 @@
             closeOnOutsideClick="{{true}}"
             actionOnScroll="close">
         <ws:templateOptions className="controls-BreadCrumbsController__menu"/>
-        <ws:targetPoint vertical="top"
-                   horizontal="right"/>
-        <ws:direction horizontal="left"/>
     </Controls.popup:Sticky>
 
 </div>

@@ -1,198 +1,194 @@
+/* global define, beforeEach, afterEach, describe, it, assert, sinon */
 define([
-    'Controls/dataSource',
-    'Env/Env',
-    'Browser/Transport'
-], function (dataSource, Env, Transport) {
-    describe('Controls/dataSource:error.Controller', function () {
-        var Controller = dataSource.error.Controller;
-        // eslint-disable-next-line no-empty-function
-        Controller.prototype._getDefault = () => {};
-        it('is defined', function () {
-            assert.isDefined(Controller);
-        });
-        it('is constructor', function () {
-            assert.isFunction(Controller);
-            var controller = new Controller();
-            assert.instanceOf(controller, Controller);
-        });
-        describe('addHandler', function () {
-            var controller = new Controller();
-            it('is function', function () {
-                assert.isFunction(controller.addHandler);
-            });
-            it('add to __handlers', function () {
-                var handler = function(args) {
+   'Controls/dataSource',
+   'Env/Env',
+   'Browser/Transport'
+], function(dataSource, Env, Transport) {
+   describe('Controls/dataSource:error.Controller', function() {
+      const Controller = dataSource.error.Controller;
+      let controller;
+      let popupHelper;
 
-                };
-                controller.addHandler(handler);
-                assert.include(controller.__controller.__handlers, handler);
-            });
-            it("don't add to __handlers twice", function () {
-                var handler = function(args) {
+      function createController() {
+         popupHelper = {
+            openConfirmation: sinon.stub().returns(Promise.resolve())
+         };
+         controller = new Controller({}, popupHelper);
+      }
 
-                };
-                controller.addHandler(handler);
-                controller.addHandler(handler);
-                assert.equal(
-                    controller.__controller.__handlers.indexOf(handler),
-                    controller.__controller.__handlers.lastIndexOf(handler)
-                );
-            });
-        });
-        describe('removeHandler', function () {
-            var controller = new Controller();
-            it('is function', function () {
-                assert.isFunction(controller.removeHandler);
-            });
-            it('removed from __handlers', function () {
-                var handler = function(args) {
+      afterEach(() => {
+         sinon.restore();
+      });
 
-                };
-                controller.addHandler(handler);
-                controller.removeHandler(handler);
-                assert.notInclude(controller.__controller.__handlers, handler);
-            });
-            it("don't remove other handlers", function () {
-                var handler_1 = function(args) {};
-                var handler_2 = function(args) {};
-                controller.addHandler(handler_1);
-                controller.addHandler(handler_2);
+      it('is defined', function() {
+         assert.isDefined(Controller);
+      });
 
-                controller.removeHandler(handler_1);
-                assert.include(controller.__controller.__handlers, handler_2);
-            });
-        });
-        describe('process', function () {
-            var controller;
-            var error;
-            beforeEach(function () {
-                controller = new Controller();
-                error = new Error('test error');
-            });
-            afterEach(function () {
-                controller.destroy();
-                controller = null;
-                error = null;
-            });
-            function getAppConfig () {
-                var applicationConfig = Env.constants.ApplicationConfig;
-                if (!applicationConfig) {
-                    applicationConfig = Env.constants.ApplicationConfig = {};
-                }
-                return applicationConfig;
+      it('is constructor', function() {
+         assert.isFunction(Controller);
+         createController();
+         assert.instanceOf(controller, Controller);
+      });
+
+      describe('addHandler()', function() {
+         createController();
+
+         it('adds to __handlers', function() {
+            const handler = () => undefined;
+            controller.addHandler(handler);
+            assert.include(controller.__controller.__handlers, handler);
+         });
+
+         it('doesn\'t add to __handlers twice', function() {
+            const handler = () => undefined;
+            controller.addHandler(handler);
+            controller.addHandler(handler);
+            assert.equal(
+               controller.__controller.__handlers.indexOf(handler),
+               controller.__controller.__handlers.lastIndexOf(handler)
+            );
+         });
+      });
+
+      describe('removeHandler()', function() {
+         createController();
+
+         it('is function', function() {
+            assert.isFunction(controller.removeHandler);
+         });
+
+         it('removes from __handlers', function() {
+            const handler = () => undefined;
+            controller.addHandler(handler);
+            controller.removeHandler(handler);
+            assert.notInclude(controller.__controller.__handlers, handler);
+         });
+
+         it('doesn\'t remove other handlers', function() {
+            const handler1 = () => undefined;
+            const handler2 = () => undefined;
+            controller.addHandler(handler1);
+            controller.addHandler(handler2);
+            controller.removeHandler(handler1);
+            assert.include(controller.__controller.__handlers, handler2);
+         });
+      });
+
+      describe('process()', function() {
+         let error;
+
+         beforeEach(function() {
+            createController();
+            error = new Error('test error');
+         });
+
+         afterEach(function() {
+            controller.destroy();
+            controller = null;
+            error = null;
+         });
+
+         const addHandlerPromise =
+            () => new Promise(resolve => controller.addHandler(resolve));
+
+         const addFailHandler =
+            () => controller.addHandler(() => assert.fail('handler should not be called'));
+
+         it('returns Promise', function() {
+            assert.instanceOf(controller.process(error), Promise);
+         });
+
+         it('calls registered handler', function() {
+            const handlerPromise = addHandlerPromise();
+            return controller.process(error).then(() => handlerPromise);
+         });
+
+         it('doesn\'t call handler with processed error', function() {
+            addFailHandler();
+            error.processed = true;
+            return controller.process(error);
+         });
+
+         it('doesn\'t call handler with canceled error', function() {
+            addFailHandler();
+            error.canceled = true;
+            return controller.process(error);
+         });
+
+         it('doesn\'t call handlers with Abort error', function() {
+            addFailHandler();
+            return controller.process(new Transport.fetch.Errors.Abort('test page'));
+         });
+
+         it('calls handler with current args', function() {
+            const ARGS = {
+               error: error,
+               mode: dataSource.error.Mode.include
+            };
+            const handlerPromise = addHandlerPromise();
+            return controller.process(ARGS)
+               .then(() => handlerPromise)
+               .then(args => assert.deepEqual(args, ARGS));
+         });
+
+         it('calls all registered handlers', function() {
+            const promises = [];
+            for (let i = 0; i < 5; i++) {
+               promises.push(addHandlerPromise());
             }
-            it('is function', function () {
-                assert.isFunction(controller.process);
-            });
-            it('return Promise', function () {
-                assert.instanceOf(
-                    controller.process(error),
-                    Promise
-                );
-            });
-            it('call registered handler', function (done) {
-                var handler = function(args) {
-                    done();
-                };
-                controller.addHandler(handler);
-                controller.process(error);
-            });
-            it("don't call with processed error", function (done) {
-                var handler = function(args) {
-                    done(new Error('handler should not be called'));
-                };
-                controller.addHandler(handler);
-                error.processed = true;
-                controller.process(error).then(function() {
-                    done();
-                });
-            });
-            it("don't call with canceled error", function (done) {
-                var handler = function(args) {
-                    done(new Error('handler should not be called'));
-                };
-                controller.addHandler(handler);
-                error.canceled = true;
-                controller.process(error).then(function() {
-                    done();
-                });
-            });
-            it("don't call with Abort error", function (done) {
-                var handler = function(args) {
-                    done(new Error('handler should not be called'));
-                };
-                controller.addHandler(handler);
-                controller.process(new Transport.fetch.Errors.Abort('test page')).then(function() {
-                    done();
-                });
-            });
-            it('call with current args', function (done) {
-                var ARGS = {
-                    error: error,
-                    mode: dataSource.error.Mode.include
-                };
-                var handler = function(args) {
-                    assert.deepEqual(args, ARGS);
-                    done();
-                };
-                controller.addHandler(handler);
-                controller.process(ARGS);
-            });
-            it('call all registered handlers', function (done) {
-                var promises = [];
-                for (var i = 0; i < 10; i++) {
-                    promises.push(new Promise(function(resolve) {
-                        var handler = function(args) {
-                            resolve();
-                        };
-                        controller.addHandler(handler);
-                    }));
-                }
-                controller.process(error);
-                Promise.all(promises).then(function() {
-                    done();
-                }, done);
-            });
-            it('stop calling when find answer', function (done) {
-                for (var i = 0; i < 5; i++) {
-                    controller.addHandler(function(args) {});
-                }
-                controller.addHandler(function(args) {
-                    return {
-                        template: 'test',
-                        options: {}
-                    }
-                });
-                controller.addHandler(function(args) {
-                    done(new Error('handler should not be called'));
-                });
-                controller.process(error).then(function() {
-                    done();
-                }, done);
-            });
-            it('return current handler result', function (done) {
-                var RESULT = {
-                    template: 'test',
-                    options: {},
-                    mode: dataSource.error.Mode.include
-                };
-                controller.addHandler(function(args) {
-                    return RESULT;
-                });
-                controller.process(error).then(function(result) {
-                    assert.deepEqual(RESULT, {
-                        mode: result.mode,
-                        template: result.template,
-                        options: result.options
-                    });
-                    done();
-                }).catch(done);
-            });
+            return controller.process(error).then(() => Promise.all(promises));
+         });
 
-            // call application handler
-            // default mode in handler's config
-            // default mode in result
-            // dafault template
-        });
-    });
+         it('stops calling handlers after receiving an answer', function() {
+            for (let i = 0; i < 5; i++) {
+               controller.addHandler(() => undefined);
+            }
+            controller.addHandler(() => ({
+               template: 'test',
+               options: {}
+            }));
+            addFailHandler();
+            return controller.process(error);
+         });
+
+         it('returns current handler result', function() {
+            const RESULT = {
+               template: 'test',
+               options: {},
+               mode: dataSource.error.Mode.include
+            };
+            controller.addHandler(() => RESULT);
+            return controller.process(error).then((result) => {
+               assert.deepEqual(RESULT, {
+                  mode: result.mode,
+                  template: result.template,
+                  options: result.options
+               });
+            });
+         });
+
+         it('shows default dialog if gets no result from handlers', function() {
+            for (let i = 0; i < 5; i++) {
+               controller.addHandler(() => undefined);
+            }
+            const theme = 'test';
+            return controller.process({
+               error,
+               theme
+            }).then((viewConfig) => {
+               assert.isUndefined(viewConfig, 'returns undefined');
+               assert.isTrue(popupHelper.openConfirmation.calledOnce, 'openConfirmation called');
+               assert.include(popupHelper.openConfirmation.getCall(0).args[0], {
+                  theme,
+                  message: error.message
+               }, 'openConfirmation called with theme and message');
+            });
+         });
+
+         // call application handler
+         // default mode in handler's config
+         // default mode in result
+         // dafault template
+      });
+   });
 });

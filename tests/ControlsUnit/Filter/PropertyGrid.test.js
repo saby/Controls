@@ -259,6 +259,19 @@ define(
             assert.isTrue(controlResizeEventFired);
          });
 
+         it('update control after change item by property observer', function() {
+            const PG = getPropertyGrid(config);
+            let itemsChangedFired = false;
+            let newItems = config.items;
+            PG._afterMount();
+            PG._notify = (event, items) => {
+               itemsChangedFired = true;
+               newItems = items;
+            };
+            PG._items[0].value = 3;
+            assert.isTrue(itemsChangedFired);
+            assert.notDeepEqual(PG._options.items, newItems);
+         });
       });
    }
 );

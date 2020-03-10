@@ -7,10 +7,10 @@
          fontColorStyle="link"
          viewMode="link"
          tooltip="{{_state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}"
-         icons="{{['icon-small icon-ArrangeList', 'icon-small icon-ArrangeSmallIconsPreview']}}"
+         icons="{{['icon-ArrangeList', 'icon-ArrangeSmallIconsPreview']}}"
          icon="icon-ArrangeList"
          iconStyle="secondary"
-         iconSize="s"
+         iconSize="stateButton"
          readOnly="{{false}}"
          on:valueChanged="_toggleStateClick()"
       />

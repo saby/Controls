@@ -440,6 +440,7 @@ define(
             };
             view._displayText = {};
             view._source = Clone(defaultConfig.source);
+            view._source[2].textValue = 'test';
             view._configs = {
                document: {
                   items: getItems(Clone(defaultItems[0])),
@@ -454,6 +455,7 @@ define(
             view._resetFilterText();
             assert.isTrue(closed);
             assert.strictEqual(view._source[2].value, '');
+            assert.strictEqual(view._source[2].textValue, '');
             assert.deepStrictEqual(filterChanged, {state: [1]});
             assert.deepStrictEqual(view._displayText, {document: {}, state: {text: 'In any state', title: 'In any state', hasMoreText: ''}});
 
