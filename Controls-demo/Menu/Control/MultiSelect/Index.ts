@@ -7,7 +7,6 @@ import 'css!Controls-demo/Menu/Control/Menu';
 class MultiSelect extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _source: Memory;
-    protected _ids: string;
 
     protected _beforeMount(): void {
 

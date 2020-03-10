@@ -50,10 +50,10 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>, swipeContainerHeight: number): void {
         e.stopPropagation();
         if (!(item instanceof GroupItem)) {
-            this._notify(eventName, [item, sourceEvent]);
+            this._notify(eventName, [item, sourceEvent, swipeContainerHeight]);
         }
     }
 

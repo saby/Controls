@@ -6,6 +6,8 @@
         {{_parsedNumber.integer}}
     </span>
     <ws:if data="{{_isDisplayFractionPath(_parsedNumber.fraction, _options.showEmptyDecimals)}}">
-        <span class="controls-DecoratorMoney__fraction_theme-{{_options.theme}}">{{_parsedNumber.fraction}}</span>
+        <span class= "controls-DecoratorMoney__fraction_theme-{{_options.theme}}
+                      controls-fontsize-xs_theme-{{_options.theme}}">
+            {{_parsedNumber.fraction}}</span>
     </ws:if>
 </span>

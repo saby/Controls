@@ -1,5 +1,6 @@
 <div attr:class="controls-Menu__row
                  controls-DropdownList__row
+                 controls-ListView__itemV js-controls-SwipeControl__actionsContainer
                  {{itemData.itemClassList}} theme_{{_options.theme}}
                  {{marker !== false && treeItem.isSelected() && (!itemData.multiSelect || itemData.isEmptyItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
@@ -38,5 +39,14 @@
 
    <ws:if data="{{treeItem.getContents().get(itemData.nodeProperty)}}">
       <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
+   </ws:if>
+
+   <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.isNode() }}">
+      <ws:if data="{{ item.isSwiped() }}">
+         <ws:partial template="{{ swipeTemplate }}"/>
+      </ws:if>
+      <ws:else>
+         <ws:partial template="{{ itemActionsTemplate }}" />
+      </ws:else>
    </ws:if>
 </div>

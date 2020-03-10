@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper" style="width: 700px;">
-        <Controls.scroll:Container>
+<div class="controlsDemo__wrapper" style="max-width: 700px;">
+        <Controls.scroll:Container attr:style="height: 350px; width: fit-content;">
                 <Controls.explorer:View
                     source="{{_viewSource}}"
                     bind:root="_root"

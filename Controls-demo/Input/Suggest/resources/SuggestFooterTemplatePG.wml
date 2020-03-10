@@ -1,3 +1,3 @@
 <div class="controls-demo__SuggestPG-footerButton">
-    <Controls.buttons:Button viewMode="link" fontColorStyle="link" on:click="_click()" caption="{{_caption}}"/>
+    <Controls.buttons:Button viewMode="linkButton" fontColorStyle="link" on:click="_click()" caption="{{_caption}}"/>
 </div>

@@ -58,6 +58,7 @@ export interface IContextMenuConfig {
     itemTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     headerTemplate?: TemplateFunction|string;
+    iconSize?: string;
 }
 
 export interface IItemAction {
@@ -136,6 +137,7 @@ export interface IList {
  * - itemTemplate - шаблон элемента меню.
  * - footerTemplate - шаблон футера.
  * - headerTemplate - шаблон шапки.
+ * - iconSize - размер иконок в выпадающем меню.
  */
 
 /*ENG

@@ -13,10 +13,10 @@
 }
 
 .controls-Suggest__loader_theme-@{themeName} {
-	background: @background-image_Suggest-spinner 0 0 no-repeat;
-	height: @height_Suggest-spinner;
-	width: @width_Suggest-spinner;
-	margin-right: @spacing_Suggest-between-spinner-clear;
+	background: @spinner_s_background-image_loadingIndicator 0 0 no-repeat;
+	height: @icon-size_s;
+	width: @icon-size_s;
+	margin-right: @spinner_offset_suggest;
 }
 
 .controls-SuggestV__clear {
@@ -25,8 +25,8 @@
 }
 
 .controls-Suggest__clear_theme-@{themeName}{
-	.icon-size(@icon-size_Suggest-clear);
-	color: @color_Suggest-clear;
+	.icon-size(@reset-button_icon-size_suggest);
+	color: @reset-button_icon-color_suggest;
 }
 
 .controls-SuggestV__afterFieldWrapper {
@@ -35,7 +35,7 @@
 }
 
 .controls-Suggest__afterFieldWrapper_theme-@{themeName} {
-	margin-right: @spacing_Suggest-between-afterFieldWrapper-inputRenderWrapper;
+	margin-right: @reset-button_offset_suggest;
 }
 
 //TODO Пока зададим ширину для новой стековой панели явно. Нужно для Матильды. https://online.sbis.ru/opendoc.html?guid=23717d3b-cb27-4a7e-a7ae-b4d06eb6aa25

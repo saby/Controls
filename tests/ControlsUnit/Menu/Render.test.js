@@ -68,7 +68,8 @@ define(
                stopPropagation: () => {isStopped = true;}
             };
             menuRender._proxyEvent(event, 'itemClick', { key: 1 }, 'item1');
-            assert.deepEqual(actualData, [{ key: 1 }, 'item1']);
+            assert.deepEqual(actualData[0], { key: 1 });
+            assert.deepEqual(actualData[1], 'item1');
             assert.isTrue(isStopped);
          });
 

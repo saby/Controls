@@ -116,34 +116,9 @@
 @color_DraggingTemplate-counter_val:               #FFFFFF;
 @background-color_DraggingTemplate-counter_val:    #0055BB;
 
-// Counter
-@font-size_Counter_size-l:                                       18px;
-@font-size_Counter_size-s:                                       14px;
-@font-size_Counter_size-m:                                       15px;
-@color_Counter_style-primary_hovered:                            #D94700;
-@color_Counter_style-secondary_hovered:                          #0055BB;
-@color_Counter_style-secondary:                                  #313E78;
-@color_Counter_style-primary:                                    #D94700;
-@color_Counter_style-disabled:                                   #999999;
-
-// Separator
-@width-HeaderSeparator:                                          6px;
-@height-HeaderSeparator:                                         10px;
-@spacing-HeaderSeparator_between_headerSeparator_Header:         10px;
-@color_HeaderSeparator_secondary:                                #729EE6;
-@color_HeaderSeparator_primary:                                  #729EE6;
-@color_HeaderSeparator_primary_hovered:                          #729EE6;
-@color_HeaderSeparator_secondary_hovered:                        #729EE6;
-
 // tile
 @color_shadow_light:                rgba(0,0,0,.15);
 @color_shadow_dark:                 rgba(0, 0, 0, 0.45);
-
-//StateIndicator
-@state-indicator-sector-side-padding_val: 6px;
-@state-indicator-sector-width_val: 6px;
-@state-indicator-sector-height_val: 8px;
-@state-indicator-sector-spacing_val: 2px;
 
 // icon urls
 @closeIconSvg-toolButton:            url('../Controls-default-theme/img/DefaultCloseIcon.svg');
@@ -207,10 +182,6 @@
 // BaseControl
 @border-radius_BaseControl-loadingIndicator_val:                  8px;
 
-// Menu
-@width-IconButton_size-m:                                         24px;
-@width-IconButton_size-l:                                         28px;
-
 // MoveDialog
 @width_MoveDialog_val:                                            408px;
 @height_MoveDialog_val:                                           446px;
@@ -225,19 +196,11 @@
 // FilterLink
 @color_FilterLink:                                                #313e78;
 
-// SelectedCollection
-@width_SelectedCollection-counter-shadow_val:                     20px;
-
 // Selector
 @min-width_DateRangeSelector_val:                                 150px;
 
 // SelectorLite
 @min-width_DateRangeSelectorLite_val:                             150px;
-
-// Lookup
-@spacing_Lookup-between-inputRender-rightBorder_val:              0;
-@color_Lookup-input-for-comment_val:                              #999999;
-@caret-color_Lookup-input-for-comment_val:                        #999999;
 
 // Suggest
 @box-shadow-size_Suggest-popup-verticalAlign_top_val:             0 -4px 6px;
@@ -341,19 +304,8 @@
 @background-color_Paging-digitButton_hover_val:                           #F0F5FB;
 @background-color_Paging-button_hover_val:                                #F0F5FB;
 
-// ProgressBar
-@height-ProgressBar_bar_val:                                              3px;
-@color-ProgressBar__bar_val:                                              #CCC;
-
 // LoadingIndicator
 @color_LoadingIndicator-overlay-default_val:                              transparent;
-
-// Search
-@border-color_Search_val:                                                 transparent;
-@border-color_Search_readOnly_val:                                        transparent;
-@border-color_Search_active_val:                                          #DFDFDF;
-@background-color_Search_val:                                             #F2F2F2;
-@background-color_Search_contrast_background_val:                         #ffffff;
 
 // Misspell
 @text-decoration_Misspell-caption_hover_val:    underline;
@@ -403,18 +355,6 @@
 
 // DatePicker
 @spacing_DatePicker-between-input-button:                                 @trigger-offset_inputDate; // дублирует стиль новой спецификации, удаляем
-
-// InputBase
-@spacing_InputBase_between-topBorder-text_val:                            0;
-@spacing_InputBase_between-bottomBorder-text_val:                         0;
-
-//InputBase
-@spacing_InputBase_between-topBorder-text:           @spacing_InputBase_between-topBorder-text_val;
-@spacing_InputBase_between-bottomBorder-text:        @spacing_InputBase_between-bottomBorder-text_val;
-@spacing_InputBase_between-leftBorder-text:          @padding-horizontal_inputText; // дублирует стиль новой спецификации, удаляем
-@spacing_InputBase_between-rightBorder-text:         @padding-horizontal_inputText; // дублирует стиль новой спецификации, удаляем
-
-@caret-color_InputBase:                              @caret-color_fill_inputText; // дублирует стиль новой спецификации, удаляем
 
 //DialogTemplate
 @height_DialogTemplate-top-area-val:                                      @header-min-height_dialog; // дублирует стиль новой спецификации, удаляем
@@ -495,20 +435,5 @@
 @background-color_StackTemplate-footer:                        @footer_background-color_stack; // вообще не нужно, удаляем
 
 @height_Tabs:                                                   @item_height_tabs;//TODO: сначала удалить в engine
-
-//decorator:Money
-@color_DecoratorMoney-integer_style_default:                @text-color;
-@color_DecoratorMoney-integer_style_accentResults:          @secondary_text-color;
-@color_DecoratorMoney-integer_style_noAccentResults:        @unaccented_text-color;
-@color_DecoratorMoney-integer_style_group:                  @readonly_color;
-@color_DecoratorMoney-integer_style_basicRegistry:          @text-color;
-@color_DecoratorMoney-integer_style_noBasicRegistry:        @unaccented_text-color;
-@color_DecoratorMoney-integer_style_accentRegistry:         @secondary_text-color;
-@color_DecoratorMoney-integer_style_noAccentRegistry:       @unaccented_text-color;
-@color_DecoratorMoney-integer_style_error:                  @danger_color;
-
-@color_DecoratorMoney-fractional:                           @fractional-text-color_decoratorMoney;
-@font-size_DecoratorMoney-fractional:                       @fractional-font-size_decoratorMoney;
-@font-weight_DecoratorMoney-fractional:                     @fractional-font-weight_decoratorMoney;
 
 //last line

@@ -94,10 +94,10 @@ var
         },
 
         getPaddingCellClasses: function(params, theme) {
-            const { columns, columnIndex, rowSeparatorSize } = params;
+            const { columns, columnIndex } = params;
             const { cellPadding } = columns[columnIndex];
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
-            const isWideRowSeparator = rowSeparatorSize === 'l';
+
 
             if (columns[columnIndex].isActionCell) {
                 return classLists;
@@ -128,7 +128,7 @@ var
                 classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
-                classLists.top += ` controls-Grid__row-cell${isWideRowSeparator ? '-wide-sep' : ''}_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
                 classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
@@ -1015,14 +1015,6 @@ var
 
         getItemById: function(id, keyProperty) {
             return this._model.getItemById(id, keyProperty);
-        },
-
-        markAddingItem() {
-            this._model.markAddingItem();
-        },
-
-        restoreMarker() {
-            this._model.restoreMarker();
         },
 
         setMarkedKey: function(key) {

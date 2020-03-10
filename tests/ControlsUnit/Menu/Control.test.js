@@ -137,15 +137,6 @@ define(
          });
 
          it('getTemplateOptions', function() {
-            const expectedOptions = Clone(defaultOptions);
-            expectedOptions.root = 1;
-            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
-            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
-            expectedOptions.closeButtonVisibility = false;
-            expectedOptions.showHeader = false;
-            expectedOptions.headerTemplate = null;
-            expectedOptions.additionalProperty = null;
-
             let menuControl = getMenu();
             menuControl._listModel = getListModel();
 
@@ -156,6 +147,21 @@ define(
                }),
                hasChildren: false
             });
+
+            const expectedOptions = Clone(defaultOptions);
+            expectedOptions.root = 1;
+            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
+            expectedOptions.footerItemData = {
+               item,
+               key: expectedOptions.root
+            };
+            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
+            expectedOptions.closeButtonVisibility = false;
+            expectedOptions.showHeader = false;
+            expectedOptions.headerTemplate = null;
+            expectedOptions.additionalProperty = null;
+
+
             let resultOptions = menuControl.getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
          });
@@ -257,6 +263,24 @@ define(
             item.set('parent', '1');
             isVisible = menuControl.displayFilter(hierarchyOptions, item);
             assert.isFalse(isVisible);
+         });
+
+         it('_calculateActionsConfig', function() {
+            let menuControl = getMenu();
+            let listModel = getListModel();
+
+            const expectedConfig = {
+               itemActionsPosition: 'inside',
+               actionCaptionPosition: 'none',
+               actionAlignment: 'horizontal',
+               style: 'default',
+               size: 'm',
+               itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-default',
+               toolbarVisibility: undefined
+            };
+
+            menuControl._calculateActionsConfig(listModel, {theme: 'default'});
+            assert.deepEqual(listModel.getActionsTemplateConfig(), expectedConfig);
          });
 
       });

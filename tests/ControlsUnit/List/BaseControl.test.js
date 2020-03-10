@@ -2065,6 +2065,7 @@ define([
          });
 
          var cfg = {
+            keyProperty: 'id',
             viewName: 'Controls/List/ListView',
             source: source,
             viewConfig: {
@@ -2098,6 +2099,18 @@ define([
             ctrl._notify = function(event, dir) {
                result = dir;
             };
+            ctrl._children = {
+               scrollController: {
+                  scrollToItem(key) {
+                     if (key === data[0].id) {
+                        result = 'top';
+                     } else if (key === data[data.length - 1].id) {
+                        result = 'bottom';
+                     }
+                     return Promise.resolve();
+                  }
+               }
+            };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
             lists.BaseControl._private.scrollToEdge(ctrl, 'down');
@@ -2122,6 +2135,7 @@ define([
          });
 
          var cfg = {
+            keyProperty: 'id',
             viewName: 'Controls/List/ListView',
             source: source,
             viewConfig: {
@@ -2160,6 +2174,18 @@ define([
          setTimeout(function() {
             ctrl._notify = function(eventName, type) {
                result = type;
+            };
+            ctrl._children = {
+               scrollController: {
+                  scrollToItem(key) {
+                     if (key === data[0].id) {
+                        result = ['top'];
+                     } else if (key === data[data.length - 1].id) {
+                        result = ['bottom'];
+                     }
+                     return Promise.resolve();
+                  }
+               }
             };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
@@ -2880,6 +2906,42 @@ define([
             .at(2), ctrl._listViewModel.getMarkedItem()
             .getContents());
       });
+
+      it('_onItemClick: should not mark single item', async function() {
+         var cfg = {
+            keyProperty: 'id',
+            viewName: 'Controls/List/ListView',
+            source: source,
+            editingConfig: {},
+            markerVisibility: 'onactivated',
+            viewModelConstructor: lists.ListViewModel
+         };
+         var originalEvent = {
+            target: {
+               closest: function(selector) {
+                  return selector === '.js-controls-ListView__checkbox';
+               },
+               getAttribute: function(attrName) {
+                  return attrName === 'contenteditable' ? 'true' : '';
+               }
+            }
+         };
+         var stopPropagationCalled = false;
+         var event = {
+            stopPropagation: function() {
+               stopPropagationCalled = true;
+            }
+         };
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         ctrl._listViewModel.setMarkedKey(null);
+         ctrl._items.getCount = () => 1;
+         ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(0), originalEvent);
+         assert.isTrue(stopPropagationCalled);
+         assert.isUndefined(ctrl._listViewModel.getMarkedItem());
+      });
+
       it('_needBottomPadding after reload in beforeMount', async function() {
          var cfg = {
             viewName: 'Controls/List/ListView',
