@@ -1,15 +1,15 @@
 .controls-SelectorSuggest__arrow-wrapper:hover {
-   color: @color-SelectorSuggest__separator-icon_style-secondary_hovered;
+   color: @trigger-color_hover_combobox;
 }
 
 .controls-SelectorSuggest__arrow-wrapper {
    display: inline-flex;
    align-items: center;
-   margin-right: @spacing_SelectorSuggest-between-arrow-rightBorder;
+   margin-right: @trigger_padding-right_combobox;
    cursor: pointer;
    height: 100%;
-   color: @color-SelectorSuggest__separator-icon_style-secondary;
-   padding-right: @spacing_SelectorSuggest-between-arrow-rightBorder;
+   color: @trigger-color_combobox;
+   padding-right: @trigger_padding-right_combobox;
 }
 
 .controls-SelectorSuggest__arrow-wrapper:before {
@@ -17,5 +17,5 @@
 }
 
 .controls-SelectorSuggest__iconArrow {
-   .icon-size-without-important(@size-SelectorSuggest__separator-icon);
+   .icon-size-without-important(@trigger_icon-size_combobox);
 }

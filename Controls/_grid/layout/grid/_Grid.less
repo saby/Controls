@@ -140,8 +140,8 @@
    box-sizing: border-box;
    position: relative;
 }
-.controls-Grid__itemAction {
-   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у колонок results;
+.controls-Grid__itemAction.controls-itemActionsV_outside {
+   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
 }
 
 
@@ -575,7 +575,7 @@
    }
 
    //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=08925c8d-d7d1-4588-989f-3279e0675557
-   .controls-Grid__row_master_theme-@{themeName}:hover .controls-BreadCrumbsView__menu__dots {
+   .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} .controls-BreadCrumbsView__menu__dots {
       background-color: @background-color_List-masterList-item_hover;
       box-shadow: -15px 2px 4px -6px @background-color_List-masterList-item_hover;
    }
@@ -717,4 +717,13 @@
 
 .controls-Grid__cell-content_full-height {
    height: 100%;
+}
+
+.controls-Grid__cell_tag {
+   position: relative;
+   right: -@tag_offset-horizontal_gridView;
+
+   .controls__tag_theme-@{themeName} {
+      top: -@tag_offset-vertical_gridView;
+   }
 }

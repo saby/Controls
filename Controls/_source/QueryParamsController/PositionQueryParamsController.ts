@@ -51,6 +51,7 @@ class PositionQueryParamsController implements IQueryParamsController {
     protected _more: More;
     protected _beforePosition: Position = null;
     protected _afterPosition: Position = null;
+    protected _shouldLoadLastPage: boolean = false;
     protected _options: IPositionQueryParamsControllerOptions;
 
     // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
@@ -209,13 +210,19 @@ class PositionQueryParamsController implements IQueryParamsController {
             additionalFilter[navField[i] + sign] = navPosition[i];
         }
 
-        return {
+        const addParams: IAdditionalQueryParams = {
             filter: additionalFilter,
             limit: this._options.limit,
             meta: {
                 navigationType: QueryNavigationType.Position
             }
         };
+
+        if (this._shouldLoadLastPage) {
+            addParams.offset = -1;
+        }
+
+        return addParams;
     }
 
     /**
@@ -238,6 +245,7 @@ class PositionQueryParamsController implements IQueryParamsController {
                 this._beforePosition = this._resolvePosition(beforePosition, this._options.field);
             }
         }
+        this._shouldLoadLastPage = false;
     }
 
     /**
@@ -356,9 +364,17 @@ class PositionQueryParamsController implements IQueryParamsController {
         return navigationResult;
     }
 
-    // TODO Not implemented
     setEdgeState(direction: Direction): void {
-        // TODO
+        if (direction === 'up') {
+            // Не нужно ничего делать. При загрузке без указания direction
+            // параметры direction и position будут взяты из переданных
+            // опций, то есть из конфигурации navigation, что и приведет к
+            // загрузке исходной страницы.
+        } else if (direction === 'down') {
+            this._shouldLoadLastPage = true;
+        } else {
+            throw new Error('Wrong argument Direction in NavigationController.ts::setEdgeState');
+        }
     }
 
     destroy(): void {

@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Collection, Tree, TreeItem, SelectionController, ItemActionsController} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -83,20 +83,50 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._listModel = null;
     }
 
+    protected _mouseEnterHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
+    protected _touchStartHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
         this._hoveredItemIndex = null;
         this._listModel.setHoveredItem(null);
         clearTimeout(this._handleCurrentItemTimeout);
     }
 
-    private _mouseMove(event: SyntheticEvent<MouseEvent>): void {
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
             this.startHandleItemTimeout();
         }
     }
 
-    private _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         this.handleCurrentItem(item, sourceEvent.target, sourceEvent.nativeEvent);
+    }
+
+    protected _itemSwipe(e: SyntheticEvent<null>, item: TreeItem<Model>, swipeEvent: SyntheticEvent<TouchEvent>, swipeContainerHeight: number): void {
+        if (swipeEvent.nativeEvent.direction === 'left') {
+            ItemActionsController.activateSwipe(
+                this._listModel,
+                item.getContents().getKey(),
+                swipeContainerHeight
+            );
+        } else {
+            ItemActionsController.deactivateSwipe(this._listModel);
+        }
+    }
+
+    protected _itemActionClick(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, action: object, clickEvent): void {
+        ItemActionsController.processActionClick(
+            this._listModel,
+            item.getContents().getKey(),
+            action,
+            clickEvent,
+            false
+        );
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model, nativeEvent: MouseEvent): void {
@@ -177,7 +207,13 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    protected _closeSubMenu(needOpenDropDown): void {
+    protected _footerMouseEnter(): void {
+        this._hoveredItemIndex = null;
+        this._listModel.setHoveredItem(null);
+        this._closeSubMenu();
+    }
+
+    private _closeSubMenu(needOpenDropDown): void {
         if (this._children.Sticky) {
             this._children.Sticky.close();
         }
@@ -201,7 +237,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
     private handleCurrentItem(item: TreeItem<Model>, target, nativeEvent): void {
         this._hoveredItemIndex = this._listModel.getIndex(item);
-        const needOpenDropDown = item.isNode() && !item.getContents().get('readOnly');
+        const needOpenDropDown = item.getContents().get(this._options.nodeProperty) && !item.getContents().get('readOnly');
         const needCloseDropDown = this.subMenu && this._subDropdownItem && this._subDropdownItem !== item;
         this.setItemParamsOnHandle(item, target, nativeEvent);
 
@@ -253,7 +289,16 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             this._openSubMenuEvent.clientX,this._subMenuPosition.y +
             this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
 
-        return Math.sign(firstSegment) === Math.sign(secondSegment) && Math.sign(firstSegment) === Math.sign(thirdSegment);
+        return this._getSign(firstSegment) === this._getSign(secondSegment) && this._getSign(firstSegment) === this._getSign(thirdSegment);
+    }
+
+    // FIXME https://online.sbis.ru/opendoc.html?guid=923f813d-7ed2-4e7d-94d8-65b0b733a4bd
+    private _getSign(x: number) {
+        x = +x;
+        if (x === 0 || isNaN(x)) {
+            return x;
+        }
+        return x > 0 ? 1 : -1;
     }
 
     private calculatePointRelativePosition(firstSegmentPointX, secondSegmentPointX, firstSegmentPointY, secondSegmentPointY, curPointX, curPointY): number {
@@ -343,20 +388,23 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this.setSelectedItems(this._listModel, options.selectedKeys);
     }
 
-    private getCollection(items: RecordSet, options: IMenuOptions): Tree {
-        let listModel = new Tree({
+    private getCollection(items: RecordSet, options: IMenuOptions): Collection {
+        // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
+        let listModel = new Collection({
             collection: items,
             keyProperty: options.keyProperty,
-            nodeProperty: options.nodeProperty,
-            parentProperty: options.parentProperty,
-            root: options.root,
             filter: this.displayFilter.bind(this, options)
         });
+
+        if (options.itemActions) {
+            this._calculateActionsConfig(listModel, options);
+        }
+
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
         }
         if (options.groupProperty) {
-            listModel.setGroup(this.groupMethod.bind(this));
+            listModel.setGroup(this.groupMethod.bind(this, options));
         } else if (options.groupingKeyCallback) {
             listModel.setGroup(options.groupingKeyCallback);
         }
@@ -386,8 +434,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return isVisible;
     }
 
-    private groupMethod(item: Model): string {
-        return item.get(this._options.groupProperty);
+    private groupMethod(options: IMenuOptions, item: Model): string {
+        return item.get(options.groupProperty);
     }
 
     private setSelectedItems(listModel: Tree, keys: TKeys): void {
@@ -470,6 +518,10 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.root = item.getContents().get(this._options.keyProperty);
         templateOptions.bodyContentTemplate = 'Controls/_menu/Control';
         templateOptions.footerTemplate = this._options.nodeFooterTemplate;
+        templateOptions.footerItemData = {
+            key: templateOptions.root,
+            item
+        };
         templateOptions.closeButtonVisibility = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
@@ -491,6 +543,33 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             });
         }
         return source;
+    }
+
+    private _calculateActionsConfig(listModel: Tree<Model>, options: IMenuOptions): void {
+        ItemActionsController.calculateActionsTemplateConfig(
+            listModel,
+            {
+                itemActionsPosition: 'inside',
+                actionCaptionPosition: 'none',
+                actionAlignment: 'horizontal',
+                style: 'default',
+                itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-' + options.theme
+            }
+        );
+    }
+
+    private _assignItemActions(options): void {
+        const itemActions = options.itemActions;
+
+        if (!itemActions) {
+            return;
+        }
+        const actionsGetter = () => itemActions;
+
+        ItemActionsController.assignActions(
+            this._listModel,
+            actionsGetter
+        );
     }
 
     static _theme: string[] = ['Controls/menu', 'Controls/dropdownPopup'];

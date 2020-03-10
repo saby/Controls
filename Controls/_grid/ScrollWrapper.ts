@@ -56,9 +56,9 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         }
         const maxEndColumn = listModel.getHeaderMaxEndColumn();
         const stickyColumnsCount = listModel.getStickyColumnsCount();
-        const header = listModel.getHeader();
-        // В случае !multiHeader добавление offset к grid-column-end не нужно, т.к. оно уже учтено в maxEndColumn
-        style += `grid-column: ${stickyColumnsCount + 1 + offset} / ${(maxEndColumn ? maxEndColumn : header.length + 1) + offset};`;
+        const isMultiHeader = listModel.isMultiHeader();
+
+        style += `grid-column: ${stickyColumnsCount + 1 + offset} / ${(isMultiHeader ? maxEndColumn : maxEndColumn + 1) + offset};`;
         style += `width: ${options.scrollWidth}px`;
         return style;
     }

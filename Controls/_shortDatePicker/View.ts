@@ -100,6 +100,12 @@ var Component = BaseControl.extend({
 
         this._caption = options.captionFormatter(options.startValue, options.endValue, options.emptyCaption);
 
+        if (!(options.chooseQuarters && options.chooseMonths) && options.chooseHalfyears) {
+            Logger.error(
+                'shortDatePicker: Unsupported combination of chooseQuarters, chooseMonths and chooseHalfyears options',
+                this);
+        }
+
         if (options.chooseQuarters || options.chooseMonths || options.chooseHalfyears) {
             this._position = options.year || options.startValue || (new options.dateConstructor());
         } else {

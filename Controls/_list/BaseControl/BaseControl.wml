@@ -41,12 +41,13 @@
                     <div class="controls-BaseControl_paging-label">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
                 </ws:else>
             </ws:if>
-            <Controls.paging:Paging attr:class="controls-BaseControl__footerPaging"
-                                    showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
-                                    pagesCount = "{{_knownPagesCount}}"
-                                    selectedPage = "{{_currentPage}}"
-                                    on:selectedPageChanged="__pagingChangePage()"
-            ></Controls.paging:Paging>
+            <Controls.paging:Paging
+                attr:class="controls-BaseControl__footerPaging"
+                showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
+                showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
+                pagesCount = "{{_knownPagesCount}}"
+                selectedPage = "{{_currentPage}}"
+                on:selectedPageChanged="__pagingChangePage()" />
         </div>
     </ws:if>
     <ws:if data="{{_shouldDrawFooter}}">
@@ -163,11 +164,12 @@
                 on:itemMouseEnter="_itemMouseEnter()"
                 on:itemMouseMove="_itemMouseMove()"
                 on:itemMouseLeave="_itemMouseLeave()"
-                on:hoveredItemChanged="_onHoveredItemChanged()"
+                on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                on:hoveredCellChanged="_notifyHandler('hoveredCellChanged')"
                 on:itemSwipe="_listSwipe()"
         >
            <ws:tagTemplate>
-              <ws:partial template="wml!Controls/Application/InputTagTemplate/InputTagTemplate"
+              <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
                           on:click="_onTagClickHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"
                           on:mouseenter="_onTagHoverHandler(tagTemplate.dispItem, tagTemplate.columnIndex)"/>
            </ws:tagTemplate>
@@ -238,8 +240,11 @@
             <div class="controls-BaseControl_paging-Padding">
             </div>
             <div class="controls-BaseControl__pagingContainer">
-                <!-- scope1 нужен потому что без него dirtyChecking не смотрит на scope при вычислении изменений https://online.sbis.ru/opendoc.html?guid=83c8c334-0e38-413e-9ef0-640d63408c01-->
-                <Controls.paging:Paging attr:class="controls-BaseControl__scrollPaging" scope="{{_pagingCfg}}" scope1="{{_pagingCfg}}" on:onArrowClick="__onPagingArrowClick()"></Controls.paging:Paging>
+                <Controls.paging:Paging
+                    attr:class="controls-BaseControl__scrollPaging"
+                    scope="{{_pagingCfg}}"
+                    showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
+                    on:onArrowClick="__onPagingArrowClick()" />
             </div>
         </ws:if>
         <Controls.popup:Sticky
@@ -272,5 +277,9 @@
                 on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
             />
         </ws:if>
+
+        <Controls.event:Listener
+           event="dataError"
+           on:dataError="_onDataError()"/>
     </div>
 </Controls.dataSource:error.Container>

@@ -17,7 +17,6 @@ define('Controls-demo/RootRouter', [
       {
          _template: template,
          isReloading: false,
-         showMenu: true,
          pathName: 'Controls-demo/app/Controls-demo%2FIndexOld',
          reload: function() {
             this.isReloading = true;

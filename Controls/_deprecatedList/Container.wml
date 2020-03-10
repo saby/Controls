@@ -5,4 +5,5 @@
             emptyTemplate="{{_options.emptyTemplate}}"
             footerTemplate="{{_options.footerTemplate}}"
             searchMode="{{_searchMode}}"
-            markedKey="{{_options.markedKey}}"/>
+            markedKey="{{_options.markedKey}}"
+            searchValue="{{_searchValue}}"/>

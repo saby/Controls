@@ -5,6 +5,7 @@ import Clone = require('Core/core-clone');
 import template = require('wml!Controls/_filterPopup/Panel/AdditionalParams/AdditionalParams');
 import chain = require('Types/chain');
 import 'css!theme?Controls/filterPopup';
+
 /**
  * Control "Additional params". Used in the filter panel.
  * @class Controls/_filterPopup/Panel/AdditionalParams
@@ -25,9 +26,17 @@ import 'css!theme?Controls/filterPopup';
          return Clone(items);
       },
 
-      getVisibleItemsCount: function(items) {
-         var count = 0;
-         chain.factory(items).each(function(item) {
+    setItems: function(self, items) {
+        self.items = items;
+    },
+
+    itemsChanged(self): void {
+        self._notify('itemsChanged', [self.items]);
+    },
+
+    getVisibleItemsCount: function(items) {
+        var count = 0;
+        chain.factory(items).each(function(item) {
             if (Utils.object.getPropertyValue(item, 'visibility') !== undefined) {
                count++;
             }
@@ -96,7 +105,7 @@ import 'css!theme?Controls/filterPopup';
       },
 
       _beforeUpdate: function(newOptions) {
-         if (!isEqual(this.items, newOptions.items)) {
+         if (!isEqual(this._options.items, newOptions.items)) {
             this.items = _private.cloneItems(newOptions.items);
             this._columns = _private.getColumnsByItems(newOptions.items);
             _private.onResize(this);
@@ -108,30 +117,32 @@ import 'css!theme?Controls/filterPopup';
             Utils.object.getPropertyValue(item, 'visibility');
       },
 
-      _textValueChangedHandler: function(event, index, textValue) {
-         this._options.items[index].textValue = textValue;
-         this._options.items[index].visibility = true;
-         this._notify('itemsChanged', [this._options.items]);
-      },
+     _textValueChangedHandler: function(event, index, textValue) {
+         this._updateItem(index, 'textValue', textValue);
+     },
 
-      _valueChangedHandler: function(event, index, value) {
-         this._options.items[index].value = value;
-         this._options.items[index].visibility = true;
-         this._notify('itemsChanged', [this._options.items]);
-      },
+     _valueChangedHandler: function(event, index, value) {
+         this._updateItem(index, 'value', value);
+     },
 
-      _visibilityChangedHandler: function(event, index) {
-         this._options.items[index].visibility = true;
-         this._notify('itemsChanged', [this._options.items]);
-      },
+     _visibilityChangedHandler: function(event, index) {
+         this._updateItem(index, 'visibility', true);
+     },
 
-      _clickSeparatorHandler: function() {
-         this._isMaxHeight = !this._isMaxHeight;
-      }
+     _updateItem: function(index, field, value) {
+         const items = _private.cloneItems(this.items);
+         items[index][field] = value;
+         items[index].visibility = true;
+         _private.setItems(this, items);
+         _private.itemsChanged(this);
+     },
+
+    _clickSeparatorHandler: function() {
+        this._isMaxHeight = !this._isMaxHeight;
+    }
 
    });
 
    AdditionalParams._private = _private;
 
    export = AdditionalParams;
-

@@ -75,9 +75,9 @@ export default class Container extends Control implements IContainer {
      * @method
      * @public
      */
-    show(viewConfig: ViewConfig) {
-        if (viewConfig.mode == Mode.dialog) {
-            return this.__showDialog(viewConfig)
+    show(viewConfig: ViewConfig): void {
+        if (viewConfig && viewConfig.mode === Mode.dialog) {
+            return this.__showDialog(viewConfig);
         }
         this.__setConfig(viewConfig);
         this._forceUpdate();

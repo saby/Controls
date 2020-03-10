@@ -1,6 +1,6 @@
-.controls-Lookup__link {
+.controls-Lookup__link_theme-@{themeName} {
   display: inline-block;
-  font-size: @font-size_m;
+  font-size: @label_font-size_lookupInput;
   color: @label_text-color;
   line-height: @inline_height_m;
 }
@@ -11,12 +11,12 @@
 }
 
 .ws-is-hover {
-  .controls-Lookup__link-default:hover {
+  .controls-Lookup__link-default_theme-@{themeName}:hover {
     color: @link_hover_text-color;
   }
 }
 
-.controls-Lookup__link-default:active {
+.controls-Lookup__link-default_theme-@{themeName}:active {
   color: @link_hover_text-color;
 }
 

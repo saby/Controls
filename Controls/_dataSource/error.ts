@@ -30,3 +30,4 @@ export {
     IContainerConfig,
     IContainerConstructor
 } from './_error/IContainer';
+export { default as Popup } from './_error/Popup';

@@ -25,7 +25,7 @@
    </ws:if>
    <ws:else>
       <ws:if data="{{colspan}}">
-         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}"/>
+         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" attr:class="{{ itemData.isEditing ? currentColumn.classList.padding.getAll() }}"/>
       </ws:if>
       <ws:else>
          <ws:partial template="{{currentColumn.template}}"

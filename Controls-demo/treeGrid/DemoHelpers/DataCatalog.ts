@@ -1,6 +1,6 @@
 import * as CntTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/content';
 import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/contentTwoLvl';
-import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
 export const Gadgets = {
 

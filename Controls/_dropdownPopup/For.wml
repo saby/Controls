@@ -14,7 +14,7 @@
 </ws:if>
 <ws:for data="listModel.reset(); listModel.isEnd(); listModel.goToNext();">
    <ws:if data="{{listModel.getCurrent().isGroup}}">
-      <ws:if data="{{!listModel.getCurrent().isHiddenGroup()}}">
+      <ws:if data="{{!listModel.getCurrent().isHiddenGroup}}">
          <ws:partial
             template="{{groupTemplate}}" itemData="{{listModel.getCurrent()}}"/>
       </ws:if>

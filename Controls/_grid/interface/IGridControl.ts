@@ -416,8 +416,8 @@
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark
  * См. <a href="/materials/demo-ws4-edit-arrow">демо-пример</a>
- * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона. 
- * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона. 
+ * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона.
+ * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона.
  * Пример использования смотреть {@link Controls/grid:ColumnTemplate#contentTemplate тут}
  * @example
  * <pre>
@@ -432,6 +432,15 @@
  * @remark To place the button in the user column template, you should use the editArrowTemplate
  * @example
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
+ */
+
+/**
+ * @event Controls/_list/interface/IGridControl#hoveredCellChanged Происходит при наведении курсора мыши на ячейку таблицы.
+ * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+ * @param {Types/entity:Record} item Элемент, на который навели курсор.
+ * @param {HTMLElement} itemContainer Контейнер элемента, на который навели курсор.
+ * @param {Number} columnIndex Индекс ячейки на которую навели курсор.
+ * @param {HTMLElement} cellContainer Контейнер ячейки элемента, на которую навели курсор.
  */
 
 /**

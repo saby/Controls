@@ -52,14 +52,6 @@ var
         },
         toggleExpanded: function (dispItem, expand) {
             this._model.toggleExpanded(dispItem, expand);
-            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-            this._resetCacheAndUpdateVersion();
-        },
-        _resetCacheAndUpdateVersion(): void {
-            if (this._options.columnScroll && !this._options.disableColumnScrollCellStyles) {
-                this.resetCachedItemData();
-                this._nextModelVersion();
-            }
         },
         getItemType: function (dispItem) {
             return this._model.getItemType(dispItem);
@@ -72,13 +64,9 @@ var
         },
         setExpandedItems: function (expandedItems: Array<unknown>) {
             this._model.setExpandedItems(expandedItems);
-            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-            this._resetCacheAndUpdateVersion();
         },
         setCollapsedItems: function (collapsedItems: Array<unknown>) {
             this._model.setCollapsedItems(collapsedItems);
-            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-            this._resetCacheAndUpdateVersion();
         },
         getExpandedItems: function () {
             return this._model.getExpandedItems();
@@ -116,8 +104,6 @@ var
         },
         resetExpandedItems: function () {
             this._model.resetExpandedItems();
-            // remove after https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-            this._resetCacheAndUpdateVersion();
         },
         isDrawResults: function() {
             if (this._options.resultsVisibility === 'visible') {
@@ -195,17 +181,12 @@ var
                 footer.getLevelIndentClasses = current.getLevelIndentClasses;
                 const colspanCfg = {
                     columnStart: self._options.multiSelectVisibility !== 'hidden' ? 1 : 0,
-                    // todo Исправить по: https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-                    columnSpan: self._options.columnScroll && self._options.disableColumnScrollCellStyles ?
-                        self._columns.length + 1 : self._columns.length,
+                    columnSpan: self._options.columnScroll ? self._columns.length + 1 : self._columns.length,
                 };
                 if (current.columnScroll) {
                     footer.rowIndex = current.rowIndex + index + 1;
 
-                    // TODO: Разобраться, зачем это нужно для columnScroll.
-                    // По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
-                    // todo Исправить по: https://online.sbis.ru/opendoc.html?guid=f5d87447-e4b3-4b52-9565-5230998e5583
-                    if (self._options.columnScroll && self._options.disableColumnScrollCellStyles) {
+                    if (self._options.columnScroll) {
                         footer.colspanStyles = GridLayoutUtil.getColumnStyles(colspanCfg);
                     } else {
                         footer.colspanStyles = GridLayoutUtil.getCellStyles({...colspanCfg, rowStart: footer.rowIndex});

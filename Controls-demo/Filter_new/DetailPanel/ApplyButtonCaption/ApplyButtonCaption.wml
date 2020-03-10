@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+   <Controls.filterPopup:DetailPanel
+      attr:class="controls-FilterPanel__width-l"
+      items="{{_items}}"
+      itemTemplateProperty="itemTemplate"
+      applyButtonCaption="Отобрать выбранные параметры">
+   </Controls.filterPopup:DetailPanel>
+</div>

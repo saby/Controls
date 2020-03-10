@@ -13,19 +13,24 @@
 @readonly_color:                                      #6B6B6B;
 @text-color:                                          #CCCCCC;
 @icon-color:                                          #CCCCCC;
+@contrast_icon-color:                                 #383D44;
 @label_text-color:                                    #CCCCCC;
 @link_text-color:                                     #6ED4D0;
 @link_hover_text-color:                               #FF7033;
 
 //button
-@primary_border-color_button:                         #eb6c65;
-@primary_hover_background-color_button:               #535C68;
-@primary_active_background-color_button:              #535C68;
-@secondary_hover_background-color_button:             #535C68;
-@secondary_active_background-color_button:            #535C68;
-@border-color_button_toolButton:                      #4d535e;
-@border-color_hover_button_toolButton:                #535C68;
-@readonly_border-color_button_toolButton:             #6b6b6b;
+@primary_border-color_button:                                           #eb6c65;
+@primary_hover_background-color_button:                                 #535C68;
+@primary_active_background-color_button:                                #535C68;
+@secondary_hover_background-color_button:                               #535C68;
+@secondary_active_background-color_button:                              #535C68;
+@border-color_button_toolButton:                                        #4d535e;
+@border-color_hover_button_toolButton:                                  #535C68;
+@readonly_border-color_button_toolButton:                               #6b6b6b;
+@secondary_background-color_button_functionalButton:                    #6ED4D0;
+@success_background-color_button_functionalButton:                      #62AC62;
+@secondary_hover_background-color_button_functionalButton:              #5EB4B1;
+@success_hover_background-color_button_functionalButton:                #539253;
 
 //input
 @border-color_inputText:                              #4D535E #4D535E #797979 #4D535E;
@@ -82,6 +87,19 @@
 @border-color_switcher:                               #565e69;
 @marker-box_border-color_checkbox:                    #999999;
 
+//scroll
+@accented_thumb_background-color_scrollbar:                                   rgba(255, 255, 255, .2);
+@accented_thumb_hover_background-color_scrollbar:                             rgba(255, 255, 255, .5);
+@unaccented_thumb_background-color_scrollbar:                                 #999999;
+
+//loadingIndicator
+@content_background-color_loadingIndicator:                                   #383d44;
+@spinner_l_background-image_loadingIndicator:                                 url("img/loading.gif");
+@text-color_loadingIndicator:                                                 #CCC;
+
+//progressBar
+@primary_scale_color_progressBar:                                             #d94700;
+
 // Controls/tabs:Buttons
 @separator_color_tabs:                                #6b6b6b;
 @border-color_tabs:                                   #6b6b6b;
@@ -120,4 +138,106 @@
 //Lookup
 @trigger_icon-color_lookupInput:                         @secondary_color;
 
+
+//TODO OLD NOT SPECIFIED VARIABLES
+
+@cloud-background-color:                                                      #383d44;
+@cloud-border-color:                                                          #535c68;
+@cloud-light-border-color:                                                    #6b6b6b;
+@cloud-acc-border-color:                                                      #404040;
+
+
+// Search
+@border-color_hover_searchInput:                                              #656d79;
+@caret-color_empty_searchInput:                                               #ccc;
+
+@marker-bg-image:                                                             url("img/rowSelect.png");
+@readonly_marker-color:                                                       @readonly_color;
+
+// link
+@color_App-link:                                                              @secondary_color;
+@color_App-link_hover:                                                        @link_hover_text-color;
+
+
+//
+
+// Controls.Explorer
+@background-color_TileView-item: #464d57;
+
+// Controls.TreeGrid
+@color_TreeGridView-expander: #545b67;
+@color_TreeGridView-expander_hover: #ff7033;
+@background-color_Grid-row_hover: #464d57;
+
+@font-size_TreeGridView-row-cell-node:                                        14px;
+
+@background-color_ListView-item_hover:                                        #464d57;
+@background-image_SortButton-trendUp:                                         url("img/sortButtonTrendUp.svg");
+@background-image_SortButton-trendDown:                                       url("img/sortButtonTrendDown.svg");
+
+@font-size_TreeGridView-row-cell-hiddenNode:                                  @font-size_m;
+
+// Controls.Grid
+@background-color_Grid-header:                                                #424851;
+@border-color_Grid-row-separator:                                             #4a515a;
+@border-color_Grid-lastRow-separator:                                         #6b6b6b;
+@border-color_Grid-firstRow-separator:                                        #6b6b6b;
+@background-color-text-highlight:                                             #535C68;
+@background-color_Grid-row-sticky:                                            #424851;
+@start-color-gradient_HorizontalScroll-shadow:                                rgba(83, 92, 104, .5);
+@end-color-gradient_HorizontalScroll-shadow:                                  rgba(83, 92, 104, 0);
+@border-color_HorizontalScroll-shadow:                                        rgba(107, 107, 107, .44);
+
+
+// ItemActions
+@default-bg-color-hovered-item: #464d57;
+@background-color_ItemActions: #464d57;
+@icon-color-primary-hover: #ff7033;
+
+// Controls/DatePopup
+@background-color_PeriodDialog:                                               #383d44;
+@background-color__PeriodDialog-header:                                       #383d44;
+@border-color_PeriodDialog:                                                   #30343b;
+
+// Controls/DateRangeBigChoose
+@border-color_DateRangeBigChoose:                                             #535c68;
+
+// Controls/DateRange
+@color_PeriodDialog-dateRange-months-button:                                  #b8b8b8;
+@border-color_PeriodDialog-dateRange-months:                                  #535c68;
+@color_PeriodDialog-dateRange-monthsWithDates-title:                          #cccccc;
+
+//MonthView
+@background_MonthView:                                                        #383d44;
+@background_MonthView-item-selected:                                          #737c8b;
+@border-color__MonthView-item-selected-startEnd-hover:                        #ff7033;
+@background_MonthView-item:                                                   #424851;
+@color_MonthView-item:                                                        #b8b8b8;
+@border-color__MonthView-item-selected:                                       #b8b8b8;
+
+// Highlight
+@highlight-text-bg: #535c68;
+
+// Paging
+@background-color_Paging:                                                     #424851;
+@background-color_Paging-button:                                              #424851;
+@background-color_Paging-button_hover:                                        #464d57;
+
+@color_Paging_arrow-icon:                                                     @secondary_color;
+
+// Suggest
+@popup_border-color_suggest:                                                  #4d535e;
+
+// Functional Buttons
+@secondary_background-color_button_functionalButton:                          #6ED4D0;
+@success_background-color_button_functionalButton:                            #62AC62;
+@secondary_hover_background-color_button_functionalButton:                    #5EB4B1;
+@success_hover_background-color_button_functionalButton:                      #539253;
+@contrast_icon-color:                                                         #383D44;
+
+// ConfirmationTemplate
+@background-color_dialog:                                                     #4a515d;
+
+//popupTemplate
+@background-color_sticky:                                                     #383d44;
 //last line

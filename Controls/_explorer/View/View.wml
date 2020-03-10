@@ -37,6 +37,7 @@
                                     on:dragStart="_notifyHandler('dragStart')"
                                     on:dragEnd="_notifyHandler('dragEnd')"
                                     on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                                    on:hoveredCellChanged="_notifyHandler('hoveredCellChanged')"
                                     on:rootChanged="_notifyHandler('rootChanged')"
                                     on:changeDragTarget="_notifyHandler('changeDragTarget')"
                                     on:dragEnter="_notifyHandler('dragEnter')"

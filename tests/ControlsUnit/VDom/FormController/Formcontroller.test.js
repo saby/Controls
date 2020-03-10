@@ -258,6 +258,56 @@ define([
          });
       });
 
+      it('FormController update with Config', (done) => {
+         let configData = {
+            additionalData: {
+               name: 'cat'
+            }
+         };
+         let FC = new form.Controller();
+         let Crud = new form.Crud();
+         let validation = {
+            submit: () => Promise.resolve(true)
+         };
+         let data;
+         FC._record = {
+            getId: () => 'id1',
+            isChanged: () => true
+         };
+         FC._isNewRecord = true;
+         let crud = {
+            update: Crud.update,
+            _dataSource: {
+               update: () => (new Deferred()).callback('key')
+            },
+            _options: {
+               showLoadingIndicator: 'true'
+            }
+         };
+         let argsCorrectUpdate = {
+            key: 'key',
+            isNewRecord: true,
+            name: 'cat'
+         };
+         crud._notify = (event, args, bubbling) => {
+            if (event === 'updateSuccessed') {
+               FC._notifyHandler(event, args);
+            }
+         };
+         FC._notify = (event, arg) => {
+            if (event === 'sendResult' && arg[0].formControllerEvent === 'update') {
+               data = arg[0].additionalData;
+            }
+         };
+         FC._children = {crud, validation };
+         FC._processError = () => {};
+         FC.update(configData).then(() => {
+            assert.deepEqual(data, argsCorrectUpdate);
+            done();
+            FC.destroy();
+         });
+      });
+
       it('beforeUnmount', () => {
          let isDestroyCall = false;
          let dataSource = {

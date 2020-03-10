@@ -186,7 +186,9 @@ var _private = {
                     cfg.dataLoadCallback(list);
                 }
 
-                self._cachedPagingState = null;
+                if (!self._shouldNotResetPagingCache) {
+                    self._cachedPagingState = false;
+                }
                 clearTimeout(self._needPagingTimeout);
 
                 if (listModel) {
@@ -522,7 +524,7 @@ var _private = {
                 _private.checkLoadToDirectionCapability(self, self._options.filter, navigation);
             }
             if (self._options.virtualScrolling && self._isMounted) {
-                self._children.scrollController.itemsFromLoadToDirection = null;
+                self._children.scrollController.stopBatchAdding();
             }
 
             _private.prepareFooter(self, self._options.navigation, self._sourceController);
@@ -560,7 +562,7 @@ var _private = {
                 const countCurrentItems = self._listViewModel.getCount();
 
                 if (self._options.virtualScrolling && self._isMounted) {
-                    self._children.scrollController.itemsFromLoadToDirection = direction;
+                    self._children.scrollController.startBatchAdding(direction);
                 }
 
                 if (direction === 'down') {
@@ -716,17 +718,23 @@ var _private = {
         _private.setMarkerAfterScroll(self);
         if (_private.hasMoreData(self, self._sourceController, direction)) {
             self._sourceController.setEdgeState(direction);
+
+            // Если пейджинг уже показан, не нужно сбрасывать его при прыжке
+            // к началу или концу, от этого прыжка его состояние не может
+            // измениться, поэтому пейджинг не должен прятаться в любом случае
+            self._shouldNotResetPagingCache = true;
             _private.reload(self, self._options).addCallback(function() {
+                self._shouldNotResetPagingCache = false;
                 if (direction === 'up') {
                     self._notify('doScroll', ['top'], { bubbling: true });
                 } else {
-                    self._notify('doScroll', ['bottom'], { bubbling: true });
+                    _private.jumpToEnd(self);
                 }
             });
         } else if (direction === 'up') {
             self._notify('doScroll', ['top'], { bubbling: true });
         } else {
-            self._notify('doScroll', ['bottom'], { bubbling: true });
+            _private.jumpToEnd(self);
         }
     },
     scrollPage: function(self, direction) {
@@ -1278,6 +1286,7 @@ var _private = {
                         groupTemplate: self._options.contextMenuConfig && self._options.contextMenuConfig.groupTemplate,
                         groupingKeyCallback: self._options.contextMenuConfig && self._options.contextMenuConfig.groupingKeyCallback,
                         groupProperty: self._options.contextMenuConfig && self._options.contextMenuConfig.groupProperty,
+                        iconSize: self._options.contextMenuConfig && self._options.contextMenuConfig.iconSize,
                         rootKey: action.id,
                         showHeader: true,
                         dropdownClassName: 'controls-itemActionsV__popup',
@@ -1416,6 +1425,7 @@ var _private = {
         }
         return self.__errorController.process({
             error: config.error,
+            theme: self._options.theme,
             mode: config.mode || dataSourceError.Mode.include
         }).then((errorConfig) => {
             _private.showError(self, errorConfig);
@@ -1600,6 +1610,23 @@ var _private = {
         if (!self._options.useNewModel && (model.getDragEntity() || model.getDragItemData())) {
             self._notify(eName, [itemData, nativeEvent]);
         }
+    },
+    jumpToEnd(self) {
+        const lastItem =
+            self._options.useNewModel
+            ? self._listViewModel.getLast()?.getContents()
+            : self._listViewModel.getLastItem();
+
+        const lastItemKey = ItemsUtil.getPropertyValue(lastItem, self._options.keyProperty);
+
+        // Последняя страница уже загружена но конец списка не обязательно отображается,
+        // если включен виртуальный скролл. ScrollContainer учитывает это в scrollToItem
+        _private.scrollToItem(self, lastItemKey, true, true).then(() => {
+            // После того как последний item гарантированно отобразился,
+            // нужно попросить ScrollWatcher прокрутить вниз, чтобы
+            // прокрутить отступ пейджинга и скрыть тень
+            self._notify('doScroll', ['pageDown'], { bubbling: true });
+        });
     }
 };
 
@@ -1655,6 +1682,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     // если пэйджинг в скролле показался то запоним это состояние и не будем проверять до след перезагрузки списка
     _cachedPagingState: false,
     _needPagingTimeout: null,
+    _shouldNotResetPagingCache: false,
 
     _itemTemplate: null,
 
@@ -2336,12 +2364,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              */
             e.stopPropagation();
         }
-        if (this._options.useNewModel) {
-            const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
-            markCommand.execute(this._listViewModel);
-        } else {
-            var newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
-            this._listViewModel.setMarkedKey(newKey);
+        // При редактировании по месту маркер появляется только если в списке больше одной записи.
+        // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+        if (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1)) {
+            if (this._options.useNewModel) {
+                const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
+                markCommand.execute(this._listViewModel);
+            } else {
+                const newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
+                this._listViewModel.setMarkedKey(newKey);
+            }
         }
     },
 
@@ -2487,6 +2519,13 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.getPortionedSearch(this).abortSearch();
     },
 
+    _onDataError(event: unknown, errorConfig: ErrbackConfig): void {
+        _private.processError(this, {
+            error: errorConfig.error,
+            mode: errorConfig.mode || dataSourceError.Mode.dialog
+        });
+    },
+
     _nativeDragStart: function(event) {
         // preventDefault нужно делать именно на нативный dragStart:
         // 1. getItemsBySelection может отрабатывать асинхронно (например при массовом выборе всех записей), тогда
@@ -2624,6 +2663,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     },
     _changePageSize: function(e, item) {
         this._currentPageSize = item.get('pageSize');
+        this._currentPage = 1;
         this._applyPagingNavigationState({pageSize: this._currentPageSize});
     },
 
@@ -2699,10 +2739,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
     },
 
-    _onHoveredItemChanged: function(e, item, container) {
-        this._notify('hoveredItemChanged', [item, container]);
-    },
-
     _createNewModel(items, modelConfig, modelName) {
         // Подразумеваем, что Controls/display уже загружен. Он загружается при подключении
         // библиотеки Controls/listRender
@@ -2730,6 +2766,8 @@ BaseControl.contextTypes = function contextTypes() {
         isTouch: TouchContextField
     };
 };
+
+BaseControl._theme = ['Controls/Classes'];
 
 BaseControl.getDefaultOptions = function() {
     return {

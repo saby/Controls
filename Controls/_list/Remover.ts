@@ -2,6 +2,7 @@ import BaseAction from 'Controls/_list/BaseAction';
 import Deferred = require('Core/Deferred');
 import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
 import {ContextOptions as dataOptions} from 'Controls/context';
+import {error as dataSourceError} from 'Controls/dataSource';
 
 var _private = {
     removeFromSource: function (self, items) {
@@ -21,13 +22,13 @@ var _private = {
     },
 
     beforeItemsRemove: function (self, items) {
-        var beforeItemsRemoveResult = self._notify('beforeItemsRemove', [items]);
+        const beforeItemsRemoveResult = self._notify('beforeItemsRemove', [items]);
         return beforeItemsRemoveResult instanceof Deferred || beforeItemsRemoveResult instanceof Promise ?
            beforeItemsRemoveResult : Deferred.success(beforeItemsRemoveResult);
     },
 
     afterItemsRemove: function (self, items, result) {
-        self._notify('afterItemsRemove', [items, result]);
+        var afterItemsRemoveResult = self._notify('afterItemsRemove', [items, result]);
 
         //According to the standard, after moving the items, you need to unselect all in the table view.
         //The table view and Mover are in a common container (Control.Container.MultiSelector) and do not know about each other.
@@ -37,6 +38,8 @@ var _private = {
         self._notify('selectedTypeChanged', ['unselectAll'], {
             bubbling: true
         });
+
+        return Promise.resolve(afterItemsRemoveResult);
     },
 
     updateDataOptions: function (self, dataOptions) {
@@ -84,23 +87,30 @@ var Remover = BaseAction.extend({
         _private.updateDataOptions(this, context.dataOptions);
     },
 
-    removeItems: function (items) {
-        var
-            self = this,
-            itemsDeferred;
+    removeItems(items: string[]): void {
+        let itemsDeferred;
 
         //Support removing with mass selection.
-        //Full transition to selection will be made by: https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
-        itemsDeferred = items instanceof Array ? Deferred.success(items) : getItemsBySelection(items, this._source, this._items, this._filter);
+        //Full transition to selection will be made by:
+        // https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
+        itemsDeferred = items instanceof Array
+            ? Deferred.success(items)
+            : getItemsBySelection(items, this._source, this._items, this._filter);
 
-        itemsDeferred.addCallback(function (items) {
-            _private.beforeItemsRemove(self, items).addCallback(function (result) {
+        itemsDeferred.addCallback((items) => {
+            _private.beforeItemsRemove(this, items).addCallback((result) => {
                 if (result !== false) {
-                    _private.removeFromSource(self, items).addCallback(function (result) {
-                        _private.removeFromItems(self, items);
+                    _private.removeFromSource(this, items).addCallback((result) => {
+                        _private.removeFromItems(this, items);
                         return result;
-                    }).addBoth(function (result) {
-                        _private.afterItemsRemove(self, items, result);
+                    }).addBoth((result) => {
+                        _private.afterItemsRemove(this, items, result).then((eventResult) => {
+                            if (eventResult === false || !(result instanceof Error)) {
+                                return;
+                            }
+
+                            this._notify('dataError', [{ error: result }]);
+                        });
                     });
                 }
             });

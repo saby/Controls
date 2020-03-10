@@ -2,6 +2,7 @@ import Control = require('Core/Control');
 import Env = require('Env/Env');
 import template = require('wml!Controls/_dragnDrop/Container/Container');
 import 'css!Controls/_dragnDrop/Container';
+import entity = require('Types/entity');
 
       var
          SHIFT_LIMIT = 4,
@@ -915,7 +916,9 @@ import 'css!Controls/_dragnDrop/Container';
             this._dragEntity = entity;
             this._startEvent = mouseDownEvent.nativeEvent;
             this._startImmediately = options.immediately;
-            _private.clearSelection(this._startEvent);
+            if (this._options.resetTextSelection) {
+               _private.clearSelection(this._startEvent);
+            }
             if (this._startEvent && this._startEvent.target) {
                this._startEvent.target.classList.add('controls-DragNDrop__dragTarget');
             }
@@ -1076,7 +1079,15 @@ import 'css!Controls/_dragnDrop/Container';
 
       DragNDropController.getDefaultOptions = function() {
          return {
-            draggingTemplateOffset: 10
+            draggingTemplateOffset: 10,
+            resetTextSelection: true
+         };
+      };
+
+      DragNDropController.getOptionTypes = function() {
+         /* resetTextSelection = false используется только в scrollContainer */
+         return {
+            resetTextSelection: entity.descriptor(Boolean)
          };
       };
 

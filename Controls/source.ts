@@ -23,7 +23,6 @@ export {NavigationController} from 'Controls/_source/NavigationController';
 export {IAdditionalQueryParams, Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
 
 export {default as SelectedKey} from './_source/Adapter/SelectedKey';
-export {AdapterMask} from 'Controls/input';
 
 export {
    EnumAdapter,

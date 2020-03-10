@@ -161,21 +161,36 @@ define(
 
          it('_valueChangedHandler', function() {
             let addParams = getAddParams(items);
+            let itemsChangedFired = false;
+            addParams._notify = () => {
+               itemsChangedFired = true;
+            };
             addParams._valueChangedHandler('valueChanged', 2, 'newValue');
-            assert.equal('newValue', addParams._options.items[2].value);
+            assert.isTrue(itemsChangedFired);
+            assert.equal('newValue', addParams.items[2].value);
          });
 
          it('_textValueChangedHandler', function() {
             let addParams = getAddParams(items);
-            addParams._textValueChangedHandler('valueChanged', 2, 'newValue');
-            assert.equal('newValue', addParams._options.items[2].value);
-            assert.isTrue(addParams._options.items[2].visibility);
+            let itemsChangedFired = false;
+            addParams._notify = () => {
+               itemsChangedFired = true;
+            };
+            addParams._textValueChangedHandler('textValueChanged', 2, 'newValue');
+            assert.equal('newValue', addParams.items[2].textValue);
+            assert.isTrue(addParams.items[2].visibility);
+            assert.isTrue(itemsChangedFired);
          });
 
          it('_visibilityChanged', function() {
             let addParams = getAddParams(items);
+            let itemsChangedFired = false;
+            addParams._notify = () => {
+               itemsChangedFired = true;
+            };
             addParams._visibilityChangedHandler('visibilityChanged', 2);
-            assert.equal(true, addParams._options.items[2].visibility);
+            assert.equal(true, addParams.items[2].visibility);
+            assert.isTrue(itemsChangedFired);
          });
 
       });

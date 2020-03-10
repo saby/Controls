@@ -57,24 +57,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * id is Number type property. It needs for remove concrete request from stack of requests.
  *
  *
- * @css size_LoadingIndicator-l Size of Loading Indicator when option size is set to default.
- * @css size_LoadingIndicator-s Size of Loading Indicator when option size is set to small.
- *
- * @css @spacing_LoadingIndicator-between-content-border-l Spacing between content and border when option size is set to default.
- * @css @spacing_LoadingIndicator-between-content-border-s Spacing between content and border when option size is set to small.
- *
- * @css @border-radius_LoadingIndicator Border radius when option size is set to default.
- *
- * @css @font-size_LoadingIndicator Font-size of message.
- * @css @line-height_LoadingIndicator Line-height of message.
- * @css @color_LoadingIndicator-text Color of message.
- *
- * @css @color_LoadingIndicator-overlay-default Color of overlay when option overlay is set to default.
- * @css @color_LoadingIndicator-overlay-dark Color of overlay when option overlay is set to dark.
- *
- * @css @background-url_LoadingIndicator-l Background-url when option size is set to default.
- * @css @background-url_LoadingIndicator-s Background-url when options size is set to small.
- * @css @background-color_LoadingIndicator Background color of Loading Indicator.
  *
  * @class Controls/LoadingIndicator
  * @extends Core/Control

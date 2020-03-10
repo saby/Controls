@@ -95,7 +95,8 @@ var _private = {
                isSelected: () => currentItem.isSelected,
                getContents: () => currentItem.item,
                isSwiped: () => currentItem.isSwiped,
-               getParent: () => {return {getContents: () => currentItem.hasParent}}
+               getParent: () => {return {getContents: () => currentItem.hasParent}},
+               shouldDisplayActions: () => {return false}
             };
          }
    };
@@ -209,12 +210,12 @@ var _private = {
 
             //if we had group element we should return it without changes
             if (itemsModelCurrent.isGroup) {
-               let isHidden = false;
+
                //FIXME временное решение, переделывается тут: https://online.sbis.ru/opendoc.html?guid=8760f6d2-9ab3-444b-a83b-99019207a9ca
                if (_private.needHideGroup(this, itemsModelCurrent.key)) {
-                  isHidden = true;
+                  itemsModelCurrent.isHiddenGroup = true;
                }
-               itemsModelCurrent.isHiddenGroup = () => { return isHidden };
+
                return itemsModelCurrent;
             }
             itemsModelCurrent.hasChildren = this._hasItemChildren(itemsModelCurrent.item);
@@ -234,6 +235,8 @@ var _private = {
             itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
             itemsModelCurrent.template = itemsModelCurrent.item.get(itemsModelCurrent.itemTemplateProperty);
             itemsModelCurrent.multiSelect = this._options.multiSelect;
+            itemsModelCurrent.parentProperty = this._options.parentProperty;
+            itemsModelCurrent.nodeProperty = this._options.nodeProperty;
             itemsModelCurrent.hasClose = this._options.hasClose;
             itemsModelCurrent.hasPinned = this._options.hasIconPin && itemsModelCurrent.item.has('pinned');
             itemsModelCurrent.itemClassList = _private.getClassList(this._options.itemPadding, this._options.multiSelect, itemsModelCurrent, this.hasHierarchy());

@@ -51,7 +51,8 @@
          <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate || _needShowApplyButton}}">
             <div class="controls-DropdownList__footer-content_theme_{{_options.theme}} controls-DropdownList__footer-buttons_theme_{{_options.theme}}">
                <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
-                  <Controls._dropdownPopup.MoreButton attr:class="controls-DropdownList{{_options.multiSelect ? '_multiSelect'}}__hasMoreButton_theme_{{_options.theme}}"
+                  <Controls._dropdownPopup.MoreButton attr:class="controls-DropdownList__hasMoreButton
+                                                      controls-DropdownList{{_options.multiSelect ? '_multiSelect'}}__hasMoreButton_theme_{{_options.theme}}"
                                                       caption="{{_options.moreButtonCaption}}"
                                                       items="{{_options.selectorItems || _options.items}}"
                                                       selectedKeys="{{_listModel.getSelectedKeys()}}"

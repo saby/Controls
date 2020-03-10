@@ -67,6 +67,10 @@ interface IConfigInMounting {
     result: Model;
 }
 
+interface IUpdateConfig {
+    additionalData: IAdditionalData;
+}
+
 /**
  * Контроллер, в котором определена логика CRUD-методов, выполняемых над редактируемой записью.
  * В частном случае контрол применяется для создания <a href="https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/">диалогов редактирования записи</a>. Может выполнять запросы CRUD-методов на БЛ.
@@ -451,7 +455,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
     }
 
-    private _showConfirmPopup(type: string, details?: string): Promise<string> {
+    private _showConfirmPopup(type: string, details?: string): Promise<string | boolean> {
         return this._children.popupOpener.open({
             message: rk('Сохранить изменения?'),
             details,
@@ -490,13 +494,13 @@ class FormController extends Control<IFormController, IReceivedState> {
         return record;
     }
 
-    update(): Promise<undefined | Model> {
+    update(config?: IUpdateConfig): Promise<undefined | Model> {
         const updateResult = new Deferred();
         const updateCallback = (result) => {
             // if result is true, custom update called and we dont need to call original update.
             if (result !== true) {
                 this._notifyToOpener('updateStarted', [this._record, this._getRecordId()]);
-                const res = this._update().then(this._getData);
+                const res = this._update(config).then(this._getData);
                 updateResult.dependOn(res);
             } else {
                 updateResult.callback(true);
@@ -526,7 +530,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         return updateResult;
     }
 
-    private _update(): Promise<IDataValid> {
+    private _update(config?: IUpdateConfig): Promise<IDataValid> {
         const record = this._record;
         const updateDef = new Deferred();
 
@@ -536,7 +540,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             if (!results.hasErrors) {
                 // при успешной валидации пытаемся сохранить рекорд
                 this._notify('validationSuccessed', [], {bubbling: true});
-                let res = this._children.crud.update(record, this._isNewRecord);
+                let res = this._children.crud.update(record, this._isNewRecord, config);
 
                 // fake deferred used for code refactoring
                 if (!(res && res.then)) {
@@ -617,6 +621,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _processError(error: Error, mode?: dataSourceError.Mode): Promise<ICrudResult> {
         return this.__errorController.process({
             error,
+            theme: this._options.theme,
             mode: mode || dataSourceError.Mode.include
         }).then((errorConfig: dataSourceError.ViewConfig) => {
             this._showError(errorConfig);
@@ -658,7 +663,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         this._notify(eventName, args, {bubbling: true});
     }
 
-    private _notifyToOpener(eventName: string, args: [Model, string | number]): void {
+    private _notifyToOpener(eventName: string, args: [Model, string | number, object?]): void {
         const handlers = {
             'updatestarted': '_getUpdateStartedData',
             'updatesuccessed': '_getUpdateSuccessedData',
@@ -680,10 +685,12 @@ class FormController extends Control<IFormController, IReceivedState> {
         return config;
     }
 
-    private _getUpdateSuccessedData(record: Model, key: string): IResultData {
+    private _getUpdateSuccessedData(record: Model, key: string, config?: object): IResultData {
+        const configData = config ? config.additionalData : {};
         const additionalData: IAdditionalData = {
             key,
-            isNewRecord: this._isNewRecord
+            isNewRecord: this._isNewRecord,
+            ...configData
         };
         return this._getResultData('update', record, additionalData);
     }

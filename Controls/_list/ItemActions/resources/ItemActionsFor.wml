@@ -2,6 +2,9 @@
     <ws:partial
             template="wml!Controls/_list/ItemActions/resources/ItemAction"
             itemData="{{itemData}}"
+            hasTitle="{{needShowTitle(action)}}"
+            hasIcon="{{needShowIcon(action)}}"
+            tooltip="{{getTooltip(action)}}"
             size="{{action._isMenu ? 'm' : size}}"
             action="{{action}}"/>
 </ws:for>

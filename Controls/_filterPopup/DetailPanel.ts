@@ -70,6 +70,12 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     * @param {Object} items items
     */
 
+   /**
+    * @event Controls/_filterPopup/DetailPanel#historyApply Происходит при применении фильтра из истории фильтров.
+    * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+    * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
+    */
+
 
    var getPropValue = Utils.object.getPropertyValue.bind(Utils);
    var setPropValue = Utils.object.setPropertyValue.bind(Utils);
@@ -144,6 +150,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
                       historyItems = items;
                    }
                    self._historyItems = _private.filterHistoryItems(self, historyItems);
+                   self._hasHistory = !!self._historyItems.getCount();
                    return self._historyItems;
                 })
                 .addErrback(() => {
@@ -207,6 +214,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
 
       reloadHistoryItems: function(self, historyId) {
          self._historyItems = _private.filterHistoryItems(self, HistoryUtils.getHistorySource({historyId: historyId}).getItems());
+         self._hasHistory = !!self._historyItems.getCount();
       },
 
       cloneItems: function(items) {
@@ -285,6 +293,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
       _isChanged: false,
       _hasResetValue: false,
       _hasAdditionalParams: false,
+      _hasHistory: false,
 
       _beforeMount: function(options, context) {
          _private.resolveItems(this, options, context);
@@ -341,6 +350,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          };
 
          if (history) {
+            this._notify('historyApply', [curItems]);
             apply(curItems);
          } else {
             _private.validate(this).addCallback(function (result) {

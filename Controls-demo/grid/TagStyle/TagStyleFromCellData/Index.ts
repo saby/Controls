@@ -31,7 +31,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
     }
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        const data = this._getModifiedData().slice(0, 14);
+        const data = this._getModifiedData().slice(0, 7);
         this._viewSource = new Memory({
             keyProperty: 'id',
             data
@@ -75,6 +75,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
             if (i === 3) {
                 return {
                     ...cur,
+                    align: 'right',
                     tagStyleProperty: this._tagStyleProperty
                 };
             }

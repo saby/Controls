@@ -5,21 +5,23 @@
         footerTemplate="{{_options.footerTemplate}}"
         on:itemMouseLeave="_proxyEvent('itemMouseLeave')"
         on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
-        on:itemClick="_proxyEvent('itemClick')">
+        on:itemClick="_proxyEvent('itemClick')"
+        on:itemSwipe="_proxyEvent('itemSwipe')"
+        on:itemActionClick="_proxyEvent('itemActionClick')">
    <ws:itemTemplate>
       <ws:partial template="{{itemTemplate.item.getContents().get(_options.itemTemplateProperty) || _options.itemTemplate}}"
                   attr:class="{{_getClassList(itemTemplate.item)}}"
                   itemData="{{_getItemData(itemTemplate.item)}}"
                   treeItem="{{itemTemplate.item}}"
                   scope="{{_options}}"
-      />
+                  item="{{null}}" />  <!-- https://online.sbis.ru/opendoc.html?guid=47950520-ef97-4302-8573-4b8495a3f0ee -->
       <ws:if data="{{_options.allowPin && _isVisibleSeparator(itemTemplate.item)}}">
          <div class="controls-Menu__group_separator_theme-{{_options.theme}}" attr:key="{{itemTemplate.item.getUid()}} + '_separator'"></div>
       </ws:if>
    </ws:itemTemplate>
    <ws:groupTemplate>
       <ws:if data="{{_options.groupTemplate && _isGroupVisible(groupTemplate.item)}}">
-         <ws:partial template="{{_options.groupTemplate}}" />
+         <ws:partial template="{{_options.groupTemplate}}" itemData="{{groupTemplate.item}}" />
       </ws:if>
    </ws:groupTemplate>
 </Controls.listRender:Render>

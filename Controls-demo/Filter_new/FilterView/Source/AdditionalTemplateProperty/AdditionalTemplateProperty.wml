@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <Controls.filter:View
+      attr:class="controls-demo-FilterView__itemsEllipsis"
+      on:itemsChanged="_itemsChangedHandler()"
+      source="{{_source}}"
+      detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">
+      <ws:detailPanelTemplateOptions
+         additionalTemplateProperty="additionalTemplate"/>
+   </Controls.filter:View>
+</div>

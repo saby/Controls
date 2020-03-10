@@ -194,7 +194,7 @@ var _private = {
             } else {
                 listViewModel.appendItems(list);
             }
-            if (self._options.task1177940587 && self._options.dataLoadCallback) {
+            if (self._options.dataLoadCallback) {
                 self._options.dataLoadCallback(list);
             }
             self._children.baseControl.hideIndicator();

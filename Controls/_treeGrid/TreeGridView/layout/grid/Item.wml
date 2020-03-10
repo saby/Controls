@@ -31,7 +31,8 @@
       </ws:else>
    </ws:if>
    <ws:if data="{{colspan}}" >
-         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}" attr:class="{{currentColumn.classList.padding.top}} {{currentColumn.classList.padding.bottom}}"/>
+         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}"
+                     attr:class="{{currentColumn.classList.padding.top}} {{currentColumn.classList.padding.bottom}} {{currentColumn.classList.padding.right}}"/>
    </ws:if>
    <ws:else>
       <ws:partial template="{{currentColumn.template}}"

@@ -14,7 +14,7 @@
          <ws:targetPoint vertical="bottom" horizontal="left"/>
    </Controls.popup:Sticky>
    <Controls.popup:Notification name="notification" template="Controls-demo/Popup/TestDialog">
-      <ws:templateOptions type="notification"/>
+      <ws:templateOptions type="notification" fromNotification="{{true}}"/>
    </Controls.popup:Notification>
    <Controls.popup:Stack name="stack" template="Controls-demo/Popup/TestStack" closeOnOutsideClick="{{true}}">
       <ws:templateOptions type="stack"/>

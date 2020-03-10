@@ -26,7 +26,7 @@ import ActualApi from 'Controls/_buttons/ActualApi';
  * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/interface/IDropdown
  * @mixes Controls/_interface/IIcon
- * @mixes Controls/_interface/IIconSize
+ * @mixes Controls/_dropdown/interface/IIconSize
  * @mixes Controls/_interface/IIconStyle
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
@@ -58,6 +58,7 @@ import ActualApi from 'Controls/_buttons/ActualApi';
  * @mixes Controls/interface/IDropdown
  * @mixes Controls/_buttons/interface/IButton
  * @mixes Controls/_interface/IIcon
+ * @mixes Controls/_dropdown/interface/IIconSize
  * @mixes Controls/_interface/IIconStyle
  * @control
  * @public

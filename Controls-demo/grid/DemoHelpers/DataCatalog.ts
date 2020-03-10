@@ -715,6 +715,22 @@ function getTasks() {
                 width: '100px'
             }
         ],
+        getDefaultWithEditingColumns: () => [
+            {
+                displayProperty: 'id',
+                width: '30px',
+            },
+            {
+                displayProperty: 'state',
+                width: '200px',
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor',
+            },
+            {
+                displayProperty: 'date',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor',
+            }
+        ],
     }
 }
 
@@ -840,6 +856,26 @@ function getEditing() {
                 costPrice: '3'
             }
         ],
+        getEditingValidationData: () => [
+            {
+                id: '1',
+                email: 'semen@gmail.com',
+                required: '89069953970',
+                length: '1234',
+            },
+            {
+                id: '2',
+                email: 'artem@gmail.com',
+                required: '89069953970',
+                length: '123',
+            },
+            {
+                id: '3',
+                email: 'oleg@gmail.com',
+                required: '89069953970',
+                length: 'hello',
+            }
+        ],
         getEditingColumns: () => [
             {
                 displayProperty: 'title',
@@ -879,6 +915,34 @@ function getEditing() {
                 resultTemplate: resTpl,
                 results: 6
             }
+        ],
+        getEditingColumnsValidation: () => [
+            {
+                displayProperty: 'email',
+                width: '200px',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditor',
+            },
+            {
+                displayProperty: 'required',
+                width: 'max-content',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired',
+            },
+            {
+                displayProperty: 'length',
+                width: 'max-content',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate',
+            },
+        ],
+        getEditingHeaderValidations: () => [
+            {
+                title: 'email'
+            },
+            {
+                title: 'required'
+            },
+            {
+                title: 'Length'
+            },
         ],
         getDecoratedEditingData: () => [
             {

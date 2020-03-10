@@ -321,6 +321,20 @@
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
+         <h4>With itemActions</h4>
+         <div>
+            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysItemActions"
+                                     keyProperty="id"
+                                     itemActions="{{_itemActions}}"
+                                     displayProperty="title"
+                                     footerTemplate="wml!Controls-demo/Input/Dropdown/footerTemplateDropdown"
+                                     attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__itemActions"
+                                     dropdownClassName="ControlsDemo-InputDropdown__item-MinWidth"
+                                     source="{{_itemActionsSource}}">
+            </Controls.dropdown:Input>
+         </div>
+      </div>
+      <div class="ControlsDemo-InputDropdown__wrapper">
          <h4>ReadOnly</h4>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysReadOnly"

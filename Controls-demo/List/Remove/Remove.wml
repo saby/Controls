@@ -2,7 +2,7 @@
     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
         <ws:content>
             <div>
-                <Controls.list:Remover name="listRemoveFirst" on:beforeItemsRemove="_beforeItemsRemove()" on:afterItemsRemove="_afterItemsRemove()"/>
+                <Controls.list:Remover name="listRemoveFirst" on:beforeItemsRemove="_beforeItemsRemove()"/>
                 <Controls.list:Container>
                     <Controls.list:View
                             class="removeDemo__list test_list_1"
@@ -16,7 +16,7 @@
     <Controls.list:DataContainer source="{{_viewSourceSecond}}" keyProperty="id">
         <ws:content>
             <div>
-                <Controls.list:Remover name="listRemoveSecond"/>
+                <Controls.list:Remover name="listRemoveSecond" on:afterItemsRemove="_afterItemsRemove()"/>
                 <Controls.list:Container>
                     <Controls.list:View
                             class="removeDemo__list test_list_3"

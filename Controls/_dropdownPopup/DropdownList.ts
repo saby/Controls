@@ -212,7 +212,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
                });
             }
 
-            return iconPadding;
+            return iconPadding[options.rootKey];
          },
 
          isHeadConfigChanged: function(newOptions, oldOptions) {

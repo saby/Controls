@@ -66,18 +66,8 @@ define('Controls-demo/List/Remove', [
          }
       },
 
-      _afterItemsRemove: function(event, items, result) {
-         if (result instanceof Error) {
-            this._showError(result.message);
-         }
-      },
-
-      _showError: function(message) {
-         this._children.popupOpener.open({
-            message: message,
-            style: 'danger',
-            type: 'ok'
-         });
+      _afterItemsRemove: function() {
+         return false;
       }
    });
    return ModuleClass;

@@ -6,6 +6,9 @@
             <ws:partial
                     template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
                     itemData="{{itemData}}"
+                    needShowTitle="{{needShowTitle}}"
+                    needShowIcon="{{needShowIcon}}"
+                    getTooltip="{{getTooltip}}"
                     size="{{size}}"
                     showedActions="{{itemData.itemActions.showed}}"/>
             <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
@@ -34,6 +37,9 @@
         <ws:partial
                 template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
                 itemData="{{itemData}}"
+                needShowTitle="{{needShowTitle}}"
+                needShowIcon="{{needShowIcon}}"
+                getTooltip="{{getTooltip}}"
                 size="{{size}}"
                 showedActions="{{itemData.itemActions.showed}}"/>
         <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">

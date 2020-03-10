@@ -8,6 +8,7 @@ class ModuleClass {
     public ranges: Array<Array<Date>>;
     private _steps: Array<number>;
     private _relationMode: String;
+    private _dateConstructor: Function;
 
     constructor(options) {
         this.update(options);
@@ -21,6 +22,7 @@ class ModuleClass {
         this.ranges = this._getRangesFromOptions(options);
         this._updateSteps(this.ranges);
         this._relationMode = options.bindType;
+        this._dateConstructor = options.dateConstructor;
     }
 
     updateRanges(start, end, changedRangeIndex, relationMode) {
@@ -288,23 +290,23 @@ class ModuleClass {
             //else, returns same closest period
             //example: (10.11.2019 - 12.11.2019) - (13.11.2019 - 15.11.2019)
             if (lastDate.getFullYear() !== date.getFullYear()) {
-                return new Date(lastDate.getFullYear(), date.getMonth(), date.getDate());
+                return new this._dateConstructor(lastDate.getFullYear(), date.getMonth(), date.getDate());
             } else {
-                return new Date(date.getFullYear(), date.getMonth(), date.getDate() + delta);
+                return new this._dateConstructor(date.getFullYear(), date.getMonth(), date.getDate() + delta);
             }
         }
-        return new Date(date.getFullYear(), date.getMonth() + delta, 1);
+        return new this._dateConstructor(date.getFullYear(), date.getMonth() + delta, 1);
     }
 
     private _slideEndDate(lastDate, date, delta, selectionType, periodLength) {
         if (selectionType === 'days') {
             if (lastDate.getFullYear() !== date.getFullYear()) {
-                return new Date(lastDate.getFullYear(), date.getMonth(), date.getDate() + periodLength - 1);
+                return new this._dateConstructor(lastDate.getFullYear(), date.getMonth(), date.getDate() + periodLength - 1);
             } else {
-                return new Date(date.getFullYear(), date.getMonth(), date.getDate() + delta);
+                return new this._dateConstructor(date.getFullYear(), date.getMonth(), date.getDate() + delta);
             }
         }
-        return new Date(date.getFullYear(), date.getMonth() + delta + 1, 0);
+        return new this._dateConstructor(date.getFullYear(), date.getMonth() + delta + 1, 0);
     }
 }
 
