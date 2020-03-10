@@ -75,6 +75,7 @@ var _private = {
 
       if (heightChanged) {
          self._height = height;
+         self._controlResized = true;
       }
    },
 
@@ -114,7 +115,13 @@ var __ContentLayer = BaseLayer.extend({
       /* 1) checking suggestionsContainer in children, because suggest initializing asynchronously
        2) do not change orientation of suggest, if suggest already showed or data loading now */
       if (this._options.showContent) {
+         const needNotifyControlResizeEvent = this._controlResized;
          _private.updateHeight(this);
+
+         if (needNotifyControlResizeEvent) {
+            this._children.resize.start();
+            this._controlResized = false;
+         }
       }
    },
 

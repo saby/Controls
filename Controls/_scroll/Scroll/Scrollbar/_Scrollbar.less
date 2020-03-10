@@ -56,7 +56,7 @@
    transition: padding @animation-duration_Scrollbar ease-in-out;
 }
 
-.controls-VScrollbar__thumb {
+.controls-VScrollbar__thumb_vertical {
    border-radius: @border-radius_Scrollbar-thumb;
    left: @margin_Scrollbar;
    right: @margin_Scrollbar;
@@ -79,7 +79,8 @@
    border-radius: @border-radius_Scrollbar-horizontal-thumb;
    height: @width_Scrollbar-horizontal-thumb;
    min-width: @min-height_Scrollbar-thumb;
-   transition: height @animation-duration_Scrollbar ease-in-out;
+   transition: height @animation-duration_Scrollbar ease-in-out, border-radius @animation-duration_Scrollbar ease-in-out;
+   width: 100%;
 }
 
 .controls-VScrollbar__thumb_inverted {

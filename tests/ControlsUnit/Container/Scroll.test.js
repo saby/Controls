@@ -386,7 +386,7 @@ define(
                scroll._saveScrollPosition({stopPropagation: function(){}});
                scroll._children.content.scrollHeight += addedHeight;
                scroll._restoreScrollPosition({stopPropagation: function(){}}, 0);
-               assert.equal(scroll._children.content.scrollTop, 0);
+               assert.equal(scroll._children.content.scrollTop, 10);
             });
          });
 
@@ -622,6 +622,24 @@ define(
                   assert.equal(result, 'topbottom');
                });
             });
+
+            describe('_updateShadowMode', function() {
+               it('Should update shadow mode if the container is visible.', function() {
+                  const mode = 'newMode';
+                  sinon.stub(scroll, '_isHidden').returns(false);
+                  scroll._updateShadowMode({}, mode);
+                  assert.strictEqual(scroll._shadowVisibilityByInnerComponents, mode);
+                  sinon.restore();
+               });
+               it('Should\'t update shadow mode if the container is hidden.', function() {
+                  const mode = 'newMode';
+                  sinon.stub(scroll, '_isHidden').returns(true);
+                  scroll._updateShadowMode({}, mode);
+                  assert.notEqual(scroll._shadowVisibilityByInnerComponents, mode);
+                  sinon.restore();
+               });
+            });
+
             describe('getSizes', function() {
                var container = {
                   scrollHeight: 200,

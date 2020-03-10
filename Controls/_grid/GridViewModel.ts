@@ -1386,6 +1386,11 @@ var
             this._nextModelVersion();
         },
 
+        setDisableColumnScrollCellStyles(disableColumnScrollCellStyles: boolean): void {
+            this._options.disableColumnScrollCellStyles = disableColumnScrollCellStyles;
+            this._nextModelVersion();
+        },
+
         setLadderProperties: function(ladderProperties) {
             if (!isEqual(this._options.ladderProperties, ladderProperties)) {
                 this._options.ladderProperties = ladderProperties;

@@ -167,6 +167,7 @@ export default class ErrorController {
             Confirmation.openPopup({
                 type,
                 style,
+                theme: config.theme,
                 message
             });
         }, () => {

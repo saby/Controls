@@ -5,6 +5,6 @@
             maxWidth="{{_maxWidth}}"
             on:resize="_resizeHandler()"
             on:itemsContainerReady="saveItemsContainer()"
-            on:keyDown="_keyDownHandler()"
+            on:keyDown="keyDownHandler()"
 />
 

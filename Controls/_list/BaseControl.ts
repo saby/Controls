@@ -520,7 +520,7 @@ var _private = {
                 _private.checkLoadToDirectionCapability(self, self._options.filter, navigation);
             }
             if (self._options.virtualScrolling && self._isMounted) {
-                self._children.scrollController.itemsFromLoadToDirection = null;
+                self._children.scrollController.stopBatchAdding();
             }
 
             _private.prepareFooter(self, self._options.navigation, self._sourceController);
@@ -558,7 +558,7 @@ var _private = {
                 const countCurrentItems = self._listViewModel.getCount();
 
                 if (self._options.virtualScrolling && self._isMounted) {
-                    self._children.scrollController.itemsFromLoadToDirection = direction;
+                    self._children.scrollController.startBatchAdding(direction);
                 }
 
                 if (direction === 'down') {
@@ -1414,6 +1414,7 @@ var _private = {
         }
         return self.__errorController.process({
             error: config.error,
+            theme: self._options.theme,
             mode: config.mode || dataSourceError.Mode.include
         }).then((errorConfig) => {
             _private.showError(self, errorConfig);

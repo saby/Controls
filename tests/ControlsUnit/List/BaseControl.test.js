@@ -2200,6 +2200,7 @@ define([
 
       it('_processError', function() {
          var self = {
+            _options: {},
             _loadingState: 'all',
             _notify: () => {
             },

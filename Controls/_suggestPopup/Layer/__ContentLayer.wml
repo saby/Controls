@@ -1,5 +1,7 @@
 <div class="controls-Suggest__suggestionsContainer controls-Suggest__suggestionsContainer_theme-{{_options.theme}} controls-Suggest__suggestionsContainer-inInput {{!_options.showContent ? 'ws-hidden'}}" style="height:{{_height}};">
     <Controls.popupTemplate:CloseButton attr:class="controls-Suggest__close" on:click="close()"/>
-    <Controls.scroll:Container attr:class="controls-Suggest__scrollContainer" content="{{_options.content}}"/>
+    <Controls.event:Register name="resize" register="controlResize">
+        <Controls.scroll:Container attr:class="controls-Suggest__scrollContainer" content="{{_options.content}}"/>
+    </Controls.event:Register>
     <Controls.event:Listener event="controlResize" on:controlResize="_resize()"/>
 </div>

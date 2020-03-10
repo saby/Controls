@@ -3,12 +3,15 @@ define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
       let wrapper;
       let options;
 
+      const header = [{}, {}, {}, {}, {}];
+
       beforeEach(() => {
          options = {
             listModel: {
-               getHeaderMaxEndColumn: () => 0,
+               getHeaderMaxEndColumn: () => header.length,
+               isMultiHeader: () => false,
                getStickyColumnsCount: () => 1,
-               getHeader: () => [{}, {}, {}, {}, {}],
+               getHeader: () => header,
                getMultiSelectVisibility: () => 'hidden',
                shouldAddStickyLadderCell: () => false
             },
@@ -22,6 +25,7 @@ define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
          wrapper.saveOptions(options);
       });
 
+
       it('should calculate grid header offset when no extra columns is set', () => {
          assert.equal('grid-column: 2 / 6;width: 500px', wrapper._getGridStyles(options));
       });
@@ -32,13 +36,13 @@ define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
       it('should calculate grid header offset when MaxEndColumn is set and isMultiHeader is false', () => {
          wrapper._options.listModel.getMultiSelectVisibility = () => 'visible';
          wrapper._options.listModel.getHeaderMaxEndColumn = () => 10;
-         assert.equal('grid-column: 3 / 11;width: 500px', wrapper._getGridStyles(options));
+         assert.equal('grid-column: 3 / 12;width: 500px', wrapper._getGridStyles(options));
       });
       it('should calculate grid header offset when MultiSelect column and sticky ladder should be added', () => {
          wrapper._options.listModel.getMultiSelectVisibility = () => 'visible';
          wrapper._options.listModel.shouldAddStickyLadderCell = () => true;
          wrapper._options.listModel.getHeaderMaxEndColumn = () => 10;
-         assert.equal('grid-column: 4 / 12;width: 500px', wrapper._getGridStyles(options));
+         assert.equal('grid-column: 4 / 13;width: 500px', wrapper._getGridStyles(options));
       });
    });
 });

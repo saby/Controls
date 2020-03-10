@@ -253,7 +253,16 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             this._openSubMenuEvent.clientX,this._subMenuPosition.y +
             this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
 
-        return Math.sign(firstSegment) === Math.sign(secondSegment) && Math.sign(firstSegment) === Math.sign(thirdSegment);
+        return this._getSign(firstSegment) === this._getSign(secondSegment) && this._getSign(firstSegment) === this._getSign(thirdSegment);
+    }
+
+    // FIXME https://online.sbis.ru/opendoc.html?guid=923f813d-7ed2-4e7d-94d8-65b0b733a4bd
+    private _getSign(x: number) {
+        x = +x;
+        if (x === 0 || isNaN(x)) {
+            return x;
+        }
+        return x > 0 ? 1 : -1;
     }
 
     private calculatePointRelativePosition(firstSegmentPointX, secondSegmentPointX, firstSegmentPointY, secondSegmentPointY, curPointX, curPointY): number {

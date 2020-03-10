@@ -98,16 +98,28 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
         });
 
         it('at begining', () => {
-            assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
-                instance.insertItems(0, 2));
+            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 120}},
+                instance.insertItems(0, 2, {up: false, down: false}));
         });
         it('at middle', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 0}},
-                instance.insertItems(5, 2));
+                instance.insertItems(5, 2, {up: false, down: false}));
         });
         it('at ending', () => {
             assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                instance.insertItems(3, 1));
+                instance.insertItems(3, 1, {up: false, down: false}));
+        });
+        it('with up predictive direction', () => {
+            assert.deepEqual({range: {start: 2, stop: 7}, placeholders: {top: 60, bottom: 0}},
+                instance.insertItems(0, 2, {up: false, down: false}, 'up'));
+        });
+        it('with down predictive direction', () => {
+            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
+                instance.insertItems(3, 1, {up: false, down: false}, 'down'));
+        });
+        it('with predictive direction and trigger visibility', () => {
+                assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
+                    instance.insertItems(3, 1, {up: false, down: true}, 'down'));
         });
     });
     describe('.removeItems', () => {
@@ -232,17 +244,17 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             assert.equal(1, instance.getActiveElementIndex(2));
         });
     });
-    describe('.getPositionToRestore()', () => {
+    describe('.getParamsToRestoreScroll()', () => {
         it('after shift', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 600});
             instance.resetRange(0, 10, {itemsHeights: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60]});
             instance.shiftRange('down');
 
-            assert.equal(60, instance.getPositionToRestore(240));
+            assert.deepEqual({direction: 'down', heightDifference: 180}, instance.getParamsToRestoreScroll());
 
             instance.shiftRange('up');
 
-            assert.equal(300, instance.getPositionToRestore(240));
+            assert.deepEqual({direction: 'up', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
         it('after insert', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
@@ -250,7 +262,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             // @ts-ignore
             instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
             instance.insertItems(0, 2);
-            assert.equal(0, instance.getPositionToRestore(0));
+            assert.deepEqual({direction: 'up', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
         it('after remove', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
@@ -258,7 +270,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             // @ts-ignore
             instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
             instance.removeItems(0, 1);
-            assert.equal(0, instance.getPositionToRestore(0));
+            assert.deepEqual({direction: 'down', heightDifference: 0}, instance.getParamsToRestoreScroll());
         });
     });
     describe('.updateItemsHeights()', () => {

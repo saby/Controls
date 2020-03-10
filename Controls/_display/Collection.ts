@@ -2094,6 +2094,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$editingConfig;
     }
 
+    setSearchValue(searchValue: string): void {
+        this._$searchValue = searchValue;
+    }
+
     getSearchValue(): string {
         return this._$searchValue;
     }

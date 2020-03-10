@@ -36,12 +36,22 @@
   position:absolute;
   right: 0;
   bottom: 0;
-  overflow:hidden;
   height: 100%;
   box-sizing: border-box;
   background-color: transparent;
   z-index: 2;
   pointer-events: auto;
+}
+
+.controls-ListView__item__marked_master .controls-itemActionsV_swipe_animationContainer::after {
+  content: '';
+  z-index: 1;
+  height: 100%;
+  top: 0;
+  width: @border-width_List-masterList-right;
+  position: absolute;
+  right: -@border-width_List-masterList-right;
+  background-color: @background-color_Swipe;
 }
 
 .controls-Swipe {

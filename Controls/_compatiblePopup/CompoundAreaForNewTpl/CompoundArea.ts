@@ -340,7 +340,7 @@ const moduleClass = CompoundControl.extend({
    _onRegisterHandler(event, eventName, emitter, handler) {
       // Пробрасываю событие о регистрации listener'ов до регистраторов, которые лежат в managerWrapper и физически
       // не могут отловить событие
-      if (handler) {
+      if (event.type === 'register') {
          this._listeners.push({
             event,
             eventName,

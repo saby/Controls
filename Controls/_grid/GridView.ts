@@ -163,6 +163,9 @@ var
             if (this._options.columnScroll !== newCfg.columnScroll) {
                 this._listModel.setColumnScroll(newCfg.columnScroll);
             }
+            if (this._options.disableColumnScrollCellStyles !== newCfg.disableColumnScrollCellStyles) {
+                this._listModel.setDisableColumnScrollCellStyles(newCfg.disableColumnScrollCellStyles);
+            }
         },
 
         /**

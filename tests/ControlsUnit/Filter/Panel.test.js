@@ -124,17 +124,23 @@ define(
          });
 
          it('apply', function() {
-            var panel = getFilterPanel(config),
-               isNotifyClose, filter;
+            const panel = getFilterPanel(config);
+            let isNotifyClose = false;
+            let isHistoryApplyEventFired = false;
+            let filter;
+
             panel._notify = (e, args, eCfg) => {
-               if (e == 'close') {
+               if (e === 'close') {
                   isNotifyClose = true;
-               } else if (e == 'sendResult') {
+               } else if (e === 'sendResult') {
                   filter = args[0].filter;
+               } else if (e === 'historyApply') {
+                  isHistoryApplyEventFired = true;
                }
-               assert.isTrue(eCfg.bubbling);
+               if (eCfg) {
+                  assert.isTrue(eCfg.bubbling);
+               }
             };
-            isNotifyClose = false;
             panel._beforeMount(config);
             panel._children = {
                formController: {
@@ -143,6 +149,7 @@ define(
             };
             panel._applyFilter();
             assert.isFalse(isNotifyClose);
+            assert.isFalse(isHistoryApplyEventFired);
             panel._children = {
                formController: {
                   submit: () => Deferred.success([false])
@@ -151,6 +158,12 @@ define(
             panel._applyFilter();
             assert.deepEqual({ text: '123' }, filter);
             assert.isTrue(isNotifyClose);
+            assert.isFalse(isHistoryApplyEventFired);
+
+            const event = {};
+            const historyItems = config.items;
+            panel._applyFilter(event, config.items, historyItems);
+            assert.isTrue(isHistoryApplyEventFired);
          });
 
          it('_applyHistoryFilter', function() {

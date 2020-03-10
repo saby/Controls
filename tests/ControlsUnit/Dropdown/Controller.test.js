@@ -427,6 +427,18 @@ define(
                });
                assert.deepEqual(selectedItems[0].getRawData(), items[5]);
             });
+
+            it('change readOnly', () => {
+               let readOnlyConfig = clone(config),
+                  isClosed = false;
+
+               dropdownController._children.DropdownOpener = {
+                  close: () => {isClosed = true;}
+               };
+               readOnlyConfig.readOnly = true;
+               dropdownController._beforeUpdate(readOnlyConfig);
+               assert.isTrue(isClosed);
+            });
          });
 
          it('notify footerClick', () => {
