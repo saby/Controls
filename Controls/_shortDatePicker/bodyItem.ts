@@ -40,7 +40,7 @@ const Component = BaseControl.extend({
 
     isIconChecked: function(periods, date) {
         for (let i = 0; i < periods.length; i++) {
-            if (periods[i][0] < date && periods[i][1] > date) {
+            if (periods[i][0] < date && (periods[i][1] > date || periods[i][1] === null)) {
                 return true;
             }
         }
