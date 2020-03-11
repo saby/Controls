@@ -444,24 +444,6 @@
  */
 
 /**
- * @event Происходит при клике на элемент списка.
- * @name Controls/_grid/interface/IGridControl#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
- * @param {Types/entity:Record} item Элемент, по которому кликнули.
- * @param {Object} nativeEvent Объект нативного события браузера.
- * @param {Number} columnIndex Индекс колонки по которой кликнули.
- */
-
-/*
-* @event Occurs when list item is clicked.
-* @name Controls/_grid/interface/IGridControl#itemClick
-* @param {Vdom/Vdom:SyntheticEvent} event Event object.
-* @param {Types/entity:Record} item Clicked item.
-* @param {Object} nativeEvent Native event object.
-* @param {Number} columnIndex Clicked column index.
-*/
-
-/**
  * @event Происходит при клике на "шеврон" элемента.
  * @name Controls/_grid/interface/IGridControl#editArrowClick
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
