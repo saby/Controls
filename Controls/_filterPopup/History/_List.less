@@ -9,16 +9,6 @@
    &:before {
       content: "\200b";
    }
-
-   &:hover {
-      .controls-HistoryList__item {
-         text-decoration: underline;
-      }
-
-      .controls-HistoryList__iconPin {
-         visibility: visible;
-      }
-   }
 }
 
 .controls-HistoryList_block-maxHeight {
@@ -55,6 +45,16 @@
 .ws-is-hover {
    .controls-HistoryList_vertical__item:hover {
       color: @item_hover_text-color_filterPanel;
+   }
+
+   .controls-HistoryList__itemWrapper:hover {
+      .controls-HistoryList__item {
+         text-decoration: underline;
+      }
+
+      .controls-HistoryList__iconPin {
+         visibility: visible;
+      }
    }
 }
 
