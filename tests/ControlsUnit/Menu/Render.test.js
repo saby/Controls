@@ -133,6 +133,10 @@ define(
             });
 
             it('check selected empty item', function() {
+               renderOptions.selectedKeys = [];
+               menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
+               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isSelected());
+
                renderOptions.selectedKeys = [null];
                menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
                assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isSelected());
