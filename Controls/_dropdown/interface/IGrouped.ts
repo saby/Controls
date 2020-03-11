@@ -59,7 +59,7 @@ export interface IGroupedOptions {
     groupTemplate: TemplateFunction;
     /**
      * @name Controls/_dropdown/interface/IGrouped#groupProperty
-     * @cfg {String} Функция обратного вызова для получения идентификатора группы элемента списка.
+     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
      * @param item элемент списка.
      * @example
      * TMPL:

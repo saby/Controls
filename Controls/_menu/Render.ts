@@ -15,7 +15,6 @@ interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
 
 class MenuRender extends Control<IMenuRenderOptions> {
     protected _template: TemplateFunction = ViewTemplate;
-    protected _multiSelectTpl: TemplateFunction = multiSelectTpl;
     protected _iconPadding: string;
 
     protected _beforeMount(options: IMenuRenderOptions): void {
@@ -130,7 +129,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         emptyItem.set(data);
         collection.prepend([emptyItem]);
 
-        if (options.selectedKeys.includes(options.emptyKey)) {
+        if (!options.selectedKeys.length || options.selectedKeys.includes(options.emptyKey)) {
             SelectionController.selectItem(listModel, options.emptyKey, true);
         }
     }

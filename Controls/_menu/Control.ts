@@ -142,7 +142,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             this._pinClick(event, item);
         } else {
             if (this._options.multiSelect && this._selectionChanged && !this._isEmptyItem(treeItem)) {
-                SelectionController.selectItem(this._listModel, key, !treeItem.isSelected());
+                this._changeSelection(key, treeItem);
                 this.updateApplyButton();
 
                 this._notify('selectedKeysChanged', [this.getSelectedKeys()]);
@@ -339,6 +339,16 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }, selectorTemplate.popupOptions || {});
     }
 
+    private _changeSelection(key: string|number|null, treeItem): void {
+        SelectionController.selectItem(this._listModel, key, !treeItem.isSelected());
+
+        let isEmptyItemSelected = false;
+        if (this._options.emptyText && !this._listModel.getSelectedItems().length) {
+            isEmptyItemSelected = true;
+        }
+        SelectionController.selectItem(this._listModel, this._options.emptyKey, isEmptyItemSelected);
+    }
+
     private getSelectedKeys(): TKeys {
         let selectedKeys = [];
         factory(this._listModel.getSelectedItems()).each((treeItem) => {
@@ -426,7 +436,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
     private displayFilter(options: IMenuOptions, item: Model): boolean {
         let isVisible = true;
-        if (item.get && options.parentProperty) {
+        if (item.get && options.parentProperty && options.nodeProperty) {
             let parent = item.get(options.parentProperty);
             if (parent === undefined) {
                 parent = null;
