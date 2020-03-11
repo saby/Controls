@@ -29,6 +29,142 @@
    min-height: @min-height_Grid-row;
 }
 
+.controls-Grid__row:not(:last-child) .controls-Grid__row-cell_rowSeparator_right-offset_theme-@{themeName}:before {
+   content: '';
+   position: absolute;
+   top: -@height_Grid-row-separator;
+   left: 0;
+   right: 0;
+   height: @height_Grid-row-separator;
+   background-color: @border-color_Grid-row-separator;
+}
+
+.controls-Grid__row:not(:last-child) .controls-Grid__row-cell_rowSeparator_left-offset_theme-@{themeName}:after {
+   content: '';
+   position: absolute;
+   top: -@height_Grid-row-separator;
+   right: 0;
+   left: 0;
+   height: @height_Grid-row-separator;
+   background-color: @border-color_Grid-row-separator;
+}
+
+.controls-Grid__row:first-child .controls-Grid__row-cell_rowSeparator_right-offset_theme-@{themeName}:before,
+.controls-Grid__row:first-child .controls-Grid__row-cell_rowSeparator_left-offset_theme-@{themeName}:after {
+   background-color: @border-color_Grid-firstRow-separator
+}
+
+.controls-Grid__row:last-child .controls-Grid__row-cell_rowSeparator_left-offset_theme-@{themeName}:after {
+   content: '';
+   position: absolute;
+   top: -@height_Grid-row-separator;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   border-top: @height_Grid-row-separator solid @border-color_Grid-row-separator;
+   border-bottom: @height_Grid-row-separator solid @border-color_Grid-lastRow-separator;
+   background: transparent;
+   pointer-events: none;
+   height: auto;
+}
+
+.controls-Grid__row:last-child .controls-Grid__row-cell_rowSeparator_right-offset_theme-@{themeName}:before {
+   content: '';
+   position: absolute;
+   top: -@height_Grid-row-separator;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   border-top: @height_Grid-row-separator solid @border-color_Grid-row-separator;
+   border-bottom: @height_Grid-row-separator solid @border-color_Grid-lastRow-separator;
+   background: transparent;
+   pointer-events: none;
+   height: auto;
+}
+
+
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-default_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-default_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_default;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_default;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-null_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-null_theme-@{themeName} {
+   &:before {
+      margin-right: 0;
+   }
+   &:after {
+      margin-left: 0;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-xs_theme-@{themeName},
+ .controls-Grid__row-cell_rowSeparator_right-offset-size-xs_theme-@{themeName} {
+    &:before {
+       margin-right: @spacing_Grid-row-between-content-borderLeft_xs;
+    }
+    &:after {
+       margin-left: @spacing_Grid-row-between-content-borderRight_xs;
+    }
+ }
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-s_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-s_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_s;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_s;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-m_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-m_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_m;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_m;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-l_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-l_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_l;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_l;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-xl_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-xl_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_xl;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_xl;
+   }
+}
+
+.controls-Grid__row-cell_rowSeparator_left-offset-size-xxl_theme-@{themeName},
+.controls-Grid__row-cell_rowSeparator_right-offset-size-xxl_theme-@{themeName} {
+   &:before {
+      margin-right: @spacing_Grid-row-between-content-borderLeft_xxl;
+   }
+   &:after {
+      margin-left: @spacing_Grid-row-between-content-borderRight_xxl;
+   }
+}
+
+
 // Первая строка в таблице с включенным разделителем
 .controls-GridViewV__itemsContainer .controls-Grid__row:first-child .controls-Grid__row-cell_withRowSeparator_theme-@{themeName} {
    border-top-color: @border-color_Grid-firstRow-separator;
