@@ -21,7 +21,7 @@
                {{_options.readOnly ? ' controls-Path__backButtonArrow_readonly'}}"
            title="{[Подробнее]}"
            on:click="_onArrowClick()">
-         <div class="icon-ForwardBaseLine controls-BreadCrumbsPath__backButtonArrow"></div>
+         <svg attr:class="controls-BreadCrumbsPath__backButtonArrow" id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>ForwardBaseLine 16_new</title><path d="M8,11,3,16V14l3-3L3,8V6Zm5,0L8,16V14l3-3L8,8V6Z"/></svg>
       </div>
    </ws:if>
 </div>
