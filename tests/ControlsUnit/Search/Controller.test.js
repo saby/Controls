@@ -480,12 +480,16 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          it('filter is changed', function() {
             var options = getDefaultOptions();
             var aborted;
+            var searchStarted = false;
+
+            searchMod.Controller._private.startSearch = () => {searchStarted = true;};
 
             options.filter = {test: 'testValue'};
             searchMod.Controller._private.getSearchController(searchController);
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.deepEqual(searchController._searchController.getFilter(), {test: 'testValue'});
             assert.isTrue(searchController._searchController.getFilter() === options.filter);
+            assert.isTrue(searchStarted);
 
             // filter and navigation changed
             options.filter = {test: 'testValue', test1: 'testValue1'};
@@ -495,6 +499,11 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
             assert.isNull(searchController._searchController);
             searchController._viewMode = '';
+
+            searchController._searchValue = 'testValue';
+            searchStarted = false;
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+            assert.isFalse(searchStarted);
          });
 
          it('filter is changed, navigation is changed', function() {
