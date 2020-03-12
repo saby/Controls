@@ -199,7 +199,7 @@ var
         },
         prepareRowSeparatorClasses: function (current, theme) {
             let result = '';
-            if (current.rowSeparatorVisibility) {
+            if (current.rowSeparatorVisibility && current.columnIndex !== 0 && current.columnIndex !== current.columns.length - 1) {
                 result += ` controls-Grid__row-cell_withRowSeparator${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? '-l' : ''}_theme-${theme} `;
                 if (current.isFirstInGroup && !current.isInHiddenGroup) {
                     result += ' controls-Grid__row-cell_first-row-in-group';
@@ -238,13 +238,30 @@ var
             return result;
         },
 
+        getItemRowSeparatorClasses: function(current, theme) {
+            const isWideSeparator = current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l';
+            const isMultiSelect = current.multiSelectVisibility !== 'hidden';
+            const classList = ` controls-Grid__row-cell_rowSeparatorSize-${isWideSeparator ? 'l' : 's'}_theme-${theme} `;
+
+            if (current.rowSeparatorVisibility && !isWideSeparator) {
+                if (current.columnIndex === 0 && !isMultiSelect) {
+                    classList += ` controls-Grid__row-cell_rowSeparator_left-offset-size-${current.itemPadding.left}_theme-${theme}`;
+                    classList += ` controls-Grid__row-cell_rowSeparator_left-offset_theme-${theme}`;
+                }
+                if (current.columnIndex === current.columns.length - 1) {
+                    classList += ` controls-Grid__row-cell_rowSeparator_right-offset-size-${current.itemPadding.right}_theme-${theme}`;
+                    classList += ` controls-Grid__row-cell_rowSeparator_right-offset_theme-${theme}`;
+                }
+            }
+            return classList;
+        },
+
         getItemColumnCellClasses: function(current, theme) {
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
             const classLists = createClassListCollection('base', 'padding', 'columnScroll');
             const style = current.style || 'default';
+            const rowSeparatorSize = _private.getItemRowSeparatorClasses(current, theme);
 
-            // Стиль колонки
-            const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
             classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize}`;
             classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
 
