@@ -37,10 +37,10 @@
                 </ws:for>
                 <div class="controls-BreadCrumbsView__menu" >
                     <div class="controls-BreadCrumbsView__menu__dots" on:click="_dotsClick()">
-                        <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine{{!_options.readOnly ? ' controls-BreadCrumbsView__arrow_enabled'}}"></span>
+                        <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
                               title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
-                            <span class="controls-BreadCrumbsView__title{{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled'}}">...
+                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled">...
                             </span>
                         </span>
                     </div>
