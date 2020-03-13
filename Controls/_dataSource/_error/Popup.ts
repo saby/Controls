@@ -66,7 +66,7 @@ export default class Popup {
      */
     openDialog<T extends IViewConfigMessage>(config: ViewConfig<T>,
                                              opener: Control = null,
-                                             eventHandlers: Record<string, Function>): Promise<string | void> {
+                                             eventHandlers: Record<string, Function> = {}): Promise<string | void> {
         return this.preloadPopup().then((popup) => {
             if (!popup) {
                 Popup.showDefaultDialog(config.options.message, config.options.details);

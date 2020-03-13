@@ -123,6 +123,14 @@ export default class Container extends Control implements IContainer {
                 this
             ], { bubbling: true });
 
+            /**
+             * Controls/popup:Global ловит событие 'serviceError'.
+             * В Wasaby окружении Controls/popup:Global есть на каждой странице в виде глобальной обертки.
+             * На старых страницах этого нет, поэтому если errorContainer
+             * был создан в контроле, который был вставлен в старое окружение ws3 с помощью Core/create,
+             * то событие 'serviceError' будет некому ловить и результата _notify не будет.
+             * Тогда гарантированно показываем диалог с помощью popupHelper.
+             */
             if (!result) {
                 result = new Promise((resolve) => {
                     this._popupHelper.openDialog(config, this, {

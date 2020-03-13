@@ -134,13 +134,15 @@ define([
                options: {}
             };
             const opener = {};
-            return p.openDialog(config, opener).then(() => {
+            const eventHandlers = {};
+            return p.openDialog(config, opener, eventHandlers).then(() => {
                const popup = require(fakeModuleNames[0]);
                assert.isTrue(popup.Dialog.openPopup.calledOnce, 'openPopup() called');
                const cfg = popup.Dialog.openPopup.getCall(0).args[0];
                assert.strictEqual(cfg.template, config.template, 'openPopup() called with template');
                assert.strictEqual(cfg.options, config.templateOptions, 'openPopup() called with options');
                assert.strictEqual(cfg.opener, opener, 'openPopup() called with opener');
+               assert.strictEqual(cfg.eventHandlers, eventHandlers, 'openPopup() called with event handlers');
             });
          });
 
