@@ -1,7 +1,13 @@
 define([
-   'Controls/_operations/__MultiSelector'
+   'Controls/_operations/__MultiSelector',
+   'Controls/_operations/MultiSelector/getCount',
+   'Core/Deferred',
+   'Types/entity'
 ], function(
-   MultiSelector
+   MultiSelector,
+   GetCount,
+   Deferred,
+   entity
 ) {
    'use strict';
    describe('Controls.OperationsPanel.__MultiSelector', function() {
@@ -231,6 +237,36 @@ define([
          instance._beforeUpdate(instance._options);
          assert.isFalse(isMenuUpdated);
       });
+
+      it('_getCount', async() => {
+         let instance = new MultiSelector.default();
+         const selection = {
+            selected: ['test'],
+            excluded: []
+         };
+
+         instance._options.selectedCountConfig = {
+            rpc: {
+               call: () => {
+                  return Promise.resolve({
+                     getRow: () => {
+                        return {
+                           get: () => 'TEST_DATA_COUNT'
+                        };
+                     }
+                  });
+               },
+               getAdapter: () => {
+                  return new entity.adapter.Json();
+               }
+            }
+         };
+
+         instance._menuCaption = 'Отмечено: 3';
+         instance._getCount(selection, null);
+         assert.equal(instance._menuCaption, 'Отмечено:');
+      });
+
       it('_afterUpdate', function() {
          var instance = new MultiSelector.default();
          instance._notify = mockNotify();
