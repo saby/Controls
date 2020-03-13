@@ -1,19 +1,19 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo_fixedWidth500" >
         <div class="controls-text-label_theme-{{_options.theme}}">type='ok'</div>
-        <div class="controls-ConfirmationTemplate__footer" >
+        <div class="controls-ConfirmationTemplate__footer_theme-{{_options.theme}}" >
             <Controls.popupConfirmation:Footer type="ok" okCaption="ok"/>
         </div>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500" >
         <div class="controls-text-label_theme-{{_options.theme}}">type='yesno'</div>
-        <div class="controls-ConfirmationTemplate__footer">
+        <div class="controls-ConfirmationTemplate__footer_theme-{{_options.theme}}">
             <Controls.popupConfirmation:Footer type="yesno" yesCaption="Yes" noCaption="No" primaryAction="no"/>
         </div>
     </div>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500" >
         <div class="controls-text-label_theme-{{_options.theme}}">type='yesnocancel'</div>
-        <div class="controls-ConfirmationTemplate__footer" >
+        <div class="controls-ConfirmationTemplate__footer_theme-{{_options.theme}}" >
             <Controls.popupConfirmation:Footer type="yesnocancel" yesCaption="Yes" noCaption="No" cancelCaption="Cancel" primaryAction="yes"/>
         </div>
     </div>
