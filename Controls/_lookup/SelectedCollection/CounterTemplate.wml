@@ -1,4 +1,4 @@
-<div class="controls-SelectedCollection__counterItems">
+<div class="controls-SelectedCollection__counterItems controls-SelectedCollection__counterItems_theme-{{_options.theme}}">
     <span attr:class="controls-SelectedCollection__counter">({{itemsCount}})</span>
     &nbsp;
     <span attr:class="controls-SelectedCollection__counter-ellipsis">...</span>

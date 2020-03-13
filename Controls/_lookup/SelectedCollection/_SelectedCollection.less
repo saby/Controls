@@ -37,11 +37,14 @@
 }
 
 .controls-SelectedCollection__counterItems {
-    font-size: @counter_font-size_lookupSelectedCollection;
     color: @counter_text-color_lookupSelectedCollection;
     padding-right: @counter_offset_lookupSelectedCollection;
     box-sizing: border-box;
     cursor: pointer;
+}
+
+.controls-SelectedCollection__counterItems_theme-@{themeName} {
+    font-size: @font-size_SelectedCollection-counter;
 }
 
 .ws-is-hover {
@@ -104,30 +107,30 @@
     .text-overflow();
 }
 
-.controls-SelectedCollection__item__caption-size-default,
-.controls-SelectedCollection__item__caption-size-m {
+.controls-SelectedCollection__item__caption-size-default_theme-@{themeName},
+.controls-SelectedCollection__item__caption-size-m_theme-@{themeName} {
     font-size: @font-size_m;
 }
 
-.controls-SelectedCollection__item__caption-size-l {
+.controls-SelectedCollection__item__caption-size-l_theme-@{themeName} {
     font-size: @font-size_l;
 }
 
-.controls-SelectedCollection__item__caption-size-xl {
+.controls-SelectedCollection__item__caption-size-xl_theme-@{themeName} {
     font-size: @font-size_xl;
 }
 
-.controls-SelectedCollection__item__caption-size-2xl {
+.controls-SelectedCollection__item__caption-size-2xl_theme-@{themeName} {
     font-size: @font-size_2xl;
 }
 
-.controls-SelectedCollection__item__caption-size-3xl {
+.controls-SelectedCollection__item__caption-size-3xl_theme-@{themeName} {
     font-size: @font-size_3xl;
 }
 
-.controls-SelectedCollection__item__caption-style-bold,
-.controls-SelectedCollection__item__caption-style-accent,
-.controls-SelectedCollection__item__caption-style-primary {
+.controls-SelectedCollection__item__caption-style-bold_theme-@{themeName},
+.controls-SelectedCollection__item__caption-style-accent_theme-@{themeName},
+.controls-SelectedCollection__item__caption-style-primary_theme-@{themeName} {
     font-weight: bold;
 }
 
@@ -136,11 +139,11 @@
     cursor: pointer;
 }
 
-.controls-SelectedCollection__item__caption-style-accent {
+.controls-SelectedCollection__item__caption-style-accent_theme-@{themeName} {
     color: @secondary_text-color;
 }
 
-.controls-SelectedCollection__item__caption-style-primary {
+.controls-SelectedCollection__item__caption-style-primary_theme-@{themeName} {
     color: @primary_text-color;
 }
 
@@ -155,7 +158,7 @@
 .controls-SelectedCollection__collection-default:after,
 .controls-SelectedCollection__collection-oneRow:after {
     content: '\200b';
-    line-height: @item_height_lookupSelectedCollection;;
+    line-height: @item_height_lookupSelectedCollection;
 }
 
 .controls-SelectedCollection__collection_singleLine {
