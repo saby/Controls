@@ -254,6 +254,17 @@ define(
             });
          });
 
+         it('_getItemData', function() {
+            let menuRender = getRender();
+            let itemData = menuRender._getItemData(menuRender._options.listModel.at(0));
+            assert.isOk(itemData.itemClassList);
+            assert.isOk(itemData.treeItem);
+            assert.isOk(itemData.multiSelectTpl);
+            assert.isOk(itemData.item);
+            assert.isOk(itemData.isSelected);
+            assert.isOk(itemData.getPropValue);
+         });
+
          it('getIconPadding', function() {
             let menuRender = getRender();
             let iconItems = [

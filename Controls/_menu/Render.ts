@@ -43,6 +43,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
             parentProperty: this._options.parentProperty,
             nodeProperty: this._options.nodeProperty,
             multiSelectTpl,
+            itemClassList: this._getClassList(item),
             getPropValue: ItemsUtil.getPropertyValue,
             isEmptyItem: this._isEmptyItem(item),
             isSelected: item.isSelected.bind(item)
