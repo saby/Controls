@@ -35,12 +35,13 @@
                         />
                     </ws:if>
                 </ws:for>
+
                 <div class="controls-BreadCrumbsView__menu controls-BreadCrumbsView__menu_theme-{{_options.theme}}" >
                     <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:click="_dotsClick()">
-                        <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine{{!_options.readOnly ? ' controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled_theme-' + _options.theme}}"></span>
+                        <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled_theme-{{_options.theme}}"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
                               title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
-                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_theme-{{_options.theme}} {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}">...
+                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_theme-{{_options.theme}} controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-{{_options.theme}}">...
                             </span>
                         </span>
                     </div>
