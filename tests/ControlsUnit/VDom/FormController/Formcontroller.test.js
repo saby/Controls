@@ -327,16 +327,19 @@ define([
 
          FC._isNewRecord = true;
          FC._beforeUnmount();
-         assert.equal(isDestroyCall, true);
+         assert.equal(isDestroyCall, false);
          FC.destroy();
       });
 
       it('delete new record', () => {
          let FC = new form.Controller();
          let isDestroyCalled = false;
-         FC._source = {
-            destroy: () => {
-               isDestroyCalled = true;
+         FC._children = {
+            crud: {
+               delete: () => {
+                  isDestroyCalled = true;
+                  return (new Deferred()).callback();
+               }
             }
          };
          FC._tryDeleteNewRecord();

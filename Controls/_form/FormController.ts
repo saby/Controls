@@ -286,8 +286,10 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._pendingPromise.callback();
             this._pendingPromise = null;
         }
-        // when FormController destroying, its need to check new record was saved or not. If its not saved, new record trying to delete.
-        this._tryDeleteNewRecord();
+        if (this._unmountPromise) {
+            this._unmountPromise.callback();
+            this._unmountPromise = null;
+        }
     }
 
     private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
@@ -389,7 +391,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _tryDeleteNewRecord(): Promise<undefined> {
         if (this._needDestroyRecord()) {
-            return this._source.destroy(this._getRecordId(), this._options.destroyMeta || this._options.destroyMetaData);
+            return this.delete(this._getRecordId(), this._options.destroyMeta || this._options.destroyMetaData);
         }
         return Promise.resolve();
     }
@@ -413,6 +415,23 @@ class FormController extends Control<IFormController, IReceivedState> {
                 self._showConfirmDialog(deferred, forceFinishValue);
             }
         }], {bubbling: true});
+
+        // Перед закрытием окна возможно потребуется удалить запись.
+        // Делать надо здесь, а не на _beforeUnmount, т.к. нужно чтобы всплыли события об удалении записи,
+        // это нужно для синхронизации с реестром.
+        self._unmountPromise = new Deferred();
+        self._notify('registerPending', [self._unmountPromise, {
+            showLoadingIndicator: false,
+            validate(): boolean {
+                return self._record && !self._record.isChanged() && self._needDestroyRecord();
+            },
+            onPendingFail(forceFinishValue: boolean, deferred: Promise<boolean>): void {
+                self._tryDeleteNewRecord().then(() => {
+                    deferred.callback();
+                    self._unmountPromise = null;
+                });
+            }
+        }], { bubbling: true });
     }
 
     private _confirmDialogResult(answer: boolean, def: Promise<any>): void {
