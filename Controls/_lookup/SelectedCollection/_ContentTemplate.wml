@@ -1,7 +1,7 @@
 <div class="js-controls-SelectedCollection__item__caption
             controls-SelectedCollection__item__caption
-            controls-SelectedCollection__item__caption-style-{{style}}
-            controls-SelectedCollection__item__caption-size-{{size}}
+            controls-SelectedCollection__item__caption-style-{{style}}_theme-{{_options.theme}}
+            controls-SelectedCollection__item__caption-size-{{size}}_theme-{{_options.theme}}
             {{clickable ? 'controls-SelectedCollection__item__caption-clickable'}}"
      title="{{item.get(displayProperty || 'title')}}">
     {{item.get(displayProperty || 'title')}}
