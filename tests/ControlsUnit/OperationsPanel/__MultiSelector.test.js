@@ -1,11 +1,13 @@
 define([
    'Controls/_operations/__MultiSelector',
    'Controls/_operations/MultiSelector/getCount',
-   'Core/Deferred'
+   'Core/Deferred',
+   'Types/entity'
 ], function(
    MultiSelector,
    GetCount,
-   Deferred
+   Deferred,
+   entity
 ) {
    'use strict';
    describe('Controls.OperationsPanel.__MultiSelector', function() {
@@ -237,28 +239,29 @@ define([
          assert.isTrue(isUpdateMenu);
       });
 
-      it('_getCount', () => {
-         var instance = new MultiSelector.default();
-         var newOptions = {
-            selectedKeys: [null],
-            excludedKeys: [],
-            selectedKeysCount: 0,
-            isAllSelected: false
+      it('_getCount', async() => {
+         let instance = new MultiSelector.default();
+         const selection = {
+            selected: ['test'],
+            excluded: []
          };
 
-         var selection = {
-            selected: [1]
+         instance._options.selectedCountConfig = {
+            rpc: {
+               call: () => {
+                  return Promise.resolve({
+                     getRow: () => {
+                        return {
+                           get: () => 'TEST_DATA_COUNT'
+                        };
+                     }
+                  });
+               },
+               getAdapter: () => {
+                  return new entity.adapter.Json();
+               }
+            }
          };
-         instance._beforeMount(newOptions);
-         assert.equal(instance._menuSource._$data.length, 3);
-         assert.equal(instance._menuCaption, 'Отметить');
-
-         instance._options.selectedCountConfig = {};
-         GetCount.default.getCount = function() {
-            return Deferred.success();
-         };
-         instance._getCount(selection, null);
-         assert.equal(instance._menuCaption, 'Отметить');
 
          instance._menuCaption = 'Отмечено: 3';
          instance._getCount(selection, null);
