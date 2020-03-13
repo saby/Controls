@@ -1,7 +1,11 @@
 define([
-   'Controls/_operations/__MultiSelector'
+   'Controls/_operations/__MultiSelector',
+   'Controls/_operations/MultiSelector/getCount',
+   'Core/Deferred'
 ], function(
-   MultiSelector
+   MultiSelector,
+   GetCount,
+   Deferred
 ) {
    'use strict';
    describe('Controls.OperationsPanel.__MultiSelector', function() {
@@ -231,6 +235,37 @@ define([
          instance._beforeUpdate(instance._options);
          assert.isFalse(isMenuUpdated);
       });
+
+      it('_getCount', async() => {
+         var instance = new MultiSelector.default();
+         var newOptions = {
+            selectedKeys: [null],
+            excludedKeys: [],
+            selectedKeysCount: 0,
+            isAllSelected: false
+         };
+
+         var selection = {
+            selected: [1]
+         };
+         instance._beforeMount(newOptions);
+         assert.equal(instance._menuSource._$data.length, 3);
+         assert.equal(instance._menuCaption, 'Отметить');
+
+         instance._options.selectedCountConfig = {};
+         GetCount.default.getCount = function() {
+            var def = new Deferred();
+            def.callback();
+            return def;
+         };
+         await instance._getCount(selection, null);
+         assert.equal(instance._menuCaption, 'Отметить');
+
+         instance._menuCaption = 'Отмечено: 3';
+         await instance._getCount(selection, null);
+         assert.equal(instance._menuCaption, 'Отмечено:');
+      });
+
       it('_afterUpdate', function() {
          var instance = new MultiSelector.default();
          instance._notify = mockNotify();
