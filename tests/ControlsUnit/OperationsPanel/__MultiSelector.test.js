@@ -1,7 +1,9 @@
 define([
-   'Controls/_operations/__MultiSelector'
+   'Controls/_operations/__MultiSelector',
+   'Types/entity'
 ], function(
-   MultiSelector
+   MultiSelector,
+   entity
 ) {
    'use strict';
    describe('Controls.OperationsPanel.__MultiSelector', function() {
@@ -242,6 +244,34 @@ define([
          assert.equal(eventQueue[0].event, 'controlResize');
          assert.equal(eventQueue[0].eventArgs.length, 0);
          assert.isTrue(eventQueue[0].eventOptions.bubbling);
+      });
+
+      it('_getCount', async() => {
+         let instance = new MultiSelector.default();
+         const selection = {
+            selected: ['test'],
+            excluded: []
+         };
+         instance._options.selectedCountConfig = {
+            rpc: {
+               call: () => {
+                  return Promise.resolve({
+                     getRow: () => {
+                        return {
+                           get: () => 'TEST_DATA_COUNT'
+                        };
+                     }
+                  });
+               },
+               getAdapter: () => {
+                  return new entity.adapter.Json();
+               }
+            }
+         };
+
+         instance._menuCaption = 'Отмечено: 3';
+         instance._getCount(selection, null);
+         assert.equal(instance._menuCaption, 'Отмечено:');
       });
    });
 });
