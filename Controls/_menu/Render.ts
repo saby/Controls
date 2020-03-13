@@ -71,7 +71,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
         if (item.get('pinned') === true && !this.hasParent(item)) {
             classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
         }
-        if (this._options.listModel.getLast() !== treeItem && !(this._getNextItem(treeItem) instanceof GroupItem)) {
+        if (this._options.listModel.getLast() !== treeItem &&
+            !(this._getNextItem(treeItem) instanceof GroupItem) && !this._isVisibleSeparator(treeItem)) {
             classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
         }
         return classes;
