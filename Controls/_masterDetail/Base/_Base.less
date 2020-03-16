@@ -13,8 +13,6 @@
       background-color: @background-color_List-masterList;
       box-shadow: -15px 2px 4px -6px @background-color_List-masterList;
    }
-   //нужно чтобы движение границ, которое лежит в мастере, всегда было выше чем детейл, несмотря на его верстку.
-   z-index: 2;
 }
 
 .controls-MasterDetail_master-template {
@@ -35,7 +33,6 @@
 .controls-MasterDetail_details {
    background-color: @background-color_List-masterList-details;
    min-width: 1px;
-   z-index: 1;
 }
 
 .controls-MasterDetail_resizing-line {
@@ -43,7 +40,12 @@
    right: 0;
    top: 0;
    height: 100%;
-   z-index: 2;
+   // Движение границ всегда должно быть выше любого прикладного элемента в контроле.
+   // Решать проблему через z-index на контейнерах 'master' и 'detail' нельзя.
+   // Они должны лежать в одном контексте наложения. Иначе будет перекрытие
+   // пользовательских элементов выпирающих за пределы контейнеров. Например, плитка по ховеру.
+   // https://online.sbis.ru/opendoc.html?guid=add422e3-ea09-494b-821f-514acab083f1
+   z-index: 9999;
 }
 
 .ws-is-ie,

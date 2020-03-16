@@ -58,6 +58,11 @@ class Confirmation extends Control<IControlOptions> implements IConfirmationOpen
     private static _getConfig(templateOptions: IConfirmationOptions,
                               closeHandler: Function): IConfirmationOpenerOptions {
         templateOptions.closeHandler = closeHandler;
+
+        // На шаблоне не должно быть опции opener, иначе ломаются базовые механизмы ядра (пример UI/hotKeys:Dispatcher)
+        if (templateOptions.hasOwnProperty('opener')) {
+            delete templateOptions.opener;
+        }
         const popupOptions: IConfirmationOpenerOptions = {
             template: 'Controls/popupTemplate:ConfirmationDialog',
             modal: true,

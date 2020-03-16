@@ -245,6 +245,29 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          assert.equal(controller._root, null);
       });
 
+      it('_private.searchCallback with startingWith = "current"', () => {
+         const controllerFilter = {
+            parent: 'testRoot'
+         };
+         const controller = getSearchController({
+            parentProperty: 'parent',
+            startingWith: 'current',
+            filter: controllerFilter
+         });
+         let searchCallbackFilter;
+
+         controller._searchContext = { updateConsumers: () => {} };
+         controller._notify = (eventName, eventValue) => {
+            if (eventName === 'filterChanged') {
+               searchCallbackFilter = eventValue[0];
+            }
+         };
+         controller._root = 'testRoot';
+
+         searchMod.Controller._private.searchCallback(controller, { data: new collection.RecordSet() }, controllerFilter);
+         assert.deepEqual(controllerFilter, {});
+      });
+
       it('_private.abortCallback', function() {
          var controller = getSearchController();
          var filter = { 'Разворот': 'С разворотом', 'usePages': 'full', test: 'test' };

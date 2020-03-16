@@ -23,15 +23,44 @@ define(
       describe('Controls/_input/Mask', function() {
 
          describe('_beforeUpdate', function() {
-            it('should update selection if value changed', function() {
-               var component = createComponent(input.Mask, {mask: 'dd.dd', replacer: ' '});
+            [{
+               mask: 'dd.dd',
+               replacer: ' ',
+               value: null,
+               startValue: ''
+            }, {
+               mask: 'dd.dd',
+               replacer: ' ',
+               value: '',
+               startValue: '1234'
+            }, {
+               mask: 'dd.dd',
+               replacer: ' ',
+               value: '1234',
+               startValue: ''
+            }].forEach(function (test) {
+               it('should update selection if value changed', function() {
+                  var component = createComponent(input.Mask, {value: test.startValue, mask: 'dd.dd', replacer: ' '});
+                  component._viewModel.selection = {
+                     start: 3,
+                     end: 3
+                  };
+                  component._beforeUpdate(coreMerge(
+                     test, input.Mask.getDefaultOptions(), {preferSource: true}));
+                  assert.deepEqual(component._viewModel.selection, { start: 0, end: 0 });
+               });
+            });
+
+            it('should not update selection if value changed', function() {
+               var component = createComponent(input.Mask, { mask: 'dd.dd', replacer: ' ' });
                component._viewModel.selection = {
                   start: 3,
                   end: 3
                };
                component._beforeUpdate(coreMerge(
-                  { value: '1234', mask: 'dd.dd', replacer: ' ' }, input.Mask.getDefaultOptions(), {preferSource: true}));
-               assert.deepEqual(component._viewModel.selection, { start: 0, end: 0 });
+                  { mask: 'dd.dd', replacer: ' ' }, input.Mask.getDefaultOptions(), { preferSource: true }
+               ));
+               assert.deepEqual(component._viewModel.selection, { start: 3, end: 3 });
             });
          });
 

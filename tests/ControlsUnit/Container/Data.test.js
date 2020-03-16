@@ -462,6 +462,7 @@ define(
 
             let filter = {test: 123};
             self._options.filter = filter;
+            self._options.root = 'test';
             options.filter = filter;
             lists.DataContainer._private.resolveOptions(self, options);
             //if filter option was not changed, _filter from state will not updated by resolveOptions

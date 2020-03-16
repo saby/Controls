@@ -1,4 +1,4 @@
-<span class="controls-DecoratorMoney controls-DecoratorMoney_theme-{{_options.theme}}"
+<span class="controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} controls-DecoratorMoney_theme-{{_options.theme}}"
       title="{{_tooltip}}">
     <span class="controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
                  controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}

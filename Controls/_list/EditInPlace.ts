@@ -496,7 +496,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                 // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
                 e.stopPropagation();
                 if (this._isAdd) {
-                    _private.editNextRow(this, true, true);
+                    _private.editNextRow(this, true, !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton);
                 } else if (this._options.editingConfig && !this._sequentialEditing) {
                     this.commitEdit();
                 } else {

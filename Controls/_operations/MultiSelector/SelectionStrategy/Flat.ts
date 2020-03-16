@@ -54,18 +54,20 @@ export default class FlatSelectionStrategy implements ISelectionStrategy {
          limit -= selection.excluded.length;
       }
 
-      getItems(model).forEach((item) => {
-         let itemId: TKey = item.get(keyProperty);
-         let isSelected: boolean = (!limit || selectedItemsCount < limit) &&
-            (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
+      if (selection.selected.length || selection.excluded.length) {
+         getItems(model).forEach((item) => {
+            let itemId: TKey = item.get(keyProperty);
+            let isSelected: boolean = (!limit || selectedItemsCount < limit) &&
+                (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
 
-         if (isSelected) {
-            selectedItemsCount++;
-         }
-         if (isSelected !== false) {
-            selectionResult.set(itemId, isSelected);
-         }
-      });
+            if (isSelected) {
+               selectedItemsCount++;
+            }
+            if (isSelected !== false) {
+               selectionResult.set(itemId, isSelected);
+            }
+         });
+      }
 
       return selectionResult;
    }

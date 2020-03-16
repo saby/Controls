@@ -114,13 +114,16 @@ type GetSourceResult = {
          },
 
          resolveOptions: function(self, options) {
+            const filterChanged = !isEqual(self._options.filter, options.filter);
+            const rootChanged = self._options.root !== options.root;
+
             self._navigation = options.navigation;
             self._source = options.source;
             self._sorting = options.sorting;
             self._keyProperty = options.keyProperty;
 
             //https://online.sbis.ru/opendoc.html?guid=8dd3b48d-9123-4d6c-ac26-9c908e6e25f8
-            if (!isEqual(self._options.filter, options.filter) || !self._filter) {
+            if (!self._filter || filterChanged || rootChanged) {
                self._filter = options.filter;
 
                if (options.parentProperty && options.root) {

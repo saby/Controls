@@ -16,40 +16,40 @@
    font-weight: @fractional-font-weight_decoratorMoney;
 }
 
-//Совместимость
-.controls-DecoratorMoney .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_default = @text-color) {
+//Совместимость до 20.2100 для устаревшей опции style. В 20.3000 удалено.
+.controls-DecoratorMoney_style-default .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_default = @text-color) {
    color: @color_DecoratorMoney-integer_style_default;
 }
 
-.controls-DecoratorMoney .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentResults = @secondary_text-color) {
+.controls-DecoratorMoney_style-accentResults .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentResults = @secondary_text-color) {
    color: @color_DecoratorMoney-integer_style_accentResults;
 }
 
-.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentResults = @unaccented_text-color) {
+.controls-DecoratorMoney_style-noAccentResults .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentResults = @unaccented_text-color) {
    color: @color_DecoratorMoney-integer_style_noAccentResults;
 }
 
-.controls-DecoratorMoney .controls-text-readonly_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_group = @readonly_color) {
+.controls-DecoratorMoney_style-group .controls-text-readonly_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_group = @readonly_color) {
    color: @color_DecoratorMoney-integer_style_group;
 }
 
-.controls-DecoratorMoney .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_basicRegistry = @text-color) {
+.controls-DecoratorMoney_style-basicRegistry .controls-text-default_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_basicRegistry = @text-color) {
    color: @color_DecoratorMoney-integer_style_basicRegistry;
 }
 
-.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noBasicRegistry = @unaccented_text-color) {
+.controls-DecoratorMoney_style-noBasicRegistry .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noBasicRegistry = @unaccented_text-color) {
    color: @color_DecoratorMoney-integer_style_noBasicRegistry;
 }
 
-.controls-DecoratorMoney .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentRegistry = @secondary_text-color) {
+.controls-DecoratorMoney_style-accentRegistry .controls-text-secondary_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_accentRegistry = @secondary_text-color) {
    color: @color_DecoratorMoney-integer_style_accentRegistry;
 }
 
-.controls-DecoratorMoney .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentRegistry = @unaccented_text-color) {
+.controls-DecoratorMoney_style-noAccentRegistry .controls-text-unaccented_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_noAccentRegistry = @unaccented_text-color) {
    color: @color_DecoratorMoney-integer_style_noAccentRegistry;
 }
 
-.controls-DecoratorMoney .controls-text-danger_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_error = @danger_color) {
+.controls-DecoratorMoney_style-error .controls-text-danger_theme-@{themeName} when not (@color_DecoratorMoney-integer_style_error = @danger_color) {
    color: @color_DecoratorMoney-integer_style_error;
 }
 

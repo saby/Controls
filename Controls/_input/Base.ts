@@ -881,6 +881,19 @@ var Base = Control.extend({
         }
     },
 
+    _mouseDownOnContainerHandler: function(event: MouseEvent): void {
+        /**
+         * Нативное поле ввода позиционируется относительно контейнера с отступами. Клик в область отступов
+         * не будет приводить к фокусировке поля. Зовем фокусировку вручную.
+         */
+        const readOnlyField: boolean = this._options.readOnly || this._field.scope.readOnly;
+        const clickByField: boolean = event.target === this._getField();
+
+        if (!readOnlyField && !clickByField) {
+            this.activate({enableScreenKeyboard: true, enableScrollToElement: true});
+        }
+    },
+
     _focusInHandler: function (event) {
         let firstFocusByTab = this._firstFocus;
 

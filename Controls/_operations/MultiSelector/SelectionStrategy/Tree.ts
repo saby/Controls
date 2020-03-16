@@ -138,27 +138,29 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
       const selectionResult = new Map();
       const selectedKeysWithEntryPath = this._mergeEntryPath(selection.selected, getItems(model));
 
-      getItems(model).forEach((item) => {
-         const itemId: TKey = item.getId();
-         const parentId = this._getParentId(itemId, model, hierarchyRelation);
-         let isSelected = !selection.excluded.includes(itemId) && (selection.selected.includes(itemId) ||
-            this.isAllSelected(selection, parentId, model, hierarchyRelation));
+      if (selection.selected.length || selection.excluded.length) {
+         getItems(model).forEach((item) => {
+            const itemId: TKey = item.getId();
+            const parentId = this._getParentId(itemId, model, hierarchyRelation);
+            let isSelected = !selection.excluded.includes(itemId) && (selection.selected.includes(itemId) ||
+                this.isAllSelected(selection, parentId, model, hierarchyRelation));
 
-         if (this._options.selectAncestors && isNode(item, model, hierarchyRelation)) {
-            isSelected = this._getStateNode(itemId, isSelected, {
-               selected: selectedKeysWithEntryPath,
-               excluded: selection.excluded
-            }, model, hierarchyRelation);
+            if (this._options.selectAncestors && isNode(item, model, hierarchyRelation)) {
+               isSelected = this._getStateNode(itemId, isSelected, {
+                  selected: selectedKeysWithEntryPath,
+                  excluded: selection.excluded
+               }, model, hierarchyRelation);
 
-            if (!isSelected && (selectedKeysWithEntryPath.includes(itemId))) {
-               isSelected = null;
+               if (!isSelected && (selectedKeysWithEntryPath.includes(itemId))) {
+                  isSelected = null;
+               }
             }
-         }
 
-         if (isSelected !== false) {
-            selectionResult.set(item.getId(), isSelected);
-         }
-      });
+            if (isSelected !== false) {
+               selectionResult.set(item.getId(), isSelected);
+            }
+         });
+      }
 
       return selectionResult;
    }
