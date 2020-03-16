@@ -6,7 +6,6 @@
                         highlighter="{{_options.highlighter}}"
                         applyHighlighter="{{_applyHighlighter}}"
                         items="{{_options.visibleItems}}"
-                        size="{{_options.size}}"
                         itemTemplate="{{_options.itemTemplate}}" />
         </div>
     </ws:if>
