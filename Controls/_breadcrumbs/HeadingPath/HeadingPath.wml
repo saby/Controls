@@ -9,6 +9,7 @@
                                                showActionButton="{{_options.showActionButton}}"
                                                afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
                                                theme="{{_options.theme}}"
+                                               size="{{!!_visibleItems || _options.rootVisible ? 'm' : 's'}}"
                                                attr:class="{{!_visibleItems ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}}"
                                                on:backButtonClick="_onBackButtonClick()"
                                                on:arrowClick="_notifyHandler('arrowClick')"/>
@@ -27,6 +28,7 @@
                                        visibleItems="{{_visibleItems}}"
                                        keyProperty="{{_options.keyProperty}}"
                                        displayProperty="{{_options.displayProperty}}"
+                                       size="m"
                                        highlighter="{{_options.highlighter}}"
                                        on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                                        on:itemClick="_notifyHandler('itemClick')"/>
