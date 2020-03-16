@@ -26,6 +26,7 @@
                            iconSize="{{_options.iconSize}}"
                            icon="{{_headingIcon}}"
                            caption="{{_headingCaption}}"
+                           theme="{{_headerTheme}}"
                            on:click="_headerClick()"/>
             </ws:if>
             <Controls._menu.Control

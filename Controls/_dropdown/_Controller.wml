@@ -25,6 +25,7 @@
               itemTemplateProperty="{{_options.itemTemplateProperty}}"
               itemTemplate="{{_options.itemTemplate}}"
               headerTemplate="{{_options.headTemplate || _options.headerTemplate}}"
+              headerContentTemplate="{{_options.headerContentTemplate}}"
               groupTemplate="{{_options.groupTemplate}}"
               groupProperty="{{_options.groupProperty}}"
               groupingKeyCallback="{{_options.groupingKeyCallback}}"

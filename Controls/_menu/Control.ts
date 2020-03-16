@@ -562,6 +562,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.closeButtonVisibility = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
+        templateOptions.headerContentTemplate = null;
         templateOptions.additionalProperty = null;
         templateOptions.searchParam = null;
         templateOptions.itemPadding = null;

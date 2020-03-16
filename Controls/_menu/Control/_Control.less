@@ -19,11 +19,6 @@
    position: relative;
    .flexbox();
    .align-items(center);
-
-   &::before {
-      content: '\200b';
-      line-height: @item_height_menu;
-   }
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -35,7 +30,7 @@
 }
 
 .controls-Menu__row-separator_theme-@{themeName} {
-   &::after {
+   &::before {
       content: '';
       position: absolute;
       display: inline-block;

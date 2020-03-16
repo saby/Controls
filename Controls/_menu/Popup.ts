@@ -4,6 +4,7 @@ import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeader
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as mStubs from 'Core/moduleStubs';
 import * as headerTemplate from 'wml!Controls/_menu/Popup/headerTemplate';
+import {Controller as ManagerController} from 'Controls/popup';
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
@@ -25,6 +26,7 @@ const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller'
 class Popup extends Control<IControlOptions> {
     protected _template: TemplateFunction = PopupTemplate;
     protected _headerTemplate: TemplateFunction;
+    protected _headerTheme: string;
     protected _headingCaption: string;
     protected _headingIcon: string;
     protected _itemPadding: object;
@@ -33,6 +35,8 @@ class Popup extends Control<IControlOptions> {
     protected _horizontalDirection: string = 'right';
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
+        this._headerTheme = this._getTheme();
+
         this._setCloseButtonVisibility(options);
         this._prepareHeaderConfig(options);
         this._setItemPadding(options);
@@ -43,6 +47,8 @@ class Popup extends Control<IControlOptions> {
     }
 
     protected _beforeUpdate(newOptions: IControlOptions): void {
+        this._headerTheme = this._getTheme();
+
         if (newOptions.stickyPosition.direction && this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
             this._verticalDirection = newOptions.stickyPosition.direction.vertical;
             this._horizontalDirection = newOptions.stickyPosition.direction.horizontal;
@@ -80,7 +86,9 @@ class Popup extends Control<IControlOptions> {
     }
 
     private _prepareHeaderConfig(options) {
-        if (options.searchParam) {
+        if (options.headerContentTemplate) {
+            this._headerTemplate = options.headerContentTemplate;
+        } else if (options.searchParam) {
             this._headerTemplate = searchHeaderTemplate;
         } else if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
             if (options.headConfig) {
@@ -110,6 +118,10 @@ class Popup extends Control<IControlOptions> {
                 right: 'menu-pin'
             };
         }
+    }
+
+    private _getTheme(): string {
+        return ManagerController.getPopupHeaderTheme();
     }
 
     static _theme: string[] = ['Controls/menu'];

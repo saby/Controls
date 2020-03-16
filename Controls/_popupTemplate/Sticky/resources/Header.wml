@@ -5,12 +5,9 @@
    <div class="controls-StickyTemplate__top-area-content controls-DropdownList__head">
       <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
          <div class="controls-StickyTemplate__caption">
-            <Controls.heading:Title attr:class="controls-StickyTemplate__caption_text"
-                                    caption="{{_options.headingCaption}}"
-                                    style="{{_options.headingStyle}}"
-                                    size="{{_options.headingSize}}"
-                                    readOnly="{{true}}"
-                                    tooltip="{{_options.headingCaption}}"/>
+            <div class="controls-StickyTemplate__caption_text
+                        controls-StickyTemplate__caption_theme-{{_options.theme}}"
+                 title="{{_options.headingCaption}}">{{_options.headingCaption}}</div>
           </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
