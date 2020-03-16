@@ -40,7 +40,8 @@
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
   color: @item_text-color_default_breadcrumbsView;
   height: @height_breadcrumbsView;
-  &:before {
+
+  &::before {
     font-size: @line-height_breadcrumbsView;
   }
 }
@@ -65,7 +66,8 @@
   box-shadow: @dots_shadow-offset_breadcrumbsView  @dots_shadow-color_breadcrumbsView;
   height: @height_breadcrumbsView;
   color: @item_text-color_default_breadcrumbsView;
-  &:before {
+
+  &::before {
     font-size: @line-height_breadcrumbsView;
   }
 }

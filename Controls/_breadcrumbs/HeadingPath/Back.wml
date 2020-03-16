@@ -17,6 +17,7 @@
    </ws:if>
    <ws:if data="{{ _options.showActionButton }}">
       <div class="controls-BreadCrumbsPath__backButtonArrow-container controls-BreadCrumbsPath__backButtonArrow-container_theme-{{_options.theme}}
+               controls-BreadCrumbsPath__backButtonArrow-container_size-{{_options.size ? _options.size : 's'}}_theme-{{_options.theme}}
                {{_options.showArrowOutsideOfBackButton ? ' controls-BreadCrumbsPath__backButtonArrow_outsideBackButton_theme-' + _options.theme : ''}}
                {{_options.readOnly ? ' controls-Path__backButtonArrow_readonly_theme-' + _options.theme}}"
            title="{[Подробнее]}"

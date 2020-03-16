@@ -12,9 +12,10 @@
    white-space: nowrap;
 
    //TODO KINGO есть темы, в которых выравнивание ХК идет по базовой линии шрифта, размер которого отличается от размера шрифта кнопки назад
-   .controls-Back__wrapper:before {
+   .controls-Back__wrapper::before {
       font-size: @line-height_breadcrumbsView;
    }
+
 }
 
 .controls-BreadCrumbsPath__backButton {
@@ -68,10 +69,10 @@
 }
 .controls-BreadCrumbsPath__backButtonArrow-container_theme-@{themeName} {
    background-color: @back_editButton_background-color_breadcrumbsHeadingPath;
-   &:before {
+
+   &::before {
       font-size: @line-height_breadcrumbsView;
    }
-}
 
 .controls-BreadCrumbsPath__backButtonArrow {
    display: none;
@@ -112,8 +113,8 @@
    align-items: baseline;
 }
 .controls-BreadCrumbsPath__homeContainer_theme-@{themeName} {
-   &:before {
-     font-size: @line-height_breadcrumbsView;
+   &::before {
+     font-size: @line-height-home_breadcrumbsView;
    }
 }
 
