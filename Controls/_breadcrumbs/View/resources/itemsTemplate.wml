@@ -7,7 +7,6 @@
                     template="{{itemTemplate}}"
                     itemData="{{itemData}}"
                     displayProperty="{{ displayProperty }}"
-                    size="{{size}}"
                     edge="{{edge}}"
             />
         </ws:template>
@@ -37,7 +36,7 @@
                     </ws:if>
                 </ws:for>
                 <div class="controls-BreadCrumbsView__menu controls-BreadCrumbsView__menu_theme-{{_options.theme}}" >
-                    <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_size-{{size ? size : 's'}}_theme-{{_options.theme}} controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:click="_dotsClick()">
+                    <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:click="_dotsClick()">
                         <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled__theme-{{_options.theme}}"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
                               title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
