@@ -122,11 +122,9 @@ export interface IColumn {
      */
     valign?: TCellVerticalAlign;
     /**
-     * @name Controls/grid:IColumn#textOverflow
+     * @name Controls/grid:IColumn#stickyProperty
      * @cfg {String} Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы.
-     * @default auto
-     * @remark
-     * В качестве значения свойства можно указать только пиксели (px) или проценты (%).
+     * @default undefined
      */
     stickyProperty?: string;
     /**
