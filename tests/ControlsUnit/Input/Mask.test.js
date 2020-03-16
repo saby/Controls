@@ -33,6 +33,17 @@ define(
                   { value: '1234', mask: 'dd.dd', replacer: ' ' }, input.Mask.getDefaultOptions(), {preferSource: true}));
                assert.deepEqual(component._viewModel.selection, { start: 0, end: 0 });
             });
+            it('should not update selection if value changed', function() {
+               var component = createComponent(input.Mask, {mask: 'dd.dd', replacer: ' '});
+               component._viewModel.selection = {
+                  start: 3,
+                  end: 3
+               };
+               component._beforeUpdate(coreMerge(
+                  { mask: 'dd.dd', replacer: ' ' }, input.Mask.getDefaultOptions(), { preferSource: true }
+               ));
+               assert.deepEqual(component._viewModel.selection, { start: 3, end: 3 });
+            });
          });
 
          it('validateReplacer', function() {
