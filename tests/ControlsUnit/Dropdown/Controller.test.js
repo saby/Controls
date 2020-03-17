@@ -675,6 +675,27 @@ define(
             dropdownController._open();
          });
 
+         it ('_open menuPopupOptions', () => {
+            let popupConfig;
+            let expectedMenuOptions = {
+               fittingMode: 'fixed',
+               direction: 'top',
+               target: 'testTarget'
+            };
+            let newConfig = clone(config);
+            newConfig.menuPopupOptions = expectedMenuOptions;
+            let dropdownController = getDropdownController(newConfig);
+            dropdownController._children.DropdownOpener = {
+               open: (popupCfg) => {
+                  popupConfig = popupCfg;
+               }
+            };
+            dropdown._Controller._private.getPopupOptions(dropdownController);
+            assert.equal(popupConfig.fittingMode, expectedMenuOptions.fittingMode);
+            assert.equal(popupConfig.direction, expectedMenuOptions.direction);
+            assert.equal(popupConfig.target, expectedMenuOptions.target);
+         });
+
          it('events on open/close', async () => {
             let dropdownController = getDropdownController(config);
             let stubNotify = sandbox.stub(dropdownController, '_notify');
