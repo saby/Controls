@@ -2354,7 +2354,9 @@ define([
                   lnBaseControl._isScrollShown = true;
                   lnBaseControl._beforeUpdate(lnCfg)
                      .addCallback(function() {
-                        assert.equal(lnBaseControl._markedKeyForRestoredScroll, 4);
+                        // previous value for _markedKeyForRestoredScroll because after reload marked key
+                        // was setted to firstItem
+                        assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3);
                         lnBaseControl._markedKeyForRestoredScroll = null;
 
                         lnCfg = clone(lnCfg);
