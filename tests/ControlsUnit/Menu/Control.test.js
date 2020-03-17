@@ -181,6 +181,7 @@ define(
                key: expectedOptions.root
             };
             expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
+            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
             expectedOptions.closeButtonVisibility = false;
             expectedOptions.showHeader = false;
             expectedOptions.headerTemplate = null;
