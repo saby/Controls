@@ -269,9 +269,9 @@ define([
          });
       });
 
-      describe('_beforeUnmount', async function() {
+      describe('_beforeUnmount', function() {
 
-         it('_beforeUnmount with old model', () => {
+         it('_beforeUnmount with old model', async() => {
             const config = {...cfg};
             const numHandlersCollectionChange = config.items.getEventHandlers('onCollectionChange').length;
             config.selectedKeys = ['testId'];
@@ -294,7 +294,7 @@ define([
             assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
          });
 
-         it('_beforeUnmount with new model', async () => {
+         it('_beforeUnmount with new model', async() => {
             instanceWithNewModel._options.selectedKeys = [1];
             instanceWithNewModel._options.excludedKeys = [2];
             await instanceWithNewModel._beforeMount(instanceWithNewModel._options);
