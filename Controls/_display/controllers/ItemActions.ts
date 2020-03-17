@@ -232,7 +232,7 @@ export function prepareActionsMenuConfig(
         clickEvent.preventDefault();
 
         // there was a fake target before, check if it is needed
-        const menuTarget = isContext ? null : clickEvent.target?.closest('.controls-ListView__itemV');
+        const menuTarget = isContext ? null : getFakeMenuTarget(clickEvent.target as HTMLElement);
         const closeHandler = _processActionsMenuClose.bind(null, collection, actionClickCallback);
         const menuRecordSet = new RecordSet({
             rawData: menuActions,
@@ -268,18 +268,25 @@ export function prepareActionsMenuConfig(
             direction: {
                 horizontal: isContext ? 'right' : 'left'
             },
-            className: 'controls-DropdownList__margin-head controls-Toolbar__popup__list_theme-',
+            className: 'controls-DropdownList__margin-head controls-ItemActions__popup__list',
             nativeEvent: isContext ? clickEvent.nativeEvent : null,
             autofocus: false
         };
-
         setActiveItem(collection, itemKey);
         collection.setActionsMenuConfig(dropdownConfig);
-
         collection.nextVersion();
     }
 }
-
+function getFakeMenuTarget(realTarget: HTMLElement): {
+    getBoundingClientRect(): ClientRect;
+} {
+    const rect = realTarget.getBoundingClientRect();
+    return {
+        getBoundingClientRect(): ClientRect {
+            return rect;
+        }
+    };
+}
 export function activateSwipe(
     collection: IItemActionsCollection,
     itemKey: TItemKey,

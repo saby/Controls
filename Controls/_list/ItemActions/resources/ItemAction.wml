@@ -5,7 +5,7 @@
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">
     <ws:if data="{{hasIcon}}">
-        <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}} {{hasTitle ? ' controls-itemActionsV__icon-with-title'}}"></div>
+        <i attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}} {{hasTitle ? ' controls-itemActionsV__icon-with-title'}}"></i>
     </ws:if>
     <ws:if data="{{hasTitle}}">
         <span class="controls-itemActionsV__action_title">{{action.title}}</span>
