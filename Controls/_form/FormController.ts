@@ -424,7 +424,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         self._notify('registerPending', [self._unmountPromise, {
             showLoadingIndicator: false,
             validate(): boolean {
-                return self._record && !self._record.isChanged() && self._needDestroyRecord();
+                return self._record && !self._record.isChanged() && !self._isUpdating() && self._needDestroyRecord();
             },
             onPendingFail(forceFinishValue: boolean, deferred: Promise<boolean>): void {
                 // Обернул в setTimeout, т.к. часть функционала написана на Promise, часть на Deferred. Из-за чего код
@@ -441,6 +441,10 @@ class FormController extends Control<IFormController, IReceivedState> {
                 }, 0);
             }
         }], { bubbling: true });
+    }
+
+    private _isUpdating(): boolean {
+        return this._updatePromise && !this._updatePromise.isReady();
     }
 
     private _confirmDialogResult(answer: boolean, def: Promise<any>): void {
@@ -535,15 +539,15 @@ class FormController extends Control<IFormController, IReceivedState> {
                 this._updateIsNewRecord(false);
                 updateResult.callback(true);
             }
-        }
+        };
 
         // maybe anybody want to do custom update. check it.
         const result = this._notify('requestCustomUpdate', [], {bubbling: true});
 
-        // pending waiting while update process finished
-        const def = new Deferred();
-        this._notify('registerPending', [def, {showLoadingIndicator: false}], {bubbling: true});
-        def.dependOn(updateResult);
+         // pending waiting while update process finished
+        this._updatePromise = new Deferred();
+        this._notify('registerPending', [this._updatePromise, { showLoadingIndicator: false }], { bubbling: true });
+        this._updatePromise.dependOn(updateResult);
 
         if (result && result.then) {
             result.then((defResult) => {
