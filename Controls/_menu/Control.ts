@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Collection, Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Collection, Tree, Search, TreeItem, SelectionController, ItemActionsController} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -14,6 +14,7 @@ import * as groupTemplate from 'wml!Controls/_menu/Render/groupTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
+import {isEqual} from 'Types/object';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import * as ControlsConstants from 'Controls/Constants';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
@@ -65,16 +66,27 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     protected _beforeUpdate(newOptions: IMenuOptions): void {
         const rootChanged = newOptions.root !== this._options.root;
         const sourceChanged = newOptions.source !== this._options.source;
+        const filterChanged = !isEqual(newOptions.filter, this._options.filter);
 
         if (sourceChanged) {
             this._sourceController = null;
         }
 
-        if (rootChanged || sourceChanged) {
+        if (rootChanged || sourceChanged || filterChanged) {
             this.loadItems(newOptions);
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this.setSelectedItems(this._listModel, newOptions.selectedKeys);
+        }
+    }
+
+    protected _afterRender(oldOptions: IMenuOptions): void {
+        const rootChanged = oldOptions.root !== this._options.root;
+        const sourceChanged = oldOptions.source !== this._options.source;
+        const filterChanged = !isEqual(oldOptions.filter, this._options.filter);
+
+        if (rootChanged || sourceChanged || filterChanged) {
+            this._notify('controlResize', [], {bubbling: true});
         }
     }
 
@@ -87,20 +99,50 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._listModel = null;
     }
 
+    protected _mouseEnterHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
+    protected _touchStartHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
         this._hoveredItemIndex = null;
         this._listModel.setHoveredItem(null);
         clearTimeout(this._handleCurrentItemTimeout);
     }
 
-    private _mouseMove(event: SyntheticEvent<MouseEvent>): void {
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
             this.startHandleItemTimeout();
         }
     }
 
-    private _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         this.handleCurrentItem(item, sourceEvent.target, sourceEvent.nativeEvent);
+    }
+
+    protected _itemSwipe(e: SyntheticEvent<null>, item: TreeItem<Model>, swipeEvent: SyntheticEvent<TouchEvent>, swipeContainerHeight: number): void {
+        if (swipeEvent.nativeEvent.direction === 'left') {
+            ItemActionsController.activateSwipe(
+                this._listModel,
+                item.getContents().getKey(),
+                swipeContainerHeight
+            );
+        } else {
+            ItemActionsController.deactivateSwipe(this._listModel);
+        }
+    }
+
+    protected _itemActionClick(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, action: object, clickEvent): void {
+        ItemActionsController.processActionClick(
+            this._listModel,
+            item.getContents().getKey(),
+            action,
+            clickEvent,
+            false
+        );
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model, nativeEvent: MouseEvent): void {
@@ -372,13 +414,29 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private getCollection(items: RecordSet, options: IMenuOptions): Collection {
-        // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
-        let listModel = new Collection({
+        const collectionConfig = {
             collection: items,
             keyProperty: options.keyProperty,
-            filter: this.displayFilter.bind(this, options),
             unique: true
-        });
+        };
+        let listModel;
+        if (options.searchParam && options.searchValue) {
+            listModel = new Search({...collectionConfig,
+                nodeProperty: options.nodeProperty,
+                parentProperty: options.parentProperty,
+                root: options.root
+            });
+        } else {
+            // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
+            listModel = new Collection({...collectionConfig,
+                filter: this.displayFilter.bind(this, options)
+            });
+        }
+
+        if (options.itemActions) {
+            this._calculateActionsConfig(listModel, options);
+        }
+
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
         }
@@ -496,11 +554,16 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         let templateOptions = Clone(this._options);
         templateOptions.root = item.getContents().get(this._options.keyProperty);
         templateOptions.bodyContentTemplate = 'Controls/_menu/Control';
+        templateOptions.footerItemData = {
+            key: templateOptions.root,
+            item
+        };
         templateOptions.closeButtonVisibility = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
         templateOptions.headerContentTemplate = null;
         templateOptions.additionalProperty = null;
+        templateOptions.searchParam = null;
         templateOptions.itemPadding = null;
 
         templateOptions.source = this.getSourceSubMenu(templateOptions.root);
@@ -519,6 +582,33 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             });
         }
         return source;
+    }
+
+    private _calculateActionsConfig(listModel: Tree<Model>, options: IMenuOptions): void {
+        ItemActionsController.calculateActionsTemplateConfig(
+            listModel,
+            {
+                itemActionsPosition: 'inside',
+                actionCaptionPosition: 'none',
+                actionAlignment: 'horizontal',
+                style: 'default',
+                itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-' + options.theme
+            }
+        );
+    }
+
+    private _assignItemActions(options): void {
+        const itemActions = options.itemActions;
+
+        if (!itemActions) {
+            return;
+        }
+        const actionsGetter = () => itemActions;
+
+        ItemActionsController.assignActions(
+            this._listModel,
+            actionsGetter
+        );
     }
 
     private _getChildContext(): object {

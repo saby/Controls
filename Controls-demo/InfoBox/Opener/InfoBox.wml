@@ -14,41 +14,43 @@
       </div>
    </ws:for>
 
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-right"
-         attr:style="right: 12px; top: 24px" on:mouseenter="_open(_cfgRight)"></div>
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+        attr:style="right: 12px; top: 24px" on:mouseenter="_open(_cfgRight)"></div>
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-right"
-         attr:style="right: 12px; bottom: 5px" on:mouseenter="_open(_cfgRight)"></div>
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+        attr:style="right: 12px; bottom: 5px" on:mouseenter="_open(_cfgRight)"></div>
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-left"
-         attr:style="left: 12px; top: 24px" on:mouseenter="_open(_cfgLeft)"></div>
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+        attr:style="left: 12px; top: 24px" on:mouseenter="_open(_cfgLeft)"></div>
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-left"
-         attr:style="left: 12px; bottom: 6px" on:mouseenter="_open(_cfgLeft)"></div>
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+        attr:style="left: 12px; bottom: 6px" on:mouseenter="_open(_cfgLeft)"></div>
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__top-center"
-         attr:style="top: 24px;left:calc(50% - 12px)" on:mouseenter="_open(_cfgTop)"></div>
-    <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
+        attr:style="top: 24px;left:calc(50% - 12px)" on:mouseenter="_open(_cfgTop)"></div>
+   <div class="controls-icon controls-icon_size-default_theme-{{_options.theme}} controls-icon_style-secondary_theme-{{_options.theme}}
                 icon-EmptyMessage controls-InfoBoxDemo-icon-position controls-InfoBoxDemo__bottom-center"
-         attr:style="bottom: 0;left:calc(50% - 12px)" on:mouseenter="_open(_cfgBottom)"></div>
+        attr:style="bottom: 0;left:calc(50% - 12px)" on:mouseenter="_open(_cfgBottom)"></div>
 
-  <div style="margin-bottom: 30px ">
+   <div style="margin-bottom: 30px ">
       <div class="controls-InfoBoxDemo-block demo-InfoBoxDemo__blockicons">
          <div class="controls-InfoBoxDemo-header">{{'ICONS'}}</div>
       </div>
-        <ws:for data="item in _icons">
-            <div class="controls-InfoBoxDemo-targets controls-InfoBoxDemo__{{item.items[0].cfg.size}}">
+      <ws:for data="item in _icons">
+         <div class="controls-InfoBoxDemo-targets controls-InfoBoxDemo__{{item.items[0].cfg.size}}">
             <ws:for data="config in item.items">
-                 <div class="controls-InfoBoxDemo-icon">
-                <Controls.buttons:Button viewMode="link" fontColorStyle="link"
-                                          attr:class="controls-InfoBoxDemo__{{config.cfg.size}}-{{config.cfg.targetSide}}"
-                                          icon="icon-EmptyMessage icon-{{config.cfg.size}}"
-                                          on:mouseenter="_open(config.cfg)"/>
-                 </div>
+               <div class="controls-InfoBoxDemo-icon">
+                  <Controls.buttons:Button viewMode="linkButton" fontColorStyle="link"
+                                           iconSize="{{config.cfg.iconSize}}"
+                                           inlineHeight="{{config.cfg.inlineHeight}}"
+                                           attr:class="controls-InfoBoxDemo__{{config.cfg.size}}-{{config.cfg.targetSide}}"
+                                           icon="icon-EmptyMessage"
+                                           on:mouseenter="_open(config.cfg)"/>
+               </div>
             </ws:for>
-            </div>
-        </ws:for>
-  </div>
+         </div>
+      </ws:for>
+   </div>
 
 </div>

@@ -8,6 +8,7 @@ import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { relation } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
 import { constants } from 'Env/Env';
+import cClone = require('Core/core-clone');
 import 'css!theme?Controls/list';
 
 import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
@@ -35,9 +36,6 @@ var _private = {
         } else {
             options.itemActions.forEach(function(action) {
                 if (!options.itemActionVisibilityCallback || options.itemActionVisibilityCallback(action, item)) {
-                    if (action.icon && !~action.icon.indexOf(ACTION_ICON_CLASS)) {
-                        action.icon += ' ' + ACTION_ICON_CLASS;
-                    }
                     action.style = getStyle(action.style, 'ItemActions');
                     action.iconStyle = getStyle(action.iconStyle, 'ItemActions');
                     actions.push(action);
@@ -61,13 +59,22 @@ var _private = {
             options
         );
 
-        let showed = all;
-        if (showed.length > 1) {
-            // TODO: any => action type
-            showed = showed.filter((action: any) => {
-                return action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR;
+        let showed = [];
+        if (all.length > 1) {
+            all.forEach((action: any) => {
+                if (action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR) {
+                    showed.push(cClone(action));
+                }
             });
+        } else {
+            showed = cClone(all);
         }
+        // ACTION_ICON_CLASS нужен для отображаемых по ховеру операций - именно он обеспечивает их выравнивание
+        showed.forEach((action) => {
+            if (action.icon && !~action.icon.indexOf(ACTION_ICON_CLASS)) {
+                action.icon += ' ' + ACTION_ICON_CLASS;
+            }
+        });
 
         if (_private.needActionsMenu(all)) {
             showed.push({

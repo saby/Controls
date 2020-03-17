@@ -1,7 +1,4 @@
 @z-index-Grid-results-cell: 1;
-.get-padding-top(@padding-top: 0px) {
-   padding-top: calc(@padding-top - (@height_Grid-row-separator-l - @height_Grid-row-separator));
-}
 
 .controls-Grid {
    display: -ms-grid;
@@ -125,6 +122,35 @@
    min-width: 0;
    min-height: @height_Grid-results-cell;
 }
+
+.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
+   font-weight: @font-weight;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
+   color: @secondary_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
+   color: @unaccented_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
+   color: @readonly_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
+   color: @danger_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
+   color: @success_color;
+}
+
 .controls-GridViewV__itemsContainer {
    display: contents;
 }
@@ -245,29 +271,12 @@
    }
 
 }
-.ws-is-hover {
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_Grid-row_hover;
+.ws-is-hover .controls-BaseControl_showActions .controls-Grid__row:hover {
+   .controls-Grid__editArrow-blur_theme-@{themeName},
+   .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+      visibility: visible;
    }
 
-   .controls-BaseControl_showActions {
-      .controls-Grid_row-cell_hovered_theme-@{themeName},
-      .controls-Grid__row:hover {
-         .controls-Grid__editArrow-blur_theme-@{themeName},
-         .controls-Grid__editArrow-wrapper_theme-@{themeName} {
-            visibility: visible;
-         }
-      }
-   }
-
-   .controls-BaseControl_showActions .controls-Grid_row-cell_hovered_theme-@{themeName} > .controls-itemActionsV {
-      display: inline-block;
-   }
-
-   // Class controls-Grid_row-cell_hovered adds on all cells of hovered item only in browsers with partial grid support.
-   .controls-Grid_row-cell_hovered_theme-@{themeName} .controls-ListView__checkbox-onhover {
-      display: inline-block;
-   }
 }
 
 .controls-Grid__row-cell-background-editing_theme-@{themeName} {
@@ -279,10 +288,6 @@
    }
 }
 
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_default_theme-@{themeName} {
-  .get-padding-top(@spacing_Grid-row-between-content-borderTop_default);
-}
-
 .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_default;
 }
@@ -290,19 +295,11 @@
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_default;
 }
 
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_m_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_s);
-}
-
 .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_s;
 }
 .controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_s;
-}
-
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_l_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_l);
 }
 
 .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName} {
@@ -562,7 +559,6 @@
 
 .controls-Grid__row-cell_selected-master_theme-@{themeName} {
    z-index: 1;
-   background-color: @background-color_List-masterList-item_selected;
 
    &:before {
       content: '';
@@ -613,11 +609,6 @@
    .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
       background-color: @background-color_List-masterList-item_hover;
       box-shadow: -15px 2px 4px -6px @background-color_List-masterList-item_hover;
-   }
-}
-.ws-is-no-touch {
-   .controls-Grid__row_master_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
    }
 }
 

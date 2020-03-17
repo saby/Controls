@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: editable grid." demoname="Controls-demo/List/Grid/resources/EditableGrid/EditableGrid.wml">
-    <ws:content>
-        <Controls-demo.List.Grid.EditableGrid/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

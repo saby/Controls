@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="OperationsPanel" demoname="Controls-demo/DragNDrop/Demo/Demo.wml">
-    <ws:content>
-        <Controls-demo.DragNDrop.Demo/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

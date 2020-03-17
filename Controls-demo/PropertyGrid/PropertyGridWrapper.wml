@@ -40,7 +40,7 @@
                <div attr:style="width:200px; word-spacing:200px;">{{myEvent}}</div>
             </Controls.scroll:Container>
             <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented"
-                                     viewMode="link" caption="reset"/>
+                                     viewMode="linkButton" caption="reset"/>
 
          </div>
       </div>

@@ -104,6 +104,7 @@ export interface IColumn {
     /**
      * @name Controls/grid:IColumn#resultTemplate
      * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.
+     * @default Controls/grid:ResultColumnTemplate
      * @remark Подробнее о работе со строкой итогов читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ руководство разработчика}.
      */
     resultTemplate?: TemplateFunction;

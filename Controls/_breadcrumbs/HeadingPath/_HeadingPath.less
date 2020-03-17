@@ -4,7 +4,7 @@
 }
 
 .controls-BreadCrumbsPath__twoRows_theme-@{themeName} {
-   padding-left: @spacing_Path-between-home-and-leftEdge;
+   padding-left: @padding-left_multiline_breadcrumbsPath;
 }
 
 .controls-BreadCrumbsPath__wrapper {
@@ -13,7 +13,7 @@
 
    //TODO KINGO есть темы, в которых выравнивание ХК идет по базовой линии шрифта, размер которого отличается от размера шрифта кнопки назад
    .controls-Back__wrapper:before {
-      font-size:@font-size_BreadCrumbs-baseline;
+      font-size: @line-height_breadcrumbsView;
    }
 }
 
@@ -24,9 +24,8 @@
 }
 
 .controls-BreadCrumbsPath__home_theme-@{themeName} {
-   .icon(@font-size_Path-home);
-   color: @color_Path-home;
-   min-width: @min-width_Breadcrumbs-home;
+   .icon(@home_icon-size_breadcrumbsPath);
+   color: @home_icon-color_breadcrumbsPath;
 }
 .controls-BreadCrumbsPath__home {
    cursor: pointer;
@@ -41,7 +40,7 @@
    flex-shrink: 0;
 }
 .controls-BreadCrumbsPath__backButton__wrapper_theme-@{themeName} {
-   padding-right: @spacing_Path-between-home-and-backButton;
+   padding-right: @back_offset_breadcrumbsHeadingPath;
 }
 
 .controls-BreadCrumbsPath__backButton__wrapper__only {
@@ -68,9 +67,9 @@
    bottom: 0;
 }
 .controls-BreadCrumbsPath__backButtonArrow-container_theme-@{themeName} {
-   background-color: @background-color_Path-backButtonArrow;
+   background-color: @back_editButton_background-color_breadcrumbsHeadingPath;
    &:before {
-      font-size:@font-size_BreadCrumbs-baseline;
+      font-size: @line-height_breadcrumbsView;
    }
 }
 
@@ -79,22 +78,22 @@
    cursor: pointer;
 }
 .controls-BreadCrumbsPath__backButtonArrow_theme-@{themeName} {
-   fill: @color_Path-backButtonArrow;
-   .icon(@font-size_Path-backButtonArrow);
+   .icon(@back_editButton_icon-size_breadcrumbsHeadingPath);
+   fill: @back_editButton_icon-color_breadcrumbsHeadingPath;
 }
 
 .controls-Path__backButtonArrow_readonly_theme-@{themeName} {
-   color: @color_Path-backButtonArrow_readonly;
+   color: @back_editButton_readonly_icon-color_breadcrumbsHeadingPath;
 }
 
 //Необходимо добавить отступ шеврону для того, чтобы он не наезжал на кнопку назад. Отодвигаем на ширину иконки, не считая паддинга после кнопки.
 //Так как ширина и высота иконки шеврона равна размеру @font-size_Path-backButtonArrow, отодвигаем на эту величину.
 //TODO remove after TODO https://online.sbis.ru/opendoc.html?guid=aedf32aa-28db-40b7-abae-e740021cc782
 .controls-BreadCrumbsPath__backButtonArrow_outsideBackButton_theme-@{themeName} {
-   margin-right: -(@font-size_Path-backButtonArrow - @spacing_Path-between-home-and-backButton);
+   margin-right: -(@back_editButton_icon-size_breadcrumbsHeadingPath - @back_offset_breadcrumbsHeadingPath);
 }
 .controls-BreadCrumbsPath__counter_theme-@{themeName} {
-   margin-left: @spacing_Path-between-back-and-counter;
+   margin-left: @back_counter_offset_breadcrumbsHeadingPath;
 }
 
 .controls-BreadCrumbsPath__breadCrumbs {
@@ -102,7 +101,7 @@
    flex-grow: 1;
 }
 .controls-BreadCrumbsPath__breadCrumbs_home-path-spacing_theme-@{themeName} {
-   padding-left: @spacing_Path-between-home-and-crumbs;
+   padding-left: @home_offset_breadcrumbsPath;
 }
 
 .controls-BreadCrumbsPath__homeContainer {
@@ -114,7 +113,7 @@
 }
 .controls-BreadCrumbsPath__homeContainer_theme-@{themeName} {
    &:before {
-      font-size: @font-size_BreadCrumbs-baseline;
+     font-size: @line-height_breadcrumbsView;
    }
 }
 
@@ -125,7 +124,7 @@
 }
 
 .controls-BreadCrumbsPath__backButton_short {
-   min-width: @min-width_BackButton_short;
+   min-width: @text_min-width_breadcrumbs + @icon_m_width_headingBack + @icon_s_offset_headingBack;
 }
 
 .controls-BreadCrumbsPath__backButton_half,
@@ -147,18 +146,17 @@
       display: inline-flex;
    }
    .controls-BreadCrumbsPath__backButtonArrow_theme-@{themeName}:hover {
-      fill: @color_Path-backButtonArrow_hovered;
+      fill: @back_editButton_hover_icon-color_breadcrumbsHeadingPath;
    }
 
    .controls-BreadCrumbsPath__home_theme-@{themeName}:hover {
-      color: @color_Path-home_hovered;
+      color: @home_hover_icon-color_breadcrumbsPath;
    }
 }
 
-//Класс сделан только для удобства замеров
 .controls-BreadCrumbsPath__backButtonMeasurer {
-   font-family: @font-family_BreadCrumbs, "Courier New";
-   font-weight: @font-weight_Back;
+   font-family: @font-family, "Courier New";
+   font-weight: bold;
 }
 
 .controls-BreadCrumbsPath__backButton_zeroWidth {

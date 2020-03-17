@@ -4,6 +4,7 @@ import {
     ViewConfig as ParkingViewConfig
 } from '../_parking/Handler';
 import { IVersionable } from 'Types/entity';
+import { HTTPStatus } from 'Browser/Transport';
 
 /**
  * Возвращаемый обработчиком ошибки результат
@@ -19,6 +20,7 @@ export interface ViewConfig<TOptions = object> extends ParkingViewConfig<TOption
      * @cfg {Controls/_dataSource/_error/Mode} [mode]
      */
     mode?: Mode;
+    status?: HTTPStatus;
 }
 
 /**

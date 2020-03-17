@@ -70,6 +70,11 @@ interface IViewModeAndContrast {
    contrast?: boolean;
 }
 
+interface IViewModeAndHeight {
+   height: string;
+   viewMode: string;
+}
+
 const ActualApi = {
    /**
     * Получить текущий стиль кнопки
@@ -310,6 +315,13 @@ const ActualApi = {
             return height;
          }
       }
+   },
+
+   actualLinkButton(viewMode: string, height: string): IViewModeAndHeight {
+      return {
+         viewMode: 'link',
+         height: height ? height : 'default'
+      };
    }
 };
 export default ActualApi;

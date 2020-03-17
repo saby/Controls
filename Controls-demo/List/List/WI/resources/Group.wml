@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="List Group">
-    <ws:content>
-        <Controls-demo.List.List.GroupPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

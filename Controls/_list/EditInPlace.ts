@@ -104,13 +104,13 @@ var
             }
         },
 
-
         afterEndEdit: function (self, commit) {
             self._notify('afterEndEdit', [self._isAdd ? self._editingItem : self._originalItem, self._isAdd]);
-            if (self._isAdd && !commit) {
-                // TODO: Kingo.
-                // Если добавление было отменено, то отмчаем последнюю отмеченную запись до старта добавления.
-                self._options.listModel.restoreMarker();
+
+            // При редактировании по месту маркер появляется только если в списке больше одной записи.
+            // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+            if (self._isAdd && commit && self._options.listModel.getCount() > 1) {
+                self._options.listModel.setMarkedKey(self._editingItem.getId());
             }
             _private.resetVariables(self);
             if (!self._destroyed) {
@@ -665,15 +665,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
             }
 
             listModel._setEditingItemData(this._editingItemData);
-        }
-
-        if (this._isAdd) {
-            if (options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(this._editingItemData.getContents().getId());
-                markCommand.execute(listModel);
-            } else {
-                listModel.markAddingItem();
-            }
         }
 
         listModel.subscribe('onCollectionChange', this._updateIndex);

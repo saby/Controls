@@ -1,8 +1,8 @@
 .controls-Lookup__link_theme-@{themeName} {
   display: inline-block;
-  font-size: @font-size_LookupLink;
-  color: @color_LookupLink;
-  line-height: @line-height_LookupLink;
+  font-size: @label_font-size_lookupInput;
+  color: @label_text-color;
+  line-height: @inline_height_m;
 }
 
 .controls-Lookup__link-default {
@@ -12,12 +12,12 @@
 
 .ws-is-hover {
   .controls-Lookup__link-default_theme-@{themeName}:hover {
-    color: @color_LookupLink_hovered;
+    color: @link_hover_text-color;
   }
 }
 
 .controls-Lookup__link-default_theme-@{themeName}:active {
-  color: @color_LookupLink_active;
+  color: @link_hover_text-color;
 }
 
 .controls-Lookup__link__text {

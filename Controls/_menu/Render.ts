@@ -51,31 +51,40 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
-        if (!(item instanceof GroupItem)) {
-            this._notify(eventName, [item, sourceEvent]);
+        this._notify(eventName, [item, sourceEvent]);
+    }
+
+    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        if (item instanceof Model) {
+            this._notify('itemClick', [item, sourceEvent]);
         }
     }
 
     protected _getClassList(treeItem): string {
         const item = treeItem.getContents();
         let classes = treeItem.getContentClasses();
-        classes += ' controls-Menu__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
-        if (treeItem.isHovered() && !item.get('readOnly')) {
-            classes += ' controls-Menu__row_hovered_theme-' + this._options.theme;
-        }
-        if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
-            classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+        if (item.get) {
+            classes += ' controls-Menu__row_state_' + (item.get('readOnly') ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
+            if (treeItem.isHovered() && !item.get('readOnly')) {
+                classes += ' controls-Menu__row_hovered_theme-' + this._options.theme;
+            }
+            if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
+                classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+            } else {
+                classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
+            }
+            if (item.get('pinned') === true && !this.hasParent(item)) {
+                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+            }
+            if (this._options.listModel.getLast() !== treeItem &&
+                !this._isGroupNext(treeItem) && !this._isHistorySeparatorVisible(treeItem)) {
+                classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+            }
         } else {
-            classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
-        }
-        if (item.get('pinned') === true && !this.hasParent(item)) {
-            classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
-        }
-        if (this._options.listModel.getLast() !== treeItem &&
-            !this._isGroupNext(treeItem) && !this._isHistorySeparatorVisible(treeItem)) {
-            classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+            classes += ' controls-Menu__row-breadcrumbs_theme-' + this._options.theme;
         }
         return classes;
     }
@@ -116,7 +125,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
             left: this.getLeftSpacing(options),
             right: this.getRightSpacing(options)
         });
-        if (options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
+        if (!options.searchValue && options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
             this.addEmptyItem(options.listModel, options);
         }
     }

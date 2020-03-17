@@ -233,41 +233,7 @@ define([
          assert.isUndefined(lists.ListViewModel._private.getItemByMarkedKey(iv, 21));
          edditingItem.isAdd = true;
          iv._markedKey = 21;
-         assert.deepEqual(edditingItem.item, lists.ListViewModel._private.getItemByMarkedKey(iv, 21));
-      });
-
-      it('markAddingItem && restoreMarker', function () {
-         const
-             cfg = {
-                items: new collection.RecordSet({
-                   rawData: data,
-                   keyProperty: 'id'
-                }),
-                markedKey: 1,
-                keyProperty: 'id',
-                displayProperty: 'title',
-                markerVisibility: 'onactivated',
-             },
-             iv = new lists.ListViewModel(cfg);
-
-         let modelVersion = 0;
-
-         iv._nextModelVersion = () => {
-            modelVersion++;
-         };
-
-         assert.isUndefined(iv._savedMarkedKey);
-         assert.equal(1, iv._markedKey);
-
-         iv._editingItemData = {key: 123};
-         iv.markAddingItem();
-         assert.equal(1, iv._savedMarkedKey);
-         assert.equal(123, iv._markedKey);
-
-
-         iv.restoreMarker();
-         assert.isUndefined(iv._savedMarkedKey);
-         assert.equal(1, iv._markedKey);
+         assert.isUndefined(lists.ListViewModel._private.getItemByMarkedKey(iv, 21));
       });
 
       describe('needToDrawActions', function () {

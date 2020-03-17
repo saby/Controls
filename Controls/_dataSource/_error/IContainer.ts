@@ -1,4 +1,5 @@
-import { ViewConfig } from "./Handler";
+import { ViewConfig } from './Handler';
+import { IControlOptions } from 'UI/Base';
 
 /**
  * Объект конфигурации {@link Controls/_dataSource/_error/IContainer IContainer}
@@ -6,7 +7,7 @@ import { ViewConfig } from "./Handler";
  * @private
  * @author Заляев А.В
  */
-export interface IContainerConfig {
+export interface IContainerConfig extends IControlOptions {
     viewConfig?: ViewConfig;
 }
 

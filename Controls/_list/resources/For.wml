@@ -12,6 +12,7 @@
       isAdd="{{isAdd}}"
       itemTemplate="{{itemTemplate}}"
       itemActionsPosition="{{itemActionsPosition}}"
+      backgroundStyle="{{backgroundStyle}}"
       tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 <ws:template name="addItem">
@@ -29,6 +30,7 @@
 <ws:template name="groupOutputLocalTemplate">
    <ws:partial
       template="{{groupTemplate}}"
+      backgroundStyle="{{backgroundStyle}}"
       on:click="_onGroupClick(listModel.getCurrent().dispItem)"
       itemData="{{listModel.getCurrent()}}"/>
    {{listModel.goToNext();}}

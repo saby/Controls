@@ -1,0 +1,8 @@
+<ws:partial template="{{'Controls/search:InputContainer'}}"
+            attr:class="controls-Menu__popup_headerSearch_theme-{{_options.theme}}">
+   <ws:partial template="{{'Controls/search:Input'}}"
+               placeholder="{{searchPlaceholder}}"
+               scope="{{_options}}"
+               contrastBackground="{{true}}"
+               name="menuSearch" />
+</ws:partial>

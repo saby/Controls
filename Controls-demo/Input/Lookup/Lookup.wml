@@ -58,7 +58,7 @@
             <div class="control-Lookup-demo-block">
                 <div class="control-Lookup-demo-title">
                     Lookup accent items with link
-                    <Controls.buttons:Button caption="Names" viewMode="link" fontColorStyle="link" on:click="showSelector2()"/>
+                    <Controls.buttons:Button caption="Names" viewMode="linkButton" fontColorStyle="link" on:click="showSelector2()"/>
                 </div>
                 <div>
                     base line test

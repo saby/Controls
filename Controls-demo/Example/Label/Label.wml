@@ -11,7 +11,7 @@
                          underline="none"
                          readOnly="{{_lock}}"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
       <div class="ws-flexbox ControlsDemo-Label__example2">
          <Controls.input:Label caption="Label"
@@ -19,7 +19,7 @@
                          required="{{true}}"
                          readOnly="{{_lock}}"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
       <div class="ws-flexbox ControlsDemo-Label__example3">
          <Controls.input:Label underline="none"
@@ -28,7 +28,7 @@
                          attr:title="{{_limitedCaption}}"
                          attr:class="example-Label_limit"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
       <div class="ws-flexbox ControlsDemo-Label__example4">
          <Controls.input:Label underline="none"
@@ -38,21 +38,21 @@
                          attr:title="{{_limitedCaption}}"
                          attr:class="example-Label_limit"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
       <div class="ws-flexbox ControlsDemo-Label__example5">
          <Controls.input:Label underline="hovered"
                          readOnly="{{_lock}}"
                          caption="Label as a link"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
       <div class="ws-flexbox ControlsDemo-Label__example6">
          <Controls.input:Label underline="fixed"
                          readOnly="{{_lock}}"
                          caption="Label as a link"/>
          <Controls.input:Text bind:value="_value"/>
-         <Controls.buttons:Button caption="Button" viewMode="link" fontColorStyle="link"/>
+         <Controls.buttons:Button caption="Button" viewMode="linkButton" fontColorStyle="link"/>
       </div>
    </div>
 </div>

@@ -947,16 +947,6 @@ import entity = require('Types/entity');
                if (event.nativeEvent.buttons) {
                   _private.onMove(this, event.nativeEvent);
                }
-
-               /**
-                * Когда мышь покидает граници экрана, тогда перемещение элемента должно закончиться.
-                */
-               // TODO: опция только в 2100
-               if (!this._options.ignoreMouseLeave) {
-                  if (event.type === 'mouseleave') {
-                     this._dragNDropEnded(event);
-                  }
-               }
             }
          },
 
@@ -1083,7 +1073,6 @@ import entity = require('Types/entity');
       DragNDropController.getDefaultOptions = function() {
          return {
             draggingTemplateOffset: 10,
-            ignoreMouseLeave: false,
             resetTextSelection: true
          };
       };

@@ -118,6 +118,54 @@ define(
                assert.isFalse(pNav.hasMoreData('down'), 'Method hasMoreData returns incorrect value after load down');
                assert.isFalse(pNav.hasMoreData('up'), 'Method hasMoreData returns incorrect value after load down');
             });
+
+            describe('loading edges', () => {
+               const TOTAL_ITEMS = 100;
+               const PAGE_SIZE = 5;
+               const TOTAL_PAGES = TOTAL_ITEMS / PAGE_SIZE;
+
+               it('should set first page for top edge', () => {
+                  const pageNav = new PageQueryParamsController.default({
+                     page: 10,
+                     hasMore: false,
+                     pageSize: PAGE_SIZE
+                  });
+                  pageNav.updateQueryProperties({
+                     getMetaData: () => ({ more: TOTAL_ITEMS })
+                  });
+
+                  pageNav.setEdgeState('up');
+                  assert.strictEqual(pageNav.prepareQueryParams().offset, 0);
+               });
+
+               it('should set last page for bottom edge (known pages count)', () => {
+                  const pageNav = new PageQueryParamsController.default({
+                     page: 10,
+                     hasMore: false,
+                     pageSize: PAGE_SIZE
+                  });
+                  pageNav.updateQueryProperties({
+                     getMetaData: () => ({ more: TOTAL_ITEMS })
+                  });
+
+                  pageNav.setEdgeState('down');
+                  assert.strictEqual(pageNav.prepareQueryParams().offset, (TOTAL_PAGES - 1) * PAGE_SIZE);
+               });
+
+               it('should set last page for bottom edge (unknown pages count)', () => {
+                  const pageNav = new PageQueryParamsController.default({
+                     page: 10,
+                     hasMore: false,
+                     pageSize: PAGE_SIZE
+                  });
+                  pageNav.updateQueryProperties({
+                     getMetaData: () => ({ more: undefined })
+                  });
+
+                  pageNav.setEdgeState('down');
+                  assert.strictEqual(pageNav.prepareQueryParams().offset, -PAGE_SIZE);
+               });
+            });
          });
 
          describe('PositionQueryParamsController', function () {
@@ -232,6 +280,51 @@ define(
 
                params = pNav.prepareQueryParams();
                assert.deepEqual({filter : {'field~' : 3}, limit: 100, meta: { navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION } }, params, 'Wrong query params');
+            });
+
+            describe('loading edges', () => {
+               it('should set initial parameters for top edge', () => {
+                  const positionNav = new PositionQueryParamsController.default({
+                     field: ['field'],
+                     limit: 100,
+                     direction: 'both',
+                     position: [3]
+                  });
+                  positionNav.setEdgeState('up');
+
+                  assert.deepEqual(
+                     {
+                        filter : {'field~' : 3},
+                        limit: 100,
+                        meta: {
+                           navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION
+                        }
+                     },
+                     positionNav.prepareQueryParams()
+                  );
+               });
+
+               it('should set end parameters for bottom edge', () => {
+                  const positionNav = new PositionQueryParamsController.default({
+                     field: ['field'],
+                     limit: 100,
+                     direction: 'both',
+                     position: [3]
+                  });
+                  positionNav.setEdgeState('down');
+
+                  assert.deepEqual(
+                     {
+                        filter : {'field~' : 3},
+                        limit: 100,
+                        meta: {
+                           navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION
+                        },
+                        offset: -1
+                     },
+                     positionNav.prepareQueryParams()
+                  );
+               });
             });
          });
       });
