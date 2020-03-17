@@ -376,7 +376,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         let listModel = new Collection({
             collection: items,
             keyProperty: options.keyProperty,
-            filter: this.displayFilter.bind(this, options)
+            filter: this.displayFilter.bind(this, options),
+            unique: true
         });
         if (this._hoveredItemIndex !== null) {
             listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
