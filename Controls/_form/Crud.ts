@@ -2,6 +2,7 @@ import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import tmpl = require('wml!Controls/_form/Crud/Crud');
 import {Logger} from 'UI/Utils';
+import {Model} from 'Types/entity';
 
 let CRUD = Control.extend({
     _template: tmpl,
@@ -52,16 +53,15 @@ let CRUD = Control.extend({
         return def;
     },
 
-    update(record, isNewRecord) {
+    update(record: Model, isNewRecord: boolean, config?: object): Promise<any> {
         let def;
         if (record.isChanged() || isNewRecord) {
             def = this._dataSource.update(record);
 
             this._notify('registerPending', [def, {showLoadingIndicator: this._options.showLoadingIndicator}], {bubbling: true});
-
             let self = this;
             def.addCallback(function(key) {
-                self._notify('updateSuccessed', [record, key]);
+                self._notify('updateSuccessed', [record, key, config]);
                 return key;
             });
 

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="MultiSelect">
-    <ws:content>
-        <Controls-demo.List.List.MultiselectPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

@@ -1,6 +1,7 @@
 <ws:template name="headContent">
       <ws:for data="headerRow.resetHeaderColumns(); headerRow.isEndHeaderColumn(); headerRow.goToNextHeaderColumn();">
           <ws:partial template="{{listModel.isStickyHeader() ? 'stickyCell' : 'cell'}}"
+                      backgroundStyle="{{backgroundStyle}}"
                       defaultHeaderContent="{{defaultHeaderContent}}"
                       listModel="{{listModel}}"
                       headerColumn="{{ headerRow.getCurrentHeaderColumn() }}"
@@ -38,6 +39,7 @@
       <Controls.scroll:StickyHeader
               attr:class="{{headerColumn.cellClasses}}"
               attr:style="{{headerColumn.style ? headerColumn.style : ''}}{{headerColumn.cellStyles}}"
+              backgroundStyle="{{backgroundStyle}}"
               mode="stackable"
               task1177692247="{{true}}"
               fixedZIndex="{{headerColumn.zIndex}}"

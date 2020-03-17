@@ -5,6 +5,7 @@
             ws-autofocus="{{true}}"
             buttonStyle="primary"
             inlineHeight="confirmation"
+            fontSize="confirmation"
             viewMode="button"
             caption="{{_options.okCaption}}"
             attr:class="controls-ConfirmationDialog__button"
@@ -16,6 +17,7 @@
          <Controls.buttons:Button
             ws-autofocus="{{true}}"
             inlineHeight="confirmation"
+            fontSize="confirmation"
             buttonStyle="{{_options.primaryAction === 'yes' ? 'primary' : 'secondary'}}"
             viewMode="button"
             caption="{{_options.yesCaption}}"
@@ -29,6 +31,7 @@
             buttonStyle="{{_options.primaryAction === 'no' ? 'primary' : 'secondary'}}"
             inlineHeight="confirmation"
             caption="{{_options.noCaption}}"
+            fontSize="confirmation"
             attr:class="controls-ConfirmationDialog__button"
             on:click="_tmplNotify('result', false)"
          />
@@ -39,6 +42,7 @@
             <Controls.buttons:Button
                buttonStyle="secondary"
                inlineHeight="confirmation"
+               fontSize="confirmation"
                caption="{{_options.cancelCaption}}"
                attr:class="controls-ConfirmationDialog__button"
                on:click="_tmplNotify('result')"

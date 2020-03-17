@@ -5,7 +5,7 @@
    <div class="controlsDemo__cell">
       <Controls.input:Text attr:class="controlsDemo__input" bind:value="_value">
          <ws:placeholder>
-            <span>Enter or <Controls.buttons:Button attr:class="controlsDemo-Placeholders__button" viewMode="link"
+            <span>Enter or <Controls.buttons:Button attr:class="controlsDemo-Placeholders__button" viewMode="linkButton"
                                                     caption="paste generated" fontColorStyle="label"
                                                     on:click="_generatePassword()"/> password</span>
          </ws:placeholder>

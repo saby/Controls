@@ -5,6 +5,7 @@
     <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
     <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__inline-flex">
         <Controls.grid:View
+                backgroundStyle="default"
                 keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"

@@ -95,6 +95,17 @@ define('Controls-demo/BreadCrumbs/BreadCrumbs', [
                keyProperty: 'id'
             });
          });
+         this.items4 = [
+            {
+               id: 1,
+               title: 'Record3eqweqweqeqweqweedsadeqweqewqeqwqewqeqweqweqw',
+               secondTitle: 'тест6'
+            }].map(function(item) {
+            return new entity.Model({
+               rawData: item,
+               keyProperty: 'id'
+            });
+         });
       },
       _onItemClick: function(e, item) {
          this.info = '' + item.getId();

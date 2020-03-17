@@ -18,14 +18,14 @@
     </Controls.list:SourceControl>
     <Controls.buttons:Button
             attr:class="controls-BaseControl__loadMore"
-            viewMode="link"
+            viewMode="linkButton"
             fontColorStyle="link"
             caption="Сгенерировать ещё"
             on:click="_onLoadMoreClick()"
             readOnly="{{false}}"/>
     <Controls.buttons:Button
             attr:class="controls-BaseControl__loadMore"
-            viewMode="link"
+            viewMode="linkButton"
             fontColorStyle="link"
             caption="{{_needToFail ? 'не' : ''}} выдавать ошибку"
             on:click="_onNeedToFailToggleClick()"

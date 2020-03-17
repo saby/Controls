@@ -2,12 +2,12 @@
 
     <!-- Заголовок таблицы -->
     <ws:if data="{{ _listModel.getHeader() && _listModel.isDrawHeaderWithEmptyList() }}">
-        <ws:partial template="wml!Controls/_grid/layout/grid/Header" attr:name="header" listModel="{{_listModel}}" defaultHeaderContent="{{_headerContentTemplate}}"/>
+        <ws:partial template="wml!Controls/_grid/layout/grid/Header" attr:name="header" listModel="{{_listModel}}" defaultHeaderContent="{{_headerContentTemplate}}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
     </ws:if>
 
     <!-- Результаты сверху -->
     <ws:if data="{{ _listModel.getResultsPosition() === 'top' }}">
-        <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}"/>
+        <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
     </ws:if>
 
     <!-- Скроллбар горизонтального скролла -->
@@ -21,7 +21,8 @@
                 scrollWidth="{{ scrollWidth }}"
                 listModel="{{ _listModel }}"
                 trackVisible="{{ trackVisible }}"
-                positionChangeHandler="{{ positionChangeHandler }}">
+                positionChangeHandler="{{ positionChangeHandler }}"
+                backgroundStyle="{{_options.backgroundStyle || _options.style}}">
         </Controls._grid.ScrollWrapper>
     </ws:if>
 
@@ -38,6 +39,7 @@
                     itemActionsPosition="{{_options.itemActionsPosition}}"
                     itemOutputWrapper="{{_itemOutputWrapper}}"
                     swipeTemplate="{{_options.swipeTemplate}}"
+                    backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                     tagTemplate="{{_options.tagTemplate}}">
             <ws:editArrowTemplate>
                 <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>

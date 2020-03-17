@@ -4,7 +4,7 @@ export default interface IOpenPopup {
 }
 /**
  * Открывает диалоговое окно контрола.
- * @function Controls/_interface/IOpenPopup#openPopup
+ * @name Controls/_interface/IOpenPopup#openPopup
  * @example
  * <pre>
  *     <Controls.dateRange:Selector name='dateRange'/>

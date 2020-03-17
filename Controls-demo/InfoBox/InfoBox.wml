@@ -3,7 +3,7 @@
      <div class="controls-InfoBoxDemo-heading">Наведите на иконку</div>
    <Controls.popup:InfoboxTarget trigger="hover" attr:style="display:inline-block; vertical-align:bottom;" attr:class="ControlsDemo-InfoBox__hover">
       <ws:content>
-         <Controls.buttons:Button viewMode="link" fontColorStyle="link"
+         <Controls.buttons:Button viewMode="linkButton" fontColorStyle="link"
                                    icon="icon-EmptyMessage" iconSize="m" iconStyle="secondary"/>
       </ws:content>
       <ws:template>
@@ -16,7 +16,7 @@
       <div class="controls-InfoBoxDemo-heading">Нажмите на иконку</div>
    <Controls.popup:InfoboxTarget trigger="click" attr:class="ControlsDemo-InfoBox__click">
       <ws:content>
-         <Controls.buttons:Button viewMode="link" fontColorStyle="link"
+         <Controls.buttons:Button viewMode="linkButton" fontColorStyle="link"
                                   icon="icon-EmptyMessage" iconSize="m" iconStyle="secondary"/>
       </ws:content>
       <ws:template>
@@ -29,7 +29,7 @@
       <div class="controls-InfoBoxDemo-heading">Нажмите два раза на иконку</div>
    <Controls.popup:InfoboxTarget trigger="demand" on:dblclick="_dblClickHandler()" name="demandInfobox" attr:class="ControlsDemo-InfoBox__doubleClick">
       <ws:content>
-          <Controls.buttons:Button viewMode="link" fontColorStyle="link"
+          <Controls.buttons:Button viewMode="linkButton" fontColorStyle="link"
                                    icon="icon-EmptyMessage" iconSize="m" iconStyle="secondary"/>
       </ws:content>
       <ws:template>

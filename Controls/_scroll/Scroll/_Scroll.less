@@ -74,7 +74,7 @@
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+   height: @shadow_height_scroll;
 }
 
 .controls-Scroll__shadow-safari13 {
@@ -82,13 +82,13 @@
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+   height: @shadow_height_scroll;
 }
 .controls-Scroll__shadow_top {
    top: 0;
    background: linear-gradient(
       to bottom,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 
@@ -96,7 +96,7 @@
    bottom: 0;
    background: linear-gradient(
       to top,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 

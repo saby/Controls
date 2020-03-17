@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Calendar/MonthSlider/ReadOnly/Index' }}">
+            <a href="{{content.href}}">Readonly</a>
+        </Router.router:Reference>
+        <Controls-demo.Calendar.MonthSlider.ReadOnly.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Calendar/MonthSlider/Values/Index' }}">
+            <a href="{{content.href}}">Месяц с выбранным значениями</a>
+        </Router.router:Reference>
+        <Controls-demo.Calendar.MonthSlider.Values.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Calendar/MonthSlider/SelectionType/Index' }}">
+            <a href="{{content.href}}">Настройка периода, который можно выбрать</a>
+        </Router.router:Reference>
+        <Controls-demo.Calendar.MonthSlider.SelectionType.Index/>
+    </div>
+</div>

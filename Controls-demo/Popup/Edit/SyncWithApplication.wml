@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Popup-edit" demoname="Controls-demo/Popup/Edit/Sync.wml">
-    <ws:content>
-        <Controls-demo.Popup.Edit.Sync />
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

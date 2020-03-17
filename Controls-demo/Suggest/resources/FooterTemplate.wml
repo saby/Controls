@@ -1,6 +1,6 @@
 <div class="ControlsDemo-Suggest_footerTpl">
-   <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="link" fontColorStyle="link" attr:class="ControlsDemo-Suggest_footerTpl_iconAdd"/>
-   <Controls.buttons:Button caption="Это новое" viewMode="link" fontColorStyle="link"/>
+   <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="linkButton" fontColorStyle="link" attr:class="ControlsDemo-Suggest_footerTpl_iconAdd"/>
+   <Controls.buttons:Button caption="Это новое" viewMode="linkButton" fontColorStyle="link"/>
 
    <ws:partial template="{{_options.showSelectorButtonTemplate}}" attr:style="margin-left: auto;"/>
 </div>

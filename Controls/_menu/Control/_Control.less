@@ -142,6 +142,10 @@
    padding-bottom: @item_padding-bottom_menu;
 }
 
+.controls-Menu__content_levelPadding_theme-@{themeName} {
+   padding-left: @search_item_padding-left_menu;
+}
+
 .controls-Menu__row-additionalText_theme-@{themeName} {
    font-size: @font-size_xs;
    color: @unaccented_text-color;
@@ -238,6 +242,29 @@
    align-items: center;
 }
 
+.controls-inlineheight-menuapply_theme-default {
+   height: @apply-button_inline-height_menuPopup;
+   min-width: @apply-button_inline-height_menuPopup;
+   border-radius: @apply-button_border-radius_menuPopup;
+}
+
+.controls-Menu__itemActions_position_rightCenter_theme-@{themeName} {
+   top: (@item_height_menu - @height_ItemActions_inside) / 2;
+   right: 0;
+}
+
+.controls-Menu__emptyTemplate_theme-@{themeName} {
+   padding-left: @item_padding-horizontal_l_menu;
+   padding-right: @item_padding-horizontal_l_menu;
+   min-height: @item_height_menu;
+   display: flex;
+   align-items: center;
+}
+
+.controls-Menu__row-breadcrumbs_theme-@{themeName} {
+   max-height: @height_breadcrumbsView;
+}
+
 .controls-Menu__footer_multiSelect {
    padding-left: 0;
 }
@@ -252,6 +279,10 @@
 
       .controls-Menu__iconPin {
          .inline-flexbox();
+      }
+
+      .controls-itemActionsV {
+         display: inline-block;
       }
    }
    .controls-Menu__iconPin_theme-@{themeName}:hover {
