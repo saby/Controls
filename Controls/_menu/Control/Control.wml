@@ -17,11 +17,11 @@
       </Controls._menu.Render>
    </Controls.scroll:Container>
    <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
-      <div class="controls-DropdownList__footer controls-Menu__footer_theme-{{_options.theme}}
-                  {{_options.multiSelect ? 'controls-Menu__footer_multiSelect'}}"
+      <div class="controls-DropdownList__footer controls-Menu__footer_theme-{{_options.theme}}"
                   on:mouseenter="_footerMouseEnter()">
          <ws:if data="{{_moreButtonVisible}}">
-            <div class="controls-Menu__footer-moreButton">
+            <div class="controls-Menu__footer-moreButton
+                  {{(_options.multiSelect ? 'controls-Menu__footer_moreButton_multiSelect_theme-' : 'controls-Menu__footer_moreButton_theme-') + _options.theme}}">
                <Controls.buttons:Button viewMode="link"
                                         fontColorStyle="link"
                                         caption="{{_options.moreButtonCaption}}"
