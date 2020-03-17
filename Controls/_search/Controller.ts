@@ -326,7 +326,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
       this._dataOptions = context.dataOptions;
       const needRecreateSearchController = _private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
           _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions);
-      const searchValue = needRecreateSearchController ? this._inputSearchValue : newOptions.searchValue;
+      const searchValue = needRecreateSearchController && newOptions.searchValue === undefined ? this._inputSearchValue : newOptions.searchValue;
       const needUpdateRoot = this._options.root !== newOptions.root;
       if (!isEqual(this._options.filter, newOptions.filter)) {
          filter = newOptions.filter;
@@ -358,7 +358,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
             this._searchController.setSorting(newOptions.sorting);
          }
       }
-      if (_private.isSearchValueChanged(this, searchValue) && !needUpdateRoot || searchValue && needRecreateSearchController) {
+      if (_private.isSearchValueChanged(this, searchValue) && !needUpdateRoot || searchValue !== undefined && needRecreateSearchController) {
          _private.startSearch(this, searchValue);
          if (searchValue !== this._inputSearchValue) {
             _private.setInputSearchValue(this, searchValue);

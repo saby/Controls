@@ -496,7 +496,21 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchController._inputSearchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
 
-            assert.isTrue(searchController._inputSearchValue === 'test');
+            assert.equal(searchController._inputSearchValue, '');
+            assert.isTrue(searchStarted);
+         });
+
+         it('searchParam is changed', function() {
+            var options = getDefaultOptions();
+            var searchStarted = false;
+            searchMod.Controller._private.getSearchController(searchController);
+            searchMod.Controller._private.startSearch = () => {searchStarted = true;};
+            options.searchParam = 'test1';
+            searchController._inputSearchValue = 'test';
+            searchController._searchValue = '';
+            searchController._beforeUpdate(options, {dataOptions: defaultOptions});
+
+            assert.equal(searchController._inputSearchValue, '');
             assert.isTrue(searchStarted);
          });
 
@@ -622,7 +636,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             searchController._inputSearchValue = 'test';
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
 
-            assert.isTrue(searchController._inputSearchValue === 'test');
+            assert.equal(searchController._inputSearchValue, '');
             assert.isTrue(searchStarted);
          });
 
