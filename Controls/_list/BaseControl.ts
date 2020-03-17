@@ -209,7 +209,8 @@ var _private = {
                         const curKey = listModel.getMarkedKey();
                         listModel.setItems(list);
                         const nextKey = listModel.getMarkedKey();
-                        if (nextKey && nextKey !== curKey
+                        var isFrirstItemIndx = listModel.getItems().getIndexByValue(listModel._options.keyProperty, nextKey) === 0;
+                        if (nextKey && !isFrirstItemIndx && nextKey !== curKey
                             && self._listViewModel.getCount()
                             && !self._options.task46390860 && !self._options.task1177182277 && !cfg.task1178786918
                         ) {
