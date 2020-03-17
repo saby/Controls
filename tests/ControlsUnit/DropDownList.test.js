@@ -240,27 +240,34 @@ define(['Controls/dropdownPopup', 'Types/collection', 'Core/core-clone'], functi
             assert.equal(dropDownList._headConfig.caption, 'New caption');
          });
 
-         it('change root key', function() {
-            let dropDownConfig = getDropDownConfig();
-            dropDownConfig.rootKey = 'test';
+         describe('change root key', function() {
+            let dropDownConfig, dropDownList;
+            beforeEach(() => {
+               dropDownConfig = getDropDownConfig();
+               dropDownList = getDropDownListWithConfig(dropDownConfig);
+               dropDownList.saveOptions(dropDownConfig);
+            });
 
-            let dropDownList = getDropDownListWithConfig(dropDownConfig);
-            dropDownList._beforeMount(dropDownConfig);
+            it('simple', function() {
+               dropDownConfig.rootKey = 'test root';
+               dropDownList._beforeUpdate(dropDownConfig);
+               assert.equal(dropDownList._listModel._options.rootKey, 'test root');
+            });
 
-            dropDownList.saveOptions(dropDownConfig);
-            dropDownConfig = getDropDownConfig();
-            dropDownConfig.rootKey = 'test root';
+            it('set rootKey = undefined', function() {
+               dropDownConfig.rootKey = undefined;
+               dropDownList._beforeUpdate(dropDownConfig);
+               assert.equal(dropDownList._listModel._options.rootKey, null);
+            });
 
-            dropDownList._beforeUpdate(dropDownConfig);
-            assert.equal(dropDownList._listModel._options.rootKey, 'test root');
-
-            dropDownList.saveOptions(dropDownConfig);
-            dropDownConfig = getDropDownConfig();
-            dropDownConfig.rootKey = undefined;
-
-            dropDownList._beforeUpdate(dropDownConfig);
-            dropDownList.saveOptions(dropDownConfig);
-            assert.equal(dropDownList._listModel._options.rootKey, null);
+            it('set rootKey = undefined', function() {
+               dropDownConfig.items = dropDownConfig.items.clone();
+               dropDownConfig.items.at(0).set('icon', 'icon-test');
+               dropDownConfig.iconSize = 'm';
+               dropDownConfig.rootKey = null;
+               dropDownList._beforeUpdate(dropDownConfig);
+               assert.equal(dropDownList._iconPadding, 'icon-medium');
+            });
          });
 
          it('itemschanged', function() {
