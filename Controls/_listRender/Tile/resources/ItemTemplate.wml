@@ -42,7 +42,7 @@
             <ws:partial template="{{ swipeTemplate }}" />
          </ws:if>
          <ws:else>
-            <ws:partial template="{{ itemActionsTemplate }}" />
+            <ws:partial template="{{ itemActionsTemplate }}" attr:class="controls-TileView__itemActions"/>
          </ws:else>
       </ws:if>
    </div>

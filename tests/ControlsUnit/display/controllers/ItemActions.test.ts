@@ -110,7 +110,13 @@ describe('Controls/_display/controllers/ItemActions', () => {
             ItemActionsController.prepareActionsMenuConfig(
                 collection,
                 'test',
-                { preventDefault: () => null },
+                {
+                    preventDefault: () => null,
+                    target: { getBoundingClientRect: () => {
+                            return {};
+                        }
+                    }
+                },
                 null,
                 false
             );
