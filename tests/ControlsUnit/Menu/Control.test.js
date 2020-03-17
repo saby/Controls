@@ -164,8 +164,8 @@ define(
          it('getTemplateOptions', function() {
             const expectedOptions = Clone(defaultOptions);
             expectedOptions.root = 1;
-            delete expectedOptions.footerTemplate;
             expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
+            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
             expectedOptions.closeButtonVisibility = false;
             expectedOptions.showHeader = false;
             expectedOptions.headerTemplate = null;
