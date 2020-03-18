@@ -6,7 +6,8 @@ define('Controls-demo/Tabs/Buttons', [
    'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate',
    'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
    'Types/source',
-   'css!Controls-demo/Tabs/Buttons/Buttons'
+   'css!Controls-demo/Tabs/Buttons/Buttons',
+   'css!Controls-demo/Controls-demo'
 ], function(
    Control,
    template,
