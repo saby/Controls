@@ -221,6 +221,10 @@ var _private = {
                     if (self._sourceController) {
                         _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
                     }
+
+                    if (self._itemsChanged) {
+                        self._shouldNotifyOnDrawItems = true;
+                    }
                 }
                 if (cfg.afterSetItemsOnReloadCallback instanceof Function) {
                     cfg.afterSetItemsOnReloadCallback();
