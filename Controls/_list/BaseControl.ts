@@ -211,7 +211,10 @@ var _private = {
                         const curKey = listModel.getMarkedKey();
                         listModel.setItems(list);
                         const nextKey = listModel.getMarkedKey();
-                        if (nextKey && nextKey !== curKey
+                        // возвращаю проверку на наличие скрола до перерисовки сделанную в данном реквесте https://online.sbis.ru/opendoc.html?guid=f96ad55d-06f0-4613-99ac-4278adf3e3a0
+                        // т.к приводит к ошибкам https://online.sbis.ru/opendoc.html?guid=79e04fa4-d910-46aa-a60b-c46ffb345a3b
+                        // https://online.sbis.ru/opendoc.html?guid=28e7609e-6a78-446e-a99e-b3225810e7c4
+                        if (nextKey && nextKey !== curKey && self._isScrollShown
                             && self._listViewModel.getCount()
                             && !self._options.task46390860 && !self._options.task1177182277 && !cfg.task1178786918
                         ) {
@@ -350,7 +353,7 @@ var _private = {
         }
     },
     restoreScrollPosition: function (self) {
-        if (self._markedKeyForRestoredScroll !== null && self._isScrollShown) {
+        if (self._markedKeyForRestoredScroll !== null) {
             _private.scrollToItem(self, self._markedKeyForRestoredScroll);
             self._markedKeyForRestoredScroll = null;
         }
