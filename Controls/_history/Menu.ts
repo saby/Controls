@@ -1,5 +1,5 @@
 import {Button as Menu, MenuUtils} from 'Controls/dropdown';
-import {IoC} from "Env/Env";
+import {IoC, constants} from "Env/Env";
 
 /**
  * Кнопка меню с историей, клик по которой открывает выпадающий список.
@@ -33,7 +33,9 @@ var HistoryMenu = Menu.extend({
    _hasIconPin: true,
 
    _beforeMount: function (options) {
-      IoC.resolve('ILogger').warn('Контрол history:Menu является устаревшим, используйте dropdown:Button');
+      if (constants.isBrowserPlatform) {
+         IoC.resolve('ILogger').error('Контрол history:Menu является устаревшим, используйте dropdown:Button с опцией historyId');
+      }
       this._offsetClassName = MenuUtils.cssStyleGeneration(options);
    },
 

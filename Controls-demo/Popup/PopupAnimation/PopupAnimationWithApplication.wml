@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="PopupAnimation" demoname="Controls-demo/EditableArea/EditableArea.wml">
-   <ws:content>
-      <Controls-demo.Popup.PopupAnimation/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

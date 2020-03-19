@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: base.">
-    <ws:content>
-        <Controls-demo.List.Grid.BasePG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

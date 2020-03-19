@@ -265,7 +265,7 @@
 .ws-is-no-touch {
    .controls-DropdownList-cross_theme_@{themeName} {
       right: @close-button_offset-right_sticky + @border-thickness_sticky;
-      top: @close-button_offset-top_sticky + @border-thickness_sticky;
+      top: @close-button_offset-top_sticky + @content_padding-top_sticky + @border-thickness_sticky;
    }
 }
 
@@ -273,7 +273,7 @@
    .controls-DropdownList-cross_theme_@{themeName} {
       right: 0;
       top: 0;
-      padding: @close-button_offset-top_sticky + @border-thickness_sticky @close-button_offset-right_sticky + @border-thickness_sticky;
+      padding: @close-button_offset-top_sticky + @content_padding-top_sticky + @border-thickness_sticky @close-button_offset-right_sticky + @border-thickness_sticky;
    }
 }
 

@@ -3,10 +3,11 @@ import backTemplate = require('wml!Controls/_heading/Back/Back');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {detection} from 'Env/Env';
 import {Logger} from 'UI/Utils';
-
+import {backSize, backStyle} from './_ActualAPI';
+import {IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions, IIconSize, IIconSizeOptions, IIconStyle, IIconStyleOptions} from 'Controls/interface';
 type TBackStyle = 'primary' | 'secondary';
 
-export interface IBackOptions extends IControlOptions {
+export interface IBackOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions, IIconStyleOptions, IIconSizeOptions {
     style?: TBackStyle;
     size?: 's' | 'm' | 'l';
 }
@@ -23,7 +24,10 @@ const MODERN_IE_VERSION = 11;
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick
  * @mixes Controls/_interface/ITooltip
- * @mixes Controls/_heading/Back/BackStyles
+ * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/IFontSize
+ * @implements Controls/_interface/IIconSize
+ * @implements Controls/_interface/IIconStyle
  * @control
  * @public
  * @author Красильников А.С.
@@ -40,7 +44,10 @@ const MODERN_IE_VERSION = 11;
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick
  * @mixes Controls/_interface/ITooltip
- * @mixes Controls/_heading/Back/BackStyles
+ * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/IFontSize
+ * @implements Controls/_interface/IIconSize
+ * @implements Controls/_interface/IIconStyle
  * @control
  * @public
  * @author Красильников А.С.
@@ -117,32 +124,51 @@ const MODERN_IE_VERSION = 11;
  * </pre>
  */
 
-class Back extends Control<IBackOptions> {
+class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, IIconStyle, IIconSize {
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
     protected _style: TBackStyle;
+    protected _fontSize: string;
+    protected _fontColorStyle: string;
+    protected _iconSize: string;
+    protected _iconStyle: string;
 
-    private _convertOldStyleToNew(options: IBackOptions): void {
+    private _convertOldStyleToNew(options: IBackOptions): IBackOptions {
         if (options.style === 'default') {
-            this._style = 'primary';
-            Logger.warn('Heading.Back', 'Используются устаревшие стили. Используйте style primary вместо style default', this);
+            options.style = 'primary';
+            Logger.warn('Heading.Back', 'Используются устаревшие стили. Используйте style primary вместо style default');
+            return options;
         } else {
-            this._style = options.style;
+            return options;
         }
+    }
+    private _setFontState(options: IBackOptions): void {
+        const convertOptions = this._convertOldStyleToNew(options);
+        const styles = backStyle(convertOptions);
+        this._iconStyle = styles.iconStyle;
+        this._fontColorStyle = styles.fontColorStyle;
+    }
+
+    private _setSizeState(options: IBackOptions): void {
+        const sizes = backSize(options);
+        this._fontSize = sizes.fontSize;
+        this._iconSize = sizes.iconSize;
     }
 
     protected _beforeMount(options: IBackOptions): void {
-        this._convertOldStyleToNew(options);
+        this._setFontState(options);
+        this._setSizeState(options);
         this._isOldIe = detection.isIE && detection.IEVersion < MODERN_IE_VERSION;
     }
 
     protected _beforeUpdate(newOptions: IBackOptions): void {
         if (newOptions.style !== this._options.style) {
-            this._convertOldStyleToNew(newOptions);
+            this._setFontState(newOptions);
+            this._setSizeState(newOptions);
         }
     }
 
-    static _theme: string[] = ['Controls/heading'];
+    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -160,6 +186,19 @@ class Back extends Control<IBackOptions> {
                 'default'
             ]),
             size: EntityDescriptor(String).oneOf([
+                's',
+                'm',
+                'l'
+            ]),
+            fontColorStyle: EntityDescriptor(String).oneOf([
+                'primary',
+                'secondary'
+            ]),
+            iconStyle: EntityDescriptor(String).oneOf([
+                'primary',
+                'secondary'
+            ]),
+            iconSize: EntityDescriptor(String).oneOf([
                 's',
                 'm',
                 'l'

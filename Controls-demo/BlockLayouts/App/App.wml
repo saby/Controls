@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="BlockLayout">
-   <ws:content>
-      <Controls-demo.BlockLayouts.Index/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

@@ -114,6 +114,11 @@
          </Router.router:Reference>
       </div>
       <div>
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/ColumnScroll' }}">
+            <a href="{{content.href}}">Grid/ColumnScroll</a>
+         </Router.router:Reference>
+      </div>
+      <div>
          <a href="Controls-demo%252FList%252FMultiselect">
             List/Multiselect
          </a>
@@ -145,7 +150,14 @@
       </div>
       <h1>Explorer</h1>
       <div>
-         <a href="Controls-demo%252FExplorer%252FExplorer">Explorer</a>
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer/Explorer' }}">
+            <a href="{{content.href}}">Old Explorer</a>
+         </Router.router:Reference>
+      </div>
+      <div>
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer_new/Index' }}">
+            <a href="{{content.href}}">New Explorer</a>
+         </Router.router:Reference>
       </div>
       <h1>MasterDetail</h1>
       <div>
@@ -209,14 +221,58 @@
    </div>
 
    <div class="demo_controls_list_section">
-      <h1>Grid new</h1>
-      <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
-         <a href="{{content.href}}">New grid demos</a>
-      </Router.router:Reference>
-      <hr/>
-      <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/TagStyle/Index' }}">
-         <a href="{{content.href}}">Применение tagStyle или tagStyleProperty к колонкам</a>
-      </Router.router:Reference>
+      <div>
+         <h1>Grid new</h1>
+         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/Index' }}">
+            <a href="{{content.href}}">New grid demos</a>
+         </Router.router:Reference>
+         <hr/>
+         <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/grid/TagStyle/Index' }}">
+            <a href="{{content.href}}">Применение tagStyle или tagStyleProperty к колонкам</a>
+         </Router.router:Reference>
+      </div>
+
+      <div>
+         <h1>StickyHeader</h1>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyHeader/StickyHeader' }}">
+               <a href="{{content.href}}">StickyHeader</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/StickyHeader/StickyHeaderDisplaced' }}">
+               <a href="{{content.href}}">StickyHeader Displaced</a>
+            </Router.router:Reference>
+         </div>
+      </div>
+
+      <div>
+         <h1>PopupTemplate</h1>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/PopupTemplate/Sticky/Index' }}">
+               <a href="{{content.href}}">Sticky</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/PopupTemplate/Stack/HeaderBorderVisible/Index' }}">
+               <a href="{{content.href}}">Stack</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/PopupTemplate/Confirmation/Footer/Index' }}">
+               <a href="{{content.href}}">Confirmation</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/PopupTemplate/CloseButton/ViewModes/Index' }}">
+               <a href="{{content.href}}">CloseButton</a>
+            </Router.router:Reference>
+         </div>
+      </div>
+   </div>
+
+   <div class="demo_controls_list_section">
+
    </div>
 
    <div class="demo_controls_list_section">
@@ -328,11 +384,29 @@
       <a href="Controls-demo%252FFastFilter%252FFastFilter?withoutLayout=true">
          FastData
       </a>
-      <h1>BreadCrumbs</h1>
+
       <div>
-         <a href="Controls-demo%252FBreadCrumbs%252FBreadCrumbs">
-            BreadCrumbs
-         </a>
+         <h1>BreadCrumbs</h1>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/BreadCrumbs/BreadCrumbs' }}">
+               <a href="{{content.href}}">BreadCrumbs</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/BreadCrumbs/Scenarios' }}">
+               <a href="{{content.href}}">Scenarios</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/BreadCrumbs/ScenariosWithApplication' }}">
+               <a href="{{content.href}}">Scenarios w/application</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="/Controls-demo/app/:app" app="{{ 'Controls-demo/BreadCrumbs/PathPG' }}">
+               <a href="{{content.href}}">Path <small style="color: #CCC; font-size: 16px">PG</small></a>
+            </Router.router:Reference>
+         </div>
       </div>
 
       <h1>OperationsPanel</h1>
@@ -389,7 +463,7 @@
             <a href="Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
          </li>
       </ul>
-      
+
       <h1>Decorator</h1>
       <h2>
          <a href="Controls-demo%252FDecorator%252FWrapURLs%252FIndex">WrapURLs</a>

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="ComboBox" demoname="Controls-demo/Combobox/ComboboxVDom.wml">
-   <ws:content>
-      <Controls-demo.Combobox.ComboboxVDom/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

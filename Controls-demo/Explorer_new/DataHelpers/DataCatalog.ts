@@ -293,12 +293,12 @@ export const Gadgets = {
 
    getGridColumnsForScroll: () => [
       {
-         displayProperty: 'id',
+         displayProperty: 'title',
          width: '150px'
       },
       {
-         displayProperty: 'title',
-         width: '200px',
+         displayProperty: 'id',
+         width: 'max-content',
          align: 'right'
       },
       {

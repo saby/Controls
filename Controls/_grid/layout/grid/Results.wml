@@ -1,9 +1,16 @@
 <ws:template name="cellContent">
-   <ws:if data="{{!!currentResultsColumn.column.resultTemplate && (multiSelectVisibility === 'hidden' || currentResultsColumn.index !== 0)}}">
-      <ws:partial template="{{currentResultsColumn.column.resultTemplate}}"
-                  listModel="{{listModel}}"
-                  column="{{currentResultsColumn.column}}" />
-   </ws:if>
+    <ws:if data="{{ multiSelectVisibility === 'hidden' || currentResultsColumn.index !== 0 }}">
+        <ws:if data="{{!!currentResultsColumn.column.resultTemplate}}">
+            <ws:partial template="{{currentResultsColumn.column.resultTemplate}}"
+                        listModel="{{listModel}}"
+                        results="{{ listModel.getResults() }}"
+                        currentResultsColumn="{{ currentResultsColumn }}"
+                        column="{{currentResultsColumn.column}}" />
+        </ws:if>
+        <ws:else data="{{ currentResultsColumn.showDefaultResultTemplate }}">
+            <ws:partial template="wml!Controls/_grid/layout/common/ResultCellContent" currentResultsColumn="{{currentResultsColumn}}" fontWeight="{{ fontWeight }}" fontColorStyle="{{ fontColorStyle }}"/>
+        </ws:else>
+    </ws:if>
 </ws:template>
 <ws:template name="cell">
    <div class="{{currentResultsColumn.cellClasses}}{{currentResultsColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentResultsColumn.column.align : ''}}">
@@ -12,6 +19,7 @@
 </ws:template>
 <ws:template name="stickyCell">
       <Controls.scroll:StickyHeader attr:class="{{currentResultsColumn.cellClasses}}{{currentResultsColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentResultsColumn.column.align : ''}}"
+                                    backgroundStyle="{{backgroundStyle}}"
                                     mode="stackable"
                                     fixedZIndex="{{currentResultsColumn.zIndex}}">
           <ws:partial template="cellContent"/>
@@ -28,14 +36,15 @@
         <Controls.scroll:StickyHeader
             attr:class="{{listModel.getCurrentResultsColumn().cellClasses}}"
             attr:style="{{listModel.getStyleForCustomResultsTemplate()}}"
+            backgroundStyle="{{backgroundStyle}}"
             mode="stackable"
             fixedZIndex="{{listModel.getCurrentResultsColumn().zIndex}}">
-            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}"/>
+            <ws:partial template="{{contentTemplate}}" results="{{ listModel.getResults() }}" listModel="{{listModel}}"/>
         </Controls.scroll:StickyHeader>
     </ws:if>
     <ws:else>
         <div class="{{listModel.getCurrentResultsColumn().cellClasses}}" style="{{listModel.getStyleForCustomResultsTemplate()}}">
-            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}"/>
+            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}" results="{{ listModel.getResults() }}"/>
         </div>
     </ws:else>
 </ws:if>
@@ -46,6 +55,7 @@
    <ws:for data="listModel.resetResultsColumns(); listModel.isEndResultsColumn(); listModel.goToNextResultsColumn();">
       <ws:partial template="{{listModel.isStickyHeader() ? 'stickyCell' : 'cell'}}"
                   listModel="{{ listModel }}"
+                  backgroundStyle="{{backgroundStyle}}"
                   multiSelectVisibility="{{listModel.getMultiSelectVisibility()}}"
                   currentResultsColumn="{{listModel.getCurrentResultsColumn()}}"/>
    </ws:for>

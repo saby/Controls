@@ -321,6 +321,49 @@
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
+         <h4>With itemActions</h4>
+         <div>
+            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysItemActions"
+                                     keyProperty="id"
+                                     itemActions="{{_itemActions}}"
+                                     displayProperty="title"
+                                     footerTemplate="wml!Controls-demo/Input/Dropdown/footerTemplateDropdown"
+                                     attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__itemActions"
+                                     dropdownClassName="ControlsDemo-InputDropdown__item-MinWidth"
+                                     source="{{_itemActionsSource}}">
+            </Controls.dropdown:Input>
+         </div>
+      </div>
+      <div class="ControlsDemo-InputDropdown__wrapper">
+         <h4>With search</h4>
+         <div>
+            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysSearch"
+                                     emptyText="Not selected"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     searchParam="title"
+                                     emptyTemplate="Controls/menu:EmptyTemplate"
+                                     attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__search"
+                                     source="{{_searchItems}}">
+            </Controls.dropdown:Input>
+         </div>
+      </div>
+      <div class="ControlsDemo-InputDropdown__wrapper">
+         <h4>With search and hierarchy</h4>
+         <div>
+            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysSearchHierarchy"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     searchParam="title"
+                                     parentProperty="parent"
+                                     nodeProperty="@parent"
+                                     emptyTemplate="Controls/menu:EmptyTemplate"
+                                     attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__searchHierarchy"
+                                     source="{{_hierarchySearchItems}}">
+            </Controls.dropdown:Input>
+         </div>
+      </div>
+      <div class="ControlsDemo-InputDropdown__wrapper">
          <h4>ReadOnly</h4>
          <div>
             <Controls.dropdown:Input bind:selectedKeys="_selectedKeysReadOnly"

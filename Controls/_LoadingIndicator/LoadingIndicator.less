@@ -11,7 +11,7 @@
 }
 
 .controls-loading-indicator_theme-@{themeName}{
-   background-color: @color_LoadingIndicator-overlay-default;
+   background-color: @overlay_background-color_loadingIndicator;
 }
 
 // Необходимо навесить z-index на индикатор и контент для правильный работы контекста z-index`ов
@@ -50,7 +50,7 @@
 }
 
 .controls-loading-indicator_overlay-dark_theme-@{themeName} {
-    background-color: @color_LoadingIndicator-overlay-dark;
+    background-color: @contrast_overlay_background-color_loadingIndicator;
 }
 
 .controls-loading-indicator_sided {
@@ -83,27 +83,27 @@
 }
 
 .controls-loading-indicator-in_theme-@{themeName} {
-   width: @size_LoadingIndicator-l + 2*@spacing_LoadingIndicator-between-content-border-l;
-   height: @size_LoadingIndicator-l + 2*@spacing_LoadingIndicator-between-content-border-l;
-   border-radius: @border-radius_LoadingIndicator;
-   background: @background-color_LoadingIndicator @background-url_LoadingIndicator-l 50% 50% no-repeat;
-   background-size: @size_LoadingIndicator-l;
-   font-size: @font-size_LoadingIndicator;
-   line-height: @line-height_LoadingIndicator;
-   color: @color_LoadingIndicator-text;
+   width: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
+   height: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
+   border-radius: @content_l_border_radius_loadingIndicator;
+   background: @content_background-color_loadingIndicator @spinner_l_background-image_loadingIndicator 50% 50% no-repeat;
+   background-size: @spinner_l_size_loadingIndicator;
+   font-size: @font-size_loadingIndicator;
+   color: @text-color_loadingIndicator;
 }
 
 .controls-loading-indicator_text .controls-loading-indicator-in {
    width: auto;
    white-space: nowrap;
    text-overflow: ellipsis;
+   display: flex;
+   align-items: center;
 }
 
 .controls-loading-indicator_text .controls-loading-indicator-in_theme-@{themeName} {
-   min-width: @size_LoadingIndicator-l + 3*@spacing_LoadingIndicator-between-content-border-l;
-   padding: (@size_LoadingIndicator-l + 2*@spacing_LoadingIndicator-between-content-border-l - @line-height_LoadingIndicator)/2
-   @spacing_LoadingIndicator-between-content-border-l 0 (@size_LoadingIndicator-l + 2*@spacing_LoadingIndicator-between-content-border-l);
-   background-position:@spacing_LoadingIndicator-between-content-border-l 50%;
+   min-width: @spinner_l_size_loadingIndicator + 3*@content_l_padding_loadingIndicator;
+   padding: 0 @content_l_padding_loadingIndicator 0 (@spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator);
+   background-position:@content_l_padding_loadingIndicator 50%;
 }
 
 .controls-loading-indicator_small .controls-loading-indicator-in {
@@ -111,9 +111,9 @@
 }
 
 .controls-loading-indicator_small .controls-loading-indicator-in_theme-@{themeName} {
-   width: @size_LoadingIndicator-s + 2*@spacing_LoadingIndicator-between-content-border-s;
-   height: @size_LoadingIndicator-s + 2*@spacing_LoadingIndicator-between-content-border-s;
-   border-radius: (@size_LoadingIndicator-s + 2*@spacing_LoadingIndicator-between-content-border-s)/4;
-   background-image: @background-url_LoadingIndicator-s;
-   background-size: @size_LoadingIndicator-s;
+   width: @spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator;
+   height: @spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator;
+   border-radius: (@spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator)/4;
+   background-image: @spinner_s_background-image_loadingIndicator;
+   background-size: @spinner_s_size_loadingIndicator;
 }

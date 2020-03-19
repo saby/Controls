@@ -8,6 +8,7 @@
             editArrowTemplate="{{editArrowTemplate}}"
             template="{{itemTemplate}}"
             itemData="{{itemData}}"
+            backgroundStyle="{{backgroundStyle}}"
             tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 <ws:if data="{{itemData.isEditing}}">

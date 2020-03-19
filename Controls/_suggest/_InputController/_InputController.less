@@ -9,9 +9,9 @@
 }
 
 .controls-Suggest__suggestionsContainer_theme-@{themeName} {
-	border: @border-color_Suggest @border-width_Suggest solid;
+	border: @popup_border-color_suggest @popup_border-thickness_suggest solid;
 	box-sizing: border-box;
-	background-color: @background-color_Suggest;
+	background-color: @background-color_sticky;
 	/* Почему тут z-index:2
 		Контекст наложения формируется по определённым правилам, его формирует либо корневой элемент (тег HTML),
 		либо один из списка стилей https://developer.mozilla.org/ru/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context.
@@ -31,21 +31,22 @@
 }
 
 .controls-Suggest__showAllLink {
-	color: @color_Suggest-showAll;
-	height: @height_Suggest-showAll;
+	color: @showall_text-color_suggest;
+	height: @footer_height_suggest;
+	font-size: @showall_font-size_suggest;
 	cursor: pointer;
-	padding: 0 @spacing_Suggest-showAll-between-rightBorder-content 0 @spacing_Suggest-showAll-between-leftBorder-content;
+	padding: 0 @showall_padding-horizontal_suggest;
 }
 
 .ws-is-hover {
 	.controls-Suggest__showAllLink:hover {
-		color: @color_Suggest-showAll_hovered;
+		color: @showall_hover_text-color_suggest;
 		text-decoration: underline;
 	}
 }
 
 .controls-Suggest__showAllLink:active {
-	color: @color_Suggest-showAll_active;
+	color: @showall_active_text-color_suggest;
 	text-decoration: underline;
 }
 
@@ -57,33 +58,34 @@
 }
 
 .controls-Suggest__moreLink {
-	color: @color_Suggest-more;
-	height: @height_Suggest-more;
+	color: @more_text-color_suggest;
+	height: @footer_height_suggest;
+	font-size: @more_font-size_suggest;
 	cursor: pointer;
-	padding: 0 @spacing_Suggest-more-between-rightBorder-content 0 @spacing_Suggest-more-between-leftBorder-content;
+	padding: 0 @more_padding-horizontal_suggest;
 }
 
 .ws-is-hover {
 	.controls-Suggest__moreLink:hover {
-		color: @color_Suggest-more_hovered;
+		color: @more_hover_text-color_suggest;
 		text-decoration: underline;
 	}
 }
 
 .controls-Suggest__moreLink:active {
-	color: @color_Suggest-more_active;
+	color: @more_active_text-color_suggest;
 	text-decoration: underline;
 }
 
 .controls-Suggest__tabs {
 	width: 100%;
-	margin-bottom: @spacing_Suggest-between-tabs-suggestions;
+	margin-bottom: @tabs_offset-bottom_suggest;
 }
 
 .controls-Suggest__empty {
-	color: @color_Suggest-empty;
+	color: @unaccented_text-color;
 	text-align: center;
-	padding: @spacing_Suggest-empty-between-topBorder-content 0 @spacing_Suggest-empty-between-bottomBorder-content 0;
+	padding: @spacing_default_xl 0;
 }
 
 .controls-Suggest__scrollContainer {
@@ -94,6 +96,6 @@
 }
 
 .controls-Suggest__Misspell {
-	padding: 0 @spacing_Suggest-misspell-between-rightBorder-content 0 @spacing_Suggest-misspell-between-leftBorder-content;
+	padding: 0 @misspell_padding-horizontal_suggest;
 	box-sizing: border-box;
 }

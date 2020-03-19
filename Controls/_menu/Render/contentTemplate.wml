@@ -6,13 +6,18 @@
 
 <div class="controls-Menu__content {{item.get('readOnly') ? 'controls-Menu__content-readOnly'}}
                      controls-Menu__content_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}
-                     controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"
+                     controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}
+                     {{treeItem.getLevel && treeItem.getLevel() > 1 ? 'controls-Menu__content_levelPadding_theme-' + _options.theme}}"
      title="{{item.get(displayProperty || 'title')}}">
    <ws:if data="{{iconAlign !== 'right'}}">
       <ws:partial template="iconTemplate" iconAlign="left"/>
    </ws:if>
    <div class="controls-Menu__content-wrapper">
-      {{item.get(displayProperty || 'title')}}
+      <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
+                  item="{{item}}"
+                  displayProperty="{{displayProperty}}"
+                  searchValue="{{searchValue}}" />
+
       <ws:if data="{{iconAlign === 'right'}}">
          <ws:partial template="iconTemplate" iconAlign="right" />
       </ws:if>
