@@ -235,9 +235,13 @@ var _private = {
    },
 
    templateOptionsChanged: function(newOptions, options) {
-      if (newOptions.headTemplate !== options.headTemplate ||
-          newOptions.itemTemplate !== options.itemTemplate ||
-          newOptions.footerTemplate !== options.footerTemplate) {
+      const isTemplateChanged = (tplOption) => {
+         return typeof newOptions[tplOption] === 'string' && newOptions[tplOption] !== options[tplOption];
+      };
+
+      if (isTemplateChanged('headTemplate') ||
+          isTemplateChanged('itemTemplate') ||
+          isTemplateChanged('footerTemplate')) {
          return true;
       }
    },

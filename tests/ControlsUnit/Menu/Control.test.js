@@ -226,12 +226,13 @@ define(
          });
 
          it('_footerMouseEnter', function() {
+            let isClosed = false;
             let menuControl = getMenu();
-            menuControl._hoveredItemIndex = 1;
-            menuControl._listModel = getListModel();
+            menuControl._children = {
+               Sticky: { close: () => { isClosed = true; } }
+            };
             menuControl._footerMouseEnter();
-            assert.isNull(menuControl._hoveredItemIndex);
-            assert.isNull(menuControl._listModel._hoveredItem);
+            assert.isTrue(isClosed);
          });
 
          it('getSelectedItemsByKeys', function() {
