@@ -107,6 +107,10 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._assignItemActions(this._options);
     }
 
+    protected _proxyEvent(event, eventName): void {
+        this._notify(eventName, [event], { bubbling: true });
+    }
+
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
         this._hoveredItemIndex = null;
         this._listModel.setHoveredItem(null);

@@ -14,7 +14,6 @@
            headingCaption="{{!_options.headerTemplate ? _headingCaption : ''}}"
            iconSize="{{_options.iconSize}}"
            headerContentTemplate="{{_headerTemplate}}"
-           footerContentTemplate="{{_options.footerTemplate}}"
            itemData="{{_options.footerItemData}}"
            closeButtonVisibility="{{_closeButtonVisibility}}"
            on:headerClick="_headerClick()"
