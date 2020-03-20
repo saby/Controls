@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Scroll container">
-    <ws:content>
-        <Controls-demo.Container.standardDemoScroll/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

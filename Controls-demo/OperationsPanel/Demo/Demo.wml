@@ -11,7 +11,7 @@
                         <ws:if data="{{itemTemplate.type === 'topArea'}}">
                             <span>
                                 <Controls.buttons:Button attr:class="demo-TopArea__button" buttonStyle="primary" caption="+ Сотрудник"/>
-                                <Controls.buttons:Button attr:class="demo-TopArea__button" iconSize="m" icon="icon-CreateFolder" viewMode="link" fontColorStyle="link"/>
+                                <Controls.buttons:Button attr:class="demo-TopArea__button" iconSize="m" icon="icon-CreateFolder" viewMode="linkButton" fontColorStyle="link"/>
                             </span>
                         </ws:if>
                         <ws:else>
@@ -43,7 +43,7 @@
                                                caption="Доп. операции"
                                                on:click="_onClickAddBlock()"
                                                iconSize="s" icon="icon-Settings"
-                                               viewMode="link" fontColorStyle="link"
+                                               viewMode="linkButton" fontColorStyle="link"
                                             />
                                         </ws:rightTemplate>
                                     </Controls.operations:Panel>

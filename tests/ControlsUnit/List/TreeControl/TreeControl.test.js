@@ -1272,7 +1272,6 @@ define([
                    dataLoadCallback: function () {
                       dataLoadCallbackCalled = true;
                    },
-                   task1177940587: true,
                    sorting: [{'test': 'ASC'}],
                    parentProperty: 'parent',
                    uniqueKeys: true

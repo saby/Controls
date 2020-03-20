@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Explorer" demoname="Controls-demo/Explorer/Explorer.wml">
-    <ws:content>
-        <Controls-demo.Explorer.Explorer/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

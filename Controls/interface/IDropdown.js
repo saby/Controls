@@ -116,8 +116,7 @@ define('Controls/interface/IDropdown', [], function() {
 
    /**
     * @name Controls/interface/IDropdown#itemTemplateProperty
-    * @cfg {Function} Устанавливает имя поля, которое содержит имя шаблона отображения элемента.
-    * @remark
+    * @cfg {String} Устанавливает имя поля, которое содержит имя шаблона отображения элемента.
     * @example
     * <pre class="brush: js;">
     * this._mySource = new Memory ({

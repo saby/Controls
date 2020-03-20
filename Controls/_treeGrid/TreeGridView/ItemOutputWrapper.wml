@@ -12,6 +12,7 @@
       editArrowTemplate="{{editArrowTemplate}}"
       multiSelectTpl="{{multiSelectTpl}}"
       itemTemplate="{{itemTemplate}}"
+      backgroundStyle="{{backgroundStyle}}"
       itemActionsPosition="{{itemActionsPosition}}"/>
 </ws:template>
 <ws:template name="itemRenderNodeFooterWrapper">

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Menu" demoname="Controls-demo/Buttons/Menu/Menu.wml">
-   <ws:content>
-      <Controls-demo.Buttons.Menu.Menu/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

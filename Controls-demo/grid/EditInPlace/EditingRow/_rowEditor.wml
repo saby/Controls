@@ -1,44 +1,37 @@
 <ws:partial template="Controls/grid:RowEditor" scope="{{_options}}">
-    <div>
+    <div style="padding-left: 6px;">
         <div class="demo-EditableGrid__editor-flexWrapper" style="width: 100%;">
             <div class="demo-EditableGrid__editor-flexWrapper">
                 <span class="demo-EditableGrid__editor-description">Признак ТД</span>
                 <Controls.dropdown:Combobox
-                        bind:selectedKey="itemData.item.get('documentSign')"
+                        selectedKey="{{selectedKey}}"
+                        on:selectedKeyChanged="onChange2()"
                         keyProperty="id"
                         displayProperty="title"
                         source="{{documentSignMemory}}"/>
             </div>
             <div class="demo-EditableGrid__editor-flexWrapper">
-                <span class="demo-EditableGrid__editor-description">Номер ТД</span>
-                <Controls.input:Text bind:value="itemData.item.get('documentNum')" placeholder="Номер"/>
+                <Controls.input:Text value="{{itemData.item.get('documentNum')}}" on:valueChanged="onChange1('documentNum', itemData.item)" placeholder="Номер"/>
             </div>
             <div class="demo-EditableGrid__editor-flexWrapper">
-                <span class="demo-EditableGrid__editor-description">Налоговая база</span>
-                <Controls.input:Number bind:value="itemData.item.get('taxBase')" placeholder="Сумма"/>
+                <Controls.input:Number value="{{itemData.item.get('taxBase')}}" on:valueChanged="onChange1('taxBase', itemData.item)"  placeholder="Сумма"/>
             </div>
         </div>
-        <div class="demo-EditableGrid__editor-description demo-EditableGrid__editor-rowTopSpacing">Сведения о виде ТС и транспортном документе</div>
-        <div class="demo-EditableGrid__editor-rowTopSpacing">10 - Морской/речной транспорт (без документов)</div>
+
         <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
             <div>
-                <span class="demo-EditableGrid__editor-description">Документ</span>
-                <Controls.input:Text bind:value="itemData.item.get('document')" placeholder="б/н"/>
-                <Controls.input:Date bind:value="itemData.item.get('documentDate')"/>
+
+                <Controls.input:Text value="{{itemData.item.get('document')}}"  on:valueChanged="onChange1('document', itemData.item)" placeholder="б/н"/>
+                <Controls.input:Date value="{{itemData.item.get('documentDate')}}" on:valueChanged="onChange1('documentDate', itemData.item)"/>
             </div>
             <div>
-                <span class="demo-EditableGrid__editor-description">Договор на оказание услуг</span>
-                <Controls.input:Text bind:value="itemData.item.get('serviceContract')" placeholder="Номер"/>
+                <Controls.input:Text value="{{itemData.item.get('serviceContract')}}" on:valueChanged="onChange1('serviceContract', itemData.item)" placeholder="Номер"/>
             </div>
         </div>
-        <div class="demo-EditableGrid__editor-rowTopSpacing">
-            <span class="demo-EditableGrid__editor-description">Грузоотправитель</span>
-            <Controls.lookup:Input placeholder="Укажите"/>
-        </div>
-        <div class="demo-EditableGrid__editor-description demo-EditableGrid__editor-rowTopSpacing">Сведения о маршрутном поручении (телеграмме)</div>
+
+
         <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
-            <span class="demo-EditableGrid__editor-description">Примечание</span>
-            <Controls.input:Text bind:value="itemData.item.get('description')" placeholder="примечание" attr:style="width: 100%;"/>
+            <Controls.input:Text value="{{itemData.item.get('description')}}" on:valueChanged="onChange1('description', itemData.item)" placeholder="примечание" attr:style="width: 100%;"/>
         </div>
     </div>
 </ws:partial>

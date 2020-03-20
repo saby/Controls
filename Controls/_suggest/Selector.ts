@@ -17,7 +17,6 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @mixes Controls/_suggest/Selector/Styles
  * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  * @control
  * @public
@@ -34,7 +33,6 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @mixes Controls/_suggest/Selector/Styles
  * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  * @control
  * @public

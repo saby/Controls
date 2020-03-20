@@ -10,7 +10,7 @@
          icons="{{['icon-ArrangeList', 'icon-ArrangeSmallIconsPreview']}}"
          icon="icon-ArrangeList"
          iconStyle="secondary"
-         iconSize="stateButton"
+         iconSize="datePopupStateButton"
          readOnly="{{false}}"
          on:valueChanged="_toggleStateClick()"
       />

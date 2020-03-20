@@ -4,6 +4,7 @@ import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import {isStickySupport} from 'Controls/scroll';
 import * as LadderWrapper from 'wml!Controls/_grid/LadderWrapper';
 import {isEqual} from 'Types/object';
+import cInstance = require('Core/core-instance');
 import {
     getBottomPaddingRowIndex,
     getFooterIndex,
@@ -94,10 +95,10 @@ var
         },
 
         getPaddingCellClasses: function(params, theme) {
-            const { columns, columnIndex, rowSeparatorSize } = params;
+            const { columns, columnIndex } = params;
             const { cellPadding } = columns[columnIndex];
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
-            const isWideRowSeparator = rowSeparatorSize === 'l';
+
 
             if (columns[columnIndex].isActionCell) {
                 return classLists;
@@ -128,7 +129,7 @@ var
                 classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
-                classLists.top += ` controls-Grid__row-cell${isWideRowSeparator ? '-wide-sep' : ''}_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
                 classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
@@ -201,9 +202,6 @@ var
             let result = '';
             if (current.rowSeparatorVisibility) {
                 result += ` controls-Grid__row-cell_withRowSeparator${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? '-l' : ''}_theme-${theme} `;
-                if (current.isFirstInGroup && !current.isInHiddenGroup) {
-                    result += ' controls-Grid__row-cell_first-row-in-group';
-                }
             } else {
                 result += `controls-Grid__row-cell_withoutRowSeparator_theme-${theme}`;
             }
@@ -228,7 +226,7 @@ var
         },
 
         getColumnScrollCellClasses: function(params, theme) {
-           return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed controls-Grid__cell_fixed_theme-${theme}` : ' controls-Grid__cell_transform';
+           return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed ${_private.getBackgroundStyle({style: params.style, theme})} controls-Grid__cell_fixed_theme-${theme}` : ' controls-Grid__cell_transform';
         },
 
         getClassesLadderHeading(itemData, theme): String {
@@ -271,7 +269,7 @@ var
             }
 
             if (current.isSelected) {
-                classLists.base += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell_selected ${_private.getBackgroundStyle({theme, style})} controls-Grid__row-cell_selected-${style}_theme-${theme}`;
 
                 if (current.columnIndex === 0) {
                     classLists.base += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
@@ -412,6 +410,22 @@ var
                 styles += `min-width: ${currentColumn.column.width}; max-width: ${currentColumn.column.width};`;
             }
             return styles;
+        },
+
+        /**
+         * Возвращает префикс стиля, выставленный для grid
+         * @param options
+         */
+        getStylePrefix(options: {theme: string, style?: string, backgroundStyle?: string}): string {
+            return options.style || options.backgroundStyle || 'default';
+        },
+
+        /**
+         * Возвращает CSS класс для установки background
+         * @param options
+         */
+        getBackgroundStyle(options: {theme: string, style?: string, backgroundStyle?: string}): string {
+            return `controls-background-${_private.getStylePrefix(options)}_theme-${options.theme}`;
         },
 
         /**
@@ -908,11 +922,11 @@ var
 
         getCurrentResultsColumn(): {column: IHeaderCell, index: number, zIndex?: number, cellClasses?: string} {
             const columnIndex = this._curResultsColumnIndex;
-            let cellClasses = `controls-Grid__results-cell controls-Grid__cell_${this._options.style} controls-Grid__results-cell_theme-${this._options.theme}`;
             const resultsColumn: {column: IHeaderCell, index: number, zIndex?: number, cellClasses?: string} = {
-                    column: this._resultsColumns[columnIndex],
-                    index: columnIndex
-                };
+                   column: this._resultsColumns[columnIndex],
+                   index: columnIndex
+            };
+            let cellClasses = `controls-Grid__results-cell ${_private.getBackgroundStyle(this._options)} controls-Grid__cell_${this._options.style} controls-Grid__results-cell_theme-${this._options.theme}`;
 
             if (resultsColumn.column?.align) {
                 cellClasses += ` controls-Grid__row-cell__content_halign_${resultsColumn.column.align}`;
@@ -946,8 +960,20 @@ var
                     hasMultiSelect: this._options.multiSelectVisibility !== 'hidden',
                     itemPadding: this._model.getItemPadding(),
                     isResult: true,
-                    hasActionCell: this._shouldAddActionsCell(),
+                    hasActionCell: this._shouldAddActionsCell()
                 }, this._options.theme).getAll();
+
+                if (resultsColumn.column.displayProperty) {
+                    const results = this._model.getMetaResults();
+                    if (results && cInstance.instanceOfModule(results, 'Types/entity:Model')) {
+                        resultsColumn.results = results.get(resultsColumn.column.displayProperty);
+                        const format = results.getFormat();
+                        const fieldIndex = format.getIndexByValue('name', resultsColumn.column.displayProperty);
+                        resultsColumn.resultsFormat = fieldIndex !== -1 ? format.at(fieldIndex).getType() : undefined;
+            }
+                }
+
+                resultsColumn.showDefaultResultTemplate = !!resultsColumn.resultsFormat;
             }
             resultsColumn.cellClasses = cellClasses;
             return resultsColumn;
@@ -959,6 +985,10 @@ var
 
         isEndResultsColumn: function() {
             return this._curResultsColumnIndex < this._resultsColumns.length;
+        },
+
+        getResults() {
+            return this._model.getMetaResults();
         },
 
         // -----------------------------------------------------------
@@ -1030,14 +1060,6 @@ var
 
         getItemById: function(id, keyProperty) {
             return this._model.getItemById(id, keyProperty);
-        },
-
-        markAddingItem() {
-            this._model.markAddingItem();
-        },
-
-        restoreMarker() {
-            this._model.restoreMarker();
         },
 
         setMarkedKey: function(key, byOptions) {
@@ -1257,20 +1279,7 @@ var
                 return current;
             }
 
-            const itemGroupId = !current.isGroup && this._getItemGroup(current.item);
-            current.isInHiddenGroup = itemGroupId === ControlsConstants.view.hiddenGroup;
-            current.isFirstInGroup = this._isFirstInGroup(current.item, itemGroupId);
-            current.rowSeparatorSize = this._options.rowSeparatorSize;
-
-            if (
-                current.isFirstInGroup &&
-                !current.isInHiddenGroup &&
-                current.item !== self.getLastItem()
-            ) {
-                current.rowSeparatorVisibility = false;
-            } else {
                 current.rowSeparatorVisibility = this._options.showRowSeparator !== undefined ? this._options.showRowSeparator : this._options.rowSeparatorVisibility;
-            }
 
             current.itemActionsDrawPosition =
                 this._options.columnScroll ? 'after' : 'before';
@@ -1633,7 +1642,7 @@ var
                     result.columnStart += offsetForMultiSelect;
                 } else {
                     result.columnSpan += offsetForMultiSelect;
-                }
+            }
                 return GridLayoutUtil.getColumnStyles(result);
             }
             return '';
@@ -1649,26 +1658,6 @@ var
                 });
             }
             return '';
-        },
-
-        _isFirstInGroup: function(item, groupId?): boolean {
-            const display = this._model._display;
-            let currentGroupItems;
-
-            groupId = groupId || this._getItemGroup(item);
-            if (groupId === undefined || groupId === null) {
-                return false;
-            }
-
-            currentGroupItems = display.getGroupItems(groupId);
-
-            // If current item is out of any group.
-            if (!currentGroupItems || currentGroupItems.length === 0) {
-                return false;
-            }
-
-
-            return item === currentGroupItems[0].getContents();
         },
 
         _getItemGroup: function(item): boolean {

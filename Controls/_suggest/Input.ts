@@ -24,7 +24,6 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_input/interface/IValue
- * @mixes Controls/_suggest/Input/Styles
  * @control
  * @public
  * @category Input
@@ -46,7 +45,6 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
- * @mixes Controls/_suggest/Input/Styles
  * @control
  * @public
  * @category Input

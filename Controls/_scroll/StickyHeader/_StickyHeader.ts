@@ -14,12 +14,18 @@ export const enum SHADOW_VISIBILITY {
     hidden = 'hidden'
 }
 
+export enum BACKGROUND_STYLE {
+    TRANSPARENT = 'transparent',
+    DEFAULT = 'default'
+}
+
 export interface IStickyHeaderOptions extends IControlOptions {
     position: POSITION;
     mode: MODE;
     fixedZIndex: number;
     shadowVisibility: SHADOW_VISIBILITY;
     backgroundVisible: boolean;
+    backgroundStyle: string;
 }
 
 /**
@@ -94,14 +100,19 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _notifyHandler: Function = tmplNotify;
 
+    // Префикс для корректной установки background
+    protected _backgroundStyle: string;
+
    _bottomShadowStyle: string = '';
    _topShadowStyle: string = '';
 
     private _stickyDestroy: boolean = false;
 
-    protected _beforeMount(): void {
+    protected _beforeMount(options: IStickyHeaderOptions): void {
+        this._options = options;
         this._observeHandler = this._observeHandler.bind(this);
         this._index = getNextId();
+        this._backgroundStyle = this._options.backgroundVisible !== false ? this._options.backgroundStyle : BACKGROUND_STYLE.TRANSPARENT;
     }
 
     protected _afterUpdate(): void {
@@ -238,9 +249,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             offsetHeight: this._height,
             prevPosition,
             mode: this._options.mode,
-            shadowVisible: this._options.shadowVisibility === 'visible',
-            // Костыль для 2100. В 3000 удалено.
-            ignoreHeight: this._options.ignoreHeight
+            shadowVisible: this._options.shadowVisibility === 'visible'
         };
 
         this._shadowVisible = !!newPosition;
@@ -412,19 +421,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._container.get ? this._container.get(0) : this._container;
     }
 
+    static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
+
     static _isSafari13(): boolean {
-        // TODO remove after complete https://online.sbis.ru/opendoc.html?guid=14d98228-de34-4ad3-92a3-4d7fe8770097
-        if (detection.safari) {
-            const safariVersionMatching = detection.userAgent.match(/Version\/([0-9\.]*)/);
-            if (safariVersionMatching) {
-                return parseInt(safariVersionMatching[1], 10) >= 13;
-            }
-        }
-        // Check chrome ang safari on ios 13.
-        if (detection.isMobileIOS && detection.IOSVersion >= 13) {
-            return true;
-        }
-        return false;
+        return detection.safariVersion >= 13;
     }
 
     static contextTypes(): IStickyHeaderContext {
@@ -439,6 +439,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             fixedZIndex: 2,
             shadowVisibility: SHADOW_VISIBILITY.visible,
             backgroundVisible: true,
+            backgroundStyle: BACKGROUND_STYLE.DEFAULT,
             mode: MODE.replaceable,
             position: POSITION.top
         };
@@ -451,6 +452,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 SHADOW_VISIBILITY.hidden
             ]),
             backgroundVisible: descriptor(Boolean),
+            backgroundStyle: descriptor(String),
             mode: descriptor(String).oneOf([
                 MODE.replaceable,
                 MODE.stackable
