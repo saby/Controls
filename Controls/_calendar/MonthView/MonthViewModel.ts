@@ -109,8 +109,7 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       }, this);
    },
 
-   _prepareClass: function(scope) {
-      scope = scope.value;
+   _prepareClass: function(scope, hasBackgroundColor, hasTextColor) {
 
       var textColorClass = 'controls-MonthViewVDOM__textColor',
          backgroundColorClass = 'controls-MonthViewVDOM__backgroundColor',
@@ -147,7 +146,15 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
           borderClass += '-readOnly';
       }
 
-      css.push(textColorClass, backgroundColorClass, borderClass);
+      if (hasBackgroundColor !== false || !scope.clickable) {
+         css.push(backgroundColorClass);
+      }
+
+      if (hasTextColor !== false) {
+         css.push(textColorClass);
+      }
+
+      css.push(borderClass);
 
       // Оставляем старые классы т.к. они используются в большом выборе периода до его редизайна
       // TODO: Выпилить старые классы
@@ -155,37 +162,39 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
          if (scope.selectionEnabled) {
             css.push('controls-MonthViewVDOM__cursor-item');
          }
-         if (!scope.selected) {
-            if (scope.selectionEnabled) {
-               css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected');
+         if (hasBackgroundColor !== false) {
+            if (!scope.selected) {
+               if (scope.selectionEnabled) {
+                  css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected');
+               }
             }
-         }
-         css.push('controls-MonthViewVDOM__selectableItem');
-         if (scope.enabled && scope.selectionEnabled) {
-            css.push('controls-MonthViewVDOM__hover-selectableItem');
-         }
-         if (scope.selected) {
-            css.push('controls-MonthViewVDOM__item-selected');
-         }
+            css.push('controls-MonthViewVDOM__selectableItem');
+            if (scope.enabled && scope.selectionEnabled) {
+               css.push('controls-MonthViewVDOM__hover-selectableItem');
+            }
+            if (scope.selected) {
+               css.push('controls-MonthViewVDOM__item-selected');
+            }
 
-         if (scope.selectedUnfinishedStart) {
-            css.push('controls-MonthViewVDOM__item-selectedStart-unfinished');
-         }
-         if (scope.selectedUnfinishedEnd) {
-            css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished');
-         }
-         if (scope.selected) {
-            if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
-               css.push('controls-MonthViewVDOM__item-selectedStartEnd');
-            } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
-               css.push('controls-MonthViewVDOM__item-selectedStart');
-            } else if (scope.selectedEnd && (!scope.selectionProcessing ||
-                (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
-               css.push('controls-MonthViewVDOM__item-selectedEnd');
+            if (scope.selectedUnfinishedStart) {
+               css.push('controls-MonthViewVDOM__item-selectedStart-unfinished');
             }
-         }
-         if (scope.selectedInner) {
-            css.push('controls-MonthViewVDOM__item-selectedInner');
+            if (scope.selectedUnfinishedEnd) {
+               css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished');
+            }
+            if (scope.selected) {
+               if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
+                  css.push('controls-MonthViewVDOM__item-selectedStartEnd');
+               } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
+                  css.push('controls-MonthViewVDOM__item-selectedStart');
+               } else if (scope.selectedEnd && (!scope.selectionProcessing ||
+                   (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
+                  css.push('controls-MonthViewVDOM__item-selectedEnd');
+               }
+            }
+            if (scope.selectedInner) {
+               css.push('controls-MonthViewVDOM__item-selectedInner');
+            }
          }
 
          if (scope.today) {

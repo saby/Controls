@@ -1,6 +1,11 @@
-.controls-MonthViewVDOM {
+.controls-MonthViewVDOM-old {
    display: flex;
    flex-direction: column;
+   text-align: center;
+}
+
+.controls-MonthViewVDOM {
+   display: inline-block;
    text-align: center;
 }
 
@@ -55,6 +60,10 @@
          outline: @border-thickness__MonthView-item solid @border-color__MonthView-item-hover;
       }
    }
+}
+
+.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected {
+   background-color: transparent;
 }
 
 .controls-MonthViewVDOM__item-selectedStart,
@@ -115,8 +124,9 @@
 
 .controls-MonthView__theme(
    @width: null,
+   @min-width_item: null,
    @background: null,
-   @height_item: null,
+   @min-height_item: null,
    @color_weekDayHeader: null,
    @font-size_weekDayHeader: null,
    @font-size_item: null,
@@ -141,13 +151,17 @@
       }
    }
 
-   &.controls-MonthViewVDOM {
+   &.controls-MonthViewVDOM-old {
       .setStyle(width, @width);
       .setStyle(background, @background);
    }
 
-   &.controls-MonthViewVDOM__tableRow {
-      .setStyle(flex-basis, @height_item + @border-thickness__MonthView-item);
+  &.controls-MonthViewVDOM {
+    .setStyle(background, @background);
+  }
+
+   &.controls-MonthViewVDOM__tableRow-old {
+      .setStyle(flex-basis, @min-height_item + @border-thickness__MonthView-item);
    }
 
    &.controls-MonthViewVDOM__tableHead {
@@ -155,9 +169,17 @@
       .setStyle(font-size, @font-size_weekDayHeader);
    }
 
-   .controls-MonthViewVDOM__item {
-      .setStyle(font-size, @font-size_item);
-   }
+  .controls-MonthViewVDOM__item {
+    .setStyle(font-size, @font-size_item);
+    min-width: @min-height_item;
+    min-height: @min-width_item;
+  }
+
+  .controls-MonthViewVDOM__item-old {
+    .setStyle(font-size, @font-size_item);
+    min-width: 0;
+    min-height: 0;
+  }
 
    .controls-MonthViewVDOM__item-selectedStart,
    .controls-MonthViewVDOM__item-selectedEnd,
@@ -219,8 +241,9 @@
 
 .controls-MonthView__theme(
    @width: @width_MonthView,
+   @min-width_item: @min-width_MonthView-item,
    @background: @background_MonthView,
-   @height_item: @height_MonthView-item,
+   @min-height_item: @min-height_MonthView-item,
    @color_weekDayHeader: @color_MonthView-weekDayHeader,
    @font-size_weekDayHeader: @font-size_MontView-weekDayHeader,
    @font-size_item: @font-size_MonthView-item,
@@ -248,9 +271,10 @@
 .controls-MonthView__accordionTheme {
    .controls-MonthView__theme(
       @width: 196px,
+      @min-width_item: 27px,
       @background: #354758,
       @font-size_item: 14px,
-      @height_item: 27px,
+      @min-height_item: 27px,
       @border-color__item-selected-startEnd-hover: transparent,
       @background_item: #354758,
       @background_item-selected: #354758,

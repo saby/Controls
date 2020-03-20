@@ -1,0 +1,46 @@
+<div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">mode=current</div>
+        <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}">
+            <ws:dayHeaderTemplate>
+                <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
+                    <div class="controls-MonthViewDemo-day"> {{dayHeaderTemplate.value.caption}}</div>
+                </ws:if>
+                <ws:else>
+                    <div class="controls-MonthViewDemo-day-weekend controls-MonthViewDemo-day"> {{dayHeaderTemplate.value.caption}}</div>
+                </ws:else>
+            </ws:dayHeaderTemplate>
+            <ws:dayTemplate>
+                <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}" hasBackgroundColor="{{false}}"
+                            hasTextColor="{{false}}" attr:class="controls-MonthViewDemo-day-currentMonth">
+                    <ws:contentTemplate>
+                        {{contentTemplate.value.day}}
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:dayTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">mode=extended</div>
+        <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}" mode="extended">
+            <ws:dayTemplate>
+                <ws:if data="{{dayTemplate.value.isCurrentMonth}}">
+                    <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}" hasSize="{{false}}" hasBackgroundColor="{{false}}"
+                                hasTextColor="{{false}}" attr:class="controls-MonthViewDemo-day-currentMonth">
+                        <ws:contentTemplate>
+                            {{contentTemplate.value.day}}
+                        </ws:contentTemplate>
+                    </ws:partial>
+                </ws:if>
+                <ws:else>
+                    <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}" hasSize="{{false}}" hasBackgroundColor="{{false}}"
+                                hasTextColor="{{false}}" attr:class="controls-MonthViewDemo-day">
+                        <ws:contentTemplate>
+                            {{contentTemplate.value.day}}
+                        </ws:contentTemplate>
+                    </ws:partial>
+                </ws:else>
+            </ws:dayTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+</div>

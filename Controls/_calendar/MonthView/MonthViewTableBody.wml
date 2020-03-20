@@ -1,15 +1,33 @@
-<div for="index, week in monthViewModel.getMonthArray()" class="controls-MonthViewVDOM__tableRow {{_themeCssClass}}">
-   <div for="indexOfDay, value in week"
-        on:click="_dayClickHandler(value.date, mode, value.isCurrentMonth)"
-        on:mouseenter="_mouseEnterHandler(value.date, mode, value.isCurrentMonth)"
-        attr:class="controls-MonthViewVDOM__item {{ monthViewModel._prepareClass({'value': value}) }} {{_themeCssClass}}"
-        data-date="{{value.id}}"
-   >
-      <ws:partial
-         template="{{dayTemplate}}"
-         value="{{value}}"
-         _themeCssClass="{{_themeCssClass}}"
-         mode="{{mode}}"
-      />
-   </div>
+<div for="index, week in monthViewModel.getMonthArray()" class="controls-MonthViewVDOM__tableRow{{newMode !== true? ' controls-MonthViewVDOM__tableRow-old'}} {{_themeCssClass}}">
+    <ws:if data="{{newMode !== true}}">
+        <div for="indexOfDay, value in week"
+             on:click="_dayClickHandler(value.date, mode, value.isCurrentMonth)"
+             on:mouseenter="_mouseEnterHandler(value.date, mode, value.isCurrentMonth)"
+             attr:class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item-old {{ monthViewModel._prepareClass(value) }} {{_themeCssClass}}"
+             data-date="{{value.id}}"
+        >
+            <ws:partial
+                    template="{{dayTemplate}}"
+                    value="{{value}}"
+                    newMode="{{newMode}}"
+                    _themeCssClass="{{_themeCssClass}}"
+                    mode="{{mode}}"
+            />
+        </div>
+    </ws:if>
+    <ws:else>
+        <ws:for data="indexOfDay, value in week">
+            <ws:partial
+                    on:click="_dayClickHandler(value.date, mode, value.isCurrentMonth)"
+                    on:mouseenter="_mouseEnterHandler(value.date, mode, value.isCurrentMonth)"
+                    data-date="{{value.id}}"
+                    monthViewModel="{{monthViewModel}}"
+                    template="{{dayTemplate}}"
+                    newMode="{{newMode}}"
+                    value="{{value}}"
+                    _themeCssClass="{{_themeCssClass}}"
+                    mode="{{mode}}"
+            />
+        </ws:for>
+    </ws:else>
 </div>

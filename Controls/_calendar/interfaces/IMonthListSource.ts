@@ -5,6 +5,7 @@ export interface IMonthListSourceOptions {
    source?: ICrud;
    order?: string;
    dayTemplate?: TemplateFunction;
+   dayHeaderTemplate?: TemplateFunction;
 }
 /*Eng
  * An interface for controls based on Controls/calendar:MonthList and allowing you to draw your data
@@ -72,13 +73,15 @@ export interface IMonthListSource {
 /*Eng
  * @name Controls/_calendar/interfaces/IMonthListSource#dayTemplate
  * @cfg {Function} Day template.
+ * @remark Шаблон имеет опции hasBackgroundColor, hasTextColor и hasSize с помощью которых можно отключать стили ячеек в режиме newMode
  * @example
  * <pre>
  * <Controls.calendar:MonthList
  *     bind:month="_month"
  *     source="{{_source}}">
  *     <ws:dayTemplate>
- *         <ws:partial template="Controls/calendar:MonthViewDayTemplate">
+ *         <ws:partial template="Controls/calendar:MonthViewDayTemplate" attr:class="controls-MonthViewDemo-day-custom"
+ *                hasTextColor="{{false}}" hasSize="{{false}}" hasBackgroundColor="{{false}" >
  *             <ws:contentTemplate>
  *                 <ws:partial template="{{_dayTemplate}}"/>
  *             </ws:contentTemplate>
@@ -88,6 +91,24 @@ export interface IMonthListSource {
  * </pre>
  * @see Controls/_calendar/interfaces/IMonthListSource#source
  */
+
+/*
+ * @name Controls/_calendar/interfaces/IMonthListSource#dayHeaderTemplate
+ * cfg {Function} Day header template
+ * @remark В шаблоне можно использовать объект value, в котором хранятся caption (Сокращенное название дня недели) day (Индекс дня) и
+ * weekend (Буллевое значение, является ли день выходным)
+ * @example
+ *  <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}">
+ *       <ws:dayHeaderTemplate>
+ *          <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
+ *             <div class="controls-MonthViewDemo-day"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:if>
+ *          <ws:else>
+ *             <div class="controls-MonthViewDemo-day-weekend"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:else>
+ *       </ws:dayHeaderTemplate>
+ *  </Controls.calendar:MonthView>
+*/
 
 /*
  * @name Controls/_calendar/interfaces/IMonthListSource#order
