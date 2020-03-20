@@ -104,13 +104,27 @@ define('Controls/interface/IFormController', [
     */
 
    /**
+    * @typedef {Object} updateConfig
+    * @description Параметр сохранения
+    * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром
+    */
+
+   /**
+    * @typedef {Object} updateConfig
+    * @description Save option
+    * @property {Object} additionalData Additional data that will be processed when synchronizing registry entries
+    */
+
+   /**
     * Обновляет запись в источнике данных. Подробнее {@link Types/source:ICrud#update}
     * @function Controls/interface/IFormController#update
+    * @param {updateConfig} config Параметр сохранения
     */
 
    /*
     * Updates a record in the data source.  More {@link Types/source:ICrud#update}
     * @function Controls/interface/IFormController#update
+    * @param {updateConfig} Save option
     */
 
    /**

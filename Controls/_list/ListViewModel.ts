@@ -56,11 +56,7 @@ var _private = {
         if (markedKey === null) {
             return;
         }
-        if (self._editingItemData && self._editingItemData.isAdd) {
-            return self._editingItemData.item;
-        } else {
-            return self.getItemById(markedKey, self._options.keyProperty);
-        }
+        return self.getItemById(markedKey, self._options.keyProperty);
     },
     isSelected(self: ListViewModel, current: IListItemData): boolean {
         const markedItem = _private.getItemByMarkedKey(self, self._markedKey);
@@ -206,8 +202,8 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
 
         itemsModelCurrent.shouldDrawMarker = (marker: boolean) => {
-            const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden';
-            return canDrawMarker && (itemsModelCurrent.isAdd ? true : _private.isSelected(self, itemsModelCurrent));
+            const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden' && !self._editingItemData;
+            return canDrawMarker && _private.isSelected(self, itemsModelCurrent);
         };
 
         itemsModelCurrent.getMarkerClasses = (): string => {
@@ -304,22 +300,6 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return version;
     },
 
-    markAddingItem(): void {
-        this._savedMarkedKey = this._markedKey;
-        this._markedKey = this._editingItemData.key;
-        this._nextModelVersion(true, 'markedKeyChanged');
-        this._notify('onMarkedKeyChanged', this._markedKey);
-    },
-
-    restoreMarker(): void {
-        if (this._savedMarkedKey) {
-            this._markedKey = this._savedMarkedKey;
-            this._savedMarkedKey = undefined;
-            this._nextModelVersion(true, 'markedKeyChanged');
-            this._notify('onMarkedKeyChanged', this._markedKey);
-        }
-    },
-
     setMarkedKey: function(key, byOptions) {
         if (byOptions) {
             this._options.markedKey = key;
@@ -347,8 +327,6 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
 
     },
-
-
 
     updateMarker: function(markedKey):void {
         const curMarkedKey = this._markedKey;

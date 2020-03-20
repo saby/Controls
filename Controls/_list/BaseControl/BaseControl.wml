@@ -40,12 +40,13 @@
                     <div class="controls-BaseControl_paging-label">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
                 </ws:else>
             </ws:if>
-            <Controls.paging:Paging attr:class="controls-BaseControl__footerPaging"
-                                    showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
-                                    pagesCount = "{{_knownPagesCount}}"
-                                    selectedPage = "{{_currentPage}}"
-                                    on:selectedPageChanged="__pagingChangePage()"
-            ></Controls.paging:Paging>
+            <Controls.paging:Paging
+                attr:class="controls-BaseControl__footerPaging"
+                showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
+                showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
+                pagesCount = "{{_knownPagesCount}}"
+                selectedPage = "{{_currentPage}}"
+                on:selectedPageChanged="__pagingChangePage()" />
         </div>
     </ws:if>
     <ws:if data="{{_shouldDrawFooter}}">
@@ -241,8 +242,11 @@
             <div class="controls-BaseControl_paging-Padding">
             </div>
             <div class="controls-BaseControl__pagingContainer">
-                <!-- scope1 нужен потому что без него dirtyChecking не смотрит на scope при вычислении изменений https://online.sbis.ru/opendoc.html?guid=83c8c334-0e38-413e-9ef0-640d63408c01-->
-                <Controls.paging:Paging attr:class="controls-BaseControl__scrollPaging" scope="{{_pagingCfg}}" scope1="{{_pagingCfg}}" on:onArrowClick="__onPagingArrowClick()"></Controls.paging:Paging>
+                <Controls.paging:Paging
+                    attr:class="controls-BaseControl__scrollPaging"
+                    scope="{{_pagingCfg}}"
+                    showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
+                    on:onArrowClick="__onPagingArrowClick()" />
             </div>
         </ws:if>
         <Controls.popup:Sticky

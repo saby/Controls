@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.calendar:MonthSlider
+                attr:class="controlsDemo-MonthSlider__selected"
+                bind:month="_month"
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                attr:class="controlsDemo-MonthSlider__selected"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <span>startValue: </span>
+        <Controls.buttons:Button caption="-1 день" on:click="_changeStartValue(-1)"/>
+        <Controls.buttons:Button caption="+1 день" on:click="_changeStartValue(1)"/>
+        <span>endValue: </span>
+        <Controls.buttons:Button caption="-1 день" on:click="_changeEndValue(-1)"/>
+        <Controls.buttons:Button caption="+1 день" on:click="_changeEndValue(1)"/>
+    </div>
+</div>

@@ -53,6 +53,12 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
     this._iconSize = options.icon ? ActualApi.iconSize(options.iconSize, this._icon) : '';
     this._iconStyle = options.icon ?
         ActualApi.iconStyle(options.iconStyle, this._icon, options.readOnly, options.buttonAdd) : '';
+
+    if (this._viewMode === 'linkButton') {
+        const actualState = ActualApi.actualLinkButton(this._viewMode, this._height);
+        this._viewMode = actualState.viewMode;
+        this._height = actualState.height;
+    }
 }
 
 /**

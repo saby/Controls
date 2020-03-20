@@ -43,6 +43,7 @@ class SliderBase extends Control<ISliderBaseOptions> {
         return {
             size: 'm',
             borderVisible: false,
+            tooltipVisible: true,
             minValue: undefined,
             maxValue: undefined,
             scaleStep: undefined,
@@ -58,6 +59,7 @@ class SliderBase extends Control<ISliderBaseOptions> {
                 'm'
             ]),
             borderVisible: EntityDescriptor(Boolean),
+            tooltipVisible: EntityDescriptor(Boolean),
             minValue: EntityDescriptor(Number).required,
             maxValue: EntityDescriptor(Number).required,
             scaleStep: EntityDescriptor(Number),

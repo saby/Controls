@@ -9,8 +9,14 @@
       <Controls._menu.Render scope="{{_options}}"
                              listModel="{{_listModel}}"
                              on:itemClick="_itemClick()"
+                             on:itemSwipe="_itemSwipe()"
+                             on:itemActionClick="_itemActionClick()"
                              on:itemMouseEnter="_itemMouseEnter()"
                              on:checkBoxClick="_checkBoxClick()"
+
+                             on:mouseenter="_mouseEnterHandler()"
+                             on:touchstart="_touchStartHandler()"
+
                              on:mouseleave="_mouseOutHandler()"
                              on:mousemove="_mouseMove()"
                              on:pinClick="_pinClick()">
@@ -46,7 +52,7 @@
                                         iconSize="m"
                                         iconStyle="contrast"
                                         buttonStyle="success"
-                                        inlineHeight="l"
+                                        inlineHeight="menuapply"
                                         on:click="_applySelection()"/>
             </div>
          </ws:if>

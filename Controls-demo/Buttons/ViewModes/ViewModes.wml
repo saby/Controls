@@ -7,10 +7,10 @@
         <Controls.buttons:Button icon="icon-Send" iconStyle="primary" buttonStyle="primary" iconSize="m"></Controls.buttons:Button>{{' '}}
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link</div>
-        <Controls.buttons:Button caption="Button" viewMode="link"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button viewMode="link" icon="icon-Erase" iconStyle="danger"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button caption="Button" viewMode="link" icon="icon-Author" iconSize="s"></Controls.buttons:Button>
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton</div>
+        <Controls.buttons:Button caption="Button" viewMode="linkButton"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button viewMode="linkButton" icon="icon-Erase" iconStyle="danger"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button caption="Button" viewMode="linkButton" icon="icon-Author" iconSize="s"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton</div>

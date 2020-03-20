@@ -697,9 +697,9 @@ define('Controls/interface/IFilterPanel', [], function() {
     */
 
    /**
-    * @event Controls/interface/IFilterPanel#itemsChanged Событие возникает при изменении опции items.
-    * @param {Event}
-    * @param {Controls/_filter/interface/IFilterView#source} items Конфигурация св-в фильтра,
+    * @event Controls/interface/IFilterPanel#itemsChanged Событие происходит при изменении опции items.
+    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Controls/_filter/interface/IFilterView#source} items Конфигурация свойств фильтра.
     * @example
     * WML:
     * <pre>

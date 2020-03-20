@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
         <div>
-            <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="link"/>
+            <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="linkButton"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
                 <div>
                     <Controls.list:Mover

@@ -74,6 +74,7 @@ var _private = {
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/interface/ISearch
  * @control
  * @public
  * @author Золотова Э.Е.
@@ -265,6 +266,11 @@ var _private = {
  *       }
  *    }
  * </pre>
+ */
+
+/**
+ * @name Controls/_dropdown/Input#emptyTemplate
+ * @cfg {Function} Шаблон, который будет отображаться в выпадающем списке, если поисковой запрос не вернул результатов.
  */
 
 var Input = Control.extend({

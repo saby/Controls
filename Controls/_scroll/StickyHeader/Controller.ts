@@ -62,7 +62,7 @@ class Component extends Control {
     hasShadowVisible(position: string): boolean {
         const arrShadowVisible = this._shadowVisibleStack[position];
         for (const id in arrShadowVisible) {
-            if (arrShadowVisible[id].shadowVisible) {
+            if (arrShadowVisible[id]) {
                 return true;
             }
         }
@@ -76,7 +76,7 @@ class Component extends Control {
             replaceableHeight: number = 0,
             header;
         for (let headerId of this._fixedHeadersStack[position]) {
-            const ignoreHeight = this._shadowVisibleStack[position][headerId].ignoreHeight;
+            const ignoreHeight: boolean = !this._shadowVisibleStack[position][headerId];
             if (ignoreHeight) {
                 continue;
             }
@@ -139,10 +139,7 @@ class Component extends Control {
         event.stopImmediatePropagation();
         this._updateFixationState(fixedHeaderData);
         if (fixedHeaderData.fixedPosition) {
-            this._shadowVisibleStack[fixedHeaderData.fixedPosition][fixedHeaderData.id] = {
-                shadowVisible: fixedHeaderData.shadowVisible,
-                ignoreHeight: fixedHeaderData.ignoreHeight
-            };
+            this._shadowVisibleStack[fixedHeaderData.fixedPosition][fixedHeaderData.id] = fixedHeaderData.shadowVisible;
         } else if (fixedHeaderData.prevPosition) {
             delete this._shadowVisibleStack[fixedHeaderData.prevPosition][fixedHeaderData.id];
         }
