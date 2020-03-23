@@ -210,8 +210,10 @@ var
                     self.beginEdit({
                         item: _private.getNext(self._editingItem, index, self._options.listModel)
                     });
-                } else if (addAnyway || editingConfig.autoAdd) {
+                } else if ((addAnyway || editingConfig.autoAdd) && self._editingItem.isChanged()) {
                     self.beginAdd();
+                } else if (!self._editingItem.isChanged()) {
+                    self.cancelEdit();
                 } else {
                     self.commitEdit();
                 }
