@@ -605,7 +605,7 @@ export interface IList {
 /**
  * @name Controls/_list/interface/IList#markedKey
  * @cfg {Number} Идентификатор выделенной маркером строки.
- * <a href=/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  */
 
 /*
