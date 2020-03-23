@@ -152,7 +152,7 @@ var
             if (itemData.expanderVisibility === 'hasChildren') {
                 return itemData.thereIsChildItem && expanderIcon !== 'none';
             } else {
-                return !expanderSize && expanderIcon !== 'none';
+                return expanderIcon !== 'none';
             }
         },
         getExpanderPaddingClasses: function(expanderSize, theme) {
