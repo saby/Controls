@@ -95,24 +95,26 @@ define(
 
          it('getCustomZIndex', () => {
             let list = new collection.List();
-            list.add({
+            let item = {
                id: 1,
                popupOptions: {}
-            });
-            let zIndex = popup.Notification.zIndexCallback({}, list);
+            };
+            list.add(item);
+            let zIndex = popup.Notification.zIndexCallback(item, list);
             assert.equal(zIndex, 100);
 
-            list.add({
+            item = {
                id: 2,
                popupOptions: {
                   maximize: true,
                }
-            });
+            };
+            list.add(item);
 
-            zIndex = popup.Notification.zIndexCallback({}, list);
+            zIndex = popup.Notification.zIndexCallback(item, list);
             assert.equal(zIndex, 19);
 
-            let item = {
+            item = {
                id: 3,
                parentId: 2,
                popupOptions: {}
@@ -121,6 +123,9 @@ define(
             zIndex = popup.Notification.zIndexCallback(item, list);
             assert.equal(zIndex, 100);
 
+            item.popupOptions.autoClose = true;
+            zIndex = popup.Notification.zIndexCallback(item, list);
+            assert.equal(zIndex, 2000);
          });
 
          it('getCompatibleConfig', () => {

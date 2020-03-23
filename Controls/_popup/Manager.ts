@@ -589,7 +589,8 @@ class Manager extends Control<IManagerOptions> {
                 parentId: item.parentId,
                 parentZIndex,
                 popupOptions: {
-                    maximize: !!item.popupOptions.maximize // for notification popup
+                    maximize: !!item.popupOptions.maximize, // for notification popup
+                    autoClose: !!item.popupOptions.autoClose // for notification popup
                 }
             });
         });
