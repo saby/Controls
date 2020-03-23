@@ -268,6 +268,30 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          assert.deepEqual(controllerFilter, {});
       });
 
+      it('_private.searchCallback with loading _SearchController', () => {
+         var controller = getSearchController();
+         var notified = false;
+
+         controller._notify = () => {
+            notified = true;
+         };
+         controller._isSearchControllerLoading = function() {
+            return true;
+         };
+         controller._searchValue = '';
+         searchMod.Controller._private.searchCallback(controller, {}, {test: 'testFilterValue'});
+         assert.equal(controller._searchValue, '');
+         assert.isFalse(notified);
+
+         controller._isSearchControllerLoading = function() {
+            return false;
+         };
+         searchMod.Controller._private.searchCallback(controller, {}, {test: 'testFilterValue'});
+         assert.equal(controller._searchValue, 'testFilterValue');
+         assert.isTrue(notified);
+
+      });
+
       it('_private.abortCallback', function() {
          var controller = getSearchController();
          var filter = { 'Разворот': 'С разворотом', 'usePages': 'full', test: 'test' };
