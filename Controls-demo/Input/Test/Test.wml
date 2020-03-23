@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">input:Text</div>
+        <Controls.input:Text attr:class="controls-demo__input__test1"bind:value="_value1" attr:style="width:50px"></Controls.input:Text>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">input:Money with integersLength=4</div>
+        <Controls.input:Money attr:class="controls-demo__input__test2" integersLength="{{4}}" bind:value="_value2" attr:style="width:50px"></Controls.input:Money>
+    </div>
+</div>
