@@ -18,6 +18,7 @@ import {
     IInputType,
     ISplitValue
 } from 'Controls/_input/Base/InputUtil';
+import Delay from 'Controls/_input/Base/Delay';
 import MobileFocusController from 'Controls/_input/Base/MobileFocusController';
 
 import 'wml!Controls/_input/Base/Stretcher';
@@ -411,6 +412,8 @@ var Base = Control.extend({
      */
     _viewModel: null,
 
+    _delay: null,
+
     _wasActionUser: true,
 
     _firstFocus: true,
@@ -594,6 +597,11 @@ var Base = Control.extend({
         this._initProperties(options);
         _private.initViewModel(this, viewModelCtr, viewModelOptions, _private.getValue(this, options));
 
+        this._delay = new Delay();
+        this._delay.callback = () => {
+            _private.updateField(this, this._viewModel.displayValue, this._viewModel.selection);
+        };
+
         if (this._autoComplete !== 'off') {
             /**
              * Browsers use auto-fill to the fields with the previously stored name.
@@ -628,6 +636,7 @@ var Base = Control.extend({
     },
 
     _beforeUpdate: function (newOptions) {
+        this._delay.lock();
         const newViewModelOptions = this._getViewModelOptions(newOptions);
         const oldDisplayValue = this._viewModel.displayValue;
 
@@ -654,6 +663,10 @@ var Base = Control.extend({
         if (displayValueChangedByParent) {
             this._fixedDisplayValue = this._viewModel.displayValue;
         }
+    },
+
+    _afterUpdate() {
+        this._delay.unlock();
     },
 
     /**
@@ -846,7 +859,7 @@ var Base = Control.extend({
          * но в местах с багом этого визуально не заметно.
          */
         if (!this._isMobileAndroid) {
-            _private.updateField(this, model.displayValue, model.selection);
+            this._delay.run();
             model.changesHaveBeenApplied();
         }
     },
