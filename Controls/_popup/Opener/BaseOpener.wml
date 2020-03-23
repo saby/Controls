@@ -2,5 +2,5 @@
    <Controls.event:Listener event="scroll" on:scroll="_scrollHandler()"  listenAll="{{true}}"/>
 </ws:if>
 <ws:else>
-   <div></div>
+   <invisible-node />
 </ws:else>
