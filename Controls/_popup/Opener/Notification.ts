@@ -163,6 +163,13 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
         const count: number = popupItems.getCount();
         const zIndexStep: number = 10;
         const baseZIndex: number = 100;
+        const maxZIndex: number = 2000;
+
+        // Сделал так же как в ws3. окна, которые закрываются автоматически - всегда выше всех.
+        if (item.popupOptions.autoClose) {
+            return maxZIndex;
+        }
+
         for (let i = 0; i < count; i++) {
             // if popups are linked, then notification must be higher then parent
             if (popupItems.at(i).popupOptions.maximize && !isLinkedPopup(popupItems, popupItems.at(i), item)) {
