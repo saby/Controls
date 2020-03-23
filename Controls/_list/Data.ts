@@ -75,6 +75,11 @@ type GetSourceResult = {
                (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
          },
 
+         getGroupHistoryId(options): string {
+            const hasGrouping = !!options.groupProperty || !!options.groupingKeyCallback;
+            return hasGrouping ? (options.groupHistoryId || options.historyIdCollapsedGroups) : undefined;
+         },
+
          updateDataOptions: function(self, dataOptions) {
             function reducer(result, optName) {
                if (optName === 'source' && self._source) {
@@ -99,17 +104,15 @@ type GetSourceResult = {
          createPrefetchSource(
             self,
             data: RecordSet | void,
-            dataLoadErrback: Function | void
+            dataLoadErrback: Function | void,
+            groupHistoryId
          ): Promise<GetSourceResult> {
-            const hasGrouping = !!self._options.groupingKeyCallback || !!self._options.groupProperty;
-            const groupsStoreKey = hasGrouping ? (self._options.historyIdCollapsedGroups || self._options.groupHistoryId) : undefined;
-
             return new Promise((resolve) => {
-               if (!hasGrouping || !groupsStoreKey) {
+               if (typeof groupHistoryId === 'string') {
                   resolve(self._filter);
                } else {
                   // restoreCollapsedGroups всегда завершается через Promise.resolve()
-                  GroupUtil.restoreCollapsedGroups(groupsStoreKey).then((collapsedGroups?: TArrayGroupId) => {
+                  GroupUtil.restoreCollapsedGroups(groupHistoryId).then((collapsedGroups?: TArrayGroupId) => {
                      resolve(prepareFilterCollapsedGroups(collapsedGroups, self._filter));
                   });
                }
@@ -212,7 +215,7 @@ type GetSourceResult = {
                   })
                });
             } else if (self._source) {
-               return _private.createPrefetchSource(this, null, options.dataLoadErrback).addCallback(function(result) {
+               return _private.createPrefetchSource(this, null, options.dataLoadErrback, _private.getGroupHistoryId(options)).addCallback(function(result) {
                   _private.createDataContextBySourceResult(self, result);
                   return result.data;
                });
@@ -226,7 +229,7 @@ type GetSourceResult = {
 
             if (this._options.source !== newOptions.source) {
                this._loading = true;
-               return _private.createPrefetchSource(this).addCallback((result) => {
+               return _private.createPrefetchSource(this, null, null, _private.getGroupHistoryId(newOptions)).addCallback((result) => {
                   _private.resolvePrefetchSourceResult(this, result);
                   _private.updateDataOptions(this, this._dataOptionsContext);
                   this._dataOptionsContext.updateConsumers();
