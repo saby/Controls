@@ -1323,8 +1323,11 @@ define([
             assert.isNull(eip._editingItem);
          });
 
-         it('Enter on last item', function(done) {
+         it('Enter on unchanged last last item', function(done) {
             eip.commitEdit = function() {
+               throw new Error('commitEdit shouldn\'t be called');
+            };
+            eip.cancelEdit = function() {
                done();
             };
             eip.beginEdit = function() {
@@ -1336,13 +1339,48 @@ define([
             eip.saveOptions({
                listModel: listModel
             });
-            eip._editingItem = listModel.at(2).getContents();
-            eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem = listModel.at(2)
+               .getContents();
+            eip._setEditingItemData(listModel.at(2)
+               .getContents(), eip._options.listModel, eip._options);
             eip._onKeyDown({
-               stopPropagation: function() {}
+               stopPropagation: function() {
+               }
             }, {
                keyCode: 13,
-               stopPropagation: function() {}
+               stopPropagation: function() {
+               }
+            });
+         });
+
+         it('Enter on changed last item', function(done) {
+            eip.commitEdit = function() {
+               done();
+            };
+            eip.cancelEdit = function() {
+               throw new Error('cancelEdit shouldn\'t be called');
+            };
+            eip.beginEdit = function() {
+               throw new Error('beginEdit shouldn\'t be called');
+            };
+            eip.beginAdd = function() {
+               throw new Error('beginAdd shouldn\'t be called');
+            };
+            eip.saveOptions({
+               listModel: listModel
+            });
+            eip._editingItem = listModel.at(2)
+               .getContents();
+            eip._setEditingItemData(listModel.at(2)
+               .getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
+            eip._onKeyDown({
+               stopPropagation: function() {
+               }
+            }, {
+               keyCode: 13,
+               stopPropagation: function() {
+               }
             });
          });
 
@@ -1359,6 +1397,7 @@ define([
             eip._sequentialEditing = true;
             eip._editingItem = listModel.at(2).getContents();
             eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
             eip._onKeyDown({
                stopPropagation: function() {}
             }, {
@@ -1401,6 +1440,7 @@ define([
             };
 
             await eip.beginAdd();
+            eip._editingItem.set('title', 'test');
 
             assert.equal(eip._editingItem.getId(), newItem.getId());
 
@@ -1513,6 +1553,7 @@ define([
             });
             eip._editingItem = listModel.at(2).getContents();
             eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
             eip._onRowDeactivated({
                stopPropagation: function() {
 
@@ -1545,6 +1586,7 @@ define([
             listModelWithGroups.toggleGroup('whatever');
             eip._editingItem = listModelWithGroups.at(2).getContents();
             eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
             eip._onRowDeactivated({
                stopPropagation: function() {
 
@@ -1566,6 +1608,7 @@ define([
             });
             eip._editingItem = listModel.at(2).getContents();
             eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
             eip._onRowDeactivated({
                stopPropagation: function() {
 
@@ -1595,6 +1638,7 @@ define([
             listModelWithGroups.toggleGroup('whatever');
             eip._editingItem = listModelWithGroups.at(2).getContents();
             eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
+            eip._editingItem.set('title', 'test');
             eip._onRowDeactivated({
                stopPropagation: function() {
 
@@ -1700,6 +1744,7 @@ define([
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(1).getContents();
                eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listModel, eip._options);
+               eip._editingItem.set('title', 'test');
                eip._onKeyDown({
                   stopPropagation: function() {}
                }, {
@@ -1745,6 +1790,7 @@ define([
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
                eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
+               eip._editingItem.set('title', 'test');
                eip._onKeyDown({
                   stopPropagation: function() {}
                }, {
@@ -1767,6 +1813,7 @@ define([
                eip._sequentialEditing = true;
                eip._editingItem = treeModel.at(3).getContents();
                eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
+               eip._editingItem.set('title', 'test');
                eip._onKeyDown({
                   stopPropagation: function() {}
                }, {
@@ -1838,6 +1885,7 @@ define([
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
                eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
+               eip._editingItem.set('title', 'test');
                eip._onRowDeactivated({
                   stopPropagation: function() {
 
@@ -1860,6 +1908,7 @@ define([
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
                eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
+               eip._editingItem.set('title', 'test');
                eip._onRowDeactivated({
                   stopPropagation: function() {
 
@@ -2385,6 +2434,7 @@ define([
                item: newItem
             });
             assert.isNotNull(eip._editingItemData);
+            eip._editingItem.set('title', 'test');
             await (new Promise((resolve) => {
                eip.commitAndMoveNextRow();
                setTimeout(resolve, 10);
