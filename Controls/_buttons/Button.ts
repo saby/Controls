@@ -121,14 +121,6 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * <pre>
  *    <Controls.breadcrumbs:Path caption="Send document" style="primary" viewMode="link" size="xl"/>
  * </pre>
- * Кнопка в режиме отображения 'toolButton'.
- * <pre>
- *    <Controls.breadcrumbs:Path caption="Send document" style="danger" viewMode="toolButton"/>
- * </pre>
- * Кнопка в режиме отображения 'button'.
- * <pre>
- *    <Controls.breadcrumbs:Path caption="Send document" style="success" viewMode="button"/>
- * </pre>
  * @see Size
  */
 
