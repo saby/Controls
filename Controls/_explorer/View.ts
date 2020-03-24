@@ -36,12 +36,12 @@ var
          table: TreeGridViewModel
       },
       _private = {
-         setRoot: function(self, root) {
+         setRoot: function(self, root, needRestartSearch) {
             if (!self._options.hasOwnProperty('root')) {
                self._root = root;
             }
             self._notify('rootChanged', [root]);
-            if (typeof self._options.itemOpenHandler === 'function') {
+            if (typeof self._options.itemOpenHandler === 'function' && needRestartSearch) {
                self._options.itemOpenHandler(root, self._items);
             }
             self._forceUpdate();
@@ -158,7 +158,7 @@ var
             _private.setVirtualScrolling(self, self._viewMode, cfg);
             _private.setViewConfig(self, self._viewMode);
          },
-         setViewMode: function(self, viewMode, cfg): Promise<void> {
+         setViewMode: function(self, viewMode, cfg, needRestartSearch): Promise<void> {
             var currentRoot = _private.getRoot(self, cfg.root);
             var dataRoot = _private.getDataRoot(self);
             var result;
@@ -166,7 +166,7 @@ var
             if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
                self._breadCrumbsItems = null;
                if (dataRoot !== currentRoot) {
-                  _private.setRoot(self, dataRoot);
+                  _private.setRoot(self, dataRoot, needRestartSearch);
                }
             }
 
@@ -184,7 +184,7 @@ var
          backByPath: function(self) {
             if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
                self._isGoingBack = true;
-               _private.setRoot(self, self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
+               _private.setRoot(self, self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty), true);
             }
          },
          getDataRoot: function(self) {
@@ -387,7 +387,7 @@ var
          };
 
          this._dragControlId = randomId();
-         return _private.setViewMode(this, cfg.viewMode, cfg);
+         return _private.setViewMode(this, cfg.viewMode, cfg, true);
       },
       _beforeUpdate: function(cfg) {
          //todo: после доработки стандарта, убрать флаг _isGoingFront по задаче: https://online.sbis.ru/opendoc.html?guid=ffa683fa-0b8e-4faa-b3e2-a4bb39671029
@@ -454,7 +454,7 @@ var
 
          const changeRoot = () => {
             _private.setRestoredKeyObject(this, item.getId());
-            _private.setRoot(this, item.getId());
+            _private.setRoot(this, item.getId(), true);
             this._isGoingFront = true;
          };
 
@@ -478,7 +478,7 @@ var
       },
       _onBreadCrumbsClick: function(event, item) {
           _private.cleanRestoredKeyObject(this, item.getId());
-          _private.setRoot(this, item.getId());
+          _private.setRoot(this, item.getId(), true);
           this._isGoingBack = true;
       },
       _onExternalKeyDown(event): void {

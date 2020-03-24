@@ -77,7 +77,7 @@ define([
                   };
                }
             };
-         explorerMod.View._private.setRoot(self, testRoot);
+         explorerMod.View._private.setRoot(self, testRoot, true);
          assert.deepEqual({
             _root: 'testRoot',
             _forceUpdate: forceUpdate,
@@ -101,6 +101,10 @@ define([
 
          explorerMod.View._private.serviceDataLoadCallback(self, testData1, testData3);
          assert.deepEqual(self._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
+
+         itemOpenHandlerCalled = false;
+         explorerMod.View._private.setRoot(self, testRoot);
+         assert.isFalse(itemOpenHandlerCalled);
       });
       it('should update subscription on data recordSet on change', function () {
          let
