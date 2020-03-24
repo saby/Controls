@@ -1,5 +1,5 @@
 import {isEqual} from 'Types/object';
-import {detection} from 'Env/Env';
+import {isFullGridSupport} from './GridLayoutUtil';
 
 interface IStickyColumnsParams {
     columns: [];
@@ -54,7 +54,7 @@ export function prepareLadder(params: IPrepareLadderParams): {} {
 
     function processStickyLadder(params) {
         processLadder(params);
-        if (params.ladder.ladderLength && !detection.isNotFullGridSupport) {
+        if (params.ladder.ladderLength && isFullGridSupport()) {
             params.ladder.headingStyle = 'grid-row: span ' + params.ladder.ladderLength;
         }
     }

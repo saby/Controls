@@ -4,7 +4,7 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 /**
  * Контрол, предназначенный для операций над множеством записей списка.
  * @remark
- * См. <a href="/materials/demo-ws4-operations-panel">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>.
  * Подробное описание и инструкцию по настройке читайте контрола читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/operations/ здесь}.
  * @class Controls/_operations/Panel
  * @extends Core/Control
@@ -21,7 +21,7 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 /*
  * Control for grouping operations.
  * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
- * <a href="/materials/demo-ws4-operations-panel">Demo</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo</a>.
  *
  * @class Controls/_operations/Panel
  * @extends Core/Control

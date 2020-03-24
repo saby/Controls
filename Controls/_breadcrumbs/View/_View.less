@@ -35,6 +35,7 @@
    overflow: hidden;
    max-width: 100%;
    white-space: nowrap;
+   position: relative;
    .baseline-fix();
 }
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
@@ -44,11 +45,15 @@
   &::before {
     font-size: @line-height_breadcrumbsView;
   }
+   padding-right: @spacing_breadcrumbsView;
+}
+.controls-BreadCrumbsView__crumb__left_edge {
+   padding: 0 @spacing_breadcrumbsView;
 }
 .controls-BreadCrumbsView__menu {
    float: right;
    position: relative;
-   z-index: 5;
+   z-index: 10;
 }
 .controls-BreadCrumbsView__menu_theme-@{themeName} {
    bottom: @height_breadcrumbsView;
@@ -89,13 +94,16 @@
       content: '';
       height: @height_breadcrumbsView;
       border: @droppable_border-thickness_breadcrumbsView solid @droppable_border-color_breadcrumbsView;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       box-sizing: border-box;
       position: absolute;
       display: block;
       border-radius: @droppable_border-radius_breadcrumbsView;
       z-index: 10;
       align-self: center;
-      width: calc(100% + 2 * @droppable_padding-horizontal_breadcrumbsView);
    }
 }
 
@@ -103,10 +111,10 @@
    left: 0;
 }
 
-.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
-   left: -@droppable_padding-horizontal_breadcrumbsView;
-}
 
+/*.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
+   left: -@droppable_padding-horizontal_breadcrumbsView;
+}*/
 .controls-BreadCrumbsView__titleWrapper {
    overflow: hidden;
    min-width: 0;

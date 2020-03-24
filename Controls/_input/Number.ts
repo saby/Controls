@@ -6,7 +6,7 @@ import ViewModel = require('Controls/_input/Number/ViewModel');
 
 /**
  * Поле ввода числовых значений.
- * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
  *
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
@@ -24,7 +24,7 @@ import ViewModel = require('Controls/_input/Number/ViewModel');
 
 /*
  * Controls that allows user to enter single-line number.
- * <a href="/materials/demo-ws4-input">Demo example.</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Demo example.</a>.
  *
  * @class Controls/_input/Number
  * @extends Controls/_input/Base

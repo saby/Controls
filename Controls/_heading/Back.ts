@@ -17,7 +17,7 @@ const MODERN_IE_VERSION = 11;
 /**
  * Специализированный заголовок-кнопка для перехода на предыдущий уровень.
  *
- * <a href="/materials/demo-ws4-header-separator">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Демо-пример</a>.
  *
  * @class Controls/_heading/Back
  * @extends Core/Control
@@ -37,7 +37,7 @@ const MODERN_IE_VERSION = 11;
 /*
  * Specialized heading to go to the previous level.
  *
- * <a href="/materials/demo-ws4-header-separator">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_heading/Back
  * @extends Core/Control

@@ -1,4 +1,5 @@
 import { default as BaseOpener, IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
+import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack';
@@ -7,7 +8,7 @@ import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack
  * Контрол, открывающий всплывающее окно с пользовательским шаблоном внутри. Всплывающее окно располагается в правой части контентной области приложения и растянуто на всю высоту экрана.
  * @remark
  * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ здесь}.
- * См. <a href="/materials/demo-ws4-stack-dialog">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">демо-пример</a>.
  * @class Controls/popup:Stack
  * @extends Controls/_popup/Opener/BaseOpener
  * @control
@@ -24,7 +25,7 @@ import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack
  * Component that opens the popup to the right of content area at the full height of the screen.
  * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ See more}.
  *
- *  <a href="/materials/demo-ws4-stack-dialog">Demo-example</a>.
+ *  <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">Demo-example</a>.
  * @class Controls/_popup/Opener/Stack
  * @extends Controls/_popup/Opener/BaseOpener
  * @control
@@ -38,7 +39,7 @@ import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack
 
 interface IStackOpenerOptions extends IStackPopupOptions, IBaseOpenerOptions {}
 
-const getStackConfig = (config: IStackOpenerOptions = {}) => {
+const getStackConfig = (config: IStackOpenerOptions = {}, popupId?: string) => {
     // The stack is isDefaultOpener by default.
     // For more information, see  {@link Controls/interface/ICanBeDefaultOpener}
     config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
@@ -57,8 +58,19 @@ const getStackConfig = (config: IStackOpenerOptions = {}) => {
             managerWrapperMaxZIndex = requirejs(compatibleManagerWrapperName).default.getMaxZIndex();
         }
         const zIndexStep = 9;
-        if (oldWindowManager) {
-            const maxZIndex = Math.max(oldWindowManager.getMaxZIndex(), managerWrapperMaxZIndex);
+        const item = ManagerController.find(config.id || popupId);
+        // zindex окон, особенно на старой странице, никогда не обновлялся внутренними механизмами
+        // Если окно уже открыто, zindex не меняем
+        if (item) {
+            config.zIndex = item.popupOptions.zIndex;
+        } else if (oldWindowManager) {
+            // Убираем нотификационные окна из выборки старого менеджера
+            const baseOldZIndex = 1000;
+            const oldMaxZWindow = oldWindowManager.getMaxZWindow((control) => {
+                return control._options.isCompoundNotification !== true;
+            });
+            const oldMaxZIndex = oldMaxZWindow?.getZIndex() || baseOldZIndex;
+            const maxZIndex = Math.max(oldMaxZIndex, managerWrapperMaxZIndex);
             config.zIndex = maxZIndex + zIndexStep;
         }
     }
@@ -74,7 +86,7 @@ class Stack extends BaseOpener<IStackOpenerOptions> implements IStackOpener {
     }
 
     private _getStackConfig(popupOptions: IStackOpenerOptions): IStackOpenerOptions {
-        return getStackConfig(popupOptions);
+        return getStackConfig(popupOptions, this._getCurrentPopupId());
     }
 
     static openPopup(config: IStackPopupOptions): Promise<string> {

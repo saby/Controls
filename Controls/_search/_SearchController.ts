@@ -72,7 +72,7 @@ var _private = {
  * При необходимости загружает Controls/search:_Search и делает запрос за данными.
  * @author Герасимов Александр
  * @class Controls/_search/_SearchController
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @private
  */

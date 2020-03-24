@@ -53,28 +53,24 @@ var _private = {
  * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки.
  * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию закрыто.
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
- * <a href="/materials/demo-ws4-input-dropdown">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDropdown%2FDropdown">Демо-пример</a>.
  * Руководство разработчика {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/dropdown-menu/ Меню и выпадающий список}.
  *
  * @class Controls/_dropdown/Input
  * @extends Core/Control
+ * @mixes Controls/_menu/interface/IMenuPopup
+ * @mixes Controls/_menu/interface/IMenuControl
  * @mixes Controls/_dropdown/interface/IDropdownSource
- * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_interface/IFilter
- * @mixes Controls/_interface/INavigation
  * @mixes Controls/Input/interface/IValidation
  * @mixes Controls/_interface/IMultiSelectable
- * @mixes Controls/_dropdown/interface/IFooterTemplate
- * @mixes Controls/_dropdown/interface/IHeaderTemplate
  * @mixes Controls/interface/ISelectorDialog
- * @mixes Controls/interface/IDropdownEmptyText
  * @mixes Controls/interface/IDropdown
- * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/_interface/IIconSize
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @control
  * @public
  * @author Золотова Э.Е.
@@ -85,7 +81,7 @@ var _private = {
 /*
  * Control that shows list of options. In the default state, the list is collapsed, showing only one choice.
  * The full list of options is displayed when you click on the control.
- * <a href="/materials/demo-ws4-input-dropdown">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDropdown%2FDropdown">Demo-example</a>.
  *
  * To work with single selectedKeys option you can use control with {@link Controls/source:SelectedKey}.
  * @class Controls/_dropdown/Input

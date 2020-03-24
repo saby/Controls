@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
-import {default as IMenuControl, IMenuOptions, TKeys} from 'Controls/_menu/interface/IMenuControl';
+import {default as IMenuControl, IMenuControlOptions, TKeys} from 'Controls/_menu/interface/IMenuControl';
 import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
@@ -28,15 +28,16 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
  * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilter
- * @mixes Controls/_dropdown/interface/IFooterTemplate
+ * @implements Controls/_menu/IMenuControl
  * @demo Controls-demo/Menu/Control/Source/Index
  * @control
  * @category Popup
  * @author Герасимов А.М.
  */
+
 const SUB_DROPDOWN_OPEN_DELAY = 100;
 
-class MenuControl extends Control<IMenuOptions> implements IMenuControl {
+class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     protected _template: TemplateFunction = ViewTemplate;
     protected _listModel: Tree;
     protected _moreButtonVisible: boolean = false;
@@ -51,9 +52,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     private _isMouseInOpenedItemArea: boolean = false;
     private _expandedItemsFilter: Function;
     private _additionalFilter: Function;
-    private _hoveredItemIndex: number|null = null;
 
-    protected _beforeMount(options: IMenuOptions, context: object, receivedState: RecordSet): Deferred<RecordSet> {
+    protected _beforeMount(options: IMenuControlOptions, context: object, receivedState: RecordSet): Deferred<RecordSet> {
         this._expandedItemsFilter = this.expandedItemsFilter.bind(this);
         this._additionalFilter = this.additionalFilter.bind(this, options);
         this._openSubDropdown = debounce(this.openSubDropdown.bind(this), SUB_DROPDOWN_OPEN_DELAY);
@@ -63,7 +63,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    protected _beforeUpdate(newOptions: IMenuOptions): void {
+    protected _beforeUpdate(newOptions: IMenuControlOptions): void {
         const rootChanged = newOptions.root !== this._options.root;
         const sourceChanged = newOptions.source !== this._options.source;
         const filterChanged = !isEqual(newOptions.filter, this._options.filter);
@@ -80,7 +80,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    protected _afterRender(oldOptions: IMenuOptions): void {
+    protected _afterRender(oldOptions: IMenuControlOptions): void {
         const rootChanged = oldOptions.root !== this._options.root;
         const sourceChanged = oldOptions.source !== this._options.source;
         const filterChanged = !isEqual(oldOptions.filter, this._options.filter);
@@ -108,8 +108,6 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._hoveredItemIndex = null;
-        this._listModel.setHoveredItem(null);
         clearTimeout(this._handleCurrentItemTimeout);
     }
 
@@ -226,8 +224,6 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     protected _footerMouseEnter(): void {
-        this._hoveredItemIndex = null;
-        this._listModel.setHoveredItem(null);
         this._closeSubMenu();
     }
 
@@ -254,18 +250,15 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     }
 
     private handleCurrentItem(item: TreeItem<Model>, target, nativeEvent): void {
-        this._hoveredItemIndex = this._listModel.getIndex(item);
         const needOpenDropDown = item.getContents().get(this._options.nodeProperty) && !item.getContents().get('readOnly');
         const needCloseDropDown = this.subMenu && this._subDropdownItem && this._subDropdownItem !== item;
         this.setItemParamsOnHandle(item, target, nativeEvent);
 
         if (needCloseDropDown) {
             this.setSubMenuPosition();
-        }
-        this._isMouseInOpenedItemArea = needCloseDropDown ? this.isMouseInOpenedItemArea(nativeEvent) : false;
-
-        if (!this._isMouseInOpenedItemArea) {
-            this._listModel.setHoveredItem(item);
+            this._isMouseInOpenedItemArea = this.isMouseInOpenedItemArea(nativeEvent);
+        } else {
+            this._isMouseInOpenedItemArea = false;
         }
 
         // Close the already opened sub menu. Installation of new data sets new size of the container.
@@ -324,7 +317,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             (secondSegmentPointX - firstSegmentPointX) * (firstSegmentPointY - curPointY);
     }
 
-    private getSelectorDialogOptions(options: IMenuOptions, selectedItems: object[]): object {
+    private getSelectorDialogOptions(options: IMenuControlOptions, selectedItems: object[]): object {
         const self = this;
         const selectorTemplate = options.selectorTemplate;
         const selectorDialogResult = options.selectorDialogResult;
@@ -344,14 +337,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return Merge({
             templateOptions: templateConfig,
             template: selectorTemplate.templateName,
-            isCompoundTemplate: options.isCompoundTemplate,
-            handlers: {
-                // Для совместимости.
-                // Старая система фокусов не знает про существование VDOM окна и не может восстановить на нем фокус после закрытия старой панели.
-                onAfterClose: () => {
-                    self.activate();
-                }
-            }
+            isCompoundTemplate: options.isCompoundTemplate
         }, selectorTemplate.popupOptions || {});
     }
 
@@ -408,12 +394,12 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    private createViewModel(items: RecordSet, options: IMenuOptions): void {
+    private createViewModel(items: RecordSet, options: IMenuControlOptions): void {
         this._listModel = this.getCollection(items, options);
         this.setSelectedItems(this._listModel, options.selectedKeys);
     }
 
-    private getCollection(items: RecordSet, options: IMenuOptions): Collection {
+    private getCollection(items: RecordSet, options: IMenuControlOptions): Collection {
         const collectionConfig = {
             collection: items,
             keyProperty: options.keyProperty,
@@ -437,9 +423,6 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             this._calculateActionsConfig(listModel, options);
         }
 
-        if (this._hoveredItemIndex !== null) {
-            listModel.setHoveredItem(listModel.at(this._hoveredItemIndex));
-        }
         if (options.groupProperty) {
             listModel.setGroup(this.groupMethod.bind(this, options));
         } else if (options.groupingKeyCallback) {
@@ -455,11 +438,11 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return !!(item.get('pinned') || item.get('recent') || item.get('frequent'));
     }
 
-    private additionalFilter(options: IMenuOptions, item: Model): boolean {
+    private additionalFilter(options: IMenuControlOptions, item: Model): boolean {
         return (!item.get || !item.get(options.additionalProperty) || this.isHistoryItem(item));
     }
 
-    private displayFilter(options: IMenuOptions, item: Model): boolean {
+    private displayFilter(options: IMenuControlOptions, item: Model): boolean {
         let isVisible = true;
         if (item.get && options.parentProperty && options.nodeProperty) {
             let parent = item.get(options.parentProperty);
@@ -471,7 +454,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return isVisible;
     }
 
-    private groupMethod(options: IMenuOptions, item: Model): string {
+    private groupMethod(options: IMenuControlOptions, item: Model): string {
         return item.get(options.groupProperty) || ControlsConstants.view.hiddenGroup;
     }
 
@@ -490,7 +473,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return this._sourceController;
     }
 
-    private loadExpandedItems(options: IMenuOptions): void {
+    private loadExpandedItems(options: IMenuControlOptions): void {
         let self = this;
         let loadConfig = Clone(options);
         delete loadConfig.navigation;
@@ -501,7 +484,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         });
     }
 
-    private loadItems(options: IMenuOptions): Deferred<RecordSet> {
+    private loadItems(options: IMenuControlOptions): Deferred<RecordSet> {
         let filter = Clone(options.filter) || {};
         filter[options.parentProperty] = options.root;
         return this.getSourceController(options).load(filter).addCallback((items) => {
@@ -554,6 +537,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         let templateOptions = Clone(this._options);
         templateOptions.root = item.getContents().get(this._options.keyProperty);
         templateOptions.bodyContentTemplate = 'Controls/_menu/Control';
+        templateOptions.footerContentTemplate = this._options.nodeFooterTemplate;
         templateOptions.footerItemData = {
             key: templateOptions.root,
             item
@@ -561,6 +545,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.closeButtonVisibility = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
+        templateOptions.headerContentTemplate = null;
         templateOptions.additionalProperty = null;
         templateOptions.searchParam = null;
         templateOptions.itemPadding = null;
@@ -583,7 +568,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return source;
     }
 
-    private _calculateActionsConfig(listModel: Tree<Model>, options: IMenuOptions): void {
+    private _calculateActionsConfig(listModel: Tree<Model>, options: IMenuControlOptions): void {
         ItemActionsController.calculateActionsTemplateConfig(
             listModel,
             {

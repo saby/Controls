@@ -93,7 +93,9 @@ export function getInputType(oldValue: string, newValue: string, caretPosition: 
    const selectionLength: number = selection.end - selection.start;
    const isDelete: boolean = oldValue.length - selectionLength >= newValue.length;
    const isSelection: boolean = !!selectionLength;
-   const isOffsetCaret: boolean = caretPosition === selection.selectionEnd;
+   const isOffsetCaret: boolean = caretPosition === (selection.selectionEnd ?
+       selection.selectionEnd :
+       selection.end);
 
    const bitView: string = [isDelete, isSelection, isOffsetCaret].map((item) => +item).join('');
 

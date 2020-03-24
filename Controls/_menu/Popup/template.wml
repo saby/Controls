@@ -6,7 +6,7 @@
                        controls-Menu__popup_theme-{{_options.theme}}
                        controls-Menu__popup-direction-vertical-{{_verticalDirection}}
                        {{!_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
-                       controls-Menu__popup-shadow-{{_options.typeShadow ? _options.typeShadow : 'default'}}_theme-{{_options.theme}}
+                       controls-Menu__popup-shadow-{{_options.typeShadow || 'default'}}_theme-{{_options.theme}}
                        {{_options.dropdownClassName}}"
            attr:style="width: {{_options.width ? _options.width + 'px'}}"
            icon="{{_headingIcon}}"
@@ -14,7 +14,7 @@
            headingCaption="{{!_options.headerTemplate ? _headingCaption : ''}}"
            iconSize="{{_options.iconSize}}"
            headerContentTemplate="{{_headerTemplate}}"
-           footerContentTemplate="{{_options.footerTemplate}}"
+           footerContentTemplate="{{_options.footerContentTemplate}}"
            itemData="{{_options.footerItemData}}"
            closeButtonVisibility="{{_closeButtonVisibility}}"
            on:headerClick="_headerClick()"
@@ -26,6 +26,7 @@
                            iconSize="{{_options.iconSize}}"
                            icon="{{_headingIcon}}"
                            caption="{{_headingCaption}}"
+                           theme="{{_headerTheme}}"
                            on:click="_headerClick()"/>
             </ws:if>
             <Controls._menu.Control

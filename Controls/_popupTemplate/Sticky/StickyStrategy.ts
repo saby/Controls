@@ -23,9 +23,13 @@ interface IPosition {
       getWindowSizes: function() {
          // Ширина берется по body специально. В случае, когда уменьшили окно браузера и появился горизонтальный скролл
          // надо правильно вычислить координату right. Для высоты аналогично.
+         let height = _private.getBodyHeight();
+         if (_private.isIOS12()) {
+            height -= TouchKeyboardHelper.getKeyboardHeight(true);
+         }
          return {
             width: document.body.clientWidth,
-            height: document.body.clientHeight - TouchKeyboardHelper.getKeyboardHeight(true)
+            height
          };
       },
 
@@ -40,7 +44,7 @@ interface IPosition {
             position[isHorizontal ? 'left' : 'top'] = targetCoords[isHorizontal ? 'left' : 'top'] + targetCoords[isHorizontal ? 'width' : 'height'] / 2 - popupCfg.sizes[isHorizontal ? 'width' : 'height'] / 2 + _private.getMargins(popupCfg, direction) ;
          } else {
             if (popupCfg.direction[direction] === (isHorizontal ? 'left' : 'top')) {
-               position[isHorizontal ? 'right' : 'bottom'] = _private.getWindowSizes()[isHorizontal ? 'width' : 'height'] -
+               position[isHorizontal ? 'right' : 'bottom'] = _private.getWindowSizes()[isHorizontal ? 'width' : 'height'] + _private.getVisualViewport()[isHorizontal ? 'offsetLeft' : 'offsetTop'] -
                    _private.getTargetCoords(popupCfg, targetCoords, isHorizontal ? 'right' : 'bottom', direction) - _private.getMargins(popupCfg, direction);
             } else {
                position[isHorizontal ? 'left' : 'top'] = _private.getTargetCoords(popupCfg, targetCoords, isHorizontal ? 'left' : 'top', direction) + _private.getMargins(popupCfg, direction);
@@ -82,15 +86,17 @@ interface IPosition {
          // У нас нет никакой инфы про ее наличие и/или высоту.
          // Единственное решение учитывать ее всегда и поднимать окно от низа экрана на 45px.
          // С проектированием решили увеличить до 45.
-         if (!isHorizontal && TouchKeyboardHelper.isKeyboardVisible(true)) {
-            taskBarKeyboardIosHeight = 45;
-            if (_private.isIOS13()) {
-               // На ios13 высота серой области на 5px больше
-               taskBarKeyboardIosHeight += 5;
+         if (_private.isIOS12()) {
+            if (!isHorizontal && TouchKeyboardHelper.isKeyboardVisible(true)) {
+               taskBarKeyboardIosHeight = 45;
+               // if (_private.isIOS13()) {
+               //    // На ios13 высота серой области на 5px больше
+               //    taskBarKeyboardIosHeight += 5;
+               // }
             }
          }
-         let overflow = position[isHorizontal ? 'left' : 'top'] + taskBarKeyboardIosHeight + popupCfg.sizes[isHorizontal ? 'width' : 'height'] - _private.getWindowSizes()[isHorizontal ? 'width' : 'height'];
-         if (!_private.isIOS13()) {
+         let overflow = position[isHorizontal ? 'left' : 'top'] + taskBarKeyboardIosHeight + popupCfg.sizes[isHorizontal ? 'width' : 'height'] - _private.getWindowSizes()[isHorizontal ? 'width' : 'height'] - _private.getVisualViewport()[isHorizontal ? 'offsetLeft' : 'offsetTop'];
+         if (_private.isIOS12()) {
             overflow -= targetCoords[isHorizontal ? 'leftScroll' : 'topScroll'];
          }
          return overflow;
@@ -174,7 +180,12 @@ interface IPosition {
                      _private.restrictContainer(position, property, popupCfg, positionOverflow);
                      resultPosition = position;
                   } else {
-                     _private.restrictContainer(revertPosition, property, popupCfg, revertPositionOverflow);
+                     //Fix position and overflow, if the revert position is outside of the window, but it can be position in the visible area
+                     _private.fixPosition(revertPosition, targetCoords);
+                     revertPositionOverflow = _private.checkOverflow(popupCfg, targetCoords, revertPosition, direction);
+                     if (revertPositionOverflow > 0 ) {
+                        _private.restrictContainer(revertPosition, property, popupCfg, revertPositionOverflow);
+                     }
                      resultPosition = revertPosition;
                   }
                } else {
@@ -211,24 +222,31 @@ interface IPosition {
 
       _fixBottomPositionForIos: function(position, targetCoords) {
          if (position.bottom) {
-            let keyboardHeight = _private.getKeyboardHeight();
-            position.bottom += keyboardHeight;
-
+            const keyboardHeight = _private.getKeyboardHeight();
+            if (!_private.isPortrait()) {
+               position.bottom += keyboardHeight;
+            }
             // on newer versions of ios(12.1.3/12.1.4), in horizontal orientation sometimes(!) keyboard with the display
             // reduces screen height(as it should be). in this case, getKeyboardHeight returns height 0, and
             // additional offsets do not need to be considered. In other cases, it is necessary to take into account the height of the keyboard.
             // only for this case consider a scrollTop
-            let win = _private.getWindow();
-            if ((win.innerHeight + win.scrollY) > win.innerWidth) {
-               // fix for positioning with keyboard on vertical ios orientation
-               let dif = win.innerHeight - targetCoords.boundingClientRect.top;
-               if (position.bottom > dif) {
-                  position.bottom = dif;
+            if (_private.isIOS12()) {
+               let win = _private.getWindow();
+               if ((win.innerHeight + win.scrollY) > win.innerWidth) {
+                  // fix for positioning with keyboard on vertical ios orientation
+                  let dif = win.innerHeight - targetCoords.boundingClientRect.top;
+                  if (position.bottom > dif) {
+                     position.bottom = dif;
+                  }
+               } else if (keyboardHeight === 0) {
+                  position.bottom += _private.getTopScroll(targetCoords);
                }
-            } else if (keyboardHeight === 0) {
-               position.bottom += _private.getTopScroll(targetCoords);
             }
          }
+      },
+
+      isPortrait: function() {
+         return TouchKeyboardHelper.isPortrait();
       },
 
       getKeyboardHeight: function() {
@@ -287,7 +305,20 @@ interface IPosition {
       },
 
       getBodyHeight(): number {
+         if (window?.visualViewport) {
+            return _private.getVisualViewport().height;
+         }
          return document.body.clientHeight;
+      },
+
+      getVisualViewport(): object {
+         if (window?.visualViewport) {
+            return window.visualViewport;
+         }
+         return {
+            offsetLeft: 0,
+            offsetTop: 0
+         };
       }
    };
 

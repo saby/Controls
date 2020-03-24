@@ -19,7 +19,7 @@ import {showType} from 'Controls/Utils/Toolbar';
 import 'wml!Controls/_list/BaseControl/Footer';
 import 'css!theme?Controls/list';
 import {error as dataSourceError} from 'Controls/dataSource';
-import {constants} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import ListViewModel from 'Controls/_list/ListViewModel';
 import {ICrud, Memory} from "Types/source";
 import {TouchContextField} from 'Controls/context';
@@ -36,6 +36,7 @@ import {INavigationOptionValue, INavigationSourceConfig} from '../_interface/INa
 import {CollectionItem, ItemActionsController} from 'Controls/display';
 import {Model} from 'saby-types/Types/entity';
 import {IItemAction} from "./interface/IList";
+import InertialScrolling from './resources/utils/InertialScrolling';
 
 //TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
 //Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -154,6 +155,7 @@ var _private = {
         if (self._sourceController) {
             _private.showIndicator(self);
             _private.hideError(self);
+            _private.getPortionedSearch(self).reset();
 
             if (cfg.groupProperty) {
                 const collapsedGroups = self._listViewModel ? self._listViewModel.getCollapsedGroups() : cfg.collapsedGroups;
@@ -210,7 +212,12 @@ var _private = {
                         const curKey = listModel.getMarkedKey();
                         listModel.setItems(list);
                         const nextKey = listModel.getMarkedKey();
-                        if (nextKey && nextKey !== curKey
+                        // При загрузке вверх и нахождении снизу списка могут сделать релоад и нужно сделать подскролл вниз списка
+                        // Сделать сами по drawItems они не могут, т.к. это слишком поздно, уже произошла отрисовка и уже стрельнет
+                        // триггер загрузки следующей страницы (при загрузке вверх - предыдущей).
+                        // мы должны предоставить функционал автоматического подскрола вниз
+                        // TODO remove self._options.task1178907511 after https://online.sbis.ru/opendoc.html?guid=83127138-bbb8-410c-b20a-aabe57051b31
+                        if (nextKey !== null && (nextKey !== curKey || self._options.task1178907511)
                             && self._listViewModel.getCount()
                             && !self._options.task46390860 && !self._options.task1177182277 && !cfg.task1178786918
                         ) {
@@ -222,6 +229,15 @@ var _private = {
                     if (self._sourceController) {
                         _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
                     }
+
+                    if (self._loadedItems) {
+                        self._shouldRestoreScrollPosition = true;
+                    }
+                    // после reload может не сработать beforeUpdate поэтому обновляем еще и в reload
+                    if (self._itemsChanged) {
+                        self._shouldNotifyOnDrawItems = true;
+                    }
+
                 }
                 if (cfg.afterSetItemsOnReloadCallback instanceof Function) {
                     cfg.afterSetItemsOnReloadCallback();
@@ -566,17 +582,20 @@ var _private = {
                     self._children.scrollController.startBatchAdding(direction);
                 }
 
-                if (direction === 'down') {
-                    beforeAddItems(addedItems);
-                    if (self._options.useNewModel) {
-                        self._listViewModel.getCollection().append(addedItems);
-                    } else {
-                        self._listViewModel.appendItems(addedItems);
+                self._inertialScrolling.callAfterScrollStopped(() => {
+                    if (direction === 'down') {
+                        beforeAddItems(addedItems);
+                        if (self._options.useNewModel) {
+                            self._listViewModel.getCollection().append(addedItems);
+                        } else {
+                            self._listViewModel.appendItems(addedItems);
+                        }
+                        afterAddItems(countCurrentItems, addedItems);
+                    } else if (direction === 'up') {
+                        drawItemsUp(countCurrentItems, addedItems);
                     }
-                    afterAddItems(countCurrentItems, addedItems);
-                } else if (direction === 'up') {
-                    drawItemsUp(countCurrentItems, addedItems);
-                }
+                });
+
                 return addedItems;
             }).addErrback((error) => {
                 _private.hideIndicator(self);
@@ -998,12 +1017,12 @@ var _private = {
         return i;
     },
 
-    handleListScrollSync(self, params) {
+    handleListScrollSync(self, scrollTop) {
         if (self._setMarkerAfterScroll) {
-            _private.delayedSetMarkerAfterScrolling(self, params.scrollTop);
+            _private.delayedSetMarkerAfterScrolling(self, scrollTop);
         }
 
-        self._scrollTop = params.scrollTop;
+        self._scrollTop = scrollTop;
         self._scrollPageLocked = false;
     },
 
@@ -1131,7 +1150,7 @@ var _private = {
         // virtual scrolling is disabled.
         if (
             changesType === 'collectionChanged' ||
-            changesType === 'indexesChanged' && (self._options.virtualScrolling !== false || Boolean(self._options.virtualScrollConfig)) ||
+            changesType === 'indexesChanged' && Boolean(self._options.virtualScrollConfig) ||
             newModelChanged
         ) {
             self._itemsChanged = true;
@@ -1750,6 +1769,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _draggingEntity: null,
     _draggingTargetItem: null,
 
+    _isMobileIOS: detection.isMobileIOS,
+
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
@@ -1765,6 +1786,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      */
     _beforeMount: function(newOptions, context, receivedState: ReceivedState = {}) {
         var self = this;
+
+        this._inertialScrolling = new InertialScrolling();
 
         // todo Костыль, т.к. построение ListView зависит от SelectionController.
         // Будет удалено при выполнении одного из пунктов:
@@ -1855,10 +1878,17 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                     return _private.showError(self, receivedError);
                 }
                 return _private.reload(self, newOptions).addCallback((result) => {
-                    if (newOptions.useNewModel && !self._listViewModel && result.data) {
-                        self._items = result.data;
+
+                    // FIXME: https://online.sbis.ru/opendoc.html?guid=1f6b4847-7c9e-4e02-878c-8457aa492078
+                    const data = result.data || (new RecordSet<Model>({
+                        keyProperty: self._options.keyProperty,
+                        rawData: []
+                    }));
+
+                    if (newOptions.useNewModel && !self._listViewModel) {
+                        self._items = data;
                         self._listViewModel = self._createNewModel(
-                            result.data,
+                            data,
                             viewModelConfig,
                             newOptions.viewModelConstructor
                         );
@@ -1870,7 +1900,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                         }
                         _private.calculateActionsTemplateConfig(self, newOptions);
                     }
-                    self._needBottomPadding = _private.needBottomPadding(newOptions, result.data, self._listViewModel);
+                    self._needBottomPadding = _private.needBottomPadding(newOptions, data, self._listViewModel);
 
                     // TODO Kingo.
                     // В случае, когда в опцию источника передают PrefetchProxy
@@ -1892,6 +1922,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     scrollMoveSyncHandler(_: SyntheticEvent<Event>, params: unknown): void {
         _private.handleListScrollSync(this, params);
+
+        if (detection.isMobileIOS) {
+            this._inertialScrolling.scrollStarted();
+        }
     },
 
     scrollMoveHandler(_: SyntheticEvent<Event>, params: unknown): void {
@@ -2082,7 +2116,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (filterChanged || recreateSource || sortingChanged) {
             _private.resetPagingNavigation(this, newOptions.navigation);
-            _private.getPortionedSearch(self).reset();
             if (this._menuIsShown) {
                 this._children.itemActionsOpener.close();
                 this._closeActionsMenu();

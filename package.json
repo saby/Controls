@@ -35,9 +35,11 @@
       "express": "^4.17.1",
       "wasaby-cli": "git+https://platform-git.sbis.ru/saby/wasaby-cli.git#rc-20.3000",
       "saby-typescript": "git+https://platform-git.sbis.ru/saby/TypeScript.git#rc-20.3000",
+      "saby-units": "git+https://platform-git.sbis.ru/saby/Units.git#rc-20.3000",
       "serve-static": "1.11.x",
       "stylelint": "^9.7.1",
       "stylelint-config-standard": "^18.2.0",
-      "tslint": "^5.18.0"
+      "tslint": "^5.18.0",
+      "fs-extra": "9.0.0"
    }
 }

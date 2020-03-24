@@ -1,7 +1,7 @@
 /**
  * Интерфейс для ввода запроса в поле поиска.
  *
- * @interface Controls/interface/ISearch
+ * @interface Controls/_interface/ISearch
  * @public
  * @author Золотова Э.Е.
  */
@@ -9,14 +9,14 @@
 /*
  * Interface for Search inputs.
  *
- * @interface Controls/interface/ISearch
+ * @interface Controls/_interface/ISearch
  * @public
  * @author Золотова Э.Е.
  */
 interface ISearch {
    readonly _options: {
       /**
-       * @name Controls/interface/ISearch#searchParam
+       * @name Controls/_interface/ISearch#searchParam
        * @cfg {String} Имя поля фильтра, в значение которого будет записываться текст для поиска.
        * Фильтр с этим значением будет отправлен в поисковой запрос в источнику данных.
        * @example
@@ -27,7 +27,7 @@ interface ISearch {
        */
 
       /*
-       * @name Controls/interface/ISearch#searchParam
+       * @name Controls/_interface/ISearch#searchParam
        * @cfg {String} Name of the field that search should operate on. Search value will insert in filter by this parameter.
        * @example
        * In this example you can search city by typing city name.
@@ -38,7 +38,7 @@ interface ISearch {
       searchParam: string;
 
       /**
-       * @name Controls/interface/ISearch#minSearchLength
+       * @name Controls/_interface/ISearch#minSearchLength
        * @cfg {Number} Минимальное количество символов, которое пользователь должен ввести для выполнения поискового запроса.
        * @default 3
        * @remark
@@ -51,7 +51,7 @@ interface ISearch {
        */
 
       /*
-       * @name Controls/interface/ISearch#minSearchLength
+       * @name Controls/_interface/ISearch#minSearchLength
        * @cfg {Number} The minimum number of characters a user must type before a search is performed.
        * @remark
        * Zero is useful for local data with just a few items, but a higher value should be used when a single character search could match a few thousand items.
@@ -64,7 +64,7 @@ interface ISearch {
       minSearchLength: number;
 
       /**
-       * @name Controls/interface/ISearch#searchDelay
+       * @name Controls/_interface/ISearch#searchDelay
        * @cfg {Number} Задержка между вводом символа и выполнением поискового запроса.
        * @remark
        * После ввода каждого символа задержка будет запущена заново.
@@ -79,7 +79,7 @@ interface ISearch {
        */
 
       /*
-       * @name Controls/interface/ISearch#searchDelay
+       * @name Controls/_interface/ISearch#searchDelay
        * @cfg {Number} The delay between when a symbol was typed and when a search is performed.
        * @remark
        * A zero-delay makes sense for local data (more responsive), but can produce a lot of load for remote data, while being less responsive.
@@ -93,7 +93,7 @@ interface ISearch {
       searchDelay: number;
 
       /**
-       * @name Controls/interface/ISearch#searchValueTrim
+       * @name Controls/_interface/ISearch#searchValueTrim
        * @cfg {Boolean} Определяет, удалять ли пробелы у текста для поиска.
        * @remark
        * Пробелы удаляются только для текста, который отправляется в поисковой запрос,
@@ -106,7 +106,7 @@ interface ISearch {
        * </pre>
        */
       /**
-       * @name Controls/interface/ISearch#searchValueTrim
+       * @name Controls/_interface/ISearch#searchValueTrim
        * @cfg {Boolean} Determines whether search value is trimmed.
        * @default false
        * @example

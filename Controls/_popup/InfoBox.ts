@@ -14,7 +14,7 @@ import template = require('wml!Controls/_popup/InfoBox/InfoBox');
  * В один момент времени на странице может отображаться только одна всплывающая подсказка.
  * @remark
  * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ здесь}.
- * См. <a href="/materials/demo-ws4-infobox">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FInfoBox%2FOpener%2FInfoBox">демо-пример</a>.
  * @class Controls/_popup/InfoBox
  * @mixes Controls/_popup/interface/IInfoBox
  *

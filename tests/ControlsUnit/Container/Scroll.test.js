@@ -75,14 +75,28 @@ define(
                title: "shouldn't display shadow if there are fixed headers",
                shadowPosition: 'top',
                hasFixed: true,
+               hasShadowVisible: true,
                result: false
+            }, {
+               title: "should display shadow if there are fixed headers",
+               shadowPosition: 'top',
+               hasFixed: true,
+               hasShadowVisible: false,
+               result: true
             }].forEach(function(test) {
                it(test.title, function () {
                   scroll._displayState.shadowPosition = test.shadowPosition || '';
+                  scroll._displayState.shadowVisible = {
+                     top: true,
+                     bottom: true
+                  };
                   scroll._shadowVisibilityByInnerComponents.top = test.shadowVisibilityByInnerComponents;
                   scroll._children.stickyController = {
                      hasFixed: function () {
                         return Boolean(test.hasFixed);
+                     },
+                     hasShadowVisible: function() {
+                        return Boolean(test.hasShadowVisible);
                      }
                   };
 
@@ -111,6 +125,9 @@ define(
                   scroll._children.stickyController = {
                      hasFixed: function () {
                         return false;
+                     },
+                     hasShadowVisible: function() {
+                        return false;
                      }
                   };
 
@@ -122,6 +139,9 @@ define(
                   scroll._children.content.scrollTop = -10;
                   scroll._children.stickyController = {
                      hasFixed: function () {
+                        return false;
+                     },
+                     hasShadowVisible: function() {
                         return false;
                      }
                   };

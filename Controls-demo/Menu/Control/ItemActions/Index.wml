@@ -4,7 +4,6 @@
               source="{{_source}}"
               keyProperty="key"
               displayProperty="title"
-              selectedKeys="{{[1]}}"
               itemActions="{{_itemActions}}"
               attr:class="controlsDemo-menuControl_minWidth"
       />

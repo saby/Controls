@@ -306,21 +306,6 @@ define(
                assert.isTrue(actualClasses.indexOf(expectedClasses) !== -1);
             });
 
-            it('hovered', function() {
-               let expectedClasses = 'controls-Menu__row_hovered';
-               let actualClasses = menuRender._getClassList(renderOptions.listModel.at(1));
-               assert.isTrue(actualClasses.indexOf(expectedClasses) === -1);
-
-               renderOptions.listModel.setHoveredItem(renderOptions.listModel.at(1));
-               actualClasses = menuRender._getClassList(renderOptions.listModel.at(1));
-               assert.isTrue(actualClasses.indexOf(expectedClasses) !== -1);
-
-               renderOptions.listModel.setHoveredItem(renderOptions.listModel.at(0));
-               renderOptions.listModel.at(0).getContents().set('readOnly', true);
-               actualClasses = menuRender._getClassList(renderOptions.listModel.at(0));
-               assert.isTrue(actualClasses.indexOf(expectedClasses) === -1);
-            });
-
             it('emptyItem', function() {
                let expectedClasses = 'controls-Menu__defaultItem';
                let actualClasses = menuRender._getClassList(renderOptions.listModel.at(1));

@@ -1,6 +1,6 @@
-<div class="controls-BreadCrumbsPath{{_options.header ? ' controls-BreadCrumbsPath__twoRows_theme-' + _options.theme : ''}}">
+<div class="controls-BreadCrumbsPath{{_options.withoutBackButton ? ' controls-BreadCrumbsPath__twoRows_theme-' + _options.theme : ''}}">
     <div class="controls-BreadCrumbsPath__wrapper">
-        <ws:if data="{{ _backButtonCaption && !_options.header }}">
+        <ws:if data="{{ _backButtonCaption && !_options.withoutBackButton }}">
             <Controls._breadcrumbs.HeadingPath.Back backButtonCaption="{{_backButtonCaption}}"
                                                backButtonClass="{{_backButtonClass}}"
                                                counterCaption="{{ _getCounterCaption(_options.items) }}"

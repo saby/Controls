@@ -110,8 +110,7 @@ define([
                paddingSize: 'm'
             };
 
-            assert.deepEqual(
-               result,
+            assert.deepInclude(
                HorizontalMeasurer.default.getSwipeConfig(
                   actions.concat({
                      id: 4,
@@ -119,7 +118,8 @@ define([
                   }),
                   20,
                   'right'
-               )
+               ),
+               result
             );
          });
 
@@ -133,9 +133,9 @@ define([
                paddingSize: 'm'
             };
 
-            assert.deepEqual(
-               result,
-               HorizontalMeasurer.default.getSwipeConfig(actions, 20, 'none')
+            assert.deepInclude(
+               HorizontalMeasurer.default.getSwipeConfig(actions, 20, 'none'),
+               result
             );
          });
 
@@ -149,9 +149,9 @@ define([
                paddingSize: 'm'
             };
 
-            assert.deepEqual(
-               result,
-               HorizontalMeasurer.default.getSwipeConfig(actions, 39, 'none')
+            assert.deepInclude(
+               HorizontalMeasurer.default.getSwipeConfig(actions, 39, 'none'),
+               result
             );
          });
 
@@ -165,9 +165,9 @@ define([
                paddingSize: 'm'
             };
 
-            assert.deepEqual(
-               result,
-               HorizontalMeasurer.default.getSwipeConfig(actions, 20, 'bottom')
+            assert.deepInclude(
+               HorizontalMeasurer.default.getSwipeConfig(actions, 20, 'bottom'),
+               result
             );
          });
 
@@ -181,9 +181,9 @@ define([
                paddingSize: 'm'
             };
 
-            assert.deepEqual(
-               result,
-               HorizontalMeasurer.default.getSwipeConfig(actions, 59, 'bottom')
+            assert.deepInclude(
+               HorizontalMeasurer.default.getSwipeConfig(actions, 59, 'bottom'),
+               result
             );
          });
 

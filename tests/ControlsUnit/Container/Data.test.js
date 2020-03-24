@@ -6,10 +6,10 @@ define(
       'Core/Deferred',
       'Types/collection',
       'Application/Initializer',
-      'Application/Env'
-
+      'Application/Env',
+      'Env/Config'
    ],
-   function(lists, sourceLib, contexts, Deferred, collection, AppInit, AppEnv) {
+   function(lists, sourceLib, contexts, Deferred, collection, AppInit, AppEnv, Config) {
       describe('Container/Data', function() {
 
          var sourceData = [
@@ -439,6 +439,52 @@ define(
                assert.isTrue(queryCalled);
                done();
             }).catch(function(error) {
+               done(error);
+            });
+         });
+
+         it('_private.createPrefetchSource with collapsed groups', function(done) {
+            var data = {test: true};
+            var queryCalled = false;
+
+            var source = {
+               query: function(a, d, v, b, r) {
+                  queryCalled = true;
+                  return Deferred.success(data);
+               },
+               _mixins: [],
+               "[Types/_source/ICrud]": true
+            };
+            var dataLoadErrbackCalled = false;
+            var dataLoadErrback = function() {
+               dataLoadErrbackCalled = true;
+            };
+
+            var config = {source: source, keyProperty: 'id', dataLoadErrback: dataLoadErrback, groupProperty: 'prop', historyIdCollapsedGroups: 'gid' };
+            var self = getDataWithConfig(config);
+            self._filter = {};
+            const originConfigGetParam = Config.UserConfig.getParam;
+            Config.UserConfig.getParam = (preparedStoreKey) => {
+               if (preparedStoreKey === 'LIST_COLLAPSED_GROUP_gid') {
+                  return Promise.resolve('[1, 3]');
+               }
+               return originConfigGetParam();
+            };
+
+            lists.DataContainer._private.resolveOptions(self, {source:source});
+
+            var promise = lists.DataContainer._private.createPrefetchSource(self, data, dataLoadErrback);
+
+            assert.instanceOf(promise, Promise);
+            promise.then(function(result) {
+               assert.equal(result.data, data);
+               assert.isFalse(dataLoadErrbackCalled);
+               assert.isFalse(queryCalled);
+               Config.UserConfig.getParam = originConfigGetParam;
+               assert.deepEqual(self._filter, { collapsedGroups: [1, 3] });
+               done();
+            }).catch(function(error) {
+               Config.UserConfig.getParam = originConfigGetParam;
                done(error);
             });
          });

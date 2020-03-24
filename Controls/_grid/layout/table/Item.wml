@@ -49,7 +49,7 @@
     <ws:if data="{{itemData.shouldDrawMarker(marker, currentColumn.columnIndex)}}">
         <div attr:class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
     </ws:if>
-    <ws:partial template="columnContent" attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
+    <ws:partial template="columnContent"/>
 </ws:template>
 
 <ws:template name="tableTD">
@@ -59,7 +59,6 @@
         attr:class="js-controls-SwipeControl__actionsContainer
                     {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
                     {{itemData.hasMultiSelect && itemData.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
-                    {{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}
                     {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
                     {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
                     {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
@@ -96,7 +95,7 @@
     <!-- Стиль смещения задается в ColumnScroll. Ячейка не должна иметь ширины, чтобы быть идеально прижатой справа. -->
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan)}}">
         <ws:partial template="tableTD" keyPostfix="_actions"
-                    attr:class="controls-Grid-table-layout__itemActions__container"
+                    attr:class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}"
                     attr:style="width: 0; min-width: 0; max-width: 0; padding: 0px;">
             <ws:partial template="itemActionsTemplateChooser"/>
         </ws:partial>

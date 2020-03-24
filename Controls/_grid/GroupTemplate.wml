@@ -65,7 +65,7 @@
 <ws:if data="{{itemData.isFullGridSupport()}}">
    <div class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}"
         key="group-{{itemData.item}}">
-      <ws:if data="{{itemData.isStickyHeader && !itemData.virtualScrolling}}">
+      <ws:if data="{{itemData.isStickyHeader && !itemData.virtualScrollConfig}}">
          <Controls.scroll:Group>
            <div style="display: contents;">
               <ws:partial template="groupContentStickyWrapper"

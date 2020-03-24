@@ -19,7 +19,7 @@ interface IMoverDialogTemplate extends IControlOptions {
 /**
  * Шаблон диалогового окна, используемый в списках при перемещении элементов для выбора целевой папки.
  * - <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/actions/mover-remover/">См. руководство разработчика</a>
- * - <a href="/materials/demo-ws4-operations-panel">См. демо-пример</a>
+ * - <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">См. демо-пример</a>
  * @class Controls/_moverDialog/Template
  * @extends Core/Control
  * @mixes Controls/_interface/IHierarchy
@@ -60,7 +60,7 @@ interface IMoverDialogTemplate extends IControlOptions {
  * @name Controls/_moverDialog/Template#showRoot
  * @cfg {Boolean} Разрешить перемещение записей в корень иерархии.
  * @remark
- * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. <a href="/materials/demo-ws4-operations-panel">демо-пример</a>).
+ * - true Отображается кнопка "В корень" над списком. Клик по кнопке перемещает записи в корень иерархии (см. <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>).
  * - false Кнопка скрыта.
  */
 

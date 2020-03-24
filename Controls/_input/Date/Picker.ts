@@ -9,7 +9,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
    /**
     * Поле ввода даты. Поддерживает как ввод с клавиатуры, так и выбор даты из всплывающего календаря с помощью мыши. Не поддерживает ввод времени.
     * @remark
-    * <a href="/materials/demo-ws4-input-datepicker">Демо-пример</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FPicker">Демо-пример</a>.
     *
     * @class Controls/_input/Date/Picker
     * @extends Core/Control
@@ -31,7 +31,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
    /*
     * Control for entering date. Also, the control allows you to select a date with the mouse using the drop-down box.
-    * <a href="/materials/demo-ws4-input-datepicker">Demo examples.</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FPicker">Demo examples.</a>.
     *
     * @class Controls/_input/Date/Picker
     * @extends Core/Control

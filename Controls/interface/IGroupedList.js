@@ -14,7 +14,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -27,7 +27,7 @@ define('Controls/interface/IGroupedList', [
     * @cfg {String|Function} Устанавливает шаблон отображения заголовка группы.
     * @default Controls/list:GroupTemplate
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     * Подробнее о параметрах шаблона Controls/list:GroupTemplate читайте {@link Controls/list:GroupTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/group-template/ здесь}.
     * @example
@@ -57,7 +57,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#collapsedGroups
     * @cfg {Array.<String>} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     * @see groupTemplate
     * @see groupProperty
     * @see groupHistoryId
@@ -77,7 +77,7 @@ define('Controls/interface/IGroupedList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<String>} changes Массив с идентификаторами групп.
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     */
 
    /**
@@ -86,7 +86,7 @@ define('Controls/interface/IGroupedList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<String>} changes Массив с идентификаторами групп.
     * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
     */
 
 });

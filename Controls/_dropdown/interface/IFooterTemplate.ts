@@ -92,7 +92,7 @@
     *          <div class="ControlsDemo-InputDropdown-footerTpl">
     *             <Controls.buttons:Button caption="+ New template" size="l" viewMode="link" on:click="_clickHandler(itemData.key)"/>
     *          </div>
-    *       </ws:footerTemplate>
+    *       </ws:nodeFooterTemplate>
     *    </Controls.dropdown:Button>
     * </pre>
     * JS:

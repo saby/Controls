@@ -102,6 +102,7 @@ var ListView = BaseControl.extend(
                   this._pendingRedraw = true;
                }
             };
+            this._onMarkedKeyChangedHandlerFnc = this._onMarkedKeyChangedHandler.bind(this);
         },
        _beforeMount: function(newOptions) {
             _private.checkDeprecated(newOptions, this);
@@ -111,7 +112,7 @@ var ListView = BaseControl.extend(
             if (newOptions.listModel) {
                 this._listModel = newOptions.listModel;
                 this._listModel.subscribe('onListChange', this._onListChangeFnc);
-                this._listModel.subscribe('onMarkedKeyChanged', this._onMarkedKeyChangedHandler.bind(this));
+                this._listModel.subscribe('onMarkedKeyChanged', this._onMarkedKeyChangedHandlerFnc);
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
             // todo Костыль, т.к. построение ListView зависит от SelectionController.
@@ -120,6 +121,13 @@ var ListView = BaseControl.extend(
             // 2. Полностью переведен BaseControl на новую модель и SelectionController превращен в умный, упорядоченный менеджер, умеющий работать асинхронно.
             if (newOptions.multiSelectReady) {
                return newOptions.multiSelectReady;
+            }
+        },
+
+        _beforeUnmount: function() {
+            if (this._listModel) {
+                this._listModel.unsubscribe('onListChange', this._onListChangeFnc);
+                this._listModel.unsubscribe('onMarkedKeyChanged', this._onMarkedKeyChangedHandlerFnc);
             }
         },
 

@@ -73,12 +73,13 @@
    .controls-Button__close__icon_link-theme_@{themeName}:hover {
       background-image: @icon_hovered_background-image_closeButton_link;
    }
-   .controls-Button__close__icon_toolButton-theme_@{themeName}:hover {
-      background-image: @icon_hovered_background-image_closeButton_toolButton;
-   }
 
+   //button and icon must be hovered at the same time
    .controls-Button__close_toolButton-theme_@{themeName}:hover {
       border-color: @border-color_hover_closeButton_toolButton;
+      .controls-Button__close__icon_toolButton-theme_@{themeName} {
+         background-image: @icon_hovered_background-image_closeButton_toolButton;
+      }
    }
 
    .controls-Button__close_toolButton_untransparent-theme_@{themeName}:hover {

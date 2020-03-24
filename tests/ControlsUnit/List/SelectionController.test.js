@@ -24,7 +24,7 @@ define([
       let rs;
       let cfg;
       let sandbox;
-      let commonConfig;
+      let newModelCfg;
 
       beforeEach(function() {
          sandbox = sinon.createSandbox();
@@ -32,7 +32,7 @@ define([
             keyProperty: ListData.KEY_PROPERTY,
             rawData: ListData.getItems()
          });
-         commonConfig = {
+         cfg = {
             selectedKeys: [],
             excludedKeys: [],
             items: rs,
@@ -41,22 +41,20 @@ define([
             selectDescendants: true,
             selectAncestors: true,
             nodesSourceControllers: new Map(),
-            keyProperty: ListData.KEY_PROPERTY
+            keyProperty: ListData.KEY_PROPERTY,
+            listModel: new treeGrid.ViewModel({ columns: [], items: rs })
          };
          instance = new SelectionController();
-         instance.saveOptions({
-            ...commonConfig,
-            listModel: new treeGrid.ViewModel({columns: [], items: rs})
-         });
+         instance.saveOptions(cfg);
 
-         instanceWithNewModel = new SelectionController();
-         instanceWithNewModel.saveOptions({
-            ...commonConfig,
-            listModel: new display.Collection({
-               items: rs,
-               keyProperty: commonConfig.keyProperty
-            })
+         newModelCfg = { ...cfg };
+         delete newModelCfg.parentProperty;
+         newModelCfg.listModel = new display.Collection({
+            collection: rs,
+            keyProperty: cfg.keyProperty
          });
+         instanceWithNewModel = new SelectionController();
+         instanceWithNewModel.saveOptions(newModelCfg);
       });
 
       afterEach(function() {
@@ -269,9 +267,9 @@ define([
          });
       });
 
-      describe('_beforeUnmount', async function() {
+      describe('_beforeUnmount', function() {
 
-         it('_beforeUnmount with old model', () => {
+         it('_beforeUnmount with old model', async() => {
             const config = {...cfg};
             const numHandlersCollectionChange = config.items.getEventHandlers('onCollectionChange').length;
             config.selectedKeys = ['testId'];
@@ -294,17 +292,28 @@ define([
             assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0], { bubbling: true }).calledOnce);
          });
 
-         it('_beforeUnmount with new model', async () => {
-            instanceWithNewModel._options.selectedKeys = [1];
-            instanceWithNewModel._options.excludedKeys = [2];
-            await instanceWithNewModel._beforeMount(instanceWithNewModel._options);
+         it('_beforeUnmount with new model', async() => {
+            const newOptions = { ...instanceWithNewModel._options };
+            newOptions.selectedKeys = [1];
+            newOptions.excludedKeys = [2];
+            await instanceWithNewModel._beforeMount(newOptions);
 
             instanceWithNewModel._afterMount();
-            assert.isTrue(instanceWithNewModel._listModel.getSelectedItems().length > 1);
+            assert.isTrue(instanceWithNewModel._options.listModel.getSelectedItems().length === 1);
 
             instanceWithNewModel._beforeUnmount();
-            assert.isTrue(instanceWithNewModel._listModel.getSelectedItems().length === 0);
+            assert.isTrue(instanceWithNewModel._options.listModel.getSelectedItems().length === 0);
+         });
 
+         it('_beforeUnmount with destroyed model', async() => {
+            instance._options.selectedKeys = [1];
+            instance._options.excludedKeys = [2];
+            await instance._beforeMount(instance._options);
+            instance._afterMount();
+
+            instance._options.listModel.destroy();
+            instance._beforeUnmount();
+            assert.isNull(instance._multiselection);
          });
       });
 

@@ -3,6 +3,12 @@ export default interface IOpenPopup {
     openPopup(): void;
 }
 /**
+ * Интерфейс для контролов, которые имеют возможность открывать диалоговое окно.
+ * @interface Controls/_interface/IOpenPopup
+ * @public
+ */
+
+/**
  * Открывает диалоговое окно контрола.
  * @name Controls/_interface/IOpenPopup#openPopup
  * @example

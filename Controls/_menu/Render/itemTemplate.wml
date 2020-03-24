@@ -53,8 +53,8 @@
          <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
       </ws:if>
 
-      <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.isNode() }}">
-         <ws:if data="{{ item.isSwiped() }}">
+      <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.getContents().get(itemData.nodeProperty) }}">
+         <ws:if data="{{ treeItem.isSwiped() }}">
             <ws:partial template="{{ swipeTemplate }}"/>
          </ws:if>
          <ws:else>

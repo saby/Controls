@@ -4,7 +4,7 @@ import {IoC, constants} from "Env/Env";
 /**
  * Кнопка меню с историей, клик по которой открывает выпадающий список.
  *
- * <a href="/materials/demo-ws4-button-menu">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">Демо-пример</a>.
  *
  * @class Controls/_history/Menu
  * @extends Controls/dropdown:Button
@@ -18,7 +18,7 @@ import {IoC, constants} from "Env/Env";
 /*
  * Button menu with history by clicking on which a drop-down list opens.
  *
- * <a href="/materials/demo-ws4-button-menu">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">Demo-example</a>.
  *
  * @class Controls/_history/Menu
  * @extends Controls/dropdown:Button

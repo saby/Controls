@@ -65,10 +65,12 @@
 </ws:template>
 <ws:template name="stickyLadderTpl">
    <ws:if data="{{itemData.styleLadderHeading && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{itemData.getItemColumnCellClasses(itemData, _options.theme)}}{{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging'}} js-controls-SwipeControl__actionsContainer"
+      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging'}} js-controls-SwipeControl__actionsContainer"
            attr:key="{{itemData.key + '_sticky_ladder'}}"
            attr:style="{{itemData.styleLadderHeading}}">
-         <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{backgroundStyle}}" mode="replaceable">
+         <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{backgroundStyle}}"
+                                       shadowVisibility="hidden"
+                                       mode="replaceable">
             <ws:partial template="columnContent" currentColumn="{{currentColumn}}" attr:class="{{itemData.getClassesLadderHeading(currentColumn, _options.theme)}}"/>
          </Controls.scroll:StickyHeader>
       </div>
@@ -81,7 +83,7 @@
    <div if="{{!!itemData.dragTargetNode}}" class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
                                  {{currentColumn.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>
    <ws:partial template="columnContent"
-               attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}
+               attr:class="{{currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder'}}
                            {{itemData.styleLadderHeading ? 'controls-Grid__row-cell__content_ladderHeader'}}"/>
 </ws:template>
 

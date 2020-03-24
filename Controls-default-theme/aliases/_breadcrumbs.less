@@ -4,12 +4,13 @@
 
 @height_breadcrumbsView:                                               @inline_height_default;
 // baseline для breadcrumbs без "домика"
-@line-height_breadcrumbsView:                                         @font-size_2xl;
+@line-height_breadcrumbsView:                                          @font-size_2xl;
 // baseline для breadcrumbs с "домиком"
-@line-height-home_breadcrumbsView:                                    @font-size_3xl;
+@line-height-home_breadcrumbsView:                                     @font-size_3xl;
+@spacing_breadcrumbsView:                                              2px;
 
 // Тень
-@dots_shadow-offset_breadcrumbsView:                                   -15px 2px 4px -6px;
+@dots_shadow-offset_breadcrumbsView:                                   -8px 0 4px 4px;
 @dots_shadow-color_breadcrumbsView:                                    @background-color;
 
 
@@ -26,8 +27,8 @@
 // Иконки
 @item_icon-size_default_breadcrumbsView:                               @icon-size_s;
 @item_icon-color_default_breadcrumbsView:                              @label_text-color;
-@item_hover_icon-color_default_breadcrumbsView:                        @link_hover_text-color;
-@item_active_icon-color_default_breadcrumbsView:                       @link_hover_text-color;
+@item_hover_icon-color_default_breadcrumbsView:                        @secondary_hover_icon-color;
+@item_active_icon-color_default_breadcrumbsView:                       @secondary_hover_icon-color;
 
 
 
@@ -57,8 +58,8 @@
 
 @home_icon-size_breadcrumbsPath:                                       @icon-size_s;
 @home_icon-color_breadcrumbsPath:                                      @label_text-color;
-@home_hover_icon-color_breadcrumbsPath:                                @link_hover_text-color;
-@home_active_icon-color_breadcrumbsPath:                               @link_hover_text-color;
+@home_hover_icon-color_breadcrumbsPath:                                @secondary_hover_icon-color;
+@home_active_icon-color_breadcrumbsPath:                               @secondary_hover_icon-color;
 @home_offset_breadcrumbsPath:                                          4px;
 
 
@@ -70,9 +71,9 @@
 @back_offset_breadcrumbsHeadingPath:                                   8px;
 @back_editButton_background-color_breadcrumbsHeadingPath:              @background-color;
 @back_editButton_icon-size_breadcrumbsHeadingPath:                     @icon-size_s;
-@back_editButton_icon-color_breadcrumbsHeadingPath:                    @secondary_color;
-@back_editButton_hover_icon-color_breadcrumbsHeadingPath:              @link_hover_text-color;
-@back_editButton_active_icon-color_breadcrumbsHeadingPath:             @link_hover_text-color;
+@back_editButton_icon-color_breadcrumbsHeadingPath:                    @secondary_icon-color;
+@back_editButton_hover_icon-color_breadcrumbsHeadingPath:              @secondary_hover_icon-color;
+@back_editButton_active_icon-color_breadcrumbsHeadingPath:             @secondary_hover_icon-color;
 @back_editButton_readonly_icon-color_breadcrumbsHeadingPath:           @readonly_color;
 @back_counter_offset_breadcrumbsHeadingPath:                           4px;
 

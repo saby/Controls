@@ -11,7 +11,7 @@ import {showType} from 'Controls/Utils/Toolbar';
  *
  * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/directory/layout-selector-stack/'>статье</a>.
  *
- * <a href="/materials/demo/demo-ws4-engine-selector-browser">Пример</a> использования контрола.
+ * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
  * @class Controls/_lookupPopup/List/Container
  * @extends Core/Control
@@ -29,7 +29,7 @@ import {showType} from 'Controls/Utils/Toolbar';
  *
  * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/'>here</a>.
  *
- * <a href="/materials/demo/demo-ws4-engine-selector-browser">Here</a> you can see a demo.
+ * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Here</a> you can see a demo.
  *
  * @class Controls/_lookupPopup/List/Container
  * @extends Core/Control
@@ -68,13 +68,13 @@ import {showType} from 'Controls/Utils/Toolbar';
 /**
  * @name Controls/_lookupPopup/List/Container#itemActions
  * @cfg {Array.<ItemAction>} Массив конфигурационных объектов для кнопок, которые будут отображаться, когда пользователь наводит курсор на элемент.
- * <a href="/materials/demo-ws4-list-item-actions">Пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Пример</a>.
  */
 
 /*
  * @name Controls/_lookupPopup/List/Container#itemActions
  * @cfg {Array.<ItemAction>} Array of configuration objects for buttons which will be shown when the user hovers over an item.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  */
 
 /**

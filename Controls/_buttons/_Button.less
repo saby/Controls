@@ -146,10 +146,18 @@
    .controls-BaseButton:hover .controls-text-link_theme-@{themeName} {
       color: @link_hover_text-color;
    }
+
+   .controls-BaseButton:hover .controls-text-label_theme-@{themeName} {
+      color: @link_hover_text-color;
+   }
 }
 
 .ws-is-no-touch, .ws-is-touch {
    .controls-BaseButton:active .controls-text-link_theme-@{themeName} {
+      color: @link_hover_text-color;
+   }
+
+   .controls-BaseButton:active .controls-text-label_theme-@{themeName} {
       color: @link_hover_text-color;
    }
 }

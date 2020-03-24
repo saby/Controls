@@ -1,7 +1,9 @@
+import StickyHeaderContext = require('Controls/_scroll/StickyHeader/Context');
 import {SyntheticEvent} from "Vdom/Vdom";
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {isStickySupport, getNextId, getOffset, POSITION, IOffset, IFixedEventData, TRegisterEventData} from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
+import {delay as runDelayed} from 'Types/function';
 
 /**
  * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
@@ -39,12 +41,17 @@ interface IHeadersIds {
     bottom: number[];
 }
 
+interface IOffsetCache {
+    [key: string]: number;
+}
+
 export default class Group extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     private _index: number = null;
     protected _isStickySupport: boolean = false;
 
     protected _fixed: boolean = false;
+    protected _cachedOffset: IOffsetCache = {};
 
     protected _stickyHeadersIds: IHeadersIds = {
         top: [],
@@ -59,9 +66,46 @@ export default class Group extends Control<IControlOptions> {
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
 
-    protected _beforeMount(options: IControlOptions): void {
+    private _updateContext(position: POSITION, value: number) {
+        this._stickyHeaderContext[position] = value;
+        this._stickyHeaderContext.updateConsumers();
+    }
+
+    private _getOffset(parentElement: HTMLElement, element: HTMLElement, position: POSITION, key: string): number {
+        const resetCacheDelay: number = 0;
+        // Сценарий: проскролить список, вызвать перестроение заголовков. В этом случе offset будет отрицательным.
+        // Физически заголовок не должен иметь такое смещение относительно группы. Это ошибка.
+        // Разобраться по https://online.sbis.ru/opendoc.html?guid=243c78ec-7f27-4625-b347-d92523702e50
+
+        // После регистрации каждого(!) нового заголовка в группе, вызыввается циклический обход уже всех(!)
+        // зареганых заголовков и получение их размера через getBoundingClientRect, что заметно сказывается
+        // на производительности. Для синхронных вызовов кэширую значение, на моем кейсе дает уменьшение вызовов на 66%.
+        if (this._cachedOffset[key] !== undefined) {
+            return this._cachedOffset[key];
+        }
+        this._cachedOffset[key] = Math.max(0, getOffset(parentElement, element, position));
+        setTimeout(() => {
+            this._cachedOffset[key] = undefined;
+        }, resetCacheDelay);
+        return this._cachedOffset[key];
+    }
+    protected _getChildContext() {
+        return {
+            stickyHeader: this._stickyHeaderContext
+        };
+    }
+
+    protected _beforeMount(options: IControlOptions, context): void {
         this._isStickySupport = isStickySupport();
         this._index = getNextId();
+        this._stickyHeaderContext = new StickyHeaderContext({
+            shadowPosition: context?.stickyHeader?.shadowPosition
+        });
+    }
+
+    protected _beforeUpdate(options: IControlOptions, context): void {
+        this._stickyHeaderContext.shadowPosition = context?.stickyHeader?.shadowPosition;
+        this._stickyHeaderContext.updateConsumers();
     }
 
     protected _afterMount(): void {
@@ -90,9 +134,11 @@ export default class Group extends Control<IControlOptions> {
         this._setOffset(value, POSITION.bottom);
     }
 
-    private _setOffset(value: number, position: string): void {
+    private _setOffset(value: number, position: POSITION): void {
         for (let id in this._headers) {
-            this._headers[id].inst[position] = this._headers[id][position] + value;
+            const positionValue: number = this._headers[id][position] + value;
+            this._headers[id].inst[position] = positionValue;
+            this._updateContext(position, positionValue);
         }
         this._offset[position] = value;
     }
@@ -130,6 +176,19 @@ export default class Group extends Control<IControlOptions> {
         }
     }
 
+    protected _updateTopBottom(): void {
+        let offset: number = 0;
+        for (const header of Object.keys(this._headers)) {
+            for (const position of [POSITION.top, POSITION.bottom]) {
+                offset = this._getOffset(this._container, this._headers[header].container, position, header);
+                this._headers[header][position] = offset;
+                const positionValue: number = this._offset[position] + offset;
+                this._headers[header].inst[position] = positionValue;
+                this._updateContext(position, positionValue);
+            }
+        }
+    }
+
     protected _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
         event.stopImmediatePropagation();
         if (register) {
@@ -142,9 +201,11 @@ export default class Group extends Control<IControlOptions> {
             };
 
             for (const position of [POSITION.top, POSITION.bottom]) {
-                offset = getOffset(this._container, data.inst._container, position);
+                offset = this._getOffset(this._container, data.inst._container, position, data.id);
                 this._headers[data.id][position] = offset;
-                data.inst[position] = this._offset[position] + offset;
+                const positionValue: number = this._offset[position] + offset;
+                data.inst[position] = positionValue;
+                this._updateContext(position, positionValue);
             }
 
             // Register group after first header is registered
@@ -156,6 +217,32 @@ export default class Group extends Control<IControlOptions> {
                     mode: data.mode,
                 }, true], {bubbling: true});
                 this._isRegistry = true;
+            } else if (this._container.childElementCount === Object.keys(this._headers).length) {
+                /**При смене фильтрации (к примеру переход по кнопке назад) происходит обновление
+                 *  смещения заголовков. В этот момент так же могут регистрировать новые заголовки.
+                 *  Проблема заключается в том, что на момент регистрации новых - позиция существующих
+                 *  может не успеть обновиться в DOM, из-за чего новые заголовки неверно высчитают
+                 *  свое смещение.
+                 *  Как временное решение запускаем отложенный пересчет позиции, чтобы заголовки имели
+                 *  актуальное смещение. В первый цикл не всегда успевает обновиться позиция, поэтому делаем 2 пересчета.
+                 */
+                //TODO: https://online.sbis.ru/opendoc.html?guid=42232947-df0f-4a2b-9fbe-e3f9a9389263
+                runDelayed(() => {
+                    this._updateTopBottom();
+                    this._notify(
+                        'updateTopBottom',
+                        [{updateTopBottom: true}],
+                        {bubbling: true}
+                    );
+                    runDelayed(() => {
+                        this._updateTopBottom();
+                        this._notify(
+                            'updateTopBottom',
+                            [{updateTopBottom: true}],
+                            {bubbling: true}
+                        );
+                    });
+                });
             }
         } else {
             delete this._headers[data.id];
@@ -172,13 +259,16 @@ export default class Group extends Control<IControlOptions> {
         this._notify(
             'fixed',
             [{
-                id: this._index,
-                offsetHeight: fixedHeaderData.offsetHeight,
-                fixedPosition: fixedHeaderData.fixedPosition,
-                prevPosition: fixedHeaderData.prevPosition,
-                mode: fixedHeaderData.mode
+                ...fixedHeaderData,
+                id: this._index
             }],
             {bubbling: true}
         );
+    }
+
+    static contextTypes(): {} {
+        return {
+            stickyHeader: StickyHeaderContext
+        };
     }
 }

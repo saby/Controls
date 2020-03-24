@@ -7,10 +7,12 @@ import getPrefetchSource from './getPrefetchSource';
 import {ContextOptions} from 'Controls/context';
 import {isEqual} from "Types/object";
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
 
 
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {RecordSet} from 'Types/collection';
+import {TArrayGroupId, prepareFilterCollapsedGroups} from 'Controls/_list/Controllers/Grouping';
 
 type GetSourceResult = {
    data?: RecordSet;
@@ -21,7 +23,7 @@ type GetSourceResult = {
       /**
        * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
        * @remark
-       * См. <a href="/materials/demo-ws4-filter-search-new">демо-пример</a>.
+       * См. <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>.
        *
        * @class Controls/_list/Data
        * @mixes Controls/_interface/IFilter
@@ -37,7 +39,7 @@ type GetSourceResult = {
       /*
        * Container component that provides a context field "dataOptions" with necessary data for child containers.
        *
-       * Here you can see a <a href="/materials/demo-ws4-filter-search-new">demo</a>.
+       * Here you can see a <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">demo</a>.
        *
        * @class Controls/_list/Data
        * @mixes Controls/_interface/IFilter
@@ -99,17 +101,31 @@ type GetSourceResult = {
             data: RecordSet | void,
             dataLoadErrback: Function | void
          ): Promise<GetSourceResult> {
-            return getPrefetchSource({
-               source: self._source,
-               navigation: self._navigation,
-               sorting: self._sorting,
-               filter: self._filter,
-               keyProperty: self._keyProperty
-            }, data).then((result: GetSourceResult) => {
-               if (result.error && dataLoadErrback instanceof Function) {
-                  dataLoadErrback(result.error);
+            const hasGrouping = !!self._options.groupingKeyCallback || !!self._options.groupProperty;
+            const groupsStoreKey = hasGrouping ? (self._options.historyIdCollapsedGroups || self._options.groupHistoryId) : undefined;
+
+            return new Promise((resolve) => {
+               if (!hasGrouping || !groupsStoreKey) {
+                  resolve(self._filter);
+               } else {
+                  // restoreCollapsedGroups всегда завершается через Promise.resolve()
+                  GroupUtil.restoreCollapsedGroups(groupsStoreKey).then((collapsedGroups?: TArrayGroupId) => {
+                     resolve(prepareFilterCollapsedGroups(collapsedGroups, self._filter));
+                  });
                }
-               return result;
+            }).then((filter) => {
+               return getPrefetchSource({
+                  source: self._source,
+                  navigation: self._navigation,
+                  sorting: self._sorting,
+                  filter,
+                  keyProperty: self._keyProperty
+               }, data).then((result: GetSourceResult) => {
+                  if (result.error && dataLoadErrback instanceof Function) {
+                     dataLoadErrback(result.error);
+                  }
+                  return result;
+               });
             });
          },
 

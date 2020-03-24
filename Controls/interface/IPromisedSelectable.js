@@ -41,7 +41,7 @@ define('Controls/interface/IPromisedSelectable', [
    /**
     * @name Controls/interface/IPromisedSelectable#selectedKeys
     * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @default []
     * @remark
     * Чтобы выбрать все элементы внутри узла, необходимо в selectedKeys передать значение {@link Controls/_interface/ISource#keyProperty keyProperty} этого узла.
@@ -67,7 +67,7 @@ define('Controls/interface/IPromisedSelectable', [
    /*
     * @name Controls/interface/IPromisedSelectable#selectedKeys
     * @cfg {Array.<Number|String>} Array of selected items' keys.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @default []
     * @remark
     * You can pass node's {@link Controls/_interface/ISource#keyProperty key property} to select every item inside that node. To select every item in the list you should pass [null].
@@ -92,7 +92,7 @@ define('Controls/interface/IPromisedSelectable', [
    /**
     * @name Controls/interface/IPromisedSelectable#excludedKeys
     * @cfg {Array.<Number|String>} Набор ключей элементов, которые должны быть исключены из выборки.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @default []
     * @remark
     * Узел будет отмечен как частично выбранный, если ключ любого из его дочерних элементов находится в excludedKeys. Такие узлы обычно отображаются с флагом в неопределенном состоянии рядом с ними.
@@ -117,7 +117,7 @@ define('Controls/interface/IPromisedSelectable', [
    /*
     * @name Controls/interface/IPromisedSelectable#excludedKeys
     * @cfg {Array.<Number|String>} Array of keys of items that should be excluded from the selection.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @default []
     * @remark
     * A node will be marked as partially selected if key of any of its children is in excludedKeys. Partially selected nodes are usually rendered with checkbox in indeterminate state near them.
@@ -141,7 +141,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @event Controls/interface/IPromisedSelectable#selectedKeysChanged Происходит при изменении набора выбранных элементов списка.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<Number|String>} keys Массив ключей выбранных элементов.
     * @param {Array.<Number|String>} added Массив ключей, добавленных в selectedKeys.
@@ -171,7 +171,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /*
     * @event Controls/interface/IPromisedSelectable#selectedKeysChanged Occurs when selection was changed.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Array.<Number|String>} keys Array of selected items' keys.
     * @param {Array.<Number|String>} added Array of keys added to selectedKeys.
@@ -201,7 +201,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @event Controls/interface/IPromisedSelectable#excludedKeysChanged Происходит при изменении набора исключенных из выбора элементов списка.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<Number|String>} keys Набор ключей элементов, которые должны быть исключены из выборки.
     * @param {Array.<Number|String>} added Массив ключей, добавленных в excludedKeys.
@@ -231,7 +231,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /*
     * @event Controls/interface/IPromisedSelectable#excludedKeysChanged Occurs when selection was changed.
-    * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
     * @param {Array.<Number|String>} keys Array of keys of items that should be excluded from the selection.
     * @param {Array.<Number|String>} added Array of keys added to excludedKeys.

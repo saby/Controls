@@ -19,11 +19,6 @@
    position: relative;
    .flexbox();
    .align-items(center);
-
-   &::before {
-      content: '\200b';
-      line-height: @item_height_menu;
-   }
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -35,7 +30,7 @@
 }
 
 .controls-Menu__row-separator_theme-@{themeName} {
-   &::after {
+   &::before {
       content: '';
       position: absolute;
       display: inline-block;
@@ -228,7 +223,6 @@
    display: flex;
    align-items: center;
    height: @footer_min-height_menuPopup;
-   padding-left: @item_padding-horizontal_l_menu;
 }
 
 .controls-Menu__additional {
@@ -236,7 +230,6 @@
    justify-content: center;
    align-items: center;
    width: 100%;
-   margin-right: @spacing_ListView-item-between-content-borderRight_l;
 }
 
 .controls-Menu__applyButton_theme-@{themeName} {
@@ -245,6 +238,14 @@
    padding-left: @apply-button_offset_menuPopup;
    margin-left: auto;
    align-items: center;
+}
+
+.controls-Menu__footer_moreButton_theme-@{themeName} {
+   padding-left: @item_padding-horizontal_l_menu;
+}
+
+.controls-Menu__footer_moreButton_multiSelect_theme-@{themeName} {
+   padding-left: @click-area_width_checkbox;
 }
 
 .controls-inlineheight-menuapply_theme-default {
@@ -270,12 +271,8 @@
    max-height: @height_breadcrumbsView;
 }
 
-.controls-Menu__footer_multiSelect {
-   padding-left: 0;
-}
-
 .ws-is-hover {
-   .controls-Menu__row_hovered_theme-@{themeName} {
+   .controls-Menu__row_state_default_theme-@{themeName}:hover {
       background: @item_hover_background-color_menu;
 
       .controls-Menu__row-checkbox_default_theme-@{themeName} {

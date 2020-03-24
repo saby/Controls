@@ -23,7 +23,7 @@ define('Controls/interface/IGridItemTemplate', [
     * @cfg {String|Function} Устанавливает шаблон отображения элемента.
     * @default Controls/grid:ItemTemplate
     * @remark
-    * См. <a href="/materials/demo-ws4-grid-item-template">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FItemTemplatePG">демо-пример</a>.
     * Подробнее о параметрах шаблона Controls/grid:ItemTemplate читайте {@link Controls/grid:ItemTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/item/ здесь}.
     * Шаблон может быть переопределён с помощью опции {@link Controls/interface/IGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
@@ -47,7 +47,7 @@ define('Controls/interface/IGridItemTemplate', [
    /*
     * @name Controls/interface/IGridItemTemplate#itemTemplate
     * @cfg {Function} Template for item render.
-    * <a href="/materials/demo-ws4-grid-item-template">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FItemTemplatePG">Example</a>.
     * @remark
     * Base itemTemplate for Controls.grid:View: "Controls/grid:ItemTemplate".
     * Inside the template scope, object itemData is available, allowing you to access the render data (for example: item, key, etc.).
@@ -78,7 +78,7 @@ define('Controls/interface/IGridItemTemplate', [
     * @name Controls/interface/IGridItemTemplate#itemTemplateProperty
     * @cfg {String|undefined} Устанавливает имя поля элемента, где содержится имя шаблона. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
     * @remark
-    * См. <a href="/materials/demo-ws4-grid-item-template">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FItemTemplatePG">демо-пример</a>.
     * Если не задано значение в опции itemTemplateProperty или в свойстве элемента, то используется шаблон из {@link Controls/interface/IGridItemTemplate#itemTemplate itemTemplate}.
     * @see Controls/interface/IGridItemTemplate#itemTemplate
     */
@@ -86,7 +86,7 @@ define('Controls/interface/IGridItemTemplate', [
    /*
     * @name Controls/interface/IGridItemTemplate#itemTemplateProperty
     * @cfg {String} Name of the item property that contains template for item render. If not set, itemTemplate is used instead.
-    * <a href="/materials/demo-ws4-grid-item-template">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FItemTemplatePG">Example</a>.
     */
 
 });

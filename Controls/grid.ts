@@ -8,6 +8,7 @@
  * @includes HeaderContent Controls/grid:HeaderContent
  * @includes LadderWrapper Controls/grid:LadderWrapper
  * @includes ColumnTemplate Controls/grid:ColumnTemplate
+ * @includes ResultColumnTemplate Controls/grid:ResultColumnTemplate
  * @includes RowEditor Controls/grid:RowEditor
  * @includes IGridControl Controls/_grid/interface/IGridControl
  * @includes IColumn Controls/grid:IColumn
@@ -16,7 +17,7 @@
  * @author Крайнов Д.О.
  */
 
-import View = require('Controls/_grid/Grid');
+import {default as View} from 'Controls/_grid/Grid';
 import ItemTemplate = require('wml!Controls/_grid/ItemTemplateResolver');
 import ResultsTemplate = require('wml!Controls/_grid/ResultsTemplateResolver');
 import GroupTemplate = require('wml!Controls/_grid/GroupTemplate');
@@ -30,11 +31,13 @@ import GridViewModel = require('Controls/_grid/GridViewModel');
 
 import SortingSelector from 'Controls/_grid/SortingSelector';
 import RowEditor = require('wml!Controls/_grid/RowEditor');
+import * as ResultColumnTemplate from 'wml!Controls/_grid/layout/common/ResultCellContent';
 
 export {
     View,
     ItemTemplate,
     ResultsTemplate,
+    ResultColumnTemplate,
     GroupTemplate,
     LadderWrapper,
     ColumnTemplate,

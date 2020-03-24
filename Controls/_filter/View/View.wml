@@ -29,6 +29,7 @@
       <ws:if data="{{_needShowFastFilter(_source)}}">
          <ws:if data="{{_options.panelTemplateName && _isFastReseted() && _options.detailPanelTemplateName}}">
             <ws:partial template="itemTemplate"
+                        name="all_frequent"
                         itemName="all_frequent"
                         text="{[Все]}"
                         attr:class="controls-FilterView__frequentFilter"
@@ -41,6 +42,7 @@
                            title="{{_displayText[item.name].title}}"
                            moreText="{{_displayText[item.name].hasMoreText}}"
                            on:click="_openPanel(item.name)"
+                           name="{{item.name}}"
                            item="{{item}}"
                            itemName="{{item.name}}"
                            attr:class="controls-FilterView__frequentFilter"

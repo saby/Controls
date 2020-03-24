@@ -30,9 +30,10 @@ export interface ICallbackData<T> extends IFieldData {
 
 /**
  * Определяет функцию обратного вызова, изменяющую обработку ввода.
+ * @typedef {Function} ICallback
  * @param T Тип значения поля ввода.
- * @param data данные основного процесса обработки ввода.
- * @return измененные данные.
+ * @param {ICallbackData} data данные основного процесса обработки ввода.
+ * @return {IFieldData} измененные данные.
  */
 export type ICallback<T> = (data: ICallbackData<T>) => IFieldData;
 
@@ -130,7 +131,7 @@ export interface IValueOptions<T> {
     value: T | null;
 
     /**
-     * Функция обратного вызова, вызывается после основного процесса обработки входных данных.
+     * @cfg {ICallback} Функция обратного вызова, вызывается после основного процесса обработки входных данных.
      * @remark
      * Метод используется, когда требуется измененить поведение обработки ввода.
      * @demo Controls-demo/Input/InputCallback/Index
@@ -139,7 +140,7 @@ export interface IValueOptions<T> {
 }
 
 /**
- * @name Controls/_input/interface/IValue#valueChanged 
+ * @name Controls/_input/interface/IValue#valueChanged
  * @event Происходит при изменении отображаемого значения контрола ввода.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение контрола ввода.
@@ -182,7 +183,7 @@ export interface IValueOptions<T> {
  */
 
 /**
- * @name Controls/_input/interface/IValue#inputCompleted 
+ * @name Controls/_input/interface/IValue#inputCompleted
  * @event Происходит при завершении ввода. Завершение ввода — это контрол потерял фокус, или пользователь нажал клавишу "Enter".
  * @param {String} value Значение контрола ввода.
  * @param {String} displayValue Отображаемое значение контрола ввода.

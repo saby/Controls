@@ -2,6 +2,7 @@ import rk = require('i18n!Controls');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as cInstance from 'Core/core-instance';
 import tmpl = require('wml!Controls/_form/FormController/FormController');
+import {readWithAdditionalFields} from './crudProgression';
 import * as Deferred from 'Core/Deferred';
 import {Logger} from 'UI/Utils';
 import {error as dataSourceError} from 'Controls/dataSource';
@@ -286,10 +287,12 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._pendingPromise.callback();
             this._pendingPromise = null;
         }
-        if (this._unmountPromise) {
-            this._unmountPromise.callback();
-            this._unmountPromise = null;
-        }
+        // when FormController destroying, its need to check new record was saved or not. If its not saved, new record trying to delete.
+        // Текущая реализация не подходит, завершать пендинги могут как сверху(при закрытии окна), так и
+        // снизу (редактирование закрывает пендинг).
+        // надо делать так, чтобы редактирование только на свой пендинг влияло
+        // https://online.sbis.ru/opendoc.html?guid=78c34d53-8705-4e25-bbb5-0033e81d6152
+        this._tryDeleteNewRecord();
     }
 
 
@@ -312,10 +315,10 @@ class FormController extends Control<IFormController, IReceivedState> {
         });
     }
 
-    private _readRecordBeforeMount = (cfg: IFormController) => {
+    private _readRecordBeforeMount(cfg: IFormController): Promise<{data: Model}> {
         // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать
         // в beforeMount еще нет потомков, в частности _children.crud, поэтому будем читать рекорд напрямую
-        return this._source.read(cfg.key, cfg.readMetaData).then((record: Model) => {
+        return readWithAdditionalFields(this._source, cfg.key, cfg.readMetaData).then((record: Model) => {
             this._setRecord(record);
             this._readInMounting = {isError: false, result: record};
 
@@ -329,7 +332,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         }, (e: Error) => {
             this._readInMounting = {isError: true, result: e};
             return this._processError(e).then(this._getState);
-        });
+        }) as Promise<{data: Model}>;
     }
 
     private _checkRecordType(record: Model): boolean {
@@ -392,7 +395,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _tryDeleteNewRecord(): Promise<undefined> {
         if (this._needDestroyRecord()) {
-            return this.delete(this._getRecordId(), this._options.destroyMeta || this._options.destroyMetaData);
+            return this._source.destroy(this._getRecordId(), this._options.destroyMeta || this._options.destroyMetaData);
         }
         return Promise.resolve();
     }
@@ -409,38 +412,13 @@ class FormController extends Control<IFormController, IReceivedState> {
         self._pendingPromise = new Deferred();
         self._notify('registerPending', [self._pendingPromise, {
             showLoadingIndicator: false,
-            validate(): boolean {
-                return self._record && self._record.isChanged();
+            validate(isInside: boolean): boolean {
+                return self._record && self._record.isChanged() && !isInside;
             },
             onPendingFail(forceFinishValue: boolean, deferred: Promise<boolean>): void {
                 self._showConfirmDialog(deferred, forceFinishValue);
             }
         }], {bubbling: true});
-
-        // Перед закрытием окна возможно потребуется удалить запись.
-        // Делать надо здесь, а не на _beforeUnmount, т.к. нужно чтобы всплыли события об удалении записи,
-        // это нужно для синхронизации с реестром.
-        self._unmountPromise = new Deferred();
-        self._notify('registerPending', [self._unmountPromise, {
-            showLoadingIndicator: false,
-            validate(): boolean {
-                return self._record && !self._record.isChanged() && self._needDestroyRecord();
-            },
-            onPendingFail(forceFinishValue: boolean, deferred: Promise<boolean>): void {
-                // Обернул в setTimeout, т.к. часть функционала написана на Promise, часть на Deferred. Из-за чего код
-                // может выполняться синхронно. На промис от сохранения через then вешается колбэк, который говорит о
-                // том, что запись больше не новая. Если прикладник подписался на событие о сохранении
-                // ( которое стреляет вместе с завершением промиса) и в обработчике позвал закрытие окна - то мы в
-                // onPendingFail придем раньше, чем запись будет помечена как не новая.
-                // Нужно везде перейти на промисы, пока их задержку делаю руками.
-                setTimeout(() => {
-                    self._tryDeleteNewRecord().then(() => {
-                        deferred.callback();
-                        self._unmountPromise = null;
-                    });
-                }, 0);
-            }
-        }], { bubbling: true });
     }
 
     private _confirmDialogResult(answer: boolean, def: Promise<any>): void {
@@ -532,18 +510,18 @@ class FormController extends Control<IFormController, IReceivedState> {
                 const res = this._update(config).then(this._getData);
                 updateResult.dependOn(res);
             } else {
-                updateResult.callback(true);
                 this._updateIsNewRecord(false);
+                updateResult.callback(true);
             }
         }
 
         // maybe anybody want to do custom update. check it.
         const result = this._notify('requestCustomUpdate', [], {bubbling: true});
 
-        // pending waiting while update process finished
-        const def = new Deferred();
-        this._notify('registerPending', [def, {showLoadingIndicator: false}], {bubbling: true});
-        def.dependOn(updateResult);
+         // pending waiting while update process finished
+         this._updatePromise = new Deferred();
+         this._notify('registerPending', [this._updatePromise, { showLoadingIndicator: false }], { bubbling: true });
+         this._updatePromise.dependOn(updateResult);
 
         if (result && result.then) {
             result.then((defResult) => {
@@ -596,9 +574,8 @@ class FormController extends Control<IFormController, IReceivedState> {
                     }
                 });
             }
-        });
-        validationDef.then((e) => {
-            updateDef.catch(e);
+        }, (e) => {
+            updateDef.errback(e);
             return e;
         });
         return updateDef;

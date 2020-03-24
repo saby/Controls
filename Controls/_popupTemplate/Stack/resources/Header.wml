@@ -14,7 +14,11 @@
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
          <div class="controls-StackTemplate__headerContentTemplate controls-StackTemplate__headerContentTemplate_theme_{{_options.theme}}">
-               <ws:partial template="{{_options.headerContentTemplate}}" scope="{{_options.stackOptions}}" theme="{{_options.theme}}"/>
+               <ws:partial template="{{_options.headerContentTemplate}}"
+                           scope="{{_options.stackOptions}}"
+                           theme="{{_options.theme}}"
+                           headerContentTemplate="{{null}}" /> <!-- Опция с тем же названием есть на выпадающем списке.
+                                                                    Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
          </div>
       </ws:if>
       <div class="controls-StackTemplate__command_buttons controls-StackTemplate__command_buttons_theme_{{_options.theme}}">

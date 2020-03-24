@@ -18,7 +18,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *    <li>времени;</li>
  *    <li>даты и времени.</li>
  * </ol>
- * <a href="/materials/demo-ws4-input-datetime">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDateTime%2FDateTime">Демо-пример</a>.
  *
  * @class Controls/_input/DateTime
  * @extends Core/Control
@@ -43,7 +43,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *    <li>just time,</li>
  *    <li>date and time.</li>
  * </ol>
- * <a href="/materials/demo-ws4-input-datetime">Demo examples.</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDateTime%2FDateTime">Demo examples.</a>.
  *
  * @class Controls/_input/DateTime
  * @extends Core/Control

@@ -77,7 +77,7 @@ var
 
 /**
  * Контроллер для редактирования полей ввода.
- * <a href="/materials/demo-ws4-editable-area">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">Демо-пример</a>.
  *
  * @class Controls/_editableArea/View
  * @extends Core/Control
@@ -94,7 +94,7 @@ var
 
 /*
  * Controller for editing of input fields.
- * <a href="/materials/demo-ws4-editable-area">Demo</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">Demo</a>.
  *
  * @class Controls/_editableArea/View
  * @extends Core/Control

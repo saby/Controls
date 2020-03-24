@@ -253,7 +253,7 @@ define(
                         buttonViewMode: 'buttonViewMode',
                         popupClassName: 'popupClassName',
                         keyProperty: 'itemKeyProperty',
-                        showHeader: 'showHeader',
+                        showHeader: true,
                         icon: 'icon icon-size',
                         title: 'title',
                         iconStyle: 'iconStyle'
@@ -302,13 +302,19 @@ define(
                         },
                         source: 'items',
                         root: 'itemKeyProperty',
-                        showHeader: 'showHeader'
+                        showHeader: true,
+                        closeButtonVisibility: false
                      }
                   };
                assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
 
                testSelf._items = { getIndexByValue: () => { return -1; } }; // для элемента не найдены записи в списке
                expectedConfig.templateOptions.source = '_options.source';
+               assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
+
+               testItem.set('showHeader', false);
+               expectedConfig.templateOptions.showHeader = false;
+               expectedConfig.templateOptions.closeButtonVisibility = true;
                assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
             });
             it('get button template options by item', function() {

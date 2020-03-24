@@ -1,9 +1,15 @@
 <ws:template name="cell">
     <td class="{{currentResultsColumn.cellClasses}}">
-        <ws:if data="{{!!currentResultsColumn.column.resultTemplate && (!hasMultiSelect || currentResultsColumn.index !== 0)}}">
-            <ws:partial template="{{currentResultsColumn.column.resultTemplate}}"
-                        listModel="{{listModel}}"
-                        column="{{currentResultsColumn.column}}" />
+        <ws:if data="{{ !hasMultiSelect || currentResultsColumn.index !== 0 }}">
+            <ws:if data="{{!!currentResultsColumn.column.resultTemplate}}">
+                <ws:partial template="{{currentResultsColumn.column.resultTemplate}}"
+                            listModel="{{listModel}}"
+                            currentResultsColumn="{{ currentResultsColumn }}"
+                            column="{{currentResultsColumn.column}}" />
+            </ws:if>
+            <ws:else data="{{ currentResultsColumn.showDefaultResultTemplate }}">
+                <ws:partial template="wml!Controls/_grid/layout/common/ResultCellContent" currentResultsColumn="{{currentResultsColumn}}" fontWeight="{{ fontWeight }}" fontColorStyle="{{ fontColorStyle }}"/>
+            </ws:else>
         </ws:if>
     </td>
 </ws:template>
@@ -16,7 +22,7 @@
         </ws:if>
         <td class="{{listModel.getCurrentResultsColumn().cellClasses}}"
             colspan="{{listModel.getColspanFor('customResults')}}">
-            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}"/>
+            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}" results="{{ listModel.getResults() }}"/>
         </td>
     </ws:if>
     <ws:else>

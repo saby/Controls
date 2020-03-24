@@ -22,7 +22,7 @@ import {constants} from 'Env/Env';
  *
  * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>here</a>.
  *
- * <a href="/materials/demo/demo-ws4-explorer-with-search">Here</a>. you a demo with search in Controls/Explorer.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExplorer%2FSearch">Here</a>. you a demo with search in Controls/Explorer.
  *
  * @class Controls/_search/Input/Container
  * @extends Core/Control

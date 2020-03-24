@@ -12,6 +12,8 @@
 
     <Controls.popup:Sticky
             on:result="_onResult()"
+            on:close="_onClose()"
+            on:open="_onOpen()"
             name="menuOpener"
             template="Controls/dropdownPopup:List"
             closeOnOutsideClick="{{true}}"

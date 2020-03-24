@@ -5,7 +5,6 @@
               source="{{_source}}"
               multiSelect="{{true}}"
               keyProperty="key"
-              selectedKeys="{{[1]}}"
               displayProperty="title"
      />
    </div>

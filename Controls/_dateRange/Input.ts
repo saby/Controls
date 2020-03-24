@@ -10,7 +10,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
  * Поле ввода периода дат.
- * <a href="/materials/demo-ws4-input-daterange">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FRange">Демо-пример</a>.
  * @class Controls/_dateRange/Input
  * @extends Core/Control
  * @mixes Controls/_input/interface/IBase
@@ -36,7 +36,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
 /*
  * Control for entering date range.
- * <a href="/materials/demo-ws4-input-daterange">Demo examples.</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FRange">Demo examples.</a>.
  * @class Controls/_dateRange/Input
  * @extends Core/Control
  * @mixes Controls/_input/interface/IBase

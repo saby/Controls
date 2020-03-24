@@ -6,12 +6,12 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
 /**
  * Поле ввода с автодополнением это одострочное поле ввода, которое помогает пользователю ввести текст, предлагая подходящие варианты по первым набранным символам.
  * @remark
- * См. <a href="/materials/demo/demo-suggest-input">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest">демо-пример</a>
  *
  * @class Controls/_suggest/Input
  * @extends Core/Control
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/interface/IBorderStyle
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
@@ -34,12 +34,12 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
 /*
  * The Input/Suggest control is a normal text input enhanced by a panel of suggested options.
  *
- * Here you can see the <a href="/materials/demo/demo-suggest-input">demo examples</a>.
+ * Here you can see the <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest">demo examples</a>.
  *
  * @class Controls/_suggest/Input
  * @extends Core/Control
  * @mixes Controls/_suggest/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation

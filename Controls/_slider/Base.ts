@@ -16,7 +16,7 @@ const maxPercentValue = 100;
 /**
  * Базовый слайдер с одним подвижным ползунком для выбора значения.
  *
- * <a href="/materials/demo-ws4-sliderbase">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSlider%2FBase%2FStandartSliderBaseDemo">Демо-пример</a>.
  * @public
  * @extends Core/Control
  * @class Controls/_slider/Base
@@ -28,7 +28,7 @@ const maxPercentValue = 100;
 /*
  * Basic slider with single movable point for choosing value.
  *
- * <a href="/materials/demo-ws4-sliderbase">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSlider%2FBase%2FStandartSliderBaseDemo">Demo-example</a>.
  * @public
  * @extends Core/Control
  * @class Controls/_slider/Base

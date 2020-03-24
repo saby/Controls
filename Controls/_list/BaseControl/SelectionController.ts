@@ -181,7 +181,10 @@ var _private = {
     clearSelection(self): void {
         self._multiselection.selectedKeys = [];
         self._multiselection.excludedKeys = [];
-        self._multiselection.updateSelectionForRender();
+
+        if (self._options.listModel.getCount()) {
+            self._multiselection.updateSelectionForRender();
+        }
     }
 };
 

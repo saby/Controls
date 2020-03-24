@@ -2,6 +2,8 @@
  * Created by as.krasilnikov on 21.03.2018.
  */
 import {detection} from 'Env/Env';
+import {goUpByControlTree} from 'UI/Focus';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 
 interface IPosition {
     right: number;
@@ -92,9 +94,12 @@ export = {
     getPosition(tCoords, item): IPosition {
         const maxPanelWidth = this.getMaxPanelWidth();
         const width = _private.getPanelWidth(item, tCoords, maxPanelWidth);
+        // todo Оставить только метод, т.к. он универсальный для обоих окружений и позволяет избавиться от передачи
+        // hasMaximizePopup по конфину окон. https://online.sbis.ru/opendoc.html?guid=19962a29-0597-4b7d-a2c8-c0461f83392b
+        const hasMaximizePopup: boolean = item.hasMaximizePopup || this.hasMaximizePopup(item);
         const position: IPosition = {
             width,
-            right: item.hasMaximizePopup ? 0 : tCoords.right,
+            right: hasMaximizePopup ? 0 : tCoords.right,
             top: tCoords.top,
             bottom: 0
         };
@@ -111,6 +116,24 @@ export = {
         position.maxWidth = _private.calculateMaxWidth(this, item.popupOptions, tCoords);
 
         return position;
+    },
+
+    hasMaximizePopup(item): boolean {
+        // Сделал пока только для старого окружения
+        // https://online.sbis.ru/opendoc.html?guid=19962a29-0597-4b7d-a2c8-c0461f83392b
+        if (!isNewEnvironment()) {
+            const openerContainer = item.popupOptions?.opener?._container;
+            const parents = goUpByControlTree(openerContainer);
+            for (let i = 0; i < parents.length; i++) {
+                if (parents[i]._moduleName === 'Controls/_popup/Manager/Popup' || 'Lib/Control/Dialog/Dialog') {
+                    if (parents[i]._options.maximize) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+
     },
 
     /**

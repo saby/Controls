@@ -25,7 +25,7 @@ export interface IStateIndicatorOptions extends IControlOptions {
 /**
  * Диаграмма состояния процесса.
  * Позволяет получить наглядную информацию по состоянию выполнения некоторого процесса в разрезе нескольких категорий.
- * <a href="/materials/demo-ws4-stateindicator">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FStateIndicator%2FStandartStateIndicatorDemo">Демо-пример</a>.
  * @class Controls/_progress/StateIndicator
  * @extends Core/Control
  * @author Колесов В.А.
@@ -36,7 +36,7 @@ export interface IStateIndicatorOptions extends IControlOptions {
 
 /*
  * Progress state indicator
- * <a href="/materials/demo-ws4-stateindicator">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FStateIndicator%2FStandartStateIndicatorDemo">Demo-example</a>.
  * @class Controls/_progress/StateIndicator
  * @extends Core/Control
  * @author Колесов В.А.

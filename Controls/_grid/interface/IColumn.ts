@@ -104,6 +104,7 @@ export interface IColumn {
     /**
      * @name Controls/grid:IColumn#resultTemplate
      * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.
+     * @default Controls/grid:ResultColumnTemplate
      * @remark Подробнее о работе со строкой итогов читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ руководство разработчика}.
      */
     resultTemplate?: TemplateFunction;
@@ -122,11 +123,9 @@ export interface IColumn {
      */
     valign?: TCellVerticalAlign;
     /**
-     * @name Controls/grid:IColumn#textOverflow
+     * @name Controls/grid:IColumn#stickyProperty
      * @cfg {String} Имя поля, которое используется для настройки прилипания данных колонки к верхней границе таблицы.
-     * @default auto
-     * @remark
-     * В качестве значения свойства можно указать только пиксели (px) или проценты (%).
+     * @default undefined
      */
     stickyProperty?: string;
     /**

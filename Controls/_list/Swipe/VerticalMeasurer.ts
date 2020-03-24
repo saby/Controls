@@ -116,7 +116,9 @@ const VerticalMeasurer: IMeasurer = {
             showed: itemActions
          },
          paddingSize: getPaddingSize(actionCaptionPosition, itemActionsSize),
-         twoColumns: columnsCount === 2
+         twoColumns: columnsCount === 2,
+         needIcon: this.needIcon,
+         needTitle: this.needTitle
       };
    },
    needIcon(

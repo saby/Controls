@@ -1,4 +1,3 @@
-import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import template = require('wml!Controls/_dropdown/Button/Button');
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
@@ -7,9 +6,9 @@ import ActualApi from 'Controls/_buttons/ActualApi';
 
 /**
  * Контрол «Кнопка с меню».
- * 
+ *
  * Полезные ссылки:
- * * <a href="/materials/demo-ws4-button-menu">демо-пример</a>
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/">руководство разработчика</a>
  *
  * @class Controls/_dropdown/Button
@@ -17,13 +16,7 @@ import ActualApi from 'Controls/_buttons/ActualApi';
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_interface/ITooltip
  * @mixes Controls/_interface/IFilter
- * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_dropdown/interface/IDropdownSource
- * @mixes Controls/_dropdown/interface/IFooterTemplate
- * @mixes Controls/_dropdown/interface/IHeaderTemplate
- * @mixes Controls/_dropdown/interface/IGrouped
- * @mixes Controls/_interface/INavigation
- * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/interface/IDropdown
  * @mixes Controls/_interface/IIcon
  * @mixes Controls/_dropdown/interface/IIconSize
@@ -42,7 +35,7 @@ import ActualApi from 'Controls/_buttons/ActualApi';
 /*
  * Button by clicking on which a drop-down list opens.
  *
- * <a href="/materials/demo-ws4-button-menu">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">Demo-example</a>.
  *
  * @class Controls/_dropdown/Button
  * @extends Core/Control
@@ -121,21 +114,8 @@ var Button = Control.extend({
    },
 
    _onPinClickHandler: function (event, item) {
-      var self = this;
-      const meta =  {
+      this._options.source.update(item.clone(), {
          $_pinned: !item.get('pinned')
-      };
-      this._options.source.update(item.clone(), meta).addCallback(function (result) {
-         if (!result) {
-            self._children.notificationOpener.open({
-               template: 'Controls/popupTemplate:NotificationSimple',
-               templateOptions: {
-                  style: 'danger',
-                  text: rk('Невозможно закрепить более 10 пунктов'),
-                  icon: 'Alert'
-               }
-            });
-         }
       });
    },
 
@@ -169,12 +149,6 @@ Button.getDefaultOptions = function () {
 Button._theme = ['Controls/dropdown', 'Controls/Classes'];
 
 export = Button;
-
-/**
- * @cfg {boolean} Конфигурация шапки меню.
- * @name Controls/_dropdown/Button#headConfig
- * @deprecated Используйте {@link Controls/_dropdown/interface/IHeaderTemplate#headerTemplate}.
- */
 
 /**
  * @event Controls/_dropdown/Button#menuItemActivate Происходит при выборе элемента из списка.
@@ -228,4 +202,3 @@ export = Button;
  * @name Controls/_dropdown/Button#additionalProperty
  * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню. Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
  */
-

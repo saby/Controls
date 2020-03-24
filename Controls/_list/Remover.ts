@@ -55,7 +55,7 @@ var _private = {
 /**
  * Контрол для удаления элементов списка в recordSet и dataSource.
  * Контрол должен располагаться в том же контейнере (см. {@link Controls/list:DataContainer}), что и список.
- * <a href="/materials/demo-ws4-operations-panel">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Демо-пример</a>.
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable
@@ -68,7 +68,7 @@ var _private = {
 /*
  * Сontrol to remove the list items in recordSet and dataSource.
  * Сontrol must be in one Controls.Container.Data with a list.
- * <a href="/materials/demo-ws4-operations-panel">Demo examples</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo examples</a>.
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IRemovable

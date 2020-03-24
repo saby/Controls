@@ -73,7 +73,7 @@
    <div if="{{!!itemData.dragTargetNode}}"
         class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
                {{currentColumn.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>
-   <ws:partial template="columnContent" attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
+   <ws:partial template="columnContent"/>
 </ws:template>
 
 <ws:template name="colTpl">
@@ -101,7 +101,7 @@
     <!-- скролла(как если бы колонки были полностью проскролены). -->
     <!-- Стиль смещения задается в ColumnScroll. Ячейка не должна иметь ширины, чтобы быть идеально прижатой справа. -->
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
-        <td class="controls-Grid-table-layout__itemActions__container {{currentColumn.cellClasses}}
+        <td class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
               {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}

@@ -11,7 +11,7 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
 /**
  * Кнопка-переключатель с одним заголовком. Часто используется для настроек "вкл-выкл".
  *
- * <a href="/materials/demo-ws4-switchers">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSwitch%2FstandartDemoSwitch">Демо-пример</a>.
  *
  * @class Controls/_toggle/Switch
  * @extends Core/Control
@@ -27,7 +27,7 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
 /*
  * Switch button with single caption. Frequently used for 'on-off' settings.
  *
- * <a href="/materials/demo-ws4-switchers">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSwitch%2FstandartDemoSwitch">Demo-example</a>.
  *
  * @class Controls/_toggle/Switch
  * @extends Core/Control

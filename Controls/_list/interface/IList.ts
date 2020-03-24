@@ -116,7 +116,7 @@ export interface IList {
 /**
  * @name Controls/_list/interface/IList#contextMenuVisibility
  * @cfg {Boolean} Определяет доступность контекстного меню строки при нажатии на правую кнопку мыши.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  * @default true
  */
 
@@ -129,7 +129,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#contextMenuVisibility
  * @cfg {Boolean} Determines whether context menu should be shown on right-click.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  * @default true
  */
 
@@ -149,7 +149,7 @@ export interface IList {
 /*ENG
  * @name Controls/_list/interface/IList#contextMenuConfig
  * @cfg {Object} Determines whether context menu should be shown on right-click.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  * @default true
  */
 
@@ -157,7 +157,7 @@ export interface IList {
  * @name Controls/_list/interface/IList#emptyTemplate
  * @cfg {Function} Устанавливает шаблон отображения контрола без элементов.
  * @remark
- * См. <a href="/materials/demo-ws4-list-base">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">демо-пример</a>.
  * @default Controls/list:EmptyTemplate
  * @example
  * <pre class="brush: html">
@@ -174,7 +174,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#emptyTemplate
  * @cfg {Function} Template for the empty list.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @remark
  * We recommend to use default template for emptyTemplate: Controls/list:EmptyTemplate
  * The template accepts the following options:
@@ -196,19 +196,19 @@ export interface IList {
 /**
  * @name Controls/_list/interface/IList#footerTemplate
  * @cfg {Function} Шаблон подвала списка.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  */
 
 /*
  * @name Controls/_list/interface/IList#footerTemplate
  * @cfg {Function} Template that will be rendered below the list.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  */
 
 /**
  * @name Controls/_list/interface/IList#multiSelectVisibility
  * @cfg {String} Режим отображения флагов множественного выбора.
- * <a href="/materials/demo-ws4-list-multiselect">См. демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">См. демо-пример</a>.
  * @variant visible Показать.
  * @variant hidden Скрыть.
  * @variant onhover Показывать при наведении.
@@ -220,7 +220,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#multiSelectVisibility
  * @cfg {String} Whether multiple selection is enabled.
- * <a href="/materials/demo-ws4-list-multiselect">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
  * @variant visible Show.
  * @variant hidden Do not show.
  * @variant onhover Show on hover.
@@ -267,7 +267,7 @@ export interface IList {
  * @name Controls/_list/interface/IList#itemActions
  * @cfg {Array.<ItemAction>} Конфигурация опций записи.
  * @remark
- * См. <a href="/materials/demo-ws4-list-item-actions">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">демо-пример</a>.
  * Для корректной работы опций записи для контрола нужно задать значение в опции {@link Controls/list:View keyProperty}.
  * Подробнее о работе с опциями записи читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ здесь}.
  * @see itemActionsPosition
@@ -281,15 +281,15 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#itemActions
  * @cfg {Array.<ItemAction>} Array of configuration objects for buttons which will be shown when the user hovers over an item.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  */
 
 /**
  * @name Controls/_list/interface/IList#itemActionsPosition
  * @cfg {TItemActionsPosition} Позиционирование панели с опциями записи.
  * @remark
- * См. <a href="/materials/demo-ws4-list-item-actions">демо-пример</a>.
- * См. <a href="/materials/demo-ws4-list-item-actions-custom">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FItemActionsCustom">демо-пример</a>.
  * Подробнее о работе с опциями записи читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ здесь}.
  * @example
  * Размещаем опции записи в шаблоне с использованием itemActionsTemplate:
@@ -327,11 +327,11 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#itemActionsPosition
  * @cfg {String} Position of item actions.
- * <a href="/materials/demo-ws4-list-item-actions">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">Example</a>.
  * @variant inside Item actions will be positioned inside the item's row.
  * @variant outside Item actions will be positioned under the item's row.
  * @variant custom Item actions must be positioned in the itemTemplate.
- * <a href="/materials/demo-ws4-list-item-actions-custom">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FItemActionsCustom">Example</a>.
  * @example
  * Placing Item Actions in custom item template using itemActionsTemplate
  *<pre>
@@ -431,7 +431,7 @@ export interface IList {
  * @name Controls/_list/interface/IList#actionAlignment
  * @cfg {TActionAlignment} Устанавливает выравнивание опций записи, когда они отображаются в режиме swipe.
  * @remark
- * См. <a href="/materials/demo-ws4-swipe">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FSwipe%2FScenarios">демо-пример</a>.
  * Подробнее о работе с опциями записи читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ здесь}.
  * @see itemActions
  * @see itemActionsPosition
@@ -444,7 +444,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#actionAlignment
  * @cfg {String} Determines how item actions will be aligned on swipe.
- * <a href="/materials/demo-ws4-swipe">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FSwipe%2FScenarios">Example</a>.
  * @variant horizontal Actions will be displayed in a line.
  * @variant vertical Actions will be displayed in a line.
  */
@@ -453,7 +453,7 @@ export interface IList {
  * @name Controls/_list/interface/IList#actionCaptionPosition
  * @cfg {TActionCaptionPosition} Позиция заголовка для опций записи, когда они отображаются в режиме swipe.
  * @remark
- * См. <a href="/materials/demo-ws4-swipe">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FSwipe%2FScenarios">демо-пример</a>.
  * Подробнее о работе с опциями записи читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ здесь}.
  * @see itemActions
  * @see itemActionsPosition
@@ -466,7 +466,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#actionCaptionPosition
  * @cfg {String} Determines where the caption of an item action will be displayed on swipe.
- * <a href="/materials/demo-ws4-swipe">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FSwipe%2FScenarios">Example</a>.
  * @variant right Title will be displayed to the right of the action's icon.
  * @variant bottom Title will be displayed under the action's icon.
  * @variant none Title will not be displayed.
@@ -605,19 +605,21 @@ export interface IList {
 /**
  * @name Controls/_list/interface/IList#markedKey
  * @cfg {Number} Идентификатор выделенной маркером строки.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * @remark
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  */
 
 /*
  * @name Controls/_list/interface/IList#markedKey
  * @cfg {Number} Identifier of the marked collection item.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * @remark
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  */
 
 /**
  * @name Controls/_list/interface/IList#markerVisibility
  * @cfg {String} Режим отображения маркера строки.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @variant visible Маркер отображается всегда, даже если ключевая запись не указана.
  * @variant hidden Маркер всегда скрыт.
  * @variant onactivated - Маркер отображается при активации списка. Например, когда пользователь отмечает запись.
@@ -627,7 +629,7 @@ export interface IList {
 /*
  * @name Controls/_list/interface/IList#markerVisibility
  * @cfg {String} Determines when marker is visible.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @variant visible The marker is always displayed, even if the marked key entry is not specified.
  * @variant hidden The marker is always hidden.
  * @variant onactivated - The marker is displayed on List activating. For example, when user mark a record.
@@ -813,7 +815,7 @@ export interface IList {
 
 /**
  * @event Controls/_list/interface/IList#hoveredItemChanged Происходит при наведении курсора мыши на элемент списка.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр элемента, на который наводим курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента.
@@ -830,7 +832,7 @@ export interface IList {
 
 /*
  * @event Controls/_list/interface/IList#hoveredItemChanged The event fires when the user hovers over a list item with a cursor.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Types/entity:Model} item Instance of the item whose action was clicked.
  * @param {HTMLElement} itemContainer Container of the item.
@@ -838,27 +840,27 @@ export interface IList {
 
 /**
  * @event  Controls/_list/interface/IList#markedKeyChanged Происходит при выделении пользователем элемента списка.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number} key Ключ выбранного элемента.
  */
 
 /*
  * @event  Controls/_list/interface/IList#markedKeyChanged Occurs when list item was selected (marked).
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
  * @param {Number} key Key of the selected item.
  */
 
 /**
  * @event  Controls/_list/interface/IList#drawItems Происходит при отрисовке очередного набора данных.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
 
 /*
  * @event  Controls/_list/interface/IList#drawItems Occurs when the next batch of data is drawn.
- * <a href="/materials/demo-ws4-list-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
  */
 

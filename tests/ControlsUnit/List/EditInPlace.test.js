@@ -880,6 +880,33 @@ define([
             assert.isTrue(result.isSuccessful());
          });
 
+
+         it('Add in top without sequentialEditing. Should not edit second record after adding.', function() {
+            var source = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: data
+            });
+            eip.saveOptions({
+               listModel: listModel,
+               source: source,
+               editingConfig: {
+                  sequentialEditing: false,
+                  addPosition: 'top'
+               }
+            });
+
+            eip.beginAdd({
+               item: newItem
+            });
+
+            eip._editingItem.set('title', '1234');
+
+            eip.commitEdit().addCallback(function() {
+               assert.equal(listModel.getCount(), 4);
+               assert.isNull(eip._editingItem);
+            });
+         });
+
          describe('beforeEndEdit', function() {
             it('Defered', function(done) {
                var

@@ -9,6 +9,7 @@ import Deferred = require('Core/Deferred');
 import {parse as parserLib} from 'Core/library';
 import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent');
 import {detection} from 'Env/Env';
+import {Bus} from 'Env/Event';
 
 /**
  * Stack Popup Controller
@@ -18,9 +19,13 @@ import {detection} from 'Env/Env';
  * @category Popup
  */
 
+const ACCORDEON_MIN_WIDTH = 50;
+
 class StackController extends BaseController {
     TYPE: string = 'Stack';
     _stack: collection.List<IPopupItem> = new collection.List();
+
+    private _sideBarVisible: boolean = true;
 
     elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         const isSinglePopup = this._stack.getCount() < 2;
@@ -43,6 +48,9 @@ class StackController extends BaseController {
 
         if (!isNewEnvironment()) {
             this._addZIndexToOldWindowManager(item);
+            if (isSinglePopup) {
+                this._updateSideBarVisibility();
+            }
         }
 
         return true;
@@ -151,6 +159,9 @@ class StackController extends BaseController {
         const lastItem = this._stack.at(this._stack.getCount() - 1);
         if (lastItem) {
             this._addLastStackClass(lastItem);
+        }
+        if (!isNewEnvironment()) {
+            this._updateSideBarVisibility();
         }
     }
 
@@ -461,6 +472,14 @@ class StackController extends BaseController {
                 oldWindowManager._acquiredIndexes.push(item.currentZIndex);
                 oldWindowManager.setVisible(item.currentZIndex);
             }
+            // 1. Делаю notify всегда, т.к. в setVisible нотифай делается через setTimeout, из-за чего могут промаргивать окна
+            // которые высчитывают свой zindex относительно других.
+            // 2. В старом WM могут храниться не только zindex'ы от окон, например старый listView сохраняет свой
+            // z-index в менеджер. Но такой zindex не участвует в обходе по поиску максимального zindex'a окон.
+            // В итоге получаем что открываемое стековое окно меньше по zindex чем WM._acquireIndex, из-за чего
+            // проверка выше не проходит. Делаю нотифай вручную, чтобы старый notificationController знал про
+            // актуальные zindex'ы окон на странице.
+            oldWindowManager._notify('zIndexChanged', item.currentZIndex);
         }
     }
 
@@ -468,6 +487,27 @@ class StackController extends BaseController {
         const oldWindowManager = requirejs('Core/WindowManager');
         if (oldWindowManager) {
             oldWindowManager.releaseZIndex(item.currentZIndex);
+        }
+    }
+
+    private _getSideBarWidth(): number {
+        const sideBar = document.querySelector('.ws-float-area-stack-sidebar, .navSidebar__sideLeft, .online-Sidebar');
+        return sideBar && sideBar.clientWidth || 0;
+    }
+
+    private _updateSideBarVisibility(): void {
+        let maxStackWidth = 0;
+        this._stack.each((item) => {
+            if (item.popupOptions.width > maxStackWidth) {
+                maxStackWidth = item.popupOptions.width;
+            }
+        });
+
+        const isVisible = this._getWindowSize().width - maxStackWidth >= this._getSideBarWidth() + ACCORDEON_MIN_WIDTH;
+
+        if (isVisible !== this._sideBarVisible) {
+            this._sideBarVisible = isVisible;
+            Bus.channel('navigation').notify('accordeonVisibilityStateChange', this._sideBarVisible);
         }
     }
 }

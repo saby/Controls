@@ -21,7 +21,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
     * @cfg {Function} Устанавливает шаблон отображения элемента.
     * @default Controls/treeGrid:ItemTemplate
     * @remark
-    * См. <a href="/materials/demo-ws4-tree-grid-item-template">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">демо-пример</a>.
     * Подробнее о параметрах шаблона Controls/treeGrid:ItemTemplate читайте {@link Controls/treeGrid:ItemTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ здесь}.
     * Шаблон может быть переопределён с помощью {@link Controls/interface/ITreeGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
@@ -46,7 +46,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
    /*
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplate
     * @cfg {Function} Template for item render.
-    * <a href="/materials/demo-ws4-tree-grid-item-template">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">Example</a>.
     * @remark
     * Base itemTemplate for Controls.treeGrid:View: "Controls/treeGrid:ItemTemplate".
     * Inside the template scope, object itemData is available, allowing you to access the render data (for example: item, key, etc.).
@@ -65,14 +65,14 @@ define('Controls/interface/ITreeGridItemTemplate', [
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
     * @cfg {String} Устанавливает имя свойства элемента, которое содержит имя шаблона, используемого для отрисовки элементов.
     * @remark
-    * См. <a href="/materials/demo-ws4-tree-grid-item-template">демо-пример</a>.
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">демо-пример</a>.
     * Если не задано значение в опции itemTemplateProperty или в свойстве элемента, то используется шаблон из {@link Controls/interface/ITreeGridItemTemplate#itemTemplate itemTemplate}.
     * @see Controls/interface/ITreeGridItemTemplate#itemTemplate
     */
    /*
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
     * @cfg {String} Name of the item property that contains template for item render. If not set, itemTemplate is used instead.
-    * <a href="/materials/demo-ws4-tree-grid-item-template">Example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">Example</a>.
     */
 
 });

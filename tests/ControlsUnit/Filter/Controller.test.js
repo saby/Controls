@@ -273,12 +273,14 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
          const self = {};
          let historyItemDestroyed = false;
          let historyItems = null;
+         let appliedItems;
 
          self._filter = {
             PrefetchSessionId: 'testId',
             testFilterFilter: 'testValue'
          };
-         sandbox.replace(Filter._private, 'getHistoryByItems', function() {
+         sandbox.replace(Filter._private, 'getHistoryByItems', function(historyId, hItems) {
+            appliedItems = hItems;
             return historyItems;
          });
 
@@ -317,11 +319,12 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
             testFilterFilter: 'testValue'
          };
          historyItemDestroyed = false;
-         assert.deepEqual(Filter._private.processPrefetchOnItemsChanged(self, {}), {
+         assert.deepEqual(Filter._private.processPrefetchOnItemsChanged(self, {}, historyItems), {
             PrefetchSessionId: 'testId',
             testFilterFilter: 'testValue'
          });
          assert.isFalse(historyItemDestroyed);
+         assert.deepEqual(historyItems, appliedItems);
 
          sandbox.restore();
       });

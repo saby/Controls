@@ -48,7 +48,9 @@ const HorizontalMeasurer: IMeasurer = {
             all: actions,
             showed: itemActions
          },
-         paddingSize: 'm'
+         paddingSize: 'm',
+         needIcon: this.needIcon,
+         needTitle: this.needTitle
       };
    },
    needIcon(

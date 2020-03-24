@@ -642,8 +642,8 @@ define('Controls-demo/FilterView/FilterView',
             return items;
          },
 
-         _itemsChanged: function(event, items) {
-            this._hierarchyItems = Clone(items);
+         _itemsChanged: function(event, field, items) {
+            this[field] = items;
          }
       });
 

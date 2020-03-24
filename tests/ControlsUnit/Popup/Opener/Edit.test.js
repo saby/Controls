@@ -143,6 +143,10 @@ define(
             data.formControllerEvent = 'delete';
             editOpener._processingResult(synchronizer, data, editOpener._options.items, editOpener._linkedKey);
             assert.equal(action, 'delete');
+
+            action = '';
+            editOpener._processingResult(synchronizer, data, editOpener._options.items, null);
+            assert.equal(action, '');
          });
 
          it('synchronize', () => {

@@ -13,8 +13,7 @@ define('Controls/interface/IGroupedGrid', [
    /**
     * @name Controls/interface/IGroupedGrid#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
-    * @remark
-    * См. <a href="/materials/demo-ws4-list-group">демо-пример</a>.
+    * @demo Controls-demo/List/List/GroupPG
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -24,12 +23,12 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupTemplate
-    * @cfg {String|Function} Устанавливает шаблон отображения заголовка группы.
-    * @default Controls/grid:GroupTemplate
+    * @cfg {String|Function} Шаблон отображения заголовка группы.
+    * @default undefined
     * @remark
-    * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
     * Подробнее о параметрах шаблона Controls/grid:GroupTemplate читайте {@link Controls/grid:GroupTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/group-template/ здесь}.
+    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded
@@ -40,8 +39,7 @@ define('Controls/interface/IGroupedGrid', [
    /**
     * @name Controls/interface/IGroupedGrid#collapsedGroups
     * @cfg {Array.<String>} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
-    * @remark
-    * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
+    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see groupHistoryId
     * @see groupExpanded
@@ -63,9 +61,8 @@ define('Controls/interface/IGroupedGrid', [
     * @event Происходит при развертывании группы.
     * @name Controls/interface/IGroupedGrid#groupExpanded
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Array.<String>} changes Массив с идентификаторами групп.
-    * @remark
-    * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
+    * @param {Array.<String>} changes Массив с идентификаторами групп, которые развернуты.
+    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -77,9 +74,8 @@ define('Controls/interface/IGroupedGrid', [
     * @event Происходит при сворачивании группы.
     * @name Controls/interface/IGroupedGrid#groupCollapsed
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {Array.<String>} changes Массив с идентификаторами групп.
-    * @remark
-    * См. <a href="/materials/demo-ws4-grid-group">демо-пример</a>.
+    * @param {Array.<String>} changes Массив с идентификаторами групп, которые свернуты.
+    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId

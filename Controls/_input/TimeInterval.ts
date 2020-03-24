@@ -9,7 +9,7 @@ type IOptions = IModelOptions;
  * Поле ввода временного интервала.
  * @remark
  * Позволяет вводить время с точностью от суток до секунд.
- * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
  *
  * @class Controls/_input/TimeInterval
  * @extends Controls/_input/Base
@@ -24,7 +24,7 @@ type IOptions = IModelOptions;
 
 /*
  * Controls that allows user to enter some amount of time with the accuracy from day to seconds.
- * <a href="/materials/demo-ws4-input">Demo examples.</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Demo examples.</a>.
  * @remark
  * If container with width: auto, then the width is determined based on the content.
  *

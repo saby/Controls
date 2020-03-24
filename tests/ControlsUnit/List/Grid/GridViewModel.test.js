@@ -604,7 +604,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                'controls-Grid__row-cell_withoutRowSeparator_theme-default',
                'controls-Grid__row-cell_withoutRowSeparator_theme-default'
             ];
-            const expectedResultForFirstItemInGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__row-cell_first-row-in-group';
+            const expectedResultForFirstItemInGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
             const expectedResultForFirstItemInHiddenGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
             const expectedResultForOnlyItemInHiddenGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
 
@@ -645,75 +645,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             listItemsCount = 1;
             cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), expectedResultForOnlyItemInHiddenGroup);
-         });
-
-
-         it('_isFirstInGroup', function() {
-            let newGridData = [
-               {
-                  id: 1,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: '1'
-               },
-               {
-                  id: 2,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: '1'
-               },
-               {
-                  id: 3,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: false
-               },
-               {
-                  id: 4,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: false
-               },
-               {
-                  id: 5,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: 0
-               },
-               {
-                  id: 6,
-                  title: 'Неисключительные права использования "СБИС++ ЭО-...',
-                  price: '2 шт',
-                  balance: 1000,
-                  type: 0
-               },
-            ]
-            const groupingKeyCallback = (item) => item.get('type');
-            const gridViewModel = new gridMod.GridViewModel({
-               ...cfg,
-               items: new collection.RecordSet({
-                  rawData: newGridData,
-                  keyProperty: 'id'
-               }),
-               groupingKeyCallback: groupingKeyCallback,
-            });
-            const item = gridViewModel.getItemById(1, 'id').getContents();
-            assert.equal(true, gridViewModel._isFirstInGroup(item));
-            const item2 = gridViewModel.getItemById(2, 'id').getContents();
-            assert.equal(false, gridViewModel._isFirstInGroup(item2));
-            const item3 = gridViewModel.getItemById(3, 'id').getContents();
-            assert.equal(true, gridViewModel._isFirstInGroup(item3));
-            const item4 = gridViewModel.getItemById(4, 'id').getContents();
-            assert.equal(false, gridViewModel._isFirstInGroup(item4));
-            const item5 = gridViewModel.getItemById(5, 'id').getContents();
-            assert.equal(true, gridViewModel._isFirstInGroup(item5));
-            const item6 = gridViewModel.getItemById(6, 'id').getContents();
-            assert.equal(false, gridViewModel._isFirstInGroup(item6));
          });
 
          it('getItemColumnCellClasses for old browsers', function() {
@@ -1505,6 +1436,17 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.isTrue(newGridModel.isDrawResults());
          });
 
+         it('getFooterStyles', function() {
+            let gridViewModel = new gridMod.GridViewModel(cfg);
+            assert.equal('grid-column-start: 1; grid-column-end: 5;', gridViewModel.getFooterStyles());
+            gridViewModel._options.stickyColumn = {
+               index: 0,
+               property: ''
+            };
+            assert.equal('grid-column-start: 1; grid-column-end: 6;', gridViewModel.getFooterStyles());
+            gridViewModel._options.stickyColumn = undefined;
+         });
+
          it('is multiheader', function() {
 
             let gridViewModel = new gridMod.GridViewModel(cfg);
@@ -1788,7 +1730,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.isTrue(soloItem.rowSeparatorVisibility);
             cAssert.isClassesEqual(
                 gridMod.GridViewModel._private.prepareRowSeparatorClasses(soloItem, theme),
-                ' controls-Grid__row-cell_first-row-in-group controls-Grid__row-cell_withRowSeparator_theme-default'
+                ' controls-Grid__row-cell_withRowSeparator_theme-default'
             );
 
          });
@@ -1891,7 +1833,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.isFalse(secondRow);
          });
          it('getColumnScrollCellClasses', function() {
-            const fixedCell = ` controls-Grid__cell_fixed controls-Grid__cell_fixed_theme-${theme}`;
+            const fixedCell = ` controls-Grid__cell_fixed controls-background-default_theme-default controls-Grid__cell_fixed_theme-${theme}`;
             const transformCell = ' controls-Grid__cell_transform';
             const params = {
                multiSelectVisibility: 'hidden',
@@ -2024,7 +1966,33 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             gridModel._isMultiHeader = true;
             gridModel.setMultiSelectVisibility('visible');
             assert.isTrue(isMultiHeader);
-         })
+         });
+
+         it('ladder can be on full grid Mac Os', function() {
+            let gridModel = new gridMod.GridViewModel({
+               ...cfg,
+               stickyColumn: {
+                  index: 0,
+                  property: ''
+               },
+               items: new collection.RecordSet({
+                  rawData: [{
+                     id: 1
+                  }],
+                  keyProperty: 'id'
+               })
+            });
+
+            gridModel._ladder = {
+               stickyLadder: [
+                  {
+                     headingStyle: '123'
+                  }
+               ]
+            };
+
+            assert.equal(gridModel.getCurrent().styleLadderHeading, '123');
+         });
       });
 
       describe('no grid support', () => {
@@ -2178,6 +2146,95 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             event.result = undefined;
             model._onCollectionChangeFn(event, collection.IObservable.ACTION_REMOVE);
             assert.strictEqual(event.result, 'updatePrefix', 'Remove action should update prefix version with ladder');
+         });
+      });
+
+      describe('Calculation of empty template columns', () => {
+         let model;
+
+         it('should calculate empty template with this.getMultiSelectVisibility() === "hidden"', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'hidden',
+               columnScroll: false
+            });
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 1; grid-column-end: 4;');
+         });
+
+         it('should calculate empty template with this.getMultiSelectVisibility() === "visible"', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columnScroll: false
+            });
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 2; grid-column-end: 5;');
+         });
+
+         it('should calculate empty template with _options.columnScroll', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               columns: [],
+               multiSelectVisibility: 'visible',
+               columnScroll: true
+            });
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 1; grid-column-end: 5;');
+         });
+
+         it('should calculate empty template with ActionsCell', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columnScroll: true
+            });
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 1; grid-column-end: 6;');
+         });
+
+         it('should calculate empty template with sticky column', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columnScroll: false,
+               stickyColumn: {
+                  index: 0,
+                  property: ''
+               }
+            });
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 2; grid-column-end: 6;');
+         });
+
+         it('should calculate empty template when this._columns.length === 0', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columns: [],
+               header: [],
+               columnScroll: false
+            });
+            model.getEmptyTemplateStyles();
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 2; grid-column-end: 3;');
+         });
+
+         it('should calculate empty template when this._columns.length === 0 and this._header.length > 0', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columns: [],
+               columnScroll: false
+            });
+            model.getEmptyTemplateStyles()
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 2; grid-column-end: 5;');
+         });
+
+         it('should calculate empty template when this._columns.length === 0 and this._header is undefined', () => {
+            model = new gridMod.GridViewModel({
+               ...cfg,
+               multiSelectVisibility: 'visible',
+               columns: [],
+               header: undefined,
+               columnScroll: false
+            });
+            model.getEmptyTemplateStyles();
+            assert.equal(model.getEmptyTemplateStyles(), 'grid-column-start: 2; grid-column-end: 3;');
          });
       });
    });

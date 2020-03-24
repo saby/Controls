@@ -3,41 +3,35 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_explorer/PathController/PathController');
 import {ItemsUtil} from 'Controls/list';
 import GridIsEqualUtil = require('Controls/_grid/utils/GridIsEqualUtil');
-import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingPathBack');
+import HeadingPathBack = require('Controls/_explorer/HeadingPathBack');
 
    var _private = {
-      getHeader: function(self, options, newLastCrumbId, newBackButtonCaption) {
+      getHeader: function(self, options, items) {
          var newHeader;
-         self._lastCrumbId = newLastCrumbId;
-         self._backButtonCaption = newBackButtonCaption;
 
-         if (options.items && options.header && options.header.length && !options.header[0].title && !options.header[0].template) {
+         if (options.header && options.header.length && !options.header[0].title && !options.header[0].template) {
             newHeader = options.header.slice();
             newHeader[0] = {
                ...options.header[0],
                template: HeadingPathBack,
                templateOptions: {
-                  backButtonClass: 'controls-BreadCrumbsPath__backButton__wrapper_inHeader',
+                  itemsAndHeaderPromise: self._itemsAndHeaderPromise,
                   showActionButton: !!options.showActionButton,
                   showArrowOutsideOfBackButton: !!options.showActionButton,
                   backButtonStyle: options.backButtonStyle,
-                  backButtonCaption: _private.getBackButtonCaption(options),
-                  counterCaption: options.items[options.items.length - 1].get('counterCaption')
+                  displayProperty: options.displayProperty,
+                  items
                },
 
                // TODO: удалить эту опцию после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
                isBreadCrumbs: true
             };
+         } else {
+            newHeader = options.header;
          }
          return newHeader;
       },
 
-      getBackButtonCaption(options): string|null {
-         return options.items && options.items.length ? ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty) : null;
-      },
-      getLastCrumbId(options): string|null {
-         return options.items && options.items.length ? ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.keyProperty) : null;
-      },
       needShadow: function(header, headerCfg) {
 
          //если есть заголовок, то тень будет под ним, и нам не нужно рисовать ее под хлебными крошками
@@ -48,23 +42,34 @@ import HeadingPathBack = require('wml!Controls/_explorer/PathController/HeadingP
    var PathController = Control.extend({
       _template: template,
       _header: null,
-      _needCrumbs: false,
       _needShadow: false,
       _lastCrumbId: null,
-      _backButtonCaption: null,
+      _itemsAndHeaderPromiseResolver: null,
 
       _beforeMount: function(options) {
-         const newLastCrumbId = _private.getLastCrumbId(options);
-         const newBackButtonCaption = _private.getBackButtonCaption(options);
-         this._header = _private.getHeader(this, options, newLastCrumbId, newBackButtonCaption);
-         this._needShadow = _private.needShadow(this._header, options.header);
+         this._itemsAndHeaderPromise = new Promise((resolve) => {
+            this._itemsAndHeaderPromiseResolver = resolve;
+         });
+         this._header = _private.getHeader(this, options, options.items);
+         options.itemsPromise.then((items) => {
+            this._needShadow = _private.needShadow(this._header, options.header);
+            this._itemsAndHeaderPromiseResolver({
+               items,
+               header: this._header
+            });
+         });
       },
 
       _beforeUpdate: function(newOptions) {
-         const newLastCrumbId = _private.getLastCrumbId(newOptions);
-         const newBackButtonCaption = _private.getBackButtonCaption(newOptions);
-         if (this._options.rootVisible !== newOptions.rootVisible || this._lastCrumbId !== newLastCrumbId || this._backButtonCaption !== newBackButtonCaption || !GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
-            this._header = _private.getHeader(this, newOptions, newLastCrumbId, newBackButtonCaption);
+         if (this._options.rootVisible !== newOptions.rootVisible || newOptions.items !== this._options.items || !GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
+            this._itemsAndHeaderPromise = new Promise((resolve) => {
+               this._itemsAndHeaderPromiseResolver = resolve;
+            });
+            this._header = _private.getHeader(this, newOptions, newOptions.items);
+            this._itemsAndHeaderPromiseResolver({
+               items: newOptions.items,
+               header: this._header
+            });
             this._needShadow = _private.needShadow(this._header, newOptions.header);
          }
       },

@@ -78,13 +78,14 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     protected _delay: number = 2000;
     protected _zIndex: number;
     protected _toggleOverlayTimerId: number;
-    protected _overlayDiv = null;
-    protected _messageDiv = null;
+    protected _overlayDiv: HTMLDivElement = null;
+    protected _messageDiv: HTMLDivElement = null;
 
     protected isGlobal: boolean = true;
     protected message: string = '';
     protected scroll: string = '';
     protected small: string = '';
+    protected theme: string = '';
     protected overlay: string = 'default';
     protected mods: Array<string> | string;
     protected delay: number;
@@ -131,6 +132,9 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         }
         if (cfg.overlay !== undefined) {
             this.overlay = cfg.overlay;
+        }
+        if (cfg.theme !== undefined) {
+            this.theme = cfg.theme;
         }
         if (cfg.mods !== undefined) {
             // todo сделать mods строкой всегда, или вообще удалить опцию
@@ -344,7 +348,8 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
             this._toggleOverlay(toggle, config);
         }, delay);
     }
-    private _toggleOverlay(toggle: boolean, config: ILoadingIndicatorOptions): void  {
+
+    private _toggleOverlay(toggle: boolean, config: ILoadingIndicatorOptions): void {
         this._isOverlayVisible = toggle && config.overlay !== 'none';
         this._redrawOverlay();
     }
@@ -372,7 +377,6 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         overlayDiv.setAttribute('tabindex', '1');
 
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'controls-loading-indicator-in';
 
         this._overlayDiv = overlayDiv;
         this._messageDiv = messageDiv;
@@ -411,8 +415,14 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
 
         const currentMessageVisibility = !!messageDiv.parentElement;
         const nextMessageVisibility = this._isMessageVisible;
-        if (nextMessageVisibility && messageDiv.innerText !== this.message) {
-            messageDiv.innerText = this.message;
+        if (nextMessageVisibility) {
+            const newMessageClassName = this._getThemedClassName('controls-loading-indicator-in');
+            if (messageDiv.className !== newMessageClassName) {
+                messageDiv.className = newMessageClassName;
+            }
+            if (messageDiv.innerText !== this.message) {
+                messageDiv.innerText = this.message;
+            }
         }
         if (currentMessageVisibility !== nextMessageVisibility) {
             if (nextMessageVisibility) {
@@ -424,7 +434,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     }
 
     private _calculateOverlayClassName(): string {
-        const classList = ['controls-loading-indicator', 'controls-Popup__isolatedFocusingContext'];
+        const classList = [this._getThemedClassName('controls-loading-indicator'), 'controls-Popup__isolatedFocusingContext'];
 
         classList.push(this.isGlobal ? 'controls-loading-indicator_global' : 'controls-loading-indicator_local');
 
@@ -442,13 +452,18 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
             }
         }
         if (this.overlay) {
-            classList.push('controls-loading-indicator_overlay-' + this._getOverlay(this.overlay));
+            const overlayClassName = 'controls-loading-indicator_overlay-' + this._getOverlay(this.overlay);
+            classList.push(this._getThemedClassName(overlayClassName));
         }
         if (this?.mods?.length) {
             classList.concat(this.mods.map((mod) => 'controls-loading-indicator_mod-' + mod));
         }
 
         return classList.join(' ');
+    }
+
+    private _getThemedClassName(simpleClassName: string): string {
+        return simpleClassName + ' ' + simpleClassName + '_theme-' + this.theme;
     }
     static _theme: string[] = ['Controls/_LoadingIndicator/LoadingIndicator'];
 }

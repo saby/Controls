@@ -98,7 +98,7 @@ var _private = {
    /**
     * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
     *
-    * <a href="/materials/demo-ws4-tabs">Демо-пример</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FTabs%2FButtons">Демо-пример</a>.
     *
     * @class Controls/_tabs/Buttons
     * @extends Core/Control
@@ -115,7 +115,7 @@ var _private = {
    /*
     * Control are designed to give users a choice among two or more tabs.
     *
-    * <a href="/materials/demo-ws4-tabs">Demo-example</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FTabs%2FButtons">Demo-example</a>.
     *
     * @class Controls/_tabs/Buttons
     * @extends Core/Control

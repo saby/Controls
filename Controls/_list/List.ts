@@ -1,13 +1,13 @@
 /**
  * Created by kraynovdo on 31.01.2018.
  */
-import Control = require('Core/Control');
+import {Control, TemplateFunction} from 'UI/Base';
 import ListControlTpl = require('wml!Controls/_list/List');
 import ListViewModel = require('Controls/_list/ListViewModel');
 import Deferred = require('Core/Deferred');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import viewName = require('Controls/_list/ListView');
-import viewTemplate = require('Controls/_list/ListControl');
+import {default as ListControl} from 'Controls/_list/ListControl';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
@@ -29,7 +29,7 @@ import viewTemplate = require('Controls/_list/ListControl');
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_list/interface/IClickableView
- * 
+ *
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  * @mixes Controls/_list/BaseControlStyles
@@ -86,69 +86,68 @@ import viewTemplate = require('Controls/_list/ListControl');
  * @demo Controls-demo/List/List/BasePG
  */
 
-var ListControl = Control.extend(/** @lends Controls/_list/List.prototype */{
-    _template: ListControlTpl,
-    _viewName: viewName,
-    _viewTemplate: viewTemplate,
-    _viewModelConstructor: null,
+export default class List extends Control/** @lends Controls/_list/List.prototype */{
+    protected _template: TemplateFunction = ListControlTpl;
+    protected _viewName = viewName;
+    protected _viewTemplate: unknown = ListControl;
+    protected _viewModelConstructor = null;
+    protected _children: { listControl: unknown };
 
-    _theme: ['Controls/list_multi'],
+    static _theme = ['Controls/list_multi'];
 
-    _beforeMount: function(options) {
+    _beforeMount(options) {
         this._viewModelConstructor = this._getModelConstructor(options.useNewModel);
         return this._checkViewName(options.useNewModel);
-    },
+    }
 
-    _checkViewName: function(useNewModel) {
+    _checkViewName(useNewModel) {
         if (useNewModel) {
             return import('Controls/listRender').then((listRender) => {
                 this._viewName = listRender.Render;
             });
         }
-    },
+    }
 
-    _getModelConstructor: function(useNewModel: boolean) {
+    protected _getModelConstructor(useNewModel: boolean) {
         return !useNewModel ? ListViewModel : 'Controls/display:Collection';
-    },
+    }
 
-    reload: function() {
+    reload() {
         return this._children.listControl.reload();
-    },
+    }
 
-    reloadItem: function():Deferred {
+    reloadItem():Deferred {
         var listControl = this._children.listControl;
         return listControl.reloadItem.apply(listControl, arguments);
-    },
+    }
 
     scrollToItem(key: string|number, toBottom: boolean, force: boolean): Promise<void> {
         return this._children.listControl.scrollToItem(key, toBottom, force);
-    },
+    }
 
-    beginEdit: function(options) {
+    beginEdit(options) {
         return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginEdit(options);
-    },
+    }
 
-    beginAdd: function(options) {
+    beginAdd(options) {
         return this._options.readOnly ? Deferred.fail() : this._children.listControl.beginAdd(options);
-    },
+    }
 
-    cancelEdit: function() {
+    cancelEdit() {
         return this._options.readOnly ? Deferred.fail() : this._children.listControl.cancelEdit();
-    },
+    }
 
-    commitEdit: function() {
+    commitEdit() {
         return this._options.readOnly ? Deferred.fail() : this._children.listControl.commitEdit();
-    },
+    }
 
-    _notifyHandler: tmplNotify
-});
+    _notifyHandler = tmplNotify;
 
-ListControl.getDefaultOptions = function() {
-    return {
-        multiSelectVisibility: 'hidden',
-        stickyHeader: true,
-        style: 'default',
-    };
+    static getDefaultOptions() {
+        return {
+            multiSelectVisibility: 'hidden',
+            stickyHeader: true,
+            style: 'default'
+        };
+    }
 };
-
-export = ListControl;

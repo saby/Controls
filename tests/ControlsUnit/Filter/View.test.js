@@ -118,7 +118,7 @@ define(
             assert.isOk(view._configs.state.sourceController);
             assert.isFalse(view._hasSelectorTemplate);
 
-            receivedState.configs.document.selectorTemplate = 'New Template';
+            defaultConfig.source[0].editorOptions.selectorTemplate = 'New Template';
             view._beforeMount(defaultConfig, {}, receivedState);
             assert.isTrue(view._hasSelectorTemplate);
          });
@@ -126,13 +126,12 @@ define(
          it('_beforeMount from options', function(done) {
             let view = getView(defaultConfig);
             let expectedDisplayText = {
-               document: {},
                state: {text: 'In any state', title: 'In any state', hasMoreText: ''}
             };
             view._beforeMount(defaultConfig).addCallback(function() {
                assert.deepStrictEqual(view._displayText, expectedDisplayText);
                assert.strictEqual(view._filterText, 'Author: Ivanov K.K.');
-               assert.isOk(view._configs.document.sourceController);
+               assert.isUndefined(view._configs.document);
                assert.isOk(view._configs.state.sourceController);
                done();
             });
@@ -261,6 +260,10 @@ define(
             newItems[2].viewMode = 'frequent';
             result = filter.View._private.isNeedReload(oldItems, newItems);
             assert.isTrue(result);
+
+            oldItems = [];
+            result = filter.View._private.isNeedReload(oldItems, newItems);
+            assert.isTrue(result);
          });
 
          it('openDetailPanel', function() {
@@ -283,7 +286,7 @@ define(
             view.openDetailPanel();
          });
 
-         it('_openPanel', function() {
+         it('_openPanel', function(done) {
             let view = getView(defaultConfig),
                popupOptions, filterClassName = '';
             let event = {
@@ -292,7 +295,8 @@ define(
                }
             };
             view._children = {
-               StickyOpener: { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} }
+               StickyOpener: { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} },
+               state: 'div_state_filter'
             };
             view._container = {
                0: 'filter_container',
@@ -313,26 +317,32 @@ define(
                   source: defaultSource[1].editorOptions.source,
                   multiSelect: true}
             };
-            view._openPanel();
-
-            assert.strictEqual(popupOptions.template, 'panelTemplateName.wml');
-            assert.strictEqual(popupOptions.templateOptions.items.getCount(), 2);
-            assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup');
-
-            filterClassName = 'div_second_filter';
-            view._openPanel(event, 'second_filter');
-            assert.strictEqual(popupOptions.target, 'div_second_filter');
-            assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup');
-
-            view._openPanel('click');
-            assert.deepStrictEqual(popupOptions.target, 'filter_container');
-
-            view._configs.state.sourceController = {
-               isLoading: () => { return true; }
-            };
-            popupOptions = null;
-            view._openPanel('click');
-            assert.isNull(popupOptions);
+            view._openPanel().then(() => {
+               assert.strictEqual(popupOptions.template, 'panelTemplateName.wml');
+               assert.strictEqual(popupOptions.templateOptions.items.getCount(), 2);
+               assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel__buttonTarget-popup');
+               assert.exists(view._configs.document);
+               filterClassName = 'div_second_filter';
+               view._openPanel(event, 'state').then(() => {
+                  assert.strictEqual(popupOptions.target, 'div_state_filter');
+                  assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup');
+                  view._children.state = null;
+                  view._openPanel(event, 'state').then(() => {
+                     assert.strictEqual(popupOptions.target, 'div_second_filter');
+                     assert.strictEqual(popupOptions.className, 'controls-FilterView-SimplePanel-popup');
+                     view._openPanel('click').then(() => {
+                        assert.deepStrictEqual(popupOptions.target, 'filter_container');
+                        view._configs.state.sourceController = {
+                           isLoading: () => { return true; }
+                        };
+                        popupOptions = null;
+                        view._openPanel('click');
+                        assert.isNull(popupOptions);
+                        done();
+                     });
+                  });
+               });
+            });
          });
 
          it('_needShowFastFilter', () => {

@@ -28,7 +28,7 @@
          <ws:partial template="{{ swipeTemplate }}" />
       </ws:if>
       <ws:else data="{{ itemActionsPosition !== 'custom' }}">
-         <ws:partial template="{{ itemActionsTemplate }}" />
+         <ws:partial template="{{ itemActionsTemplate }}" itemActionsClass="{{itemActionsClass}}"/>
       </ws:else>
    </ws:if>
 </div>

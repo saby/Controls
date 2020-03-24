@@ -37,7 +37,7 @@
 
 
 
-// Переменные переключателей
+// Переменные для переключателей
 //
 // Размеры
 
@@ -51,6 +51,7 @@
 @border-color_switcher:                                                     #E4E4E4;
 
 // Текст
+
 @font-size_switcher:                                                        @font-size_m;
 @text_offset_switcher:                                                      6px;
 @text-color_switcher:                                                       @text-color;
@@ -70,7 +71,7 @@
 
 @marker-box_border-thickness_switcher:                                      2px;
 @marker-box_size_switcher:                                                  12px;
-@marker-box_border-color_switcher:                                          #CCC;
+@marker-box_border-color_switcher:                                          @border-color;
 
 @marker-size_switcher:                                                      6px;
 @marker_color_switcher:                                                     @marker_color;
@@ -90,7 +91,7 @@
 // Иконка
 
 @icon-color_toggleBigSeparator:                                             @unaccented_icon-color;
-@icon-color_hover_toggleBigSeparator:                                       @link_hover_text-color;
+@icon-color_hover_toggleBigSeparator:                                       @secondary_hover_icon-color;
 @icon-color_active_toggleBigSeparator:                                      @icon-color_hover_toggleBigSeparator;
 @icon-size_toggleBigSeparator:                                              @width_toggleBigSeparator;
 
@@ -107,11 +108,11 @@
 
 @icon-size_toggleSeparator:                                                 @icon-size_s;
 @primary_icon-color_toggleSeparator:                                        @primary_text-color;
-@secondary_icon-color_toggleSeparator:				                        @secondary_color;
+@secondary_icon-color_toggleSeparator:				                        @secondary_icon-color;
 @unaccented_icon-color_toggleSeparator:                                     @unaccented_icon-color;
 @primary_hover_icon-color_toggleSeparator:                                  @primary_color;
-@secondary_hover_icon-color_toggleSeparator:				                @link_hover_text-color;
-@unaccented_hover_icon-color_toggleSeparator:				                @link_hover_text-color;
+@secondary_hover_icon-color_toggleSeparator:				                @secondary_hover_icon-color;
+@unaccented_hover_icon-color_toggleSeparator:				                @secondary_hover_icon-color;
 @primary_active_icon-color_toggleSeparator:				                    @primary_hover_icon-color_toggleSeparator;
 @secondary_active_icon-color_toggleSeparator:				                @secondary_hover_icon-color_toggleSeparator;
 @unaccented_active_icon-color_toggleSeparator:	                            @unaccented_hover_icon-color_toggleSeparator;
@@ -136,7 +137,7 @@
 
 // обводка маркера
 
-@marker-box_border-color_checkbox:                                          #CCCCCC;
+@marker-box_border-color_checkbox:                                          @border-color;
 @readonly_marker-box_border-color_checkbox:                                 #E4E4E4;
 @marker-box_border-thickness_checkbox:                                      @border-thickness;
 @marker-box_size_checkbox:                                                  12px;

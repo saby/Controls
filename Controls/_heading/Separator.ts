@@ -11,7 +11,7 @@ export interface ISeparatorOptions extends IControlOptions {
  * @remark
  * Используется в составе сложных заголовков, состоящих из {@link Controls/heading:Separator} и {@link Controls/heading:Counter}.
  *
- * <a href="/materials/demo-ws4-header-separator">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Демо-пример</a>.
  *
  * @class Controls/_heading/Separator
  * @extends Core/Control
@@ -26,7 +26,7 @@ export interface ISeparatorOptions extends IControlOptions {
  * Heading separator with support some display styles. Used as part of complex headings(you can see it in Demo-example)
  * consisting of a <a href="/docs/js/Controls/_heading/?v=3.18.500">header</a>, a <a href="/docs/js/Controls/Button/Separator/?v=3.18.500">button-separator</a> and a <a href="/docs/js/Controls/_heading/Counter/?v=3.18.500">counter</a>.
  *
- * <a href="/materials/demo-ws4-header-separator">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_heading/Separator
  * @extends Core/Control

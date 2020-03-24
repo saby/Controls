@@ -64,11 +64,27 @@
       <Controls-demo.Menu.Control.SelectorTemplate.Index/>
    </div>
    <div class="controlsDemo__cell">
-      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                               state="/Controls-demo/app/:app"
-                               app="{{ 'Controls-demo/Menu/Control/Root/Index' }}">
-         <a href="{{content.href}}">Root</a>
-      </Router.router:Reference>
-      <Controls-demo.Menu.Control.Root.Index/>
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/Menu/Control/GroupProperty/Index' }}">
+            <a href="{{content.href}}">GroupProperty</a>
+         </Router.router:Reference>
+         <Controls-demo.Menu.Control.GroupProperty.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/Menu/Control/ItemActions/Index' }}">
+            <a href="{{content.href}}">ItemActions</a>
+         </Router.router:Reference>
+         <Controls-demo.Menu.Control.GroupProperty.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/Menu/Control/NodeFooterTemplate/Index' }}">
+            <a href="{{content.href}}">NodeFooterTemplate</a>
+         </Router.router:Reference>
+         <Controls-demo.Menu.Control.NodeFooterTemplate.Index/>
    </div>
 </div>

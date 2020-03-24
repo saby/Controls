@@ -20,7 +20,7 @@
  * @author Крайнов Д.О.
  */
 
-import View = require('Controls/_tile/View');
+import {default as View} from 'Controls/_tile/View';
 import ItemTemplate = require('wml!Controls/_tile/ItemTemplateChooser');
 import FolderItemTemplate = require("wml!Controls/_tile/TreeTileView/FolderTpl");
 import TileItemTemplate = require("wml!Controls/_tile/TileView/TileTpl");

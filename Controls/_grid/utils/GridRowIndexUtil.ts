@@ -379,10 +379,15 @@ function getHeaderActionsCellConfig(headerRow: IHeaderCell[], isMultiHeader: boo
         maxEndColumn = headerRow.length + 1;
     }
 
+    // В случае, если minStartRow не была высчитана, то начинаем с первой строки
+    if (minStartRow === Number.MAX_VALUE) {
+        minStartRow = 1;
+    }
+
     return {
         isActionCell: true,
-        startRow: minStartRow > 0 ? minStartRow : 1,
-        endRow: maxEndRow > 0 ? maxEndRow : 1,
+        startRow: minStartRow,
+        endRow: maxEndRow > 0 ? maxEndRow : minStartRow + 1,
         startColumn: maxEndColumn,
         endColumn: maxEndColumn + 1
     };

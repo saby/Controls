@@ -7,7 +7,7 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
 
 /**
     * Иерархический список с пользовательским шаблоном элемента. Может загружать данные из источника данных.
-    * <a href="/materials/demo-ws4-edit-in-place">Демо-пример</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">Демо-пример</a>.
     *
     * @class Controls/TreeGrid
     * @extends Controls/Grid
@@ -47,7 +47,7 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * Hierarchical list with custom item template. Can load data from data source.
     * List of examples:
     * <ul>
-    *    <li><a href="/materials/demo-ws4-edit-in-place">How to configure editing in your list</a>.</li>
+    *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">How to configure editing in your list</a>.</li>
     * </ul>
     *
     * @class Controls/TreeGrid

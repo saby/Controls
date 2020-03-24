@@ -1,10 +1,11 @@
-import View = require('Controls/_list/List');
+import {default as View} from 'Controls/_list/List';
 import {Logger} from 'UI/Utils';
-import viewTemplate = require('Controls/_list/ColumnsControl');
+import {default as viewTemplate} from 'Controls/_list/ColumnsControl';
 
-var Columns = View.extend(/** @lends Controls/_list/List.prototype */{
-    _viewName: null,
-    _viewTemplate: viewTemplate,
+export default class Columns extends View {/** @lends Controls/_list/List.prototype */
+    _viewName = null;
+    _viewTemplate = viewTemplate;
+
     _checkViewName(useNewModel: boolean): void|Promise<any> {
         if (useNewModel) {
             return import('Controls/listRender').then((listRender) => {
@@ -13,10 +14,10 @@ var Columns = View.extend(/** @lends Controls/_list/List.prototype */{
         } else {
             Logger.error('ColumnsView: for ColumnsView useNewModel option is required');
         }
-    },
-    _getModelConstructor: function() {
+    }
+
+    _getModelConstructor(): string {
         return 'Controls/display:ColumnsCollection';
     }
-});
+}
 
-export = Columns;

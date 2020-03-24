@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
         <Controls.scroll:Container attr:class="controlsDemo__height400">
-            <Controls.scroll:HotKeysContainer>
+            <Controls.list:HotKeysContainer>
                 <Controls.list:View
                         keyProperty="id"
                         moveMarkerOnScrollPaging="{{true}}"
@@ -10,7 +10,7 @@
                         <ws:viewConfig pagingMode="direct"/>
                     </ws:navigation>
                 </Controls.list:View>
-            </Controls.scroll:HotKeysContainer>
+            </Controls.list:HotKeysContainer>
         </Controls.scroll:Container>
 
 </div>

@@ -17,7 +17,7 @@
 /**
  * @name Controls/_grid/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Массив свойств, по которым происходит прилипание.
- * Работу лесенки можно проверить на <a href="/materials/demo/demo-ws4-grid-sticky">демо-примере</a>.
+ * Работу лесенки можно проверить на <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-примере</a>.
  * @example
  * Пример 1. Шаблон лесенки задан в рамках шаблона родительского контрола.
  * <pre class="brush: html">
@@ -73,7 +73,7 @@
 /*
  * @name Controls/_grid/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Array of fields that should be sticky.
- * <a href="/materials/demo-ws4-grid-sticky">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
  * @example
  * Set ladderProperties and render item template through the ladderWrapper:
  * <pre>
@@ -111,7 +111,7 @@
  * Условно ячейки шапки нумеруются слева направо.
  * Для многоуровневой шапки порядок объектов массива не соответствует конфигуруемой ячейке.
  * <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/">См. руководство разработчика</a>
- * См. <a href="/materials/demo-ws4-grid-base">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>
  * @example
  * Пример 1. Для первой ячейки задаём пользовательский шаблон.
  * <pre class="brush: html">
@@ -167,7 +167,7 @@
 /*
  * @name Controls/_grid/interface/IGridControl#header
  * @cfg {Array.<HeaderCell>} Describes grid's header.
- * <a href="/materials/demo-ws4-grid-base">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @remark
  * Base header content template for Controls/grid:View: "Controls/grid:HeaderContent".
  * @example
@@ -180,7 +180,7 @@
 /**
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы. Колонки объекты реализующие интерфейс {@link Controls/grid:IColumn IColumn}
- * <a href="/materials/demo-ws4-grid-base">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @remark Перед отрисовкой убедитесь, что {@link Controls/display:Collection Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
  * @example
  * <pre>
@@ -211,7 +211,7 @@
 /*
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {TColumns} Describes grid's columns.
- * <a href="/materials/demo-ws4-grid-base">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @remark Before rendering, make sure that {@link Controls/display:Collection Collection} contains required data, when the {@link Controls/_grid/interface/IGridControl#columns columns} option changes. Call asynchronous 'reload' method before changing {@link Controls/_grid/interface/IGridControl#columns columns} option, if necessary.
  * @example
  * <pre>
@@ -242,14 +242,14 @@
 /**
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Закрепляет заголовок таблицы.
- * <a href="/materials/demo-ws4-grid-sticky">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
  * @default true
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Fix the table header.
- * <a href="/materials/demo-ws4-grid-sticky">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
  * @default true
  */
 
@@ -297,7 +297,7 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#stickyColumnsCount
- * @cfg {Number} Определяет число зафиксированных колонок, которые не двигаются при горизонтальном скролле.
+ * @cfg {Number} Количество зафиксированных колонок, которые не двигаются при горизонтальном скролле.
  * @default 1
  * @see Controls/_grid/interface/IGridControl#columnScroll
  * @remark
@@ -316,14 +316,14 @@
 /**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
- * <a href="/materials/demo-ws4-grid-base">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @default false
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @cfg {Boolean} Allows to visible or hide row separator.
- * <a href="/materials/demo-ws4-grid-base">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @default false
  */
 
@@ -335,9 +335,7 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
- * @cfg {RowSeparatorSize} Устанавливает высоту линии разделителя.
- * @variant s Тонкая линия разделителя строк.
- * @variant l Широкая линия разделителя строк.
+ * @cfg {RowSeparatorSize} Высота линии-разделителя.
  * @default s
  */
 
@@ -375,7 +373,7 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsPosition
- * @cfg {ResultsPosition|undefined} Устанавливает положение строки итогов.
+ * @cfg {ResultsPosition|undefined} Положение строки итогов.
  * @default undefined
  * @remark
  * При значении опции **undefined** строка итогов скрыта.
@@ -415,20 +413,20 @@
  * @name Controls/_grid/interface/IGridControl#showEditArrow
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark
- * См. <a href="/materials/demo-ws4-edit-arrow">демо-пример</a>
  * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона.
  * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона.
  * Пример использования смотреть {@link Controls/grid:ColumnTemplate#contentTemplate тут}
+ * @demo Controls-demo/List/Tree/EditArrow
  * @example
  * <pre>
- * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
+ *    <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
  * </pre>
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#showEditArrow
  * @cfg {Boolean} Allows showing button in first column on hover and in swipe menu.
- * <a href="/materials/demo-ws4-edit-arrow">Example</a>
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FEditArrow">Example</a>
  * @remark To place the button in the user column template, you should use the editArrowTemplate
  * @example
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
@@ -439,7 +437,7 @@
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
  * @param {Types/entity:Record} item Элемент, на который навели курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента, на который навели курсор.
- * @param {Number} columnIndex Индекс ячейки на которую навели курсор.
+ * @param {Number} columnIndex Индекс ячейки, на которую навели курсор.
  * @param {HTMLElement} cellContainer Контейнер ячейки элемента, на которую навели курсор.
  */
 
@@ -448,4 +446,18 @@
  * @name Controls/_grid/interface/IGridControl#editArrowClick
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
  * @param {Types/entity:Model} item Элемент, по которому произвели клик.
+ */
+
+/**
+ * @event Происходит при изменении набора развернутых узлов.
+ * @name Controls/_grid/interface/IGridControl#expandedItemsChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Array.<Number|String>} expandedItems Идентификаторы развернутых узлов.
+ */
+
+/**
+ * @event Происходит при изменении набора свернутых узлов.
+ * @name Controls/_grid/interface/IGridControl#collapsedItemsChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
  */

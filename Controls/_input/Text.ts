@@ -7,7 +7,7 @@ import {Logger} from 'UI/Utils';
 /**
  * Однострочное поле ввода текста.
  * @remark
- * <a href="/materials/demo-ws4-input">Demo examples.</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Demo examples.</a>.
  *
  * @class Controls/_input/Text
  * @extends Controls/_input/Base

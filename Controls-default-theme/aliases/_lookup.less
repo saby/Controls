@@ -1,122 +1,81 @@
-//lookup:Input
-//Интервал между оберткой контента и правой границей в режиме множественного выбора.
-@trigger_width_lookupInput:                                                     24px;
+// Переменные для полей выбора из справочника
+//
+// Минимальная высота
 
-//Интервал между полем ввода и иконками
-@trigger_offset_lookupInput:                                                    4px;
-
-//Размер кнопки открывающей справочник
-@trigger_icon-size_lookupInput:                                                 @icon-size_s;
-
-//Цвет кнопки открывающей справочник
-@trigger_icon-color_lookupInput:                                                @label_text-color;
-
-//Цвет кнопки открывающей справочник при наведении
-@trigger_hover_icon-color_lookupInput:                                          @link_hover_text-color;
-
-//Цвет кнопки открывающей справочник при фокусе
-@trigger_active_icon-color_lookupInput:                                         @link_hover_text-color;
-
-//Минимальная высота поля связи с множественным выбором
 @min-height_multiline_lookupInput:                                              @inline_height_default;
 
-//Цвет комментария в поле связи
+// Текстовые элементы
 @comment_text-color_lookupInput:                                                @unaccented_text-color;
-
-//Размер иконки кнопки сброса выбранных записей
-@reset-button_icon-size_lookupInput:                                            @icon-size_s;
-
-//Отступ справа у кнопки сброса выбранных записей
-@reset-button_offset_lookupSelector:                                            4px;
-
-//Цвет иконки кнопки сброса выбранных записей
-@reset-button_icon-color_lookupInput:                                           @label_text-color;
-
-//Цвет иконки кнопки сброса выбранных записей при наведении
-@reset-button_hover_icon-color_lookupInput:                                     @reset-button_hover_icon-color_searchInput;
-
-//Цвет иконки кнопки сброса выбранных записей при фокусе
-@reset-button_active_icon-color_lookupInput:                                    @reset-button_hover_icon-color_searchInput;
-
-//Размер кнопки сброса выбранных записей
-@reset-button_size_lookupInput:                                                 24px;
-
-//Размер шрифта для ссылки, открывающей справочник
 @label_font-size_lookupInput:                                                   @font-size_m;
 
-//lookup:Selector
-//Минимальная высота кнопки выбора
+// Иконка вызова окна выбора
+
+@trigger_width_lookupInput:                                                     24px;
+@trigger_offset_lookupInput:                                                    4px;
+@trigger_icon-size_lookupInput:                                                 @icon-size_s;
+@trigger_icon-color_lookupInput:                                                @label_text-color;
+@trigger_hover_icon-color_lookupInput:                                          @secondary_hover_icon-color;
+@trigger_active_icon-color_lookupInput:                                         @secondary_hover_icon-color;
+
+// Кнопка сброса всех выбранных значений
+
+@reset-button_icon-size_lookupInput:                                            @icon-size_s;
+@reset-button_offset_lookupSelector:                                            4px;
+@reset-button_icon-color_lookupInput:                                           @label_text-color;
+@reset-button_hover_icon-color_lookupInput:                                     @reset-button_hover_icon-color_searchInput;
+@reset-button_active_icon-color_lookupInput:                                    @reset-button_hover_icon-color_searchInput;
+@reset-button_size_lookupInput:                                                 24px;
+
+
+
+// Переменные для кнопки выбора из справочника
+//
+// Минимальная высота
+
 @min-height_lookupSelector:                                                     @inline_height_default;
 
-//Размер шрифта кнопки сброса выбранных записей
-@reset-button_font-size_lookupSelector:                                         @font-size_xs;
+// Кнопка сброса всех выбранных значений
 
-//Цвет текста кнопки сброса выбранных записей
+@reset-button_font-size_lookupSelector:                                         @font-size_xs;
 @reset-button_text-color_lookupSelector:                                        @label_text-color;
 
-//Размер шрифта кнопки "еще" в lookup:Selector
+// Кнопка "еще"
 @more-button_font-size_lookupSelector:                                          @font-size_xs;
-
-//Цвет текста кнопки "еще" в lookup:Selector
 @more-button_text-color_lookupSelector:                                         @label_text-color;
-
-//Отступ справа у кнопки "еще" в lookup:Selector
 @more-button_offset_lookupSelector:                                             8px;
 
-//Цвет выбранного элемента в режиме еденичного выбора
+// Текстовые элементы
 @text-color_lookupSelector:                                                     @link_text-color;
-
-//Цвет кнопки еще при наведении
 @text-color_hover_lookupSelector:                                               @link_hover_text-color;
-
-//Цвет кнопки еще при фокусе
 @text-color_active_lookupSelector:                                              @text-color_hover_lookupSelector;
-
-//Цвет выбранного элемента в режиме чтения
 @readonly_text-color_lookupSelector:                                            @text-color;
 
-//lookup:SelectedCollection
-//Отступ справа от выбранной записи
-@item_offset_lookupSelectedCollection:                                          4px;
 
-//Высота выбранной записи
+
+// Переменные для отображения выбранных значений
+//
+// Цвета
+
+@item_text-color_lookupSelectedCollection:                                      @text-color;
+
+// Размеры и отступы
+
+@item_offset_lookupSelectedCollection:                                          4px;
 @item_height_lookupSelectedCollection:                                          @inline_height_default;
 
-//Размер иконки удаления выбранной записи
+// Кнопка сброса одного значения
+
 @item_reset-button_icon-size_lookupCollection:                                  @icon-size_s;
-
-//Цвет иконки удаления выбранной записи
 @item_reset-button_icon-color_lookupCollection:                                 @unaccented_icon-color;
-
-//Цвет иконки удаления выбранной записи при наведении
 @item_reset-button_hover_icon-color_lookupCollection:                           @item_reset-button_icon-color_lookupCollection;
-
-//Цвет иконки удаления выбранной записи при фокусе
 @item_reset-button_active_icon-color_lookupCollection:                          @item_reset-button_icon-color_lookupCollection;
 
-//Высота счетчика с количестом выбранных записей
+// Счетчик выбранных записей
 @counter_height_lookupSelectedCollection:                                       @inline_height_default;
-
-//Цвет фона счетчика с количестом выбранных записей
 @counter_background-color_lookupSelectedCollection:                             @background-color;
-
-//Тень счетчика с количестом выбранных записей
 @counter_shadow-blur_lookupSelectedCollection:                                  20px;
-
-//Размер шрифта счетчика выбранных записей
 @counter_font-size_lookupSelectedCollection:                                    @font-size_m;
-
-//Цвет текста счетчика выбранных записей
 @counter_text-color_lookupSelectedCollection:                                   @label_text-color;
-
-//Отступ справа от счетчика выбранных записей
 @counter_offset_lookupSelectedCollection:                                       4px;
-
-//Цвет текста счетчика выбранных записей при наведении
 @counter_hover_text-color_lookupSelectedCollection:                             @link_hover_text-color;
-
-//Цвет текста счетчика выбранных записей при фокусе
 @counter_active_text-color_lookupSelectedCollection:                            @counter_hover_text-color_lookupSelectedCollection;
-
-//Цвет текста выбранной записи
-@item_text-color_lookupSelectedCollection:                                      @text-color;

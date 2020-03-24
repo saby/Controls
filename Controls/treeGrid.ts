@@ -9,7 +9,7 @@
  * @author Крайнов Д.О.
  */
 
-import View = require('Controls/_treeGrid/View');
+import {default as View} from 'Controls/_treeGrid/View';
 import ItemTemplate = require('wml!Controls/_grid/ItemTemplateResolver');
 
 import ViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');

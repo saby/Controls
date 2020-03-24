@@ -11,7 +11,7 @@ interface IMoneyOptions extends INumberLengthOptions {
 
 /**
  * Поле ввода денег.
- * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
  *
  * @class Controls/_input/Money
  * @extends Controls/_input/Base

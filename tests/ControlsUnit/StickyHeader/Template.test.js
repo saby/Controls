@@ -114,11 +114,10 @@ define(
             });
 
             it('Move the header', function() {
-               inst._context.stickyHeader.top = 10;
                inst._options.theme = 'default';
                inst._options.content = function() {return ''};
 
-               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 10px;">' +
+               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 0px;">' +
                   '<div class="controls-Scroll__shadow controls-StickyHeader__shadow-top ws-invisible"></div>' +
                   '<div></div>' +
                   '<div></div>' +
@@ -129,12 +128,11 @@ define(
             });
 
             it('Move the bottom', function() {
-               inst._context.stickyHeader.bottom = 10;
                inst._options.position = 'bottom';
                inst._options.theme = 'default';
                inst._options.content = function() {return ''};
 
-               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="bottom: 10px;">' +
+               assert.equal(template(inst),  '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="bottom: 0px;">' +
                   '<div class="controls-Scroll__shadow controls-StickyHeader__shadow-top ws-invisible"></div>' +
                   '<div></div>' +
                   '<div></div>' +

@@ -6,7 +6,7 @@ import 'css!theme?Controls/editableArea';
 
 /**
  * Базовый шаблон редактирования полей ввода. Имитирует стили {@link Controls/input:Text Text}.
- * <a href="/materials/demo-ws4-editable-area">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">Демо-пример</a>.
  *
  * @class Controls/_editableArea/Templates/Editors/Base
  * @extends Core/Control
@@ -19,7 +19,7 @@ import 'css!theme?Controls/editableArea';
 
 /*
  * Base template for editing of input fields. Mimicks styles of {@link Controls/input:Text Text}.
- * <a href="/materials/demo-ws4-editable-area">Demo</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">Demo</a>.
  *
  * @class Controls/_editableArea/Templates/Editors/Base
  * @extends Core/Control

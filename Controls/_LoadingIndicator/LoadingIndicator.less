@@ -2,13 +2,16 @@
    .flexbox();
    .justify-content(center);
    .align-items(center);
-   background-color: @overlay_background-color_loadingIndicator;
    cursor: default !important;
    -webkit-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
    -o-user-select: none;
    user-select: none;
+}
+
+.controls-loading-indicator_theme-@{themeName}{
+   background-color: @overlay_background-color_loadingIndicator;
 }
 
 // Необходимо навесить z-index на индикатор и контент для правильный работы контекста z-index`ов
@@ -46,7 +49,7 @@
    cursor: auto !important;
 }
 
-.controls-loading-indicator_overlay-dark {
+.controls-loading-indicator_overlay-dark_theme-@{themeName} {
     background-color: @contrast_overlay_background-color_loadingIndicator;
 }
 
@@ -73,35 +76,44 @@
 .controls-loading-indicator-in {
    -moz-box-sizing: border-box;
    box-sizing: border-box;
-   width: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
-   height: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
    overflow: hidden;
-   border-radius: @content_l_border_radius_loadingIndicator;
-   background: @content_background-color_loadingIndicator @spinner_l_background-image_loadingIndicator 50% 50% no-repeat;
-   background-size: @spinner_l_size_loadingIndicator;
    cursor: default !important;
    pointer-events: auto;
    font-family: 'TensorFont Обычный', 'TensorFont Regular', 'TensorFont', sans-serif;
+}
+
+.controls-loading-indicator-in_theme-@{themeName} {
+   width: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
+   height: @spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator;
+   border-radius: @content_l_border_radius_loadingIndicator;
+   background: @content_background-color_loadingIndicator @spinner_l_background-image_loadingIndicator 50% 50% no-repeat;
+   background-size: @spinner_l_size_loadingIndicator;
    font-size: @font-size_loadingIndicator;
    color: @text-color_loadingIndicator;
 }
 
 .controls-loading-indicator_text .controls-loading-indicator-in {
-   display: flex;
-   align-items: center;
-   min-width: @spinner_l_size_loadingIndicator + 3*@content_l_padding_loadingIndicator;
    width: auto;
-   padding: 0 @content_l_padding_loadingIndicator 0 (@spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator);
-   background-position:@content_l_padding_loadingIndicator 50%;
    white-space: nowrap;
    text-overflow: ellipsis;
+   display: flex;
+   align-items: center;
+}
+
+.controls-loading-indicator_text .controls-loading-indicator-in_theme-@{themeName} {
+   min-width: @spinner_l_size_loadingIndicator + 3*@content_l_padding_loadingIndicator;
+   padding: 0 @content_l_padding_loadingIndicator 0 (@spinner_l_size_loadingIndicator + 2*@content_l_padding_loadingIndicator);
+   background-position:@content_l_padding_loadingIndicator 50%;
 }
 
 .controls-loading-indicator_small .controls-loading-indicator-in {
+   background-color: transparent;
+}
+
+.controls-loading-indicator_small .controls-loading-indicator-in_theme-@{themeName} {
    width: @spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator;
    height: @spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator;
    border-radius: (@spinner_s_size_loadingIndicator + 2*@content_s_padding_loadingIndicator)/4;
-   background-color: transparent;
    background-image: @spinner_s_background-image_loadingIndicator;
    background-size: @spinner_s_size_loadingIndicator;
 }

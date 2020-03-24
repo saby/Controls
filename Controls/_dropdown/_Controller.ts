@@ -235,9 +235,13 @@ var _private = {
    },
 
    templateOptionsChanged: function(newOptions, options) {
-      if (newOptions.headTemplate !== options.headTemplate ||
-          newOptions.itemTemplate !== options.itemTemplate ||
-          newOptions.footerTemplate !== options.footerTemplate) {
+      const isTemplateChanged = (tplOption) => {
+         return typeof newOptions[tplOption] === 'string' && newOptions[tplOption] !== options[tplOption];
+      };
+
+      if (isTemplateChanged('headTemplate') ||
+          isTemplateChanged('itemTemplate') ||
+          isTemplateChanged('footerTemplate')) {
          return true;
       }
    },
@@ -273,6 +277,31 @@ var _private = {
       }
 
       return Object.keys(templates);
+   },
+
+   getPopupOptions(self, popupOptions?): object {
+      const config = {
+         templateOptions: {
+            items: self._items,
+            source: self._menuSource,
+            filter: self._filter,
+            // FIXME self._container[0] delete after
+            // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+            width: self._options.width !== undefined ?
+                (self._container[0] || self._container).offsetWidth :
+                undefined,
+            hasMoreButton: self._sourceController.hasMoreData('down'),
+            selectorOpener: self._children.selectorOpener,
+            selectorDialogResult: self._onSelectorTemplateResult.bind(self)
+         },
+         target: self._container,
+         targetPoint: self._options.targetPoint,
+         opener: self,
+         autofocus: false,
+         closeOnOutsideClick: true
+      };
+      const popupConfig = popupOptions || self._options.menuPopupOptions;
+      return {...config, ...popupConfig};
    }
 };
 
@@ -447,37 +476,16 @@ var _Controller = Control.extend({
       }
    },
 
-   _open(event?: SyntheticEvent<'mousedown'>, popupOptions?: object): void {
-      // Проверям что нажата левая кнопка мыши
-      if (this._options.readOnly || event && event.nativeEvent.button !== 0) {
+   _open(popupOptions?: object): void {
+      if (this._options.readOnly) {
          return;
       }
 
       const open = (): void => {
-         const config = {
-            templateOptions: {
-               items: this._items,
-               source: this._menuSource,
-               filter: this._filter,
-               // FIXME self._container[0] delete after
-               // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-               width: this._options.width !== undefined ?
-                   (this._container[0] || this._container).offsetWidth :
-                   undefined,
-               hasMoreButton: this._sourceController.hasMoreData('down'),
-               selectorOpener: this._children.selectorOpener,
-               selectorDialogResult: this._onSelectorTemplateResult.bind(this)
-            },
-            fittingMode: this._options.searchParam ? 'fixed' : 'adaptive',
-            target: this._container,
-            targetPoint: this._options.targetPoint,
-            opener: this,
-            autofocus: false,
-            closeOnOutsideClick: true
-         };
+         let config = _private.getPopupOptions(this, popupOptions);
          _private.requireTemplates(this, this._options).addCallback(() => {
             this._isOpened = true;
-            this._children.DropdownOpener.open({...config, ...popupOptions}, this);
+            this._children.DropdownOpener.open(config, this);
          });
       };
 
@@ -553,7 +561,7 @@ var _Controller = Control.extend({
    },
 
    openMenu(popupOptions?: object): void {
-      this._open(null, popupOptions);
+      this._open(popupOptions);
    },
 
    closeMenu(): void {

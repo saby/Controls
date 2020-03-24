@@ -12,7 +12,7 @@ import {resetFilter} from 'Controls/_filter/resetFilterUtils';
 /**
  * Контрол "Кнопка фильтров". Предоставляет возможность отображать и редактировать фильтр в удобном для пользователя виде. Состоит из кнопки-иконки и строкового представления выбранного фильтра.
  * @remark
- * См. <a href="/materials/demo-ws4-filter-button">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">демо-пример</a>
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
  * @class Controls/_filter/Button
@@ -31,7 +31,7 @@ import {resetFilter} from 'Controls/_filter/resetFilterUtils';
  * Clicking on a icon-button or a string opens the panel. {@link Controls/filterPopup:DetailPanel}
  * Supports the insertion of a custom template between the button and the filter string.
  * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/filterbutton-and-fastfilters/'>here</a>.
- * Here you can see <a href="/materials/demo-ws4-filter-button">demo-example</a>.
+ * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">demo-example</a>.
  *
  * Information on filtering settings in the list using the "Filter Button" control you can read <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>here</a>.
  *

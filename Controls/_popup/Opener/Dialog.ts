@@ -5,7 +5,7 @@ import {IDialogOpener, IDialogPopupOptions} from 'Controls/_popup/interface/IDia
  * Контрол, открывающий всплывающее окно, которое позиционируется по центру экрана.
  * @remark
  * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/dialog/#open-popup здесь}.
- * См. <a href="/materials/demo-ws4-stack-dialog">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">демо-пример</a>.
  * @class Controls/_popup/Opener/Dialog
  * @extends Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IBaseOpener
@@ -19,7 +19,7 @@ import {IDialogOpener, IDialogPopupOptions} from 'Controls/_popup/interface/IDia
 
 /*
  * Component that opens a popup that is positioned in the center of the browser window. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/dialog/ See more}
- * <a href="/materials/demo-ws4-stack-dialog">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">Demo-example</a>.
  * @class Controls/_popup/Opener/Dialog
  * @extends Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IBaseOpener

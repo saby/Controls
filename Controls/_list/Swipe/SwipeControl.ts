@@ -81,9 +81,9 @@ export default class SwipeControl extends Control {
    }
 
    private _notifyAndResetSwipe(): void {
+      this._notify('closeSwipe', [this._options.useNewModel ? this. _currentItemData : this._options.listModel.getSwipeItem()]);
       this._swipeConfig = null;
       this._currentItemData = null;
-      this._notify('closeSwipe', [this._options.listModel.getSwipeItem()]);
       if (this._options.useNewModel) {
          displayLib.ItemActionsController.setSwipeItem(this._options.listModel, null);
          displayLib.ItemActionsController.setActiveItem(this._options.listModel, null);
@@ -106,6 +106,10 @@ export default class SwipeControl extends Control {
    }
 
    private _onListChange(event, changesType, action): void {
+      if (this._destroyed) {
+         return;
+      }
+
       if (changesType !== 'itemActionsUpdated' && action !== 'ch' || changesType === 'newModelUpdated - editing') {
          this.closeSwipe();
       } else if (changesType === 'itemActionsUpdated') {

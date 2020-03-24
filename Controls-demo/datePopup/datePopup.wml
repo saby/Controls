@@ -1,7 +1,7 @@
 <div class="PageWrap" style="padding-top: 50px;">
    <div class="PageBlock">
       <div class="PageBlock__title">Controls.Calendar.PeriodDialog</div>
-      <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-around; flex-wrap: wrap; align-items: flex-start;">
+      <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-between; flex-wrap: wrap; align-items: flex-start;">
 
          <div>
             <h3>Any period</h3>

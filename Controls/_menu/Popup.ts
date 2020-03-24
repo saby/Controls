@@ -1,20 +1,21 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import {IMenuPopup, IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as mStubs from 'Core/moduleStubs';
-import * as headerTemplate from 'wml!Controls/_menu/Popup/headerTemplate';
+import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
+import {Controller as ManagerController} from 'Controls/popup';
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
  * @class Controls/menu:Popup
- * @extends Controls/_popupTemplate/Sticky
+ * @mixes Controls/_menu/interface/IMenuPopup
+ * @mixes Controls/_menu/interface/IMenuControl
  * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_interface/IIconSize
- * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilter
- * @mixes Controls/_dropdown/interface/IFooterTemplate
  * @control
  * @public
  * @category Popup
@@ -22,17 +23,20 @@ import * as headerTemplate from 'wml!Controls/_menu/Popup/headerTemplate';
  */
 const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller', 'Controls/search:Input', 'Controls/search:InputContainer'];
 
-class Popup extends Control<IControlOptions> {
+class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _template: TemplateFunction = PopupTemplate;
     protected _headerTemplate: TemplateFunction;
+    protected _headerTheme: string;
     protected _headingCaption: string;
     protected _headingIcon: string;
     protected _itemPadding: object;
-    protected _closeButtonVisibility: string;
+    protected _closeButtonVisibility: boolean;
     protected _verticalDirection: string = 'bottom';
     protected _horizontalDirection: string = 'right';
 
-    protected _beforeMount(options: IControlOptions): Promise<void>|void {
+    protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
+        this._headerTheme = this._getTheme();
+
         this._setCloseButtonVisibility(options);
         this._prepareHeaderConfig(options);
         this._setItemPadding(options);
@@ -42,7 +46,9 @@ class Popup extends Control<IControlOptions> {
         }
     }
 
-    protected _beforeUpdate(newOptions: IControlOptions): void {
+    protected _beforeUpdate(newOptions: IMenuPopupOptions): void {
+        this._headerTheme = this._getTheme();
+
         if (newOptions.stickyPosition.direction && this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
             this._verticalDirection = newOptions.stickyPosition.direction.vertical;
             this._horizontalDirection = newOptions.stickyPosition.direction.horizontal;
@@ -53,7 +59,7 @@ class Popup extends Control<IControlOptions> {
         this._notify('sendResult', [action, data], {bubbling: true});
     }
 
-    protected _afterMount(options?: IControlOptions): void {
+    protected _afterMount(options?: IMenuPopupOptions): void {
         this._notify('sendResult', ['menuOpened', this._container], {bubbling: true});
     }
 
@@ -80,7 +86,9 @@ class Popup extends Control<IControlOptions> {
     }
 
     private _prepareHeaderConfig(options) {
-        if (options.searchParam) {
+        if (options.headerContentTemplate) {
+            this._headerTemplate = options.headerContentTemplate;
+        } else if (options.searchParam) {
             this._headerTemplate = searchHeaderTemplate;
         } else if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
             if (options.headConfig) {
@@ -110,6 +118,10 @@ class Popup extends Control<IControlOptions> {
                 right: 'menu-pin'
             };
         }
+    }
+
+    private _getTheme(): string {
+        return ManagerController.getPopupHeaderTheme();
     }
 
     static _theme: string[] = ['Controls/menu'];

@@ -345,6 +345,16 @@ define(
                hSource.update(myItem, meta);
                historyItems = hSource.getItems();
                assert.equal(historyItems.at('1').get('pinned'), false);
+
+               let sandbox = sinon.createSandbox();
+
+               sandbox.stub(historyMod.Source._private, 'checkPinnedAmount').returns(false);
+               let stub = sandbox.stub(historyMod.Source._private, 'showNotification');
+
+               hSource.update(myItem, meta);
+               sinon.assert.calledOnce(stub);
+
+               sandbox.restore();
             });
             it('checkPinnedAmount', function() {
                let list = new collection.RecordSet();

@@ -195,7 +195,9 @@ define([
             navigation: {
                view: 'infinity'
             },
-            virtualScrolling: true,
+            virtualScrollConfig: {
+               pageSize: 100
+            },
             viewModelConstructor: lists.ListViewModel,
             source: source
          };
@@ -374,7 +376,9 @@ define([
             navigation: {
                view: 'infinity'
             },
-            virtualScrolling: true,
+            virtualScrollConfig: {
+               pageSize: 100
+            },
             viewModelConstructor: grid.GridViewModel,
          };
          var ctrl = new lists.BaseControl(cfg);
@@ -2349,6 +2353,7 @@ define([
                setTimeout(function() {
                   // _markedKeyForRestoredScroll известен подскрол не сработает т.к _isScrollShown = false;
                   assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3);
+                  assert.equal(lnBaseControl._shouldRestoreScrollPosition, true);
                   lnCfg = clone(lnCfg);
                   lnCfg.source = lnSource2;
                   lnBaseControl._isScrollShown = true;
@@ -5326,7 +5331,9 @@ define([
                viewModelConstructor: lists.ListViewModel,
                keyProperty: 'id',
                source: source,
-               virtualScrolling: true
+               virtualScrollConfig: {
+                  pageSize: 100
+               }
             },
             instance = new lists.BaseControl(cfg);
          instance.saveOptions(cfg);
@@ -5449,12 +5456,16 @@ define([
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
 
-         assert.isFalse(portionSearchReseted);
-
+         assert.isTrue(portionSearchReseted);
+         portionSearchReseted = false;
 
          cfgClone.searchValue = 'test';
          instance._beforeUpdate(cfgClone);
 
+         assert.isTrue(portionSearchReseted);
+         portionSearchReseted = false;
+
+         await instance.reload();
          assert.isTrue(portionSearchReseted);
       });
 

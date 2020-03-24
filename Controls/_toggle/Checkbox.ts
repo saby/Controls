@@ -14,7 +14,7 @@ export interface ICheckboxOptions extends IControlOptions, ICaptionOptions, IIco
 /**
  * Контрол, позволяющий пользователю управлять параметром с двумя состояниями — включено и отключено.
  *
- * <a href="/materials/demo-ws4-checkbox">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FCheckbox%2FstandartDemoCheckbox">Демо-пример</a>.
  *
  * @class Controls/_toggle/Checkbox
  * @extends Core/Control
@@ -32,7 +32,7 @@ export interface ICheckboxOptions extends IControlOptions, ICaptionOptions, IIco
 /*
  * Represents a control that a user can select and clear.
  *
- * <a href="/materials/demo-ws4-checkbox">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FCheckbox%2FstandartDemoCheckbox">Demo-example</a>.
  *
  * @class Controls/_toggle/Checkbox
  * @extends Core/Control

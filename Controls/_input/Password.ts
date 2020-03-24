@@ -7,7 +7,7 @@ import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/
  *  @remark
  *  Контрол скрывает введенные символы и вместо них отображает символы-заменители.
  *  Видимость введенного текста можно переключить, нажав на иконку 'eye'.
- *  <a href="/materials/demo-ws4-input">Демо-пример</a>.
+ *  <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
  *
  * @class Controls/_input/Password
  * @extends Controls/_input/Base
@@ -21,7 +21,7 @@ import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/
 /*
  *  Control that hides all entered characters and shows replacer-symbols in place of them.
  *  Visibility of entered text can be toggled by clicking on 'eye' icon.
- *  <a href="/materials/demo-ws4-input">Configured Inputs Demo.</a>.
+ *  <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Configured Inputs Demo.</a>.
  *
  * @class Controls/_input/Password
  * @extends Controls/_input/Base

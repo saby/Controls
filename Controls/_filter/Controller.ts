@@ -242,13 +242,13 @@ const _private = {
             }
         },
 
-        processPrefetchOnItemsChanged(self, options): void {
+        processPrefetchOnItemsChanged(self, options, items): void {
             // Меняют фильтр с помощью кнопки фильтров,
             // но такой фильтр уже может быть сохранён в истории и по нему могут быть закэшированные данные,
             // поэтому ищем в истории такой фильтр, если есть, смотрим валидны ли ещё закэшированные данные,
             // если валидны, то просто добавляем идентификатор сессии в фильтр,
             // если данные не валидны, то такую запись из истории надо удалить
-            const history = _private.getHistoryByItems(options.historyId, self._filterButtonItems);
+            const history = _private.getHistoryByItems(options.historyId, items || self._filterButtonItems);
             let filter = self._filter;
             let needDeleteFromHistory = false;
             let needApplyPrefetch = false;
@@ -285,7 +285,7 @@ const _private = {
 
         processHistoryOnItemsChanged(self, items, options): void {
             if (options.prefetchParams) {
-                _private.processPrefetchOnItemsChanged(self, options);
+                _private.processPrefetchOnItemsChanged(self, options, items);
                 self._isFilterChanged = true;
             } else if (options.historyId) {
                 _private.addToHistory(self, self._filterButtonItems, self._fastFilterItems, options.historyId);

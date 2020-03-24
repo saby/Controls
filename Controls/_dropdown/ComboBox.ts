@@ -21,7 +21,7 @@ var _private = {
 /**
  * Контрол, позволяющий выбрать значение из списка.
  * Полный список параметров отображается при нажатии на контрол.
- * <a href="/materials/demo-ws4-input-combobox">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">Демо-пример</a>.
  * @class Controls/_dropdown/ComboBox
  * @extends Core/Control
  * @mixes Controls/_interface/ISource
@@ -41,7 +41,7 @@ var _private = {
 /*
  * Control that shows list of options. In the default state, the list is collapsed, showing only one choice.
  * The full list of options is displayed when you click on the control.
- * <a href="/materials/demo-ws4-input-combobox">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">Demo-example</a>.
  * @class Controls/_dropdown/ComboBox
  * @extends Core/Control
  * @mixes Controls/_interface/ISource

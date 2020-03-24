@@ -92,7 +92,7 @@ var _private = {
             model = self._children.baseControl.getViewModel(),
             markedItemKey = model.getMarkedKey(),
             markedItem = model.getMarkedItem();
-        if (model.isExpanded(markedItem)) {
+        if (markedItem && model.isExpanded(markedItem)) {
             self.toggleExpanded(markedItemKey);
         }
     },

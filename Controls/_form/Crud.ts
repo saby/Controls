@@ -1,6 +1,7 @@
 import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import tmpl = require('wml!Controls/_form/Crud/Crud');
+import {readWithAdditionalFields} from './crudProgression';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
 
@@ -34,7 +35,7 @@ let CRUD = Control.extend({
         return def;
     },
     read(key, readMetaData) {
-        const def = this._dataSource.read(key, readMetaData);
+        const def = readWithAdditionalFields(this._dataSource, key, readMetaData);
         const id = this._indicatorId;
         const message = rk('Пожалуйста, подождите…');
         this._indicatorId = this._notify('showIndicator', [{id, message}], {bubbling: true});

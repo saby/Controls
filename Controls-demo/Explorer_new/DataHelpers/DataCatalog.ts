@@ -1,4 +1,4 @@
-import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate'
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell'
 

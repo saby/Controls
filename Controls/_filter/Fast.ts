@@ -18,7 +18,7 @@ import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from '
        * Контрол "Быстрый фильтр". Использует выпадающие списки для выбора параметров фильтрации.
        * 
        * @remark
-       * См. <a href="/materials/demo-ws4-filter-search-new">демо-пример</a>
+       * См. <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>
        * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
        * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
        *
@@ -36,7 +36,7 @@ import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from '
        * Control "Fast Filter".
        * Use dropDown lists for filter data.
        *
-       * Here you can see a <a href="/materials/demo-ws4-filter-search-new">demo</a>.
+       * Here you can see a <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">demo</a>.
        *
        * @class Controls/_filter/Fast
        * @extends Core/Control

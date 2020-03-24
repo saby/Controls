@@ -17,6 +17,7 @@ import * as HeaderContentTpl from 'wml!Controls/_grid/HeaderContent';
 
 import * as GridResults from 'wml!Controls/_grid/layout/grid/Results';
 import * as TableResults from 'wml!Controls/_grid/layout/table/Results';
+import 'wml!Controls/_grid/layout/common/ResultCellContent';
 
 import * as DefaultItemTpl from 'wml!Controls/_grid/ItemTemplateResolver';
 import * as GridItemTemplate from 'wml!Controls/_grid/layout/grid/Item';
@@ -51,8 +52,9 @@ var
             }
             columnsWidths = columnsWidths.concat(columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth())));
             if (shouldAddActionsCell({
-                hasColumnScroll: self._options.columnScroll,
-                shouldUseTableLayout: !GridLayoutUtil.isFullGridSupport()
+                hasColumnScroll: !!self._options.columnScroll,
+                isFullGridSupport: GridLayoutUtil.isFullGridSupport(),
+                hasColumns: !!columns.length
             })) {
                 columnsWidths = columnsWidths.concat(['0px']);
             }
@@ -165,7 +167,7 @@ var
             if (this._options.columnScroll !== newCfg.columnScroll) {
                 this._listModel.setColumnScroll(newCfg.columnScroll);
             }
-            // todo removed by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
+            // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
             if (!GridIsEqualUtil.isEqualWithSkip(this._options.columns, newCfg.columns, { template: true, resultTemplate: true })) {
                 this._listModel.setColumns(newCfg.columns);
             }
@@ -328,6 +330,6 @@ GridView.contextTypes = () => {
     };
 };
 
-GridView._theme = ['Controls/grid'];
+GridView._theme = ['Controls/grid', 'Controls/Classes'];
 
 export = GridView;

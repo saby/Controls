@@ -1,4 +1,4 @@
-import ListControl = require('Controls/_list/ListControl');
+import {default as ListControl} from 'Controls/_list/ListControl';
 import {TemplateFunction} from 'UI/Base';
 import ListControlTpl = require('wml!Controls/_list/ColumnsControl');
 import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";

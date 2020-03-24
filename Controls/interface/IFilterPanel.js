@@ -681,7 +681,7 @@ define('Controls/interface/IFilterPanel', [], function() {
     * @name Controls/interface/IFilterPanel#historyId
     * @cfg {String} Уникальный идентификатор для сохранения истории.
     * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/'>инструкции</a>.
-    * @demo Controls-demo/Filter_new/FilterView/DetailPanel/HistoryId/Index
+    * @demo Controls-demo/Filter_new/DetailPanel/HistoryId/Index
     * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>инструкции</a>.
     */
 
@@ -697,9 +697,9 @@ define('Controls/interface/IFilterPanel', [], function() {
     */
 
    /**
-    * @event Controls/interface/IFilterPanel#itemsChanged Событие возникает при изменении опции items.
-    * @param {Event}
-    * @param {Controls/_filter/interface/IFilterView#source} items Конфигурация св-в фильтра,
+    * @event Controls/interface/IFilterPanel#itemsChanged Событие происходит при изменении опции items.
+    * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+    * @param {Controls/_filter/interface/IFilterView#source} items Конфигурация свойств фильтра.
     * @example
     * WML:
     * <pre>

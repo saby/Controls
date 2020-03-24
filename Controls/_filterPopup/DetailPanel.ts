@@ -18,7 +18,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
 /**
     * Контрол для отображения шаблона панели фильтров. Отображает каждый фильтр по заданным шаблонам.
     * Он состоит из трех блоков: Отбираются, Еще можно отобрать, Ранее отбирались.
-    * <a href="/materials/demo-ws4-filter-button">Демо-пример</a>.
+    * <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">Демо-пример</a>.
     *
     *
     * @class Controls/_filterPopup/DetailPanel
@@ -41,7 +41,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
    /*
     * Component for displaying a filter panel template. Displays each filters by specified templates.
     * It consists of three blocks: Selected, Also possible to select, Previously selected.
-    * Here you can see <a href="/materials/demo-ws4-filter-button">demo-example</a>.
+    * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">demo-example</a>.
     *
     *
     * @class Controls/_filterPopup/DetailPanel

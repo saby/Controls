@@ -2,11 +2,16 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_scroll/StickyHeader/Controller/Controller');
 import {TRegisterEventData} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader/_StickyHeader';
+import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 import {POSITION} from 'Controls/_scroll/StickyHeader/Utils';
 
 // @ts-ignore
 
 const CONTENTS_STYLE: string = 'contents';
+
+interface IShadowVisible {
+    [id: number]: boolean;
+}
 
 class Component extends Control {
     protected _template: Function = template;
@@ -17,6 +22,10 @@ class Component extends Control {
     private _headersStack: object;
     // The list of headers that are stuck at the moment.
     private _fixedHeadersStack: object;
+    private _shadowVisibleStack: {
+        top: IShadowVisible,
+        bottom: IShadowVisible
+    };
     // Если созданный заголвок невидим, то мы не можем посчитать его позицию.
     // Учтем эти заголовки после ближайшего события ресайза.
     private _delayedHeaders: TRegisterEventData[] = [];
@@ -31,12 +40,21 @@ class Component extends Control {
             top: [],
             bottom: []
         };
+        this._shadowVisibleStack = {
+            top: {},
+            bottom: {}
+        };
         this._headers = {};
     }
 
     _afterMount(options) {
         this._stickyControllerMounted = true;
+        RegisterUtil(this, 'controlResize', this._resizeHandler.bind(this));
         this._registerDelayed();
+    }
+
+    _beforeUnmount(): void {
+        UnregisterUtil(this, 'controlResize');
     }
 
     /**
@@ -47,12 +65,27 @@ class Component extends Control {
         return !!this._fixedHeadersStack[position].length;
     }
 
+    hasShadowVisible(position: string): boolean {
+        const arrShadowVisible = this._shadowVisibleStack[position];
+        for (const id in arrShadowVisible) {
+            if (arrShadowVisible[id]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     getHeadersHeight(position: string): number {
         let
             height: number = 0,
             replaceableHeight: number = 0,
             header;
         for (let headerId of this._fixedHeadersStack[position]) {
+            const ignoreHeight: boolean = !this._shadowVisibleStack[position][headerId];
+            if (ignoreHeight) {
+                continue;
+            }
             header = this._headers[headerId];
             // If the header is "replaceable", we take into account the last one after all "stackable" headers.
             if (header.mode === 'stackable') {
@@ -111,6 +144,11 @@ class Component extends Control {
     _fixedHandler(event, fixedHeaderData) {
         event.stopImmediatePropagation();
         this._updateFixationState(fixedHeaderData);
+        if (fixedHeaderData.fixedPosition) {
+            this._shadowVisibleStack[fixedHeaderData.fixedPosition][fixedHeaderData.id] = fixedHeaderData.shadowVisible;
+        } else if (fixedHeaderData.prevPosition) {
+            delete this._shadowVisibleStack[fixedHeaderData.prevPosition][fixedHeaderData.id];
+        }
         this._notify('fixed', [this.getHeadersHeight('top'), this.getHeadersHeight('bottom')]);
 
         // If the header is single, then it makes no sense to send notifications.
@@ -124,10 +162,17 @@ class Component extends Control {
         ]);
     }
 
+    _updateTopBottomHandler(event: Event): void {
+        event.stopImmediatePropagation();
+
+        this._updateTopBottom();
+    }
+
     _resizeHandler() {
         // Игнорируем все собятия ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
         if (this._stickyControllerMounted) {
+            this._updateTopBottom();
             this._registerDelayed();
         }
     }

@@ -1,5 +1,6 @@
-import Control = require('Core/Control');
+import {Control, TemplateFunction} from 'UI/Base';
 import ListControlTpl = require('wml!Controls/_list/ListControl/ListControl');
+import BaseControl = require('Controls/_list/BaseControl');
 import {saveConfig} from 'Controls/Application/SettingsController';
 import Deferred = require('Core/Deferred');
 import {isEqual} from 'Types/object';
@@ -25,45 +26,43 @@ import {isEqual} from 'Types/object';
  * @category List
  */
 
-var ListControl = Control.extend(/** @lends Controls/_list/ListControl.prototype */{
-    _template: ListControlTpl,
+export default class ListControl extends Control/** @lends Controls/_list/ListControl.prototype */{
+    protected _template: TemplateFunction = ListControlTpl;
+    protected _children: { baseControl: unknown };
     _beforeUpdate(cfg) {
         if (cfg.propStorageId && !isEqual(cfg.sorting, this._options.sorting)) {
             saveConfig(cfg.propStorageId, ['sorting'], cfg);
         }
-    },
-    reload: function () {
+    }
+    reload() {
         return this._children.baseControl.reload();
-    },
-    beginEdit: function (options) {
+    }
+    beginEdit(options) {
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginEdit(options);
-    },
-    beginAdd: function (options) {
+    }
+    beginAdd(options) {
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginAdd(options);
-    },
+    }
 
-    cancelEdit: function () {
+    cancelEdit() {
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.cancelEdit();
-    },
+    }
 
-    commitEdit: function () {
+    commitEdit() {
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.commitEdit();
-    },
+    }
 
-    reloadItem: function():Deferred {
+    reloadItem():Deferred {
         let baseControl = this._children.baseControl;
         return baseControl.reloadItem.apply(baseControl, arguments);
-    },
+    }
 
     scrollToItem(key: string|number, toBottom: boolean, force: boolean): void {
         return this._children.baseControl.scrollToItem(key, toBottom, force);
-    },
-});
-
-ListControl.getDefaultOptions = function () {
-    return {
-        uniqueKeys: true
+    }
+    static getDefaultOptions () {
+        return {
+            uniqueKeys: true
+        };
     };
-};
-
-export = ListControl;
+}

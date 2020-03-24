@@ -296,7 +296,9 @@ define([
                   rawData: [],
                   keyProperty: 'id'
                }),
-               virtualScrolling: true
+               virtualScrollConfig: {
+                  pageSize: 100
+               }
             });
          assert.equal(model._startIndex, 0, 'Invalid value of "_startIndex" after constructor.');
          assert.equal(model._stopIndex, 0, 'Invalid value of "_stopIndex" after constructor.');

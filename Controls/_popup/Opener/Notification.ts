@@ -9,7 +9,7 @@ import {INotificationPopupOptions, INotificationOpener} from '../interface/INoti
  * Контрол, открывающий окно, которое позиционируется в правом нижнем углу окна браузера. Одновременно может быть открыто несколько окон уведомлений. В этом случае они выстраиваются в стек по вертикали.
  * @remark
  * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/ здесь}.
- * См. <a href="/materials/demo-ws4-notification">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FNotificationDemo%2FNotificationDemo">демо-пример</a>.
  * @class Controls/_popup/Opener/Notification
  * @extends Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IBaseOpener
@@ -68,6 +68,7 @@ const compatibleOpen = (popupOptions: INotificationPopupOptions): Promise<string
 const getCompatibleConfig = (BaseOpenerCompat: any, config: INotificationPopupOptions) => {
     const cfg = BaseOpenerCompat.prepareNotificationConfig(config);
     cfg.notHide = !cfg.autoClose;
+    cfg.isCompoundNotification = true;
     // элемент проставляется из createControl в совместимости, удаляем его чтобы потом при мерже получить новый элемент
     delete cfg.element;
     return cfg;
@@ -120,6 +121,14 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
     static openPopup(config: object): Promise<string> {
         return new Promise((resolve) => {
             const newConfig = BaseOpener.getConfig(BASE_OPTIONS, config);
+            // Сделал так же как в ws3. окна, которые закрываются автоматически - всегда выше всех.
+            if (newConfig.autoClose) {
+                newConfig.topPopup = true;
+            }
+            // Если окно не выше всех - высчитываем по стандарту
+            if (!newConfig.topPopup) {
+                newConfig.zIndexCallback = Notification.zIndexCallback;
+            }
             if (isNewEnvironment()) {
                 if (!newConfig.hasOwnProperty('opener')) {
                     newConfig.opener = null;
@@ -138,7 +147,12 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
     }
 
     static closePopup(popupId: string): void {
-        BaseOpener.closeDialog(popupId);
+        // TODO: Compatible. Нотификационные окна на старых страницах открываются через ws3 manager
+        if (typeof popupId !== 'string' && popupId.close) {
+            popupId.close();
+        } else {
+            BaseOpener.closeDialog(popupId);
+        }
     }
 
     static getDefaultOptions(): INotificationOpenerOptions {
@@ -162,8 +176,7 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
 
 const BASE_OPTIONS = {
     autofocus: false,
-    autoClose: true,
-    zIndexCallback: Notification.zIndexCallback
+    autoClose: true
 };
 
 export default Notification;

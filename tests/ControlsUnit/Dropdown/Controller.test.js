@@ -675,6 +675,25 @@ define(
             dropdownController._open();
          });
 
+         it ('_open menuPopupOptions', () => {
+            let expectedMenuOptions = {
+               fittingMode: 'fixed',
+               direction: 'top',
+               target: 'testTarget'
+            };
+            let newConfig = clone(config);
+            newConfig.menuPopupOptions = expectedMenuOptions;
+            let dropdownController = getDropdownController(newConfig);
+
+            dropdownController._sourceController = {
+               hasMoreData: () => {}
+            };
+            const resultPopupConfig = dropdown._Controller._private.getPopupOptions(dropdownController);
+            assert.equal(resultPopupConfig.fittingMode, expectedMenuOptions.fittingMode);
+            assert.equal(resultPopupConfig.direction, expectedMenuOptions.direction);
+            assert.equal(resultPopupConfig.target, expectedMenuOptions.target);
+         });
+
          it('events on open/close', async () => {
             let dropdownController = getDropdownController(config);
             let stubNotify = sandbox.stub(dropdownController, '_notify');

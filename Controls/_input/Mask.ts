@@ -14,7 +14,7 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
        * Каждый вводимый символ проходит проверку на соответствие формату {@link mask маски}.
        * Контрол поддерживает возможность показа или скрытия формата маски в незаполненном поле ввода, регулируемую с помощью опции {@link replacer}.
        * Если {@link replacer символ замены} определен, то поле ввода вычисляет свою ширину автоматически по контенту. При этом во всех режимах поддерживается возможность установки ширины поля ввода через CSS.
-       * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
        *
        * @class Controls/_input/Mask
        * @extends Controls/_input/Base
@@ -29,7 +29,7 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
        * A component for entering text in a {@link mask specific format}.
        * Characters that are not yet entered in the field can be replaced by another {@link replacer character}.
        * If the input character does not fit the format, then character won't be added.
-       * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
        * @remark
        * If the {@link replacer} is not empty and container with width: auto, then the width is determined based on the content.
        *

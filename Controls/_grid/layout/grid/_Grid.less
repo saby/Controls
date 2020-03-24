@@ -117,11 +117,39 @@
 }
 
 .controls-Grid__results-cell_theme-@{themeName} {
-   background-color: @background-color_Grid-row-sticky;
    z-index: @z-index-Grid-results-cell;
    min-width: 0;
    min-height: @height_Grid-results-cell;
 }
+
+.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
+   font-weight: @font-weight;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
+   color: @secondary_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
+   color: @unaccented_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
+   color: @readonly_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
+   color: @danger_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
+   color: @success_color;
+}
+
 .controls-GridViewV__itemsContainer {
    display: contents;
 }
@@ -143,6 +171,8 @@
 
 .controls-Grid__row-cell_colspaned {
    flex-grow: 1;
+   box-sizing: border-box;
+   max-width: 100%;
 }
 
 .controls-Grid__itemAction.controls-itemActionsV_outside {
@@ -156,7 +186,6 @@
 
 .controls-Grid__cell_fixed_theme-@{themeName} {
    z-index: 3;
-   background-color: @background-color_Grid-row-sticky;
    // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
    &:not(.controls-StickyHeader) {
       overflow: hidden;
@@ -330,7 +359,8 @@
    pointer-events: auto;
 }
 
-.controls-Grid__row-cell_first-row-in-group {
+// скрыть разделитель перед первой строкой в группе
+.controls-ListView__group + .controls-Grid__row .controls-Grid__row-cell {
    border-top-color: transparent;
 }
 

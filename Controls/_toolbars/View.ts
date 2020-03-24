@@ -98,7 +98,7 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
 
 /**
  * Графический контрол, отображаемый в виде панели с размещенными на ней кнопками, клик по которым вызывает соответствующие им команды.
- * <a href="/materials/demo/demo-ws4-toolbar">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FToolbar%2FToolbarVdom">Демо-пример</a>.
  *
  * @class Controls/_toolbars/View
  * @extends UI/Base:Control
@@ -201,6 +201,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
                 iconSize: options.iconSize,
                 itemTemplateProperty: options.itemTemplateProperty,
                 showHeader: item.get('showHeader'),
+                closeButtonVisibility: !item.get('showHeader'),
                 headConfig: {
                     icon: item.get('icon'),
                     caption: item.get('title'),

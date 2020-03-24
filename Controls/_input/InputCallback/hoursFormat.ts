@@ -14,8 +14,8 @@ const hoursFormat: ICallback<TimeInterval> = (data: ICallbackData<TimeInterval>)
     return {
         displayValue: `${toFormat(hours)}:${toFormat(minutes)}`,
         position: data.position
-    }
-}
+    };
+};
 
 function toFormat(original: number): string {
     return original < 10 ? `0${original}` : original.toString();

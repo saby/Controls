@@ -18,9 +18,8 @@
                 source="{{_viewSource}}"
                 keyProperty="id"
                 displayProperty="title"
-                virtualScrolling="{{true}}"
-                virtualPageSize="{{_virtualPageSize}}"
                 navigation="{{_navigation}}">
+            <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
         </Controls.list:View>
     </Controls.scroll:Container>
 </div>

@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
-import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
+import {IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Tree, TreeItem, GroupItem, SelectionController} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
@@ -11,7 +11,7 @@ import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
 import {create as DiCreate} from 'Types/di';
 
-interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
+interface IMenuRenderOptions extends IMenuControlOptions, IRenderOptions {
 }
 
 class MenuRender extends Control<IMenuRenderOptions> {
@@ -51,9 +51,10 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string): void {
         e.stopPropagation();
-        this._notify(eventName, [item, sourceEvent]);
+        const args = Array.prototype.slice.call(arguments, 2);
+        this._notify(eventName, args);
     }
 
     protected _itemClick(e: SyntheticEvent<MouseEvent>, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
@@ -68,9 +69,6 @@ class MenuRender extends Control<IMenuRenderOptions> {
         let classes = treeItem.getContentClasses();
         if (item.get) {
             classes += ' controls-Menu__row_state_' + (item.get('readOnly') ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
-            if (treeItem.isHovered() && !item.get('readOnly')) {
-                classes += ' controls-Menu__row_hovered_theme-' + this._options.theme;
-            }
             if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
                 classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
             } else {

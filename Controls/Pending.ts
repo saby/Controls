@@ -203,7 +203,12 @@ import ParallelDeferred = require('Core/ParallelDeferred');
       },
 
       _finishPendingHandler: function(event, forceFinishValue) {
-         return this.finishPendingOperations(forceFinishValue);
+         // Текущая реализация пендингов расчитана на их завершение сверху->вниз. Т.е. при дестрое родительских областей.
+         // редактирование по месту, ввиду своих особенностей работы, завершает пендинги снизу->вверх(через событие),
+         // что ломает уже существующие пендинги, который должны запускаться только в завершающей фазе (к примеру при
+         // закрытии окна). Добавляю флаг чтобы различать эти завершения.
+         // https://online.sbis.ru/opendoc.html?guid=78c34d53-8705-4e25-bbb5-0033e81d6152
+         return this.finishPendingOperations(forceFinishValue, true);
       },
 
       /**
@@ -227,7 +232,7 @@ import ParallelDeferred = require('Core/ParallelDeferred');
        * @param forceFinishValue this argument use as argument of onPendingFail.
        * @returns {Deferred} Promise resolving when all pendings will be resolved
        */
-      finishPendingOperations: function(forceFinishValue) {
+      finishPendingOperations: function(forceFinishValue, isInside?: boolean) {
          var resultDeferred = new Deferred(),
             parallelDef = new ParallelDeferred(),
             pendingResults = [];
@@ -237,7 +242,7 @@ import ParallelDeferred = require('Core/ParallelDeferred');
             var pending = self._pendings[key];
             var isValid = true;
             if (pending.validate) {
-               isValid = pending.validate();
+               isValid = pending.validate(isInside);
             } else if (pending.validateCompatible) { //todo compatible
                isValid = pending.validateCompatible();
             }

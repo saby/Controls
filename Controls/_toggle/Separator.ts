@@ -11,7 +11,7 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
 /**
  * Кнопка-разделитель с поддержкой различных стилей отображения и жирным шрифтом. Может использоваться как самостоятельно, так и в составе {@link Controls/heading сложных заголовков}.
  *
- * <a href="/materials/demo-ws4-header-separator">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Демо-пример</a>.
  *
  * @class Controls/_toggle/Separator
  * @extends Core/Control
@@ -28,7 +28,7 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
  * Button separator with support different display styles and can be bold thickness. Can be used independently or as part of complex headers(you can see it in Demo-example)
  * consisting of a <a href="/docs/js/Controls/Heading/?v=3.18.500">header</a>, a <a href="/docs/js/Controls/Heading/Separator/?v=3.18.500">header-separator</a> and a <a href="/docs/js/Controls/Heading/Counter/?v=3.18.500">counter</a>.
  *
- * <a href="/materials/demo-ws4-header-separator">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_toggle/Separator
  * @extends Core/Control

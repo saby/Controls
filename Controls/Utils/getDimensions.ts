@@ -62,7 +62,7 @@ function getDimensions(element: HTMLElement, clear?: boolean): ClientRect {
 
     dimensions = {
         width: lastChildDimensions.right - firstChildDimensions.left,
-        height: firstChildDimensions.height,
+        height: lastChildDimensions.height,
         top: firstChildDimensions.top,
         right: lastChildDimensions.right,
         bottom: firstChildDimensions.bottom,

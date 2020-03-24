@@ -17,7 +17,7 @@ const maxPercentValue = 100;
 /**
  * Слайдер с двумя подвижными ползунками для выбора диапазона.
  *
- * <a href="/materials/demo-ws4-sliderrange">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSlider%2FRange%2FStandartSliderRangeDemo">Демо-пример</a>.
  * @public
  * @extends Core/Control
  * @class Controls/_slider/Range
@@ -29,7 +29,7 @@ const maxPercentValue = 100;
 /*
  * Slider with two movable points for choosing range.
  *
- * <a href="/materials/demo-ws4-sliderrange">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FSlider%2FRange%2FStandartSliderRangeDemo">Demo-example</a>.
  * @public
  * @extends Core/Control
  * @class Controls/_slider/Range

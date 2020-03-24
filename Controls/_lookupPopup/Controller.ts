@@ -17,7 +17,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  *
  * Подробное описание и инструкцию по настройке смотрите в <a href='/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/'>статье</a>.
  *
- * <a href="/materials/demo/demo-ws4-engine-selector-browser">Пример</a> использования контрола.
+ * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
  * @class Controls/_lookupPopup/Controller
  * @extends Core/Control
@@ -34,7 +34,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  *
  * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/'>here</a>.
  *
- * <a href="/materials/demo/demo-ws4-engine-selector-browser">Here</a> you can see a demo.
+ * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Here</a> you can see a demo.
  *
  * @class Controls/_lookupPopup/Controller
  * @extends Core/Control

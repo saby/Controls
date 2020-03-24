@@ -11,36 +11,42 @@
             />
         </ws:template>
         <ws:if data="{{items.length === 1 || items.length === 2}}">
-            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge"
+            <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge controls-BreadCrumbsView__crumb__left_edge"
                         template="templatePart"
                         itemData="{{items[0]}}"
                         edge="{{items.length > 1}}"
                         on:click="_onItemClick(items[0])"
+                        on:mouseEnter="_onHoveredItemChanged(items[0].item)"
+                        on:mouseLeave="_onHoveredItemChanged()"
             />
         </ws:if>
 
 
         <ws:if data="{{items.length > 2}}">
             <div class="controls-BreadCrumbsView__items__middle">
-                <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge"
+                <ws:partial attr:class="controls-BreadCrumbsView__crumb__edge controls-BreadCrumbsView__crumb__left_edge"
                             template="templatePart"
                             itemData="{{items[0]}}"
                             on:click="_onItemClick(items[0])"
+                            on:mouseEnter="_onHoveredItemChanged(items[0].item)"
+                            on:mouseLeave="_onHoveredItemChanged()"
                 />
                 <ws:for data="index, itemData in items">
                     <ws:if data="{{index !== (items.length - 1) && index !== 0}}">
                         <ws:partial template="templatePart"
                                     itemData="{{itemData}}"
                                     on:click="_onItemClick(itemData)"
+                                    on:mouseEnter="_onHoveredItemChanged(itemData.item)"
+                                    on:mouseLeave="_onHoveredItemChanged()"
                         />
                     </ws:if>
                 </ws:for>
                 <div class="controls-BreadCrumbsView__menu controls-BreadCrumbsView__menu_theme-{{_options.theme}}" >
-                    <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:click="_dotsClick()">
-                        <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled__theme-{{_options.theme}}"></span>
+                    <div class="controls-BreadCrumbsView__menu__dots controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}" on:mousedown="_dotsClick()">
+                        <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled_theme-{{_options.theme}}"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"
                               title="{{itemData.withOverflow ? itemData.getPropValue(itemData.item, displayProperty) : ''}}">
-                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_theme-{{_options.theme}} controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled__theme-{{_options.theme}}">...
+                            <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_theme-{{_options.theme}} controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-{{_options.theme}}">...
                             </span>
                         </span>
                     </div>
@@ -54,6 +60,8 @@
                         itemData="{{items[items.length - 1]}}"
                         edge="true"
                         on:click="_onItemClick(items[items.length - 1])"
+                        on:mouseEnter="_onHoveredItemChanged(items[items.length - 1].item)"
+                        on:mouseLeave="_onHoveredItemChanged()"
             />
         </ws:if>
     </div>

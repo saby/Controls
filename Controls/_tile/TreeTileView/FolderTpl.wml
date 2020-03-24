@@ -1,4 +1,4 @@
-<div attr:class="controls-TileView__item js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-TreeTileView__item js-controls-SwipeControl__actionsContainer
+<div attr:class="controls-TileView__item js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}} controls-TreeTileView__item js-controls-SwipeControl__actionsContainer
          {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility)}}
          controls-ListView__item_showActions
          {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? ' controls-TileView__item_withMarker' : ' controls-TileView__item_withoutMarker'}}

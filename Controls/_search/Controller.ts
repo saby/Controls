@@ -13,15 +13,15 @@ import {ICrud} from 'Types/source';
 import {Logger} from 'UI/Utils';
 
 var _private = {
-   getSearchController: function (self) {
-      var options = self._dataOptions;
+   getSearchController: function (self, newOptions) {
+      var options = newOptions || self._dataOptions;
 
       if (!self._searchController) {
          self._searchController = new _SearchController({
-            searchParam: self._options.searchParam,
-            minSearchLength: self._options.minSearchLength,
-            searchDelay: self._options.searchDelay,
-            searchValueTrim: self._options.searchValueTrim,
+            searchParam: options.searchParam || self._options.searchParam,
+            minSearchLength: options.minSearchLength || self._options.minSearchLength,
+            searchDelay: options.searchDelay || self._options.searchDelay,
+            searchValueTrim: options.searchValueTrim || self._options.searchValueTrim,
             filter: clone(options.filter) || {},
             source: options.source,
             sorting: options.sorting,
@@ -115,6 +115,11 @@ var _private = {
    isNeedRestartSearchOnOptionsChanged(options, newOptions): boolean {
       return options.searchParam !== newOptions.searchParam ||
              _private.getOriginSource(options.source) !== _private.getOriginSource(newOptions.source);
+   },
+
+   recreateSearchController(self, newOptions) {
+      self._searchController = null;
+      _private.getSearchController(self, newOptions);
    },
 
    prepareExpandedItems(searchRoot, expandedItemKey, items, parentProperty) {
@@ -242,7 +247,7 @@ var _private = {
  *
  * @class Controls/_search/Controller
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
@@ -268,7 +273,7 @@ var _private = {
  *
  * @class Controls/_search/Controller
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
@@ -326,7 +331,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
       this._dataOptions = context.dataOptions;
       const needRecreateSearchController = _private.isNeedRecreateSearchControllerOnOptionsChanged(currentOptions, this._dataOptions) ||
           _private.isNeedRecreateSearchControllerOnOptionsChanged(this._options, newOptions);
-      const searchValue = needRecreateSearchController ? this._inputSearchValue : newOptions.searchValue;
+      const searchValue = needRecreateSearchController && newOptions.searchValue === undefined ? this._inputSearchValue : newOptions.searchValue;
       const needUpdateRoot = this._options.root !== newOptions.root;
       if (!isEqual(this._options.filter, newOptions.filter)) {
          filter = newOptions.filter;
@@ -351,7 +356,7 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
          }
 
          if (needRecreateSearchController) {
-            this._searchController = null;
+            _private.recreateSearchController(this, newOptions);
          }
 
          if (!isEqual(this._options.sorting, newOptions.sorting)) {

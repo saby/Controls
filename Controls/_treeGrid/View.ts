@@ -11,10 +11,10 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * Дополнительно о контроле:
     * * <a href="/doc/platform/developmentapl/interface-development/controls/list/tree/">Руководство разработчика</a>
     * * <a href="http://axure.tensor.ru/standarts/v7/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_1_.html">Спецификация Axure</a>
-    * * <a href="/materials/demo-ws4-tree-singleexpand">Демо-пример</a> с множественным выбором элементов и с единичным раскрытием содержимого папок
-    * * <a href="/materials/demo-ws4-tree-grid-item-template">Демо-пример</a> с пользовательским шаблоном элемента списка
-    * * <a href="/materials/demo-ws4-tree-with-photo">Демо-пример</a> с пользовательским шаблоном элемента списка с фото
-    * * <a href="/materials/demo-ws4-tree-grid-extended">Демо-пример</a> с пользовательским шаблоном подвала (футера)
+    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Демо-пример</a> с множественным выбором элементов и с единичным раскрытием содержимого папок
+    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">Демо-пример</a> с пользовательским шаблоном элемента списка
+    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto">Демо-пример</a> с пользовательским шаблоном элемента списка с фото
+    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">Демо-пример</a> с пользовательским шаблоном подвала (футера)
     * @class Controls/_treeGrid/View
     * @extends Controls/_grid/Grid
     * @mixes Controls/_interface/ISource
@@ -29,7 +29,6 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/_grid/interface/IGridControl
-    * @mixes Controls/interface/IGroupedGrid
     *
     * @mixes Controls/_list/interface/IVirtualScroll
     * @mixes Controls/_list/BaseControlStyles
@@ -57,8 +56,8 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * The detailed description and instructions on how to configure editing you can read <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/edit-at-list/'>here</a>.
     * List of examples:
     * <ul>
-    *    <li><a href="/materials/demo-ws4-edit-in-place">How to configure editing in your list</a>.</li>
-    *    <li><a href="/materials/demo-ws4-tree-singleexpand">Tree with singleExpand option</a>.</li>
+    *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">How to configure editing in your list</a>.</li>
+    *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Tree with singleExpand option</a>.</li>
     * </ul>
     *
     * @class Controls/_treeGrid/View
@@ -76,7 +75,6 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/_grid/interface/IGridControl
-    * @mixes Controls/interface/IGroupedGrid
     *
     * @mixes Controls/_list/interface/IVirtualScroll
     * @mixes Controls/_list/BaseControlStyles
@@ -98,25 +96,24 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @demo Controls-demo/List/TreeGrid/BasePG
     */
 
-   var Tree = Grid.extend(/** @lends Controls/TreeGrid */{
-      _viewName: TreeGridView,
-      _viewTemplate: TreeControl,
+export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
+   _viewName = TreeGridView;
+   _viewTemplate = TreeControl;
 
+   _getModelConstructor() {
+      return TreeGridViewModel;
+   }
 
-      _getModelConstructor: function() {
-         return TreeGridViewModel;
-      },
-      getOptionTypes: function() {
-         return {
-            keyProperty: entity.descriptor(String).required(),
-            parentProperty: entity.descriptor(String).required()
-         };
-      },
-      // todo removed or documented by task:
-      // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
-      toggleExpanded: function(id) {
-         this._children.listControl.toggleExpanded(id);
-      }
-   });
-   export = Tree;
+   getOptionTypes() {
+      return {
+         keyProperty: entity.descriptor(String).required(),
+         parentProperty: entity.descriptor(String).required()
+      };
+   }
 
+   // todo removed or documented by task:
+   // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
+   toggleExpanded(id) {
+      this._children.listControl.toggleExpanded(id);
+   }
+}

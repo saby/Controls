@@ -14,12 +14,16 @@
       markerVisibility="{{markerVisibility}}"
       itemActionsTemplate="{{itemActionsTemplate}}"
       swipeTemplate="{{swipeTemplate}}"
+      checkboxReadOnly="{{checkboxReadOnly}}"
+      cursor="{{cursor}}"
       multiSelectTpl="{{multiSelectTpl}}"/>
 </ws:template>
 <ws:template name="leafTemplate">
    <ws:partial
       template="wml!Controls/_tile/TileView/TileTpl"
       width="{{width}}"
+      checkboxReadOnly="{{checkboxReadOnly}}"
+      cursor="{{cursor}}"
       hasTitle="{{hasTitle}}"
       itemData="{{itemData}}"
       invisible="{{invisible}}"

@@ -100,23 +100,27 @@ define([
                   title: '...'
                }
             };
-            var stopPropagationCalled = false;
             bc._children = {
                menuOpener: {
                   open: function(openerOptions) {
                      assert.equal(openerOptions.target, 123);
                      assert.equal(openerOptions.templateOptions.items.at(0).get('title'), data[0].title);
                      assert.equal(openerOptions.templateOptions.displayProperty, 'test');
-                  }
+                  },
+                  close: function() {}
                }
             };
             bc._dotsClick({
                currentTarget: 123,
-               stopPropagation: function() {
-                  stopPropagationCalled = true;
-               }
             }, itemData);
-            assert.isTrue(stopPropagationCalled);
+            bc._onOpen();
+            assert.isTrue(bc._popupIsOpen);
+
+            bc._dotsClick({
+               currentTarget: 123,
+            }, itemData);
+            bc._onClose();
+            assert.isFalse(bc._popupIsOpen);
          });
       });
       it('_onResult', function(done) {

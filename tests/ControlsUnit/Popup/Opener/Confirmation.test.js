@@ -47,13 +47,14 @@ define([
          });
          it('getConfirmationConfig', () => {
             let templateOptions = {};
-            let popupOptions = popup.Confirmation._getConfig(templateOptions, {});
+            let popupOptions = popup.Confirmation._getConfig(templateOptions, {}, 'opener');
             let config = {
                template: 'Controls/popupTemplate:ConfirmationDialog',
                modal: true,
                autofocus: true,
                topPopup: true,
                isCentered: true,
+               opener: 'opener',
                className: 'controls-Confirmation_popup',
                templateOptions: {
                   closeHandler: {}

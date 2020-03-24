@@ -32,7 +32,7 @@
  * @cfg {Boolean} Определят режим разворачивания и сворачивания узлов в {@link Controls/treeGrid:View дереве}.
  * @default false
  * @remark
- * См. <a href="/materials/demo-ws4-tree-grid-base">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
  * Доступные значения:
  * 
  * * true — осуществляется по клику на него.
@@ -47,7 +47,7 @@
  * @variant true Toggle node by click on it's whole area.
  * @variant false Toggle node by click on only it's expander.
  * @default false
- * <a href="/materials/demo-ws4-tree-grid-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  */
 
 /**
@@ -55,7 +55,7 @@
  * @cfg {Array.<String>|undefined} Устанавливает массив идентификаторов развернутых узлов {@link Controls/treeGrid:View дерева}.
  * @default undefined
  * @remark
- * См. <a href="/materials/demo-ws4-tree-grid-base">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
  * Чтобы развернуть все элементы списка, параметр expandedItems должен быть задан как массив, содержащий один элемент — "null". В этом случае предполагается, что все данные будут загружены сразу.
  * @see expandByItemClick
  * @see expanderVisibility
@@ -68,7 +68,7 @@
  * To expand all items, this option must be set as array containing one element “null”.
  * In this case, it is assumed that all data will be loaded initially.
  * @notice Without binding this option will be static. Use binding to allow expanding/collapsing nodes.
- * <a href="/materials/demo-ws4-tree-grid-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  * @example
  * <pre>
  *      <Controls.treeGrid:View
@@ -82,7 +82,7 @@
  * @name Controls/_treeGrid/interface/ITreeControl#collapsedItems
  * @cfg {Boolean} Массив идентификаторов свернутых узлов дерева.
  * Этот параметр используется только при значении {@link Controls/_treeGrid/interface/ITreeControl#expandedItems expandedItems} - [null].
- * <a href="/materials/demo-ws4-tree-grid-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  */
 
 /*
@@ -90,7 +90,7 @@
  * @cfg {Boolean} Array of identifiers of collapsed items.
  * This option is used only when the value of {@link Controls/_treeGrid/interface/ITreeControl#expandedItems expandedItems} is [null].
  * @notice Without binding this option will be static. Use binding to allow expanding/collapsing nodes.
- * <a href="/materials/demo-ws4-tree-grid-base">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  * @example
  * <pre>
  *      <Controls.treeGrid:View
@@ -146,13 +146,13 @@
 /**
  * @name Controls/_treeGrid/interface/ITreeControl#hasChildrenProperty
  * @cfg {String} Имя свойства, содержащего информацию о наличии дочерних элементов в узле дерева.
- * <a href="/materials/demo-ws4-tree-grid-extended">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">Example</a>.
  */
 
 /*
  * @name Controls/_treeGrid/interface/ITreeControl#hasChildrenProperty
  * @cfg {String} Name of the field that contains information whether the node has children.
- * <a href="/materials/demo-ws4-tree-grid-extended">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">Example</a>.
  */
 
 /**
@@ -167,7 +167,7 @@
  * @cfg {ExpanderVisibility} Устанавливает режим отображения элемента развертывания узла {@link Controls/treeGrid:View дерева}.
  * @default visible
  * @remark
- * См. <a href="/materials/demo-ws4-tree-grid-extended">демо-пример</a>.
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">демо-пример</a>.
  * @see expandedItems
  * @see expandByItemClick
  */
@@ -178,7 +178,7 @@
  * @variant visible Always show expander for nodes and indentation for leaves.
  * @variant hasChildren Show expander only for nodes with children.
  * @default visible
- * <a href="/materials/demo-ws4-tree-grid-extended">Example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">Example</a>.
  */
 
 /**
@@ -251,7 +251,7 @@
  * @cfg {Boolean} Определяет, нужно ли выделять узел маркером.
  * @remark Узел отмечается маркером при клике на иконку разворота узла, если значение true.
  * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
- * См. <a href="/materials/demo-ws4-tree-grid-item-template">демо-пример</a>
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">демо-пример</a>
  */
 
 /**

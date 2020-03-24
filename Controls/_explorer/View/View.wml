@@ -21,7 +21,7 @@
                                     actionAlignment="{{ _viewMode === 'tile' ? 'vertical' : _options.actionAlignment }}"
                                     actionCaptionPosition="{{ _viewMode === 'tile' ? 'none' : _options.actionCaptionPosition }}"
                                     itemTemplate="{{_viewMode==='tile' ? _options.tileItemTemplate : _options.itemTemplate}}"
-                                    virtualScrolling="{{_virtualScrolling}}"
+                                    virtualScrollConfig="{{_virtualScrollConfig}}"
                                     dragControlId="{{ _dragControlId }}"
                                     canStartDragNDrop="{{ _canStartDragNDrop }}"
                                     on:itemClick="_onItemClick()"

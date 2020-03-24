@@ -8,9 +8,9 @@
                source="{{ _viewSourcePage }}"
                keyProperty="id"
                displayProperty="title"
-               virtualScrolling="{{ true }}"
-               virtualPageSize="{{ 20 }}"
-               navigation="{{ _navigationPage }}" />
+               navigation="{{ _navigationPage }}">
+               <ws:virtualScrollConfig pageSize="{{20}}"/>
+            </Controls.list:View>
          </Controls.scroll:Container>
       </div>
       <div attr:style="width: 600px;">
@@ -21,9 +21,9 @@
                source="{{ _viewSourcePosition }}"
                keyProperty="id"
                displayProperty="title"
-               virtualScrolling="{{ true }}"
-               virtualPageSize="{{ 20 }}"
-               navigation="{{ _navigationPosition }}" />
+               navigation="{{ _navigationPosition }}">
+               <ws:virtualScrollConfig pageSize="{{20}}"/>
+            </Controls.list:View>
          </Controls.scroll:Container>
       </div>
    </div>

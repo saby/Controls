@@ -296,11 +296,11 @@ function getCountriesStats() {
         getColumnsWithWidths: () => [
             {
                 displayProperty: 'number',
-                width: '40px',
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                width: '300px',
+                width: '300px'
             },
             {
                 displayProperty: 'capital',
@@ -329,6 +329,26 @@ function getCountriesStats() {
                 compatibleWidth: '175px'
             }
         ],
+        getResults: () => ({
+            full: [
+                {
+                    population: 3660205559.49,
+                    square: 19358447.87,
+                    populationDensity: 1.17
+                },
+                {
+                    population: 3945358705.46,
+                    square: 19366292.85,
+                    populationDensity: 9.13
+                },
+                {
+                    population: 3161196890.87,
+                    square: 19709468.10,
+                    populationDensity: 1.87
+                }
+            ],
+            partial: [12345678910, 23456789101, 34567891012]
+        }),
         getColumnsWithAlign: () => [
             {
                 displayProperty: 'number',

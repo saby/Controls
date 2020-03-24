@@ -18,7 +18,7 @@ import 'Controls/decorator';
        * Вы можете настроить {@link minLines минимальное} и {@link maxLines максимальное} количество строк.
        * Когда вводимый текст превысит ограничение {@link maxLines}, в поле появится скролл и оно перестанет увеличиваться по высоте.
        * Вы можете переместить текст в следующую строку с помощью {@link newLineKey горячих клавиш}.
-       * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
        *
        * @class Controls/_input/Area
        * @extends Controls/_input/Text
@@ -35,7 +35,7 @@ import 'Controls/decorator';
        * You can adjust the {@link minLines minimum} and {@link maxLines maximum} number of lines.
        * If the inputed text does not fit on the {@link maxLines number of lines}, a scroll bar appears.
        * You can move the text to the next line using {@link newLineKey hotkeys}.
-       * <a href="/materials/demo-ws4-input">Демо-пример</a>.
+       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
        *
        * @class Controls/_input/Area
        * @extends Controls/_input/Text

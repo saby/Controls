@@ -25,6 +25,7 @@
                            fixedHeadersHeights="{{_headersHeight.top}}"
                            attr:class="controls-Scroll__userContent"
                            on:saveScrollPosition="_saveScrollPosition()"
+                           on:scrollToElement="_scrollToElement()"
                            on:updatePlaceholdersSize="_updatePlaceholdersSize()"
                            on:restoreScrollPosition="_restoreScrollPosition()"
                            on:updateShadowMode="_updateShadowMode()"

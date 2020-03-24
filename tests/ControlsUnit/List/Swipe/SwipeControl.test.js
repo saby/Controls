@@ -307,6 +307,13 @@ define([
             instance._onListChange({}, 'itemActionsUpdated');
             assert.isFalse(instance._isActual);
          });
+         it('no update after destroy', function() {
+            let isCloseCalled = false;
+            instance._destroyed = true;
+            instance.closeSwipe = () => { isCloseCalled = true; };
+            instance._onListChange({}, 'itemActionsUpdated');
+            assert.isFalse(isCloseCalled);
+         });
       });
       describe('_listSwipe', function() {
          function mockChildEvent(direction, isActionsContainer) {

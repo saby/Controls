@@ -3,6 +3,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>Fast and button filters</h3>
          <Controls.filter:View source="{{_fastButtonItems}}"
+                               on:itemsChanged="_itemsChanged('_fastButtonItems')"
                                alignment="left"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__items1" />
@@ -10,6 +11,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>Fast and button filters</h3>
          <Controls.filter:View source="{{_fastButtonItems2}}"
+                               on:itemsChanged="_itemsChanged('_fastButtonItems2')"
                                alignment="left"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__items2" />
@@ -17,18 +19,21 @@
       <div class="controls-demo-FilterView__item">
          <h3>Fast and button filters</h3>
          <Controls.filter:View source="{{_fastButtonItems3}}"
+                               on:itemsChanged="_itemsChanged('_fastButtonItems3')"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__items3" />
       </div>
       <div class="controls-demo-FilterView__item">
          <h3>Fast filter with button "more"</h3>
          <Controls.filter:View source="{{_itemsMore}}"
+                               on:itemsChanged="_itemsChanged('_itemsMore')"
                                alignment="left"
 							   attr:class="demo-FilterView__more" />
       </div>
       <div class="controls-demo-FilterView__item">
          <h3>Only fast filter</h3>
          <Controls.filter:View source="{{_fastItems}}"
+                               on:itemsChanged="_itemsChanged('_fastItems')"
                                alignment="left"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast" />
       </div>
@@ -36,12 +41,14 @@
          <h3>Only fast filter with one item</h3>
          <div class="controls-demo-FilterView__itemWrapper">
             <Controls.filter:View source="{{_oneFastItems}}"
+                                  on:itemsChanged="_itemsChanged('_oneFastItems')"
                                   alignment="left"
                                   attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast2">
             </Controls.filter:View>
          </div>
          <div>
             <Controls.filter:View source="{{_oneFastItems2}}"
+                                  on:itemsChanged="_itemsChanged('_oneFastItems2')"
                                   alignment="left"
                                   attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyFast3">
             </Controls.filter:View>
@@ -50,6 +57,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>Only button filter</h3>
             <Controls.filter:View source="{{_buttonItems}}"
+                                  on:itemsChanged="_itemsChanged('_buttonItems')"
                                   alignment="left"
                                   detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
                                   attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
@@ -58,6 +66,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>Only button filter without resetValue</h3>
          <Controls.filter:View source="{{_buttonItemsWithoutResetValue}}"
+                               on:itemsChanged="_itemsChanged('_buttonItemsWithoutResetValue')"
                                alignment="left"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/PanelWithCaption"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__onlyButton">
@@ -68,6 +77,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>With scroll</h3>
          <Controls.filter:View source="{{_scrollFastItems}}"
+                               on:itemsChanged="_itemsChanged('_scrollFastItems')"
                                alignment="left"
                                panelTemplateName="Controls/filterPopup:SimplePanel"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__scroll">
@@ -76,8 +86,8 @@
       <div class="controls-demo-FilterView__item">
          <h3>With hierarchy and history list</h3>
          <Controls.filter:View source="{{_hierarchyItems}}"
+                               on:itemsChanged="_itemsChanged('_hierarchyItems')"
                                alignment="left"
-                               on:itemsChanged="_itemsChanged()"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__hierarchyHistoryList">
          </Controls.filter:View>
@@ -85,6 +95,7 @@
       <div class="controls-demo-FilterView__item">
          <h3>With hierarchy list</h3>
          <Controls.filter:View source="{{_hierarchyItems2}}"
+                               on:itemsChanged="_itemsChanged('_hierarchyItems2')"
                                alignment="left"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__hierarchyList">
          </Controls.filter:View>
@@ -92,11 +103,13 @@
       <div class="controls-demo-FilterView__item">
          <h3>Custom itemTemplate</h3>
          <Controls.filter:View source="{{_customTemplateItems}}"
+                               on:itemsChanged="_itemsChanged('_customTemplateItems')"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__custom" />
       </div>
       <div class="controls-demo-FilterView__item">
          <h3>ReadOnly</h3>
          <Controls.filter:View source="{{_fastButtonItems}}"
+                               on:itemsChanged="_itemsChanged('_fastButtonItems')"
                                detailPanelTemplateName="Controls-demo/FilterView/resources/Panel"
                                readOnly="{{true}}"
                                attr:class="controls-demo-FilterView__itemButton demo-FilterView__readonly" />

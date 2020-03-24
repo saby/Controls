@@ -8,22 +8,22 @@ define([
          it('returns deferred, and sets items from callback', function(done) {
             let pathWrapper = new PathWrapper();
             let resolver;
-            let itemsPromise = new Promise((res) => { resolver = res; });
-            let result = pathWrapper._beforeMount({itemsPromise: itemsPromise});
+            let itemsAndHeaderPromise = new Promise((res) => { resolver = res; });
+            let result = pathWrapper._beforeMount({itemsAndHeaderPromise: itemsAndHeaderPromise});
             let items = [1, 2, 3];
             assert.isTrue(!!(result.then), 'must return Promise');
             result.then(() => {
                assert.strictEqual(items, pathWrapper._items);
                done();
             });
-            resolver(items);
+            resolver({items: items});
 
          });
       });
       describe('needCrumbs', function() {
          var needCrumbs = PathWrapper._private.needCrumbs;
          it('BackButton is in header, items.length === 1', function() {
-            assert.isFalse(needCrumbs([{ title: 'back' }], ['first'], false));
+            assert.isFalse(needCrumbs([{ title: 'back', isBreadCrumbs: true }], ['first'], false));
          });
          it('BackButton is not in header, items.length === 1', function() {
             assert.isTrue(needCrumbs(undefined, ['first'], false));

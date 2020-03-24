@@ -289,6 +289,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 
             if (rootChanged) {
                this._listModel.setRootKey(_private.getRootKey(newOptions.rootKey));
+               this._iconPadding = _private.getIconPadding(this, newOptions);
             }
 
             if (itemsChanged) {

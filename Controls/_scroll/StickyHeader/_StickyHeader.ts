@@ -59,6 +59,12 @@ interface IStickyHeaderContext {
     stickyHeader: Function;
 }
 
+interface IResizeObserver {
+    observe: (el: HTMLElement) => void;
+    unobserve: (el: HTMLElement) => void;
+    disconnect: () => void;
+}
+
 export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     /**
@@ -72,6 +78,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
      * @private
      */
     private _observer: IntersectionObserver;
+    private _resizeObserver: IResizeObserver;
 
     private _model: Model;
 
@@ -147,6 +154,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._observer.observe(children.observationTargetBottom);
 
         this._updateBottomShadowStyle();
+        this._initResizeObserver();
     }
 
     protected _beforeUnmount(): void {
@@ -158,10 +166,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._observer.disconnect();
         }
 
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect();
+        }
+
         //Let the listeners know that the element is no longer fixed before the unmount.
         this._fixationStateChangeHandler('', this._model.fixedPosition);
         this._observeHandler = undefined;
         this._observer = undefined;
+        this._resizeObserver = undefined;
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
     }
 
@@ -201,6 +214,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _resizeHandler(): void {
         this._notify('stickyHeaderResize', [], {bubbling: true});
+    }
+
+    private _initResizeObserver(): void {
+        if (ResizeObserver) {
+            this._resizeObserver = new ResizeObserver(() => {
+                this._resizeHandler();
+            });
+            this._resizeObserver.observe(this._container);
+        }
     }
 
     /**
@@ -248,7 +270,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             fixedPosition: newPosition,
             offsetHeight: this._height,
             prevPosition,
-            mode: this._options.mode
+            mode: this._options.mode,
+            shadowVisible: this._options.shadowVisibility === 'visible'
         };
 
         this._shadowVisible = !!newPosition;
@@ -286,21 +309,11 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
         if (this._options.position.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
             top = this._stickyHeadersHeight.top;
-
-            if (this._context.stickyHeader) {
-                top += this._context.stickyHeader.top;
-            }
-
             style += 'top: ' + (top - (fixedPosition ? offset : 0)) + 'px;';
         }
 
         if (this._options.position.indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
             bottom = this._stickyHeadersHeight.bottom;
-
-            if (this._context.stickyHeader) {
-                bottom += this._context.stickyHeader.bottom;
-            }
-
             style += 'bottom: ' + (bottom - offset) + 'px;';
         }
 
@@ -336,6 +349,17 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             }
 
             style += 'z-index: ' + this._options.fixedZIndex + ';';
+        }
+
+        /**
+         * Сценарий: проскролить список с группой заголовков, вызвать перестроение заголовков.
+         * Ошибка и причина: Значение top(позиция заголовка) определяется после монтирования в DOM. Из-за этого происходит скачок.
+         * Решение: Так как в группе уже определено значение top, то пробросим его до заголовков через контекст.
+         * Берем значение из контекста только в случае, когда ещё не произошел моинтинг в DOM, не смогли определить top.
+         * Это костыль, который будет удален по https://online.sbis.ru/opendoc.html?guid=243c78ec-7f27-4625-b347-d92523702e50
+         */
+        if (style.indexOf('top') === -1 && style.indexOf('bottom') === -1 && this._context?.stickyHeader && !this._container) {
+            style += `top: ${this._context.stickyHeader.top}px;`;
         }
 
         //убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274

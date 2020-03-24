@@ -1,6 +1,7 @@
 /**
  * Created by am.gerasimov on 21.03.2018.
  */
+import rk = require('i18n!Controls');
 import CoreExtend = require('Core/core-extend');
 import ParallelDeferred = require('Core/ParallelDeferred');
 import Deferred = require('Core/Deferred');
@@ -366,11 +367,25 @@ var _private = {
             item.set('pinned', true);
             pinned.add(this.getRawHistoryItem(self, id, item.get('HistoryId') || id));
          } else {
+            _private.showNotification();
             return false;
          }
       }
       self.historySource.saveHistory(self._history);
       return _private.getSourceByMeta(self, meta).update(item, meta);
+   },
+
+   showNotification(): void {
+      import('Controls/popup').then((popup) => {
+         popup.Notification.openPopup({
+            template: 'Controls/popupTemplate:NotificationSimple',
+            templateOptions: {
+               style: 'danger',
+               text: rk('Невозможно закрепить более 10 пунктов'),
+               icon: 'Alert'
+            }
+         });
+      });
    },
 
    getKeyProperty: function(self) {
