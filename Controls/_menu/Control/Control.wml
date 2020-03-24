@@ -61,6 +61,7 @@
    <Controls.popup:Sticky name="Sticky"
                           actionOnScroll="close"
                           closeOnOutsideClick="{{true}}"
+                          on:showIndicator="_changeIndicatorOverlay()"
                           on:result="_subMenuResult()"
                           on:close="_closeSubMenu()"
                           template="Controls/menu:Popup"
