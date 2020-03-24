@@ -485,6 +485,8 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         templateOptions.itemPadding = null;
 
         templateOptions.source = this.getSourceSubMenu(templateOptions.root);
+
+        templateOptions.iWantBeWS3 = false; // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
         return templateOptions;
     }
 
