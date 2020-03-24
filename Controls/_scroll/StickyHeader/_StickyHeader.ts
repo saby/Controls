@@ -217,7 +217,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     private _initResizeObserver(): void {
-        if (ResizeObserver) {
+        if (typeof window !== 'undefined' && window.ResizeObserver) {
             this._resizeObserver = new ResizeObserver(() => {
                 this._resizeHandler();
             });
