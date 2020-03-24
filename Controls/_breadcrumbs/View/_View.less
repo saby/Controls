@@ -25,7 +25,7 @@
 
 .controls-BreadCrumbsView__items__middle {
    overflow: hidden;
-   display: inline-block;
+   display: inline-flex;
    white-space: nowrap;
    flex-shrink: 1;
    font-size: 0;
@@ -39,14 +39,13 @@
    .baseline-fix();
 }
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
-  color: @item_text-color_default_breadcrumbsView;
-  height: @height_breadcrumbsView;
-
-  &::before {
-    font-size: @line-height_breadcrumbsView;
-  }
+   color: @item_text-color_default_breadcrumbsView;
+   height: @height_breadcrumbsView;
    padding-right: @spacing_breadcrumbsView;
-}
+
+   &::before {
+      font-size: @line-height_breadcrumbsView;
+  }}
 .controls-BreadCrumbsView__crumb__left_edge {
    padding: 0 @spacing_breadcrumbsView;
 }
