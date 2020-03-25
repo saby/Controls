@@ -14,23 +14,25 @@
     </td>
 </ws:template>
 
-<tr class="controls-Grid__results">
-    <ws:if data="{{contentTemplate}}">
-        {{listModel.resetResultsColumns();}}
-        <ws:if data="{{listModel.getMultiSelectVisibility() !== 'hidden'}}">
-            <td>&nbsp;</td>
+<tbody class="controls-Grid__results">
+    <tr>
+        <ws:if data="{{contentTemplate}}">
+            {{listModel.resetResultsColumns();}}
+            <ws:if data="{{listModel.getMultiSelectVisibility() !== 'hidden'}}">
+                <td>&nbsp;</td>
+            </ws:if>
+            <td class="{{listModel.getCurrentResultsColumn().cellClasses}}"
+                colspan="{{listModel.getColspanFor('customResults')}}">
+                <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}" results="{{ listModel.getResults() }}"/>
+            </td>
         </ws:if>
-        <td class="{{listModel.getCurrentResultsColumn().cellClasses}}"
-            colspan="{{listModel.getColspanFor('customResults')}}">
-            <ws:partial template="{{contentTemplate}}" listModel="{{listModel}}" results="{{ listModel.getResults() }}"/>
-        </td>
-    </ws:if>
-    <ws:else>
-        <ws:for data="listModel.resetResultsColumns(); listModel.isEndResultsColumn(); listModel.goToNextResultsColumn();">
-            <ws:partial template="cell"
-                        listModel="{{ listModel }}"
-                        hasMultiSelect="{{ listModel.getMultiSelectVisibility() !== 'hidden' }}"
-                        currentResultsColumn="{{ listModel.getCurrentResultsColumn() }}"/>
-        </ws:for>
-    </ws:else>
-</tr>
+        <ws:else>
+            <ws:for data="listModel.resetResultsColumns(); listModel.isEndResultsColumn(); listModel.goToNextResultsColumn();">
+                <ws:partial template="cell"
+                            listModel="{{ listModel }}"
+                            hasMultiSelect="{{ listModel.getMultiSelectVisibility() !== 'hidden' }}"
+                            currentResultsColumn="{{ listModel.getCurrentResultsColumn() }}"/>
+            </ws:for>
+        </ws:else>
+    </tr>
+</tbody>
