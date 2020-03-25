@@ -138,6 +138,10 @@ var Component = BaseControl.extend({
       _private._updateClearButton(this, options);
    },
 
+   _arrowsOneSide: function (side) {
+      return this._options.prevArrowPosition === side && this._options.nextArrowPosition === side;
+   },
+
    shiftBack: function() {
       this._rangeModel.shiftBack();
       _private._updateCaption(this);

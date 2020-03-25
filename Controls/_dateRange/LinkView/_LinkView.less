@@ -20,19 +20,60 @@
    content: "\e007";
 }
 
+.controls-DateLinkView__prev_theme-@{themeName},
+.controls-DateLinkView__next_theme-@{themeName} {
+   border-width: @border-width_DateLinkView-prev-next-buttons;
+   width: @width_DateLinkView-prev-next-buttons - 2 * @border-width_DateLinkView-prev-next-buttons;
+   box-shadow: @box-shadow_DateLinkView-prev-next-buttons;
+   height: @height_DateLinkView-prev-next-buttons - 2 * @border-width_DateLinkView-prev-next-buttons;
+   border-color: @border-color_DateLinkView-prev-next-buttons;
+   color: @color_DateLinkView-prev-next-buttons;
+}
+
+.controls-DateLinkView__arrows-active_theme-@{themeName} {
+   cursor: pointer;
+   &:hover {
+      border-color: @border-color_DateLinkView-prev-next-buttons-hovered;
+      color: @color_DateLinkView-prev-next-buttons-hovered;
+   }
+
+   &:active {
+      border-color: @border-color_DateLinkView-prev-next-buttons-active;
+      color: @color_DateLinkView-prev-next-buttons-active;
+   }
+}
+
 .controls-DateLinkView__clear_theme-@{themeName},
 .controls-DateLinkView__prev_theme-@{themeName},
 .controls-DateLinkView__next_theme-@{themeName} {
    font-size: @font-size_DateLinkView-prev-next-buttons;
-   width: @width_DateLinkView-prev-next-buttons;
 }
 
 .controls-DateLinkView__clear,
 .controls-DateLinkView__prev,
 .controls-DateLinkView__next {
-   display: inline-block;
    font-weight: normal;
    text-align: center;
+}
+
+.controls-DateLinkView__prev,
+.controls-DateLinkView__next {
+   border-style: solid;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.controls-DateLinkView-arrows-wrapper {
+   width: @width_DateLinkView-prev-next-buttons-wrapper;
+   display: flex;
+   justify-content: space-between;
+}
+
+.controls-DateLinkView_arrows-readOnly_theme-@{themeName} {
+   color: @color-DateLinkView-prev-next-buttons-readOnly;
+   border-color: @border-color_DateLinkView-prev-next-buttons;
 }
 
 .controls-DateLinkView__style-secondary_theme-@{themeName} {
@@ -103,6 +144,7 @@
 .controls-DateLinkView__clear_theme-@{themeName} {
    color: @color_CloseButton-light-icon;
    font-family: @font-family_icon_size-s;
+   width: @width_DateLinkView-prev-next-buttons;
 }
 
 .controls-DateLinkView__clear {

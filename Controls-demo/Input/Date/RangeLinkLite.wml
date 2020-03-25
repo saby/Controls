@@ -14,6 +14,10 @@
             <Controls.dateRange:LiteSelector
                prevArrowVisibility="{{true}}"
                nextArrowVisibility="{{true}}"
+               readOnly="{{false}}"
+               prevArrowPosition="right"
+               nextArrowPosition="right"
+               arrowsMargin = '50'
                bind:startValue="_startValueHalfYear"
                bind:endValue="_endValueHalfYear"
 			   attr:test_name="show_arrow_range"
@@ -67,6 +71,9 @@
          <Controls.dateRange:LiteSelector
                  bind:startValue="_startValueYear"
                  bind:endValue="_endValueYear"
+                 prevArrowPosition="right"
+                 nextArrowPosition="right"
+                 arrowsMargin = '50'
                  prevArrowVisibility="{{true}}"
                  nextArrowVisibility="{{true}}"
                  readOnly="{{true}}"
