@@ -1,7 +1,10 @@
 import {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
 import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition} from 'Controls/popup';
 import {detection} from 'Env/Env';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import * as Deferred from 'Core/Deferred';
 import DialogStrategy = require('Controls/_popupTemplate/Dialog/Opener/DialogStrategy');
+import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
 
 interface IDialogItem extends IPopupItem {
     popupOptions: IDialogOptions;
@@ -37,6 +40,9 @@ class DialogController extends BaseController {
 
     elementCreated(item: IDialogItem, container: HTMLDivElement): boolean {
         this._prepareConfigWithSizes(item, container);
+        if (!isNewEnvironment()) {
+            oldWindowManager.addZIndex(item.currentZIndex);
+        }
         return true;
     }
 
@@ -77,6 +83,13 @@ class DialogController extends BaseController {
         /* end: Return all values to the node. Need for vdom synchronizer */
 
         return true;
+    }
+
+    elementDestroyed(item: IPopupItem): Promise<null> {
+        if (!isNewEnvironment()) {
+            oldWindowManager.removeZIndex(item.currentZIndex);
+        }
+        return (new Deferred()).callback();
     }
 
     getDefaultConfig(item: IDialogItem): void {

@@ -52,7 +52,10 @@
 .controls-BreadCrumbsView__menu {
    float: right;
    position: relative;
-   z-index: 10;
+
+   /* Обводка dragNDrop должна уходить в тень меню, т.к. у нее z-index: 1, то для меню и его тени выставляем z-index выше.
+    Сейчас у тени скролла z-index 5, поэтому она будет над крошками.*/
+   z-index: 2;
 }
 .controls-BreadCrumbsView__menu_theme-@{themeName} {
    bottom: @height_breadcrumbsView;
@@ -67,6 +70,8 @@
 .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
   left: @spacing_BreadCrumbs-menu;
   background: @background-color_BreadCrumbs-menu;
+
+  //тень подобрана так, чтобы она не залезала на крошки, когда точки не видны.
   box-shadow: @dots_shadow-offset_breadcrumbsView  @dots_shadow-color_breadcrumbsView;
   height: @height_breadcrumbsView;
   color: @item_text-color_default_breadcrumbsView;
@@ -100,7 +105,7 @@
       position: absolute;
       display: block;
       border-radius: @droppable_border-radius_breadcrumbsView;
-      z-index: 10;
+      z-index: 1;
       align-self: center;
    }
 }

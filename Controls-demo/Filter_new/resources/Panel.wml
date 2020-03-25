@@ -4,6 +4,7 @@
    items="{{_options.items}}"
    itemTemplateProperty="itemTemplate"
    additionalTemplateProperty="{{_options.additionalTemplateProperty}}"
+   footerTemplate="{{_options.footerTemplate}}"
    historyId="{{_options.historyId}}"
    applyButtonCaption="{{_options.applyButtonCaption}}">
 </Controls.filterPopup:DetailPanel>

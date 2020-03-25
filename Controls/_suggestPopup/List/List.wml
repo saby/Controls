@@ -1,5 +1,5 @@
 <div class="controls-Suggest_list">
-    <ws:if data="{{_options.tabsOptions}}">
+    <ws:if data="{{_options.tabsOptions && (!_suggestListOptions || !_suggestListOptions.dialogMode)}}">
         <Controls.Container.Async templateName="Controls/tabs:Buttons">
             <ws:partial template="{{'Controls/tabs:Buttons'}}"
                         attr:class="controls-Suggest__tabs controls-Suggest__tabs_{{_layerName}}"

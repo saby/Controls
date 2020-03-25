@@ -10,7 +10,9 @@
    right: 0;
    height: 1px;
    // В safari 13 неправильно рассчитывается ширина, через left: 0; right: 0; Ограничим ее.
-   max-width: 1px;
+   // safari 13 (iPad, iOS) и chrome (iPad) случае max-width: 1px считают, что scrollWidth элемента 1px, тогда как его offsetWidth 0px.
+   // в результате начинает рассчёты StickyHeader тогда, когда это не нужно
+   width: 0;
    position: absolute;
 }
 

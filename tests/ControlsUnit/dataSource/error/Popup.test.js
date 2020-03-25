@@ -16,7 +16,8 @@ define([
                openPopup: sinon.stub()
             },
             Dialog: {
-               openPopup: sinon.stub()
+               openPopup: sinon.stub(),
+               closePopup: sinon.stub()
             }
          })],
          ['FakePopupModule2', () => ({ name: 'FakePopupModule2' })],
@@ -210,6 +211,39 @@ define([
             const details = 'details';
             Popup.showDefaultDialog(message, details);
             assert.isTrue(globalObject.alert.calledOnceWith(`${message}\n${details}`));
+         });
+      });
+
+      describe('closeDialog()', () => {
+         it('does nothing if popupId is empty', () => {
+            Popup.POPUP_MODULES = [fakeModuleNames[0]];
+            Popup.POPUP_THEMES = [];
+            const p = new Popup();
+            return p.closeDialog(undefined).then(() => {
+               const popup = require(fakeModuleNames[0]);
+               assert.isNotOk(popup.Dialog.closePopup.called, 'closePopup() should not be called');
+            });
+         });
+
+         it('does nothing if popup modules was not loaded', () => {
+            Popup.POPUP_MODULES = [fakeModuleNames[0]];
+            Popup.POPUP_THEMES = ['FakeFailModule1'];
+            const p = new Popup();
+            return p.closeDialog('testPopupId').then(() => {
+               const popup = require(fakeModuleNames[0]);
+               assert.isNotOk(popup.Dialog.closePopup.called, 'closePopup() should not be called');
+            });
+         });
+
+         it('calls closePopup()', () => {
+            Popup.POPUP_MODULES = [fakeModuleNames[0]];
+            Popup.POPUP_THEMES = [];
+            const popupId = String(Date.now());
+            const p = new Popup();
+            return p.closeDialog(popupId).then(() => {
+               const popup = require(fakeModuleNames[0]);
+               assert.isTrue(popup.Dialog.closePopup.calledOnceWith(popupId), 'closePopup() called');
+            });
          });
       });
    });

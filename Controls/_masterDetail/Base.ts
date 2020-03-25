@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
-import 'css!theme?Controls/masterDetail';
 import {debounce} from 'Types/function';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
@@ -281,6 +280,7 @@ class Base extends Control<IMasterDetail> {
             this._startResizeRegister();
         }
     }
+    static _theme: string[] = ['Controls/masterDetail'];
 }
 
 export default Base;

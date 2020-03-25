@@ -688,12 +688,17 @@ var _private = {
         return navigation && navigation.view === 'demand';
     },
 
+    isPagesNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
+        return navigation && navigation.view === 'pages';
+    },
+
     needShowShadowByNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>, itemsCount: number): boolean {
         const isDemand = _private.isDemandNavigation(navigation);
         const isMaxCount = _private.isMaxCountNavigation(navigation);
+        const isPages = _private.isPagesNavigation(navigation);
         let result = true;
 
-        if (isDemand) {
+        if (isDemand || isPages) {
             result = false;
         } else if (isMaxCount) {
             result = _private.isItemsCountLessThenMaxCount(itemsCount, _private.getMaxCountFromNavigation(navigation));
@@ -713,7 +718,7 @@ var _private = {
             hasMoreData &&
             !sourceController.isLoading();
         const allowLoadBySearch =
-            !self._options.searchValue ||
+            !_private.isPortionedLoad(self) ||
             _private.getPortionedSearch(self).shouldSearch();
 
         if (allowLoadBySource && allowLoadByLoadedItems && allowLoadBySearch) {

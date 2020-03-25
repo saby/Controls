@@ -5,10 +5,12 @@ import 'css!Controls-demo/Controls-demo';
 import 'css!Controls-demo/Filter_new/Filter';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {object} from 'Types/util';
+import {constants} from 'Env/Env';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _source: unknown[] = [];
+    protected _resourceRoot: string = constants.resourceRoot;
 
     protected _beforeMount(): void {
         this._source = getItems();

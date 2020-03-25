@@ -515,16 +515,22 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          it('searchParam is changed', function() {
             var options = getDefaultOptions();
             var searchStarted = false;
+            var canceled = false;
             searchMod.Controller._private.getSearchController(searchController);
             searchMod.Controller._private.startSearch = () => {searchStarted = true;};
             options.searchParam = 'test1';
             searchController._inputSearchValue = 'test';
             searchController._searchValue = '';
             options.searchValue = 'test';
+
+            searchController._searchController.cancel = function() {
+               canceled = true;
+            };
             searchController._beforeUpdate(options, {dataOptions: defaultOptions});
 
             assert.equal(searchController._inputSearchValue, 'test');
             assert.isTrue(searchStarted);
+            assert.isTrue(canceled);
          });
 
          it('filter is changed', function() {

@@ -280,7 +280,10 @@ define(
 
             assert.strictEqual(popupOptions.template, 'detailPanelTemplateName.wml');
             assert.strictEqual(popupOptions.templateOptions.items.length, 5);
-            assert.equal(popupOptions.fittingMode, 'overflow');
+            assert.deepEqual(popupOptions.fittingMode, {
+               horizontal: 'overflow',
+               vertical: 'adaptive'
+            });
 
             view._options.detailPanelTemplateName = null;
             view.openDetailPanel();

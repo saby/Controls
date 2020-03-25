@@ -44,6 +44,10 @@ class BreadCrumbsView extends Control<IControlOptions> {
             }
         }
     }
+    // На mousedown (зажатии кнопки мыши над точками) должно открываться только меню хлебных крошек. Но так как мы не стопим другие клики срабатывает проваливание. Поэтому прекращаем распространение события клика:
+    private _clickHandler(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+    }
 
     private _dotsClick(e: SyntheticEvent<MouseEvent>): void {
             const rs = new RecordSet({

@@ -53,17 +53,23 @@ var _private = {
       });
    },
 
-   abort(self, force: boolean): void {
+   abort(self, force: boolean, callback): void {
       _private.getSearch(self).addCallback((search) => {
          search.abort(force).addCallback(() => {
-            const filter = clone(self._options.filter);
-            delete filter[self._options.searchParam];
-            if (self._options.abortCallback) {
-               self._options.abortCallback(filter);
+            if (callback) {
+               callback(self);
             }
          });
          return search;
       });
+   },
+
+   resetFilters(self): void {
+      const filter = clone(self._options.filter);
+      delete filter[self._options.searchParam];
+      if (self._options.abortCallback) {
+         self._options.abortCallback(filter);
+      }
    }
 };
 
@@ -100,7 +106,7 @@ var SearchController = extend({
       if ((searchByValueChanged && valueLength >= this._options.minSearchLength) || (force && valueLength)) {
          result = _private.search(this, value, force);
       } else if (searchByValueChanged || !valueLength) {
-         result = _private.abort(this, forceAbort);
+         result = _private.abort(this, forceAbort, _private.resetFilters);
       }
 
       return result;
@@ -123,7 +129,11 @@ var SearchController = extend({
    },
 
    abort: function(force) {
-      _private.abort(this, force);
+      _private.abort(this, force, _private.resetFilters);
+   },
+
+   cancel: function() {
+      _private.abort(this, true);
    },
 
    isLoading: function() {

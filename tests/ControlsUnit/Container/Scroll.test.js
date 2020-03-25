@@ -157,6 +157,36 @@ define(
             });
          });
 
+         describe('canScrollTo', function() {
+            [{
+               offset: 0,
+               scrollHeight: 100,
+               clientHeight: 100,
+               result: true
+            }, {
+               offset: 50,
+               scrollHeight: 200,
+               clientHeight: 100,
+               result: true
+            }, {
+               offset: 50,
+               scrollHeight: 100,
+               clientHeight: 100,
+               result: false
+            }].forEach(function (test) {
+               it(`should return ${test.result} if offset = ${test.offset},  scrollHeight = ${test.scrollHeight},  clientHeight = ${test.clientHeight}`, function () {
+                  scroll._children.content.scrollHeight = test.scrollHeight;
+                  scroll._children.content.clientHeight = test.clientHeight;
+
+                  if (test.result) {
+                     assert.isTrue(scroll.canScrollTo(test.offset));
+                  } else {
+                     assert.isFalse(scroll.canScrollTo(test.offset));
+                  }
+               });
+            });
+         });
+
          describe('_updateStickyHeaderContext', function() {
             [{
                title: 'should display shadow on headers if shadow is visible',

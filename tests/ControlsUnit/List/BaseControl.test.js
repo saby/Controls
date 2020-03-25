@@ -305,30 +305,71 @@ define([
          sandbox.restore();
       });
 
-      it('_private::loadToDirectionIfNeed', () => {
-         const self = {
-            _sourceController: {
-               hasMoreData: () => true,
-               isLoading: () => false
-            },
-            _loadedItems: new collection.RecordSet(),
-            _options: {
-               navigation: {}
-            }
+      describe('_private::loadToDirectionIfNeed', () => {
+         const getInstanceMock = function() {
+            return {
+               _sourceController: {
+                  hasMoreData: () => true,
+                  isLoading: () => false
+               },
+               _loadedItems: new collection.RecordSet(),
+               _options: {
+                  navigation: {}
+               }
+            };
          };
-         const sandbox = sinon.createSandbox();
-         let isLoadStarted;
 
-         // navigation.view !== 'infinity'
-         sandbox.replace(lists.BaseControl._private, 'needScrollCalculation', () => false);
-         sandbox.replace(lists.BaseControl._private, 'setHasMoreData', () => null);
-         sandbox.replace(lists.BaseControl._private, 'loadToDirection', () => {
-            isLoadStarted = true;
+         it('hasMoreData:true', () => {
+            const self = getInstanceMock();
+            const sandbox = sinon.createSandbox();
+            let isLoadStarted;
+
+            // navigation.view !== 'infinity'
+            sandbox.replace(lists.BaseControl._private, 'needScrollCalculation', () => false);
+            sandbox.replace(lists.BaseControl._private, 'setHasMoreData', () => null);
+            sandbox.replace(lists.BaseControl._private, 'loadToDirection', () => {
+               isLoadStarted = true;
+            });
+
+            lists.BaseControl._private.loadToDirectionIfNeed(self);
+            assert.isTrue(isLoadStarted);
+            sandbox.restore();
          });
 
-         lists.BaseControl._private.loadToDirectionIfNeed(self);
-         assert.isTrue(isLoadStarted);
-         sandbox.restore();
+         it('iterative search', () => {
+            const self = getInstanceMock();
+            const sandbox = sinon.createSandbox();
+            let isLoadStarted;
+            let shouldSearch;
+
+            self._items = new collection.RecordSet();
+            self._items.setMetaData({
+               iterative: true
+            });
+            self._portionedSearch = {
+               shouldSearch: () => {
+                  return shouldSearch;
+               }
+            };
+
+            // navigation.view !== 'infinity'
+            sandbox.replace(lists.BaseControl._private, 'needScrollCalculation', () => false);
+            sandbox.replace(lists.BaseControl._private, 'setHasMoreData', () => null);
+            sandbox.replace(lists.BaseControl._private, 'loadToDirection', () => {
+               isLoadStarted = true;
+            });
+
+            shouldSearch = true;
+            lists.BaseControl._private.loadToDirectionIfNeed(self);
+            assert.isTrue(isLoadStarted);
+
+            shouldSearch = false;
+            isLoadStarted = false;
+            lists.BaseControl._private.loadToDirectionIfNeed(self);
+            assert.isFalse(isLoadStarted);
+
+            sandbox.restore();
+         });
       });
 
       it('setHasMoreData', async function() {

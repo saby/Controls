@@ -130,13 +130,13 @@ const Global = Control.extend({
     * @param {String | Function} template
     * @param {Object} templateOptions
     * @param {Core/Control} [opener=null]
-    * @return {Promise.<void>} result promise
+    * @return {Promise.<{popupId: String, closeDialogPromise: Promise<void>}>} result promise
     * @private
     */
    _openDialogHandler(event, template, templateOptions, opener = null) {
       this._onDialogClosed();
 
-      Dialog.openPopup({
+      return Dialog.openPopup({
          template,
          templateOptions,
          opener,
@@ -145,12 +145,12 @@ const Global = Control.extend({
                this._onDialogClosed();
             }
          }
-      });
-
-      //
-      return new Promise((resolve, reject) => {
-         this._closedDialodResolve = resolve;
-      });
+      }).then((popupId) => ({
+         popupId,
+         closePopupPromise: new Promise((resolve) => {
+            this._closedDialodResolve = resolve;
+         })
+      }));
    },
    _onDialogClosed() {
       if (this._closedDialodResolve) {

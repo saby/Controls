@@ -904,7 +904,7 @@ var
        * @noshow
        */
       canScrollTo: function(offset: number): boolean {
-         return offset < this._children.content.scrollHeight - this._children.content.clientHeight;
+         return offset <= this._children.content.scrollHeight - this._children.content.clientHeight;
       },
 
       /**

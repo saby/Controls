@@ -54,6 +54,12 @@ export default class Container extends Control<IContainerConfig> implements ICon
     private __lastShowedId: number; // tslint:disable-line:variable-name
     private _popupHelper: Popup = new Popup();
     protected _template: TemplateFunction = _template;
+
+    /**
+     * Идентификатор текущего открытого диалога. Одновременно отображается только один диалог.
+     */
+    private _popupId: string;
+
     /**
      * Скрыть компонент, отображающий данные об ошибке
      * @method
@@ -105,6 +111,45 @@ export default class Container extends Control<IContainerConfig> implements ICon
         }
     }
 
+    protected _beforeUnmount(): void {
+        this._closeDialog();
+    }
+
+    /**
+     * Закрыть ранее открытый диалог.
+     */
+    private _closeDialog(): void {
+        this._popupHelper.closeDialog(this._popupId);
+        this._popupId = null;
+    }
+
+    /**
+     * Обработчик закрытия диалога.
+     */
+    private _onDialogClosed(): void {
+        this._notify('dialogClosed', []);
+        this._popupId = null;
+    }
+
+    /**
+     * Открыть диалог.
+     * Если есть незакрытый диалог, открытый этим контролом, то сначала он будет закрыт.
+     * @param config Конфигурация с шаблоном диалога и опциями для этого шаблона.
+     */
+    private _openDialog(config: Config): Promise<void> {
+        this._closeDialog();
+
+        return this._popupHelper.openDialog(config, this, {
+            onClose: () => this._onDialogClosed()
+        }).then((popupId) => {
+            this._popupId = popupId;
+        });
+    }
+
+    private _notifyServiceError(template: Control, options: object): Promise<IDialogData> {
+        return this._notify('serviceError', [template, options, this], { bubbling: true });
+    }
+
     private __showDialog(config: Config): void {
         if (
             config.isShowed ||
@@ -116,37 +161,24 @@ export default class Container extends Control<IContainerConfig> implements ICon
         }
         this.__lastShowedId = config.getVersion && config.getVersion();
         config.isShowed = true;
-        getTemplate(config.template).then((template) => {
-            let result = this._notify('serviceError', [
-                template,
-                config.options,
-                this
-            ], { bubbling: true });
+        getTemplate(config.template)
+            .then((dialogTemplate) => this._notifyServiceError(dialogTemplate, config.options))
+            .then((dialogData: IDialogData) => {
+                /**
+                 * Controls/popup:Global ловит событие 'serviceError'.
+                 * В Wasaby окружении Controls/popup:Global есть на каждой странице в виде глобальной обертки.
+                 * На старых страницах этого нет, поэтому если errorContainer
+                 * был создан в контроле, который был вставлен в старое окружение ws3 с помощью Core/create,
+                 * то событие 'serviceError' будет некому ловить и результата _notify не будет.
+                 * Тогда гарантированно показываем диалог с помощью popupHelper.
+                 */
+                if (!dialogData) {
+                    return this._openDialog(config);
+                }
 
-            /**
-             * Controls/popup:Global ловит событие 'serviceError'.
-             * В Wasaby окружении Controls/popup:Global есть на каждой странице в виде глобальной обертки.
-             * На старых страницах этого нет, поэтому если errorContainer
-             * был создан в контроле, который был вставлен в старое окружение ws3 с помощью Core/create,
-             * то событие 'serviceError' будет некому ловить и результата _notify не будет.
-             * Тогда гарантированно показываем диалог с помощью popupHelper.
-             */
-            if (!result) {
-                result = new Promise((resolve) => {
-                    this._popupHelper.openDialog(config, this, {
-                        onClose: resolve
-                    });
-                });
-            }
-
-            if (result instanceof Promise) {
-                Promise.resolve(result).then(this.__notifyDialogClosed.bind(this));
-            }
-        });
-    }
-
-    private __notifyDialogClosed(): void {
-        this._notify('dialogClosed', []);
+                this._popupId = dialogData.popupId;
+                dialogData.closePopupPromise.then(() => this._onDialogClosed());
+            });
     }
 
     private __updateConfig(options: IContainerConfig): void {
@@ -176,4 +208,9 @@ export default class Container extends Control<IContainerConfig> implements ICon
      * При возникновении ошибки они могут не загрузиться (нет связи или сервис недоступен).
      */
     static _theme: string[] = ['Controls/popupConfirmation'];
+}
+
+interface IDialogData {
+    popupId: string;
+    closePopupPromise: Promise<void>;
 }

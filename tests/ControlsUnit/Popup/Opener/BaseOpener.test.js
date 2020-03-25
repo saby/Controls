@@ -51,10 +51,8 @@ define(
                },
                opener: null
             };
-            popupOptions.templateOptions.opener = 123;
-            baseConfig = opener2._getConfig(popupOptions);
+            opener2._getConfig(popupOptions);
             assert.equal(opener2._actionOnScroll, 'none');
-            assert.equal(baseConfig.templateOptions.opener, undefined);
 
             opener.destroy();
 			      opener2.destroy();

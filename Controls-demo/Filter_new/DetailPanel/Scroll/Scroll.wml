@@ -4,7 +4,21 @@
       on:itemsChanged="_itemsChangedHandler()"
       detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">
       <ws:detailPanelTemplateOptions
-         className="controls-demo-FilterView__scrollDemo controls-demo-FilterView__limitHeight"
-         additionalTemplateProperty="additionalTemplate"/>
+         className="controls-demo-FilterView__scrollDemo"
+         additionalTemplateProperty="additionalTemplate">
+         <ws:footerTemplate>
+            <div class="ws-flexbox controls-demo-FilterView__footer">
+               <ws:for data="i in 40">
+                  <div class="controls-demo-FilterView__footerItem ws-flexbox">
+                     <img class="controls-demo-FilterView__footerItem-photo" src="{{_resourceRoot}}Controls-demo/Previewer/image/Andrey.png"/>
+                     <div class="controls-demo-FilterView__description ws-flex-column">
+                        <div>Элемент{{i}}</div>
+                        <div>С описанием{{i}}</div>
+                     </div>
+                  </div>
+               </ws:for>
+            </div>
+         </ws:footerTemplate>
+      </ws:detailPanelTemplateOptions>
    </Controls.filter:View>
 </div>

@@ -10,6 +10,7 @@ import {parse as parserLib} from 'Core/library';
 import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent');
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
+import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
 
 /**
  * Stack Popup Controller
@@ -47,7 +48,7 @@ class StackController extends BaseController {
         }
 
         if (!isNewEnvironment()) {
-            this._addZIndexToOldWindowManager(item);
+            oldWindowManager.addZIndex(item.currentZIndex);
             if (isSinglePopup) {
                 this._updateSideBarVisibility();
             }
@@ -76,7 +77,7 @@ class StackController extends BaseController {
         this._stack.remove(item);
         this._update();
         if (!isNewEnvironment()) {
-            this._removeZIndexToOldWindowManager(item);
+            oldWindowManager.removeZIndex(item.currentZIndex);
         }
         return (new Deferred()).callback();
     }
@@ -462,34 +463,6 @@ class StackController extends BaseController {
     }
 
     // TODO COMPATIBLE
-    private _addZIndexToOldWindowManager(item: IPopupItem): void {
-        const oldWindowManager = requirejs('Core/WindowManager');
-        // Сообщим старому WM про текущий zindex открываемого вдомного окна
-        // Так как старый WM всегда сам назначал zindex, приходится лезть в приватные св-ва
-        if (oldWindowManager) {
-            if (oldWindowManager._acquireIndex < item.currentZIndex) {
-                oldWindowManager._acquireIndex = item.currentZIndex;
-                oldWindowManager._acquiredIndexes.push(item.currentZIndex);
-                oldWindowManager.setVisible(item.currentZIndex);
-            }
-            // 1. Делаю notify всегда, т.к. в setVisible нотифай делается через setTimeout, из-за чего могут промаргивать окна
-            // которые высчитывают свой zindex относительно других.
-            // 2. В старом WM могут храниться не только zindex'ы от окон, например старый listView сохраняет свой
-            // z-index в менеджер. Но такой zindex не участвует в обходе по поиску максимального zindex'a окон.
-            // В итоге получаем что открываемое стековое окно меньше по zindex чем WM._acquireIndex, из-за чего
-            // проверка выше не проходит. Делаю нотифай вручную, чтобы старый notificationController знал про
-            // актуальные zindex'ы окон на странице.
-            oldWindowManager._notify('zIndexChanged', item.currentZIndex);
-        }
-    }
-
-    private _removeZIndexToOldWindowManager(item: IPopupItem): void {
-        const oldWindowManager = requirejs('Core/WindowManager');
-        if (oldWindowManager) {
-            oldWindowManager.releaseZIndex(item.currentZIndex);
-        }
-    }
-
     private _getSideBarWidth(): number {
         const sideBar = document.querySelector('.ws-float-area-stack-sidebar, .navSidebar__sideLeft, .online-Sidebar');
         return sideBar && sideBar.clientWidth || 0;
