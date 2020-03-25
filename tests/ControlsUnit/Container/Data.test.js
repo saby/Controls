@@ -245,7 +245,7 @@ define(
             });
          });
 
-         it('itemsChanged', () => {
+         it('itemsChanged', (done) => {
             const config = {
                source: source,
                keyProperty: 'id'
@@ -260,9 +260,10 @@ define(
             let propagationStopped = false;
 
             data._beforeMount(config).addCallback(function() {
-               data._itemsChanged(event, []);
+               const newList = new collection.RecordSet();
+               data._itemsChanged(event, newList);
                assert.isTrue(propagationStopped);
-               assert.deepEqual(data._items, []);
+               assert.equal(data._items, newList);
                done();
             });
          });
@@ -473,7 +474,7 @@ define(
 
             lists.DataContainer._private.resolveOptions(self, {source:source});
 
-            var promise = lists.DataContainer._private.createPrefetchSource(self, data, dataLoadErrback);
+            var promise = lists.DataContainer._private.createPrefetchSource(self, data, dataLoadErrback, 'gid');
 
             assert.instanceOf(promise, Promise);
             promise.then(function(result) {
@@ -551,6 +552,29 @@ define(
             assert.equal(lists.DataContainer._private.isEqualItems(source1, source3), false);
 
          });
+         it('_private.getGroupHistoryId', function() {
+            assert.equal(lists.DataContainer._private.getGroupHistoryId({
+               groupingKeyCallback: () => {},
+               historyIdCollapsedGroups: 'grId'
+            }), 'grId');
 
+            assert.equal(lists.DataContainer._private.getGroupHistoryId({
+               groupProperty: 'any',
+               historyIdCollapsedGroups: 'grId'
+            }), 'grId');
+
+            assert.equal(lists.DataContainer._private.getGroupHistoryId({
+               groupingKeyCallback: () => {},
+               groupHistoryId: 'grId',
+            }), 'grId');
+
+            assert.isUndefined(lists.DataContainer._private.getGroupHistoryId({
+               groupHistoryId: 'grId',
+            }));
+
+            assert.isUndefined(lists.DataContainer._private.getGroupHistoryId({
+               groupProperty: 'any',
+            }));
+         });
       });
    });
