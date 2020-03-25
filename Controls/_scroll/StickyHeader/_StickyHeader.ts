@@ -2,7 +2,14 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
 import Context = require('Controls/_scroll/StickyHeader/Context');
-import {getNextId, getOffset, POSITION, MODE, IOffset} from 'Controls/_scroll/StickyHeader/Utils';
+import {
+    getNextId,
+    getOffset,
+    POSITION,
+    MODE,
+    IOffset,
+    validateIntersectionEntries
+} from 'Controls/_scroll/StickyHeader/Utils';
 import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
 import Model = require('Controls/_scroll/StickyHeader/_StickyHeader/Model');
 import template = require('wml!Controls/_scroll/StickyHeader/_StickyHeader/StickyHeader');
@@ -114,6 +121,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
    _topShadowStyle: string = '';
 
     private _stickyDestroy: boolean = false;
+    private _scroll: HTMLElement;
 
     protected _beforeMount(options: IStickyHeaderOptions): void {
         this._options = options;
@@ -139,9 +147,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
         // отказаться от closest.
+        this._scroll = this._container.closest('.controls-Scroll');
         this._observer = new IntersectionObserver(
                 this._observeHandler,
-                { root: this._container.closest('.controls-Scroll') }
+                { root: this._scroll }
             );
 
         this._model = new Model({
@@ -247,7 +256,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
         const fixedPosition: POSITION = this._model.fixedPosition;
 
-        this._model.update(entries);
+        this._model.update(validateIntersectionEntries(entries, this._scroll));
 
         if (this._model.fixedPosition !== fixedPosition) {
             this._fixationStateChangeHandler(this._model.fixedPosition, fixedPosition);
