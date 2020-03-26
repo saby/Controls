@@ -17,7 +17,7 @@ type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
  * @variant error
  * @variant done
  */
-type TIconStyle = 'default'|'attention'|'error'|'done';
+type TIconStyle = 'secondary'|'warning'|'success'|'danger';
 /**
  * @typedef {String} TItemActionsPosition
  * @variant inside Внутри элемента.
