@@ -59,6 +59,9 @@ define(
 
          it('Template', function() {
             var tplOptions = {
+               _options: {
+                  theme: 'default'
+               },
                _className: 'controls-Highlight_highlight',
                _parsedText: [
                   {

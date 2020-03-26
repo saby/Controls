@@ -1,7 +1,7 @@
 <span>
    <ws:for data="path in _parsedText">
       <ws:if data="{{path.type === 'highlight'}}">
-         <span class="{{_className}}">{{path.value}}</span>
+         <span class="{{_className}}_theme-{{_options.theme}}">{{path.value}}</span>
       </ws:if>
       <ws:else>{{path.value}}</ws:else>
    </ws:for>
