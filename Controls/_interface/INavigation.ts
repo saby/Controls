@@ -138,6 +138,7 @@ export type TNavigationTotalInfo = 'basic' | 'extended';
  * @property {TotalInfo} [totalInfo=basic] Режим отображения информационной подписи.
  * @property {Number} maxCountValue Количество записей, когда необходимо прекратить загрузку в режиме навигации maxCount.
  * О режиме навигации maxCount вы можете посмотреть {@link Controls/_interface/INavigation/Navigation.typedef здесь}.
+ * @property {Boolean} showEndButton Параметр, отвечающий за отображение кнопки перехода в конец списка.
  */
 export interface INavigationViewConfig {
     pagingMode?: string;
