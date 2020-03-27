@@ -93,7 +93,7 @@ define(
             assert.equal(result, '');
 
             result = ScrollWidthUtil._private.calcStyleHideScrollbar(17, {}, {});
-            assert.equal(result, 'margin-right: -17px;');
+            assert.equal(result, 'margin: 0 -17px -17px 0;');
          });
       });
    }

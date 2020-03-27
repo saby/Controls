@@ -8,6 +8,10 @@
    transition: width 0.3s ease-in-out;
 }
 
+.controls-VScrollbar_horizontal {
+   transition: height 0.3s ease-in-out;
+}
+
 .controls-VScrollbar_vertical_size-s {
    width: @thumb_s_thickness_scrollbar + 2 * @padding_scrollbar;
 }
@@ -90,14 +94,49 @@
    min-width: @thumb_min-length_scrollbar;
    height: 100%;
 }
+
+.controls-Scroll__scrollbar {
+   .controls-VScrollbar__thumb_horizontal {
+      min-width: @thumb_min-length_scrollbar;
+      height: auto;
+      left: @padding_scrollbar;
+      right: @padding_scrollbar;
+      top: @padding_scrollbar;
+      bottom: @padding_scrollbar;
+      position: absolute;
+   }
+}
+
+.controls-VScrollbar_horizontal_offset {
+   .controls-VScrollbar__thumb {
+      right: @thumb_padding_scrollbar;
+   }
+}
+
+.controls-VScrollbar_vertical_offset {
+   .controls-VScrollbar__thumb {
+      bottom: @thumb_padding_scrollbar;
+   }
+}
+
 .controls-VScrollbar_vertical_size-l:hover,
 .controls-VScrollbar_vertical_dragging_size-l {
    width: @thumb_hover_l_thickness_scrollbar + 2 * @padding_scrollbar;
 }
 
+.controls-VScrollbar_horizontal_size-l:hover,
+.controls-VScrollbar_horizontal_dragging_size-l {
+   height: @thumb_hover_l_thickness_scrollbar + 2 * @padding_scrollbar;
+}
+
 .controls-VScrollbar_vertical_size-s:hover,
 .controls-VScrollbar_vertical_dragging_size-s {
    width: @thumb_hover_s_thickness_scrollbar + 2 * @padding_scrollbar;
+}
+
+.controls-VScrollbar_horizontal_size-s:hover,
+.controls-VScrollbar_horizontal_dragging_size-s {
+   height: @thumb_hover_s_thickness_scrollbar;
 }
 
 .controls-VScrollbar:hover .controls-VScrollbar__thumb_size-s,

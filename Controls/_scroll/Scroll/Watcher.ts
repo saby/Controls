@@ -144,9 +144,10 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
              const newScrollTop = container.scrollTop;
              // todo будет удалено по: https://online.sbis.ru/opendoc.html?guid=bcc4b6be-7513-4f3d-8f26-eb27512d0a28
-             if (!self._options.task1178703223 && container.scrollLeft) {
-                 container.scrollLeft = 0;
-             }
+             // закоментировал по этой задаче https://online.sbis.ru/opendoc.html?guid=f6171d86-08f1-4503-b8fc-b0b82ec528b7
+             // if (!self._options.task1178703223 && container.scrollLeft) {
+             //     container.scrollLeft = 0;
+             // }
              if (newScrollTop === self._scrollTopCache) {
                  return;
              }
@@ -449,6 +450,12 @@ import {SyntheticEvent} from "Vdom/Vdom"
                 _private.onScrollContainer(this, _private.getDOMContainer(this._container), false);
             }
          },
+
+          setScrollLeft(scrollLeft: number, withoutPlaceholder?: boolean): void {
+              const container = _private.getDOMContainer(this._container);
+              container.scrollLeft = scrollLeft;
+              _private.onScrollContainer(this, _private.getDOMContainer(this._container), false);
+          },
 
          _unRegisterIt: function(event, registerType, component) {
             if (registerType === 'listScroll') {

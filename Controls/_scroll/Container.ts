@@ -16,8 +16,9 @@ import 'Controls/_scroll/Scroll/Scrollbar';
 import 'css!theme?Controls/scroll';
 import * as newEnv from 'Core/helpers/isNewEnvironment';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {Logger} from "UI/Utils";
+import {Logger} from 'UI/Utils';
 import * as scrollToElement from 'Controls/Utils/scrollToElement';
+import entity = require('Types/entity');
 
 /**
  * Контейнер с тонким скроллом.
@@ -106,8 +107,20 @@ import * as scrollToElement from 'Controls/Utils/scrollToElement';
  */
 
 /**
+ * @name Controls/_scroll/Container#scrollEnable
+ * @cfg {Boolean} Режим скроллирования.
+ * @variant vertical Вертикальный скролл.
+ * @variant verticalHorizontal Вертикальный и горизонтальный скролл.
+ */
+
+/**
  * @name Controls/_scroll/Container#scrollbarVisible
- * @cfg {Boolean} Следует ли отображать скролл.
+ * @cfg {Boolean} Следует ли отображать вертикальный скролл.
+ */
+
+/**
+ * @name Controls/_scroll/Container#horizontalScrollbarVisible
+ * @cfg {Boolean} Следует ли отображать горизонтальный скролл.
  */
 
 /*
@@ -137,7 +150,14 @@ const enum SHADOW_VISIBILITY {
 
 const enum POSITION {
    TOP = 'top',
-   BOTTOM = 'bottom'
+   BOTTOM = 'bottom',
+   LEFT = 'left',
+   RIGHT = 'right'
+}
+
+const enum SCROLL_ENABLE {
+    VERTICAL = 'vertical',
+    VERTICALHORIZONTAL = 'verticalHorizontal'
 }
 
 const
@@ -152,17 +172,18 @@ const
       auto: false
    };
 
-var
+let
    _private = {
       SHADOW_HEIGHT: 8,
+      SHADOW_WIDTH: 8,
       KEYBOARD_SHOWING_DURATION: 500,
 
       /**
        * Получить расположение тени внутри контейнера в зависимости от прокрутки контента.
        * @return {String}
        */
-      calcShadowPosition: function(scrollTop, containerHeight, scrollHeight) {
-         var shadowPosition = '';
+      calcShadowPosition(scrollTop, containerHeight, scrollHeight) {
+         let shadowPosition = '';
 
          if (scrollTop > 0) {
             shadowPosition += 'top';
@@ -178,6 +199,23 @@ var
          // Compare with 1 to prevent rounding errors in the scale do not equal 100%
          if (scrollHeight - containerHeight - scrollTop >= 1) {
             shadowPosition += 'bottom';
+         }
+
+         return shadowPosition;
+      },
+      calcHorizontalShadowPosition(scrollLeft, containerWidth, scrollWidth) {
+         let shadowPosition = '';
+
+         if (scrollLeft > 0) {
+            shadowPosition += 'left';
+         }
+
+         if ((Env.detection.firefox || Env.detection.isIE) && isStickySupport()) {
+            scrollLeft -= _private.SHADOW_WIDTH;
+         }
+
+         if (scrollWidth - containerWidth - scrollLeft >= 1) {
+            shadowPosition += 'right';
          }
 
          return shadowPosition;
@@ -203,8 +241,9 @@ var
       isShadowVisible: function(self, position: POSITION, shadowsPosition: string): boolean {
          const
              visibleFromInnerComponents = self._shadowVisibilityByInnerComponents[position],
-             visibleOptionValue = self._options[`${position}ShadowVisibility`];
-
+             visibleOptionValue = position === POSITION.LEFT || position === POSITION.RIGHT ?
+                 'auto' :
+                 self._options[`${position}ShadowVisibility`];
          if (self._options.shadowVisible === false) {
             return false;
          }
@@ -228,12 +267,24 @@ var
          return container.scrollHeight;
       },
 
+      getScrollWidth(container) {
+         return container.scrollWidth;
+      },
+
       getContainerHeight: function(container) {
          return container.offsetHeight;
       },
 
+      getContainerWidth(container) {
+         return container.offsetWidth;
+      },
+
       getScrollTop: function(self, container) {
          return container.scrollTop + self._topPlaceholderSize;
+      },
+
+      getScrollLeft(self, container) {
+         return container.scrollLeft + self._leftPlaceholderSize;
       },
 
       setScrollTop: function(self, scrollTop) {
@@ -242,21 +293,26 @@ var
          _private.notifyScrollEvents(self, scrollTop);
       },
 
-      notifyScrollEvents: function(self, scrollTop) {
-         self._notify('scroll', [scrollTop]);
+       setScrollLeft(self, scrollLeft): void {
+           self._children.scrollWatcher.setScrollLeft(scrollLeft);
+           self._scrollLeft = _private.getScrollLeft(self, self._children.content);
+           _private.notifyScrollEvents(self, scrollLeft);
+       },
+
+      notifyScrollEvents(self, scrollPosition) {
+         self._notify('scroll', [scrollPosition]);
          const eventCfg = {
              type: 'scroll',
              target: self._children.content,
              currentTarget: self._children.content,
              _bubbling: false
          };
-         self._children.scrollDetect.start(new SyntheticEvent(null, eventCfg), scrollTop);
+         self._children.scrollDetect.start(new SyntheticEvent(null, eventCfg), scrollPosition);
       },
 
-      calcCanScroll: function(self) {
-         var
-            scrollHeight = _private.getScrollHeight(self._children.content),
-            containerHeight = _private.getContainerHeight(self._children.content);
+      calcCanScroll(self) {
+         let scrollHeight = _private.getScrollHeight(self._children.content);
+         const containerHeight = _private.getContainerHeight(self._children.content);
 
          /**
           * In IE, if the content has a rational height, the height is rounded to the smaller side,
@@ -269,13 +325,29 @@ var
          return scrollHeight > containerHeight;
       },
 
-      getContentHeight: function(self) {
+      calcCanHorizontalScroll(self): boolean {
+         let scrollWidth = _private.getScrollWidth(self._children.content);
+         const containerWidth = _private.getContainerWidth(self._children.content);
+
+         if (Env.detection.isIE) {
+            scrollWidth--;
+         }
+
+         return scrollWidth > containerWidth;
+      },
+
+      getContentHeight(self) {
          return _private.getScrollHeight(self._children.content) - self._headersHeight.top -
             self._headersHeight.bottom + self._topPlaceholderSize + self._bottomPlaceholderSize;
       },
 
-      getShadowPosition: function(self) {
-         var
+      getContentWidth(self) {
+         return _private.getScrollWidth(self._children.content) - self._headersWidth.left -
+             self._headersWidth.right + self._leftPlaceholderSize + self._rightPlaceholderSize;
+      },
+
+      getShadowPosition(self) {
+         let
             scrollTop = _private.getScrollTop(self, self._children.content),
             scrollHeight = _private.getScrollHeight(self._children.content),
             containerHeight = _private.getContainerHeight(self._children.content);
@@ -283,30 +355,49 @@ var
          return _private.calcShadowPosition(scrollTop, containerHeight, scrollHeight + self._topPlaceholderSize + self._bottomPlaceholderSize);
       },
 
-      calcHeightFix: function(self) {
+      getHorizontalShadowPosition(self) {
+         const scrollLeft = _private.getScrollLeft(self, self._children.content);
+         const scrollWidth = _private.getScrollWidth(self._children.content);
+         const containerWidth = _private.getContainerWidth(self._children.content);
+         return _private.calcHorizontalShadowPosition(scrollLeft, containerWidth,
+              scrollWidth + self._leftPlaceholderSize + self._rightPlaceholderSize);
+      },
+
+      calcHeightFix(self) {
          return ScrollHeightFixUtil.calcHeightFix(self._children.content);
       },
 
-      calcDisplayState: function(self) {
+      calcDisplayState(self) {
          const
              canScroll = _private.calcCanScroll(self),
+             canHorizontalScroll = _private.calcCanHorizontalScroll(self),
              topShadowEnable = self._options.topShadowVisibility === SHADOW_VISIBILITY.VISIBLE ||
                  (_private.isShadowEnable(self._options, POSITION.TOP) && canScroll),
              bottomShadowEnable = self._options.bottomShadowVisibility === SHADOW_VISIBILITY.VISIBLE ||
                  (_private.isShadowEnable(self._options, POSITION.BOTTOM) && canScroll),
-             shadowPosition = topShadowEnable || bottomShadowEnable ? _private.getShadowPosition(self) : '';
+             shadowPosition = topShadowEnable || bottomShadowEnable ? _private.getShadowPosition(self) : '',
+             leftShadowEnable = self._options.scrollEnable === SCROLL_ENABLE.VERTICALHORIZONTAL && canHorizontalScroll,
+             rightShadowEnable = self._options.scrollEnable === SCROLL_ENABLE.VERTICALHORIZONTAL && canHorizontalScroll,
+             horizontalShadowPosition = leftShadowEnable || rightShadowEnable ? _private.getHorizontalShadowPosition(self) : '';
          return {
             heightFix: _private.calcHeightFix(self),
-            canScroll: canScroll,
+            canScroll,
+            canHorizontalScroll,
             contentHeight: _private.getContentHeight(self),
+            contentWidth: _private.getContentWidth(self),
             shadowPosition,
+            horizontalShadowPosition,
             shadowEnable: {
                top: topShadowEnable,
-               bottom: bottomShadowEnable
+               bottom: bottomShadowEnable,
+               left: leftShadowEnable,
+               right: rightShadowEnable
             },
             shadowVisible: {
                top: topShadowEnable ? _private.isShadowVisible(self, POSITION.TOP, shadowPosition) : false,
-               bottom: bottomShadowEnable ? _private.isShadowVisible(self, POSITION.BOTTOM, shadowPosition) : false
+               bottom: bottomShadowEnable ? _private.isShadowVisible(self, POSITION.BOTTOM, shadowPosition) : false,
+               left: leftShadowEnable ? _private.isShadowVisible(self, POSITION.LEFT, horizontalShadowPosition) : false,
+               right: rightShadowEnable ? _private.isShadowVisible(self, POSITION.RIGHT, horizontalShadowPosition) : false
             }
          };
       },
@@ -326,16 +417,19 @@ var
          }
       },
 
-      updateDisplayState: function(self, displayState) {
+      updateDisplayState: function (self, displayState) {
+         self._displayState.canHorizontalScroll = displayState.canHorizontalScroll;
          self._displayState.canScroll = displayState.canScroll;
          self._displayState.heightFix = displayState.heightFix;
          self._displayState.contentHeight = displayState.contentHeight;
+         self._displayState.contentWidth = displayState.contentWidth;
          self._displayState.shadowPosition = displayState.shadowPosition;
+         self._displayState.horizontalShadowPosition = displayState.horizontalShadowPosition;
          self._displayState.shadowEnable = displayState.shadowEnable;
          self._displayState.shadowVisible = displayState.shadowVisible;
       },
 
-      proxyEvent: function(self, event, eventName, args) {
+      proxyEvent(self, event, eventName, args) {
          // Forwarding bubbling events makes no sense.
          if (!event.propagating()) {
             return self._notify(eventName, args) || event.result;
@@ -356,6 +450,12 @@ var
        * @type {number}
        */
       _scrollTop: 0,
+
+       /**
+        * Смещение контента слева относительно контейнера.
+        * @type {number}
+        */
+       _scrollLeft: 0,
 
       /**
        * Нужно ли показывать скролл при наведении.
@@ -388,13 +488,19 @@ var
       _stickyHeaderContext: null,
 
       _headersHeight: null,
+      _headersWidth: null,
       _scrollbarStyles: '',
 
       _topPlaceholderSize: 0,
       _bottomPlaceholderSize: 0,
+      _leftPlaceholderSize: 0,
+      _rightPlaceholderSize: 0,
 
       _scrollTopAfterDragEnd: undefined,
-      _scrollLockedPosition: null,
+       _scrollLeftAfterDragEnd: undefined,
+       _scrollLockedPosition: null,
+
+       _classTypeScroll: null,
 
       _isMounted: false,
 
@@ -411,23 +517,30 @@ var
             Logger.warn('Controls/scroll:Container: Опция shadowVisible устарела, используйте topShadowVisibility и bottomShadowVisibility.', self);
          }
 
-         //TODO Compatibility на старых страницах нет Register, который скажет controlResize
+         // TODO Compatibility на старых страницах нет Register, который скажет controlResize
          this._resizeHandler = this._resizeHandler.bind(this);
          this._shadowVisibilityByInnerComponents = {
             top: SHADOW_VISIBILITY.AUTO,
-            bottom: SHADOW_VISIBILITY.AUTO
+            bottom: SHADOW_VISIBILITY.AUTO,
+             left: SHADOW_VISIBILITY.AUTO,
+             right: SHADOW_VISIBILITY.AUTO
          };
+         this.calcStyleOverflow();
          this._displayState = {};
          this._stickyHeaderContext = new StickyHeaderContext({
-            shadowPosition: options.topShadowVisibility !== SHADOW_VISIBILITY.HIDDEN ? 'bottom' : ''
+            shadowPosition: options.topShadowVisibility !== SHADOW_VISIBILITY.HIDDEN ? 'bottom' : '',
          });
          this._headersHeight = {
             top: 0,
             bottom: 0
          };
+         this._headersWidth = {
+            left: 0,
+            right: 0
+         };
 
          if (context.ScrollData && context.ScrollData.pagingVisible) {
-            //paging buttons are invisible. Control calculates height and shows buttons after mounting.
+            // paging buttons are invisible. Control calculates height and shows buttons after mounting.
             this._pagingState = {
                visible: false,
                stateUp: 'disabled',
@@ -446,23 +559,32 @@ var
             def = new Deferred();
 
             def.addCallback(function() {
-               var
+               let
                   topShadowVisible = _private.getInitialShadowVisibleState(options, POSITION.TOP),
                   bottomShadowVisible = _private.getInitialShadowVisibleState(options, POSITION.BOTTOM),
-                  displayState = {
+                   leftShadowVisible = false,
+                   rightShadowVisible = false,
+                   displayState = {
                      heightFix: ScrollHeightFixUtil.calcHeightFix(),
                      shadowPosition: '',
-                     canScroll: false,
+                      horizontalShadowPosition: '',
+                      canScroll: false,
+                     canHorizontalScroll: false,
                      shadowEnable: {
                         top: topShadowVisible,
-                        bottom: bottomShadowVisible
+                        bottom: bottomShadowVisible,
+                        left: leftShadowVisible,
+                        right: rightShadowVisible
                      },
                      shadowVisible: {
                         top: topShadowVisible,
-                        bottom: bottomShadowVisible
+                        bottom: bottomShadowVisible,
+                        left: leftShadowVisible,
+                        right: rightShadowVisible
                      }
                   },
-                  styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(),
+                   styleHideScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(),
+                   styleHideHorizontalScrollbar = ScrollWidthUtil.calcStyleHideScrollbar(),
 
                   // На мобильных устройствах используется нативный скролл, на других платформенный.
                   useNativeScrollbar = Env.detection.isMobileIOS || Env.detection.isMobileAndroid;
@@ -483,9 +605,9 @@ var
                }
 
                return {
-                  displayState: displayState,
-                  styleHideScrollbar: styleHideScrollbar,
-                  useNativeScrollbar: useNativeScrollbar,
+                  displayState,
+                  styleHideScrollbar,
+                  useNativeScrollbar,
                   contentStyles: self._contentStyles
                };
             });
@@ -515,6 +637,11 @@ var
          /**
           * The following states cannot be defined in _beforeMount because the DOM is needed.
           */
+         calculatedOptionValue = _private.calcCanHorizontalScroll(this);
+         if (calculatedOptionValue) {
+            this._displayState.canHorizontalScroll = calculatedOptionValue;
+            needUpdate = true;
+         }
 
          calculatedOptionValue = _private.calcCanScroll(this);
          if (calculatedOptionValue) {
@@ -523,10 +650,17 @@ var
          }
 
          this._displayState.contentHeight = _private.getContentHeight(this);
+         this._displayState.contentWidth = _private.getContentWidth(this);
 
          calculatedOptionValue = _private.getShadowPosition(this);
          if (calculatedOptionValue) {
             this._displayState.shadowPosition = calculatedOptionValue;
+            needUpdate = true;
+         }
+
+         calculatedOptionValue = _private.getHorizontalShadowPosition(this);
+         if (calculatedOptionValue) {
+            this._displayState.horizontalShadowPosition = calculatedOptionValue;
             needUpdate = true;
          }
 
@@ -541,6 +675,18 @@ var
             this._displayState.shadowVisible.bottom = calculatedOptionValue;
             needUpdate = true;
          }
+
+         calculatedOptionValue = _private.isShadowVisible(this, POSITION.LEFT, this._displayState.horizontalShadowPosition);
+         if (calculatedOptionValue) {
+              this._displayState.shadowVisible.left = calculatedOptionValue;
+              needUpdate = true;
+          }
+
+         calculatedOptionValue = _private.isShadowVisible(this, POSITION.RIGHT, this._displayState.horizontalShadowPosition);
+         if (calculatedOptionValue) {
+              this._displayState.shadowVisible.right = calculatedOptionValue;
+              needUpdate = true;
+          }
 
          this._updateStickyHeaderContext();
          this._adjustContentMarginsForBlockRender();
@@ -581,7 +727,7 @@ var
             return;
          }
 
-         var displayState = _private.calcDisplayState(this);
+         let displayState = _private.calcDisplayState(this);
 
          if (!isEqual(this._displayState, displayState)) {
             this._displayState = displayState;
@@ -592,7 +738,7 @@ var
       },
 
       _beforeUnmount(): void {
-         //TODO Compatibility на старых страницах нет Register, который скажет controlResize
+         // TODO Compatibility на старых страницах нет Register, который скажет controlResize
          if (!newEnv() && window) {
             window.removeEventListener('resize', this._resizeHandler);
          }
@@ -601,7 +747,7 @@ var
          this._lockScrollPositionUntilKeyboardShown = null;
       },
 
-      _shadowVisible: function(position: POSITION) {
+      _shadowVisible(position: POSITION) {
          const stickyController = this._children.stickyController;
          const fixed: boolean = stickyController?.hasFixed(position);
          const shadowVisible: boolean = stickyController?.hasShadowVisible(position);
@@ -623,6 +769,15 @@ var
          return this._displayState.shadowVisible[position];
       },
 
+       _verticalShadowVisible(position: POSITION): boolean {
+           if (Env.detection.isMobileIOS && position === POSITION.LEFT && this._children.content &&
+               _private.getScrollLeft(this, this._children.content) < 0) {
+               return false;
+           }
+
+           return this._displayState.shadowVisible[position];
+       },
+
       _updateShadowMode(event, shadowVisibleObject): void {
          // _shadowVisibilityByInnerComponents не используется в шаблоне,
          // поэтому св-во не является реактивным и для обновления надо позвать _forceUpdate
@@ -633,6 +788,12 @@ var
             this._forceUpdate();
          }
       },
+
+       calcStyleOverflow(): void {
+           this._classTypeScroll = this._options.scrollEnable === SCROLL_ENABLE.VERTICAL ?
+               'controls-Scroll__scroll_vertical' :
+               'controls-Scroll__scroll_verticalHorizontal';
+       },
 
       setShadowMode: function(shadowVisibleObject) {
          // Спилить после того как удалят использование в engine
@@ -650,9 +811,9 @@ var
        * https://online.sbis.ru/opendoc.html?guid=0cb8e81e-ba7f-4f98-8384-aa52d200f8c8
        */
       _adjustContentMarginsForBlockRender: function() {
-         var computedStyle = getComputedStyle(this._children.content);
-         var marginTop = parseInt(computedStyle.marginTop, 10);
-         var marginRight = parseInt(computedStyle.marginRight, 10);
+         let computedStyle = getComputedStyle(this._children.content);
+         let marginTop = parseInt(computedStyle.marginTop, 10);
+         let marginRight = parseInt(computedStyle.marginRight, 10);
 
          this._contentStyles = this._styleHideScrollbar.replace(/-?\d+/g, function(found) {
             return parseInt(found, 10) + marginRight;
@@ -687,6 +848,7 @@ var
 
       _scrollHandler: function(ev) {
          const scrollTop = _private.getScrollTop(this, this._children.content);
+          const scrollLeft = _private.getScrollLeft(this, this._children.content);
 
          if (this._scrollLockedPosition !== null) {
             this._children.content.scrollTop = this._scrollLockedPosition;
@@ -695,17 +857,28 @@ var
             // Например, при пересчете размеров перед увеличением, плитка может растянуть контейнер между перерисовок,
             // и вернуться к исходному размеру.
             // После этого  scrollTop остается прежним, но срабатывает незапланированный нативный scroll
-         } else if (this._scrollTop !== scrollTop) {
+         } else if (this._scrollTop !== scrollTop || this._scrollLeft !== scrollLeft) {
             if (!this._dragging) {
-               this._scrollTop = scrollTop;
-               this._notify('scroll', [this._scrollTop]);
+                if (this._scrollTop !== scrollTop) {
+                    this._scrollTop = scrollTop;
+                    this._notify('scroll', [this._scrollTop]);
+                }
+                if (this._scrollLeft !== scrollLeft) {
+                    this._scrollLeft = scrollLeft;
+                    this._notify('scroll', [this._scrollLeft]);
+                }
             } else {
-               // scrollTop нам во время перетаскивания могут проставить извне (например
+               // scrollTop/scrollLeft нам во время перетаскивания могут проставить извне (например
                // восстановив скролл после подгрузки новых данных). Во время перетаскивания,
-               // мы не меняем наш scrollTop, чтобы сам скролл и позиция ползунка не
+               // мы не меняем наш scrollTop/scrollLeft, чтобы сам скролл и позиция ползунка не
                // перепрыгнули из под мышки пользователя, но запомним эту позицию,
                // возможно нужно будет установить ее после завершения перетаскивания
-               this._scrollTopAfterDragEnd = scrollTop;
+                if (this._scrollTop !== scrollTop) {
+                    this._scrollTopAfterDragEnd = scrollTop;
+                }
+                if (this._scrollLeft !== scrollLeft) {
+                    this._scrollLeftAfterDragEnd = scrollLeft;
+                }
             }
             this._children.scrollDetect.start(ev, this._scrollTop);
          }
@@ -744,8 +917,8 @@ var
          }
       },
 
-      _scrollbarTaken: function() {
-         if (this._showScrollbarOnHover && this._displayState.canScroll) {
+      _scrollbarTaken() {
+         if (this._showScrollbarOnHover && (this._displayState.canScroll || this._displayState.canHorizontalScroll)) {
             this._notify('scrollbarTaken', [], { bubbling: true });
          }
       },
@@ -820,16 +993,28 @@ var
          return Boolean(!this._useNativeScrollbar && this._options.scrollbarVisible && this._displayState.canScroll && this._showScrollbarOnHover);
       },
 
+       _horizontalScrollbarVisibility() {
+           return Boolean(!this._useNativeScrollbar && this._options.horizontalScrollbarVisible
+               && this._displayState.canHorizontalScroll && this._options.scrollEnable === SCROLL_ENABLE.VERTICALHORIZONTAL
+               && this._showScrollbarOnHover);
+       },
+
       /**
        * TODO: убрать после выполнения https://online.sbis.ru/opendoc.html?guid=93779c1a-8d18-42fe-8dc8-1bab779d0943.
        * Переделать на bind в шаблоне и избавится от прокидывания опций.
        */
-      _positionChangedHandler: function(event, position) {
+      _positionChangedHandler(event, position) {
          _private.setScrollTop(this, position);
       },
 
-      _draggingChangedHandler: function(event, dragging) {
+       _horizontalPositionChangedHandler(event, position): void {
+           _private.setScrollLeft(this, position);
+       },
+
+      _draggingChangedHandler(event, dragging) {
          this._dragging = dragging;
+
+
          if (!dragging && typeof this._scrollTopAfterDragEnd !== 'undefined') {
             // В случае если запомненная позиция скролла для восстановления не совпадает с
             // текущей, установим ее при окончании перетаскивания
@@ -841,34 +1026,48 @@ var
          }
       },
 
+       _horizontalDraggingChangedHandler(event, dragging) {
+           this._dragging = dragging;
+           if (!dragging && typeof this._scrollLeftAfterDragEnd !== 'undefined') {
+               // В случае если запомненная позиция скролла для восстановления не совпадает с
+               // текущей, установим ее при окончании перетаскивания
+               if (this._scrollLeftAfterDragEnd !== this._scrollLeft) {
+                   this._scrollLeft = this._scrollLeftAfterDragEnd;
+                   _private.notifyScrollEvents(this, this._scrollLeft);
+               }
+               this._scrollLeftAfterDragEnd = undefined;
+           }
+       },
+
       /**
        * Update the context value of sticky header.
        * TODO: Плохой метод. Дублирование tmpl и вызов должен только в методе изменения видимости тени. Будет поправлено по https://online.sbis.ru/opendoc.html?guid=01c0fb63-9121-4ee4-a652-fe9c329eec8f
        * @param shadowVisible
        * @private
        */
-      _updateStickyHeaderContext: function() {
-         var
-            shadowPosition: string = '',
-            topShadowVisible: boolean = false,
-            bottomShadowVisible: boolean = false;
 
-         if (this._displayState.canScroll) {
-            topShadowVisible = this._displayState.shadowVisible.top;
-            bottomShadowVisible = this._displayState.shadowVisible.bottom;
-         }
+      _updateStickyHeaderContext() {
+          let
+              shadowPosition: string = '',
+              topShadowVisible: boolean = false,
+              bottomShadowVisible: boolean = false;
 
-         if (topShadowVisible) {
-            shadowPosition += 'top';
-         }
-         if (bottomShadowVisible) {
-            shadowPosition += 'bottom';
-         }
+          if (this._displayState.canScroll) {
+              topShadowVisible = this._displayState.shadowVisible.top;
+              bottomShadowVisible = this._displayState.shadowVisible.bottom;
+          }
 
-         if (this._stickyHeaderContext.shadowPosition !== shadowPosition) {
-            this._stickyHeaderContext.shadowPosition = shadowPosition;
-            this._stickyHeaderContext.updateConsumers();
-         }
+          if (topShadowVisible) {
+              shadowPosition += 'top';
+          }
+          if (bottomShadowVisible) {
+              shadowPosition += 'bottom';
+          }
+
+          if (this._stickyHeaderContext.shadowPosition !== shadowPosition) {
+              this._stickyHeaderContext.shadowPosition = shadowPosition;
+              this._stickyHeaderContext.updateConsumers();
+          }
       },
 
       _getChildContext: function() {
@@ -906,6 +1105,21 @@ var
          return offset < this._children.content.scrollHeight - this._children.content.clientHeight;
       },
 
+       /**
+        * Скроллит к выбранной позиции по горизонтале. Позиция определяется в пикселях от левого края контейнера.
+        * @function Controls/_scroll/Container#horizontalScrollTo
+        * @param {Number} Позиция в пикселях
+        */
+
+       /*
+        * Scrolls to the given position from the top of the container.
+        * @function Controls/_scroll/Container#scrollTo
+        * @param {Number} Offset
+        */
+       horizontalScrollTo(offset) {
+           _private.setScrollLeft(this, offset);
+       },
+
       /**
        * Скроллит к верху контейнера
        * @function Controls/_scroll/Container#scrollToTop
@@ -919,6 +1133,19 @@ var
          _private.setScrollTop(this, 0);
       },
 
+       /**
+        * Скроллит к левому краю контейнера
+        * @function Controls/_scroll/Container#scrollToTop
+        */
+
+       /*
+        * Scrolls to the lefе of the container.
+        * @function Controls/_scroll/Container#scrollToTop
+        */
+       scrollToLeft() {
+           _private.setScrollLeft(this, 0);
+       },
+
       /**
        * Скроллит к низу контейнера
        * @function Controls/_scroll/Container#scrollToBottom
@@ -928,9 +1155,23 @@ var
        * Scrolls to the bottom of the container.
        * @function Controls/_scroll/Container#scrollToBottom
        */
-      scrollToBottom: function() {
+      scrollToBottom() {
          _private.setScrollTop(this, _private.getScrollHeight(this._children.content)  - this._children.content.clientHeight + this._topPlaceholderSize);
       },
+
+       /**
+        * Скроллит к правому краю контейнера
+        * @function Controls/_scroll/Container#scrollToBottom
+        */
+
+       /*
+        * Scrolls to the right of the container.
+        * @function Controls/_scroll/Container#scrollToBottom
+        */
+       scrollToRight() {
+           _private.setScrollLeft(this, _private.getScrollWidth(this._children.content) -
+               this._children.content.clientWidth + this._leftPlaceholderSize);
+       },
 
       // TODO: система событий неправильно прокидывает аргументы из шаблонов, будет исправлено тут:
       // https://online.sbis.ru/opendoc.html?guid=19d6ff31-3912-4d11-976f-40f7e205e90a
@@ -1026,13 +1267,24 @@ Scroll.getDefaultOptions = function() {
    return {
       topShadowVisibility: SHADOW_VISIBILITY.AUTO,
       bottomShadowVisibility: SHADOW_VISIBILITY.AUTO,
-      scrollbarVisible: true
+      scrollbarVisible: true,
+      horizontalScrollbarVisible: true,
+      scrollEnable: 'vertical'
    };
+};
+
+Scroll.getOptionTypes = () => {
+    return {
+        scrollEnable: entity.descriptor(String).oneOf([
+            'vertical',
+            'verticalHorizontal'
+        ])
+    };
 };
 
 Scroll.contextTypes = function() {
    return {
-      ScrollData: ScrollData
+      ScrollData
    };
 };
 

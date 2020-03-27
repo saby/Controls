@@ -16,7 +16,8 @@
                  class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-{{_options.theme}}
                            {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
                            {{_displayState.hasScroll ? 'controls-Scroll__content_possibleScroll'}}
-                           {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' : 'controls-Scroll__content_scroll'}}
+                           {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' :
+                            _classTypeScroll}}
                            {{_overflowScrolling ? 'controls-Scroll__content-overflowScrolling'}}"
                  on:controlResize="_resizeHandler()"
                  on:scroll="_scrollHandler()">
@@ -57,16 +58,37 @@
          position="{{_scrollTop}}"
          name="scrollBar"
          contentSize="{{_displayState.contentHeight}}"
-         attr:class="controls-Scroll__scrollbar {{!_dragging ? 'controls-Scroll__scrollbar_hidden'}}"
+         attr:class="controls-Scroll__scrollbar {{!_dragging ? 'controls-Scroll__scrollbar_hidden'}}
+         {{_horizontalScrollbarVisibility() ? 'controls-VScrollbar_vertical_offset'}}"
          on:positionChanged="_positionChangedHandler()"
          on:draggingChanged="_draggingChangedHandler()"
          attr:style="{{_scrollbarStyles}}"/>
    </ws:if>
    <ws:if data="{{_displayState.shadowEnable.top}}">
-      <div class="controls-Scroll__shadow controls-Scroll__shadow_top {{!_shadowVisible('top') ? ' ws-invisible'}}"></div>
+      <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top {{!_shadowVisible('top') ? ' ws-invisible'}}"></div>
    </ws:if>
    <ws:if data="{{_displayState.shadowEnable.bottom}}">
-      <div class="controls-Scroll__shadow controls-Scroll__shadow_bottom {{!_shadowVisible('bottom') ? ' ws-invisible'}}"></div>
+      <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_bottom {{!_shadowVisible('bottom') ? ' ws-invisible'}}"></div>
+   </ws:if>
+   <ws:if data="{{_horizontalScrollbarVisibility()}}">
+      <Controls._scroll.Scroll.Scrollbar
+              position="{{_scrollLeft}}"
+              direction="horizontal"
+              name="horizontalScrollBar"
+              contentSize="{{_displayState.contentWidth}}"
+              thumbStyle="accented"
+              thumbThickness="l"
+              attr:class="controls-Scroll__scrollbar {{!_dragging ? 'controls-Scroll__scrollbar_hidden'}}
+              {{_scrollbarVisibility() ? 'controls-VScrollbar_horizontal_offset'}}"
+              on:positionChanged="_horizontalPositionChangedHandler()"
+              on:draggingChanged="_horizontalDraggingChangedHandler()"
+              attr:style="{{_scrollbarStyles}}"/>
+   </ws:if>
+   <ws:if data="{{_displayState.shadowEnable.left}}">
+      <div class="controls-Scroll__shadow controls-Scroll__shadow_vertical controls-Scroll__shadow_left {{!_verticalShadowVisible('left') ? ' ws-invisible'}}"></div>
+   </ws:if>
+   <ws:if data="{{_displayState.shadowEnable.right}}">
+      <div class="controls-Scroll__shadow controls-Scroll__shadow_vertical controls-Scroll__shadow_right {{!_verticalShadowVisible('right') ? ' ws-invisible'}}"></div>
    </ws:if>
    <ws:if data="{{_pagingState.visible}}">
          <Controls.paging:Paging class="controls-Scroll__paging"

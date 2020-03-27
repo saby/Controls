@@ -26,7 +26,7 @@ var _private = {
         var style;
 
         if (scrollbarWidth) {
-            style = 'margin-right: -' + scrollbarWidth + 'px;';
+            style = `margin: 0 -${scrollbarWidth}px -${scrollbarWidth}px 0;`;
         } else if (scrollbarWidth === 0) {
             style = '';
         }
@@ -58,4 +58,4 @@ export = {
         return styleHideScrollbar;
     }
 };
-   
+
