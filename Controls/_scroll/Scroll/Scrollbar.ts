@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {detection} from 'Env/Env';
 import * as ScrollBarTemplate from 'wml!Controls/_scroll/Scroll/Scrollbar/Scrollbar';
 import 'Controls/event';
-import 'css!theme?Controls/scroll';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as newEnv from 'Core/helpers/isNewEnvironment';
 
@@ -434,6 +433,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
         }
         return delta;
     }
+
+     static _theme: string[] = ['Controls/scroll'];
 }
 
 Scrollbar.getDefaultOptions = function () {
