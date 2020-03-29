@@ -2865,7 +2865,6 @@ BaseControl._theme = ['Controls/Classes'];
 
 BaseControl.getDefaultOptions = function() {
     return {
-        uniqueKeys: true,
         multiSelectVisibility: 'hidden',
         markerVisibility: 'onactivated',
         style: 'default',

@@ -120,11 +120,7 @@ var _private = {
                 .load(filter, options.sorting)
                 .addCallback((list) => {
                     listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
-                    if (options.uniqueKeys) {
-                        listViewModel.mergeItems(list);
-                    } else {
-                        listViewModel.appendItems(list);
-                    }
+                    listViewModel.mergeItems(list);
                     _private.toggleExpandedOnModel(self, listViewModel, dispItem, expanded);
                     if (options.nodeLoadCallback) {
                         options.nodeLoadCallback(list, nodeKey);
@@ -189,11 +185,7 @@ var _private = {
         self._children.baseControl.showIndicator();
         nodeSourceControllers.get(nodeKey).load(filter, self._options.sorting, 'down').addCallback(function(list) {
             listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
-            if (self._options.uniqueKeys) {
-                listViewModel.mergeItems(list);
-            } else {
-                listViewModel.appendItems(list);
-            }
+            listViewModel.mergeItems(list);
             if (self._options.dataLoadCallback) {
                 self._options.dataLoadCallback(list);
             }
@@ -722,7 +714,6 @@ TreeControl._theme = ['Controls/treeGrid'];
 
 TreeControl.getDefaultOptions = () => {
     return {
-        uniqueKeys: true,
         filter: {},
         markItemByExpanderClick: true,
         expandByItemClick: false,

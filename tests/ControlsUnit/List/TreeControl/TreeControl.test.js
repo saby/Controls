@@ -1273,8 +1273,7 @@ define([
                       dataLoadCallbackCalled = true;
                    },
                    sorting: [{'test': 'ASC'}],
-                   parentProperty: 'parent',
-                   uniqueKeys: true
+                   parentProperty: 'parent'
                 },
                 _nodesSourceControllers: new Map([
                    [

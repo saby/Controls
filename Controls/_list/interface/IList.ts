@@ -96,7 +96,6 @@ export interface IList {
     itemActionsProperty?: string;
     markedKey?: string|number;
     markerVisibility?: TMarkerVisibility;
-    uniqueKeys?: boolean;
     itemsReadyCallback?: (items) => void;
     dataLoadCallback?: (items) => void;
     dataLoadErrback?: () => void;

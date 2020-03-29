@@ -60,9 +60,4 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
     scrollToItem(key: string|number, toBottom: boolean, force: boolean): void {
         return this._children.baseControl.scrollToItem(key, toBottom, force);
     }
-    static getDefaultOptions () {
-        return {
-            uniqueKeys: true
-        };
-    };
 }
