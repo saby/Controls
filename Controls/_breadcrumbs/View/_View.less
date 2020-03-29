@@ -92,6 +92,10 @@
    flex-grow: 1;
    max-width: 100%;
 }
+//Так как мы добавляем отступы у крошек, чтобы обводка dragNDrop не обрезалась за счет overflow-hidden, появляется лишний левый отступ. Делаем отрицательный margin на такое же значение, как левый отступ у первой крошки.
+.controls-BreadCrumbsView_theme-@{themeName} {
+   margin-left: -@spacing_default_xxs;
+}
 .controls-BreadCrumbsView__dropTarget_withArrow, .controls-BreadCrumbsView__dropTarget_withoutArrow {
    &:after {
       content: '';
