@@ -36,6 +36,12 @@
    box-sizing: content-box;
 }
 
+.controls-MonthViewVDOM__item {
+   font-size: @monthview_item_font-size_monthSlider;
+   border-top: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
+   border-left: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
+}
+
 .ws-is-no-touch {
    .controls-MonthViewVDOM__hover-selectableItem,
    .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected,
@@ -49,6 +55,12 @@
 
    .controls-MonthViewVDOM__border-currentMonthDay-unselected {
       &:hover {
+         //В браузерах EDGE и IE слипаются пкисели у дней (верхний блок дня становится выше на 1px). Проблема решается,
+         //если при хавере мы поменяем border на margin.
+         border: none;
+         z-index: 1;
+         margin-left: @monthview_item_border-thickness_monthSlider;
+         margin-top: @monthview_item_border-thickness_monthSlider;
          outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
       }
    }
@@ -61,6 +73,12 @@
 .controls-MonthViewVDOM__item-selectedEnd-unfinished {
    outline-style: solid;
    outline-width: @monthview_item_border-thickness_monthSlider;
+   //В браузерах EDGE и IE слипаются пкисели у дней (верхний блок дня становится выше на 1px). Проблема решается,
+   //если при хавере мы поменяем border на margin. Делаем тоже самое для выбранного периода, только на слой выше.
+   z-index: 2;
+   border: none;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
 }
 
 .controls-MonthViewVDOM__item-selectedStart,
@@ -89,7 +107,10 @@
 .controls-MonthViewVDOM__item-selectedStartEnd {
    outline: @border-color_RangeSelection-selected-startEnd-edgeBorder solid @border-thickness_RangeSelection-selected-startEnd;
    outline-offset: @border-thickness_RangeSelection - @border-thickness_RangeSelection-selected-startEnd;
-   z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
+   z-index: 2; //При масштабе 150% соседние блоки наезжают на outline. Делаем на слой выше чем блок с невыбранным днём.
+   border: none;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
 }
 
 .controls-MonthViewVDOM__item-today-background {
@@ -118,12 +139,6 @@
 .controls-MonthViewVDOM__tableRow {
    flex-basis: @monthview_item_height_monthSlider + @monthview_item_border-thickness_monthSlider;
    margin-right: @monthview_item_border-thickness_monthSlider;
-}
-
-.controls-MonthViewVDOM__item {
-   font-size: @monthview_item_font-size_monthSlider;
-   margin-top: @monthview_item_border-thickness_monthSlider;
-   margin-left: @monthview_item_border-thickness_monthSlider;
 }
 
 .controls-MonthViewVDOM__item-today-background {
