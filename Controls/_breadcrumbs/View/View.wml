@@ -1,4 +1,4 @@
-<div attr:class="controls-BreadCrumbsView">
+<div attr:class="controls-BreadCrumbsView controls-BreadCrumbsView_theme-{{_options.theme}}">
     <ws:if data="{{_options.visibleItems.length > 0}}">
         <div attr:class="controls-BreadCrumbsView__wrapper">
             <ws:partial template="{{_itemsTemplate}}"
