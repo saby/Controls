@@ -103,7 +103,16 @@ var Component = BaseSelector.extend({
                 _displayDate: this._options._displayDate,
             }
         };
+    },
+
+    shiftBack: function () {
+        this._children.linkView.shiftBack();
+    },
+
+    shiftForward: function () {
+        this._children.linkView.shiftForward();
     }
+
 });
 
 Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;

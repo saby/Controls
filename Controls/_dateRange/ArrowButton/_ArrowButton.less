@@ -1,0 +1,48 @@
+.controls-DateRangeButton_theme-@{themeName} {
+   border-width: @border-width_DateLinkView-prev-next-buttons;
+   width: @width_DateLinkView-prev-next-buttons - 2 * @border-width_DateLinkView-prev-next-buttons;
+   box-shadow: @box-shadow_DateLinkView-prev-next-buttons;
+   height: @height_DateLinkView-prev-next-buttons - 2 * @border-width_DateLinkView-prev-next-buttons;
+   border-color: @border-color_DateLinkView-prev-next-buttons;
+   color: @color_DateLinkView-prev-next-buttons;
+}
+
+.controls-DateRangeButton {
+   border-style: solid;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.ws-is-hover {
+   .controls-DateRangeButton-active_theme-@{themeName}:hover {
+      cursor: pointer;
+      border-color: @border-color_DateLinkView-prev-next-buttons-hovered;
+      color: @color_DateLinkView-prev-next-buttons-hovered;
+   }
+}
+
+.controls-DateRangeButton-active_theme-@{themeName}:active {
+   border-color: @border-color_DateLinkView-prev-next-buttons-active;
+   color: @color_DateLinkView-prev-next-buttons-active;
+}
+
+.controls-DateRangeButton-readOnly_theme-@{themeName} {
+   color: @color-DateLinkView-prev-next-buttons-readOnly;
+   border-color: @border-color_DateLinkView-prev-next-buttons;
+}
+
+.controls-DateRangeButton_prev {
+
+   &:before {
+      content: "\e007";
+   }
+}
+
+.controls-DateRangeButton_next {
+
+   &:before {
+      content: "\e008";
+   }
+}

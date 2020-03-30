@@ -13,6 +13,7 @@ export {default as DateRangeModel} from './_dateRange/DateRangeModel';
 export {default as rangeSelection} from './_dateRange/Utils/RangeSelection';
 export {default as dateRangeQuantum} from './_dateRange/Utils/DateRangeQuantum';
 export {default as IRangeSelectable} from './_dateRange/interfaces/IRangeSelectable';
+export {default as ArrowButton} from 'Controls/_dateRange/ArrowButton';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
 
 export {IDateRangeSelectable};
@@ -36,6 +37,7 @@ export {IDateRangeSelectable};
  * @includes LinkView Controls/_dateRange/LinkView
  * @includes RangeSelectionController Controls/_dateRange/Controllers/RangeSelectionController
  * @includes DateRangeSelectionController Controls/_dateRange/Controllers/DateRangeSelectionController
+ * @includes Button Controls/_dateRange/ArrowButton
  *
  * @public
  * @author Красильников А.С.

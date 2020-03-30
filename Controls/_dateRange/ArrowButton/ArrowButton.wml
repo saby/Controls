@@ -1,0 +1,5 @@
+<div class="controls-DateRangeButton controls-DateRangeButton_theme-{{_options.theme}}
+     {{_options.readOnly? 'controls-DateRangeButton-readOnly_theme-' : 'controls-DateRangeButton-active_theme-'}}{{_options.theme}}
+     {{_options.direction === 'right'? ' controls-DateRangeButton_prev' : ' controls-DateRangeButton_next'}}"
+     on:click="_clickHandler()">
+</div>
