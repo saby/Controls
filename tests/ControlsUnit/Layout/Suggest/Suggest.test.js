@@ -651,6 +651,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
       });
 
       it('Suggest::_beforeUpdate', function() {
+         var isDependenciesLoaded = false;
          var options = {
             emptyTemplate: 'anyTpl',
             footerTemplate: 'anyTp',
@@ -660,7 +661,10 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
             searchParam: 'testSearchParam',
             minSearchLength: 3
          };
-         suggestMod._InputController._private.loadDependencies = function() {return Deferred.success(true)};
+         suggestMod._InputController._private.loadDependencies = function() {
+            isDependenciesLoaded = true;
+            return Deferred.success(true);
+         };
          var suggestComponent = new suggestMod._InputController(options);
          var sandbox = sinon.createSandbox();
 
@@ -672,7 +676,9 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._suggestMarkedKey = 'test';
 
          suggestComponent._beforeUpdate({suggestState: false, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl',  value: 'te'});
-         assert.isFalse(suggestComponent._showContent, null);
+         assert.isFalse(suggestComponent._showContent);
+         assert.isFalse(suggestComponent._isDependenciesUpdating);
+         assert.isTrue(isDependenciesLoaded);
          assert.equal(suggestComponent._loading, null);
          assert.equal(suggestComponent._dependenciesDeferred, null);
          assert.equal(suggestComponent._searchValue, '');
@@ -693,6 +699,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._options.value = 'test';
          suggestComponent._beforeUpdate({suggestState: true, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl', value: ''});
          assert.equal(suggestComponent._searchValue, '');
+         assert.isTrue(suggestComponent._isDependenciesUpdating);
          sinon.assert.calledWith(suggestComponent._notify, 'suggestStateChanged', [false]);
 
          suggestComponent._searchValue = 'test';

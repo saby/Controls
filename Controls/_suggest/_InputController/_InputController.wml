@@ -58,7 +58,7 @@
     <!-- TODO Нужно перевести на name после https://online.sbis.ru/opendoc.html?guid=403837db-4075-4080-8317-5a37fa71b64a-->
     <ws:partial on:inputReady="inputReadyHandler()" template="{{_options.content}}" on:keydown="_keydown()" on:valueChanged="_changeValueHandler()" on:activated="_inputActivated()" on:deactivated="_inputDeactivated()" on:click="_inputClicked()" attr:class="controls-Suggest-Text_style_{{_options.suggestStyle}} controls-Suggest__layout-input"/>
 
-    <ws:if data="{{_options.suggestState && (!_dependenciesDeferred || _dependenciesDeferred.isReady())}}">
+    <ws:if data="{{_options.suggestState && _dependenciesDeferred && _dependenciesDeferred.isReady()}}">
         <ws:partial template="{{_options.layerName}}"
                     name="layerOpener" target="{{_container}}"
                     filter="{{_filter}}" searchValue="{{_searchValue}}"
