@@ -202,6 +202,18 @@ define(
             });
          });
 
+         it('_itemsReadyCallbackHandler', async function() {
+            const options = {source: source, keyProperty: 'id'};
+            let data = getDataWithConfig(options);
+            await data._beforeMount(options);
+
+            const currentItems = data._items;
+            const newItems = new collection.RecordSet();
+
+            data._itemsReadyCallbackHandler(newItems);
+            assert.isTrue(data._items === newItems);
+         });
+
          it('update not equal source', function(done) {
             var
                items,
