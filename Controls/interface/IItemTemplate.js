@@ -25,17 +25,17 @@ define('Controls/interface/IItemTemplate', [
     * @demo Controls-demo/list_new/ItemTemplate/CustomContent/Index
     * @remark
     * Позволяет установить прикладной шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/list:ItemTemplate}.
-    * 
+    *
     * По умолчанию Controls/list:ItemTemplate отображает значение поля, имя которого задано в опции {@link Controls/list:ItemTemplate#displayProperty displayProperty}. Об этом следует помнить при настройке источника данных контрола. Также шаблон Controls/list:ItemTemplate поддерживает {@link Controls/list:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
-    * 
-    * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон Controls/list:ItemTemplate. Также в опцию itemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/list:ItemTemplate.
-    * 
+    *
+    * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию itemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/list:ItemTemplate.
+    *
     * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/templates/item/ руководстве разработчика}.
     * @example
     * <pre class="brush: html">
     * <Controls.list:View>
     *    <ws:itemTemplate>
-    *       <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}" scope="{{itemTemplate}}"> 
+    *       <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
     *             {{contentTemplate.itemData.item.title}}
     *          </ws:contentTemplate>
@@ -65,7 +65,7 @@ define('Controls/interface/IItemTemplate', [
     * <pre>
     *    <Controls.list:View>
     *       <ws:itemTemplate>
-    *          <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}"> 
+    *          <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *             <ws:contentTemplate>
     *                <span>{{contentTemplate.itemData.item.description}}</span>
     *             </ws:contentTemplate>
@@ -77,8 +77,9 @@ define('Controls/interface/IItemTemplate', [
 
    /**
     * @name Controls/interface/IItemTemplate#itemTemplateProperty
-    * @cfg {String|undefined} Имя поля элемента, где содержится имя шаблона отображения элемента. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
+    * @cfg {String|undefined} Имя поля элемента, которое содержит имя шаблона отображения элемента. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
     * @demo Controls-demo/list_new/ItemTemplate/ItemTemplateProperty/Index
+    * @default undefined
     * @remark
     * Если не задано значение в опции itemTemplateProperty или в свойстве элемента, то используется шаблон из {@link Controls/interface/IItemTemplate#itemTemplate itemTemplate}.
     * @see Controls/interface/IItemTemplate#itemTemplate

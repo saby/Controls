@@ -34,7 +34,7 @@ export default interface IBaseItemTemplateOptions {
    marker?: boolean;
    /**
     * @typedef {String} ItemActionsClass
-    * @variant controls-itemActionsV_position_bottomRight В правом нижнем углу элемента. 
+    * @variant controls-itemActionsV_position_bottomRight В правом нижнем углу элемента.
     * @variant controls-itemActionsV_position_topRight В правом верхнем углу элемента.
     */
    /**
@@ -43,4 +43,15 @@ export default interface IBaseItemTemplateOptions {
     * @default controls-itemActionsV_position_bottomRight
     */
    itemActionsClass?: string;
+   /**
+    * @name Controls/interface/IItemTemplate#checkboxReadOnly
+    * @cfg {boolean} Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
+    * @default false
+    */
+   /*
+    * @name Controls/interface/IItemTemplate#checkboxReadOnly
+    * @cfg {boolean} Flag, allowing to set "readonly" state for checkbox within multiSelect.
+    * @default false
+    */
+   checkboxReadOnly?: boolean;
 }

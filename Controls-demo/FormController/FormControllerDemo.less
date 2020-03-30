@@ -1,0 +1,74 @@
+.formControllerDemo__input {
+  border-radius: 6px;
+  border: 1px solid @readonly_color;
+  padding: 5px;
+  padding-left: 8px;
+  color: @text-color;
+  height: 30px;
+  width: 600px;
+  margin-top: 5px;
+}
+
+input::placeholder {
+  color: @readonly_color;
+}
+
+.formControllerDemo__button {
+  height: 35px;
+  width: 90px;
+  border-radius: 8px;
+  background-color: @warning_color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+.formControllerDemo__button__delete {
+  background-color: #f4f4f4;
+  color: @readonly_color;
+  margin-left: 10px;
+  font-weight: normal;
+}
+.formControllerDemo__button__create {
+  font-weight: normal;
+}
+
+.formControllerDemo__button:hover {
+  background-color: @text-color;
+  color: @background-color;
+}
+
+.formControllerDemo__list__header {
+  padding: 10px 0;
+  border-bottom: 1px solid @warning_color;
+}
+.formControllerDemo__list__item{
+  width: 200px;
+ }
+.formControllerDemo__list {
+  padding: 10px 0;
+}
+
+.formControllerDemo__record__header {
+  margin-bottom: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @warning_color;
+}
+.formControllerDemo__record {
+  width: 250px;
+  padding: 20px;
+  box-shadow: 0 0 10px @readonly_color;
+}
+.formControllerDemo__button__pending {
+  background-color: #f4f4f4;
+  color: @readonly_color;
+  margin-left: 10px;
+  font-weight: normal;
+  padding-left: 15px;
+}
+.formControllerDemo__operation__icon {
+  .icon(20px);
+  color: @warning_color;
+}

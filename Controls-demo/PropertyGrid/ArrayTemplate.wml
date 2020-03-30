@@ -1,7 +1,7 @@
 <div>
    <Controls.input:Label caption="{{_options.caption}}" attr:class="demo-TextBox"/>
    <ws:if data="{{_options.editorType === 'EditingConfig'}}">
-      <Controls-demo.List.List.resources.EditableListPG.EditingConfigEditor
+      <Controls-demo.List.resources.EditableListPG.EditingConfigEditor
               scope="{{_options}}"
               on:valueChanged="_valueChangedHandlerObj()"/>
    </ws:if>

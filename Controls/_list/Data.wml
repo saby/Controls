@@ -10,5 +10,6 @@
                loading="{{_loading || _options.loading}}"
                scope="{{_options}}"
                items="{{_items}}"
-               filter="{{_filter}}"/>
+               filter="{{_filter}}"
+               itemsReadyCallback="{{_itemsReadyCallback}}"/>
 </Controls.event:Register>

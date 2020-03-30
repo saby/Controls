@@ -4,7 +4,6 @@
       <Controls.menu:Control
               source="{{_source}}"
               keyProperty="key"
-              selectedKeys="{{[1]}}"
               displayProperty="title"
       />
    </div>

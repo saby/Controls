@@ -104,10 +104,10 @@ const
       isShadowVisible(shadowState, position) {
          return shadowState.indexOf(position) !== - 1;
       },
-      calculateShadowClasses(shadowState, position, theme) {
-         let
-            shadowClasses = 'controls-ColumnScroll__shadow_theme-' + theme;
-         shadowClasses += ' controls-ColumnScroll__shadow-' + position + '_theme-' + theme;
+      calculateShadowClasses(shadowState: string, position: string, theme: string, backgroundStyle: string): string {
+         let shadowClasses = `controls-ColumnScroll__shadow_theme-${theme}`
+                            + ` controls-ColumnScroll__shadow-${position}_theme-${theme}`
+                            + ` controls-horizontal-gradient-${backgroundStyle || 'default'}_theme-${theme}`;
          if (!_private.isShadowVisible(shadowState, position)) {
             shadowClasses += ' controls-ColumnScroll__shadow_invisible';
          }
@@ -237,8 +237,8 @@ const
          return items && !!items.getCount() && (this._contentSize > this._contentContainerSize) ? true : false;
       },
 
-      _calculateShadowClasses(position) {
-         return _private.calculateShadowClasses(this._shadowState, position, this._options.theme);
+      _calculateShadowClasses(position: string): string {
+         return _private.calculateShadowClasses(this._shadowState, position, this._options.theme, this._options.backgroundStyle);
       },
 
       _calculateShadowStyles(position) {
@@ -328,6 +328,6 @@ const
            return delta;
        }
    });
-ColumnScroll._theme = ['Controls/grid'];
+ColumnScroll._theme = ['Controls/grid', 'Controls/Classes'];
 ColumnScroll._private = _private;
 export = ColumnScroll;

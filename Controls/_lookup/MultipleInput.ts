@@ -7,7 +7,7 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * Отличается от {@link Controls/_lookup/Lookup поля связи} выводом выбранных значений.
  * Ширина выбранных занчений будет пропорционально распределена по ширине контрола, чтобы все значения поместились.
  * Подробное описание и инструкции по настройке контрола можно найти <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/directory/lookup/'>здесь</a>
- * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Engine-demo%2FLookup">демонстрационный пример</a>
+ * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демонстрационный пример</a>
  *
  * @class Controls/_lookup/MultipleInput
  * @extends Core/Control
@@ -15,7 +15,7 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/ITextValue
@@ -30,14 +30,13 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
- * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
  * @author Герасимов А.М.
  */
 /*
  * “Lookup:MultipleInput” is an input field with auto-completion and the ability to select a value from the directory. It differs from the usual lookup: input in that only one value can be selected from each directory.
- * Here you can see <a href="/materials/Controls-demo/app/Engine-demo%2FLookup">demo-example</a>.
+ * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">demo-example</a>.
  * If you use the link to open the directory inside the tooltip of the input field, you will need {@link Controls/lookup:Link}.
  * If you want to make a dynamic placeholder of the input field, which will vary depending on the selected collection, use {@link Controls/lookup:PlaceholderChooser}.
  *
@@ -47,7 +46,7 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/ITextValue
@@ -62,7 +61,6 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
- * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
  * @author Герасимов А.М.

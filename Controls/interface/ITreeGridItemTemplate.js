@@ -18,27 +18,25 @@ define('Controls/interface/ITreeGridItemTemplate', [
 
    /**
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplate
-    * @cfg {Function} Устанавливает шаблон отображения элемента.
-    * @default Controls/treeGrid:ItemTemplate
+    * @cfg {Function} Шаблон отображения элемента.
+    * @default undefined
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">демо-пример</a>.
-    * Подробнее о параметрах шаблона Controls/treeGrid:ItemTemplate читайте {@link Controls/treeGrid:ItemTemplate здесь}.
-    * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ здесь}.
-    * Шаблон может быть переопределён с помощью {@link Controls/interface/ITreeGridItemTemplate#itemTemplateProperty itemTemplateProperty}.
+    * Позволяет установить прикладной шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/treeGrid:ItemTemplate}.
+    *
+    * Шаблон Controls/treeGrid:ItemTemplate поддерживает {@link Controls/treeGrid:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
+    *
+    * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию itemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/treeGrid:ItemTemplate.
+    *
+    * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ руководстве разработчика}.
     * @example
     * <pre class="brush: html">
     * <Controls.treeGrid:View>
     *    <ws:itemTemplate>
-    *       <ws:partial template="Controls/treeGrid:ItemTemplate" levelIndentSize="null" expanderSize="l" expanderIcon="node" scope="{{itemTemplate}}">
-    *          <ws:contentTemplate>
-    *             <div title="{{contentTemplate.itemData.item.Name}}">
-    *                {{contentTemplate.itemData.item.Name}}
-    *             </div>
-    *          </ws:contentTemplate>
-    *       </ws:partial>
+    *       <ws:partial template="Controls/treeGrid:ItemTemplate" highlightOnHover="{{false}}" />
     *    </ws:itemTemplate>
     * </Controls.treeGrid:View>
     * </pre>
+    * @demo Controls-demo/treeGrid/ItemTemplate/NoHighlightOnHover/Index
     * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
     * @see Controls/treeGrid:ItemTemplate
     */
@@ -63,16 +61,15 @@ define('Controls/interface/ITreeGridItemTemplate', [
 
    /**
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
-    * @cfg {String} Устанавливает имя свойства элемента, которое содержит имя шаблона, используемого для отрисовки элементов.
+    * @cfg {String} Имя поля элемента, которое содержит имя шаблона отображения элемента. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
+    * @default undefined
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">демо-пример</a>.
     * Если не задано значение в опции itemTemplateProperty или в свойстве элемента, то используется шаблон из {@link Controls/interface/ITreeGridItemTemplate#itemTemplate itemTemplate}.
     * @see Controls/interface/ITreeGridItemTemplate#itemTemplate
     */
    /*
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
     * @cfg {String} Name of the item property that contains template for item render. If not set, itemTemplate is used instead.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">Example</a>.
     */
 
 });

@@ -32,8 +32,9 @@
    </div>
 </ws:template>
 
-<ws:if data="{{itemData.isStickyHeader && !itemData.virtualScrolling}}">
+<ws:if data="{{itemData.isStickyHeader && !itemData.virtualScrollConfig}}">
    <Controls.scroll:StickyHeader
+           backgroundStyle="{{backgroundStyle}}"
            attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="group-{{itemData.item}}">
             <ws:partial template="groupTemplate" itemData="{{itemData}}"/>
    </Controls.scroll:StickyHeader>

@@ -11,10 +11,12 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
       var WS3WithHandlers = Control.extend({
          _template: template,
          _compatibleReady: false,
-         _text: null,
+         _textForWs3Control: null,
+         _textForWasabyControl: null,
 
          _beforeMount: function() {
-            this._text = 'Wait...';
+            this._textForWs3Control = 'Wait...';
+            this._textForWasabyControl = this._textForWs3Control;
          },
 
          _afterMount: function() {
@@ -22,16 +24,25 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
             CompatibleLayer.load()
                .addCallback(function() {
                   self._compatibleReady = true;
-                  self._text = 'Init success!';
+                  self._textForWs3Control = 'Init success!';
+                  self._proxySetTextFromWs3Control(null, self._textForWs3Control);
                   self._forceUpdate();
                });
          },
-         _setText: function(e, value) {
-            this._text = value;
+
+         // изменение текста в wasaby-контроле
+         _setTextFromWasabyControl: function(e, value) {
+            this._textForWs3Control = value;
          },
 
-         _setTextOld: function(e, value) {
-            this.getTopParent()._logicParent._setText(e, value);
+         // изменение текста в wasaby-контроле, которое "проксируется" из WS3-контрола
+         _proxySetTextFromWs3Control: function(e, value) {
+            this._textForWasabyControl = value;
+         },
+
+         // изменение текста в WS3-контроле, который находится в CompoundContainer
+         _setTextFromWs3Control: function(e, value) {
+            this.getTopParent()._logicParent._proxySetTextFromWs3Control(e, value);
          },
       });
       return WS3WithHandlers;

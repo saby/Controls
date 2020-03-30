@@ -198,8 +198,9 @@ class PageQueryParamsController implements IQueryParamsController {
         if (direction === 'up') {
             this._page = 0;
         } else if (direction === 'down') {
-            if (typeof this._more === 'number') {
-                this._page = this._more / this._options.pageSize - 1;
+            const allCount = this.getAllDataCount();
+            if (typeof allCount === 'number') {
+                this._page = allCount / this._options.pageSize - 1;
             } else {
                 this._page = -1;
             }

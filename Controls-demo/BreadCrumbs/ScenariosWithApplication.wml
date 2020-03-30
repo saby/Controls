@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="BreadCrumbs" demoname="Controls-demo/BreadCrumbs/Scenarios.wml">
-   <ws:content>
-      <Controls-demo.BreadCrumbs.Scenarios />
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

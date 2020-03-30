@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Groupe
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
-import Constants = require('Controls/Constants');
+import {view as constView} from 'Controls/Constants';
 import 'css!Controls-demo/Controls-demo';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
@@ -24,7 +24,7 @@ export default class extends Control {
 
     private _groupingKeyCallback(item: Model): string {
         const groupId = item.get('brand');
-        return groupId === 'apple' ? Constants.view.hiddenGroup : groupId;
+        return groupId === 'apple' ? constView.hiddenGroup : groupId;
     }
 
     protected _onBeforeBeginEdit(e: SyntheticEvent<null>, options: { item?: Model }, isAdd: boolean): Promise<{item: Model}> | void {

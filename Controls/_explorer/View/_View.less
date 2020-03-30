@@ -3,15 +3,11 @@
    min-height:    @min-height_Explorer-path;
 }
 
-//TODO удалить костыль про background-color после https://online.sbis.ru/opendoc.html?guid=e7fc125a-8220-4e2e-b152-f4bbfa0c25d6
-.controls-Explorer__Path_style_master {
-   background-color: @background-color_List-masterList;
-}
 .controls-Explorer__Path_style_master:before {
    content: '';
    z-index: 0;
-   width: @border-width_List-masterList-right;
-   background-color: @border-color_List-masterList;
+   width: @master_separator_thickness_list;
+   background-color: @master_separator_color_list;
    height: 100%;
    position: absolute;
    right: 0;

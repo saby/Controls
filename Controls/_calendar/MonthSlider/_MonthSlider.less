@@ -11,7 +11,6 @@
 
 .controls-MonthSlider__header-button {
    cursor: pointer;
-   .icon();
 }
 
 .controls-MonthSlider__header-title {
@@ -41,84 +40,35 @@
    //height: 100%;
 }
 
-.controls-MonthSlider__theme(
-   @height: null,
-   @width: null,
-   @height_header: null,
-   @color_header-button: null,
-   @color_header-button_hovered: null,
-   @margin-left_home-button: null,
-   @font-size_header-title: null,
-   @min-width_header-title: null,
-   @color_header-title: null,
-   @color_weekDayHeader: null,
-   @font-size_item: null,
-   @height_weekdays: null
-) {
-
-   .setStyle(@property, @value) {
-      & when not (@value = null) {
-         @{property}: @value;
-      }
-   }
-
-   &.controls-MonthSlider {
-      .setStyle(width, @width);
-      .setStyle(height, @height);
-   }
-
-   .controls-MonthSlider__header {
-      .setStyle(height, @height_header);
-   }
-
-   .controls-MonthSlider__header-button {
-      .setStyle(color, @color_header-button);
-      &:hover {
-         .setStyle(color, @color_header-button_hovered);
-      }
-   }
-
-   .controls-MonthSlider__home-button {
-      .setStyle(margin-left, @margin-left_home-button);
-   }
-
-   .controls-MonthSlider__header-title {
-      .setStyle(font-size, @font-size_header-title);
-      .setStyle(min-width, @min-width_header-title);
-      .setStyle(color, @color_header-title);
-   }
-
-   .controls-MonthSlider__weekdays-container {
-      .setStyle(color, @color_weekDayHeader);
-      .setStyle(font-size, @font-size_item);
-      .setStyle(height, @height_weekdays);
+.controls-MonthSlider__header-button {
+   .icon(@arrow_icon-size_monthSlider);
+   color: @arrow_icon-color_monthSlider;
+   &:hover {
+      color: @arrow_hover_icon-color_monthSlider;
    }
 }
 
-.controls-MonthSlider__theme(
-   @width: @width_MonthView,
-   @height: @height_MonthSlider,
-   @height_header: @height_MonthSlider-header,
-   @color_header-button: @color_secondary,
-   @color_header-button_hovered: @background-color_item_hovered,
-   @margin-left_home-button: @margin-left_MonthSlider-home-button,
-   @font-size_header-title: @font-size_text_l,
-   @min-width_header-title: @min-width_MonthSlider-header-title,
-   @color_header-title: @color_MonthSlider-header-title,
-   @color_weekDayHeader: @color_MonthView-weekDayHeader,
-   @font-size_item: @font-size_MonthView-item,
-   @height_weekdays: @height_MonthSlider-weekdays
-);
+.controls-MonthSlider__home-button {
+   margin-left: @margin-left_MonthSlider-home-button; // нет алиаса
+}
 
-// TODO: Тема для аккордеона. Временное решение, переделать когда будет понятно, как мы будем делать разные темы в рамках одной страницы.
-.controls-MonthSlider__accordionTheme {
-   .controls-MonthSlider__theme(
-      @height: 216px,
-      @width: 196px,
-      @color_header-button: #61b1ee,
-      @color_header-button_hovered: #BBE9FF,
-      @color_header-title: #E9EBEC,
-      @color_weekDayHeader: #8991A9,
-      @height_weekdays: 24px
-   );
+.controls-MonthSlider__header-title {
+   font-size: @heading_font-size_monthSlider;
+   min-width: @min-width_MonthSlider-header-title; // нет алиаса
+   color: @heading_text-color_monthSlider;
+}
+
+.controls-MonthSlider__weekdays-container {
+   color: @weekdays_text-color_monthSlider;
+   font-size: @weekdays_font-size_monthSlider;
+   height: @weekdays_height_monthSlider;
+}
+
+.controls-MonthSlider {
+   width: @monthview_width_monthSlider;
+   height: @monthview_height_monthSlider;
+}
+
+.controls-MonthSlider__header {
+   height: @header_height_monthSlider;
 }

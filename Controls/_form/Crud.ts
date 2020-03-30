@@ -1,7 +1,9 @@
 import rk = require('i18n!Controls');
 import Control = require('Core/Control');
 import tmpl = require('wml!Controls/_form/Crud/Crud');
+import {readWithAdditionalFields} from './crudProgression';
 import {Logger} from 'UI/Utils';
+import {Model} from 'Types/entity';
 
 let CRUD = Control.extend({
     _template: tmpl,
@@ -33,7 +35,7 @@ let CRUD = Control.extend({
         return def;
     },
     read(key, readMetaData) {
-        const def = this._dataSource.read(key, readMetaData);
+        const def = readWithAdditionalFields(this._dataSource, key, readMetaData);
         const id = this._indicatorId;
         const message = rk('Пожалуйста, подождите…');
         this._indicatorId = this._notify('showIndicator', [{id, message}], {bubbling: true});
@@ -52,16 +54,15 @@ let CRUD = Control.extend({
         return def;
     },
 
-    update(record, isNewRecord) {
+    update(record: Model, isNewRecord: boolean, config?: object): Promise<any> {
         let def;
         if (record.isChanged() || isNewRecord) {
             def = this._dataSource.update(record);
 
             this._notify('registerPending', [def, {showLoadingIndicator: this._options.showLoadingIndicator}], {bubbling: true});
-
             let self = this;
             def.addCallback(function(key) {
-                self._notify('updateSuccessed', [record, key]);
+                self._notify('updateSuccessed', [record, key, config]);
                 return key;
             });
 

@@ -18,7 +18,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__loadMore {
-   height: @height_BaseControl-button-loadMore;
+   height: @more_height_list;
 }
 .controls-BaseControl__pagingContainer {
    pointer-events: none;
@@ -40,7 +40,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl_paging-Padding {
-   height: @height_Paging-button;
+   height: @item_height_paging;
 }
 .ws-is-mobile-safari .controls-BaseControl_paging-Padding {
    height: 0;
@@ -48,8 +48,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 
 .controls-BaseControl__scrollPaging {
    pointer-events: auto;
-   border: 0 solid @border-color_BaseControl-scrollPaging;
-   border-top-width: @border-width_BaseControl-scrollPaging-top;
+   border: 0 solid @scrollpaging_separator-color_list;
+   border-top-width: @scrollpaging_separator-thickness_list;
 }
 .controls-BaseControl__loadingIndicator {
    background-color: transparent;
@@ -80,7 +80,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl_empty__loadingIndicator__state-down {
-   min-height: @spacing_BaseControl-loadingIndicator-between-top-border-content + @spacing_BaseControl-loadingIndicator-between-bottom-border-content + @height_BaseControl-loadingIndicator-img;
+   min-height: @content_l_padding_loadingIndicator * 2 + @spinner_l_size_loadingIndicator;
 }
 
 .controls-BaseControl_empty__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper {
@@ -88,7 +88,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl_withPaging__loadingIndicator__state-down {
-   top: @height_Paging-button;
+   top: @item_height_paging;
 }
 
 .controls-BaseControl__loadingIndicator__state-all {
@@ -100,18 +100,18 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__loadingIndicatorImg-wrapper {
-   padding: @spacing_BaseControl-loadingIndicator-between-top-border-content @spacing_BaseControl-loadingIndicator-between-right-border-content @spacing_BaseControl-loadingIndicator-between-bottom-border-content @spacing_BaseControl-loadingIndicator-between-left-border-content;
-   background-color: @background-color_BaseControl-loadingIndicator;
-   border-radius: @border-radius_BaseControl-loadingIndicator;
+   padding: @content_l_border_radius_loadingIndicator;
+   background-color: @content_background-color_loadingIndicator;
+   border-radius: @content_l_border_radius_loadingIndicator;
    z-index: 1;
    display: inline-flex;
    align-items: center;
 }
 .controls-BaseControl__loadingIndicatorImg {
-   background: @background-image_BaseControl-loadingIndicator 0 0 no-repeat;/**/
-   width: @width_BaseControl-loadingIndicator-img;
-   height: @height_BaseControl-loadingIndicator-img;
-   background-size: @width_BaseControl-loadingIndicator-img;
+   background: @spinner_l_background-image_loadingIndicator 0 0 no-repeat;/**/
+   width: @spinner_l_size_loadingIndicator;
+   height: @spinner_l_size_loadingIndicator;
+   background-size: @spinner_l_size_loadingIndicator;
 }
 
 .controls-BaseControl__trigger {
@@ -119,18 +119,18 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__footer-content {
-   min-height: @min-height_BaseControl-footer-content;
+   min-height: @footer_min-height_list;
    display: flex;
    align-items: baseline;
 }
 
 .controls-BaseControl__footer-content::before {
    content: '\200b';
-   font-size: @font-size_BaseControl-footer-content-baseline;
+   font-size: @footer_font-size_list;
 }
 
 .controls-BaseControl__footerPaging {
-   background: @background-color_BaseControl-footer-paging;
+   background: @background-color_paging;
 }
 
 .controls-BaseControl__footerPaging_wrapper {
@@ -141,45 +141,46 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl_paging-label {
    display: flex;
    align-items: center;
-   color: @color_BaseControl-paging_label;
-   font-size: @font-size_BaseControl-paging_label;
+   color: @pagesCounter_text-color_list;
+   font-size: @pagesCounter_font-size_list;
 }
 
 .controls-BaseControl_paging-pageSizeChooser {
-   margin-left: @spacing_BaseControl-paging_label_right;
+   margin-left: @pagesSelector_offset-left_list;
 }
 
 .controls-BaseControl__abortSearch {
    display: inline-block;
-   color: @color_BaseControl-abortSearch;
-   margin-left: @spacing_BaseControl-between-indicator-abortSearch;
+   color: @abortSearch_text-color_list;
+   margin-left: @content_l_padding_loadingIndicator;
+   font-size: @abortSearch_font-size_list;
 }
 
 .controls-BaseControl__loadingIndicator-footerTemplate {
-   margin-left: @spacing_BaseControl-between-indicator-abortSearch;
+   margin-left: @content_l_padding_loadingIndicator;
    color: @unaccented_color;
    font-size: @font-size_xs;
 }
 
 .ws-is-no-touch .controls-BaseControl__abortSearch:hover {
    text-decoration: underline;
-   color: @color_BaseControl-abortSearch_hover;
+   color: @abortSearch_hover_text-color_list;
    cursor: pointer;
 }
 
 .controls-BaseControl__abortSearch:active {
    text-decoration: underline;
-   color: @color_BaseControl-abortSearch_hover;
+   color: @abortSearch_active_text-color_list;
 }
 
 .controls-BaseControl__continueSearch_wrapper {
-   color: @color_BaseControl-abortSearch;
+   color: @continueSearch_text-color_list;
    padding-top: @continueSearch_padding-top_list;
    cursor: pointer;
 }
 
 .ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover {
-   color: @color_BaseControl-abortSearch_hover;
+   color: @continueSearch_hover_text-color_list;
    cursor: pointer;
 }
 
@@ -188,7 +189,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__continueSearch_wrapper:active {
-   color: @color_BaseControl-abortSearch_hover;
+   color: @continueSearch_active_text-color_list;
 }
 
 .controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_caption {
@@ -196,14 +197,14 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__continueSearch_icon {
-   margin-right: @spacing_BaseControl-between-searchIcon-continueSearch;
+   margin-right: @continueSearch_icon-offset_list;
    color: @continueSearch_icon-color_list;
 }
 
 .ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_icon {
-   color: @color_BaseControl-abortSearch_hover;
+   color: @continueSearch_hover_icon-color_list;
 }
 
 .controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_icon {
-   color: @color_BaseControl-abortSearch_hover;
+   color: @continueSearch_hover_icon-color_list;
 }

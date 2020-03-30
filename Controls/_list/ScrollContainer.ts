@@ -20,7 +20,6 @@ import {throttle} from 'Types/function';
 
 const SCROLLMOVE_DELAY = 150;
 const TRIGGER_VISIBILITY_DELAY = 101;
-const DEFAULT_VIRTUAL_PAGESIZE = 100;
 const LOADING_INDICATOR_SHOW_TIMEOUT = 2000;
 
 let displayLib: typeof import('Controls/display');
@@ -34,9 +33,6 @@ interface IScrollParams {
 }
 
 interface ICompatibilityOptions {
-    virtualPageSize: number;
-    virtualSegmentSize: number;
-    virtualScrolling: boolean;
     useNewModel: boolean;
 }
 
@@ -332,9 +328,8 @@ export default class ScrollContainer extends Control<IOptions> {
     }
 
     private _initVirtualScroll(options: IOptions): void {
-        const virtualScrollOptions = ScrollContainer._getVirtualScrollOptions(options);
         this._virtualScroll = new VirtualScroll(
-            virtualScrollOptions,
+            options.virtualScrollConfig,
             {
                 viewport: this._viewportHeight,
                 scroll: this._viewHeight,
@@ -691,24 +686,6 @@ export default class ScrollContainer extends Control<IOptions> {
                 displayLib.VirtualScrollController.setup(collection);
                 break;
         }
-    }
-
-    private static _getVirtualScrollOptions(options: IOptions): Partial<IVirtualScrollOptions> {
-        let virtualScrollConfig: Partial<IVirtualScrollOptions> = {};
-
-        if (options.virtualScrolling && !options.virtualPageSize) {
-            Logger.warn('Controls.list: Specify virtual page size in virtualScrollConfig option');
-            virtualScrollConfig.pageSize = DEFAULT_VIRTUAL_PAGESIZE;
-        }
-        if (options.virtualScrolling && (options.virtualPageSize || options.virtualSegmentSize)) {
-            virtualScrollConfig.segmentSize = options.virtualSegmentSize;
-            virtualScrollConfig.pageSize = options.virtualPageSize;
-            Logger.warn('Controls.list: Use virtualScrollConfig instead of old virtual scroll config options');
-        } else {
-            virtualScrollConfig = {...virtualScrollConfig, ...options.virtualScrollConfig};
-        }
-
-        return virtualScrollConfig;
     }
 
     static getDefaultOptions(): Partial<IOptions> {

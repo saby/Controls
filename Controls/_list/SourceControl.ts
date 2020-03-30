@@ -128,7 +128,6 @@ export default class SourceControl extends Control<ISourceControlOptions, Record
     private _sorting: QueryOrderSelector;
 
     protected _beforeMount(options?: ISourceControlOptions, contexts?: object, receivedState?: RecordSet | void): Promise<RecordSet | void> | void {
-        this._options = options;
         this._listSourceLoader = new ListSourceLoadingController({
             keyProperty: this._options.keyProperty,
             navigation: this._options.navigation,

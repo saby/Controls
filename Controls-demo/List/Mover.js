@@ -2,11 +2,12 @@ define('Controls-demo/List/Mover', [
    'Core/Control',
    'Core/core-clone',
    'Types/source',
+   'Controls/Utils/Toolbar',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Mover/Mover',
    'css!Controls-demo/List/Mover/Mover'
-], function(BaseControl, cClone, source, TreeMemory, GridData, template) {
+], function(BaseControl, cClone, source, Toolbar, TreeMemory, GridData, template) {
    'use strict';
    return BaseControl.extend({
       _template: template,
@@ -60,7 +61,7 @@ define('Controls-demo/List/Mover', [
          this._itemActionsTree = [{
             id: 0,
             icon: 'icon-Move icon-primary',
-            showType: 2
+            showType: Toolbar.showType.TOOLBAR
          }];
          this._selectedKeys = [];
          this._itemActions = this._createItemsActions('listMover');
@@ -69,7 +70,7 @@ define('Controls-demo/List/Mover', [
          this._itemActionsThird.push({
             id: 3,
             icon: 'icon-Move icon-primary',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             handler: function(item) {
                self._children.dialogMover.moveItemsWithDialog([item.getId()]);
             }
@@ -92,14 +93,14 @@ define('Controls-demo/List/Mover', [
          return [{
             id: 0,
             icon: 'icon-ArrowUp icon-primary',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             handler: function(item) {
                self._children[moverName].moveItemUp(item.getId());
             }
          }, {
             id: 1,
             icon: 'icon-ArrowDown icon-primary',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             handler: function(item) {
                self._children[moverName].moveItemDown(item.getId());
             }

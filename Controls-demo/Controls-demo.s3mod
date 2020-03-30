@@ -7,6 +7,7 @@
     <module id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" name="Controls"/>
     <module id="0df0fce3-53ba-47f8-987d-edf1fd078295" name="WS.Core"/>
     <module id="af50caf5-f84b-4b81-a19c-6f6618372dbd" name="Controls-default-theme"/>
+    <module id="a857d050-c754-4d39-90ec-fca5e2ddf022" name="Router"/>
   </depends>
 
   <load_after/>

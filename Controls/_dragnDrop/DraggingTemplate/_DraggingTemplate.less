@@ -1,17 +1,17 @@
 .controls-DragNDrop__draggingTemplate {
    display: flex;
-   width: @width_DraggingTemplate;
-   background: @background-color_DraggingTemplate;
-   border: @border-width_DraggingTemplate solid @border-color_DraggingTemplate;
-   .box-shadow(@box-shadow-size_DraggingTemplate @box-shadow-color_DraggingTemplate);
+   width: @width_draggingTemplate;
+   background: @background-color_draggingTemplate;
+   border: @border-thickness_draggingTemplate solid @border-color_draggingTemplate;
+   box-shadow: @box-shadow_draggingTemplate;
 }
 
 .controls-DragNDrop__draggingTemplate-icon {
-   color: @color_DraggingTemplate-icon;
-   width: @width_DraggingTemplate-icon;
-   height: @height_DraggingTemplate-icon;
-   border-radius: @border-radius_DraggingTemplate-icon;
-   margin: @spacing_DraggingTemplate-between-topBorder-icon @spacing_DraggingTemplate-between-icon-text @spacing_DraggingTemplate-between-bottomBorder-icon @spacing_DraggingTemplate-between-leftBorder-icon;
+   color: @image_placeholder_icon-color_draggingTemplate;
+   width: @image_width_draggingTemplate;
+   height: @image_height_draggingTemplate;
+   border-radius: @image_border-radius_draggingTemplate;
+   margin: @image_padding_draggingTemplate;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -19,25 +19,25 @@
 }
 
 .controls-DragNDrop__draggingTemplate-icon-size {
-   .icon-size(@icon-size_DraggingTemplate-icon);
+   .icon-size(@image_placeholder_icon-size_draggingTemplate);
 }
 
 .controls-DragNDrop__draggingTemplate-text {
    flex-shrink: 1;
    width: 100%;
-   margin: @spacing_DraggingTemplate-between-topBorder-text @spacing_DraggingTemplate-between-rightBorder-text @spacing_DraggingTemplate-between-bottomBorder-text 0;
+   margin: @content_padding_draggingTemplate;
    overflow: hidden;
 }
 
-.controls-DragNDrop__draggingTemplate-text:after {
+.controls-DragNDrop__draggingTemplate-text::after {
    content: '';
    display: block;
    height: 100%;
-   width: @width_DraggingTemplate-textShadow;
+   width: @overflow_gradient_width_draggingTemplate;
    position: absolute;
    right: 0;
    top: 0;
-   .horizontal-gradient(fade(@background-color_DraggingTemplate, 0%), @background-color_DraggingTemplate, left);
+   .horizontal-gradient(fade(@background-color_draggingTemplate, 0%), @background-color_draggingTemplate, left);
 }
 
 .controls-DragNDrop__draggingTemplate-mainText, .controls-DragNDrop__draggingTemplate-additionalText {
@@ -45,26 +45,26 @@
 }
 
 .controls-DragNDrop__draggingTemplate-mainText {
-   font-size: @font-size_DraggingTemplate-mainText;
+   font-size: @heading_font-size_draggingTemplate;
    font-weight: bold;
-   color: @color_DraggingTemplate-mainText;
+   color: @heading_text-color_draggingTemplate;
 }
 
 .controls-DragNDrop__draggingTemplate-additionalText {
-   font-size: @font-size_DraggingTemplate-additionalText;
-   color: @color_DraggingTemplate-additionalText;
+   font-size: @font-size_draggingTemplate;
+   color: @text-color_draggingTemplate;
 }
 
 .controls-DragNDrop__draggingTemplate-counter {
    position: absolute;
    display: flex;
    align-items: center;
-   right: -(@height_DraggingTemplate-counter / 2);
-   top: -(@height_DraggingTemplate-counter / 2);
-   height: @height_DraggingTemplate-counter;
-   font-size: @font-size_DraggingTemplate-counter;
-   color: @color_DraggingTemplate-counter;
-   background-color: @background-color_DraggingTemplate-counter;
-   border-radius: @height_DraggingTemplate-counter / 2;
-   padding: 0 @spacing_DraggingTemplate-between-rightBorder-counter 0 @spacing_DraggingTemplate-between-leftBorder-counter;
+   right: -(@counter_height_draggingTemplate / 2);
+   top: -(@counter_height_draggingTemplate / 2);
+   height: @counter_height_draggingTemplate;
+   font-size: @counter_font-size_draggingTemplate;
+   color: @counter_text-color_draggingTemplate;
+   background-color: @counter_background-color_draggingTemplate;
+   border-radius: @counter_border-radius_draggingTemplate / 2;
+   padding: 0 @counter_padding-horizontal_draggingTemplate;
 }

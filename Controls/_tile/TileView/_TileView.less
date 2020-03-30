@@ -111,6 +111,16 @@
    position: absolute;
 }
 
+.ws-is-ie,
+.ws-is-chrome-xp {
+   .controls-TileView__image {
+      //IE and chrome on XP can't correctly align absolutely-positioned flex children: https://codepen.io/anon/pen/MqazJv
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+   }
+}
+
 .controls-ListView__item_shadow_visible {
    box-shadow: @box-shadow-size_TileView-item @box-shadow-color_TileView-item;
 }

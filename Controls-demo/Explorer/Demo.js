@@ -2,11 +2,12 @@ define('Controls-demo/Explorer/Demo', [
    'Core/Control',
    'wml!Controls-demo/Explorer/Demo/Demo',
    'Types/source',
+   'Controls/Utils/Toolbar',
    'Controls/Constants',
    'Controls-demo/Explorer/ExplorerImages',
    'css!Controls-demo/Explorer/Demo/Demo',
    'Controls/explorer'
-], function(BaseControl, template, source, constants, explorerImages) {
+], function(BaseControl, template, source, Toolbar, constants, explorerImages) {
    'use strict';
    var
       ModuleClass = BaseControl.extend({
@@ -188,13 +189,13 @@ define('Controls-demo/Explorer/Demo', [
                   id: 1,
                   icon: 'icon-PhoneNull',
                   title: 'phone',
-                  showType: 0
+                  showType: Toolbar.showType.MENU
                },
                {
                   id: 2,
                   icon: 'icon-EmptyMessage',
                   title: 'message',
-                  showType: 0
+                  showType: Toolbar.showType.MENU
                }
             ];
          },

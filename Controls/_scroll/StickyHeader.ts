@@ -71,11 +71,24 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
        */
 
       /**
+       * @name Controls/_scroll/StickyHeader#backgroundStyle
+       * @cfg {string} Префикс стиля для настройки фона
+       * @default default (theme background)
+       */
+
+      /*
+       * @name Controls/_scroll/StickyHeader#backgroundStyle
+       * @cfg {string} Style prefix to configure background
+       * @default default (theme background)
+       */
+
+      /**
        * @name Controls/_scroll/StickyHeader#backgroundVisible
        * @cfg {Boolean} Устанавливает видимость фона.
        * @variant true Показать фон.
        * @variant false Не показывать.
        * @default true
+       * @deprecated необходимо определить пользовательский префикс стиля или использовать backgroundStyle="transparent".
        */
 
       /*
@@ -84,6 +97,7 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
        * @variant true Show.
        * @variant false Do not show.
        * @default true
+       * @deprecated you have to define custom style prefix or to use backgroundStyle="transparent"
        */
 
       /**

@@ -1,0 +1,14 @@
+<div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
+    <div class="controlsDemo__cell">
+        <Controls.calendar:MonthView>
+            <ws:dayHeaderTemplate>
+                <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
+                    <div class="controls-demo_DayHeader">{{dayHeaderTemplate.value.caption}}</div>
+                </ws:if>
+                <ws:else>
+                    <div class="controls-demo_DayHeader controls-demo_DayHeader-weekend">{{dayHeaderTemplate.value.caption}}</div>
+                </ws:else>
+            </ws:dayHeaderTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+</div>

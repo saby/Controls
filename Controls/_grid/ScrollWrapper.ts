@@ -10,6 +10,11 @@ export interface IHorizontalScrollWrapperOptions extends IControlOptions {
     scrollWidth: number;
     listModel: IGridViewModel;
     gridSupport: 'no' | 'full' | 'partial';
+
+    /**
+     * Стиль background в случае sticky header
+     */
+    backgroundStyle: string;
 }
 
 export default class HorizontalScrollWrapper extends Control<IControlOptions> {

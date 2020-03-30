@@ -1,0 +1,30 @@
+<div class="cDemo">
+   <div attr:style="display: flex; justify-content: space-evenly;">
+      <div attr:style="width: 600px;">
+         <div>source: 'page'</div>
+         <Controls.scroll:Container attr:class="cDemo-ScrollContainer" attr:style="height: 500px;">
+            <Controls.list:View
+               name="listView"
+               source="{{ _viewSourcePage }}"
+               keyProperty="id"
+               displayProperty="title"
+               navigation="{{ _navigationPage }}">
+               <ws:virtualScrollConfig pageSize="{{20}}"/>
+            </Controls.list:View>
+         </Controls.scroll:Container>
+      </div>
+      <div attr:style="width: 600px;">
+         <div>source: 'position'</div>
+         <Controls.scroll:Container attr:class="cDemo-ScrollContainer" attr:style="height: 500px;">
+            <Controls.list:View
+               name="listView"
+               source="{{ _viewSourcePosition }}"
+               keyProperty="id"
+               displayProperty="title"
+               navigation="{{ _navigationPosition }}">
+               <ws:virtualScrollConfig pageSize="{{20}}"/>
+            </Controls.list:View>
+         </Controls.scroll:Container>
+      </div>
+   </div>
+</div>

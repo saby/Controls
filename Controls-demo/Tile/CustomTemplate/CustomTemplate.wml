@@ -1,3 +1,4 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_custom-tpl">
 <Controls.tile:View
         tileMode="dynamic"
         displayProperty="title"
@@ -18,3 +19,4 @@
         </ws:partial>
     </ws:itemTemplate>
 </Controls.tile:View>
+</div>

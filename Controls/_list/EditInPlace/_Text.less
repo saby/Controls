@@ -1,12 +1,6 @@
-.ws-is-hover {
-   .controls-ListView__itemV:hover,
-   /* In browsers with partial grid layout support, the hovered element is calculated on JS using this class */
-   .controls-Grid_row-cell_hovered_theme-@{themeName} {
-      .controls-EditingTemplateText_enabled {
-         background-color: @background-color_inputText;
-         cursor: text;
-      }
-   }
+.ws-is-hover .controls-ListView__itemV:hover .controls-EditingTemplateText_enabled {
+   background-color: @background-color_inputText;
+   cursor: text;
 }
 
 .controls-EditingTemplateText_active {

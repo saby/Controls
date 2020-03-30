@@ -8,46 +8,50 @@
 interface IHierarchySearch {
     readonly _options: {
         /**
+         * @typedef {String} StartingWith
+         * @variant root Поиск происходит в корне .
+         * @variant current Поиск происходит в текущем резделе.
+         */
+        /**
          * @name Controls/interface/IHierarchySearch#startingWith
-         * @cfg {String} Режим поиска в иерархическом списке.
-         * @variant root Поиск происходит в корне
-         * @variant current Поиск происходит в текущем резделе
+         * @cfg {StartingWith} Режим поиска в иерархическом списке.
          * @default root
          * @example
          * В приведённом примере поиск будет происходить в корне.
          *
-         * JS:
-         * <pre>
-         *      import {HierarchicalMemory} from 'Types/source';
+         * <pre class="brush: js">
+         * // TypeScript
+         * import {HierarchicalMemory} from 'Types/source';
          *
-         *      _source: null,
-         *      _beforeMount: function() {
-         *          this._source = new HierarchicalMemory({
-         *              //hierarchy data
-         *          })
-         *      }
+         * _source: null,
+         * _beforeMount: function() {
+         *     this._source = new HierarchicalMemory({
+         *         //hierarchy data
+         *     })
+         * }
          * </pre>
-         *
-         * WML:
-         * <pre>
-         *    <Layout.Browser parentProperty='Раздел' startingWith='root' searchParam='city' source='_source'>
-         *        <ws:search>
-         *            <Controls.search:Input/>
-         *        </ws:search>
-         *        <ws:content>
-         *            <Controls.explorer:View>
-         *                ...
-         *            </Controls.explorer:View>
-         *        <ws:content>
-         *    </Layout.Browser>
+         * <pre class="brush: html">
+         * <Layout.Browser parentProperty="Раздел" startingWith="root" searchParam="city" source="_source">
+         *     <ws:search>
+         *         <Controls.search:Input/>
+         *     </ws:search>
+         *     <ws:content>
+         *         <Controls.explorer:View>
+         *             ...
+         *         </Controls.explorer:View>
+         *     <ws:content>
+         * </Layout.Browser>
          * </pre>
          */
         startingWith: string;
         /**
-         * @name Controls/_search/interface/IHierarchySearch#searchNavigationMode
-         * @cfg {String} Режим навигации при поиске в иерархическом списке.
-         * @variant open В режиме поиска при клике на узел (хлебную крошку) происходит проваливание в данный узел.
-         * @variant expand В режиме поиска при клике на узел (хлебную крошку) данные отображаются от корня, путь до узла разворачивается.
+         * @typedef {String} SearchNavigationMode
+         * @variant open В {@link Controls/_explorer/interface/IExplorer#viewMode режиме поиска} при клике на хлебную крошку происходит проваливание в данный узел.
+         * @variant expand В режиме поиска при клике на хлебную крошку данные отображаются от корня, путь до узла разворачивается.
+         */
+        /**
+         * @name Controls/interface/IHierarchySearch#searchNavigationMode
+         * @cfg {SearchNavigationMode} Режим навигации при поиске в иерархическом списке.
          * @default open
          */
         searchNavigationMode: string;

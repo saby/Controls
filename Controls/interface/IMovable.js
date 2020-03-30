@@ -230,7 +230,7 @@ define('Controls/interface/IMovable', [
     * <pre>
     *    Control.extend({
     *       ...
-    *       _beforeItemsMove: function(eventObject, movedItems, target, position, result) {
+    *       _afterItemsMove: function(eventObject, movedItems, target, position, result) {
     *          if (result instanceof Error) {
     *             return this._children.popupOpener.open({
     *                message: 'Removing records failed.',
@@ -261,7 +261,7 @@ define('Controls/interface/IMovable', [
     * <pre>
     *    Control.extend({
     *       ...
-    *       _beforeItemsMove: function(eventObject, movedItems, target, position, result) {
+    *       _afterItemsMove: function(eventObject, movedItems, target, position, result) {
     *          if (result instanceof Error) {
     *             return this._children.popupOpener.open({
     *                message: 'Removing records failed.',

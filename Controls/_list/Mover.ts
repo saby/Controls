@@ -8,6 +8,7 @@ import {isEqual} from 'Types/object';
 import {Logger} from 'UI/Utils';
 import {ContextOptions as dataOptions} from 'Controls/context';
 import {TKeysSelection} from 'Controls/interface';
+import {Record} from 'Types/entity';
 
 const BEFORE_ITEMS_MOVE_RESULT = {
     CUSTOM: 'Custom',
@@ -134,15 +135,16 @@ var _private = {
         if (isNewLogic) {
             if (self._source.call) {
                 return import('Controls/operations').then((operations) => {
+                    const sourceAdapter = self._source.getAdapter();
                     const callFilter = {
                         selection: operations.selectionToRecord({
                             selected: items.selectedKeys,
                             excluded: items.excludedKeys
-                        }, self._source.getAdapter()), ...items.filter
+                        }, sourceAdapter), ...items.filter
                     };
                     return self._source.call(self._source.getBinding().move, {
                         method: self._source.getBinding().list,
-                        filter: callFilter,
+                        filter: Record.fromObject(callFilter, sourceAdapter),
                         folder_id: targetId
                     });
                 });
@@ -316,6 +318,8 @@ var _private = {
 /**
  * Контрол для перемещения элементов списка в recordSet и dataSource.
  * Контрол должен располагаться в одном контейнере {@link Controls/list:DataContainer} со списком.
+ * В случае использования {@link Controls/operations:Controller} для корректной обработки событий
+ * необходимо помещать Controls/list:Mover внутри Controls/operations:Controller.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Демо-пример</a>.
  * @class Controls/_list/Mover
  * @extends Controls/_list/BaseAction
@@ -330,6 +334,8 @@ var _private = {
 /*
  * Сontrol to move the list items in recordSet and dataSource.
  * Сontrol must be in one {@link Controls/list:DataContainer} with a list.
+ * In case you are using {@link Controls/operations:Controller}
+ * you should place Controls/list:Mover inside of Controls/operations:Controller.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo examples</a>.
  * @class Controls/_list/Mover
  * @extends Controls/_list/BaseAction

@@ -194,12 +194,14 @@ type GetSourceResult = {
 
          _template: template,
          _loading: false,
+         _itemsReadyCallback: null,
 
          _beforeMount: function(options, context, receivedState:RecordSet|undefined):Deferred<GetSourceResult>|void {
             let self = this;
             let source:ICrud;
 
             _private.resolveOptions(this, options);
+            this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
 
             // isNewEnvironment - проверка в 20.11хх, в 20.2ххх удалена
             // Нужна для редкого случая, когда на старой странице на сервере строится wasaby контрол,
@@ -249,6 +251,18 @@ type GetSourceResult = {
                        newOptions.keyProperty !== this._options.keyProperty) {
                _private.updateDataOptions(this, this._dataOptionsContext);
                this._dataOptionsContext.updateConsumers();
+            }
+         },
+
+         _itemsReadyCallbackHandler(items): void {
+            if (this._items !== items) {
+               this._items = items;
+               _private.updateDataOptions(this, this._dataOptionsContext);
+               this._dataOptionsContext.updateConsumers();
+            }
+
+            if (this._options.itemsReadyCallback) {
+               this._options.itemsReadyCallback(items);
             }
          },
 

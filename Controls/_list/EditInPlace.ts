@@ -4,7 +4,7 @@ import Deferred = require('Core/Deferred');
 import entity = require('Types/entity');
 import getWidthUtil = require('Controls/Utils/getWidth');
 import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
-import Constants = require('Controls/Constants');
+import {editing as constEditing} from 'Controls/Constants';
 import { error as dataSourceError } from 'Controls/dataSource';
 import 'css!theme?Controls/list';
 
@@ -40,7 +40,7 @@ var
         processBeforeBeginEditResult: function (self, options, eventResult, isAdd) {
             var result;
 
-            if (eventResult === Constants.editing.CANCEL) {
+            if (eventResult === constEditing.CANCEL) {
                 result = Deferred.success({cancelled: true});
             } else {
                 _private.registerPending(self);
@@ -81,7 +81,7 @@ var
                 return eventResult.addBoth(function(resultOfDeferred) {
                     self._notify('hideIndicator', [id], { bubbling: true });
 
-                    if (resultOfDeferred === Constants.editing.CANCEL) {
+                    if (resultOfDeferred === constEditing.CANCEL) {
                         self._endEditDeferred = null;
                         return Deferred.success({ cancelled: true });
                     }
@@ -93,7 +93,7 @@ var
                     });
                 });
             } else {
-                if (eventResult === Constants.editing.CANCEL) {
+                if (eventResult === constEditing.CANCEL) {
                     return Deferred.success({ cancelled: true });
                 }
                 return _private.updateModel(self, commit).addCallback(function() {
@@ -104,13 +104,13 @@ var
             }
         },
 
-
         afterEndEdit: function (self, commit) {
             self._notify('afterEndEdit', [self._isAdd ? self._editingItem : self._originalItem, self._isAdd]);
-            if (self._isAdd && !commit) {
-                // TODO: Kingo.
-                // Если добавление было отменено, то отмчаем последнюю отмеченную запись до старта добавления.
-                self._options.listModel.restoreMarker();
+
+            // При редактировании по месту маркер появляется только если в списке больше одной записи.
+            // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+            if (self._isAdd && commit && self._options.listModel.getCount() > 1) {
+                self._options.listModel.setMarkedKey(self._editingItem.getId());
             }
             _private.resetVariables(self);
             if (!self._destroyed) {
@@ -667,15 +667,6 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
             listModel._setEditingItemData(this._editingItemData);
         }
 
-        if (this._isAdd) {
-            if (options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(this._editingItemData.getContents().getId());
-                markCommand.execute(listModel);
-            } else {
-                listModel.markAddingItem();
-            }
-        }
-
         listModel.subscribe('onCollectionChange', this._updateIndex);
     },
 
@@ -683,7 +674,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
         /*
         * Стандартное поведение. При нажатии "Галки" в операциях над записью, возможно два варианта дальнейшего поведения:
         * 1) если сохраняется уже существующая запись, то она просто сохраняется, курсор остается на строке, редактирование закрывается.
-        * 2) если сохраняется только что добавленная запись, то происходит ее сохранение и начинается добавление новой.
+        * 2) если сохраняется только что добавленная запись, то происходит ее сохранение и (при editingConfig.autoAddByApplyButton=true) начинается добавление новой.
         * */
         if (this._isAdd) {
             _private.editNextRow(this, true, !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton);

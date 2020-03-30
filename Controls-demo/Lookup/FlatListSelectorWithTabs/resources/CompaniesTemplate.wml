@@ -1,0 +1,24 @@
+<Controls.lookupPopup:Controller name="SelectorController" selectedItems="{{_options.selectedItems}}">
+    <Controls.list:DataContainer source="{{_source}}" keyProperty="{{_keyProperty}}" filter="{{_filter}}">
+        <Controls.search:Controller searchParam="title" minSearchLength="{{3}}">
+            <div class="ws-fragment">
+                <div class="controlsDemo__wrapper">
+                    <Controls.search:InputContainer>
+                        <Controls.search:Input/>
+                    </Controls.search:InputContainer>
+                </div>
+                <Controls.lookupPopup:Container keyProperty="{{_keyProperty}}">
+                    <Controls.operations:Controller>
+                        <Controls.list:Container>
+                            <Controls.operations:Container>
+                                <Controls.lookupPopup:ListContainer>
+                                    <Controls.list:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
+                                </Controls.lookupPopup:ListContainer>
+                            </Controls.operations:Container>
+                        </Controls.list:Container>
+                    </Controls.operations:Controller>
+                </Controls.lookupPopup:Container>
+            </div>
+        </Controls.search:Controller>
+    </Controls.list:DataContainer>
+</Controls.lookupPopup:Controller>

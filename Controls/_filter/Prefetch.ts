@@ -3,7 +3,6 @@
  *
  * @class Controls/_filter/Prefetch
  * @control
- * @public
  * @author Герасимов А.М.
  */
 

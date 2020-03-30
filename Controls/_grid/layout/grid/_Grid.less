@@ -1,7 +1,4 @@
 @z-index-Grid-results-cell: 1;
-.get-padding-top(@padding-top: 0px) {
-   padding-top: calc(@padding-top - (@height_Grid-row-separator-l - @height_Grid-row-separator));
-}
 
 .controls-Grid {
    display: -ms-grid;
@@ -120,11 +117,39 @@
 }
 
 .controls-Grid__results-cell_theme-@{themeName} {
-   background-color: @background-color_Grid-row-sticky;
    z-index: @z-index-Grid-results-cell;
    min-width: 0;
    min-height: @height_Grid-results-cell;
 }
+
+.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
+   font-weight: @font-weight;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
+   color: @secondary_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
+   color: @unaccented_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
+   color: @readonly_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
+   color: @danger_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
+   color: @success_color;
+}
+
 .controls-GridViewV__itemsContainer {
    display: contents;
 }
@@ -161,7 +186,6 @@
 
 .controls-Grid__cell_fixed_theme-@{themeName} {
    z-index: 3;
-   background-color: @background-color_Grid-row-sticky;
    // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
    &:not(.controls-StickyHeader) {
       overflow: hidden;
@@ -245,29 +269,12 @@
    }
 
 }
-.ws-is-hover {
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_Grid-row_hover;
+.ws-is-hover .controls-BaseControl_showActions .controls-Grid__row:hover {
+   .controls-Grid__editArrow-blur_theme-@{themeName},
+   .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+      visibility: visible;
    }
 
-   .controls-BaseControl_showActions {
-      .controls-Grid_row-cell_hovered_theme-@{themeName},
-      .controls-Grid__row:hover {
-         .controls-Grid__editArrow-blur_theme-@{themeName},
-         .controls-Grid__editArrow-wrapper_theme-@{themeName} {
-            visibility: visible;
-         }
-      }
-   }
-
-   .controls-BaseControl_showActions .controls-Grid_row-cell_hovered_theme-@{themeName} > .controls-itemActionsV {
-      display: inline-block;
-   }
-
-   // Class controls-Grid_row-cell_hovered adds on all cells of hovered item only in browsers with partial grid support.
-   .controls-Grid_row-cell_hovered_theme-@{themeName} .controls-ListView__checkbox-onhover {
-      display: inline-block;
-   }
 }
 
 .controls-Grid__row-cell-background-editing_theme-@{themeName} {
@@ -279,10 +286,6 @@
    }
 }
 
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_default_theme-@{themeName} {
-  .get-padding-top(@spacing_Grid-row-between-content-borderTop_default);
-}
-
 .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_default;
 }
@@ -290,19 +293,11 @@
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_default;
 }
 
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_m_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_s);
-}
-
 .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName} {
    padding-top: @spacing_Grid-row-between-content-borderTop_s;
 }
 .controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
    padding-bottom: @spacing_Grid-row-between-content-borderBottom_s;
-}
-
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_l_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_l);
 }
 
 .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName} {
@@ -364,7 +359,8 @@
    pointer-events: auto;
 }
 
-.controls-Grid__row-cell_first-row-in-group {
+// скрыть разделитель перед первой строкой в группе
+.controls-ListView__group + .controls-Grid__row .controls-Grid__row-cell {
    border-top-color: transparent;
 }
 
@@ -518,7 +514,7 @@
 }
 
 .controls-GridView__footer__itemActionsV_outside {
-   min-height: @height_ItemActions_outside;
+   min-height: @height_outside_itemActions;
 }
 
 .controls-GridView__checkbox_theme-@{themeName} {
@@ -546,7 +542,7 @@
 //MasterList styles
 
 .controls-Grid_master_theme-@{themeName} {
-   padding-right: @border-width_List-masterList-right;
+   padding-right: @master_separator_thickness_list;
    box-sizing: border-box;
 }
 
@@ -562,22 +558,21 @@
 
 .controls-Grid__row-cell_selected-master_theme-@{themeName} {
    z-index: 1;
-   background-color: @background-color_List-masterList-item_selected;
 
    &:before {
       content: '';
       z-index: 2;
       box-sizing: border-box;
-      border-width: @border-width_List-masterList-item-top @border-width_List-masterList-item-right @border-width_List-masterList-item-bottom @border-width_List-masterList-item-left;
+      border-width: @master_item_selected_border-thickness_list 0 @master_item_selected_border-thickness_list 0;
       border-style: solid;
-      border-color: @border-color_List-masterList-item_selected-top @border-color_List-masterList-item_selected-right @border-color_List-masterList-item_selected-bottom @border-color_List-masterList-item_selected-left;
-      box-shadow: @box-shadow_Grid-masterList-item_selected;
-      width: ~'calc(100% + @{border-width_List-masterList-right})';
+      border-color: @master_item_selected_border-top-color_list transparent @master_item_selected_border-bottom-color_list transparent;
+      box-shadow: @master_item_selected_box-shadow_list;
+      width: ~'calc(100% + @{master_separator_thickness_list})';
       position: absolute;
       left: 0;
       pointer-events: none;
-      top: -@border-width_List-masterList-item-top;
-      bottom: -@border-width_List-masterList-item-bottom;
+      top: -@master_item_selected_border-thickness_list;
+      bottom: -@master_item_selected_border-thickness_list;
    }
 }
 
@@ -587,10 +582,10 @@
       z-index: 1;
       height: 100%;
       top: 0;
-      width: @border-width_List-masterList-right;
+      width: @master_separator_thickness_list;
       position: absolute;
-      right: -@border-width_List-masterList-right;
-      background-color: @background-color_List-masterList-item_selected;
+      right: -@master_separator_thickness_list;
+      background-color: @master_item_selected_background-color_list;
    }
 }
 
@@ -606,18 +601,13 @@
 
 .ws-is-hover {
    .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
+      background-color: @master_item_hover_background-color_list;
    }
 
    //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=08925c8d-d7d1-4588-989f-3279e0675557
    .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
-      box-shadow: -15px 2px 4px -6px @background-color_List-masterList-item_hover;
-   }
-}
-.ws-is-no-touch {
-   .controls-Grid__row_master_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
+      background-color: @master_item_hover_background-color_list;
+      box-shadow: -15px 2px 4px -6px @master_item_hover_background-color_list;
    }
 }
 
@@ -703,7 +693,7 @@
 }
 
 .controls-Grid__editArrow-blur_style-master_background {
-   background: linear-gradient(90deg, @background-color_Grid-row_hover-transparent, @background-color_List-masterList-item_hover);
+   background: linear-gradient(90deg, @background-color_Grid-row_hover-transparent, @master_item_hover_background-color_list);
 }
 
 
@@ -719,7 +709,7 @@
 }
 
 .controls-Grid__editArrow_style-master_background {
-   background-color: @background-color_List-masterList-item_hover;
+   background-color: @master_item_hover_background-color_list;
 }
 
 .controls-Grid__editArrow-overflow-ellipsis_theme-@{themeName} {

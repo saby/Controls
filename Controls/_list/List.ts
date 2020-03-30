@@ -32,14 +32,6 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  *
  *
  * @mixes Controls/_list/interface/IVirtualScroll
- * @mixes Controls/_list/BaseControlStyles
- * @mixes Controls/_list/ListStyles
- * @mixes Controls/_list/ItemActions/ItemActionsStyles
- * @mixes Controls/_list/Swipe/SwipeStyles
- *
- * @mixes Controls/MoveDialog/Styles
- * @mixes Controls/_paging/PagingStyles
- * @mixes Controls/_paging/DigitButtonsStyles
  *
  * @control
  * @author Авраменко А.С.
@@ -70,14 +62,6 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/_list/interface/IClickableView
  *
  * @mixes Controls/_list/interface/IVirtualScroll
- * @mixes Controls/_list/BaseControlStyles
- * @mixes Controls/_list/ListStyles
- * @mixes Controls/_list/ItemActions/ItemActionsStyles
- * @mixes Controls/_list/Swipe/SwipeStyles
- *
- * @mixes Controls/MoveDialog/Styles
- * @mixes Controls/_paging/PagingStyles
- * @mixes Controls/_paging/DigitButtonsStyles
  *
  * @control
  * @author Авраменко А.С.

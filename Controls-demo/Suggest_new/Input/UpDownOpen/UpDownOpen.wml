@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest_up">
         <div class="controls-text-label_theme-{{_options.theme}}">Открытие автодополнения вниз</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__autoOpenDown"

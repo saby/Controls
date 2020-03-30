@@ -11,7 +11,6 @@
  * @includes Controller Controls/_filter/Controller
  * @includes IFilterView Controls/_filter/View/interface/IFilterView
  * @includes IPrefetch Controls/_filter/IPrefetch
- * @includes Prefetch Controls/_filter/Prefetch
  * @includes DateRangeEditor Controls/_filter/Editors/DateRange
  * @public
  * @author Крайнов Д.О.

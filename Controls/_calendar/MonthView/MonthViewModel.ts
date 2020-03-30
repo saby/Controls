@@ -44,7 +44,8 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
          enabled: state.enabled,
          daysData: state.daysData,
          dateConstructor: state.dateConstructor || WSDate,
-         readOnly: state.readOnly
+         readOnly: state.readOnly,
+         _date: state._date
       };
    },
 
@@ -58,9 +59,12 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
    _getDayObject: function(date, state) {
       state = state || this._state;
-
+      /* Опция _date устаналивается только(!) в демках, для возможности протестировать
+       визуальное отображение текущей даты */
       var obj = {},
-         today = DateUtil.normalizeDate(new this._state.dateConstructor()),
+         today = this._state._date ?
+             DateUtil.normalizeDate(this._state._date) :
+             DateUtil.normalizeDate(new this._state.dateConstructor()),
          firstDateOfMonth = DateUtil.getStartOfMonth(date),
          lastDateOfMonth = DateUtil.getEndOfMonth(date);
 
@@ -105,12 +109,10 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       }, this);
    },
 
-   _prepareClass: function(scope) {
-      scope = scope.value;
+   _prepareClass: function(scope, theme, fontColorStyle, backgroundStyle) {
 
-      var textColorClass = 'controls-MonthViewVDOM__textColor',
+      let textColorClass = 'controls-MonthViewVDOM__textColor',
          backgroundColorClass = 'controls-MonthViewVDOM__backgroundColor',
-         borderClass = 'controls-MonthViewVDOM__border',
          css = [];
 
       if (scope.isCurrentMonth) {
@@ -140,10 +142,19 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
       if (scope.readOnly) {
           backgroundColorClass += '-readOnly';
-          borderClass += '-readOnly';
+      }
+      textColorClass += '_theme-' + theme;
+      backgroundColorClass += '_theme-' + theme;
+
+      if (fontColorStyle) {
+         textColorClass += '_style-' + fontColorStyle;
       }
 
-      css.push(textColorClass, backgroundColorClass, borderClass);
+      if (backgroundStyle) {
+         backgroundColorClass += '_style-' + backgroundStyle;
+      }
+
+      css.push(textColorClass, backgroundColorClass);
 
       // Оставляем старые классы т.к. они используются в большом выборе периода до его редизайна
       // TODO: Выпилить старые классы
@@ -152,8 +163,8 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
             css.push('controls-MonthViewVDOM__cursor-item');
          }
          if (!scope.selected) {
-            if (scope.selectionEnabled) {
-               css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected');
+            if (scope.selectionEnabled && !backgroundStyle) {
+               css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-' + theme);
             }
          }
          css.push('controls-MonthViewVDOM__selectableItem');
@@ -165,31 +176,30 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
          }
 
          if (scope.selectedUnfinishedStart) {
-            css.push('controls-MonthViewVDOM__item-selectedStart-unfinished');
+            css.push('controls-MonthViewVDOM__item-selectedStart-unfinished_theme-' + theme);
          }
          if (scope.selectedUnfinishedEnd) {
-            css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished');
+            css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-' + theme);
          }
          if (scope.selected) {
             if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
-               css.push('controls-MonthViewVDOM__item-selectedStartEnd');
+               css.push('controls-MonthViewVDOM__item-selectedStartEnd_theme-' + theme);
             } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
-               css.push('controls-MonthViewVDOM__item-selectedStart');
+               css.push('controls-MonthViewVDOM__item-selectedStart_theme-' + theme);
             } else if (scope.selectedEnd && (!scope.selectionProcessing ||
                 (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
-               css.push('controls-MonthViewVDOM__item-selectedEnd');
+               css.push('controls-MonthViewVDOM__item-selectedEnd_theme-' + theme);
             }
          }
          if (scope.selectedInner) {
-            css.push('controls-MonthViewVDOM__item-selectedInner');
+            css.push('controls-MonthViewVDOM__item-selectedInner_theme-' + theme);
          }
 
          if (scope.today) {
-            css.push('controls-MonthViewVDOM__today');
+            css.push('controls-MonthViewVDOM__today_theme-' + theme);
          }
       }
-
-      css.push(scope.isCalendar ? 'controls-MonthViewVDOM__currentMonthDay' : 'controls-MonthViewVDOM__' + scope.month);
+      css.push(scope.isCalendar ? 'controls-MonthViewVDOM__currentMonthDay_theme-' + theme : 'controls-MonthViewVDOM__' + scope.month + '_theme-' + theme);
 
       if (scope.weekend) {
          css.push('controls-MonthViewVDOM__weekend');

@@ -32,6 +32,8 @@
  * @includes INavigation Controls/_interface/INavigation
  * @includes IDisplayedRanges Controls/_interface/IDisplayedRanges
  * @includes IOpenPopup Controls/_interface/IOpenPopup
+ * @includes ISearch Controls/_interface/ISearch
+ * @includes ISelectorDialog Controls/_interface/ISelectorDialog
  * @public
  * @author Крайнов Д.О.
  */
@@ -50,8 +52,8 @@ export {default as IFontColorStyle, IFontColorStyleOptions} from './_interface/I
 export {default as IFontSize, IFontSizeOptions} from './_interface/IFontSize';
 export {default as IFontWeight, IFontWeightOptions, TFontWeight, getFontWeightTypes} from './_interface/IFontWeight';
 export {default as IHeight, IHeightOptions} from './_interface/IHeight';
-export {default as ISingleSelectable, ISingleSelectableOptions} from './_interface/ISingleSelectable';
-export {default as IMultiSelectable, IMultiSelectableOptions} from './_interface/IMultiSelectable';
+export {default as ISingleSelectable, ISingleSelectableOptions, TSelectedKey} from './_interface/ISingleSelectable';
+export {default as IMultiSelectable, IMultiSelectableOptions, TSelectedKeys} from './_interface/IMultiSelectable';
 export {default as ISource, ISourceOptions} from './_interface/ISource';
 export {default as IErrorController, IErrorControllerOptions} from './_interface/IErrorController';
 export {default as IHierarchy, IHierarchyOptions} from './_interface/IHierarchy';
@@ -72,3 +74,5 @@ export {default as INavigation, INavigationOptions, INavigationOptionValue} from
 export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';
 export {default as IDisplayedRanges, IDisplayedRangesOptions} from './_interface/IDisplayedRanges';
 export {default as IOpenPopup} from './_interface/IOpenPopup';
+export {default as ISearch} from './_interface/ISearch';
+export {default as ISelectorDialog, ISelectorDialogOptions} from './_interface/ISelectorDialog';

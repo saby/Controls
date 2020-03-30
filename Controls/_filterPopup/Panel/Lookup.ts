@@ -6,7 +6,7 @@ import 'Controls/lookup';
 
 /**
  * Метка с полем связи. Пока коллекция пуста - поле связи скрыто.
- * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Engine-demo%2FLookup">демо пример</a>.
+ * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демо пример</a>.
  * Если вы используете внутри подсказки поля ввода ссылку на открытие справочника - вам понадобиться {@link Controls/lookup:Link}.
  * Если вы хотите сделать динамичную подсказку поля ввода, которая будет меняться в зависимости от выбранной коллекции, используйте {@link Controls/lookup:PlaceholderChooser}.
  * Если хотите расположить поле связи с кнопкой-ссылкой в одну строку, необходимо на корневой элемет навесить класс 'ws-flexbox'.
@@ -17,7 +17,7 @@ import 'Controls/lookup';
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
@@ -40,7 +40,7 @@ import 'Controls/lookup';
  */
 /*
  * Label with a Lookup. While the collection is empty - the Lookup is hidden.
- * Here you can see <a href="/materials/Controls-demo/app/Engine-demo%2FLookup">demo-example</a>.
+ * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">demo-example</a>.
  * If you use the link to open the directory inside the tooltip of the input field, you will need {@link Controls/lookup:Link}.
  * If you want to make a dynamic placeholder of the input field, which will vary depending on the selected collection, use {@link Controls/lookup:PlaceholderChooser}.
  *
@@ -50,7 +50,7 @@ import 'Controls/lookup';
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
  * @mixes Controls/interface/ISuggest
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation

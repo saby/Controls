@@ -24,10 +24,6 @@
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">Горизонтальные отступы</div>
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
-<!--            <div class="controlsDemo__cell controlsDemo__mr2">-->
-<!--                <div class="controls-text-label_theme-{{_options.theme}}">Стандартные отступы</div>-->
-<!--                <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>-->
-<!--            </div>-->
 
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру null</div>
@@ -35,13 +31,6 @@
                     <ws:itemPadding left="null" right="null"/>
                 </Controls.list:View>
             </div>
-
-<!--            <div class="controlsDemo__cell controlsDemo__mr2">-->
-<!--                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>-->
-<!--                <Controls.list:View keyProperty="id" source="{{_viewSource}}">-->
-<!--                    <ws:itemPadding left="s" right="s"/>-->
-<!--                </Controls.list:View>-->
-<!--            </div>-->
 
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-s">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>

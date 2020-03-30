@@ -180,18 +180,6 @@ define(
          });
 
          it('getTemplateOptions', function() {
-            const expectedOptions = Clone(defaultOptions);
-            expectedOptions.root = 1;
-            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
-            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
-            expectedOptions.closeButtonVisibility = false;
-            expectedOptions.showHeader = false;
-            expectedOptions.headerTemplate = null;
-            expectedOptions.headerContentTemplate = null;
-            expectedOptions.additionalProperty = null;
-            expectedOptions.itemPadding = null;
-            expectedOptions.iWantBeWS3 = false;
-
             let menuControl = getMenu();
             menuControl._listModel = getListModel();
 
@@ -202,6 +190,24 @@ define(
                }),
                hasChildren: false
             });
+
+            const expectedOptions = Clone(defaultOptions);
+            expectedOptions.root = 1;
+            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
+            expectedOptions.footerContentTemplate = defaultOptions.nodeFooterTemplate;
+            expectedOptions.footerItemData = {
+               item,
+               key: expectedOptions.root
+            };
+            expectedOptions.closeButtonVisibility = false;
+            expectedOptions.showHeader = false;
+            expectedOptions.headerTemplate = null;
+            expectedOptions.headerContentTemplate = null;
+            expectedOptions.additionalProperty = null;
+            expectedOptions.itemPadding = null;
+            expectedOptions.searchParam = null;
+            expectedOptions.iWantBeWS3 = false;
+
             let resultOptions = menuControl.getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
          });
@@ -317,6 +323,54 @@ define(
             assert.equal(indicatorConfig.overlay, 'none');
          });
 
+         it('_calculateActionsConfig', function() {
+            let menuControl = getMenu();
+            let listModel = getListModel();
+
+            const expectedConfig = {
+               itemActionsPosition: 'inside',
+               actionCaptionPosition: 'none',
+               actionAlignment: 'horizontal',
+               style: 'default',
+               size: 'm',
+               itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-default',
+               toolbarVisibility: undefined
+            };
+
+            menuControl._calculateActionsConfig(listModel, {theme: 'default'});
+            assert.deepEqual(listModel.getActionsTemplateConfig(), expectedConfig);
+         });
+
+         it('getCollection', function() {
+            let menuControl = getMenu();
+            let listModel = menuControl.getCollection(new collection.RecordSet(), {
+               searchParam: 'title',
+               searchValue: 'searchText'
+            });
+            assert.instanceOf(listModel, display.Search);
+         });
+
+         it('_itemActionClick', function() {
+            let isHandlerCalled = false;
+            let menuControl = getMenu();
+            menuControl._listModel = getListModel();
+            let action = {
+               id: 1,
+               icon: 'icon-Edit',
+               iconStyle: 'secondary',
+               title: 'edit',
+               showType: 2,
+               handler: function() {
+                  isHandlerCalled = true;
+               }
+            };
+            let clickEvent = {
+               stopPropagation: () => {}
+            };
+
+            menuControl._itemActionClick('itemActionClick', menuControl._listModel.at(1), action, clickEvent);
+            assert.isTrue(isHandlerCalled);
+         });
       });
    }
 );

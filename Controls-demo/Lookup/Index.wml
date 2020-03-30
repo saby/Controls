@@ -1,0 +1,397 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-simple">
+         <div class="controls-text-label_theme-{{_options.theme}}">Simple lookup</div>
+         <Controls.lookup:Input
+                 bind:value="_valueSimple"
+                 bind:selectedKeys="_selectedKeySimple"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 multiSelect="{{false}}"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-comment">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with comment</div>
+         <Controls.lookup:Input
+                 bind:value="_valueWithComment"
+                 bind:selectedKeys="_selectedKeyWithComment"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 multiSelect="{{false}}"
+                 navigation="{{_navigation}}"
+                 comment="Enter note"
+                 selectorTemplate="{{_selectorTemplate}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400  controlsDemo-Lookup-labelInside">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with label inside</div>
+         <Controls.lookup:Input
+                 name="lookupInsideLabel"
+                 bind:value="_valueLabelInside"
+                 bind:selectedKeys="_selectedKeysInside"
+                 source="{{_source}}"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}">
+            <ws:placeholder>
+               Enter&nbsp;
+               <Controls.lookup:Link caption="company" on:click="showSelectorInsideLabel()"/>
+               &nbsp;name
+            </ws:placeholder>
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400  controlsDemo-Lookup-labelAbove">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with label inside</div>
+         <div class="engine-demo-LookupLink__labelAbove">
+            <Controls.lookup:Link caption="From whom" on:click="showSelectorLabelAbove()"/>
+         </div>
+         <Controls.lookup:Input
+                 name="lookupLabelAbove"
+                 bind:value="_valueLabelAbove"
+                 bind:selectedKeys="_selectedKeysAbove"
+                 source="{{_source}}"
+                 searchParam="title"
+                 placeholder="Enter company name"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-labelBeside">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with label beside</div>
+         <Controls.lookup:Input
+                 name="lookupLabelBeside"
+                 bind:value="_valueLabelBeside"
+                 bind:selectedKeys="_selectedKeysBeside"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 keyProperty="id">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+         <Controls.lookup:Link caption="From whom" on:click="showSelectorLabelBeside()" attr:style="display: block"/>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-severalDir">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup from several directories</div>
+         <Controls.lookup:Input
+                 name="directoriesLookup"
+                 bind:value="_valueDirectories"
+                 bind:selectedKeys="_selectedKeysDirectories"
+                 source="{{_source}}"
+                 searchParam="title"
+                 multiSelect="{{true}}"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplateWithTabs}}"
+                 keyProperty="id"
+                 on:selectorCallback="selectorCallback()">
+            <ws:placeholder>
+               Specify the&nbsp;
+               <Controls.lookup:Link multiSelect="{{true}}" caption="department" on:click="showSelector('Departments')"/>
+               &nbsp;and&nbsp;
+               <Controls.lookup:Link caption="company" on:click="showSelector('Companies')"/>
+            </ws:placeholder>
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-multi">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with multi select</div>
+         <Controls.lookup:Input
+                 bind:value="_valueMultiSelect"
+                 bind:selectedKeys="_selectedKeysMultiSelect"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 multiSelect="{{true}}"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-customPlaceholder">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with custom placeholder(Records are related)</div>
+         <Controls.lookup:PlaceholderChooser placeholderKeyCallback="{{_placeholderKeyCallback}}">
+            <ws:placeholders>
+               <ws:manufacturer>
+                  <div>
+                     Укажите&nbsp;
+                     <Controls.lookup:Link caption="производителя"
+                                           on:click="showSelectorCustomPlaceholder('manufacturer')"/>
+                     ,&nbsp;
+                     <Controls.lookup:Link caption="категорию"
+                                           on:click="showSelectorCustomPlaceholder('category')"/>
+                     &nbsp;и&nbsp;
+                     <Controls.lookup:Link caption="модель"
+                                           on:click="showSelectorCustomPlaceholder('model')"/>
+                  </div>
+               </ws:manufacturer>
+               <ws:category>
+                  <div>
+                     <Controls.lookup:Link caption="категорию"
+                                           on:click="showSelectorCustomPlaceholder('category')"/>
+                     &nbsp;и&nbsp;
+                     <Controls.lookup:Link caption="модель"
+                                           on:click="showSelectorCustomPlaceholder('model')"/>
+                  </div>
+               </ws:category>
+               <ws:model>
+                  <Controls.lookup:Link caption="модель"
+                                        on:click="showSelectorCustomPlaceholder('model')"/>
+               </ws:model>
+            </ws:placeholders>
+            <ws:content>
+               <Controls.lookup:MultipleInput
+                       name="lookupCustomPlaceholder"
+                       bind:value="_valueCustomPlaceholder"
+                       bind:selectedKeys="_selectedKeyCustomPlaceholder"
+                       source="{{_eqiupmentSource}}"
+                       searchParam="title"
+                       keyProperty="id"
+                       multiSelect="{{true}}"
+                       maxVisibleItems="3"
+                       navigation="{{_navigation}}"
+                       selectorTemplate="{{_selectorTemplateEqiupment}}"
+                       on:itemsChanged="_itemsChanged()">
+                  <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+               </Controls.lookup:MultipleInput>
+            </ws:content>
+         </Controls.lookup:PlaceholderChooser>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-customPlaceholderNotRelated">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with custom placeholder(Records are not related)</div>
+         <Controls.lookup:PlaceholderChooser placeholderKeyCallback="{{_placeholderKeyCallback2}}">
+            <ws:placeholders>
+               <ws:all>
+                  Specify the&nbsp;
+                  <Controls.lookup:Link caption="department"
+                                        on:click="showSelectorCustomPlaceholder2('department')"/>
+                  &nbsp;and&nbsp;
+                  <Controls.lookup:Link caption="company"
+                                        on:click="showSelectorCustomPlaceholder2('company')"/>
+               </ws:all>
+               <ws:department>
+                  Specify the&nbsp;
+                  <Controls.lookup:Link caption="department"
+                                        on:click="showSelectorCustomPlaceholder2('department')"/>
+               </ws:department>
+               <ws:company>
+                  Specify the&nbsp;
+                  <Controls.lookup:Link caption="company"
+                                        on:click="showSelectorCustomPlaceholder2('company')"/>
+               </ws:company>
+            </ws:placeholders>
+            <ws:content>
+               <Controls.lookup:MultipleInput
+                       name="lookupCustomPlaceholder2"
+                       bind:value="_valueCustomPlaceholder2"
+                       bind:selectedKeys="_selectedKeyCustomPlaceholder2"
+                       source="{{_source}}"
+                       searchParam="title"
+                       keyProperty="id"
+                       multiSelect="{{true}}"
+                       navigation="{{_navigation}}"
+                       selectorTemplate="{{_selectorTemplateWithTabs}}"
+                       maxVisibleItems="2"
+                       on:selectorCallback="selectorCallback()">
+                  <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/lookup:ItemTemplate"
+                                 style="{{_selectedKeyStyle}}"
+                                 size="{{_selectedKeySize}}"
+                                 displayProperty="title"></ws:partial>
+                  </ws:itemTemplate>
+               </Controls.lookup:MultipleInput>
+            </ws:content>
+         </Controls.lookup:PlaceholderChooser>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-multiLine">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with multi line</div>
+         <Controls.lookup:Input
+                 bind:value="_valueMultiLine"
+                 bind:selectedKeys="_selectedKeysMultiLine"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 multiSelect="{{true}}"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiLine="{{true}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"/>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400  controlsDemo-Lookup-link">
+         <div class="controls-text-label_theme-{{_options.theme}}">Link with lookup</div>
+         <Controls.filterPopup:Lookup
+                 caption="Link above lookup"
+                 bind:value="_valueLink"
+                 bind:selectedKeys="_selectedKeyLink"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiSelect="{{false}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.filterPopup:Lookup>
+      </div>
+   </div>
+   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400  controlsDemo-Lookup-readOnly">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with read only</div>
+         <Controls.lookup:Input
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 readOnly="{{true}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-link_readOnly">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup with link read only</div>
+         <div>
+            <Controls.lookup:Link caption="From whom" readOnly="{{true}}"/>
+         </div>
+         <Controls.lookup:Input
+                 bind:selectedKeys="_selectedKeysReadOnly"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 readOnly="{{true}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400controlsDemo-Lookup-multi_readOnly">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup multi select with read only</div>
+         <Controls.lookup:Input
+                 bind:selectedKeys="_selectedKeysMultiSelectReadOnly"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiSelect="{{true}}"
+                 readOnly="{{true}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-line_readOnly">
+         <div class="controls-text-label_theme-{{_options.theme}}">Lookup multi line with read only</div>
+         <Controls.lookup:Input
+                 bind:selectedKeys="_selectedKeysMultiLineReadOnly"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiSelect="{{true}}"
+                 multiLine="{{true}}"
+                 readOnly="{{true}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
+            <ws:itemTemplate>
+               <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
+                           size="{{_selectedKeySize}}"
+                           displayProperty="title"></ws:partial>
+            </ws:itemTemplate>
+         </Controls.lookup:Input>
+      </div>
+   </div>
+   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
+         <div class="controls-text-label_theme-{{_options.theme}}">Choose style</div>
+         <Controls.dropdown:Combobox source="{{_itemsStyle}}"
+                                     emptyText="By default"
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKeyStyle"/>
+      </div>
+      <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
+         <div class="controls-text-label_theme-{{_options.theme}}">Choose size</div>
+         <Controls.dropdown:Combobox source="{{_itemsSize}}"
+                                  keyProperty="id"
+                                  displayProperty="title"
+                                  bind:selectedKey="_selectedKeySize"/>
+      </div>
+   </div>
+</div>

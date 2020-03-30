@@ -12,12 +12,12 @@ import { TemplateFunction } from 'UI/Base';
 type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 /**
  * @typedef {String} TIconStyle
- * @variant default
- * @variant attention
- * @variant error
- * @variant done
+ * @variant secondary
+ * @variant warning
+ * @variant danger
+ * @variant success
  */
-type TIconStyle = 'default'|'attention'|'error'|'done';
+type TIconStyle = 'secondary'|'warning'|'danger'|'success';
 /**
  * @typedef {String} TItemActionsPosition
  * @variant inside Внутри элемента.
@@ -58,6 +58,7 @@ export interface IContextMenuConfig {
     itemTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     headerTemplate?: TemplateFunction|string;
+    iconSize?: string;
 }
 
 export interface IItemAction {
@@ -100,6 +101,7 @@ export interface IList {
     dataLoadCallback?: (items) => void;
     dataLoadErrback?: () => void;
     style?: TListStyle;
+    backgroundStyle?: string;
     itemPadding?: IItemPadding;
     nodeConfig?: INodeConfig;
 }
@@ -134,7 +136,7 @@ export interface IList {
 
 /**
  * @name Controls/_list/interface/IList#contextMenuConfig
- * @cfg {Object} Устанавливает конфигурацию для меню операций над записью.
+ * @cfg {Controls/menu:IMenuControlOptions} Устанавливает конфигурацию для меню операций над записью.
  * Набор опций передается объектом. Заданный объект мержится с минимальным объектом опций, отдаваемых в меню по-умолчанию.
  * В качестве ключей можно использовать следующие свойства:
  * - items - для смены набора элементов.
@@ -142,6 +144,7 @@ export interface IList {
  * - itemTemplate - шаблон элемента меню.
  * - footerTemplate - шаблон футера.
  * - headerTemplate - шаблон шапки.
+ * - iconSize - размер иконок в выпадающем меню.
  */
 
 /*ENG
@@ -232,13 +235,14 @@ export interface IList {
  * @property {String} tooltip Текст подсказки при наведении мыши.
  * @property {String} icon Имя иконки для опции записи.
  * @property {TActionDisplayMode} displayMode Режим отображения операции над записью.
- * @property {Number} [showType=0] Местоположение опции записи.
- * * 0 — в контекстном меню.
- * * 1 — в строке и в контекстном меню.
- * * 2 — в строке.
+ * @property {Enum} [item.showType] Определяет, где будет отображаться элемент. Значение берется из утилиты 'Controls/Utils/Toolbar'. {@link Controls/Utils/Toolbar Подробнее}
+ * Доступные значения:
+ * showType.MENU - Элемент отображается только в меню
+ * showType.MENU_TOOLBAR - Элемент отображается в меню и в тулбаре
+ * showType.TOOLBAR - Элемент отображается только в тулбаре
  * @property {String} style Значение свойства преобразуется в CSS-класс вида "controls-itemActionsV__action_style_<значение_свойства>".
  * Он будет установлен для html-контейнера самой опции записи, и свойства класса будут применены как к тексту (см. title), так и к иконке (см. icon).
- * @property {TIconStyle} [iconStyle=default] Стиль иконки.
+ * @property {TIconStyle} [iconStyle=secondary] Стиль иконки.
  * Каждому значению свойства соответствует стиль, который определяется {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темой оформления} приложения.
  * @property {Function} handler Обработчик опции записи.
  * См. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/handler-click/ пример обработчика}.
@@ -253,7 +257,11 @@ export interface IList {
  * @property {String} id Identifier of operation.
  * @property {String} title Operation name.
  * @property {String} icon Operation icon.
- * @property {Number} showType Location of operation. (0 - menu | 1 - toolbar and menu | 2 - toolbar).
+ * @property {Enum} [item.showType] Determines where item is displayed. The value is taken from the util 'Controls/Utils/Toolbar'. {@link Controls/Utils/Toolbar Details}
+ * Values:
+ * showType.MENU - item is displayed only in the menu
+ * showType.MENU_TOOLBAR - item is displayed in the menu and toolbar
+ * showType.TOOLBAR - item is displayed only in the toolbar
  * @property {String} style Operation style. (secondary | warning | danger | success).
  * @property {String} iconStyle Style of the action's icon. (secondary | warning | danger | success).
  * @property {Function} handler Operation handler.
@@ -865,39 +873,39 @@ export interface IList {
 /**
  * @typedef {Object} VerticalItemPaddingEnum
  * @variant null Без отступа.
- * @variant S Маленький отступ.
- * @default S
+ * @variant s Маленький отступ.
+ * @default s
  */
 
 /*
  * @typedef {Object} VerticalItemPaddingEnum
  * @variant null Without padding.
- * @variant S Small padding.
- * @default S
+ * @variant s Small padding.
+ * @default s
  */
 
 /**
  * @typedef {Object} HorizontalItemPaddingEnum
  * @variant null Без отступа.
- * @variant XS Минимальный отступ.
- * @variant S Маленький отступ.
- * @variant M Средний отступ.
- * @variant L Большой отступ.
- * @variant XL Очень большой оступ.
- * @variant XXL Максимальный отступ.
+ * @variant xs Минимальный отступ.
+ * @variant s Маленький отступ.
+ * @variant m Средний отступ.
+ * @variant l Большой отступ.
+ * @variant xl Очень большой оступ.
+ * @variant xxl Максимальный отступ.
  * @default M
  */
 
 /*
  * @typedef {Object} HorizontalItemPaddingEnum
  * @variant null without padding.
- * @variant XS Extra small padding.
- * @variant S Small padding.
- * @variant M Medium padding.
- * @variant L Large padding.
- * @variant XL Extra large padding.
- * @variant XXL Extra extra large padding.
- * @default M
+ * @variant xs Extra small padding.
+ * @variant s Small padding.
+ * @variant m Medium padding.
+ * @variant l Large padding.
+ * @variant xl Extra large padding.
+ * @variant xxl Extra extra large padding.
+ * @default m
  */
 
 /**
@@ -924,4 +932,16 @@ export interface IList {
 /*
  * @cfg {ItemPadding} Configuration inner paddings in the item.
  * @name Controls/_list/interface/IList#itemPadding
+ */
+
+/**
+ * @name Controls/_list/interface/IList#backgroundStyle
+ * @cfg {string} Префикс стиля для настройки фона внутренних компонентов списочного контрола с фиксированным или абсолютным позиционированием.
+ * @default default (фон цвета темы)
+ */
+
+/*
+ * @name Controls/_list/interface/IList#backgroundStyle
+ * @cfg {string} Style prefix to configure background for inner list control components with static or absolute positioning.
+ * @default default (theme background)
  */

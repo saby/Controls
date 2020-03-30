@@ -5,11 +5,10 @@ import CoreExtend = require('Core/core-extend');
 import Constants = require('Controls/_history/Constants');
 import Deferred = require('Core/Deferred');
 import coreClone = require('Core/core-clone');
-import Env = require('Env/Env');
+import DataStorage from './DataStorage';
+import LoadPromisesStorage from './LoadPromisesStorage';
 
-var STORAGES = {};
 var STORAGES_USAGE = {};
-var STORAGES_DATA_LOAD = {};
 
 var _private = {
    getHistoryDataSource: function (self) {
@@ -134,7 +133,7 @@ var _private = {
    decrementUsage: function (self) {
       STORAGES_USAGE[self._historyId]--;
       if (STORAGES_USAGE[self._historyId] === 0) {
-         delete STORAGES[self._historyId];
+         DataStorage.delete(self._historyId);
       }
    }
 };
@@ -171,7 +170,7 @@ var _private = {
  *       historyId: 'TEST_HISTORY_ID'
  *    })
  * </pre>
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#historyId
@@ -181,7 +180,7 @@ var _private = {
 /*
  * @name Controls/_history/Service#historyId
  * @cfg {String} unique service history identifier
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#historyIds
@@ -191,7 +190,7 @@ var _private = {
 /*
  * @name Controls/_history/Service#historyIds
  * @cfg {Array of String} unique service history identifiers
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#pinned
@@ -207,7 +206,7 @@ var _private = {
  * @remark
  * true - Load items
  * false - No load items
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#frequent
@@ -223,7 +222,7 @@ var _private = {
  * @remark
  * true - Load items
  * false - No load items
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#recent
@@ -239,7 +238,7 @@ var _private = {
  * @remark
  * true - Load items
  * false - No load items
- */ 
+ */
 
 /**
  * @name Controls/_history/Service#dataLoaded
@@ -302,28 +301,22 @@ var Service = CoreExtend.extend([ICrud, OptionsToPropertyMixin], {
    query(): Deferred<DataSet> {
       const self = this;
       const historyId = self._historyId;
-
+      const storageDef = LoadPromisesStorage.read(historyId);
+      const storageData = DataStorage.read(historyId);
       let resultDef;
 
-      if (STORAGES_DATA_LOAD[historyId] && Env.constants.isBrowserPlatform) {
+      if (storageDef) {
          resultDef = new Deferred();
          // create new deferred, so in the first callback function, the result of the query will be changed
-         STORAGES_DATA_LOAD[historyId].addBoth(() => {
+         storageDef.addBoth(() => {
             resultDef.callback(self.getHistory(historyId));
          });
-      } else if (!STORAGES[historyId] || Env.constants.isServerSide) {
+      } else if (!storageDef && !storageData) {
          resultDef = _private.load(this);
-
-         // необходимо кэшировать запрос только на клиенте
-         // на сервере возможны проблемы (утечки) при посторении страниц, т.к. объект глобальный,
-         // как минимум, стэк очистится от вызова сборщика мусора
-         // https://online.sbis.ru/opendoc.html?guid=37eb3bdd-19b1-4b36-b889-92e798fc2cf7
-         if (Env.constants.isBrowserPlatform) {
-            STORAGES_DATA_LOAD[historyId] = resultDef;
-         }
+         LoadPromisesStorage.write(historyId, resultDef);
 
          resultDef.addBoth((res) => {
-            delete STORAGES_DATA_LOAD[historyId];
+            LoadPromisesStorage.delete(historyId);
             return res;
          });
       } else {
@@ -363,7 +356,7 @@ var Service = CoreExtend.extend([ICrud, OptionsToPropertyMixin], {
     * Save new history
     */
    saveHistory: function (historyId, newHistory) {
-      STORAGES[historyId] = coreClone(newHistory);
+      DataStorage.write(historyId, coreClone(newHistory));
    },
 
    /**
@@ -371,7 +364,7 @@ var Service = CoreExtend.extend([ICrud, OptionsToPropertyMixin], {
     * @returns {Object}
     */
    getHistory: function (historyId) {
-      return STORAGES[historyId];
+      return DataStorage.read(historyId);
    }
 });
 

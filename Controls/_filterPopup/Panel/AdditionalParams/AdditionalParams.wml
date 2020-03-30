@@ -30,7 +30,7 @@
    </div>
 
    <ws:if data="{{_arrowVisible}}">
-      <div class="controls-FilterPanel__separator">
+      <div class="controls-FilterPanel__separator" title="{{!_isMaxHeight ? rk('Свернуть') : rk('Развернуть')}}">
          <Controls.toggle:BigSeparator
                  value="{{!_isMaxHeight}}"
                  on:click="_clickSeparatorHandler()"/>
