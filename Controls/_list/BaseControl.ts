@@ -286,10 +286,41 @@ var _private = {
     },
     canStartDragNDrop(domEvent: any, cfg: any): boolean {
         return (!cfg.canStartDragNDrop || cfg.canStartDragNDrop()) &&
+            cfg.itemsDragNDrop &&
             !(domEvent.nativeEvent.button) &&
             !cfg.readOnly &&
-            cfg.itemsDragNDrop &&
             !domEvent.target.closest('.controls-DragNDrop__notDraggable');
+    },
+    startDragNDrop(self, domEvent, itemData): void {
+        if (_private.canStartDragNDrop(domEvent, self._options)) {
+            const key = self._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+
+            //Support moving with mass selection.
+            //Full transition to selection will be made by: https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
+            const selection = _private.getSelectionForDragNDrop(self._options.selectedKeys, self._options.excludedKeys, key);
+            selection.recursive = false;
+            const recordSet = self._options.useNewModel ? self._listViewModel.getCollection() : self._listViewModel.getItems();
+
+            // Ограничиваем получение перемещаемых записей до 100 (максимум в D&D пишется "99+ записей"), в дальнейшем
+            // количество записей будет отдавать selectionController https://online.sbis.ru/opendoc.html?guid=b93db75c-6101-4eed-8625-5ec86657080e
+            getItemsBySelection(selection, self._options.source, recordSet, self._options.filter, LIMIT_DRAG_SELECTION).addCallback((items) => {
+                const dragKeyPosition = items.indexOf(key);
+                // If dragged item is in the list, but it's not the first one, move
+                // it to the front of the array
+                if (dragKeyPosition > 0) {
+                    items.splice(dragKeyPosition, 1);
+                    items.unshift(key);
+                }
+                const dragStartResult = self._notify('dragStart', [items]);
+                if (dragStartResult) {
+                    if (self._options.dragControlId) {
+                        dragStartResult.dragControlId = self._options.dragControlId;
+                    }
+                    self._children.dragNDropController.startDragNDrop(dragStartResult, domEvent);
+                    self._draggingItem = itemData;
+                }
+            });
+        }
     },
     /**
      * TODO: Сейчас нет возможности понять предусмотрено выделение в списке или нет.
@@ -1781,6 +1812,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
         this.__errorController = options.errorController || new dataSourceError.Controller({});
+        this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
     },
 
     /**
@@ -2437,17 +2469,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              */
             e.stopPropagation();
         }
-        // При редактировании по месту маркер появляется только если в списке больше одной записи.
-        // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
-        if (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1)) {
-            if (this._options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(item.getId());
-                markCommand.execute(this._listViewModel);
-            } else {
-                const newKey = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
-                this._listViewModel.setMarkedKey(newKey);
-            }
-        }
     },
 
     beginEdit: function(options) {
@@ -2548,39 +2569,34 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     },
 
     _itemMouseDown: function(event, itemData, domEvent) {
-        var
-            selection,
-            self = this,
-            dragStartResult;
         const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
-        if (_private.canStartDragNDrop(domEvent, this._options)) {
-            //Support moving with mass selection.
-            //Full transition to selection will be made by: https://online.sbis.ru/opendoc.html?guid=080d3dd9-36ac-4210-8dfa-3f1ef33439aa
-            selection = _private.getSelectionForDragNDrop(this._options.selectedKeys, this._options.excludedKeys, key);
-            selection.recursive = false;
-            const recordSet = this._options.useNewModel ? this._listViewModel.getCollection() : this._listViewModel.getItems();
 
-            // Ограничиваем получение перемещаемых записей до 100 (максимум в D&D пишется "99+ записей"), в дальнейшем
-            // количество записей будет отдавать selectionController https://online.sbis.ru/opendoc.html?guid=b93db75c-6101-4eed-8625-5ec86657080e
-            getItemsBySelection(selection, this._options.source, recordSet, this._options.filter, LIMIT_DRAG_SELECTION).addCallback((items) => {
-                const dragKeyPosition = items.indexOf(key);
-                // If dragged item is in the list, but it's not the first one, move
-                // it to the front of the array
-                if (dragKeyPosition > 0) {
-                    items.splice(dragKeyPosition, 1);
-                    items.unshift(key);
-                }
-                dragStartResult = self._notify('dragStart', [items]);
-                if (dragStartResult) {
-                    if (self._options.dragControlId) {
-                        dragStartResult.dragControlId = self._options.dragControlId;
-                    }
-                    self._children.dragNDropController.startDragNDrop(dragStartResult, domEvent);
-                    self._draggingItem = itemData;
-                }
-            });
+        // При редактировании по месту маркер появляется только если в списке больше одной записи.
+        // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
+        if (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1)) {
+            if (this._options.useNewModel) {
+                const markCommand = new displayLib.MarkerCommands.Mark(key);
+                markCommand.execute(this._listViewModel);
+            } else {
+                this._listViewModel.setMarkedKey(key);
+            }
+        }
+
+        let hasDragScrolling = false;
+        if (this._options.columnScroll) {
+            hasDragScrolling = typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop;
+        }
+
+        if (!hasDragScrolling) {
+            _private.startDragNDrop(this, domEvent, itemData);
+        } else {
+            this._savedItemMouseDownEventArgs = {event, itemData, domEvent};
         }
         this._notify('itemMouseDown', [itemData.item, domEvent.nativeEvent]);
+    },
+
+    _startDragNDropCallback(): void {
+        _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     },
 
     _onLoadMoreClick: function() {

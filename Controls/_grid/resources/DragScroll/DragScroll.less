@@ -1,0 +1,30 @@
+.controls-Grid__DragScroll__overlay {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+
+.controls-Grid__DragScroll__overlay_activated {
+   z-index: @z-index_DragScroll-overlay;
+   cursor: @cursor_DragScroll_scrolling;
+}
+
+.controls-Grid__DragScroll__overlay_deactivated {
+   display: none;
+}
+
+.controls-Grid__DragScroll__content {
+   .controls-Grid__row-cell:not(.controls-Grid__cell_fixed) {
+      .controls-Grid__row-cell__content:not(.js-controls-ColumnScroll__notDraggable) {
+         cursor: @cursor_DragScroll_hover;
+      }
+   }
+   .controls-Grid__header-cell:not(.controls-Grid__cell_fixed) {
+      .controls-Grid__header-cell__content:not(.js-controls-ColumnScroll__notDraggable) {
+         cursor: @cursor_DragScroll_hover;
+      }
+   }
+
+}
