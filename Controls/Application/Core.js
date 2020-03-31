@@ -9,7 +9,7 @@ define('Controls/Application/Core',
       'SbisEnv/PresentationService',
       'Application/Env',
       'Controls/Application/StateReceiver',
-      'Core/Themes/ThemesController',
+      'UI/theme/controller',
       'UI/Base',
       'Controls/Application/HeadData',
       'native-css',
@@ -21,7 +21,7 @@ define('Controls/Application/Core',
       PresentationService,
       AppEnv,
       StateReceiver,
-      ThemesController,
+      controller,
       UIBase,
       HeadData) {
       'use strict';
@@ -85,9 +85,11 @@ define('Controls/Application/Core',
          coreTheme: '',
          setTheme: function(ev, theme) {
             this.coreTheme = theme;
-            if (ThemesController.getInstance().setTheme) {
-               ThemesController.getInstance().setTheme(theme);
-            }
+            controller.getThemeController().setTheme(theme).catch(function (e) {
+               require(['UI/Utils'], function (Utils) {
+                  Utils.Logger.error(e.message);
+               });
+            });
          },
          changeApplicationHandler: function(e, app) {
             var result;
