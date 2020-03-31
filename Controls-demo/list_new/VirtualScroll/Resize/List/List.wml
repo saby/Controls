@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+        Корректная загрузка при изменении размеров списка
+    </div>
+    <Controls.scroll:Container
+            attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+        <Controls.list:View
+                source="{{_source}}"
+                keyProperty="id"
+                virtualScrollConfig="{{_virtualScrollConfig}}">
+            <ws:navigation view="infinity"/>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+    <div class="ws-link controlsDemo__mb1" on:click="_changeOptions()">
+        Изменить опции списка
+    </div>
+</div>

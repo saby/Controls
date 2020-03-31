@@ -35,6 +35,6 @@
         <span>Event that surfaced:</span>
         <br/>
         <span class="ControlsDemo__eventName">{{_eventName}}</span>
-        <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented" viewMode="link" caption="reset"/>
+        <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented" viewMode="linkButton" caption="reset"/>
     </div>
 </div>

@@ -7,8 +7,9 @@
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
-                        navigation="{{_options.navigation}}"
-                        virtualScrolling="{{true}}"/>
+                        navigation="{{_options.navigation}}">
+                    <ws:virtualScrollConfig pageSize="{{100}}"/>
+                </Controls.grid:View>
             </Controls.scroll:Container>
         </ws:content>
     </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>

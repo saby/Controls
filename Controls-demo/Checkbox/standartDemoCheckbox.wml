@@ -1,44 +1,46 @@
-<div class="center-align" on:changeValue="checkEvent()">
-    <div>
-        <div attr:class="demo-Checkbox__inline_row demo-Checkbox__TestBlock_wrapper">
-            <div attr:class="demo-Checkbox__TestBlock_inline">
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column" on:changeValue="checkEvent()">
+        <div attr:class="controlsDemo__cell ws-flexbox ws-flex-row">
+            <div attr:class="ws-flexbox ws-flex-column demo-Checkbox__TestBlock_inline">
                 <h2>View mode</h2>
                 <Controls.toggle:Checkbox class="checkbox_wrapper_width1" readOnly="{{false}}" bind:value="_value" caption="receive notifications" triState="{{false}}" tooltip="Tooltip"/>
             </div>
-            <div attr:class="demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin">
+            <div attr:class="ws-flexbox ws-flex-column controlsDemo__ml3 demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin">
                 <h2>Read mode</h2>
-                <div class="disable-state-wrapper">
-                    <div class="checkbox_wrapper_width2">
+                <div attr:class="ws-flexbox">
+                    <div class="ws-flexbox ws-flex-column checkbox_wrapper_width2">
                         <h3>Selected value</h3>
                         <Controls.toggle:Checkbox readOnly="{{true}}" value="{{true}}" caption="receive notifications" triState="{{false}}" tooltip="Tooltip"/>
                     </div>
-                    <div class="checkbox_wrapper_width1">
+                    <div class="ws-flexbox ws-flex-column controlsDemo__ml2 checkbox_wrapper_width1">
                         <h3>Not selected value</h3>
                         <Controls.toggle:Checkbox readOnly="{{true}}" value="{{false}}" caption="receive notifications" triState="{{false}}" tooltip="Tooltip"/>
                     </div>
                 </div>
             </div>
         </div>
-        <div attr:class="demo-Checkbox__TestBlock_wrapper">
+
+        <div attr:class="controlsDemo__cell ws-flexbox ws-flex-column" style="width: 1000px">
             <h2>Long caption</h2>
-            <Controls.toggle:Checkbox attr:class="demo-Checkbox_smallWidth" readOnly="{{false}}" bind:value="_value2"
+            <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value2" attr:class="demo-Checkbox_smallWidth"
                                       caption="if you need a very long headline, it should be transferred like this. This header is so long that it does not fit in a line with a length of 500px. Of course, it's better not to use such long headlines, but in the event that you still need to make such a headline, be prepared that he would look like this. It does not have a newline character."
                                       tooltip="Tooltip"/>
         </div>
-        <div attr:class="demo-Checkbox__TestBlock_wrapper test-block_width">
+
+        <div attr:class="controlsDemo__cell ws-flexbox ws-flex-column test-block_width">
             <h2>Different content in caption</h2>
-            <div attr:class="demo-Checkbox__TestBlock_inline">
-                <h3>Text and text-link</h3>
-                <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value3" caption="{{_content1}}" tooltip="Tooltip"/>
-            </div>
-            <div attr:class="demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin demo-Checkbox_icon">
-                <h3>Icon</h3>
-                <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value4" icon="icon-Info" iconSize="s" iconStyle="secondary" tooltip="Tooltip"/>
-            </div>
-            <div attr:class="demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin demo-Checkbox_different">
-                <h3>Different style text</h3>
-                <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value5" caption="{{_content3}}" tooltip="Tooltip"/>
+            <div attr:class="controlsDemo__cell ws-flexbox">
+                <div attr:class="ws-flexbox ws-flex-column demo-Checkbox__TestBlock_inline">
+                    <h3>Text and text-link</h3>
+                    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value3" caption="{{_content1}}" tooltip="Tooltip"/>
+                </div>
+                <div attr:class="ws-flexbox ws-flex-column controlsDemo__ml2 demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin demo-Checkbox_icon">
+                    <h3>Icon</h3>
+                    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value4" icon="icon-Info" iconSize="s" iconStyle="secondary" tooltip="Tooltip"/>
+                </div>
+                <div attr:class="ws-flexbox ws-flex-column controlsDemo__ml2 demo-Checkbox__TestBlock_inline demo-Checkbox_leftMargin demo-Checkbox_different">
+                    <h3>Different style text</h3>
+                    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_value5" caption="{{_content3}}" tooltip="Tooltip"/>
+                </div>
             </div>
         </div>
-    </div>
 </div>

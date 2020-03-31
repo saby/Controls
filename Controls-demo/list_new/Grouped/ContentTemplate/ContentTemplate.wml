@@ -1,14 +1,16 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            groupingKeyCallback="{{_groupingKeyCallback}}">
-        <ws:groupTemplate>
-            <ws:partial template="Controls/list:GroupTemplate">
-                <ws:contentTemplate>
-                    <span>Все товары от компании {{contentTemplate.itemData.item.toUpperCase()}}</span>
-                </ws:contentTemplate>
-            </ws:partial>
-        </ws:groupTemplate>
-    </Controls.list:View>
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                groupProperty="brand">
+            <ws:groupTemplate>
+                <ws:partial template="Controls/list:GroupTemplate">
+                    <ws:contentTemplate>
+                        <span>Все товары от компании {{contentTemplate.itemData.item.toUpperCase()}}</span>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:groupTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
 </div>

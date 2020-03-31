@@ -45,7 +45,7 @@ var Utils = {
          days.push(locale.config.daysSmall[0]);
 
          weekdaysCaptions = days.map(function(value, index) {
-            return {caption: value, weekend: index === 5 || index === 6};
+            return {caption: value, weekend: index === 5 || index === 6, day: index};
          });
       }
       return weekdaysCaptions;

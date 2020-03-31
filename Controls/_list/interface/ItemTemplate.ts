@@ -27,7 +27,7 @@
 export default interface IItemTemplateOptions {
    /**
     * @name Controls/list:ItemTemplate#displayProperty
-    * @cfg {String} Устанавливает имя поля элемента, данные которого будут отображены в шаблоне.
+    * @cfg {String} Имя поля элемента, данные которого будут отображены в шаблоне.
     * @remark
     * Опцию не используют, если задан пользовательский шаблон в опции {@link Controls/list:BaseItemTemplate#contentTemplate contentTemplate}.
     * @default title

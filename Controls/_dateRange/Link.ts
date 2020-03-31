@@ -40,6 +40,15 @@ var Component = BaseControl.extend({
       };
       this._children.opener.open(cfg);
    },
+
+   shiftBack: function () {
+      this._children.linkView.shiftBack();
+   },
+
+   shiftForward: function () {
+      this._children.linkView.shiftForward();
+   },
+
    _onResultWS3: function(event, startValue) {
       this._onResult(startValue);
    },

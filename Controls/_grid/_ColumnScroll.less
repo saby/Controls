@@ -23,17 +23,18 @@
    box-sizing: border-box;
 }
 
-.controls-ColumnScroll__shadow_invisible {
-   visibility: hidden;
-}
-
-.controls-ColumnScroll__shadow-start_theme-@{themeName} {
+// Набор классов для установки градиента горизонтального скролла через backgroundStyle (default, transparent)
+.controls-horizontal-gradient-default_theme-@{themeName},
+.controls-horizontal-gradient-transparent_theme-@{themeName} {
    background: linear-gradient(to right, @start-color-gradient_ColumnScroll-shadow, @end-color-gradient_ColumnScroll-shadow);
    border-left: 1px solid @border-color_ColumnScroll-shadow;
 }
 
+.controls-ColumnScroll__shadow_invisible {
+   visibility: hidden;
+}
+
 .controls-ColumnScroll__shadow-end_theme-@{themeName} {
-   background: linear-gradient(to left, @start-color-gradient_ColumnScroll-shadow, @end-color-gradient_ColumnScroll-shadow);
-   border-right: 1px solid @border-color_ColumnScroll-shadow;
    right: 0;
+   transform: scaleX(-1);
 }

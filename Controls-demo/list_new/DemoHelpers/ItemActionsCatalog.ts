@@ -78,7 +78,43 @@ function getActionsWithDisplayMode(): IItemAction[] {
         }];
 }
 
+function getMoreActions(): Array<{
+    id: number
+    title: string
+    showType?: number
+    icon?: string
+    iconStyle?: string
+    handler?: Function
+    parent?: number
+    'parent@'?: true | false
+}> {
+    return [
+        {
+            id: 10,
+            icon: 'icon-Erase icon-error',
+            title: 'delete pls',
+            showType: showType.TOOLBAR,
+            handler: () => { console.log('click to error-icon') }
+        },
+        {
+            id: 12,
+            icon: 'icon-View icon-small',
+            title: 'view',
+            showType: showType.TOOLBAR,
+            handler: () => { console.log('click to View-icon') }
+        },
+        {
+            id: 13,
+            icon: 'icon-Motion icon-small',
+            title: 'motion',
+            showType: showType.TOOLBAR,
+            handler: () => { console.log('click to Motion-icon') }
+        }
+    ]
+}
+
 export {
     getActionsForContacts,
-    getActionsWithDisplayMode
+    getActionsWithDisplayMode,
+    getMoreActions
 }

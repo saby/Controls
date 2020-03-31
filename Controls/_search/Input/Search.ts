@@ -19,7 +19,6 @@ const SEARCH_BY_CLICK_THROTTLE = 300;
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
- * @mixes Controls/interface/IInputField
  * @mixes Controls/_input/interface/IText
  *
  * @ignoreOptions style
@@ -71,7 +70,6 @@ const SEARCH_BY_CLICK_THROTTLE = 300;
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
- * @mixes Controls/interface/IInputField
  * @mixes Controls/_input/interface/IText
  *
  * @ignoreOptions style

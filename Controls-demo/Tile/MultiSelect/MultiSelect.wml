@@ -1,3 +1,4 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_MultiSelect">
 <Controls.tile:View
         tileMode="dynamic"
         displayProperty="title"
@@ -13,3 +14,4 @@
                         hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
         </ws:itemTemplate>
 </Controls.tile:View>
+</div>

@@ -1,9 +1,10 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls-demo/Explorer/CheckboxOnHover/CheckboxOnHover');
-import { HierarchicalMemory } from 'Types/source';
-import CONSTANTS = require('Controls/Constants');
+import {view as constView} from 'Controls/Constants';
 import ExplorerImages = require('Controls-demo/Explorer/ExplorerImages');
+import {HierarchicalMemory} from 'Types/source';
 import 'css!Controls-demo/Explorer/Demo/Demo';
+import {showType} from 'Controls/Utils/Toolbar';
 
 class Demo extends Control {
 
@@ -222,13 +223,13 @@ class Demo extends Control {
                 id: 1,
                 icon: 'icon-PhoneNull',
                 title: 'phone',
-                showType: 0
+                showType: showType.MENU
             },
             {
                 id: 2,
                 icon: 'icon-EmptyMessage',
                 title: 'message',
-                showType: 0
+                showType: showType.MENU
             }
         ];
     }
@@ -236,7 +237,7 @@ class Demo extends Control {
     _groupingKeyCallback(item) {
         let group;
         if (item.get('hiddenGroup')) {
-            group = CONSTANTS.view.hiddenGroup;
+            group = constView.hiddenGroup;
         } else {
             group = item.get('isDocument') ? 'document' : 'image';
         }

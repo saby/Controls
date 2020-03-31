@@ -1,0 +1,56 @@
+<Controls.popupTemplate:Stack on:selectedKeysChanged="_selectedKeysChanged()" headingCaption="{{_options.headingCaption}}" on:sendResult="_sendResult()">
+    <ws:headerContentTemplate>
+        <div>
+            <ws:if data="{{_options.multiSelect && _selectionChanged}}">
+                <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{[Выбрать]}" on:click="_closeSelectorBind()"/>
+            </ws:if>
+        </div>
+    </ws:headerContentTemplate>
+    <ws:bodyContentTemplate>
+        <Controls.lookupPopup:Controller name="SelectorController" selectedItems="{{_options.selectedItems}}">
+            <Controls.list:DataContainer source="{{_source}}" keyProperty="{{_keyProperty}}" filter="{{_filter}}">
+                <Controls.search:Controller searchParam="title" minSearchLength="{{3}}">
+                    <div class="ws-fragment">
+                        <div class="controlsDemo__wrapper">
+                            <Controls.search:InputContainer>
+                                <Controls.search:Input/>
+                            </Controls.search:InputContainer>
+                        </div>
+                        <Controls.lookupPopup:Container multiSelect="{{_options.multiSelect ? 'visible'}}" keyProperty="{{_keyProperty}}">
+                            <Controls.operations:Controller>
+                                <Controls.operations:Container>
+                                    <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect ? 'visible'}}" keyProperty="{{_keyProperty}}">
+                                        <Controls.grid:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}" emptyTemplate="Не найдено">
+                                            <ws:columns>
+                                                <ws:Array>
+                                                    <ws:Object>
+                                                        <ws:template>
+                                                            <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+                                                                <ws:contentTemplate>
+                                                                    <div>
+                                                                        <span class="{{ !template.itemData.item.get('city') && !template.itemData.item.get('owner') ? 'ControlsDemo-Lookup__item_bold' }}">
+                                                                            {{contentTemplate.itemData.item.get('title')}}
+                                                                        </span>
+                                                                        <ws:if data="{{template.itemData.item.get('city')}}">
+                                                                            <span class="ControlsDemo-Lookup_city"> ({{contentTemplate.itemData.item.get('city')}})</span>
+                                                                        </ws:if>
+                                                                    </div>
+                                                                </ws:contentTemplate>
+                                                            </ws:partial>
+                                                        </ws:template>
+                                                    </ws:Object>
+                                                </ws:Array>
+                                            </ws:columns>
+                                        </Controls.grid:View>
+                                    </Controls.lookupPopup:ListContainer>
+                                </Controls.operations:Container>
+                            </Controls.operations:Controller>
+                        </Controls.lookupPopup:Container>
+                    </div>
+                </Controls.search:Controller>
+            </Controls.list:DataContainer>
+        </Controls.lookupPopup:Controller>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Stack>
+
+

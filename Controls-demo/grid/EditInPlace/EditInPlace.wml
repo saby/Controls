@@ -44,6 +44,12 @@
         <Controls-demo.grid.EditInPlace.Decorators.Index/>
     </div>
 
-
-
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/EditInPlace/Toolbar/Index' }}">
+            <a href="{{content.href}}">С тулбаром и операциями над записью</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.EditInPlace.Toolbar.Index/>
+    </div>
 </div>

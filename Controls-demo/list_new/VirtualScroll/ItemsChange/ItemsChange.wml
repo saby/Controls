@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+        Сохранение позиции скролла при добавлении/удалении элементов списка
+    </div>
+    <Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index totalCount="{{100}}" pageSize="{{20}}">
+        <Controls.scroll:Container
+                attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+            <Controls.list:View
+                    itemsReadyCallback="{{_itemsReadyCallback}}"
+                    source="{{_source}}"
+                    keyProperty="id"
+                    navigation="{{_options.navigation}}">
+                <ws:virtualScrollConfig pageSize="{{20}}"/>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>
+    <div class="ws-link controlsDemo__mb1" on:click="_addItem('start')">
+        Добавить запись в начало
+    </div>
+    <div class="ws-link controlsDemo__mb1" on:click="_addItem('end')">
+        Добавить запись в конец
+    </div>
+    <div class="ws-link controlsDemo__mb1" on:click="_removeItem('start')">
+        Удалить запись в начале
+    </div>
+    <div class="ws-link controlsDemo__mb1" on:click="_removeItem('end')">
+        Удалить запись в конце
+    </div>
+</div>

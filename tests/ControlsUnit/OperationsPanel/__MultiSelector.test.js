@@ -37,7 +37,7 @@ define([
                selectedKeysCount: selectedKeysCount,
                isAllSelected: true
             });
-            assert.equal(instance._menuCaption, 'Отмечено всё');
+            assert.equal(instance._menuCaption, 'Отмечено все');
          });
 
          it('selectedKeys is []', () => {
@@ -73,7 +73,7 @@ define([
                selectedKeysCount: selectedKeysCount,
                isAllSelected: true
             });
-            assert.equal(instance._menuCaption, 'Отмечено всё');
+            assert.equal(instance._menuCaption, 'Отмечено все');
          });
 
          it('selectedKeys is [1, 2], selectedKeysCount is 2', () => {
@@ -188,7 +188,7 @@ define([
          };
          instance._beforeMount(newOptions);
          assert.equal(instance._menuSource._$data.length, 3);
-         assert.equal(instance._menuCaption, 'Отмечено всё');
+         assert.equal(instance._menuCaption, 'Отмечено все');
 
          newOptions.isAllSelected = false;
          instance._beforeMount(newOptions);
@@ -212,7 +212,7 @@ define([
 
          instance._getMenuSource = () =>  isMenuUpdated = true;
          await instance._beforeUpdate(newOptions);
-         assert.equal(instance._menuCaption, 'Отмечено всё');
+         assert.equal(instance._menuCaption, 'Отмечено все');
          assert.isTrue(isMenuUpdated);
          instance.saveOptions({ ...newOptions });
 

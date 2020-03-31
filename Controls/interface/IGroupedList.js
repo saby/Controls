@@ -15,6 +15,7 @@ define('Controls/interface/IGroupedList', [
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * @remark
     * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
+    * Примечание: Для отображения элементов вне группы необходмо передавать в качестве значений поля, по которому производится группировка CONTROLS_HIDDEN_GROUP
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId

@@ -161,6 +161,16 @@ define('Controls/Application',
             this._children.scrollDetect.start(ev);
          },
 
+         _resizeBody: function(ev) {
+            if (!this._isIOS13()) {
+               this._resizePage(ev);
+            }
+         },
+
+         _isIOS13: function() {
+            return Env.detection.isMobileIOS && Env.detection.IOSVersion > 12;
+         },
+
          _resizePage: function(ev) {
             this._children.resizeDetect.start(ev);
          },
@@ -308,6 +318,16 @@ define('Controls/Application',
             this._updateClasses();
 
             SettingsController.setController(cfg.settingsController);
+         },
+
+         _afterMount: function() {
+            // Подписка через viewPort дает полную информацию про ресайз страницы, на мобильных устройствах
+            // сообщает так же про изменение экрана после показа клавиатуры и/или зуме страницы.
+            // Подписка на body стреляет не всегда. в 2100 включаю только для 13ios, в перспективе можно включить
+            // везде, где есть visualViewport
+            if (this._isIOS13()) {
+               window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
+            }
          },
 
          _beforeUpdate: function(cfg) {

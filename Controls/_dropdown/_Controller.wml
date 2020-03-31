@@ -30,7 +30,7 @@
               groupProperty="{{_options.groupProperty}}"
               groupingKeyCallback="{{_options.groupingKeyCallback}}"
               dropdownClassName="{{_options.dropdownClassName}}"
-              footerTemplate="{{_options.footerTemplate}}"
+              footerContentTemplate="{{_options.footerContentTemplate || _options.footerTemplate}}"
               nodeFooterTemplate="{{_options.nodeFooterTemplate}}"
               multiSelect="{{_options.multiSelect}}"
               selectorTemplate="{{_options.selectorTemplate}}"
@@ -46,11 +46,15 @@
               typeShadow="{{_options.typeShadow}}"
               itemPadding="{{_options.itemPadding}}"
               allowPin="{{_options.allowPin && _hasHistory()}}"
+              itemActions="{{_options.itemActions}}"
+              searchParam="{{_options.searchParam}}"
+              minSearchLength="{{_options.minSearchLength}}"
+              searchDelay="{{_options.searchDelay}}"
+              searchValueTrim="{{_options.searchValueTrim}}"
+              emptyTemplate="{{_options.emptyTemplate}}"
               theme="{{_options.theme}}"/>
    </Controls.popup:Sticky>
    <ws:if data="{{_options.selectorTemplate}}">
-      <Controls.Container.Async templateName="Controls/lookup:Opener">
-         <ws:partial template="{{ content.resolvedTemplate }}" name="selectorOpener" on:result="_onSelectorTemplateResult()"/>
-      </Controls.Container.Async>
+      <Controls.popup:Stack name="selectorOpener" on:result="_onSelectorTemplateResult()" />
    </ws:if>
 </div>

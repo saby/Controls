@@ -17,6 +17,7 @@
       template="wml!Controls/_list/ItemTemplateWrapper"
       itemData="{{itemData}}"
       actionsType="{{itemActionsPosition}}"
+      backgroundStyle="{{backgroundStyle}}"
       tagTemplate="{{tagTemplate}}"/>
 </ws:template>
 <ws:if data="{{itemData.dragTargetPosition === 'before'}}">

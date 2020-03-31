@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="DateTime" demoname="Controls-demo/Input/Date/RangeLinkLite.wml">
-   <ws:content>
-      <Controls-demo.Input.Date.RangeLinkLite/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

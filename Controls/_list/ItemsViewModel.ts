@@ -4,10 +4,12 @@
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import cInstance = require('Core/core-instance');
-import ControlsConstants = require('Controls/Constants');
+import {view as constView} from 'Controls/Constants';
 import {Logger} from 'UI/Utils';
 import collection = require('Types/collection');
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
+import {RecordSet} from 'Types/collection';
+import {isEqual} from 'Types/object';
 
 /**
  *
@@ -58,7 +60,7 @@ var _private = {
             (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
     },
     displayFilterGroups: function(item, index, displayItem) {
-        return item === ControlsConstants.view.hiddenGroup || !item.get || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
+        return item === constView.hiddenGroup || !item.get || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
     },
     prepareCollapsedGroupsByArray: function(collapsedGroups) {
         var
@@ -104,12 +106,14 @@ var ItemsViewModel = BaseViewModel.extend({
     _prefixItemVersion: null,
     _updateIndexesCallback: null,
     _hasMoreData: false,
+    _metaResults: null,
 
     constructor: function(cfg) {
         this._prefixItemVersion = 0;
         this._itemDataCache = {};
         ItemsViewModel.superclass.constructor.apply(this, arguments);
         this._onCollectionChangeFnc = this._onCollectionChange.bind(this);
+        this._onMetaDataChanged = this._onMetaDataChanged.bind(this);
         this._collapsedGroups = _private.prepareCollapsedGroupsByArray(cfg.collapsedGroups);
         this._options.groupingKeyCallback = cfg.groupingKeyCallback || cfg.groupMethod;
         if (cfg.items) {
@@ -117,9 +121,15 @@ var ItemsViewModel = BaseViewModel.extend({
                 cfg.itemsReadyCallback(cfg.items);
             }
             this._items = cfg.items;
+            this._updateSubscriptionOnMetaChange(null, cfg.items);
+            this._updateResults(this._items);
             this._display = this._prepareDisplay(cfg.items, this._options);
             this._display.subscribe('onCollectionChange', this._onCollectionChangeFnc);
         }
+    },
+
+    getMetaResults() {
+        return this._metaResults;
     },
 
     _prepareDisplay: function(items, cfg) {
@@ -129,13 +139,13 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     reset: function() {
-        this._startIndex = (this._options.virtualScrolling || Boolean(this._options.virtualScrollConfig)) && !!this._startIndex ? this._startIndex : 0;
+        this._startIndex = Boolean(this._options.virtualScrollConfig) && !!this._startIndex ? this._startIndex : 0;
         this._curIndex = this._startIndex;
     },
 
     isEnd: function() {
         var endIndex;
-        if (this._options.virtualScrolling || Boolean(this._options.virtualScrollConfig)) {
+        if (Boolean(this._options.virtualScrollConfig)) {
             endIndex = !!this._stopIndex ? this._stopIndex : 0;
         } else {
             endIndex = (this._display ? this._display.getCount() : 0);
@@ -167,7 +177,7 @@ var ItemsViewModel = BaseViewModel.extend({
 
     isLast: function() {
         var lastIndex;
-        if (this._options.virtualScrolling || Boolean(this._options.virtualScrollConfig)) {
+        if (Boolean(this._options.virtualScrollConfig)) {
             lastIndex = this._stopIndex - 1;
         } else {
             lastIndex = (this._display ? this._display.getCount() - 1 : 0);
@@ -266,7 +276,7 @@ var ItemsViewModel = BaseViewModel.extend({
         if (this._options.groupingKeyCallback || this._options.groupProperty) {
             if (this._isGroup(itemData.item)) {
                 itemData.isGroup = true;
-                itemData.isHiddenGroup = itemData.item === ControlsConstants.view.hiddenGroup;
+                itemData.isHiddenGroup = itemData.item === constView.hiddenGroup;
                 itemData.isGroupExpanded = !this._collapsedGroups[itemData.item];
                 itemData.metaData = this._items.getMetaData();
             }
@@ -397,6 +407,40 @@ var ItemsViewModel = BaseViewModel.extend({
         // method may be implemented
     },
 
+    _updateSubscriptionOnMetaChange(oldItems: RecordSet | null, newItems: RecordSet | null, isRecordSetEqual?: boolean): void {
+        const execCommand = (items, command: 'subscribe' | 'unsubscribe') => {
+            if (items && cInstance.instanceOfModule(items, 'Types/collection:RecordSet')) {
+                if (!isRecordSetEqual) {
+                    items[command]('onPropertyChange', this._onMetaDataChanged);
+                }
+
+                const meta = items.getMetaData();
+                if (meta && meta.results && cInstance.instanceOfModule(meta.results, 'Types/entity:Model')) {
+                    meta.results[command]('onPropertyChange', this._onMetaDataChanged);
+                }
+            }
+        };
+
+        execCommand(oldItems, 'unsubscribe');
+        execCommand(newItems, 'subscribe');
+    },
+
+    _onMetaDataChanged(): void {
+        if (this._updateResults(this._items)) {
+            this._nextModelVersion(true);
+        }
+    },
+
+    _updateResults(items: RecordSet): boolean {
+        const metaData = items && items.getMetaData && items.getMetaData();
+        const shouldUpdate = !!metaData && !isEqual(metaData, {}) && typeof metaData.results !== 'undefined';
+        if (shouldUpdate) {
+            this._updateSubscriptionOnMetaChange(this._items, items, true);
+            this._metaResults =  metaData && metaData.results;
+        }
+        return shouldUpdate;
+    },
+
     _convertItemKeyToCacheKey: function(itemKey) {
         // Model can have an item with the key 1 and a group with the key "1".
         // We need to differentiate between them in cache, so we add an _str postfix
@@ -449,7 +493,7 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     _isGroup: function(item) {
-        return item === ControlsConstants.view.hiddenGroup || !item.get;
+        return item === constView.hiddenGroup || !item.get;
     },
 
     isAllGroupsCollapsed(): boolean {
@@ -465,11 +509,14 @@ var ItemsViewModel = BaseViewModel.extend({
         if (_private.isEqualItems(this._items, items)) {
             this._items.setMetaData(items.getMetaData());
             this._items.assign(items);
+            this._updateSubscriptionOnMetaChange(this._items, items, true);
         } else {
             if (this._options.itemsReadyCallback) {
                 this._options.itemsReadyCallback(items);
             }
+            this._updateSubscriptionOnMetaChange(this._items, items);
             this._items = items;
+            this._updateResults(this._items);
             if (this._display) {
                 this._display.unsubscribe('onCollectionChange', this._onCollectionChangeFnc);
                 this._display.destroy();

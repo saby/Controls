@@ -1,10 +1,12 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            groupingKeyCallback="{{_groupingKeyCallback}}">
-        <ws:groupTemplate>
-            <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" expanderVisible="{{ false }}"/>
-        </ws:groupTemplate>
-    </Controls.list:View>
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                groupProperty="byDemand">
+            <ws:groupTemplate>
+                <ws:partial template="Controls/list:GroupTemplate" itemData="{{itemData}}" expanderVisible="{{ false }}"/>
+            </ws:groupTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
 </div>

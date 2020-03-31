@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+        Перезагрузка списка, лежащего в скролл контейнере с остальными элементами интерфейса
+    </div>
+    <Controls.scroll:Container
+            attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+        <div class="controlsDemo__height500">
+            Заглушка
+        </div>
+        <Controls.list:View
+                name="list"
+                source="{{_source}}"
+                keyProperty="id">
+        </Controls.list:View>
+    </Controls.scroll:Container>
+    <div class="ws-link controlsDemo__mb1" on:click="_reloadList()">
+        Перезагрузить список
+    </div>
+</div>

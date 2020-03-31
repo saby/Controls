@@ -25,7 +25,7 @@
              (_fontColorStyle ?  ' controls-text-' + _fontColorStyle + '_theme-' + _options.theme +
                             ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode + '_theme-' + _options.theme :
                                                             'controls-Button__text_clickable_theme-' + _options.theme)}}
-                                {{_hasIcon ? ' controls-Button__text_gap_theme-' + _options.theme}}
+                                {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition + '_theme-' + _options.theme}}
                                 controls-Button__text_viewMode-{{_viewMode}}_theme-{{_options.theme}}">
               <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
               <ws:else><ws:partial template="{{_caption}}"/></ws:else>

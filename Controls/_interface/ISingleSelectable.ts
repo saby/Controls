@@ -1,5 +1,7 @@
+export type TSelectedKey = number|string|null;
+
 export interface ISingleSelectableOptions {
-   selectedKey?: number | string;
+   selectedKey?: TSelectedKey;
    keyProperty: string;
 }
 /**

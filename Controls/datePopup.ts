@@ -297,8 +297,13 @@ var Component = BaseControl.extend([EventProxyMixin], {
     _mask: null,
 
     _beforeMount: function (options) {
-        this._displayedDate = dateUtils.getStartOfMonth(
-            dateUtils.isValidDate(options.startValue) ? options.startValue : new Date());
+        /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
+         календарь в нужный период, если startValue endValue не заданы. */
+        this._displayedDate = dateUtils.getStartOfMonth(options._displayDate ?
+            options._displayDate :
+            (dateUtils.isValidDate(options.startValue) ?
+                options.startValue :
+                new Date()));
 
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         this._rangeModel.update(options);

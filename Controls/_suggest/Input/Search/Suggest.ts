@@ -13,7 +13,7 @@ import 'Controls/search';
  *
  * @class Controls/_suggest/Input/Search/Suggest
  * @extends Controls/_input/Text
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
@@ -30,7 +30,7 @@ import 'Controls/search';
  *
  * @class Controls/_suggest/Input/Search/Suggest
  * @extends Controls/_input/Text
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest

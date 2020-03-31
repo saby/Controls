@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: group.">
-    <ws:content>
-        <Controls-demo.List.Grid.GroupPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

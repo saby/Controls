@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="SliderRange" demoname="Controls-demo/Slider/Range/StandartSliderRangeDemo.wml">
-    <ws:content>
-        <Controls-demo.Slider.Range.StandartSliderRangeDemo/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

@@ -275,7 +275,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         // protect against wrong config. Opener must be specified only on popupOptions.
         if (cfg?.templateOptions?.opener) {
             delete cfg.templateOptions.opener;
-            Logger.warn('Controls/popup: Опция opener не должна задаваться на templateOptions');
+            Logger.error('Controls/popup: Опция opener не должна задаваться на templateOptions');
         }
 
         if (!BaseOpener.isNewEnvironment()) {

@@ -15,7 +15,6 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
- * @includes Paging Controls/_paging/Paging
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -47,7 +46,6 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
- * @includes Paging Controls/_paging/Paging
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -109,8 +107,6 @@ import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
 import {IList} from './_list/interface/IList';
 import {IItemAction} from './_list/interface/IList';
 
-import {Paging} from 'Controls/paging';
-
 export {
     AddButton,
     Container,
@@ -122,7 +118,6 @@ export {
     BaseAction,
     Mover,
     Remover,
-    Paging,
     DataContainer,
     _forTemplate,
     _swipeActionTemplate,

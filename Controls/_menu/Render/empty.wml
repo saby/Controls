@@ -1,0 +1,8 @@
+<div class="controls-Menu__emptyTemplate_theme-{{_options.theme}}">
+   <ws:if data="{{contentTemplate}}">
+      <ws:partial template="{{contentTemplate}}"/>
+   </ws:if>
+   <ws:else>
+      {[Нет данных]}
+   </ws:else>
+</div>

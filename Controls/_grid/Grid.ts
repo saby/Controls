@@ -20,17 +20,8 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IItemClick
+    * @mixes Controls/interface/IGridItemTemplate
     *
-    * @mixes Controls/_list/BaseControlStyles
-    * @mixes Controls/_list/ListStyles
-    * @mixes Controls/_grid/GridStyles
-    * @mixes Controls/_list/ItemActions/ItemActionsStyles
-    * @mixes Controls/_list/Swipe/SwipeStyles
-    *
-    * @mixes Controls/MoveDialog/Styles
-    * @mixes Controls/_paging/PagingStyles
-    * @mixes Controls/_paging/DigitButtonsStyles
-    * @mixes Controls/_grid/SortButtonStyles
     *
     * @control
     * @public
@@ -61,16 +52,6 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/interface/IDraggable
     *
-    * @mixes Controls/_list/BaseControlStyles
-    * @mixes Controls/_list/ListStyles
-    * @mixes Controls/_grid/GridStyles
-    * @mixes Controls/_list/ItemActions/ItemActionsStyles
-    * @mixes Controls/_list/Swipe/SwipeStyles
-    *
-    * @mixes Controls/MoveDialog/Styles
-    * @mixes Controls/_paging/PagingStyles
-    * @mixes Controls/_paging/DigitButtonsStyles
-    * @mixes Controls/_grid/SortButtonStyles
     *
     * @control
     * @public

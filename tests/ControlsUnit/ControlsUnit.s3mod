@@ -7,6 +7,7 @@
       <module id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" name="Controls"/>
       <module id="0641abed-e0fb-4f42-990c-4c24bdbd7bd0" name="Controls-demo"/>
       <module id="af50caf5-f84b-4b81-a19c-6f6618372dbd" name="Controls-default-theme"/>
+      <module id="a10cb1cb-b23d-4ef6-a757-4f7382e0e8d1" name="SbisEnvUI"/>
   </depends>
 
   <load_after/>

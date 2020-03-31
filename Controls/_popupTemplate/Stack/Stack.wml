@@ -29,7 +29,8 @@
     <div class="controls-StackTemplate__content-area">
         <ws:partial template="{{_options.bodyContentTemplate}}"
                     scope="{{_options}}"
-                    headerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
+                    headerContentTemplate="{{null}}"
+                    footerContentTemplate="{{null}}">  <!-- Опция с тем же названием есть на выпадающем списке.
                                                             Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
         </ws:partial>
     </div>

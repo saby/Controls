@@ -3,11 +3,16 @@
    display: flex;
    height: 100%;
 }
-.controls-InfoBoxTemplate_theme-@{themeName} {
-   //todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=3b0e32ca-240a-4047-a64d-e62af28420e9
-   .controls-StickyHeader__background, .controls-Grid__header-cell {
-      background-color: @background-color_infobox;
-   }
+
+// Класс для установки фона контрола через backgroundStyle (infoBox)
+.controls-background-infoBox_theme-@{themeName} {
+  background-color: @background-color_infobox;
+}
+
+// Набор классов для установки градиента горизонтального скролла через backgroundStyle (infoBox)
+.controls-horizontal-infoBox-detail_theme-@{themeName} {
+  background: linear-gradient(to right, @start-color-gradient_ColumnScroll-shadow, @end-color-gradient_ColumnScroll-shadow);
+  border-left: 1px solid @border-color_ColumnScroll-shadow;
 }
 
 .controls-InfoBoxTemplate__arrow-side-position-left {

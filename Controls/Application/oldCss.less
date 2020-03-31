@@ -13,18 +13,18 @@
    cursor: pointer;
    text-decoration: none;
    background-color: transparent;
-   color: @color_App-link;
+   color: @link_text-color_inline;
 }
 
 .ws-is-hover .asLink:hover,
 .asLink:active {
    text-decoration: underline;
-   color: @color_App-link_hover;
+   color: @link_hover_text-color_inline;
 }
 
 .ws-is-hover {
    .action-hover:not(.ws-disabled):hover {
-      color: @color_link-hover;
+      color: @link_hover_text-color;
    }
 }
 
@@ -34,16 +34,16 @@
 //тут определяю только размеры иконок. Делаю это через новые алиасы, чтоб работала темизация. Вообще от этих иконок избавлюсь по проекту
 //иконки на старых страницах будут работать чеоез стили определенные в теме, в oldIcons.less
 .icon-small, .icon-16  {
-   .icon-size(@size_icon_s, @font-family_icon_size-s);
+   .icon-size(@icon-size_s, @icon_font-family_s);
 }
 .icon-medium, .icon-24 {
-   .icon-size(@size_icon_m, @font-family_icon_size-m);
+   .icon-size(@icon-size_m, @icon_font-family_m);
 }
 .icon-default {
-   .icon-size(@size_icon_default, @font-family_icon_size-default);
+   .icon-size(@icon-size_m, @icon_font-family_m);
 }
 .icon-large, .icon-32 {
-   .icon-size(@size_icon_l, @font-family_icon_size-l);
+   .icon-size(@icon-size_l, @icon_font-family_l);
 }
 /* ATTENTION styles */
 .icon-attention
@@ -88,17 +88,4 @@
    text-transform: none;
    line-height: 1;
    display: inline-block;
-}
-
-.ws-link {
-   cursor: pointer;
-   text-decoration: none;
-   background-color: transparent;
-   color: @color_App-link;
-}
-
-.ws-is-hover .ws-link:hover,
-.ws-link:active {
-   text-decoration: underline;
-   color: @color_App-link_hover;
 }

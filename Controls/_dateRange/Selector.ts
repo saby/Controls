@@ -99,10 +99,20 @@ var Component = BaseSelector.extend({
                 quantum: this._options.ranges,
                 minRange: this._options.minRange,
                 clearButtonVisible: this._options.clearButtonVisible || this._options.clearButtonVisibility,
-                range: this._options.range
+                range: this._options.range,
+                _displayDate: this._options._displayDate,
             }
         };
+    },
+
+    shiftBack: function () {
+        this._children.linkView.shiftBack();
+    },
+
+    shiftForward: function () {
+        this._children.linkView.shiftForward();
     }
+
 });
 
 Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;

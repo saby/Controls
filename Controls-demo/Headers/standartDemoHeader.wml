@@ -93,7 +93,7 @@
         <div attr:class="test_element__wrapper ControlsDemo-standartDemoHeader_HeaderPrimaryCounterPrimaryDisabled">
             <div attr:class="Header_Counter__wrapper test_element controls-Header_all__clickable">
                 <Controls.heading:Title caption="Header" fontColorStyle="primary" fontSize="3xl"/>
-                <Controls.heading:Counter attr:class="counter" caption="12" style="disabled" size="m"/>
+                <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="unaccented" fontSize="l"/>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
         <div attr:class="test_element__wrapper ControlsDemo-standartDemoHeader_HeaderSecondaryCounterPrimary">
             <div attr:class="Header_Counter__wrapper test_element controls-Header_all__clickable">
                 <Controls.heading:Title caption="Header" fontColorStyle="secondary" fontSize="l"/>
-                <Controls.heading:Counter attr:class="counter" caption="12" style="primary" size="s"/>
+                <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="primary" fontSize="m"/>
             </div>
         </div>
     </div>
@@ -115,7 +115,7 @@
         <div attr:class="test_element__wrapper ControlsDemo-standartDemoHeader_HeaderPrimaryCounterSecondary">
             <div attr:class="Header_Counter__wrapper test_element controls-Header_all__clickable">
                 <Controls.heading:Title caption="Header" fontColorStyle="primary" fontSize="m"/>
-                <Controls.heading:Counter attr:class="counter" caption="12" style="secondary" size="m"/>
+                <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="secondary" fontSize="l"/>
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element Header_Counter__wrapper controls-Header_Separator__clickable">
                     <Controls.heading:Title caption="Header" fontColorStyle="primary" fontSize="3xl"/>
-                    <Controls.heading:Counter attr:class="counter" caption="12" style="disabled" size="m"/>
+                    <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="unaccented" fontSize="l"/>
                     <Controls.heading:Separator style="secondary"/>
                 </div>
             </div>
@@ -156,7 +156,7 @@
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element Header_Counter__wrapper controls-Header_Separator__clickable">
                     <Controls.heading:Title caption="Header" fontColorStyle="secondary" fontSize="l"/>
-                    <Controls.heading:Counter attr:class="counter" caption="12" style="disabled" size="m"/>
+                    <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="unaccented" fontSize="l"/>
                     <Controls.heading:Separator style="primary"/>
                 </div>
             </div>
@@ -227,14 +227,14 @@
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element ControlsDemo-standartDemoHeader_ButtonSeparatorSecondary controls-Header_all__clickable">
                     <Controls.heading:Title on:click="clickIcon(8)" caption="Header" fontColorStyle="secondary" fontSize="l"/>
-                    <Controls.heading:Counter on:click="clickIcon(8)" attr:class="counter" caption="12" style="primary" size="m"/>
+                    <Controls.heading:Counter on:click="clickIcon(8)" attr:class="counter" caption="12" fontColorStyle="primary" fontSize="l"/>
                     <Controls.toggle:Separator on:click="clickIcon(8)" bold="{{true}}" style="primary" value="{{_iconValue8}}"/>
                 </div>
             </div>
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element ControlsDemo-standartDemoHeader_ButtonSeparatorPrimary controls-Header_all__clickable">
                     <Controls.toggle:Separator on:click="clickIcon(10)" bold="{{true}}" style="primary" value="{{_iconValue10}}"/>
-                    <Controls.heading:Counter on:click="clickIcon(10)" attr:class="counter-left-direction" caption="12" style="primary" size="m"/>
+                    <Controls.heading:Counter on:click="clickIcon(10)" attr:class="counter-left-direction" caption="12" style="primary" fontSize="l"/>
                     <Controls.heading:Title on:click="clickIcon(10)" caption="Header" fontColorStyle="secondary" fontSize="l"/>
                 </div>
             </div>
@@ -266,14 +266,14 @@
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element controls-Header_all__clickable">
                     <Controls.heading:Title on:click="clickHeaderAction()" caption="Header" fontColorStyle="secondary" fontSize="l"/>
-                    <Controls.heading:Counter on:click="clickHeaderAction()" attr:class="counter" caption="12" style="primary" size="m"/>
+                    <Controls.heading:Counter on:click="clickHeaderAction()" attr:class="counter" caption="12" fontColorStyle="primary" fontSize="l"/>
                     <Controls.toggle:Separator on:click="clickIcon(8)" bold="{{true}}" style="primary" value="{{_iconValue8}}"/>
                 </div>
             </div>
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element controls-Header_all__clickable">
                     <Controls.toggle:Separator on:click="clickIcon(10)" bold="{{true}}" style="primary" value="{{_iconValue10}}"/>
-                    <Controls.heading:Counter on:click="clickHeaderAction()" attr:class="counter-left-direction" caption="12" style="primary" size="m"/>
+                    <Controls.heading:Counter on:click="clickHeaderAction()" attr:class="counter-left-direction" caption="12" fontColorStyle="primary" fontSize="l"/>
                     <Controls.heading:Title on:click="clickHeaderAction()" caption="Header" fontColorStyle="secondary" fontSize="l"/>
                 </div>
             </div>

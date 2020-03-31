@@ -52,7 +52,7 @@
 
 /**
  * @name Controls/_treeGrid/interface/ITreeControl#expandedItems
- * @cfg {Array.<String>|undefined} Устанавливает массив идентификаторов развернутых узлов {@link Controls/treeGrid:View дерева}.
+ * @cfg {Array.<String>|undefined} Идентификаторы развернутых узлов {@link Controls/treeGrid:View дерева}.
  * @default undefined
  * @remark
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
@@ -164,7 +164,7 @@
 
 /**
  * @name Controls/_treeGrid/interface/ITreeControl#expanderVisibility
- * @cfg {ExpanderVisibility} Устанавливает режим отображения элемента развертывания узла {@link Controls/treeGrid:View дерева}.
+ * @cfg {ExpanderVisibility} Режим отображения элемента развертывания узла {@link Controls/treeGrid:View дерева}.
  * @default visible
  * @remark
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FExtendedPG">демо-пример</a>.

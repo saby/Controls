@@ -25,7 +25,7 @@
 export default interface IGroupTemplateOptions {
    /**
     * @name Controls/grid:GroupTemplate#columnAlignGroup
-    * @cfg {Number|undefined} Устанавливает номер колонки, относительно которой происходит горизонтальное выравнивание заголовка группы.
+    * @cfg {Number|undefined} Номер колонки, относительно которой происходит горизонтальное выравнивание заголовка группы.
     * @default undefined
     * @remark
     * В значении undefined выравнивание отключено.
