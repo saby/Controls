@@ -2919,7 +2919,7 @@ define([
          ctrl._onCheckBoxClick({}, 1, 1);
       });
 
-      it('_onItemClick', async function() {
+      it('_itemMouseDown', async function() {
          var cfg = {
             keyProperty: 'id',
             viewName: 'Controls/List/ListView',
@@ -2942,15 +2942,41 @@ define([
                stopPropagationCalled = true;
             }
          };
+
          var ctrl = new lists.BaseControl(cfg);
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
-         ctrl._onItemClick(event, ctrl._listViewModel.getItems()
-            .at(2), originalEvent);
+         ctrl._itemMouseDown(event, ctrl._listViewModel.getItems().at(2), originalEvent);
          assert.isTrue(stopPropagationCalled);
-         assert.equal(ctrl._listViewModel.getItems()
-            .at(2), ctrl._listViewModel.getMarkedItem()
-            .getContents());
+      });
+
+      it('should ', function() {
+         var cfg = {
+            keyProperty: 'id',
+            viewName: 'Controls/List/ListView',
+            source: source,
+            viewModelConstructor: lists.ListViewModel
+         };
+         var originalEvent = {
+            target: {
+               getAttribute: function(attrName) {
+                  return attrName === 'contenteditable' ? 'true' : '';
+               }
+            }
+         };
+         var event = {
+            stopPropagation: function() {
+            }
+         };
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+
+         ctrl._onItemClick(event, {key: 3}, originalEvent);
+         assert.equal(
+            ctrl._listViewModel.getItems().at(2),
+            ctrl._listViewModel.getMarkedItem().getContents()
+         );
       });
 
       it('_onItemClick: should not mark single item', async function() {

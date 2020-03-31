@@ -12,6 +12,8 @@ import * as Images from 'Controls-demo/DragNDrop/Images';
 import * as itemTpl from  'wml!Controls-demo/grid/resources/CellTemplates/CellWithBgc';
 import * as itemCountr from 'wml!Controls-demo/grid/resources/CellTemplates/CountryTemp';
 import * as resTpl from 'wml!Controls-demo/grid/EditInPlace/EditingCell/resultsTpl';
+import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notScrollableCell';
+import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 
 
 
@@ -329,6 +331,41 @@ function getCountriesStats() {
                 compatibleWidth: '175px'
             }
         ],
+        getColumnsForDragScrolling: () => ([
+            {
+                displayProperty: 'number',
+                width: '40px'
+            },
+            {
+                displayProperty: 'country',
+                width: '300px',
+                template: notDraggableCell
+            },
+            {
+                displayProperty: 'capital',
+                width: 'max-content',
+                compatibleWidth: '98px'
+            },
+            {
+                width: '200px',
+                template: notScrollableCell
+            },
+            {
+                displayProperty: 'population',
+                width: 'max-content',
+                compatibleWidth: '100px'
+            },
+            {
+                displayProperty: 'square',
+                width: 'max-content',
+                compatibleWidth: '83px'
+            },
+            {
+                displayProperty: 'populationDensity',
+                width: 'max-content',
+                compatibleWidth: '175px'
+            }
+        ]),
         getResults: () => ({
             full: [
                 {
@@ -502,6 +539,74 @@ function getCountriesStats() {
                 endColumn: 7
             }
         ],
+        getMultiHeaderForDragScrolling: () => [
+            {
+                title: '#',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 1,
+                endColumn: 2
+            },
+            {
+                title: 'Географические данные',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 2,
+                endColumn: 4,
+                align: 'center'
+            },
+            {
+                title: 'Страна',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 2,
+                endColumn: 3
+            },
+            {
+                title: 'Столица',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 3,
+                endColumn: 4
+            },
+            {
+                title: 'Колонка с выключенным перемещением мышью',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 4,
+                endColumn: 5
+            },
+            {
+                title: 'Цифры',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 5,
+                endColumn: 8,
+                align: 'center'
+            },
+            {
+                title: 'Население',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 5,
+                endColumn: 6
+            },
+            {
+                title: 'Площадь км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 6,
+                endColumn: 7
+            },
+            {
+                title: 'Плотность населения чел/км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 7,
+                endColumn: 8
+            }
+        ],
+
         getMultiHeaderVar2: () => [
             {
                 title: 'Географические характеристики стран',

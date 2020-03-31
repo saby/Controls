@@ -154,6 +154,7 @@
                 _needBottomPadding="{{_needBottomPadding}}"
                 multiSelectReady="{{_multiSelectReady}}"
                 listModel="{{_listViewModel}}"
+                startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 on:deactivated="_listDeactivated()"
                 on:animationend="_onAnimationEnd()"
                 on:markedKeyChanged="_notifyHandler('markedKeyChanged')"

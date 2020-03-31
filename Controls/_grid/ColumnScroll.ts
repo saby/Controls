@@ -1,5 +1,5 @@
 import Control = require('Core/Control');
-import ColumnScrollTpl = require('wml!Controls/_grid/ColumnScroll');
+import ColumnScrollTpl = require('wml!Controls/_grid/resources/ColumnScroll/ColumnScroll');
 import { detection } from 'Env/Env';
 import Entity = require('Types/entity');
 import {isEqualWithSkip} from 'Controls/_grid/utils/GridIsEqualUtil';

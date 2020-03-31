@@ -1,6 +1,6 @@
 <Controls.Container.Async templateName="Controls/toggle:Checkbox">
    <ws:partial template="{{content.resolvedTemplate}}"
-               attr:class="js-controls-ListView__notEditable controls-DragNDrop__notDraggable js-controls-ListView__checkbox"
+               attr:class="js-controls-ListView__notEditable controls-DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable"
                triState="{{triState}}"
                readOnly="{{checkboxReadOnly || false}}"
                value="{{multiSelectStatus}}"
