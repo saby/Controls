@@ -7,6 +7,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {TKeysSelection, ISelectionObject} from 'Controls/interface';
 import {default as getCountUtil, IGetCountCallParams} from 'Controls/_operations/MultiSelector/getCount';
 
+const SHOW_INDICATOR_TIMEOUT = 2000;
 const DEFAULT_CAPTION = rk('Отметить');
 const DEFAULT_ITEMS = [
    {
@@ -47,6 +48,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    protected _menuSource: Memory = null;
    protected _sizeChanged: boolean = false;
    protected _menuCaption: string = null;
+   protected _indicatorTimeout: number = null;
 
    protected _beforeMount(options: IMultiSelectorOptions): Promise<TCount> {
       this._menuSource = this._getMenuSource(options);
@@ -146,13 +148,28 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          if (this._menuCaption !== DEFAULT_CAPTION) {
             this._menuCaption = rk('Отмечено') + ':';
          }
-         this._countLoading = true;
+
+         this._resetIndicatorTimeout();
+         this._setIndicatorTimeout();
          countResult = getCountUtil.getCount(selection, this._options.selectedCountConfig).then((count) => {
+            this._resetIndicatorTimeout();
             this._countLoading = false;
             return count;
          });
       }
       return countResult;
+   }
+
+   private _resetIndicatorTimeout() {
+      if (this._indicatorTimeout) {
+         clearTimeout(this._indicatorTimeout);
+      }
+   }
+
+   private _setIndicatorTimeout() {
+      this._indicatorTimeout = setTimeout(() => {
+         this._countLoading = true;
+      }, SHOW_INDICATOR_TIMEOUT);
    }
 
    private _getSelection(selectedKeys: TKeysSelection, excludedKeys: TKeysSelection): ISelectionObject {
