@@ -1,7 +1,7 @@
 <Controls.popupTemplate:Stack headingCaption="Диалог редактирования" attr:style="width:{{_options.width || _options.stackWidth || 900}}px">
    <ws:headerContentTemplate>
       <div style="display: flex;justify-content: flex-end;flex-grow: 1;">
-         <Controls.buttons:Button iconSize="m" iconStyle="danger" icon="icon-Erase" on:click="_delete()" viewMode="link" fontColorStyle="link"
+         <Controls.buttons:Button iconSize="m" iconStyle="danger" icon="icon-Erase" on:click="_delete()" viewMode="linkButton" fontColorStyle="link"
                           attr:style="margin-right: 15px;" attr:class="demo-MyFormController__delete"/>
          <Controls.buttons:Button caption="Сохранить" on:click="_update()" attr:class="demo-MyFormController__save"/>
       </div>

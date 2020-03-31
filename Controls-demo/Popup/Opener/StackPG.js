@@ -4,7 +4,7 @@ define('Controls-demo/Popup/Opener/StackPG',
       'tmpl!Controls-demo/Popup/Opener/OpenerDemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
       'wml!Controls-demo/Popup/Opener/DialogTpl',
-      'wml!Controls/_popupTemplate/Stack/Stack',
+      'Controls/popupTemplate',
       'wml!Controls-demo/Popup/Opener/DefaultStack',
       'wml!Controls-demo/Popup/Opener/MaximazedStack',
 

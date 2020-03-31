@@ -1,0 +1,5 @@
+<div class="controls-ArrowButton controls-ArrowButton_theme-{{_options.theme}}
+     {{_options.readOnly? 'controls-ArrowButton-readOnly_theme-' : 'controls-ArrowButton-active_theme-'}}{{_options.theme}}
+     {{_options.direction === 'right'? ' controls-ArrowButton_prev' : ' controls-ArrowButton_next'}}"
+     on:click="_clickHandler()">
+</div>

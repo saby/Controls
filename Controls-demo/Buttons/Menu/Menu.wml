@@ -160,7 +160,7 @@
 
       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__historyWrapper">
          <h4>Menu with history</h4>
-         <Controls.history:Menu
+         <Controls.dropdown:Button
                  keyProperty="id"
                  icon="icon-AddButtonNew"
                  iconStyle="primary"
@@ -179,7 +179,7 @@
             <ws:itemTemplate>
                <ws:partial template="Controls/history:itemTemplate" iconPadding=""/>
             </ws:itemTemplate>
-         </Controls.history:Menu>
+         </Controls.dropdown:Button>
       </div>
 
       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconButtonsWrapper">

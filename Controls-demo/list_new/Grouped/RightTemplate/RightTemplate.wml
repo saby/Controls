@@ -1,15 +1,17 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:View
-            keyProperty="id"
-            source="{{_viewSource}}"
-            groupingKeyCallback="{{_groupingKeyCallback}}"
-            dataLoadCallback="{{_dataLoadCallback}}">
-        <ws:groupTemplate>
-            <ws:partial template="Controls/list:GroupTemplate">
-                <ws:rightTemplate>
-                    <span style="font-size: 12px; color: #268fcf">Средний рейтинг {{rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item]}}</span>
-                </ws:rightTemplate>
-            </ws:partial>
-        </ws:groupTemplate>
-    </Controls.list:View>
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                dataLoadCallback="{{_dataLoadCallback}}"
+                groupProperty="byDemand">
+            <ws:groupTemplate>
+                <ws:partial template="Controls/list:GroupTemplate">
+                    <ws:rightTemplate>
+                        <span style="font-size: 12px; color: #268fcf">Средний рейтинг {{rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item]}}</span>
+                    </ws:rightTemplate>
+                </ws:partial>
+            </ws:groupTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
 </div>

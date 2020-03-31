@@ -293,8 +293,7 @@ define([
                   mode: "replaceable",
                   offsetHeight: 10,
                   prevPosition: "top",
-                  shadowVisible: true,
-                  ignoreHeight: undefined
+                  shadowVisible: true
                }], {
                   bubbling: true
                }
@@ -319,8 +318,7 @@ define([
                   mode: "replaceable",
                   offsetHeight: 10,
                   prevPosition: "top",
-                  shadowVisible: true,
-                  ignoreHeight: undefined
+                  shadowVisible: true
                }], {
                   bubbling: true
                }

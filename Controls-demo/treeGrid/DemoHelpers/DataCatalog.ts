@@ -349,6 +349,28 @@ export const Gadgets = {
         ];
     },
 
+    getResults() {
+        return {
+            full: [
+                {
+                    rating: 8.4,
+                    price: 1554
+                },
+                {
+                    rating: 4.58,
+                    price: 2855.5
+                },
+                {
+                    rating: 9.41,
+                    price: 3254.09
+                }
+            ],
+            partial: [
+                23415.454, 56151, 57774
+            ]
+        };
+    },
+
     getColumnsForFlat() {
         return [
             {

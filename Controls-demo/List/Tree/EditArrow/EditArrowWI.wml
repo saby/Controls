@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Edit Arrow" demoname="Controls-demo\List\Tree\EditArrow\EditArrow.wml">
-   <ws:content>
-      <Controls-demo.List.Tree.EditArrow/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

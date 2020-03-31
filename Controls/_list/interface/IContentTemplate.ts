@@ -25,7 +25,7 @@ export default interface IContentTemplateOptions {
 
    /**
     * @name Controls/list:IContentTemplate#contentTemplate
-    * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
+    * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
     * В области видимости шаблона доступен объект **itemData**. Из него можно получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
     * 

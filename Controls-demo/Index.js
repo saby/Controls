@@ -6,8 +6,7 @@ define('Controls-demo/Index', [
    'wml!Controls-demo/Index',
    'Application/Initializer',
    'Application/Env',
-   'Core/Deferred',
-   'css!SBIS3.CONTROLS/themes/AreaBlocks'
+   'Core/Deferred'
 ], function (BaseControl,
              template,
              AppInit,

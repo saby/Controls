@@ -2,8 +2,8 @@
    display: inline-block;
    .user-select();
    white-space: nowrap;
-   height: @height_DateLinkView;
-   line-height: @height_DateLinkView;
+   height: @height_dateRangeSelector;
+   line-height: @height_dateRangeSelector;
 }
 
 .controls-DateLinkView-wrapper {
@@ -23,8 +23,8 @@
 .controls-DateLinkView__clear_theme-@{themeName},
 .controls-DateLinkView__prev_theme-@{themeName},
 .controls-DateLinkView__next_theme-@{themeName} {
-   font-size: @font-size_DateLinkView-prev-next-buttons;
-   width: @width_DateLinkView-prev-next-buttons;
+   font-size: @arrow_icon-size_dateRangeSelector;
+   width: @arrow_width_dateRangeSelector;
 }
 
 .controls-DateLinkView__clear,
@@ -36,32 +36,32 @@
 }
 
 .controls-DateLinkView__style-secondary_theme-@{themeName} {
-   color: @color_DateLinkView-secondaryStyle;
+   color: @link_text-color;
 }
 
 .controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {
-   color: @color_DateLinkView-secondaryStyle;
+   color: @link_text-color;
 }
 
 .controls-DateLinkView__style-info_theme-@{themeName} {
-   color: @color_DateLinkView-infoStyle;
+   color: @label_text-color;
 }
 
 .controls-DateLinkView__style-info_clickable_theme-@{themeName} {
-   color: @color_DateLinkView-infoStyle;
+   color: @label_text-color;
    cursor: pointer;
 }
 
 .controls-DateLinkView__style-secondary_readOnly_theme-@{themeName},
 .controls-DateLinkView__style-info_readOnly_theme-@{themeName} {
-   color: @color_DateLinkView_readOnly;
+   color: @text-color;
 }
 
 .ws-is-hover {
    .controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {
       cursor: pointer;
       &:hover {
-         color: @color_DateLinkView-secondaryStyle_hover;
+         color: @link_hover_text-color;
       }
    }
 
@@ -71,7 +71,7 @@
 }
 
 .controls-DateLinkView__value-wrapper_theme-@{themeName} {
-   height: @height_DateLinkView;
+   height: @height_dateRangeSelector + 1px;
 }
 
 .controls-DateLinkView__value-wrapper {
@@ -79,30 +79,23 @@
    //Из-за этого существует разница в 1px по высоте. Увиеличил высоту контейнера на 1px и прижал к низу.
    display: flex;
    justify-content: center;
-   height: @height_DateLinkView + 1px;
    align-items: flex-end;
    flex-grow: 1;
    text-align: center;
 }
 
 .controls-DateLinkView__value-wrapper-minWidth_theme-@{themeName} {
-   min-width: @min-width_DateLinkView-value;
-}
-
-.controls-DateLinkView__yearState {
-   .controls-DateLinkView__value-wrapper-withArrow {
-      min-width: @width_DateLinkView-year-state - @width_DateLinkView-prev-next-buttons*2;
-   }
+   min-width: @min-width_dateRangeSelector;
 }
 
 .controls-DateLinkView__value_theme-@{themeName} {
-   font-size: @font-size_DateLinkView;
-   font-weight: @font-weight_DateLinkView-value;
+   font-size: @font-size_l;
+   font-weight: @font-weight_dateRangeSelector;
 }
 
 .controls-DateLinkView__clear_theme-@{themeName} {
-   color: @color_CloseButton-light-icon;
-   font-family: @font-family_icon_size-s;
+   color: @reset-button_icon-color_dateRangeSelector;
+   font-family: @icon_font-family_s;
 }
 
 .controls-DateLinkView__clear {

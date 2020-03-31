@@ -24,18 +24,6 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
     *
-    * @mixes Controls/_list/BaseControlStyles
-    * @mixes Controls/_list/ListStyles
-    * @mixes Controls/_list/Grid/GridStyles
-    * @mixes Controls/_treeGrid/TreeGrid/Styles
-    * @mixes Controls/_list/ItemActions/ItemActionsStyles
-    * @mixes Controls/_list/Swipe/SwipeStyles
-    *
-    * @mixes Controls/MoveDialog/Styles
-    * @mixes Controls/_paging/PagingStyles
-    * @mixes Controls/_paging/DigitButtonsStyles
-    * @mixes Controls/_list/Grid/SortButtonStyles
-    *
     * @control
     * @private
     * @author Авраменко А.С.
@@ -65,18 +53,6 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/_treeGrid/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
-    *
-    * @mixes Controls/_list/BaseControlStyles
-    * @mixes Controls/_list/ListStyles
-    * @mixes Controls/_list/Grid/GridStyles
-    * @mixes Controls/_treeGrid/TreeGrid/Styles
-    * @mixes Controls/_list/ItemActions/ItemActionsStyles
-    * @mixes Controls/_list/Swipe/SwipeStyles
-    *
-    * @mixes Controls/MoveDialog/Styles
-    * @mixes Controls/_paging/PagingStyles
-    * @mixes Controls/_paging/DigitButtonsStyles
-    * @mixes Controls/_list/Grid/SortButtonStyles
     *
     * @control
     * @private

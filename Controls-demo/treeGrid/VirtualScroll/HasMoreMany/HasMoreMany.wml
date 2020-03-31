@@ -6,9 +6,8 @@
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 parentProperty="parent"
-                nodeProperty="type"
-                virtualScrolling="{{true}}"
-                virtualPageSize="{{50}}">
+                nodeProperty="type">
+            <ws:virtualScrollConfig pageSize="{{50}}"/>
             <ws:navigation source="page" view="demand">
                 <ws:sourceConfig pageSize="{{40}}" page="{{0}}" hasMore="{{false}}"/>
             </ws:navigation>

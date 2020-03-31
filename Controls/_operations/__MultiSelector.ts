@@ -124,7 +124,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          if (count > 0) {
             caption = rk('Отмечено') + ': ' + count;
          } else if (isAllSelected) {
-            caption = rk('Отмечено всё');
+            caption = rk('Отмечено все');
          } else if (count === null) {
             caption = rk('Отмечено');
          } else {

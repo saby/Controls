@@ -127,10 +127,12 @@ define([
             instance._beforeUpdate(newCfg);
             assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [7, true], { bubbling: true }).calledOnce);
 
-            newCfg.selectedKeys = [null];
-            newCfg.excludedKeys = [null];
+            instance._options.selectedKeys = [null];
+            instance._options.excludedKeys = [null];
+            stubNotify.reset();
             instance._multiselection._listModel.getItems().clear();
-            instance._beforeUpdate(newCfg);
+            assert.isTrue(stubNotify.withArgs('selectedKeysChanged', [[], [], [null]]).calledOnce);
+            assert.isTrue(stubNotify.withArgs('excludedKeysChanged', [[], [], [null]]).calledOnce);
             assert.isTrue(stubNotify.withArgs('listSelectedKeysCountChanged', [0, false], { bubbling: true }).calledOnce);
          });
 

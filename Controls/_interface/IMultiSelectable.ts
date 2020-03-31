@@ -1,5 +1,9 @@
+import {TSelectedKey} from './ISingleSelectable';
+
+export type TSelectedKeys = TSelectedKey[];
+
 export interface IMultiSelectableOptions {
-    selectedKeys?: any;
+    selectedKeys?: TSelectedKeys;
 }
 
 /**

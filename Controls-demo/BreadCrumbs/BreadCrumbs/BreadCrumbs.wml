@@ -23,6 +23,14 @@
             <h3 class="controls-demo-backButtonContent">Custom content</h3>
         </ws:afterBackButtonTemplate>
     </Controls.breadcrumbs:HeadingPath>
+    <h2>HeadingPath with heading only</h2>
+    <Controls.breadcrumbs:HeadingPath attr:id="path"
+                                      items="{{items4}}"
+                                      parentProperty="parent"
+                                      keyProperty="id"
+                                      on:arrowActivated="_onArrowActivated()"
+                                      on:itemClick="_onItemClick()" />
+
     <div id="reset" class="ws-link" on:click="_resetCrumbs()">Сбросить крошки</div>
     <div id="info">Нажали на элемент с id: {{info}}</div>
     <ws:if data="{{_arrowActivated}}">

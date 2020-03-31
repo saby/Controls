@@ -10,6 +10,7 @@
             afterSetItemsOnReloadCallback="{{_afterSetItemsOnReloadCallback}}"
             deepReload="{{_deepReload}}"
             root="{{_options.searchNavigationMode === 'expand' ? undefined : _root}}"
+            searchParam="{{null}}"
             on:search="_search()"
             on:resetSearch="_resetSearch()"
             on:listExpandedItemsChanged="_tmplNotify('expandedItemsChanged')"

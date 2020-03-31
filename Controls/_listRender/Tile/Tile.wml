@@ -26,8 +26,8 @@
          <ws:partial template="{{ _options.footerTemplate }}"/>
       </div>
    </ws:if>
-   <Controls.dropdown:Opener
-      name="menuOpener"
-      keyProperty="id"
-      menuStyle="cross" />
+   <Controls.popup:Sticky name="menuOpener"
+                          template="Controls/menu:Popup"
+                          closeOnOutsideClick="{{true}}"
+                          actionOnScroll="close" />
 </div>

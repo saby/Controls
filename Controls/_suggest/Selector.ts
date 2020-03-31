@@ -12,12 +12,11 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  *
  * @class Controls/_suggest/Selector
  * @extends Controls/input:Text
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @mixes Controls/_suggest/Selector/Styles
  * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  * @control
  * @public
@@ -29,12 +28,11 @@ import {getOptionTypes} from 'Controls/_suggest/Utils';
  *
  * @class Controls/_suggest/Selector
  * @extends Controls/input:Text
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @mixes Controls/_suggest/Selector/Styles
  * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  * @control
  * @public

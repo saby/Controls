@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/VirtualScroll/ItemsChange/Index' }}">
+            <a href="{{content.href}}">Сохранение/удаление элементов списка</a>
+        </Router.router:Reference>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/VirtualScroll/Reload/ByCursor/Index' }}">
+            <a href="{{content.href}}">Перезагрузка списка по курсору</a>
+        </Router.router:Reference>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/VirtualScroll/Reload/PartOfInterface/Index' }}">
+            <a href="{{content.href}}">Перезагрузка списка, лежащего в скролл контейнере с остальными элементами интерфейса</a>
+        </Router.router:Reference>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/VirtualScroll/Resize/List/Index' }}">
+            <a href="{{content.href}}">Ресайз списка</a>
+        </Router.router:Reference>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/VirtualScroll/Resize/Element/Index' }}">
+            <a href="{{content.href}}">Ресайз элементов списка</a>
+        </Router.router:Reference>
+    </div>
+</div>

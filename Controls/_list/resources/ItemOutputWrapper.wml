@@ -12,4 +12,5 @@
    itemData="{{listModel.getCurrent()}}"
    attr:key="{{listModel.getCurrent().key}}"
    itemActionsPosition="{{itemActionsPosition}}"
+   backgroundStyle="{{backgroundStyle}}"
    tagTemplate="{{tagTemplate}}"/>{{listModel.goToNext()}}

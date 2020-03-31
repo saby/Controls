@@ -64,6 +64,7 @@
  * В противном случае это вызовет тормоза вместо оптимизации.
  * Подробнее https://developer.mozilla.org/ru/docs/Web/CSS/will-change.
  */
+
 .controls-Scroll__content_possibleScroll:hover {
    will-change: scroll-position;
 }
@@ -74,7 +75,7 @@
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+   height: @shadow_height_scroll;
 }
 
 .controls-Scroll__shadow-safari13 {
@@ -82,13 +83,13 @@
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+   height: @shadow_height_scroll;
 }
 .controls-Scroll__shadow_top {
    top: 0;
    background: linear-gradient(
       to bottom,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 
@@ -96,7 +97,7 @@
    bottom: 0;
    background: linear-gradient(
       to top,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 
@@ -129,11 +130,11 @@
    bottom: 0;
    right: 0;
    z-index: @z-index_Scroll-contentEnvironment;
-   border-top: @border-width_BaseControl-scrollPaging-top solid @border-color_BaseControl-scrollPaging;
+   border-top: @scrollpaging_separator-thickness_list solid @scrollpaging_separator-color_list;
 }
 
 .controls-Scroll__content_paging::after {
-   padding-bottom: @height_Paging-button;
+   padding-bottom: @item_height_paging + @padding-vertical_paging * 2;
    content: '';
    display: block;
 }

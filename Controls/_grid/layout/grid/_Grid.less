@@ -1,7 +1,4 @@
 @z-index-Grid-results-cell: 1;
-.get-padding-top(@padding-top: 0px) {
-   padding-top: calc(@padding-top - (@height_Grid-row-separator-l - @height_Grid-row-separator));
-}
 
 .controls-Grid {
    display: -ms-grid;
@@ -17,14 +14,14 @@
 }
 .controls-GridView__itemV_marker_theme-@{themeName} {
    position: absolute;
-   width: @width_Grid-selection-marker;
-   background-color: @color_Grid-selection-marker;
+   width: @marker_thickness_list;
+   background-color: @marker_color_list;
    left: 0;
 }
 
 .controls-GridView-without-rowSeparator_item_marker_theme-@{themeName} {
-   height: ~'calc(100% + @{height_Grid-row-separator})';
-   top: -@height_Grid-row-separator;
+   height: ~'calc(100% + @{item-separator_s_thickness_list})';
+   top: -@item-separator_s_thickness_list;
 }
 
 .controls-GridView-with-rowSeparator_item_marker_theme-@{themeName} {
@@ -34,7 +31,7 @@
 
 .controls-Grid__header_theme-@{themeName} {
    display: contents;
-   color: @color_Grid-header;
+   color: @header_text-color_grid;
    cursor: default;
 }
 .controls-Grid__header-cell {
@@ -47,19 +44,19 @@
 }
 
 .controls-Grid__header-cell_theme-@{themeName} {
-   font-size: @font-size_Grid-header;
+   font-size: @header_font-size_grid;
    z-index: 1;
-   background-color: @background-color_Grid-header;
+   background-color: @header_background-color_grid;
    display: inline-flex;
    flex-direction: column;
 }
 
 .controls-Grid__multi-header-cell_min-height_theme-@{themeName} {
-   min-height: @min-height_Grid-multi-header;
+   min-height: @header_multiline_cell_min-height_grid;
 }
 
 .controls-Grid__header-cell_min-height_theme-@{themeName} {
-   min-height: @min-height_Grid-header;
+   min-height: @header_cell_min-height_grid;
 }
 
 .controls-Grid_columnScroll .controls-Grid__header-cell,
@@ -82,7 +79,7 @@
 
 .controls-Grid__header-cell__content_theme-@{themeName} {
    box-sizing: border-box;
-   min-height: @min-height_Grid-multi-header;
+   min-height: @header_multiline_cell_min-height_grid;
    display: flex;
    justify-content: flex-start;
    align-items: baseline; //baseline align by default;
@@ -94,12 +91,12 @@
 
 .controls-Grid__row-header__content_baseline_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-header-cell-baseline;
+   font-size: @header_max-font-size_grid;
 }
 
 .controls-Grid__row-multi-header__content_baseline_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-multi-header-cell-baseline;
+   font-size: @header_multiline_max-font-size_grid;
 }
 
 .controls-Grid__header-cell_valign_bottom {
@@ -120,11 +117,39 @@
 }
 
 .controls-Grid__results-cell_theme-@{themeName} {
-   background-color: @background-color_Grid-row-sticky;
    z-index: @z-index-Grid-results-cell;
    min-width: 0;
-   min-height: @height_Grid-results-cell;
+   min-height: @results_cell_min-height_grid;
 }
+
+.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
+   font-weight: @font-weight;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
+   color: @secondary_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
+   color: @unaccented_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
+   color: @readonly_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
+   color: @danger_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
+   color: @success_color;
+}
+
 .controls-GridViewV__itemsContainer {
    display: contents;
 }
@@ -156,12 +181,11 @@
 
 
 .controls-Grid__row-cell_theme-@{themeName} {
-   font-size: @font-size_Grid-cell_m;
+   font-size: @item_font-size_m_grid;
 }
 
 .controls-Grid__cell_fixed_theme-@{themeName} {
    z-index: 3;
-   background-color: @background-color_Grid-row-sticky;
    // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
    &:not(.controls-StickyHeader) {
       overflow: hidden;
@@ -217,7 +241,7 @@
 }
 .ws-is-hover {
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
-      background-color: @background-color_Grid-row_hover;
+      background-color: @item_hover_background-color_list;
    }
    .controls-BaseControl_showActions .controls-Grid__row:hover {
       > .controls-Grid__row-cell,
@@ -230,48 +254,31 @@
       /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
       //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=08925c8d-d7d1-4588-989f-3279e0675557
       .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
-         background-color: @background-color_Grid-row_hover;
-         box-shadow: -15px 2px 4px -6px @background-color_Grid-row_hover;
+         background-color: @item_hover_background-color_list;
+         box-shadow: -15px 2px 4px -6px @item_hover_background-color_list;
       }
 
       .controls-SelectedCollection__InfoBox_fixed {
-         background-color: @background-color_Grid-row_hover;
+         background-color: @item_hover_background-color_list;
       }
 
       .controls-SelectedCollection__InfoBox_fixed:after {
-         .horizontal-gradient(@background-color_Grid-row_hover, rgba(255, 255, 255, 0));
+         .horizontal-gradient(@item_hover_background-color_list, rgba(255, 255, 255, 0));
       }
       /**********************************************/
    }
 
 }
-.ws-is-hover {
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_Grid-row_hover;
+.ws-is-hover .controls-BaseControl_showActions .controls-Grid__row:hover {
+   .controls-Grid__editArrow-blur_theme-@{themeName},
+   .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+      visibility: visible;
    }
 
-   .controls-BaseControl_showActions {
-      .controls-Grid_row-cell_hovered_theme-@{themeName},
-      .controls-Grid__row:hover {
-         .controls-Grid__editArrow-blur_theme-@{themeName},
-         .controls-Grid__editArrow-wrapper_theme-@{themeName} {
-            visibility: visible;
-         }
-      }
-   }
-
-   .controls-BaseControl_showActions .controls-Grid_row-cell_hovered_theme-@{themeName} > .controls-itemActionsV {
-      display: inline-block;
-   }
-
-   // Class controls-Grid_row-cell_hovered adds on all cells of hovered item only in browsers with partial grid support.
-   .controls-Grid_row-cell_hovered_theme-@{themeName} .controls-ListView__checkbox-onhover {
-      display: inline-block;
-   }
 }
 
 .controls-Grid__row-cell-background-editing_theme-@{themeName} {
-   background-color: @background-color_Grid-item_editing;
+   background-color: @item_editing_background-color_list;
    > .controls-itemActionsV,
    +.controls-itemActionsV__container > .controls-itemActionsV
    {
@@ -279,53 +286,41 @@
    }
 }
 
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_default_theme-@{themeName} {
-  .get-padding-top(@spacing_Grid-row-between-content-borderTop_default);
-}
-
 .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName} {
-   padding-top: @spacing_Grid-row-between-content-borderTop_default;
+   padding-top: @item_padding-top_default_grid;
 }
 .controls-Grid__row-cell_rowSpacingBottom_default_theme-@{themeName} {
-   padding-bottom: @spacing_Grid-row-between-content-borderBottom_default;
-}
-
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_m_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_s);
+   padding-bottom: @item_padding-bottom_default_grid;
 }
 
 .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName} {
-   padding-top: @spacing_Grid-row-between-content-borderTop_s;
+   padding-top: @item_padding-top_s_grid;
 }
 .controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
-   padding-bottom: @spacing_Grid-row-between-content-borderBottom_s;
-}
-
-.controls-Grid__row-cell-wide-sep_rowSpacingTop_l_theme-@{themeName} {
-   .get-padding-top(@spacing_Grid-row-between-content-borderTop_l);
+   padding-bottom: @item_padding-bottom_s_grid;
 }
 
 .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName} {
-   padding-top: @spacing_Grid-row-between-content-borderTop_l;
+   padding-top: @item_padding-top_l_grid;
 }
 .controls-Grid__row-cell_rowSpacingBottom_l_theme-@{themeName} {
-   padding-bottom: @spacing_Grid-row-between-content-borderBottom_l;
+   padding-bottom: @item_padding-bottom_l_grid;
 }
 
 .controls-Grid__cell_spacingLeft_theme-@{themeName} {
-   padding-left: @spacing_Grid-column-between-content-borderLeft;
+   padding-left: @cell_padding-left_default_grid;
 }
 
 .controls-Grid__cell_spacingRight_theme-@{themeName} {
-   padding-right: @spacing_Grid-column-between-content-borderRight;
+   padding-right: @cell_padding-right_default_grid;
 }
 
 .controls-Grid__cell_spacingLeft_s_theme-@{themeName} {
-   padding-left: @spacing_Grid-column-between-content-borderLeft_s;
+   padding-left: @cell_padding-left_s_grid;
 }
 
 .controls-Grid__cell_spacingRight_s_theme-@{themeName} {
-   padding-right: @spacing_Grid-column-between-content-borderRight_s;
+   padding-right: @cell_padding-right_s_grid;
 }
 
 .controls-Grid__cell_spacingLeft_null_theme-@{themeName} {
@@ -351,10 +346,10 @@
    top: 0;
 }
 .controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
-   top: @spacing_Grid-row-between-content-borderTop_s;
+   top: @item_padding-top_s_grid;
 }
 .controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
-   top: @spacing_Grid-row-between-content-borderTop_l;
+   top: @item_padding-top_l_grid;
 }
 
 .controls-Grid__row-ladder-cell__content {
@@ -364,7 +359,8 @@
    pointer-events: auto;
 }
 
-.controls-Grid__row-cell_first-row-in-group {
+// скрыть разделитель перед первой строкой в группе
+.controls-ListView__group + .controls-Grid__row .controls-Grid__row-cell {
    border-top-color: transparent;
 }
 
@@ -375,22 +371,22 @@
    controls-Grid__row-cell__content_baseline_L */
 .controls-Grid__row-cell__content_baseline_L_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-cell_l;
+   font-size: @item_font-size_l_grid;
 }
 
 .controls-Grid__row-cell__content_baseline_M_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-cell_m;
+   font-size: @item_font-size_m_grid;
 }
 
 .controls-Grid__row-cell__content_baseline_S_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-cell_s;
+   font-size: @item_font-size_s_grid;
 }
 
 .controls-Grid__header-cell_baseline_XL_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @font-size_Grid-header_xl;
+   font-size: @header_max-font-size_grid;
 }
 
 .controls-Grid__header-cell-content-block:before {
@@ -404,7 +400,7 @@
 .controls-Grid__cell_spacingFirstCol_default_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_default_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_default_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_default;
+   padding-left: @item_padding-left_default_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_null_theme-@{themeName},
@@ -416,42 +412,42 @@
 .controls-Grid__cell_spacingFirstCol_xs_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xs_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xs_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xs;
+   padding-left: @item_padding-left_xs_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_s_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_s_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_s_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_s;
+   padding-left: @item_padding-left_s_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_m_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_m_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_m_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_m;
+   padding-left: @item_padding-left_m_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_l_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_l_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_l_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_l;
+   padding-left: @item_padding-left_l_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_xl_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xl_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xl_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xl;
+   padding-left: @item_padding-left_xl_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_xxl_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xxl_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xxl_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xxl;
+   padding-left: @item_padding-left_2xl_list;
 }
 
 .controls-Grid__cell_spacingLastCol_default_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_default_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_default;
+   padding-right: @item_padding-right_default_list;
 }
 
 .controls-Grid__cell_spacingLastCol_null_theme-@{themeName},
@@ -461,32 +457,32 @@
 
 .controls-Grid__cell_spacingLastCol_xs_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xs_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xs;
+   padding-right: @item_padding-right_xs_list;
 }
 
 .controls-Grid__cell_spacingLastCol_s_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_s_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_s;
+   padding-right: @item_padding-right_s_list;
 }
 
 .controls-Grid__cell_spacingLastCol_m_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_m_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_m;
+   padding-right: @item_padding-right_m_list;
 }
 
 .controls-Grid__cell_spacingLastCol_l_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_l_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_l;
+   padding-right: @item_padding-right_l_list;
 }
 
 .controls-Grid__cell_spacingLastCol_xl_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xl_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xl;
+   padding-right: @item_padding-right_xl_list;
 }
 
 .controls-Grid__cell_spacingLastCol_xxl_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xxl_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xxl;
+   padding-right: @item_padding-right_2xl_list;
 }
 
 .controls-Grid__cell_spacingBackButton_with_multiSelection_theme-@{themeName} {
@@ -494,7 +490,7 @@
 }
 
 .controls-GridView__item_active_theme-@{themeName} {
-   background-color: @background-color_Grid-row_hover;
+   background-color: @item_hover_background-color_list;
 }
 
 // Checkbox styles
@@ -514,11 +510,11 @@
 }
 
 .controls-GridView__footer__paddingLeft_withCheckboxes_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-with-checkbox-between-content-borderLeft;
+   padding-left: @click-area_width_checkbox;
 }
 
 .controls-GridView__footer__itemActionsV_outside {
-   min-height: @height_ItemActions_outside;
+   min-height: @height_outside_itemActions;
 }
 
 .controls-GridView__checkbox_theme-@{themeName} {
@@ -546,7 +542,7 @@
 //MasterList styles
 
 .controls-Grid_master_theme-@{themeName} {
-   padding-right: @border-width_List-masterList-right;
+   padding-right: @master_separator_thickness_list;
    box-sizing: border-box;
 }
 
@@ -562,22 +558,21 @@
 
 .controls-Grid__row-cell_selected-master_theme-@{themeName} {
    z-index: 1;
-   background-color: @background-color_List-masterList-item_selected;
 
    &:before {
       content: '';
       z-index: 2;
       box-sizing: border-box;
-      border-width: @border-width_List-masterList-item-top @border-width_List-masterList-item-right @border-width_List-masterList-item-bottom @border-width_List-masterList-item-left;
+      border-width: @master_item_selected_border-thickness_list 0 @master_item_selected_border-thickness_list 0;
       border-style: solid;
-      border-color: @border-color_List-masterList-item_selected-top @border-color_List-masterList-item_selected-right @border-color_List-masterList-item_selected-bottom @border-color_List-masterList-item_selected-left;
-      box-shadow: @box-shadow_Grid-masterList-item_selected;
-      width: ~'calc(100% + @{border-width_List-masterList-right})';
+      border-color: @master_item_selected_border-top-color_list transparent @master_item_selected_border-bottom-color_list transparent;
+      box-shadow: @master_item_selected_box-shadow_list;
+      width: ~'calc(100% + @{master_separator_thickness_list})';
       position: absolute;
       left: 0;
       pointer-events: none;
-      top: -@border-width_List-masterList-item-top;
-      bottom: -@border-width_List-masterList-item-bottom;
+      top: -@master_item_selected_border-thickness_list;
+      bottom: -@master_item_selected_border-thickness_list;
    }
 }
 
@@ -587,10 +582,10 @@
       z-index: 1;
       height: 100%;
       top: 0;
-      width: @border-width_List-masterList-right;
+      width: @master_separator_thickness_list;
       position: absolute;
-      right: -@border-width_List-masterList-right;
-      background-color: @background-color_List-masterList-item_selected;
+      right: -@master_separator_thickness_list;
+      background-color: @master_item_selected_background-color_list;
    }
 }
 
@@ -606,18 +601,13 @@
 
 .ws-is-hover {
    .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
+      background-color: @master_item_hover_background-color_list;
    }
 
    //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=08925c8d-d7d1-4588-989f-3279e0675557
    .controls-Grid__row_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName} .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
-      box-shadow: -15px 2px 4px -6px @background-color_List-masterList-item_hover;
-   }
-}
-.ws-is-no-touch {
-   .controls-Grid__row_master_theme-@{themeName}.controls-Grid_row-cell_hovered_theme-@{themeName} {
-      background-color: @background-color_List-masterList-item_hover;
+      background-color: @master_item_hover_background-color_list;
+      box-shadow: -15px 2px 4px -6px @master_item_hover_background-color_list;
    }
 }
 
@@ -636,10 +626,10 @@
 }
 
 .controls-Grid__cell_header-content_border-bottom_theme-@{themeName} {
-   border-bottom: @height_Grid-row-separator solid @border-color_Grid-lastRow-separator;
+   border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
 }
 .controls-Grid__cell_header-content_border-transparent_theme-@{themeName} {
-   border-bottom: @height_Grid-row-separator solid transparent;
+   border-bottom: @item-separator_s_thickness_list solid transparent;
 }
 
 .controls-Grid__cell_header-relative {
@@ -691,49 +681,49 @@
 }
 .controls-Grid__editArrow-blur_theme-@{themeName} {
    height: 100%;
-   min-height: @height_Grid-editArrow;
+   min-height: @edit-arrow_icon-size_grid;
    display: inline-block;
-   width: @spacing_Grid-editArrow_left;
+   width: @edit-arrow_offset_grid;
    flex-shrink: 0;
    z-index: 0;
 }
 
 .controls-Grid__editArrow-blur_style-default_background {
-   background: linear-gradient(90deg, @background-color_Grid-row_hover-transparent, @background-color_Grid-row_hover);
+   background: linear-gradient(90deg, rgba(240,245,251,0), @item_hover_background-color_list);
 }
 
 .controls-Grid__editArrow-blur_style-master_background {
-   background: linear-gradient(90deg, @background-color_Grid-row_hover-transparent, @background-color_List-masterList-item_hover);
+   background: linear-gradient(90deg, rgba(240,245,251,0), @master_item_hover_background-color_list);
 }
 
 
 .controls-Grid__editArrow_theme-@{themeName} {
    position: relative;
-   background: @background-color_Grid-row_hover;
+   background: @item_hover_background-color_list;
    z-index: 1;
-   .icon(@height_Grid-editArrow)
+   .icon(@edit-arrow_icon-size_grid)
 }
 
 .controls-Grid__editArrow_style-default_background {
-   background-color: @background-color_Grid-row_hover;
+   background-color: @item_hover_background-color_list;
 }
 
 .controls-Grid__editArrow_style-master_background {
-   background-color: @background-color_List-masterList-item_hover;
+   background-color: @master_item_hover_background-color_list;
 }
 
 .controls-Grid__editArrow-overflow-ellipsis_theme-@{themeName} {
-   margin-right: -@width_Grid-editArrow;
+   margin-right: -@edit-arrow_icon-size_grid;
 }
 .controls-Grid__editArrow-separator_theme-@{themeName} {
    flex-shrink: 1;
    min-width: 0px;
-   width: @spacing_Grid-editArrow_left;
+   width: @edit-arrow_offset_grid;
 }
 .controls-Grid__editArrow-separator-big_theme-@{themeName} {
    flex-shrink: 1;
    min-width: 0px;
-   width: @spacing_Grid-editArrow_left + @width_Grid-editArrow;
+   width: @edit-arrow_offset_grid + @edit-arrow_icon-size_grid;
 }
 
 .controls-Grid__cell_valign_top {

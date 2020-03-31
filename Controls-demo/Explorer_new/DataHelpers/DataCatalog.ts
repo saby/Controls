@@ -1,4 +1,4 @@
-import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate'
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell'
 
@@ -293,12 +293,12 @@ export const Gadgets = {
 
    getGridColumnsForScroll: () => [
       {
-         displayProperty: 'id',
+         displayProperty: 'title',
          width: '150px'
       },
       {
-         displayProperty: 'title',
-         width: '200px',
+         displayProperty: 'id',
+         width: 'max-content',
          align: 'right'
       },
       {

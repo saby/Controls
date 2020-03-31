@@ -1,12 +1,13 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
-import {default as IMenuControl, IMenuOptions, TKeys} from 'Controls/_menu/interface/IMenuControl';
+import {TSelectedKeys} from 'Controls/interface';
+import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Collection, Tree, TreeItem, SelectionController} from 'Controls/display';
+import {Collection, Tree, Search, TreeItem, SelectionController, ItemActionsController} from 'Controls/display';
 import {debounce} from 'Types/function';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -14,30 +15,31 @@ import * as groupTemplate from 'wml!Controls/_menu/Render/groupTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
+import {isEqual} from 'Types/object';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-import * as ControlsConstants from 'Controls/Constants';
+import {view as constView} from 'Controls/Constants';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 
 /**
  * Контрол меню.
  * @class Controls/menu:Control
  * @public
- * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_interface/IIconSize
  * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilter
- * @mixes Controls/_dropdown/interface/IFooterTemplate
+ * @mixes Controls/_menu/IMenuControl
  * @demo Controls-demo/Menu/Control/Source/Index
  * @control
  * @category Popup
  * @author Герасимов А.М.
  */
+
 const SUB_DROPDOWN_OPEN_DELAY = 100;
 
-class MenuControl extends Control<IMenuOptions> implements IMenuControl {
+class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     protected _template: TemplateFunction = ViewTemplate;
-    protected _listModel: Tree;
+    protected _listModel: Tree<Model>;
     protected _moreButtonVisible: boolean = false;
     protected _expandButtonVisible: boolean = false;
     protected _applyButtonVisible: boolean = false;
@@ -51,7 +53,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
     private _expandedItemsFilter: Function;
     private _additionalFilter: Function;
 
-    protected _beforeMount(options: IMenuOptions, context: object, receivedState: RecordSet): Deferred<RecordSet> {
+    protected _beforeMount(options: IMenuControlOptions, context: object, receivedState: RecordSet): Deferred<RecordSet> {
         this._expandedItemsFilter = this.expandedItemsFilter.bind(this);
         this._additionalFilter = this.additionalFilter.bind(this, options);
         this._openSubDropdown = debounce(this.openSubDropdown.bind(this), SUB_DROPDOWN_OPEN_DELAY);
@@ -61,19 +63,30 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    protected _beforeUpdate(newOptions: IMenuOptions): void {
+    protected _beforeUpdate(newOptions: IMenuControlOptions): void {
         const rootChanged = newOptions.root !== this._options.root;
         const sourceChanged = newOptions.source !== this._options.source;
+        const filterChanged = !isEqual(newOptions.filter, this._options.filter);
 
         if (sourceChanged) {
             this._sourceController = null;
         }
 
-        if (rootChanged || sourceChanged) {
+        if (rootChanged || sourceChanged || filterChanged) {
             this.loadItems(newOptions);
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this.setSelectedItems(this._listModel, newOptions.selectedKeys);
+        }
+    }
+
+    protected _afterRender(oldOptions: IMenuControlOptions): void {
+        const rootChanged = oldOptions.root !== this._options.root;
+        const sourceChanged = oldOptions.source !== this._options.source;
+        const filterChanged = !isEqual(oldOptions.filter, this._options.filter);
+
+        if (rootChanged || sourceChanged || filterChanged) {
+            this._notify('controlResize', [], {bubbling: true});
         }
     }
 
@@ -86,18 +99,48 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._listModel = null;
     }
 
+    protected _mouseEnterHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
+    protected _touchStartHandler(): void {
+        this._assignItemActions(this._options);
+    }
+
     private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
         clearTimeout(this._handleCurrentItemTimeout);
     }
 
-    private _mouseMove(event: SyntheticEvent<MouseEvent>): void {
+    protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
             this.startHandleItemTimeout();
         }
     }
 
-    private _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         this.handleCurrentItem(item, sourceEvent.target, sourceEvent.nativeEvent);
+    }
+
+    protected _itemSwipe(e: SyntheticEvent<null>, item: TreeItem<Model>, swipeEvent: SyntheticEvent<TouchEvent>, swipeContainerHeight: number): void {
+        if (swipeEvent.nativeEvent.direction === 'left') {
+            ItemActionsController.activateSwipe(
+                this._listModel,
+                item.getContents().getKey(),
+                swipeContainerHeight
+            );
+        } else {
+            ItemActionsController.deactivateSwipe(this._listModel);
+        }
+    }
+
+    protected _itemActionClick(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, action: object, clickEvent: MouseEvent): void {
+        ItemActionsController.processActionClick(
+            this._listModel,
+            item.getContents().getKey(),
+            action,
+            clickEvent,
+            false
+        );
     }
 
     protected _itemClick(event: SyntheticEvent<MouseEvent>, item: Model, nativeEvent: MouseEvent): void {
@@ -188,7 +231,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         this._closeSubMenu();
     }
 
-    private _closeSubMenu(needOpenDropDown = false): void {
+    private _closeSubMenu(needOpenDropDown: boolean = false): void {
         if (this._children.Sticky) {
             this._children.Sticky.close();
         }
@@ -217,8 +260,10 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
 
         if (needCloseDropDown) {
             this.setSubMenuPosition();
+            this._isMouseInOpenedItemArea = this.isMouseInOpenedItemArea(nativeEvent);
+        } else {
+            this._isMouseInOpenedItemArea = false;
         }
-        this._isMouseInOpenedItemArea = needCloseDropDown ? this.isMouseInOpenedItemArea(nativeEvent) : false;
 
         // Close the already opened sub menu. Installation of new data sets new size of the container.
         // If you change the size of the update, you will see the container twitch.
@@ -276,7 +321,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             (secondSegmentPointX - firstSegmentPointX) * (firstSegmentPointY - curPointY);
     }
 
-    private getSelectorDialogOptions(options: IMenuOptions, selectedItems: object[]): object {
+    private getSelectorDialogOptions(options: IMenuControlOptions, selectedItems: List<Model>): object {
         const self = this;
         const selectorTemplate = options.selectorTemplate;
         const selectorDialogResult = options.selectorDialogResult;
@@ -300,14 +345,14 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }, selectorTemplate.popupOptions || {});
     }
 
-    private _changeSelection(key: string|number|null, treeItem): void {
+    private _changeSelection(key: string|number|null, treeItem: TreeItem<Model>): void {
         SelectionController.selectItem(this._listModel, key, !treeItem.isSelected());
 
         const isEmptySelected = this._options.emptyText && !this._listModel.getSelectedItems().length;
         SelectionController.selectItem(this._listModel, this._options.emptyKey, !!isEmptySelected );
     }
 
-    private getSelectedKeys(): TKeys {
+    private getSelectedKeys(): TSelectedKeys {
         let selectedKeys = [];
         factory(this._listModel.getSelectedItems()).each((treeItem) => {
             selectedKeys.push(treeItem.getContents().get(this._options.keyProperty));
@@ -319,7 +364,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return factory(this._listModel.getSelectedItems()).map((item) => item.getContents()).reverse().value();
     }
 
-    private getSelectedItemsByKeys(listModel: Tree, selectedKeys: TKeys): Model[] {
+    private getSelectedItemsByKeys(listModel: Tree<Model>, selectedKeys: TSelectedKeys): Model[] {
         let items = [];
         factory(selectedKeys).each((key) => {
             if (listModel.getItemBySourceKey(key)) {
@@ -333,7 +378,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return index <= this._itemsCount;
     }
 
-    private isSelectedKeysChanged(newKeys: TKeys, oldKeys: TKeys): boolean {
+    private isSelectedKeysChanged(newKeys: TSelectedKeys, oldKeys: TSelectedKeys): boolean {
         const diffKeys = factory(newKeys).filter((key) => !oldKeys.includes(key)).value();
         return newKeys.length !== oldKeys.length || !!diffKeys.length;
     }
@@ -353,19 +398,35 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         }
     }
 
-    private createViewModel(items: RecordSet, options: IMenuOptions): void {
+    private createViewModel(items: RecordSet, options: IMenuControlOptions): void {
         this._listModel = this.getCollection(items, options);
         this.setSelectedItems(this._listModel, options.selectedKeys);
     }
 
-    private getCollection(items: RecordSet, options: IMenuOptions): Collection {
-        // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
-        let listModel = new Collection({
+    private getCollection(items: RecordSet, options: IMenuControlOptions): Collection {
+        const collectionConfig = {
             collection: items,
             keyProperty: options.keyProperty,
-            filter: this.displayFilter.bind(this, options),
             unique: true
-        });
+        };
+        let listModel;
+        if (options.searchParam && options.searchValue) {
+            listModel = new Search({...collectionConfig,
+                nodeProperty: options.nodeProperty,
+                parentProperty: options.parentProperty,
+                root: options.root
+            });
+        } else {
+            // В дереве не работает группировка, ждем решения по ошибке https://online.sbis.ru/opendoc.html?guid=f4a3be79-5ec5-45d2-b742-2d585c5c069d
+            listModel = new Collection({...collectionConfig,
+                filter: this.displayFilter.bind(this, options)
+            });
+        }
+
+        if (options.itemActions) {
+            this._calculateActionsConfig(listModel, options);
+        }
+
         if (options.groupProperty) {
             listModel.setGroup(this.groupMethod.bind(this, options));
         } else if (options.groupingKeyCallback) {
@@ -381,11 +442,11 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return !!(item.get('pinned') || item.get('recent') || item.get('frequent'));
     }
 
-    private additionalFilter(options: IMenuOptions, item: Model): boolean {
+    private additionalFilter(options: IMenuControlOptions, item: Model): boolean {
         return (!item.get || !item.get(options.additionalProperty) || this.isHistoryItem(item));
     }
 
-    private displayFilter(options: IMenuOptions, item: Model): boolean {
+    private displayFilter(options: IMenuControlOptions, item: Model): boolean {
         let isVisible = true;
         if (item.get && options.parentProperty && options.nodeProperty) {
             let parent = item.get(options.parentProperty);
@@ -397,11 +458,11 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return isVisible;
     }
 
-    private groupMethod(options: IMenuOptions, item: Model): string {
-        return item.get(options.groupProperty) || ControlsConstants.view.hiddenGroup;
+    private groupMethod(options: IMenuControlOptions, item: Model): string {
+        return item.get(options.groupProperty) || constView.hiddenGroup;
     }
 
-    private setSelectedItems(listModel: Tree, keys: TKeys): void {
+    private setSelectedItems(listModel: Tree, keys: TSelectedKeys): void {
         listModel.setSelectedItems(this.getSelectedItemsByKeys(listModel, keys), true);
     }
 
@@ -416,7 +477,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         return this._sourceController;
     }
 
-    private loadExpandedItems(options: IMenuOptions): void {
+    private loadExpandedItems(options: IMenuControlOptions): void {
         let self = this;
         let loadConfig = Clone(options);
         delete loadConfig.navigation;
@@ -427,7 +488,7 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         });
     }
 
-    private loadItems(options: IMenuOptions): Deferred<RecordSet> {
+    private loadItems(options: IMenuControlOptions): Deferred<RecordSet> {
         let filter = Clone(options.filter) || {};
         filter[options.parentProperty] = options.root;
         return this.getSourceController(options).load(filter).addCallback((items) => {
@@ -480,12 +541,17 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
         let templateOptions = Clone(this._options);
         templateOptions.root = item.getContents().get(this._options.keyProperty);
         templateOptions.bodyContentTemplate = 'Controls/_menu/Control';
-        templateOptions.footerTemplate = this._options.nodeFooterTemplate;
+        templateOptions.footerContentTemplate = this._options.nodeFooterTemplate;
+        templateOptions.footerItemData = {
+            key: templateOptions.root,
+            item
+        };
         templateOptions.closeButtonVisibility = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
         templateOptions.headerContentTemplate = null;
         templateOptions.additionalProperty = null;
+        templateOptions.searchParam = null;
         templateOptions.itemPadding = null;
 
         templateOptions.source = this.getSourceSubMenu(templateOptions.root);
@@ -506,6 +572,33 @@ class MenuControl extends Control<IMenuOptions> implements IMenuControl {
             });
         }
         return source;
+    }
+
+    private _calculateActionsConfig(listModel: Tree<Model>, options: IMenuControlOptions): void {
+        ItemActionsController.calculateActionsTemplateConfig(
+            listModel,
+            {
+                itemActionsPosition: 'inside',
+                actionCaptionPosition: 'none',
+                actionAlignment: 'horizontal',
+                style: 'default',
+                itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-' + options.theme
+            }
+        );
+    }
+
+    private _assignItemActions(options: IMenuControlOptions): void {
+        const itemActions = options.itemActions;
+
+        if (!itemActions) {
+            return;
+        }
+        const actionsGetter = () => itemActions;
+
+        ItemActionsController.assignActions(
+            this._listModel,
+            actionsGetter
+        );
     }
 
     private _getChildContext(): object {

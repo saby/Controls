@@ -360,6 +360,77 @@ interface ISuggest {
        * </pre>
        */
       choose: string;
+
+      /**
+       * @name Controls/interface/ISuggest#suggestPopupOptions
+       * @cfg {Controls/popup:IStickyPopupOptions} Конфигурация всплывающего блока автодополнения.
+       * @example
+       * В этом примере автодополнение будет открыто вверх.
+       * myModule.js
+       * <pre>
+       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *       return Control.extend({
+       *          _template: template,
+       *          _suggestPopupOptions: null,
+       *
+       *          _beforeMount: function() {
+       *             this._suggestPopupOptions = {
+       *                 direction : {
+       *                   vertical: 'bottom',
+       *                   horizontal: 'right'
+       *                 },
+       *                 targetPoint: {
+       *                    vertical: 'top',
+       *                    horizontal: 'left'
+       *                }
+       *             }
+       *          });
+       *       });
+       *    }
+       * </pre>
+       * myModule.wml
+       * <pre>
+       *    <div>
+       *       <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
+       *    </div>
+       * </pre>
+       */
+
+      /*
+       * @name Controls/interface/ISuggest#suggestPopupOptions
+       * @cfg {Controls/popup:IStickyPopupOptions} Suggest popup configuration.
+       * @example
+       * In this example, suggest will open up.
+       * myModule.js
+       * <pre>
+       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *       return Control.extend({
+       *          _template: template,
+       *          _suggestPopupOptions: null,
+       *
+       *          _beforeMount: function() {
+       *             this._suggestPopupOptions = {
+       *                 direction : {
+       *                   vertical: 'bottom',
+       *                   horizontal: 'right'
+       *                 },
+       *                 targetPoint: {
+       *                    vertical: 'top',
+       *                    horizontal: 'left'
+       *                }
+       *             }
+       *          });
+       *       });
+       *    }
+       * </pre>
+       * myModule.wml
+       * <pre>
+       *    <div>
+       *       <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
+       *    </div>
+       * </pre>
+       */
+      suggestPopupOptions: object;
    };
 }
 

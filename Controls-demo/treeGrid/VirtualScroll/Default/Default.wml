@@ -9,8 +9,8 @@
                         columns="{{_columns}}"
                         parentProperty="parent"
                         nodeProperty="type"
-                        navigation="{{_options.navigation}}"
-                        virtualScrolling="{{true}}">
+                        navigation="{{_options.navigation}}">
+                    <ws:virtualScrollConfig pageSize="{{100}}"/>
                 </Controls.treeGrid:View>
             </Controls.scroll:Container>
         </ws:content>

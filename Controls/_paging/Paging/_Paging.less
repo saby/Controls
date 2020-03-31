@@ -1,45 +1,51 @@
 .controls-Paging__wrapper {
    display: flex;
    justify-content: flex-end;
-   background-color: @background-color_Paging;
+   background-color: @background-color_paging;
+   padding: @padding-vertical_paging 0;
 }
 .controls-Paging__btn {
-   height: @height_Paging-button;
+   height: @item_height_paging;
    display: inline-flex;
    align-items: center;
    justify-content: center;
    user-select: none;
    margin: 0;
-   margin-left: @spacing_Paging-between-buttons;
+   margin-left: @item_offset_paging;
+   box-shadow: @item_box-shadow_paging;
+
+   &:active {
+      box-shadow: none;
+   }
 }
 .controls-Paging__btn_first {
-   margin-left: @spacing_Paging-between-firstButton-borderLeft;
+   margin-left: @padding-horizontal_paging;
 }
 .controls-Paging__btn_last {
-   margin-right: @spacing_Paging-between-firstButton-borderRight;
+   margin-right: @padding-horizontal_paging;
 }
 .controls-Paging__digitButtons {
    display: inline-flex;
 }
 .controls-Paging__arrow {
-   width: @width_Paging-button;
-   background-color: @background-color_Paging-button;
+   width: @arrow_width_paging;
+   background-color: @arrow_background-color_paging;
 }
 .controls-Paging__arrow__state-normal {
-   color: @color_Paging_arrow-icon;
+   color: @arrow_icon-color_paging;
    cursor: pointer;
 }
 
 .ws-is-hover .controls-Paging__arrow__state-normal:hover {
-   background-color: @background-color_Paging-button_hover;
-   color: @link_hover_text-color;
+   background-color: @arrow_hover_background-color_paging;
+   color: @arrow_hover_icon-color_paging;
 }
 
 .controls-Paging__arrow__state-disabled {
-   color: @color_Paging_arrow-icon_disabled;
+   color: @readonly_icon-color_paging;
 }
 .controls-Paging__icon {
-   font-family: @font-family_Paging-icons;
-   font-size: @font-size_Paging-arrow-button;
+   font-family: @arrow_icon_font-family_paging;
+   font-size: @arrow_icon-size_paging;
    font-style: normal;
 }

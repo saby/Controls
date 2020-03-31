@@ -2,16 +2,19 @@
    display: flex;
 }
 
+.controls-MasterDetail_master_theme-@{themeName} {
+   background-color: @master_item_background-color_list;
+}
+
 .controls-MasterDetail_master {
    position: relative;
-   background-color: @background-color_List-masterList;
    flex-shrink: 0;
    width: 27%;
 
    //TODO: will be deleted after https://online.sbis.ru/opendoc.html?guid=08925c8d-d7d1-4588-989f-3279e0675557
    .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
-      background-color: @background-color_List-masterList;
-      box-shadow: -15px 2px 4px -6px @background-color_List-masterList;
+      background-color: @master_item_background-color_list;
+      box-shadow: -15px 2px 4px -6px @master_item_background-color_list;
    }
 }
 
@@ -22,19 +25,26 @@
    &:before {
       content: '';
       z-index: 0;
-      width: @border-width_List-masterList-right;
-      background-color: @border-color_List-masterList;
       height: 100%;
       position: absolute;
       right: 0;
       top: 0;
    }
 }
+
+.controls-MasterDetail_master-template_theme-@{themeName} {
+   &:before {
+      width: @master_separator_thickness_list;
+      background-color: @master_separator_color_list;
+   }
+}
 .controls-MasterDetail_details {
-   background-color: @background-color_List-masterList-details;
    min-width: 1px;
 }
 
+.controls-MasterDetail_details_theme-@{themeName} {
+   background-color: @detail_background-color_masterDetail;
+}
 .controls-MasterDetail_resizing-line {
    position: absolute;
    right: 0;
@@ -46,6 +56,18 @@
    // пользовательских элементов выпирающих за пределы контейнеров. Например, плитка по ховеру.
    // https://online.sbis.ru/opendoc.html?guid=add422e3-ea09-494b-821f-514acab083f1
    z-index: 9999;
+}
+
+// Класс для установки фона контрола через backgroundStyle (master)
+.controls-background-master_theme-@{themeName} {
+   background-color: @master_item_selected_background-color_list;
+}
+
+
+// Набор классов для установки градиента горизонтального скролла через backgroundStyle (master, detail)
+.controls-horizontal-gradient-master_theme-@{themeName} {
+   background: linear-gradient(to right, @start-color-gradient_ColumnScroll-shadow, @end-color-gradient_ColumnScroll-shadow);
+   border-left: 1px solid @border-color_ColumnScroll-shadow;
 }
 
 .ws-is-ie,

@@ -1,17 +1,18 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
-import {IMenuOptions} from 'Controls/_menu/interface/IMenuControl';
+import {IMenuBaseOptions} from 'Controls/_menu/interface/IMenuBase';
 import {Tree, TreeItem, GroupItem, SelectionController} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
 import {Model} from 'Types/entity';
+import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
 import {create as DiCreate} from 'Types/di';
 
-interface IMenuRenderOptions extends IMenuOptions, IRenderOptions {
+interface IMenuRenderOptions extends IMenuBaseOptions, IRenderOptions {
 }
 
 class MenuRender extends Control<IMenuRenderOptions> {
@@ -29,55 +30,65 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    protected _isEmptyItem(itemData): boolean {
-        return this._options.emptyText && itemData.getContents().getId() === this._options.emptyKey;
+    protected _isEmptyItem(treeItem: TreeItem<Model>): boolean {
+        return this._options.emptyText && treeItem.getContents().getId() === this._options.emptyKey;
     }
 
     // FIXME
-    protected _getItemData(item): object {
+    protected _getItemData(treeItem: TreeItem<Model>): object {
         return {
-            item: item.getContents(),
-            treeItem: item,
+            item: treeItem.getContents(),
+            treeItem,
             iconPadding: this._iconPadding,
             iconSize: this._options.iconSize,
             multiSelect: this._options.multiSelect,
             parentProperty: this._options.parentProperty,
             nodeProperty: this._options.nodeProperty,
             multiSelectTpl,
-            itemClassList: this._getClassList(item),
+            itemClassList: this._getClassList(treeItem),
             getPropValue: ItemsUtil.getPropertyValue,
-            isEmptyItem: this._isEmptyItem(item),
-            isSelected: item.isSelected.bind(item)
+            isEmptyItem: this._isEmptyItem(treeItem),
+            isSelected: treeItem.isSelected.bind(treeItem)
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string): void {
         e.stopPropagation();
-        if (!(item instanceof GroupItem)) {
-            this._notify(eventName, [item, sourceEvent]);
+        const args = Array.prototype.slice.call(arguments, 2);
+        this._notify(eventName, args);
+    }
+
+    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        if (item instanceof Model) {
+            this._notify('itemClick', [item, sourceEvent]);
         }
     }
 
-    protected _getClassList(treeItem): string {
+    protected _getClassList(treeItem: TreeItem<Model>): string {
         const item = treeItem.getContents();
         let classes = treeItem.getContentClasses();
-        classes += ' controls-Menu__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
-        if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
-            classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+        if (item.get) {
+            classes += ' controls-Menu__row_state_' + (item.get('readOnly') ? 'readOnly' : 'default') + '_theme-' + this._options.theme;
+            if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
+                classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+            } else {
+                classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
+            }
+            if (item.get('pinned') === true && !this.hasParent(item)) {
+                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+            }
+            if (this._options.listModel.getLast() !== treeItem &&
+                !this._isGroupNext(treeItem) && !this._isHistorySeparatorVisible(treeItem)) {
+                classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+            }
         } else {
-            classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
-        }
-        if (item.get('pinned') === true && !this.hasParent(item)) {
-            classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
-        }
-        if (this._options.listModel.getLast() !== treeItem &&
-            !this._isGroupNext(treeItem) && !this._isHistorySeparatorVisible(treeItem)) {
-            classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+            classes += ' controls-Menu__row-breadcrumbs_theme-' + this._options.theme;
         }
         return classes;
     }
 
-    protected _isHistorySeparatorVisible(treeItem): boolean {
+    protected _isHistorySeparatorVisible(treeItem: TreeItem<Model>): boolean {
         const item = treeItem.getContents();
         const nextItem = this._getNextItem(treeItem);
         const isGroupNext = this._isGroupNext(treeItem);
@@ -102,18 +113,18 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return this._getNextItem(treeItem) instanceof GroupItem;
     }
 
-    private _getNextItem(treeItem): TreeItem {
+    private _getNextItem(treeItem: TreeItem<Model>): TreeItem<Model> {
         const index = treeItem.getOwner().getIndex(treeItem);
         return treeItem.getOwner().at(index + 1);
     }
 
-    private setListModelOptions(options: IMenuRenderOptions) {
+    private setListModelOptions(options: IMenuRenderOptions): void {
         options.listModel.setItemsSpacings({
             top: 'null',
             left: this.getLeftSpacing(options),
             right: this.getRightSpacing(options)
         });
-        if (options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
+        if (!options.searchValue && options.emptyText && !options.listModel.getItemBySourceKey(options.emptyKey)) {
             this.addEmptyItem(options.listModel, options);
         }
     }
@@ -134,7 +145,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    private _getItemModel(collection, keyProperty) {
+    private _getItemModel(collection: RecordSet, keyProperty: string): Model {
         const model = collection.getModel();
         const modelConfig = {
             keyProperty,
@@ -148,7 +159,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    private _createModel(model, config) {
+    private _createModel(model: string, config: object): Model {
         return DiCreate(model, config);
     }
 

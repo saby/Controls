@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Editable list.">
-    <ws:content>
-        <Controls-demo.List.List.EditableListPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

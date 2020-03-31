@@ -11,7 +11,7 @@
                caption="Доп. операции"
                on:click="_onClickAddBlock()"
                iconSize="s" icon="icon-Settings"
-               viewMode="link" fontColorStyle="link"
+               viewMode="linkButton" fontColorStyle="link"
          />
       </ws:rightTemplate>
    </Controls.operations:Panel>

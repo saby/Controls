@@ -25,7 +25,7 @@
             </div>
             <div class="events__demo">
                 <Controls.input:Area readOnly="{{true}}" minLines="{{3}}" maxLines="{{3}}" value="{{_eventsList}}"/>
-                <Controls.buttons:Button readOnly="{{false}}" caption="Clear" on:click="_clearArea()" viewMode="link" fontColorStyle="link" fontSize="xs"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Clear" on:click="_clearArea()" viewMode="linkButton" fontColorStyle="link" fontSize="xs"/>
             </div>
         </div>
     </div>

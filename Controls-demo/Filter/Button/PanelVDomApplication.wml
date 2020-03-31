@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="FilterButton" demoname="Controls-demo/Filter/Button/PanelVDom.wml">
-    <ws:content>
-        <Controls-demo.Filter.Button.PanelVDom/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

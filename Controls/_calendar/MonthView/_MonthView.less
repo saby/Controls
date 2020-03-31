@@ -1,6 +1,11 @@
-.controls-MonthViewVDOM {
+.controls-MonthViewVDOM-old {
    display: flex;
    flex-direction: column;
+   text-align: center;
+}
+
+.controls-MonthViewVDOM {
+   display: inline-block;
    text-align: center;
 }
 
@@ -18,14 +23,16 @@
    flex-grow: 1;
    flex-shrink: 1;
    display: flex;
-   margin-right: @border-thickness__MonthView-item;
 }
 
 .controls-MonthViewVDOM__tableHead {
    text-align: center;
 }
 
-.controls-MonthViewVDOM__item {
+.controls-MonthViewVDOM__item-old {
+   font-size: @monthview_item_font-size_monthSlider;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
    position: relative;
    min-width: 0;
    flex-grow: 1;
@@ -34,45 +41,56 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   margin-top: @border-thickness__MonthView-item;
-   margin-left: @border-thickness__MonthView-item;
    box-sizing: content-box;
 }
 
+.controls-MonthViewVDOM__item {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.controls-MonthViewVDOM__item_theme-@{themeName} {
+   font-size: @monthview_item_font-size_monthSlider;
+   min-width: @monthview_item_height_monthSlider;
+   min-height: @monthview_item_height_monthSlider;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
+}
+
 .ws-is-no-touch {
-   .controls-MonthViewVDOM__hover-selectableItem,
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected,
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-startend-unfinished {
+   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-startend-unfinished_theme-@{themeName} {
       &:hover {
-         background: @background_MonthView-item-hover;
+         background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
       }
    }
 
-   .controls-MonthViewVDOM__border-currentMonthDay-unselected {
+   .controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-@{themeName} {
       &:hover {
-         outline: @border-thickness__MonthView-item solid @border-color__MonthView-item-hover;
+         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
       }
    }
 }
 
-.controls-MonthViewVDOM__item-selectedStart,
-.controls-MonthViewVDOM__item-selectedEnd,
-.controls-MonthViewVDOM__item-selectedInner,
-.controls-MonthViewVDOM__item-selectedStart-unfinished,
-.controls-MonthViewVDOM__item-selectedEnd-unfinished {
+.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedInner_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedStart-unfinished_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
    outline-style: solid;
-   outline-width: @border-thickness__MonthView-item;
+   outline-width: @monthview_item_border-thickness_monthSlider;
 }
 
-.controls-MonthViewVDOM__item-selectedStart,
-.controls-MonthViewVDOM__item-selectedEnd,
-.controls-MonthViewVDOM__item-selectedStartEnd {
+.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedStartEnd_theme-@{themeName} {
    font-weight: bold;
 }
 
-.controls-MonthViewVDOM__item-selectedStart:before {
+.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName}:before {
    content: "";
    position: absolute;
    height: 100%;
@@ -81,7 +99,7 @@
    z-index: 1;
 }
 
-.controls-MonthViewVDOM__item-selectedEnd:after {
+.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName}:after {
    content: "";
    position: absolute;
    height: 100%;
@@ -89,13 +107,13 @@
    right: -1px;
 }
 
-.controls-MonthViewVDOM__item-selectedStartEnd {
+.controls-MonthViewVDOM__item-selectedStartEnd_theme-@{themeName} {
    outline: @border-color_RangeSelection-selected-startEnd-edgeBorder solid @border-thickness_RangeSelection-selected-startEnd;
    outline-offset: @border-thickness_RangeSelection - @border-thickness_RangeSelection-selected-startEnd;
    z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
 }
 
-.controls-MonthViewVDOM__item-today-background {
+.controls-MonthViewVDOM__item-today-background_theme-@{themeName} {
    position: absolute;
    z-index: -1;
 }
@@ -113,170 +131,73 @@
    cursor: pointer;
 }
 
-.controls-MonthView__theme(
-   @width: null,
-   @background: null,
-   @height_item: null,
-   @color_weekDayHeader: null,
-   @font-size_weekDayHeader: null,
-   @font-size_item: null,
-   @border-color__item-selected: null,
-   @width__item-selected-startEnd-hover: null,
-   @border-color__item-selected-startEnd-hover: null,
-   @background_item: null,
-   @background_item-selected: null,
-   @background_item-hover: null,
-   @color_item: null,
-   @color_item-weekend: null,
-   @color_item-today: null,
-   @color_item-other-month-day: null,
-   @background-spacing_item-today: null,
-   @border-radius_item-today: null,
-   @background-color_item-today: null
-) {
-
-   .setStyle(@property, @value) {
-      & when not (@value = null) {
-         @{property}: @value;
-      }
-   }
-
-   &.controls-MonthViewVDOM {
-      .setStyle(width, @width);
-      .setStyle(background, @background);
-   }
-
-   &.controls-MonthViewVDOM__tableRow {
-      .setStyle(flex-basis, @height_item + @border-thickness__MonthView-item);
-   }
-
-   &.controls-MonthViewVDOM__tableHead {
-      .setStyle(color, @color_weekDayHeader);
-      .setStyle(font-size, @font-size_weekDayHeader);
-   }
-
-   .controls-MonthViewVDOM__item {
-      .setStyle(font-size, @font-size_item);
-   }
-
-   .controls-MonthViewVDOM__item-selectedStart,
-   .controls-MonthViewVDOM__item-selectedEnd,
-   .controls-MonthViewVDOM__item-selectedInner,
-   .controls-MonthViewVDOM__item-selectedStart-unfinished,
-   .controls-MonthViewVDOM__item-selectedEnd-unfinished {
-      .setStyle(outline-color, @border-color__item-selected);
-   }
-
-   .controls-MonthViewVDOM__item-selectedStart:before {
-      .setStyle(width, @width__item-selected-startEnd-hover);
-      .setStyle(background-color, @border-color__item-selected-startEnd-hover);
-   }
-
-   .controls-MonthViewVDOM__item-selectedEnd:after {
-      .setStyle(width, @width__item-selected-startEnd-hover);
-      .setStyle(background-color, @border-color__item-selected-startEnd-hover);
-   }
-
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected,
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected-readOnly {
-      .setStyle(background, @background_item);
-   }
-
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected,
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-readOnly {
-      .setStyle(background, @background_item-selected);
-   }
-
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished,
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly {
-      .setStyle(background, @background_item-hover);
-   }
-
-   .controls-MonthViewVDOM__textColor-currentMonthDay-workday {
-      .setStyle(color, @color_item);
-   }
-
-   .controls-MonthViewVDOM__textColor-currentMonthDay-weekend {
-      .setStyle(color, @color_item-weekend);
-   }
-
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-readOnly,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected-readOnly {
-      .setStyle(color, @color_item-other-month-day);
-   }
-
-   .controls-MonthViewVDOM__item-today-background {
-      .setStyle(top, @background-spacing_item-today);
-      .setStyle(bottom, @background-spacing_item-today);
-      .setStyle(left, @background-spacing_item-today);
-      .setStyle(right, @background-spacing_item-today);
-      .setStyle(border-radius, @border-radius_item-today);
-      .setStyle(background-color, @background-color_item-today);
-   }
+.controls-MonthViewVDOM-old {
+   width: @monthview_width_monthSlider;
+   background: @monthview_background-color_monthSlider;
 }
 
-.controls-MonthView__theme(
-   @width: @width_MonthView,
-   @background: @background_MonthView,
-   @height_item: @height_MonthView-item,
-   @color_weekDayHeader: @color_MonthView-weekDayHeader,
-   @font-size_weekDayHeader: @font-size_MontView-weekDayHeader,
-   @font-size_item: @font-size_MonthView-item,
-   @border-color__item-selected: @border-color__MonthView-item-selected,
-   @width__item-selected-startEnd-hover: @width__MonthView-item-selected-startEnd-hover,
-   @border-color__item-selected-startEnd-hover: @border-color__MonthView-item-selected-startEnd-hover,
-   @background_item: @background_MonthView-item,
-   @background_item-selected: @background_MonthView-item-selected,
-   @background_item-hover: @background_MonthView-item-hover,
-   @color_item: @color_MonthView-item,
-   @color_item-weekend: @color_MonthView-item-weekend,
-   @background-spacing_item-today :@background-spacing_MonthView-item-today,
-   @border-radius_item-today: @border-radius_MonthView-item-today,
-   @background-color_item-today: @background-color_MonthView-item-today
-);
+.controls-MonthViewVDOM__tableRow-old {
+   flex-basis: @monthview_item_height_monthSlider + @monthview_item_border-thickness_monthSlider;
+   margin-right: @monthview_item_border-thickness_monthSlider;
+}
 
-.controls-MonthViewVDOM__today {
-   color: @color_MonthView-item-today;
+.controls-MonthViewVDOM__item-today-background_theme-@{themeName} {
+   top: @monthview_today_offset_monthSlider;
+   bottom: @monthview_today_offset_monthSlider;
+   left: @monthview_today_offset_monthSlider;
+   right: @monthview_today_offset_monthSlider;
+   border-radius: @monthview_today_border-radius_monthSlider;
+   background-color: @monthview_today_background-color_monthSlider;
+   border: @monthview_today_border-thickness_monthSlider solid @monthview_today_border-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedInner_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedStart-unfinished_theme-@{themeName},
+.controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
+   outline-color: @monthview_item_hover_border-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected-readOnly_theme-@{themeName} {
+   background: @monthview_item_background-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-readOnly_theme-@{themeName} {
+   background: @rangeSelection_item_background-color_datePicker;
+}
+
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly_theme-@{themeName} {
+   background: @rangeSelection_item_hover_background-color_datePicker;
+}
+
+.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName}:after,
+.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName}:before {
+   width: @rangeSelection_border_thickness_datePicker;
+   background-color: @rangeSelection_border_color_datePicker;
+}
+
+.controls-MonthViewVDOM__textColor-currentMonthDay-workday_theme-@{themeName} {
+   color: @monthview_item_text-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__textColor-currentMonthDay-weekend_theme-@{themeName} {
+   color: @monthview_weekend_text-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-readOnly_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected_theme-@{themeName},
+.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected-readOnly_theme-@{themeName} {
+   color: @monthview_otherday_text-color_monthSlider;
+}
+
+.controls-MonthViewVDOM__today_theme-@{themeName} {
+   color: @monthview_today_text-color_monthSlider;
    // Изолируем контекст наложения. Раньше стоял z-index: 0;. Но если в windows учтановить масшатб 150%,
    // то контекст не изолируется.
    transform: translateY(0);
-}
-
-// TODO: Тема для аккордеона. Временное решение, переделать когда будет понятно, как мы будем делать разные темы в рамках одной страницы.
-.controls-MonthView__accordionTheme {
-   .controls-MonthView__theme(
-      @width: 196px,
-      @background: #354758,
-      @font-size_item: 14px,
-      @height_item: 27px,
-      @border-color__item-selected-startEnd-hover: transparent,
-      @background_item: #354758,
-      @background_item-selected: #354758,
-      @color_item: #E9EBEC,
-      @color_item-weekend: #FE9C9C,
-      @color_item-other-month-day: #666,
-      @background-spacing_item-today: 0px,
-      @border-radius_item-today: 3px,
-      @background-color_item-today: transparent
-   );
-
-   &.controls-MonthViewVDOM__item-today-background {
-      border: 2px solid #D94700;
-   }
-}
-
-.ws-is-no-touch .controls-MonthView__accordionTheme {
-   &.controls-MonthViewVDOM__border-currentMonthDay-unselected,
-   &.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected,
-   &.controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected {
-      cursor: pointer;
-
-      &:hover {
-         outline: none;
-         background-color: #465E73;
-         border-radius: 3px;
-      }
-   }
 }

@@ -35,7 +35,7 @@
 export default interface IEditingTemplateOptions {
     /**
      * @name Controls/list:EditingTemplate#editorTemplate
-     * @cfg {String|Function} Устанавливает шаблон, отображаемый поверх элемента в режиме редактирования. 
+     * @cfg {String|Function} Шаблон, отображаемый поверх элемента в режиме редактирования. 
      */
     editorTemplate?: string;
     /**
@@ -47,7 +47,7 @@ export default interface IEditingTemplateOptions {
     enabled?: boolean;
     /**
      * @name Controls/list:EditingTemplate#value
-     * @cfg {String} Устанавливает текст, отображаемый внутри элемента в режиме просмотра.
+     * @cfg {String} Текст, отображаемый внутри элемента в режиме просмотра.
      */
     value?: string;
     /**
@@ -60,7 +60,7 @@ export default interface IEditingTemplateOptions {
 
     /**
      * @name Controls/list:EditingTemplate#size
-     * @cfg {Size} Устанавливает размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
+     * @cfg {Size} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
      * @default default
      * @see Controls/list:EditingTemplate#value
      * @remark

@@ -1,7 +1,9 @@
-import {Control, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupTemplate/Sticky/Sticky';
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from './interface/IPopupTemplateBase';
+
+interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOptions {}
 
 /**
  * Базовый шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/sticky/ прилипающих блоков}.
@@ -17,7 +19,8 @@ import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from './interf
  * @demo Controls-demo/PopupTemplate/Sticky/HeaderContentTemplate/Index
  */
 
-class StickyTemplate extends Control<IPopupTemplateBaseOptions> implements IPopupTemplateBase {
+class StickyTemplate extends Control<IStickyTemplateOptions> implements IPopupTemplateBase {
+
     protected _template: TemplateFunction = template;
     protected _headerTheme: string;
 

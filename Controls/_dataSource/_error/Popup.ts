@@ -83,6 +83,18 @@ export default class Popup {
     }
 
     /**
+     * Закрыть диалог.
+     * @param popupId Идентификатор окна.
+     */
+    closeDialog(popupId: string): Promise<void> {
+        if (!popupId) {
+            return Promise.resolve();
+        }
+
+        return this.preloadPopup().then((popup) => popup && popup.Dialog.closePopup(popupId));
+    }
+
+    /**
      * Модули, которые нужны для отображения диалогов.
      */
     private static readonly POPUP_MODULES: string[] = [

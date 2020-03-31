@@ -8,7 +8,7 @@
  * @author Герасимов А.М.
  * @example
  * <pre class="brush: html">
- * <Controls.dropdown:Button source="{{_source)}}">
+ * <Controls.dropdown:Button source="{{_source}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/dropdown:ItemTemplate" multiLine="{{true}}">
  *          <ws:contentTemplate>
@@ -142,7 +142,7 @@
  * @default undefined
  * @example
  * <pre class="brush: html; highlight: [9,10,11]">
- * <Controls.dropdown:Button source="{{_source)}}">
+ * <Controls.dropdown:Button source="{{_source}}">
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/dropdown:ItemTemplate"
  *                  multiLine="{{true}}"

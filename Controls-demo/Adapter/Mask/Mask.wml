@@ -5,9 +5,9 @@
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Контрол маски с адаптером значения</div>
-      <Controls.source:AdapterMask bind:value="_valueAdapterMask" mask="ddd-ddd-dddddd">
+      <Controls.input:AdapterMask bind:value="_valueAdapterMask" mask="ddd-ddd-dddddd">
          <Controls.input:Mask/>
-      </Controls.source:AdapterMask>
+      </Controls.input:AdapterMask>
       <div class="controls-text-label_theme-{{_options.theme}}">valueAdapterMask={{_valueAdapterMask}}</div>
    </div>
 </div>

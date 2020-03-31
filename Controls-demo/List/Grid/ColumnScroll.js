@@ -3,6 +3,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
    'Controls-demo/List/Grid/GridData',
    'wml!Controls-demo/List/Grid/ColumnScroll',
    'Types/source',
+   'Controls/Utils/Toolbar',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoBalancePrice',
    'wml!Controls-demo/List/Grid/DemoCostPrice',
@@ -12,7 +13,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
    'Controls/scroll',
    'Controls/grid',
    'wml!Controls-demo/List/Grid/Results'
-], function(BaseControl, GridData, template, source) {
+], function(BaseControl, GridData, template, source, Toolbar) {
    'use strict';
    var
       columns = [
@@ -143,7 +144,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
             id: 1,
             icon: 'icon-EmptyMessage icon-primary',
             title: 'message',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             handler: function() {
                alert('Message click');
             }
@@ -152,7 +153,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
             id: 2,
             icon: 'icon-Erase icon-error',
             title: 'delete',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             handler: function() {
                alert('Delete click');
             }

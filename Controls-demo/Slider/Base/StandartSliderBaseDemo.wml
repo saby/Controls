@@ -123,6 +123,21 @@
             </div>
          </div>
       </div>
+      <div class="demo__block">
+         <div class="demo__label">
+            without tooltip
+         </div>
+         <div class="demo__element">
+            <Controls.slider:Base attr:class="demo-standartSliderRange__withoutTooltip"
+                                  size="s"
+                                  tooltipVisible="{{false}}"
+                                  minValue="{{0}}"
+                                  maxValue="{{100}}"
+                                  scaleStep="{{20}}"
+                                  bind:value="_myValueTooltip"
+            />
+         </div>
+      </div>
 
    </div>
 </div>
