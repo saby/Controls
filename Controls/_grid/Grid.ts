@@ -21,7 +21,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IItemClick
     * @mixes Controls/interface/IGridItemTemplate
-    *
+    * @mixes Controls/_interface/IPropStorage
     *
     * @control
     * @public

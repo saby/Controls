@@ -16,7 +16,8 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#ladderProperties
- * @cfg {Array.<String>} Массив свойств, по которым происходит прилипание.
+ * @cfg {Array.<String>} Свойства, по которым происходит прилипание.
+ * @remark
  * Работу лесенки можно проверить на <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-примере</a>.
  * @example
  * Пример 1. Шаблон лесенки задан в рамках шаблона родительского контрола.
@@ -106,11 +107,12 @@
 /**
  * @name Controls/_grid/interface/IGridControl#header
  * @cfg {Controls/grid:IHeaderCell} Описывает шапку таблицы.
+ * @remark
  * В качестве значения опция принимает массив объектов, в которых задают конфигурацию для ячеек шапки.
  * Для одноуровневых шапок первый объект массива задаёт конфигурацию для первой ячейки.
  * Условно ячейки шапки нумеруются слева направо.
  * Для многоуровневой шапки порядок объектов массива не соответствует конфигуруемой ячейке.
- * <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/">См. руководство разработчика</a>
+ * См. <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/">руководство разработчика</a>
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>
  * @example
  * Пример 1. Для первой ячейки задаём пользовательский шаблон.
@@ -180,7 +182,8 @@
 /**
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы. Колонки объекты реализующие интерфейс {@link Controls/grid:IColumn IColumn}
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
+ * @remark
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>.
  * @remark Перед отрисовкой убедитесь, что {@link Controls/display:Collection Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
  * @example
  * <pre>
@@ -242,7 +245,8 @@
 /**
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Закрепляет заголовок таблицы.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
+ * @remark
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-пример</a>.
  * @default true
  */
 
@@ -271,8 +275,8 @@
 
 /**
  * @typedef {String} ColumnScrollStartPosition
- * @variant start Устанавливает горизонтальную прокрутку в начальное (крайнее левое) положение.
- * @variant end Устанавливает горизонтальную прокрутку в конечное (крайнее правое) положение.
+ * @variant start Горизонтальная прокрутка в начальное (крайнее левое) положение.
+ * @variant end Горизонтальная прокрутка в конечное (крайнее правое) положение.
  */
 
 /*
@@ -316,7 +320,8 @@
 /**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
+ * @remark
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>.
  * @default false
  */
 
@@ -348,7 +353,7 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsTemplate
- * @cfg {Function} Устанавливает шаблон отображения строки итогов.
+ * @cfg {Function} Шаблон отображения строки итогов.
  * @default Controls/grid:ResultsTemplate
  * @remark
  * Подробнее о параметрах шаблона Controls/grid:ResultsTemplate читайте {@link Controls/grid:ResultsTemplate здесь}.
@@ -397,7 +402,7 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsVisibility
- * @cfg {ResultsVisibility} Устанавливает режим отображения строки итогов.
+ * @cfg {ResultsVisibility} Режим отображения строки итогов.
  * @default hasData
  * @see resultsTemplate
  * @see resultsPosition
