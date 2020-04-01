@@ -440,7 +440,7 @@ var
             _private.setVirtualScrolling(this, this._viewMode, cfg);
          }
       },
-      _getRoot: function() {
+      _getRoot: function() { //dsadasdasd
          return _private.getRoot(this, this._options.root);
       },
       _dragHighlighter: function(itemKey, hasArrow) {
