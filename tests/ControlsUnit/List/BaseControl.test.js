@@ -3597,6 +3597,12 @@ define([
                },
                ctrl = new lists.BaseControl();
             let dragNDropStarted = false;
+            let itemData = {
+               dispItem: {
+                  getContents: () => null
+               },
+               key: 1
+            };
             let domEvent = {
                nativeEvent: {
                   button: 2
@@ -3620,13 +3626,13 @@ define([
                   }
                }
             };
-            ctrl._itemMouseDown({}, { key: 1 }, domEvent);
+            ctrl._itemMouseDown({}, itemData, domEvent);
             assert.isFalse(dragNDropStarted);
             domEvent.nativeEvent.button = 1;
-            ctrl._itemMouseDown({}, { key: 1 }, domEvent);
+            ctrl._itemMouseDown({}, itemData, domEvent);
             assert.isFalse(dragNDropStarted);
             domEvent.nativeEvent.button = 0;
-            ctrl._itemMouseDown({}, { key: 1 }, domEvent);
+            ctrl._itemMouseDown({}, itemData, domEvent);
             assert.isTrue(dragNDropStarted);
          });
       });

@@ -2581,6 +2581,14 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 }
             });
         }
+        if (self._options.useNewModel) {
+            displayLib.ItemActionsController.setActiveItem(
+                self._listViewModel,
+                itemData.getContents().getId()
+            );
+        } else {
+            self._listViewModel.setActiveItem(itemData);
+        }
         this._notify('itemMouseDown', [itemData.item, domEvent.nativeEvent]);
     },
 
