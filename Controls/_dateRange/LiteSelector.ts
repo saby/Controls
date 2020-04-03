@@ -15,7 +15,6 @@ import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelecto
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IOpenPopup
- * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
  * @category Input

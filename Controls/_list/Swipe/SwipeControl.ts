@@ -291,7 +291,7 @@ export default class SwipeControl extends Control {
       if (this._options.actionAlignment !== newOptions.actionAlignment) {
          this._setMeasurer(newOptions.actionAlignment);
       }
-      if (!this._isActual && this._currentItemData && newOptions.itemActionsPosition !== 'outside') {
+      if (!this._isActual && this._currentItemData) {
 
          // TODO: KINGO
          // Если текущие данные не актуальны, и у нас есть свайпнутая запись,

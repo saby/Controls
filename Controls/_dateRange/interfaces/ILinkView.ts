@@ -52,7 +52,6 @@ export default {
              * @variant secondary Стиль отображения "secondary" (см.{@link http://axure.tensor.ru/standarts/v7/%D1%88%D1%80%D0%B8%D1%84%D1%82%D1%8B__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html Axure}).
              * Используется по умолчанию, когда опция {@link viewMode} установлена в значения selector и link.
              * @variant info Стиль отображения "info" (см.{@link http://axure.tensor.ru/standarts/v7/%D1%88%D1%80%D0%B8%D1%84%D1%82%D1%8B__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html Axure}).
-             * @deprecated Данная опция устарела. Вместо неё используйте {@link fontColorStyle}.
              */
 
             /*

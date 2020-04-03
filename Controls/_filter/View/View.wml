@@ -23,7 +23,6 @@
                      scope="{{_dateRangeItem.editorOptions}}"
                      value="{{_dateRangeItem.value}}"
                      resetValue="{{_dateRangeItem.resetValue}}"
-                     fontColorStyle="link"
                      on:textValueChanged="_rangeTextChangedHandler()"
                      on:rangeChanged="_rangeValueChangedHandler()"/>
       </ws:if>

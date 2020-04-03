@@ -14,8 +14,7 @@
                                                on:arrowClick="_notifyHandler('arrowClick')"/>
         </ws:if>
         <ws:if data="{{_visibleItems || _options.rootVisible}}">
-            <div class="controls-BreadCrumbsPath__homeContainer controls-BreadCrumbsPath__homeContainer_theme-{{_options.theme}} {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}
-            {{_options.withoutBackButton ? ' controls-BreadCrumbsPath__homeContainer__withoutBackButton' : ' controls-BreadCrumbsPath__homeContainer__withBackButton_theme-' + _options.theme}}"
+            <div class="controls-BreadCrumbsPath__homeContainer controls-BreadCrumbsPath__homeContainer_theme-{{_options.theme}} {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}"
                  on:mouseEnter="_notifyHandler('hoveredItemChanged', _getRootModel(_options.items ? _options.items[0].get(_options.parentProperty) : _options.root, _options.keyProperty))"
                  on:mouseLeave="_notifyHandler('hoveredItemChanged')"
                  on:click="_onHomeClick()">

@@ -28,7 +28,7 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
          _beforeMount: function() {
             this._items = [
                {
-                  name: 'period',
+                  id: 'period',
                   value: [1],
                   resetValue: [1],
                   myItemTemplate: 'wml!Controls-demo/Filter/Button/ChooseDate',
@@ -44,7 +44,7 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'state',
+                  id: 'state',
                   value: [1],
                   resetValue: [1],
                   source: new sourceLib.Memory({
@@ -59,7 +59,7 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'limit',
+                  id: 'limit',
                   value: [1],
                   resetValue: [1],
                   textValue: 'Due date',
@@ -73,22 +73,22 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'sender', value: '', resetValue: '', visibility: false, source: this._sourceLookup
+                  id: 'sender', value: '', resetValue: '', visibility: false, source: this._sourceLookup
                },
                {
-                  name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''
+                  id: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''
                },
                {
-                  name: 'responsible', value: '', resetValue: '', visibility: false
+                  id: 'responsible', value: '', resetValue: '', visibility: false
                },
                {
-                  name: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
+                  id: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
                },
                {
-                  name: 'operation', value: '', resetValue: '', visibility: false
+                  id: 'operation', value: '', resetValue: '', visibility: false
                },
                {
-                  name: 'group',
+                  id: 'group',
                   value: [1],
                   resetValue: [1],
                   visibility: false,
@@ -101,13 +101,13 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false, myTemplate: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/unread'
+                  id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false, myTemplate: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/unread'
                },
                {
-                  name: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
+                  id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
                },
                {
-                  name: 'own',
+                  id: 'own',
                   value: [2],
                   resetValue: [2],
                   textValue: 'On department',
@@ -121,13 +121,13 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'our organisation', value: '', resetValue: '', visibility: false
+                  id: 'our organisation', value: '', resetValue: '', visibility: false
                },
                {
-                  name: 'document', value: '', resetValue: '', visibility: false
+                  id: 'document', value: '', resetValue: '', visibility: false
                },
                {
-                  name: 'detailingPeriod',
+                  id: 'detailingPeriod',
                   value: [1],
                   resetValue: [1],
                   textValue: '',
@@ -146,13 +146,13 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
             ];
             this._itemsSimple = [
                {
-                  name: 'period',
+                  id: 'period',
                   value: [1],
                   resetValue: [1],
                   myItemTemplate: 'wml!Controls-demo/Filter/Button/ChooseDate'
                },
                {
-                  name: 'state',
+                  id: 'state',
                   value: [1],
                   resetValue: [1],
                   source: new sourceLib.Memory({
@@ -167,7 +167,7 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
                   })
                },
                {
-                  name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''
+                  id: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''
                }
             ];
             this._dataObject = {

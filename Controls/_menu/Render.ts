@@ -191,7 +191,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         const items = options.listModel.getCollection();
         const parentProperty = options.parentProperty;
         let iconPadding = '', icon;
-        let headingIcon = options.headerTemplate !== null && (options.headConfig?.icon || options.headingIcon);
+        let headingIcon = options.headConfig?.icon || options.headingIcon;
 
         if (options.root === null && headingIcon && (!options.headConfig || options.headConfig.menuStyle !== 'titleHead')) {
             iconPadding = this.getIconSize(options.iconSize, headingIcon);

@@ -41,7 +41,6 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _selectedKeysHistoryMulti: null,
       _emptyItems2: null,
       _longItems: null,
-      _readOnlyItems: null,
       _multiSelectItems: null,
       _multiSelectStackItems: null,
       _groupItems: null,
@@ -64,7 +63,6 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
       _selectedKeysFooter: null,
       _selectedKeysFooterHierarchy: null,
       _selectedKeysReadOnly: null,
-      _selectedKeysMultiReadOnly: null,
       _selectedKeys0: null,
       _selectedKeys1: null,
       _selectedKeys2: null,
@@ -225,14 +223,6 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
             {id: 3, title: 'St-Petersburg'}
          ]);
 
-         this._readOnlyItems = this._createMemory([
-            {id: 1, title: 'Yaroslavl'},
-            {id: 2, title: 'Moscow'},
-            {id: 3, title: 'St-Petersburg'},
-            {id: 4, title: 'Kostroma'},
-            {id: 5, title: 'Novosibirsk'}
-         ]);
-
          this._titleItems = this._createMemory([
             {id: 1, title: 'Name', icon: 'icon-small icon-TrendUp'},
             {id: 2, title: 'Date of change', icon: 'icon-small icon-TrendDown'}
@@ -389,7 +379,6 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
          this._selectedKeysFooter = [1];
          this._selectedKeysFooterHierarchy = [1];
          this._selectedKeysReadOnly = ['4'];
-         this._selectedKeysMultiReadOnly = [1, 2, 4];
          this._selectedKeys0 = ['1'];
          this._selectedKeys1 = ['1'];
          this._selectedKeys2 = ['1'];

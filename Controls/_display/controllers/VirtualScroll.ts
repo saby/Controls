@@ -33,6 +33,7 @@ export function setup(collection: IVirtualScrollCollection): void {
             stopIndex: collection.getCount()
         }
     });
+    collection.nextVersion();
 }
 
 export function setIndices(
@@ -40,19 +41,15 @@ export function setIndices(
     startIndex: number,
     stopIndex: number
 ): boolean {
-    const currentViewIterator = collection.getViewIterator();
-    if (currentViewIterator.data &&
-        (currentViewIterator.data.startIndex !== startIndex || currentViewIterator.data.stopIndex !== stopIndex)) {
-        const viewIterator = {
-            ...collection.getViewIterator(),
-            data: {
-                startIndex,
-                stopIndex
-            }
-        };
-        collection.setViewIterator(viewIterator);
-        collection.nextVersion();
-    }
+    const viewIterator = {
+        ...collection.getViewIterator(),
+        data: {
+            startIndex,
+            stopIndex
+        }
+    };
+    collection.setViewIterator(viewIterator);
+    collection.nextVersion();
     return true;
 }
 

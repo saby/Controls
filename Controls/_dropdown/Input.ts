@@ -268,10 +268,9 @@ var Input = Control.extend({
    _defaultContentTemplate: defaultContentTemplate,
    _text: '',
    _hasMoreText: '',
-   _selectedItems: '',
 
    _beforeMount: function () {
-      this._prepareDisplayState = this._prepareDisplayState.bind(this);
+      this._setText = this._setText.bind(this);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
    },
 
@@ -302,10 +301,8 @@ var Input = Control.extend({
       }
    },
 
-   _prepareDisplayState: function (items) {
+   _setText: function (items) {
       if (items.length) {
-         this._selectedItems = items;
-         this._needInfobox = this._options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
          this._isEmptyItem = _private.isEmptyItem(this, this._item);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');

@@ -192,7 +192,6 @@
                  iconSize="s"
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButton"
-                 headerTemplate="{{null}}"
                  tooltip="All documents to disk" >
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
@@ -203,7 +202,6 @@
                  icon="icon-Save"
                  source="{{_createMemory(_iconButtonItems)}}"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButtonBig"
-                 headerTemplate="{{null}}"
                  tooltip="All documents to disk">
          </Controls.dropdown:Button>
       </div>

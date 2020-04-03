@@ -15,7 +15,7 @@
    Редактирование по месту растягивается на ширину строки + компенсация внутреннего отступа поля ввода.
    Про компенсацию см. классы controls-EditingTemplateText__editorWrapper_align_left и controls-EditingTemplateText__editorWrapper_align_right
    */
-   max-width: calc(100% + @padding-horizontal_inputText);
+   max-width: calc(100% + @padding_List-editAtPlace);
 }
 
 .ws-is-ie11 .controls-EditingTemplateText__editorWrapper,
@@ -33,7 +33,7 @@
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался вправо при активнации редактирования по месту, eip смещается влево на величину внутреннего отступа поля ввода.
    */
-   margin-left: -@padding-horizontal_inputText;
+   margin-left: -@padding_List-editAtPlace;
 }
 
 .controls-EditingTemplateText__editorWrapper_align_right {
@@ -43,7 +43,7 @@
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался влево при активнации редактирования по месту, eip смещается вправо на величину внутреннего отступа поля ввода.
    */
-   margin-right: -@padding-horizontal_inputText;
+   margin-right: -@padding_List-editAtPlace;
 }
 
 .controls-EditingTemplateText {
@@ -88,5 +88,6 @@
 
 .controls-EditingTemplateText_size_s {
    height: @inline_height_default;
-   font-size: @font-size_xs;
+   font-size: @font-size_text_s;
 }
+

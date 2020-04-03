@@ -151,9 +151,6 @@ const _private = {
     getWindowWidth() {
         return window && window.innerWidth;
     },
-    getWindowHeight() {
-        return window && window.innerHeight;
-    },
     setStickyContent(item) {
         item.popupOptions.content = StickyContent;
     },
@@ -306,9 +303,6 @@ class StickyController extends BaseController {
             top: -10000,
             left: -10000,
             maxWidth: item.popupOptions.maxWidth || _private.getWindowWidth(),
-            maxHeight: item.popupOptions.maxHeight || _private.getWindowHeight(),
-            width: item.popupOptions.width,
-            height: item.popupOptions.height,
 
             // Error on ios when position: absolute container is created outside the screen and stretches the page
             // which leads to incorrect positioning due to incorrect coordinates. + on page scroll event firing

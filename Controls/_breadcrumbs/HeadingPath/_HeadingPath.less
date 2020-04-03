@@ -39,6 +39,9 @@
    max-width: 50%;
    flex-shrink: 0;
 }
+.controls-BreadCrumbsPath__backButton__wrapper_theme-@{themeName} {
+   padding-right: @back_offset_breadcrumbsHeadingPath;
+}
 
 .controls-BreadCrumbsPath__backButton__wrapper__only {
    max-width: 100%;
@@ -63,7 +66,7 @@
    position: absolute;
    align-self: baseline;
    align-items: baseline;
-   right: -@back_offset_breadcrumbsHeadingPath;
+   right: 0;
    bottom: 0;
 }
 .controls-BreadCrumbsPath__backButtonArrow-container_theme-@{themeName} {
@@ -125,13 +128,6 @@
 
 .controls-BreadCrumbsPath__backButton_short {
    min-width: @text_min-width_breadcrumbs + @icon_m_width_headingBack + @icon_s_offset_headingBack;
-}
-
-.controls-BreadCrumbsPath__homeContainer__withoutBackButton {
-   margin-left: 0;
-}
-.controls-BreadCrumbsPath__homeContainer__withBackButton_theme-@{themeName} {
-   margin-left: @back_offset_breadcrumbsHeadingPath;
 }
 
 .controls-BreadCrumbsPath__backButton_half,

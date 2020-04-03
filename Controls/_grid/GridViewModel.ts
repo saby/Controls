@@ -1170,10 +1170,6 @@ var
             return this._model.isEnd();
         },
 
-        isShouldBeDrawnItem: function(item) {
-            return this._model.isShouldBeDrawnItem(item);
-        },
-
         goToNext: function() {
             this._model.goToNext();
         },

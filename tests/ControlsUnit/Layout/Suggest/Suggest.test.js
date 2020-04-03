@@ -549,12 +549,6 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          };
          suggestMod._InputController._private.loadDependencies(self, options).addCallback(function() {
             assert.isTrue(self._dependenciesDeferred.isReady());
-         });
-
-         var dep = self._dependenciesDeferred;
-         suggestMod._InputController._private.getTemplatesToLoad = function() {return []};
-         suggestMod._InputController._private.loadDependencies(self, options).addCallback(function() {
-            assert.deepEqual(self._dependenciesDeferred, dep);
             done();
          });
       });

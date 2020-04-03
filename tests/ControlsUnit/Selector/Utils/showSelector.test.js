@@ -77,23 +77,9 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/BaseController'], fun
             selectorClosed = true;
             assert.isFalse(selectCompleted);
          };
-         baseController._options.isCompoundTemplate = true;
 
          showSelector.default(baseController, undefined, true);
          lastPopupOptions.templateOptions.handlers.onSelectComplete();
-      });
-
-      it('showSelector with isCompoundTemplate:false', function() {
-         const baseController = getBaseController();
-         const sandbox = sinon.createSandbox();
-         const stub = sandbox.stub(baseController, '_selectCallback');
-         baseController._children.selectorOpener.close = () => {};
-         baseController._options.isCompoundTemplate = false;
-         showSelector.default(baseController, undefined, true);
-         lastPopupOptions.templateOptions.handlers.onSelectComplete();
-
-         assert.isTrue(stub.notCalled);
-         sandbox.restore();
       });
    });
 });

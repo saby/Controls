@@ -1,10 +1,9 @@
-<!-- TODO переделать на Controls.list:BaseControl -->
 <Controls._list.BaseControl scope="{{_options}}"
                             moveMarkerOnScrollPaging="{{false}}"
                             _keyDownHandler="{{_keyDownHandler}}"
                             name="baseControl">
     <!--прокидываем itemTemplate т.к. иначе мы не понимаем, что нужно перестраивать partial, потому что изменения только в замыкании функции-->
-    <Controls._columns.ColumnsInnerView scope="{{_options}}" name="innerView">
+    <Controls._list.ColumnsInnerView scope="{{_options}}" name="innerView">
         <ws:partial template="{{_options.viewName}}" itemTemplate="{{_options.itemTemplate}}"/>
-    </Controls._columns.ColumnsInnerView>
+    </Controls._list.ColumnsInnerView>
 </Controls._list.BaseControl>

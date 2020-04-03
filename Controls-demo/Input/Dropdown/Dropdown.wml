@@ -370,15 +370,6 @@
                                      attr:class="demo-InputDropdown__readOnly ControlsDemo-InputDropdown__item"
                                      source="{{_defaultMemory}}"/>
          </div>
-         <div>
-            <Controls.dropdown:Input bind:selectedKeys="_selectedKeysMultiReadOnly"
-                                     keyProperty="id"
-                                     displayProperty="title"
-                                     readOnly="{{true}}"
-                                     multiSelect="{{true}}"
-                                     attr:class="demo-InputDropdown__readOnly ControlsDemo-InputDropdown__item"
-                                     source="{{_readOnlyItems}}"/>
-         </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper">
          <h4>One item</h4>

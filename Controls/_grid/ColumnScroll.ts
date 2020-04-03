@@ -1,5 +1,5 @@
 import Control = require('Core/Control');
-import ColumnScrollTpl = require('wml!Controls/_grid/resources/ColumnScroll/ColumnScroll');
+import ColumnScrollTpl = require('wml!Controls/_grid/ColumnScroll');
 import { detection } from 'Env/Env';
 import Entity = require('Types/entity');
 import {isEqualWithSkip} from 'Controls/_grid/utils/GridIsEqualUtil';
@@ -326,11 +326,6 @@ const
            }
 
            return delta;
-       },
-
-       _isDragScrollingEnabled(): boolean {
-          const hasOption = typeof this._options.dragScrolling === 'boolean';
-          return hasOption ? this._options.dragScrolling : !this._options.itemsDragNDrop;
        }
    });
 ColumnScroll._theme = ['Controls/grid', 'Controls/Classes'];

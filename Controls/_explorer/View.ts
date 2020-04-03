@@ -152,9 +152,7 @@ var
             if (self._isGoingBack) {
                const curRoot = _private.getRoot(self, self._options.root);
                if (self._restoredMarkedKeys[curRoot]) {
-                  const { markedKey } = self._restoredMarkedKeys[curRoot];
-                  self._children.treeControl.setMarkedKey(markedKey);
-                  self._markerForRestoredScroll = markedKey;
+                  self._children.treeControl.setMarkedKey(self._restoredMarkedKeys[curRoot].markedKey);
                }
                self._isGoingBack = false;
             }
@@ -389,7 +387,6 @@ var
       _firstLoad: true,
       _itemsPromise: null,
       _itemsResolver: null,
-      _markerForRestoredScroll: null,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -441,12 +438,6 @@ var
 
          if (cfg.virtualScrollConfig !== this._options.virtualScrollConfig) {
             _private.setVirtualScrolling(this, this._viewMode, cfg);
-         }
-      },
-      _beforePaint: function() {
-         if (this._markerForRestoredScroll !== null) {
-            this.scrollToItem(this._markerForRestoredScroll);
-            this._markerForRestoredScroll = null;
          }
       },
       _getRoot: function() {

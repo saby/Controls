@@ -31,10 +31,12 @@ import 'Controls/lookup';
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
+ * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
  * @author Герасимов А.М.
  *
+ * @css @spacing_FilterPanelLookup-between-lookup-link Отступ между полем связи и кнопкой-ссылкой, когда они расположены на одной строке.
  */
 /*
  * Label with a Lookup. While the collection is empty - the Lookup is hidden.
@@ -62,6 +64,7 @@ import 'Controls/lookup';
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/interface/IInputField
  * @mixes Controls/interface/IInputStyle
+ * @mixes Controls/_lookup/BaseLookupView/LookupStyles
  * @control
  * @public
  * @author Kapustin I.A.

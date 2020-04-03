@@ -1,10 +1,7 @@
-import {TemplateFunction} from 'UI/Base';
-import {SyntheticEvent} from 'Vdom/Vdom';
-
-// todo change this to import {ListControl} from 'Controls/list';
 import {default as ListControl} from 'Controls/_list/ListControl';
-
-import ListControlTpl = require('wml!Controls/_columns/ColumnsControl');
+import {TemplateFunction} from 'UI/Base';
+import ListControlTpl = require('wml!Controls/_list/ColumnsControl');
+import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";
 
 export default class ColumnsControl extends ListControl {
     protected _template: TemplateFunction = ListControlTpl;

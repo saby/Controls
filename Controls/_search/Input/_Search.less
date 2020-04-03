@@ -1,13 +1,9 @@
-.controls-Render_search_borderRadius-default_theme-@{themeName},
-.controls-Render_searchContrast_borderRadius-default_theme-@{themeName} {
-   border-radius: @border-radius_default_searchInput;
-}
-
 .controls-Render_state-search-valid_theme-@{themeName},
 .controls-Render_state-search-invalid_theme-@{themeName},
 .controls-Render_state-search-invalidAccent_theme-@{themeName} {
    border-color: @border-color_searchInput;
    background: @background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 
    &:focus-within {
       border-color: @border-color_focus_searchInput;
@@ -20,6 +16,7 @@
 .controls-Render_state-search-invalidAccent-active_theme-@{themeName} {
    border-color: @border-color_focus_searchInput;
    background: @background-color_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .controls-Render_state-searchContrast-valid_theme-@{themeName},
@@ -27,6 +24,7 @@
 .controls-Render_state-searchContrast-invalidAccent_theme-@{themeName} {
    border-color: @border-color_contrast_searchInput;
    background: @background-color_contrast_searchInput;
+   border-radius: @border-radius_default_searchInput;
 
    &:focus-within {
       border-color: @border-color_contrast_focus_searchInput;
@@ -39,6 +37,7 @@
 .controls-Render_state-searchContrast-invalidAccent-active_theme-@{themeName} {
    border-color: @border-color_contrast_focus_searchInput;
    background: @background-color_contrast_focus_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .ws-is-hover {
@@ -58,11 +57,13 @@
 .controls-Render_state-search-readonly_theme-@{themeName} {
    border-color: @readonly_border-color_searchInput;
    background: @readonly_background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .controls-Render_state-searchContrast-readonly_theme-@{themeName} {
    border-color: @readonly_border-color_searchInput;
    background: @readonly_contrast_background-color_searchInput;
+   border-radius: @border-radius_default_searchInput;
 }
 
 .controls-Search__field_theme_@{themeName}_margin {

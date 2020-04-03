@@ -170,83 +170,57 @@
 
 .controls-Render_textAlign {
    @variants: right, left;
-   .for(@variants, {
-      &-@{_item} {
-         text-align: @_item;
-      }
-   });
-}
-
-.controls-Render_borderRadius {
-   @variants: xs, s, m, l, xl, 2xl, default;
-   .for(@variants, {
-      &-@{_item}_theme-@{themeName} {
-         border-radius: ~"@{border-radius_@{_item}_inputText}";
-      }
-   });
+   .for(@variants, { &-@{_item} {
+      text-align: @_item;
+   } });
 }
 
 //fontsize
 .controls-fontsize-xs_theme-@{themeName}.controls-Render-fontsize-xs_theme-@{themeName} when not (@font-size_xs_input = @font-size_xs) {
    font-size: @font-size_xs_input;
 }
-
 .controls-fontsize-s_theme-@{themeName}.controls-Render-fontsize-s_theme-@{themeName} when not (@font-size_s_input = @font-size_s) {
    font-size: @font-size_s_input;
 }
-
 .controls-fontsize-m_theme-@{themeName}.controls-Render-fontsize-m_theme-@{themeName} when not (@font-size_m_input = @font-size_m) {
    font-size: @font-size_m_input;
 }
-
 .controls-fontsize-l_theme-@{themeName}.controls-Render-fontsize-l_theme-@{themeName} when not (@font-size_l_input = @font-size_l) {
    font-size: @font-size_l_input;
 }
-
 .controls-fontsize-xl_theme-@{themeName}.controls-Render-fontsize-xl_theme-@{themeName} when not (@font-size_xl_input = @font-size_xl) {
    font-size: @font-size_xl_input;
 }
-
 .controls-fontsize-2xl_theme-@{themeName}.controls-Render-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_input = @font-size_2xl) {
    font-size: @font-size_2xl_input;
 }
-
 .controls-fontsize-3xl_theme-@{themeName}.controls-Render-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_input = @font-size_3xl) {
    font-size: @font-size_3xl_input;
 }
-
 .controls-fontsize-4xl_theme-@{themeName}.controls-Render-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_input = @font-size_4xl) {
    font-size: @font-size_4xl_input;
 }
-
 .controls-fontsize-5xl_theme-@{themeName}.controls-Render-fontsize-5xl_theme-@{themeName} when not (@font-size_5xl_input = @font-size_5xl) {
    font-size: @font-size_5xl_input;
 }
-
 .controls-inlineheight-xs_theme-@{themeName}.controls-Render-inlineheight-xs_theme-@{themeName} when not (@inline_height_xs_input = @inline_height_xs) {
    height: @inline_height_xs_input;
 }
-
 .controls-inlineheight-s_theme-@{themeName}.controls-Render-inlineheight-s_theme-@{themeName} when not (@inline_height_s_input = @inline_height_s) {
    height: @inline_height_s_input;
 }
-
 .controls-inlineheight-m_theme-@{themeName}.controls-Render-inlineheight-m_theme-@{themeName} when not (@inline_height_m_input = @inline_height_m) {
    height: @inline_height_m_input;
 }
-
 .controls-inlineheight-l_theme-@{themeName}.controls-Render-inlineheight-l_theme-@{themeName} when not (@inline_height_l_input = @inline_height_l) {
    height: @inline_height_l_input;
 }
-
 .controls-inlineheight-xl_theme-@{themeName}.controls-Render-inlineheight-xl_theme-@{themeName} when not (@inline_height_xl_input = @inline_height_xl) {
    height: @inline_height_xl_input;
 }
-
 .controls-inlineheight-2xl_theme-@{themeName}.controls-Render-inlineheight-2xl_theme-@{themeName} when not (@inline_height_2xl_input = @inline_height_2xl) {
    height: @inline_height_2xl_input;
 }
-
 .controls-inlineheight-default_theme-@{themeName}.controls-Render-inlineheight-default_theme-@{themeName} when not (@inline_height_default_input = @inline_height_default) {
    height: @inline_height_default_input;
 }

@@ -34,7 +34,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
          _beforeMount: function() {
             this._items = [
                {
-                  name: 'kind',
+                  id: 'kind',
                   value: ['0'],
                   resetValue: ['0'],
                   textValue: 'All',
@@ -50,7 +50,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
                   })
                },
                {
-                  name: 'type',
+                  id: 'type',
                   value: ['0'],
                   resetValue: ['0'],
                   textValue: '',
@@ -66,7 +66,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
             ];
             this._itemsKaizen = [
                {
-                  name: 'own',
+                  id: 'own',
                   value: ['0'],
                   resetValue: ['0'],
                   textValue: 'All',
@@ -79,7 +79,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
                   })
                },
                {
-                  name: 'used',
+                  id: 'used',
                   value: ['0'],
                   resetValue: ['0'],
                   textValue: '',
@@ -93,7 +93,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
                   })
                },
                {
-                  name: 'deleted', value: false, resetValue: false, textValue: 'Show deleted'
+                  id: 'deleted', value: false, resetValue: false, textValue: 'Show deleted'
                }
             ];
             this._dataObject = {

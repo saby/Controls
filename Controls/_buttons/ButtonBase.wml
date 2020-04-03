@@ -15,7 +15,7 @@
                         controls-Button__wrapper_viewMode-{{_viewMode}}
                         {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}">
         <ws:if data="{{!!_icon}}">
-            <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
+            <i attr:class="controls-Button__icon controls-icon {{_icon}}
                             {{_iconSize ? 'controls-icon_size-' + _iconSize + '_theme-' + _options.theme}}
                             {{_iconStyle ? 'controls-icon_style-' + _iconStyle + '_theme-' + _options.theme}}"/>
         </ws:if>

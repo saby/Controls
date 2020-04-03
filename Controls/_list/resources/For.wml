@@ -27,16 +27,6 @@
            actionsType="{{itemActionsPosition}}"
            tagTemplate="{{tagTemplate}}"/>
 </ws:template>
-
-<ws:template name="itemsListTemplate">
-   <ws:if data="{{listModel.isShouldBeDrawnItem(currentItem)}}">
-      <ws:partial template="itemOutputLocalTemplate" attr:key="{{currentItem.key}}"/>
-   </ws:if>
-   <ws:else>
-      {{listModel.goToNext()}}
-   </ws:else>
-</ws:template>
-
 <ws:template name="groupOutputLocalTemplate">
    <ws:partial
       template="{{groupTemplate}}"
@@ -46,7 +36,7 @@
    {{listModel.goToNext();}}
    <ws:if data="{{currentGroup.isGroupExpanded}}">
       <ws:for data="; listModel.isEnd() && !listModel.getCurrent().isGroup;">
-         <ws:partial template="itemsListTemplate" currentItem="{{listModel.getCurrent()}}" />
+         <ws:partial template="itemOutputLocalTemplate" attr:key="{{listModel.getCurrent().key}}"/>
       </ws:for>
    </ws:if>
 </ws:template>
@@ -74,17 +64,8 @@
                   listModel="{{listModel}}"/>
    </ws:if>
 </ws:template>
-
-<ws:template name="drawItemsTemplate">
-   <ws:if data="{{listModel.isShouldBeDrawnItem(currentItem)}}">
-      <ws:partial template="itemTemplate" currentItem="{{currentItem}}" />
-   </ws:if>
-   <ws:else>
-      {{listModel.goToNext()}}
-   </ws:else>
-</ws:template>
 <ws:for data="listModel.reset(); listModel.isEnd();">
-   <ws:partial template="drawItemsTemplate" currentItem="{{listModel.getCurrent()}}"/>
+   <ws:partial template="itemTemplate" currentItem="{{listModel.getCurrent()}}"/>
 </ws:for>
 <ws:if data="{{listModel.getCount() === 0 && editingItemData && isAdd}}">
    <ws:partial template="addItem" currentItem="{{currentItem}}"/>

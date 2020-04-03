@@ -10,8 +10,7 @@ define([
    const config = {
       startValue: new Date(2018, 0, 1),
       endValue: new Date(2018, 1, 0),
-      dateConstructor: Date,
-      fontColorStyle: 'link'
+      dateConstructor: Date
    };
 
    describe('Controls/dateRange:LinkView', function() {
@@ -28,72 +27,63 @@ define([
             const tests = [{
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'link',
-                  theme: 'default'
+                  styleMode: 'secondary'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
+               styleClass: 'controls-DateLinkView__style-secondary_clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  theme: 'default'
+                  styleMode: 'info'
                },
-               styleClass: 'controls-text-label_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: 'controls-DateLinkView__style-info_clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'link',
-                  clickable: false,
-                  theme: 'default'
+                  styleMode: 'secondary',
+                  clickable: false
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-hover_theme-default'
+               styleClass: 'controls-DateLinkView__style-secondary'
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  clickable: false,
-                  theme: 'default'
+                  styleMode: 'info',
+                  clickable: false
                },
-               styleClass: 'controls-text-label_theme-default'
+               styleClass: 'controls-DateLinkView__style-info'
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'link',
-                  readOnly: true,
-                  theme: 'default'
+                  styleMode: 'secondary',
+                  readOnly: true
                },
-               styleClass: 'controls-text-link_theme-default'
+               styleClass: 'controls-DateLinkView__style-secondary_readOnly'
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  readOnly: true,
-                  theme: 'default'
+                  styleMode: 'info',
+                  readOnly: true
                },
-               styleClass: 'controls-text-label_theme-default'
+               styleClass: 'controls-DateLinkView__style-info_readOnly'
             }, {
                options: {
                   viewMode: 'link',
-                  fontColorStyle: 'link',
-                  theme: 'default'
+                  styleMode: 'secondary'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: 'controls-DateLinkView__style-secondary_clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'link',
-                  fontColorStyle: 'unaccented',
-                  theme: 'default'
+                  styleMode: 'info'
                },
-               styleClass: 'controls-text-unaccented_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: 'controls-DateLinkView__style-info_clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'label',
-                  fontColorStyle: '',
-                  theme: 'default'
+                  styleMode: ''
                },
                styleClass: null,
                valueEnabledClass: true
@@ -126,31 +116,26 @@ define([
 
       describe('_clearButtonVisible', function() {
          [{
-            fontColorStyle: 'link',
             clearButtonVisible: true,
             startValue: true,
             endValue: true,
             result: true
          }, {
-            fontColorStyle: 'link',
             clearButtonVisible: true,
             startValue: false,
             endValue: true,
             result: true
          }, {
-            fontColorStyle: 'link',
             clearButtonVisible: true,
             startValue: true,
             endValue: false,
             result: true
          }, {
-            fontColorStyle: 'link',
             clearButtonVisible: true,
             startValue: false,
             endValue: false,
             result: false
          }, {
-            fontColorStyle: 'link',
             clearButtonVisible: false,
             startValue: true,
             endValue: true,
@@ -162,7 +147,6 @@ define([
                   clearButtonVisible: test.clearButtonVisible,
                   startValue: test.startValue,
                   endValue: test.endValue,
-                  fontColorStyle: test.fontColorStyle,
                   captionFormatter: function() {}
                });
                assert.strictEqual(component._clearButtonVisible, test.result);

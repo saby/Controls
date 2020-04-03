@@ -4,7 +4,7 @@ import {IControlOptions} from 'UI/Base';
  * Интерфейс для опций окна предпросмотра.
  *
  * @interface Controls/_popup/interface/IPreviewer
- * @public
+ * @private
  * @author Красильников А.С.
  */
 
