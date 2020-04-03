@@ -35,44 +35,33 @@
         name="inputs"
         class="controls-PeriodDialog__header-period"
         on:focusout="_inputFocusOutHandler()">
-      <Controls.validate:InputContainer>
-         <ws:validators>
-            <ws:Function value="{{_rangeModel.startValue}}">Controls/validate:isValidDate</ws:Function>
-         </ws:validators>
-         <ws:content>
-            <Controls.input:DateBase
-               name="startValueField"
-               mask="{{_mask}}"
-               autocompleteMode="start"
-               value="{{_rangeModel.startValue}}"
-               dateConstructor="{{_options.dateConstructor}}"
-               attr:ws-autofocus="true"
-               attr:class="controls-PeriodDialog__header-datePickerStart"
-               on:valueChanged="_startValuePickerChanged()"
-               on:keyup="_startValueFieldKeyUpHandler()"
-            />
-         </ws:content>
-      </Controls.validate:InputContainer>
+       <Controls.input:DateBase
+          name="startValueField"
+          mask="{{_mask}}"
+          autocompleteMode="start"
+          value="{{_rangeModel.startValue}}"
+          dateConstructor="{{_options.dateConstructor}}"
+          valueValidators="{{_startValueValidators}}"
+          validateByFocusOut="{{false}}"
+          attr:ws-autofocus="true"
+          attr:class="controls-PeriodDialog__header-datePickerStart"
+          on:valueChanged="_startValuePickerChanged()"
+          on:keyup="_startValueFieldKeyUpHandler()"
+       />
 
       <ws:if data="{{_options.selectionType !== 'single'}}">
          <div class="controls-PeriodDialog__header-rangeDash"></div>
-         <Controls.validate:InputContainer>
-            <ws:validators>
-               <ws:Function value="{{_rangeModel.endValue}}">Controls/validate:isValidDate</ws:Function>
-               <ws:Function startValue="{{_rangeModel.startValue}}" endValue="{{_rangeModel.endValue}}">Controls/validate:isValidDateRange</ws:Function>
-            </ws:validators>
-            <ws:content>
-               <Controls.input:DateBase
-                  name="endValueField"
-                  mask="{{_mask}}"
-                  autocompleteMode="start"
-                  value="{{_rangeModel.endValue}}"
-                  dateConstructor="{{_options.dateConstructor}}"
-                  attr:class="controls-PeriodDialog__header-datePickerEnd"
-                  on:valueChanged="_endValuePickerChanged()"
-               />
-            </ws:content>
-         </Controls.validate:InputContainer>
+            <Controls.input:DateBase
+               name="endValueField"
+               mask="{{_mask}}"
+               autocompleteMode="start"
+               value="{{_rangeModel.endValue}}"
+               dateConstructor="{{_options.dateConstructor}}"
+               valueValidators="{{_endValueValidators}}"
+               validateByFocusOut="{{false}}"
+               attr:class="controls-PeriodDialog__header-datePickerEnd"
+               on:valueChanged="_endValuePickerChanged()"
+            />
       </ws:if>
    </div>
 
