@@ -33,6 +33,26 @@ define([
             assert.strictEqual(component._model.textValue, '01.01.2018');
          });
 
+         describe('validators', function() {
+            it('should create validators list.', function() {
+               const
+                  validators = [
+                     function() {},
+                     {
+                        validator: function() {}
+                     }, {
+                        validator: function() {},
+                        arguments: {}
+                     }
+                  ],
+                  component = calendarTestUtils.createComponent(input.DateBase,
+                     cMerge({ valueValidators: validators }, options, { preferSource: true }));
+
+               assert.isArray(component._validators);
+               assert.lengthOf(component._validators, 4);
+            });
+         });
+
       });
 
       describe('_beforeUpdate', function() {

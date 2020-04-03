@@ -249,6 +249,29 @@ define([
                });
             });
          });
+
+         describe('validators', function() {
+            it('should create validators list.', function() {
+               const
+                  validators = [
+                     function() {},
+                     {
+                        validator: function() {}
+                     }, {
+                        validator: function() {},
+                        arguments: {}
+                     }
+                  ],
+                  component = calendarTestUtils.createComponent(PeriodDialog,
+                      { startValueValidators: validators, endValueValidators: validators });
+
+               assert.isArray(component._startValueValidators);
+               assert.lengthOf(component._startValueValidators, 4);
+
+               assert.isArray(component._endValueValidators);
+               assert.lengthOf(component._endValueValidators, 4);
+            });
+         });
       });
 
       describe('_afterUpdate', function() {
