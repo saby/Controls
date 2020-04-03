@@ -50,7 +50,7 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
             assert.strictEqual(startIndex, 0);
             assert.strictEqual(stopIndex, 100);
 
-            assert.strictEqual(collection._$version, 0);
+            assert.isAbove(collection._$version, 0);
         });
     });
 
@@ -59,16 +59,15 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
             const collection = makeCollection();
 
             VirtualScrollController.setup(collection);
+            collection._$version = 0;
 
             VirtualScrollController.setIndices(collection, 2, 5);
 
             const { startIndex, stopIndex } = collection._$viewIterator.data;
             assert.strictEqual(startIndex, 2);
             assert.strictEqual(stopIndex, 5);
-            assert.strictEqual(collection._$version, 1);
 
-            VirtualScrollController.setIndices(collection, 2, 5);
-            assert.strictEqual(collection._$version, 1);
+            assert.isAbove(collection._$version, 0);
         });
     });
 

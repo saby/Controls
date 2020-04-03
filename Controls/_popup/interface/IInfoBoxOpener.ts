@@ -25,7 +25,7 @@ export interface IInfoBoxPopupOptions {
     template?: Control | TemplateFunction | string | any;
     templateOptions?: any;
     message?: string;
-    zIndexCallback?(item, popupList): number;
+    zIndexCallback(item, popupList): number;
     zIndex?: number; //TODO Compatible
     position?: string; //TODO старое, надо удалить
 }

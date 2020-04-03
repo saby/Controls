@@ -4,7 +4,6 @@
       scope="{{_options}}"
       startValue="{{_rangeModel.startValue}}"
       endValue="{{_rangeModel.endValue}}"
-      fontColorStyle="{{_options.fontColorStyle}}"
       on:rangeChanged="_rangeChangedHandler()"
       on:linkClick="openPopup()"
       attr:class="controls-DateRangeSelectorLite__view {{_isMinWidth ? 'controls-DateRangeSelectorLite__view_minWidth'}}"

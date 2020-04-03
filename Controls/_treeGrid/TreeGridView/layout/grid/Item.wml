@@ -4,7 +4,6 @@
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"
                   itemActionsContainerStyles="{{itemActionsContainerStyles}}"
-                  attr:class="js-controls-ColumnScroll__notDraggable"
                   highlightOnHover="{{highlightOnHover}}"/>
    </ws:if>
    <ws:else data="{{itemData.itemActionsPosition !== 'custom'}}">
@@ -12,7 +11,7 @@
                   itemActionsClass="{{itemActionsClass}}"
                   itemData="{{itemData}}"
                   itemActionsContainerStyles="{{itemActionsContainerStyles}}"
-                  attr:class="controls-Grid__itemAction js-controls-ColumnScroll__notDraggable"
+                  attr:class="controls-Grid__itemAction"
                   highlightOnHover="{{highlightOnHover}}"/>
    </ws:else>
 </ws:template>

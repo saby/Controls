@@ -264,20 +264,11 @@ define([
             let cfg = {
                listModel: mockListModel(itemData)
             };
-            let cfg1 = {
-               listModel: mockListModel(itemData),
-               itemActionsPosition: 'outside'
-            };
             await instance._beforeMount(cfg);
             instance.saveOptions(cfg);
             instance._actionsHeight = 100;
             instance._isActual = false;
             instance._currentItemData = itemData;
-
-            // do not update itemActions if itemActionsPosition === 'outside'
-            instance._beforeUpdate(cfg1);
-            assert.isFalse(instance._isActual);
-
             instance._beforeUpdate(cfg);
             assert.deepEqual(instance._swipeConfig.itemActions.all, itemData.itemActions.all);
             assert.isTrue(instance._isActual);

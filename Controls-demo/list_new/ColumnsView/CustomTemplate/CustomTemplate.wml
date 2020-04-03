@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600">
-      <Controls.columns:View
+      <Controls.list:ColumnsView
          keyProperty="id"
          useNewModel="{{true}}"
          source="{{ _viewSource }}"
@@ -24,6 +24,6 @@
                </ws:contentTemplate>
             </ws:partial>
          </ws:itemTemplate>
-      </Controls.columns:View>
+      </Controls.list:ColumnsView>
    </Controls.scroll:Container>
 </div>

@@ -30,9 +30,7 @@ export default function(self, popupOptions, multiSelect) {
             handlers: {
                 onSelectComplete: function (event, result) {
                     selectorOpener.close();
-                    if (self._options.isCompoundTemplate) {
-                        self._selectCallback(null, result);
-                    }
+                    self._selectCallback(null, result);
                 }
             }
         }, selectorTemplate.templateOptions || {});

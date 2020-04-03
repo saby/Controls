@@ -65,6 +65,7 @@ import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');
 import {default as View} from 'Controls/_list/List';
+import {default as ColumnsView} from 'Controls/_list/Columns';
 import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/LoadingIndicatorTemplate');
 import Mover = require('Controls/_list/Mover');
@@ -113,6 +114,7 @@ export {
     GroupTemplate,
     ItemTemplate,
     View,
+    ColumnsView,
     BaseAction,
     Mover,
     Remover,
@@ -153,6 +155,3 @@ export {
     IList,
     IItemAction
 };
-
-export {default as ColumnsView} from './_columns/Columns';
-

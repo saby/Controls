@@ -1,5 +1,5 @@
 <Controls._input.Render attr:title="{{_tooltip}}"
-                        attr:class="controls-Area controls-Area_line-height_{{_heightLine}}_theme-{{_options.theme}}"
+                        attr:class="controls-Area controls-Area_theme_{{_options.theme}}_size_{{_options.size}}"
                         viewModel="{{_viewModel}}"
                         size="{{_options.size}}"
                         style="{{_options.style}}"

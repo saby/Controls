@@ -257,11 +257,9 @@ define([
             }
          };
 
-         assert.equal(explorer._markerForRestoredScroll, null);
          explorerMod.View._private.itemsSetCallback(explorer);
 
          assert.strictEqual(markedKey, 'test');
-         assert.strictEqual(explorer._markerForRestoredScroll, 'test');
          assert.isFalse(explorer._isGoingBack);
 
          explorer._isGoingFront = true;

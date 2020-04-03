@@ -18,7 +18,6 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/_dateRange/interfaces/ISelector
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
- * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IOpenPopup
  * @control
  * @public

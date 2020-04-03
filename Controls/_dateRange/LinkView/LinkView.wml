@@ -2,7 +2,7 @@
     <div class="controls-DateLinkView-wrapper">
         <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}} {{ _styleClass }}"
+              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}} {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftBack()">
            </span>
         </ws:if>
@@ -12,7 +12,7 @@
               <span
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
                     controls-DateLinkView__value_theme-{{_options.theme}}
-                    {{ _styleClass }} {{ _valueEnabledClass }}"
+                    {{ _styleClass }}_theme-{{_options.theme}} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
                     name="openPopupTarget"
                     on:click="_onClick()">
@@ -22,7 +22,7 @@
            <ws:else data="{{ _viewMode == 'link' }}">
               <Controls.buttons:Button
                     name="Link" caption="{{ _caption }}"
-                    fontColorStyle="{{_fontColorStyle}}"
+                    style="{{_styleMode}}"
                     fontSize="{{_options.fontSize}}"
                     viewMode="link"
                     tootltip="{{_options.tooltip}}"
@@ -42,7 +42,7 @@
         </ws:if>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}} {{ _styleClass }}"
+              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}} {{ _styleClass }}_theme-{{_options.theme}}"
               on:click="shiftForward()">
            </span>
         </ws:if>

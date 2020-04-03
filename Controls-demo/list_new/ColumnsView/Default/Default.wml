@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__minWidth600 controlsDemo__maxWidth800">
-      <Controls.columns:View
+      <Controls.list:ColumnsView
          keyProperty="id"
          useNewModel="{{true}}"
          source="{{ _viewSource }}"
@@ -11,6 +11,6 @@
             <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
             <ws:viewConfig pagingMode="direct" ></ws:viewConfig>
          </ws:navigation>
-      </Controls.columns:View>
+      </Controls.list:ColumnsView>
    </Controls.scroll:Container>
 </div>

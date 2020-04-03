@@ -3,7 +3,6 @@
         <ws:if data="{{!!currentResultsColumn.column.resultTemplate}}">
             <ws:partial template="{{currentResultsColumn.column.resultTemplate}}"
                         listModel="{{listModel}}"
-                        attr:class="controls-Grid__results-cell__content"
                         results="{{ listModel.getResults() }}"
                         currentResultsColumn="{{ currentResultsColumn }}"
                         column="{{currentResultsColumn.column}}" />

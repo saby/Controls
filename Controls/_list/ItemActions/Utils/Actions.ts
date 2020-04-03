@@ -1,4 +1,4 @@
-export function itemActionsClick(self, event, action, itemData, listModel, showAll, target?): void {
+export function itemActionsClick(self, event, action, itemData, listModel, showAll): void {
     event.stopPropagation();
     if (action._isMenu) {
         self._notify('menuActionsClick', [itemData, event, showAll]);
@@ -29,7 +29,7 @@ export function itemActionsClick(self, event, action, itemData, listModel, showA
             ? require('Controls/display').VirtualScrollController.getStartIndex(listModel)
             : listModel.getStartIndex();
 
-        const targetContainer = target || Array.prototype.filter.call(
+        const targetContainer = Array.prototype.filter.call(
             container.querySelector('.controls-ListView__itemV').parentNode.children,
             (item: HTMLElement) => item.className.includes('controls-ListView__itemV')
         )[itemIndex - startIndex];

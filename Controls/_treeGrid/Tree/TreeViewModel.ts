@@ -778,27 +778,6 @@ var
         },
         getChildren: function(rootId, items) {
             return this._hierarchyRelation.getChildren(rootId, items || this._items);
-        },
-        getDisplayChildrenCount(nodeId: number | string | null, items: RecordSet): number {
-            const display = this.getDisplay();
-            let curNodeChildren: TreeChildren = display.getChildren(display.getItemBySourceKey(nodeId));
-            let childrenCount = curNodeChildren.getCount();
-
-            curNodeChildren.forEach((child: TreeItem) => {
-                const childId = child.getContents().getId();
-
-                // Заменить на TreeItem.isExpanded(), пока он не работает, возвращает false.
-                const isNodeExpanded = child.isNode() && (
-                    this._expandedItems.indexOf(childId) !== -1 ||
-                    (this._expandedItems.length === 1 && this._expandedItems[0] === null && this._collapsedItems.indexOf(childId) === -1)
-                );
-
-                if (isNodeExpanded) {
-                    childrenCount += this.getDisplayChildrenCount(childId, items);
-                }
-            });
-
-            return childrenCount;
         }
     });
 

@@ -11,7 +11,7 @@ export default class extends Control {
 
     protected _beforeMount(): void {
         this._items = [               {
-            name: 'Category',
+            id: 'Category',
             value: [1],
             resetValue: [1],
             textValue: '',

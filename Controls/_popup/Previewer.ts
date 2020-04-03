@@ -6,7 +6,6 @@ import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
-import 'css!theme?Controls/popup';
 
 /**
  * @class Controls/_popup/Previewer
@@ -227,6 +226,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._notify('close', []);
     }
 
+    static _theme: string[] = ['Controls/popup'];
     static getDefaultOptions(): IPreviewerOptions {
         return {
             trigger: 'hoverAndClick'

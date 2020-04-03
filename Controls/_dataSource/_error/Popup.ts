@@ -132,11 +132,13 @@ export default class Popup {
 
     /**
      * Загрузить темизированные стили.
-     * @param themes Названия модулей, стили которых надо загрузить.
+     * @param cssNames Названия модулей, стили которых надо загрузить.
      */
-    private static importThemes(themes: string[]): Promise<any[]> {
-        return import('Core/Themes/ThemesControllerNew')
-            .then((Theme) => Promise.all(themes.map((name) => Theme.getInstance().loadCssWithAppTheme(name))));
+    private static importThemes(cssNames: string[] = []): Promise<void> {
+        return import('UI/theme/controller').then(({ getThemeController }) => {
+            const tc = getThemeController();
+            cssNames.forEach((name) => { tc.get(name); });
+        });
     }
 
     /**

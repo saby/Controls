@@ -35,21 +35,36 @@
    text-align: center;
 }
 
-.controls-DateLinkView__style-readOnly_theme-@{themeName} {
-   color: @text-color;
+.controls-DateLinkView__style-secondary_theme-@{themeName} {
+   color: @link_text-color;
 }
 
-.controls-DateLinkView__style-clickable_theme-@{themeName} {
+.controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {
+   color: @link_text-color;
+}
+
+.controls-DateLinkView__style-info_theme-@{themeName} {
+   color: @label_text-color;
+}
+
+.controls-DateLinkView__style-info_clickable_theme-@{themeName} {
+   color: @label_text-color;
    cursor: pointer;
 }
 
-.controls-DateLinkView__style-hover_theme-@{themeName} {
-   &:hover {
-      color: @link_hover_text-color;
-   }
+.controls-DateLinkView__style-secondary_readOnly_theme-@{themeName},
+.controls-DateLinkView__style-info_readOnly_theme-@{themeName} {
+   color: @text-color;
 }
 
 .ws-is-hover {
+   .controls-DateLinkView__style-secondary_clickable_theme-@{themeName} {
+      cursor: pointer;
+      &:hover {
+         color: @link_hover_text-color;
+      }
+   }
+
    .controls-DateLinkView__value-hovered:hover {
       text-decoration: underline;
    }

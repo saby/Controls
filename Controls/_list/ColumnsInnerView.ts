@@ -1,20 +1,18 @@
-import {TemplateFunction, Control} from 'UI/Base';
-import {ICrudPlus} from 'Types/source';
-import {Model} from 'Types/entity';
-import {SyntheticEvent} from 'Vdom/Vdom';
-import {constants} from 'Env/Env';
+import * as template from 'wml!Controls/_list/ColumnsInnerView';
+import ColumnsController from './Controllers/ColumnsController';
+import { TemplateFunction, Control } from 'UI/Base';
+import {IList} from 'Controls/_list/interface/IList';
 import {
     ColumnsCollection as Collection,
     ColumnsCollectionItem as CollectionItem,
+    ICollectionCommand,
     MarkerCommands,
 } from 'Controls/display';
+import { ICrudPlus } from 'Types/source';
+import { SyntheticEvent } from 'Vdom/Vdom';
+import { constants } from 'Env/Env';
+import { Model } from 'Types/entity';
 import scrollToElement = require('Controls/Utils/scrollToElement');
-
-// todo change this to import {IList} from 'Controls/list';
-import {IList} from 'Controls/_list/interface/IList';
-
-import ColumnsController from './controllers/ColumnsController';
-import * as template from 'wml!Controls/_columns/ColumnsInnerView';
 
 export interface IColumnsInnerViewOptions extends IList {
     columnMinWidth: number;
@@ -52,23 +50,22 @@ export default class ColumnsInnerView extends Control {
             if (options.columnsCount) {
                 this._columnsCount = options.columnsCount;
             }
-        this.updateColumns();
-    }
+            this.updateColumns();
+        }
     }
 
     protected _afterMount(): void {
-        this._resizeHandler();
+       this._resizeHandler();
     }
 
     protected _beforeUpdate(options: IColumnsInnerViewOptions): void {
-        if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
+        if (options.columnsMode === 'fixed' &&  options.columnsCount !== this._options.columnsCount) {
             this._columnsCount = options.columnsCount;
         }
         if (this._model !== options.listModel) {
             this._model = options.listModel;
         }
     }
-
     private saveItemsContainer(e: SyntheticEvent<Event>, itemsContainer: HTMLDivElement): void {
         this._itemsContainer = itemsContainer;
     }
@@ -84,14 +81,12 @@ export default class ColumnsInnerView extends Control {
             this._recalculateColumnsCountByWidth(this._container.getBoundingClientRect().width);
         }
     }
-
     private setColumnOnItem(item: CollectionItem<Model>, index: number): void {
         const model = this._model;
         const column = this._columnsController.calcColumn(model, index, this._columnsCount);
         item.setColumn(column);
         this._columnsIndexes[column].push(index);
     }
-
     private updateColumns(): void {
         this._columnsIndexes = new Array<[number]>(this._columnsCount);
         for (let i = 0; i < this._columnsCount; i++) {
@@ -141,7 +136,7 @@ export default class ColumnsInnerView extends Control {
         } else {
             const curColumn = item.getColumn();
             const curColumnIndex = this._columnsIndexes[curColumn].indexOf(curIndex);
-            if (curColumn > 0) {
+            if (curColumn > 0 ) {
                 const prevColumn = this._columnsIndexes.slice().reverse().find((col: number[], index: number) => index > this._columnsCount - curColumn - 1 && col.length > 0);
                 if (prevColumn instanceof Array) {
                     newIndex = prevColumn[Math.min(prevColumn.length - 1, curColumnIndex)];
@@ -150,7 +145,6 @@ export default class ColumnsInnerView extends Control {
         }
         return model.at(newIndex);
     }
-
     private getItemToRight(model: Collection<Model>, item: CollectionItem<Model>): CollectionItem<Model> {
         const curIndex = model.getIndex(item);
         let newIndex: number = curIndex;
@@ -164,15 +158,14 @@ export default class ColumnsInnerView extends Control {
             const curColumn = item.getColumn();
             const curColumnIndex = this._columnsIndexes[curColumn].indexOf(curIndex);
             if (curColumn < this._columnsCount - 1) {
-                const nextColumn = this._columnsIndexes.find((col: number[], index: number) => index > curColumn && col.length > 0);
-                if (nextColumn instanceof Array) {
-                    newIndex = nextColumn[Math.min(nextColumn.length - 1, curColumnIndex)];
-                }
+               const nextColumn = this._columnsIndexes.find((col: number[], index: number) => index > curColumn && col.length > 0);
+               if (nextColumn instanceof Array) {
+                   newIndex = nextColumn[Math.min(nextColumn.length - 1, curColumnIndex)];
+               }
             }
         }
         return model.at(newIndex);
     }
-
     private getItemToUp(model: Collection<Model>, item: CollectionItem<Model>): CollectionItem<Model> {
         const curIndex = model.getIndex(item);
         let newIndex: number = curIndex;
@@ -191,7 +184,6 @@ export default class ColumnsInnerView extends Control {
         }
         return model.at(newIndex);
     }
-
     private getItemToDown(model: Collection<Model>, item: CollectionItem<Model>): CollectionItem<Model> {
         const curIndex = model.getIndex(item);
         let newIndex: number = curIndex;
@@ -228,22 +220,13 @@ export default class ColumnsInnerView extends Control {
             }
         }
     }
-
     keyDownHandler(e: SyntheticEvent<KeyboardEvent>): boolean {
         let direction = '';
         switch (e.nativeEvent.keyCode) {
-            case constants.key.left:
-                direction = 'Left';
-                break;
-            case constants.key.up:
-                direction = 'Up';
-                break;
-            case constants.key.right:
-                direction = 'Right';
-                break;
-            case constants.key.down:
-                direction = 'Down';
-                break;
+            case constants.key.left: direction = 'Left'; break;
+            case constants.key.up: direction = 'Up'; break;
+            case constants.key.right: direction = 'Right'; break;
+            case constants.key.down: direction = 'Down'; break;
         }
         if (direction) {
             this.moveMarker(direction);

@@ -11,7 +11,7 @@ import { IVersionable } from 'Types/entity';
 import Popup from './Popup';
 
 export type Config = {
-    handlers?: Handler[]
+    handlers?: Handler[];
 };
 
 /// region helpers

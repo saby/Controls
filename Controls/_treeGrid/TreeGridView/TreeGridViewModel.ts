@@ -261,10 +261,6 @@ var
         getChildren(nodeKey, items) {
             return this._model.getChildren(nodeKey, items);
         },
-
-        getDisplayChildrenCount(nodeKey, items) {
-            return this._model.getDisplayChildrenCount(nodeKey, items);
-        }
     });
 
 TreeGridViewModel._private = _private;

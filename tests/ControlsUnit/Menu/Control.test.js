@@ -179,30 +179,6 @@ define(
             });
          });
 
-         describe('_itemMouseEnter', function() {
-            let menuControl, handleStub;
-            let sandbox = sinon.createSandbox();
-
-            beforeEach(() => {
-               menuControl = getMenu();
-               handleStub = sandbox.stub(menuControl, 'handleCurrentItem');
-            });
-
-            it('on groupItem', function() {
-               menuControl._itemMouseEnter('mouseenter', new display.GroupItem());
-               assert.isTrue(handleStub.notCalled);
-            });
-
-            it('on collectionItem', function() {
-               menuControl._itemMouseEnter('mouseenter', new display.CollectionItem({
-                  contents: new entity.Model()
-               }), {});
-               assert.isTrue(handleStub.calledOnce);
-            });
-
-            sinon.restore();
-         });
-
          it('getTemplateOptions', function() {
             let menuControl = getMenu();
             menuControl._listModel = getListModel();

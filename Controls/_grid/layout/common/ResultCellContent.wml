@@ -1,7 +1,6 @@
 <ws:if data="{{!!content}}">
     <ws:partial template="{{ content }}"
                 listModel="{{ listModel }}"
-                attr:class="controls-Grid__results-cell__content"
                 results="{{ results }}"
                 column="{{ currentResultsColumn.column }}"/>
 </ws:if>

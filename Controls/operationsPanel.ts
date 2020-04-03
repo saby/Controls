@@ -22,4 +22,4 @@ import Container from 'Controls/_operationsPanel/Container';
 export {
    OperationsPanel,
    Container
-};
+}

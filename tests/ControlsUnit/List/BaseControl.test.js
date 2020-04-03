@@ -721,14 +721,8 @@ define([
             keyProperty: 'id',
             data: data
          });
-         let isIterativeSearch = false;
-         const setIterativeMetaData = (items) => {
-            if (items) {
-               let metaData = items.getMetaData();
-               metaData.iterative = isIterativeSearch;
-               items.setMetaData(metaData);
-            }
-         };
+
+         let metaData;
 
          const cfg = {
             viewName: 'Controls/List/ListView',
@@ -737,10 +731,6 @@ define([
             },
             beforeLoadToDirectionCallback: function() {
                beforeLoadToDirectionCalled = true;
-            },
-            serviceDataLoadCallback: function(currentItems, loadedItems) {
-               setIterativeMetaData(currentItems);
-               setIterativeMetaData(loadedItems);
             },
             source: source,
             viewConfig: {
@@ -768,18 +758,13 @@ define([
          ctrl._afterMount(cfg);
          ctrl._portionedSearch = lists.BaseControl._private.getPortionedSearch(ctrl);
 
-         isIterativeSearch = true;
-         setIterativeMetaData(ctrl._items);
+         metaData = ctrl._items.getMetaData();
+         metaData.iterative = true;
+         ctrl._items.setMetaData(metaData);
+
          await lists.BaseControl._private.loadToDirection(ctrl, 'down');
          assert.isTrue(ctrl._portionedSearchInProgress);
          assert.isFalse(ctrl._showContinueSearchButton);
-
-         await lists.BaseControl._private.loadToDirection(ctrl, 'up');
-         assert.isTrue(ctrl._portionedSearchInProgress);
-
-         isIterativeSearch = false;
-         await lists.BaseControl._private.loadToDirection(ctrl, 'down');
-         assert.isFalse(ctrl._portionedSearchInProgress);
       });
 
       it('loadToDirection down with getHasMoreData option', async function() {
@@ -2406,21 +2391,28 @@ define([
          lnBaseControl.saveOptions(lnCfg);
          lnBaseControl._beforeMount(lnCfg);
 
+         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
+
          return new Promise(function(resolve) {
             setTimeout(function() {
                lists.BaseControl._private.reload(lnBaseControl, lnCfg);
                setTimeout(function() {
+                  // _markedKeyForRestoredScroll известен подскрол не сработает т.к _isScrollShown = false;
+                  assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3);
                   assert.equal(lnBaseControl._shouldRestoreScrollPosition, true);
                   lnCfg = clone(lnCfg);
                   lnCfg.source = lnSource2;
                   lnBaseControl._isScrollShown = true;
                   lnBaseControl._beforeUpdate(lnCfg)
                      .addCallback(function() {
+                        assert.equal(lnBaseControl._markedKeyForRestoredScroll, 4);
+                        lnBaseControl._markedKeyForRestoredScroll = null;
 
                         lnCfg = clone(lnCfg);
                         lnCfg.source = lnSource3;
                         lnBaseControl._beforeUpdate(lnCfg)
                            .addCallback(function(res) {
+                              assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
                               resolve();
                               return res;
                            });
@@ -2430,6 +2422,107 @@ define([
          });
       });
 
+      it('resetScroll after reload', function() {
+
+         var
+            lnSource = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: data
+            }),
+            lnSource2 = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: [{
+                  id: 4,
+                  title: 'Четвертый',
+                  type: 1
+               },
+                  {
+                     id: 5,
+                     title: 'Пятый',
+                     type: 2
+                  }]
+            }),
+            lnCfg = {
+               viewName: 'Controls/List/ListView',
+               source: lnSource,
+               keyProperty: 'id',
+               markedKey: 3,
+               viewModelConstructor: lists.ListViewModel
+            },
+            lnBaseControl = new lists.BaseControl(lnCfg);
+
+         lnBaseControl.saveOptions(lnCfg);
+         lnBaseControl._beforeMount(lnCfg);
+         lnBaseControl._children = {
+            listView: {
+               getItemsContainer: () => ({
+                 children: [{}, {}, { children: [{ tagName: "DIV"
+                    }]
+                 }]
+               })
+            }
+         }
+
+         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
+
+         lnBaseControl.reload()
+            .addCallback(() => {
+               lnBaseControl._isScrollShown = true;
+               assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3); // set to existing markedKey
+               lnBaseControl._shouldRestoreScrollPosition = true;
+               lnBaseControl._beforePaint();
+               assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
+            })
+      });
+
+      it('reloadRecordSet', function() {
+
+         var
+            lnSource = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: data
+            }),
+            lnSource2 = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: [{
+                  id: 4,
+                  title: 'Четвертый',
+                  type: 1
+               },
+                  {
+                     id: 5,
+                     title: 'Пятый',
+                     type: 2
+                  }]
+            }),
+            lnCfg = {
+               viewName: 'Controls/List/ListView',
+               source: lnSource,
+               keyProperty: 'id',
+               markedKey: 3,
+               viewModelConstructor: lists.ListViewModel
+            },
+            lnBaseControl = new lists.BaseControl(lnCfg);
+
+         lnBaseControl.saveOptions(lnCfg);
+         lnBaseControl._beforeMount(lnCfg);
+         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
+
+         lnBaseControl._isScrollShown = true;
+         lnBaseControl.reload()
+            .addCallback(() => {
+               assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3); // set to existing markedKey
+            })
+            .addCallback(() => {
+               let lnCfg2 = clone(lnCfg);
+               lnCfg2.source = lnSource2;
+               lnBaseControl._isScrollShown = true;
+               lnBaseControl._beforeUpdate(lnCfg2)
+                  .addCallback(() => {
+                     assert.equal(lnBaseControl._markedKeyForRestoredScroll, 4); // set to first item, because markedKey = 3, no longer exist
+                  });
+            });
+      });
       it('hasItemActions', function() {
          let itemAct = [1, 2, 3];
          let itemActionsProp = 'itemActions';
@@ -2857,33 +2950,12 @@ define([
          var ctrl = new lists.BaseControl(cfg);
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
-         ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(2), originalEvent);
+         ctrl._onItemClick(event, ctrl._listViewModel.getItems()
+            .at(2), originalEvent);
          assert.isTrue(stopPropagationCalled);
-      });
-
-      it('_itemMouseDown', async function() {
-         var cfg = {
-            keyProperty: 'id',
-            viewName: 'Controls/List/ListView',
-            source: source,
-            viewModelConstructor: lists.ListViewModel
-         };
-         var originalEvent = {
-            target: {
-            }
-         };
-         var event = {
-            stopPropagation: function() {
-            }
-         };
-         var ctrl = new lists.BaseControl(cfg);
-         ctrl.saveOptions(cfg);
-         await ctrl._beforeMount(cfg);
-         ctrl._itemMouseDown(event, {key: 3}, originalEvent);
-         assert.equal(
-            ctrl._listViewModel.getItems().at(2),
-            ctrl._listViewModel.getMarkedItem().getContents()
-         );
+         assert.equal(ctrl._listViewModel.getItems()
+            .at(2), ctrl._listViewModel.getMarkedItem()
+            .getContents());
       });
 
       it('_onItemClick: should not mark single item', async function() {
@@ -3870,9 +3942,6 @@ define([
                   },
                   stopImmediatePropagation: function() {
                      callBackCount++;
-                  },
-                  target: {
-                     getBoundingClientRect: ()=>{}
                   }
                },
                itemData = {
@@ -3899,67 +3968,7 @@ define([
             instance._beforeMount(cfg);
             instance._showActionsMenu(fakeEvent, itemData, childEvent, false);
          });
-         it('showActionsMenu context without actions, with footer', function(done) {
-            var callBackCount = 0;
-            var cfg = {
-                  viewName: 'Controls/List/ListView',
-                  viewConfig: {
-                     idProperty: 'id'
-                  },
-                  viewModelConfig: {
-                     items: [],
-                     idProperty: 'id'
-                  },
-                  contextMenuConfig: {
-                     footerTemplate: 'footer'
-                  },
-                  viewModelConstructor: lists.ListViewModel,
-                  source: source
-               },
-               instance = new lists.BaseControl(cfg),
-               fakeEvent = {
-                  type: 'itemcontextmenu',
-                  stopPropagation: () => {
-                     contextMenuStopped = true;
-                  }
-               },
-               childEvent = {
-                  nativeEvent: {
-                     preventDefault: function() {
-                        callBackCount++;
-                     }
-                  },
-                  stopImmediatePropagation: function() {
-                     callBackCount++;
-                  },
-                  target: {
-                     getBoundingClientRect: ()=>{}
-                  }
-               },
-               itemData = {
-                  itemActions: { all: [] }
-               };
-            instance._children = {
-               itemActionsOpener: {
-                  open: function(args) {
-                     callBackCount++;
-                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.items, 'Types/collection:RecordSet'));
-                     assert.equal(args.templateOptions.items.getKeyProperty(), 'id');
-                     assert.equal(args.templateOptions.keyProperty, 'id');
-                     assert.equal(args.templateOptions.parentProperty, 'parent');
-                     assert.equal(args.templateOptions.nodeProperty, 'parent@');
-                     assert.equal(itemData, instance._listViewModel._activeItem);
-                     assert.equal(instance._listViewModel._menuState, 'shown');
-                     assert.equal(callBackCount, 3);
-                     done();
-                  }
-               }
-            };
 
-            instance.saveOptions(cfg);
-            instance._beforeMount(cfg);
-            instance._showActionsMenu(fakeEvent, itemData, childEvent, false);
-         });
          it('_onItemContextMenu', function() {
             var callBackCount = 0;
             var cfg = {
@@ -4003,9 +4012,6 @@ define([
                   },
                   stopImmediatePropagation: function() {
                      callBackCount++;
-                  },
-                  target: {
-                     getBoundingClientRect: ()=>{}
                   }
                },
                itemData = {
@@ -4174,9 +4180,6 @@ define([
                   },
                   stopImmediatePropagation: function() {
                      callBackCount++;
-                  },
-                  target: {
-                     getBoundingClientRect: ()=>{}
                   }
                },
                itemData = {};
@@ -4215,19 +4218,6 @@ define([
                      contextMenuStopped = true;
                   }
                },
-               childEvent = {
-                  nativeEvent: {
-                     preventDefault: function() {
-                        callBackCount++;
-                     }
-                  },
-                  stopImmediatePropagation: function() {
-                     callBackCount++;
-                  },
-                  target: {
-                     getBoundingClientRect: ()=>{}
-                  }
-               },
                itemData = {
                   itemActions: { all: [] }
                };
@@ -4241,7 +4231,7 @@ define([
 
             instance.saveOptions(cfg);
             instance._beforeMount(cfg);
-            instance._showActionsMenu(fakeEvent, itemData, childEvent);
+            instance._showActionsMenu(fakeEvent, itemData);
             assert.equal(callBackCount, 0); // проверяем что не открывали меню
          });
 
@@ -4844,6 +4834,7 @@ define([
 
                   instance._listSwipe({}, itemData, childEvent);
                   assert.equal(callBackCount, 2);
+                  assert.equal(itemData, instance._listViewModel._activeItem);
                   done();
                });
             return done;
@@ -4892,6 +4883,7 @@ define([
                   itemData.multiSelectStatus = false;
                   instance._listSwipe({}, itemData, childEvent);
                   assert.equal(callBackCount, 1);
+                  assert.equal(itemData, instance._listViewModel._activeItem);
                   done();
                });
             return done;
@@ -4944,6 +4936,7 @@ define([
 
                   instance._listSwipe({}, itemData, childEvent);
                   assert.equal(callBackCount, 1);
+                  assert.equal(itemData, instance._listViewModel._activeItem);
                   done();
                });
             return done;
