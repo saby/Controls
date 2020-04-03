@@ -52,6 +52,13 @@ class View extends Control<IViewOptions> implements IView {
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_toggle/interface/IExpandable]': boolean = true;
 
+    protected _afterUpdate(oldOptions: IViewOptions): void {
+        if (this._options.expanded !== oldOptions.expanded) {
+            this._notify('controlResize');
+        }
+        super._afterUpdate(oldOptions);
+    }
+
     static getDefaultOptions(): Partial<IViewOptions> {
         return Heading.getDefaultOptions();
     }
