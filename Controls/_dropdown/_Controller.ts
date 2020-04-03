@@ -158,6 +158,7 @@ var _private = {
          _private.updateHistory(self, chain.factory(selectedItems).toArray());
       } else {
          self._items.prepend(newItems);
+         self._setItems(self._items);
       }
    },
 
