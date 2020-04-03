@@ -31,8 +31,8 @@
 
 .controls-MonthViewVDOM__item-old {
    font-size: @monthview_item_font-size_monthSlider;
-   margin-top: @monthview_item_border-thickness_monthSlider;
-   margin-left: @monthview_item_border-thickness_monthSlider;
+   border-top: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
+   border-left: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
    position: relative;
    min-width: 0;
    flex-grow: 1;
@@ -54,8 +54,8 @@
    font-size: @monthview_item_font-size_monthSlider;
    min-width: @monthview_item_height_monthSlider;
    min-height: @monthview_item_height_monthSlider;
-   margin-top: @monthview_item_border-thickness_monthSlider;
-   margin-left: @monthview_item_border-thickness_monthSlider;
+   border-top: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
+   border-left: @monthview_item_border-thickness_monthSlider solid @monthview_background-color_monthSlider;
 }
 
 .ws-is-no-touch {
@@ -71,6 +71,12 @@
    .controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-@{themeName} {
       &:hover {
          outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+         //В браузерах EDGE и IE слипаются пкисели у дней (верхний блок дня становится выше на 1px). Проблема решается,
+         //если при хавере мы поменяем border на margin.
+         border: none;
+         z-index: 1;
+         margin-left: @monthview_item_border-thickness_monthSlider;
+         margin-top: @monthview_item_border-thickness_monthSlider;
       }
    }
 }
@@ -82,6 +88,12 @@
 .controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
    outline-style: solid;
    outline-width: @monthview_item_border-thickness_monthSlider;
+   //В браузерах EDGE и IE слипаются пкисели у дней (верхний блок дня становится выше на 1px). Проблема решается,
+   //если при хавере мы поменяем border на margin. Делаем тоже самое для выбранного периода, только на слой выше.
+   z-index: 2;
+   border: none;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
 }
 
 .controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
@@ -110,7 +122,10 @@
 .controls-MonthViewVDOM__item-selectedStartEnd_theme-@{themeName} {
    outline: @border-color_RangeSelection-selected-startEnd-edgeBorder solid @border-thickness_RangeSelection-selected-startEnd;
    outline-offset: @border-thickness_RangeSelection - @border-thickness_RangeSelection-selected-startEnd;
-   z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
+   z-index: 2; //При масштабе 150% соседние блоки наезжают на outline
+   border: none;
+   margin-top: @monthview_item_border-thickness_monthSlider;
+   margin-left: @monthview_item_border-thickness_monthSlider;
 }
 
 .controls-MonthViewVDOM__item-today-background_theme-@{themeName} {
