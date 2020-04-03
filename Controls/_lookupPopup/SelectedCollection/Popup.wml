@@ -1,7 +1,7 @@
 <Controls.popupTemplate:InfoBox
         stickyPosition="{{_options.stickyPosition}}"
         attr:class="controls-SelectedCollection__infobox_content">
-   <div class="controls-SelectedCollection__header_wrapper">
+   <div class="controls-SelectedCollection__header_wrapper_theme-{{_options.theme}}">
       <Controls.heading:Title caption="{[Выбрано]}" size="s" readOnly="{{true}}"/>
    </div>
    <Controls.scroll:Container attr:class="controls-SelectedCollection__scroll">
