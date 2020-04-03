@@ -6,7 +6,6 @@ import isNewEnvironment = require('Core/helpers/isNewEnvironment');
 import getZIndex = require('Controls/Utils/getZIndex');
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 import errorMessage = require('wml!Controls/_validate/ErrorMessage');
-import 'css!theme?Controls/validate';
 import {ValidationStatus} from "Controls/interface";
 import {Logger} from 'UI/Utils';
 
@@ -336,7 +335,7 @@ class ValidateContainer extends Control {
     _isValidResult(): boolean {
         return this._validationResult && !(this._validationResult instanceof Promise);
     }
-
+    static _theme: string[] = ['Controls/validate'];
 }
 
 export default ValidateContainer;

@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {detection} from 'Env/Env';
 import * as ScrollBarTemplate from 'wml!Controls/_scroll/Scroll/Scrollbar/Scrollbar';
 import 'Controls/event';
-import 'css!theme?Controls/scroll';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as newEnv from 'Core/helpers/isNewEnvironment';
 
@@ -442,5 +441,5 @@ Scrollbar.getDefaultOptions = function () {
         direction: 'vertical'
     };
 };
-
+Scrollbar._theme = ['Controls/scroll'];
 export default Scrollbar;
