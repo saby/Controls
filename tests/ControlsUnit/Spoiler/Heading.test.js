@@ -6,7 +6,7 @@ define(
       'use strict';
 
       describe('Controls/spoiler:Heading', function() {
-         var ctrl
+         var ctrl;
          var options;
 
          beforeEach(function() {
