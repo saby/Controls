@@ -20,7 +20,7 @@
             <ws:partial
                     on:click="_dayClickHandler(value.date, mode, value.isCurrentMonth)"
                     on:mouseenter="_mouseEnterHandler(value.date, mode, value.isCurrentMonth)"
-                    attr:data-date="{{value.id}}"
+                    data-date="{{value.id}}"
                     monthViewModel="{{monthViewModel}}"
                     template="{{dayTemplate}}"
                     newMode="{{newMode}}"
