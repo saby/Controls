@@ -71,6 +71,16 @@
    display: inline-block;
 }
 
+/* В Safari iPad по-другому рассчитываются пиксели при align-items: center ( класс controls-EditingTemplateText), из-за чего текст опущен на 1px вниз по сравнению с другими браузерами. Тогда позиционируем текст внутри
+по базовой линии */
+
+.ws-is-mobile-safari {
+  .controls-EditingTemplateText__inner {
+    display: inline-flex;
+    align-self: baseline;
+  }
+}
+
 .controls-EditingTemplateText_size_default {
    height: @inline_height_default;
    font-size: @font-size_default;
