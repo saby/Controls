@@ -52,6 +52,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/_grid/interface/IPropStorage
+    * @mixes Controls/_list/interface/IReloadableList
     *
     * @control
     * @public

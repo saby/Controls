@@ -30,8 +30,9 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/_grid/interface/IGridControl
     * @mixes Controls/_grid/interface/IPropStorage
-    *
     * @mixes Controls/_list/interface/IVirtualScroll
+    * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
+    * @mixes Controls/_list/interface/IReloadableList
     *
     * @control
     * @public
