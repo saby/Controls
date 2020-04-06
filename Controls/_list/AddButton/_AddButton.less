@@ -22,32 +22,32 @@
 }
 
 .controls-AddButton_icon-disable {
-   background-image: @background-image_AddButton_disable;
+   background-image: @readonly_icon_background-image_listAddButton;
 }
 
 .controls-AddButton_icon-enable {
-   background-image: @background-image_AddButton_enable;
+   background-image: @icon_background-image_listAddButton;
 }
 
 .controls-AddButton__icon {
-   height: @icon-size_ListAddButton / 2;
-   width: @icon-size_ListAddButton / 2;
+   height: @icon-size_listAddButton;
+   width: @icon-size_listAddButton;
 }
 
 .controls-AddButton__svgWrapper {
-   width: @icon-size_ListAddButton / 2;
+   width: @icon-size_listAddButton;
    display: inline-flex;
    justify-content: center;
 }
 
 .controls-AddButtonText-disable {
-   margin-left: @spacing_ListAddButton-between-icon-and-text;
-   color: @color_listAddButton_readOnly;
+   margin-left: @icon_offset_listAddButton;
+   color: @readonly_text-color_listAddButton;
 }
 
 .controls-AddButtonText-enable {
-   margin-left: @spacing_ListAddButton-between-icon-and-text;
-   color: @color_listAddButton;
+   margin-left: @icon_offset_listAddButton;
+   color: @text-color_listAddButton;
 }
 
 .controls-AddButton {

@@ -4,7 +4,7 @@
             {{text ? ' controls-Dropdown__icon-rightSpacing_theme_' + _options.theme}}"
            title="{{tooltip || text}}"><div class="{{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}} {{icon}}"></div></div>
       <div class="controls-Dropdown__text-wrapper theme_{{_options.theme}}">
-         <div class="controls-Dropdown__text theme_{{_options.theme}}" title="{{tooltip || text}}">{{text}}</div>
+         <div class="controls-Dropdown__text theme_{{_options.theme}}" title="{{tooltip}}">{{text}}</div>
       </div>
    </ws:contentTemplate>
 </ws:partial>

@@ -123,7 +123,7 @@ define([
             it(`should return correct css class if options are equal to ${JSON.stringify(test.options)}.`, function () {
                let model = new MonthModel(
                      coreMerge({ month: month }, test.options, { preferSource: true })),
-                  css = model._prepareClass({ value: model._getDayObject(test.date) });
+                  css = model._prepareClass(model._getDayObject(test.date));
                assert.include(css, test.cssClass);
             });
          });

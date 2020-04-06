@@ -9,7 +9,6 @@
    overflow: hidden;
 }
 .controls-DialogTemplate_theme_@{themeName} {
-   background-color: @background-color_dialog;
    box-shadow: @box-shadow_dialog;
    border: @border-thickness_dialog solid @border-color_dialog;
 }
@@ -34,6 +33,11 @@
    overflow: hidden;
    z-index: 1;
 }
+
+.controls-DialogTemplate__content-area_theme_@{themeName} {
+   background-color: @background-color_dialog;
+}
+
 .controls-DialogTemplate__headerContentTemplate {
    position: relative;
    display: flex;

@@ -1,3 +1,3 @@
 <div class="ControlsDemo-InputDropdown-footerTpl">
-   <Controls.buttons:Button caption="+ Footer of item's children with key {{itemData.key}}" fontSize="l" viewMode="link" fontColorStyle="link"/>
+   <Controls.buttons:Button caption="+ Footer of item's children with key {{footerItemData.key}}" fontSize="l" viewMode="linkButton" fontColorStyle="link"/>
 </div>

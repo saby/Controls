@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Validate" demoname="Controls-demo/Input/Validate/ValidateInfobox.wml">
-    <ws:content>
-        <Controls-demo.Input.Validate.ValidateInfobox/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

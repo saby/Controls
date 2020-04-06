@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+        Перезагрузка по курсору, загрузка данных в обе стороны
+    </div>
+    <Controls.scroll:Container
+            attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+        <Controls.list:View
+                name="list"
+                source="{{_source}}"
+                keyProperty="id">
+            <ws:navigation source="position" view="infinity">
+                <ws:sourceConfig field="id" position="{{_position}}" direction="both" limit="{{20}}"/>
+            </ws:navigation>
+            <ws:virtualScrollConfig pageSize="{{20}}"/>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+    <div class="ws-link controlsDemo__mb1" on:click="_changePosition()">
+        Перезагрузить по позиции
+    </div>
+</div>

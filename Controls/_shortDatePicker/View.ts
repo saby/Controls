@@ -23,8 +23,12 @@ import {Logger} from 'UI/Utils';
  * @control
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Date/PeriodLiteDialog
- *
+ * @demo Controls-demo/ShortDatePicker/Index
+ * @demo Controls-demo/ShortDatePicker/Source/Index
+ * @demo Controls-demo/ShortDatePicker/DisplayedRanges/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/ContentTemplate/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/Periods/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/IconTemplate/Index
  */
 
 /*
@@ -36,7 +40,12 @@ import {Logger} from 'UI/Utils';
  * @control
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Date/PeriodLiteDialog
+ * @demo Controls-demo/ShortDatePicker/Index
+ * @demo Controls-demo/ShortDatePicker/Source/Index
+ * @demo Controls-demo/ShortDatePicker/DisplayedRanges/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/ContentTemplate/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/Periods/Index
+ * @demo Controls-demo/ShortDatePicker/MonthTemplate/IconTemplate/Index
  *
  */
 
@@ -92,6 +101,12 @@ var Component = BaseControl.extend({
         }
 
         this._caption = options.captionFormatter(options.startValue, options.endValue, options.emptyCaption);
+
+        if (!(options.chooseQuarters && options.chooseMonths) && options.chooseHalfyears) {
+            Logger.error(
+                'shortDatePicker: Unsupported combination of chooseQuarters, chooseMonths and chooseHalfyears options',
+                this);
+        }
 
         if (options.chooseQuarters || options.chooseMonths || options.chooseHalfyears) {
             this._position = options.year || options.startValue || (new options.dateConstructor());
@@ -198,7 +213,7 @@ var Component = BaseControl.extend({
         if (this._options.chooseQuarters || this._options.chooseMonths) {
             return 'controls-PeriodLiteDialog__width-medium';
         }
-        return '';
+        return 'controls-PeriodLiteDialog__width-small';
     },
 
     _getListCssClasses: function () {

@@ -8,9 +8,12 @@ import {descriptor} from 'Types/entity';
 import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import ModuleLoader = require('Controls/Container/Async/ModuleLoader');
 
 const CURRENT_TAB_META_FIELD = 'tabsSelectedKey';
 const HISTORY_KEYS_FIELD = 'historyKeys';
+
+const moduleLoader = new ModuleLoader();
 
 /* if suggest is opened and marked key from suggestions list was changed,
    we should select this item on enter keydown, otherwise keydown event should be propagated as default. */
@@ -69,7 +72,7 @@ var _private = {
       }
    },
    open: function(self) {
-      _private.loadDependencies(self).addCallback(function() {
+      _private.loadDependencies(self, self._options).addCallback(function() {
          //focus can be moved out while dependencies loading
          if (self._inputActive) {
             _private.suggestStateNotify(self, true);
@@ -213,20 +216,21 @@ var _private = {
          _private.close(self);
       }
    },
-   loadDependencies: function(self) {
-      var getTemplatesToLoad = function(options) {
-         var templatesToCheck = ['footerTemplate', 'suggestTemplate', 'emptyTemplate'];
-         var templatesToLoad = [];
-         templatesToCheck.forEach(function(tpl) {
-            if (options[tpl] && options[tpl].templateName) {
-               templatesToLoad.push(options[tpl].templateName);
-            }
-         });
-         return templatesToLoad;
-      };
 
-      if (!self._dependenciesDeferred) {
-         self._dependenciesDeferred = mStubs.require(DEPS.concat(getTemplatesToLoad(self._options).concat([self._options.layerName])));
+   getTemplatesToLoad: function(self, options) {
+      var templatesToCheck = ['footerTemplate', 'suggestTemplate', 'emptyTemplate'];
+      var templatesToLoad = [];
+      templatesToCheck.forEach(function(tpl) {
+         if (options[tpl] && options[tpl].templateName && !moduleLoader.isLoaded(options[tpl].templateName)) {
+            templatesToLoad.push(options[tpl].templateName);
+         }
+      });
+      return templatesToLoad;
+   },
+   loadDependencies: function(self, options) {
+      const templatesToLoad = _private.getTemplatesToLoad(self, options);
+      if (!self._dependenciesDeferred || templatesToLoad.length) {
+         self._dependenciesDeferred = mStubs.require(DEPS.concat(templatesToLoad.concat([options.layerName])));
       }
       return self._dependenciesDeferred;
    },
@@ -291,7 +295,7 @@ var _private = {
  *
  * @class Controls/_suggest/_InputController
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
@@ -305,7 +309,7 @@ var _private = {
  *
  * @class Controls/_suggest/_InputController
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_suggest/ISuggest
@@ -361,6 +365,8 @@ var SuggestLayout = Control.extend({
       const valueChanged = this._options.value !== newOptions.value;
       const valueCleared = valueChanged && !newOptions.value && typeof newOptions.value === 'string';
       const needSearchOnValueChanged = valueChanged && _private.shouldSearch(this, _private.prepareValue(this, newOptions.value));
+      const emptyTemplateChanged = !isEqual(this._options.emptyTemplate, newOptions.emptyTemplate);
+      const footerTempalteChanged = !isEqual(this._options.footerTemplate, newOptions.footerTemplate);
 
       if (newOptions.suggestState !== this._options.suggestState) {
          if (newOptions.suggestState) {
@@ -383,13 +389,13 @@ var SuggestLayout = Control.extend({
          _private.setFilter(this, newOptions.filter, newOptions);
       }
 
-      if (!isEqual(this._options.emptyTemplate, newOptions.emptyTemplate)) {
+      if (emptyTemplateChanged) {
          this._emptyTemplate = _private.getEmptyTemplate(newOptions.emptyTemplate);
-         this._dependenciesDeferred = null;
+
       }
 
-      if (!isEqual(this._options.footerTemplate, newOptions.footerTemplate)) {
-         this._dependenciesDeferred = null;
+      if ((emptyTemplateChanged || footerTempalteChanged) && newOptions.suggestState ) {
+         _private.loadDependencies(this, newOptions);
       }
 
       if (this._options.searchDelay !== newOptions.searchDelay) {
@@ -423,7 +429,7 @@ var SuggestLayout = Control.extend({
       shouldSearch = _private.shouldSearch(this, value);
 
       /* preload suggest dependencies on value changed */
-      _private.loadDependencies(this);
+      _private.loadDependencies(this, this._options);
       this._searchDelay = this._options.searchDelay;
 
       _private.setSearchValue(self, shouldSearch ? value : '');
@@ -604,4 +610,3 @@ SuggestLayout.getDefaultOptions = function() {
 SuggestLayout._theme = ['Controls/suggest'];
 SuggestLayout._private = _private;
 export = SuggestLayout;
-

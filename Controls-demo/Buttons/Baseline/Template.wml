@@ -25,31 +25,31 @@
     <span class="baseline_span">baseline</span>
     <Controls.buttons:Button readOnly="{{true}}" iconSize="m" icon="icon-Send" buttonStyle="primary" viewMode="button"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="link" fontSize="xs"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="xs"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="link" fontSize="l"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="l"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="link" fontSize="3xl"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="3xl"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="unaccented" viewMode="link" fontSize="xs"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="unaccented" viewMode="linkButton" fontSize="xs"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="default" viewMode="link" fontSize="l"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="default" viewMode="linkButton" fontSize="l"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="danger" viewMode="link" fontSize="m"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="danger" viewMode="linkButton" fontSize="m"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="success" viewMode="link" fontSize="3xl"/>
+    <Controls.buttons:Button readOnly="{{false}}" caption="Link" fontColorStyle="success" viewMode="linkButton" fontSize="3xl"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button attr:class="demo-controls-Button_style-magic" readOnly="{{false}}" caption="Link" fontColorStyle="magic" viewMode="link" fontSize="l"/>
+    <Controls.buttons:Button attr:class="demo-controls-Button_style-magic" readOnly="{{false}}" caption="Link" fontColorStyle="magic" viewMode="linkButton" fontSize="l"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{true}}" caption="Link" fontColorStyle="link" viewMode="link" fontSize="3xl"/>
+    <Controls.buttons:Button readOnly="{{true}}" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="3xl"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" caption="Link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" caption="Link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Erase" fontColorStyle="link" viewMode="link"/>
+    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Erase" fontColorStyle="link" viewMode="linkButton"/>
     <span class="baseline_span">baseline</span>
-    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Save" fontColorStyle="link" viewMode="link"/>
+    <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Save" fontColorStyle="link" viewMode="linkButton"/>
     <span class="baseline_span">baseline</span>
     <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Author" fontColorStyle="link" viewMode="toolButton"/>
     <span class="baseline_span">baseline</span>

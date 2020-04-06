@@ -1,3 +1,3 @@
 <div class="demo-myFooter">
-   <Controls.buttons:Button caption="+ Задача" viewMode="link" fontColorStyle="link"/>
+   <Controls.buttons:Button caption="+ Задача" viewMode="linkButton" fontColorStyle="link"/>
 </div>

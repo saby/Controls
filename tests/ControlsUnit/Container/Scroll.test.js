@@ -38,6 +38,10 @@ define(
                top: 0,
                bottom: 0
             };
+            scroll._headersWidth = {
+               left: 0,
+               right: 0
+            };
             scroll._children.stickyHeaderShadow = {
                start: sinon.fake()
             };
@@ -49,7 +53,9 @@ define(
                contentHeight: 0,
                shadowVisible: {
                   top: false,
-                  bottom: false
+                  bottom: false,
+                  left: false,
+                  right: false
                }
             };
             scroll._shadowVisibilityByInnerComponents = {
@@ -134,6 +140,20 @@ define(
                   assert.isTrue(scroll._shadowVisible('top'));
                });
 
+               it('should display left shadow if scrollLeft > 0.', function () {
+                  scroll._displayState.shadowVisible.left = true;
+                  scroll._children.stickyController = {
+                     hasFixed: function () {
+                        return false;
+                     },
+                     hasShadowVisible: function() {
+                        return false;
+                     }
+                  };
+
+                  assert.isTrue(scroll._shadowVisible('left'));
+               });
+
                it('should not display top shadow if scrollTop < 0.', function () {
                   scroll._displayState.shadowVisible.top = true;
                   scroll._children.content.scrollTop = -10;
@@ -149,10 +169,31 @@ define(
                   assert.isFalse(scroll._shadowVisible('top'));
                });
 
+               it('should not display top shadow if scrollLeft < 0.', function () {
+                  scroll._displayState.shadowVisible.left = true;
+                  scroll._children.content.scrollLeft = -10;
+                  scroll._children.stickyController = {
+                     hasFixed: function () {
+                        return false;
+                     },
+                     hasShadowVisible: function() {
+                        return false;
+                     }
+                  };
+
+                  assert.isFalse(scroll._verticalShadowVisible('left'));
+               });
+
                it('should not display top shadow on initial build.', function () {
                   scroll._children = {};
 
                   assert.isFalse(scroll._shadowVisible('top'));
+               });
+
+               it('should not display left shadow on initial build.', function () {
+                  scroll._children = {};
+
+                  assert.isFalse(scroll._verticalShadowVisible('left'));
                });
             });
          });
@@ -222,7 +263,10 @@ define(
                scroll._children.content = {
                   scrollTop: 0,
                   scrollHeight: 200,
-                  clientHeight: 100
+                  clientHeight: 100,
+                  scrollLeft: 0,
+                  scrollWidth: 200,
+                  clientWidth: 100
                };
 
                scroll._resizeHandler();
@@ -262,7 +306,7 @@ define(
          });
 
          describe('_resizeHandler', function() {
-            it('should update _displayState if it changed.', function() {
+            it('should update _displayState if it changed(vertical scroll).', function() {
                let oldDisplayState = scroll._displayState;
                scroll._container = {
                   closest: () => {}
@@ -281,7 +325,40 @@ define(
                assert.strictEqual(scroll._displayState, oldDisplayState);
             });
 
-            it('should not update _displayState if the function was called before the control was fully initialized.', function() {
+            it('should update _displayState if it changed(horizontal scroll).', function() {
+               let oldDisplayState = scroll._displayState;
+               scroll._container = {
+                  closest: () => {}
+               };
+               scroll._pagingState = {};
+               scroll._children.content = {
+                  scrollLeft: 100,
+                  scrollWidth: 200,
+                  clientWidth: 100
+               };
+
+               scroll._resizeHandler();
+               assert.notStrictEqual(scroll._displayState, oldDisplayState);
+               oldDisplayState = scroll._displayState;
+               scroll._resizeHandler();
+               assert.strictEqual(scroll._displayState, oldDisplayState);
+            });
+
+            it('should not update _displayState if the function was called before the control was fully initialized(horizontal scroll).', function() {
+               let oldDisplayState = scroll._displayState;
+               scroll._pagingState = {};
+               scroll._children.content = {
+                  scrollLeft: 100,
+                  scrollWidth: 200,
+                  clientWidth: 100
+               };
+
+               scroll._isMounted = false;
+               scroll._resizeHandler();
+               assert.strictEqual(scroll._displayState, oldDisplayState);
+            });
+
+            it('should not update _displayState if the function was called before the control was fully initialized(vertical scroll).', function() {
                let oldDisplayState = scroll._displayState;
                scroll._pagingState = {};
                scroll._children.content = {
@@ -297,26 +374,43 @@ define(
          });
 
          describe('_scrollbarTaken', function() {
-            it('Should generate scrollbarTaken event if scrollbar displayed', function() {
-               const sandbox = sinon.sandbox.create();
-               scroll._displayState = { canScroll: true };
-               sandbox.stub(scroll, '_notify');
-               scroll._scrollbarTaken();
-               sinon.assert.calledWith(scroll._notify, 'scrollbarTaken');
-               sandbox.restore();
+            [{
+               scrollType: 'horizontal',
+               canScrollFieldName: 'canHorizontalScroll'
+            },{
+               scrollType: 'vertical',
+               canScrollFieldName: 'canScroll'
+            }].forEach(function(test) {
+               it(`Should generate scrollbarTaken event if scrollbar displayed (${test.scrollType} scroll)`, function() {
+                  const sandbox = sinon.sandbox.create();
+                  scroll._displayState = { [test.canScrollFieldName]: true };
+                  sandbox.stub(scroll, '_notify');
+                  scroll._scrollbarTaken();
+                  sinon.assert.calledWith(scroll._notify, 'scrollbarTaken');
+                  sandbox.restore();
+               });
             });
-            it('Should not generate scrollbarTaken event if scrollbar not displayed', function() {
-               const sandbox = sinon.sandbox.create();
-               scroll._displayState = { canScroll: false };
-               sandbox.stub(scroll, '_notify');
-               scroll._scrollbarTaken();
-               sinon.assert.notCalled(scroll._notify);
-               sandbox.restore();
+
+            [{
+               scrollType: 'horizontal',
+               canScrollFieldName: 'canHorizontalScroll'
+            },{
+               scrollType: 'vertical',
+               canScrollFieldName: 'canScroll'
+            }].forEach(function(test) {
+               it(`Should not generate scrollbarTaken event if scrollbar not displayed (${test.scrollType} scroll)`, function() {
+                  const sandbox = sinon.sandbox.create();
+                  scroll._displayState = { [test.canScrollFieldName]: false };
+                  sandbox.stub(scroll, '_notify');
+                  scroll._scrollbarTaken();
+                  sinon.assert.notCalled(scroll._notify);
+                  sandbox.restore();
+               });
             });
          });
 
          describe('_mouseenterHandler', function() {
-            it('Should show scrollbar and generate scrollbarTaken event on mouseenter', function() {
+            it(`Should show vertical scrollbar and generate scrollbarTaken event on mouseenter`, function() {
                const sandbox = sinon.sandbox.create();
                scroll._displayState = { canScroll: true };
                scroll._options.scrollbarVisible = true;
@@ -326,7 +420,29 @@ define(
                assert.isTrue(scroll._scrollbarVisibility());
                sandbox.restore();
             });
-            it('Should hide scrollbar and generate scrollbarReleased event on mouseleave', function() {
+            it(`Should show horizontal scrollbar and generate scrollbarTaken event on mouseenter`, function() {
+               const sandbox = sinon.sandbox.create();
+               scroll._displayState = { canHorizontalScroll: true };
+               scroll._options.scrollbarVisible = true;
+               scroll._options.scrollMode = 'verticalHorizontal';
+               sandbox.stub(scroll, '_notify');
+               scroll._mouseenterHandler();
+               sinon.assert.calledWith(scroll._notify, 'scrollbarTaken');
+               assert.isTrue(scroll._horizontalScrollbarVisibility());
+               sandbox.restore();
+            });
+            it(`Should not show horizontal scrollbar and generate scrollbarTaken event on mouseenter if scrollMode = 'vertical'`, function() {
+               const sandbox = sinon.sandbox.create();
+               scroll._displayState = { canHorizontalScroll: true };
+               scroll._options.scrollbarVisible = true;
+               scroll._options.scrollMode = 'vertical';
+               sandbox.stub(scroll, '_notify');
+               scroll._mouseenterHandler();
+               sinon.assert.calledWith(scroll._notify, 'scrollbarTaken');
+               assert.isFalse(scroll._horizontalScrollbarVisibility());
+               sandbox.restore();
+            });
+            it('Should hide vertical scrollbar and generate scrollbarReleased event on mouseleave', function() {
                const sandbox = sinon.sandbox.create();
                scroll._displayState = { canScroll: false };
                sandbox.stub(scroll, '_notify');
@@ -334,6 +450,16 @@ define(
                scroll._mouseleaveHandler();
                sinon.assert.calledWith(scroll._notify, 'scrollbarReleased');
                assert.isFalse(scroll._scrollbarVisibility());
+               sandbox.restore();
+            });
+            it('Should hide horizontal scrollbar and generate scrollbarReleased event on mouseleave', function() {
+               const sandbox = sinon.sandbox.create();
+               scroll._displayState = { canHorizontalScroll: false };
+               sandbox.stub(scroll, '_notify');
+               scroll._mouseenterHandler();
+               scroll._mouseleaveHandler();
+               sinon.assert.calledWith(scroll._notify, 'scrollbarReleased');
+               assert.isFalse(scroll._horizontalScrollbarVisibility());
                sandbox.restore();
             });
          });
@@ -361,21 +487,37 @@ define(
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden">' +
-                                          '<div class="controls-Scroll__userContent">test</div>' +
-                                       '</span>' +
-                                       '<div></div>' +
-                                    '</div>');
+                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden">' +
+                  '<div class="controls-Scroll__userContent">test</div>' +
+                  '</span>' +
+                  '<div></div>' +
+                  '</div>');
 
                scroll._contentStyles = 'margin-right: -15px;';
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                                       '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_scroll" style="margin-right: -15px;">' +
-                                          '<div class="controls-Scroll__userContent">test</div>' +
-                                       '</span>' +
-                                       '<div></div>' +
-                                    '</div>');
+                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar" style="margin-right: -15px;">' +
+                  '<div class="controls-Scroll__userContent">test</div>' +
+                  '</span>' +
+                  '<div></div>' +
+                  '</div>');
+            });
+
+            [{
+               class: 'controls-Scroll__scroll_vertical',
+               scrollMode: 'vertical'
+            },{
+               class: 'controls-Scroll__scroll_verticalHorizontal',
+               scrollMode: 'vereticalHorizontal'
+            }].forEach(function(test) {
+               it(`Should set ${test.class} class if options scrollMode = ${test.scrollMode}`, function() {
+                  const sandbox = sinon.sandbox.create();
+                  scroll._options.scrollMode = test.scrollMode;
+                  scroll.calcStyleOverflow();
+                  assert.equal(test.class, scroll._classTypeScroll);
+                  sandbox.restore();
+               });
             });
          });
 
@@ -526,15 +668,19 @@ define(
                content: {
                   scrollHeight: 200,
                   offsetHeight: 100,
-                  scrollTop: 0
+                  scrollTop: 0,
+                  scrollLeft: 0,
+                  scrollWidth: 200,
+                  offsetWidth: 100
                },
                scrollDetect: {
                   start: () => null
                }
             };
             scrollContainer._scrollTop = 0;
+            scrollContainer._scrollLeft = 0;
 
-            it('scrollTop has not changed. scroll should not fire', function() {
+            it('scrollTop and scrollLeft has not changed. scroll should not fire', function() {
                sandbox.stub(scrollContainer._children.scrollDetect, 'start');
                sandbox.stub(scrollContainer, '_notify');
                scrollContainer._scrollHandler({});
@@ -542,14 +688,20 @@ define(
                sinon.assert.notCalled(scrollContainer._children.scrollDetect.start);
                sandbox.restore();
             });
-            it('scrollTop has changed. scroll should fire', function() {
-               sandbox.stub(scrollContainer._children.scrollDetect, 'start');
-               sandbox.stub(scrollContainer, '_notify');
-               scrollContainer._children.content.scrollTop = 10;
-               scrollContainer._scrollHandler({});
-               sinon.assert.calledWith(scrollContainer._notify, 'scroll', [10]);
-               sinon.assert.calledWith(scrollContainer._children.scrollDetect.start, sinon.match.any, 10);
-               sandbox.restore();
+            [{
+               scrollType: 'scrollTop'
+            },{
+               scrollType: 'scrollLeft'
+            }].forEach(function(test) {
+               it(`${test.scrollType} has changed. scroll should fire`, function() {
+                  sandbox.stub(scrollContainer._children.scrollDetect, 'start');
+                  sandbox.stub(scrollContainer, '_notify');
+                  scrollContainer._children.content[test.scrollType] = 10;
+                  scrollContainer._scrollHandler({});
+                  sinon.assert.calledWith(scrollContainer._notify, 'scroll', [10]);
+                  sinon.assert.calledWith(scrollContainer._children.scrollDetect.start, sinon.match.any, 10);
+                  sandbox.restore();
+               });
             });
          });
 
@@ -568,6 +720,24 @@ define(
             scrollContainer.scrollToBottom();
 
             sinon.assert.calledWith(scrollMod.Container._private.setScrollTop, sinon.match.any, 150);
+            sandbox.restore();
+         });
+
+         it('should function scrollToRight work correctly', () => {
+            let
+               sandbox = sinon.createSandbox(),
+               scrollContainer = new scrollMod.Container({});
+
+            scrollContainer._children = {
+               content: {
+                  scrollWidth: 200,
+                  clientWidth: 50,
+               }
+            };
+            sandbox.stub(scrollMod.Container._private, 'setScrollLeft');
+            scrollContainer.scrollToRight();
+
+            sinon.assert.calledWith(scrollMod.Container._private.setScrollLeft, sinon.match.any, 150);
             sandbox.restore();
          });
 
@@ -651,25 +821,46 @@ define(
                'restored scroll top value should not be applied after drag end, because it was changed by dragging');
          });
 
+         const  SCROLL_TYPE = {
+            VERTICAL: 'vertical',
+            HORIZONTAL: 'horizontal'
+         };
          describe('Controls.Container.Shadow', function() {
             var result;
             describe('calcShadowPosition', function() {
                it('Тень сверху', function() {
-                  result = scrollMod.Container._private.calcShadowPosition(100, 100, 200);
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.VERTICAL, 100, 100, 200);
                   assert.equal(result, 'top');
                });
                it('Тень снизу', function() {
-                  result = scrollMod.Container._private.calcShadowPosition(0, 100, 200);
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.VERTICAL, 0, 100, 200);
                   assert.equal(result, 'bottom');
+               });
+               it('Shadow on the left', function() {
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.HORIZONTAL, 100, 100, 200);
+                  assert.equal(result, 'left');
+               });
+               it('Shadow on the right', function() {
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.HORIZONTAL, 0, 100, 200);
+                  assert.equal(result, 'right');
                });
                it('Should hide bottom shadow if there is less than 1 pixel to the bottom.', function() {
                   // Prevent rounding errors in the scale do not equal 100%
-                  result = scrollMod.Container._private.calcShadowPosition(99.234, 100, 200);
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.VERTICAL, 99.234, 100, 200);
                   assert.notInclude(result, 'bottom');
                });
+               it('Should hide bottom shadow if there is less than 1 pixel to the right.', function() {
+                  // Prevent rounding errors in the scale do not equal 100%
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.HORIZONTAL, 99.234, 100, 200);
+                  assert.notInclude(result, 'right');
+               });
                it('Тень сверху и снизу', function() {
-                  result = scrollMod.Container._private.calcShadowPosition(50, 100, 200);
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.VERTICAL, 50, 100, 200);
                   assert.equal(result, 'topbottom');
+               });
+               it('Shadow on the left and on the right', function() {
+                  result = scrollMod.Container._private.calcShadowPosition(SCROLL_TYPE.HORIZONTAL, 50, 100, 200);
+                  assert.equal(result, 'leftright');
                });
             });
 
@@ -694,19 +885,34 @@ define(
                var container = {
                   scrollHeight: 200,
                   offsetHeight: 100,
-                  scrollTop: 0
+                  scrollTop: 0,
+                  scrollWidth: 200,
+                  offsetWidth: 100,
+                  scrollLeft: 0
                };
 
                it('getScrollHeight', function() {
-                  result = scrollMod.Container._private.getScrollHeight(container);
+                  result = scrollMod.Container._private.getScrollSize(SCROLL_TYPE.VERTICAL, container);
                   assert.equal(result, 200);
                });
                it('getContainerHeight', function() {
-                  result = scrollMod.Container._private.getContainerHeight(container);
+                  result = scrollMod.Container._private.getContainerSize(SCROLL_TYPE.VERTICAL, container);
                   assert.equal(result, 100);
                });
                it('getScrollTop', function() {
                   result = scrollMod.Container._private.getScrollTop({ _topPlaceholderSize: 0 }, container);
+                  assert.equal(result, 0);
+               });
+               it('getScrollWidth', function() {
+                  result = scrollMod.Container._private.getScrollSize(SCROLL_TYPE.HORIZONTAL, container);
+                  assert.equal(result, 200);
+               });
+               it('getContainerWidth', function() {
+                  result = scrollMod.Container._private.getContainerSize(SCROLL_TYPE.HORIZONTAL, container);
+                  assert.equal(result, 100);
+               });
+               it('getScrollLeft', function() {
+                  result = scrollMod.Container._private.getScrollLeft({ _leftPlaceholderSize: 0 }, container);
                   assert.equal(result, 0);
                });
             });
@@ -720,6 +926,14 @@ define(
                   position: 'bottom',
                   result: false
                }, {
+                  options: { shadowVisible: false },
+                  position: 'left',
+                  result: false
+               }, {
+                  options: { shadowVisible: false },
+                  position: 'right',
+                  result: false
+               }, {
                   options: { topShadowVisibility: 'visible', bottomShadowVisibility: 'hidden' },
                   position: 'top',
                   result: true
@@ -728,12 +942,28 @@ define(
                   position: 'bottom',
                   result: false
                }, {
+                  options: { leftShadowVisibility: 'visible', rightShadowVisibility: 'hidden' },
+                  position: 'left',
+                  result: true
+               }, {
+                  options: { leftShadowVisibility: 'visible', rightShadowVisibility: 'hidden' },
+                  position: 'right',
+                  result: false
+               }, {
                   options: { topShadowVisibility: 'auto', bottomShadowVisibility: 'hidden' },
                   position: 'top',
                   result: true
                }, {
                   options: { topShadowVisibility: 'hidden', bottomShadowVisibility: 'auto' },
                   position: 'top',
+                  result: false
+               }, {
+                  options: { leftShadowVisibility: 'auto', rightShadowVisibility: 'hidden' },
+                  position: 'left',
+                  result: true
+               }, {
+                  options: { leftShadowVisibility: 'hidden', rightShadowVisibility: 'auto' },
+                  position: 'left',
                   result: false
                }].forEach(function(test) {
                   it(`should return ${test.result} if options is equal ${JSON.stringify(test.options)} and position is equal "${test.position}"`, function() {
@@ -768,6 +998,18 @@ define(
                   position: 'bottom',
                   shadowPosition: 'topbottom',
                   result: false
+               }, {
+                  options: { scrollMode: 'vertical' },
+                  shadowVisibilityByInnerComponents: { left: 'auto', right: 'auto' },
+                  position: 'right',
+                  shadowPosition: 'left',
+                  result: false
+               }, {
+                  options: { scrollMode: 'verticalHorizontal' },
+                  shadowVisibilityByInnerComponents: { left: 'auto', right: 'auto' },
+                  position: 'left',
+                  shadowPosition: 'left',
+                  result: true
                }].forEach(function(test) {
                   it(`should return ${test.result} if options is equal ${JSON.stringify(test.options)} and position is equal "${test.position}"`, function() {
                      const component = {

@@ -1,0 +1,29 @@
+<ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
+            title="Пример для тестирования визуального отображения текущей даты. Опцию _date в других случаях не использовать.">
+    <div class="controlsDemo__flex controlsDemo__flexColumn">
+        <Controls.calendar:MonthList
+                name="monthList"
+                bind:position="_position">
+            <ws:yearHeaderTemplate>
+                <div>{{yearHeaderTemplate.date.getFullYear()}}</div>
+            </ws:yearHeaderTemplate>
+            <ws:monthTemplate>
+                <ws:partial template="Controls/calendar:MonthListMonthTemplate">
+                    <ws:headerTemplate>
+                        {{_formatMonth(headerTemplate.date)}}
+                    </ws:headerTemplate>
+                    <ws:bodyTemplate>
+                        <Controls._calendar.MonthView
+                                attr:class="controls-MonthList__month-body"
+                                attr:data-date="{{dateId}}"
+                                showWeekdays="{{false}}"
+                                month="{{bodyTemplate.date}}"
+                                daysData="{{bodyTemplate.extData}}"
+                                _date="{{_date}}"
+                        />
+                    </ws:bodyTemplate>
+                </ws:partial>
+            </ws:monthTemplate>
+        </Controls.calendar:MonthList>
+    </div>
+</ws:partial>

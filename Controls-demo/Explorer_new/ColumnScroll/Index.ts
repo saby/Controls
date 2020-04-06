@@ -11,7 +11,7 @@ export default class extends Control {
    protected _columns = Gadgets.getGridColumnsForScroll();
    protected _viewMode: string = 'table';
    protected _root = null;
-   protected _header = Gadgets.getHeader();
+   protected _header = [...Gadgets.getHeader(),  {title: 'Подрядчик'}];
 
    protected _beforeMount() {
       this._viewSource = new MemorySource({

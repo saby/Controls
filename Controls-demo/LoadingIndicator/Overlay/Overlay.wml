@@ -3,7 +3,7 @@
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">overlay=default</div>
         </div>
-        <div attr:class="controls-demo__indicator_container">
+        <div attr:class="controls-demo__indicator_container controls-demo__indicator_overlay-default">
             <Controls.LoadingIndicator
                     name="LocalIndicatorDefault"
                     attr:class="controls-demo__indicator_inst"
@@ -41,7 +41,7 @@
         <div class="controlsDemo__mb1">
             <div class="controls-text-label_theme-{{_options.theme}}">overlay=none</div>
         </div>
-        <div attr:class="controls-demo__indicator_container">
+        <div attr:class="controls-demo__indicator_container controls-demo__indicator_overlay-none">
             <Controls.LoadingIndicator
                     name="LocalIndicatorNone"
                     attr:class="controls-demo__indicator_inst"

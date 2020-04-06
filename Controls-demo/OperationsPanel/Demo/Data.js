@@ -1,4 +1,6 @@
-define('Controls-demo/OperationsPanel/Demo/Data', function() {
+define('Controls-demo/OperationsPanel/Demo/Data', [
+    'Controls/Utils/Toolbar'
+], function(Toolbar) {
    var
       data = {
          removeOperation: {
@@ -18,15 +20,15 @@ define('Controls-demo/OperationsPanel/Demo/Data', function() {
          itemActions: [{
             id: 'remove',
             icon: 'icon-Erase icon-error',
-            showType: 2
+            showType: Toolbar.showType.TOOLBAR
          }, {
             id: 'moveUp',
             icon: 'icon-ArrowUp icon-primary',
-            showType: 2
+            showType: Toolbar.showType.TOOLBAR
          }, {
             id: 'moveDown',
             icon: 'icon-ArrowDown icon-primary',
-            showType: 2
+            showType: Toolbar.showType.TOOLBAR
          }],
          owners:  [
             { id: 0, title: 'По ответственному', owner: '0' },

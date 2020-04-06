@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
+    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+        Раскрытие узла, дозагрузка в узел
+    </div>
+    <Controls.scroll:Container
+            attr:class="controlsDemo_fixedWidth500 controlsDemo__maxWidth500 controlsDemo__height500 controlsDemo__mb1">
+        <Controls.treeGrid:View
+                name="list"
+                source="{{_source}}"
+                parentProperty="parent"
+                nodeProperty="node"
+                keyProperty="id">
+            <ws:virtualScrollConfig pageSize="{{20}}"/>
+            <ws:navigation source="position" view="infinity">
+                <ws:sourceConfig field="id" position="{{0}}" direction="after" limit="{{20}}"/>
+            </ws:navigation>
+            <ws:columns>
+                <ws:Array>
+                    <ws:Object displayProperty="title"/>
+                </ws:Array>
+            </ws:columns>
+        </Controls.treeGrid:View>
+    </Controls.scroll:Container>
+</div>

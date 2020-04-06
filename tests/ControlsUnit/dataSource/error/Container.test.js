@@ -63,7 +63,6 @@ define([
                assert.strictEqual(instance._popupId, popupId, 'saves popupId');
 
                // Диалог открылся. Теперь эмулируем закрытие диалога.
-               debugger;
                instance._popupHelper.closeDialog(popupId);
                assert.isNotOk(instance._popupId, 'clears popupId');
                assert.isTrue(instance._notify.calledOnceWith('dialogClosed', []), 'notifies "dialogClosed"');

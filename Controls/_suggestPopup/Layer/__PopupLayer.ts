@@ -25,8 +25,8 @@ var _private = {
       return POPUP_CLASS_NAME + '_' + verAlign;
    },
 
-   setPopupOptions: function(self) {
-      self._popupOptions = {
+   setPopupOptions: function(self, options) {
+      const config =  {
          autofocus: false,
          className: _private.getPopupClassName('bottom'),
          direction: {
@@ -40,6 +40,7 @@ var _private = {
          },
          resizeCallback: self._resizeCallback
       };
+      self._popupOptions = {...config, ...options.suggestPopupOptions || {}};
    }
 };
 
@@ -47,10 +48,10 @@ var __PopupLayer = Control.extend({
 
    _template: template,
 
-   _beforeMount: function() {
+   _beforeMount: function(options) {
       this._onResult = this._onResult.bind(this);
       this._resizeCallback = this._resizeCallback.bind(this);
-      _private.setPopupOptions(this);
+      _private.setPopupOptions(this, options);
    },
 
    _afterMount: function(options) {

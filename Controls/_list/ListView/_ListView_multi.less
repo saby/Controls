@@ -1,7 +1,11 @@
 .ws-is-hover {
   .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
     &:hover {
-      background-color: @background-color_ListView-item_hover;
+      background-color: @item_hover_background-color_list;
     }
   }
+}
+//TODO это должно уехать в BaseControl после задачи https://online.sbis.ru/opendoc.html?guid=92bedbf7-6038-4c1f-826e-b096b4cddd6d
+.controls-Checkbox__iconWrapper_inList_theme-@{themeName} {
+  height: @checkbox_height_list;
 }

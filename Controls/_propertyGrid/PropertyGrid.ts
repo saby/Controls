@@ -10,7 +10,7 @@ import {RecordSet} from 'Types/collection';
 import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import IProperty from 'Controls/_propertyGrid/IProperty';
 
-import * as ControlsConstants from 'Controls/Constants';
+import {view as constView} from 'Controls/Constants';
 
 interface IPropertyGridItem extends IProperty {
     propertyValue: any;
@@ -41,7 +41,7 @@ function getPropertyItemDefault(): IPropertyGridItemDefault {
         editorOptions: undefined,
         editorClass: undefined,
         type: undefined,
-        group: ControlsConstants.view.hiddenGroup,
+        group: constView.hiddenGroup,
         propertyValue: undefined
     };
 }

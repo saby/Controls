@@ -7,6 +7,9 @@ import {IDateRangeSelectable, Utils as calendarUtils} from 'Controls/dateRange';
 import MonthViewModel from './MonthView/MonthViewModel';
 import dotTplFn = require('wml!Controls/_calendar/MonthView/MonthView');
 import dayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
+import dayHeaderTemplate = require('wml!Controls/_calendar/MonthView/dayHeaderTemplate');
+import captionTemplate = require("wml!Controls/_calendar/MonthView/captionTemplate");
+
 import IMonth from './interfaces/IMonth';
 
 import 'css!theme?Controls/calendar'
@@ -43,7 +46,8 @@ var _private = {
  * @control
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Date/MonthView
+ * @demo Controls-demo/Calendar/MonthView/LongCellName/LongCellName
+ * @demo Controls-demo/Calendar/MonthView/NewMode/Index
  *
  */
 /**
@@ -111,6 +115,8 @@ MonthView._private = _private;
 var defaultOptions = {
    ...IMonth.getDefaultOptions(),
    dayTemplate: dayTemplate,
+   dayHeaderTemplate: dayHeaderTemplate,
+   captionTemplate: captionTemplate,
    dateConstructor: WSDate
 };
 

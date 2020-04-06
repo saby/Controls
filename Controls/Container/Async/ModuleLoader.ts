@@ -70,7 +70,6 @@ class ModuleLoader {
         if (!loaded) {
             return null;
         }
-
         return this.getFromLib(loaded, parsedInfo);
     }
 

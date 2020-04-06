@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMaxWidth550">
 
-    <div class="controlsDemo__cell controlsDemo__mr4">
+    <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo-navigation__with_scroll">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/DigitPaging/WithScroll/Index' }}">
@@ -9,7 +9,7 @@
         <Controls-demo.list_new.Navigation.DigitPaging.WithScroll.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr4">
+    <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo-navigation__without_scroll">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/DigitPaging/WithoutScroll/Index' }}">
@@ -18,7 +18,7 @@
         <Controls-demo.list_new.Navigation.DigitPaging.WithoutScroll.Index/>
     </div>
 
-    <div class="controlsDemo__cell controlsDemo__mr4">
+    <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo-navigation__with_actions">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/DigitPaging/WithItemActions/Index' }}">

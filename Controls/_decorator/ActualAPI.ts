@@ -17,7 +17,7 @@ export function styleOptions(style: string): IActualMoneyFont {
     switch (style) {
         case 'accentResults':
             return {
-                fontColorStyle: 'secondary', fontSize: 'l', fontWeight: 'bold'
+                fontColorStyle: 'results', fontSize: 'l', fontWeight: 'bold'
             };
         case 'noAccentResults':
             return {
@@ -25,7 +25,7 @@ export function styleOptions(style: string): IActualMoneyFont {
             };
         case 'group':
             return {
-                fontColorStyle: 'readonly', fontSize: 'm', fontWeight: 'default'
+                fontColorStyle: 'group', fontSize: 'm', fontWeight: 'default'
             };
         case 'basicRegistry':
             return {
@@ -37,7 +37,7 @@ export function styleOptions(style: string): IActualMoneyFont {
             };
         case 'accentRegistry':
             return {
-                fontColorStyle: 'secondary', fontSize: 'l', fontWeight: 'bold'
+                fontColorStyle: 'list', fontSize: 'l', fontWeight: 'bold'
             };
         case 'noAccentRegistry':
             return {

@@ -51,6 +51,76 @@ export interface IHeaderCell extends IControlOptions {
      * @remark
      * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.
      * Подробнее о работе с шаблоном читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/header/ документации}.
+     * @example
+     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
+     * <pre class="brush: html">
+     * <Controls.grid:View>
+     *    <ws:header>
+     *       <ws:Array>
+     *          <ws:Object title="City">
+     *             <ws:template>
+     *                <ws:partial template="Controls/grid:HeaderContent">
+     *                   <ws:contentTemplate>
+     *                      {{contentTemplate.colData.column.title}}
+     *                   </ws:contentTemplate>
+     *                </ws:partial>
+     *             </ws:template>
+     *          </ws:Object>
+     *       </ws:Array>
+     *    </ws:header>
+     * </Controls.grid:View>
+     * </pre>
+     *
+     * **Пример 2.** Контрол и шаблоны сконфигурированы в отдельных WML-файлах.
+     * <pre class="brush: html">
+     * <!-- file1.wml -->
+     * <Controls.grid:View>
+     *    <ws:header>
+     *       <ws:Array>
+     *          <ws:Object title="City">
+     *             <ws:template>
+     *                <ws:partial template="wml!file2" scope="{{template}}"/>
+     *             </ws:template>
+     *          </ws:Object>
+     *       </ws:Array>
+     *    </ws:header>
+     * </Controls.grid:View>
+     * </pre>
+     *
+     * <pre class="brush: html">
+     * <!-- file2.wml -->
+     * <ws:partial template="Controls/grid:HeaderContent">
+     *    <ws:contentTemplate>
+     *       {{contentTemplate.colData.column.title}}
+     *    </ws:contentTemplate>
+     * </ws:partial>
+     * </pre>
+     *
+     * **Пример 3.** Шаблон contentTemplate сконфигурирован в отдельном WML-файле.
+     *
+     * <pre class="brush: html">
+     * <!-- file1.wml -->
+     * <Controls.grid:View>
+     *    <ws:header>
+     *       <ws:Array>
+     *          <ws:Object title="City">
+     *             <ws:template>
+     *                <ws:partial template="Controls/grid:HeaderContent">
+     *                   <ws:contentTemplate>
+     *                      <ws:partial template="wml!file2" scope="{{contentTemplate}}"/>
+     *                   </ws:contentTemplate>
+     *                </ws:partial>
+     *             </ws:template>
+     *          </ws:Object>
+     *       </ws:Array>
+     *    </ws:header>
+     * </Controls.grid:View>
+     * </pre>
+     *
+     * <pre class="brush: html">
+     * <!-- file2.wml -->
+     * {{contentTemplate.colData.column.title}}
+     * </pre>
      */
     template?: TemplateFunction;
     /**
@@ -58,7 +128,8 @@ export interface IHeaderCell extends IControlOptions {
      * @cfg {String} Свойство, по которому выполняется сортировка.
      * @remark
      * В качестве значения принимает имя поля.
-     * Если в конфигурации ячейки задать это свойство, то в шапке таблицы в конкретной ячейки будет отображаться кнопка для изменения сортировки.
+     * Одновременно можно сортировать только по одному полю.
+     * Если в конфигурации ячейки задать это свойство, то в шапке таблицы в конкретной ячейке будет отображаться кнопка для изменения сортировки.
      * Клик по кнопке будет менять порядок сортировки элементов на противоположный.
      * При этом элементы будут отсортированы по полю, имя которого указано в свойстве sortingProperty.
      * @example
@@ -68,10 +139,10 @@ export interface IHeaderCell extends IControlOptions {
      * _beforeMount: function(){
      *    this._sorting = [
      *       {
-     *          price: 'desc'
+     *          price: 'DESC'
      *       },
      *       {
-     *          balance: 'asc'
+     *          balance: 'ASC'
      *       }
      *    ],
      *    this._header = [

@@ -10,6 +10,7 @@
    width: 100%;
    box-sizing: border-box;
    min-height: 0;
+   height: 100%;
    overflow: hidden;
 }
 
@@ -51,8 +52,15 @@
 .controls-StickyTemplate__close_button_theme_@{themeName} {
    position: absolute;
    right: @close-button_offset-right_sticky;
-   top: @close-button_offset-top_sticky;
    z-index: 2;
+}
+
+.controls-StickyTemplate__close_button-without-header_theme-@{themeName} {
+   top: @close-button_offset-top_sticky + @content_padding-top_sticky;
+}
+
+.controls-StickyTemplate__close_button-with-header_theme-@{themeName} {
+   top: @close-button_offset-top_sticky;
 }
 
 .controls-StickyTemplate__caption {

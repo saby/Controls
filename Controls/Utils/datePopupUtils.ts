@@ -23,7 +23,9 @@ export default {
         return {
             ...this.getCommonTemplateOptions(self),
             startValue: self._rangeModel?.startValue || self._options.startValue,
-            endValue: self._rangeModel?.endValue || self._options.endValue
+            endValue: self._rangeModel?.endValue || self._options.endValue,
+            startValueValidators: self._options.startValueValidators,
+            endValueValidators: self._options.endValueValidators
         };
     },
 

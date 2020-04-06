@@ -177,6 +177,7 @@ define(
 
          it('_private::deleteFavorite', () => {
             let closed = false;
+            let removeFired = false;
             const sandBox = sinon.createSandbox();
             const self = {
                _editItem: {get: () => {}},
@@ -188,37 +189,31 @@ define(
                },
                _notify: () => {}
             };
-
-            sandBox.stub(List._private, 'removeRecordFromOldFavorite');
-            sandBox.stub(List._private, 'updateOldFavoriteList');
             sandBox.replace(List._private, 'getSource',() => {
                return {
-                  remove: () => {},
+                  remove: () => {removeFired = true},
                   getDataObject: () => {}
                };
             });
 
             List._private.deleteFavorite(self, {});
             assert.isTrue(closed);
-            sinon.assert.calledOnce(List._private.removeRecordFromOldFavorite);
-            sinon.assert.calledOnce(List._private.updateOldFavoriteList);
+            assert.isTrue(removeFired);
             sandBox.restore();
          });
 
          it('_private::saveFavorite', () => {
             let editedItem;
+            let updateFired = false;
             const sandBox = sinon.createSandbox();
             const self = {
                _editItem: { get: () => {}, set: (property, data) => { editedItem = data; } },
                _options: { historyId: '1231123' },
                _notify: () => {}
             };
-
-            sandBox.stub(List._private, 'removeRecordFromOldFavorite').returns(-1);
-            sandBox.stub(List._private, 'updateOldFavoriteList');
             sandBox.replace(List._private, 'getSource', () => {
                return {
-                  update: () => {},
+                  update: () => {updateFired = true},
                   getDataObject: () => {}
                };
             });
@@ -237,10 +232,8 @@ define(
                isClient: false
             });
             List._private.saveFavorite(self, record);
-
-            sinon.assert.calledOnce(List._private.removeRecordFromOldFavorite);
-            sinon.assert.calledOnce(List._private.updateOldFavoriteList);
             assert.deepEqual(editedItem, expectedEditedItem);
+            assert.isTrue(updateFired);
             sandBox.restore();
          });
 

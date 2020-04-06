@@ -16,7 +16,7 @@
                           {{point.name=='tooltip' ? (_isDrag ? 'controls-Slider__point_hidden controls-Slider__point_hidden_theme-' + _options.theme : 'controls-Slider__point_tooltip controls-Slider__point_tooltip_theme-' + _options.theme)}}"
                     name="{{point.name}}"
                     style="left:{{point.position}}%;">
-                  <ws:if data="{{point.name=='tooltip' && !_options.readOnly && (_tooltipValue || _tooltipValue==0)}}">
+                  <ws:if data="{{point.name=='tooltip' && _options.tooltipVisible && !_options.readOnly && (_tooltipValue || _tooltipValue==0)}}">
                      <div class="controls-Slider__tooltipValue controls-Slider__tooltipValue_theme-{{_options.theme}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_tooltipValue_theme-{{_options.theme}}">{{_tooltipValue}}</div>
                   </ws:if>
                </div>
@@ -31,11 +31,11 @@
                           controls-Slider__line__wrapper{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}">
                <div class="controls-Slider__line_theme-{{_options.theme}}
                              controls-Slider__line{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
-                             controls-Slider__line__empty{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">
+                             controls-Slider__line__empty controls-Slider__line__empty{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">
                </div>
                <div class="controls-Slider__line_theme-{{_options.theme}}
                              controls-Slider__line{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
-                             controls-Slider__line__full{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}"
+                             controls-Slider__line__full controls-Slider__line__full{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}"
                     style="left:{{_lineData.position}}%; width:{{_lineData.width}}%;">
                </div>
             </div>

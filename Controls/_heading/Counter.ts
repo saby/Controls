@@ -1,8 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import counterTemplate = require('wml!Controls/_heading/Counter/Counter');
 import {descriptor as EntityDescriptor} from 'Types/entity';
+import {IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
+import {counterSize, counterStyle} from './_ActualAPI';
 
-export interface ICounterOptions extends IControlOptions {
+export interface ICounterOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions {
     style?: 'primary' | 'secondary' | 'disabled';
     size?: 's' | 'm' | 'l';
 }
@@ -16,6 +18,8 @@ export interface ICounterOptions extends IControlOptions {
  *
  * @class Controls/_heading/Counter
  * @extends Core/Control
+ * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/IFontSize
  * @control
  * @public
  * @author Красильников А.С.
@@ -45,6 +49,7 @@ export interface ICounterOptions extends IControlOptions {
  * @variant m Средний счетчик.
  * @variant s Маленький счетчик.
  * @default m
+ * @deprecated Опция устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_heading/Counter#fontSize}.
  */
 
 /*
@@ -54,6 +59,7 @@ export interface ICounterOptions extends IControlOptions {
  * @variant m Medium counter size.
  * @variant s Small counter size.
  * @default m
+ * @deprecated
  */
 
 /**
@@ -63,6 +69,7 @@ export interface ICounterOptions extends IControlOptions {
  * @variant secondary
  * @variant disabled
  * @default primary
+ * @deprecated Опция устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_heading/Counter#fontColorStyle}.
  */
 
 /*
@@ -72,12 +79,28 @@ export interface ICounterOptions extends IControlOptions {
  * @variant secondary
  * @variant disabled
  * @default primary
+ * @deprecated
  */
 
-class Counter extends Control<ICounterOptions> {
-    protected _template: TemplateFunction = counterTemplate;
+class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFontSize {
+    '[Controls/_interface/IFontColorStyle]': boolean = true;
+    '[Controls/_interface/IFontSize]': boolean = true;
 
-    static _theme: string[] = ['Controls/heading'];
+    protected _template: TemplateFunction = counterTemplate;
+    protected _fontSize: string;
+    protected _fontColorStyle: string;
+
+    protected _beforeMount(newOptions: ICounterOptions): void {
+        this._fontSize = counterSize(newOptions.size, newOptions.fontSize);
+        this._fontColorStyle = counterStyle(newOptions.style, newOptions.fontColorStyle);
+    }
+
+    protected _beforeUpdate(newOptions: ICounterOptions): void {
+        this._fontSize = counterSize(newOptions.size, newOptions.fontSize);
+        this._fontColorStyle = counterStyle(newOptions.style, newOptions.fontColorStyle);
+    }
+
+    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

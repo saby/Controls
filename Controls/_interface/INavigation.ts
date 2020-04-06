@@ -50,8 +50,8 @@ export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
 /**
  * @typedef {String} Direction
  * @description Направление выборки при навигации по курсору.
- * @variant after Вверх.
- * @variant before Вниз.
+ * @variant after Вниз.
+ * @variant before Вверх.
  * @variant both В обоих направлениях.
  */
 
@@ -64,7 +64,7 @@ export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
 export type TNavigationDirection = 'before' | 'after' | 'both';
 
 /**
- * @typedef {Object} PositionSourceConfig
+ * @typedef {Object} INavigationPositionSourceConfig
  * @description Конфигурация для навигации по курсору.
  * Подробнее о данном типе навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
  * @property {String|Array.<String>} field Имя поля или массив с именами полей, для которых в целевой таблице БД создан индекс.
@@ -77,7 +77,7 @@ export type TNavigationDirection = 'before' | 'after' | 'both';
  * @property {Number} limit Количество записей, которые запрашиваются при выборке.
  */
 /*
- * @typedef {Object} PositionSourceConfig
+ * @typedef {Object} INavigationPositionSourceConfig
  * @description Source configuration for position-based (cursor) navigation.
  * @property {String|Array} field Field (fields array) used for position-based navigation.
  * @property {String|Array} position Value of field (fields array) used for position-based navigation.
@@ -93,7 +93,7 @@ export interface INavigationPositionSourceConfig {
 }
 
 /**
- * @typedef {Object} PageSourceConfig
+ * @typedef {Object} INavigationPageSourceConfig
  * @description Конфигурация для постраничной навигации.
  * @property {Number} page Загружать номер страницы.
  * @property {Number} pageSize Загружать размер страницы.
@@ -101,7 +101,7 @@ export interface INavigationPositionSourceConfig {
  */
 
 /*
- * @typedef {Object} PageSourceConfig
+ * @typedef {Object} INavigationPageSourceConfig
  * @description Source configuration for page-based navigation.
  * @property {Number} page Loading page number.
  * @property {Number} pageSize Loading page size.
@@ -138,6 +138,8 @@ export type TNavigationTotalInfo = 'basic' | 'extended';
  * @property {TotalInfo} [totalInfo=basic] Режим отображения информационной подписи.
  * @property {Number} maxCountValue Количество записей, когда необходимо прекратить загрузку в режиме навигации maxCount.
  * О режиме навигации maxCount вы можете посмотреть {@link Controls/_interface/INavigation/Navigation.typedef здесь}.
+ * @property {Boolean} [showEndButton=false] Видимость кнопки перехода в конец списка.
+ * Когда параметр принимает значение true, кнопка отображается.
  */
 export interface INavigationViewConfig {
     pagingMode?: string;
@@ -152,7 +154,7 @@ export interface INavigationViewConfig {
  * Подробнее об источниках данных читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/ здесь}.
  * @property {NavigationSource} source Алгоритм, с которым работает источник данных.
  * @property {NavigationView} view Режим визуального отображения навигации.
- * @property {PositionSourceConfig|PageSourceConfig} sourceConfig Конфигурация алгоритма (см. свойство source), с которым работает источник данных.
+ * @property {INavigationSourceConfig} sourceConfig Конфигурация алгоритма (см. свойство source), с которым работает источник данных.
  * @property {NavigationViewConfig} viewConfig Конфигурация визуального отображения навигации.
  */
 
@@ -160,7 +162,7 @@ export interface INavigationViewConfig {
  * @typedef {Object} Navigation
  * @property {NavigationSource} source Algorithm with which the data source works.
  * @property {NavigationView} view Visual interface for navigation (paging buttons, etc.).
- * @property {PositionSourceConfig|PageSourceConfig} sourceConfig Configuration for data source.
+ * @property {INavigationSourceConfig} sourceConfig Configuration for data source.
  * @property {NavigationViewConfig} viewConfig Configuration for navigation view.
  */
 export interface INavigationOptionValue<U> {

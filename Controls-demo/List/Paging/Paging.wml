@@ -1,5 +1,5 @@
 <div>
-   <Controls.list:Paging showDigits="{{false}}" pagesCount="{{15}}" selectedKey="{{1}}"></Controls.list:Paging>
+   <Controls.paging:Paging showDigits="{{false}}" pagesCount="{{15}}" selectedKey="{{1}}"></Controls.paging:Paging>
 
-   <Controls.list:Paging showDigits="{{true}}" pagesCount="{{15}}" bind:selectedPage="_selectedKey"></Controls.list:Paging>
+   <Controls.paging:Paging showDigits="{{true}}" pagesCount="{{15}}" bind:selectedPage="_selectedKey"></Controls.paging:Paging>
 </div>

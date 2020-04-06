@@ -19,4 +19,8 @@
       <div class="controls-text-label_theme-{{_options.theme}}">value = 100000 tooltip = Current money</div>
       <Controls.decorator:Money value="{{100000}}" tooltip="Current money"/>
    </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">readOnly = true</div>
+      <Controls.decorator:Money value="{{100000}}" readOnly="{{true}}"/>
+   </div>
 </div>

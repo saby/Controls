@@ -1,4 +1,4 @@
-<div class="controls-Grid__header-cell__content_theme-{{_options.theme}} {{colData.column.startRow ? '' : ' controls-Grid__header-cell_baseline_XL_theme-' + _options.theme }}">
+<div class="controls-Grid__header-cell__content controls-Grid__header-cell__content_theme-{{_options.theme}} {{colData.column.startRow ? '' : ' controls-Grid__header-cell_baseline_XL_theme-' + _options.theme }}">
     <ws:if data="{{contentTemplate}}">
         <ws:partial template="{{contentTemplate}}" colData="{{colData}}"/>
     </ws:if>

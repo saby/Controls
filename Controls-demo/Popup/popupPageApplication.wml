@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="PopupPage" demoname="Controls-demo/Popup/PopupPage.wml">
-    <ws:content>
-        <Controls-demo.Popup.PopupPage/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

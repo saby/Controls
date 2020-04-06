@@ -17,7 +17,7 @@
       <div class="eventBlock">
          <div class="reset-header__wrapper">
              <span>Event that surfaced: {{_event}}</span>
-             <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented" viewMode="link" caption="reset"/>
+             <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented" viewMode="linkButton" caption="reset"/>
          </div>
          <br/>
          <span>{{_eventName}}</span>

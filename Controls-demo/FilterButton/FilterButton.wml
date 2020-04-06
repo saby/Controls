@@ -1,7 +1,7 @@
 <div class="controls-FilterButton__demo">
     <div class="controls-FilterButton__demo-row_right">
         <div class="controls-FilterButton__demo-row">
-            <Controls.buttons:Button readOnly="{{false}}" caption="Тест базовой линии" fontColorStyle="link" viewMode="link"/>
+            <Controls.buttons:Button readOnly="{{false}}" caption="Тест базовой линии" fontColorStyle="link" viewMode="linkButton"/>
             Тест базовой линии
             <Controls.filter:Selector attr:style="max-width: 200px;" filterTemplate="Controls-demo/FilterButton/Panel/resources/FBPanel">
                 <ws:items>
@@ -45,7 +45,7 @@
             </ws:items>
         </Controls.filter:Selector>
         Тест базовой линии
-        <Controls.buttons:Button readOnly="{{false}}" caption="Тест базовой линии" fontColorStyle="link" viewMode="link"/>
+        <Controls.buttons:Button readOnly="{{false}}" caption="Тест базовой линии" fontColorStyle="link" viewMode="linkButton"/>
     </div>
     <div class="controls-FilterButton__demo-row">
         <Controls.filter:Selector attr:style="max-width: 200px;" filterAlign="left" readOnly="{{true}}" filterTemplate="Controls-demo/FilterButton/Panel/resources/FBPanel">

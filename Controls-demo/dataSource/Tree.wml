@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+   <Controls.treeGrid:View
+      keyProperty="id"
+      source="{{_source}}"
+      parentProperty="parent"
+      nodeProperty="node">
+      <ws:columns>
+         <ws:Array>
+            <ws:Object displayProperty="title"/>
+         </ws:Array>
+      </ws:columns>
+      <ws:navigation source="page" view="demand">
+         <ws:sourceConfig pageSize="{{2}}" page="{{0}}" hasMore="{{false}}"/>
+         <ws:viewConfig pagingMode="direct"/>
+      </ws:navigation>
+   </Controls.treeGrid:View>
+</div>

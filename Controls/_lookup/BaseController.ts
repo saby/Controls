@@ -8,6 +8,7 @@ import {Controller as SourceController} from 'Controls/source';
 import {isEqual} from 'Types/object';
 import {List, RecordSet} from 'Types/collection';
 import {descriptor} from 'Types/entity';
+import {Logger} from 'UI/Utils';
 
 var _private = {
       loadItems: function(self, options, selectedKeys, sourceIsChanged) {
@@ -27,6 +28,7 @@ var _private = {
                   options.dataLoadCallback(result);
                }
 
+               _private.checkLoadedItems(result, options.keyProperty, selectedKeys);
                resultDef.callback(self._items = result);
                return result;
             })
@@ -36,6 +38,18 @@ var _private = {
             });
 
          return resultDef;
+      },
+
+      checkLoadedItems(
+          loadedItems: RecordSet,
+          keyProperty: string,
+          selectedKeys: unknown[]
+      ): void {
+         loadedItems.each((item) => {
+            if (selectedKeys.indexOf(item.get(keyProperty)) === -1) {
+               Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${item.get(keyProperty)}`);
+            }
+         });
       },
 
       notifyChanges: function(self, selectedKeys) {

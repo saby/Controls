@@ -153,7 +153,9 @@ var Component = BaseControl.extend([EventProxy], {
     },
 
     _onPositionChanged: function(e: Event, position: Date) {
-        _private.notifyPositionChanged(this, position);
+        if (position.getFullYear() !== this._position.getFullYear()) {
+            _private.notifyPositionChanged(this, position);
+        }
     },
 
     _getSeparatorCssClass: function(): string {

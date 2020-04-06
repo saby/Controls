@@ -1,0 +1,3 @@
+<div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item_theme-{{theme}} {{_themeCssClass}}">
+    {{ value.caption }}
+</div>

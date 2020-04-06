@@ -1,0 +1,21 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              itemTemplateProperty="template"
+              attr:class="ControlsDemo-menuControl_minWidth">
+      </Controls.menu:Control>
+   </div>
+   <div class="controlsDemo__wrapper">
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              iconSize="s"
+              itemTemplateProperty="template"
+              attr:class="ControlsDemo-menuControl_minWidth">
+      </Controls.menu:Control>
+   </div>
+</div>

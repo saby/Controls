@@ -1,6 +1,6 @@
 /**
  * Интерфейс для перемещения элементов списка с помощью drag'n'drop.
- * Больше информации можно прочитать <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">здесь</a>.
+ * Больше информации можно прочитать <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">здесь</a>.
  *
  * @interface Controls/interface/IDraggable
  * @public
@@ -18,95 +18,69 @@
 
 /**
  * @name Controls/interface/IDraggable#itemsDragNDrop
- * @cfg {String} Определяет, может ли пользователь перемещать элементы в списке с помощью drag'n'drop.
- * @variant none Перемещение запрещено.
- * @variant allow Перемещение разрешено.
- * @default none
+ * @cfg {Boolean} Определяет, может ли пользователь перемещать элементы в списке с помощью drag'n'drop. Когда опция установлена в значение true, перемещение разрешено.
+ * @default false
  * @example
- * В следующем примере показано, как включить возможность перемещения элементов с помощью drag'n'drop.
- * <pre>
- *    <Controls.list:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   itemsDragNDrop="allow">
- *     </Controls.list:View>
- * </pre>
- *
- * <pre>
- *    Control.extend({
- *       ...
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: html; highlight: [4]">
+ * <Controls.list:View
+ *     source="{{_viewSource}}"
+ *     keyProperty="id"
+ *     itemsDragNDrop="{{true}}" />
  * </pre>
  */
 
 /*
  * @name Controls/interface/IDraggable#itemsDragNDrop
- * @cfg {String} Determines whether the user can move entries in the list using drag'n'drop.
- * @variant none Dragging items is not allowed.
- * @variant allow Dragging items is allowed.
- * @default none
+ * @cfg {Boolean} Determines whether the user can move entries in the list using drag'n'drop.
+ * @default false
  * @example
  * The following example shows how to enable the ability to move items using drag'n'drop.
- * <pre>
- *    <Controls.list:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   itemsDragNDrop="allow">
- *     </Controls.list:View>
- * </pre>
- *
- * <pre>
- *    Control.extend({
- *       ...
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: html; highlight: [4]">
+ * <Controls.list:View
+ *     source="{{_viewSource}}"
+ *     keyProperty="id"
+ *     itemsDragNDrop="{{true}}" />
  * </pre>
  */
 
 /**
  * @name Controls/interface/IDraggable#draggingTemplate
  * @cfg {Function} Шаблон перемещаемого элемента.
- * @default Controls/dragnDrop:DraggingTemplate
+ * @default undefined
  * @remark В процессе перемещения рядом с курсором отображается эскиз перемещаемого объекта.
  * @example
- * В следующем примере показано, как использовать стандартный шаблон перемещения элементов.
- * <pre>
- *    <Controls.list:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   on:dragStart="_onDragStart()"
- *                   itemsDragNDrop="allow">
- *       <ws:draggingTemplate>
- *          <ws:partial template="Controls/dragnDrop:DraggingTemplate"
- *                      mainText="{{draggingTemplate.entity._options.mainText}}"
- *                      image="{{draggingTemplate.entity._options.image}}"
- *                      additionalText="{{draggingTemplate.entity._options.additionalText}}">
+ * В следующем примере показано, как использовать базовый шаблон перемещения элементов Controls/dragnDrop:DraggingTemplate.
+ * <pre class="brush: html; highlight: [4,6,7,8,9,10,11,12,13]">
+ * <Controls.list:View
+ *     source="{{_viewSource}}"
+ *     keyProperty="id"
+ *     on:dragStart="_onDragStart()"
+ *     itemsDragNDrop="{{true}}">
+ *     <ws:draggingTemplate>
+ *         <ws:partial
+ *             template="Controls/dragnDrop:DraggingTemplate"
+ *             mainText="{{draggingTemplate.entity._options.mainText}}"
+ *             image="{{draggingTemplate.entity._options.image}}"
+ *             additionalText="{{draggingTemplate.entity._options.additionalText}}">
  *          </ws:partial>
- *       </ws:draggingTemplate>
- *    </Controls.list:View>
+ *     </ws:draggingTemplate>
+ * </Controls.list:View>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _onDragStart: function(event, items) {
- *          var mainItem = this._items.getRecordById(items[0]);
- *          return new Entity({
- *             items: items,
- *             mainText: mainItem.get('FIO'),
- *             additionalText: mainItem.get('title'),
- *             image: mainItem.get('userPhoto')
- *          });
- *       },
- *       _beforeMount: function() {
- *          this._viewSource= new Source({...});
- *       }
- *       ...
+ * <pre class="brush: js;">
+ * _viewSource: null,
+ * _onDragStart: function(event, items) {
+ *    var mainItem = this._items.getRecordById(items[0]);
+ *    return new Entity({
+ *       items: items,
+ *       mainText: mainItem.get('FIO'),
+ *       additionalText: mainItem.get('title'),
+ *       image: mainItem.get('userPhoto')
  *    });
+ * },
+ * _beforeMount: function() {
+ *    this._viewSource= new Source({...});
+ * }
  * </pre>
  */
 
@@ -121,7 +95,7 @@
  *    <Controls.list:View source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   on:dragStart="_onDragStart()"
- *                   itemsDragNDrop="allow">
+ *                   itemsDragNDrop="{{true}}">
  *       <ws:draggingTemplate>
  *          <ws:partial template="Controls/dragnDrop:DraggingTemplate"
  *                      mainText="{{draggingTemplate.entity._options.mainText}}"
@@ -155,37 +129,34 @@
 /**
  * @event Controls/interface/IDraggable#dragStart Происходит при начале перемещения элемента.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {Array.<String>} items Массив идентификаторов перемещаемых элементов.
+ * @param {Array.<String>} items Идентификаторы перемещаемых элементов.
  * @remark Чтобы начать перемещение drag'n'drop из события, необходимо вернуть объект перемещения. Событие срабатывает у контейнера, в котором началось перемещение.
- * Отличается от события {@link https://wi.sbis.ru/docs/js/Controls/tile/IDraggable/events/dragEnter/?v=19.500 dragEnter}, которое срабатывает у контейнера, в который была перемещена запись.
+ * Отличается от события {@link /docs/js/Controls/tile/IDraggable/events/dragEnter/ dragEnter}, которое срабатывает у контейнера, в который была перемещена запись.
  * @example
  * В следующем примере показано, как начать перемещение элементов с помощью drag'n'drop, если все элементы имеют одинаковый тип.
- * <pre>
- *     <Controls.list:View source="{{_viewSource}}"
- *                    keyProperty="id"
- *                    on:dragStart="_dragStart()"
- *                    itemsDragNDrop="allow">
- *     </Controls.list:View>
+ * <pre class="brush: html; highlight: [4]">
+ * <Controls.list:View
+ *     source="{{_viewSource}}"
+ *     keyProperty="id"
+ *     on:dragStart="_dragStart()"
+ *     itemsDragNDrop="{{true}}" />
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _dragStart: function(event, items) {
- *          var eventResult;
- *          if (this._isSameTypes(items)) {
- *             eventResult = new ItemsEntity({
- *                items: items
- *             });
- *          }
- *          return eventResult;
- *       },
- *       _isSameTypes: function() {...},
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: js;">
+ * _viewSource: null,
+ * _dragStart: function(event, items) {
+ *    var eventResult;
+ *    if (this._isSameTypes(items)) {
+ *       eventResult = new ItemsEntity({
+ *          items: items
+ *       });
+ *    }
+ *    return eventResult;
+ * },
+ * _isSameTypes: function() {...},
+ * _beforeMount: function() {
+ *    this._viewSource = new Source({...});
+ * }
  * </pre>
  * @see dragEnd
  */
@@ -202,7 +173,7 @@
  *     <Controls.list:View source="{{_viewSource}}"
  *                    keyProperty="id"
  *                    on:dragStart="_dragStart()"
- *                    itemsDragNDrop="allow">
+ *                    itemsDragNDrop="{{true}}">
  *     </Controls.list:View>
  * </pre>
  *
@@ -249,25 +220,21 @@
  * @param {Types/entity:Record} target Объект перемещения.
  * @param {MovePosition} position Положение перемещения.
  * @example
- * В следующем примере показано, как перемещать элементы с помощью Controls/_list/Mover.
- * <pre>
- *     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
- *        <Controls.list:View on:dragEnd="_dragEnd()" itemsDragNDrop="allow" />
- *        <Controls.list:Mover name="listMover" />
- *     </Controls.list:DataContainer>
+ * В следующем примере показано, как перемещать элементы с помощью {@link Controls/list:Mover}.
+ * <pre class="brush: html; highlight: [3]">
+ * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+ *    <Controls.list:View on:dragEnd="_dragEnd()" itemsDragNDrop="{{true}}" />
+ *    <Controls.list:Mover name="listMover" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _dragEnd: function(event, entity, target, position) {
- *          this._children.listMover.moveItems(entity.getItems(), target, position);
- *       },
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: js;">
+ * _dragEnd: function(event, entity, target, position) {
+ *    this._children.listMover.moveItems(entity.getItems(), target, position);
+ * },
+ * _beforeMount: function() {
+ *    this._viewSource = new Source({...});
+ * }
  * </pre>
  * @see dragStart
  */
@@ -283,7 +250,7 @@
  * <pre>
  *     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
  *        <Controls.list:View on:dragEnd="_dragEnd()"
- *                       itemsDragNDrop="allow">
+ *                       itemsDragNDrop="{{true}}">
  *        </Controls.list:View>
  *        <Controls.list:Mover name="listMover" />
  *     </Controls.list:DataContainer>
@@ -325,40 +292,36 @@
  * Отличается от события {@link https://wi.sbis.ru/docs/js/Controls/tile/IDraggable/events/dragStart/?v=19.500 dragStart}, которое срабатывает у контейнера, из которого началось перемещение записи.
  * @example
  * В следующем примере показано, как перемещать в список объекты определенного типа.
- * <pre>
- *     <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
- *        <Controls.list:View on:dragStart="_dragStart()"
- *                       itemsDragNDrop="allow">
- *        </Controls.list:View>
- *     </Controls.list:DataContainer>
- *     <Controls.list:DataContainer source="{{_secondSource}}" keyProperty="id">
- *        <Controls.list:View on:dragEnter="_dragEnter()"
- *                       itemsDragNDrop="allow">
- *        </Controls.list:View>
- *     </Controls.list:DataContainer>
+ * <pre class="brush: html; highlight: [3]">
+ * <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:dragStart="_dragStart()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
+ * <Controls.list:DataContainer source="{{_secondSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:dragEnter="_dragEnter()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _dragStart: function(event, items) {
- *          return new TasksItemsEntity({
- *             items: items
- *          });
- *       },
- *       _dragEnter: function(event, entity) {
- *          var result = false;
- *          if (entity instanceof TasksItemsEntity) {
- *             result = new Record({...});
- *          }
- *          return result;
- *       },
- *       _beforeMount: function() {
- *          this._firstSource = new Source({...});
- *          this._secondSource = new Source({...});
- *       }
- *       ...
+ * <pre class="brush: js;">
+ * _dragStart: function(event, items) {
+ *    return new TasksItemsEntity({
+ *       items: items
  *    });
+ * },
+ * _dragEnter: function(event, entity) {
+ *    var result = false;
+ *    if (entity instanceof TasksItemsEntity) {
+ *       result = new Record({...});
+ *    }
+ *    return result;
+ * },
+ * _beforeMount: function() {
+ *    this._firstSource = new Source({...});
+ *    this._secondSource = new Source({...});
+ * }
  * </pre>
  */
 
@@ -373,12 +336,12 @@
  * <pre>
  *     <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
  *        <Controls.list:View on:dragStart="_dragStart()"
- *                       itemsDragNDrop="allow">
+ *                       itemsDragNDrop="{{true}}">
  *        </Controls.list:View>
  *     </Controls.list:DataContainer>
  *     <Controls.list:DataContainer source="{{_secondSource}}" keyProperty="id">
  *        <Controls.list:View on:dragEnter="_dragEnter()"
- *                       itemsDragNDrop="allow">
+ *                       itemsDragNDrop="{{true}}">
  *        </Controls.list:View>
  *     </Controls.list:DataContainer>
  * </pre>
@@ -417,26 +380,22 @@
  * @remark Событие можно использовать для предотвращения перемещения элемента в определенное положение.
  * @example
  * В следующем примере показано, как предотвратить изменение порядка закрепленных элементов.
- * <pre>
- *    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
- *       <Controls.list:View on:changeDragTarget="_changeDragTarget()"
- *                      itemsDragNDrop="allow">
- *       </Controls.list:View>
- *    </Controls.list:DataContainer>
+ * <pre class="brush: html;">
+ * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:changeDragTarget="_changeDragTarget()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _pinnedProperty: 'pinned',
- *       _changeDragTarget: function(event, entity, target, position) {
- *          return target.get(this._pinnedProperty) !== true;
- *       },
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: js;">
+ * _pinnedProperty: 'pinned',
+ * _changeDragTarget: function(event, entity, target, position) {
+ *    return target.get(this._pinnedProperty) !== true;
+ * },
+ * _beforeMount: function() {
+ *    this._viewSource = new Source({...});
+ * }
  * </pre>
  */
 
@@ -453,7 +412,7 @@
  * <pre>
  *    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
  *       <Controls.list:View on:changeDragTarget="_changeDragTarget()"
- *                      itemsDragNDrop="allow">
+ *                      itemsDragNDrop="{{true}}">
  *       </Controls.list:View>
  *    </Controls.list:DataContainer>
  * </pre>
@@ -472,5 +431,3 @@
  *    });
  * </pre>
  */
-
-

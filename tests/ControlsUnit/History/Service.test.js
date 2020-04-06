@@ -1,7 +1,24 @@
 /* global assert */
-define(['Controls/history', 'Core/Deferred', 'Env/Env'], (history, Deferred, Env) => {
+define(['Controls/history', 'Core/Deferred', 'Env/Env', 'Application/Env'], (history, Deferred, Env, ApplicationEnv) => {
 
    describe('Controls/history:Service', () => {
+      let stores;
+      const originalGetStore = ApplicationEnv.getStore;
+      const originalSetStore = ApplicationEnv.setStore;
+      beforeEach(() => {
+         ApplicationEnv.getStore = (key) => {
+            return stores[key];
+         };
+         ApplicationEnv.setStore = (key, value) => {
+            stores[key] = value;
+         };
+         stores = {};
+      });
+
+      afterEach(() => {
+         ApplicationEnv.getStore = originalGetStore;
+         ApplicationEnv.setStore = originalSetStore;
+      });
 
       it('query', (done) => {
          const isBrowser = Env.constants.isBrowserPlatform;

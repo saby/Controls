@@ -84,24 +84,6 @@ var _private = {
       }
    },
 
-    // TODO Delete with old favorite
-   getItemsWithOldFavorite: function(self, history, favorite) {
-      let id;
-      factory(favorite).each((favoriteItem) => {
-         id = favoriteItem.get('id');
-         if (!history.pinned.getRecordById(id) && !history.client.getRecordById(id)) {
-            let objectData = JSON.stringify(favoriteItem.get('data').getRawData(), _private.getSerialize().serialize);
-            let newFormatItem = _private.getRawHistoryItem(self, id, objectData);
-            if (objectData.globalParams) {
-               history.client.add(newFormatItem);
-            } else {
-               history.pinned.add(newFormatItem);
-            }
-         }
-      });
-      return _private.getItemsWithHistory(self, history);
-   },
-
    getItemsWithHistory: function (self, history) {
       var items = new collection.RecordSet({
          adapter: new entity.adapter.Sbis(),
@@ -238,7 +220,7 @@ var _private = {
       _private.deleteHistoryItem(self._history.recent, item.getId());
       _private.deleteHistoryItem(self._history.pinned, item.getId());
 
-      self.historySource.saveHistory(self._history);
+      self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
    },
 
    addClient: function(self, item) {
@@ -265,7 +247,7 @@ var _private = {
       } else if (!isPinned) {
          pinned.remove(pinned.getRecordById(item.getId()));
       }
-      self.historySource.saveHistory(self._history);
+       self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
    },
 
    updateDataItem: function(item, ObjectData) {
@@ -288,7 +270,7 @@ var _private = {
 
       records = [this.getRawHistoryItem(self, item.getId(), item.get('ObjectData'), item.get('HistoryId'))];
       recent.prepend(records);
-      self.historySource.saveHistory(self._history);
+      self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
    },
 
    getRawHistoryItem: function (self, id, objectData, hId?) {
@@ -524,13 +506,7 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
 
             self.historySource.query().addCallback((data) => {
                _private.initHistory(self, data);
-               if (self._history.client) {  // TODO Delete with old favorite
-                  if (_private.deleteOldPinned(self, self._history, query)) {
-                     prepareHistory();
-                  }
-               } else {
-                  prepareHistory();
-               }
+               prepareHistory();
             }).addErrback((error): Promise<sourceLib.DataSet> => {
                _private.initHistory(this, new sourceLib.DataSet({
                   rawData: {
@@ -554,11 +530,6 @@ var Source = CoreExtend.extend([entity.OptionsToPropertyMixin], {
     */
    getItems: function () {
       return _private.getItemsWithHistory(this, this._history);
-   },
-
-   // TODO: Delete with old favorite https://online.sbis.ru/opendoc.html?guid=68e3c08e-3064-422e-9d1a-93345171ac39
-   getItemsWithOldFavorite: function(oldFavoriteItems) {
-      return _private.getItemsWithOldFavorite(this, this._history, oldFavoriteItems);
    },
 
    /**

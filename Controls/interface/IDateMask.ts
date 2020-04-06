@@ -48,7 +48,7 @@ interface IDateMask {
          * </pre>
          * <pre>
          *    Base.Control.extend({
-         *       _inputValue: ew Date(2001, 2, 10, 14, 15 )
+         *       _inputValue: new Date(2001, 2, 10, 14, 15 )
          *    });
          * </pre>
          */

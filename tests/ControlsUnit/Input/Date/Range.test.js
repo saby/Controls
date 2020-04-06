@@ -17,6 +17,32 @@ define([
 
    describe('Controls/_dateRange/Input', function() {
 
+      describe('Initialisation', function() {
+         describe('validators', function() {
+            it('should create validators list.', function() {
+               const
+                  validators = [
+                     function() {},
+                     {
+                        validator: function() {}
+                     }, {
+                        validator: function() {},
+                        arguments: {}
+                     }
+                  ],
+                  component = calendarTestUtils.createComponent(dateRange.Input,
+                     cMerge({ startValueValidators: validators, endValueValidators: validators },
+                         options, { preferSource: true }));
+
+               assert.isArray(component._startValueValidators);
+               assert.lengthOf(component._startValueValidators, 4);
+
+               assert.isArray(component._endValueValidators);
+               assert.lengthOf(component._endValueValidators, 4);
+            });
+         });
+      });
+
       describe('openPopup', function() {
          it('should open opener with default options', function() {
             const component = calendarTestUtils.createComponent(dateRange.Input, options);

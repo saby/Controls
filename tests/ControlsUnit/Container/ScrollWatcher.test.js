@@ -9,6 +9,11 @@ define([
    'Types/source',
    'Core/core-instance'
 ], function(scrollMod, source, cInstance){
+
+   const global = (function() {
+      return this || (0, eval)('this');
+   })();
+
    describe('Controls.Container.Scroll.Watcher', function () {
       var registrarMock, evType = [];
       beforeEach(function() {

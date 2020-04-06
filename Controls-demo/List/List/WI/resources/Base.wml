@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="List: base.">
-   <ws:content>
-      <Controls-demo.List.List.BasePG/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

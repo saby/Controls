@@ -21,12 +21,9 @@
 </ws:template>
 
 <ws:template name="history">
-   <ws:if data="{{_historyId && (_historyItems.getCount() || _favoriteList && _favoriteList.getCount())}}">
+   <ws:if data="{{_historyId && _historyItems.getCount()}}">
       <Controls._filterPopup.History.List
               items="{{_historyItems}}"
-              favoriteItems="{{_favoriteList}}"
-              historyStorage="{{_historyStorage}}"
-              historyGlobalStorage="{{_historyGlobalStorage}}"
               filterItems="{{_items}}"
               historyId="{{_historyId}}"
               saveMode="{{_options.orientation === 'horizontal' ? 'favorite' : 'pinned'}}"

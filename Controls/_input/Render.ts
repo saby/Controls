@@ -58,6 +58,7 @@ interface IRenderOptions extends IControlOptions, IHeightOptions,
      * @cfg {HTMLElement}
      */
     afterFieldWrapper?: TemplateFunction;
+    state: string;
 }
 
 /**
@@ -82,6 +83,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     private _contentActive: boolean = false;
 
     protected _state: string;
+    protected _statePrefix: string;
     protected _fontSize: string;
     protected _inlineHeight: string;
     protected _fontColorStyle: string;
@@ -100,7 +102,14 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         this._inlineHeight = ActualAPI.inlineHeight(options.size, options.inlineHeight);
         this._fontColorStyle = ActualAPI.fontColorStyle(options.fontStyle, options.fontColorStyle);
         this._validationStatus = ActualAPI.validationStatus(options.style, options.validationStatus);
-        this._state = `${options.state}${this.calcState(options)}`;
+
+        if (options.state === '') {
+            this._state = `${this.calcState(options)}`;
+            this._statePrefix = '';
+        } else {
+            this._state = `${options.state}-${this.calcState(options)}`;
+            this._statePrefix = `_${options.state}`;
+        }
     }
 
     private calcState(options: IRenderOptions): State {
@@ -121,11 +130,11 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         return this._validationStatus;
     }
 
-    protected _tagClickHandler(event: SyntheticEvent<MouseEvent>) {
+    protected _tagClickHandler(event: SyntheticEvent<MouseEvent>): void {
         this._notify('tagClick', [this._children.tag]);
     }
 
-    protected _tagHoverHandler(event: SyntheticEvent<MouseEvent>) {
+    protected _tagHoverHandler(event: SyntheticEvent<MouseEvent>): void {
         this._notify('tagHover', [this._children.tag]);
     }
 

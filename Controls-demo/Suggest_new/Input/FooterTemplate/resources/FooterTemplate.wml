@@ -1,7 +1,7 @@
 <div>
-   <div class="controlsDemo__flex-jc-sb controlsDemo__flex">
-      <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="link" fontColorStyle="link" attr:class="controlsDemo__ml1"/>
-      <Controls.buttons:Button caption="Все разделы" viewMode="link" fontColorStyle="link" on:click="_clickHandler()" attr:class="controlsDemo__wrapper__horizontal"/>
+   <div class="controlsDemo__flex-jc-sb controlsDemo__flex ControlsDemo-Suggest__footer">
+      <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="linkButton" fontColorStyle="link" attr:class="controlsDemo__ml1"/>
+      <Controls.buttons:Button caption="Все разделы" viewMode="linkButton" fontColorStyle="link" on:click="_clickHandler()" attr:class="controlsDemo__wrapper__horizontal"/>
    </div>
    <Controls.popup:Stack name="stackOpener" headingCaption="Все разделы" template="Controls/suggestPopup:Dialog" closeOnOutsideClick="{{true}}">
       <ws:templateOptions>

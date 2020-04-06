@@ -93,7 +93,7 @@ export interface IColumn {
     compatibleWidth?: string;
     /**
      * @name Controls/grid:IColumn#template
-     * @cfg {String|Function} Устанавливает шаблон отображения ячейки.
+     * @cfg {String|Function} Шаблон отображения ячейки.
      * @default Controls/grid:ColumnTemplate
      * @remark
      * Подробнее о параметрах шаблона Controls/grid:ColumnTemplate читайте {@link Controls/grid:ColumnTemplate здесь}.
@@ -104,6 +104,7 @@ export interface IColumn {
     /**
      * @name Controls/grid:IColumn#resultTemplate
      * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.
+     * @default Controls/grid:ResultColumnTemplate
      * @remark Подробнее о работе со строкой итогов читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ руководство разработчика}.
      */
     resultTemplate?: TemplateFunction;

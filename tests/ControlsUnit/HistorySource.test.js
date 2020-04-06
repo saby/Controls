@@ -6,10 +6,28 @@ define(
       'Core/Deferred',
       'Types/source',
       'Types/util',
-      'Core/core-clone'
+      'Core/core-clone',
+      'Application/Env'
    ],
-   (historyMod, collection, entity, Deferred, sourceLib, util, clone) => {
+   (historyMod, collection, entity, Deferred, sourceLib, util, clone, Env) => {
       describe('History Source', () => {
+         let stores;
+         const originalGetStore = Env.getStore;
+         const originalSetStore = Env.setStore;
+         beforeEach(() => {
+            Env.getStore = (key) => {
+               return stores[key];
+            };
+            Env.setStore = (key, value) => {
+               stores[key] = value;
+            };
+            stores = {};
+         });
+
+         afterEach(() => {
+            Env.getStore = originalGetStore;
+            Env.setStore = originalSetStore;
+         });
          let items = [
             {
                id: '1',
@@ -345,6 +363,16 @@ define(
                hSource.update(myItem, meta);
                historyItems = hSource.getItems();
                assert.equal(historyItems.at('1').get('pinned'), false);
+
+               let sandbox = sinon.createSandbox();
+
+               sandbox.stub(historyMod.Source._private, 'checkPinnedAmount').returns(false);
+               let stub = sandbox.stub(historyMod.Source._private, 'showNotification');
+
+               hSource.update(myItem, meta);
+               sinon.assert.calledOnce(stub);
+
+               sandbox.restore();
             });
             it('checkPinnedAmount', function() {
                let list = new collection.RecordSet();

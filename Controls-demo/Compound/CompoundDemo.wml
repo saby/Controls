@@ -34,7 +34,7 @@
             attr:class="CompoundDemo-Checkpoints__resetCheckpointsButton"
             readOnly="{{ _destroyedTestValue }}"
             on:click="resetCheckersHandler()"
-            fontColorStyle="unaccented" viewMode="link"
+            fontColorStyle="unaccented" viewMode="linkButton"
             caption="reset"/>
          </h3>
          <div><span class="CompoundDemo-Checkpoints__options">options: {{ _optionsTestValue }}</span></div>
@@ -45,7 +45,7 @@
             <Controls.buttons:Button attr:class="CompoundDemo-Checkpoints__compatibleButton"
                                      readOnly="{{ _destroyedTestValue }}"
                                      on:click="testCompatibilityHandler()"
-                                     fontColorStyle="unaccented" viewMode="link"
+                                     fontColorStyle="unaccented" viewMode="linkButton"
                                      caption="test"/>
          </div>
          <div>
@@ -54,7 +54,7 @@
             <Controls.buttons:Button attr:class="CompoundDemo-Checkpoints__enabledButton"
                                      readOnly="{{ _destroyedTestValue }}"
                                      on:click="testEnabledHandler()"
-                                     fontColorStyle="unaccented" viewMode="link"
+                                     fontColorStyle="unaccented" viewMode="linkButton"
                                      caption="test"/>
          </div>
          <div>
@@ -63,7 +63,7 @@
             <Controls.buttons:Button attr:class="CompoundDemo-Checkpoints__commandButton"
                                      readOnly="{{ _destroyedTestValue }}"
                                      on:click="testCommandsHandler()"
-                                     fontColorStyle="unaccented" viewMode="link" caption="test"/>
+                                     fontColorStyle="unaccented" viewMode="linkButton" caption="test"/>
          </div>
          <div>
             <span class="CompoundDemo-Checkpoints__rebuild">rebuild: {{ _rebuildTestValue }}</span>
@@ -71,7 +71,7 @@
             <Controls.buttons:Button attr:class="CompoundDemo-Checkpoints__rebuildButton"
                                      readOnly="{{ _destroyedTestValue }}"
                                      on:click="resetRebuildHandler()"
-                                     fontColorStyle="unaccented" viewMode="link"
+                                     fontColorStyle="unaccented" viewMode="linkButton"
                                      caption="reset"/>
          </div>
          <div>
@@ -80,7 +80,7 @@
             <Controls.buttons:Button attr:class="CompoundDemo-Checkpoints__destroyButton"
                                      readOnly="{{ _destroyedTestValue }}"
                                      on:click="testDestroyHandler()"
-                                     fontColorStyle="unaccented" viewMode="link"
+                                     fontColorStyle="unaccented" viewMode="linkButton"
                                      caption="test"/>
          </div>
       </div>

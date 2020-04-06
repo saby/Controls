@@ -4,7 +4,7 @@
             <div class="controls-text-label_theme-{{_options.theme}}">isGlobal=true, delay=2000</div>
         </div>
         <div>
-            <a attr:class="ws-link" on:click="_firstOpen()">Open (Closes after 3 seconds.)</a>
+            <a attr:class="ws-link controls-Demo__indicator_global_delay" on:click="_firstOpen()">Open (Closes after 3 seconds.)</a>
         </div>
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-column">
@@ -13,7 +13,7 @@
         </div>
         <div attr:class="controls-demo__indicator_container">
             <div attr:class="controls-demo__indicator_buttons" style="margin-bottom: 10px;">
-                <a attr:class="ws-link" on:click="_secondOpen(3000)">Open (Closes after 3 seconds.)</a>
+                <a attr:class="ws-link controls-Demo__indicator_local" on:click="_secondOpen(3000)">Open (Closes after 3 seconds.)</a>
             </div>
 
             <Controls.LoadingIndicator

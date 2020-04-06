@@ -144,7 +144,8 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
              const newScrollTop = container.scrollTop;
              // todo будет удалено по: https://online.sbis.ru/opendoc.html?guid=bcc4b6be-7513-4f3d-8f26-eb27512d0a28
-             if (!self._options.task1178703223 && container.scrollLeft) {
+             //закоментировал по этой задаче https://online.sbis.ru/opendoc.html?guid=f6171d86-08f1-4503-b8fc-b0b82ec528b7
+             if (!self._options.task1178703223 && container.scrollLeft && self._options.scrollMode !== 'verticalHorizontal') {
                  container.scrollLeft = 0;
              }
              if (newScrollTop === self._scrollTopCache) {
@@ -157,9 +158,15 @@ import {SyntheticEvent} from "Vdom/Vdom"
                sizeCache = _private.getSizeCache(self, container);
             }
 
-            if (self._scrollTopCache <= 0) {
+            if (
+               self._scrollTopCache <= 0 &&
+               (!self._isVirtualPlaceholderMode() || self._topPlaceholderSize <= 0)
+            ) {
                curPosition = 'up';
-            } else if (self._scrollTopCache + sizeCache.clientHeight >= sizeCache.scrollHeight) {
+            } else if (
+               (self._scrollTopCache + sizeCache.clientHeight >= sizeCache.scrollHeight) &&
+               (!self._isVirtualPlaceholderMode() || self._bottomPlaceholderSize <= 0)
+            ) {
                curPosition = 'down';
             } else {
                curPosition = 'middle';

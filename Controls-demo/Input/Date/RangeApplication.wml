@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="DateTime" demoname="Controls-demo/Input/Date/Range.wml">
-    <ws:content>
-        <Controls-demo.Input.Date.Range/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

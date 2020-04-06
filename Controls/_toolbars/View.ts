@@ -40,13 +40,24 @@ export function getButtonTemplateOptionsByItem(item: TItem, toolbarOptions: ICon
     const iconStyle = item.get('iconStyle');
     const transparent = item.get('buttonTransparent');
     const caption = item.get('caption');
+    const captionPosition = item.get('captionPosition');
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const fontColorStyle = item.get('fontColorStyle');
     const contrastBackground = item.get('contrastBackground');
     const cfg: IButtonOptions = {};
     cfg._hoverIcon = true;
     cssStyleGeneration.call(cfg, {
-        size, icon, style, viewMode, iconStyle, transparent, caption, readOnly, fontColorStyle, contrastBackground
+        size,
+        icon,
+        style,
+        viewMode,
+        iconStyle,
+        transparent,
+        caption,
+        captionPosition,
+        readOnly,
+        fontColorStyle,
+        contrastBackground
     });
     cfg.readOnly = readOnly;
     return cfg;

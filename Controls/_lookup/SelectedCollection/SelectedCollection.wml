@@ -22,7 +22,8 @@
    </ws:if>
    <ws:for data="index, item in _visibleItems">
       <ws:partial
-              attr:style="max-width: {{_getItemMaxWidth(index, _options.items.getCount(), _options.maxVisibleItems, _options.itemsLayout, _counterWidth)}}"
+              attr:style="order: {{_getItemOrder(index, _visibleItems.length)}};
+                          max-width: {{_getItemMaxWidth(index, _options.items.getCount(), _options.maxVisibleItems, _options.itemsLayout, _counterWidth)}}"
               attr:class="js-controls-SelectedCollection__item controls-SelectedCollection__item controls-SelectedCollection__collectionItem_layout_{{_options.itemsLayout}}"
               template="{{_options.itemTemplate}}"
               item="{{item}}"

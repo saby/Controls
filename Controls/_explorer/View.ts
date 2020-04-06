@@ -152,7 +152,9 @@ var
             if (self._isGoingBack) {
                const curRoot = _private.getRoot(self, self._options.root);
                if (self._restoredMarkedKeys[curRoot]) {
-                  self._children.treeControl.setMarkedKey(self._restoredMarkedKeys[curRoot].markedKey);
+                  const { markedKey } = self._restoredMarkedKeys[curRoot];
+                  self._children.treeControl.setMarkedKey(markedKey);
+                  self._markerForRestoredScroll = markedKey;
                }
                self._isGoingBack = false;
             }
@@ -168,7 +170,7 @@ var
          setVirtualScrolling(self, viewMode, cfg): void {
             // todo https://online.sbis.ru/opendoc.html?guid=7274717e-838d-46c4-b991-0bec75bd0162
             // For viewMode === 'tile' disable virtualScrolling.
-            self._virtualScrolling = viewMode === 'tile' ? false : cfg.virtualScrolling;
+            self._virtualScrollConfig = viewMode === 'tile' ? false : cfg.virtualScrollConfig;
          },
 
          setViewConfig: function (self, viewMode) {
@@ -277,6 +279,10 @@ var
     * Отображает данные иерархического списка, узел которого можно развернуть и перейти в него.
     * Позволяет переключать отображение элементов в режимы "таблица", "список" и "плитка".
     * Инструкции по настройке контрола доступны в <a href='/doc/platform/developmentapl/interface-development/controls/list/explorer/'>руководстве разработчика</a>.
+    *
+    * Примечание:
+    * Сортировка применяется к запросу к источнику данных. Полученные от источника записи дополнительно не сортируются.
+    *
     * Демо-примеры:
     * <ul>
     *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FExplorer%2FExplorer">Иерархический проводник в режимах "список" и "плитка"</a></li>
@@ -378,11 +384,12 @@ var
       _viewModelConstructor: null,
       _dragOnBreadCrumbs: false,
       _hoveredBreadCrumb: undefined,
-      _virtualScrolling: false,
+      _virtualScrolling: undefined,
       _dragControlId: null,
       _firstLoad: true,
       _itemsPromise: null,
       _itemsResolver: null,
+      _markerForRestoredScroll: null,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -432,8 +439,14 @@ var
             _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
          }
 
-         if (cfg.virtualScrolling !== this._options.virtualScrolling) {
+         if (cfg.virtualScrollConfig !== this._options.virtualScrollConfig) {
             _private.setVirtualScrolling(this, this._viewMode, cfg);
+         }
+      },
+      _beforePaint: function() {
+         if (this._markerForRestoredScroll !== null) {
+            this.scrollToItem(this._markerForRestoredScroll);
+            this._markerForRestoredScroll = null;
          }
       },
       _getRoot: function() {

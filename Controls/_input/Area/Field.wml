@@ -1,7 +1,7 @@
 <div name="fieldWrapper" class="controls-Area__fieldWrapper controls-Area__field_theme_{{options.theme}}_margin">
    <div name="fakeField"
         class="controls-Area__fakeField
-               controls-Area__minHeight_theme_{{options.theme}}_countLines_{{options.minLines}}_size_{{heightLine}}">
+               controls-Area__minHeight_theme_{{options.theme}}_countLines_{{minLines}}_size_{{heightLine}}">
       <ws:if data="{{value}}">{{value}}{{emptySymbol}}</ws:if>
       <ws:else data="{{options.placeholder}}">
          <ws:partial template="{{placeholderTemplate}}"/>

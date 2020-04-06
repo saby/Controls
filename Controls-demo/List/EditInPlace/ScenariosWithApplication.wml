@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Editable List" demoname="Controls-demo/List/EditInPlace/Scenarios.wml">
-   <ws:content>
-      <Controls-demo.List.EditInPlace.Scenarios/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

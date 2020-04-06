@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="StateIndicator" demoname="Controls-demo/StateIndicator/StateIndicatorDemo.wml">
-    <ws:content>
-        <Controls-demo.StateIndicator.StateIndicatorDemo/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

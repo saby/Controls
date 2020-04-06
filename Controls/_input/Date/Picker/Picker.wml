@@ -16,6 +16,8 @@
       validationErrors="{{_options.validationErrors}}"
       tooltip="{{_options.tooltip}}"
       dateConstructor="{{_options.dateConstructor}}"
+      valueValidators="{{_options.valueValidators}}"
+      validateByFocusOut="{{_options.validateByFocusOut}}"
       on:valueChanged="_proxyEvent('valueChanged')"
       on:inputCompleted="_proxyEvent('inputCompleted')"
       on:tagClick="_proxyEvent('tagClick')"

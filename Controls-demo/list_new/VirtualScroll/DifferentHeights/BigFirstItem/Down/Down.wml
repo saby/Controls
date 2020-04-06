@@ -5,9 +5,8 @@
             <Controls.scroll:Container attr:class="controlsDemo__maxWidth500 controlsDemo__height500">
                 <Controls.list:View source="{{_viewSource}}"
                                     keyProperty="id"
-                                    navigation="{{_options.navigation}}"
-                                    virtualPageSize="{{20}}"
-                                    virtualScrolling="{{true}}">
+                                    navigation="{{_options.navigation}}">
+                    <ws:virtualScrollConfig pageSize="{{20}}"/>
                     <ws:itemTemplate>
                         <ws:partial template="Controls/list:ItemTemplate" attr:style="{{itemTemplate.itemData.key === 0 ? 'min-height: 410px;'}}"/>
                     </ws:itemTemplate>

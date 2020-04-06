@@ -1,11 +1,14 @@
 <Controls.listRender:Render
         listModel="{{_options.listModel}}"
         multiselectVisibility="{{_options.multiSelect ? 'onhover' : 'hidden'}}"
+        emptyTemplate="{{!_options.listModel.getCount() ? _options.emptyTemplate : null}}"
         on:itemMouseLeave="_proxyEvent('itemMouseLeave')"
         on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
-        on:itemClick="_proxyEvent('itemClick')">
+        on:itemSwipe="_proxyEvent('itemSwipe')"
+        on:itemActionClick="_proxyEvent('itemActionClick')"
+        on:itemClick="_itemClick()">
    <ws:itemTemplate>
-      <ws:partial template="{{itemTemplate.item.getContents().get(_options.itemTemplateProperty) || _options.itemTemplate}}"
+      <ws:partial template="{{itemTemplate.item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
                   itemData="{{_getItemData(itemTemplate.item)}}"
                   treeItem="{{itemTemplate.item}}"
                   scope="{{_options}}"

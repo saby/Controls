@@ -1,5 +1,6 @@
 export interface ISliderOptions {
     borderVisible?: boolean;
+    tooltipVisible?: boolean;
     scaleStep?: number;
     precision: number;
     tooltipFormatter?: Function;
@@ -34,6 +35,17 @@ export interface ISlider {
  * Слайдер с границей:
  * <pre class="brush:html">
  *   <Controls.slider:Base borderVisible="{{true}}"/>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_slider/interface/ISlider#tooltipVisible
+ * @cfg {Boolean} Устанавливает подсказку при наведении на шкалу.
+ * @default true
+ * @example
+ * Слайдер с тултипом:
+ * <pre class="brush:html">
+ *   <Controls.slider:Base tooltipVisible="{{true}}"/>
  * </pre>
  */
 

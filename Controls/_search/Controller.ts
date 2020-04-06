@@ -11,6 +11,7 @@ import {isEqual} from 'Types/object';
 import {RecordSet} from 'Types/collection';
 import {ICrud} from 'Types/source';
 import {Logger} from 'UI/Utils';
+import {error as dataSourceError} from 'Controls/dataSource';
 
 var _private = {
    getSearchController: function (self, newOptions) {
@@ -175,7 +176,7 @@ var _private = {
 
    searchErrback: function (self, error: Error):void {
       if (self._options.dataLoadErrback) {
-         self._options.dataLoadErrback(error);
+         self._errbackResult = self._options.dataLoadErrback(error);
       }
       self._loading = false;
    },
@@ -200,7 +201,20 @@ var _private = {
              !_private.isSearchValueEmpty(self, self._inputSearchValue, searchValue);
 
          if (shouldSearch) {
-            _private.getSearchController(self).search(searchValue, force);
+            const searchResult = _private.getSearchController(self).search(searchValue, force);
+            self._errbackResult = undefined;
+
+            if (searchResult instanceof Promise) {
+               searchResult.then((result) => {
+                   if (self._errbackResult !== false && result instanceof Error) {
+                      self._notify('dataError', [{
+                         error: result,
+                         mode: dataSourceError.Mode.include
+                      }]);
+                   }
+                });
+               return searchResult;
+            }
          }
       } else {
          Logger.error('search:Controller source is required for search', self);
@@ -253,7 +267,7 @@ var _private = {
  *
  * @class Controls/_search/Controller
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation
@@ -279,7 +293,7 @@ var _private = {
  *
  * @class Controls/_search/Controller
  * @extends Core/Control
- * @mixes Controls/interface/ISearch
+ * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IFilter
  * @mixes Controls/_interface/INavigation

@@ -128,3 +128,8 @@ export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
  * @property {String} horizontal Выравнивание по горизонтали.
  * Доступные значения: right, left.
  */
+
+/**
+ * @name Controls/_popupTemplate/InfoBox#content
+ * @cfg {function|String} Шаблон, который будет отображать всплывающая подсказка.
+ */

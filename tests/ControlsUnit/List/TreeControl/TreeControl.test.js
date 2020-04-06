@@ -1272,7 +1272,6 @@ define([
                    dataLoadCallback: function () {
                       dataLoadCallbackCalled = true;
                    },
-                   task1177940587: true,
                    sorting: [{'test': 'ASC'}],
                    parentProperty: 'parent',
                    uniqueKeys: true
@@ -1637,6 +1636,9 @@ define([
                markItemByExpanderClick: true
             },
             e = {
+               nativeEvent: {
+                  buttons: 1
+               },
                stopImmediatePropagation: function(){}
             },
             treeControl = new treeGrid.TreeControl(cfg),
@@ -1657,10 +1659,10 @@ define([
 
          treeGrid.TreeControl._private.toggleExpanded = function(){};
 
-         treeControl._onExpanderClick(e, treeGridViewModel.at(0));
+         treeControl._onExpanderMouseDown(e, treeGridViewModel.at(0));
          assert.deepEqual(1, treeGridViewModel._model._markedKey);
 
-         treeControl._onExpanderClick(e, treeGridViewModel.at(1));
+         treeControl._onExpanderMouseDown(e, treeGridViewModel.at(1));
          assert.deepEqual(2, treeGridViewModel._model._markedKey);
 
          treeGrid.TreeControl._private.toggleExpanded = savedMethod;
@@ -1690,6 +1692,9 @@ define([
                markItemByExpanderClick: false
             },
             e = {
+               nativeEvent: {
+                  buttons: 1
+               },
                stopImmediatePropagation: function(){}
             },
             treeControl = new treeGrid.TreeControl(cfg),
@@ -1710,10 +1715,10 @@ define([
 
          treeGrid.TreeControl._private.toggleExpanded = function(){};
 
-         treeControl._onExpanderClick(e, treeGridViewModel.at(0));
+         treeControl._onExpanderMouseDown(e, treeGridViewModel.at(0));
          assert.deepEqual(1, treeGridViewModel._model._markedKey);
 
-         treeControl._onExpanderClick(e, treeGridViewModel.at(1));
+         treeControl._onExpanderMouseDown(e, treeGridViewModel.at(1));
          assert.deepEqual(1, treeGridViewModel._model._markedKey);
 
          treeGrid.TreeControl._private.toggleExpanded = savedMethod;
@@ -1839,16 +1844,12 @@ define([
             return {
                hasMoreData: () => false,
                load: function() {
-                  return {
-                     addCallback: (func) => {
-                        func(new collection.RecordSet({
-                           rawData: [],
-                           keyProperty: 'id'
-                        }));
-                     }
-                  }
+                  return Deferred.success(new collection.RecordSet({
+                     rawData: [],
+                     keyProperty: 'id'
+                  }));
                }
-            }
+            };
          };
 
          // Initial

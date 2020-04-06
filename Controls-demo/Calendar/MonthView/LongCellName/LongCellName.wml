@@ -11,19 +11,19 @@
                     </ws:if>
                     <ws:else>
                         <ws:if data="{{contentTemplate.value.day === 21}}">
-                            Very long text test
+                            Very long text
                         </ws:if>
                         <ws:else data="{{contentTemplate.value.day === 4}}">
                             Verylong
                         </ws:else>
                         <ws:else data="{{contentTemplate.value.day === 1}}">
-                            Very long text test
+                            Very long text
                         </ws:else>
                         <ws:else data="{{contentTemplate.value.day ===26}}">
-                            Very long text test
+                            Very long text
                         </ws:else>
                         <ws:else>
-                            Verylong
+                            Long
                         </ws:else>
                     </ws:else>
                 </ws:contentTemplate>

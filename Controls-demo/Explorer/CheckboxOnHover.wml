@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: CheckboxOnHover.">
-    <ws:content>
-        <Controls-demo.Explorer.CheckboxOnHover.CheckboxOnHover/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

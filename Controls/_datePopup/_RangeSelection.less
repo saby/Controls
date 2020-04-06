@@ -10,7 +10,7 @@
 .controls-RangeSelection__selected-inner-hovered,
 .controls-RangeSelection__selected-end,
 .controls-RangeSelection__selected-end-hovered {
-   outline: @border-color_RangeSelection-selected-startEnd solid @border-thickness_RangeSelection;
+   outline: @yearlist_monthview_item_selected_border-color_datePicker solid @yearlist_monthview_selection-border_thickness_datePicker;
 }
 
 .controls-RangeSelection__selection-start-base,
@@ -28,7 +28,7 @@
 .controls-RangeSelection__selected-end,
 .controls-RangeSelection__selection-inner,
 .controls-RangeSelection__selected-start-end {
-   background-color: @background-color_RangeSelection-selected-inner;
+   background-color: @yearlist_monthview_item_selected_background-color_datePicker;
 }
 
 .controls-RangeSelection__selected-start,
@@ -40,8 +40,8 @@
       content: "";
       position: absolute;
       height: 100%;
-      width: @width_RangeSelection-selected-startEnd-edgeBorder;
-      background-color: @border-color_RangeSelection-selected-startEnd-edgeBorder;
+      width: @rangeSelection_border_thickness_datePicker;
+      background-color: @yearlist_monthview_selection-border_single_color_datePicker;
       top: 0;
       left: -1px;
    }
@@ -55,8 +55,8 @@
       content: "";
       position: absolute;
       height: 100%;
-      width: @width_RangeSelection-selected-startEnd-edgeBorder;
-      background-color: @border-color_RangeSelection-selected-startEnd-edgeBorder;
+      width: @rangeSelection_border_thickness_datePicker;
+      background-color: @yearlist_monthview_selection-border_single_color_datePicker;
       top: 0;
       right: -1px;
    }
@@ -64,8 +64,8 @@
 
 .controls-RangeSelection__selected-start-end,
 .controls-RangeSelection__selected-start-end-hovered {
-   outline: @border-color_RangeSelection-selected-startEnd-edgeBorder solid @border-thickness_RangeSelection-selected-startEnd;
-   outline-offset: @border-thickness_RangeSelection - @border-thickness_RangeSelection-selected-startEnd;
+   outline: @yearlist_monthview_selection-border_single_color_datePicker solid @rangeSelection_border_single_thickness_datePicker;
+   outline-offset: @yearlist_monthview_selection-border_thickness_datePicker - @rangeSelection_border_single_thickness_datePicker;
 }
 
 .controls-RangeSelection__selection-start-hovered,
@@ -75,16 +75,16 @@
 .controls-RangeSelection__selected-start-end-hovered,
 .controls-RangeSelection__selected-start-hovered,
 .controls-RangeSelection__selected-end-hovered {
-   background-color: @background-color_RangeSelection-selected-unfinishedEdge;
+   background-color: @yearlist_monthview_item_selected_hover_background-color_datePicker;
 }
 
 .controls-RangeSelection__selection-start-base,
 .controls-RangeSelection__selection-end-base,
 .controls-RangeSelection__selection-start-base-hovered {
-   background-color: @background-color_DateRangeBigChoose-range-selected-startEnd;
+   background-color: @rangeSelection_item_edge_background-color_datePicker;
 }
 
 .controls-RangeSelection__hovered {
-   background-color: @background-color_RangeSelection-selected-unfinishedEdge;
-   outline: @border-color_RangeSelection-selected-startEnd solid  @border-thickness_RangeSelection;
+   background-color: @yearlist_monthview_item_selected_hover_background-color_datePicker;
+   outline: @yearlist_monthview_item_selected_border-color_datePicker solid  @yearlist_monthview_selection-border_thickness_datePicker;
 }

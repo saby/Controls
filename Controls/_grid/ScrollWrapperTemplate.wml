@@ -2,6 +2,7 @@
     <Controls.scroll:StickyHeader
             attr:class="controls-Grid_columnScroll_wrapper"
             attr:style="{{_gridStyle}}"
+            backgroundStyle="{{_options.backgroundStyle}}"
             mode="stackable"
             ntype="scroll"
             fixedZIndex="{{5}}"

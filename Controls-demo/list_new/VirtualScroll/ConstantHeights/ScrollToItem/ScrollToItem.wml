@@ -6,9 +6,9 @@
                 <Controls.list:View source="{{_viewSource}}"
                                     keyProperty="id"
                                     name="list"
-                                    navigation="{{_options.navigation}}"
-                                    virtualPageSize="{{10}}"
-                                    virtualScrolling="{{true}}"/>
+                                    navigation="{{_options.navigation}}">
+                    <ws:virtualScrollConfig pageSize="{{10}}"/>
+                </Controls.list:View>
             </Controls.scroll:Container>
         </ws:content>
     </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>

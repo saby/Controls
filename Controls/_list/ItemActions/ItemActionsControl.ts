@@ -2,12 +2,13 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_list/ItemActions/ItemActionsControl');
 import {showType} from 'Controls/Utils/Toolbar';
 import aUtil = require('Controls/_list/ItemActions/Utils/Actions');
-import ControlsConstants = require('Controls/Constants');
+import {view as constView} from 'Controls/Constants';
 import getStyle = require('Controls/_list/ItemActions/Utils/getStyle');
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { relation } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
 import { constants } from 'Env/Env';
+import cClone = require('Core/core-clone');
 import 'css!theme?Controls/list';
 
 import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
@@ -35,9 +36,6 @@ var _private = {
         } else {
             options.itemActions.forEach(function(action) {
                 if (!options.itemActionVisibilityCallback || options.itemActionVisibilityCallback(action, item)) {
-                    if (action.icon && !~action.icon.indexOf(ACTION_ICON_CLASS)) {
-                        action.icon += ' ' + ACTION_ICON_CLASS;
-                    }
                     action.style = getStyle(action.style, 'ItemActions');
                     action.iconStyle = getStyle(action.iconStyle, 'ItemActions');
                     actions.push(action);
@@ -61,13 +59,22 @@ var _private = {
             options
         );
 
-        let showed = all;
-        if (showed.length > 1) {
-            // TODO: any => action type
-            showed = showed.filter((action: any) => {
-                return action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR;
+        let showed = [];
+        if (all.length > 1) {
+            all.forEach((action: any) => {
+                if (action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR) {
+                    showed.push(cClone(action));
+                }
             });
+        } else {
+            showed = cClone(all);
         }
+        // ACTION_ICON_CLASS нужен для отображаемых по ховеру операций - именно он обеспечивает их выравнивание
+        showed.forEach((action) => {
+            if (action.icon && !~action.icon.indexOf(ACTION_ICON_CLASS)) {
+                action.icon += ' ' + ACTION_ICON_CLASS;
+            }
+        });
 
         if (_private.needActionsMenu(all)) {
             showed.push({
@@ -115,7 +122,7 @@ var _private = {
                 while (options.listModel.isEnd()) {
                     let itemData = options.listModel.getCurrent();
                     let item = itemData.actionsItem;
-                    if (item !== ControlsConstants.view.hiddenGroup && item.get) {
+                    if (item !== constView.hiddenGroup && item.get) {
                         updateItemActionsResult = _private.updateItemActions(self, item, options);
                         if (hasChanges !== 'all') {
                             if (hasChanges !== 'partial') {

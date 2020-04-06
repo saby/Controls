@@ -6,6 +6,7 @@ const _departments = MemorySourceData.departments;
 const _departmentsDataLong = _departments.concat(getLongData());
 const _departmentsWithCompanies = _companies.concat(_departmentsDataLong)
 const _departmentsWithImges = MemorySourceData.departments;
+const _departmentsDev = _departments.concat(getIdentData());
 
 _departmentsWithImges.forEach(function(department) {
    department.photo = resourceRoot + 'Controls-demo/Suggest_new/resources/images/Novikov.png';
@@ -29,10 +30,20 @@ function getLongData() {
    return data;
 }
 
+function getIdentData() {
+   const data = [];
+
+   for (var id = 10; id < 13; id++) {
+      data.push({id: id, department: 'Разработка', owner: 'Новиков Д.В.', title: 'Разработка' + id});
+   }
+   return data;
+}
+
 export {
    _companies,
    _departments,
    _departmentsWithCompanies,
    _departmentsDataLong,
-   _departmentsWithImges
+   _departmentsWithImges,
+   _departmentsDev
 }

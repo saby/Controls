@@ -1,32 +1,42 @@
+@width-TreeGridView-levelPadding_size_s_val:                      20px;
+@width-TreeGridView-levelPadding_size_m_val:                      30px;
+@width-TreeGridView-levelPadding_size_l_val:                      38px;
+@width-TreeGridView-levelPadding_size_xl_val:                     46px;
+
+@_hierarchy_offset_s_treeGrid:    @expander_s_padding-left_treeGrid + @expander_s_padding-right_treeGrid + @expander_width_treeGrid;
+@_hierarchy_offset_m_treeGrid:    @expander_m_padding-left_treeGrid + @expander_m_padding-right_treeGrid + @expander_width_treeGrid;
+@_hierarchy_offset_l_treeGrid:    @expander_l_padding-left_treeGrid + @expander_l_padding-right_treeGrid + @expander_width_treeGrid;
+@_hierarchy_offset_xl_treeGrid:   @expander_xl_padding-left_treeGrid + @expander_xl_padding-right_treeGrid + @expander_width_treeGrid;
+
 .controls-TreeGrid__row-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
-   padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_s;
-   padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_s;
-   padding-left: @spacing_TreeGridView-row-expander-between-content_borderLeft_s;
-   padding-right: @spacing_TreeGridView-row-expander-between-content_borderRight_s;
+   padding-top: @expander_s_padding-top_treeGrid;
+   padding-bottom: @expander_s_padding-bottom_treeGrid;
+   padding-left: @expander_s_padding-left_treeGrid;
+   padding-right: @expander_s_padding-right_treeGrid;
 }
 .controls-TreeGrid__row-expander_size_m_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_m_theme-@{themeName} {
-   padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_m;
-   padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_m;
-   padding-left: @spacing_TreeGridView-row-expander-between-content_borderLeft_m;
-   padding-right: @spacing_TreeGridView-row-expander-between-content_borderRight_m;
+   padding-top: @expander_m_padding-top_treeGrid;
+   padding-bottom: @expander_m_padding-bottom_treeGrid;
+   padding-left: @expander_m_padding-left_treeGrid;
+   padding-right: @expander_m_padding-right_treeGrid;
 }
 .controls-TreeGrid__row-expander_size_l_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_l_theme-@{themeName} {
-   padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_l;
-   padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_l;
-   padding-left: @spacing_TreeGridView-row-expander-between-content_borderLeft_l;
-   padding-right: @spacing_TreeGridView-row-expander-between-content_borderRight_l;
+   padding-top: @expander_l_padding-top_treeGrid;
+   padding-bottom: @expander_l_padding-bottom_treeGrid;
+   padding-left: @expander_l_padding-left_treeGrid;
+   padding-right: @expander_l_padding-right_treeGrid;
 }
 .controls-TreeGrid__row-expander_size_xl_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_xl_theme-@{themeName} {
-   padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_xl;
-   padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_xl;
-   padding-left: @spacing_TreeGridView-row-expander-between-content_borderLeft_xl;
-   padding-right: @spacing_TreeGridView-row-expander-between-content_borderRight_xl;
+   padding-top: @expander_xl_padding-top_treeGrid;
+   padding-bottom: @expander_xl_padding-bottom_treeGrid;
+   padding-left: @expander_xl_padding-left_treeGrid;
+   padding-right: @expander_xl_padding-right_treeGrid;
 }
 .controls-TreeGrid__row-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-   padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_s;
-   padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_s;
-   padding-left: @spacing_TreeGridView-row-expander-between-content_borderLeft_s;
-   padding-right: @spacing_TreeGridView-row-expander-between-content_borderRight_s;
+   padding-top: @expander_default_padding-top_treeGrid;
+   padding-bottom: @expander_default_padding-bottom_treeGrid;
+   padding-left: @expander_default_padding-left_treeGrid;
+   padding-right: @expander_default_padding-right_treeGrid;
 }
 
 //выделение мастера верстается через before и after. В ие верстка через td. td могут иметь разную высоту.
@@ -36,20 +46,20 @@
 
 .ws-is-ie {
    .controls-Grid__cell_master .controls-TreeGrid__row-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-      padding-top: @spacing_TreeGridView-row-expander-between-content_borderTop_s - 1;
-      padding-bottom: @spacing_TreeGridView-row-expander-between-content_borderBottom_s - 1;
+      padding-top: @expander_s_padding-top_treeGrid - 1;
+      padding-bottom: @item_padding-bottom_s_grid - 1;
    }
 }
 .controls-TreeGrid__row-expander_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_theme-@{themeName} {
    line-height: 1;
    display: inline-block;
    position: relative;
-   min-height: @height_TreeGridView-expander;
-   min-width: @width_TreeGridView-expander;
+   min-height: @expander_height_treeGrid;
+   min-width: @expander_width_treeGrid;
 }
 .controls-TreeGridView__dragTargetNode_theme-@{themeName} {
-   border-top: @border-width_TreeGridView-item_dragging solid @border-color_TreeGridView-item_dragging;
-   border-bottom: @border-width_TreeGridView-item_dragging solid @border-color_TreeGridView-item_dragging;
+   border-top: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
+   border-bottom: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
    position: absolute;
    top: 0;
    left: 0;
@@ -61,41 +71,45 @@
    z-index: 2;
 }
 .controls-TreeGridView__dragTargetNode_first_theme-@{themeName} {
-   border-left: @border-width_TreeGridView-item_dragging solid @border-color_TreeGridView-item_dragging;
+   border-left: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
 }
 .controls-TreeGridView__dragTargetNode_last_theme-@{themeName} {
-   border-right: @border-width_TreeGridView-item_dragging solid @border-color_TreeGridView-item_dragging;
+   border-right: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
 }
 .controls-TreeGrid__row-expanderPadding {
    visibility: hidden;
 }
 
 .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before {
-   color: @color_TreeGridView-expander;
-   font-family: @font-family-TreeGridView-icons;
-   font-size: @font-size_TreeGridView-expander;
-   padding: @padding_TreeGridView-expander;
+   color: @node_expander_icon-color_treeGrid;
+   font-family: @node_expander_icon_font-family_treeGrid;
+   font-size: @node_expander_icon-size_treeGrid;
+   padding-left: @expander_width_treeGrid - @node_expander_icon-size_treeGrid;
+   padding-top: (@expander_height_treeGrid - @node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
-   color: @color_TreeGridView-expander-hiddenNode;
-   font-family: @font-family-TreeGridView-icons;
-   font-size: @font-size_TreeGridView-expander;
-   padding: @padding_TreeGridView-expander;
+   color: @hidden-node_expander_icon-color_treeGrid;
+   font-family: @hidden-node_expander_icon_font-family_treeGrid;
+   font-size: @hidden-node_expander_icon-size_treeGrid;
+   padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
+   padding-top: (@expander_height_treeGrid - @hidden-node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before {
-   color: @color_TreeGridView-expander_master;
-   font-family: @font-family-TreeGridView-icons;
-   font-size: @font-size_TreeGridView-expander_master;
-   padding: @padding_TreeGridView-expander_master;
+   color: @master_node_expander_icon-color_treeGrid;
+   font-family: @node_expander_icon_font-family_treeGrid;
+   font-size: @master_node_expander_icon-size_treeGrid;
+   padding-left: @expander_width_treeGrid - @master_node_expander_icon-size_treeGrid;
+   padding-top: (@expander_height_treeGrid - @master_node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
-   color: @color_TreeGridView-expander-hiddenNode_master;
-   font-family: @font-family-TreeGridView-icons;
-   font-size: @font-size_TreeGridView-expander_master;
-   padding: @padding_TreeGridView-expander_master;
+   color: @master_hidden-node_expander_icon-color_treeGrid;
+   font-family: @hidden-node_expander_icon_font-family_treeGrid;
+   font-size: @master_hidden-node_expander_icon-size_treeGrid;
+   padding-left: @expander_width_treeGrid - @master_hidden-node_expander_icon-size_treeGrid;
+   padding-top: (@expander_height_treeGrid - @master_hidden-node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_theme-@{themeName}:before {
@@ -108,39 +122,39 @@
 }
 .controls-TreeGrid__row-expander_node_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_collapsed_theme-@{themeName}:before {
-   content: @icon_TreeGridView-expander_node-collapsed;
+   content: '\e96e';
 }
 .controls-TreeGrid__row-expander_node_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_expanded_theme-@{themeName}:before {
-   content: @icon_TreeGridView-expander_node-expanded;
+   content: '\e96d';
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_collapsed_theme-@{themeName}:before {
-   content: @icon_TreeGridView-expander_hiddenNode-collapsed;
+   content: '\e9c2';
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
-   content: @icon_TreeGridView-expander_hiddenNode-expanded;
+   content: '\e9c1';
 }
 
 .controls-TreeGrid__row-expander__spacingTop_default_theme-@{themeName} {
-   margin-top: @margin-top_TreeGridView-expander_default;
+   margin-top: @item_padding-top_default_grid;
 }
 .controls-TreeGrid__row-expander__spacingTop_m_theme-@{themeName} {
-   margin-top: @margin-top_TreeGridView-expander_s;
+   margin-top: @item_padding-top_s_grid;
 }
 .controls-TreeGrid__row-expander__spacingTop_l_theme-@{themeName} {
-   margin-top: @margin-top_TreeGridView-expander_l;
+   margin-top: @item_padding-top_l_grid;
 }
 
 .controls-TreeGrid__row-expander__spacingBottom_default_theme-@{themeName} {
-   margin-bottom: @margin-bottom_TreeGridView-expander_default;
+   margin-bottom: @item_padding-bottom_default_grid;
 }
 .controls-TreeGrid__row-expander__spacingBottom_m_theme-@{themeName} {
-   margin-bottom: @margin-bottom_TreeGridView-expander_s;
+   margin-bottom: @item_padding-bottom_s_grid;
 }
 .controls-TreeGrid__row-expander__spacingBottom_l_theme-@{themeName} {
-   margin-bottom: @margin-bottom_TreeGridView-expander_l;
+   margin-bottom: @item_padding-bottom_l_grid;
 }
 
 .controls-TreeGrid__row {
@@ -156,42 +170,42 @@
 }
 .controls-TreeGrid__nodeFooterContent_theme-@{themeName}:before {
     content: '\200b';
-    font-size: @font-size_TreeGridView-nodeFooter-content-baseline;
+    font-size: @node-footer_max-font-size_treeGrid;
  }
 .controls-TreeGrid__nodeFooterLoadMore_theme-@{themeName} {
-   font-size: @font-size_TreeGridView-nodeFooterHasMore;
+   font-size: @node-footer_more_font-size_treeGrid;
 }
 .controls-TreeGrid__row-levelPadding_size_default_theme-@{themeName} {
-   width: @width-TreeGridView-levelPadding_size_s;
+   width: @_hierarchy_offset_s_treeGrid;
 }
 .controls-TreeGrid__row-levelPadding_size_s_theme-@{themeName} {
-   width: @width-TreeGridView-levelPadding_size_s;
+   width: @_hierarchy_offset_s_treeGrid;
 }
 .controls-TreeGrid__row-levelPadding_size_m_theme-@{themeName} {
-   width: @width-TreeGridView-levelPadding_size_m;
+   width: @_hierarchy_offset_m_treeGrid;
 }
 .controls-TreeGrid__row-levelPadding_size_l_theme-@{themeName} {
-   width: @width-TreeGridView-levelPadding_size_l;
+   width: @_hierarchy_offset_l_treeGrid;
 }
 .controls-TreeGrid__row-levelPadding_size_xl_theme-@{themeName}{
-   width: @width-TreeGridView-levelPadding_size_xl;
+   width: @_hierarchy_offset_xl_treeGrid;
 }
 .controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText {
-  font-size: @font-size_TreeGridView-row-cell-node;
+  font-size: @node_font-size_treeGrid;
 }
 .controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
 .controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName} .controls-EditingTemplateText {
-  font-size: @font-size_TreeGridView-row-cell-hiddenNode;
+  font-size: @hidden-node_font-size_treeGrid;
 }
 .controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
 .controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText {
-  font-size: @font-size_TreeGridView-row-cell-item;
+  font-size: @item_font-size_m_grid;
 }
 
 // Отступы подвала слева
 .controls-TreeGrid__nodeFooterContent_spacingLeft-default_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_default;
+   padding-left: @item_padding-left_default_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-null_theme-@{themeName} {
@@ -199,32 +213,32 @@
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-xs_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xs;
+   padding-left: @item_padding-left_xs_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-s_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_s;
+   padding-left: @item_padding-left_s_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-m_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_m;
+   padding-left: @item_padding-left_m_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-l_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_l;
+   padding-left: @item_padding-left_l_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-xl_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xl;
+   padding-left: @item_padding-left_xl_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingLeft-xxl_theme-@{themeName} {
-   padding-left: @spacing_Grid-row-between-content-borderLeft_xxl;
+   padding-left: @item_padding-left_2xl_list;
 }
 
 // Отступы подвала справа
 .controls-TreeGrid__nodeFooterContent_spacingRight-default_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_default;
+   padding-right: @item_padding-right_default_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-null_theme-@{themeName} {
@@ -232,27 +246,27 @@
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-xs_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xs;
+   padding-right: @item_padding-right_xs_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-s_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_s;
+   padding-right: @item_padding-right_s_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-m_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_m;
+   padding-right: @item_padding-right_m_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-l_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_l;
+   padding-right: @item_padding-right_l_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-xl_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xl;
+   padding-right: @item_padding-right_xl_list;
 }
 
 .controls-TreeGrid__nodeFooterContent_spacingRight-xxl_theme-@{themeName} {
-   padding-right: @spacing_Grid-row-between-content-borderRight_xxl;
+   padding-right: @item_padding-right_2xl_list;
 }
 
 .controls-Grid__row-cell__content.controls-TreeGrid__row-cell__firstColumn__contentSpacing_null {
@@ -275,14 +289,17 @@
 }
 
 .ws-is-hover {
-   .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:hover:before,
-   .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before,
-   .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:hover:before {
-      color: @color_TreeGridView-expander_hover;
+   .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:hover:before {
+      color: @node_expander_hover_icon-color_treeGrid;
    }
-
+   .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:hover:before {
+      color: @hidden-node_expander_hover_icon-color_treeGrid;
+   }
    .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:hover:before {
-      color: @color_TreeGridView-expander_hover_master;
+      color: @master_node_expander_hover_icon-color_treeGrid;
+   }
+   .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before {
+      color: @master_hidden-node_expander_hover_icon-color_treeGrid;
    }
 
    .controls-BaseControl_showActions {

@@ -1,0 +1,11 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              itemActions="{{_itemActions}}"
+              attr:class="ControlsDemo-menuControl_minWidth"
+      />
+   </div>
+</div>

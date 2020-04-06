@@ -12,6 +12,8 @@ import * as Images from 'Controls-demo/DragNDrop/Images';
 import * as itemTpl from  'wml!Controls-demo/grid/resources/CellTemplates/CellWithBgc';
 import * as itemCountr from 'wml!Controls-demo/grid/resources/CellTemplates/CountryTemp';
 import * as resTpl from 'wml!Controls-demo/grid/EditInPlace/EditingCell/resultsTpl';
+import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notScrollableCell';
+import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 
 
 
@@ -296,11 +298,11 @@ function getCountriesStats() {
         getColumnsWithWidths: () => [
             {
                 displayProperty: 'number',
-                width: '40px',
+                width: '40px'
             },
             {
                 displayProperty: 'country',
-                width: '300px',
+                width: '300px'
             },
             {
                 displayProperty: 'capital',
@@ -329,6 +331,61 @@ function getCountriesStats() {
                 compatibleWidth: '175px'
             }
         ],
+        getColumnsForDragScrolling: () => ([
+            {
+                displayProperty: 'number',
+                width: '40px'
+            },
+            {
+                displayProperty: 'country',
+                width: '300px',
+                template: notDraggableCell
+            },
+            {
+                displayProperty: 'capital',
+                width: 'max-content',
+                compatibleWidth: '98px'
+            },
+            {
+                width: '200px',
+                template: notScrollableCell
+            },
+            {
+                displayProperty: 'population',
+                width: 'max-content',
+                compatibleWidth: '100px'
+            },
+            {
+                displayProperty: 'square',
+                width: 'max-content',
+                compatibleWidth: '83px'
+            },
+            {
+                displayProperty: 'populationDensity',
+                width: 'max-content',
+                compatibleWidth: '175px'
+            }
+        ]),
+        getResults: () => ({
+            full: [
+                {
+                    population: 3660205559.49,
+                    square: 19358447.87,
+                    populationDensity: 1.17
+                },
+                {
+                    population: 3945358705.46,
+                    square: 19366292.85,
+                    populationDensity: 9.13
+                },
+                {
+                    population: 3161196890.87,
+                    square: 19709468.10,
+                    populationDensity: 1.87
+                }
+            ],
+            partial: [12345678910, 23456789101, 34567891012]
+        }),
         getColumnsWithAlign: () => [
             {
                 displayProperty: 'number',
@@ -482,6 +539,74 @@ function getCountriesStats() {
                 endColumn: 7
             }
         ],
+        getMultiHeaderForDragScrolling: () => [
+            {
+                title: '#',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 1,
+                endColumn: 2
+            },
+            {
+                title: 'Географические данные',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 2,
+                endColumn: 4,
+                align: 'center'
+            },
+            {
+                title: 'Страна',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 2,
+                endColumn: 3
+            },
+            {
+                title: 'Столица',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 3,
+                endColumn: 4
+            },
+            {
+                title: 'Колонка с выключенным перемещением мышью',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 4,
+                endColumn: 5
+            },
+            {
+                title: 'Цифры',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 5,
+                endColumn: 8,
+                align: 'center'
+            },
+            {
+                title: 'Население',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 5,
+                endColumn: 6
+            },
+            {
+                title: 'Площадь км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 6,
+                endColumn: 7
+            },
+            {
+                title: 'Плотность населения чел/км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 7,
+                endColumn: 8
+            }
+        ],
+
         getMultiHeaderVar2: () => [
             {
                 title: 'Географические характеристики стран',
@@ -715,6 +840,22 @@ function getTasks() {
                 width: '100px'
             }
         ],
+        getDefaultWithEditingColumns: () => [
+            {
+                displayProperty: 'id',
+                width: '30px',
+            },
+            {
+                displayProperty: 'state',
+                width: '200px',
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor',
+            },
+            {
+                displayProperty: 'date',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor',
+            }
+        ],
     }
 }
 
@@ -840,6 +981,26 @@ function getEditing() {
                 costPrice: '3'
             }
         ],
+        getEditingValidationData: () => [
+            {
+                id: '1',
+                email: 'semen@gmail.com',
+                required: '89069953970',
+                length: '1234',
+            },
+            {
+                id: '2',
+                email: 'artem@gmail.com',
+                required: '89069953970',
+                length: '123',
+            },
+            {
+                id: '3',
+                email: 'oleg@gmail.com',
+                required: '89069953970',
+                length: 'hello',
+            }
+        ],
         getEditingColumns: () => [
             {
                 displayProperty: 'title',
@@ -879,6 +1040,34 @@ function getEditing() {
                 resultTemplate: resTpl,
                 results: 6
             }
+        ],
+        getEditingColumnsValidation: () => [
+            {
+                displayProperty: 'email',
+                width: '200px',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditor',
+            },
+            {
+                displayProperty: 'required',
+                width: 'max-content',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired',
+            },
+            {
+                displayProperty: 'length',
+                width: 'max-content',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate',
+            },
+        ],
+        getEditingHeaderValidations: () => [
+            {
+                title: 'email'
+            },
+            {
+                title: 'required'
+            },
+            {
+                title: 'Length'
+            },
         ],
         getDecoratedEditingData: () => [
             {

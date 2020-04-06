@@ -2,10 +2,10 @@
     <div class="controlsDemo__cell controls-text-label_theme-{{_options.theme}}">Stack of global indicators</div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-row controlsDemo__mb2">
         <div class="controlsDemo__mr2">
-            <a attr:class="ws-link" on:click="_firstOpen()">Open 1 indicator</a>
+            <a attr:class="ws-link controls-Demo__indicator_open_one" on:click="_firstOpen()">Open 1 indicator</a>
         </div>
         <div>
-            <a attr:class="ws-link" on:click="_close('first')">Close 1 indicator</a>
+            <a attr:class="ws-link controls-Demo__indicator_close_one" on:click="_close('first')">Close 1 indicator</a>
         </div>
     </div>
     <div class="controlsDemo__cell ws-flexbox ws-flex-row controlsDemo__mb2">
@@ -18,7 +18,7 @@
     </div>
     <div class="controlsDemo__cell">
         <div>
-            <a attr:class="ws-link" on:click="_overlay()">Indicator with updated content</a>
+            <a attr:class="ws-link controls-Demo__indicator_with_update" on:click="_overlay()">Indicator with updated content</a>
         </div>
     </div>
 </div>

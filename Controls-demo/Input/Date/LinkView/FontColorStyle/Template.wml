@@ -1,0 +1,74 @@
+<div class="pageWrap">
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="unaccented"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="unaccented"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="link"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="link"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="default"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="default"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="label"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="label"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="success"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="success"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="danger"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="danger"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="primary"</div>
+        <Controls.dateRange:LinkView
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                fontColorStyle="primary"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="secondary"</div>
+        <Controls.dateRange:LinkView
+                startValue="{{_startValue}}"
+                endValue="{{_endValue}}"
+                fontColorStyle="secondary"
+        />
+    </div>
+    <div class="option_block">
+        <div class="option_variant">fontColorStyle="warning"</div>
+        <Controls.dateRange:LinkView
+                startValue="{{_startValue}}"
+                endValue="{{_endValue}}"
+                fontColorStyle="warning"
+        />
+    </div>
+</div>

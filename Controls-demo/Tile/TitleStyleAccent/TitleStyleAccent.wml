@@ -1,3 +1,4 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_styleAccent">
 <Controls.tile:View
         displayProperty="title"
         imageProperty="image"
@@ -10,3 +11,4 @@
                         template="Controls/tile:ItemTemplate"/>
         </ws:itemTemplate>
 </Controls.tile:View>
+</div>

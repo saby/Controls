@@ -6,7 +6,10 @@
         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="wml!Controls-demo/grid/EditInPlace/EditingRow/_rowEditor"
-                        documentSignMemory="{{_documentSignMemory}}"/>
+                        documentSignMemory="{{_documentSignMemory}}"
+                        onChange1="{{onChange1}}"
+                        onChange2="{{onChange2}}"
+                        selectedKey="{{selectedKey}}"/>
         </ws:itemTemplate>
     </Controls.grid:View>
 </div>

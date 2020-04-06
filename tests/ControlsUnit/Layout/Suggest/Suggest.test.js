@@ -542,9 +542,19 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
 
       it('Suggest::_private.loadDependencies', function(done) {
          var self = getComponentObject();
-
-         suggestMod._InputController._private.loadDependencies(self).addCallback(function() {
+         var options = {
+            footerTemplate: 'test',
+            suggestTemplate: 'test',
+            emptyTemplate: 'test',
+         };
+         suggestMod._InputController._private.loadDependencies(self, options).addCallback(function() {
             assert.isTrue(self._dependenciesDeferred.isReady());
+         });
+
+         var dep = self._dependenciesDeferred;
+         suggestMod._InputController._private.getTemplatesToLoad = function() {return []};
+         suggestMod._InputController._private.loadDependencies(self, options).addCallback(function() {
+            assert.deepEqual(self._dependenciesDeferred, dep);
             done();
          });
       });
@@ -663,18 +673,23 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestMod._InputController._private.loadDependencies = function() {return Deferred.success(true)};
          var suggestComponent = new suggestMod._InputController(options);
          var sandbox = sinon.createSandbox();
+         var dependenciesDeferred = {
+            isReady: function() {
+               return true;
+            }
+         };
 
          suggestComponent.saveOptions(options);
          suggestComponent._loading = true;
          suggestComponent._showContent = true;
-         suggestComponent._dependenciesDeferred = true;
+         suggestComponent._dependenciesDeferred = dependenciesDeferred;
          suggestComponent._inputActive = true;
          suggestComponent._suggestMarkedKey = 'test';
 
          suggestComponent._beforeUpdate({suggestState: false, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl',  value: 'te'});
          assert.isFalse(suggestComponent._showContent, null);
          assert.equal(suggestComponent._loading, null);
-         assert.equal(suggestComponent._dependenciesDeferred, null);
+         assert.deepEqual(suggestComponent._dependenciesDeferred, dependenciesDeferred);
          assert.equal(suggestComponent._searchValue, '');
          assert.equal(suggestComponent._filter, null);
          assert.equal(suggestComponent._suggestMarkedKey, null);
@@ -693,6 +708,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._options.value = 'test';
          suggestComponent._beforeUpdate({suggestState: true, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl', value: ''});
          assert.equal(suggestComponent._searchValue, '');
+         assert.deepEqual(suggestComponent._dependenciesDeferred, dependenciesDeferred);
          sinon.assert.calledWith(suggestComponent._notify, 'suggestStateChanged', [false]);
 
          suggestComponent._searchValue = 'test';

@@ -1,0 +1,3 @@
+<div class="controlsDemo__height{{ _isBig ? 500 : 300}}">
+    Меняющий размер элемент
+</div>

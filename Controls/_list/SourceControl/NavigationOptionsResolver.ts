@@ -2,7 +2,7 @@ import {
     INavigationOptionValue,
     INavigationPageSourceConfig,
     INavigationPositionSourceConfig, INavigationSourceConfig
-} from '../../_interface/INavigation';
+} from 'Controls/interface';
 
 /**
  * Настройки для страницы по умолчанию

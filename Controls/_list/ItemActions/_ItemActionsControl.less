@@ -26,7 +26,7 @@
 }
 
 .controls-itemActionsV__wrapper-isEditing {
-  margin-left: @spacing_ItemActions-between-actions;
+  margin-left: @item_offset_itemActions;
 }
 
 .controls-itemActionsV_invisible {
@@ -50,27 +50,27 @@
 }
 
 .controls-itemActionsV_inside {
-   padding-right: @spacing_ItemActions-between-content-border-right_position_inside;
-   height: @height_ItemActions_inside;
+   padding-right: @offset-right_itemActions;
+   height: @height_itemActions;
 }
 
 .controls-itemActionsV_style_default {
-   background-color: @background-color_ItemActions;
+   background-color: @background-color_itemActions;
 }
 
 .controls-itemActionsV_style_master {
-   background-color: @background-color_ItemActions_style_master;
+   background-color: @master_background-color_itemActions;
 }
 
 .controls-itemActionsV_outside {
   right: 0;
-  bottom: -@height_ItemActions_outside;
-  height: @height_ItemActions_outside;
-  background-color: @background-color_ItemActions_outside;
-   padding-top: @spacing_ItemActions-between-content-border-top_position_outside;
-   padding-right: @spacing_ItemActions-between-content-border-right_position_outside;
-   padding-bottom: @spacing_ItemActions-between-content-border-bottom_position_outside;
-   padding-left: @spacing_ItemActions-between-content-border-left_position_outside;
+  bottom: -@height_outside_itemActions;
+  height: @height_outside_itemActions;
+  background-color: @background-color_outside_itemActions;
+   padding-top: @offset-top_outside_itemActions;
+   padding-right: @offset-right_outside_itemActions;
+   padding-bottom: @offset-bottom_outside_itemActions;
+   padding-left: 0;
   box-sizing: border-box;
   &:before {
     content:'';
@@ -78,14 +78,14 @@
     width: 0;
     height: 0;
     top:0;
-    border-top: @height_ItemActions_outside solid @background-color_ItemActions;
-    border-left: @width_ItemActions-decorativeEdge solid transparent;
-    left: -@width_ItemActions-decorativeEdge;
+    border-top: @height_outside_itemActions solid @background-color_itemActions;
+    border-left: @corner_width_outside_itemActions solid transparent;
+    left: -@corner_width_outside_itemActions;
   }
 }
 
 .controls-itemActionsV_outside-spacing {
-  height: @height_ItemActions_outside;
+  height: @height_outside_itemActions;
 }
 
 .controls-itemActionsV_position_bottomRight {
@@ -99,22 +99,22 @@
 }
 
 .controls-itemActionsV_padding-bottom_default {
-  padding-bottom: @spacing_ItemActions-between-content-border-bottom_position_inside;
+  padding-bottom: @offset-bottom_itemActions;
 }
 .controls-itemActionsV_padding-bottom_null {
   padding-bottom: 0;
 }
 .controls-itemActionsV_padding-top_default {
-  padding-top: @spacing_ItemActions-between-content-border-top_position_inside;
+  padding-top: @offset-top_itemActions;
 }
 .controls-itemActionsV_padding-top_null {
   padding-top: 0;
 }
 .controls-itemActionsV_editing {
-   background-color: @background-color_ItemActions_editing;
+   background-color: @background-color_editing_itemActions;
 
    &::before {
-      border-top-color: @background-color_ItemActions_editing;
+      border-top-color: @background-color_editing_itemActions;
    }
 }
 
@@ -126,8 +126,8 @@
   display: flex;
 }
 .controls-itemActionsV__action_icon {
-  width: @width_ItemActions-action;
-  height: @height_ItemActions-action;
+  width: @item_icon-size_itemActions;
+  height: @item_icon-size_itemActions;
   justify-content: center;
   align-items: center;
 }
@@ -144,42 +144,42 @@
   white-space: nowrap;
 }
 .controls-itemActionsV__action_padding {
-  margin: 0 @spacing_ItemActions-between-actions;
+  margin: 0 @item_offset_itemActions;
 }
 
 .controls-itemActionsV__action_iconStyle_danger {
-   color: @color_ItemActions-icon_style_danger;
+   color: @danger_color;
 }
 
 .controls-itemActionsV__action_iconStyle_success {
-   color: @color_ItemActions-icon_style_success;
+   color: @success_color;
 }
 
 .controls-itemActionsV__action_iconStyle_secondary {
-   color: @color_ItemActions-icon_style_secondary;
+   color: @secondary_icon-color;
 }
 
 .controls-itemActionsV__action_iconStyle_warning {
-   color: @color_ItemActions-icon_style_warning;
+   color: @warning_color;
 }
 
 //since Opener does not know the specific size of the icon
 .controls-itemActionsV__popup .icon-size{
-  .icon-size-without-important(@font-size_ItemActions-icon_size_m, @font-family_ItemActions-icon_size_m);
+  .icon-size-without-important(@item_icon-size_itemActions, @item_icon_font-family_itemsActions);
 }
 
 .controls-itemActionsV__action_icon_size_m {
-   .icon(@font-size_ItemActions-icon_size_m, @font-family_ItemActions-icon_size_m);
+   .icon(@item_icon-size_itemActions, @item_icon_font-family_itemsActions);
 }
 
 .controls-itemActionsV__action_icon_size_s {
-   .icon-with-size(@font-size_ItemActions-icon_size_s, @font-family_ItemActions-icon_size_s, @width_ItemActions-action);
+   .icon-with-size(@item_icon-size_editing_itemActions, @item_icon_font-family_editing_itemsActions, @item_icon-size_itemActions);
 }
 
 .controls-itemActionsV__action_title {
-   min-height: @min-height_ItemActions-action-title;
-   color: @color_ItemActions-title;
-   font-size: @font-size_ItemActions-title;
+   min-height: @item_caption_min-height_itemActions;
+   color: @item_text-color_itemActions;
+   font-size: @item_font-size_itemActions;
 }
 
 .controls-itemActionsV_swiped {
@@ -187,34 +187,33 @@
 }
 
 .ws-is-hover {
-
    .controls-itemActionsV__action:hover .controls-itemActionsV__action_title {
-      color: @color_ItemActions-title_hover;
+      color: @item_hover_text-color_itemActions;
       text-decoration: underline;
    }
 
    .controls-itemActionsV__action_iconStyle_danger:hover {
-      color: @color_ItemActions-icon_style_danger_hover;
+      color: @danger_color;
    }
 
    .controls-itemActionsV__action_iconStyle_success:hover {
-      color: @color_ItemActions-icon_style_success_hover;
+      color: @success_color;
    }
 
    .controls-itemActionsV__action_iconStyle_secondary:hover {
-      color: @color_ItemActions-icon_style_secondary_hover;
+      color: @secondary_hover_icon-color;
    }
 
    .controls-itemActionsV__action_iconStyle_warning:hover {
-      color: @color_ItemActions-icon_style_warning_hover;
+      color: @warning_color;
    }
 
    .controls-itemActionsV__action_iconStyle_danger:hover {
-      border-color: @border-color_ItemActions-action_style_danger;
+      border-color: @danger_color;
    }
 
    .controls-itemActionsV__action_iconStyle_success:hover {
-      border-color: @border-color_ItemActions-action_style_success;
+      border-color: @success_color;
    }
 }
 
@@ -224,8 +223,9 @@
 }
 
 .controls-itemActionsV__icon-with-title {
-   padding-right: @spacing_ItemActions-between-icon-and-title;
+   padding-right: @item_icon-offset_itemActions;
 }
+
 // убрать после https://online.sbis.ru/opendoc.html?guid=c558bf80-4cd1-4854-a963-4af211246111
 .controls-ItemActions__popup__list {
    margin-top: -(@close-button_offset-top_sticky + @border-thickness_sticky);

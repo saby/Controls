@@ -4,7 +4,7 @@ import {ObservableMixin} from 'Types/entity';
 
 import {IDirection} from 'Controls/_list/interface/IVirtualScroll';
 import {NavigationController} from 'Controls/_source/NavigationController';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/_interface/INavigation';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 import {
     SourceCrudInterlayer,

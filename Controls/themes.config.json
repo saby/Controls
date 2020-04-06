@@ -1,27 +1,5 @@
 {
-    "multi": true,
     "old": {
         "variables": "Controls-default-theme"
-    },
-    "compatibility": {
-        "**/*.less": [
-            "ws4-retail",
-            "ws4-retail-sizes",
-            "ws4-retail-header",
-            "ws4-retail-header-sizes",
-            "ws4-default",
-            "ws4-default-layout",
-            "ws4-cloud",
-            "ws4-plugin",
-            "ws3-plugin",
-            "wasaby-events",
-            "wasaby-booking-widget",
-            "wasaby-consultant",
-            "wasaby-consultant-dark",
-            "ws4-richeditor",
-            "ws4-graphs",
-            "ws4-user",
-            "ws4-headers"
-        ]
     }
 }

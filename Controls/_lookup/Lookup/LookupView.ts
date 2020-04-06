@@ -126,6 +126,7 @@ var _private = {
             _options: merge(Collection.getDefaultOptions(), _private.getCollectionOptions(newOptions, maxVisibleItems, counterWidth)),
             _visibleItems: visibleItems,
             _getItemMaxWidth: selectedCollectionUtils.getItemMaxWidth,
+            _getItemOrder: selectedCollectionUtils.getItemOrder,
             _contentTemplate: ContentTemplate,
             _crossTemplate: CrossTemplate,
             _counterTemplate: CounterTemplate

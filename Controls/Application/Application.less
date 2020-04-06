@@ -1,4 +1,5 @@
 @import "Controls/Application/BlockLayout/_BlockLayout";
+@import "Controls/Application/_theme/_links";
 
 /* сброс стилей. copy normilize.less*/
 * {
@@ -21,9 +22,10 @@ html {
 }
 
 body {
-   font-family: @font-family_text_default;
-   font-size: @font-size_App__body;
-   color: @color_text_default;
+   font-family: @font-family;
+   font-size: @font-size_default;
+   color: @text-color;
+   background-color: @background-color;
    text-decoration-skip: none;
    text-decoration-skip-ink: none;
 
@@ -82,11 +84,11 @@ input[type="reset"]::-moz-focus-inner {
 /*core-min::  styles*/
 
 .controls-roundedCorner_size_s {
-   border-radius: @border-radius_Image_s;
+   border-radius: @border-radius_s_image;
 }
 
 .controls-roundedCorner_size_m {
-   border-radius: @border-radius_Image_m;
+   border-radius: @border-radius_m_image;
 }
 
 .ws-hidden {

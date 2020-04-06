@@ -67,58 +67,58 @@ define('Controls-demo/Filter/Button/PanelVDom',
                ]
             });
             this._itemsSimple = [
-               {id: 'period', value: [2], resetValue: [1], textValue: 'Today', source: this._periodSource},
-               {id: 'state', value: [1], resetValue: [1], source: this._stateSource},
-               {id: 'sender', value: '', resetValue: ''},
-               {id: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''},
-               {id: 'responsible', value: '', resetValue: ''}
+               {name: 'period', value: [2], resetValue: [1], textValue: 'Today', source: this._periodSource},
+               {name: 'state', value: [1], resetValue: [1], source: this._stateSource},
+               {name: 'sender', value: '', resetValue: ''},
+               {name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''},
+               {name: 'responsible', value: '', resetValue: ''}
             ];
             this._itemsTemplate = [
-               {id: 'author', value: 'Author: Ivanov A.A.', resetValue: '', textValue: 'Author: Ivanov A.A.',
+               {name: 'author', value: 'Author: Ivanov A.A.', resetValue: '', textValue: 'Author: Ivanov A.A.',
                   templateItem: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/author'},
-               { id: 'period', value: [1], textValue: 'Period', resetValue: [1],
+               { name: 'period', value: [1], textValue: 'Period', resetValue: [1],
                   source: this._periodSource,
                   templateItem: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/period'}
             ];
             this._items = [
-               {id: 'period', value: [1], resetValue: [1], source: this._periodSource},
-               {id: 'state', value: [1], resetValue: [1], source: this._stateSource},
-               {id: 'limit', value: [1], resetValue: [1], textValue: 'Due date', visibility: false, source: this._limitSource},
-               {id: 'sender', value: '', resetValue: '', visibility: false},
-               {id: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''},
-               {id: 'responsible', value: '', resetValue: '', visibility: false},
-               {id: 'tagging', value: false, resetValue: false, textValue: 'Marks', visibility: false},
-               {id: 'income', value: [1], resetValue: [1], textValue: '', visibility: false, source: new sourceLib.Memory({
+               {name: 'period', value: [1], resetValue: [1], source: this._periodSource},
+               {name: 'state', value: [1], resetValue: [1], source: this._stateSource},
+               {name: 'limit', value: [1], resetValue: [1], textValue: 'Due date', visibility: false, source: this._limitSource},
+               {name: 'sender', value: '', resetValue: '', visibility: false},
+               {name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: ''},
+               {name: 'responsible', value: '', resetValue: '', visibility: false},
+               {name: 'tagging', value: false, resetValue: false, textValue: 'Marks', visibility: false},
+               {name: 'income', value: [1], resetValue: [1], textValue: '', visibility: false, source: new sourceLib.Memory({
                      keyProperty: 'key',
                      data: [
                         { key: 1, title: 'In the warehouse' },
                         { key: 2, title: 'In expenses' }
                      ]
                   })},
-               {id: 'group', value: [1], resetValue: '', visibility: false, source: new sourceLib.Memory({
+               {name: 'group', value: [1], resetValue: '', visibility: false, source: new sourceLib.Memory({
                   keyProperty: 'key',
                   data: [
                      { key: 1, title: 'My' },
                      { key: 2, title: 'My department' }
                   ]
                })},
-               {id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false},
-               {id: 'own', value: 2, resetValue: '', textValue: 'On department', visibility: false, source: new sourceLib.Memory({
+               {name: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false},
+               {name: 'own', value: 2, resetValue: '', textValue: 'On department', visibility: false, source: new sourceLib.Memory({
                   keyProperty: 'key',
                   data: [
                      { key: 1, title: 'On me' },
                      { key: 2, title: 'On department' }
                   ]
                })},
-               {id: 'our organisation', value: '', resetValue: '', visibility: false},
-               {id: 'document', value: '', resetValue: '', visibility: false},
-               {id: 'operation', value: '', resetValue: '', visibility: false}
+               {name: 'our organisation', value: '', resetValue: '', visibility: false},
+               {name: 'document', value: '', resetValue: '', visibility: false},
+               {name: 'operation', value: '', resetValue: '', visibility: false}
             ];
             this._itemsHistory = this._items;
          },
          _filterChangedHandler: function(event, filter) {
             chain.factory(this._items).each(function(item) {
-               item.textValue = filter[item.id];
+               item.textValue = filter[item.name];
             });
          }
 

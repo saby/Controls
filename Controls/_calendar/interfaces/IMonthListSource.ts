@@ -5,6 +5,8 @@ export interface IMonthListSourceOptions {
    source?: ICrud;
    order?: string;
    dayTemplate?: TemplateFunction;
+   dayHeaderTemplate?: TemplateFunction;
+   captionTemplate?: TemplateFunction;
 }
 /*Eng
  * An interface for controls based on Controls/calendar:MonthList and allowing you to draw your data
@@ -72,13 +74,35 @@ export interface IMonthListSource {
 /*Eng
  * @name Controls/_calendar/interfaces/IMonthListSource#dayTemplate
  * @cfg {Function} Day template.
+ * @remark Шаблон имеет опции позволяющие кастомизировать контрол:
+ * fontColorStyle - опция добавляет постфикс к следующим классам. (Для примера возьмем fontColorStyle = 'secondary')
+ * <ul>
+ *    <li> controls-MonthViewVDOM__textColor-currentMonthDay-weekend_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__textColor-currentMonthDay-workday_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__textColor-otherMonthDay-weekend_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__textColor-otherMonthDay-workday_theme-{theme}_style-secondary </li>
+ * </ul>
+ * backgroundStyle - опция добавляет постфикс к слеудющим классам. (Для примера возьмем backgroundStyle = 'secondary')
+ * <ul>
+ *    <li> controls-MonthViewVDOM__backgroundColor-selected_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__backgroundColor-selected-startend-unfinished_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__backgroundColor-selected-readOnly_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__backgroundColor-selected-startend-unfinished-readOnly_theme-{theme}_style-secondary </li>
+ *    <li> controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected-readOnly_theme-{theme}_style-secondary </li>
+ * </ul>
+ * sizeStyle - опция добавляет постфикс к следующим классам. (Для примера возьмем sizeStyle = 'secondary')
+ * <ul>
+ *    <li> controls-MonthViewVDOM__item_theme-{theme}_style-secondary </li>
+ * </ul>
  * @example
  * <pre>
  * <Controls.calendar:MonthList
  *     bind:month="_month"
  *     source="{{_source}}">
  *     <ws:dayTemplate>
- *         <ws:partial template="Controls/calendar:MonthViewDayTemplate">
+ *         <ws:partial template="Controls/calendar:MonthViewDayTemplate" attr:class="controls-MonthViewDemo-day-custom"
+ *                hasTextColor="{{false}}" hasSize="{{false}}" hasBackgroundColor="{{false}" >
  *             <ws:contentTemplate>
  *                 <ws:partial template="{{_dayTemplate}}"/>
  *             </ws:contentTemplate>
@@ -88,6 +112,36 @@ export interface IMonthListSource {
  * </pre>
  * @see Controls/_calendar/interfaces/IMonthListSource#source
  */
+
+/*
+ * @name Controls/_calendar/interfaces/IMonthListSource#dayHeaderTemplate
+ * cfg {Function} Day header template
+ * @remark В шаблоне можно использовать объект value, в котором хранятся caption (Сокращенное название дня недели) day (Индекс дня) и
+ * weekend (Буллевое значение, является ли день выходным)
+ * @example
+ *  <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}">
+ *       <ws:dayHeaderTemplate>
+ *          <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
+ *             <div class="controls-MonthViewDemo-day"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:if>
+ *          <ws:else>
+ *             <div class="controls-MonthViewDemo-day-weekend"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:else>
+ *       </ws:dayHeaderTemplate>
+ *  </Controls.calendar:MonthView>
+*/
+
+/*
+ * @name Controls/_calendar/interfaces/IMonthListSource#captionTemplate
+ * cfg {Function} Caption template
+ * @remark В шаблоне можно использовать date (Дата месяца) caption (Заголовок месяца)
+ * @example
+ *  <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}">
+ *       <ws:captionTemplate>
+ *          <div>{{captionTemplate.caption}}</div>
+ *       </ws:captionTemplate>
+ *  </Controls.calendar:MonthView>
+*/
 
 /*
  * @name Controls/_calendar/interfaces/IMonthListSource#order

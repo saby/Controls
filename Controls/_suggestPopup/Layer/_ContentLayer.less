@@ -1,19 +1,19 @@
 .controls-Suggest__suggestionsContainer-inInput {
-	top: @spacing_Suggest-contentLayer-between-topBorder-input;
-	left: @spacing_Suggest-contentLayer-between-leftBorder-input;
-	padding-top: @spacing_Suggest-contentLayer-between-input-suggestions;
-	border: @border-width_Suggest-contentLayer solid @border-color_Suggest-contentLayer;
-	.box-shadow(@box-shadow-size_Suggest-contentLayer @box-shadow-color_Suggest-contentLayer);
+	top: -@padding-top_suggestSearch;
+	left: -@padding-left_suggestSearch;
+	padding-top: @inline_height_m + @padding-top_suggestSearch + @padding-top_suggestSearch;
+	border: @popup_border-thickness_suggest solid @popup_border-color_suggest;
+	.box-shadow(@box-shadow-size_suggestSearch @box-shadow-color_suggest);
 	position: absolute;
 }
 
 .controls-Suggest__close {
 	position: absolute;
-	top: @spacing_Suggest-contentLayer-between-topBorder-close;
+	top: @icon-offset_button;
 	right: 0;
 	z-index: 1;
 }
 
 .controls-Suggest__tabs_ContentLayer {
-   margin-top: @spacing_Suggest-contentLayer-between-tabs-input;
+   margin-top: @tabs_offset-top_suggestSearch;
 }

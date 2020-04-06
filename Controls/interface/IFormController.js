@@ -104,13 +104,27 @@ define('Controls/interface/IFormController', [
     */
 
    /**
+    * @typedef {Object} updateConfig
+    * @description Параметр сохранения
+    * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром
+    */
+
+   /**
+    * @typedef {Object} updateConfig
+    * @description Save option
+    * @property {Object} additionalData Additional data that will be processed when synchronizing registry entries
+    */
+
+   /**
     * Обновляет запись в источнике данных. Подробнее {@link Types/source:ICrud#update}
     * @function Controls/interface/IFormController#update
+    * @param {updateConfig} config Параметр сохранения
     */
 
    /*
     * Updates a record in the data source.  More {@link Types/source:ICrud#update}
     * @function Controls/interface/IFormController#update
+    * @param {updateConfig} Save option
     */
 
    /**
@@ -274,7 +288,9 @@ define('Controls/interface/IFormController', [
     */
 
    /**
-    * @event Controls/interface/IFormController#requestCustomUpdate Происходит перед сохранением записи. В обработчике события можно отменить базовую логику сохранения или отложить ее для выполнения пользовательских действий перед сохранением. Используется, например, для асинхронной валидации или пользовательского сохранения записи.
+    * @event Controls/interface/IFormController#requestCustomUpdate Происходит перед сохранением записи.
+    * В обработчике события можно отменить  базовую логику сохранения (вернуть false) или отложить ее для выполнения пользовательских действий перед сохранением (вернуть Promise<boolean>).
+    * Используется, например, для асинхронной валидации или пользовательского сохранения записи.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @example
     * Проверяет данные на сервере перед сохранением.

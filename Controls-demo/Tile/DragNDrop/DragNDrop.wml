@@ -1,7 +1,8 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_dnd">
 <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="demo-DragNDrop__list">
-    <div>
-        <Controls.list:Mover name="listMover"/>
-        <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+    <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+        <div>
+            <Controls.list:Mover name="listMover"/>
             <Controls.list:Container>
                 <Controls.operations:Container>
                     <Controls.tile:View
@@ -23,6 +24,7 @@
                     </Controls.tile:View>
                 </Controls.operations:Container>
             </Controls.list:Container>
-        </Controls.operations:Controller>
-    </div>
+        </div>
+    </Controls.operations:Controller>
 </Controls.list:DataContainer>
+</div>

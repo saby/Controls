@@ -1,23 +1,27 @@
-<Controls._input.DateTime.Mask
-   value="{{_model.clearTextValue}}"
-   replacer="{{_model._replacer}}"
-   mask="{{_options.mask}}"
-   size="{{ _options.size }}"
-   fontStyle="{{_options.fontStyle}}"
-   fontSize="{{_options.fontSize}}"
-   fontColorStyle="{{_options.fontColorStyle}}"
-   borderStyle="{{_options.borderStyle}}"
-   inlineHeight="{{_options.inlineHeight}}"
-   selectOnClick="{{_options.selectOnClick}}"
-   placeholder="{{_options.placeholder}}"
-   tagStyle="{{ _options.tagStyle }}"
-   style="{{_options.style}}"
-   validationErrors="{{_options.validationErrors}}"
-   tooltip="{{_options.tooltip}}"
-   formatMaskChars="{{_formatMaskChars}}"
-   on:valueChanged="_valueChangedHandler()"
-   on:inputCompleted="_inputCompletedHandler()"
-   on:tagClick="_proxyEvent('tagClick')"
-   on:tagHover="_proxyEvent('tagHover')"
-   on:keydown="_onKeyDown()">
-</Controls._input.DateTime.Mask>
+<ws:partial template="{{_validationContainer}}" validators="{{_validators}}">
+    <ws:content>
+        <Controls._input.DateTime.Mask
+                value="{{_model.clearTextValue}}"
+                replacer="{{_model._replacer}}"
+                mask="{{_options.mask}}"
+                size="{{ _options.size }}"
+                fontStyle="{{_options.fontStyle}}"
+                fontSize="{{_options.fontSize}}"
+                fontColorStyle="{{_options.fontColorStyle}}"
+                borderStyle="{{_options.borderStyle}}"
+                inlineHeight="{{_options.inlineHeight}}"
+                selectOnClick="{{_options.selectOnClick}}"
+                placeholder="{{_options.placeholder}}"
+                tagStyle="{{ _options.tagStyle }}"
+                style="{{_options.style}}"
+                validationErrors="{{_options.validationErrors}}"
+                tooltip="{{_options.tooltip}}"
+                formatMaskChars="{{_formatMaskChars}}"
+                on:valueChanged="_valueChangedHandler()"
+                on:inputCompleted="_inputCompletedHandler()"
+                on:tagClick="_proxyEvent('tagClick')"
+                on:tagHover="_proxyEvent('tagHover')"
+                on:keydown="_onKeyDown()">
+        </Controls._input.DateTime.Mask>
+    </ws:content>
+</ws:partial>

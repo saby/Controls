@@ -2,6 +2,7 @@
     <Controls.scroll:Container attr:class="controlsDemo__height400">
         <Controls.operations:Container>
             <Controls.grid:View
+                    backgroundStyle="default"
                     keyProperty="id"
                     source="{{_viewSource}}"
                     header="{{_header}}"

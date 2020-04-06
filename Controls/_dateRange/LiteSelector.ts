@@ -15,11 +15,15 @@ import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelecto
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
  * @category Input
  * @author Красильников А.С.
- * @demo Controls-demo/Input/Date/RangeLinkLite
+ * @demo Controls-demo/dateRange/LiteSelector/Index
+ * @demo Controls-demo/dateRange/LiteSelector/ArrowVisibility/Index
+ * @demo Controls-demo/dateRange/LiteSelector/Disabled/Index
+ * @demo Controls-demo/dateRange/LiteSelector/ValueNotSpecified/Index
  *
  */
 
@@ -82,7 +86,16 @@ var Component = BaseSelector.extend({
                 dateConstructor: this._options.dateConstructor
             }
         };
+    },
+
+    shiftBack: function () {
+        this._children.linkView.shiftBack();
+    },
+
+    shiftForward: function () {
+       this._children.linkView.shiftForward();
     }
+
 });
 
 Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;

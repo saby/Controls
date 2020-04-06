@@ -1,0 +1,48 @@
+.controls-ArrowButton_theme-@{themeName} {
+   border-width: @border-thickness_button;
+   width: @width_ArrowButton - 2 * @border-thickness_button;
+   box-shadow: @box-shadow_ArrowButton;
+   height: @height_ArrowButton - 2 * @border-thickness_button;
+   border-color: @border-color_ArrowButton;
+   color: @icon-color_ArrowButton;
+}
+
+.controls-ArrowButton {
+   border-style: solid;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.ws-is-hover {
+   .controls-ArrowButton-active_theme-@{themeName}:hover {
+      cursor: pointer;
+      border-color: @border-color_hover_ArrowButton;
+      color: @hover_icon-color_ArrowButton;
+   }
+}
+
+.controls-ArrowButton-active_theme-@{themeName}:active {
+   border-color: @border-color_hover_ArrowButton;
+   color: @hover_icon-color_ArrowButton;
+}
+
+.controls-ArrowButton-readOnly_theme-@{themeName} {
+   color: @readonly_icon-color_ArrowButton;
+   border-color: @readonly_border-color_ArrowButton;
+}
+
+.controls-ArrowButton_prev {
+
+   &:before {
+      content: "\e007";
+   }
+}
+
+.controls-ArrowButton_next {
+
+   &:before {
+      content: "\e008";
+   }
+}

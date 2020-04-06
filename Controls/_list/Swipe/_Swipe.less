@@ -24,7 +24,7 @@
   }
 
   50% {
-    transform: translateX(@animation-offset-Swipe-left-to-right);
+    transform: translateX(@animation_offset_swipe);
   }
 
   100% {
@@ -51,7 +51,7 @@
   overflow: hidden;
   box-sizing: border-box;
   background-color: transparent;
-  background-image: linear-gradient(to right, transparent, @background-color_Swipe-shadow @width_Swipe-shadow, @background-color_Swipe @width_Swipe-shadow, @background-color_Swipe 100%);
+  background-image: linear-gradient(to right, transparent, @shadow-color_swipe @shadow-blur_swipe, @background-color_swipe @shadow-blur_swipe, @background-color_swipe 100%);
 }
 
 .controls-Swipe__action {
@@ -81,82 +81,82 @@
 }
 
 .controls-Swipe__action_padding_size_s {
-  padding-top: @spacing_Swipe-between-actions_top_size_s;
-  padding-bottom: @spacing_Swipe-between-actions_bottom_size_s;
+  padding-top: @item_s_vertical_padding-vertical_swipe;
+  padding-bottom: @item_s_vertical_padding-vertical_swipe;
 }
 
 .controls-Swipe__action_padding_size_m {
-  padding-top: @spacing_Swipe-between-actions_top_size_m;
-  padding-bottom: @spacing_Swipe-between-actions_bottom_size_m;
+  padding-top: @item_horizontal_padding-vertical_swipe;
+  padding-bottom: @item_horizontal_padding-vertical_swipe;
 }
 
 .controls-Swipe__action_padding_size_l {
-  padding-top: @spacing_Swipe-between-actions_top_size_l;
-  padding-bottom: @spacing_Swipe-between-actions_bottom_size_l;
+  padding-top: @item_l_vertical_padding-vertical_swipe;
+  padding-bottom: @item_l_vertical_padding-vertical_swipe;
 }
 
 .controls-Swipe__action_icon_size_m {
-  .icon(@font-size_Swipe-icon_size_m, @font-family_Swipe-icon);
+  .icon(@item_s_icon-size_swipe, @item_s_icon_font-family_swipe);
 }
 
 .controls-Swipe__action_icon_size_l {
-  .icon(@font-size_Swipe-icon_size_l, @font-family_Swipe-icon);
+  .icon(@item_l_icon-size_swipe, @item_l_icon_font-family_swipe);
 }
 
 .controls-Swipe__action_title {
-  color: @color_Swipe-title;
+  color: @item_text-color_swipe;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .controls-Swipe__action_title_position_right {
-  padding-left: @spacing-Swipe-between-title-and-icon_position_right;
-  max-width: @max-width_Swipe-title_position_right;
+  padding-left: @item_icon_offset-horizontal_swipe;
+  max-width: @item_horizontal_text_max-width_swipe;
 }
 
 .controls-Swipe__action_title_position_bottom {
-  max-width: @max-width_Swipe-title_position_bottom;
+  max-width: @item_vertical_text_max-width_swipe;
 }
 
 .controls-Swipe__action_title_size_m {
-  font-size: @font-size_Swipe-title_size_m;
+  font-size: @item_s_font-size_swipe;
 }
 
 .controls-Swipe__action_title_size_l {
-  font-size: @font-size_Swipe-title_size_l;
+  font-size: @item_l_font-size_swipe;
 }
 
 .controls-Swipe__separator {
-  background: @background-color_Swipe-separator;
+  background: @separator_color_swipe;
   flex-shrink: 0;
   display: block;
 }
 
 .controls-Swipe__separator_horizontal {
-  width: @width_Swipe-separator;
-  height: calc(100% ~'-' 2 * @spacing_Swipe-between-vertical-separator-and-border);
-  margin-bottom: @spacing_Swipe-between-vertical-separator-and-border;
-  margin-top: @spacing_Swipe-between-vertical-separator-and-border;
+  width: @separator_thickness_swipe;
+  height: calc(100% ~'-' 2 * @separator_edge_padding-vertical_swipe);
+  margin-bottom: @separator_edge_padding-vertical_swipe;
+  margin-top: @separator_edge_padding-vertical_swipe;
 }
 
 .controls-Swipe__separator_vertical {
   width: auto;
-  height: @width_Swipe-separator;
-  margin-left: @spacing_Swipe-between-horizontal-separator-and-border + @width_Swipe-shadow;
-  margin-right: @spacing_Swipe-between-horizontal-separator-and-border;
+  height: @separator_thickness_swipe;
+  margin-left: @separator_edge_padding-horizontal_swipe + @shadow-blur_swipe;
+  margin-right: @separator_edge_padding-horizontal_swipe;
 }
 
 .controls-Swipe__separator_columns_first {
   width: auto;
-  height: @width_Swipe-separator;
-  margin-right: @spacing_Swipe-between-vertical-and-horizontal-separator;
+  height: @separator_thickness_swipe;
+  margin-right: @separator_padding-horizontal_swipe;
 }
 
 .controls-Swipe__separator_columns_second {
   width: auto;
-  height: @width_Swipe-separator;
-  margin-left: @spacing_Swipe-between-vertical-and-horizontal-separator;
+  height: @separator_thickness_swipe;
+  margin-left: @separator_padding-horizontal_swipe;
 }
 
 .controls-Swipe_horizontal,
@@ -168,8 +168,8 @@
 
 .controls-Swipe_horizontal,
 .controls-Swipe_columns {
-  padding-left:  @spacing-Swipe-between-content-and-borders + @width_Swipe-shadow - @spacing_Swipe-between-vertical-separator-and-icon;
-  padding-right: @spacing-Swipe-between-content-and-borders - @spacing_Swipe-between-vertical-separator-and-icon;
+  padding-left:  @item_edge_padding-horizontal_swipe + @shadow-blur_swipe - @item_vertical_padding-horizontal_swipe;
+  padding-right: @item_edge_padding-horizontal_swipe - @item_vertical_padding-horizontal_swipe;
 }
 
 .controls-Swipe_horizontal {
@@ -187,30 +187,30 @@
 }
 
 .controls-Swipe__action_horizontal {
-  padding-left: @spacing_Swipe-between-vertical-separator-and-icon;
-  padding-right: @spacing_Swipe-between-vertical-separator-and-icon;
+  padding-left: @item_vertical_padding-horizontal_swipe;
+  padding-right: @item_vertical_padding-horizontal_swipe;
 }
 .controls-Swipe__action_vertical {
   /*
    * Gradient takes some of the container's width on the left side, so we should compensate for it with larger padding.
    */
-  padding-left:  @spacing-Swipe-between-content-and-borders + @width_Swipe-shadow;
-  padding-right: @spacing-Swipe-between-content-and-borders;
+  padding-left:  @item_edge_padding-horizontal_swipe + @shadow-blur_swipe;
+  padding-right: @item_edge_padding-horizontal_swipe;
 }
 .controls-Swipe__action_iconStyle_secondary {
-  color: @color_Swipe-icon_style_secondary;
+  color: @secondary_icon-color_swipe;
 }
 
 .controls-Swipe__action_iconStyle_danger {
-  color: @color_Swipe-icon_style_danger;
+  color: @danger_color;
 }
 
 .controls-Swipe__action_iconStyle_success {
-  color: @color_Swipe-icon_style_success;
+  color: @success_color;
 }
 
 .controls-Swipe__action_iconStyle_warning {
-  color: @color_Swipe-icon_style_warning;
+  color: @warning_color;
 }
 
 /**

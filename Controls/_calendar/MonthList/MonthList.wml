@@ -16,10 +16,9 @@
          name="months"
          keyProperty="id"
          markerVisibility="hidden"
-         virtualScrolling="{{true}}"
-         virtualPageSize="{{_virtualPageSize}}"
          on:drawItems="_drawItemsHandler()"
          >
+         <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
          <ws:itemPadding left="null" right="null" bottom="null" top="null"/>
          <ws:navigation source="position" view="infinity">
             <ws:sourceConfig limit="{{_options._limit}}" position="{{_startPositionId}}" direction="both" field="id"></ws:sourceConfig>

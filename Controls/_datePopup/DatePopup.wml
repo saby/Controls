@@ -18,6 +18,8 @@
          _state="{{_state}}"
          _mask="{{_mask}}"
          dateConstructor="{{_options.dateConstructor}}"
+         _startValueValidators="{{_startValueValidators}}"
+         _endValueValidators="{{_endValueValidators}}"
       />
 
          <div if="{{ _state === _STATES.year }}" class="controls-PeriodDialog__months controls-PeriodDialog__body">

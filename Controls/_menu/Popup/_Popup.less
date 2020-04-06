@@ -1,4 +1,4 @@
-.controls-Menu__popup.controls-Menu__popup_theme-@{themeName} {
+.controls-Menu__popup_theme-@{themeName} {
    max-width: @popup_max-width_menuPopup;
 }
 
@@ -55,6 +55,7 @@
    display: flex;
    align-items: center;
    overflow: hidden;
+   cursor: default;
 }
 
 .controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
@@ -63,4 +64,11 @@
 
 .controls-Menu__popup_headerIcon_theme-@{themeName} {
    color: @header_color_sticky;
+}
+
+.controls-Menu__popup_headerSearch_theme-@{themeName} {
+   display: flex;
+   align-items: center;
+   width: @search_width_menuPopup;
+   margin-right: @search_offset-right_menuPopup;
 }

@@ -18,6 +18,7 @@
       navigation="{{_options.navigation}}"
       filter="{{_options.filter}}"
       sorting="{{_options.sorting}}"
+      suggestPopupOptions="{{_options.suggestPopupOptions}}"
       autoDropDown="{{_determineAutoDropDown()}}"
       layerName="Controls/suggestPopup:__PopupLayer"
       value="{{_inputValue}}"

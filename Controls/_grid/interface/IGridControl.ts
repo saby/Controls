@@ -314,6 +314,20 @@
  */
 
 /**
+ * @name Controls/_grid/interface/IGridControl#dragScrolling
+ * @cfg {Boolean} Включает скроллирование колонок перетаскиванием при горизонтальном скролле.
+ * @remark По-умолчанью скроллирование колонок перетаскиванием включено если в списке нет Drag'N'Drop записей.
+ * @default true
+ */
+
+/*
+ * @name Controls/_grid/interface/IGridControl#dragScrolling
+ * @cfg {Boolean} Enable column drag scrolling in grid with column scroll.
+ * @remark By default, column scrolling by drag and drop is enabled if there are no items Drag'N'Drop in the list.
+ * @default true
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>

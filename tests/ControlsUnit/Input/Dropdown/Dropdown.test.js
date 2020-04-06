@@ -3,9 +3,10 @@ define(
       'Controls/dropdown',
       'Core/core-clone',
       'Types/source',
-      'Types/collection'
+      'Types/collection',
+       'Controls/popup'
    ],
-   (dropdown, Clone, sourceLib, collection) => {
+   (dropdown, Clone, sourceLib, collection, popup) => {
       describe('Input/Dropdown', () => {
          let items = [
             {
@@ -68,21 +69,21 @@ define(
 
          it('data load callback', () => {
             let ddl = getDropdown(config);
-            ddl._setText([itemsRecords.at(5)]);
+            ddl._prepareDisplayState([itemsRecords.at(5)]);
             assert.equal(ddl._text, 'Запись 6');
             assert.equal(ddl._icon, 'icon-16 icon-Admin icon-primary');
-            ddl._setText([{ id: null }]);
+            ddl._prepareDisplayState([{ id: null }]);
             assert.equal(ddl._icon, null);
          });
 
-         it('_setText hasMoreText', () => {
+         it('_prepareDisplayState hasMoreText', () => {
             let ddl = getDropdown(config);
-            ddl._setText([itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)]);
+            ddl._prepareDisplayState([itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)]);
             assert.equal(ddl._text, 'Запись 2');
             assert.equal(ddl._tooltip, 'Запись 2, Запись 4, Запись 6');
             assert.equal(ddl._hasMoreText, ', еще 2');
 
-            ddl._setText([itemsRecords.at(1)]);
+            ddl._prepareDisplayState([itemsRecords.at(1)]);
             assert.equal(ddl._text, 'Запись 2');
             assert.equal(ddl._tooltip, 'Запись 2');
             assert.equal(ddl._hasMoreText, '');
@@ -125,20 +126,20 @@ define(
             assert.equal(ddl._countItems, 4);
          });
 
-         it('_setText empty items', () => {
+         it('_prepareDisplayState empty items', () => {
             let ddl = getDropdown(config);
-            ddl._setText([]);
+            ddl._prepareDisplayState([]);
             assert.equal(ddl._text, '');
          });
 
-         it('_setText emptyText=true', () => {
+         it('_prepareDisplayState emptyText=true', () => {
             let newConfig = Clone(config);
             newConfig.emptyText = true;
             let ddl = getDropdown(newConfig);
-            ddl._setText([null]);
+            ddl._prepareDisplayState([null]);
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
-            ddl._setText([{id: null}]);
+            ddl._prepareDisplayState([{id: null}]);
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
          });
@@ -158,9 +159,9 @@ define(
 
          it('_private::getTooltip', function() {
             let ddl = getDropdown(config);
-            ddl._setText([null]);
+            ddl._prepareDisplayState([null]);
             assert.equal(ddl._tooltip, '');
-            ddl._setText(items.slice(0, 3));
+            ddl._prepareDisplayState(items.slice(0, 3));
             assert.equal(ddl._tooltip, 'Запись 1, Запись 2, Запись 3');
          });
       });

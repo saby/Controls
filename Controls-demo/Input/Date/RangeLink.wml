@@ -62,6 +62,16 @@
       </div>
       <div class="controlsDemo-RageLink__content">
          <div class="controlsDemo-RageLink__componentWrap">
+            <span>Зафиксированный календарь: </span>
+            <Controls.dateRange:Selector
+                    minRange="month"
+                    attr:test_name="default_range"
+                    _displayDate="{{_displayDateBind}}"
+            />
+         </div>
+      </div>
+      <div class="controlsDemo-RageLink__content">
+         <div class="controlsDemo-RageLink__componentWrap">
             <span>With custom formatter: </span>
             <Controls.dateRange:Selector
                   captionFormatter="{{_captionFormatter}}"

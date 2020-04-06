@@ -4,8 +4,8 @@ import {Memory} from "Types/source"
 import {Model} from "Types/entity"
 import {getEditableCatalog as getData} from "../../DemoHelpers/DataCatalog"
 import {SyntheticEvent} from "Vdom/Vdom";
-import CONSTANTS = require('Controls/Constants');
-import 'css!Controls-demo/Controls-demo'
+import {editing as constEditing} from 'Controls/Constants';
+import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -20,7 +20,7 @@ export default class extends Control {
 
     protected _beforeBeginEdit(e: SyntheticEvent<null>, {item}: {item: Model}, isAdd: boolean) {
         if (item.get('id') === 1) {
-            return CONSTANTS.editing.CANCEL;
+            return constEditing.CANCEL;
         }
 
         if (item.get('id') === 2) {
@@ -42,9 +42,9 @@ export default class extends Control {
         if (item.get('id') === 4) {
             return new Promise(resolve => {
                 setTimeout(() => {
-                    resolve(CONSTANTS.editing.CANCEL);
+                    resolve(constEditing.CANCEL);
                 }, 1000);
-            })
+            });
         }
     }
 }

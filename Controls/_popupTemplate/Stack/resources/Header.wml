@@ -17,7 +17,8 @@
                <ws:partial template="{{_options.headerContentTemplate}}"
                            scope="{{_options.stackOptions}}"
                            theme="{{_options.theme}}"
-                           headerContentTemplate="{{null}}" /> <!-- Опция с тем же названием есть на выпадающем списке.
+                           headerContentTemplate="{{null}}"
+                           footerContentTemplate="{{null}}" /> <!-- Опция с тем же названием есть на выпадающем списке.
                                                                     Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
          </div>
       </ws:if>

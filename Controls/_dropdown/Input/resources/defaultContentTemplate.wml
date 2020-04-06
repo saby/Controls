@@ -16,11 +16,11 @@
       </ws:if>
       <ws:else>
          <div if="{{icon}}" class="controls-Dropdown__icon_theme_{{_options.theme}} controls-icon_style-{{item.get('iconStyle') || 'secondary'}}_theme-{{_options.theme}}"
-              title="{{tooltip || text}}">
+              title="{{tooltip}}">
             <div class="{{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}} {{icon}}"></div>
          </div>
          <div class="controls-Dropdown__text-wrapper theme_{{_options.theme}}">
-            <div if="{{!icon}}" class="controls-Dropdown__text theme_{{_options.theme}}" title="{{tooltip || text}}">{{text}}</div>
+            <div if="{{!icon}}" class="controls-Dropdown__text theme_{{_options.theme}}" title="{{tooltip}}">{{text}}</div>
             <span class="controls-Dropdown__hasMoreText theme_{{_options.theme}}">{{hasMoreText}}</span>
          </div>
       </ws:else>

@@ -90,7 +90,7 @@
                      </ws:validators>
                      <ws:content>
                         <Controls.validate:Highlighter>
-                           <Controls.buttons:Button readOnly="{{false}}" caption="Выбрать адрес" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                           <Controls.buttons:Button readOnly="{{false}}" caption="Выбрать адрес" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                         </Controls.validate:Highlighter>
                      </ws:content>
                   </Controls.validate:Container>
@@ -100,7 +100,7 @@
                      </ws:validators>
                      <ws:content>
                         <Controls.validate:Highlighter>
-                           <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" caption="Отправить" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                           <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" caption="Отправить" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                         </Controls.validate:Highlighter>
                      </ws:content>
                   </Controls.validate:Container>
@@ -120,7 +120,7 @@
                      </ws:validators>
                      <ws:content>
                         <Controls.validate:Highlighter>
-                           <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Save" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                           <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Save" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                         </Controls.validate:Highlighter>
                      </ws:content>
                   </Controls.validate:Container>

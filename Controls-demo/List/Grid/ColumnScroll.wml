@@ -1,4 +1,4 @@
-<div class="demo-Grid" style="padding-left: 12px;">
+<div class="demo-Grid" style="padding-left: 12px; max-width: 1500px;">
    <div class="demo-Grid__container">
       <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
          <Controls.operations:Controller
@@ -8,6 +8,7 @@
                <Controls.list:Container>
                   <Controls.operations:Container>
                      <Controls.grid:View
+                             backgroundStyle="default"
                              markedKey="448390"
                              stickyHeader="{{true}}"
                              rowSeparatorVisibility="{{true}}"

@@ -165,8 +165,13 @@ export default class TreeSelectionStrategy implements ISelectionStrategy {
       return selectionResult;
    }
 
+   isAllSelectedInRoot(selection: ISelection, model: TreeCollection): boolean {
+      const root: number | string = this._getRoot(model);
+      return selection.selected.includes(root) && selection.excluded.includes(root);
+   }
+
    isAllSelected(selection: ISelection, nodeId: TKey, model: TreeCollection|ViewModel, hierarchyRelation: relation.Hierarchy): boolean {
-      if (this._options.selectDescendants) {
+      if (this._options.selectDescendants || this.isAllSelectedInRoot(selection, model)) {
          return selection.selected.includes(nodeId) || !selection.excluded.includes(nodeId) &&
             this._hasSelectedParent(nodeId, selection, model, hierarchyRelation);
       } else {

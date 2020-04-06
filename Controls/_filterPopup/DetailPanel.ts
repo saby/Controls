@@ -103,31 +103,6 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          }
       },
 
-      //TODO: Delete with old favorite
-      loadFavoriteItems: function(self, historyId) {
-         let loadDef = new Deferred();
-         require(['SBIS3.CONTROLS/History/HistoryList'], (HistoryStorage) => {
-            let pDef = new ParallelDeferred();
-            self._historyGlobalStorage = new HistoryStorage({
-               historyId: historyId,
-               isGlobalUserConfig: true
-            });
-            self._historyStorage = new HistoryStorage({
-               // to save old user favorites
-               historyId: historyId + '-favorite'
-            });
-            pDef.push(self._historyStorage.getHistory(true));
-            pDef.push(self._historyGlobalStorage.getHistory(true));
-
-            return pDef.done().getResult().addCallback((items) => {
-               self._favoriteList = items[0].clone();
-               self._favoriteList.prepend(items[1]);
-               loadDef.callback();
-            });
-         });
-         return loadDef;
-      },
-
       loadHistoryItems: function(self, historyId, isReportPanel) {
          if (historyId) {
             const pDef = new ParallelDeferred();
@@ -142,9 +117,6 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
                    let historyItems;
 
                    if (isReportPanel) {
-                       // Поправится, как будем хранить избранное на сервисе истории
-                       // https://online.sbis.ru/opendoc.html?guid=68e3c08e-3064-422e-9d1a-93345171ac39
-                      historySource.historySource._pinned = false;
                       historyItems = historySource.getItems();
                    } else {
                       historyItems = items;
@@ -158,10 +130,6 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
                 });
 
             pDef.push(historyLoad);
-
-            if (isReportPanel) {
-               pDef.push(_private.loadFavoriteItems(self, historyId));
-            }
             return pDef.done().getResult().addCallback(() => {
                return self._historyItems;
             });

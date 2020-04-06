@@ -14,6 +14,7 @@
  * @includes DateTimeModel Controls/_input/DateTime/Model
  * @includes TimeInterval Controls/_input/TimeInterval
  * @includes Money Controls/_input/Money
+ * @includes AdapterMask Controls/_input/Adapter/Mask
  * @includes INewLineKey Controls/_input/interface/INewLineKey
  * @includes IText Controls/_input/interface/IText
  * @includes INumberLength Controls/_input/interface/INumberLength
@@ -82,7 +83,7 @@ import MaskFormatter = require('Controls/_input/Mask/Formatter');
 import PhoneMaskBuilder = require('Controls/_input/Phone/MaskBuilder');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 
-import hoursFormat from  'Controls/_input/InputCallback/hoursFormat'
+import hoursFormat from  'Controls/_input/InputCallback/hoursFormat';
 import lengthConstraint from 'Controls/_input/InputCallback/lengthConstraint';
 
 import INewLineKey from 'Controls/_input/interface/INewLineKey';
@@ -93,6 +94,7 @@ export {default as ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/
 export {default as INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 export {default as IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
 export {default as MobileFocusController} from 'Controls/_input/Base/MobileFocusController';
+export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 
 /**
  * Объект с набором методов для опции {@link Controls/_input/interface/IValue#inputCallback}

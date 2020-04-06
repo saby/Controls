@@ -3,8 +3,14 @@ export default interface IOpenPopup {
     openPopup(): void;
 }
 /**
+ * Интерфейс для контролов, которые имеют возможность открывать диалоговое окно.
+ * @interface Controls/_interface/IOpenPopup
+ * @public
+ */
+
+/**
  * Открывает диалоговое окно контрола.
- * @function Controls/_interface/IOpenPopup#openPopup
+ * @name Controls/_interface/IOpenPopup#openPopup
  * @example
  * <pre>
  *     <Controls.dateRange:Selector name='dateRange'/>

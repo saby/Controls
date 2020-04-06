@@ -41,7 +41,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
  export default interface IColumnTemplateOptions {
    /**
     * @name Controls/grid:ColumnTemplate#contentTemplate
-    * @cfg {String|Function} Устанавливает пользовательский шаблон для отображения содержимого ячейки.
+    * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки.
     * @see Controls/grid:IGridControl#showEditArrow
     * @remark
     * В области видимости шаблона доступен объект **itemData** со следующими свойствами:
@@ -153,7 +153,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
 
     /**
      * @name Controls/grid:ColumnTemplate#cursor
-     * @cfg {TCursor} Устанавливает тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах ячейки.
+     * @cfg {TCursor} Тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах ячейки.
      * @default pointer
      */
     cursor?: TCursor;

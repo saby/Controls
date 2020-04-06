@@ -29,7 +29,7 @@
 export default interface IHeaderContentOptions {
    /**
     * @name Controls/grid:HeaderContent#contentTemplate
-    * @cfg {String|Function} Устанавливает пользовательский шаблон для отображения содержимого ячейки шапки.
+    * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки шапки.
     * @remark
     * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link https://wi.sbis.ru/docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example

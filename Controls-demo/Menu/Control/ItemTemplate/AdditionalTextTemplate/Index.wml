@@ -1,0 +1,17 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              attr:class="ControlsDemo-menuControl_minWidth">
+         <ws:itemTemplate>
+            <ws:partial template="Controls/menu:ItemTemplate">
+               <ws:additionalTextTemplate>
+                  <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+               </ws:additionalTextTemplate>
+            </ws:partial>
+         </ws:itemTemplate>
+      </Controls.menu:Control>
+   </div>
+</div>

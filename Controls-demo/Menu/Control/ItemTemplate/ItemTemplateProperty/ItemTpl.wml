@@ -1,0 +1,8 @@
+<ws:partial template="Controls/menu:ItemTemplate" attr:class="ControlsDemo-Menu-Control__itemTemplate"
+            scope="{{_options}}">
+    <ws:rightTemplate>
+        <span class="controls-icon_size-{{rightTemplate.iconSize || 'default'}}_theme-{{_options.theme}}
+                     ControlsDemo-Menu-Control__rightTemplate
+                     {{rightTemplate.item.get('addIcon')}}" ></span>
+    </ws:rightTemplate>
+</ws:partial>

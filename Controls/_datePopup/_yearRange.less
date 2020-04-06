@@ -3,11 +3,11 @@
    flex-direction: row;
    flex-shrink: 0;
    align-items: center;
-   height: @height_PeriodDialog-years;
+   height: @yearnav_height_datePicker;
 }
 
-.controls-PeriodDialog-Years__prevNextBtn{
-   width: @width_PeriodDialog-years-leftRight;
+.controls-PeriodDialog-Years__prevNextBtn {
+   width: @yearnav_arrow_width_datePicker;
    display: flex;
    justify-content: center;
 }
@@ -20,24 +20,24 @@
 
 .controls-PeriodDialog-Years__rangeBtn {
    cursor: pointer;
-   height: @height_PeriodDialog-years-rangeButton;
-   line-height: @height_PeriodDialog-years-rangeButton;
-   width: @width_PeriodDialog-year-rangeButton;
-   font-size: @font-size_PeriodDialog-years-rangeButton;
+   height: @yearnav_item_height_datePicker;
+   line-height: @yearnav_item_height_datePicker;
+   width: @yearnav_item_width_datePicker;
+   font-size: @yearnav_item_font-size_datePicker;
    text-align: center;
    position: relative;
 }
 
 .controls-PeriodDialog-Years__rangeBtn-current {
-   color: @color_PeriodDialog-years-current-year;
+   color: @yearnav_item_current_text-color_datePicker;
 }
 
 .controls-PeriodDialog-Years__item-displayed {
-   color: @color_PeriodDialog-years-displayed-year;
-   font-size: @font-size_PeriodDialog-years-displayed-year;
+   color: @yearnav_item_displayed_text-color_datePicker;
+   font-size: @yearnav_item_displayed_font-size_datePicker;
    font-weight: bold;
 }
 
 .controls-PeriodDialog-Years__rangeBtn-regular {
-   color: @color_PeriodDialog-years-rangeButton;
+   color: @yearnav_item_text-color_datePicker;
 }

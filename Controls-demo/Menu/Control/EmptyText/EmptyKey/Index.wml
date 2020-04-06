@@ -1,0 +1,13 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">С emptyKey = 100 и selectedKeys = [100]</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              emptyText="Not selected"
+              emptyKey="{{100}}"
+              keyProperty="key"
+              selectedKeys="{{[100]}}"
+              displayProperty="title"
+      />
+   </div>
+</div>

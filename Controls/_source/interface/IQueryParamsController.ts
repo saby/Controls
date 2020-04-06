@@ -2,7 +2,7 @@ import {IAdditionalQueryParams, Direction} from './IAdditionalQueryParams';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {Collection} from 'Controls/display';
-import {INavigationSourceConfig} from 'Controls/_interface/INavigation';
+import {INavigationSourceConfig} from 'Controls/interface';
 
 /**
  * Интерфейс для работы с контроллерами пейджинации

@@ -4,6 +4,7 @@
                     itemData="{{itemData}}"
                     itemActionsTemplate="{{itemActionsTemplate}}"
                     itemActionsContainerStyles="{{itemActionsContainerStyles}}"
+                    attr:class="js-controls-ColumnScroll__notDraggable"
                     highlightOnHover="{{highlightOnHover}}"/>
     </ws:if>
     <ws:else data="{{itemData.itemActionsPosition !== 'custom'}}">
@@ -11,7 +12,7 @@
                     itemActionsClass="{{itemActionsClass}}"
                     itemData="{{itemData}}"
                     itemActionsContainerStyles="{{itemActionsContainerStyles}}"
-                    attr:class="controls-Grid__itemAction"
+                    attr:class="controls-Grid__itemAction js-controls-ColumnScroll__notDraggable"
                     highlightOnHover="{{highlightOnHover}}"/>
     </ws:else>
 </ws:template>
@@ -35,6 +36,7 @@
                         attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                              {{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}"
                         itemData="{{currentColumn}}"
+                        backgroundStyle="{{backgroundStyle}}"
                         tagTemplate="{{tagTemplate}}"/>
         </ws:else>
     </ws:else>

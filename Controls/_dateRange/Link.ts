@@ -11,6 +11,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @mixes Controls/interface/IInputDateTime
  * @mixes Controls/interface/ILinkView
  * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
  * @category Input
@@ -40,6 +41,15 @@ var Component = BaseControl.extend({
       };
       this._children.opener.open(cfg);
    },
+
+   shiftBack: function () {
+      this._children.linkView.shiftBack();
+   },
+
+   shiftForward: function () {
+      this._children.linkView.shiftForward();
+   },
+
    _onResultWS3: function(event, startValue) {
       this._onResult(startValue);
    },

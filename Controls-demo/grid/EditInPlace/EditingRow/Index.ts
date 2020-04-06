@@ -12,10 +12,25 @@ export default class extends Control {
     protected _columns = getPorts().getColumns();
     protected _documentSignMemory;
 
+    private getData(data) {
+        for (let key in data) {
+            if (data[key]) {
+                data[key] = '' + data[key];
+            } else {
+                data[key] = ''
+            }
+
+        }
+        return data;
+    }
+    private data = getPorts().getData().map((cur) => this.getData(cur));
+    private selectedKey = 1;
+
     protected _beforeMount() {
+        console.log(this.data)
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getPorts().getData()
+            data: this.data
         });
 
         this._documentSignMemory = new Memory({
@@ -24,5 +39,13 @@ export default class extends Control {
         });
 
 
+    }
+
+    private onChange1 = (_, name, item, value) => {
+        item.set(name, value);
+    }
+
+    private onChange2 = (_, key) => {
+        this.selectedKey = key;
     }
 }

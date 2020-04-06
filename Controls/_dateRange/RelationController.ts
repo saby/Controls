@@ -402,7 +402,7 @@ var _private = {
             }
         }
         if (changed) {
-            self._notify('periodsChanged');
+            self._notify('periodsChanged', [newRanges]);
         }
     }
 };

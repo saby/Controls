@@ -86,19 +86,19 @@ define([
       });
 
       it('isAllSelected', function() {
-         assert.isFalse(treeStrategy.isAllSelected(selection, null));
+         assert.isFalse(treeStrategy.isAllSelected(selection, null, model));
 
          selection.selected = [null];
-         assert.isFalse(treeStrategy.isAllSelected(selection, null));
+         assert.isFalse(treeStrategy.isAllSelected(selection, null, model));
 
          selection.excluded = [null];
-         assert.isTrue(treeStrategy.isAllSelected(selection, null));
+         assert.isTrue(treeStrategy.isAllSelected(selection, null, model));
 
-         assert.isFalse(treeStrategy.isAllSelected(selection, 1));
+         assert.isTrue(treeStrategy.isAllSelected(selection, 1, model));
 
          selection.selected = [1];
          selection.excluded = [1];
-         assert.isTrue(treeStrategy.isAllSelected(selection, 1));
+         assert.isTrue(treeStrategy.isAllSelected(selection, 1, model));
       });
 
       describe('getCount', function() {
@@ -198,14 +198,14 @@ define([
             selection.selected = [null];
             selection.excluded = [null];
             let selectionForModel = treeStrategy.getSelectionForModel(selection, model, 0, '', hierarchyRelation);
-            assert.deepEqual(selectionForModel, new Map([[1, true], [6, true], [7, true]]));
+            assert.deepEqual(selectionForModel, new Map([[1, true], [2, true], [3, true], [4, true], [5, true], [6, true], [7, true]]));
          });
 
          it('select root with excluded', function() {
             selection.selected = [null];
             selection.excluded = [null, 6, 7, 10];
             let selectionForModel = treeStrategy.getSelectionForModel(selection, model, 0, '', hierarchyRelation);
-            assert.deepEqual(selectionForModel, new Map([[1, true]]));
+            assert.deepEqual(selectionForModel, new Map([[1, true], [2, true], [3, true], [4, true], [5, true]]));
          });
       });
    });

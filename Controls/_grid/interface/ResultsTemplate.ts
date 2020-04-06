@@ -26,7 +26,7 @@
 export default interface IResultsTemplateOptions {
    /**
     * @name Controls/grid:ResultsTemplate#contentTemplate
-    * @cfg {String|Function} Устанавливает пользовательский шаблон, описывающий содержимое строки итогов. 
+    * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое строки итогов. 
     * @default undefined
     */
    contentTemplate?: string;

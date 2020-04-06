@@ -31,9 +31,17 @@
    -webkit-overflow-scrolling: touch;
 }
 
-.controls-Scroll__scrollbar {
+.controls-VScrollbar_vertical {
    position: absolute;
    top: 0;
+   right: 0;
+   bottom: 0;
+   z-index: @z-index_Scroll-contentEnvironment;
+}
+
+.controls-ScrollContainer__scrollbar_horizontal {
+   position: absolute;
+   left: 0;
    right: 0;
    bottom: 0;
    z-index: @z-index_Scroll-contentEnvironment;
@@ -64,17 +72,27 @@
  * В противном случае это вызовет тормоза вместо оптимизации.
  * Подробнее https://developer.mozilla.org/ru/docs/Web/CSS/will-change.
  */
+
 .controls-Scroll__content_possibleScroll:hover {
    will-change: scroll-position;
 }
 
 .controls-Scroll__shadow {
-   left: 0;
-   right: 0;
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+}
+
+.controls-Scroll__shadow_horizontal {
+   left: 0;
+   right: 0;
+   height: @shadow_thickness_scroll;
+}
+
+.controls-Scroll__shadow_vertical {
+   top: 0;
+   bottom: 0;
+   width: @shadow_thickness_scroll;
 }
 
 .controls-Scroll__shadow-safari13 {
@@ -82,13 +100,13 @@
    z-index: @z-index_Scroll-contentEnvironment;
    position: absolute;
    pointer-events: none;
-   height: @height-gradient_Scroll-shadow;
+   height: @shadow_thickness_scroll;
 }
 .controls-Scroll__shadow_top {
    top: 0;
    background: linear-gradient(
       to bottom,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 
@@ -96,7 +114,23 @@
    bottom: 0;
    background: linear-gradient(
       to top,
-      @start-color-gradient_Scroll-shadow, @end-color-gradient_Scroll-shadow
+      @shadow_start-color_scroll, @shadow_end-color_scroll
+   );
+}
+
+.controls-Scroll__shadow_left {
+   left: 0;
+   background: linear-gradient(
+           to right,
+           @shadow_start-color_scroll, @shadow_end-color_scroll
+   );
+}
+
+.controls-Scroll__shadow_right {
+   right: 0;
+   background: linear-gradient(
+           to left,
+           @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
 
@@ -107,9 +141,14 @@
    display: none;
 }
 
-.controls-Scroll__content_scroll {
+.controls-Scroll__scroll_vertical {
    overflow-y: scroll;
    overflow-x: hidden;
+}
+
+.controls-Scroll__scroll_verticalHorizontal {
+   overflow-y: scroll;
+   overflow-x: scroll;
 }
 
 .controls-Scroll__content_auto {
@@ -129,11 +168,11 @@
    bottom: 0;
    right: 0;
    z-index: @z-index_Scroll-contentEnvironment;
-   border-top: @border-width_BaseControl-scrollPaging-top solid @border-color_BaseControl-scrollPaging;
+   border-top: @scrollpaging_separator-thickness_list solid @scrollpaging_separator-color_list;
 }
 
 .controls-Scroll__content_paging::after {
-   padding-bottom: @height_Paging-button;
+   padding-bottom: @item_height_paging + @padding-vertical_paging * 2;
    content: '';
    display: block;
 }

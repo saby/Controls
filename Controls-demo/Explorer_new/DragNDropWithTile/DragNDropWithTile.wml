@@ -1,9 +1,9 @@
 <div class="controlsDemo__wrapper">
     <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
     <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
-        <div>
-            <Controls.list:Mover name="listMover" parentProperty="parent"/>
-            <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+        <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+            <div>
+                <Controls.list:Mover name="listMover" parentProperty="parent"/>
                 <Controls.list:Container>
                     <Controls.operations:Container>
                         <Controls.explorer:View
@@ -39,8 +39,7 @@
                         </Controls.explorer:View>
                     </Controls.operations:Container>
                 </Controls.list:Container>
-            </Controls.operations:Controller>
-        </div>
+            </div>
+        </Controls.operations:Controller>
     </Controls.list:DataContainer>
-
 </div>

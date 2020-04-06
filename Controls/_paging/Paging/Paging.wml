@@ -18,8 +18,10 @@
       <span class="controls-Paging__btn controls-Paging__btn_last controls-Paging__arrow controls-Paging__arrow__state-{{_stateNext}}" attr:title="{[Вперёд]}" on:click="_arrowClick('Next')">
          <i class="icon-Forward controls-Paging__icon"></i>
       </span>
-      <span attr:style="display:none" class="controls-Paging__btn controls-Paging__arrow controls-Paging__arrow__state-{{_stateEnd}}" attr:title="{[В конец]}" on:click="_arrowClick('End')">
-         <i class="icon-Last controls-Paging__icon"></i>
-      </span>
+      <ws:if data="{{_options.showEndButton}}">
+         <span class="controls-Paging__btn controls-Paging__arrow controls-Paging__arrow__state-{{_stateEnd}}" attr:title="{[В конец]}" on:click="_arrowClick('End')">
+            <i class="icon-Last controls-Paging__icon"></i>
+         </span>
+      </ws:if>
    </div>
 </div>

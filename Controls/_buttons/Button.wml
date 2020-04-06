@@ -13,5 +13,6 @@
             _hasIcon="{{_hasIcon}}"
             _stringCaption="{{_stringCaption}}"
             _iconStyle="{{_iconStyle}}"
+            _captionPosition="{{ _captionPosition }}"
             on:click="_clickHandler()"
             on:keypress="_keyUpHandler()"/>

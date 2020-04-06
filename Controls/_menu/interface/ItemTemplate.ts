@@ -90,6 +90,7 @@
  * @name Controls/menu:ItemTemplate#additionalTextTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
  * @default undefined
+ * @demo Controls-demo/Menu/Control/ItemTemplate/AdditionalTextTemplate/Index
  * @example
  * <pre class="brush: html; highlight: [9,10,11]">
  * <Controls.menu:Control source="{{_source)}}" keyProperty="id">
@@ -115,6 +116,39 @@
  *           { id: 3,
  *             title: 'Problem',
  *             comment: 'Do you have a problem? Tell about it and experts will help to find its solution' }
+ *       ],
+ *       keyProperty: 'id'
+ *    });
+ * </pre>
+ */
+
+/**
+ * @name Controls/menu:ItemTemplate#rightTemplate
+ * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается справа от основного контента элемента и используется для вывода дополнительного действия (комманды).
+ * @default undefined
+ * @demo Controls-demo/Menu/Control/ItemTemplate/ItemTemplateProperty/RightTemplate/Index
+ * @example
+ * <pre class="brush: html; highlight: [9,10,11]">
+ * <Controls.menu:Control source="{{_source)}}" keyProperty="id">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/menu:ItemTemplate" attr:class="Controls-demo-Menu-Control__itemTemplate">
+ *          <ws:rightTemplate>
+ *              <ws:if data="{{rightTemplate.item.get('additionalIcon')}}">
+ *                  <span class="ControlsDemo-Menu-Control__rightTemplate
+ *                               {{rightTemplate.item.get('additionalIcon')}}" ></span>
+ *              </ws:if>
+ *          </ws:rightTemplate>
+ *       </ws:partial>
+ *    </ws:itemTemplate>
+ * </Controls.menu:Control>
+ * </pre>
+ * <pre class="brush: js">
+ *    this._source = new Memory ({
+ *       data: [
+ *              {key: '1', title: 'Save', icon: 'icon-Save'},
+ *              {key: '2', title: 'Execute', icon: 'icon-Show'},
+ *              {key: '3', title: 'Discuss', icon: 'icon-EmptyMessage', additionalIcon: 'icon-VideoCallNull'},
+ *              {key: '4', title: 'For control', icon: 'icon-Sent2'}
  *       ],
  *       keyProperty: 'id'
  *    });

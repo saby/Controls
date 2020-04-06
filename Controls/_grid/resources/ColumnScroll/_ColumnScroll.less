@@ -1,0 +1,40 @@
+@import "../../../_scroll/Scroll/_contentEnvironmentZIndex";
+
+.controls-ColumnScroll_theme-@{themeName} {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: @z-index_Scroll-contentEnviroment_horizontal;
+   width: 100%;
+}
+
+.controls-ColumnScroll_content_wrapper {
+   position: relative;
+}
+
+.controls-ColumnScroll__shadow_theme-@{themeName} {
+   top: 0;
+   bottom: 0;
+   z-index: @z-index_Scroll-shadow;
+   position: absolute;
+   pointer-events: none;
+   width: @columnscroll_shadow-blur_grid;
+   box-sizing: border-box;
+}
+
+// Набор классов для установки градиента горизонтального скролла через backgroundStyle (default, transparent)
+.controls-horizontal-gradient-default_theme-@{themeName},
+.controls-horizontal-gradient-transparent_theme-@{themeName} {
+   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
+   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+}
+
+.controls-ColumnScroll__shadow_invisible {
+   visibility: hidden;
+}
+
+.controls-ColumnScroll__shadow-end_theme-@{themeName} {
+   right: 0;
+   transform: scaleX(-1);
+}

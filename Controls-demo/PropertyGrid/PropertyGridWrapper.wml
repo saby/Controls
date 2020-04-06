@@ -35,12 +35,13 @@
             <Controls.scroll:Container
                attr:style="height: 100px; border-width:thin"
                scrollbarVisible="{{true}}"
-               shadowVisible="{{true}}"
+               topShadowVisibility="visible"
+               bottomShadowVisibility="visible"
                attr:class="PropertyGrid_events">
                <div attr:style="width:200px; word-spacing:200px;">{{myEvent}}</div>
             </Controls.scroll:Container>
             <Controls.buttons:Button attr:class="demo-ResetButton" on:click="reset()" fontColorStyle="unaccented"
-                                     viewMode="link" caption="reset"/>
+                                     viewMode="linkButton" caption="reset"/>
 
          </div>
       </div>

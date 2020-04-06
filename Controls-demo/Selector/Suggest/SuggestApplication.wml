@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="SelectorSuggest" demoname="Controls-demo/Selector/Suggest/Suggest.wml">
-   <ws:content>
-      <Controls-demo.Selector.Suggest.Suggest/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

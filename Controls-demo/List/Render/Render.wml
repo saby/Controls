@@ -7,10 +7,9 @@
          multiSelectVisibility="{{ _multiSelectVisibility }}"
          itemActions="{{ _itemActions }}"
          navigation="{{ _navigation }}"
-         virtualScrolling="{{ true }}"
-
          name="listView"
          useNewModel="{{ true }}">
+         <ws:virtualScrollConfig pageSize="{{100}}"/>
          <ws:editingConfig toolbarVisibility="{{ true }}" />
          <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">

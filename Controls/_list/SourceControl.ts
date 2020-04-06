@@ -1,7 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {ICrud, QueryOrderSelector, QueryWhere} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/_interface/INavigation';
+import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 import {ViewConfig, Controller as ErrorController} from 'Controls/_dataSource/error';
 import {ISourceErrorConfig} from 'Controls/_dataSource/SourceCrudInterlayer';
 import {IPagingOptions} from 'Controls/_paging/Paging';
@@ -128,7 +128,6 @@ export default class SourceControl extends Control<ISourceControlOptions, Record
     private _sorting: QueryOrderSelector;
 
     protected _beforeMount(options?: ISourceControlOptions, contexts?: object, receivedState?: RecordSet | void): Promise<RecordSet | void> | void {
-        this._options = options;
         this._listSourceLoader = new ListSourceLoadingController({
             keyProperty: this._options.keyProperty,
             navigation: this._options.navigation,

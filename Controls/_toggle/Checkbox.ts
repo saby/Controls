@@ -225,7 +225,7 @@ export interface ICheckboxOptions extends IControlOptions, ICaptionOptions, IIco
  */
 
 const mapTriState = {false: true, true: null, null: false};
-const mapBoolState = {true: false, false: true};
+const mapBoolState = {true: false, false: true, null: true};
 
 class Checkbox extends Control<ICheckboxOptions> implements ICaption,
                                                             IIcon, ITooltip, IIconSize, IIconStyle, IValidationStatus {

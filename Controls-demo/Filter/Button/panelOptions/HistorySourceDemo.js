@@ -15,7 +15,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
 
       var items = [
          {
-            id: 'period',
+            name: 'period',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -30,7 +30,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'state',
+            name: 'state',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -45,7 +45,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'limit',
+            name: 'limit',
             value: [1],
             resetValue: [1],
             textValue: 'Due date',
@@ -59,20 +59,20 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'sender', value: '', resetValue: '', visibility: false
+            name: 'sender', value: '', resetValue: '', visibility: false
          },
-         { id: 'author', value: 'Ivanov K.K.', resetValue: '' },
+         { name: 'author', value: 'Ivanov K.K.', resetValue: '' },
          {
-            id: 'responsible', value: '', resetValue: '', visibility: false
-         },
-         {
-            id: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
+            name: 'responsible', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'operation', value: '', resetValue: '', visibility: false
+            name: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
          },
          {
-            id: 'group',
+            name: 'operation', value: '', resetValue: '', visibility: false
+         },
+         {
+            name: 'group',
             value: [1],
             resetValue: '',
             visibility: false,
@@ -86,13 +86,13 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
 
          },
          {
-            id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false
+            name: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false
          },
          {
-            id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
+            name: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
          },
          {
-            id: 'own',
+            name: 'own',
             value: [2],
             resetValue: '',
             textValue: 'On department',
@@ -106,19 +106,19 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'our organisation', value: '', resetValue: '', visibility: false
+            name: 'our organisation', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'document', value: '', resetValue: '', visibility: false
+            name: 'document', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'activity', value: [1], resetValue: '', selectedKeys: [1], visibility: false
+            name: 'activity', value: [1], resetValue: '', selectedKeys: [1], visibility: false
          }
       ];
 
       var items1 = [
          {
-            id: 'period',
+            name: 'period',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -133,7 +133,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'state',
+            name: 'state',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -148,7 +148,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'limit',
+            name: 'limit',
             value: [1],
             resetValue: [1],
             textValue: 'Due date',
@@ -162,26 +162,26 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'sender', value: '', resetValue: '', visibility: false
+            name: 'sender', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'author',
+            name: 'author',
             value: 'Ivanov K.K.',
             textValue: 'Author: Ivanov K.K.',
             resetValue: '',
             templateItem: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/author'
          },
          {
-            id: 'responsible', value: '', resetValue: '', visibility: false
+            name: 'responsible', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
+            name: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
          },
          {
-            id: 'operation', value: '', resetValue: '', visibility: false
+            name: 'operation', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'group',
+            name: 'group',
             value: [1],
             resetValue: '',
             visibility: false,
@@ -194,13 +194,13 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false
+            name: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: false
          },
          {
-            id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
+            name: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
          },
          {
-            id: 'own',
+            name: 'own',
             value: [2],
             resetValue: '',
             textValue: 'On department',
@@ -214,13 +214,13 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'our organisation', value: '', resetValue: '', visibility: false
+            name: 'our organisation', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'document', value: '', resetValue: '', visibility: false
+            name: 'document', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'activity',
+            name: 'activity',
             value: [1],
             resetValue: [1],
             visibility: false,
@@ -237,7 +237,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
 
       var items2 = [
          {
-            id: 'period',
+            name: 'period',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -252,7 +252,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'state',
+            name: 'state',
             value: [1],
             resetValue: [1],
             source: new sourceLib.Memory({
@@ -267,7 +267,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'limit',
+            name: 'limit',
             value: [1],
             resetValue: '',
             textValue: 'Due date',
@@ -281,26 +281,26 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'sender', value: '', resetValue: '', textValue: 'Petrov B.B', visibility: true
+            name: 'sender', value: '', resetValue: '', textValue: 'Petrov B.B', visibility: true
          },
          {
-            id: 'author',
+            name: 'author',
             value: 'Ivanov K.K.',
             textValue: 'Author: Ivanov K.K.',
             resetValue: '',
             templateItem: 'wml!Controls-demo/Filter/Button/resources/itemTemplate/author'
          },
          {
-            id: 'responsible', value: '', resetValue: '', visibility: false
+            name: 'responsible', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
+            name: 'tagging', value: '', resetValue: '', textValue: 'Marks', visibility: false
          },
          {
-            id: 'operation', value: '', resetValue: '', visibility: false
+            name: 'operation', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'group',
+            name: 'group',
             value: [1],
             resetValue: [1],
             visibility: false,
@@ -313,13 +313,13 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: true
+            name: 'unread', value: true, resetValue: false, textValue: 'Unread', visibility: true
          },
          {
-            id: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
+            name: 'loose', value: true, resetValue: '', textValue: 'Loose', visibility: false
          },
          {
-            id: 'own',
+            name: 'own',
             value: [2],
             resetValue: '',
             textValue: 'On department',
@@ -333,13 +333,13 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
             })
          },
          {
-            id: 'our organisation', value: '', resetValue: '', visibility: false
+            name: 'our organisation', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'document', value: '', resetValue: '', visibility: false
+            name: 'document', value: '', resetValue: '', visibility: false
          },
          {
-            id: 'activity',
+            name: 'activity',
             value: [1],
             resetValue: [1],
             visibility: false,

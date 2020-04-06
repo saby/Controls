@@ -25,7 +25,7 @@ define('Controls/interface/IBreadCrumbs', [
 
    /*
     * @name Controls/interface/IBreadCrumbs#items
-    * @cfg {Array.<Object>} Array of breadcrumbs to draw.
+    * @cfg {Array.<Record>} Array of breadcrumbs to draw.
     */
 
    /**
@@ -63,13 +63,13 @@ define('Controls/interface/IBreadCrumbs', [
    /**
     * @event Controls/interface/IBreadCrumbs#itemClick Происходит после клика по хлебным крошкам.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
-    * @param {String} itemId Ключ элемента, по которому произвели клик.
+    * @param {Types/entity:Record} item Элемент, по которому произвели клик.
     */
 
    /*
     * @event Controls/interface/IBreadCrumbs#itemClick Happens after clicking on breadcrumb.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
-    * @param {String} itemId Key of the clicked item.
+    * @param {Types/entity:Record} item Key of the clicked item.
     */
 
 });

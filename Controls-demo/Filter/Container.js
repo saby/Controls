@@ -34,7 +34,7 @@ define('Controls-demo/Filter/Container', [
          this._filterTabs = {};
          this._filterData = [
             {
-               id: 'department',
+               name: 'department',
                resetValue: 'По департаменту',
                value: 'По департаменту',
                properties: {
@@ -55,7 +55,7 @@ define('Controls-demo/Filter/Container', [
                }
             },
             {
-               id: 'owner',
+               name: 'owner',
                resetValue: '0',
                value: '0',
                properties: {
@@ -74,7 +74,7 @@ define('Controls-demo/Filter/Container', [
             }
          ];
          this._filterButtonData = [{
-            id: 'owner',
+            name: 'owner',
             resetValue: '0',
             value: '0',
             source: new sourceLib.Memory({

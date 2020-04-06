@@ -1,0 +1,5 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}" attr:class="js-controls-ColumnScroll__notDraggable">
+    <ws:contentTemplate>
+        <span style="color: #ccc">За эту колонку нельзя скроллить</span>
+    </ws:contentTemplate>
+</ws:partial>

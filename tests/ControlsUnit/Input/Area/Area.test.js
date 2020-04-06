@@ -5,10 +5,11 @@ define(
       'ControlsUnit/resources/ProxyCall',
       'ControlsUnit/resources/TemplateUtil',
       'Vdom/Vdom',
+      'UI/Utils',
 
       'wml!ControlsUnit/Input/Area/LinkInReadMode'
    ],
-   function(Env, input, ProxyCall, TemplateUtil, Vdom, linkInReadMode) {
+   function(Env, input, ProxyCall, TemplateUtil, Vdom, UIUtils, linkInReadMode) {
       'use strict';
 
       var SyntheticEvent = Vdom.SyntheticEvent;
@@ -253,6 +254,45 @@ define(
                      arguments: []
                   }
                ]);
+            });
+         });
+
+         describe('Validate lines', function() {
+            var stubLogger;
+            beforeEach(function() {
+               stubLogger = sinon.stub(UIUtils.Logger, 'error').callsFake(() => undefined);
+            });
+            afterEach(function() {
+               stubLogger.restore();
+            });
+            it('min > max', function() {
+               ctrl._beforeMount({
+                  minLines: 10,
+                  maxLines: 1
+               });
+
+               assert.equal(ctrl._minLines, 1);
+               assert.equal(ctrl._maxLines, 10);
+            });
+
+            it('min < 1 and max < 1', function() {
+               ctrl._beforeMount({
+                  minLines: -5,
+                  maxLines: -5
+               });
+
+               assert.equal(ctrl._minLines, 1);
+               assert.equal(ctrl._maxLines, 1);
+            });
+
+            it('min > 10 and max > 10', function() {
+               ctrl._beforeMount({
+                  minLines: 15,
+                  maxLines: 15
+               });
+
+               assert.equal(ctrl._minLines, 10);
+               assert.equal(ctrl._maxLines, 10);
             });
          });
       });

@@ -9,7 +9,7 @@
                         <Controls.search:Input/>
                     </Controls.search:InputContainer>
                     <Controls.buttons:Button attr:class="ControlsDemo-ExtendedMoveDialog__root"
-                                             viewMode="link"
+                                             viewMode="linkButton"
                                              fontColorStyle="link"
                                              caption="{[В корень]}"
                                              on:click="moveToRoot()"
@@ -33,7 +33,7 @@
     </ws:bodyContentTemplate>
     <ws:headerContentTemplate>
         <div class="ControlsDemo-ExtendedMoveDialog__createFolder">
-            <Controls.buttons:Button icon="icon-CreateFolder" on:click="_createFolderButtonClick()" viewMode="link"/>
+            <Controls.buttons:Button icon="icon-CreateFolder" on:click="_createFolderButtonClick()" viewMode="linkButton"/>
             <Controls.popup:Dialog name="dialogOpener" modal="{{true}}" template="Controls-demo/treeGrid/Mover/Extended/CreateDialog"/>
         </div>
     </ws:headerContentTemplate>

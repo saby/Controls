@@ -141,20 +141,6 @@ define(
             };
             let menu = new dropdown.Button(newOptions);
             menu.saveOptions(newOptions);
-            menu._children = {
-               notificationOpener: {
-                  open: (popupOptions) => {
-                     assert.deepEqual(popupOptions, {
-                        template: 'Controls/popupTemplate:NotificationSimple',
-                        templateOptions: {
-                           style: 'danger',
-                           text: 'Невозможно закрепить более 10 пунктов',
-                           icon: 'Alert'
-                        }
-                     });
-                  }
-               }
-            };
             let expectedItem = new entity.Model({
                rawData: {
                   pinned: false

@@ -43,16 +43,16 @@
    visibility: hidden;
 }
 
-.controls-Area_theme_@{themeName}_size {
-   @variants: s, m, l, default;
+/**
+ * When using line-height: normal, the row height in Firefox differs from the row height in other browsers.
+ * This behavior is independent of the font. Therefore, you must specify the value explicitly.
+ */
+.controls-Area_line-height {
+   @variants: xs, s, m, l, xl, 2xl, 3xl, 4xl, 5xl;
 
-   /**
-    * When using line-height: normal, the row height in Firefox differs from the row height in other browsers.
-    * This behavior is independent of the font. Therefore, you must specify the value explicitly.
-    */
    .for(@variants, {
-      &_@{_item} {
-         line-height: ~"@{height_Area_oneLine_size_@{_item}}";
+      &_@{_item}_theme-@{themeName} {
+         line-height: ~"@{line-height_@{_item}_inputArea}";
       }
    });
 }

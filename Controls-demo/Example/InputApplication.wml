@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Input" demoname="Controls-demo/Example/Input">
-    <ws:content>
-        <Controls-demo.Example.Input/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

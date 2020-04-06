@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: sticky grid.">
-    <ws:content>
-        <Controls-demo.List.Grid.StickyPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

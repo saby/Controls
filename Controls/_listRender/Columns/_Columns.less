@@ -6,36 +6,36 @@
 
 .controls-ColumnsView_column {
    height: 100%;
-   max-width: @max-width_ColumnsView_tile;
+   max-width: @item_max-width_columns;
 }
 
 .controls-ColumnsView__itemsContainer {
-   margin: 0 @side-spacing_ColumnsView_columns;
-   column-gap: @side-spacing_ColumnsView_columns_val * 2;
+   margin: 0 @item_offset-horizontal_columns / 2;
+   column-gap: @item_offset-horizontal_columns;
 }
 
 .controls-ColumnsView__itemV {
    user-select: none;
    box-sizing: border-box;
-   box-shadow: @shadow_ColumnsView_tile_normal;
+   box-shadow: @item_shadow-size_columns @item_shadow-color_columns;
    display: inline-block;
-   margin: @vertical_spacing_ColumnsView_tile 0;
+   margin: @item_offset-horizontal_columns / 2 0;
    overflow: hidden;
    vertical-align: top;
    width: 100%;
 
    .controls-Checkbox {
-      margin: @margin-ColumnsView_tile_checkbox;
+      margin: @checkbox_offset-top_columns @checkbox_offset-right_columns @checkbox_offset-bottom_columns @checkbox_offset-left_columns;
    }
 }
 
 .controls-ColumnsView__itemActionsV_inside {
-   padding-right: @spacing_ItemActions-between-content-border-right_position_inside;
-   height: @height_ColumnsView_ItemActions_inside;
+   padding-right: @offset-right_itemActions;
+   height: @height_itemActions_columns;
 }
 
 .controls-ColumnsView__itemV:hover {
-   box-shadow: @shadow_ColumnsView_tile_hovered;
+   box-shadow: @item_shadow-size_columns @item_hover_shadow-color_columns;
 }
 
 .controls-ColumnsView_column,
@@ -51,7 +51,7 @@
    left: 0;
    right: 0;
    box-sizing: border-box;
-   border: 1px solid @border-color_ColumnsView_tile_marked;
+   border: 1px solid @item_marked_border-color_columns;
    pointer-events: none;
 }
 

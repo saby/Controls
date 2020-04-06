@@ -1,4 +1,4 @@
-define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collection', 'Types/entity'], function(searchMod, sourceLib, cInstance, collection, entity) {
+define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collection', 'Types/entity', 'Controls/dataSource'], function(searchMod, sourceLib, cInstance, collection, entity, dataSource) {
 
    var data = [
       {
@@ -70,6 +70,8 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          var searchController = getSearchController();
          var value;
          var wasSearch = false;
+         var error = new Error('error');
+         searchController._notify = sinon.stub();
          searchController._dataOptions = defaultOptions;
          searchController._options.searchValueTrim = true;
 
@@ -80,10 +82,27 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          searchController._searchController.search = function(searchVal) {
             value = searchVal;
             wasSearch = true;
+            return Promise.resolve(error);
          };
-         searchMod.Controller._private.startSearch(searchController, 'test');
+
+         searchMod.Controller._private.startSearch(searchController, 'test').then(() => {
+            // notifies 'dataError' with proper arguments
+            assert.strictEqual(searchController._notify.getCall(0).args[0], 'dataError');
+            assert.deepEqual(searchController._notify.getCall(0).args[1], [{
+               error,
+               mode: dataSource.error.Mode.include
+            }]);
+            searchController._notify.reset();
+         });
          assert.equal(value, 'test');
          assert.isTrue(wasSearch);
+
+         // does not notify 'dataError' when dataLoadErrback returns false
+         searchController._errbackResult = false;
+         searchMod.Controller._private.startSearch(searchController, 'test').then(() => {
+            searchController._notify.reset();
+            assert.isFalse(searchController._notify.called);
+         });
 
          searchController._isSearchControllerLoading = function() {
             return true;

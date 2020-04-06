@@ -179,19 +179,31 @@ define(
             });
          });
 
-         it('getTemplateOptions', function() {
-            const expectedOptions = Clone(defaultOptions);
-            expectedOptions.root = 1;
-            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
-            expectedOptions.footerTemplate = defaultOptions.nodeFooterTemplate;
-            expectedOptions.closeButtonVisibility = false;
-            expectedOptions.showHeader = false;
-            expectedOptions.headerTemplate = null;
-            expectedOptions.headerContentTemplate = null;
-            expectedOptions.additionalProperty = null;
-            expectedOptions.itemPadding = null;
-            expectedOptions.iWantBeWS3 = false;
+         describe('_itemMouseEnter', function() {
+            let menuControl, handleStub;
+            let sandbox = sinon.createSandbox();
 
+            beforeEach(() => {
+               menuControl = getMenu();
+               handleStub = sandbox.stub(menuControl, 'handleCurrentItem');
+            });
+
+            it('on groupItem', function() {
+               menuControl._itemMouseEnter('mouseenter', new display.GroupItem());
+               assert.isTrue(handleStub.notCalled);
+            });
+
+            it('on collectionItem', function() {
+               menuControl._itemMouseEnter('mouseenter', new display.CollectionItem({
+                  contents: new entity.Model()
+               }), {});
+               assert.isTrue(handleStub.calledOnce);
+            });
+
+            sinon.restore();
+         });
+
+         it('getTemplateOptions', function() {
             let menuControl = getMenu();
             menuControl._listModel = getListModel();
 
@@ -202,6 +214,24 @@ define(
                }),
                hasChildren: false
             });
+
+            const expectedOptions = Clone(defaultOptions);
+            expectedOptions.root = 1;
+            expectedOptions.bodyContentTemplate = 'Controls/_menu/Control';
+            expectedOptions.footerContentTemplate = defaultOptions.nodeFooterTemplate;
+            expectedOptions.footerItemData = {
+               item,
+               key: expectedOptions.root
+            };
+            expectedOptions.closeButtonVisibility = false;
+            expectedOptions.showHeader = false;
+            expectedOptions.headerTemplate = null;
+            expectedOptions.headerContentTemplate = null;
+            expectedOptions.additionalProperty = null;
+            expectedOptions.itemPadding = null;
+            expectedOptions.searchParam = null;
+            expectedOptions.iWantBeWS3 = false;
+
             let resultOptions = menuControl.getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
          });
@@ -223,11 +253,27 @@ define(
          it('_footerMouseEnter', function() {
             let isClosed = false;
             let menuControl = getMenu();
+            let event = {
+               nativeEvent: {}
+            };
+
             menuControl._children = {
                Sticky: { close: () => { isClosed = true; } }
             };
-            menuControl._footerMouseEnter();
+            menuControl.isMouseInOpenedItemArea = function() {
+               return false;
+            };
+            menuControl.setSubMenuPosition = function() {};
+            menuControl._subDropdownItem = true;
+            menuControl._footerMouseEnter(event);
             assert.isTrue(isClosed);
+
+            menuControl.isMouseInOpenedItemArea = function() {
+               return true;
+            };
+            isClosed = false;
+            menuControl._footerMouseEnter(event);
+            assert.isFalse(isClosed);
          });
 
          it('getSelectedItemsByKeys', function() {
@@ -315,6 +361,55 @@ define(
             };
             menuControl._changeIndicatorOverlay('showIndicator', indicatorConfig);
             assert.equal(indicatorConfig.overlay, 'none');
+         });
+
+         it('_calculateActionsConfig', function() {
+            let menuControl = getMenu();
+            let listModel = getListModel();
+
+            const expectedConfig = {
+               itemActionsPosition: 'inside',
+               actionCaptionPosition: 'none',
+               actionAlignment: 'horizontal',
+               style: 'default',
+               size: 'm',
+               itemActionsClass: 'controls-Menu__itemActions_position_rightCenter_theme-default',
+               toolbarVisibility: undefined
+            };
+
+            menuControl._calculateActionsConfig(listModel, {theme: 'default'});
+            assert.deepEqual(listModel.getActionsTemplateConfig(), expectedConfig);
+         });
+
+         it('getCollection', function() {
+            let menuControl = getMenu();
+            let listModel = menuControl.getCollection(new collection.RecordSet(), {
+               searchParam: 'title',
+               searchValue: 'searchText'
+            });
+            assert.instanceOf(listModel, display.Search);
+         });
+
+         it('_itemActionClick', function() {
+            let isHandlerCalled = false;
+            let menuControl = getMenu();
+            menuControl._listModel = getListModel();
+            let action = {
+               id: 1,
+               icon: 'icon-Edit',
+               iconStyle: 'secondary',
+               title: 'edit',
+               showType: 2,
+               handler: function() {
+                  isHandlerCalled = true;
+               }
+            };
+            let clickEvent = {
+               stopPropagation: () => {}
+            };
+
+            menuControl._itemActionClick('itemActionClick', menuControl._listModel.at(1), action, clickEvent);
+            assert.isTrue(isHandlerCalled);
          });
 
          describe('_subMenuResult', function() {

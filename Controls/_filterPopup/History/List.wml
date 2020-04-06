@@ -1,5 +1,5 @@
 <ws:template name="pinned">
-   <span class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active' : 'icon-PinNull controls-HistoryList__iconPin-default'}} controls-HistoryList__iconPin "
+   <span title="{{item.get('pinned') ? rk('Открепить') : rk('Закрепить')}}" class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active' : 'icon-PinNull controls-HistoryList__iconPin-default'}} controls-HistoryList__iconPin "
          on:click="_onPinClick(item)"></span>
 </ws:template>
 
@@ -29,7 +29,7 @@
       </ws:for>
    </div>
    <ws:if data="{{_arrowVisible}}">
-      <div class="controls-FilterPanel__separator">
+      <div class="controls-FilterPanel__separator" title="{{!_isMaxHeight ? rk('Свернуть') : rk('Развернуть')}}">
          <Controls.toggle:BigSeparator
                  value="{{!_isMaxHeight}}"
                  on:click="_clickSeparatorHandler()"/>

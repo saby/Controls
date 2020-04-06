@@ -1,9 +1,27 @@
-<ws:if data="{{value.clickable}}">
-   <div if="{{value.today}}" class="controls-MonthViewVDOM__item-today-background {{_themeCssClass}}"></div>
-   <ws:if data="{{!!contentTemplate}}">
-      <ws:partial template="{{contentTemplate}}" value="{{value}}"/>
-   </ws:if>
-   <ws:else>
-      {{value.day}}
-   </ws:else>
+<ws:if data="{{newMode !== true}}">
+    <ws:if data="{{value.clickable}}">
+        <div if="{{value.today}}" class="controls-MonthViewVDOM__item-today-background controls-MonthViewVDOM__item-today-background_theme-{{theme}} {{_themeCssClass}}"></div>
+        <ws:if data="{{!!contentTemplate}}">
+            <ws:partial template="{{contentTemplate}}" value="{{value}}"/>
+        </ws:if>
+        <ws:else>
+            {{value.day}}
+        </ws:else>
+    </ws:if>
 </ws:if>
+<ws:else>
+    <div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item_theme-{{theme}}{{sizeStyle? '-style-' + sizeStyle}} {{ monthViewModel._prepareClass(value, theme, fontColorStyle, backgroundStyle) }} {{_themeCssClass}}">
+        <ws:if data="{{value.clickable}}">
+            <div if="{{value.today}}"
+                 class="controls-MonthViewVDOM__item-today-background
+                        controls-MonthViewVDOM__item-today-background_theme-{{theme}}{{sizeStyle? '-style-' + sizeStyle}}
+                        {{_themeCssClass}}"></div>
+            <ws:if data="{{!!contentTemplate}}">
+                <ws:partial template="{{contentTemplate}}" value="{{value}}"/>
+            </ws:if>
+            <ws:else>
+                {{value.day}}
+            </ws:else>
+        </ws:if>
+    </div>
+</ws:else>

@@ -2,7 +2,9 @@
    <Controls._scroll.StickyHeader._StickyHeader scope="{{_options}}"/>
 </ws:if>
 <ws:else>
-   <div>
+   <!-- В случае, когда sticky в Controls.list:View не поддерживается, например, в IE выделенный пункт становится прозрачным. -->
+   <!-- Необходимов этом случае принудительно установить его в цвет основного фона списка -->
+   <div attr:class="controls-background-{{_options.backgroundStyle || 'default'}}_theme-{{_options.theme}}">
       <ws:partial if="{{_options.content}}" template="{{_options.content}}" scope="{{_options}}"/>
    </div>
 </ws:else>

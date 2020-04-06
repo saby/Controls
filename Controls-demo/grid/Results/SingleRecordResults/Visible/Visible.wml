@@ -3,6 +3,7 @@
       keyProperty="id"
       source="{{_viewSource}}"
       columns="{{_columns}}"
+      attr:class="controlsDemo__inline-flex"
       resultsPosition="bottom"
       resultsVisibility="visible"/>
 </div>

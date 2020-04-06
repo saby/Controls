@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: multiselect.">
-    <ws:content>
-        <Controls-demo.List.Grid.MultiselectPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

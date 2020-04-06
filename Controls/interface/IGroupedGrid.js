@@ -13,6 +13,7 @@ define('Controls/interface/IGroupedGrid', [
    /**
     * @name Controls/interface/IGroupedGrid#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
+    * Примечание: Для отображения элементов вне группы необходмо передавать в качестве значений поля, по которому производится группировка CONTROLS_HIDDEN_GROUP
     * @demo Controls-demo/List/List/GroupPG
     * @see groupTemplate
     * @see collapsedGroups

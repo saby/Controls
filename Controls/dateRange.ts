@@ -33,7 +33,6 @@ export {IDateRangeSelectable};
  * @includes IRangeSelectable Controls/_dateRange/interfaces/IRangeSelectable
  * @includes Utils Controls/_dateRange/Utils
  * @includes Link Controls/_dateRange/Link
- * @includes LinkView Controls/_dateRange/LinkView
  * @includes RangeSelectionController Controls/_dateRange/Controllers/RangeSelectionController
  * @includes DateRangeSelectionController Controls/_dateRange/Controllers/DateRangeSelectionController
  *
@@ -56,7 +55,6 @@ export {IDateRangeSelectable};
  * @includes IDateRangeSelectable Controls/_dateRange/interfaces/IDateRangeSelectable
  * @includes Utils Controls/_dateRange/Utils
  * @includes Link Controls/_dateRange/Link
- * @includes LinkView Controls/_dateRange/LinkView
  * @includes RangeSelectionController Controls/_dateRange/Controllers/RangeSelectionController
  * @includes DateRangeSelectionController Controls/_dateRange/Controllers/DateRangeSelectionController
  * @includes IRangeSelectable Controls/_dateRange/interfaces/IRangeSelectable

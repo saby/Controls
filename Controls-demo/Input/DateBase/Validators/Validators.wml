@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Поле обязательное для заполнения</div>
+        <Controls.input:DateBase bind:value="_value1">
+            <ws:valueValidators>
+                <ws:Array>
+                    <ws:Function>Controls/validate:isRequired</ws:Function>
+                </ws:Array>
+            </ws:valueValidators>
+        </Controls.input:DateBase>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">
+            Поле c прикладным валидатором с параметрами. Введенное значение должно быть больше {{_formatDate(_startValue, _formatDate.FULL_DATE)}} и меньше {{_formatDate(_endValue, _formatDate.FULL_DATE)}}
+        </div>
+        <Controls.input:DateBase bind:value="_value2">
+            <ws:valueValidators>
+                <ws:Array>
+                    <ws:Object>
+                        <ws:validator>
+                            <ws:Function>Controls-demo/Input/DateBase/Validators/isInRange:default</ws:Function>
+                        </ws:validator>
+                        <ws:arguments startValue="{{_startValue}}" endValue="{{_endValue}}"/>
+                    </ws:Object>
+                </ws:Array>
+            </ws:valueValidators>
+        </Controls.input:DateBase>
+    </div>
+</div>

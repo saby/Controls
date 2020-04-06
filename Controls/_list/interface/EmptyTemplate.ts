@@ -33,7 +33,7 @@ export default interface IEmptyTemplateOptions {
 
     /**
      * @name Controls/list:EmptyTemplate#topSpacing
-     * @cfg {Spacing|null} Устанавливает расстояние между верхней границей и контентом шаблона.
+     * @cfg {Spacing|null} Расстояние между верхней границей и контентом шаблона.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -42,7 +42,7 @@ export default interface IEmptyTemplateOptions {
     topSpacing?: string;
     /**
      * @name Controls/list:EmptyTemplate#bottomSpacing
-     * @cfg {Spacing|null} Устанавливает расстояние между нижней границей и контентом шаблона.
+     * @cfg {Spacing|null} Расстояние между нижней границей и контентом шаблона.
      * @remark
      * В значении null отступ отсутствует.
      * @remark
@@ -52,7 +52,7 @@ export default interface IEmptyTemplateOptions {
     bottomSpacing?: string;
     /**
      * @name Controls/list:EmptyTemplate#contentTemplate
-     * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий отображение контрола без элементов.
+     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий отображение контрола без элементов.
      */
     contentTemplate?: string;
  }

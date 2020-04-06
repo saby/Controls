@@ -1,0 +1,1 @@
+<ws:partial template="Controls/grid:ResultColumnTemplate" scope="{{_options}}"/>

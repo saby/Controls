@@ -272,7 +272,8 @@ define([
             it('Header with id equal to "sticky" stops being fixed', function() {
                component._fixedHandler(event, coreMerge({
                   id: 'sticky1',
-                  fixedPosition: ''
+                  fixedPosition: '',
+                  shadowVisible: true
                }, data, {preferSource: true}));
 
                assert.isEmpty(component._fixedHeadersStack.top);
@@ -281,25 +282,29 @@ define([
             it('Header with id equal to "sticky" fixed', function() {
                component._fixedHandler(event, {
                   id: 'sticky1',
-                  fixedPosition: 'top'
+                  fixedPosition: 'top',
+                  shadowVisible: true
                });
                assert.include(component._fixedHeadersStack.top, 'sticky1');
 
                component._fixedHandler(event, {
                   id: 'sticky2',
-                  fixedPosition: 'bottom'
+                  fixedPosition: 'bottom',
+                  shadowVisible: true
                });
                assert.include(component._fixedHeadersStack.bottom, 'sticky2');
             });
             it('Header with id equal to "sticky" fixed and then stop being fixed', function() {
                component._fixedHandler(event, {
                   id: 'sticky1',
-                  fixedPosition: 'top'
+                  fixedPosition: 'top',
+                  shadowVisible: true
                });
                component._fixedHandler(event, {
                   id: 'sticky1',
                   fixedPosition: '',
-                  prevPosition: 'top'
+                  prevPosition: 'top',
+                  shadowVisible: true
                });
 
                assert.isEmpty(component._fixedHeadersStack.top);
@@ -309,12 +314,14 @@ define([
                component._fixedHandler(event, {
                   id: 'sticky1',
                   fixedPosition: 'top',
-                  prevPosition: ''
+                  prevPosition: '',
+                  shadowVisible: true
                });
                component._fixedHandler(event, {
                   id: 'sticky1',
                   fixedPosition: 'bottom',
-                  prevPosition: 'top'
+                  prevPosition: 'top',
+                  shadowVisible: true
                });
 
                assert.isEmpty(component._fixedHeadersStack.top);
@@ -323,12 +330,14 @@ define([
             it('Header with id equal to "sticky1" fixed, Header with id equal to "sticky2" stop being fixed', function() {
                component._fixedHandler(event, {
                   id: 'sticky1',
-                  fixedPosition: 'top'
+                  fixedPosition: 'top',
+                  shadowVisible: true
                });
                component._fixedHandler(event, {
                   id: 'sticky2',
                   fixedPosition: '',
-                  prevPosition: 'top'
+                  prevPosition: 'top',
+                  shadowVisible: true
                });
 
                assert.include(component._fixedHeadersStack.top, 'sticky1');
@@ -355,7 +364,8 @@ define([
                   fixedPosition: 'top',
                   prevPosition: '',
                   mode: 'stackable',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                sinon.assert.notCalled(component._children.stickyHeaderShadow.start);
                component._fixedHandler(event, {
@@ -363,7 +373,8 @@ define([
                   fixedPosition: 'top',
                   prevPosition: '',
                   mode: 'stackable',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                sinon.assert.called(component._children.stickyHeaderShadow.start);
                component._fixedHandler(event, {
@@ -371,7 +382,8 @@ define([
                   fixedPosition: 'top',
                   prevPosition: '',
                   mode: 'stackable',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                sinon.assert.called(component._children.stickyHeaderShadow.start);
             });
@@ -380,7 +392,8 @@ define([
                   id: 'sticky1',
                   fixedPosition: 'top',
                   mode: 'stackable',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                sinon.assert.notCalled(component._children.stickyHeaderShadow.start);
             });
@@ -408,7 +421,8 @@ define([
                   id: data.id,
                   fixedPosition: 'top',
                   prevPosition: '',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                assert.equal(component.getHeadersHeight('top'), 10);
                assert.equal(component.getHeadersHeight('bottom'), 0);
@@ -435,11 +449,11 @@ define([
                   id: data.id,
                   fixedPosition: 'top',
                   prevPosition: '',
-                  height: 10
-               });
-               assert.equal(component.getHeadersHeight('top'), 0);
-               assert.equal(component.getHeadersHeight('bottom'), 0);
+                  height: 10,
+               shadowVisible: true
             });
+            assert.equal(component.getHeadersHeight('top'), 0);
+            assert.equal(component.getHeadersHeight('bottom'), 0);});
          });
 
          it('should return the correct height after a new stackable header has been registered and fixed.', function () {
@@ -449,7 +463,8 @@ define([
                   id: data.id,
                   fixedPosition: 'top',
                   prevPosition: '',
-                  height: 10
+                  height: 10,
+                  shadowVisible: true
                });
                assert.equal(component.getHeadersHeight('top'), 10);
                assert.equal(component.getHeadersHeight('bottom'), 0);

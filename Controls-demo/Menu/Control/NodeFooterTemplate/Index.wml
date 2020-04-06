@@ -1,0 +1,18 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">С иерархией и nodeFooterTemplate</div>
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              nodeProperty="@parent"
+              parentProperty="parent"
+      >
+         <ws:nodeFooterTemplate>
+            <div class="ControlsDemo-Menu-Control__footerContentTemplate">
+               Node footer template for root = {{nodeFooterTemplate.itemData.key}}
+            </div>
+         </ws:nodeFooterTemplate>
+      </Controls.menu:Control>
+   </div>
+</div>

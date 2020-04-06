@@ -189,7 +189,7 @@ define([
             globalObject.alert = originalAlert;
          });
 
-         it('does nothing on server side', () => {
+         it('does nothing on server side', function() {
             if (originalIsBrowser) {
                this.skip();
             }

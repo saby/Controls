@@ -1,39 +1,36 @@
 <div>
-   <div>Demo Controls/Explorer</div>
-   <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
-                                searchNavigationMode="expand"
-                                bind:expandedItems="_expandedItems"
-                                root="{{null}}"
-                                bind:markedKey="_markedKey"
-                                on:markedKeyChanged="_markedKeyChangedHandler()">
-      <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
-                                      bind:excludedKeys="_excludedKeys">
-         <Controls.search:Controller searchParam="title"
-                                     minSearchLength="{{3}}"
-                                     searchStartingWith="{{_searchStartingWith}}"
-                                     parentProperty="parent">
+    <div>Demo Controls/Explorer</div>
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
+                                 searchNavigationMode="expand"
+                                 bind:expandedItems="_expandedItems"
+                                 root="{{null}}"
+                                 bind:markedKey="_markedKey"
+                                 on:markedKeyChanged="_markedKeyChangedHandler()">
+        <Controls.search:Controller searchParam="title"
+                                    minSearchLength="{{3}}"
+                                    searchStartingWith="{{_searchStartingWith}}"
+                                    parentProperty="parent">
             <div>
-               <Controls.search:InputContainer>
-                  <Controls.search:Input/>
-               </Controls.search:InputContainer>
-               <Controls.list:Container>
-                  <Controls.operations:Container>
-                     <Controls.explorer:View
-                             attr:class="demo-Explorer ControlsDemo-Explorer"
-                             multiSelectVisibility="{{_multiselectVisibility}}"
-                             displayProperty="title"
-                             nodeProperty="parent@"
-                             columns="{{_viewColumns}}">
+                <Controls.search:InputContainer>
+                    <Controls.search:Input/>
+                </Controls.search:InputContainer>
+                <Controls.list:Container>
+                    <Controls.explorer:View
+                            attr:class="demo-Explorer ControlsDemo-Explorer"
+                            multiSelectVisibility="{{_multiselectVisibility}}"
+                            displayProperty="title"
+                            nodeProperty="parent@"
+                            columns="{{_viewColumns}}"
+                            bind:selectedKeys="_selectedKeys"
+                            bind:excludedKeys="_excludedKeys">
                         <ws:emptyTemplate>
-                           <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
-                              <ws:contentTemplate>Не найдено</ws:contentTemplate>
-                           </ws:partial>
+                            <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+                                <ws:contentTemplate>Не найдено</ws:contentTemplate>
+                            </ws:partial>
                         </ws:emptyTemplate>
-                     </Controls.explorer:View>
-                  </Controls.operations:Container>
-               </Controls.list:Container>
+                    </Controls.explorer:View>
+                </Controls.list:Container>
             </div>
-         </Controls.search:Controller>
-      </Controls.operations:Controller>
-   </Controls.list:DataContainer>
+        </Controls.search:Controller>
+    </Controls.list:DataContainer>
 </div>

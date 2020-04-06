@@ -79,19 +79,6 @@ var MAX_NUMBER_ITEMS = 5;
          }
       },
 
-       // TODO: Delete with old favorite
-       removeRecordFromOldFavorite: function(self, itemData, item) {
-         let storage = self._historyStorage;
-         if (itemData.globalParams || itemData.isClient) {
-            storage = self._historyGlobalStorage;
-         }
-         let recordIndex = storage.getIndexByValue('id', item.get('ObjectId'));
-         if (recordIndex !== -1) {
-            storage.removeAt(recordIndex);
-         }
-         return recordIndex;
-      },
-
       minimizeHistoryItems: function(items) {
          factory(items).each((item) => {
             delete item.caption;
@@ -125,52 +112,21 @@ var MAX_NUMBER_ITEMS = 5;
             $_favorite: true, isClient: data.isClient
          });
 
-         // TODO: Delete with old favorite
-         let editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
-         _private.removeRecordFromOldFavorite(self, editItemData, self._editItem);
-         _private.updateOldFavoriteList(self);
-
          self._children.stickyOpener.close();
          self._notify('historyChanged');
       },
 
       saveFavorite: function(self, record) {
-         let editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
-         let ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
+         const editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
+         const ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
          _private.minimizeHistoryItems(ObjectData.items);
 
          _private.setObjectData(self._editItem, ObjectData);
-
-         // TODO: Delete with old favorite, leave the branch 'else'
-         // Удаляем запись из старых списков, ниже добавим в новые, если ее нет
-         const index = _private.removeRecordFromOldFavorite(self, editItemData, self._editItem);
-         _private.updateOldFavoriteList(self);
-         if (index !== -1) {
-            // add to history and set pin
-            const hSource = _private.getSource(self._options.historyId);
-            hSource.update(self._editItem, { $_pinned: !self._editItem.get('pinned') }); // unpin for local history data
-            hSource.update(record.getRawData(), { $_addFromData: true }).addCallback((ObjectId) => {
-               self._editItem.set('ObjectId', ObjectId);
-               hSource.update(self._editItem, {
-                  $_pinned: true,
-                  isClient: record.get('isClient')
-               });
-            });
-         } else {
-            // for new favorite
-            _private.getSource(self._options.historyId).update(self._editItem, {
+         _private.getSource(self._options.historyId).update(self._editItem, {
                $_favorite: true,
                isClient: record.get('isClient')
-            });
-         }
+         });
          self._notify('historyChanged');
-      },
-
-       // TODO: Delete with old favorite
-       updateOldFavoriteList: function(self) {
-         self._oldFavoriteList.assign(self._historyStorage.getHistory());
-         self._oldFavoriteList.prepend(self._historyGlobalStorage.getHistory());
-         _private.convertToNewFormat(self, self._oldFavoriteList, self._options.filterItems);
       },
 
       updateFavorite(self, item, text, target): void {
@@ -189,20 +145,6 @@ var MAX_NUMBER_ITEMS = 5;
          };
          self._children.stickyOpener.open(popupOptions);
       },
-
-       // TODO: Delete with old favorite
-       convertToNewFormat: function(self, favoriteList, filterItems) {
-         factory(favoriteList).each((favoriteItem) => {
-            let data = favoriteItem.get('data').clone();
-            if (data.get('filter')) {
-               favoriteItem.get('data').set('items', convertToSourceDataArray(data.get('filter'),  _private.mapByField(filterItems, 'visibility')));
-               data.removeField('filter');
-               data.removeField('viewFilter');
-            } else {
-               favoriteItem.get('data').set('items', []);
-            }
-         });
-      }
    };
 
    var HistoryList = BaseControl.extend({
@@ -210,8 +152,6 @@ var MAX_NUMBER_ITEMS = 5;
       _historySource: null,
       _isMaxHeight: true,
       _itemsText: null,
-      _historyStorage: null,
-      _historyGlobalStorage: null,
       _editItem: null,
       _historyCount: null,
 
@@ -221,11 +161,7 @@ var MAX_NUMBER_ITEMS = 5;
          }
          if (options.saveMode === 'favorite') {
              this._historyCount = Constants.MAX_HISTORY_REPORTS;
-             this._oldFavoriteList = options.favoriteItems;
-             this._historyStorage = options.historyStorage;
-             this._historyGlobalStorage = options.historyGlobalStorage;
-             _private.convertToNewFormat(this, this._oldFavoriteList, options.filterItems);
-             this._items = _private.getSource(options.historyId).getItemsWithOldFavorite(this._oldFavoriteList);
+             this._items = _private.getSource(options.historyId).getItems();
          } else {
             this._historyCount = Constants.MAX_HISTORY;
          }
@@ -236,7 +172,7 @@ var MAX_NUMBER_ITEMS = 5;
          if (!isEqual(this._options.items, newOptions.items)) {
             this._items = newOptions.items.clone();
             if (newOptions.saveMode === 'favorite') {
-               this._items = _private.getSource(newOptions.historyId).getItemsWithOldFavorite(this._oldFavoriteList);
+               this._items = _private.getSource(newOptions.historyId).getItems();
             }
             this._itemsText = this._getText(newOptions.items, newOptions.filterItems, _private.getSource(newOptions.historyId));
          }

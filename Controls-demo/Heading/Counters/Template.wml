@@ -1,23 +1,23 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">style=secondary, size=s</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary, fontSize=m</div>
         <div attr:class="controls-Header_all__clickable">
             <Controls.heading:Title caption="Header" fontColorStyle="primary" fontSize="3xl" attr:class="controlsDemo__mr1_control"/>
-            <Controls.heading:Counter attr:class="counter" caption="12" style="secondary" size="s"/>
+            <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="secondary" fontSize="m"/>
         </div>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">style=primary, size=m</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary, fontSize=l</div>
         <div attr:class="controls-Header_all__clickable">
             <Controls.heading:Title caption="Header" fontColorStyle="secondary" fontSize="3xl" attr:class="controlsDemo__mr1_control"/>
-            <Controls.heading:Counter attr:class="counter" caption="12" style="primary" size="m"/>
+            <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="primary" fontSize="l"/>
         </div>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">style=disabled, size=l</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented, fontSize=3xl</div>
         <div attr:class="controls-Header_all__clickable">
             <Controls.heading:Title caption="Header" fontColorStyle="primary" fontSize="3xl" attr:class="controlsDemo__mr1_control"/>
-            <Controls.heading:Counter attr:class="counter" caption="12" style="disabled" size="l"/>
+            <Controls.heading:Counter attr:class="counter" caption="12" fontColorStyle="unaccented" fontSize="3xl"/>
         </div>
     </div>
 </div>

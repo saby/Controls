@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import Deferred = require('Core/Deferred');
-import Constants = require('Controls/Constants');
+import {editing as constEditing} from 'Controls/Constants';
 import template = require('wml!Controls/_editableArea/View');
 import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
 import {delay} from 'Types/function';
@@ -30,7 +30,7 @@ var
             bubbling: true
          });
 
-         if (result === Constants.editing.CANCEL) {
+         if (result === constEditing.CANCEL) {
             return Deferred.success();
          }
 
@@ -114,12 +114,6 @@ var View = Control.extend( /** @lends Controls/List/View.prototype */ {
       this._editObject = newOptions.editObject.clone();
    },
 
-   _beforeUpdate: function (newOptions) {
-      if (this._options.editObject !== newOptions.editObject) {
-         this._editObject = newOptions.editObject.clone();
-      }
-   },
-
    _afterUpdate: function () {
       if (this._beginEditTarget) {
          // search closest input and focus
@@ -154,11 +148,14 @@ var View = Control.extend( /** @lends Controls/List/View.prototype */ {
    },
 
    beginEdit: function (event, res) {
+      this._editObject = this._options.editObject.clone();
+      // Если опция editObject изменилась, то она ждет подтверждения изменения, делаем подтверждение у клона.
+      this._editObject.acceptChanges();
       // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110, как только появится веха
       var result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
       });
-      if (result !== Constants.editing.CANCEL) {
+      if (result !== constEditing.CANCEL) {
          this._isEditing = true;
          this._beginEditTarget = event ? event.target.closest('.controls-EditableArea__editorWrapper') : null;
       }

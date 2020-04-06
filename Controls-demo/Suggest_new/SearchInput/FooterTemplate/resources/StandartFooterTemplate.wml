@@ -1,4 +1,4 @@
 <div class="controlsDemo__flex-jc-sb controlsDemo__flex">
-    <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="link" fontColorStyle="link" attr:class="controlsDemo__ml1"/>
+    <Controls.buttons:Button iconSize="s" icon="icon-Add" iconStyle="secondary" caption="Создать" viewMode="linkButton" fontColorStyle="link" attr:class="controlsDemo__ml1"/>
     <ws:partial template="{{_options.showSelectorButtonTemplate}}" attr:style="margin-left: auto;"/>
 </div>

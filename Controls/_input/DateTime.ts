@@ -1,11 +1,16 @@
 ﻿import Control = require('Core/Control');
 import Env = require('Env/Env');
-import coreMerge = require('Core/core-merge');
 import {Date as WSDate, DateTime, Time} from 'Types/entity';
 import Model = require('Controls/_input/DateTime/Model');
 import {DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, getMaskType, TIME_MASK_TYPE} from './DateTime/Utils';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
+import {
+   ValueValidators,
+   getDefaultOptions as getValueValidatorsDefaultOptions,
+   getOptionTypes as getValueValidatorsOptionTypes
+} from 'Controls/_input/interface/IValueValidators';
 import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {isValidDate, Container, InputContainer} from 'Controls/validate'
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_input/DateTime/DateTime');
 
@@ -27,6 +32,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/interface/IInputPlaceholder
+ * @mixes Controls/_input/interface/IValueValidators
  *
  * @control
  * @public
@@ -52,6 +58,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/interface/IInputPlaceholder
+ * @mixes Controls/_input/interface/IValueValidators
  *
  * @control
  * @public
@@ -73,11 +80,38 @@ const _private = {
          [TIME_MASK_TYPE]: Time
       };
       return dateConstructorMap[getMaskType(mask)];
-  }
+   },
+   _updateValidators: function(self, validators?: ValueValidators): void {
+      const v: ValueValidators = validators || self._options.valueValidators;
+      self._validators = [
+         isValidDate.bind(null, {
+            value: self._model.value
+         }),
+         ...v.map((validator) => {
+            let
+                _validator: Function,
+               args: object;
+            if (typeof validator === 'function') {
+               _validator = validator
+            } else {
+               _validator = validator.validator;
+               args = validator.arguments;
+            }
+            return _validator.bind(null, {
+               ...(args || {}),
+               value: self._model.value
+            });
+         })
+      ];
+   },
+   _updateValidationController: function(self, options): void {
+      self._validationContainer = options.validateByFocusOut ? InputContainer : Container;
+   }
 };
 
 var Component = Control.extend([], {
    _template: template,
+   _validationContainer: null,
    _proxyEvent: tmplNotify,
    _dateConstructor: null,
 
@@ -93,33 +127,52 @@ var Component = Control.extend([], {
 
    _model: null,
 
+   _validators: [],
+
    _beforeMount: function(options) {
       _private.updateDateConstructor(this, options);
+      _private._updateValidationController(this, options);
       this._model = new Model({
          ...options,
          dateConstructor: this._dateConstructor
       });
       proxyModelEvents(this, this._model, ['valueChanged']);
+      this._model.subscribe('valueChanged', () => {
+         _private._updateValidators(this);
+      });
+      _private._updateValidators(this, options.valueValidators);
    },
 
    _beforeUpdate: function(options) {
       _private.updateDateConstructor(this, options, this._options);
+      if (this._options.validateByFocusOut !== options.validateByFocusOut) {
+         _private._updateValidationController(this, options);
+      }
       if (options.value !== this._options.value) {
          this._model.update({
             ...options,
             dateConstructor: this._dateConstructor
          });
       }
+      if(this._options.valuevalidators !== options.valueValidators || options.value !== this._options.value) {
+         _private._updateValidators(this, options.valueValidators);
+      }
    },
 
    _inputCompletedHandler: function(event, value, textValue) {
       event.stopImmediatePropagation();
+      const oldValue: string = this._model.value;
       this._model.autocomplete(textValue, this._options.autocompleteType);
-      this._notify('inputCompleted', [this._model.value, textValue]);
+      if (this._model.value !== oldValue) {
+         this._notify('inputCompleted', [this._model.value, textValue]);
+      }
    },
 
    _valueChangedHandler: function(e, value, textValue) {
-      this._model.textValue = textValue;
+      // Контроллер валидаторов на той же ноде стреляет таким же событием но без второго аргумента.
+      if (textValue !== undefined) {
+         this._model.textValue = textValue;
+      }
       e.stopImmediatePropagation();
    },
    _onKeyDown: function(event) {
@@ -146,13 +199,18 @@ var Component = Control.extend([], {
 });
 
 Component.getDefaultOptions = function() {
-   return coreMerge({
+   return {
+      ...IDateTimeMask.getDefaultOptions(),
+      ...getValueValidatorsDefaultOptions(),
       autocompleteType: 'default'
-   }, IDateTimeMask.getDefaultOptions());
+   };
 };
 
 Component.getOptionTypes = function() {
-   return coreMerge({}, IDateTimeMask.getOptionTypes());
+   return {
+      ...IDateTimeMask.getOptionTypes(),
+      ...getValueValidatorsOptionTypes()
+   };
 };
 
 export = Component;

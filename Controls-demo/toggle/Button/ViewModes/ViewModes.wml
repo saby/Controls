@@ -1,10 +1,10 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link, different captions</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton, different captions</div>
         <Controls.toggle:Button caption="Button" bind:value="_buttonValue1" viewMode="link" captions="{{['Change', 'Save']}}"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link, different icons</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton, different icons</div>
         <Controls.toggle:Button caption="Button" bind:value="_buttonValue2" viewMode="link" icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}"></Controls.toggle:Button>
     </div>
     <div class="controlsDemo__cell">

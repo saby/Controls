@@ -5,6 +5,11 @@ import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');
 import {Logger} from 'UI/Utils';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {
+   IFontColorStyle,
+   IFontColorStyleOptions
+} from 'Controls/interface';
 
 /**
  * A link button that displays the period. Supports the change of periods to adjacent.
@@ -20,8 +25,22 @@ import {Logger} from 'UI/Utils';
  *
  */
 
-var _private = {
-   styleMap: {
+export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions {
+}
+
+class LinkView extends Control<ILinkViewControlOptions> implements IFontColorStyle {
+   _template: TemplateFunction = componentTmpl;
+
+   protected _rangeModel = null;
+   protected _caption = '';
+   protected _styleClass = null;
+   protected _valueEnabledClass = null;
+   protected _viewMode = null;
+   protected _styleMode = null;
+   protected _fontColorStyle = null;
+
+   protected _clearButtonVisible = null;
+   protected styleMap: object = {
       default: {
          viewMode: 'selector',
          styleMode: 'secondary'
@@ -38,142 +57,160 @@ var _private = {
          viewMode: 'label',
          styleMode: null
       }
-   },
-   defaultStyleMap: {
+   };
+   protected _defaultStyleMap: object = {
       selector: 'secondary',
       link: 'secondary'
-   },
+   };
 
-   _updateCaption: function(self, options) {
-      var opt = options || self._options;
+   protected _defaultFontColorStyle: string = 'link';
 
-      self._caption = opt.captionFormatter(
-         self._rangeModel.startValue,
-         self._rangeModel.endValue,
-         opt.emptyCaption
+   protected _actuallApi: object = {
+      selector: {
+         info: 'label',
+         secondary: 'link'
+      },
+      link: {
+         info: 'unaccented',
+         secondary: 'link'
+      },
+      label: {
+         info: 'label',
+         secondary: 'label'
+      }
+   };
+
+   constructor(options: ILinkViewControlOptions) {
+      super(arguments);
+      this._rangeModel = new DateRangeModel({
+         dateConstructor: options.dateConstructor
+      });
+      proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
+   }
+
+   _beforeMount(options: ILinkViewControlOptions): void {
+      this._rangeModel.update(options);
+      this._updateCaption(options);
+      this._updateStyles({}, options);
+      this._updateClearButton(options);
+
+      // TODO: remove style option https://online.sbis.ru/opendoc.html?guid=882c43d4-8f3c-4998-8660-bfa08fcef227
+      if (options.style) {
+         Logger.error('LinkView: ' + rk('You should use viewMode, styleMode and fontColorStyle options instead of style option.'), this);
+      }
+
+      if (options.showPrevArrow || options.showNextArrow) {
+         Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
+      }
+
+      // clearButtonVisibility is option of clearButton visibility state
+
+      if ((options.prevArrowVisibility && options.clearButtonVisibility) || (options.nextArrowVisibility && options.clearButtonVisibility)) {
+         Logger.error('LinkView: ' + rk('The Controls functional is not intended for showClearButton and prevArrowVisibility/nextArrowVisibility options using in one time'), this);
+      }
+   }
+
+   _beforeUpdate(options: ILinkViewControlOptions): void {
+      var changed = this._rangeModel.update(options);
+      if (changed || this._options.emptyCaption !== options.emptyCaption ||
+          this._options.captionFormatter !== options.captionFormatter) {
+         this._updateCaption(options);
+      }
+      this._updateStyles(this._options, options);
+      this._updateClearButton(options);
+   }
+
+   _beforeUnmount() {
+      this._rangeModel.destroy();
+   }
+
+   shiftBack(): void {
+      this._rangeModel.shiftBack();
+      this._updateCaption();
+   }
+
+   shiftForward(): void {
+      this._rangeModel.shiftForward();
+      this._updateCaption();
+   }
+
+   _clearDate(): void {
+      this._rangeModel.setRange(null, null);
+      this._updateCaption();
+   }
+
+   getPopupTarget() {
+      return this._children.openPopupTarget || this._container;
+   }
+
+   _onClick(): void {
+      if (!this._options.readOnly && this._options.clickable) {
+         this._notify('linkClick');
+      }
+   }
+
+   _updateCaption(options): void {
+      const opt = options || this._options;
+
+      this._caption = opt.captionFormatter(
+          this._rangeModel.startValue,
+          this._rangeModel.endValue,
+          opt.emptyCaption
       );
-   },
+   }
 
-   _updateClearButton: function(self, options) {
-      self._clearButtonVisible = (options.clearButtonVisibility || options.clearButtonVisible) &&
-          (self._rangeModel.startValue || self._rangeModel.endValue);
-   },
+   _updateClearButton(options): void {
+      this._clearButtonVisible = (options.clearButtonVisibility || options.clearButtonVisible) &&
+          (this._rangeModel.startValue || this._rangeModel.endValue);
+   }
 
-   _updateStyles: function(self, options, newOption) {
+   _updateStyles(options, newOption): void {
       var changed = false;
-
-      if (options.viewMode !== newOption.viewMode || options.styleMode !== newOption.styleMode) {
-         self._viewMode = newOption.viewMode;
-         self._styleMode = newOption.styleMode || _private.defaultStyleMap[newOption.viewMode];
+      if (options.viewMode !== newOption.viewMode || options.styleMode !== newOption.styleMode
+          || options.fontColorStyle !== newOption.fontColorStyle) {
+         this._viewMode = newOption.viewMode;
+         this._styleMode = newOption.styleMode || this._defaultStyleMap[newOption.viewMode];
+         if (newOption.styleMode) {
+            Logger.warn('LinkView: Используется устаревшая опция styleMode, используйте опцию fontColorStyle', this);
+         }
+         if (newOption.fontColorStyle) {
+            this._fontColorStyle = newOption.fontColorStyle;
+         } else {
+            this._fontColorStyle = this._actuallApi[this._viewMode][this._styleMode] || this._defaultFontColorStyle;
+         }
          changed = true;
       }
       if (options.readOnly !== newOption.readOnly || options.clickable !== newOption.clickable) {
          changed = true;
       }
       if (changed) {
-         if (self._styleMode) {
-            self._styleClass = 'controls-DateLinkView__style-';
-            self._styleClass += self._styleMode;
-            if (newOption.readOnly) {
-               self._styleClass +=  '_readOnly';
-            } else if (newOption.clickable) {
-               self._styleClass +=  '_clickable';
+         if (this._viewMode !== 'label') {
+            if (newOption.readOnly && !newOption.fontColorStyle) {
+               this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
+            } else {
+               this._styleClass =  `controls-text-${this._fontColorStyle}_theme-${newOption.theme}`;
+               if (newOption.clickable && !newOption.readOnly) {
+                  this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
+               }
+               if (this._viewMode === 'selector' && this._fontColorStyle === 'link' && !newOption.readOnly) {
+                  this._styleClass += ` controls-DateLinkView__style-hover_theme-${newOption.theme}`;
+               }
             }
          } else {
-            self._styleClass = null;
+            this._styleClass = null;
          }
 
-         self._valueEnabledClass = newOption.clickable && !newOption.readOnly ? 'controls-DateLinkView__value-clickable' : '';
+         this._valueEnabledClass = newOption.clickable && !newOption.readOnly ? 'controls-DateLinkView__value-clickable' : '';
       }
    }
-};
+}
 
-var Component = BaseControl.extend({
-   _template: componentTmpl,
+LinkView._theme = ['Controls/dateRange', 'Controls/Classes'];
 
-   _rangeModel: null,
-   _caption: '',
-   _styleClass: null,
-   _valueEnabledClass: null,
-   _viewMode: null,
-   _styleMode: null,
+LinkView.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
 
-   _clearButtonVisible: null,
+LinkView.getDefaultOptions = IDateLinkView.getDefaultOptions;
 
-   constructor: function(options) {
-      Component.superclass.constructor.apply(this, arguments);
-      this._rangeModel = new DateRangeModel({
-         dateConstructor: options.dateConstructor
-      });
-      proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
-   },
+LinkView.getOptionTypes = IDateLinkView.getOptionTypes;
 
-   _beforeMount: function(options) {
-      this._rangeModel.update(options);
-      _private._updateCaption(this, options);
-      _private._updateStyles(this, {}, options);
-      _private._updateClearButton(this, options);
-
-      // TODO: remove style option https://online.sbis.ru/opendoc.html?guid=882c43d4-8f3c-4998-8660-bfa08fcef227
-      if (options.style) {
-          Logger.error('LinkView: ' + rk('You should use viewMode and styleMode options instead of style option.'), this);
-      }
-
-      if (options.showPrevArrow || options.showNextArrow) {
-          Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
-      }
-
-      // clearButtonVisibility is option of clearButton visibility state
-
-      if ((options.prevArrowVisibility && options.clearButtonVisibility) || (options.nextArrowVisibility && options.clearButtonVisibility)) {
-          Logger.error('LinkView: ' + rk('The Controls functional is not intended for showClearButton and prevArrowVisibility/nextArrowVisibility options using in one time'), this);
-      }
-   },
-   _beforeUpdate: function(options) {
-      var changed = this._rangeModel.update(options);
-      if (changed || this._options.emptyCaption !== options.emptyCaption || this._options.captionFormatter !== options.captionFormatter) {
-         _private._updateCaption(this, options);
-      }
-      _private._updateStyles(this, this._options, options);
-      _private._updateClearButton(this, options);
-   },
-
-   shiftBack: function() {
-      this._rangeModel.shiftBack();
-      _private._updateCaption(this);
-   },
-
-   shiftForward: function() {
-      this._rangeModel.shiftForward();
-      _private._updateCaption(this);
-   },
-
-   _clearDate: function() {
-      this._rangeModel.setRange(null, null);
-      _private._updateCaption(this);
-   },
-
-   getPopupTarget: function() {
-      return this._children.openPopupTarget || this._container;
-   },
-
-   _onClick: function() {
-      if (!this._options.readOnly && this._options.clickable) {
-         this._notify('linkClick');
-      }
-   },
-
-   _beforeUnmount: function() {
-      this._rangeModel.destroy();
-   }
-});
-
-Component._theme = ['Controls/dateRange'];
-
-Component.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
-
-Component.getDefaultOptions = IDateLinkView.getDefaultOptions;
-
-Component.getOptionTypes = IDateLinkView.getOptionTypes;
-
-export default Component;
+export default LinkView;

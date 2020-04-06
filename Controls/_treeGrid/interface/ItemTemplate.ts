@@ -43,7 +43,7 @@ export default interface IItemTemplateOptions {
     */
    /**
     * @name Controls/treeGrid:ItemTemplate#expanderIcon
-    * @cfg {ExpanderIcon|undefined} Устанавливает стиль отображения иконки для узла и скрытого узла.
+    * @cfg {ExpanderIcon|undefined} Стиль отображения иконки для узла и скрытого узла.
     * @default undefined
     * @remark
     * Когда в опции задано undefined, используются иконки узлов и скрытых узлов.
@@ -52,7 +52,7 @@ export default interface IItemTemplateOptions {
    expanderIcon?: string;
    /** 
     * @name Controls/treeGrid:ItemTemplate#expanderSize
-    * @cfg {Size} Устанавливает размер области, который отведён под иконку узла или скрытого узла.
+    * @cfg {Size} Размер области, который отведён под иконку узла или скрытого узла.
     * @default s
     * @see expanderIcon
     * @remark
@@ -61,7 +61,7 @@ export default interface IItemTemplateOptions {
    expanderSize?: string;
    /**
     * @name Controls/treeGrid:ItemTemplate#levelIndentSize
-    * @cfg {Size} Устанавливает размер структурного отступа для элементов иерархии.
+    * @cfg {Size} Размер структурного отступа для элементов иерархии.
     * @default s
     * @see withoutLevelPadding
     * @remark

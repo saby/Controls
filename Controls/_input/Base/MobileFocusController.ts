@@ -31,6 +31,12 @@ type FocusEventName = 'MobileInputFocus' | 'MobileInputFocusOut';
  * 5. Поле теряет фокус -> инициируется событие MobileInputFocusOut.
  */
 class MobileFocusController implements IMobileFocusController {
+   /**
+    * Для каждого элемента требуется хранить состояние tap и фокуса. По уходу фокуса(blurHandler) они удаляются.
+    * Хранить состояние для одного элемента нельзя.
+    * Причина: например, пользователь tap в поле ввода, потом в другое поле.
+    * Сначала происходит tap во второе поле, а потом уход фокуса из первого. В этом случае состояние tap для второго будет затерто.
+    */
    private _items: IItem[] = [];
    private _userActivated: boolean = false;
 

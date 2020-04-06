@@ -5,7 +5,7 @@
         </div>
         <div attr:class="controls-demo__indicator_container">
             <div attr:class="controls-demo__indicator_buttons" style="margin-bottom: 10px;">
-                <a attr:class="ws-link" on:click="_openFirst(5000)">Open (Closes after 3 seconds.)</a>
+                <a attr:class="ws-link controls-Demo__indicator_open_delay" on:click="_openFirst(5000)">Open (Closes after 3 seconds.)</a>
             </div>
 
             <Controls.LoadingIndicator

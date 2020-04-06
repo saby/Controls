@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Switchers" demoname="Controls-demo/Switch/standartDemoSwitch.wml">
-    <ws:content>
-        <Controls-demo.Switch.standartDemoSwitch/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

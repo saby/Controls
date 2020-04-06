@@ -19,12 +19,3 @@
 .demo-Tile__dynamic .controls-TileView__image {
    height: 100%;
 }
-
-.ws-is-ie, .ws-is-chrome-xp {
-   .controls-TileView__image {
-      //IE and chrome on XP can't correctly align absolutely-positioned flex children: https://codepen.io/anon/pen/MqazJv
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-   }
-}

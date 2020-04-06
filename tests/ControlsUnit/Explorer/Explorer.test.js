@@ -257,9 +257,11 @@ define([
             }
          };
 
+         assert.equal(explorer._markerForRestoredScroll, null);
          explorerMod.View._private.itemsSetCallback(explorer);
 
          assert.strictEqual(markedKey, 'test');
+         assert.strictEqual(explorer._markerForRestoredScroll, 'test');
          assert.isFalse(explorer._isGoingBack);
 
          explorer._isGoingFront = true;
@@ -279,22 +281,30 @@ define([
             cfg = {
                root: 'rootNode',
                viewMode: 'tree',
-               virtualScrolling: true
+               virtualScrollConfig: {
+                  pageSize: 100
+               }
             };
          var newCfg = {
             viewMode: 'search',
             root: 'rootNode',
-            virtualScrolling: true
+            virtualScrollConfig: {
+               pageSize: 100
+            }
          };
          var newCfg2 = {
             viewMode: 'tile',
             root: 'rootNode',
-            virtualScrolling: true
+            virtualScrollConfig: {
+               pageSize: 100
+            }
          };
          var newCfg3 = {
             viewMode: 'search',
             root: 'rootNode',
-            virtualScrolling: true,
+            virtualScrollConfig: {
+               pageSize: 100
+            },
             searchStartingWith: 'root'
          };
          var instance = new explorerMod.View(cfg);
@@ -308,7 +318,7 @@ define([
                assert.equal(instance._viewName, explorerMod.View._constants.VIEW_NAMES.tree);
                assert.equal(instance._viewModelConstructor, explorerMod.View._constants.VIEW_MODEL_CONSTRUCTORS.tree);
                assert.isFalse(rootChanged);
-               assert.isTrue(instance._virtualScrolling);
+               assert.isTrue(Boolean(instance._virtualScrollConfig));
 
                instance._notify = function(eventName) {
                   if (eventName === 'rootChanged') {
@@ -322,7 +332,7 @@ define([
                assert.equal(instance._viewName, explorerMod.View._constants.VIEW_NAMES.search);
                assert.equal(instance._viewModelConstructor, explorerMod.View._constants.VIEW_MODEL_CONSTRUCTORS.search);
                assert.isFalse(rootChanged);
-               assert.isTrue(instance._virtualScrolling);
+               assert.isTrue(Boolean(instance._virtualScrollConfig));
 
                instance._breadCrumbsItems = new collection.RecordSet({
                   rawData: [
@@ -344,7 +354,7 @@ define([
             })
             .then(() => {
                assert.isFalse(rootChanged);
-               assert.isTrue(instance._virtualScrolling);
+               assert.isTrue(Boolean(instance._virtualScrollConfig));
 
                return explorerMod.View._private.setViewMode(instance, newCfg2.viewMode, newCfg2);
             })
@@ -353,7 +363,7 @@ define([
                assert.equal(instance._viewName, explorerMod.View._constants.VIEW_NAMES.tile);
                assert.equal(instance._viewModelConstructor, explorerMod.View._constants.VIEW_MODEL_CONSTRUCTORS.tile);
                assert.isFalse(rootChanged);
-               assert.isFalse(instance._virtualScrolling);
+               assert.isFalse(Boolean(instance._virtualScrollConfig));
             }).then(() => {
                explorerMod.View._private.setViewMode(instance, newCfg3.viewMode, newCfg3);
                assert.equal(instance._breadCrumbsItems, null);

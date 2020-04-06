@@ -1,0 +1,14 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.menu:Control
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title"
+              selectedKeys="{{['1']}}"
+              attr:class="ControlsDemo-menuControl_minWidth">
+         <ws:itemTemplate>
+            <ws:partial template="Controls/menu:ItemTemplate" marker="{{false}}"/>
+         </ws:itemTemplate>
+      </Controls.menu:Control>
+   </div>
+</div>

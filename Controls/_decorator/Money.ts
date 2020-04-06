@@ -13,7 +13,7 @@ import {
     getFontWeightTypes
 } from 'Controls/interface';
 import {Logger} from 'UI/Utils';
-import {descriptor} from 'Types/entity';
+import {descriptor, DescriptorValidator} from 'Types/entity';
 import {moneyOptions, moneyUseGrouping, moneyValue, moneyStyle} from 'Controls/_decorator/ActualAPI';
 import numberToString from 'Controls/Utils/Formatting/numberToString';
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
@@ -205,10 +205,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         };
     }
 
-    /**
-     * https://online.sbis.ru/opendoc.html?guid=30df718d-9d01-4ae0-b5b9-983bdf93cb4d
-     */
-    static getOptionTypes(): Partial<Record<keyof IMoneyOptions, Function>> {
+    static getOptionTypes(): Partial<Record<keyof IMoneyOptions, DescriptorValidator>> {
         return {
             ...getFontWeightTypes(),
             fontColorStyle: descriptor(String),

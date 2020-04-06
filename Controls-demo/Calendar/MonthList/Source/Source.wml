@@ -1,19 +1,16 @@
 <ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
-    title="Задан источник данные который возвращает данные для дней месяца в виде RecordSet."
-    monthListTitle="{{_position.getFullYear()}}">
+            title="Задан источник данные который возвращает данные для дней месяца в виде RecordSet."
+            monthListTitle="{{_position.getFullYear()}}">
     <div class="controlsDemo__flex controlsDemo__flexColumn">
         <Controls.calendar:MonthList
-            name="monthList"
-            bind:position="_position"
-            source="{{_source}}"
-            dayTemplate="{{_dayTemplate}}">
-            <ws:monthTemplate>
-                <ws:partial template="Controls/calendar:MonthListMonthTemplate">
-                    <ws:headerTemplate>
-                        {{_formatMonth(headerTemplate.date)}}
-                    </ws:headerTemplate>
-                </ws:partial>
-            </ws:monthTemplate>
+                name="monthList"
+                viewMode="month"
+                bind:position="_position"
+                source="{{_source}}"
+                dayTemplate="{{_dayTemplate}}">
+            <ws:monthHeaderTemplate>
+                <div>{{_formatMonth(monthHeaderTemplate.date)}}</div>
+            </ws:monthHeaderTemplate>
         </Controls.calendar:MonthList>
         <div class="controlsDemo__wrapper">
             <span class="controlsDemo__button controlsDemo__updateYear" on:click="_updateYear()">Обновить 2019 год</span>

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Swipe" demoname="Controls-demo/List/Swipe/Scenarios.wml">
-   <ws:content>
-      <Controls-demo.List.Swipe.Scenarios />
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

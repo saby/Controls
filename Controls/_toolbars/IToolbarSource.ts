@@ -25,7 +25,11 @@ export default interface IToolbarSource {
  * @property {String} [item.title] Определеяет текст элемента.
  * @property {Boolean} [item.showHeader] Определяет, будет ли отображаться шапка у выпадающего списка элемента.
  * @property {String} [item.tooltip] Текст подсказки, при наведении на элемент тулбара. {@link Controls/_interface/ITooltip#tooltip Подробнее}
- * @property {Number} [item.showType] Определяет, где будет отображаться элемент( 0 - только в меню,1 - в меню и в тулбаре, 2 - только в тулбаре)
+ * @property {Enum} [item.showType] Определяет, где будет отображаться элемент. Значение берется из утилиты 'Controls/Utils/Toolbar'. {@link Controls/Utils/Toolbar Подробнее}
+ * Доступные значения:
+ * showType.MENU - Элемент отображается только в меню
+ * showType.MENU_TOOLBAR - Элемент отображается в меню и в тулбаре
+ * showType.TOOLBAR - Элемент отображается только в тулбаре
  * @property {String} [item.viewMode] Определяет стиль отображения кнопки элемента.{@link Controls/_buttons/Button#viewMode Подробнее }
  */
 /*
@@ -38,7 +42,11 @@ export default interface IToolbarSource {
  * @property {String} [item.title] Determines item caption.
  * @property {Boolean} [item.showHeader] Indicates whether folders should be displayed.
  * @property {String} [item.tooltip] Text of the tooltip shown when the item is hovered over.
- * @property {Number} [item.showType] Determines where item is displayed ( 0 - in menu,1 - in menu and toolbar, 2 - in toolbar)
+ * @property {Enum} [item.showType] Determines where item is displayed. The value is taken from the util 'Controls/Utils/Toolbar'. {@link Controls/Utils/Toolbar Details}
+ * Values:
+ * showType.MENU - item is displayed only in the menu
+ * showType.MENU_TOOLBAR - item is displayed in the menu and toolbar
+ * showType.TOOLBAR - item is displayed only in the toolbar
  * @property {String} [item.buttonStyle] Button style of toolbar element.
  * @property {String} [item.buttonViewMode] Button style of toolbar element.
  */
@@ -60,10 +68,10 @@ export default interface IToolbarSource {
  * @remark
  * Может иметь свойства 'title' и 'showType':
  * * 'title' определяет заголовок элемента.
- * * 'showType' определяет, где отображается элемент:
- *     * 0 - в меню.
- *     * 1 - в меню и тулбаре.
- *     * 2 - в тулбаре.
+ * * 'showType' определяет, где будет отображаться элемент. Значение берется из утилиты 'Controls/Utils/Toolbar'. {@link Controls/Utils/Toolbar Подробнее}:
+ *     * showType.MENU - Элемент отображается только в меню
+ *     * showType.MENU_TOOLBAR - Элемент отображается в меню и в тулбаре
+ *     * showType.TOOLBAR - Элемент отображается только в тулбаре
  * Для readOnly элемента, установите значение 'true' в поле readOnly.
  * @example
  * Кнопки будут отображены из источника _source. Первый элемент выравнен по левому краю, другие элементы выравнены по правому краю по умолчанию.
@@ -71,12 +79,14 @@ export default interface IToolbarSource {
  *    <Controls.toolbars:View keyProperty="key" source="{{_source}}" />
  * </pre>
  * <pre>
- *    _source: new source.Memory({
+ *    import {showType} from 'Controls/Utils/Toolbar';
+ *      .....
+ *    this._source = new source.Memory({
  *        keyProperty: 'key',
  *        data: [
  *        {
  *           id: '1',
- *           showType: 2,
+ *           showType: showType.TOOLBAR,
  *           icon: 'icon-Time',
  *           '@parent': false,
  *           parent: null

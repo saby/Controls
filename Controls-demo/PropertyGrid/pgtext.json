@@ -1543,12 +1543,12 @@
       }
     }
   },
-  "Controls/_popup/Opener/Sticky": {
-    "name": "Controls/_popup/Opener/Sticky",
-    "className": "Controls/_popup/Opener/Sticky",
+  "Controls/popup:Sticky": {
+    "name": "Controls/popup:Sticky",
+    "className": "Controls/popup:Sticky",
     "kind": "control",
     "isPublic": true,
-    "fullname": "Controls/_popup/Opener/Sticky",
+    "fullname": "Controls/popup:Sticky",
     "properties": {
       "ws-config": {
         "title": "Базовая конфигурация",

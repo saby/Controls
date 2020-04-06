@@ -1,17 +1,19 @@
 <div name="scrollbar"
-     class="controls-VScrollbar{{_dragging ? ' controls-VScrollbar_' + _options.direction + '_dragging'}}
+     class="controls-VScrollbar{{_dragging ? ' controls-VScrollbar_' + _options.direction + '_dragging controls-VScrollbar_' + _options.direction + '_dragging_size-' + _thumbThickness}}
          {{!_thumbSize ? ' ws-invisible'}}
-         controls-VScrollbar_{{_options.direction}}
-         {{_options.direction === 'horizontal' && _options.gridSupport === 'full' ? ' controls-VScrollbar_horizontal_margin-top'}}
-         {{ _trackVisible ? ' controls-VScrollbar_horizontal-track' }}"
+         controls-VScrollbar_{{_options.direction}} controls-VScrollbar_{{_options.direction}}_size-{{_thumbThickness}}
+         {{_options.direction === 'horizontal' && _options.gridSupport === 'full' ? ' controls-VScrollbar_horizontal_margin-top_size-' + _thumbThickness}}
+         {{ _trackVisible ? ' controls-VScrollbar_horizontal-track controls-VScrollbar_horizontal-track_size-' + _thumbThickness}}"
      on:wheel="_wheelHandler()"
      on:mousedown="_scrollbarMouseDownHandler()"
      on:touchstart="_scrollbarTouchStartHandler()">
    <Controls.dragnDrop:Container name="dragNDrop" resetTextSelection="{{false}}" on:dragstart="_scrollbarStartDragHandler()" on:dragmove="_scrollbarOnDragHandler()" on:documentdragend="_scrollbarEndDragHandler()">
-      <div name="thumb" class="controls-VScrollbar__thumbWrapper controls-VScrollbar__thumbWrapper_{{_options.direction}}"
+      <div name="thumb" class="controls-VScrollbar__thumbWrapper controls-VScrollbar__thumbWrapper_size-{{_thumbThickness}} controls-VScrollbar__thumbWrapper_{{_options.direction}}"
            on:mousedown="_thumbMouseDownHandler()"
            style="{{_options.direction === 'vertical' ? 'height' : 'width'}}: {{_thumbSize}}px; transform: translate{{_options.direction === 'vertical' ? 'Y' : 'X'}}({{_thumbPosition}}px);">
-         <div class="controls-VScrollbar__thumb controls-VScrollbar__thumb_{{_options.direction}}{{_options.theme ? ' controls-VScrollbar__thumb_' + _options.theme}}{{_dragging ? ' controls-VScrollbar__thumb_dragging controls-VScrollbar__thumb_dragging_' + _options.theme || 'normal'}}"
+         <div class="controls-VScrollbar__thumb controls-VScrollbar__thumb_size-{{_thumbThickness}} controls-VScrollbar__thumb_{{_thumbStyle}}
+                     controls-VScrollbar__thumb_{{_options.direction}} controls-VScrollbar__thumb_{{_options.direction}}_size-{{_thumbThickness}}
+                     {{_dragging ? 'controls-VScrollbar__thumb_dragging_size-' + _thumbThickness + ' controls-VScrollbar__thumb_dragging_' + _options.theme || 'normal'}}"
          ></div>
       </div>
    </Controls.dragnDrop:Container>

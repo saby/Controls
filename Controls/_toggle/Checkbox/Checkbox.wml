@@ -7,18 +7,10 @@
                     {{_options.value ? ' controls-Checked__checked'}}
                     {{_options.value === null && _options.triState ? ' controls-ToggleButton__null'}}"
              title="{{_options.tooltip}}">
-            <div class="{{_options.value === null && _options.triState ? 'controls-Checkbox__icon-tristate_theme-' + (_options.theme)+
-                         ' controls-Checkbox__icon-tristate-color__' + (_options.readOnly ? 'disabled':'enabled')+ '_theme-'+(_options.theme)}}
-                         controls-Checkbox__icon-border-color__{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
-                         controls-Checkbox__iconWrapper controls-Checkbox__iconWrapper_theme-{{_options.theme}}">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 18 18"
-                     attr:class="controls-Checkbox__icon-checked_theme-{{_options.theme}}
-                                {{_options.value ? ' controls-Checkbox__icon-checked-color_'+(_options.readOnly ? 'disabled':'enabled')+ '_theme-' + (_options.theme) :
-                                 ' controls-Checkbox__icon-checked-color_transparent'}}">
-                    <path d="M1.85,8.65l4,3.4,10.3-9.1-9.8,13.1Z"/>
-                </svg>
-            </div>
+            <Controls._toggle.Checkbox.resources.CheckboxMarker
+                        attr:class="controls-Checkbox__iconWrapper_inCheckbox_theme-{{_options.theme}}"
+                        value="{{_options.value}}"
+                        triState="{{_options.triState}}"/>
             <ws:partial template="wml!Controls/_toggle/Checkbox/resources/CheckboxCaption"
                         readOnly="{{_options.value !== null && !_options.value ? _options.readOnly : false}}"
                         icon="{{_options.icon}}"

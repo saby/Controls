@@ -6,6 +6,7 @@
                   filter="{{_options.filter}}"
                   searchValue="{{_options.searchValue}}"
                   content="{{_options.content}}"
+                  suggestPopupOptions="{{_options.suggestPopupOptions}}"
                   showContent="{{_options.showContent}}"/>
    </ws:template>
 </Controls.popup:Sticky>

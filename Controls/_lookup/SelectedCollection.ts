@@ -1,4 +1,4 @@
-import { Control, TemplateFunction } from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_lookup/SelectedCollection/SelectedCollection');
 import ItemTemplate = require('wml!Controls/_lookup/SelectedCollection/ItemTemplate');
 import chain = require('Types/chain');
@@ -9,13 +9,13 @@ import CrossTemplate = require('wml!Controls/_lookup/SelectedCollection/_CrossTe
 import CounterTemplate = require('wml!Controls/_lookup/SelectedCollection/CounterTemplate');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
+import {RecordSet} from 'Types/collection';
 
 /**
  * Контрол, отображающий коллекцию элементов.
  *
  * @class Controls/_lookup/SelectedCollection
  * @extends Core/Control
- * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @control
  * @public
  * @author Герасимов А.М.
@@ -25,57 +25,48 @@ import { Model } from 'Types/entity';
  *
  * @class Controls/_lookup/SelectedCollection
  * @extends Core/Control
- * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * @control
  * @author Герасимов А.М.
  */
 
+const JS_CLASS_CAPTION_ITEM = '.js-controls-SelectedCollection__item__caption';
+const JS_CLASS_CROSS_ITEM = '.js-controls-SelectedCollection__item__cross';
 
-const
-   JS_CLASS_CAPTION_ITEM = '.js-controls-SelectedCollection__item__caption',
-   JS_CLASS_CROSS_ITEM = '.js-controls-SelectedCollection__item__cross';
-
-class SelectedCollection extends Control {
+class SelectedCollection extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
-   protected _visibleItems = null;
-   protected _notifyHandler = tmplNotify;
+   protected _visibleItems: unknown[] = 0;
+   protected _notifyHandler: (event: SyntheticEvent, eventName: string) => void = tmplNotify;
+   protected _getItemMaxWidth: Function = selectedCollectionUtils.getItemMaxWidth;
+   protected _getItemOrder: Function = selectedCollectionUtils.getItemOrder;
    protected _counterWidth: number = 0;
    protected _contentTemplate: TemplateFunction = ContentTemplate;
    protected _crossTemplate: TemplateFunction = CrossTemplate;
    protected _counterTemplate: TemplateFunction = CounterTemplate;
 
-   static _theme: string[] = ['Controls/lookup'];
-   static getDefaultOptions(): Object {
-      return {
-         itemTemplate: ItemTemplate,
-         itemsLayout: 'default'
-      };
-   }
-
-   protected _beforeMount(options): void {
-      this._getItemMaxWidth = selectedCollectionUtils.getItemMaxWidth;
+   protected _beforeMount(options: IControlOptions): void {
       this._clickCallbackPopup = this._clickCallbackPopup.bind(this);
       this._visibleItems = this._getVisibleItems(options.items, options.maxVisibleItems);
       this._counterWidth = options._counterWidth || 0;
    }
 
    protected _beforeUpdate(newOptions): void {
-      let itemsCount: number = newOptions.items.getCount();
+      const itemsCount: number = newOptions.items.getCount();
       this._visibleItems = this._getVisibleItems(newOptions.items, newOptions.maxVisibleItems);
 
       if (this._isShowCounter(itemsCount, newOptions.maxVisibleItems)) {
-         this._counterWidth = newOptions._counterWidth || this._getCounterWidth(itemsCount, newOptions.readOnly, newOptions.itemsLayout);
+         this._counterWidth = newOptions._counterWidth ||
+                              this._getCounterWidth(itemsCount, newOptions.readOnly, newOptions.itemsLayout);
       } else if (this._children.infoBox && this._children.infoBox.isOpened()) {
          this._notify('closeInfoBox');
       }
    }
 
    protected _afterMount(): void {
-      let itemsCount: number = this._options.items.getCount();
+      const itemsCount: number = this._options.items.getCount();
 
       if (this._isShowCounter(itemsCount, this._options.maxVisibleItems) && !this._counterWidth) {
-         this._counterWidth = this._counterWidth || this._getCounterWidth(itemsCount, this._options.readOnly, this._options.itemsLayout);
-
+         this._counterWidth = this._counterWidth ||
+                              this._getCounterWidth(itemsCount, this._options.readOnly, this._options.itemsLayout);
          if (this._counterWidth) {
             this._forceUpdate();
          }
@@ -97,7 +88,7 @@ class SelectedCollection extends Control {
       }
    }
 
-   protected _clickCallbackPopup(eventType: SyntheticEvent, item: Model): void {
+   protected _clickCallbackPopup(eventType: string, item: Model): void {
       if (eventType === 'crossClick') {
          this._notify('crossClick', [item]);
       } else if (eventType === 'itemClick') {
@@ -106,7 +97,7 @@ class SelectedCollection extends Control {
    }
 
    protected _openInfoBox(): void {
-      let config: Object = {
+      const config: Object = {
          target: this._children.infoBoxLink,
          opener: this,
          width: this._container.offsetWidth,
@@ -123,14 +114,14 @@ class SelectedCollection extends Control {
       this._children.infoBox.open(config);
    }
 
-   private _getVisibleItems(items, maxVisibleItems: number): Array<Model> {
-      let itemsInArray: Model = chain.factory(items).value();
-      let indexFirstVisibleItem: number = Math.max(maxVisibleItems ? items.getCount() - maxVisibleItems : 0, 0);
+   private _getVisibleItems(items: RecordSet, maxVisibleItems: number): unknown[]  {
+      const itemsInArray: unknown[] = chain.factory(items).value();
+      const indexFirstVisibleItem: number = Math.max(maxVisibleItems ? items.getCount() - maxVisibleItems : 0, 0);
 
       return itemsInArray.slice(indexFirstVisibleItem);
    }
 
-   private _getCounterWidth(itemsCount, readOnly: boolean, itemsLayout: String): number {
+   private _getCounterWidth(itemsCount: number, readOnly: boolean, itemsLayout: String): number {
       // in mode read only and single line, counter does not affect the collection
       if (readOnly && itemsLayout === 'oneRow') {
          return 0;
@@ -142,6 +133,15 @@ class SelectedCollection extends Control {
    private _isShowCounter(itemsCount: number, maxVisibleItems: number): boolean {
       return itemsCount > maxVisibleItems;
    }
+
+   static _theme: string[] = ['Controls/lookup'];
+
+   static getDefaultOptions(): Object {
+        return {
+            itemTemplate: ItemTemplate,
+            itemsLayout: 'default'
+        };
+    }
 }
 
 export default SelectedCollection;

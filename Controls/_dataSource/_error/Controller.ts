@@ -155,6 +155,7 @@ export default class ErrorController {
             // @ts-ignore
             _config.error.processed = true;
             return {
+                status: handlerResult.status,
                 mode: handlerResult.mode || _config.mode,
                 template: handlerResult.template,
                 options: handlerResult.options,

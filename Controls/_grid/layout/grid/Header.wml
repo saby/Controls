@@ -1,6 +1,7 @@
 <ws:template name="headContent">
       <ws:for data="headerRow.resetHeaderColumns(); headerRow.isEndHeaderColumn(); headerRow.goToNextHeaderColumn();">
           <ws:partial template="{{listModel.isStickyHeader() ? 'stickyCell' : 'cell'}}"
+                      backgroundStyle="{{backgroundStyle}}"
                       defaultHeaderContent="{{defaultHeaderContent}}"
                       listModel="{{listModel}}"
                       headerColumn="{{ headerRow.getCurrentHeaderColumn() }}"
@@ -12,7 +13,7 @@
 <ws:template name="cellContent">
    <ws:if data="{{ multiselect === 'hidden' || headerColumn.index !== 0 || headerColumn.column.caption || headerColumn.column.title}}">
       <ws:if data="{{!!headerColumn.column.template}}">
-         <ws:partial attr:class="controls-Grid__header-cell__content_theme-{{_options.theme}} {{listModel._isMultiHeader ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}}_theme-{{_options.theme}} {{headerColumn.cellContentClasses}}"
+         <ws:partial attr:class="controls-Grid__header-cell__content controls-Grid__header-cell__content_theme-{{_options.theme}} {{listModel._isMultiHeader ? ' controls-Grid__row-multi-header__content_baseline' : ' controls-Grid__row-header__content_baseline'}}_theme-{{_options.theme}} {{headerColumn.cellContentClasses}}"
                      template="{{headerColumn.column.template}}"
                      scope="{{ headerColumn.column.templateOptions }}"
                      colData="{{headerColumn}}"/>
@@ -38,6 +39,7 @@
       <Controls.scroll:StickyHeader
               attr:class="{{headerColumn.cellClasses}}"
               attr:style="{{headerColumn.style ? headerColumn.style : ''}}{{headerColumn.cellStyles}}"
+              backgroundStyle="{{backgroundStyle}}"
               mode="stackable"
               task1177692247="{{true}}"
               fixedZIndex="{{headerColumn.zIndex}}"

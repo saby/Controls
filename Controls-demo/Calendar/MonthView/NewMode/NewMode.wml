@@ -1,0 +1,29 @@
+<div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">mode=current</div>
+        <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}" showCaption="{{true}}">
+            <ws:dayHeaderTemplate>
+                <div class="controls-MonthViewVDOM__item_theme-default-style-first"> {{dayHeaderTemplate.value.caption}}</div>
+            </ws:dayHeaderTemplate>
+            <ws:dayTemplate>
+                <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}" backgroundStyle="first" fontColorStyle="first" sizeStyle="first">
+                    <ws:contentTemplate>
+                        {{contentTemplate.value.day}}
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:dayTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">mode=extended</div>
+        <Controls.calendar:MonthView bind:month="_month" newMode="{{true}}" mode="extended">
+            <ws:dayTemplate>
+                <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}" backgroundStyle="second">
+                    <ws:contentTemplate>
+                        {{contentTemplate.value.day}}
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:dayTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+</div>

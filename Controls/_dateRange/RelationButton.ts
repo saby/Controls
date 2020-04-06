@@ -7,12 +7,6 @@ import template = require('wml!Controls/_dateRange/RelationButton/RelationButton
  *
  * @class Controls/_dateRange/RelationButton
  * @extends Core/Control
- *
- * @css @color_DateRangeRelationButton-normal_hovered Color of the button in normal hovered state.
- * @css @color_DateRangeRelationButton-byCapacity_hovered Color of the button in by capacity hovered state.
- * @css @color_DateRangeRelationButton-normalColor of the button in normal state.
- * @css @color_DateRangeRelationButton-byCapacity Color of the button in by capacity state.
- *
  * @control
  * @public
  * @category Input
@@ -26,9 +20,6 @@ import template = require('wml!Controls/_dateRange/RelationButton/RelationButton
  *
  * @class Controls/_dateRange/RelationButton
  * @extends Core/Control
- *
- * @css @color_DateRangeRelationButton-normal_hovered Color of the button in normal hovered state.
- * @css @color_DateRangeRelationButton-byCapacity_hovered Color of the button in by capacity hovered state.
  *
  * @control
  * @public

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="NotificationTemplate" demoname="Controls-demo/NotificationDemo/NotificationTemplate.wml">
-    <ws:content>
-        <Controls-demo.NotificationDemo.NotificationTemplate/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

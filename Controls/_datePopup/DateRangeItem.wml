@@ -43,11 +43,12 @@
                   showWeekdays="{{false}}"
                   month="{{_getMonth(date.getFullYear(), month)}}"
                   daysData="{{extData[month]}}"
-                  dayTemplate="{{_options.dayTemplate}}"
                   dateConstructor="{{_options.dateConstructor}}"
 
                   startValue="{{_options.startValue}}"
                   endValue="{{_options.endValue}}"
+
+                  newMode="{{true}}"
 
                   selectionProcessing="{{_options.selectionProcessing}}"
                   on:selectionProcessingChanged="_proxyEvent()"
@@ -62,7 +63,15 @@
                   on:itemClick="_proxyEvent()"
                   on:itemMouseEnter="_proxyEvent()"
                   on:itemMouseLeave="_proxyEvent()"
-               />
+               >
+                  <ws:dayTemplate>
+                     <ws:partial template="Controls/calendar:MonthViewDayTemplate"
+                                 sizeStyle="DateRangeItem"
+                                 fontColorStyle="DateRangeItem"
+                                 backgroundStyle="DateRangeItem">
+                     </ws:partial>
+                  </ws:dayTemplate>
+               </Controls.calendar:MonthView>
             </ws:bodyTemplate>
          </ws:partial>
 

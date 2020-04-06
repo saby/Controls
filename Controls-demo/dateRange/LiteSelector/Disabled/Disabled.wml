@@ -1,0 +1,8 @@
+<div class="controls-demo_LiteSelector-block">
+    <Controls.dateRange:LiteSelector
+            readOnly="{{true}}"
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"
+            prevArrowVisibility="{{true}}"
+            nextArrowVisibility="{{true}}"/>
+</div>

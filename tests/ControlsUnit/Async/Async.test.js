@@ -7,9 +7,10 @@ define([
    Env,
    TestControlSync
 ) {
-   describe('Controls/Container/Async', function () {
+   describe('Controls/Container/Async', function() {
       var warns = [];
       var originalLogger = Env.IoC.resolve('ILogger');
+
       beforeEach(function() {
          Env.IoC.bind('ILogger', {
             warn: function(message) {
@@ -24,7 +25,7 @@ define([
          Env.IoC.bind('ILogger', originalLogger);
       });
 
-      typeof window === 'undefined' && it('Loading synchronous server-side', function () {
+      typeof window === 'undefined' && it('Loading synchronous server-side', function() {
          let options = {
             templateName: 'ControlsUnit/Async/TestControlSync',
             templateOptions: {}
@@ -45,16 +46,18 @@ define([
             templateOptions: {}
          };
 
+         var ERROR_TEXT = 'Ошибка загрузки контрола ControlsUnit/Async/Fail/TestControlSync\nВозможны следующие причины:\n\t                   • Ошибка в самом контроле\n\t                   • Долго отвечал БЛ метод в _beforeUpdate\n\t                   • Контрола не существует';
+
          var async = new Async(options);
          return async._beforeMount(options).then(function () {
             async._beforeUpdate(options);
 
-            assert.equal(async.error, "Couldn\'t load module ControlsUnit/Async/Fail/TestControlSync ");
+            assert.equal(async.error, ERROR_TEXT);
             assert.strictEqual(async.optionsForComponent.resolvedTemplate, undefined);
          });
       }).timeout(4000);
 
-      it('Loading synchronous client-side', function () {
+      it('Loading synchronous client-side', function() {
          let options = {
             templateName: 'ControlsUnit/Async/TestControlSync',
             templateOptions: {}
@@ -73,22 +76,23 @@ define([
          Env.constants.compat = oldCompat;
       });
 
-      it('Loading synchronous client-side faild', function () {
+      it('Loading synchronous client-side faild', function() {
          var options = {
             templateName: 'ControlsUnit/Async/Fail/TestControlSync',
             templateOptions: {}
          };
+         var ERROR_TEXT = 'Ошибка загрузки контрола ControlsUnit/Async/Fail/TestControlSync\nВозможны следующие причины:\n\t                   • Ошибка в самом контроле\n\t                   • Долго отвечал БЛ метод в _beforeUpdate\n\t                   • Контрола не существует';
 
          var async = new Async(options);
-         return async._beforeMount(options).then(function () {
+         return async._beforeMount(options).then(function() {
             async._beforeUpdate(options);
 
-            assert.equal(async.error, "Couldn\'t load module ControlsUnit/Async/Fail/TestControlSync ");
+            assert.equal(async.error, ERROR_TEXT);
             assert.strictEqual(async.optionsForComponent.resolvedTemplate, undefined);
          });
       }).timeout(4000);
 
-      it('Loading asynchronous client-side', function () {
+      it('Loading asynchronous client-side', function() {
          var options = {
             templateName: 'ControlsUnit/Async/TestControlAsync',
             templateOptions: {}
@@ -106,7 +110,7 @@ define([
          return promise;
       }).timeout(3000);
 
-      it('Loading asynchronous from library client-side', function () {
+      it('Loading asynchronous from library client-side', function() {
          var options = {
             templateName: 'ControlsUnit/Async/TestLibraryAsync:ExportControl',
             templateOptions: {}
@@ -124,21 +128,23 @@ define([
          return promise;
       }).timeout(3000);
 
-      it('Loading asynchronous client-side faild', function () {
+      it('Loading asynchronous client-side faild', function() {
          let options = {
             templateName: 'ControlsUnit/Async/Fail/TestControlAsync',
             templateOptions: {}
          };
+
+         var ERROR_TEXT = 'Ошибка загрузки контрола ControlsUnit/Async/Fail/TestControlAsync\nВозможны следующие причины:\n\t                   • Ошибка в самом контроле\n\t                   • Долго отвечал БЛ метод в _beforeUpdate\n\t                   • Контрола не существует';
 
          let async = new Async(options);
          async._beforeMount(options);
          async._beforeUpdate(options);
          async._afterUpdate();
 
-         return new Promise(function(resolve, reject) {
+         return new Promise(function(resolve) {
             setTimeout(resolve, 2000);
          }).then(function() {
-            assert.equal(async.error, "Couldn\'t load module ControlsUnit/Async/Fail/TestControlAsync ");
+            assert.equal(async.error, ERROR_TEXT);
             assert.strictEqual(async.optionsForComponent.resolvedTemplate, undefined);
          });
       }).timeout(4000);

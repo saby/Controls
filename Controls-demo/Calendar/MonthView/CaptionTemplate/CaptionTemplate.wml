@@ -1,0 +1,9 @@
+<div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
+    <div class="controlsDemo__cell">
+        <Controls.calendar:MonthView>
+            <ws:captionTemplate>
+                <div>{{_formatMonth(captionTemplate.date)}}</div>
+            </ws:captionTemplate>
+        </Controls.calendar:MonthView>
+    </div>
+</div>

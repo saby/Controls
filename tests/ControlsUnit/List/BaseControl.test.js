@@ -195,7 +195,9 @@ define([
             navigation: {
                view: 'infinity'
             },
-            virtualScrolling: true,
+            virtualScrollConfig: {
+               pageSize: 100
+            },
             viewModelConstructor: lists.ListViewModel,
             source: source
          };
@@ -415,7 +417,9 @@ define([
             navigation: {
                view: 'infinity'
             },
-            virtualScrolling: true,
+            virtualScrollConfig: {
+               pageSize: 100
+            },
             viewModelConstructor: grid.GridViewModel,
          };
          var ctrl = new lists.BaseControl(cfg);
@@ -2126,6 +2130,7 @@ define([
          });
 
          var cfg = {
+            keyProperty: 'id',
             viewName: 'Controls/List/ListView',
             source: source,
             viewConfig: {
@@ -2159,6 +2164,18 @@ define([
             ctrl._notify = function(event, dir) {
                result = dir;
             };
+            ctrl._children = {
+               scrollController: {
+                  scrollToItem(key) {
+                     if (key === data[0].id) {
+                        result = 'top';
+                     } else if (key === data[data.length - 1].id) {
+                        result = 'bottom';
+                     }
+                     return Promise.resolve();
+                  }
+               }
+            };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
             lists.BaseControl._private.scrollToEdge(ctrl, 'down');
@@ -2183,6 +2200,7 @@ define([
          });
 
          var cfg = {
+            keyProperty: 'id',
             viewName: 'Controls/List/ListView',
             source: source,
             viewConfig: {
@@ -2221,6 +2239,18 @@ define([
          setTimeout(function() {
             ctrl._notify = function(eventName, type) {
                result = type;
+            };
+            ctrl._children = {
+               scrollController: {
+                  scrollToItem(key) {
+                     if (key === data[0].id) {
+                        result = ['top'];
+                     } else if (key === data[data.length - 1].id) {
+                        result = ['bottom'];
+                     }
+                     return Promise.resolve();
+                  }
+               }
             };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
@@ -2376,28 +2406,21 @@ define([
          lnBaseControl.saveOptions(lnCfg);
          lnBaseControl._beforeMount(lnCfg);
 
-         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
-
          return new Promise(function(resolve) {
             setTimeout(function() {
                lists.BaseControl._private.reload(lnBaseControl, lnCfg);
                setTimeout(function() {
-                  // _markedKeyForRestoredScroll известен подскрол не сработает т.к _isScrollShown = false;
-                  assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3);
                   assert.equal(lnBaseControl._shouldRestoreScrollPosition, true);
                   lnCfg = clone(lnCfg);
                   lnCfg.source = lnSource2;
                   lnBaseControl._isScrollShown = true;
                   lnBaseControl._beforeUpdate(lnCfg)
                      .addCallback(function() {
-                        assert.equal(lnBaseControl._markedKeyForRestoredScroll, 4);
-                        lnBaseControl._markedKeyForRestoredScroll = null;
 
                         lnCfg = clone(lnCfg);
                         lnCfg.source = lnSource3;
                         lnBaseControl._beforeUpdate(lnCfg)
                            .addCallback(function(res) {
-                              assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
                               resolve();
                               return res;
                            });
@@ -2407,107 +2430,6 @@ define([
          });
       });
 
-      it('resetScroll after reload', function() {
-
-         var
-            lnSource = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            }),
-            lnSource2 = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: [{
-                  id: 4,
-                  title: 'Четвертый',
-                  type: 1
-               },
-                  {
-                     id: 5,
-                     title: 'Пятый',
-                     type: 2
-                  }]
-            }),
-            lnCfg = {
-               viewName: 'Controls/List/ListView',
-               source: lnSource,
-               keyProperty: 'id',
-               markedKey: 3,
-               viewModelConstructor: lists.ListViewModel
-            },
-            lnBaseControl = new lists.BaseControl(lnCfg);
-
-         lnBaseControl.saveOptions(lnCfg);
-         lnBaseControl._beforeMount(lnCfg);
-         lnBaseControl._children = {
-            listView: {
-               getItemsContainer: () => ({
-                 children: [{}, {}, { children: [{ tagName: "DIV"
-                    }]
-                 }]
-               })
-            }
-         }
-
-         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
-
-         lnBaseControl.reload()
-            .addCallback(() => {
-               lnBaseControl._isScrollShown = true;
-               assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3); // set to existing markedKey
-               lnBaseControl._shouldRestoreScrollPosition = true;
-               lnBaseControl._beforePaint();
-               assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
-            })
-      });
-
-      it('reloadRecordSet', function() {
-
-         var
-            lnSource = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            }),
-            lnSource2 = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: [{
-                  id: 4,
-                  title: 'Четвертый',
-                  type: 1
-               },
-                  {
-                     id: 5,
-                     title: 'Пятый',
-                     type: 2
-                  }]
-            }),
-            lnCfg = {
-               viewName: 'Controls/List/ListView',
-               source: lnSource,
-               keyProperty: 'id',
-               markedKey: 3,
-               viewModelConstructor: lists.ListViewModel
-            },
-            lnBaseControl = new lists.BaseControl(lnCfg);
-
-         lnBaseControl.saveOptions(lnCfg);
-         lnBaseControl._beforeMount(lnCfg);
-         assert.equal(lnBaseControl._markedKeyForRestoredScroll, null);
-
-         lnBaseControl._isScrollShown = true;
-         lnBaseControl.reload()
-            .addCallback(() => {
-               assert.equal(lnBaseControl._markedKeyForRestoredScroll, 3); // set to existing markedKey
-            })
-            .addCallback(() => {
-               let lnCfg2 = clone(lnCfg);
-               lnCfg2.source = lnSource2;
-               lnBaseControl._isScrollShown = true;
-               lnBaseControl._beforeUpdate(lnCfg2)
-                  .addCallback(() => {
-                     assert.equal(lnBaseControl._markedKeyForRestoredScroll, 4); // set to first item, because markedKey = 3, no longer exist
-                  });
-            });
-      });
       it('hasItemActions', function() {
          let itemAct = [1, 2, 3];
          let itemActionsProp = 'itemActions';
@@ -2935,13 +2857,70 @@ define([
          var ctrl = new lists.BaseControl(cfg);
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
-         ctrl._onItemClick(event, ctrl._listViewModel.getItems()
-            .at(2), originalEvent);
+         ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(2), originalEvent);
          assert.isTrue(stopPropagationCalled);
-         assert.equal(ctrl._listViewModel.getItems()
-            .at(2), ctrl._listViewModel.getMarkedItem()
-            .getContents());
       });
+
+      it('_itemMouseDown', async function() {
+         var cfg = {
+            keyProperty: 'id',
+            viewName: 'Controls/List/ListView',
+            source: source,
+            viewModelConstructor: lists.ListViewModel
+         };
+         var originalEvent = {
+            target: {
+            }
+         };
+         var event = {
+            stopPropagation: function() {
+            }
+         };
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         ctrl._itemMouseDown(event, {key: 3}, originalEvent);
+         assert.equal(
+            ctrl._listViewModel.getItems().at(2),
+            ctrl._listViewModel.getMarkedItem().getContents()
+         );
+      });
+
+      it('_onItemClick: should not mark single item', async function() {
+         var cfg = {
+            keyProperty: 'id',
+            viewName: 'Controls/List/ListView',
+            source: source,
+            editingConfig: {},
+            markerVisibility: 'onactivated',
+            viewModelConstructor: lists.ListViewModel
+         };
+         var originalEvent = {
+            target: {
+               closest: function(selector) {
+                  return selector === '.js-controls-ListView__checkbox';
+               },
+               getAttribute: function(attrName) {
+                  return attrName === 'contenteditable' ? 'true' : '';
+               }
+            }
+         };
+         var stopPropagationCalled = false;
+         var event = {
+            stopPropagation: function() {
+               stopPropagationCalled = true;
+            }
+         };
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         ctrl._listViewModel.setMarkedKey(null);
+         ctrl._items.getCount = () => 1;
+         ctrl._onItemClick(event, ctrl._listViewModel.getItems().at(0), originalEvent);
+         assert.isTrue(stopPropagationCalled);
+         assert.isUndefined(ctrl._listViewModel.getMarkedItem());
+      });
+
       it('_needBottomPadding after reload in beforeMount', async function() {
          var cfg = {
             viewName: 'Controls/List/ListView',
@@ -5431,7 +5410,9 @@ define([
                viewModelConstructor: lists.ListViewModel,
                keyProperty: 'id',
                source: source,
-               virtualScrolling: true
+               virtualScrollConfig: {
+                  pageSize: 100
+               }
             },
             instance = new lists.BaseControl(cfg);
          instance.saveOptions(cfg);

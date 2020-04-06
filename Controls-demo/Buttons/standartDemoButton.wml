@@ -50,21 +50,21 @@
         <h3>Simple button-link</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__simpleLink">
             <div attr:class="test_element_two_column demo-Button__testBlock_column">
-                <Controls.buttons:Button readOnly="{{false}}" caption="Main link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Main link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <Controls.input:Label underline="hovered" caption="Inactive link 1"/>
                 <Controls.input:Label underline="fixed" caption="Inactive link 2"/>
-                <Controls.buttons:Button readOnly="{{false}}" caption="Inactive link 3" fontColorStyle="unaccented" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Inactive link 3" fontColorStyle="unaccented" viewMode="linkButton" fontSize="m"/>
             </div>
             <div attr:class="test_element_two_column test_element demo-Button__testBlock_column">
-                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 1" fontColorStyle="default" viewMode="link" fontSize="m"/>
-                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 2" fontColorStyle="danger" viewMode="link" fontSize="m"/>
-                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 3" fontColorStyle="success" viewMode="link" fontSize="m"/>
-                <Controls.buttons:Button readOnly="{{false}}" attr:class="demo-controls-Button_style-magic" buttonStyle="magic" caption="Accent link 4" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 1" fontColorStyle="default" viewMode="linkButton" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 2" fontColorStyle="danger" viewMode="linkButton" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" caption="Accent link 3" fontColorStyle="success" viewMode="linkButton" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" attr:class="demo-controls-Button_style-magic" buttonStyle="magic" caption="Accent link 4" viewMode="linkButton" fontSize="m"/>
             </div>
         </div>
         <h3>Button-link with icon and text</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__linkIconText">
-            <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" caption="Main link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+            <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" caption="Main link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
         </div>
         <h3>Button-link for table</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__linkForTable">
@@ -76,13 +76,13 @@
         <h3>Simple button-icon</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__simpleIcon">
             <div attr:class="test_element_three_column">
-                <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" icon="icon-Send" iconSize="s" iconStyle="secondary" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
             </div>
             <div attr:class="test_element_three_column">
-                <Controls.buttons:Button attr:class="test_element" readOnly="{{false}}" iconStyle="secondary" iconSize="s" icon="icon-Undo2" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button attr:class="test_element" readOnly="{{false}}" iconStyle="secondary" iconSize="s" icon="icon-Undo2" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
             </div>
             <div attr:class="test_element_three_column">
-                <Controls.buttons:Button attr:class="test_element" readOnly="{{false}}" iconStyle="secondary" iconSize="s" icon="icon-Redo2" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button attr:class="test_element" readOnly="{{false}}" iconStyle="secondary" iconSize="s" icon="icon-Redo2" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
             </div>
         </div>
         <h3>Icon toggle-button</h3>
@@ -258,90 +258,90 @@
         <div attr:class="test_element_three_column">
             <h4>Button-icon 16px</h4>
             <div>
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Save" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Save" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Unload</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" fontColorStyle="link" viewMode="link" size="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" fontColorStyle="link" viewMode="linkButton" size="m"/>
                 <div class="demo-Button__Label">Message</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Print" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Print" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Print</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Question2" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Question2" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Reference</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-ExpandList" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-ExpandList" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">History</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Favorite" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Favorite" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Favorites</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Get the link</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Erase" iconStyle="danger" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Erase" iconStyle="danger" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Delete</div>
             </div>
         </div>
         <div attr:class="test_element_three_column">
             <h4>Button icon 24px</h4>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Save" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Save" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Unload</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Send" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Send" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Message</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Print" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Print" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Print</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Question2" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Question2" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Reference</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ExpandList" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ExpandList" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">History</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Favorite" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Favorite" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Favorites</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Link" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Link" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Get the link</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-NewTab" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-NewTab" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Open in new window</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-FilterBig" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-FilterBig" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Filter</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Erase" iconStyle="danger" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-Erase" iconStyle="danger" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Delete</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-CollapseExpand" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-CollapseExpand" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Open to full window</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ArrangeList" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ArrangeList" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">List</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ArrangePreview" fontColorStyle="link" viewMode="link" fontSize="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="m" icon="icon-ArrangePreview" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Tile</div>
             </div>
             <div attr:class="test_element">

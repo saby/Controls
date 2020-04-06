@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="FilterContainer"  demoname="Controls-demo/Filter/Container.wml">
-    <ws:content>
-        <Controls-demo.Filter.Container/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

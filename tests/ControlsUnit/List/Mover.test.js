@@ -226,8 +226,8 @@ define([
             assert.equal(methodName, bindings.move);
             assert.equal(data.method, bindings.list);
             assert.equal(data.folder_id, targetId);
-            assert.equal(data.filter.testProp, 'testValue');
-            assert.deepEqual(data.filter.selection.getRawData(),
+            assert.equal(data.filter.get('testProp'), 'testValue');
+            assert.deepEqual(data.filter.get('selection').getRawData(),
                selectionToRecord({
                   selected: params.selectedKeys,
                   excluded: params.excludedKeys

@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="SearchInput" demoname="Controls-demo/Suggest/SearchInput.wml">
-   <ws:content>
-      <Controls-demo.Suggest.SearchInput/>
-   </ws:content>
-</Controls.Application.ApplicationWrapper>

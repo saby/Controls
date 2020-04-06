@@ -21,9 +21,11 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _templateName: string;
     protected _emptyCaption: string;
     protected _reseted: boolean = false;
+    protected _fontColorStyle: string;
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
         this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'Selector' : 'LiteSelector');
+        this._fontColorStyle = options.readOnly ? 'label' : options.fontColorStyle;
         if (options.emptyCaption) {
             this._emptyCaption = options.emptyCaption;
         } else if (options.resetValue) {
@@ -63,7 +65,8 @@ class DateRangeEditor extends Control<IControlOptions> {
 
     static getDefaultOptions() {
         return {
-            editorMode: 'Lite'
+            editorMode: 'Lite',
+            fontColorStyle: 'secondary'
         };
     }
 }
@@ -82,3 +85,16 @@ class DateRangeEditor extends Control<IControlOptions> {
  * @default Lite
  */
 export default DateRangeEditor;
+
+/**
+ * @name Controls/_filter/Editors/DateRange#value
+ * @cfg {Array<Date>} Массив из двух значений - дата "от" и дата "до". 
+ * @see resetValue
+ */
+
+/**
+ * @name Controls/_filter/Editors/DateRange#resetValue
+ * @cfg {Array<Date>} Массив из двух значений - дата "от" и дата "до", которые применятся при сбросе.
+ * @see value
+ */
+

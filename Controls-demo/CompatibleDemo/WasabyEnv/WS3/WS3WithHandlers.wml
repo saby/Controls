@@ -5,17 +5,17 @@
     </div>
     <div class="compatibleDemo__row demo-CompatibleDemo__text">
         Значение _text:&nbsp;
-        <Controls.heading:Title caption=" {{ _text }}" readOnly="{{true}}" fontColorStyle="primary" fontSize="l"/>
+        <Controls.heading:Title caption=" {{ _textForWasabyControl }}" readOnly="{{true}}" fontColorStyle="primary" fontSize="l"/>
     </div>
     <div class="compatibleDemo__row demo-CompatibleDemo__first-component">
         <Controls.heading:Title caption="Controls.input:Text:" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
-        <Controls.input:Text name="textBox" bind:value="_text" />
+        <Controls.input:Text name="textBox" bind:value="_textForWasabyControl" on:valueChanged="_setTextFromWasabyControl()"/>
     </div>
     <div class="compatibleDemo__row demo-CompatibleDemo__second-component">
         <Controls.heading:Title caption="SBIS3.CONTROLS/TextBox:" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l" attr:class="compatibleDemo__row__fill"/>
         <Core.CompoundContainer component="SBIS3.CONTROLS/TextBox">
-            <ws:componentOptions text="{{ _text }}">
-                <ws:handlers onTextChange="{{ _setTextOld }}"/>
+            <ws:componentOptions text="{{ _textForWs3Control }}">
+                <ws:handlers onTextChange="{{ _setTextFromWs3Control }}"/>
             </ws:componentOptions>
         </Core.CompoundContainer>
     </div>

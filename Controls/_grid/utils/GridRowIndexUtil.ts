@@ -286,7 +286,7 @@ function getHeaderMaxEndCellData(headerRows: IHeaderCell[][]): {maxRow: number, 
             // calculating w/o consideration of multiselect column
             // we need +1 here, because otherwise it calculates incorrect last right column side
             result.maxColumn = headerRows[0].length + 1;
-}
+        }
         result.maxRow = SINGLE_HEADER_MAX_ROW;
     }
     return result;

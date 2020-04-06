@@ -6,9 +6,10 @@ define(
       'Types/collection',
       'Controls/history',
       'Types/entity',
-      'Core/Deferred'
+      'Core/Deferred',
+      'Application/Env'
    ],
-   function(filterMod, sourceLib, Clone, collection, history, entity, Deferred) {
+   function(filterMod, sourceLib, Clone, collection, history, entity, Deferred, Env) {
       describe('FastFilterVDom', function() {
          var items = [
             [{ key: 0, title: 'все страны' },
@@ -782,7 +783,16 @@ define(
          describe('history', () => {
             let historySource, historyConfig;
             let fastFilter;
+            const originalGetStore = Env.getStore;
+            const originalSetStore = Env.setStore;
             beforeEach(function() {
+               Env.getStore = (key) => {
+                  return stores[key];
+               };
+               Env.setStore = (key, value) => {
+                  stores[key] = value;
+               };
+               stores = {};
                historySource = new history.Source({
                   originSource: new sourceLib.Memory({
                      keyProperty: 'id',
@@ -880,7 +890,10 @@ define(
                   done();
                });
             });
-
+            afterEach(function() {
+               Env.getStore = originalGetStore;
+               Env.setStore = originalSetStore;
+            });
          });
 
          function setTrue(assert) {

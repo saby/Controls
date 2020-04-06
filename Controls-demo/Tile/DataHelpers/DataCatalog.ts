@@ -1,4 +1,4 @@
-import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
+import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
 export const Gadgets = {
    getData: () => [{

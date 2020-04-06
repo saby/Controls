@@ -11,49 +11,49 @@
 }
 
 .controls-TileView__itemPaddingContainer_spacingLeft_default {
-   margin-left: -@spacing_TileView-between-items / 2 + @padding-left_default_tile;
+   margin-left: -@item_offset_tile / 2 + @padding-left_default_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingLeft_null {
-   margin-left: -@spacing_TileView-between-items / 2;
+   margin-left: -@item_offset_tile / 2;
 }
 
 .controls-TileView__itemPaddingContainer_spacingLeft_s {
-   margin-left: -@spacing_TileView-between-items / 2 + @padding-left_s_tile;
+   margin-left: -@item_offset_tile / 2 + @padding-left_s_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingLeft_m {
-   margin-left: -@spacing_TileView-between-items / 2 + @padding-left_m_tile;
+   margin-left: -@item_offset_tile / 2 + @padding-left_m_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingLeft_l {
-   margin-left: -@spacing_TileView-between-items / 2 + @padding-left_l_tile;
+   margin-left: -@item_offset_tile / 2 + @padding-left_l_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingRight_default {
-   margin-right: -@spacing_TileView-between-items / 2 + @padding-right_default_tile;
+   margin-right: -@item_offset_tile / 2 + @padding-right_default_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingRight_null {
-   margin-right: -@spacing_TileView-between-items / 2;
+   margin-right: -@item_offset_tile / 2;
 }
 
 .controls-TileView__itemPaddingContainer_spacingRight_s {
-   margin-right: -@spacing_TileView-between-items / 2 + @padding-right_s_tile;
+   margin-right: -@item_offset_tile / 2 + @padding-right_s_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingRight_m {
-   margin-right: -@spacing_TileView-between-items / 2 + @padding-right_m_tile;
+   margin-right: -@item_offset_tile / 2 + @padding-right_m_tile;
 }
 
 .controls-TileView__itemPaddingContainer_spacingRight_l {
-   margin-right: -@spacing_TileView-between-items / 2 + @padding-right_l_tile;
+   margin-right: -@item_offset_tile / 2 + @padding-right_l_tile;
 }
 
 .controls-TileView__item {
    position: relative;
    flex-grow: 1;
-   margin: @spacing_TileView-between-items / 2;
+   margin: @item_offset_tile / 2;
 }
 
 .controls-TileView__item .controls-itemActionsV {
@@ -62,7 +62,7 @@
 }
 
 .controls-TileView__itemContent {
-   background-color: @background-color_TileView-item;
+   background-color: @item_backgorund-color_tile;
    box-sizing: border-box;
    overflow: hidden;
    position: absolute;
@@ -89,10 +89,10 @@
 }
 
 .controls-TileView__title {
-   border-top: @border-width_TileView-title solid @border-color_TileView-title;
-   max-height: @max-height_TileView-title;
-   min-height: @min-height_TileView-title;
-   padding: @spacing_TileView-between-title-topBorder @spacing_TileView-between-title-rightBorder @spacing_TileView-between-title-bottomBorder @spacing_TileView-between-title-leftBorder;
+   border-top: @item_caption_separator-thickness_tile solid @item_caption_separator-color_tile;
+   max-height: @unaccented_item_caption_max-height_tile;
+   min-height: @unaccented_item_caption_min-height_tile;
+   padding: @unaccented_item_caption_padding-top_tile @unaccented_item_caption_padding-right_tile @unaccented_item_caption_padding-bottom_tile @unaccented_item_caption_padding-left_tile;
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
@@ -111,18 +111,28 @@
    position: absolute;
 }
 
+.ws-is-ie,
+.ws-is-chrome-xp {
+   .controls-TileView__image {
+      //IE and chrome on XP can't correctly align absolutely-positioned flex children: https://codepen.io/anon/pen/MqazJv
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+   }
+}
+
 .controls-ListView__item_shadow_visible {
-   box-shadow: @box-shadow-size_TileView-item @box-shadow-color_TileView-item;
+   box-shadow: @item_shadow-size_tile @item_shadow-color_tile;
 }
 
 .ws-is-hover {
    .controls-TileView__itemContent_highlightOnHover:hover {
-      background-color: @background-color_TileView-item_hover;
+      background-color: @item_hover_background-color_tile;
    }
 
    .controls-ListView__item_shadow_visible, .controls-ListView__item_shadow_onhover {
       &:hover, &.controls-TileView__item_active, &.controls-TileView__item_swiped {
-         box-shadow: @box-shadow-size_TileView-item @box-shadow-color_TileView-item_hover;
+         box-shadow: @item_shadow-size_tile @item_hover_shadow-color_tile;
       }
    }
 }
@@ -160,7 +170,7 @@
 .controls-TileView__item_hovered, .controls-TileView__item_active, .controls-TileView__item_swiped,
 .controls-TileView__item:hover > .controls-TileView__item_unscaleable {
    .controls-TileView__title, .controls-TileView__title_accent {
-      background-color: @background-color_TileView-title;
+      background-color: @item_caption_background-color_tile;
    }
    .controls-TileView__title_accent {
       text-decoration: underline;
@@ -178,11 +188,13 @@
 }
 
 .controls-TileView__checkbox {
-   position: absolute;
-   z-index: 1;
+   &.controls-Checkbox__iconWrapper {
+      position: absolute;
+      z-index: 1;
 
-   .controls-Checkbox__iconWrapper:before {
-      background-color: @background-color_TileView-checkbox;
+      &:before {
+         background-color: @background-color;
+      }
    }
 }
 
@@ -192,11 +204,11 @@
 }
 
 .controls-TileView__item_withoutMarker {
-   border: @border-width_TileView-item solid @border-color_TileView-item;
+   border: @item_border-thickness_tile solid @item_border-color_tile;
 }
 
 .controls-TileView__item_withMarker {
-   border: @border-width_TileView-item solid @border-color_TileView-item_marked;
+   border: @item_border-thickness_tile solid @item_marked_border-color_tile;
 }
 
 //TODO: Можно убрать после решения задачи: https://online.sbis.ru/opendoc.html?guid=38c5aa2c-f30c-42e9-a654-5358bc7691fd
@@ -206,12 +218,12 @@
 //TODO: end
 
 .controls-itemActionsV.controls-TileView__itemActions {
-   background-color: @background-color_TileView-title;
+   background-color: @item_caption_background-color_tile;
 }
 
 .controls-TileView__footer {
    width: 100%;
-   margin-left: @spacing_TileView-between-items / 2;
+   margin-left: @item_offset_tile / 2;
 }
 // FIXME: https://online.sbis.ru/opendoc.html?guid=8b2c991d-05d9-4513-be30-350a1b16fed9
 .controls-TileView__footer:empty {
@@ -220,18 +232,18 @@
 
 .controls-TileView__itemActions:before {
    content: '';
-   width: @width_TileView-itemActions-shadow;
+   width: @itemActions_gradient_width_tile;
    height: 100%;
    position: absolute;
    top: 0;
-   left: -@width_TileView-itemActions-shadow;
+   left: -@itemActions_gradient_width_tile;
 
    //dont use transparent because https://stackoverflow.com/questions/38391457/linear-gradient-to-transparent-bug-in-latest-safari
-   background: linear-gradient(to right, fade(@background-color_TileView-title, 0), @background-color_TileView-title);
+   background: linear-gradient(to right, fade(@item_caption_background-color_tile, 0), @item_caption_background-color_tile);
 }
 
 //Internal variable required to reduce the height of the image under the title.
-@height_TileView-title: @min-height_TileView-title + @border-width_TileView-title + @spacing_TileView-between-title-topBorder + @spacing_TileView-between-title-bottomBorder;
+@height_TileView-title: @unaccented_item_caption_min-height_tile + @item_caption_separator-thickness_tile + @unaccented_item_caption_padding-top_tile + @unaccented_item_caption_padding-bottom_tile;
 .controls-TileView__resizer {
    margin-bottom: -@height_TileView-title;
 }
@@ -276,10 +288,10 @@
    align-items: center;
    text-align: center;
    justify-content: center;
-   max-height: @max-height_TileView-accent-title;
-   min-height: @min-height_TileView-accent-title;
-   padding: @spacing_TileView-around-accent-title;
-   color: @color_TileView-accent-title;
+   max-height: @item_caption_max-height_tile;
+   min-height: @item_caption_min-height_tile;
+   padding: @item_caption_padding-top_tile @item_caption_padding-right_tile @item_caption_padding-bottom_tile @item_caption_padding-left_tile;
+   color: @item_caption_text-color_tile;
 }
 
 .controls-TileView__title_accent_ellipsis {

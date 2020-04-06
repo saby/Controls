@@ -20,7 +20,6 @@ import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemp
     * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">здесь</a>.
     * @class Controls/_dragnDrop/DraggingTemplate
     * @extends Core/Control
-    * @mixes Controls/_dragnDrop/DraggingTemplate/Styles
     * @control
     * @private
     * @author Авраменко А.С.
@@ -32,7 +31,6 @@ import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemp
     * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
     * @class Controls/_dragnDrop/DraggingTemplate
     * @extends Core/Control
-    * @mixes Controls/_dragnDrop/DraggingTemplate/Styles
     * @control
     * @private
     * @author Авраменко А.С.

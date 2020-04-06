@@ -1,15 +1,15 @@
 .controls-Suggest__suggestionsContainer_popup_bottom {
-	margin-top: -@border-width_Suggest;
+	margin-top: -@popup_border-thickness_suggest;
 }
 
 .controls-Suggest__suggestionsContainer_popup_top {
-	margin-top: @border-width_Suggest;
+	margin-top: @popup_border-thickness_suggest;
 }
 
 .controls-Suggest__suggestionsContainer_popup_shadow_top {
-	.box-shadow(@box-shadow-size_Suggest-popup-verticalAlign_top @box-shadow-color_Suggest);
+	.box-shadow(0 -@box-shadow-offset_suggest @box-shadow-blur_suggest @box-shadow-color_suggest);
 }
 
 .controls-Suggest__suggestionsContainer_popup_shadow_bottom {
-	.box-shadow(@box-shadow-size_Suggest-popup-verticalAlign_bottom @box-shadow-color_Suggest);
+	.box-shadow(0 @box-shadow-offset_suggest @box-shadow-blur_suggest @box-shadow-color_suggest);
 }

@@ -29,6 +29,7 @@ export interface IButtonControlOptions extends IControlOptions, IHrefOptions, IC
        IIconStyleOptions, IIconSizeOptions, IFontColorStyleOptions, IFontSizeOptions, IHeightOptions, ITooltipOptions,
        IButtonOptions {
     viewMode?: 'button' | 'link' | 'toolButton' | 'functionalButton';
+    captionPosition: 'left' | 'right';
 }
 
 export function cssStyleGeneration(options: IButtonControlOptions): void {
@@ -48,11 +49,18 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
 
     this._caption = options.caption;
     this._stringCaption = typeof options.caption === 'string';
+    this._captionPosition = options.captionPosition || 'right';
 
     this._icon = options.icon;
     this._iconSize = options.icon ? ActualApi.iconSize(options.iconSize, this._icon) : '';
     this._iconStyle = options.icon ?
         ActualApi.iconStyle(options.iconStyle, this._icon, options.readOnly, options.buttonAdd) : '';
+
+    if (this._viewMode === 'linkButton') {
+        const actualState = ActualApi.actualLinkButton(this._viewMode, this._height);
+        this._viewMode = actualState.viewMode;
+        this._height = actualState.height;
+    }
 }
 
 /**
@@ -154,6 +162,23 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * </pre>
  * @see Size
  */
+
+/**
+ * @name Controls/_buttons/Button#captionPosition
+ * @cfg {String} Определяет, с какой стороны расположен текст кнопки относительно иконки.
+ * @variant left Текст расположен перед иконкой.
+ * @variant right Текст расположен после иконки.
+ * @default right
+ * @demo Controls-demo/Buttons/CaptionPosition/Index
+ */
+
+/*
+ * @name Controls/_buttons/Button#captionPosition
+ * @cfg {String} Determines on which side of the icon caption is located.
+ * @variant left Caption before icon.
+ * @variant right Icon before caption.
+ * @default right
+ */
 class Button extends Control<IButtonControlOptions> implements
       IHref, ICaption, IIcon, IIconStyle, ITooltip, IIconSize, IClick, IFontColorStyle, IFontSize, IHeight, IButton {
    protected _template: TemplateFunction = ButtonTemplate;
@@ -168,6 +193,7 @@ class Button extends Control<IButtonControlOptions> implements
    protected _height: string;
    protected _caption: string | TemplateFunction;
    protected _stringCaption: boolean;
+   protected _captionPosition: string;
    protected _icon: string;
    protected _iconSize: string;
    protected _iconStyle: string;
@@ -199,6 +225,7 @@ class Button extends Control<IButtonControlOptions> implements
       return {
          viewMode: 'button',
          iconStyle: 'secondary',
+         captionPosition: 'right',
          theme: 'default'
       };
    }

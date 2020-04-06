@@ -1,0 +1,22 @@
+<div class="controls-Grid__DragScroll">
+    <div class="controls-Grid__DragScroll__overlay controls-Grid__DragScroll__overlay_{{ _isOverlayShown ? 'activated' : 'deactivated' }}"
+         on:mouseup="_onOverlayMouseUp()"
+         on:touchend="_onOverlayTouchEnd()"
+
+         on:mousemove="_onOverlayMouseMove()"
+         on:touchmove="_onOverlayTouchMove()"
+
+         on:mouseleave="_onOverlayMouseLeave()">
+    </div>
+
+    <ws:partial template="{{ _options.content }}"
+                attr:class="controls-Grid__DragScroll__content {{ _isOverlayShown ? 'controls-Grid__DragScroll__content_dragging' }}"
+                on:mousedown="_onViewMouseDown()"
+                on:touchstart="_onViewTouchStart()"
+
+                on:mousemove="_onViewMouseMove()"
+                on:touchmove="_onViewTouchMove()"
+
+                on:mouseup="_onViewMouseUp()"
+                on:touchend="_onViewTouchEnd()"/>
+</div>

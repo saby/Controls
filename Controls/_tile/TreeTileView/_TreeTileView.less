@@ -1,5 +1,5 @@
 .controls-TreeTileView__item {
-   height: @height_TreeTileView-node;
+   height: @node_height_tile;
    box-sizing: border-box;
    display: flex;
    align-items: center;
@@ -8,7 +8,7 @@
 }
 
 .controls-TreeTileView__dragTargetNode {
-   border: @border-width_TreeGridView-item_dragging solid @border-color_TreeGridView-item_dragging;
+   border: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
    position: absolute;
    top: 0;
    left: 0;
@@ -29,8 +29,8 @@
 }
 
 .controls-TreeTileView__item:hover, .controls-TreeTileView__item_active {
-   background-color: @background-color_TileView-title;
-   box-shadow: @box-shadow-size_TileView-item @box-shadow-color_TileView-item_hover;
+   background-color: @node_hover_background-color_tile;
+   box-shadow: @node_shadow-size_tile @node_shadow-color_tile;
 }
 
 .controls-TreeTileView__title {
@@ -38,13 +38,13 @@
    text-overflow: ellipsis;
    white-space: nowrap;
    width: 100%;
-   font-size: @font-size_TreeTileView-title;
-   margin: 0 @spacing_TreeTileView-between-title-rightBorder 0 @spacing_TreeTileView-between-nodeIcon-title;
+   font-size: @node_font-size_tile;
+   margin: 0 @node_caption_padding-right_tile 0 @node_icon_offset_tile;
    flex-shrink: 1;
 }
 
 .controls-TreeTileView__nodeIcon {
-   margin-left: @spacing_TreeTileView-between-nodeIcon-leftBorder;
+   margin-left: @node_caption_padding-left_tile;
    flex-shrink: 0;
 }
 

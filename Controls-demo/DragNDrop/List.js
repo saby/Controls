@@ -5,9 +5,10 @@ define('Controls-demo/DragNDrop/List', [
    'Controls-demo/DragNDrop/ListEntity',
    'Controls-demo/DragNDrop/DemoData',
    'wml!Controls-demo/DragNDrop/List/List',
+   'Controls/Utils/Toolbar',
    'css!Controls-demo/DragNDrop/List/List',
-   'Controls/dragnDrop'
-], function(BaseControl, cClone, source, ListEntity, DemoData, template) {
+   'Controls/dragnDrop',
+], function(BaseControl, cClone, source, ListEntity, DemoData, template, Toolbar) {
    'use strict';
 
    var ModuleClass = BaseControl.extend({
@@ -20,7 +21,7 @@ define('Controls-demo/DragNDrop/List', [
          this._itemsReadyCallback = this._itemsReady.bind(this);
          this._itemActions = [{
             title: 'Action',
-            showType: 2,
+            showType: Toolbar.showType.TOOLBAR,
             id: 0
          }];
          this._viewSource = new source.Memory({

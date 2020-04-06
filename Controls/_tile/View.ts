@@ -28,15 +28,6 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/_list/interface/IClickableView
  *
  * @mixes Controls/_list/interface/IVirtualScroll
- * @mixes Controls/_list/BaseControlStyles
- * @mixes Controls/_list/ListStyles
- * @mixes Controls/List/View/Styles
- * @mixes Controls/_list/ItemActions/ItemActionsStyles
- * @mixes Controls/_list/Swipe/SwipeStyles
- *
- * @mixes Controls/MoveDialog/Styles
- * @mixes Controls/_paging/PagingStyles
- * @mixes Controls/_paging/DigitButtonsStyles
  *
  * @control
  * @author Авраменко А.С.
@@ -67,15 +58,6 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/_list/interface/IClickableView
  *
  * @mixes Controls/_list/interface/IVirtualScroll
- * @mixes Controls/_list/BaseControlStyles
- * @mixes Controls/_list/ListStyles
- * @mixes Controls/List/View/Styles
- * @mixes Controls/_list/ItemActions/ItemActionsStyles
- * @mixes Controls/_list/Swipe/SwipeStyles
- *
- * @mixes Controls/MoveDialog/Styles
- * @mixes Controls/_paging/PagingStyles
- * @mixes Controls/_paging/DigitButtonsStyles
  *
  * @control
  * @author Авраменко А.С.

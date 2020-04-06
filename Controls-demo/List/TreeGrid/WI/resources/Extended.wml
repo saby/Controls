@@ -1,5 +1,0 @@
-<Controls.Application.ApplicationWrapper caption="Demo-example: base.">
-    <ws:content>
-        <Controls-demo.List.TreeGrid.ExtendedPG/>
-    </ws:content>
-</Controls.Application.ApplicationWrapper>

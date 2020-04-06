@@ -5,6 +5,7 @@
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 columnScroll="{{true}}"
+                backgroundStyle="default"
                 header="{{_header}}"
                 stickyColumnsCount="{{2}}"/>
     </Controls.scroll:Container>

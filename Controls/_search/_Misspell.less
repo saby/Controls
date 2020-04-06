@@ -1,15 +1,15 @@
 .controls-Misspell_theme_@{themeName} {
-	line-height: @line-height_Misspell;
+	line-height: @height_searchMisspell;
 }
 .controls-Misspell__text_theme_@{themeName} {
-	font-weight: @font-weight_Misspell-caption;
+	font-weight: @font-weight_searchMisspell;
 }
 
 .controls-Misspell__caption_theme_@{themeName} {
 	display: inline-flex;
 	flex-shrink: 1;
-	font-weight: @font-weight_Misspell-text;
-	color: @color_Misspell-caption;
+	font-weight: @font-weight_searchMisspell;
+	color: @text-color_searchMisspell;
 	cursor: pointer;
 	text-align: left;
 	max-width: 100%;
@@ -22,11 +22,11 @@
 }
 
 .ws-is-hover .controls-Misspell__caption_theme_@{themeName}:hover {
-	text-decoration: @text-decoration_Misspell-caption_hover;
-	color: @color_Misspell-caption_hover;
+	text-decoration: underline;
+	color: @text-color_hover_searchMisspell;
 }
 
 .controls-Misspell__caption_theme_@{themeName}:active {
-	text-decoration: @text-decoration_Misspell-caption_active;
-	color: @color_Misspell-caption_active;
+	text-decoration: underline;
+	color: @text-color_active_searchMisspell;
 }

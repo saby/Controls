@@ -20,8 +20,8 @@ define('Controls-demo/RootRouter', [
          pathName: 'Controls-demo/app/Controls-demo%2FIndexOld',
          reload: function() {
             this.isReloading = true;
-            // При обновлении демки сбрасываем все что лежит в settingsController (задается на application);
-            // здесь падает рендеринг на wi.sbis-doc
+            // РџСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РґРµРјРєРё СЃР±СЂР°СЃС‹РІР°РµРј РІСЃРµ С‡С‚Рѕ Р»РµР¶РёС‚ РІ settingsController (Р·Р°РґР°РµС‚СЃСЏ РЅР° application);
+            // Р·РґРµСЃСЊ РїР°РґР°РµС‚ СЂРµРЅРґРµСЂРёРЅРі РЅР° wi.sbis-doc
             //window.localStorage.setItem('controlSettingsStorage', '{}');
          },
 

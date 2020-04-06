@@ -1,38 +1,38 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="link"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="link"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="primary"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="primary"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="secondary"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="secondary"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="success"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="success"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="warning"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="warning"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="danger"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="danger"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="unaccented"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="unaccented"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="label"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="label"></Controls.buttons:Button>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=default</div>
-        <Controls.buttons:Button viewMode="link" caption="Button" fontColorStyle="default"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="linkButton" caption="Button" fontColorStyle="default"></Controls.buttons:Button>
     </div>
 </div>

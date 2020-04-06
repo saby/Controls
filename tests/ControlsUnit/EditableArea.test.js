@@ -238,6 +238,39 @@ define([
             assert.isFalse(instance._options.editObject.isChanged());
          });
 
+         it ('clone in begitedit', async function() {
+            instance._children = {
+               formController: {
+                  submit: function() {
+                     return Deferred.success({});
+                  }
+               }
+            };
+            instance.saveOptions(cfg);
+            instance._beforeMount(cfg);
+            instance._notify = mockNotify();
+            // начинаем редактирование, делаем клон записи с подтверждением изменений.
+            instance.beginEdit();
+            // меняем рекорд
+            instance._editObject.set('text', 'asdf');
+            // завершаем редактирование с сохранением
+            await instance.commitEdit();
+            // проверили, что опция поменялась
+            assert.equal(cfg.editObject.get('text'), 'asdf');
+
+            // вновь начинаем редактирование, делаем клон записи с подтверждением изменений.
+            instance.beginEdit();
+            // меняем рекорд
+            instance._editObject.set('text', 'changed');
+            // проверяем предыдущее состояние, к которому будем откатывать.
+            assert.equal(instance._editObject._changedFields.text, 'asdf');
+            // завершаем редактирование с отменой. Не сохраняем.
+            await instance.cancelEdit();
+            // проверили, что опция не поменялась
+            assert.equal(cfg.editObject.get('text'), 'asdf');
+
+         });
+
          it('deferred', async function() {
             instance.saveOptions(cfg);
             instance._beforeMount(cfg);
