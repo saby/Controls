@@ -66,6 +66,8 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
 
         if (options.source) {
             return this.loadItems(options);
+        } else if (options.items) {
+            this._prepareStateByItems(options.items, options);
         }
     }
 
@@ -169,7 +171,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
 
                 this._notify('selectedKeysChanged', [this.getSelectedKeys()]);
             } else {
-                this._notify('itemClick', [item]);
+                this._notify('itemClick', [item, nativeEvent]);
             }
         }
     }
@@ -227,7 +229,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     }
 
     protected _subMenuResult(event: SyntheticEvent<MouseEvent>, eventName: string, eventResult: Model|Node) {
-        if (eventName === 'menuOpened') {
+        if (eventName === 'subMenuOpened') {
             this.subMenu = eventResult;
         } else {
             const notifyResult = this._notify(eventName, [eventResult]);
@@ -507,11 +509,15 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         let filter = Clone(options.filter) || {};
         filter[options.parentProperty] = options.root;
         return this.getSourceController(options).load(filter).addCallback((items) => {
-            this.createViewModel(items, options);
-            this._moreButtonVisible = options.selectorTemplate && this.getSourceController(options).hasMoreData('down');
-            this._expandButtonVisible = this.isExpandButtonVisible(items, options.additionalProperty, options.root);
+            this._prepareStateByItems(items, options);
             return items;
         });
+    }
+
+    private _prepareStateByItems(items: RecordSet, options: IMenuControlOptions): void {
+        this.createViewModel(items, options);
+        this._moreButtonVisible = options.selectorTemplate && this.getSourceController(options).hasMoreData('down');
+        this._expandButtonVisible = this.isExpandButtonVisible(items, options.additionalProperty, options.root);
     }
 
     private isExpandButtonVisible(items: RecordSet, additionalProperty: string, root: string): boolean {
@@ -562,6 +568,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
             item
         };
         templateOptions.closeButtonVisibility = false;
+        templateOptions.showClose = false;
         templateOptions.showHeader = false;
         templateOptions.headerTemplate = null;
         templateOptions.headerContentTemplate = null;
@@ -578,7 +585,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     private getSourceSubMenu(root) {
         let source = this._options.source;
         const collection = this._listModel.getCollection();
-        if (collection.getIndexByValue(this._options.parentProperty, root) !== -1) {
+        if (source && collection.getIndexByValue(this._options.parentProperty, root) !== -1) {
             source = new PrefetchProxy({
                 target: this._options.source,
                 data: {

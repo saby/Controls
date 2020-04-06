@@ -251,9 +251,9 @@ export function prepareActionsMenuConfig(
             parentProperty: 'parent',
             nodeProperty: 'parent@',
             dropdownClassName: 'controls-itemActionsV__popup',
-            showClose: true,
+            closeButtonVisibility: true,
             ...contextMenuConfig,
-            rootKey: parentAction && parentAction.id,
+            root: parentAction && parentAction.id,
             showHeader: hasParentAction,
             headConfig
         };
@@ -425,7 +425,7 @@ function _processActionsMenuClose(
         // If menu needs to close because one of the actions was clicked, process
         // the action handler first
         if (args && args.action === 'itemClick') {
-            const action = args.data && args.data[0] && args.data[0].getRawData();
+            const action = args.data && args.data.getRawData();
             processActionClick(
                 collection,
                 getActiveItem(collection)?.getContents()?.getKey(),

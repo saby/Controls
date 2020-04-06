@@ -180,8 +180,9 @@ var _private = {
       }
    },
 
-   onResult: function (event, action, data, popupId) {
-      switch (action) {
+   onResult: function (event, result) {
+      const data = result.data;
+      switch (result.action) {
          case 'pinClick':
             _private.pinClick(this, data);
             break;
@@ -512,9 +513,9 @@ var _Controller = Control.extend({
       }
    },
 
-   _onSelectorTemplateResult: function(event, selectedItems) {
-      let result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
-      this._onResult(event, 'selectorResult', result);
+   _onSelectorTemplateResult: function(event, result: object) {
+      let items = this._notify('selectorCallback', [this._initSelectorItems, result.data]) || result.data;
+      this._onResult(event, {action: 'selectorResult', data: items});
    },
 
    _clickHandler: function(event) {

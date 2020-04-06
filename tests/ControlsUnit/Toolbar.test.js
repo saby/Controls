@@ -223,10 +223,10 @@ define(
                assert.equal(isNotify, true);
             });
             it('menu item click', () => {
-               let isMenuClosed = false;
+               let isMenuClosed = false, eventName;
                toolbar._nodeProperty = '@parent';
                toolbar._notify = (e) => {
-                  assert.equal(e, 'itemClick');
+                  eventName = e;
                };
                toolbar._children.menuOpener.close = function() {
                   isMenuClosed = true;
@@ -235,8 +235,9 @@ define(
                   action: 'itemClick', event: {
                      name: 'event', stopPropagation: () => {
                      }
-                  }, data: [itemWithMenu]
+                  }, data: itemWithMenu
                });
+               assert.equal(eventName, 'itemClick');
             });
             it('menu not closed if item has child', function() {
                let isMenuClosed = false;
@@ -414,7 +415,7 @@ define(
                toolbar._children.menuOpener.close = function() {
                   isMenuClosed = true;
                };
-               toolbar._resultHandler('itemClick', itemWithOutMenu);
+               toolbar._resultHandler({ action: 'itemClick', data: itemWithOutMenu });
                assert.equal(isMenuClosed, true, 'toolbar closed, but his submenu did not');
             });
             it('_closeHandler', () => {

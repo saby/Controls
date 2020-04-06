@@ -225,6 +225,7 @@ define(
             };
             expectedOptions.closeButtonVisibility = false;
             expectedOptions.showHeader = false;
+            expectedOptions.showClose = false;
             expectedOptions.headerTemplate = null;
             expectedOptions.headerContentTemplate = null;
             expectedOptions.additionalProperty = null;
@@ -426,9 +427,9 @@ define(
                sandbox.restore();
             });
 
-            it('menuOpened event', function() {
+            it('subMenuOpened event', function() {
                const data = { container: 'subMenu' };
-               menuControl._subMenuResult('click', 'menuOpened', data);
+               menuControl._subMenuResult('click', 'subMenuOpened', data);
                assert.deepEqual(menuControl.subMenu, data);
             });
             it('pinClick event', function() {

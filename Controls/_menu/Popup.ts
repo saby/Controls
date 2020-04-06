@@ -55,13 +55,20 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    protected _sendResult(event: SyntheticEvent<MouseEvent>, action, data): void {
-        this._notify('sendResult', [action, data], {bubbling: true});
+    protected _sendResult(event: SyntheticEvent<MouseEvent>, action: string, data: any, nativeEvent?: SyntheticEvent<MouseEvent>): boolean {
+        const result = {
+            action,
+            data,
+            event: nativeEvent
+        };
+        this._notify('sendResult', [result], {bubbling: true});
         return false; // Чтобы подменю не закрывалось после клика на пункт https://wi.sbis.ru/docs/js/Controls/menu/Control/events/itemClick/
     }
 
     protected _afterMount(options?: IMenuPopupOptions): void {
-        this._notify('sendResult', ['menuOpened', this._container], {bubbling: true});
+        if (options.root) {
+            this._notify('sendResult', ['subMenuOpened', this._container], {bubbling: true});
+        }
     }
 
     protected _headerClick(): void {
