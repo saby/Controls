@@ -39,7 +39,7 @@
                        on:applyClick="_sendResult('applyClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
                        on:pinClick="_sendResult('pinClick')"
-                       on:menuOpened="_sendResult('menuOpened')"
+                       on:subMenuOpened="_sendResult('subMenuOpened')"
                        on:beforeSubMenuOpen="_prepareSubMenuConfig()"
                />
             </div>

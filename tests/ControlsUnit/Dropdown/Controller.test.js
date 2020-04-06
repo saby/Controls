@@ -453,7 +453,7 @@ define(
                   isFooterClicked = true;
                }
             };
-            dropdownController._onResult(null, 'footerClick');
+            dropdownController._onResult(null, {action: 'footerClick'});
             assert.isFalse(isClosed);
             assert.isTrue(isFooterClicked);
          });
@@ -487,25 +487,25 @@ define(
             };
 
             // returned false from handler and no hierarchy
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(4));
+            dropdownController._onResult(null, {action: 'itemClick', data: dropdownController._items.at(4)});
             assert.isFalse(closed);
 
             // returned undefined from handler and there is hierarchy
             closed = false;
             closeByNodeClick = false;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(5));
+            dropdownController._onResult(null, {action: 'itemClick', data: dropdownController._items.at(5)});
             assert.isFalse(closed);
 
             // returned undefined from handler and no hierarchy
             closed = false;
             closeByNodeClick = undefined;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(4));
+            dropdownController._onResult(null, {action: 'itemClick', data: dropdownController._items.at(4)});
             assert.isTrue(closed);
 
             // returned true from handler and there is hierarchy
             closed = false;
             closeByNodeClick = undefined;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(5));
+            dropdownController._onResult(null, {action: 'itemClick', data: dropdownController._items.at(5)});
             assert.isTrue(closed);
          });
 
@@ -768,7 +768,7 @@ define(
             }
             ];
 
-            dropdownController._onSelectorTemplateResult('selectorResult', selectedItems);
+            dropdownController._onSelectorTemplateResult('selectorResult', {data: selectedItems});
             assert.deepEqual(newItems, dropdownController._items.getRawData());
          });
 
@@ -827,7 +827,7 @@ define(
                { id: '3', title: 'Запись 3' }
             ];
 
-            dropdownController._onSelectorTemplateResult('selectorResult', selectedItems);
+            dropdownController._onSelectorTemplateResult('selectorResult', {data: selectedItems});
             assert.deepEqual(newItems, dropdownController._items.getRawData());
          });
 
@@ -1082,7 +1082,7 @@ define(
                   filter: {}
                });
 
-               dropdownController._onResult(null, 'applyClick', items);
+               dropdownController._onResult(null, {action: 'applyClick', data: items});
                assert.deepEqual(selectedItems, items);
             });
 
@@ -1117,7 +1117,7 @@ define(
                item.set('originalId', item.getId());
                item.set('id', item.getId() + '_history');
                assert.equal(item.getId(), '6_history');
-               dropdownController._onResult(null, 'itemClick', item);
+               dropdownController._onResult(null, {action: 'itemClick', data: item});
                assert.equal(resultItems[0].getId(), '6');
                assert.isTrue(updated);
 
@@ -1129,7 +1129,7 @@ define(
                   },
                   keyProperty: 'id'
                });
-               dropdownController._onResult(null, 'itemClick', item);
+               dropdownController._onResult(null, {action: 'itemClick', data: item});
                assert.equal(resultItems[0].getId(), '5');
                assert.isFalse(updated);
             });
@@ -1167,7 +1167,7 @@ define(
                closed = false;
                assert.equal(item.getId(), '6_history');
                dropdownController._source = historySource;
-               dropdownController._onResult(null, 'pinClick', item);
+               dropdownController._onResult(null, {action: 'pinClick', data: item});
                assert.isFalse(closed);
                assert.equal(resultItem.getId(), '6');
             });

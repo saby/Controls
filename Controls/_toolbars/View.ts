@@ -321,9 +321,9 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
     }
 
-    protected _resultHandler(action, data): void {
-        if (action === 'itemClick') {
-            const item = data;
+    protected _resultHandler(result: {action: string, data: TItem}): void {
+        if (result.action === 'itemClick') {
+            const item = result.data;
             this._notify('itemClick', [item]);
 
             /**

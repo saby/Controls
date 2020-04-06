@@ -10,7 +10,7 @@
       >
          <ws:nodeFooterTemplate>
             <div class="ControlsDemo-Menu-Control__footerContentTemplate">
-               Node footer template for root = {{nodeFooterTemplate.itemData.key}}
+               Node footer template for root = {{nodeFooterTemplate.footerItemData.key}}
             </div>
          </ws:nodeFooterTemplate>
       </Controls.menu:Control>
