@@ -21,6 +21,19 @@
    font-family: @icon_font-family_s;
 }
 
+.ws-is-hover {
+   .controls-Input-DatePicker__button:hover {
+      color: @trigger_hover_icon-color_inputDate;
+   }
+}
+
+.ws-is-no-touch,
+.ws-is-touch {
+   .controls-Input-DatePicker__button:active {
+      color: @trigger_active_icon-color_inputDate;
+   }
+}
+
 .controls-PeriodDialog__picker-withoutModeBtn {
    margin-top: @shift-top_PeriodDialog-picker;
    margin-left: @shift-left_PeriodDialog-picker-withoutModeBtn;

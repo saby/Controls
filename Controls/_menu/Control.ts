@@ -169,7 +169,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
 
                 this._notify('selectedKeysChanged', [this.getSelectedKeys()]);
             } else {
-                this._notify('itemClick', [item]);
+                this._notify('itemClick', [item, nativeEvent]);
             }
         }
     }

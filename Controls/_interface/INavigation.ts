@@ -28,7 +28,7 @@
 export type TNavigationSource = 'position' | 'page';
 
 /**
- * @typedef {String} NavigationView
+ * @typedef {String} TNavigationView
  * @description Режим визуального отображения навигации.
  * @variant infinity Бесконечный скролл.
  * В этом режиме загрузка данных происходит при достижении специального триггера, который расположен в конце скроллируемого контента списка.
@@ -40,7 +40,7 @@ export type TNavigationSource = 'position' | 'page';
  */
 
 /*
- * @typedef {String} NavigationView
+ * @typedef {String} TNavigationView
  * @variant infinity Infinite scroll.
  * @variant pages Pages with paging control.
  * @variant demand Load next when requested (for example, hasMore button clicked).
@@ -48,7 +48,7 @@ export type TNavigationSource = 'position' | 'page';
 export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
 
 /**
- * @typedef {String} Direction
+ * @typedef {String} TNavigationDirection
  * @description Направление выборки при навигации по курсору.
  * @variant after Вниз.
  * @variant before Вверх.
@@ -56,7 +56,7 @@ export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
  */
 
 /*
- * @typedef {String} Direction
+ * @typedef {String} TNavigationDirection
  * @variant after loading data after positional record.
  * @variant before loading data before positional record.
  * @variant both loading data in both directions relative to the positional record.
@@ -73,7 +73,7 @@ export type TNavigationDirection = 'before' | 'after' | 'both';
  * @property {String|Array.<String>} position Начальная позиция для курсора.
  * Относительно этой позиции будет создаваться выборка при навигации.
  * Позиция определяется по значению поля или по массиву значений полей, имена которых заданы в опции field.
- * @property {Direction} direction Направление выборки.
+ * @property {TNavigationDirection} direction Направление выборки.
  * @property {Number} limit Количество записей, которые запрашиваются при выборке.
  */
 /*
@@ -114,17 +114,17 @@ export interface INavigationPageSourceConfig {
 }
 
 /**
- * @typedef {Object} SourceConfig
+ * @typedef {Object} INavigationSourceConfig
  * @description Конфигурация навигации (по курсору или постраничная).
  */
 /**
- * @typedef {Object} SourceConfig
+ * @typedef {Object} INavigationSourceConfig
  * @description Source configuration for both page-based and position-based (cursor) navigation.
  */
 export type INavigationSourceConfig = INavigationPositionSourceConfig | INavigationPageSourceConfig;
 
 /**
- * @typedef {String} TotalInfo
+ * @typedef {String} TNavigationTotalInfo
  * @description Режим отображения информационной подписи.
  * @variant basic Отображается только общее число записей.
  * @variant extended Отображается общее число записей, номера первой и последней записей на текущей странице, а также размер страницы.
@@ -135,7 +135,7 @@ export type TNavigationTotalInfo = 'basic' | 'extended';
  * @typedef {Object} NavigationViewConfig
  * @property {String} [pagingMode=direct] Режим отображения постраничной навигации.
  * В настоящий момент поддерживается навигация только в прямом направлении: от первой страницы до последней.
- * @property {TotalInfo} [totalInfo=basic] Режим отображения информационной подписи.
+ * @property {TNavigationTotalInfo} [totalInfo=basic] Режим отображения информационной подписи.
  * @property {Number} maxCountValue Количество записей, когда необходимо прекратить загрузку в режиме навигации maxCount.
  * О режиме навигации maxCount вы можете посмотреть {@link Controls/_interface/INavigation/Navigation.typedef здесь}.
  * @property {Boolean} [showEndButton=false] Видимость кнопки перехода в конец списка.
@@ -153,7 +153,7 @@ export interface INavigationViewConfig {
  * Подробнее о настройке навигации по курсору читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
  * Подробнее об источниках данных читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/ здесь}.
  * @property {NavigationSource} source Алгоритм, с которым работает источник данных.
- * @property {NavigationView} view Режим визуального отображения навигации.
+ * @property {TNavigationView} view Режим визуального отображения навигации.
  * @property {INavigationSourceConfig} sourceConfig Конфигурация алгоритма (см. свойство source), с которым работает источник данных.
  * @property {NavigationViewConfig} viewConfig Конфигурация визуального отображения навигации.
  */
@@ -161,7 +161,7 @@ export interface INavigationViewConfig {
 /*
  * @typedef {Object} Navigation
  * @property {NavigationSource} source Algorithm with which the data source works.
- * @property {NavigationView} view Visual interface for navigation (paging buttons, etc.).
+ * @property {TNavigationView} view Visual interface for navigation (paging buttons, etc.).
  * @property {INavigationSourceConfig} sourceConfig Configuration for data source.
  * @property {NavigationViewConfig} viewConfig Configuration for navigation view.
  */

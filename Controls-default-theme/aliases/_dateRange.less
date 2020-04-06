@@ -22,3 +22,9 @@
 @toggled_hover_icon-color_dateRangeRelationButton:    @link_hover_text-color;
 @toggled_active_icon-color_dateRangeRelationButton:   @toggled_hover_icon-color_dateRangeRelationButton;
 @icon-size_dateRangeRelationButton:                   @icon-size_s;
+
+//TODO: пересмотреть необходимость этих переменных, возможно просто заменить на выражение
+@shift-top_PeriodDialog-picker: -((@header_height_datePicker - @inline_height_default)/2 + @border-thickness_datePicker);
+@shift-left_PeriodDialog-picker: -(@header_padding-left_datePicker + @border-thickness_datePicker + @size_icon_s + @switcher_offset_datePicker);
+@shift-left_PeriodDialog-picker-withoutModeBtn: -(@header_padding-left_datePicker + @border-thickness_datePicker);
+@shift-top_PeriodDialog-selector: floor((18px - @header_height_datePicker)/2) - @border-thickness_datePicker;
