@@ -125,7 +125,7 @@ class Back extends Control<IBackOptions> {
     private _convertOldStyleToNew(options: IBackOptions): void {
         if (options.style === 'default') {
             this._style = 'primary';
-            Logger.warn('Heading.Back', 'Используются устаревшие стили. Используйте style primary вместо style default', this);
+            Logger.warn('Heading.Back: Используются устаревшие стили. Используйте style primary вместо style default', this);
         } else {
             this._style = options.style;
         }

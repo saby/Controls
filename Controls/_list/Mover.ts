@@ -354,7 +354,7 @@ var Mover = BaseAction.extend({
                 this._moveDialogOptions = options.moveDialogTemplate.templateOptions;
             } else {
                 this._moveDialogTemplate = options.moveDialogTemplate;
-                Logger.warn('Mover', 'Wrong type of moveDialogTemplate option, use object notation instead of template function', this);
+                Logger.warn( 'Mover: Wrong type of moveDialogTemplate option, use object notation instead of template function', this);
             }
         }
     },

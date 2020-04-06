@@ -99,7 +99,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
             self._historyId = options.historyId;
          } else if (context && context.historyId) {
             self._historyId = context.historyId;
-            Logger.error('Controls/filterPopup:Panel:', 'You must pass the historyId option for the panel.', self);
+            Logger.error( 'Controls/filterPopup:Panel: You must pass the historyId option for the panel.', self);
          }
       },
 

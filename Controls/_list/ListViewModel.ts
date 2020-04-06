@@ -262,7 +262,7 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _calcCursorClasses: function(clickable, cursor) {
         const cursorStyle = cursor || (clickable === false ? 'default' : 'pointer');
         if (typeof clickable !== 'undefined') {
-            Logger.warn('Controls/list:BaseItemTemplate', 'Option "clickable" is deprecated and will be removed in 20.3000. Use option "cursor" with value "default".');
+            Logger.warn('Controls/list:BaseItemTemplate: Option "clickable" is deprecated and will be removed in 20.3000. Use option "cursor" with value "default".');
         }
         return ` controls-ListView__itemV controls-ListView__itemV_cursor-${cursorStyle}`;
     },
