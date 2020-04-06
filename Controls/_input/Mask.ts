@@ -201,7 +201,7 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
                if (replacer && _private.regExpQuantifiers.test(mask)) {
                   validation = false;
-                  Logger.error('Mask: Used not empty replacer and mask with quantifiers. More on https://wi.sbis.ru/docs/js/Controls/_input/Mask/options/replacer/');
+                  Logger.error('Mask', 'Used not empty replacer and mask with quantifiers. More on https://wi.sbis.ru/docs/js/Controls/_input/Mask/options/replacer/');
                } else {
                   validation = true;
                }
