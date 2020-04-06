@@ -29,6 +29,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/_list/interface/IReloadableList
  *
  *
  * @mixes Controls/_list/interface/IVirtualScroll
@@ -60,6 +61,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/_list/interface/IReloadableList
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  *
