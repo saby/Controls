@@ -80,6 +80,14 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    bottom: 0;
 }
 
+.ws-is-ie10, .ws-is-ie11 {
+   .controls-BaseControl__loadingIndicator__state-up, .controls-BaseControl__loadingIndicator__state-down {
+      .controls-BaseControl__loadingIndicatorImg-wrapper {
+         left: ~'calc(50% -' @width_BaseControl-loadingIndicator-img/2 + @spacing_BaseControl-loadingIndicator-between-left-border-content ~')';
+      }
+   }
+}
+
 .controls-BaseControl_empty__loadingIndicator__state-down {
    min-height: @content_l_padding_loadingIndicator * 2 + @spinner_l_size_loadingIndicator;
 }
