@@ -30,7 +30,7 @@
    }
 
    &.controls-CompoundArea-headerPadding .controls-StackTemplate {
-      padding-top: @spacing_StackTemplate-between-header-border;
+      padding-top: @header_min-height_stack + @header_bottom-border-thickness_stack;
       height: 100%;
       box-sizing: border-box;
    }
@@ -136,7 +136,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
 }
 
 .controls-CompoundArea-close_button .controls-DialogTemplate__close_button{
-   margin-top: @top_dialogTemplate_compatible_close-button;
+   margin-top: @close-button_padding-top_stack;
 }
 
 .controls-Stack__waiting, .controls-Stack__open, .controls-Stack__close {

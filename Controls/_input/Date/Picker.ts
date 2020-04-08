@@ -20,8 +20,6 @@ import getOptions from 'Controls/Utils/datePopupUtils';
     * @mixes Controls/interface/IInputPlaceholder
     * @mixes Controls/_interface/IOpenPopup
     *
-    * @css @spacing_DatePicker-between-input-button Расстояние между полем ввода и кнопкой календаря.
-    *
     * @control
     * @public
     * @demo Controls-demo/Input/Date/PickerPG
@@ -41,9 +39,6 @@ import getOptions from 'Controls/Utils/datePopupUtils';
     * @mixes Controls/_input/interface/IBase
     * @mixes Controls/interface/IInputPlaceholder
     * @mixes Controls/_input/interface/IValueValidators
-    *
-    * @css @spacing_DatePicker-between-input-button Spacing between input field and button.
-    *
     * @control
     * @public
     * @demo Controls-demo/Input/Date/PickerPG
