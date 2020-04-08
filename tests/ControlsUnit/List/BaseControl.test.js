@@ -218,6 +218,71 @@ define([
          });
       });
 
+      describe('_private::isPageChanged', () => {
+         let oldNavigation;
+         let newNavigation;
+
+         it('undefined -> undefined', () => {
+            oldNavigation = undefined;
+            newNavigation = undefined;
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('empty -> undefined', () => {
+            oldNavigation = {};
+            newNavigation = undefined;
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('undefined -> empty', () => {
+            oldNavigation = undefined;
+            newNavigation = {};
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('empty -> empty', () => {
+            oldNavigation = {};
+            newNavigation = {};
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('position navigation -> page navigation', () => {
+            oldNavigation = { sourceConfig: { position: [] } };
+            newNavigation = { sourceConfig: { page: 10 } };
+            assert.isTrue(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('page navigation -> position navigation', () => {
+            oldNavigation = { sourceConfig: { page: 10 } };
+            newNavigation = { sourceConfig: { position: [] } };
+            assert.isTrue(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('page undefined -> page undefined', () => {
+            oldNavigation = { sourceConfig: { page: undefined } };
+            newNavigation = { sourceConfig: { page: undefined } };
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('page 10 -> page undefined', () => {
+            oldNavigation = { sourceConfig: { page: 10 } };
+            newNavigation = { sourceConfig: { page: undefined } };
+            assert.isTrue(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('page undefined -> page 10', () => {
+            oldNavigation = { sourceConfig: { page: undefined } };
+            newNavigation = { sourceConfig: { page: 10 } };
+            assert.isTrue(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+
+         it('page 10 -> page 10', () => {
+            oldNavigation = { sourceConfig: { page: 10 } };
+            newNavigation = { sourceConfig: { page: 10 } };
+            assert.isFalse(lists.BaseControl._private.isPageChanged(oldNavigation, newNavigation));
+         });
+      });
+
       it('_private::getSortingOnChange', function() {
          const emptySorting = [];
          const sortingASC = [{ test: 'ASC' }];
@@ -5149,6 +5214,42 @@ define([
          };
          instance._beforeUpdate(newCfg);
          assert.equal(newKeyProperty, 'name');
+         instance.destroy();
+      });
+
+      it('close editing if page changed', async () => {
+         const cfg = {
+                viewName: 'Controls/List/ListView',
+                viewModelConfig: {
+                   items: [],
+                   keyProperty: 'id'
+                },
+                viewModelConstructor: lists.ListViewModel,
+                keyProperty: 'id',
+                source: source,
+                navigation: {
+                   page: 10
+                }
+             },
+             instance = new lists.BaseControl(cfg);
+         let isCanceled = false;
+         instance.saveOptions(cfg);
+         await instance._beforeMount(cfg);
+         instance._children = {
+            editInPlace: {
+               cancelEdit() {
+                  isCanceled = true;
+               }
+            }
+         };
+         instance._listViewModel.getEditingItemData = () => ({});
+         instance._beforeUpdate({
+            ...cfg,
+            navigation: {
+               page: 11
+            }
+         });
+         assert.isTrue(isCanceled);
          instance.destroy();
       });
 

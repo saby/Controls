@@ -32,7 +32,7 @@ import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+import {INavigationOptionValue, INavigationPageSourceConfig, INavigationSourceConfig} from 'Controls/interface';
 import {CollectionItem, ItemActionsController} from 'Controls/display';
 import {Model} from 'saby-types/Types/entity';
 import {IItemAction} from "./interface/IList";
@@ -1291,7 +1291,7 @@ var _private = {
          */
         self._targetItem = childEvent.target.closest('.controls-ListView__itemV');
 
-        /** 
+        /**
          * В процессе открытия меню, запись может пререрисоваться, и таргета не будет в DOM.
          * Поэтому сохраняем объект, с методом getBoundingClientRect
          */
@@ -1614,6 +1614,35 @@ var _private = {
     },
     updateNavigation: function(self) {
         self._pagingNavigationVisible = self._pagingNavigation;
+    },
+    isPageChanged(oldNavigation?: INavigationOptionValue<INavigationSourceConfig>,
+                  newNavigation?: INavigationOptionValue<INavigationSourceConfig>): boolean {
+
+        // Постраничная ли навигация по источнику
+        const isPagingNavigation = (nav: INavigationOptionValue<INavigationSourceConfig>): nav is INavigationOptionValue<INavigationPageSourceConfig> => {
+            const hasSourceConfig = !!nav && !!nav.sourceConfig;
+            return hasSourceConfig && typeof (nav.sourceConfig as INavigationPageSourceConfig).page === 'number';
+        };
+
+        // Не было и нет навигации
+        if ((!oldNavigation && !newNavigation)) {
+            return false;
+        }
+
+        const isOldPaging = isPagingNavigation(oldNavigation);
+        const isNewPaging = isPagingNavigation(newNavigation);
+
+        if (isOldPaging && isNewPaging) {
+            return (oldNavigation.sourceConfig as INavigationPageSourceConfig).page !== (newNavigation.sourceConfig as INavigationPageSourceConfig).page;
+        } else if (!isOldPaging && !isNewPaging) {
+            return false;
+        } else {
+            // Первый раз включили или полностью отключили постраничную навигацию
+            return (
+                isPagingNavigation(oldNavigation) && !isPagingNavigation(newNavigation) ||
+                !isPagingNavigation(oldNavigation) && isPagingNavigation(newNavigation)
+            );
+        }
     },
     isBlockedForLoading(loadingIndicatorState): boolean {
         return loadingIndicatorState === 'all';
@@ -1940,7 +1969,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                             viewModelConfig,
                             newOptions.viewModelConstructor
                         );
-                        
+
                         _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
 
                         if (newOptions.itemsReadyCallback) {
@@ -2090,7 +2119,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         var recreateSource = newOptions.source !== this._options.source || navigationChanged || resetPaging;
         var sortingChanged = !isEqual(newOptions.sorting, this._options.sorting);
         var self = this;
-        this._hasItemActions = _private.hasItemActions(newOptions.itemActions, newOptions.itemActionsProperty);
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._items, self._listViewModel);
         if (!isEqual(newOptions.navigation, this._options.navigation)) {
             _private.initializeNavigation(this, newOptions);
@@ -2115,6 +2143,12 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             }));
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
+        }
+
+        if (this._children.editInPlace && this._listViewModel.getEditingItemData()) {
+            if (recreateSource || navigationChanged || _private.isPageChanged(this._options.navigation, newOptions.navigation)) {
+                this._children.editInPlace.cancelEdit();
+            }
         }
 
         if (newOptions.groupMethod !== this._options.groupMethod) {
