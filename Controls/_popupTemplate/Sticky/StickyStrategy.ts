@@ -95,7 +95,9 @@ interface IPosition {
                // }
             }
          }
-         let overflow = position[isHorizontal ? 'left' : 'top'] + taskBarKeyboardIosHeight + popupCfg.sizes[isHorizontal ? 'width' : 'height'] - _private.getWindowSizes()[isHorizontal ? 'width' : 'height'] - _private.getVisualViewport()[isHorizontal ? 'offsetLeft' : 'offsetTop'];
+         // учитываем скролл
+         const pageTop = (!isHorizontal && _private.getWindowSizes().height <= window?.pageYOffset) ? window?.pageYOffset : 0;
+         let overflow = position[isHorizontal ? 'left' : 'top'] + taskBarKeyboardIosHeight + popupCfg.sizes[isHorizontal ? 'width' : 'height'] - _private.getWindowSizes()[isHorizontal ? 'width' : 'height'] - pageTop - _private.getVisualViewport()[isHorizontal ? 'offsetLeft' : 'offsetTop'];
          if (_private.isIOS12()) {
             overflow -= targetCoords[isHorizontal ? 'leftScroll' : 'topScroll'];
          }
