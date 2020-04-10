@@ -6,7 +6,7 @@
          <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_searchStartingWith}}">
             <div class="ws-fragment">
                <div class="controlsDemo-Explorer-Search__header">
-                  <Controls.search:InputContainer>
+                  <Controls.search:InputContainer scope="{{content}}">
                      <Controls.search:Input
                        attr:class="demo-Search__searchinput"/>
                   </Controls.search:InputContainer>
@@ -31,7 +31,7 @@
                      </div>
                   </div>
                </div>
-               <Controls.list:Container>
+               <Controls.list:Container scope="{{content}}">
                   <Controls.operations:Container>
                      <Controls.explorer:View
                         attr:class="demo-Explorer ControlsDemo-Explorer_search"

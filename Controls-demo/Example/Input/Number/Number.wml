@@ -8,7 +8,8 @@
                      <div class="example-Base__specify">With tooltip inside</div>
                      <Controls.input:Number placeholder="Count" class="ControlsDemo-ExampleInput_withTooltip"
                                             precision="{{0}}"
-                                            bind:value="_defaultValue"/>
+                                            bind:value="_defaultValue"
+                                            scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -23,7 +24,8 @@
                                             precision="{{0}}"
                                             integersLength="{{3}}"
                                             onlyPositive="{{true}}"
-                                            bind:value="_rangeValue"/>
+                                            bind:value="_rangeValue"
+                                            scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -34,7 +36,8 @@
                      <Controls.input:Number placeholder="Count" class="ControlsDemo-ExampleInput_fractionalPart"
                                             precision="{{2}}"
                                             textAlign="right"
-                                            bind:value="_fractionalValue"/>
+                                            bind:value="_fractionalValue"
+                                            scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>

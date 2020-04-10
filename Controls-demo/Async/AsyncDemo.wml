@@ -5,7 +5,7 @@
       </ws:templateOptions>
       <ws:content>
          <div>
-            <ws:partial template="{{ content.resolvedTemplate }}"></ws:partial>
+            <ws:partial template="{{ content.resolvedTemplate }}" isOK="{{content.isOK}}"></ws:partial>
          </div>
       </ws:content>
    </Controls.Container.Async>
@@ -15,7 +15,7 @@
       </ws:templateOptions>
       <ws:content>
          <div>
-            <ws:partial template="{{ content.resolvedTemplate }}"></ws:partial>
+            <ws:partial template="{{ content.resolvedTemplate }}" isOK="{{content.isOK}}"></ws:partial>
          </div>
       </ws:content>
    </Controls.Container.Async>

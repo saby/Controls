@@ -11,10 +11,10 @@
                                     searchStartingWith="{{_searchStartingWith}}"
                                     parentProperty="parent">
             <div>
-                <Controls.search:InputContainer>
+                <Controls.search:InputContainer scope="{{content}}">
                     <Controls.search:Input/>
                 </Controls.search:InputContainer>
-                <Controls.list:Container>
+                <Controls.list:Container scope="{{content}}">
                     <Controls.explorer:View
                             attr:class="demo-Explorer ControlsDemo-Explorer"
                             multiSelectVisibility="{{_multiselectVisibility}}"

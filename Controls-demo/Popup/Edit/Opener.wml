@@ -10,7 +10,7 @@
             <div style="display: inline-block; width: 300px;">События, которые произошли в окне</div> <Controls.input:Text attr:style="width:250px" bind:value="_eventText" readOnly="{{true}}" attr:class="demo-PopupEditOpener__eventText"/>
          </div>
 
-         <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="selected_record">
+         <Controls.scroll:Container scope="{{content}}" attr:class="demo-Grid__wrapper" attr:test_name="selected_record">
             <Controls.list:Container>
                <Controls.grid:View
                   attr:class="demo-Grid__control demo-PopupEditOpener__grid"

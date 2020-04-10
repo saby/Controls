@@ -9,7 +9,8 @@
                      <Controls.input:Text fontStyle="default" class="ControlsDemo-ExampleInput_fontHeader"
                                           textAlign="right"
                                           placeholder="Tooltip"
-                                          bind:value="_defaultValue"/>
+                                          bind:value="_defaultValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -26,7 +27,8 @@
                      <Controls.input:Text fontStyle="default"
                                           textAlign="right"
                                           placeholder="Tooltip"
-                                          bind:value="_filledValue"/>
+                                          bind:value="_filledValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -44,7 +46,8 @@
                                           textAlign="right"
                                           placeholder="Tooltip"
                                           readOnly="{{true}}"
-                                          bind:value="_filledRMValue"/>
+                                          bind:value="_filledRMValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -61,7 +64,8 @@
                      <Controls.input:Number fontStyle="default"
                                           textAlign="right"
                                           placeholder="Tooltip"
-                                          bind:value="_filledNumberValue"/>
+                                          bind:value="_filledNumberValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -79,7 +83,8 @@
                                           textAlign="right"
                                           placeholder="Tooltip"
                                           readOnly="{{true}}"
-                                          bind:value="_filledNumberRMValue"/>
+                                          bind:value="_filledNumberRMValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -96,7 +101,8 @@
 					 <Controls.input:Money fontStyle="default"
 										   textAlign="right"
 										   placeholder="Tooltip"
-										   bind:value="_filledMoneyValue"/>
+										   bind:value="_filledMoneyValue"
+                                 scope="{{template}}"/>
 				  </div>
 			   </ws:template>
 			</ws:Object>
@@ -114,7 +120,8 @@
 										   textAlign="right"
 										   placeholder="Tooltip"
 										   readOnly="{{true}}"
-										   bind:value="_filledMoneyRMValue"/>
+										   bind:value="_filledMoneyRMValue"
+                                 scope="{{template}}"/>
 				  </div>
 			   </ws:template>
 			</ws:Object>

@@ -4,7 +4,7 @@
    <Controls.list:DataContainer source="{{_viewSourceFirst}}" keyProperty="id" attr:class="demo-DragNDrop__list">
       <div>
          <Controls.list:Mover name="listMoverFirst"/>
-         <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+         <Controls.operations:Controller scope="{{content}}" bind:selectedKeys="_selectedKeys">
             <Controls.list:Container>
                <Controls.operations:Container>
                   <Controls.list:View
@@ -47,7 +47,7 @@
    <Controls.list:DataContainer source="{{_viewSourceSecond}}" keyProperty="id" attr:class="demo-DragNDrop__explorer">
       <div>
          <Controls.list:Mover name="listMoverSecond" parentProperty="parent"/>
-         <Controls.list:Container>
+         <Controls.list:Container scope="{{content}}">
             <Controls.explorer:View
                bind:root="_root"
                on:dragStart="_dragStartSecond()"
@@ -77,7 +77,7 @@
    <Controls.list:DataContainer source="{{_viewSourceThird}}" keyProperty="id" attr:class="demo-DragNDrop__tile">
       <div>
          <Controls.list:Mover name="listMoverThird" parentProperty="parent"/>
-         <Controls.list:Container>
+         <Controls.list:Container scope="{{content}}">
             <Controls.explorer:View
                on:dragStart="_dragStartThird()"
                on:dragEnd="_dragEndThird()"

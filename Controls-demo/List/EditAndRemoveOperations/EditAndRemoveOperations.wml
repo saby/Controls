@@ -17,7 +17,7 @@
             <ws:content>
                 <div>
                     <Controls.list:Remover name="remover" on:beforeItemsRemove="_beforeItemsRemove()"/>
-                    <Controls.list:Container>
+                    <Controls.list:Container scope="{{content}}">
                         <Controls.list:View
                                 name="list"
                                 on:beforeBeginEdit="_onBeginEdit()"

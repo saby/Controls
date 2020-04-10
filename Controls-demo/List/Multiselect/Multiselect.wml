@@ -4,7 +4,7 @@
               name="multiSelector">
          <div class="123">
             <h2>Default</h2>
-            <Controls.list:Container>
+            <Controls.list:Container scope="{{content}}">
                <Controls.operations:Container>
                   <Controls.list:View
                           markedKey="{{2}}"

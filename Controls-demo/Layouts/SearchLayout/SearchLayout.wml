@@ -6,20 +6,20 @@
       <Controls.search:Controller searchParam="firstName">
          <div class="controls-demo__LayoutInner">
             <div class="controls-demo__Layouts_filterComponents">
-               <Controls.search:InputContainer>
+               <Controls.search:InputContainer scope="{{content}}">
                   <Controls.search:Input bind:value="_searchValue"/>
                </Controls.search:InputContainer>
                <div class="controls-demo__Layouts_filter">
-                  <Controls.filter:FastContainer>
+                  <Controls.filter:FastContainer scope="{{content}}">
                      <Controls.filter:Fast/>
                   </Controls.filter:FastContainer>
-                  <Controls.filter:ButtonContainer>
+                  <Controls.filter:ButtonContainer scope="{{content}}">
                      <Controls.filter:Selector
                              templateName="wml!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/vdomFilterButtonTemplate"/>
                   </Controls.filter:ButtonContainer>
                </div>
             </div>
-            <Controls.list:Container>
+            <Controls.list:Container scope="{{content}}">
                <Controls.list:View emptyTemplate="Не найдено">
                   <ws:itemTemplate>
                      <ws:partial template="Controls/list:ItemTemplate">
