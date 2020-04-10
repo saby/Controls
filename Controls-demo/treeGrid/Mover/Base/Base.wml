@@ -2,7 +2,7 @@
     <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
         <div>
             <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="linkButton"/>
-            <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
+            <Controls.operations:Controller scope="{{content}}" bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
                 <div>
                     <Controls.list:Mover
                             name="listMover"
@@ -21,7 +21,7 @@
                                     columns="{{_columns}}"/>
                         </ws:moveDialogTemplate>
                     </Controls.list:Mover>
-                    <Controls.list:Container>
+                    <Controls.list:Container scope="{{content}}">
                         <Controls.operations:Container>
                             <Controls.treeGrid:View
                                     name="treeGrid"

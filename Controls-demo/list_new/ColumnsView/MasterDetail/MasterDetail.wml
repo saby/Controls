@@ -10,7 +10,7 @@
                <Controls.list:DataContainer name="dataContainer" source="{{_masterSource}}" keyProperty="id">
                   <div>
                      <Controls.list:Mover name="masterMover" parentProperty="Раздел"/>
-                     <Controls.list:Container>
+                     <Controls.list:Container scope="{{content}}">
                         <Controls.masterDetail:List>
                            <Controls.treeGrid:View
                                    itemsReadyCallback="{{_itemsReadyCallbackMaster}}"
@@ -46,7 +46,7 @@
                <Controls.list:DataContainer name="dataContainer" source="{{_detailSource}}" keyProperty="id">
                   <div>
                      <Controls.list:Mover name="detailMover"/>
-                     <Controls.list:Container>
+                     <Controls.list:Container scope="{{content}}">
                         <Controls.columns:View
                                 keyProperty="id"
                                 useNewModel="{{true}}"

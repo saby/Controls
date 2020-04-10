@@ -8,7 +8,8 @@
                      <div class="example-Base__specify demo-ExampleInput__dynamicLabel">Dynamic height</div>
                      <Controls.input:Area placeholder="Helpful tooltip" class="ControlsDemo-ExampleInput_focusText"
                                           maxLines="{{7}}"
-                                          bind:value="_dynamicValue"/>
+                                          bind:value="_dynamicValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -19,7 +20,8 @@
                      <Controls.input:Area placeholder="Helpful tooltip" class="ControlsDemo-ExampleInput_fixedHeightArea"
                                           minLines="{{4}}"
                                           maxLines="{{4}}"
-                                          bind:value="_fixedValue"/>
+                                          bind:value="_fixedValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>

@@ -7,11 +7,11 @@
                     <Controls.search:Controller searchParam="department">
                         <div>
                             <div class="controls-demo__filterSearch-topWrapper">
-                                <Controls.search:InputContainer>
+                                <Controls.search:InputContainer scope="{{content}}">
                                     <Controls.search:Input bind:value="_searchValue" attr:class="controls-demo__filterSearch-search" placeholder="Укажите подразделение..."/>
                                 </Controls.search:InputContainer>
                             </div>
-                            <Controls.list:Container>
+                            <Controls.list:Container scope="{{content}}">
                                 <Controls.list:View emptyTemplate="Не найдено">
                                     <ws:itemTemplate>
                                         <ws:partial template="Controls/list:ItemTemplate">
@@ -40,21 +40,21 @@
                             <div>
                                 <div class="controls-demo__filterSearch-topWrapper demo__filterSearch-searchInTabs">
                                     <div class="controls-demo__filterSearch-topWrapper">
-                                        <Controls.search:InputContainer>
+                                        <Controls.search:InputContainer scope="{{content}}">
                                             <Controls.search:Input bind:value="_searchValueWithFilters" attr:class="controls-demo__filterSearch-search" placeholder="Укажите подразделение..."/>
                                         </Controls.search:InputContainer>
                                         <div class="controls-demo__filterSearch-filters">
-                                            <Controls.filter:FastContainer>
+                                            <Controls.filter:FastContainer scope="{{content}}">
                                                 <Controls.filter:Fast attr:class="controls-demo__filterSearch-fastFilter"/>
                                             </Controls.filter:FastContainer>
 
-                                            <Controls.filter:ButtonContainer>
+                                            <Controls.filter:ButtonContainer scope="{{content}}">
                                                 <Controls.filter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel"/>
                                             </Controls.filter:ButtonContainer>
                                         </div>
                                     </div>
                                 </div>
-                                <Controls.list:Container>
+                                <Controls.list:Container scope="{{content}}">
                                     <Controls.list:View emptyTemplate="Не найдено">
                                         <ws:itemTemplate>
                                             <ws:partial template="Controls/list:ItemTemplate">
@@ -84,16 +84,16 @@
                         <div>
                             <div class="controls-demo__filterSearch-topWrapper demo__filterSearch-searchInTabs">
                                 <div class="controls-demo__filterSearch-filters">
-                                    <Controls.filter:FastContainer>
+                                    <Controls.filter:FastContainer scope="{{content}}">
                                         <Controls.filter:Fast attr:class="controls-demo__filterSearch-fastFilter"/>
                                     </Controls.filter:FastContainer>
 
-                                    <Controls.filter:ButtonContainer>
+                                    <Controls.filter:ButtonContainer scope="{{content}}">
                                         <Controls.filter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel"/>
                                     </Controls.filter:ButtonContainer>
                                 </div>
                             </div>
-                            <Controls.list:Container>
+                            <Controls.list:Container scope="{{content}}">
                                 <Controls.list:View emptyTemplate="Не найдено">
                                     <ws:itemTemplate>
                                         <ws:partial template="Controls/list:ItemTemplate">
@@ -120,28 +120,29 @@
                         <Controls.search:Controller searchParam="department">
                             <div>
                                 <Controls.tabs:Buttons
+                                        scope="{{content}}"
                                         bind:selectedKey='_tabSelectedKey'
                                         keyProperty="id"
                                         source="{{_tabSource}}"
                                         attr:class="demo__filterSearch-tabs">
                                     <ws:tabSpaceTemplate>
                                         <div class="controls-demo__filterSearch-filters">
-                                            <Controls.filter:ButtonContainer>
+                                            <Controls.filter:ButtonContainer scope="{{tabSpaceTemplate}}">
                                                 <Controls.filter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel" alignment="left"/>
                                             </Controls.filter:ButtonContainer>
 
-                                            <Controls.filter:FastContainer>
+                                            <Controls.filter:FastContainer scope="{{tabSpaceTemplate}}">
                                                 <Controls.filter:Fast attr:class="controls-demo__filterSearch-fastFilter"/>
                                             </Controls.filter:FastContainer>
                                         </div>
                                     </ws:tabSpaceTemplate>
                                 </Controls.tabs:Buttons>
                                 <div class="controls-demo__filterSearch-topWrapper">
-                                    <Controls.search:InputContainer>
+                                    <Controls.search:InputContainer scope="{{content}}">
                                         <Controls.search:Input bind:value="_searchValueWithFiltersTabs" attr:class="controls-demo__filterSearch-search" placeholder="Укажите ФИО, подразделение..."/>
                                     </Controls.search:InputContainer>
                                 </div>
-                                <Controls.list:Container>
+                                <Controls.list:Container scope="{{content}}">
                                     <Controls.list:View emptyTemplate="Не найдено">
                                         <ws:itemTemplate>
                                             <ws:partial template="Controls/list:ItemTemplate">

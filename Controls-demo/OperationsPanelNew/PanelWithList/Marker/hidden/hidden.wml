@@ -9,7 +9,8 @@
                                         expanded="{{_expandedOperationsPanel}}"/>
             <ws:if data="{{_expandedOperationsPanel}}">
                 <Controls.operationsPanel:Container
-                        listMarkedKey="{{null}}">
+                        listMarkedKey="{{null}}"
+                        scope="{{content}}">
                     <Controls.operations:Panel
                             parentProperty="parent"
                             nodeProperty="@parent"
@@ -19,7 +20,7 @@
                     </Controls.operations:Panel>
                 </Controls.operationsPanel:Container>
             </ws:if>
-            <Controls.list:Container>
+            <Controls.list:Container scope="{{content}}">
                 <Controls.operations:Container>
                     <Controls.treeGrid:View
                             name="list"

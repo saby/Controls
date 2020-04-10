@@ -8,7 +8,8 @@
                      <div class="example-Base__specify">SNILS</div>
                      <Controls.input:Mask placeholder="SNILS" class="ControlsDemo-ExampleInput_snilsField"
                                           mask="ddd-ddd-ddd dd"
-                                          bind:value="_snilsValue"/>
+                                          bind:value="_snilsValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -18,7 +19,8 @@
                      <div class="example-Base__specify">Bank card number</div>
                      <Controls.input:Mask placeholder="Card number" class="ControlsDemo-ExampleInput_cardField"
                                           mask="dddd dddd dddd dddd"
-                                          bind:value="_cardNumberValue"/>
+                                          bind:value="_cardNumberValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>
@@ -27,7 +29,8 @@
                   <div class="example-Base__wrapper">
                      <div class="example-Base__specify example-Base__specify_detached">Mobile phone</div>
                      <Controls.input:Mask mask="+7 (ddd) ddd-dd-dd" class="ControlsDemo-ExampleInput_mobilePhoneField"
-                                          bind:value="_mobilePhoneValue"/>
+                                          bind:value="_mobilePhoneValue"
+                                          scope="{{template}}"/>
                   </div>
                </ws:template>
             </ws:Object>

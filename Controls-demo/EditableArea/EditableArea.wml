@@ -9,6 +9,7 @@
           <div class="ControlsDemo-EditableArea__firstExampleWrapper">
              <span class="ControlsDemo-EditableArea__label">Шаблон:</span>
              <Controls.editableArea:Base
+                  scope="{{content}}"
                   bind:value="content.editObject.text1"
                   style="asLink"
              >

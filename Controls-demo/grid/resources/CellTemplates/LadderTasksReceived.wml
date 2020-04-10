@@ -3,12 +3,12 @@
             itemData="{{itemData}}">
     <ws:contentTemplate>
         <div>
-            <ws:partial template="{{ladderWrapper}}" ladderProperty="date">
+            <ws:partial template="{{ladderWrapper}}" data="{{contentTemplate}}" ladderProperty="date" itemData="{{contentTemplate.itemData}}">
                 <div>
-                    {{itemData.item['date']}}
+                    {{contentTemplate.itemData.item['date']}}
                 </div>
             </ws:partial>
-            <div>{{itemData.item['state']}}</div>
+            <div>{{contentTemplate.itemData.item['state']}}</div>
         </div>
     </ws:contentTemplate>
 </ws:partial>
