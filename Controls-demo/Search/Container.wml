@@ -3,11 +3,11 @@
         <ws:content>
             <Controls.search:Controller searchParam="department">
                 <div>
-                    <Controls.search:InputContainer>
+                    <Controls.search:InputContainer scope="{{content}}">
                         <Controls.search:Input bind:value="_searchValue" attr:class="controls-demo__search"/>
                     </Controls.search:InputContainer>
 
-                    <Controls.list:Container>
+                    <Controls.list:Container scope="{{content}}">
                         <Controls.list:View emptyTemplate="Не найдено">
                             <ws:itemTemplate>
                                 <ws:partial template="Controls/list:ItemTemplate">

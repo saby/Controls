@@ -6,10 +6,10 @@
 >
    <Controls.search:Controller searchParam="title">
       <div>
-         <Controls.search:InputContainer>
+         <Controls.search:InputContainer scope="{{content}}">
             <Controls.search:Input />
          </Controls.search:InputContainer>
-         <Controls.list:Container itemActions="{{_itemActions}}">
+         <Controls.list:Container scope="{{content}}" itemActions="{{_itemActions}}">
             <Controls.list:View />
          </Controls.list:Container>
          <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()" />

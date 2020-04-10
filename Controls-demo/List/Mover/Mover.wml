@@ -3,7 +3,7 @@
    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
       <div>
          <Controls.list:Mover name="listMover"/>
-         <Controls.list:Container>
+         <Controls.list:Container scope="{{content}}">
             <Controls.list:View class="demo-Mover__list test_list_1"
                            name="list"
                            itemActions="{{_itemActions}}"/>
@@ -14,7 +14,7 @@
    <Controls.list:DataContainer source="{{_viewSourceSecond}}" keyProperty="id">
       <div>
          <Controls.list:Mover name="listSecondMover" on:beforeItemsMove="_beforeItemsMoveSecond()"/>
-         <Controls.list:Container>
+         <Controls.list:Container scope="{{content}}">
             <Controls.list:View class="demo-Mover__list test_list_2"
                            name="listSecond"
                            itemActions="{{_itemActionsSecond}}"/>

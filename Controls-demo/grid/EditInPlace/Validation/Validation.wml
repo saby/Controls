@@ -2,7 +2,7 @@
     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="controlsDemo__inline-flex">
         <ws:content>
             <div>
-                <Controls.list:Container>
+                <Controls.list:Container scope="{{content}}">
                     <Controls.grid:View
                             name="list"
                             bind:markedKey="_markedKey"

@@ -3,15 +3,15 @@
         <Controls.list:DataContainer source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
             <div>
                 <div class="controls-demo__filter-filtersWrapper">
-                    <Controls.filter:FastContainer>
+                    <Controls.filter:FastContainer scope="{{content}}">
                         <Controls.filter:Fast attr:class="controls-demo__fastFilter"/>
                     </Controls.filter:FastContainer>
 
-                    <Controls.filter:ButtonContainer>
+                    <Controls.filter:ButtonContainer scope="{{content}}">
                         <Controls.filter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/Filter/Panel"/>
                     </Controls.filter:ButtonContainer>
                 </div>
-                <Controls.list:Container>
+                <Controls.list:Container scope="{{content}}">
                     <Controls.list:View emptyTemplate="Не найдено">
                         <ws:itemTemplate>
                             <ws:partial template="Controls/list:ItemTemplate">

@@ -4,7 +4,7 @@
         <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
             <div>
                 <Controls.list:Mover name="listMover" parentProperty="parent"/>
-                <Controls.list:Container>
+                <Controls.list:Container scope="{{content}}">
                     <Controls.operations:Container>
                         <Controls.explorer:View
                                 bind:root="_root"

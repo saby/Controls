@@ -6,6 +6,7 @@
    >
       <div class="ControlsDemo-EditableArea__eapWrapper">
          <Controls.editableArea:Base
+            scope="{{content}}"
             bind:value="content.editObject.name"
             size="l"
             style="accentHeader"

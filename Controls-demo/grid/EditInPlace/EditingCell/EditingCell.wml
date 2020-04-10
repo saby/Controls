@@ -3,7 +3,7 @@
         <ws:content>
             <div>
                 <Controls.list:Remover name="remover" on:afterItemsRemove="_afterItemsRemove()"/>
-                <Controls.list:Container>
+                <Controls.list:Container scope="{{content}}">
                     <Controls.grid:View
                             name="list"
                             bind:markedKey="_markedKey"

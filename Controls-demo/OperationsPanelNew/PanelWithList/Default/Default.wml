@@ -9,9 +9,7 @@
                                         expanded="{{ _expandedOperationsPanel }}"/>
 
             <ws:if data="{{_expandedOperationsPanel}}">
-               <Controls.operationsPanel:Container
-                     selectedKeys="{{ _options.selectedKeys }}"
-                     listMarkedKey="{{ content._options.listMarkedKey }}">
+               <Controls.operationsPanel:Container scope="{{content}}">
                   <Controls.operations:Panel
                         excludedKeys="{{ _options.excludedKeys }}"
                         selectedKeysCount="{{content._options.selectedKeysCount}}"
@@ -24,7 +22,7 @@
                </Controls.operationsPanel:Container>
             </ws:if>
 
-            <Controls.list:Container>
+            <Controls.list:Container scope="{{content}}">
                <Controls.operations:Container>
                   <Controls.treeGrid:View
                         name="list"

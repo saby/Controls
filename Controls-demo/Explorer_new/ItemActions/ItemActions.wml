@@ -2,10 +2,10 @@
 <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
                 <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_searchStartingWith}}">
                         <div class="ws-fragment">
-                                <Controls.search:InputContainer>
+                                <Controls.search:InputContainer scope="{{content}}">
                                         <Controls.search:Input/>
                                 </Controls.search:InputContainer>
-                                <Controls.list:Container>
+                                <Controls.list:Container scope="{{content}}">
                                         <Controls.operations:Container>
                                                 <Controls.explorer:View
                                                     source="{{_viewSource}}"

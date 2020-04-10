@@ -15,7 +15,7 @@
                                              on:click="moveToRoot()"
                                              icon="icon-Undo2"
                                              iconSize="s" iconStyle="secondary"/>
-                    <Controls.scroll:Container attr:class="ControlsDemo-ExtendedMoveDialog__scroll">
+                    <Controls.scroll:Container scope="{{content}}" attr:class="ControlsDemo-ExtendedMoveDialog__scroll">
                         <Controls.list:Container>
                             <Controls.explorer:View
                                     dataLoadCallback="{{_dataLoadCallback}}"

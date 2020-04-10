@@ -8,6 +8,7 @@
       <div class="ControlsDemo-EditableArea__eapWrapper">
          <div class="controls-Tabs__content_text">
             <Controls.editableArea:Base
+               scope="{{content}}"
                bind:value="content.editObject.date"
                attr:class="ControlsDemo-EditableArea__date ControlsDemo-EditableArea__tabEditor"
             >
@@ -19,6 +20,7 @@
          </div>
          <span class="controls-Tabs__content_additionaltext">№</span>
          <Controls.editableArea:Base
+            scope="{{content}}"
             bind:value="content.editObject.number"
             attr:class="controls-Tabs__content_additionaltext ControlsDemo-EditableArea__number ControlsDemo-EditableArea__tabEditor"
          >
