@@ -48,7 +48,7 @@
 
 <ws:template name="columnContentWrapper">
     <ws:if data="{{itemData.shouldDrawMarker(marker, currentColumn.columnIndex)}}">
-        <div attr:class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
+        <div attr:class="{{itemData.getMarkerClasses()}}"></div>
     </ws:if>
     <ws:partial template="columnContent"/>
 </ws:template>

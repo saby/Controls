@@ -328,29 +328,12 @@
  */
 
 /**
- * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
- * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
- * @default false
- */
-
-/*
- * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
- * @cfg {Boolean} Allows to visible or hide row separator.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
- * @default false
- */
-
-/**
- * @typedef {String} RowSeparatorSize
+ * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
+ * @cfg {Enum} Высота линии-разделителя строк.
  * @variant s Размер тонкой линии разделителя.
  * @variant l Размер толстой линии разделителя.
- */
-
-/**
- * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
- * @cfg {RowSeparatorSize} Высота линии-разделителя.
- * @default s
+ * @variant null Без линии разделителя.
+ * @default null
  */
 
 /*
@@ -358,6 +341,24 @@
  * @cfg {RowSeparatorSize} set row separator height.
  * @variant s Thin row separator line.
  * @variant l Wide row separator line.
+ * @variant null Without row separator line
+ * @default null
+ */
+
+/**
+ * @name Controls/_grid/interface/IGridControl#columnSeparatorSize
+ * @cfg {Enum} Ширина линии-разделителя колонок.
+ * @variant s Размер тонкой линии разделителя.
+ * @variant null Без линии разделителя.
+ * @default null
+ */
+
+/*
+ * @name Controls/_grid/interface/IGridControl#columnSeparatorSize
+ * @cfg {RowSeparatorSize} set column separator height.
+ * @variant s Thin column separator line.
+ * @variant null Without column separator line
+ * @default null
  */
 
 /**
