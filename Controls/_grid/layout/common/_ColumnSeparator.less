@@ -1,0 +1,15 @@
+.set-column-separator(@thickness, @color) {
+   border-left: @thickness solid @color;
+   &:first-child {
+      border-left-width: 0;
+   }
+}
+
+.controls-Grid__row-cell_columnSeparator_theme-@{themeName} {
+   // С выключенным разделителем отображаем прозрачную границу, чтобы таблица не скакала.
+   .set-column-separator(@column_separator_s_thickness_list, transparent);
+}
+
+.controls-Grid__row-cell_columnSeparatorSize-s_theme-@{themeName} {
+   .set-column-separator(@column_separator_s_thickness_list, @column_separator_s_color_list);
+}

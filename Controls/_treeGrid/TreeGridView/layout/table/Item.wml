@@ -72,7 +72,7 @@
 
 <ws:template name="columnContentWrapper">
    <ws:if data="{{itemData.shouldDrawMarker(marker, currentColumn.columnIndex)}}">
-       <div attr:class="{{itemData.getMarkerClasses(itemData.rowSeparatorVisibility)}}"></div>
+       <div attr:class="{{itemData.getMarkerClasses()}}"></div>
    </ws:if>
    <div if="{{!!itemData.dragTargetNode}}"
         class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
