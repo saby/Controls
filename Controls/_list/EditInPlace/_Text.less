@@ -50,7 +50,6 @@
    .baseline-fix();
    flex-shrink: 1;
    display: inline-flex;
-   align-items: center;
    box-sizing: border-box;
    border-width: @border-thickness_inputText;
    border-style: solid;
@@ -74,6 +73,10 @@
 .controls-EditingTemplateText_size_default {
    height: @inline_height_default;
    font-size: @font-size_default;
+
+   /* В Safari iPad по-другому рассчитываются пиксели при align-items: center ( класс controls-EditingTemplateText), из-за чего текст опущен на 1px вниз по сравнению с другими браузерами. Тогда позиционируем текст внутри
+   c помощью line-height */
+   line-height: @inline_height_default;
 }
 
 .controls-EditingTemplateText_size_m {
