@@ -177,7 +177,7 @@
                <ws:partial template="Controls/dropdownPopup:Template" caption="Add" icon=""/>
             </ws:headerTemplate>
             <ws:itemTemplate>
-               <ws:partial template="Controls/history:itemTemplate" iconPadding=""/>
+               <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
             </ws:itemTemplate>
          </Controls.dropdown:Button>
       </div>

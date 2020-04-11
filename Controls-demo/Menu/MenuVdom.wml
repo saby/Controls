@@ -1,7 +1,7 @@
 <div>
    <div class="controls-VDomMenu demo-VDomMenu__content1" style="padding: 50px;">
       Меню с историей и разделителями
-      <Controls.history:Menu
+      <Controls.dropdown:Button
               attr:class="demo-Menu_width demo-VDomMenu__separator"
               name="myMenuButton1"
               keyProperty="id"
@@ -11,12 +11,13 @@
               caption="Very Long Menu Caption With Width"
               parentProperty="parent"
               nodeProperty="@parent"
+              historyId="demoHistorySeparator"
               source="{{_getHierarchyMenuItems()}}"
               itemsGroup="{{_itemsGroup}}"/>
    </div>
    <div class="controls-VDomMenu demo-VDomMenu__content2" style="padding: 50px;">
       Меню с историей и группировкой с текстом
-      <Controls.history:Menu
+      <Controls.dropdown:Button
               attr:class="demo-VDomMenu__textGroups"
               name="myMenuButton2"
               keyProperty="id"
@@ -26,6 +27,7 @@
               caption="Menu"
               parentProperty="parent"
               nodeProperty="@parent"
+              historyId="demoHistoryText"
               source="{{_getHierarchyMenuItems()}}"
               groupProperty="group"
               groupTemplate="wml!Controls-demo/Menu/DemoGroupTemplate"/>
