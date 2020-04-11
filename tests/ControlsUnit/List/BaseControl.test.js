@@ -5289,7 +5289,7 @@ define([
          bc._container = {
             getBoundingClientRect() {
                return {
-                  y: -900
+                  top: -900
                };
             }
          };
@@ -5747,12 +5747,12 @@ define([
           };
 
           const viewRect = {
-             y: -10,
+             top: -10,
              height: 1000
           };
 
           const viewPortRect = {
-             y: 100,
+             top: 100,
              height: 500
           };
 
@@ -5767,12 +5767,12 @@ define([
           };
 
           const viewRect = {
-             y: 50,
+             top: 50,
              height: 200
           };
 
           const viewPortRect = {
-             y: 0,
+             top: 0,
              height: 500
           };
 
