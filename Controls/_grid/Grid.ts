@@ -73,6 +73,7 @@ Grid.getDefaultOptions = function() {
    return {
        stickyHeader: true,
        stickyColumnsCount: 1,
-       rowSeparatorSize: 's'
+       rowSeparatorSize: null,
+       columnSeparatorSize: null
    };
 };
