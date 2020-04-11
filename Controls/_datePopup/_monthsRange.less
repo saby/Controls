@@ -19,6 +19,7 @@
 }
 
 .controls-PeriodDialog-MonthsRange__halfYears {
+   background-color: @yearlist_background-color_datePicker;
    border-top: (@yearlist_item_border-thickness_datePicker +  @yearlist_item_border-thickness_datePicker) solid @yearlist_block-separator_color_datePicker;
    flex-grow: 1;
 }
@@ -61,10 +62,12 @@
 .controls-PeriodDialog-MonthsRange__halfYear-hovered {
    .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
       border-left-color: transparent;
+      background-color: transparent;
    }
 }
 
 .controls-PeriodDialog-MonthsRange__halfYearsPanel-button {
+   background-color: @yearlist_halfyears_backround-color_datePicker;
    width: @yearlist_halfyears_width_datePicker;
    color: @yearlist_halfyears_text-color_datePicker;
    font-size: @yearlist_halfyears_font-size_datePicker;
@@ -93,8 +96,9 @@
 }
 
 .controls-PeriodDialog-MonthsRange__item {
-   border-right: @yearlist_item_border-thickness_datePicker solid @yearlist_block-separator_color_datePicker;
-   border-bottom: @yearlist_item_border-thickness_datePicker solid @yearlist_block-separator_color_datePicker;
+   background-color: @background-color_datePicker;
+   margin-right: @yearlist_item_border-thickness_datePicker;
+   margin-bottom: @yearlist_item_border-thickness_datePicker;
    width: @yearlist_month_width_datePicker - @yearlist_item_border-thickness_datePicker;
    height: @yearlist_month_height_datePicker - @yearlist_item_border-thickness_datePicker;
 }
