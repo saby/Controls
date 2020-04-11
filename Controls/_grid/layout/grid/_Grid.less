@@ -12,7 +12,7 @@
 .controls-Grid_dragging_process .controls-Grid__row-cell__content_ladderHeader {
    visibility: visible;
 }
-.controls-GridView__itemV_marker_theme-@{themeName} {
+.controls-GridView__itemV_marker-default_theme-@{themeName} {
    position: absolute;
    width: @marker_thickness_list;
    background-color: @marker_color_list;
@@ -545,6 +545,11 @@
    box-sizing: border-box;
 }
 
+.controls-Grid__cell_master {
+   font-size: @master_item_font-size_list;
+   line-height: @master_item_line-height_list;
+}
+
 .ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},
 .ws-is-desktop-safari .controls-Grid__row-cell_selected-master_theme-@{themeName},
 .ws-is-mobile-safari .controls-Grid__row-cell_selected-master_theme-@{themeName} {
@@ -557,15 +562,14 @@
 
 .controls-Grid__row-cell_selected-master_theme-@{themeName} {
    z-index: 1;
+   font-size: @master_item_selected_font-size_list;
+   font-weight: bold;
+   color: @master_item_selected_color_list;
 
    &:before {
       content: '';
       z-index: 2;
       box-sizing: border-box;
-      border-width: @master_item_selected_border-thickness_list 0 @master_item_selected_border-thickness_list 0;
-      border-style: solid;
-      border-color: @master_item_selected_border-top-color_list transparent @master_item_selected_border-bottom-color_list transparent;
-      box-shadow: @master_item_selected_box-shadow_list;
       width: ~'calc(100% + @{master_separator_thickness_list})';
       position: absolute;
       left: 0;
@@ -573,6 +577,16 @@
       top: -@master_item_selected_border-thickness_list;
       bottom: -@master_item_selected_border-thickness_list;
    }
+}
+
+.controls-GridView__itemV_marker-master_theme-@{themeName} {
+   position: absolute;
+   width: @master-marker_thickness_list;
+   height: @master-marker_height_list;
+   background-color: @master-marker_color_list;
+   top: 50%;
+   left: 0;
+   transform: translateY(-50%);
 }
 
 .controls-Grid__row-cell_selected__last-master_theme-@{themeName} {
@@ -584,7 +598,7 @@
       width: @master_separator_thickness_list;
       position: absolute;
       right: -@master_separator_thickness_list;
-      background-color: @master_item_selected_background-color_list;
+      background-color: @master_separator_color_list;
    }
 }
 

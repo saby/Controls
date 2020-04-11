@@ -7,7 +7,7 @@
                @content_l_padding_loadingIndicator * 2;
 }
 
-.controls-ListView__itemV_marker {
+.controls-ListView__itemV_marker-default {
    position: absolute;
    width: @marker_thickness_list;
    background-color: @marker_color_list;
@@ -343,6 +343,11 @@
    box-sizing: border-box;
 }
 
+.controls-ListView__item_master {
+   font-size: @master_item_font-size_list;
+   line-height: @master_item_line-height_list;
+}
+
 .ws-is-mobile-chrome-ios .controls-ListView__item__marked_master,
 .ws-is-desktop-safari .controls-ListView__item__marked_master,
 .ws-is-mobile-safari .controls-ListView__item__marked_master {
@@ -355,15 +360,14 @@
 
 .controls-ListView__item__marked_master {
    //z-index 1 is needed to overlap the right line of master
+   font-size: @master_item_selected_font-size_list;
+   font-weight: bold;
+   color: @master_item_selected_color_list;
    z-index: 1;
    &:before {
       content: '';
       z-index: 2;
       box-sizing: border-box;
-      border-width: @master_item_selected_border-thickness_list 0 @master_item_selected_border-thickness_list 0;
-      border-style: solid;
-      border-color: @master_item_selected_border-top-color_list transparent @master_item_selected_border-bottom-color_list transparent;
-      box-shadow: @master_item_selected_box-shadow_list;
       width: ~'calc(100% + @{master_separator_thickness_list})';
       position: absolute;
       bottom: 0;
@@ -379,8 +383,18 @@
       width: @master_separator_thickness_list;
       position: absolute;
       right: -@master_separator_thickness_list;
-      background-color: @master_item_selected_background-color_list;
+      background-color: @master_separator_color_list;
    }
+}
+
+.controls-ListView__itemV_marker-master {
+   position: absolute;
+   width: @master-marker_thickness_list;
+   height: @master-marker_height_list;
+   background-color: @master-marker_color_list;
+   top: 50%;
+   left: 0;
+   transform: translateY(-50%);
 }
 
 .controls-ListView__groupContent_cursor-default {
