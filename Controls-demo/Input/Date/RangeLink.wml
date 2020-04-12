@@ -3,12 +3,12 @@
       <div class="controlsDemo-RageLink__PageBlock__title"></div>
       <div class="controlsDemo-RageLink__content">
          <div class="controlsDemo-RageLink__componentWrap">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                minRange="month"
 			   attr:test_name="default_range"/>
          </div>
          <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                prevArrowVisibility="{{true}}"
                nextArrowVisibility="{{true}}"
                showClearButton="{{true}}"
@@ -20,7 +20,7 @@
             />
          </div>
          <div class="controlsDemo-RageLink__componentWrap">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                bind:startValue="_startValueBind"
                bind:endValue="_endValueBind"
                chooseHalfyears="{{false}}"
@@ -31,7 +31,7 @@
             />
          </div>
          <div class="controlsDemo-RageLink__componentWrap">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                bind:startValue="_startValueQuarter"
                bind:endValue="_endValueQuarter"
                chooseHalfyears="{{false}}"
@@ -43,14 +43,14 @@
 
          </div>
          <div class="controlsDemo-RageLink__componentWrap">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                viewMode="label"
                emptyCaption="не задан"
 			   attr:test_name="range_not_value"
             />
          </div>
          <div class="controlsDemo-RageLink__componentWrap">
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                bind:startValue="_startValueYear"
                bind:endValue="_endValueYear"
                chooseHalfyears="{{false}}"
@@ -63,7 +63,7 @@
       <div class="controlsDemo-RageLink__content">
          <div class="controlsDemo-RageLink__componentWrap">
             <span>Зафиксированный календарь: </span>
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                     minRange="month"
                     attr:test_name="default_range"
                     _displayDate="{{_displayDateBind}}"
@@ -73,7 +73,7 @@
       <div class="controlsDemo-RageLink__content">
          <div class="controlsDemo-RageLink__componentWrap">
             <span>With custom formatter: </span>
-            <Controls.dateRange:Selector
+            <Controls.dateRange:RangeSelector
                   captionFormatter="{{_captionFormatter}}"
                   />
          </div>

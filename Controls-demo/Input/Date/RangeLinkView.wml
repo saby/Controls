@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo__mb2">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="selector", styleMode="info"</div>
-        <Controls.dateRange:Selector
+        <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
                 chooseHalfyears="{{false}}"
@@ -14,7 +14,7 @@
 
     <div class="controlsDemo__cell controlsDemo__mb2">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="selector", styleMode="secondary"(по умолчанию)</div>
-        <Controls.dateRange:Selector
+        <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
                 chooseHalfyears="{{false}}"
@@ -25,7 +25,7 @@
 
     <div class="controlsDemo__cell controlsDemo__mb2">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="link", styleMode="secondary"</div>
-        <Controls.dateRange:Selector
+        <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
                 chooseHalfyears="{{false}}"
@@ -39,7 +39,7 @@
     <div class="controlsDemo__cell controlsDemo__mb1">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="link", styleMode="info"
         </div>
-        <Controls.dateRange:Selector
+        <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
                 chooseHalfyears="{{false}}"
@@ -52,7 +52,7 @@
 
     <div class="controlsDemo__cell controlsDemo__mb2">
         <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__mb1">viewMode="label"</div>
-        <Controls.dateRange:Selector
+        <Controls.dateRange:RangeSelector
                 bind:startValue="_startValueQuarter"
                 bind:endValue="_endValueQuarter"
                 chooseHalfyears="{{false}}"

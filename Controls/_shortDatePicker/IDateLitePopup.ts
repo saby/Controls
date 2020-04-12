@@ -191,7 +191,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
              * true соответствует зеленой галочке, false - серой.
              * @example
              * <pre>
-             *  <Controls.dateRange:LiteSelector
+             *  <Controls.dateRange:RangeShortSelector
              *     source="{{_source}}"
              *     attr:test_name="default_range">
              *     <ws:monthTemplate>
@@ -210,7 +210,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
              *             </ws:iconTemplate>
              *         </ws:partial>
              *     </ws:monthTemplate>
-             *  </Controls.dateRange:LiteSelector>
+             *  </Controls.dateRange:RangeShortSelector>
              * </pre>
              * <pre>
              *    class DateLitePopupSource extends Memory {

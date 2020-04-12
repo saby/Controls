@@ -4,15 +4,15 @@ import isEmpty = require('Core/helpers/Object/isEmpty');
 import {IDateRangeOptions} from "./interfaces/IDateRange";
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
-import componentTmpl = require('wml!Controls/_dateRange/Selector/Selector');
+import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelector');
 import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
  * Выбор происходит с помощью панели большого выбора периода.
- * В отличии от {@link Controls/_dateRange/LiteSelector быстрого выбора периода} позволяет выбирать произвольный диапазон дат.
+ * В отличии от {@link Controls/_dateRange/RangeSelector быстрого выбора периода} позволяет выбирать произвольный диапазон дат.
  *
- * @class Controls/_dateRange/Selector
+ * @class Controls/_dateRange/RangeSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/ISelector
@@ -31,7 +31,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
 /**
  * @event Происходит при изменении диапазона.
- * @name Controls/_dateRange/Selector#rangeChanged
+ * @name Controls/_dateRange/RangeSelector#rangeChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
@@ -40,7 +40,7 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 /*
  * Controls that allows user to select date with start and end values in calendar.
  *
- * @class Controls/_dateRange/Selector
+ * @class Controls/_dateRange/RangeSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/ISelector

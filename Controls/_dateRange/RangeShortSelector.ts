@@ -3,12 +3,12 @@ import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import ILinkView from './interfaces/ILinkView';
 import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
-import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelector');
+import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
 
 /**
  * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
  *
- * @class Controls/_dateRange/LiteSelector
+ * @class Controls/_dateRange/RangeShortSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
@@ -30,7 +30,7 @@ import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelecto
 /*
  * A link button that displays the period. Supports the change of periods to adjacent.
  *
- * @class Controls/_dateRange/LiteSelector
+ * @class Controls/_dateRange/RangeShortSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
