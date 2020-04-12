@@ -1,3 +1,0 @@
-<ws:partial template="Controls/dropdown:ItemTemplate"
-            scope="{{_options}}"
-/>
