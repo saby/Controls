@@ -119,7 +119,7 @@ var Button = Control.extend({
    },
 
    _onPinClickHandler: function (event, item) {
-      this._options.source.update(item.clone(), {
+      return this._options.source.update(item.clone(), {
          $_pinned: !item.get('pinned')
       });
    },
