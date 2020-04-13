@@ -6,4 +6,7 @@
             markerVisibility="onactivated"/>
 
     <a href="#" class="controls-text-link_theme-default" on:click="_reloadList()">Reload list</a>
+    <ws:if data="{{_listReloaded}}">
+        <p>list reloaded</p>
+    </ws:if>
 </div>
