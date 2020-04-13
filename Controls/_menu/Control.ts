@@ -5,7 +5,7 @@ import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/inter
 import {Sticky as StickyOpener} from 'Controls/popup';
 import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
-import {ICrud, PrefetchProxy} from 'Types/source';
+import {ICrudPlus, PrefetchProxy} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
 import {Collection, Tree, Search, TreeItem, SelectionController, ItemActionsController} from 'Controls/display';
@@ -48,7 +48,8 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
 
     protected _listModel: Tree<Model>;
     protected _moreButtonVisible: boolean = false;
-    protected _expandButtonVisible: boolean = false;
+    protected _hasAdditionalItems: boolean = false;
+    protected _expanderValue: boolean = false;
     protected _applyButtonVisible: boolean = false;
     private _sourceController: SourceController = null;
     private _subDropdownItem: TreeItem<Model>|null;
@@ -80,6 +81,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         }
 
         if (rootChanged || sourceChanged || filterChanged) {
+            this._closeSubMenu();
             this.loadItems(newOptions);
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
@@ -93,7 +95,9 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         const filterChanged = !isEqual(oldOptions.filter, this._options.filter);
 
         if (rootChanged || sourceChanged || filterChanged) {
-            this._notify('controlResize', [], {bubbling: true});
+            scheduleCallbackAfterRedraw(this, () => {
+                this._notify('controlResize', [], {bubbling: true});
+            });
         }
     }
 
@@ -205,6 +209,9 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         } else {
             this._listModel.addFilter(this._additionalFilter);
         }
+        scheduleCallbackAfterRedraw(this, () => {
+            this._notify('controlResize', [], {bubbling: true});
+        });
         // TODO after deleting additionalProperty option
         // if (value) {
         //     if (this._expandedItems) {
@@ -240,7 +247,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
             this.subMenu = eventResult;
         } else {
             const notifyResult = this._notify(eventName, [eventResult]);
-            if (eventName === 'pinClick' || eventName === 'itemClick' && notifyResult !== false) {
+            if (eventName === 'itemClick' && notifyResult !== false) {
                 this._closeSubMenu();
             }
         }
@@ -455,18 +462,22 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         } else if (options.groupingKeyCallback) {
             listModel.setGroup(options.groupingKeyCallback);
         }
-        if (options.additionalProperty) {
+        if (this.isNeedLimitItems(listModel)) {
             listModel.addFilter(this._additionalFilter);
         }
         return listModel;
+    }
+
+    private isNeedLimitItems(listModel: Tree<Model>): boolean {
+        return this._hasAdditionalItems && !this._expanderValue;
     }
 
     private isHistoryItem(item: Model): boolean {
         return !!(item.get('pinned') || item.get('recent') || item.get('frequent'));
     }
 
-    private additionalFilter(options: IMenuControlOptions, item: Model): boolean {
-        return (!item.get || !item.get(options.additionalProperty) || this.isHistoryItem(item));
+    private additionalFilter(options: IMenuControlOptions, item: Model, index: number): boolean {
+        return (!item.get || !item.get(options.additionalProperty)) || this.isHistoryItem(item);
     }
 
     private displayFilter(options: IMenuControlOptions, item: Model): boolean {
@@ -489,7 +500,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         listModel.setSelectedItems(this.getSelectedItemsByKeys(listModel, keys), true);
     }
 
-    private getSourceController({source, navigation, keyProperty}: {source: ICrud, navigation: object, keyProperty: string}): SourceController {
+    private getSourceController({source, navigation, keyProperty}: {source: ICrudPlus, navigation: object, keyProperty: string}): SourceController {
         if (!this._sourceController) {
             this._sourceController = new SourceController({
                 source,
@@ -515,21 +526,19 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         let filter = Clone(options.filter) || {};
         filter[options.parentProperty] = options.root;
         return this.getSourceController(options).load(filter).addCallback((items) => {
-            this.createViewModel(items, options);
+            this._hasAdditionalItems = this.hasAdditionalItems(items, options);
             this._moreButtonVisible = options.selectorTemplate && this.getSourceController(options).hasMoreData('down');
-            this._expandButtonVisible = this.isExpandButtonVisible(items, options.additionalProperty, options.root);
+            this.createViewModel(items, options);
             return items;
         });
     }
 
-    private isExpandButtonVisible(items: RecordSet, additionalProperty: string, root: string): boolean {
-        let self = this;
+    private hasAdditionalItems(items: RecordSet, options: IMenuControlOptions): boolean {
         let hasAdditional = false;
-
-        if (additionalProperty && root === null) {
+        if (options.root === null && options.additionalProperty) {
             items.each((item) => {
                 if (!hasAdditional) {
-                    hasAdditional = item.get(additionalProperty) && !self.isHistoryItem(item);
+                    hasAdditional = item.get(options.additionalProperty) && !this.isHistoryItem(item);
                 }
             });
         }

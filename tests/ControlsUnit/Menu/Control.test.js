@@ -100,6 +100,27 @@ define(
                let listModel = menuControl.getCollection(doubleItems, { keyProperty: 'key' });
                assert.equal(listModel.getCount(), 1);
             });
+
+            it('additionalFilter', function() {
+               let addItems = new collection.RecordSet({
+                  rawData: [
+                     { key: 0, title: 'все страны' },
+                     { key: 1, title: 'Россия' },
+                     { key: 2, title: 'США', additional: true },
+                     { key: 3, title: 'Великобритания' }],
+                  keyProperty: 'key'
+               });
+               menuControl._hasAdditionalItems = true;
+               menuControl._additionalFilter = menuControl.additionalFilter.bind(menuControl, {additionalProperty: 'additional'});
+               let listModel = menuControl.getCollection(addItems, {keyProperty: 'key'});
+               assert.equal(listModel.getCount(), 3);
+
+               menuControl._additionalFilter = menuControl.additionalFilter.bind(menuControl, {additionalProperty: 'isHistoryAdd'});
+               addItems.at(1).set('isHistoryAdd', true);
+               addItems.at(3).set('isHistoryAdd', true);
+               listModel = menuControl.getCollection(addItems, {keyProperty: 'key'});
+               assert.equal(listModel.getCount(), 2);
+            });
          });
 
          describe('_itemClick', function() {
@@ -477,7 +498,7 @@ define(
             it('pinClick event', function() {
                menuControl._subMenuResult('click', 'pinClick', { item: 'item1' });
                assert.deepEqual(eventResult, { item: 'item1' });
-               assert.isTrue(stubClose.calledOnce);
+               assert.isTrue(stubClose.notCalled);
             });
             it('itemClick event', function() {
                menuControl._subMenuResult('click', 'itemClick', { item: 'item2' });

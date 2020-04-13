@@ -56,9 +56,11 @@ var _private = {
 
    pinClick(self, item): void {
       const preparedItem = _private.prepareItem(item, self._options.keyProperty, self._source);
-      self._notify('pinClick', [preparedItem]);
-      self._setItems(null);
-      self._open();
+      const pinResult = self._notify('pinClick', [preparedItem]);
+      if (pinResult !== false) {
+         self._setItems(null);
+         self._open();
+      }
    },
 
    getSourceController(self, options): Promise<SourceController> {

@@ -1029,9 +1029,9 @@ define(
             });
          });
 
-         let historySource,
-            dropdownController;
          describe('history', ()=> {
+            let historySource,
+               dropdownController;
             beforeEach(function() {
                historySource = new history.Source({
                   originSource: new sourceLib.Memory({
@@ -1138,25 +1138,19 @@ define(
             });
 
             it('check pin click', () => {
-               let closed = false, opened;
-               let resultItem;
+               let resultItem, pinResult;
 
                dropdownController._beforeMount(configLazyLoad);
                dropdownController._items = itemsRecords.clone();
-               dropdownController._children.DropdownOpener = {
-                  close: function() {
-                     closed = true;
-                  },
-                  open: function() {
-                     opened = true;
-                  }
-               };
-
                dropdownController._notify = (e, eventResult) => {
                   if (e === 'pinClick') {
                      resultItem = eventResult[0];
+                     return pinResult;
                   }
                };
+
+               let sandbox = sinon.createSandbox();
+               let openStub = sandbox.stub(dropdownController, '_open');
 
                // return the original Id value
                let item = new entity.Model({
@@ -1167,12 +1161,17 @@ define(
                });
                item.set('originalId', item.getId());
                item.set('id', item.getId() + '_history');
-               closed = false;
                assert.equal(item.getId(), '6_history');
                dropdownController._source = historySource;
                dropdownController._onResult(null, 'pinClick', item);
-               assert.isFalse(closed);
+               sinon.assert.calledOnce(openStub);
                assert.equal(resultItem.getId(), '6');
+
+               pinResult = false;
+               openStub.reset();
+               dropdownController._onResult(null, 'pinClick', item);
+               sinon.assert.notCalled(openStub);
+               sinon.restore();
             });
 
          });

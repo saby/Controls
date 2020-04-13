@@ -225,6 +225,7 @@ var _private = {
       this.addProperty(items, 'frequent', 'boolean', false);
       this.addProperty(items, 'HistoryId', 'string', self.historySource.getHistoryId() || '');
       this.addProperty(items, 'originalId', 'string', '');
+      this.addProperty(items, 'isAdditionalHistory', 'boolean', false);
       this.fillItems(self, filteredHistory, 'pinned', oldItems, items);
       this.fillFrequentItems(self, filteredHistory, oldItems, items);
       this.fillItems(self, filteredHistory, 'recent', oldItems, items);
@@ -248,7 +249,25 @@ var _private = {
             items.add(newItem);
          }
       });
+
+      _private.setAdditionalProperty(self, items);
       return items;
+   },
+
+   setAdditionalProperty(self, items): void {
+      let countVisibleItems = 0;
+      const firstLevelItemsCount = chain.factory(items).filter(item => !item.get(self._parentProperty)).count();
+      if (firstLevelItemsCount > Constants.MAX_HISTORY + 1) {
+         items.forEach((item) => {
+            if (!item.get(self._parentProperty)) {
+               if (countVisibleItems < Constants.MAX_HISTORY) {
+                  countVisibleItems++;
+               } else {
+                  item.set('isAdditionalHistory', true);
+               }
+            }
+         });
+      }
    },
 
    setHistoryFields: function(item, idProperty, id) {
@@ -502,7 +521,7 @@ var Source = CoreExtend.extend([sourceLib.ISource, entity.OptionsToPropertyMixin
    update: function (data, meta) {
       var self = this;
       if (meta.hasOwnProperty('$_pinned')) {
-         return Deferred.success(_private.updatePinned(self, data, meta));
+         return _private.updatePinned(self, data, meta);
       }
       if (meta.hasOwnProperty('$_history')) {
          return Deferred.success(_private.updateRecent(self, data, meta));
