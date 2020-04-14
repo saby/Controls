@@ -4,6 +4,7 @@ import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IExpandable, IExpandableOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
+import {View} from 'Controls/spoiler';
 
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -65,6 +66,7 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     protected _icon: TIcon;
     protected _view: TView;
     protected _caption: string;
+    protected _expanded: boolean = false;
 
     protected _template: TemplateFunction = template;
 
@@ -77,7 +79,7 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         const {captions: oldCaptions} = this._options;
 
         if (captions instanceof Array && oldCaptions instanceof Array) {
-            return !isEqual(captions, oldCaptions) || this._needChangeStateByExpanded(expanded);
+            return !isEqual(captions, oldCaptions) || this._needChangeStateByExpanded(this._expanded);
         } else {
             return captions !== oldCaptions;
         }
@@ -88,25 +90,36 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     }
 
     protected _beforeMount(options?: IHeadingOptions, contexts?: object, receivedState?: void): Promise<void> | void {
-        this._caption = Heading._calcCaption(options);
-        this._icon = Heading._calcIcon(options.expanded);
-        this._view = Heading._calcView(options.expanded);
+        this._expanded = this._getExpanded(this, options);
+        this._caption = Heading._calcCaption(options.captions, this._expanded);
+        this._icon = Heading._calcIcon(this._expanded);
+        this._view = Heading._calcView(this._expanded);
         return super._beforeMount(options, contexts, receivedState);
     }
 
     protected _beforeUpdate(options?: IHeadingOptions, contexts?: any): void {
+        this._expanded = this._getExpanded(this, options);
         if (this._needChangeCaption(options)) {
-            this._caption = Heading._calcCaption(options);
+            this._caption = Heading._calcCaption(options.captions, this._expanded);
         }
-        if (this._needChangeStateByExpanded(options.expanded)) {
-            this._icon = Heading._calcIcon(options.expanded);
-            this._view = Heading._calcView(options.expanded);
+        if (this._needChangeStateByExpanded(this._expanded)) {
+            this._icon = Heading._calcIcon(this._expanded);
+            this._view = Heading._calcView(this._expanded);
         }
         super._beforeUpdate(options, contexts);
     }
 
+    private _getExpanded(self, options: IHeadingOptions): boolean {
+        if (options.hasOwnProperty('expanded')) {
+            return options.expanded === undefined ? self._expanded : options.expanded;
+        }
+        return self._expanded;
+    }
+
     protected _clickHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._notify('expandedChanged', [!this._options.expanded]);
+        this._notify('expandedChanged', [!this._getExpanded(this, this._options)]);
+        const state = !this._expanded;
+        this._expanded = state;
     }
 
     static _theme: string[] = ['Controls/spoiler', 'Controls/Classes'];
@@ -119,7 +132,7 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         return '';
     }
 
-    private static _calcCaption({captions, expanded}: IHeadingOptions): string {
+    private static _calcCaption(captions, expanded): string {
         if (captions instanceof Array) {
             const requiredCountCaptions: number = 2;
 
@@ -145,7 +158,6 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         return {
             captions: '',
             fontSize: 'm',
-            expanded: true,
             captionPosition: 'right'
         };
     }
@@ -153,7 +165,6 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     static getOptionTypes(): Partial<IHeadingOptions> {
         return {
             fontSize: descriptor(String),
-            expanded: descriptor(Boolean),
             captions: descriptor(String, Array),
             captionPosition: descriptor(String).oneOf(['left', 'right'])
         };
