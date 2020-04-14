@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded">
+      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}" >
          <div>Контентная область</div>
       </Controls.spoiler:View>
    </div>
