@@ -3,16 +3,17 @@
        {{highlightOnHover !== false && !itemData.isEditing ? 'controls-ListView__item_highlightOnHover_' + itemData.style + '_theme_' + _options.theme}}
        controls-ListView__item_{{itemData.style}}
        controls-ListView__item_showActions
-       {{!!itemData.isActive && highlightOnHover !== false ? ' controls-ListView__item_active'}}
-       {{!!itemData.isEditing ? ' controls-ListView__item_editing'}}
-       {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
+       {{!!itemData.isActive && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + _options.theme}}
+       {{!!itemData.isEditing ? ' controls-ListView__item_editing_theme-' + _options.theme}}
+       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}
        js-controls-SwipeControl__actionsContainer"
        attr:key="{{itemData.item.getId()}}"
-       template="{{content}}"/>
+       template="{{content}}"
+       theme="{{_options.theme}}"/>
 </ws:template>
 <ws:template name="itemContentTpl">
     <ws:if data="{{itemData.hasMultiSelect}}">
-       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox">
+       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{_options.theme}}">
           <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
        </ws:partial>
     </ws:if>

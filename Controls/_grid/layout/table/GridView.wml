@@ -50,7 +50,7 @@
     <!-- Отступ под последней записью вслучае, если в таблице есть операции над записью "вне строки" -->
     <ws:if data="{{_options._needBottomPadding}}">
         <tr>
-            <td class="controls-itemActionsV_outside-spacing" colspan="{{ _listModel.getColspanFor('bottomPadding') }}"></td>
+            <td class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}" colspan="{{ _listModel.getColspanFor('bottomPadding') }}"></td>
         </tr>
     </ws:if>
 
