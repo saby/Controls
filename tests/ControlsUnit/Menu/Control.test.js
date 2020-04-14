@@ -220,7 +220,7 @@ define(
                menuControl._context = {
                   isTouch: { isTouch: false }
                };
-               handleStub = sandbox.stub(menuControl, 'handleCurrentItem');
+               handleStub = sandbox.stub(menuControl, 'startHandleItemTimeout');
             });
 
             it('on groupItem', function() {
@@ -231,8 +231,10 @@ define(
             it('on collectionItem', function() {
                menuControl._itemMouseEnter('mouseenter', new display.CollectionItem({
                   contents: new entity.Model()
-               }), {});
+               }), {target: 'targetTest', nativeEvent: 'nativeEvent'});
                assert.isTrue(handleStub.calledOnce);
+               assert.equal(menuControl._hoveredTarget, 'targetTest');
+               assert.equal(menuControl._enterEvent, 'nativeEvent');
             });
 
             it('on touch devices', function() {
