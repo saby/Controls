@@ -48,6 +48,7 @@
 
 .controls-Notification__simpleTemplate {
   display: flex;
+  align-items: center;
 }
 
 .controls-Notification__simpleTemplate-icon_theme-@{themeName} {
@@ -57,7 +58,7 @@
 .controls-Notification__simpleTemplate-message_theme-@{themeName} {
   &:before {
     content: '\200b';
-    font-size: @text_line-height_notification;
+    font-size: @font-size_notification;
   }
 }
 
