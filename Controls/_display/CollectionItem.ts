@@ -282,8 +282,8 @@ export default class CollectionItem<T> extends mixin<
         return this._counters;
     }
 
-    getMultiSelectClasses(): string {
-        let classes = 'controls-ListView__checkbox controls-ListView__notEditable';
+    getMultiSelectClasses(theme): string {
+        let classes = `controls-ListView__checkbox controls-ListView__notEditable_theme-${theme}`;
         if (this.getOwner().getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             classes += ' controls-ListView__checkbox-onhover';
         }
@@ -401,42 +401,42 @@ export default class CollectionItem<T> extends mixin<
         }
     }
 
-    getWrapperClasses(templateHighlightOnHover: boolean = true): string {
+    getWrapperClasses(templateHighlightOnHover: boolean = true, theme?: string): string {
         return `controls-ListView__itemV
             controls-ListView__item_default
             controls-ListView__item_showActions
             js-controls-SwipeControl__actionsContainer
             ${templateHighlightOnHover ? 'controls-ListView__item_highlightOnHover_default_theme_default' : ''}
             ${this.isEditing() ? 'controls-ListView__item_editing' : ''}
-            ${this.isDragged() ? 'controls-ListView__item_dragging' : ''}`;
+            ${this.isDragged() ? ` controls-ListView__item_dragging_theme-${theme}` : ''}`;
     }
 
     getItemActionClasses(itemActionsPosition: string): string {
         return `controls-itemActionsV_${itemActionsPosition}`;
     }
 
-    getContentClasses(): string {
-        return `controls-ListView__itemContent ${this._getSpacingClasses()}`;
+    getContentClasses(theme: string): string {
+        return `controls-ListView__itemContent ${this._getSpacingClasses(theme)}`;
     }
 
     getItemTemplate(userTemplate: TemplateFunction|string): TemplateFunction|string {
         return userTemplate;
     }
 
-    protected _getSpacingClasses(): string {
+    protected _getSpacingClasses(theme: string): string {
         let classes = '';
 
         const rowSpacing = this.getOwner().getRowSpacing().toLowerCase();
         const rightSpacing = this.getOwner().getRightSpacing().toLowerCase();
 
-        classes += ` controls-ListView__item-topPadding_${rowSpacing}`;
-        classes += ` controls-ListView__item-bottomPadding_${rowSpacing}`;
-        classes += ` controls-ListView__item-rightPadding_${rightSpacing}`;
+        classes += ` controls-ListView__item-topPadding_${rowSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item-bottomPadding_${rowSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item-rightPadding_${rightSpacing}_theme-${theme}`;
 
         if (this.getOwner().getMultiSelectVisibility() !== 'hidden') {
-           classes += ' controls-ListView__itemContent_withCheckboxes';
+           classes += ` controls-ListView__itemContent_withCheckboxes_theme-${theme}`;
         } else {
-           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftSpacing().toLowerCase()}`;
+           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftSpacing().toLowerCase()}_theme-${theme}`;
         }
 
         return classes;

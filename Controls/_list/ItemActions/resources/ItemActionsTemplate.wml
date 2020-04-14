@@ -1,8 +1,7 @@
 <ws:template name="localItemActionsTemplateForEdge">
-    <div attr:class="{{itemData.getItemActionsClasses(itemData, isTile, false, itemActionsClass,
-        toolbarVisibility, actionMenuIsShown, highlightOnHover, style, getContainerPaddingClass, itemPadding)}}">
-        <div attr:class="{{itemData.getItemActionsWrapperClasses(itemData, isTile, itemActionsPosition, highlightOnHover, style,
-            getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility)}}">
+    <div attr:class="{{itemData.getItemActionsClasses(itemData, itemActionsPosition, actionMenuIsShown, theme)}}">
+        <div attr:class="{{itemData.getItemActionsWrapperClasses(itemData, itemActionsPosition, highlightOnHover, style,
+            getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility, theme)}}">
             <ws:partial
                     template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
                     itemData="{{itemData}}"
@@ -13,7 +12,7 @@
             <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
                 <Controls.Container.Async templateName="Controls/editableArea:Buttons">
                     <ws:partial template="{{content.resolvedTemplate}}"
-                                attr:class="controls-itemActionsV__wrapper-isEditing"
+                                attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
                                 on:applyButtonClick="_applyEdit()"
                                 on:closeButtonClick="_cancelEdit()"/>
                 </Controls.Container.Async>
@@ -25,9 +24,9 @@
 <div attr:class="controls-itemActionsV
             {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
             {{itemActionsPosition !== 'outside' ? (itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight') : ''}}
-            controls-itemActionsV_{{itemActionsPosition}}
-            {{getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding)}}
-            {{itemData.isEditing ? 'controls-itemActionsV_editing'}}
+            controls-itemActionsV_{{itemActionsPosition}}_theme-{{theme}}
+            {{getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding, theme)}}
+            {{itemData.isEditing ? 'controls-itemActionsV_editing_theme-' + theme}}
             {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
             {{itemData.isActive && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
             {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}
@@ -44,7 +43,7 @@
         <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
             <Controls.Container.Async templateName="Controls/editableArea:Buttons">
                 <ws:partial template="{{content.resolvedTemplate}}"
-                            attr:class="controls-itemActionsV__wrapper-isEditing"
+                            attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
                             on:applyButtonClick="_applyEdit()"
                             on:closeButtonClick="_cancelEdit()"/>
             </Controls.Container.Async>

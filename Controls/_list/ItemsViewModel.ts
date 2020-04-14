@@ -259,6 +259,7 @@ var ItemsViewModel = BaseViewModel.extend({
                 index: this._display.getIndex(dispItem),
                 item: dispItem.getContents(),
                 dispItem: dispItem,
+                theme: this._options.theme,
 
                 //TODO: Выпилить в 19.200 или если закрыта -> https://online.sbis.ru/opendoc.html?guid=837b45bc-b1f0-4bd2-96de-faedf56bc2f6
                 leftSpacing: this._options.leftSpacing || this._options.leftPadding,
