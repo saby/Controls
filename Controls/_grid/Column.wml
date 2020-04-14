@@ -30,13 +30,13 @@
     </ws:else>
     <ws:if data="{{tagTemplate !== undefined}}">
         <ws:if data="{{tagStyle}}">
-            <div class="controls-Grid__cell_tag">
+            <div class="controls-Grid__cell_tag_theme-{{_options.theme}}">
                 <ws:partial template="{{tagTemplate}}" tagStyle="{{tagStyle}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
             </div>
         </ws:if>
         <ws:else>
             <ws:if data="{{itemData.column.tagStyleProperty && itemData.item.get(itemData.column.tagStyleProperty)}}">
-                <div class="controls-Grid__cell_tag">
+                <div class="controls-Grid__cell_tag_theme-{{_options.theme}}">
                     <ws:partial template="{{tagTemplate}}" tagStyle="{{itemData.item.get(itemData.column.tagStyleProperty)}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
                 </div>
             </ws:if>

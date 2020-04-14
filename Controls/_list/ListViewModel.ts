@@ -40,14 +40,14 @@ var _private = {
             itemPadding = _private.getItemPadding(cfg);
 
         classList += ' controls-ListView__itemContent';
-        classList += ' controls-ListView__item-topPadding_' + (itemPadding.top || 'default').toLowerCase();
-        classList += ' controls-ListView__item-bottomPadding_' + (itemPadding.bottom || 'default').toLowerCase();
-        classList += ' controls-ListView__item-rightPadding_' + (itemPadding.right || 'default').toLowerCase();
+        classList += ' controls-ListView__item-topPadding_' + (itemPadding.top || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+        classList += ' controls-ListView__item-bottomPadding_' + (itemPadding.bottom || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+        classList += ' controls-ListView__item-rightPadding_' + (itemPadding.right || 'default').toLowerCase() + `_theme-${cfg.theme}`;
 
         if (cfg.multiSelectVisibility !== 'hidden') {
-            classList += ' controls-ListView__itemContent_withCheckboxes';
+            classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${cfg.theme}`;
         } else {
-            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase();
+            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${cfg.theme}`;
         }
 
         return classList;
@@ -84,31 +84,31 @@ var _private = {
             return !!(drawnActions && drawnActions.length);
         }
     },
-    getGroupPaddingClasses(current): { left: string; right: string } {
-        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}`;
-        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}`;
+    getGroupPaddingClasses(current, theme: string): { left: string; right: string } {
+        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}_theme-${theme}`;
+        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}_theme-${theme}`;
         return {right, left};
     },
     // itemActions classes only For Edge
-    getItemActionsClasses(itemData, isTile, itemActionsPosition, itemActionsClass,
-                          toolbarVisibility, actionMenuIsShown): string {
+    getItemActionsClasses(itemData, itemActionsPosition, actionMenuIsShown, theme): string {
+        const th = `_theme-${theme}`;
         let classList = 'controls-itemActionsV' + ' controls-itemActionsV_full_item_size';
-        classList += itemActionsPosition ? ` controls-itemActionsV_${itemActionsPosition}` : '';
         classList += itemData.isActive && actionMenuIsShown ? ' controls-itemActionsV_visible' : '';
         classList += itemData.isSwiped ? ' controls-itemActionsV_swiped' : '';
         classList += itemData.itemActionsColumnScrollDraw ? ' controls-itemActionsV_columnScrollDraw' : '';
         return classList;
     },
-    getItemActionsWrapperClasses(itemData, isTile, itemActionsPosition, highlightOnHover, style,
-                                 getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility): string {
+    getItemActionsWrapperClasses(itemData, itemActionsPosition, highlightOnHover, style,
+        getContainerPaddingClass, itemActionsClass, itemPadding, toolbarVisibility, theme): string {
+        const th = `_theme-${theme}`;
         let classList = 'controls-itemActionsV__wrapper';
         classList += '  controls-itemActionsV__wrapper_absolute';
-        classList += itemData.isEditing ? ' controls-itemActionsV_editing' : '';
+        classList += itemData.isEditing ? ` controls-itemActionsV_editing${th}` : '';
         classList += itemData.isEditing && toolbarVisibility ? ' controls-itemActionsV_editingToolbarVisible' : '';
-        classList += ` controls-itemActionsV_${itemActionsPosition}`;
+        classList += ` controls-itemActionsV_${itemActionsPosition}${th}`;
         classList += itemActionsPosition !== 'outside' ? itemActionsClass ? ' ' + itemActionsClass : ' controls-itemActionsV_position_bottomRight' : '';
         classList += highlightOnHover !== false ? ' controls-itemActionsV_style_' + (style ? style : 'default') : '';
-        classList += getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding);
+        classList += getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding, theme);
         return classList;
     }
 };
@@ -216,7 +216,7 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
 
         if (itemsModelCurrent.isGroup) {
-            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent);
+            itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, self._options.theme);
         }
 
         itemsModelCurrent.drawActions = _private.needToDrawActions(this._editingItemData, itemsModelCurrent, this._options.editingConfig, drawnActions);

@@ -1,7 +1,7 @@
 <div class="controls-Grid__editArrow-wrapper_theme-{{_options.theme}}">
-      <div class="controls-Grid__editArrow-blur_theme-{{_options.theme}} controls-Grid__editArrow-blur_style-{{itemData.style}}_background"></div>
+      <div class="controls-Grid__editArrow-blur_theme-{{_options.theme}} controls-Grid__editArrow-blur_style-{{itemData.style}}_background_theme-{{_options.theme}}"></div>
       <div on:click="_onEditArrowClick(itemData.item)"
-           class="controls-Grid__editArrow_theme-{{_options.theme}} controls-Grid__editArrow_style-{{itemData.style}}_background icon-ForwardBaseLine icon-primary action-hover">
+           class="controls-Grid__editArrow_theme-{{_options.theme}} controls-Grid__editArrow_style-{{itemData.style}}_background_theme-{{_options.theme}} icon-ForwardBaseLine icon-primary action-hover">
       </div>
 </div>
 

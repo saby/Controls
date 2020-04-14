@@ -1,8 +1,8 @@
-<span class="controls-AddButton" on:click="clickHandler()">
+<span class="controls-AddButton controls-AddButton_theme-{{_options.theme}}" on:click="clickHandler()">
    <span attr:class="controls-AddButton_state-{{_options.readOnly ? 'disable': 'enable'}} controls-AddButton-wrapper">
-      <span class="controls-AddButton__svgWrapper">
-         <div class="controls-AddButton__icon controls-AddButton_icon-{{_options.readOnly ? 'disable': 'enable'}}"></div>
+      <span class="controls-AddButton__svgWrapper_theme-{{_options.theme}}">
+         <div class="controls-AddButton__icon_theme-{{_options.theme}} controls-AddButton_icon-{{_options.readOnly ? 'disable': 'enable'}}_theme-{{_options.theme}}"></div>
       </span>
-      <span attr:class="controls-AddButtonText-{{_options.readOnly ? 'disable': 'enable'}}">{{_options.caption}}</span>
+      <span attr:class="controls-AddButtonText-{{_options.readOnly ? 'disable': 'enable'}}_theme-{{_options.theme}}">{{_options.caption}}</span>
    </span>
 </span>

@@ -9,8 +9,6 @@ import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridView
 import {factory} from 'Types/chain';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
-import 'css!theme?Controls/explorer';
-import 'css!theme?Controls/tile';
 import 'Types/entity';
 
 var
@@ -571,6 +569,7 @@ var
       VIEW_NAMES: VIEW_NAMES,
       VIEW_MODEL_CONSTRUCTORS: VIEW_MODEL_CONSTRUCTORS
    };
+   Explorer._theme = ['Controls/explorer', 'Controls/tile'];
 
    Explorer.getDefaultOptions = function() {
       return {

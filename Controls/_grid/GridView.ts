@@ -214,7 +214,7 @@ var
             if (this._options.itemActionsPosition === 'outside' &&
                 !this._options._needBottomPadding &&
                 this._options.resultsPosition !== 'bottom') {
-                classList = classList.add('controls-GridView__footer__itemActionsV_outside');
+                classList = classList.add(`controls-GridView__footer__itemActionsV_outside_theme-${this._options.theme}`);
             }
             return classList.compile();
         },
