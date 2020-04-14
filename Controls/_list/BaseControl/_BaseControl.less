@@ -17,7 +17,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    }
 }
 
-.controls-BaseControl__loadMore {
+.controls-BaseControl__loadMore_theme-@{themeName} {
    height: @more_height_list;
 }
 .controls-BaseControl__pagingContainer {
@@ -40,14 +40,14 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    }
 }
 
-.controls-BaseControl_paging-Padding {
+.controls-BaseControl_paging-Padding_theme-@{themeName} {
    height: @item_height_paging;
 }
-.ws-is-mobile-safari .controls-BaseControl_paging-Padding {
+.ws-is-mobile-safari .controls-BaseControl_paging-Padding_theme-@{themeName} {
    height: 0;
 }
 
-.controls-BaseControl__scrollPaging {
+.controls-BaseControl__scrollPaging_theme-@{themeName} {
    pointer-events: auto;
    border: 0 solid @scrollpaging_separator-color_list;
    border-top-width: @scrollpaging_separator-thickness_list;
@@ -70,25 +70,25 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    position: relative;
 }
 
-.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper {
+.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
    position: absolute;
    top: 0;
 }
 
-.controls-BaseControl__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper {
+.controls-BaseControl__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
    position: absolute;
    bottom: 0;
 }
 
-.controls-BaseControl_empty__loadingIndicator__state-down {
+.controls-BaseControl_empty__loadingIndicator__state-down_theme-@{themeName} {
    min-height: @content_l_padding_loadingIndicator * 2 + @spinner_l_size_loadingIndicator;
 }
 
-.controls-BaseControl_empty__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper {
+.controls-BaseControl_empty__loadingIndicator__state-down_theme-@{themeName} .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
    top: 0;
 }
 
-.controls-BaseControl_withPaging__loadingIndicator__state-down {
+.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
    top: @item_height_paging;
 }
 
@@ -100,7 +100,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    align-items: center;
 }
 
-.controls-BaseControl__loadingIndicatorImg-wrapper {
+.controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
    padding: @content_l_border_radius_loadingIndicator;
    background-color: @content_background-color_loadingIndicator;
    border-radius: @content_l_border_radius_loadingIndicator;
@@ -108,7 +108,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    display: inline-flex;
    align-items: center;
 }
-.controls-BaseControl__loadingIndicatorImg {
+.controls-BaseControl__loadingIndicatorImg_theme-@{themeName} {
    background: @spinner_l_background-image_loadingIndicator 0 0 no-repeat;/**/
    width: @spinner_l_size_loadingIndicator;
    height: @spinner_l_size_loadingIndicator;
@@ -119,18 +119,18 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    position: relative;
 }
 
-.controls-BaseControl__footer-content {
+.controls-BaseControl__footer-content_theme-@{themeName} {
    min-height: @footer_min-height_list;
    display: flex;
    align-items: baseline;
 }
 
-.controls-BaseControl__footer-content::before {
+.controls-BaseControl__footer-content_theme-@{themeName}::before {
    content: '\200b';
    font-size: @footer_font-size_list;
 }
 
-.controls-BaseControl__footerPaging {
+.controls-BaseControl__footerPaging_theme-@{themeName} {
    background: @background-color_paging;
 }
 
@@ -140,7 +140,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    position: relative;
 }
 
-.controls-BaseControl_paging-wrapper {
+.controls-BaseControl_paging-wrapper_theme-@{themeName} {
    position: sticky;
    right: 0;
    display: flex;
@@ -148,61 +148,61 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    padding-right: @columnscroll_shadow-blur_grid;
 }
 
-.controls-BaseControl_paging-label {
+.controls-BaseControl_paging-label_theme-@{themeName} {
    display: flex;
    align-items: center;
    color: @pagesCounter_text-color_list;
    font-size: @pagesCounter_font-size_list;
 }
 
-.controls-BaseControl_paging-pageSizeChooser {
+.controls-BaseControl_paging-pageSizeChooser_theme-@{themeName} {
    margin-left: @pagesSelector_offset-left_list;
 }
 
-.controls-BaseControl__abortSearch {
+.controls-BaseControl__abortSearch_theme-@{themeName} {
    display: inline-block;
    color: @abortSearch_text-color_list;
    margin-left: @content_l_padding_loadingIndicator;
    font-size: @abortSearch_font-size_list;
 }
 
-.controls-BaseControl__loadingIndicator-footerTemplate {
+.controls-BaseControl__loadingIndicator-footerTemplate_theme-@{themeName} {
    margin-left: @content_l_padding_loadingIndicator;
    color: @unaccented_color;
    font-size: @font-size_xs;
 }
 
-.ws-is-no-touch .controls-BaseControl__abortSearch:hover {
+.ws-is-no-touch .controls-BaseControl__abortSearch_theme-@{themeName}:hover {
    text-decoration: underline;
    color: @abortSearch_hover_text-color_list;
    cursor: pointer;
 }
 
-.controls-BaseControl__abortSearch:active {
+.controls-BaseControl__abortSearch_theme-@{themeName}:active {
    text-decoration: underline;
    color: @abortSearch_active_text-color_list;
 }
 
-.controls-BaseControl__continueSearch_wrapper {
+.controls-BaseControl__continueSearch_wrapper_theme-@{themeName} {
    color: @continueSearch_text-color_list;
    padding-top: @continueSearch_padding-top_list;
    cursor: pointer;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover {
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover {
    color: @continueSearch_hover_text-color_list;
    cursor: pointer;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_caption {
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover .controls-BaseControl__continueSearch_caption {
    text-decoration: underline;
 }
 
-.controls-BaseControl__continueSearch_wrapper:active {
+.controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:active {
    color: @continueSearch_active_text-color_list;
 }
 
-.controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_caption {
+.controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:active .controls-BaseControl__continueSearch_caption {
    text-decoration: underline;
 }
 
@@ -211,7 +211,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    color: @continueSearch_icon-color_list;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_icon {
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover .controls-BaseControl__continueSearch_icon {
    color: @continueSearch_hover_icon-color_list;
 }
 

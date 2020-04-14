@@ -1,4 +1,4 @@
-<div class="controls-ListViewV controls-ListView_{{_options.style}}{{_options.loadingState ? ' controls-ListViewV__loading'}}">
+<div class="controls-ListViewV controls-ListView_{{_options.style}}{{_options.loadingState ? ' controls-ListViewV__loading_theme-' + _options.theme}}">
    <ws:if data="{{_listModel}}">
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
@@ -16,14 +16,15 @@
              itemTemplate="{{_itemTemplate}}">
          </ws:partial>
          <ws:if data="{{_options._needBottomPadding}}">
-            <div  class="controls-itemActionsV_outside-spacing"></div>
+            <div  class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}"></div>
          </ws:if>
       </div>
       <ws:if data="{{_options.emptyTemplate}}">
          <ws:partial template="{{_options.emptyTemplate}}"/>
       </ws:if>
       <ws:if data="{{_options.stickyFooter}}">
-         <Controls.scroll:StickyHeader position="bottom"  attr:class="controls-ListView__footer__paddingLeft_{{_options.multiselectVisibility === 'onhover' || _options.multiselectVisibility === 'visible' ? 'withCheckboxes' : 'default'}}">
+         <Controls.scroll:StickyHeader position="bottom"
+            attr:class="controls-ListView__footer__paddingLeft_{{_options.multiselectVisibility === 'onhover' || _options.multiselectVisibility === 'visible' ? 'withCheckboxes' : 'default'}}_theme-{{_options.theme}}">
             <ws:content>
                <div>
                   <ws:partial template="{{_options.footerTemplate}}"/>
@@ -32,7 +33,7 @@
          </Controls.scroll:StickyHeader>
       </ws:if>
       <ws:else>
-         <div class="controls-ListView__footer__paddingLeft_{{_options.multiselectVisibility === 'onhover' || _options.multiselectVisibility === 'visible' ? 'withCheckboxes' : 'default'}}">
+         <div class="controls-ListView__footer__paddingLeft_{{_options.multiselectVisibility === 'onhover' || _options.multiselectVisibility === 'visible' ? 'withCheckboxes' : 'default'}}_theme-{{_options.theme}}">
             <ws:partial template="{{_options.footerTemplate}}"/>
          </div>
       </ws:else>

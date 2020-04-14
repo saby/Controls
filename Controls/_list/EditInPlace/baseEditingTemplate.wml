@@ -1,14 +1,14 @@
-<div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{align ? align : 'left'}}">
+<div class="controls-EditingTemplateText__editorWrapper_theme-{{theme}} controls-EditingTemplateText__editorWrapper_align_{{align ? align : 'left'}}_theme-{{theme}}">
     <!--TODO: после избавления от itemData сюда всегда будет приходить isEditing https://online.sbis.ru/opendoc.html?guid=dac09cd4-c94e-43f5-b8e0-5a2b0357ff18-->
     <ws:if data="{{itemData.isEditing}}">
         <ws:partial attr:class="controls-EditingTemplateText__editor" template="{{editorTemplate}}" />
     </ws:if>
     <ws:else>
-        <div attr:title="{{ value }}" class="controls-EditingTemplateText
-                {{enabled ? 'controls-EditingTemplateText_enabled'}}
-                controls-EditingTemplateText_size_{{size ? size : 'default'}}
+        <div attr:title="{{ value }}" class="controls-EditingTemplateText_theme-{{theme}}
+                {{enabled ? 'controls-EditingTemplateText_enabled_theme-' + theme}}
+                controls-EditingTemplateText_size_{{size ? size : 'default'}}_theme-{{theme}}
                 controls-EditingTemplateText_style_{{style ? style : 'default'}}
-                {{itemData.isActive && !itemData.isMenuShown ? 'controls-EditingTemplateText_active'}}">
+                {{itemData.isActive && !itemData.isMenuShown ? 'controls-EditingTemplateText_active_theme-' + theme}}">
             <div class="controls-EditingTemplateText__inner">
                 <ws:partial template="{{ viewTemplate }}" />
             </div>

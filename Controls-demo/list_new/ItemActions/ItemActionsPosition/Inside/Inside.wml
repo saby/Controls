@@ -2,5 +2,6 @@
     <Controls.list:View
             keyProperty="id"
             source="{{_viewSource}}"
+            useNewModel="{{true}}"
             itemActions="{{_itemActions}}"/>
 </div>
