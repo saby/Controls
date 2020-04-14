@@ -1,13 +1,13 @@
 <ws:if data="{{_options.showLoadingIndicator}}">
-   <div class="controls-BaseControl__loadingIndicatorImg-wrapper">
-      <div class="controls-BaseControl__loadingIndicatorImg"></div>
+   <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper_theme-{{_options.theme}}">
+      <div class="controls-BaseControl__loadingIndicatorImg_theme-{{_options.theme}}"></div>
       <ws:if data="{{_options.portionedSearchInProgress}}">
          <div class="controls-BaseControl__loadingIndicator-content ws-flexbox ws-flex-column">
             <ws:if data="{{_options.contentTemplate}}">
                <ws:partial template="{{_options.contentTemplate}}"/>
             </ws:if>
             <ws:if data="{{_options.footerTemplate}}">
-               <div class="controls-BaseControl__loadingIndicator-footerTemplate">
+               <div class="controls-BaseControl__loadingIndicator-footerTemplate_theme-{{_options.theme}}">
                   <ws:partial template="{{_options.footerTemplate}}"/>
                </div>
             </ws:if>

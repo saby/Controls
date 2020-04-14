@@ -12,6 +12,7 @@ define([
 ], function(lists, source, entity, collection, display, aUtil, tUtil) {
    describe('Controls.List.ItemActions', function() {
       var data, listViewModel, rs, actions, sandbox;
+      const theme = 'default';
       before(() => {
          lists.ItemActionsControl._isUnitTesting = true;
       });
@@ -201,18 +202,18 @@ define([
             topRight = 'controls-itemActionsV_position_topRight';
          var getPadding = lists.ItemActionsControl._private.getContainerPaddingClass;
          it('bottomRight, itemPadding is null', function() {
-            assert.equal(getPadding(bottomRight, {bottom: 'null'}), ' controls-itemActionsV_padding-bottom_null ');
+            assert.equal(getPadding(bottomRight, {bottom: 'null'}, theme), ` controls-itemActionsV_padding-bottom_null_theme-${theme} `);
          });
          it('bottomRight, itemPadding is not null', function() {
-            assert.equal(getPadding(bottomRight, {bottom: 's'}), ' controls-itemActionsV_padding-bottom_default ');
-            assert.equal(getPadding(bottomRight), ' controls-itemActionsV_padding-bottom_default ');
+            assert.equal(getPadding(bottomRight, {bottom: 's'}, theme), ` controls-itemActionsV_padding-bottom_default_theme-${theme} `);
+            assert.equal(getPadding(bottomRight, null, theme), ` controls-itemActionsV_padding-bottom_default_theme-${theme} `);
          });
          it('toRight, itemPadding is null', function() {
-            assert.equal(getPadding(topRight, {top: 'null'}), ' controls-itemActionsV_padding-top_null ');
+            assert.equal(getPadding(topRight, {top: 'null'}, theme), ` controls-itemActionsV_padding-top_null_theme-${theme} `);
          });
          it('topRight, itemPadding is not null', function() {
-            assert.equal(getPadding(topRight, {top: 's'}), ' controls-itemActionsV_padding-top_default ');
-            assert.equal(getPadding(topRight), ' controls-itemActionsV_padding-top_default ');
+            assert.equal(getPadding(topRight, {top: 's'}, theme), ` controls-itemActionsV_padding-top_default_theme-${theme} `);
+            assert.equal(getPadding(topRight, null, theme), ` controls-itemActionsV_padding-top_default_theme-${theme} `);
          });
          it('something else, itemPadding is not important', function() {
             assert.equal(getPadding('some_class'), ' ');

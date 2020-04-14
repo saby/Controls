@@ -1,13 +1,13 @@
-.ws-is-hover .controls-ListView__itemV:hover .controls-EditingTemplateText_enabled {
+.ws-is-hover .controls-ListView__itemV:hover .controls-EditingTemplateText_enabled_theme-@{themeName} {
    background-color: @background-color_inputText;
    cursor: text;
 }
 
-.controls-EditingTemplateText_active {
+.controls-EditingTemplateText_active_theme-@{themeName} {
    background-color: @background-color_inputText;
 }
 
-.controls-EditingTemplateText__editorWrapper {
+.controls-EditingTemplateText__editorWrapper_theme-@{themeName} {
    flex-grow: 1;
    min-width: 0;
 
@@ -18,15 +18,15 @@
    max-width: calc(100% + @padding-horizontal_inputText);
 }
 
-.ws-is-ie11 .controls-EditingTemplateText__editorWrapper,
-.ws-is-ie10 .controls-EditingTemplateText__editorWrapper {
+.ws-is-ie11 .controls-EditingTemplateText__editorWrapper_theme-@{themeName},
+.ws-is-ie10 .controls-EditingTemplateText__editorWrapper_theme-@{themeName} {
 
 // Fixing bug in IE: "Flex items are not correctly justified when max-width is used"
 // https://github.com/philipwalton/flexbugs#flexbug-17
    flex-basis: 100%;
 }
 
-.controls-EditingTemplateText__editorWrapper_align_left {
+.controls-EditingTemplateText__editorWrapper_align_left_theme-@{themeName} {
    /*
    Компенсация внутреннего отступа поля ввода.
    Контент строки вне режима редактирования имеет только свой собственный отступ.
@@ -36,7 +36,7 @@
    margin-left: -@padding-horizontal_inputText;
 }
 
-.controls-EditingTemplateText__editorWrapper_align_right {
+.controls-EditingTemplateText__editorWrapper_align_right_theme-@{themeName} {
    /*
    Компенсация внутреннего отступа поля ввода.
    Контент строки вне режима редактирования имеет только свой собственный отступ.
@@ -46,7 +46,7 @@
    margin-right: -@padding-horizontal_inputText;
 }
 
-.controls-EditingTemplateText {
+.controls-EditingTemplateText_theme-@{themeName} {
    .baseline-fix();
    flex-shrink: 1;
    display: inline-flex;
@@ -71,22 +71,22 @@
    display: inline-block;
 }
 
-.controls-EditingTemplateText_size_default {
+.controls-EditingTemplateText_size_default_theme-@{themeName} {
    height: @inline_height_default;
    font-size: @font-size_default;
 }
 
-.controls-EditingTemplateText_size_m {
+.controls-EditingTemplateText_size_m_theme-@{themeName} {
    height: @inline_height_m;
    font-size: @font-size_m;
 }
 
-.controls-EditingTemplateText_size_l {
+.controls-EditingTemplateText_size_l_theme-@{themeName} {
    height: @inline_height_m;
    font-size: @font-size_3xl;
 }
 
-.controls-EditingTemplateText_size_s {
+.controls-EditingTemplateText_size_s_theme-@{themeName} {
    height: @inline_height_default;
    font-size: @font-size_xs;
 }

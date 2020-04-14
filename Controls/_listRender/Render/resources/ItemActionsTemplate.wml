@@ -3,7 +3,7 @@
             {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + style }}
             {{itemActionsPosition !== 'outside' ? (itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight') : ''}}
             {{item.getItemActionClasses(itemActionsPosition)}}
-            {{item.isEditing() ? 'controls-itemActionsV_editing'}}
+            {{item.isEditing() ? 'controls-itemActionsV_editing_theme-' + theme}}
             {{item.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
             {{item.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
             {{item.isSwiped() ? 'controls-itemActionsV_swiped'}}">
