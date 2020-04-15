@@ -1,11 +1,11 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {ICrud, QueryOrderSelector, QueryWhere} from 'Types/source';
+import {ICrud, QueryOrderSelector} from 'Types/source';
+import {IHashMap} from 'Types/declarations';
 import {RecordSet} from 'Types/collection';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import {ViewConfig, Controller as ErrorController} from 'Controls/_dataSource/error';
-import {ISourceErrorConfig} from 'Controls/_dataSource/SourceCrudInterlayer';
-import {IPagingOptions} from 'Controls/_paging/Paging';
-import {Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {error as ErrorModule, ISourceErrorConfig} from 'Controls/dataSource';
+import {IPagingOptions} from 'Controls/paging';
+import {Direction} from 'Controls/source';
 
 import {ListSourceLoadingController} from './SourceControl/ListSourceLoadingController';
 
@@ -60,7 +60,7 @@ export interface ISourceControlOptions extends IControlOptions {
      * @name Controls/_list/SourceControl#errorController
      * @cfg {Controls/_dataSource/error:ErrorController} Error controller instance, initialized with Custom handlers
      */
-    errorController?: ErrorController;
+    errorController?: ErrorModule.Controller;
 
     /**
      * @name Controls/_list/SourceControl#pagingOptions
@@ -116,22 +116,22 @@ export default class SourceControl extends Control<ISourceControlOptions, Record
     protected _items: RecordSet;
 
     // Текущая ошибка
-    protected _error: ViewConfig;
+    protected _error: ErrorModule.ViewConfig;
 
     // Контроллер загрузки данных в список
     private _listSourceLoader: ListSourceLoadingController;
 
     // Фильтрация данных
-    private _filter: QueryWhere;
+    private _filter: IHashMap<unknown>;
 
     // Сортировка
     private _sorting: QueryOrderSelector;
 
     protected _beforeMount(options?: ISourceControlOptions, contexts?: object, receivedState?: RecordSet | void): Promise<RecordSet | void> | void {
         this._listSourceLoader = new ListSourceLoadingController({
-            keyProperty: this._options.keyProperty,
-            navigation: this._options.navigation,
-            source: this._options.source
+            keyProperty: options.keyProperty,
+            navigation: options.navigation,
+            source: options.source
         });
         // TODO implement external List/Grid sorting
         this._sorting = [];

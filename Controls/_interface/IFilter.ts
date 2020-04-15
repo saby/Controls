@@ -1,7 +1,7 @@
-import {QueryWhere} from 'Types/source';
+import {IHashMap} from 'Types/declarations';
 
 export interface IFilterOptions {
-    filter?: QueryWhere;
+    filter?: IHashMap<unknown>;
 }
 
 /**
@@ -109,7 +109,7 @@ export default interface IFilter {
  *    }
  * },
  * filterChanged: function(e, filter) {
- *    
+ *
  *    // Т.к. в приведённом примере опция filter не связана с помощью bind c состоянием,
  *    // необходимо обновить фильтр на состоянии самостоятельно.
  *    this._filter = filter;
