@@ -6,8 +6,7 @@
   "exclude": [
     "wml!Controls/Application/CompatibleScripts",
     "Controls/Application/HeadDataContext",
-    "Controls/Application/AppData",
-    "css!Controls/Application/oldCss"
+    "Controls/Application/AppData"
   ],
   "output": "controls-application.package.js"
 }, {
