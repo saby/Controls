@@ -8,48 +8,48 @@
 }
 
 .controls-AddButton_state-enable:active {
-   .controls-AddButtonText-enable {
+   .controls-AddButtonText-enable_theme-@{themeName} {
       text-decoration: underline;
    }
 }
 
 .ws-is-hover {
    .controls-AddButton_state-enable:hover {
-      .controls-AddButtonText-enable {
+      .controls-AddButtonText-enable_theme-@{themeName} {
          text-decoration: underline;
       }
    }
 }
 
-.controls-AddButton_icon-disable {
+.controls-AddButton_icon-disable_theme-@{themeName} {
    background-image: @readonly_icon_background-image_listAddButton;
 }
 
-.controls-AddButton_icon-enable {
+.controls-AddButton_icon-enable_theme-@{themeName} {
    background-image: @icon_background-image_listAddButton;
 }
 
-.controls-AddButton__icon {
+.controls-AddButton__icon_theme-@{themeName} {
    height: @icon-size_listAddButton;
    width: @icon-size_listAddButton;
 }
 
-.controls-AddButton__svgWrapper {
+.controls-AddButton__svgWrapper_theme-@{themeName} {
    width: @icon-size_listAddButton;
    display: inline-flex;
    justify-content: center;
 }
 
-.controls-AddButtonText-disable {
+.controls-AddButtonText-disable_theme-@{themeName} {
    margin-left: @icon_offset_listAddButton;
    color: @readonly_text-color_listAddButton;
 }
 
-.controls-AddButtonText-enable {
+.controls-AddButtonText-enable_theme-@{themeName} {
    margin-left: @icon_offset_listAddButton;
    color: @text-color_listAddButton;
 }
 
-.controls-AddButton {
+.controls-AddButton_theme-@{themeName} {
    font-size: @font-size_listAddButton;
 }
