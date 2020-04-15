@@ -592,25 +592,25 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.equal(gridMod.GridViewModel._private.getSortingDirectionByProp([{test: 'ASC'}, {test2: 'DESC'}], 'test3'), undefined);
             assert.equal(gridMod.GridViewModel._private.getSortingDirectionByProp([{test: 'ASC'}, {test2: 'DESC'}], 'test3'), undefined);
          });
-         it('prepareRowSeparatorClasses', function() {
+         it('prepareSeparatorClasses', function() {
             const expectedResultWithRowSeparator = [
-               'controls-Grid__row-cell_withRowSeparator_theme-default',
-               'controls-Grid__row-cell_withRowSeparator_theme-default',
-               'controls-Grid__row-cell_withRowSeparator_theme-default',
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default',
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default',
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default',
             ];
 
             const expectedResultWithoutRowSeparator = [
-               'controls-Grid__row-cell_withoutRowSeparator_theme-default',
-               'controls-Grid__row-cell_withoutRowSeparator_theme-default',
-               'controls-Grid__row-cell_withoutRowSeparator_theme-default'
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withoutRowSeparator_theme-default',
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withoutRowSeparator_theme-default',
+               'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withoutRowSeparator_theme-default'
             ];
-            const expectedResultForFirstItemInGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
-            const expectedResultForFirstItemInHiddenGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
-            const expectedResultForOnlyItemInHiddenGroup = 'controls-Grid__row-cell_withRowSeparator_theme-default';
+            const expectedResultForFirstItemInGroup = 'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default';
+            const expectedResultForFirstItemInHiddenGroup = 'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default';
+            const expectedResultForOnlyItemInHiddenGroup = 'controls-Grid__row-cell_columnSeparator_theme-default controls-Grid__row-cell_withRowSeparator_theme-default';
+            const expectedResultForColumnSeparator = 'controls-Grid__row-cell_columnSeparator_theme-default  controls-Grid__row-cell_columnSeparatorSize-s_theme-default controls-Grid__row-cell_withRowSeparator_theme-default';
 
             let listItemsCount = 3;
             const itemData = {
-               rowSeparatorVisibility: true,
                rowSeparatorSize: 's',
                isFirstInGroup: false,
                index: 0,
@@ -627,24 +627,27 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             expectedResultWithRowSeparator.forEach((classes, index) => {
                itemData.index = index;
-               cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), classes);
+               cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), classes);
             });
 
-            itemData.rowSeparatorVisibility = false;
+            itemData.rowSeparatorSize = null;
             expectedResultWithoutRowSeparator.forEach((classes, index) => {
                itemData.index = index;
-               cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), classes);
+               cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), classes);
             });
 
-            itemData.rowSeparatorVisibility = true;
+            itemData.rowSeparatorSize = 's';
             itemData.isFirstInGroup = true;
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), expectedResultForFirstItemInGroup);
+            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), expectedResultForFirstItemInGroup);
 
             itemData.isInHiddenGroup = true;
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), expectedResultForFirstItemInHiddenGroup);
+            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), expectedResultForFirstItemInHiddenGroup);
 
             listItemsCount = 1;
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareRowSeparatorClasses(itemData, theme), expectedResultForOnlyItemInHiddenGroup);
+            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), expectedResultForOnlyItemInHiddenGroup);
+
+            itemData.columnSeparatorSize = 's';
+            cAssert.isClassesEqual(gridMod.GridViewModel._private.prepareSeparatorClasses(itemData, theme), expectedResultForColumnSeparator);
          });
 
          it('getItemColumnCellClasses for old browsers', function() {
@@ -836,7 +839,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                top: 'l',
                bottom: 'l'
             }, current.itemPadding, 'Incorrect value "current.itemPadding".');
-            assert.isTrue(current.rowSeparatorVisibility, 'Incorrect value "current.rowSeparatorVisibility".');
+            assert.equal(current.rowSeparatorSize, 's', 'Incorrect value "current.rowSeparatorSize".');
          });
 
          it('item', function() {
@@ -1770,14 +1773,14 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                groupingKeyCallback: (item) => {
                   return item.get('group')
                },
-               rowSeparatorVisibility: true
+               rowSeparatorSize: 's'
             });
 
             groupedVM.goToNext();
             const soloItem = groupedVM.getCurrent();
-            assert.isTrue(soloItem.rowSeparatorVisibility);
+            assert.equal(soloItem.rowSeparatorSize, 's');
             cAssert.isClassesEqual(
-                gridMod.GridViewModel._private.prepareRowSeparatorClasses(soloItem, theme),
+                gridMod.GridViewModel._private.prepareSeparatorClasses(soloItem, theme),
                 ' controls-Grid__row-cell_withRowSeparator_theme-default'
             );
 
