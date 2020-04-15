@@ -180,9 +180,9 @@ export default class TileCollectionItem<T> extends CollectionItem<T> {
         return classes;
     }
 
-    getMultiSelectClasses(): string {
+    getMultiSelectClasses(theme): string {
         return (
-            super.getMultiSelectClasses() +
+            super.getMultiSelectClasses(theme) +
             ' controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom'
         );
     }

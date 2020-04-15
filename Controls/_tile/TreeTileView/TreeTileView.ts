@@ -1,7 +1,6 @@
 import TileView = require('Controls/_tile/TileView/TileView');
 import Env = require('Env/Env');
 import defaultItemTpl = require('wml!Controls/_tile/TreeTileView/DefaultItemTpl');
-import 'css!theme?Controls/tile';
 
 var TreeTileView = TileView.extend({
     _defaultItemTemplate: defaultItemTpl,
@@ -20,5 +19,7 @@ var TreeTileView = TileView.extend({
         }
     }
 });
+
+TreeTileView._theme = ['Controls/tile'];
 
 export = TreeTileView;

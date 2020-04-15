@@ -174,7 +174,7 @@
    max-width: 100%;
 }
 
-.controls-Grid__itemAction.controls-itemActionsV_outside {
+.controls-Grid__itemAction.controls-itemActionsV_outside_theme-@{themeName} {
    z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
 }
 
@@ -251,11 +251,11 @@
          }
       }
       /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
-      .controls-SelectedCollection__InfoBox_fixed {
+      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
          background-color: @item_hover_background-color_list;
       }
 
-      .controls-SelectedCollection__InfoBox_fixed:after {
+      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName}:after {
          .horizontal-gradient(@item_hover_background-color_list, rgba(255, 255, 255, 0));
       }
       /**********************************************/
@@ -514,7 +514,7 @@
    padding-left: @click-area_width_checkbox;
 }
 
-.controls-GridView__footer__itemActionsV_outside {
+.controls-GridView__footer__itemActionsV_outside_theme-@{themeName} {
    min-height: @height_outside_itemActions;
 }
 
@@ -683,11 +683,11 @@
    z-index: 0;
 }
 
-.controls-Grid__editArrow-blur_style-default_background {
+.controls-Grid__editArrow-blur_style-default_background_theme-@{themeName} {
    background: linear-gradient(90deg, rgba(240,245,251,0), @item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow-blur_style-master_background {
+.controls-Grid__editArrow-blur_style-master_background_theme-@{themeName} {
    background: linear-gradient(90deg, rgba(240,245,251,0), @master_item_hover_background-color_list);
 }
 
@@ -699,11 +699,11 @@
    .icon(@edit-arrow_icon-size_grid)
 }
 
-.controls-Grid__editArrow_style-default_background {
+.controls-Grid__editArrow_style-default_background_theme-@{themeName} {
    background-color: @item_hover_background-color_list;
 }
 
-.controls-Grid__editArrow_style-master_background {
+.controls-Grid__editArrow_style-master_background_theme-@{themeName} {
    background-color: @master_item_hover_background-color_list;
 }
 
@@ -740,7 +740,7 @@
    height: 100%;
 }
 
-.controls-Grid__cell_tag {
+.controls-Grid__cell_tag_theme-@{themeName} {
    position: relative;
    right: -@tag_offset-horizontal_gridView;
 

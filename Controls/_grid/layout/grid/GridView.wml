@@ -49,7 +49,7 @@
 
     <!-- Отступ под последней записью вслучае, если в таблице есть операции над записью "вне строки" -->
     <ws:if data="{{_options._needBottomPadding}}">
-        <div class="controls-itemActionsV_outside-spacing" style="{{_listModel.getBottomPaddingStyles()}}"></div>
+        <div class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}" style="{{_listModel.getBottomPaddingStyles()}}"></div>
     </ws:if>
 
     <!-- Шаблон пустой таблицы -->

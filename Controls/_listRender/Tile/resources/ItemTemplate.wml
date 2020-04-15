@@ -1,6 +1,6 @@
 
 <div
-   attr:class="{{ item.getWrapperClasses(clickable) }}"
+   attr:class="{{ item.getWrapperClasses(clickable, theme) }}"
    attr:style="{{ item.getWrapperStyle(width) }}">
    <div
       attr:class="{{ item.getTileContentClasses(shadowVisibility, marker) }}"
@@ -9,7 +9,7 @@
          <ws:partial
             template="{{ multiSelectTpl }}"
             checkboxReadOnly="{{ checkboxReadOnly }}"
-            attr:class="{{ item.getMultiSelectClasses() }}">
+            attr:class="{{ item.getMultiSelectClasses(theme) }}">
             <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getId() }}" />
          </ws:partial>
       </ws:if>

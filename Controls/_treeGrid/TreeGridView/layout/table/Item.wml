@@ -5,7 +5,8 @@
                     itemActionsTemplate="{{itemActionsTemplate}}"
                     itemActionsContainerStyles="{{itemActionsContainerStyles}}"
                     attr:class="js-controls-ColumnScroll__notDraggable"
-                    highlightOnHover="{{highlightOnHover}}"/>
+                    highlightOnHover="{{highlightOnHover}}"
+                    theme="{{_options.theme}}"/>
     </ws:if>
     <ws:else data="{{itemData.itemActionsPosition !== 'custom'}}">
         <ws:partial template="{{itemActionsTemplate}}"
@@ -13,7 +14,8 @@
                     itemData="{{itemData}}"
                     itemActionsContainerStyles="{{itemActionsContainerStyles}}"
                     attr:class="controls-Grid__itemAction js-controls-ColumnScroll__notDraggable"
-                    highlightOnHover="{{highlightOnHover}}"/>
+                    highlightOnHover="{{highlightOnHover}}"
+                    theme="{{_options.theme}}"/>
     </ws:else>
 </ws:template>
 
@@ -85,7 +87,7 @@
               {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}
               {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
               {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
-              {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
+              {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
               controls-TreeGrid__row js-controls-SwipeControl__actionsContainer"
@@ -107,7 +109,7 @@
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
         <td class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
               {{!!itemData.isActive && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
-              {{!!itemData.isDragging ? ' controls-ListView__item_dragging'}}
+              {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
               controls-TreeGrid__row js-controls-SwipeControl__actionsContainer"

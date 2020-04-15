@@ -5635,19 +5635,20 @@ define([
 
 
       it('_getLoadingIndicatorClasses', function() {
-
+         const theme = 'default';
          function testCaseWithArgs(indicatorState, hasPaging) {
             return lists.BaseControl._private.getLoadingIndicatorClasses({
                hasItems: true,
                hasPaging: hasPaging,
-               loadingIndicatorState: indicatorState
+               loadingIndicatorState: indicatorState,
+               theme
             });
          }
 
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-all', testCaseWithArgs('all', false));
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up', testCaseWithArgs('up', false));
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down', testCaseWithArgs('down', false));
-         assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl_withPaging__loadingIndicator__state-down', testCaseWithArgs('down', true));
+         assert.equal(`controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl_withPaging__loadingIndicator__state-down_theme-${theme}`, testCaseWithArgs('down', true));
 
       });
 

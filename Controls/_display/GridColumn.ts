@@ -61,7 +61,7 @@ export default class GridColumn<T> extends mixin<
             classes += ' controls-GridView__item_active_theme-default';
         }
         if (this._$owner.isDragged()) {
-            classes += ' controls-ListView__item_dragging';
+            classes += ' controls-ListView__item_dragging_theme-default';
         }
 
         // prepareRowSeparatorClasses, rowSeparatorVisibility
@@ -115,7 +115,7 @@ export default class GridColumn<T> extends mixin<
 
     getMarkerClasses(): string {
         return `
-        controls-ListView__itemV_marker
+        controls-ListView__itemV_marker_theme-default
         controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-default
         controls-GridView-without-rowSeparator_item_marker_theme-default
         `;
