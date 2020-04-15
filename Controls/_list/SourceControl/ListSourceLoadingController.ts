@@ -1,18 +1,20 @@
 import {RecordSet} from 'Types/collection';
-import {DataSet, QueryOrderSelector, QueryWhere} from 'Types/source';
+import {DataSet, QueryOrderSelector} from 'Types/source';
+import {IHashMap} from 'Types/declarations';
 import {ObservableMixin} from 'Types/entity';
 
-import {IDirection} from 'Controls/_list/interface/IVirtualScroll';
-import {NavigationController} from 'Controls/_source/NavigationController';
+import {NavigationController} from 'Controls/source';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
+
+import {IDirection} from 'Controls/_list/interface/IVirtualScroll';
 
 import {
     SourceCrudInterlayer,
     ISourceCrudInterlayerOptions
-} from 'Controls/_dataSource/SourceCrudInterlayer';
+} from 'Controls/dataSource';
 
+import {error} from 'Controls/dataSource';
 import {NavigationOptionsResolver} from './NavigationOptionsResolver';
-import * as ErrorModule from 'Controls/_dataSource/error';
 
 export interface IListSourceLoaderOptions extends ISourceCrudInterlayerOptions {
     /**
@@ -88,7 +90,7 @@ export class ListSourceLoadingController {
      * Запрашивает данные из ресурса данных, с учётом направления (вверх/вниз), используя параметры filter, sorting.
      * @remark
      * Заменяет ранее загруженные данные новыми
-     * @param filter {Types/source:QueryWhere} параметры фильтрации
+     * @param filter {Types/declarations:IHashMap} параметры фильтрации
      * @param sorting {Types/source:DataSet:QueryOrderSelector} параметры сортировки
      * @param direction {Types/source:DataSet:QueryOrderSelector} направление навигации
      */
@@ -96,11 +98,11 @@ export class ListSourceLoadingController {
      * Requests data from source considering direction (up/down) with params filter, sorting
      * @remark
      * Replaces previously loaded data with new ones
-     * @param filter {Types/source:QueryWhere} filtering params
+     * @param filter {Types/declarations:IHashMap} filtering params
      * @param sorting {Types/source:DataSet:QueryOrderSelector} sorting params
      * @param direction {Types/source:DataSet:QueryOrderSelector} navigation direction
      */
-    load(filter?: QueryWhere, sorting?: QueryOrderSelector, direction?: IDirection): Promise<{data: RecordSet; error: ErrorModule.ViewConfig}> {
+    load(filter?: IHashMap<unknown>, sorting?: QueryOrderSelector, direction?: IDirection): Promise<{data: RecordSet; error: error.ViewConfig}> {
         const _filter = filter || {};
         const _sorting = sorting || [];
         const _direction = direction || undefined;
@@ -122,7 +124,7 @@ export class ListSourceLoadingController {
             });
         return this._request
             .then((data: RecordSet) => ({data, error: null}))
-            .catch((error: ErrorModule.ViewConfig) => Promise.resolve({data: null, error}));
+            .catch((error: error.ViewConfig) => Promise.resolve({data: null, error}));
     }
 
     /**

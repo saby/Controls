@@ -1,4 +1,5 @@
-import {QueryOrderSelector, QueryWhere} from 'Types/source';
+import {QueryOrderSelector} from 'Types/source';
+import {IHashMap} from 'Types/declarations';
 import {RecordSet} from 'Types/collection';
 import {INavigationOptionValue} from 'Controls/interface';
 import {Logger} from 'UI/Utils';
@@ -119,7 +120,7 @@ class NavigationControllerFactory {
  * @author Аверкиев П.А.
  */
 class QueryParamsBuilder {
-    private _filter: QueryWhere;
+    private _filter: IHashMap<unknown>;
     private _sorting: QueryOrderSelector;
     private _limit: number;
     private _offset: number;
@@ -147,7 +148,7 @@ class QueryParamsBuilder {
         Object.keys(params).forEach((param) => {
             if (params[param] !== undefined && params[param] !== null) {
                 if (param === 'filter') {
-                    const filter: QueryWhere = this._filter ? cClone(this._filter) : {};
+                    const filter: IHashMap<unknown> = this._filter ? cClone(this._filter) : {};
                     this._filter = ({...filter, ...params[param]});
                 } else if (param === 'sorting') {
                     if (!this._sorting) {
@@ -235,7 +236,7 @@ export class NavigationController {
      * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настрйоки пейджинации
      * также одбавляются в запрос.
      * @param direction {Direction} Направление навигации.
-     * @param filter {Types/source:QueryWhere} Настрйоки фильтрации
+     * @param filter {Types/declarations:IHashMap} Настрйоки фильтрации
      * @param sorting {Types/source:QueryOrderSelector} Настрйки сортировки
      */
     /*
@@ -243,10 +244,10 @@ export class NavigationController {
      * If INavigationOptionValue<INavigationSourceConfig> is set into the class navigation property, its filter, sorting and pagination settings
      * will also be added to query
      * @param direction {Direction} navigation direction
-     * @param filter {Types/source:QueryWhere} filter settings
+     * @param filter {Types/declarations:IHashMap} filter settings
      * @param sorting {Types/source:QueryOrderSelector} sorting settings
      */
-    getQueryParams(direction?: Direction, filter?: QueryWhere, sorting?: QueryOrderSelector): IAdditionalQueryParams {
+    getQueryParams(direction?: Direction, filter?: IHashMap<unknown>, sorting?: QueryOrderSelector): IAdditionalQueryParams {
         const queryParams = new QueryParamsBuilder({filter, sorting});
         if (this._queryParamsController) {
             const queryParamsBuilderOptions = this._queryParamsController.prepareQueryParams(direction);
