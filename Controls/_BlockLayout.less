@@ -1,0 +1,103 @@
+.controls-BlockLayout_theme-@{themeName} {
+   overflow: hidden;
+   background-color: @separator_color_block;
+}
+
+.controls-BlockLayout_detached_theme-@{themeName} {
+   padding-top: @separator_thickness_block;
+}
+
+.controls-BlockLayout_theme-@{themeName} > .controls-BlockLayout__blockGroup_theme-@{themeName} {
+   @margin: -@separator_thickness_block / 2;
+
+   margin-left: @margin;
+   margin-right: @margin;
+
+   &:first-of-type {
+      margin-top: @margin;
+   }
+
+   &:last-of-type {
+      margin-bottom: @margin;
+   }
+
+   .controls-BlockLayout__block_theme-@{themeName} {
+      position: relative;
+      border-style: solid;
+      border-width: @separator_thickness_block / 2 + @border-thickness_block;
+      .box-sizing();
+
+      /**
+       * There is space left between blocks on mobile devices when using borders (due to native render).
+       * The color of the blocks borders and the space background is different.
+       * There is no problem when using" outline" size one pixel larger than "border-width".
+       * To abandon the "border" is impossible because "outline" is not included in the width value in the calculations.
+       * The solution is only used on mobile devices because property outline-offset not support in ie browser.
+       */
+
+      .ws-is-mobile-platform & {
+         border-color: transparent;
+         outline: @separator_thickness_block / 2 + @border-thickness_block + 1 solid @separator_color_block;
+         outline-offset: -(@separator_thickness_block / 2 + @border-thickness_block);
+      }
+
+      .ws-is-desktop-platform & {
+         border-color: @separator_color_block;
+      }
+   }
+}
+
+.controls-BlockLayout__block {
+   .for(6, {
+      &_style_@{_i}_theme-@{themeName} {
+         background-color: ~"@{background-color_@{_i}_block}";
+      }
+   });
+}
+// Набор классов для установки фона контрола через backgroundStyle
+.controls-background-BlockLayout__block {
+   .for(6, {
+      &_style_@{_i}_theme-@{themeName} {
+         background-color: ~"@{background-color_@{_i}_block}";
+      }
+   });
+}
+
+
+/**
+ * TODO: pointer-events работает в ie начиная с 11 версии.
+ * Поэтому живем в ie10 без тени на блоках.
+ * Убрать body:not(.ws-is-ie10), когда откажемся от e10.
+ */
+body:not(.ws-is-ie10) .controls-BlockLayout__block_theme-@{themeName}:after {
+   content: '';
+   position: absolute;
+   pointer-events: none;
+   top: -@border-thickness_block;
+   right: -@border-thickness_block;
+   bottom: -@border-thickness_block;
+   left: -@border-thickness_block;
+   border: @border-thickness_block solid @border-color_block;
+   border-radius: @border-radius_block;
+   box-shadow: @shadow_block;
+
+   /**
+    * Область между блоками реализуется через border. Тень рисуется поверх каждого блока.
+    * Граница соседнего блока может перекрывать тень. Чтобы такого не было нужно расположить тень выше всех.
+    * https://jsfiddle.net/q41Lmb7s/
+    */
+   z-index: 1;
+}
+
+.controls-BlockLayout__block_border- {
+   @variants: top, right, bottom, left;
+   .for(@variants, {
+      &@{_item}_theme-@{themeName} {
+         border-@{_item}: @separator_thickness_block solid @separator_color_block;
+      }
+   });
+}
+
+.controls-BlockLayout_background_theme-@{themeName} {
+   background-color: @separator_color_block;
+}

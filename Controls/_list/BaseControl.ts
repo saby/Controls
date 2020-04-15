@@ -1363,7 +1363,7 @@ var _private = {
                 self._listViewModel.setActiveItem(itemData);
                 self._listViewModel.setMenuState('shown');
             }
-            require(['css!Controls/input'], () => {
+            require(['css!theme?Controls/input'], () => {
                 const menuConfig = _private.getMenuConfig(children, self._options.contextMenuConfig, action);
 
                 self._children.itemActionsOpener.open({

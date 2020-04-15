@@ -1,0 +1,161 @@
+@import "Controls/Application/BlockLayout/_BlockLayout";
+@import "Controls/Application/_theme/_links";
+
+/* сброс стилей. copy normilize.less*/
+* {
+   margin: 0;
+   padding: 0;
+   outline: none;
+}
+
+html {
+   min-width: 100%;
+   min-height: 100%;
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+   -webkit-print-color-adjust: exact;
+
+   //В мобильных браузерах для удобства чтения бразуер увеличивает размер шрифта, необходимо это блокировать
+   text-size-adjust: none;
+   -webkit-text-size-adjust: none;
+   -moz-text-size-adjust: none;
+   -ms-text-size-adjust: none;
+}
+
+body {
+   font-family: @font-family;
+   font-size: @font-size_default;
+   color: @text-color;
+   background-color: @background-color;
+   text-decoration-skip: none;
+   text-decoration-skip-ink: none;
+
+   /* Better Font Rendering =========== */
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+.bodyContent {
+   height: 100%;
+   width: 100%;
+}
+
+table {
+   border-spacing: 0;
+}
+
+img {
+   border: none;
+}
+
+// На iPad, в сафари и хроме, в пустой textarea, курсор встает на 3px правее, чем нужно,
+// и при наличии в поле плейсхолдера (кастомного или нативного) он оказывается по центру его первого символа
+// Поэтому для пустого поля добавляем text-indent: -3px
+// https://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea
+// :empty не получается использовать, т.к. он работает только если area пуста/не пуста изначально. Динамически не меняется
+// На всех area у нас есть атрибут required (для показа placeholder), соответственно можем использовать :invalid для проверки на пустоту
+.ws-is-mobile-safari, .ws-is-mobile-chrome-ios {
+   textarea:invalid {
+      text-indent: -3px;
+   }
+}
+
+// 1)в Safari на macOS и yandex на XP выделяется страница при dnd
+// 2)в Safari в input'ах по умолчанию user-select='text', поэтому для них задаем стиль отдельно
+.ws-is-desktop-safari.ws-is-drag,
+.ws-is-chrome-xp.ws-is-drag,
+.ws-is-desktop-safari.ws-is-drag input {
+   user-select: none;
+}
+
+//Скрытие иконки автозаполнения в полях ввода в браузере Safari на MacOS
+input::-webkit-contacts-auto-fill-button {
+   visibility: hidden;
+   display: none !important;
+   pointer-events: none;
+   position: absolute;
+   right: 0;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner {
+   padding: 0 !important;
+   border: 0 none !important;
+}
+
+/*core-min::  styles*/
+
+.controls-roundedCorner_size_s {
+   border-radius: @border-radius_s_image;
+}
+
+.controls-roundedCorner_size_m {
+   border-radius: @border-radius_m_image;
+}
+
+.ws-hidden {
+   display: none !important;
+}
+.ws-invisible {
+   visibility: hidden !important;
+}
+
+.ws-absolute {
+   position:absolute !important;
+}
+
+.ws-fixed {
+   position: fixed;
+}
+
+.ws-ellipsis {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.ws-standartLink .asLink {
+   text-decoration: underline !important;
+}
+
+.clearfix {
+   display: inline-block;
+   &:after {
+      content: "";
+      display: block;
+      height: 0;
+      line-height: 0;
+      clear: both;
+      visibility: hidden;
+   }
+}
+
+html>body .clearfix {
+   display: block;
+}
+
+
+.pre-load {
+   pointer-events: none;
+}
+.theme-changing {
+   //transition: opacity .25s ease-in-out;
+   //-moz-transition: opacity .25s ease-in-out;
+   //-webkit-transition: opacity .25s ease-in-out;
+   opacity: 0.2;
+   pointer-events: none;
+}
+#theme-changing-overlay {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   transition: background-color .25s ease-in-out;
+   -moz-transition: background-color .25s ease-in-out;
+   -webkit-transition: background-color .25s ease-in-out;
+   background-color: rgb(255, 255, 255); /* Black background with opacity */
+   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+   cursor: pointer; /* Add a pointer on hover */
+}
