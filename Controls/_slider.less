@@ -1,0 +1,208 @@
+.controls-Slider_big_withoutBorder_theme-@{themeName} {
+  padding: 0 @marker_l_size_slider / 2;
+}
+.controls-Slider_small_withoutBorder_theme-@{themeName} {
+  padding: 0 @marker_s_size_slider / 2;
+}
+.controls-Slider__withBorder_theme-@{themeName} {
+  border: @border-thickness_slider solid @border-color_slider;
+  border-radius: @border-radius_slider;
+  padding: 0 @padding-horizontal_slider - @border-thickness_slider;
+}
+
+.controls-Slider__mainSlider_small_theme-@{themeName} {
+  position: relative;
+  height: @marker_s_size_slider;
+  margin: (@scale_offset_slider-line - @marker_s_size_slider / 2 + @track_thickness_slider / 2) 0;
+}
+
+.controls-Slider__mainSlider_big_theme-@{themeName} {
+  position: relative;
+  height: @marker_l_size_slider;
+  margin: (@scale_offset_slider-line - @marker_l_size_slider / 2 + @track_thickness_slider / 2)  0;
+
+}
+
+.controls-Slider__point_theme-@{themeName} {
+  position: absolute;
+  cursor: pointer;
+  display: inline-block;
+  background-color: @marker_background-color_slider;
+  z-index: 2;
+}
+
+.controls-Slider__point_enabled_theme-@{themeName} {
+  border: @marker_border-thickness_slider solid @marker_border-color_slider;
+  background-color: @marker_background-color_slider;
+}
+
+.controls-Slider__point_disabled_theme-@{themeName} {
+  border: @marker_border-thickness_slider solid @readonly_marker_border-color_slider;
+  cursor: auto;
+}
+
+.controls-Slider__point_big_theme-@{themeName} {
+  width: @marker_l_size_slider - 2 * @marker_border-thickness_slider;
+  height: @marker_l_size_slider - 2 * @marker_border-thickness_slider;
+  margin-left: -@marker_l_size_slider / 2;
+  border-radius: @marker_l_size_slider / 2;
+}
+
+.controls-Slider__point_small_theme-@{themeName} {
+  width: @marker_s_size_slider - 2 * @marker_border-thickness_slider;
+  height: @marker_s_size_slider - 2 * @marker_border-thickness_slider;
+  margin-left: -@marker_s_size_slider / 2;
+  border-radius: @marker_s_size_slider / 2;
+}
+
+.controls-Slider__line_theme-@{themeName} {
+  position: absolute;
+  height: @track_thickness_slider;
+  width: 100%;
+}
+
+.controls-Slider__line_small_theme-@{themeName} {
+  margin-top: @marker_s_size_slider / 2 - 1;
+}
+
+.controls-Slider__line_big_theme-@{themeName} {
+  margin-top: @marker_l_size_slider / 2 - 1;
+}
+
+.controls-Slider__line__empty_enabled_theme-@{themeName} {
+  background-color: @unselected_track_color_slider;
+}
+
+.controls-Slider__line__full_enabled_theme-@{themeName} {
+  z-index: 1;
+  background-color: @track_color_slider;
+}
+
+.controls-Slider__line__empty_disabled_theme-@{themeName},
+.controls-Slider__line__full_disabled_theme-@{themeName} {
+  background-color: @readonly_track_color_slider;
+}
+
+.controls-Slider__line__wrapper_theme-@{themeName} {
+  position: absolute;
+}
+.controls-Slider__line__wrapper_enabled_theme-@{themeName} {
+  cursor: pointer;
+}
+.controls-Slider__line__wrapper_disabled_theme-@{themeName} {
+  cursor: auto;
+}
+
+.controls-Slider__line__wrapper_big_theme-@{themeName} {
+  width: 100%;
+  height: @marker_l_size_slider;
+}
+
+.controls-Slider__line__wrapper_small_theme-@{themeName} {
+  height: @marker_s_size_slider;
+  width: 100%;
+}
+
+.controls-Slider__point_enabled_theme-@{themeName}:hover {
+  background-color: @marker_hover_background-color_slider;
+}
+
+.controls-Slider__scale {
+  justify-content: space-between;
+  align-items: baseline;
+  display: flex;
+}
+.controls-Slider__segment {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  position: relative;
+}
+.controls-Slider__segment_theme-@{themeName} {
+  font-size: @scale_font-size_slider;
+}
+.controls-Slider__segmentValue {
+  flex-shrink: 0;
+}
+.controls-Slider__segment_big:after {
+  top: -((@marker_l_size_slider - @track_thickness_slider) / 2 + ( @scale_offset_slider-line - @marker_l_size_slider / 2 ) + @track_thickness_slider / 2);
+}
+.controls-Slider__segment_small:after {
+  top: -((@marker_s_size_slider - @track_thickness_slider) / 2 + ( @scale_offset_slider-line - @marker_s_size_slider / 2 ) + @track_thickness_slider / 2);
+}
+.controls-Slider__segment_small:after,
+.controls-Slider__segment_big:after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  display: block;
+}
+
+.controls-Slider__segment_theme-@{themeName}:after {
+  width: @tick_thickness_slider;
+  height: @tick_height_slider;
+
+}
+.controls-Slider__segment_enabled_theme-@{themeName} {
+  color: @scale_text-color_slider;
+}
+.controls-Slider__segment_disabled_theme-@{themeName} {
+  color: @readonly_scale_text-color_slider;
+}
+
+.controls-Slider__segment_enabled_theme-@{themeName}:after {
+  background-color: @tick_color_slider;
+}
+
+.controls-Slider__segment_disabled_theme-@{themeName}:after {
+  background-color: @readonly_tick_color_slider;
+}
+
+.controls-Slider__segment:first-child {
+  align-items: flex-start;
+}
+
+.controls-Slider__segment:last-child {
+  align-items: flex-end;
+}
+.controls-Slider__segment_theme-@{themeName}:last-child:after {
+  left: -@tick_thickness_slider;
+}
+
+.controls-Slider__tooltipValue {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.controls-Slider__tooltipValue_theme-@{themeName} {
+  padding: @tooltip_padding-vertical_slider @tooltip_padding-horizontal_slider;
+  background-color: @tooltip_background-color_slider;
+  border-radius: @tooltip_border-radius_slider;
+  box-shadow: @tooltip_box-shadow_slider;
+  font-size: @tooltip_font-size_slider;
+}
+.controls-Slider__point_big_tooltipValue_theme-@{themeName} {
+  bottom: @marker_l_size_slider + @tooltip_offset_slider;
+}
+.controls-Slider__point_small_tooltipValue_theme-@{themeName} {
+  bottom: @marker_s_size_slider + @tooltip_offset_slider;
+}
+.controls-Slider__point_tooltip {
+  z-index: 2;
+}
+.controls-Slider__point_tooltip_theme-@{themeName} {
+  border: @marker_border-thickness_slider solid @marker_hover_border-color_slider;
+  background-color: @marker_background-color_slider;
+}
+.controls-Slider__point_tooltip_theme-@{themeName}:hover {
+  background-color: @marker_background-color_slider;
+}
+.controls-Slider__point_hidden_theme-@{themeName},
+.controls-Slider__point_hidden_theme-@{themeName}:hover {
+  border: @marker_border-thickness_slider solid transparent;
+  background: none;
+}
