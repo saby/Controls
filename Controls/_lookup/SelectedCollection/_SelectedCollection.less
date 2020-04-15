@@ -17,7 +17,7 @@
     line-height: @counter_height_lookupSelectedCollection;
 }
 
-.controls-SelectedCollection__InfoBox_fixed {
+.controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
     .inline-flexbox();
     position: absolute;
     left: 0;
@@ -25,7 +25,7 @@
     background: @counter_background-color_lookupSelectedCollection;
 }
 
-.controls-SelectedCollection__InfoBox_fixed:after {
+.controls-SelectedCollection__InfoBox_fixed_theme-@{themeName}:after {
     content: '';
     position: absolute;
     right: -@counter_shadow-blur_lookupSelectedCollection;

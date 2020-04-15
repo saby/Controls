@@ -4,7 +4,7 @@
                     showLoadingIndicator="{{_showLoadingIndicatorImage}}"
                     portionedSearchInProgress="{{_portionedSearchInProgress}}">
             <ws:contentTemplate>
-                <div class="controls-BaseControl__abortSearch" on:click="_abortSearch()">{[Прервать поиск]}</div>
+                <div class="controls-BaseControl__abortSearch controls-BaseControl__abortSearch_theme-{{_options.theme}}" on:click="_abortSearch()">{[Прервать поиск]}</div>
             </ws:contentTemplate>
         </ws:partial>
     </div>
@@ -13,25 +13,26 @@
 <ws:template name="pagingTpl">
     <ws:if data="{{_pagingLabelData}}">
         <ws:if data="{{_options.navigation.viewConfig.totalInfo === 'extended'}}">
-            <div class="controls-BaseControl_paging-label"><div>{{_pagingLabelData.firstItemNumber}} - {{_pagingLabelData.lastItemNumber}} {{rk('из')}} {{_pagingLabelData.totalItemsCount}}, {{rk('по')}} </div>
-            <Controls.dropdown:Button
-                    attr:class="controls-BaseControl_paging-pageSizeChooser"
-                    keyProperty="id"
-                    style="secondary"
-                    viewMode="link"
-                    fontSize="s"
-                    on:menuItemActivate="_changePageSize()"
-                    caption="{{_pagingLabelData.pageSize}}"
-                    source="{{_pageSizeSource}}">
-            </Controls.dropdown:Button>
+            <div class="controls-BaseControl_paging-label_theme-{{_options.theme}}">
+                <div>{{_pagingLabelData.firstItemNumber}} - {{_pagingLabelData.lastItemNumber}} {{rk('из')}} {{_pagingLabelData.totalItemsCount}}, {{rk('по')}} </div>
+                <Controls.dropdown:Button
+                        attr:class="controls-BaseControl_paging-pageSizeChooser controls-BaseControl_paging-pageSizeChooser_theme-{{_options.theme}}"
+                        keyProperty="id"
+                        style="secondary"
+                        viewMode="link"
+                        fontSize="s"
+                        on:menuItemActivate="_changePageSize()"
+                        caption="{{_pagingLabelData.pageSize}}"
+                        source="{{_pageSizeSource}}">
+                </Controls.dropdown:Button>
             </div>
         </ws:if>
         <ws:else>
-            <div class="controls-BaseControl_paging-label">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
+            <div class="controls-BaseControl_paging-label_theme-{{_options.theme}}">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
         </ws:else>
     </ws:if>
     <Controls.paging:Paging
-        attr:class="controls-BaseControl__footerPaging"
+        attr:class="controls-BaseControl__footerPaging_theme-{{_options.theme}}"
         showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
         showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
         pagesCount = "{{_knownPagesCount}}"
@@ -44,14 +45,14 @@
         <ws:partial template="loadingIndicator"/>
     </ws:if>
     <ws:if data="{{_options.footerTemplate}}">
-        <div class="controls-BaseControl__footer-content">
+        <div class="controls-BaseControl__footer-content_theme-{{_options.theme}}">
             <ws:partial template="{{_options.footerTemplate}}"/>
         </div>
     </ws:if>
     <ws:if data="{{_pagingNavigation && _pagingNavigationVisible}}">
         <div class="controls-BaseControl__footerPaging_wrapper">
             <ws:if data="{{_options.columnScroll}}">
-                <div class="controls-BaseControl_paging-wrapper">
+                <div class="controls-BaseControl_paging-wrapper_theme-{{_options.theme}}">
                     <ws:partial template="pagingTpl" />
                 </div>
             </ws:if>
@@ -61,7 +62,7 @@
         </div>
     </ws:if>
     <ws:if data="{{_shouldDrawFooter}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/Footer" loadMoreCaption="{{_loadMoreCaption}}"/>
+        <ws:partial template="wml!Controls/_list/BaseControl/Footer" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
 </ws:template>
 <ws:template name="multiSelectTplIf">
@@ -243,7 +244,7 @@
 
         <ws:if data="{{_showContinueSearchButton}}">
             <div class="controls-BaseControl__continueSearch ws-flexbox ws-justify-content-center">
-                <div class="controls-BaseControl__continueSearch_wrapper ws-inline-flexbox ws-align-items-center" on:click="_continueSearch()">
+                <div class="controls-BaseControl__continueSearch_wrapper_theme-{{_options.theme}} ws-inline-flexbox ws-align-items-center" on:click="_continueSearch()">
                     <div class="controls-BaseControl__continueSearch_icon controls-icon icon-Search2 controls-icon_size-m_theme-{{_options.theme}}"></div>
                     <div class="controls-BaseControl__continueSearch_caption">
                         {[Продолжить поиск]}
@@ -253,11 +254,11 @@
         </ws:if>
 
         <ws:if data="{{_pagingVisible}}">
-            <div class="controls-BaseControl_paging-Padding">
+            <div class="controls-BaseControl_paging-Padding_theme-{{_options.theme}}">
             </div>
             <div class="controls-BaseControl__pagingContainer">
                 <Controls.paging:Paging
-                    attr:class="controls-BaseControl__scrollPaging"
+                    attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
                     scope="{{_pagingCfg}}"
                     showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
                     on:onArrowClick="__onPagingArrowClick()" />

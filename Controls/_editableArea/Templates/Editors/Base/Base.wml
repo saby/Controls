@@ -8,7 +8,7 @@
       />
    </ws:if>
    <ws:else>
-      <div class="controls-EditableArea__Text controls-EditableArea__Text_style_{{_options.style ? _options.style  : 'default'}} controls-EditingTemplateText_size_{{_options.size ? _options.size : 'default'}}">
+      <div class="controls-EditableArea__Text controls-EditableArea__Text_style_{{_options.style ? _options.style  : 'default'}} controls-EditingTemplateText_size_{{_options.size ? _options.size : 'default'}}_theme-{{_options.theme}}">
          <div class="controls-EditableArea__Text__wrapper">
             <span class="controls-EditableArea__Text__baseline">&#65279;</span>
             <div class="controls-EditingTemplateText__inner">{{_prepareValueForEditor(_options.value)}}</div>

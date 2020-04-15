@@ -5,7 +5,7 @@
                   items="{{_items}}"
                   name="Path"
                   withoutBackButton="{{_withoutBackButton}}"
-                  attr:class="controls-Explorer__Path {{_options.style == 'master' ? 'controls-Explorer__Path_style_master'}}"
+                  attr:class="controls-Explorer__Path_theme-{{_options.theme}} {{_options.style == 'master' ? 'controls-Explorer__Path_style_master'}}"
                   on:backButtonClick="_notifyHandler('backButtonClick')"
                   on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                   on:arrowActivated="_notifyHandler('arrowActivated')"
