@@ -1,5 +1,6 @@
 <div attr:style="display: flex; justify-content: space-around; flex-direction: column;">
-    <Controls.list:SourceControl
+    <!-- todo На момент 13.04.2020 SourceControl не экспортируется из list -->
+    <Controls._list.SourceControl
             name="sourceControl"
             source="{{ _itemsSource }}"
     >
@@ -15,7 +16,7 @@
         <ws:navigation source="page" view="infinite">
             <ws:sourceConfig pageSize="{{_pageSize}}" page="{{0}}" hasMore="{{false}}"/>
         </ws:navigation>
-    </Controls.list:SourceControl>
+    </Controls._list.SourceControl>
     <Controls.buttons:Button
             attr:class="controls-BaseControl__loadMore"
             viewMode="linkButton"

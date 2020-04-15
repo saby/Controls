@@ -4,7 +4,7 @@
  * @private
  */
 
-import {QueryWhere} from 'Types/source';
+import {IHashMap} from 'Types/declarations';
 import {Controller as SourceController} from 'Controls/source';
 import {ICrud} from 'Types/source';
 import {RecordSet} from 'Types/collection';
@@ -17,7 +17,7 @@ export default class GroupingLoader extends Control {
     loadGroup(collection: IGroupingModel,
               groupId: TGroupId,
               source: ICrud,
-              filter: QueryWhere,
+              filter: IHashMap<unknown>,
               sorting?: object): Promise<void> {
         const sourceController =  new SourceController({
             source,

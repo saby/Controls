@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import {ICrud} from 'Types/source';
-import {SourceControl} from 'Controls/list';
+// todo На момент 13.04.2020 SourceControl не экспортируется из list
+import {default as SourceControl} from 'Controls/_list/SourceControl';
 
 import * as Template from 'wml!Controls-demo/List/ColumnsView/ColumnsView';
 import {SourceFaker} from '../Utils/listDataGenerator';

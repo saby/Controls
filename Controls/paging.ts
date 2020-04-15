@@ -14,4 +14,4 @@
  * @author Крайнов Д.О.
  */
 
-export {default as Paging} from './_paging/Paging';
+export {default as Paging, IPagingOptions} from './_paging/Paging';
