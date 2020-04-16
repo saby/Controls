@@ -12,6 +12,12 @@ var
     TreeGridView = GridView.extend({
         _itemOutputWrapper: ItemOutputWrapper,
         _defaultItemTemplate: GridItemTemplate,
+        _beforeUpdate(newCfg) {
+            TreeGridView.superclass._beforeUpdate.apply(this, arguments);
+            if (this._options.expanderSize !== newCfg.expanderSize) {
+                this._listModel.setExpanderSize(newCfg.expanderSize);
+            }
+        },
         _resolveBaseItemTemplate(): TemplateFunction {
             return isFullGridSupport() ? GridItemTemplate : TableItemTemplate;
         },
@@ -21,6 +27,12 @@ var
         },
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
+        },
+        // protected
+        _getFooterClasses(): string {
+            const expanderPadding = (this._options.expanderSize || 'default').toLowerCase();
+            const classes = ` controls-TreeGridView__footer controls-TreeGridView__footer__expanderPadding-${expanderPadding}_theme-${this._options.theme}`;
+            return TreeGridView.superclass._getFooterClasses.apply(this, arguments) + classes;
         }
     });
 

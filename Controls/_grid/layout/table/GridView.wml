@@ -73,7 +73,7 @@
     <!-- Подвал таблицы -->
     <tr>
         <td colspan="{{_listModel.getColspanFor('footer')}}">
-            <div class="{{_calcFooterPaddingClass()}}" style="{{_listModel.getFooterStyles()}}">
+            <div class="{{_getFooterClasses()}}" style="{{_listModel.getFooterStyles()}}">
                 <ws:partial template="{{_options.footerTemplate}}"/>
             </div>
         </td>

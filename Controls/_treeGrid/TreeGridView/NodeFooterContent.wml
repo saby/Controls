@@ -12,9 +12,9 @@
 <ws:template name="footerContent">
     <div class="{{footer.classes}}" style="{{footer.colspanStyles || ''}}">
         <ws:for data="i in footer.level">
-            <div class="controls-TreeGrid__row-levelPadding {{footer.getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
+            <div class="controls-TreeGrid__row-levelPadding {{footer.getLevelIndentClasses(footer.getExpanderSize(expanderSize), levelIndentSize)}}"></div>
         </ws:for>
-        <div class="{{footer.getExpanderPaddingClasses(expanderSize, theme, true)}}"></div>
+        <div class="{{footer.getExpanderPaddingClasses(footer.getExpanderSize(expanderSize), theme, true)}}"></div>
         <ws:if data="{{footer.hasMoreStorage}}">
             <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore"
                                      fontSize="xs"

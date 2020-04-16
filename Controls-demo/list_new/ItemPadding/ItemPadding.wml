@@ -26,9 +26,22 @@
         <div class="controlsDemo__wrapper controlsDemo__flexRow">
 
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру null в списке с чекбоксами</div>
+                <Controls.list:View keyProperty="id" source="{{_viewSource}}" multiSelectVisibility="visible">
+                    <ws:itemPadding left="null" right="null"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.list:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру null</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
                     <ws:itemPadding left="null" right="null"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.list:View>
             </div>
 
@@ -36,6 +49,9 @@
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
                     <ws:itemPadding left="M" right="M"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.list:View>
             </div>
 
@@ -43,6 +59,9 @@
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
                     <ws:itemPadding left="L" right="L"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.list:View>
             </div>
 
@@ -50,6 +69,9 @@
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
                     <ws:itemPadding left="XL" right="XL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.list:View>
             </div>
 
@@ -57,6 +79,9 @@
                 <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру XXL</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
                     <ws:itemPadding left="XXL" right="XXL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.list:View>
             </div>
         </div>

@@ -291,6 +291,17 @@ var ListView = BaseControl.extend(
 
         getHoveredItem: function () {
             return this._listModel.getHoveredItem();
+        },
+
+        // protected
+        _getFooterClasses(): string {
+            let leftPadding: string;
+            if (this._options.multiSelectVisibility !== 'hidden') {
+                leftPadding += 'withCheckboxes';
+            } else {
+                leftPadding += (this._options.itemPadding && this._options.itemPadding.left || 'default').toLowerCase();
+            }
+            return `controls-ListView__footer__paddingLeft_${leftPadding}_theme-${this._options.theme}`;
         }
     });
 
@@ -298,7 +309,7 @@ ListView.getDefaultOptions = function() {
     return {
         contextMenuVisibility: true,
         markerVisibility: 'onactivated',
-        headerInEmptyListVisible: true,
+        headerInEmptyListVisible: true
     };
 };
 ListView._theme = ['Controls/list'];
