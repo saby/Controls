@@ -15,7 +15,10 @@ export default class extends Control {
       ...cur, template: undefined
    }));
 
-   protected _beforeMount() {
+   protected _beforeMount(options): void {
+      if (options.hasOwnProperty('collapseNodes')) {
+         this._expandedItems = [];
+      }
       this._viewSource = new Memory({
          keyProperty: 'id',
          data: Gadgets.getDataTwoLvl()

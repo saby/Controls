@@ -12,6 +12,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="null" right="null"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
 
@@ -24,6 +27,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="s" right="s"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
 
@@ -36,6 +42,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="m" right="m"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
 
@@ -48,6 +57,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="L" right="L"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
 
@@ -60,6 +72,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="XL" right="XL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
 
@@ -72,6 +87,9 @@
                         parentProperty="parent"
                         nodeProperty="type">
                     <ws:itemPadding left="XXL" right="XXL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
                 </Controls.treeGrid:View>
             </div>
         </div>

@@ -23,15 +23,15 @@
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 1 || !itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
        <ws:if data="{{!withoutLevelPadding && itemData.level > 1}}">
            <ws:for data="i in itemData.level - 1">
-               <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
+               <div class="controls-TreeGrid__row-levelPadding {{itemData.getLevelIndentClasses(itemData.getExpanderSize(expanderSize), levelIndentSize)}}"></div>
            </ws:for>
        </ws:if>
        <ws:if data="{{itemData.shouldDrawExpander(itemData, expanderIcon)}}">
            <ws:partial template="{{itemData.expanderTemplate}}" itemData="{{itemData}}" expanderIcon="{{expanderIcon}}"
-                       expanderSize="{{expanderSize}}"/>
+                       expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
        </ws:if>
-       <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, expanderSize)}}">
-           <div class="{{itemData.getExpanderPaddingClasses(expanderSize, _options.theme)}} js-controls-ListView__notEditable"></div>
+       <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, itemData.getExpanderSize(expanderSize))}}">
+           <div class="{{itemData.getExpanderPaddingClasses(itemData.getExpanderSize(expanderSize), _options.theme)}} js-controls-ListView__notEditable"></div>
        </ws:else>
    </ws:if>
    <ws:if data="{{colspan}}">
