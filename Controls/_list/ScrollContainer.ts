@@ -106,7 +106,9 @@ export default class ScrollContainer extends Control<IOptions> {
     private _throttledPositionChanged: Function = throttle((params) => {
         const rangeShiftResult = this._virtualScroll.shiftRangeToScrollPosition(params.scrollTop);
         this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
-        this._setCollectionIndices(this._options.collection, rangeShiftResult.range);
+        if (!this._setCollectionIndices(this._options.collection, rangeShiftResult.range)) {
+            this._forceUpdate();
+        };
     }, SCROLLMOVE_DELAY, true);
 
     protected _beforeMount(options: IOptions): void {
@@ -384,10 +386,10 @@ export default class ScrollContainer extends Control<IOptions> {
         collection: Collection<Record>,
         {start, stop}: IRange,
         force?: boolean
-    ): void {
+    ): boolean {
         let collectionStartIndex: number;
         let collectionStopIndex: number;
-
+        let result = false;
         if (collection.getViewIterator) {
             collectionStartIndex = displayLib.VirtualScrollController.getStartIndex(collection);
             collectionStopIndex = displayLib.VirtualScrollController.getStopIndex(collection);
@@ -403,6 +405,7 @@ export default class ScrollContainer extends Control<IOptions> {
                 // @ts-ignore
                 collection.setIndexes(start, stop);
             }
+            result = true;
         }
 
         if (this.__mounted) {
@@ -411,6 +414,7 @@ export default class ScrollContainer extends Control<IOptions> {
                 down: stop < collection.getCount()
             }]);
         }
+        return result;
     }
 
     /**
