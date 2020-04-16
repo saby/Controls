@@ -200,9 +200,9 @@ var
 
         /**
          * Производит расчёт CSS классов для футера grid'а
-         * @private
+         * @protected
          */
-        _calcFooterPaddingClass(): string {
+        _getFooterClasses(): string {
             let leftPadding;
             if (this._options.multiSelectVisibility !== 'hidden') {
                 leftPadding = 'withCheckboxes';
@@ -212,6 +212,7 @@ var
             let classList = CssClassList
                 .add('controls-GridView__footer')
                 .add(`controls-GridView__footer__paddingLeft_${leftPadding}_theme-${this._options.theme}`);
+
             // Для предотвращения скролла одной записи в таблице с экшнами.
             // _options._needBottomPadding почему-то иногда не работает.
             if (this._options.itemActionsPosition === 'outside' &&

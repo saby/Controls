@@ -11,7 +11,7 @@
                _itemOutputWrapper="{{_itemOutputWrapper}}"
                _itemTemplate="{{_itemTemplate}}"
                _groupTemplate="{{_groupTemplate}}"
-               _calcFooterPaddingClass="{{_calcFooterPaddingClass}}"
+               _getFooterClasses="{{_getFooterClasses}}"
                _options="{{_options}}"/>
 </ws:template>
 

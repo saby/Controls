@@ -69,7 +69,7 @@
     </ws:if>
 
     <!-- Подвал таблицы -->
-    <div class="{{_calcFooterPaddingClass()}}" style="{{_listModel.getFooterStyles()}}">
+    <div class="{{_getFooterClasses()}}" style="{{_listModel.getFooterStyles()}}">
         <ws:partial template="{{_options.footerTemplate}}"/>
     </div>
 </div>

@@ -102,6 +102,9 @@ var
         setExpanderVisibility: function (expanderVisibility) {
             this._model.setExpanderVisibility(expanderVisibility);
         },
+        setExpanderSize(expanderSize): void {
+            this._model.setExpanderSize(expanderSize);
+        },
         resetExpandedItems: function () {
             this._model.resetExpandedItems();
         },

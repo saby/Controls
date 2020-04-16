@@ -1,89 +1,57 @@
 <div class="controlsDemo__wrapper_fixed_width">
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper16">
-        <div>16px image</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGrid16"
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                parentProperty="parent"
-                nodeProperty="type">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="s" itemData="{{itemData}}" />
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapper16">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/Photo16px/Index' }}">
+            <a href="{{content.href}}">16px image</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.Photo16px.Index collapseNodes/>
     </div>
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper24">
-        <div>24px image</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGrid24"
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                parentProperty="parent"
-                nodeProperty="type">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="m" itemData="{{itemData}}" />
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapper24">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/Photo24px/Index' }}">
+            <a href="{{content.href}}">24px image</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.Photo24px.Index collapseNodes/>
     </div>
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper32">
-        <div>32px image</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGrid32"
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                parentProperty="parent"
-                nodeProperty="type">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="l" itemData="{{itemData}}" />
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapper32">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/Photo32px/Index' }}">
+            <a href="{{content.href}}">32px image</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.Photo32px.Index collapseNodes/>
     </div>
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapper40">
-        <div>40px image</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGrid40"
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                parentProperty="parent"
-                nodeProperty="type">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl" itemData="{{itemData}}" />
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapper40">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/Photo40px/Index' }}">
+            <a href="{{content.href}}">40px image</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.Photo40px.Index collapseNodes/>
     </div>
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapperTwoLevels">
-        <div>Two levels tree</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGridTwoLevels"
-                keyProperty="id"
-                parentProperty="Раздел"
-                nodeProperty="Раздел@"
-                source="{{_viewSourceTwo}}"
-                columns="{{_twoLvlColumns}}">
-            <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" withoutLevelPadding="{{true}}" itemData="{{itemData}}"/>
-            </ws:itemTemplate>
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapperTwoLevels">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/TwoLevelsWithPhoto/Index' }}">
+            <a href="{{content.href}}">Two levels tree</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.TwoLevelsWithPhoto.Index collapseNodes/>
     </div>
 
-    <div class="controlsDemo__wrapper demo-TreeWithProto__wrapperTwoLevelsNoFoto">
-        <div>Two levels tree without photo</div>
-        <Controls.treeGrid:View
-                attr:class="demoTreeWithProto__treeGridTwoLevels"
-                keyProperty="id"
-                parentProperty="Раздел"
-                nodeProperty="Раздел@"
-                source="{{_viewSourceTwo}}"
-                columns="{{_twoLvlColumnsNoPhoto}}">
-        </Controls.treeGrid:View>
+    <div class="controlsDemo__cell demo-TreeWithProto__wrapperTwoLevelsNoPhoto">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/ItemTemplate/WithPhoto/TwoLevelsWithoutPhoto/Index' }}">
+            <a href="{{content.href}}">Two levels tree without photo</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.ItemTemplate.WithPhoto.TwoLevelsWithoutPhoto.Index collapseNodes/>
     </div>
+
 </div>

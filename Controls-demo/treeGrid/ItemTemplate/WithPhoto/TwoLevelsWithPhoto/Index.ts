@@ -14,8 +14,10 @@ export default class extends Control {
    protected _twoLvlColumns = Gadgets.getGridTwoLevelColumnsWithPhoto();
    protected _expandedItems = [1, 2, 4];
 
-
-   protected _beforeMount() {
+   protected _beforeMount(options): void {
+      if (options.hasOwnProperty('collapseNodes')) {
+         this._expandedItems = [];
+      }
       this._viewSourceTwo = new Memory({
          keyProperty: 'id',
          data: Gadgets.getDataTwoLvl()

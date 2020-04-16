@@ -13,7 +13,10 @@ export default class extends Control {
    protected _columns = Gadgets.getGridColumnsWithPhoto();
    protected _expandedItems: number[] = [ 1, 15, 153 ];
 
-   protected _beforeMount() {
+   protected _beforeMount(options): void {
+      if (options.hasOwnProperty('collapseNodes')) {
+         this._expandedItems = [];
+      }
       this._viewSource = new Memory({
          keyProperty: 'id',
          data: Gadgets.getFlatData()

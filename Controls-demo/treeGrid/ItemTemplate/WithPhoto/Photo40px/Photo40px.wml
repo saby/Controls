@@ -6,9 +6,10 @@
         columns="{{_columns}}"
         parentProperty="parent"
         nodeProperty="type"
-        expandedItems="{{_expandedItems}}">
-        <ws:itemTemplate>
-            <ws:partial template="Controls/treeGrid:ItemTemplate" expanderSize="xl" itemData="{{itemData}}"/>
-        </ws:itemTemplate>
+        expanderSize="xl"
+        bind:expandedItems="_expandedItems">
+        <ws:footerTemplate>
+            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+        </ws:footerTemplate>
     </Controls.treeGrid:View>
 </div>

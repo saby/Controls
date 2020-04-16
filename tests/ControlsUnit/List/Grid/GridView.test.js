@@ -102,16 +102,16 @@ define(['Controls/grid'], function(gridMod) {
          gridView.saveOptions(cfg);
 
 
-         assert.equal(gridView._calcFooterPaddingClass(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
 
          gridView._options.multiSelectVisibility = 'visible';
-         assert.equal(gridView._calcFooterPaddingClass(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
 
          gridView._options.multiSelectVisibility = 'hidden';
-         assert.equal(gridView._calcFooterPaddingClass(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_s_theme-default');
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_s_theme-default');
 
          gridView._options.itemPadding = undefined;
-         assert.equal(gridView._calcFooterPaddingClass(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_default_theme-default');
+         assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_default_theme-default');
       });
       it('beforeMount', function() {
          var

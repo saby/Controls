@@ -6,6 +6,9 @@
         nodeProperty="Раздел@"
         source="{{_viewSource}}"
         columns="{{_twoLvlColumnsNoPhoto}}"
-        expandedItems="{{_expandedItems}}">
+        bind:expandedItems="_expandedItems">
+        <ws:footerTemplate>
+            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+        </ws:footerTemplate>
     </Controls.treeGrid:View>
 </div>
