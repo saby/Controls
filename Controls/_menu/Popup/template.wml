@@ -41,6 +41,7 @@
                        on:pinClick="_sendResult('pinClick')"
                        on:menuOpened="_sendResult('menuOpened')"
                        on:beforeSubMenuOpen="_prepareSubMenuConfig()"
+                       on:subMenuMouseenter="_sendResult('subMenuMouseenter')"
                />
             </div>
          </ws:bodyContentTemplate>
