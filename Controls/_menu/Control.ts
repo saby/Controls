@@ -36,7 +36,7 @@ import {TouchContextField} from 'Controls/context';
  * @author Герасимов А.М.
  */
 
-const SUB_DROPDOWN_OPEN_DELAY = 400;
+const SUB_DROPDOWN_DELAY = 400;
 
 class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     protected _template: TemplateFunction = ViewTemplate;
@@ -54,7 +54,8 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     private _selectionChanged: boolean = false;
     private _expandedItems: RecordSet;
     private _itemsCount: number;
-    private _handleCurrentItemTimeout: number = null;
+    private _openingTimer: number = null;
+    private _closingTimer: number = null;
     private _isMouseInOpenedItemArea: boolean = false;
     private _expandedItemsFilter: Function;
     private _additionalFilter: Function;
@@ -105,6 +106,9 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     }
 
     protected _mouseEnterHandler(): void {
+        if (this._container.closest('.controls-Menu__subMenu')) {
+            this._notify('subMenuMouseenter');
+        }
         this._assignItemActions(this._options);
     }
 
@@ -112,20 +116,22 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         this._assignItemActions(this._options);
     }
 
-    private _mouseOutHandler(event: SyntheticEvent<MouseEvent>): void {
-        clearTimeout(this._handleCurrentItemTimeout);
+    protected _mouseLeaveHandler(event: SyntheticEvent<MouseEvent>): void {
+        this._clearOpeningTimout();
+        this._startClosingTimout();
     }
 
     protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
-            this.startHandleItemTimeout();
+            this.startOpeningTimeout();
         }
     }
 
     protected _itemMouseEnter(event: SyntheticEvent<MouseEvent>, item: TreeItem<Model>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         if (item.getContents() instanceof Model && !this.isTouch()) {
+            this._clearClosingTimout();
             this.setItemParamsOnHandle(item, sourceEvent.target, sourceEvent.nativeEvent);
-            this.startHandleItemTimeout();
+            this.startOpeningTimeout();
         }
     }
 
@@ -237,6 +243,8 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     protected _subMenuResult(event: SyntheticEvent<MouseEvent>, eventName: string, eventResult: Model|Node, nativeEvent: SyntheticEvent<MouseEvent>) {
         if (eventName === 'menuOpened') {
             this.subMenu = eventResult;
+        } else if (eventName === 'subMenuMouseenter') {
+            this._clearClosingTimout();
         } else {
             const notifyResult = this._notify(eventName, [eventResult, nativeEvent]);
             if (eventName === 'pinClick' || eventName === 'itemClick' && notifyResult !== false) {
@@ -289,14 +297,26 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
 
         // Close the already opened sub menu. Installation of new data sets new size of the container.
         // If you change the size of the update, you will see the container twitch.
-        if (needCloseDropDown && !needKeepMenuOpen) {
+        if (needCloseDropDown && !needKeepMenuOpen && !needOpenDropDown) {
             this._closeSubMenu(needOpenDropDown);
         }
         if (needOpenDropDown && !needKeepMenuOpen) {
             this._openSubMenuEvent = nativeEvent;
             this._subDropdownItem = item;
-            this._openSubDropdown(target, item);
+            this.openSubDropdown(target, item);
         }
+    }
+
+    private _clearClosingTimout(): void {
+        clearTimeout(this._closingTimer);
+    }
+
+    private _startClosingTimout(): void {
+        this._closingTimer = setTimeout(this._closeSubMenu.bind(this), SUB_DROPDOWN_DELAY);
+    }
+
+    private _clearOpeningTimout(): void {
+        clearTimeout(this._openingTimer);
     }
 
     private handleItemTimeoutCallback(): void {
@@ -307,11 +327,11 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         this.handleCurrentItem(this._hoveredItem, this._hoveredTarget, this._enterEvent);
     }
 
-    private startHandleItemTimeout(): void {
-        clearTimeout(this._handleCurrentItemTimeout);
-        this._handleCurrentItemTimeout = setTimeout(() => {
+    private startOpeningTimeout(): void {
+        clearTimeout(this._openingTimer);
+        this._openingTimer = setTimeout(() => {
             this.handleItemTimeoutCallback();
-        }, SUB_DROPDOWN_OPEN_DELAY);
+        }, SUB_DROPDOWN_DELAY);
     }
 
     private isMouseInOpenedItemArea(curMouseEvent): boolean {
@@ -534,7 +554,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         return hasAdditional;
     }
 
-    private _openSubDropdown(target: EventTarget, item: TreeItem<Model>): void {
+    private openSubDropdown(target: EventTarget, item: TreeItem<Model>): void {
         // openSubDropdown is called by debounce and a function call can occur when the control is destroyed,
         // just check _children to make sure, that the control isnt destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {

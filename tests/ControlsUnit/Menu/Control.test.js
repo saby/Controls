@@ -220,7 +220,7 @@ define(
                menuControl._context = {
                   isTouch: { isTouch: false }
                };
-               handleStub = sandbox.stub(menuControl, 'startHandleItemTimeout');
+               handleStub = sandbox.stub(menuControl, 'startOpeningTimeout');
             });
 
             it('on groupItem', function() {
@@ -463,6 +463,7 @@ define(
                menuControl = getMenu();
                menuControl._notify = (event, data) => {
                   eventResult = data[0];
+                  nativeEvent: data[1];
                };
                sandbox = sinon.createSandbox();
                stubClose = sandbox.stub(menuControl, '_closeSubMenu');
@@ -482,7 +483,8 @@ define(
                assert.isTrue(stubClose.calledOnce);
             });
             it('itemClick event', function() {
-               menuControl._subMenuResult('click', 'itemClick', { item: 'item2' });
+               menuControl._subMenuResult('click', 'itemClick', { item: 'item2' }, nativeEvent: 'testEventName');
+               assert.equal(nativeEvent, 'testEventName');
                assert.deepEqual(eventResult, { item: 'item2' });
                assert.isTrue(stubClose.calledOnce);
             });
