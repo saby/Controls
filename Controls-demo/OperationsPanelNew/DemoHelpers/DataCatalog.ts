@@ -25,7 +25,6 @@ function getListData(): Array<{
       id: 2,
       'Раздел': null,
       'Раздел@': true,
-      'Раздел$': true,
       name: 'Голованов К.А.',
       photo: null,
       position: null,

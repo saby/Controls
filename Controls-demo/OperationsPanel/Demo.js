@@ -48,7 +48,6 @@ define('Controls-demo/OperationsPanel/Demo', [
          this._itemsReadyCallback = this._itemsReadyCallback.bind(this);
          this._itemActionVisibilityCallback = this._itemActionVisibilityCallback.bind(this);
          this._moveDialogFilter = {};
-         this._expandedItemsMoveDialog = [2];
          this._gridColumns = [{
             template: 'wml!Controls-demo/OperationsPanel/Demo/PersonInfo'
          }];
