@@ -29,6 +29,17 @@
 .controls-MasterDetail_master-template_theme-@{themeName} {
    &:before {
       width: @master_separator_thickness_list;
+   }
+}
+
+.controls-MasterDetail_master-template-contrast_theme-@{themeName} {
+   &:before {
+      background-color: @master_separator_contrast-color_list;
+   }
+}
+
+.controls-MasterDetail_master-template-same_theme-@{themeName} {
+   &:before {
       background-color: @master_separator_color_list;
    }
 }
@@ -36,9 +47,14 @@
    min-width: 1px;
 }
 
-.controls-MasterDetail_details_theme-@{themeName} {
+.controls-MasterDetail_details_bg-contrast_theme-@{themeName} {
+   background-color: @detail_contrast_background-color_masterDetail;
+}
+
+.controls-MasterDetail_details_bg-same_theme-@{themeName} {
    background-color: @detail_background-color_masterDetail;
 }
+
 .controls-MasterDetail_resizing-line {
    position: absolute;
    right: 0;
