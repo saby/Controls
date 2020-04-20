@@ -6,6 +6,7 @@
                     attr:class="{{applyHighlighter(highlighter, itemData.item.getId(), itemData.hasArrow)}} controls-BreadCrumbsView__max-width{{edge ? '__edge'}}"
                     template="{{itemTemplate}}"
                     itemData="{{itemData}}"
+                    fontSizeBaseline="{{fontSizeBaseline}}"
                     displayProperty="{{ displayProperty }}"
                     edge="{{edge}}"
             />
@@ -45,6 +46,7 @@
                     <div class="controls-BreadCrumbsView__menu__dots
                     controls-BreadCrumbsView__menu__dots_theme-{{_options.theme}}
                     controls-background-{{backgroundStyle || 'default'}}_theme-{{_options.theme}}" on:mousedown="_dotsClick()"  on:click="_clickHandler()">
+                        <span class="controls-BreadCrumbsView__menu__dots__baseline controls-fontsize-{{fontSizeBaseline || '3xl'}}_theme-{{_options.theme}}">&#65279;</span>
                         <div class="controls-BreadCrumbsView__menu__dots__shadow controls-BreadCrumbsView__menu__dots__shadow_theme-{{_options.theme}}"></div>
                         <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled_theme-{{_options.theme}}"></span>
                         <span class="controls-BreadCrumbsView__titleWrapper{{itemData.withOverflow ? ' controls-BreadCrumbsView__titleWrapper_withOverflow'}}"

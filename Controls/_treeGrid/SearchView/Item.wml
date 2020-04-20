@@ -11,6 +11,7 @@
             <ws:partial template="{{ content.resolvedTemplate }}"
                         items="{{colspanTemplate.itemData.item}}"
                         on:itemClick="_onSearchPathClick()"
+                        fontSizeBaseline="2xl"
                         keyProperty="{{itemData.keyProperty}}"
                         displayProperty="{{itemData.displayProperty}}">
                <ws:itemTemplate>
