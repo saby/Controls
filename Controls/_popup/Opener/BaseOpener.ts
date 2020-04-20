@@ -370,71 +370,25 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     }
 
     static getConfig(options: IBaseOpenerOptions, popupOptions: IBaseOpenerOptions): IBaseOpenerOptions {
-        // todo https://online.sbis.ru/opendoc.html?guid=770587ec-2016-4496-bc14-14787eb8e713
-        // Возвращаю правки.usedOptions - набор опций, которые мы берем с opener'a (с opener._options) и передаем в окно
-        // Все опции опенера брать нельзя,т.к. ядро добавляет свои опции опенеру (в режиме совместимости),
+        // Все опции опенера брать нельзя, т.к. ядро добавляет свои опции опенеру (в режиме совместимости),
         // которые на окно попасть не должны.
-        const baseConfig = {};
-        const usedOptions = [
-            'id',
-            'closeByExternalClick',
-            'isCompoundTemplate',
-            'eventHandlers',
-            'autoCloseOnHide',
-            'autoClose',
-            'type',
-            'style',
-            'message',
-            'details',
-            'yesCaption',
-            'noCaption',
-            'cancelCaption',
-            'okCaption',
-            'autofocus',
-            'isModal',
-            'modal',
-            'closeOnOutsideClick',
-            'closeOnDeactivated',
-            'closeOnTargetScroll',
-            'className',
-            'template',
-            'templateOptions',
-            'minWidth',
-            'maxWidth',
-            'maximize',
-            'width',
-            'propStorageId',
-            'resizable',
-            'top',
-            'autoHide',
-            'left',
-            'maxHeight',
-            'minHeight',
-            'draggable',
-            'horizontalAlign',
-            'verticalAlign',
-            'offset',
-            'direction',
-            'corner',
-            'targetPoint',
-            'targetTracking',
-            'topPopup',
-            'locationStrategy',
-            'fittingMode',
-            'actionOnScroll',
-            'isWS3Compatible',
-            'zIndexCallback'
+        const baseConfig = {...options};
+        const ignoreOptions = [
+            'iWantBeWS3',
+            '_$createdFromCode',
+            '_logicParent',
+            'theme',
+            'vdomCORE',
+            'name',
+            'esc'
         ];
 
-        // merge _options to popupOptions
-        for (let i = 0; i < usedOptions.length; i++) {
-            const option = usedOptions[i];
+        for (let i = 0; i < ignoreOptions.length; i++) {
+            const option = ignoreOptions[i];
             if (options[option] !== undefined) {
-                baseConfig[option] = options[option];
+                delete baseConfig[option];
             }
         }
-
-        delete baseConfig.theme; // todo fix?
 
         const templateOptions = {};
         CoreMerge(templateOptions, baseConfig.templateOptions || {});
