@@ -39,13 +39,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: -3 },
+                        isIntersecting: false
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 103 },
+                        isIntersecting: false
                      }
                   ]);
 
@@ -57,13 +55,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: -3 },
+                        isIntersecting: false
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 90 },
+                        isIntersecting: true
                      }
                   ]);
 
@@ -75,13 +71,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: 0 }
+                        isIntersecting: true
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 103 },
+                        isIntersecting: false
                      }
                   ]);
 
@@ -93,13 +87,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: 0 }
+                        isIntersecting: true
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 90 }
+                        isIntersecting: true
                      }
                   ]);
 
@@ -120,13 +112,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: -3 }
+                        isIntersecting: false
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 103 },
+                        isIntersecting: false
                      }
                   ]);
 
@@ -138,13 +128,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: -3 },
+                        isIntersecting: false
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 90 }
+                        isIntersecting: true
                      }
                   ]);
 
@@ -156,13 +144,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: 0 },
+                        isIntersecting: true
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 103 }
+                        isIntersecting: false
                      }
                   ]);
 
@@ -174,13 +160,11 @@ define(
                   model.update([
                      {
                         target: topTarget,
-                        rootBounds: { top: 0 },
-                        boundingClientRect: { top: 0 },
+                        isIntersecting: true
                      },
                      {
                         target: bottomTarget,
-                        rootBounds: { bottom: 100 },
-                        boundingClientRect: { bottom: 90 }
+                        isIntersecting: true
                      }
                   ]);
 
