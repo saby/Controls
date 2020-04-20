@@ -276,7 +276,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         const children = this._children;
         this._observer = new IntersectionObserver(
             this._observeHandler,
-            { root: this._scroll }
+            {
+                root: this._scroll,
+                // Рассширим область тслеживания по горизонтали чтобы ячейки за праделами вьюпорта сбоку не считались
+                // невидимыми если включен горизонтальный скролл в таблицах.
+                rootMargin: '0px 20000px'
+            }
         );
         this._observer.observe(children.observationTargetTop);
         this._observer.observe(children.observationTargetBottom);

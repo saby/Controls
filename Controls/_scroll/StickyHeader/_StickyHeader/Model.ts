@@ -68,15 +68,7 @@ export = simpleExtend.extend({
     */
    _updateStateIntersection: function(entry) {
       const position = this._getTarget(entry);
-      // entry.isIntersecting нельзя использовать потому что у нас есть горизонтальное скролирование в таблицах.
-      // Ячейка может быть проскролена вбок и перестать пересекаться со скроллируемым контейнером.
-      // При очень медленном подскроливании получается такая ситуация, что  entry.boundingClientRect на единицу меньше,
-      // чем entry.rootBounds, поэтому, в этом случае, изначально проверим entry.isIntersecting, которые будет true.
-      //  Проверять только по entry.isIntersecting не получится из-за горизонатльного скроллирования в таблицах.
-      this._intersection[position] =  entry.isIntersecting ||
-            (position === POSITION.top ?
-               entry.rootBounds[position] <= entry.boundingClientRect[position] :
-               entry.rootBounds[position] > entry.boundingClientRect[position]);
+      this._intersection[position] =  entry.isIntersecting;
    },
 
    /**
