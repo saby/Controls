@@ -1,7 +1,7 @@
 /**
  * Константы:
  * - view.hiddenGroup — константа для определения элемента hiddenGroup в {@link Controls/interface/IGrouped#groupProperty groupProperty};
- * - eiting.CANCEL — константа, которую можно вернуть в {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} для отмены редактирования.
+ * - editing.CANCEL — константа, которую можно вернуть в {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} для отмены редактирования.
  * - CursorDirection - enum, направление выборки при навигации по курсору.
  *
  * @class Controls/Constants
