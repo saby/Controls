@@ -1,4 +1,4 @@
-<div class="example-Base example-Base_footerSpacing ws-flexbox ws-flex-column ws-align-items-center">
+<div class="example-Base example-Base_footerSpacing">
          <Controls-demo.Example.Input.Text name="Text"/>
          <Controls-demo.Example.Input.Font name="Font"/>
          <Controls-demo.Example.Input.RightAlignment name="RightAlignment"/>
