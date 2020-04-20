@@ -36,15 +36,11 @@
    max-width: 100%;
    white-space: nowrap;
    position: relative;
-   .baseline-fix();
 }
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
   color: @item_text-color_default_breadcrumbsView;
   height: @height_breadcrumbsView;
-  &:before {
-    font-size: @line-height_breadcrumbsView;
-  }
-   padding-right: @droppable_border-thickness_breadcrumbsView;
+  padding-right: @droppable_border-thickness_breadcrumbsView;
 }
 .controls-BreadCrumbsView__crumb__left_edge {
    padding: 0 @droppable_border-thickness_breadcrumbsView;
@@ -63,7 +59,6 @@
 .controls-BreadCrumbsView__menu__dots {
    position: absolute;
    top: 0;
-   .baseline-fix();
    padding-right: 1px;
    display: block;
 }
@@ -72,9 +67,6 @@
   right: 0;
   height: @height_breadcrumbsView;
   color: @item_text-color_default_breadcrumbsView;
-  &:before {
-    font-size: @line-height_breadcrumbsView;
-  }
 }
 .controls-BreadCrumbsView__menu__dots__shadow {
    position: absolute;
