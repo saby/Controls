@@ -3,6 +3,7 @@
          <div class="controls-ListView__groupSeparator-left_theme-{{itemData.theme}}">&nbsp;</div>
       </ws:if>
       <div class="controls-ListView__groupContent-text controls-ListView__groupContent-text_theme-{{itemData.theme}}
+         {{groupContentEllipsis !== false ? ' controls-ListView__groupContent-text-ellipsis'}}
          {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + itemData.theme) +
          (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + itemData.theme : ' controls-ListView__groupExpander_left_theme-' + itemData.theme) +
          (!itemData.isGroupExpanded ?
