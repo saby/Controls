@@ -39,9 +39,10 @@ define('Controls/interface/IEditableArea', [
     */
 
    /*
-    * @typedef {String|Promise} BeforeEndEditResult
-    * @variant {Promise} Deferred Deferred is used for saving with custom logic.
-    * @variant {String} Cancel Cancel ending of editing.
+    * @typedef {String|Promise|undefined} BeforeEndEditResult Результат, возвращаемый обработчиком события beforeBeginEdit.
+    * @variant Promise - Используется для сохранения с пользовательской логикой.
+    * @variant Cancel - Отменяет окончание редактирования.
+    * @variant undefined - Стандартное завершение редактирования. Сохранение происходит на стороне платформы.
     */    
 
    /**
