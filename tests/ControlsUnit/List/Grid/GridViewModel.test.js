@@ -651,7 +651,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             var
                gridViewModel = new gridMod.GridViewModel(cfg),
                current = gridViewModel.getCurrent(),
-               topSpacingClasses = ' controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ',
+               topSpacingClasses = ' controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default ',
                expected = {
                   withMarker: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default controls-Grid__row-cell-background-hover_theme-default ' +
                       'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses +
@@ -776,7 +776,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             var
                gridViewModel = new gridMod.GridViewModel(cfg),
                current = gridViewModel.getCurrent(),
-               topSpacingClasses = ' controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ',
+               topSpacingClasses = ' controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default ',
                expectedResult = [
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses +
@@ -784,24 +784,24 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
+                  'controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
                   'controls-Grid__row-cell_selected-default_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   ' controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__cell_spacingLeft_theme-default ' +
-                  'controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__row-cell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default',
+                  'controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__row-cell_default_rowSpacingTop_l_theme-default ' +
+                  'controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_default ' +
-                  'controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__row-cell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
+                  'controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__row-cell_default_rowSpacingTop_l_theme-default ' +
+                  'controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
                   'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-default_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__cell_spacingLeft_theme-default ' +
-                  'controls-Grid__cell_default controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__row-cell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell__last controls-Grid__row-cell__last-default_theme-default'
+                  'controls-Grid__cell_default controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__row-cell_default_rowSpacingTop_l_theme-default ' +
+                  'controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell__last controls-Grid__row-cell__last-default_theme-default'
                ];
 
             cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(current, theme).getAll(), expectedResult[0]);
@@ -870,7 +870,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             }
 
             var gridColumn;
-            const topSpacingClasses = ' controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ';
+            const topSpacingClasses = ' controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default ';
 
             // check first column (multiselect checkbox column)
             assert.equal(0, current.columnIndex, 'Incorrect value "current.columnIndex".');
@@ -903,7 +903,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                template: null,
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                   'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
+                   'controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
                    'controls-Grid__row-cell_selected-default_theme-default'
             });
 
@@ -923,7 +923,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default ' +
                   'controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
+                  'controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
                   'controls-Grid__row-cell_selected-default_theme-default'
             });
 
@@ -943,7 +943,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_theme-default ' +
                   'controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_default controls-Grid__cell_spacingLastCol_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
+                  'controls-Grid__row-cell_default_rowSpacingTop_l_theme-default controls-Grid__row-cell_default_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
                   'controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-default_theme-default'
             });
 
