@@ -210,7 +210,7 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         itemsModelCurrent.getMarkerClasses = (): string => {
             const style = this._options.style || 'default';
-            return `controls-ListView__itemV_marker-${style} `;
+            return `controls-ListView__itemV_marker controls-ListView__itemV_marker-${style} `;
         };
 
         if (itemsModelCurrent.itemActions) {
