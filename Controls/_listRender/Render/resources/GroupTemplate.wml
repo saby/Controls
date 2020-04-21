@@ -5,6 +5,7 @@
       </ws:if>
       <div attr:class="controls-ListView__groupContent-text 
          controls-ListView__groupContent-text_theme-{{theme}}
+         {{groupContentEllipsis !== false ? ' controls-ListView__groupContent-text-ellipsis'}}
          {{ expanderVisible !== false ? ' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + theme +
          (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + theme : ' controls-ListView__groupExpander_left_theme-' + theme) +
          (!item.isExpanded() ?
