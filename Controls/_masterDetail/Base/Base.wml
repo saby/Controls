@@ -3,7 +3,8 @@
       <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
          <ws:partial
             template="{{_options.master}}"
-            attr:class="controls-MasterDetail_master-template controls-MasterDetail_master-template_theme-{{_options.theme}}"
+            attr:class="controls-MasterDetail_master-template controls-MasterDetail_master-template_theme-{{_options.theme}}
+                        controls-MasterDetail_master-template-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
             on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
       </Controls.event:Register>
       <ws:if data="{{_canResizing}}">
@@ -16,7 +17,7 @@
    </div>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial
-         attr:class="controls-MasterDetail_details controls-MasterDetail_details_theme-{{_options.theme}}"
+         attr:class="controls-MasterDetail_details controls-MasterDetail_details_bg-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
          template="{{_options.detail}}"
          selectedMasterValue="{{_selected}}"/>
    </Controls.event:Register>

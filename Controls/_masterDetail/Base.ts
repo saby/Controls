@@ -35,6 +35,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterWidth: number|string;
     masterMinWidth: number|string;
     masterMaxWidth: number|string;
+    contrastBackground: boolean;
 }
 
 class Base extends Control<IMasterDetail> {
@@ -280,6 +281,12 @@ class Base extends Control<IMasterDetail> {
     }
 
     static _theme: string[] = ['Controls/masterDetail'];
+
+    static getDefaultOptions(): Partial<IMasterDetail> {
+        return {
+            contrastBackground: true
+        };
+    }
 }
 
 export default Base;
