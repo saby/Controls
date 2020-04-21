@@ -140,7 +140,7 @@ var
                 currentColumn.prepareExpanderClasses = current.prepareExpanderClasses;
 
                 currentColumn.isExpanded = current.isExpanded;
-                currentColumn.classList.base += ` controls-TreeGrid__row-cell_theme-${theme}`;
+                currentColumn.classList.base += ` controls-TreeGrid__row-cell_theme-${theme} controls-TreeGrid__row-cell-${currentColumn.style || 'default'}_theme-${theme}`;
 
                 if (currentColumn.nodeType) {
                     currentColumn.classList.base += ` controls-TreeGrid__row-cell__node_theme-${theme}`;
