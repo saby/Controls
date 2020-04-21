@@ -164,13 +164,14 @@ var
             var
                 itemType = itemData.item.get(itemData.nodeProperty),
                 expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`,
+                style = itemData.style || 'default',
                 expanderIconClass;
 
             expanderClasses += ' controls-TreeGrid__row-expander_size_' + (expanderSize || 'default') + `_theme-${theme}`;
             expanderClasses += ' js-controls-ListView__notEditable';
 
-            expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${itemData.itemPadding.top}_theme-${theme}`;
-            expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${itemData.itemPadding.bottom}_theme-${theme}`;
+            expanderClasses += ` controls-TreeGrid__row_${style}-expander__spacingTop_${itemData.itemPadding.top}_theme-${theme}`;
+            expanderClasses += ` controls-TreeGrid__row_${style}-expander__spacingBottom_${itemData.itemPadding.bottom}_theme-${theme}`;
 
             if (expanderIcon) {
                 expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;

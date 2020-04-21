@@ -179,8 +179,12 @@
 }
 
 
-.controls-Grid__row-cell_theme-@{themeName} {
+.controls-Grid__row-cell_default_theme-@{themeName} {
    font-size: @item_font-size_m_grid;
+}
+
+.controls-Grid__row-cell_master_theme-@{themeName} {
+   font-size: @master_item_font-size_list;
 }
 
 .controls-Grid__cell_fixed_theme-@{themeName} {
@@ -279,24 +283,24 @@
    }
 }
 
-.controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_default_theme-@{themeName} {
    padding-top: @item_padding-top_default_grid;
 }
-.controls-Grid__row-cell_rowSpacingBottom_default_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_default_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_default_grid;
 }
 
-.controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_m_theme-@{themeName} {
    padding-top: @item_padding-top_s_grid;
 }
-.controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_m_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_s_grid;
 }
 
-.controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_l_theme-@{themeName} {
    padding-top: @item_padding-top_l_grid;
 }
-.controls-Grid__row-cell_rowSpacingBottom_l_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_l_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_l_grid;
 }
 
@@ -547,16 +551,12 @@
    box-sizing: border-box;
 }
 
-.controls-Grid__cell_master.controls-Grid__row-cell_selected-master_theme-@{themeName} {
-   >.controls-Grid__row-cell__content {
-      font-size: @master_item_selected_font-size_list;
-   }
+.controls-Grid__row-cell_master_rowSpacingTop_default_theme-@{themeName} {
+   padding-top: @master_item_padding-top_default_list
 }
 
-.controls-Grid__cell_master {
-   >.controls-Grid__row-cell__content {
-      font-size: @master_item_font-size_list;
-   }
+.controls-Grid__row-cell_master_rowSpacingBottom_default_theme-@{themeName} {
+   padding-bottom: @master_item_padding-bottom_default_list;
 }
 
 .ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},
@@ -569,10 +569,11 @@
    transform: translateZ(0);
 }
 
-.controls-Grid__row-cell_selected-master_theme-@{themeName} {
+.controls-Grid__row-cell_selected-master_theme-@{themeName}.controls-Grid__row-cell_master_theme-@{themeName} {
    z-index: 1;
    font-weight: bold;
    color: @master_item_selected_color_list;
+   font-size: @master_item_selected_font-size_list;
 
    &:before {
       content: '';
