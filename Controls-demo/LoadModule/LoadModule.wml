@@ -1,0 +1,3 @@
+<div attr:class="demo-Checkbox__wrapper">
+	<Controls.buttons:Button readOnly="{{false}}" buttonStyle="secondary" viewMode="button" caption="small button"/>
+</div>
