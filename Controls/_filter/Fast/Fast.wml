@@ -21,12 +21,12 @@
    </ws:for>
    <Controls.popup:Sticky
            name="DropdownOpener"
-           template="Controls/dropdownPopup:List"
+           template="Controls/menu:Popup"
            closeOnOutsideClick="{{true}}"
            actionOnScroll="close"
            on:result="_onResult()">
       <ws:templateOptions
-              showClose="{{true}}">
+              closeButtonVisibility="{{true}}">
       </ws:templateOptions>
    </Controls.popup:Sticky>
    <ws:if data="{{_hasSelectorTemplate}}">

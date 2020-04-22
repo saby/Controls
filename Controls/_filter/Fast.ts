@@ -9,6 +9,7 @@ import pDeferred = require('Core/ParallelDeferred');
 import Deferred = require('Core/Deferred');
 import Utils = require('Types/util');
 import Merge = require('Core/core-merge');
+import {PrefetchProxy} from 'Types/source';
 import {Controller as SourceController} from 'Controls/source';
 import {isEqual} from 'Types/object';
 import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
@@ -16,7 +17,7 @@ import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from '
 
       /**
        * Контрол "Быстрый фильтр". Использует выпадающие списки для выбора параметров фильтрации.
-       * 
+       *
        * @remark
        * См. <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>
        * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
@@ -233,18 +234,21 @@ import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from '
             }
          },
 
-         onResult: function(event, result) {
-            if (result.data) {
-               if (result.action === 'selectorResult') {
+         onResult: function(event, action, data) {
+            if (data) {
+               const items = action === 'itemClick' ? [data] : data;
+               if (action === 'selectorResult') {
                   this.lastOpenIndex = this._indexOpenedFilter;
-                  _private.onSelectorResult(this._configs[this._indexOpenedFilter], result.data);
+                  _private.onSelectorResult(this._configs[this._indexOpenedFilter], items);
                } else {
-                  _private.updateHistory(this._configs[this.lastOpenIndex], result.data);
+                  _private.updateHistory(this._configs[this.lastOpenIndex], items);
                }
-               _private.selectItems.call(this, result.data);
+               _private.selectItems.call(this, items);
                _private.notifyChanges(this, this._items);
             }
-            this._children.DropdownOpener.close();
+            if (action !== 'menuOpened') {
+               this._children.DropdownOpener.close();
+            }
          },
 
          setTextValue: function(item, textValue) {
@@ -421,14 +425,20 @@ import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from '
 
             var selectedKeys = getPropValue(this._items.at(index), 'value');
             var templateOptions = {
-               items: this._configs[index].popupItems || this._configs[index]._items,
+               source: new PrefetchProxy({
+                  target: this._configs[index]._source,
+                  data: {
+                     query: (this._configs[index].popupItems || this._configs[index]._items).clone()
+                  }
+               }),
                selectorItems: this._configs[index]._items,
                selectedKeys: selectedKeys instanceof Array ? selectedKeys : [selectedKeys],
                isCompoundTemplate: getPropValue(this._items.at(index), 'properties').isCompoundTemplate,
                hasMoreButton: this._configs[index]._sourceController.hasMoreData('down'),
                selectorOpener: this._children.selectorOpener,
                selectorDialogResult: this._onSelectorTemplateResult.bind(this),
-               afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this)
+               afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this),
+               dropdownClassName: `controls-FastFilter_width-popup_theme-${this._options.theme}`
             };
             var config = {
                templateOptions: Merge(_private.getItemPopupConfig(this._configs[index]), templateOptions),
