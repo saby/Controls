@@ -194,6 +194,27 @@ define(['Controls/grid'], function(gridMod) {
             assert.isTrue(gridView._isHeaderChanged);
       });
 
+      it('update resultsVisibility', function() {
+         const cfg = {
+               columns: [
+                  { displayProperty: 'field1', template: 'column1' },
+                  { displayProperty: 'field2', template: 'column2' }
+               ],
+               resultsVisibility: 'visible'
+            };
+         const gridView = new gridMod.GridView(cfg);
+         const listModel = {
+            resultsVisibility: 'visible',
+            setResultsVisibility(resultsVisibility) {
+               this.resultsVisibility = resultsVisibility;
+            }
+         };
+         gridView.saveOptions(cfg);
+         gridView._listModel = listModel;
+         gridView._beforeUpdate({...cfg, resultsVisibility: 'hidden'});
+         assert.equal(gridView._listModel.resultsVisibility, 'hidden');
+      });
+
       it('resultPosition update', function(){
          let gridView = new gridMod.GridView({resultsPosition: 'top'});
          let setResultPosinionCalled = false;

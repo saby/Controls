@@ -267,7 +267,7 @@ export default {
              * @example
              * WML:
              * <pre>
-             * <Controls.dateRange:Selector captionFormatter="{{_captionFormatter}}" />
+             * <Controls.dateRange:RangeSelector captionFormatter="{{_captionFormatter}}" />
              * </pre>
              * JS:
              * <pre>

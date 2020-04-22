@@ -14,7 +14,7 @@ export default interface IOpenPopup {
  * @function
  * @example
  * <pre>
- *     <Controls.dateRange:Selector name='dateRange'/>
+ *     <Controls.dateRange:RangeSelector name='dateRange'/>
  *     <Controls.Button on:click="_openPopup()" />
  * </pre>
  * <pre>

@@ -913,6 +913,10 @@ var
             this._options.resultsPosition = position;
         },
 
+        setResultsVisibility(resultsVisibility) {
+            this._options.resultsVisibility = resultsVisibility;
+        },
+
         getStyleForCustomResultsTemplate(): string {
             return this.getColspanStylesFor(
                 'customResults',

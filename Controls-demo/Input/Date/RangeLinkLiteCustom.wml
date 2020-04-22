@@ -2,7 +2,7 @@
    <div class="PageBlock">
       <div class="PageBlock__title">Controls.Calendar.PeriodSimpleDialog</div>
       <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-around; flex-wrap: wrap; align-items: flex-start;">
-         <Controls.dateRange:LiteSelector
+         <Controls.dateRange:RangeShortSelector
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                year="{{_year}}"
@@ -21,7 +21,7 @@
                    </ws:monthCaptionTemplate>
                </ws:partial>
             </ws:itemTemplate>
-         </Controls.dateRange:LiteSelector>
+         </Controls.dateRange:RangeShortSelector>
       </div>
    </div>
 </div>
