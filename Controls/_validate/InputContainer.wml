@@ -1,6 +1,6 @@
 <ws:partial template="{{ _options.content }}"
+            validationStatus="{{_getValidStatus(_contentActive)}}"
             validationErrors="{{isValid()}}"
-            style="{{_isValidResult() ? 'invalid': 'info'}}"
             scope="{{_options}}"
             on:valueChanged="_valueChangedHandler()"
             on:inputCompleted="_inputCompletedHandler()"

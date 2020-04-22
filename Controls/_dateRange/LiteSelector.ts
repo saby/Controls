@@ -1,9 +1,10 @@
 import BaseSelector from './BaseSelector';
-import coreMerge = require('Core/core-merge');
+import * as coreMerge from 'Core/core-merge';
 import {Date as WSDate} from 'Types/entity';
 import ILinkView from './interfaces/ILinkView';
 import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
 import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelector');
+import {TemplateFunction} from 'UI/Base';
 
 /**
  * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
@@ -27,26 +28,18 @@ import componentTmpl = require('wml!Controls/_dateRange/LiteSelector/LiteSelecto
  *
  */
 
-/*
- * A link button that displays the period. Supports the change of periods to adjacent.
- *
- * @class Controls/_dateRange/LiteSelector
- * @extends Core/Control
- * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
- * @control
- * @public
- * @category Input
- * @author Красильников А.С.
- * @demo Controls-demo/Input/Date/RangeLinkLite
- *
- */
+class LiteSelector extends BaseSelector {
+    _template: TemplateFunction = componentTmpl;
+    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
+    shiftBack(): void {
+        this._children.linkView.shiftBack();
+    }
 
-var Component = BaseSelector.extend({
-    _template: componentTmpl,
-
-    _getPopupOptions: function() {
-        var className;
+    shiftForward(): void {
+        this._children.linkView.shiftForward();
+    }
+    _getPopupOptions(): object {
+        let className;
         const container = this._children.linkView.getPopupTarget();
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
             className = 'controls-DateRangeSelectorLite__picker-years-only';
@@ -86,30 +79,21 @@ var Component = BaseSelector.extend({
                 dateConstructor: this._options.dateConstructor
             }
         };
-    },
-
-    shiftBack: function () {
-        this._children.linkView.shiftBack();
-    },
-
-    shiftForward: function () {
-       this._children.linkView.shiftForward();
     }
 
-});
+    static _theme: string[] = ['Controls/dateRange'];
 
-Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;
+    static getOptionTypes(): object {
+        return coreMerge(coreMerge({}, IPeriodLiteDialog.getOptionTypes()), ILinkView.getOptionTypes());
+    }
 
-Component.getDefaultOptions = function () {
-    return {
-        ...IPeriodLiteDialog.getDefaultOptions(),
-        ...ILinkView.getDefaultOptions(),
-        dateConstructor: WSDate
-    };
-};
+    static getDefaultOptions(): object {
+        return {
+            ...IPeriodLiteDialog.getDefaultOptions(),
+            ...ILinkView.getDefaultOptions(),
+            dateConstructor: WSDate
+        };
+    }
+}
 
-Component.getOptionTypes = function () {
-    return coreMerge(coreMerge({}, IPeriodLiteDialog.getOptionTypes()), ILinkView.getOptionTypes());
-};
-Component._theme = ['Controls/dateRange'];
-export default Component;
+export default LiteSelector;

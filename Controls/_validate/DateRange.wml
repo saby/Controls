@@ -1,4 +1,5 @@
 <ws:partial template="{{ _options.content }}"
+            validationStatus="{{_getValidStatus(_contentActive)}}"
             scope="{{_options}}"
             on:valueChanged="_valueChangedHandler()"
             on:rangeChanged="_rangeChangedHandler()"
