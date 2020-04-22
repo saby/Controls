@@ -467,9 +467,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     protected _updateBottomShadowStyle(): void {
         if (this._isSafari13) {
             const container: HTMLElement = this._getNormalizedContainer();
-            // Зануляем shadowStyle, чтобы исключить их влияние на расчёт container.offsetWidth
-            this._bottomShadowStyle = '';
-            this._topShadowStyle = '';
             // "bottom" and "right" styles does not work in list header control on ios 13. Use top instead.
             // There's no container at first building of template.
             if (container) {
