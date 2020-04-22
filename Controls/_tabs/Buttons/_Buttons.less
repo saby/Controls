@@ -15,6 +15,16 @@
 .controls-Tabs_theme_@{themeName} {
    display: inline-flex;
    height: @item_height_tabs;
+   position: relative;
+   &:after {
+      content: '';
+      position: absolute;
+      bottom:0;
+      left:0;
+      width: 100%;
+      height: @border-thickness_tabs;
+      background: @border-color_tabs;
+   }
 }
 .controls-Tabs__space_theme_@{themeName} {
    display: inline-flex;
@@ -29,15 +39,6 @@
    min-width: 0;
    height:100%;
    order: 20;
-   &:after {
-      content: '';
-      position: absolute;
-      bottom:0;
-      left:0;
-      width: 100%;
-      height: @border-thickness_tabs;
-      background: @border-color_tabs;
-   }
 }
 .controls-Tabs__item-underline_theme-@{themeName}{
   border-bottom: @border-thickness_tabs solid @border-color_tabs;
@@ -51,7 +52,6 @@
    height: 100%;
    position: relative;
    font-size: @unselected_item_font-size_tabs;
-   color: @unselected_item_text-color_tabs;
    cursor: pointer;
    max-width: @item_max-width_tabs;
    white-space: nowrap;
@@ -61,8 +61,6 @@
       bottom:0;
       left:0;
       width: 100%;
-      height: @border-thickness_tabs;
-      background: @border-color_tabs;
    }
 }
 .controls-Tabs__item_canShrink {
@@ -89,27 +87,31 @@
 }
 .controls-Tabs__item_state_default_theme_@{themeName} {
    .user-select();
+   color: @unselected_item_text-color_tabs;
 }
 .ws-is-hover {
    .controls-Tabs__item_state_default_theme_@{themeName}:hover {
       &:after {
-         height: @marker_thickness_tabs;
+         height: @marker_hover_thickness_tabs;
          background: @marker_hover_color_tabs;
       }
    }
+   .controls-Tabs__item_state_default_theme_@{themeName}:hover {
+      color: @unselected_item_hover_text-color_tabs;
+   }
 }
 .controls-Tabs__item_state_selected_theme_@{themeName} {
-   font-weight: bold;
+   font-weight: @item_selected_font-weight_tabs;
    font-size: @secondary_item_font-size_tabs;
    &:after {
       z-index: 1;
    }
 }
 .controls-Tabs__item_align_left_theme_@{themeName} {
-   margin-left: -@border-thickness_tabs;
+   margin-left: -@border-thickness_tabs + @item_offset_tabs;
 }
 .controls-Tabs__item_align_right_theme_@{themeName} {
-   margin-right: -@border-thickness_tabs;
+   margin-right: -@border-thickness_tabs + @item_offset_tabs;
 }
 .controls-Tabs__item_extreme_theme_@{themeName} {
    margin-right:0;

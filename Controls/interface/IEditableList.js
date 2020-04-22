@@ -147,9 +147,9 @@ define('Controls/interface/IEditableList', [
     */
 
    /**
-    * @typedef {String|Core/Deferred} EndEditResult
+    * @typedef {String|Promise} EndEditResult
     * @variant Cancel Отмена окончания редактирования или добавления записи.
-    * @variant Deferred Применяется для реализации собственной логики сохранения изменений.
+    * @variant Promise Применяется для реализации собственной логики сохранения изменений.
     * В этом случае базовая логика сохранения не используется, и поэтому вся ответственность за сохранение изменений перекладывается на прикладного разработчика.
     * Событие {@link afterEndEdit} произойдет после завершения deferred, который возвращен из обработчика события {@link beforeEndEdit}.
     */

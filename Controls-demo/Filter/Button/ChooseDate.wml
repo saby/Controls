@@ -1,3 +1,3 @@
-<Controls.dateRange:LiteSelector
+<Controls.dateRange:RangeShortSelector
    emptyCaption="Январь'18"
 />

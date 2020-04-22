@@ -71,7 +71,7 @@ export interface IMonthListSource {
  * </pre>
  */
 
-/*
+/**
  * @name Controls/_calendar/interfaces/IMonthListSource#dayTemplate
  * @cfg {Function} Шаблон дня.
  * @remark Шаблон имеет опции позволяющие кастомизировать контрол:
@@ -113,7 +113,7 @@ export interface IMonthListSource {
  * @see Controls/_calendar/interfaces/IMonthListSource#source
  */
 
-/*
+/**
  * @name Controls/_calendar/interfaces/IMonthListSource#dayHeaderTemplate
  * @cfg {Function} Шаблон заголовка дня.
  * @remark В шаблоне можно использовать объект value, в котором хранятся caption (Сокращенное название дня недели) day (Индекс дня) и
@@ -131,7 +131,7 @@ export interface IMonthListSource {
  *  </Controls.calendar:MonthView>
 */
 
-/*
+/**
  * @name Controls/_calendar/interfaces/IMonthListSource#captionTemplate
  * @cfg {Function} Шаблон заголовка.
  * @remark В шаблоне можно использовать date (Дата месяца) caption (Заголовок месяца)
@@ -143,7 +143,7 @@ export interface IMonthListSource {
  *  </Controls.calendar:MonthView>
 */
 
-/*
+/**
  * @name Controls/_calendar/interfaces/IMonthListSource#order
  * @cfg {String} Направление сортировки
  * @default 'asc'

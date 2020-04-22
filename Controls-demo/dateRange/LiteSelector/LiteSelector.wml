@@ -2,7 +2,7 @@
     <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=false; chooseYears=true;</div>
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                     chooseHalfyears="{{false}}"
                     chooseMonths="{{false}}"
                     chooseQuarters="{{false}}"
@@ -10,38 +10,38 @@
         </div>
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=false; chooseQuarters=true; chooseYears=true;</div>
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                     chooseHalfyears="{{false}}"
                     chooseMonths="{{false}}"
             />
         </div>
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=false; chooseMonths=true; chooseQuarters=false; chooseYears=true;</div>
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                     chooseHalfyears="{{false}}"
                     chooseQuarters="{{false}}"
             />
         </div>
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">chooseHalfyears=true; chooseMonths=true; chooseQuarters=true; chooseYears=true;</div>
-            <Controls.dateRange:LiteSelector/>
+            <Controls.dateRange:RangeShortSelector/>
         </div>
     </div>
     <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Disabled</div>
-            <Controls.dateRange:LiteSelector readOnly="{{true}}"/>
+            <Controls.dateRange:RangeShortSelector readOnly="{{true}}"/>
         </div>
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Arrow visibility</div>
-            <Controls.dateRange:LiteSelector prevArrowVisibility="{{true}}"
+            <Controls.dateRange:RangeShortSelector prevArrowVisibility="{{true}}"
                                              nextArrowVisibility="{{true}}"
                                              bind:startValue="_startValue"
                                              bind:endValue="_endValue"/>
         </div>
         <div class="controlsDemo__cell">
             <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">choseYears=false</div>
-            <Controls.dateRange:LiteSelector chooseYears="{{false}}"
+            <Controls.dateRange:RangeShortSelector chooseYears="{{false}}"
                                              bind:startValue="_startValue"
                                              bind:endValue="_endValue"/>
         </div>

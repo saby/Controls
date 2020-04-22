@@ -2917,6 +2917,35 @@ define([
          assert.isTrue(ctrl._needBottomPadding);
 
       });
+
+      it('_needBottomPadding after reload in beforeUpdate', async function() {
+         let cfg = {
+            viewName: 'Controls/List/ListView',
+            itemActionsPosition: 'outside',
+            keyProperty: 'id',
+            viewConfig: {
+               keyProperty: 'id'
+            },
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            source: undefined,
+         };
+         let cfgWithSource = {
+            ...cfg, 
+            source: source
+         }
+         var ctrl = new lists.BaseControl(cfg);
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+         assert.isFalse(ctrl._needBottomPadding);
+         await ctrl._beforeUpdate(cfgWithSource);
+         assert.isTrue(ctrl._needBottomPadding);
+
+      });
+
       it('setHasMoreData after reload in beforeMount', async function() {
          let cfg = {
             viewName: 'Controls/List/ListView',

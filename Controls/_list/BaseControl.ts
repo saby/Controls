@@ -2198,7 +2198,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             }
 
             // return result here is for unit tests
-            return _private.reload(self, newOptions);
+            return _private.reload(self, newOptions).addCallback(() => {
+                this._needBottomPadding = _private.needBottomPadding(newOptions, this._items, this._listViewModel);
+            });
         }
 
         if (this._itemsChanged) {
