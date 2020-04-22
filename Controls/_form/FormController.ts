@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction, getMetaStack, IMetaState} from 'UI/Base';
 import * as cInstance from 'Core/core-instance';
 import tmpl = require('wml!Controls/_form/FormController/FormController');
 import {readWithAdditionalFields} from './crudProgression';
@@ -148,6 +148,7 @@ interface IUpdateConfig {
  */
 
 class FormController extends Control<IFormController, IReceivedState> {
+    private metaStates: IMetaState[] = [];
     protected _template: TemplateFunction = tmpl;
     protected _record: Model = null;
     protected _isNewRecord: boolean = false;
@@ -287,6 +288,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._pendingPromise.callback();
             this._pendingPromise = null;
         }
+        this.metaStates.forEach(getMetaStack().remove);
         // when FormController destroying, its need to check new record was saved or not. If its not saved, new record trying to delete.
         // Текущая реализация не подходит, завершать пендинги могут как сверху(при закрытии окна), так и
         // снизу (редактирование закрывает пендинг).
@@ -381,6 +383,9 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _setRecord(record: Model): void {
         if (!record || this._checkRecordType(record)) {
             this._record = record;
+        }
+        if (record) {
+            this.metaStates.push(getMetaStack().push({ title: record.get('title') }));
         }
     }
 
