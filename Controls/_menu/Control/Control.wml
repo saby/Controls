@@ -29,7 +29,7 @@
             <div class="controls-Menu__footer-moreButton
                   {{(_options.multiSelect ? 'controls-Menu__footer_moreButton_multiSelect_theme-' : 'controls-Menu__footer_moreButton_theme-') + _options.theme}}">
                <Controls.buttons:Button viewMode="link"
-                                        fontColorStyle="link"
+                                        fontColorStyle="menuMore"
                                         caption="{{_options.moreButtonCaption}}"
                                         on:click="_openSelectorDialog()"/>
             </div>
