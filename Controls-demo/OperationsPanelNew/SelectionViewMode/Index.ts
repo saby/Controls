@@ -2,10 +2,10 @@ import {Control, TemplateFunction} from 'UI/Base'
 import * as Template from 'wml!Controls-demo/OperationsPanelNew/SelectionViewMode/SelectionViewMode'
 import {Memory} from 'Types/source'
 import {getPanelData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _selectionViewMode: string|null = 'all';
    protected _selectedKeys = [null];
    protected _excludedKeys = [];

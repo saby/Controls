@@ -5,14 +5,13 @@ define('Controls-demo/Popup/Opener/StackDemo',
       'wml!Controls-demo/Popup/Opener/resources/footer',
       'wml!Controls-demo/Popup/Opener/DialogTpl',
       'wml!Controls-demo/Popup/Opener/resources/StackTemplateWithoutHead',
-      'css!Controls-demo/Popup/PopupPage',
-      'css!Controls-demo/Popup/Opener/resources/StackHeader'
    ],
    function(Control, template) {
       'use strict';
 
       var PopupPage = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Popup/PopupPage', 'Controls-demo/Popup/Opener/resources/StackHeader'],
          openStack: function() {
             this._children.stack.open({
                opener: this._children.button1,

@@ -5,7 +5,6 @@ define('Controls-demo/Input/ComboBox/ComboBox',
       'Types/source',
       'wml!Controls-demo/Input/ComboBox/resources/ItemTemplate',
       'Controls/dropdown',
-      'css!Controls-demo/Input/resources/VdomInputs'
    ],
    function(Control, template, sourceLib, myTmpl) {
       'use strict';
@@ -23,6 +22,7 @@ define('Controls-demo/Input/ComboBox/ComboBox',
       };
       var ComboBox = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs'],
          _events: '',
          _source: null,
          _validationErrors: '',

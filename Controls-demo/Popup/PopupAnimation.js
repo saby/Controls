@@ -5,13 +5,13 @@ define('Controls-demo/Popup/PopupAnimation',
    [
       'Core/Control',
       'wml!Controls-demo/Popup/PopupAnimation/PopupAnimation',
-      'css!Controls-demo/Popup/PopupAnimation/PopupAnimation'
    ],
    function(Control, template) {
       return Control.extend({
          _animationDelay: 200,
          _fullCreateDelay: 1000,
          _template: template,
+         _styles: ['Controls-demo/Popup/PopupAnimation/PopupAnimation'],
          openStack: function() {
             var self = this;
             if (this._animationDelay) {

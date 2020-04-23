@@ -1,10 +1,9 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/LoadingIndicator/isGlobal/IsGlobal');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/LoadingIndicator/IndicatorContainer';
 
 class IsGlobal extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/LoadingIndicator/IndicatorContainer'];
     static _theme: string[] = ['Controls/Classes'];
     private _firstId = null;
 

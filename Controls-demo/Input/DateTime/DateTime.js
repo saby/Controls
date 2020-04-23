@@ -1,7 +1,6 @@
 define('Controls-demo/Input/DateTime/DateTime', [
    'Core/Control',
    'wml!Controls-demo/Input/DateTime/DateTime',
-   'css!Controls-demo/Input/DateTime/DateTime'
 ], function(
    BaseControl,
    template
@@ -10,6 +9,7 @@ define('Controls-demo/Input/DateTime/DateTime', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/DateTime/DateTime'],
       _date: new Date(2017, 0, 1, 12, 15, 30, 123),
       _startTime: new Date(0, 0, 0, 10, 15, 0, 0),
       _endTime: new Date(0, 0, 0, 12, 40, 0, 0),

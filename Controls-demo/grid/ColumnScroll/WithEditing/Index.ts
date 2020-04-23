@@ -5,10 +5,10 @@ import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/ColumnScroll/WithEditing/_cellEditor';
 
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns = getCountriesStats().getColumnsWithWidths().map((cur, i) => {
         if (i > 1) {

@@ -6,7 +6,6 @@ define('Controls-demo/List/EditInPlace', [
    'Core/Deferred',
    'Controls/Constants',
    'Controls/validate',
-   'css!Controls-demo/List/EditInPlace/EditInPlace'
 ], function (Control,
              template,
              source,
@@ -19,6 +18,7 @@ define('Controls-demo/List/EditInPlace', [
    var counter = 10;
    var EditInPlace = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/List/EditInPlace/EditInPlace'],
       editingConfig: null,
       _editOnClick: true,
       _sequentialEditing: true,

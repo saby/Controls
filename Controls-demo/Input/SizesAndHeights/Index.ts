@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/SizesAndHeights/SizesAndHeights');
-import 'css!Controls-demo/Controls-demo';
 
 class SizesAndHeights extends Control<IControlOptions> {
     protected _sizeAndHeightXSValue = SizesAndHeights._defaultValue;
@@ -14,6 +13,7 @@ class SizesAndHeights extends Control<IControlOptions> {
     protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     private static _defaultValue = 'text';
     static _theme: string[] = ['Controls/Classes'];

@@ -1,7 +1,6 @@
 define('Controls-demo/Input/Date/LinkView', [
    'Core/Control',
    'wml!Controls-demo/Input/Date/LinkView',
-   'css!Controls-demo/Input/Date/LinkView'
 ], function(
    BaseControl,
    template
@@ -10,6 +9,7 @@ define('Controls-demo/Input/Date/LinkView', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Date/LinkView'],
       _startValue: new Date(2017, 0, 1),
       _endValue: new Date(2017, 0, 31)
    });

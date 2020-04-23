@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/TagStyles/TagStyles');
-import 'css!Controls-demo/Controls-demo';
 
 class TagStyles extends Control<IControlOptions> {
     protected _primaryValue = TagStyles._defaultValue;
@@ -11,6 +10,7 @@ class TagStyles extends Control<IControlOptions> {
     protected _placeholder = 'Tooltip';
 
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     private static _defaultValue = 'text';
     static _theme: string[] = ['Controls/Classes'];

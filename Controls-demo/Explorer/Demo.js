@@ -5,13 +5,13 @@ define('Controls-demo/Explorer/Demo', [
    'Controls/Utils/Toolbar',
    'Controls/Constants',
    'Controls-demo/Explorer/ExplorerImages',
-   'css!Controls-demo/Explorer/Demo/Demo',
    'Controls/explorer'
 ], function(BaseControl, template, source, Toolbar, constants, explorerImages) {
    'use strict';
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/Explorer/Demo/Demo'],
          _viewSource: null,
          _selectedKeys: [],
          _excludedKeys: [],

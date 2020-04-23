@@ -3,10 +3,10 @@ import * as template from 'wml!Controls-demo/operations/SelectionViewMode/Select
 import Memory from 'Controls-demo/operations/SelectionViewMode/Memory';
 import {getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanel/Demo/PersonInfo';
-import 'css!Controls-demo/OperationsPanel/Demo/Demo';
 
 export default class extends Control {
    _template = template;
+   static _styles: string[] = ['Controls-demo/OperationsPanel/Demo/Demo'];
    _gridColumns = null;
    _viewSource = null;
    _selectionViewMode = 'all';

@@ -6,7 +6,6 @@ define('Controls-demo/EditableArea/EditableArea', [
    'wml!Controls-demo/EditableArea/resources/exampleTabTemplate',
    'wml!Controls-demo/EditableArea/resources/exampleTabTemplate2',
 
-   'css!Controls-demo/EditableArea/EditableArea'
 ], function(
    Control,
    template,
@@ -41,6 +40,7 @@ define('Controls-demo/EditableArea/EditableArea', [
 
    var EditableArea = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/EditableArea/EditableArea'],
       _record: null,
       _selectedTab: 0,
       _selectedTab2: 0,

@@ -3,7 +3,6 @@ define('Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto', [
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto',
    'Types/source',
    'Controls-demo/resources/Images',
-   'css!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto',
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto-content',
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto-item32',
    'Controls/treeGrid'
@@ -12,6 +11,7 @@ define('Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto', [
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto'],
          _viewSource: null,
          _viewColumns: null,
          _beforeMount: function() {

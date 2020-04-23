@@ -3,7 +3,6 @@ define('Controls-demo/PendingRegistrator/Content2', [
    'wml!Controls-demo/PendingRegistrator/Content2',
    'Env/Env',
    'Core/Deferred',
-   'css!Controls-demo/PendingRegistrator/Content2'
 ], function(Control, tmpl, Env, Deferred) {
    'use strict';
 
@@ -11,6 +10,7 @@ define('Controls-demo/PendingRegistrator/Content2', [
 
    var module = Control.extend({
       _template: tmpl,
+      _styles: ['Controls-demo/PendingRegistrator/Content2'],
       _register: function() {
          if (!this._def) {
             var def = new Deferred();

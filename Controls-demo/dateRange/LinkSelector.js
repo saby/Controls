@@ -1,7 +1,6 @@
 define('Controls-demo/dateRange/LinkSelector', [
    'Core/Control',
    'wml!Controls-demo/dateRange/LinkSelector',
-   'css!Controls-demo/dateRange/LinkSelector'
 ], function(
    BaseControl,
    template
@@ -10,6 +9,7 @@ define('Controls-demo/dateRange/LinkSelector', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/dateRange/LinkSelector'],
       _startValue: new Date(2017, 0, 1),
       _endValue: new Date(2017, 0, 31)
    });

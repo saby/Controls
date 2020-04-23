@@ -3,10 +3,10 @@ import controlTemplate = require('wml!Controls-demo/Menu/Popup/SearchParam/Empty
 import {Memory} from 'Types/source';
 import * as SearchMemory from 'Controls-demo/Search/SearchMemory';
 import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
-import 'css!Controls-demo/Controls-demo';
 
 class HeaderContentTemplate extends Control {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: Memory;
 
     protected _beforeMount(): void {

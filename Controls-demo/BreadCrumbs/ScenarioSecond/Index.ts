@@ -12,11 +12,10 @@ import {HierarchicalMemory} from 'Types/source';
 import {constants} from 'Env/Env';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/BreadCrumbs/Scenarios/Scenarios';
 
 class ScenarioSecond extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/BreadCrumbs/Scenarios/Scenarios'];
     protected _root4: number = 11;
     protected _root5: number = 11;
     protected _firstColumnTemplate: TemplateFunction = firstColumnTemplate; //

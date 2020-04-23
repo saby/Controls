@@ -1,7 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/list_new/VirtualScroll/Reload/ByCursor/ByCursor';
 import {DataSet, Memory, Query} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 interface IItem {
     id: number;
@@ -41,6 +40,7 @@ class PositionSourceMock extends Memory {
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: PositionSourceMock;
     protected _position: number = 0;
 

@@ -1,12 +1,12 @@
 define('Controls-demo/DragNDrop/Basket', [
    'Core/Control',
    'wml!Controls-demo/DragNDrop/Basket/Basket',
-   'css!Controls-demo/DragNDrop/Basket/Basket'
 ], function(BaseControl, template) {
    'use strict';
 
    var Basket = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/DragNDrop/Basket/Basket'],
       _canDrop: false,
       _isDragEnter: false,
       _items: null,

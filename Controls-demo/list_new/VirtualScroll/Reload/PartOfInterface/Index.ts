@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/list_new/VirtualScroll/Reload/PartOfInterface/PartOfInterface';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 interface IItem {
     id: number;
@@ -11,6 +10,7 @@ interface IItem {
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: Memory;
 
     protected _beforeMount(): void {

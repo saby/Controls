@@ -5,7 +5,6 @@ define('Controls-demo/Example/Input/Money',
       'wml!Controls-demo/Example/Input/Money/Money',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
    function(Control, SetValueMixin, template) {
@@ -13,6 +12,7 @@ define('Controls-demo/Example/Input/Money',
 
       return Control.extend([SetValueMixin], {
          _template: template,
+         _styles: ['Controls-demo/Example/resource/Base'],
 
          _rightValue: '0.00',
 

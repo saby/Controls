@@ -1,9 +1,9 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/datePopup/ReadOnly/Template');
-import 'css!Controls-demo/Controls-demo';
 
 class Single extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     static _theme: string[] = ['Controls/Classes'];
 
     protected _startValue = new Date(2019, 0, 1);

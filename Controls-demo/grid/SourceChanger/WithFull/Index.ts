@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/SourceChanger/WithFull/WithFul
 import {Memory} from "Types/source"
 import {getCountriesStats, changeSourceData} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 const { data, data2 } = changeSourceData();
 
@@ -40,6 +39,7 @@ class initialMemory extends Memory {
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     private _viewSource2: Memory;
     protected _columns = getCountriesStats().getColumnsForLoad();

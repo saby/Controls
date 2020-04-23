@@ -8,11 +8,11 @@ import {getFewCategories as getData} from '../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/list_new/DragNDrop/DragNDrop';
 
-import 'css!Controls-demo/Controls-demo';
 import * as Dnd from '../../../Controls/dragnDrop';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _itemsReadyCallback: (items: RecordSet) => void = this._itemsReady.bind(this);
     protected _selectedKeys: number[] = [];

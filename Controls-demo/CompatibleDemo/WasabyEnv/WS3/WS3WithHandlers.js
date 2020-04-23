@@ -3,13 +3,13 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
       'Core/Control',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
       'Lib/Control/LayerCompatible/LayerCompatible',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(Control, template, CompatibleLayer) {
       'use strict';
 
       var WS3WithHandlers = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
          _compatibleReady: false,
          _textForWs3Control: null,
          _textForWasabyControl: null,

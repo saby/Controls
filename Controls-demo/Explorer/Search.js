@@ -3,13 +3,13 @@ define('Controls-demo/Explorer/Search', [
    'wml!Controls-demo/Explorer/Search',
    'Controls-demo/Explorer/ExplorerMemory',
    'Types/source',
-   'css!Controls-demo/Explorer/Search',
    'Controls/explorer'
 ], function(BaseControl, template, MemorySource, source) {
    'use strict';
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/Explorer/Search'],
          _markedKey: 1,
          _excludedKeys: [],
          _selectedKeys: [],

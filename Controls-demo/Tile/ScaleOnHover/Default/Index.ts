@@ -4,10 +4,10 @@ import {Gadgets} from '../../DataHelpers/DataCatalog';
 import {HierarchicalMemory} from "Types/source"
 
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _viewSource;
 
    protected _beforeMount() {

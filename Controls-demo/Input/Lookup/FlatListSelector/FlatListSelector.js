@@ -4,7 +4,6 @@ define('Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector', [
    'Controls-demo/Input/Lookup/LookupData',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector',
    'Controls/list'
 ], function(Control, template, lookupData, source, MemorySourceFilter) {
 
@@ -12,6 +11,7 @@ define('Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector', [
 
    var FlatListSelector = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'],
       _keyProperty: 'id',
       _selectionChanged: false,
 

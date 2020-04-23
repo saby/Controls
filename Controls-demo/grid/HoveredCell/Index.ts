@@ -3,10 +3,10 @@ import * as Template from "wml!Controls-demo/grid/HoveredCell/HoveredCell"
 import {Memory} from "Types/source"
 import {getCountriesStats} from "../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _hoveredCell: string = 'null';
     private _columns = getCountriesStats().getColumnsWithFixedWidths();

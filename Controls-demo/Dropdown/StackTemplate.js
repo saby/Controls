@@ -2,7 +2,6 @@ define('Controls-demo/Dropdown/StackTemplate', [
    'Core/Control',
    'wml!Controls-demo/Dropdown/StackTemplate',
    'Types/source',
-   'css!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'
 
 ], function(Control, template, source) {
 
@@ -10,6 +9,7 @@ define('Controls-demo/Dropdown/StackTemplate', [
 
    var DropdownDemo = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'],
       _selectionChanged: false,
 
       _beforeMount: function(options) {

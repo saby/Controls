@@ -1,12 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/Placeholders/Placeholders');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Input/Placeholders/Placeholders';
 
 class Placeholders extends Control<IControlOptions> {
     protected _value: string = '';
 
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/Placeholders/Placeholders'];
 
     protected _generatePassword() {
         this._value = Math.random().toString(36).slice(2);

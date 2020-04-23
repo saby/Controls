@@ -1,6 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
@@ -10,6 +9,7 @@ interface BaseIndexOptions extends IControlOptions {
 
 export default class extends Control<BaseIndexOptions> {
     protected _template: TemplateFunction;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns = Gadgets.getColumnsForFlat();
     protected _showTitle: boolean;

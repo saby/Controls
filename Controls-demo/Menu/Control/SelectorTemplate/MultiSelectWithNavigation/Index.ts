@@ -2,11 +2,10 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/SelectorTemplate/MultiSelectWithNavigation/Index');
 import {Memory} from 'Types/source';
 import {factory} from 'Types/chain';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Menu/Menu';
 
 class SelectorTemplate extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Menu'];
     protected _source: Memory;
     protected _items: object[];
     protected _navigation: object;

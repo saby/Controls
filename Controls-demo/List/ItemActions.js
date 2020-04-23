@@ -6,7 +6,6 @@ define('Controls-demo/List/ItemActions', [
    'Core/Control',
    'wml!Controls-demo/List/ItemActions/ItemActions',
    'Types/source',
-   'css!Controls-demo/List/ItemActions/ItemActions'
 ], function(
    Env,
    BaseControl,
@@ -125,6 +124,7 @@ define('Controls-demo/List/ItemActions', [
          },
          _itemActions: _firstItemActionsArray,
          _template: template,
+         _styles: ['Controls-demo/List/ItemActions/ItemActions'],
          _onActionClick: function(event, action, item) {
             Env.IoC.resolve('ILogger').info(arguments);
             this.__lastClicked = action.title;

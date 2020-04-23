@@ -1,12 +1,12 @@
 define('Controls-demo/CompatibleDemo/Compat/WS3/WS3', [
    'Lib/Control/CompoundControl/CompoundControl',
    'wml!Controls-demo/CompatibleDemo/Compat/WS3/WS3',
-   'css!Controls-demo/CompatibleDemo/CompatibleDemo'
 ], function(CompoundControl, template) {
    'use strict';
 
    var WS3Demo = CompoundControl.extend({
       _dotTplFn: template,
+      _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
 
       init: function() {
          WS3Demo.superclass.init.call(this);

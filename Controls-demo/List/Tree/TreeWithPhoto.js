@@ -3,7 +3,6 @@ define('Controls-demo/List/Tree/TreeWithPhoto', [
    'wml!Controls-demo/List/Tree/TreeWithPhoto',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/resources/Images',
-   'css!Controls-demo/List/Tree/TreeWithPhoto',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-content',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-item16',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-item24',
@@ -17,6 +16,7 @@ define('Controls-demo/List/Tree/TreeWithPhoto', [
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Tree/TreeWithPhoto'],
          _viewSource: null,
          _viewSourceTwoLevels: null,
          _viewColumns: null,

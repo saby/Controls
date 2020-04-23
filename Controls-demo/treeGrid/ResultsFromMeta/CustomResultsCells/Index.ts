@@ -4,11 +4,11 @@ import * as resTpl from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResult
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     protected _header = Gadgets.getHeaderForFlat();
     protected _columns = Gadgets.getGridColumnsForFlat().map((c, i) => ({

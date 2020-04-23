@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Decorator/WrapURLs/WrapURLs');
-import 'css!Controls-demo/Controls-demo';
 
 class WrapURLs extends Control<IControlOptions> {
     protected _value = 'Гиперссылки (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a), или просто ссылки, являются фундаментальной основой Web приложения.' +
@@ -11,6 +10,7 @@ class WrapURLs extends Control<IControlOptions> {
         'или доступ через 3 волшебные буквы WWW www.google.com, к локальным файлам file:///C:/Users/, или email tensor@tensor.ru.';
 
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     static _theme: string[] = ['Controls/Classes'];
 }

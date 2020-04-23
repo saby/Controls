@@ -3,12 +3,12 @@ import * as Template from 'wml!Controls-demo/grid/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
 import {DragNDrop} from '../DemoHelpers/DataCatalog';
 
-import 'css!Controls-demo/Controls-demo';
 import * as Dnd from "../../../Controls/dragnDrop";
 
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _itemsReadyCallback = this._itemsReady.bind(this);
     protected _columns = DragNDrop().columns;

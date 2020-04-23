@@ -1,7 +1,6 @@
 define('Controls-demo/Headers/standartDemoHeader', [
    'Core/Control',
    'wml!Controls-demo/Headers/standartDemoHeader',
-   'css!Controls-demo/Headers/standartDemoHeader'
 ], function(Control, template) {
    'use strict';
 
@@ -9,6 +8,7 @@ define('Controls-demo/Headers/standartDemoHeader', [
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Headers/standartDemoHeader'],
          _iconValue1: false,
          _iconValue2: false,
          _iconValue3: false,

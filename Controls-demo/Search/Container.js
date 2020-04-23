@@ -7,13 +7,13 @@ define('Controls-demo/Search/Container', [
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/Search/Container'
 ], function(Control, template, sourceLib, memorySourceData, memorySourceFilter) {
 
    'use strict';
 
    var SearchContainer = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Search/Container'],
       _navigation: null,
       _filter: null,
       _searchValue: '',

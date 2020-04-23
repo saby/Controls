@@ -11,7 +11,6 @@ define('Controls-demo/Dropdown/MenuVdom', [
    'wml!Controls-demo/Dropdown/resources/headerTemplate',
    'wml!Controls-demo/Dropdown/resources/footerTemplate',
    'wml!Controls-demo/Dropdown/resources/contentTemplate',
-   'css!Controls-demo/Dropdown/MenuVdom',
    'Types/collection' // TODO: удалить это когда появится асинк и технология патчинга jsLinks
    // сейчас зависимость тянется асинхронно и десериализовать данные пытаемся раньше, чем это произойдет
 ], function(Control, template, cClone, source, ControlsConstants) {
@@ -20,6 +19,7 @@ define('Controls-demo/Dropdown/MenuVdom', [
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Dropdown/MenuVdom'],
          _stateText: 'Выбранный ключ: 8',
          _selectedKeysEmpty: null,
          _selectedKeys0: null,

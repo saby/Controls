@@ -2,8 +2,6 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/MasterDetail/MasterDetail');
 import columnTemplate = require('wml!Controls-demo/DragNDrop/MasterDetail/itemTemplates/masterItemTemplate');
 import * as data from 'Controls-demo/DragNDrop/MasterDetail/Data';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/DragNDrop/MasterDetail/MasterDetail';
 import cInstance = require('Core/core-instance');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
@@ -15,6 +13,7 @@ const NUMBER_OF_ITEMS = 50;
 
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/DragNDrop/MasterDetail/MasterDetail'];
     protected gridColumns = [{
         displayProperty: 'name',
         width: '1fr',

@@ -10,15 +10,13 @@ define('Controls-demo/Popup/Templates/StackTemplatePG',
       'wml!Controls-demo/Popup/Templates/resources/headerContent',
       'wml!Controls-demo/Popup/Templates/resources/customHeaderContent',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
    ],
 
    function(Control, template, config) {
       'use strict';
       var DialogPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _dataOptions: null,
          _content: 'Controls/popupTemplate:Stack',

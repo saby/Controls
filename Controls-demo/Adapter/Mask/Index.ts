@@ -1,7 +1,6 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Adapter/Mask/Mask');
-import 'css!Controls-demo/Controls-demo';
 
 class Mask extends Control<IControlOptions> {
     protected _valueAdapterMask = '874-998-877546';
@@ -10,6 +9,7 @@ class Mask extends Control<IControlOptions> {
     }
 
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     static _theme: string[] = ['Controls/Classes'];
 }

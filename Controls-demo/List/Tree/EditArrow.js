@@ -4,7 +4,6 @@ define('Controls-demo/List/Tree/EditArrow', [
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/Utils/MemorySourceFilter',
    'wml!Controls-demo/List/Tree/EditArrow/columnTemplate',
-   'css!Controls-demo/List/Tree/EditArrow/EditArrow',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
@@ -13,6 +12,7 @@ define('Controls-demo/List/Tree/EditArrow', [
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Tree/EditArrow/EditArrow'],
          _source: null,
          _columns: null,
          _column: null,

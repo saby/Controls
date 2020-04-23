@@ -3,7 +3,6 @@ define('Controls-demo/BreadCrumbs/PathPG', [
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/PropertyGrid/pgtext',
    'Types/entity',
-   'css!Controls-demo/BreadCrumbs/PathPG'
 ], function(
    Control,
    template,
@@ -12,6 +11,7 @@ define('Controls-demo/BreadCrumbs/PathPG', [
 ) {
    return Control.extend({
       _template: template,
+      _styles: ['Controls-demo/BreadCrumbs/PathPG'],
       _dataObject: null,
       _componentOptions: null,
       _metaData: null,

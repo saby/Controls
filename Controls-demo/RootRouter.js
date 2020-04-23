@@ -6,7 +6,6 @@ define('Controls-demo/RootRouter', [
    'wml!Controls-demo/RootRouter',
    'Application/Initializer',
    'Application/Env',
-   'css!Controls-demo/RootRouter'
 ], function(BaseControl,
             template,
             AppInit,
@@ -16,6 +15,7 @@ define('Controls-demo/RootRouter', [
    var ModuleClass = BaseControl.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/RootRouter'],
          isReloading: false,
          pathName: 'Controls-demo/app/Controls-demo%2FIndexOld',
          reload: function() {

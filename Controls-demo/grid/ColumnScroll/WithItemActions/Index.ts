@@ -3,10 +3,10 @@ import * as Template from 'wml!Controls-demo/grid/ColumnScroll/WithItemActions/W
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _itemActions = getItemActions();
     private _columns = getCountriesStats().getColumnsWithWidths();

@@ -4,10 +4,10 @@ import {Memory} from "Types/source"
 import {getPorts} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/EditInPlace/EditingRow/_rowEditor';
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns = getPorts().getColumns();
     protected _documentSignMemory;

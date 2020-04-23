@@ -2,12 +2,12 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/AscendManual',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/AscendManual',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ], function (Control, template) {
       'use strict';
 
       var delayAscendManualModule = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/AsyncTest/AsyncTestDemo'],
          _isOpen: false,
 
          _beforeMount: function (options) {

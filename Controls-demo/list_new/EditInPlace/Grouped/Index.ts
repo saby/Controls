@@ -4,11 +4,11 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 import {view as constView} from 'Controls/Constants';
-import 'css!Controls-demo/Controls-demo';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _fakeItemId: number;
     private _activeGroup: string;

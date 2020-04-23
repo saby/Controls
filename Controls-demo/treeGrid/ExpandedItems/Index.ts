@@ -3,10 +3,10 @@ import * as Template from "wml!Controls-demo/treeGrid/ExpandedItems/ExpandedItem
 import {Memory} from "Types/source"
 import {Gadgets} from "../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _viewSource: Memory;
    protected _columns = Gadgets.getColumnsForFlat();
    protected _expandedItems = [1];

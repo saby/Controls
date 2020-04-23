@@ -2,7 +2,6 @@ define('Controls-demo/List/ScrollPaging', [
    'Core/Control',
    'wml!Controls-demo/List/ScrollPaging/ScrollPaging',
    'Types/source',
-   'css!Controls-demo/List/ScrollPaging/ScrollPaging'
 ], function (BaseControl,
              template,
              source
@@ -123,6 +122,7 @@ define('Controls-demo/List/ScrollPaging', [
    var ModuleClass = BaseControl.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/List/ScrollPaging/ScrollPaging'],
 
          constructor: function() {
             ModuleClass.superclass.constructor.apply(this, arguments);

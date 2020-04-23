@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/list_new/VirtualScroll/ItemsChange/ItemsChange';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {RecordSet} from 'Types/collection';
 
 interface IItem {
@@ -14,6 +13,7 @@ type IEdge = 'start' | 'end';
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: Memory;
 
     private _items: RecordSet;

@@ -3,11 +3,11 @@ define('Controls-demo/Switch/standartDemoSwitch', [
    'wml!Controls-demo/Switch/standartDemoSwitch',
    'Types/source',
    'tmpl!Controls-demo/Switch/resources/customCaptionTemplate',
-   'css!Controls-demo/Switch/standartDemoSwitch'
 ], function(Control, template, source, customCaptionTemplate) {
    'use strict';
    var ModuleClass = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Switch/standartDemoSwitch'],
       _source: null,
       _selectKey: '1',
       _selectKey2: '1',

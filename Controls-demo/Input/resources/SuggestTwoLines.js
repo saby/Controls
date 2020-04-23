@@ -3,13 +3,13 @@ define('Controls-demo/Input/resources/SuggestTwoLines',
       'Core/Control',
       'wml!Controls-demo/Input/resources/SuggestTwoLines',
       'Types/source',
-      'css!Controls-demo/Input/resources/VdomInputs'
    ],
    function(Base, template, source) {
       'use strict';
 
       var SuggestTwoLines = Base.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs'],
          _changeValueHandler: function(event, tmp) {
             if (tmp == null) {
                this._notify('suggestValueChanged', undefined);

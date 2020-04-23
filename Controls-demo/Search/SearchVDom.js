@@ -1,7 +1,6 @@
 define('Controls-demo/Search/SearchVDom', [
    'Core/Control',
    'wml!Controls-demo/Search/SearchVDom',
-   'css!Controls-demo/Search/SearchVDOM',
    'Controls/search'
 ], function (Control, template) {
    'use strict';
@@ -9,6 +8,7 @@ define('Controls-demo/Search/SearchVDom', [
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Search/SearchVDOM'],
          _value: '',
          textValue: '',
          textSearchValue: '',

@@ -3,7 +3,6 @@ define('Controls-demo/TestXslt/TestXslt', [
    'wml!Controls-demo/TestXslt/TestXslt',
    'Core/xslt-async',
    'is!browser?jquery',
-   'css!Controls-demo/TestXslt/TestXslt'
 ], function(Control, template, Xslt) {
    'use strict';
 
@@ -27,6 +26,7 @@ define('Controls-demo/TestXslt/TestXslt', [
 
    return Control.extend({
       _template: template,
+      _styles: ['Controls-demo/TestXslt/TestXslt'],
       _xml: '',
       _xsl: '',
       _result: '',

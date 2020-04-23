@@ -4,7 +4,6 @@ define('Controls-demo/List/Tree/Tree', [
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Tree/Tree',
    'Controls-demo/List/Tree/TreeMemory',
-   'css!Controls-demo/List/Tree/Tree',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
@@ -13,6 +12,7 @@ define('Controls-demo/List/Tree/Tree', [
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Tree/Tree'],
          _actionClicked: '',
          _groupingKeyCallback: null,
          _itemActions: null,

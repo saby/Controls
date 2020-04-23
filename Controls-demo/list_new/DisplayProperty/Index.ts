@@ -3,10 +3,10 @@ import * as Template from "wml!Controls-demo/list_new/DisplayProperty/DisplayPro
 import {Memory} from "Types/source"
 import {getFewCategories as getData} from "../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/list_new/ItemTemplate/FromFile/itemTemplate'
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
 
     protected _beforeMount() {

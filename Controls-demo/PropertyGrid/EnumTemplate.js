@@ -4,13 +4,12 @@ define('Controls-demo/PropertyGrid/EnumTemplate',
       'wml!Controls-demo/PropertyGrid/EnumTemplate',
       'Types/source',
       'Core/core-merge',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template, sourceLib, cMerge) {
       'use strict';
       var stringTmpl = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'],
          _source: null,
          _beforeMount: function(opt) {
             var self = this;

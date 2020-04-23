@@ -5,10 +5,10 @@ import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import * as TitleCellTemplate from 'wml!Controls-demo/treeGrid/EditInPlace/InputFontSize/ColumnTemplate/Title';
 import * as CountryCellTemplate from 'wml!Controls-demo/treeGrid/EditInPlace/InputFontSize/ColumnTemplate/Country';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     private _columns = Gadgets.getGridColumnsForFlat();
 

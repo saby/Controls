@@ -5,7 +5,6 @@ define('Controls-demo/Example/Input/Font',
       'wml!Controls-demo/Example/Input/Font/Font',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
    function(Control, SetValueMixin, template) {
@@ -17,6 +16,7 @@ define('Controls-demo/Example/Input/Font',
 
       return Control.extend([SetValueMixin], {
          _template: template,
+         _styles: ['Controls-demo/Example/resource/Base'],
 
          _filled1Value: FILLED_VALUE,
          _filled2Value: FILLED_VALUE,

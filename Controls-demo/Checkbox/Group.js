@@ -2,13 +2,13 @@ define('Controls-demo/Checkbox/Group', [
    'Core/Control',
    'wml!Controls-demo/Checkbox/Group/Group',
    'Types/source',
-   'css!Controls-demo/Checkbox/Group/Group',
 ], function(Control, template, source) {
    'use strict';
 
    var CheckboxGroup = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Checkbox/Group/Group'],
          _keyProperty: 'key',
          _parentProperty: 'parent',
          _nodeProperty: 'node',

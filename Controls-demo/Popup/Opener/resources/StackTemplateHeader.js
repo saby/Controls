@@ -3,7 +3,6 @@ define('Controls-demo/Popup/Opener/resources/StackTemplateHeader',
       'Core/Control',
       'wml!Controls-demo/Popup/Opener/resources/StackTemplateHeader',
       'Types/source',
-      'css!Controls-demo/Popup/Opener/resources/StackHeader',
       'wml!Controls-demo/List/Tree/DemoContentTemplate'
    ],
    function(Control, template, Source) {
@@ -11,6 +10,7 @@ define('Controls-demo/Popup/Opener/resources/StackTemplateHeader',
 
       var PopupPage = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Popup/Opener/resources/StackHeader'],
          SelectedKey1: '1',
          _source1: null,
          _beforeMount: function() {

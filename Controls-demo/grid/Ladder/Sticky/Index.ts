@@ -5,7 +5,6 @@ import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 import * as Template from 'wml!Controls-demo/grid/Ladder/Sticky/Sticky';
 import * as ResultsTpl from 'wml!Controls-demo/grid/Ladder/Sticky/ResultsCell';
@@ -24,6 +23,7 @@ interface IStickyLadderHeader {
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns: IStickyLadderColumn[] = getTasks().getColumns();
     protected _ladderProperties: string[] = ['photo', 'date'];
