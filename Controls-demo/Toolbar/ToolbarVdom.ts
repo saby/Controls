@@ -3,12 +3,11 @@ import controlTemplate = require('wml!Controls-demo/Toolbar/ToolbarVdom');
 import itemTemplate = require('wml!Controls-demo/Toolbar/resources/itemTemplate');
 import itemTemplateContent = require('wml!Controls-demo/Toolbar/resources/itemTemplateContent');
 import {showType} from 'Controls/Utils/Toolbar';
-import 'css!Controls-demo/Toolbar/ToolbarVdom';
-import 'css!Controls-demo/Controls-demo';
 import {Memory} from 'Types/source';
 
 class ToolbarVdom extends Control<IControlOptions> {
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Toolbar/ToolbarVdom', 'Controls-demo/Controls-demo'];
    protected _defaultItems =  null;
    protected _flatItems = null;
    protected _currentClick = 'Нажми на тулбар';

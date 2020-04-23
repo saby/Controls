@@ -4,10 +4,10 @@ import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/Header/AddButton/FirstHeaderCellTemplate'
 import 'wml!Controls-demo/grid/Header/AddButton/Cell'
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     private _gridCaption = 'Характеристики стран';
     private _header = getCountriesStats().getDefaultHeader().slice(1);

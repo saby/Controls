@@ -2,13 +2,13 @@ define('Controls-demo/CompatibleDemo/Compat/Wasaby/WithoutCompatible/WithoutComp
    [
       'Lib/Control/CompoundControl/CompoundControl',
       'wml!Controls-demo/CompatibleDemo/Compat/Wasaby/WithoutCompatible/WithoutCompatible',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(CompoundControl, template) {
       'use strict';
 
       var WasabyWithoutCompatible = CompoundControl.extend({
          _dotTplFn: template,
+         _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
 
          init: function() {
             WasabyWithoutCompatible.superclass.init.call(this);

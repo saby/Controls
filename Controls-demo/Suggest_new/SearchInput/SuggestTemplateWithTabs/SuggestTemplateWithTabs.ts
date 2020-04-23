@@ -5,11 +5,10 @@ import {Memory} from 'Types/source';
 import {_departmentsWithCompanies} from 'Controls-demo/Suggest_new/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplateWithTabs/SuggestTemplateWithTabs');
 import suggestTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplateWithTabs/resources/SuggestTabTemplate');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Suggest_new/Index';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Suggest_new/Index'];
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    protected _suggestTemplate: string;
    protected _source: Memory;

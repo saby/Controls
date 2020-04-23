@@ -17,7 +17,6 @@ define('Controls-demo/Filter/Button/PanelVDom',
       'tmpl!Controls-demo/Filter/Button/resources/withAdditional/mainBlockPanel',
       'tmpl!Controls-demo/Filter/Button/resources/withAdditional/additionalBlockPanel',
 
-      'css!Controls-demo/Filter/Button/PanelVDom'
    ],
 
    function(Control, sourceLib, chain, template) {
@@ -32,6 +31,7 @@ define('Controls-demo/Filter/Button/PanelVDom',
       'use strict';
       var PanelVDom = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom'],
          _itemsSimple: null,
          _itemsTemplate: null,
          _items: null,

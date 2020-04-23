@@ -3,7 +3,6 @@ define('Controls-demo/Input/Date/Picker', [
    'Controls-demo/Date/MonthListSource',
    'wml!Controls-demo/Input/Date/Picker',
    'wml!Controls-demo/Date/MonthListDay',
-   'css!Controls-demo/Input/Date/Picker'
 ], function(
    BaseControl,
    MonthListSource,
@@ -14,6 +13,7 @@ define('Controls-demo/Input/Date/Picker', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Date/Picker'],
       _dayTemplate: dayTemplate,
       _date: new Date(2017, 0, 1, 12, 15, 30, 123),
       _emptyDate: null,

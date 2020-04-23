@@ -3,13 +3,13 @@ define('Controls-demo/Slider/Base/SliderBaseDemo',
       'Core/Control',
       'Types/source',
       'wml!Controls-demo/Slider/Base/SliderBaseDemo',
-      'css!Controls-demo/Slider/Base/SliderBaseDemo',
       'Controls/slider'
    ],
    function(Control, source, template) {
       'use strict';
       var SliderBaseDemo = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Slider/Base/SliderBaseDemo'],
          _minValue: undefined,
          _maxValue: undefined,
          _scaleStep: undefined,

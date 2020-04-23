@@ -5,7 +5,6 @@ define('Controls-demo/Example/Input/Mask',
       'wml!Controls-demo/Example/Input/Mask/Mask',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
    function(Control, SetValueMixin, template) {
@@ -13,6 +12,7 @@ define('Controls-demo/Example/Input/Mask',
 
       return Control.extend([SetValueMixin], {
          _template: template,
+         _styles: ['Controls-demo/Example/resource/Base'],
 
          _mobilePhoneValue: ''
       });

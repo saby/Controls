@@ -2,13 +2,13 @@ define('Controls-demo/Slider/Base/StandartSliderBaseDemo',
    [
       'Core/Control',
       'wml!Controls-demo/Slider/Base/StandartSliderBaseDemo',
-      'css!Controls-demo/Slider/Base/StandartSliderBaseDemo',
       'Controls/slider'
    ],
    function(Control, template) {
       'use strict';
       var StandartSliderBaseDemo = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Slider/Base/StandartSliderBaseDemo'],
          _inputValue: null,
          _minValueI: undefined,
          _maxValueI: undefined,

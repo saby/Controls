@@ -3,13 +3,13 @@ define('Controls-demo/Slider/Range/SliderRangeDemo',
       'Core/Control',
       'Types/source',
       'wml!Controls-demo/Slider/Range/SliderRangeDemo',
-      'css!Controls-demo/Slider/Range/SliderRangeDemo',
       'Controls/slider'
    ],
    function(Control, source, template) {
       'use strict';
       var SliderRangeDemo = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Slider/Range/SliderRangeDemo'],
          _minValue: undefined,
          _maxValue: undefined,
          _scaleStep: undefined,

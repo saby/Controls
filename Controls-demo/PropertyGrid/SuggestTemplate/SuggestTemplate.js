@@ -5,14 +5,13 @@ define('Controls-demo/PropertyGrid/SuggestTemplate/SuggestTemplate',
       'Types/source',
       'Types/collection',
       'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template, source, collection) {
       'use strict';
 
       var sugTmpl = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'],
          _viewValue: '',
          _source: null,
 

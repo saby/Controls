@@ -5,7 +5,6 @@ import { fetch } from 'Browser/Transport';
 import * as template from 'wml!Controls-demo/dataSource/SearchAndRemove';
 import { IItemAction, Remover } from 'Controls/list';
 import { Confirmation } from 'Controls/popup';
-import 'css!Controls-demo/Controls-demo';
 
 interface IFilter {
     title?: string;
@@ -33,6 +32,7 @@ class TestSource extends Memory {
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _filter: IFilter = {};
     protected _source: TestSource = new TestSource({
         keyProperty: 'id',

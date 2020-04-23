@@ -1,8 +1,6 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/FieldTemplate/FieldTemplate');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Input/FieldTemplate/FieldTemplate';
 
 class FieldTemplate extends Control<IControlOptions> {
     private _value1: string = '123qweASD';
@@ -10,6 +8,7 @@ class FieldTemplate extends Control<IControlOptions> {
     private _value3: string = '123qweASD';
 
     protected _template: TemplateFunction = controlTemplate
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/FieldTemplate/FieldTemplate'];
 
     private _toLowerCase(event: SyntheticEvent<MouseEvent>, stateName: string): void {
         this[stateName] = this[stateName].toLowerCase();

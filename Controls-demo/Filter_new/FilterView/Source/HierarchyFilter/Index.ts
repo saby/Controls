@@ -3,11 +3,10 @@ import * as Template from 'wml!Controls-demo/Filter_new/FilterView/Source/Hierar
 import {getHierarchyFilterItems} from 'Controls-demo/Filter_new/resources/FilterItemsStorage';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {object} from 'Types/util';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Filter_new/Filter';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Filter_new/Filter'];
     protected _source: unknown[] = [];
 
     protected _beforeMount(): void {

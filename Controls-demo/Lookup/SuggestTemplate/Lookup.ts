@@ -5,10 +5,10 @@ import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import {_departmentsDataLong} from 'Controls-demo/Lookup/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Lookup/SuggestTemplate/Lookup');
 import suggestTemplate = require('wml!Controls-demo/Lookup/SuggestTemplate/resources/SuggestTemplate');
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    protected _source: Memory;
    protected _navigation: object;

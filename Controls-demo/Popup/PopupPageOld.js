@@ -4,13 +4,13 @@ define('Controls-demo/Popup/PopupPageOld',
       'wml!Controls-demo/Popup/PopupPageOld',
       'SBIS3.CONTROLS/Action/List/OpenEditDialog',
       'Controls-demo/Popup/TestDialog',
-      'css!Controls-demo/Popup/PopupPageOld'
    ],
    function (Control, template, OpenEditDialog) {
       'use strict';
 
       var PopupPage = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Popup/PopupPageOld'],
 
          constructor: function (cfg) {
             PopupPage.superclass.constructor.call(this, cfg);

@@ -5,7 +5,6 @@ define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
       'View/Builder/Tmpl',
       'View/config',
       'View/Executor/TClosure',
-      'css!Controls-demo/Input/resources/VdomInputs',
       'i18n!userTemplate',
    ],
    function(Control, template, tmpl, config, tClosure) {
@@ -13,6 +12,7 @@ define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
 
       var stringTmpl = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs'],
          _value: '',
          checkBoxFlag: undefined,
          _beforeMount: function(opts) {

@@ -6,7 +6,6 @@ define('Controls-demo/Filter/Container', [
    'wml!Controls-demo/Filter/Container',
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
-   'css!Controls-demo/Filter/Container',
    'Controls/deprecatedList',
    'Controls/search',
    'Controls/filter'
@@ -14,6 +13,7 @@ define('Controls-demo/Filter/Container', [
    'use strict';
    var SearchContainer = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Filter/Container'],
       _navigation: null,
       _filter: null,
       _filterTabs: null,

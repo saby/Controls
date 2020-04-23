@@ -4,11 +4,11 @@ import {Memory} from "Types/source"
 import {Model} from "Types/entity"
 import {getContactsCatalog as getData} from "../../DemoHelpers/DataCatalog"
 import {getActionsForContacts as getItemActions} from "../../DemoHelpers/ItemActionsCatalog"
-import 'css!Controls-demo/Controls-demo'
 import {SyntheticEvent} from "Vdom/Vdom";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     private _itemActions = getItemActions();
     protected _clickedMessage: string;

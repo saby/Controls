@@ -3,11 +3,11 @@ import * as Template from 'wml!Controls-demo/grid/Results/FromMeta/CustomResults
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _header = getCountriesStats().getDefaultHeader();
     private _columns = getCountriesStats().getColumnsWithWidths();

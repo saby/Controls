@@ -3,7 +3,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ExplorerMemory from 'Controls-demo/Explorer/ExplorerMemory';
 import * as template from 'wml!Controls-demo/Explorer/SearchExpand';
 
-import 'css!Controls-demo/Explorer/Search';
 
 interface ISearchExpandData {
    id: number;
@@ -117,6 +116,7 @@ const columns: ISearchExpandColumn[] = [
 
 export default class SearchExpand extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
+   static _styles: string[] = ['Controls-demo/Explorer/Search'];
    protected _markedKey: number = 1;
    protected _excludedKeys: [] = [];
    protected _selectedKeys: [] = [];

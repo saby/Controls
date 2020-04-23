@@ -4,12 +4,11 @@ import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
-import 'css!Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling';
-import 'css!Controls-demo/Controls-demo';
 
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling', 'Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _itemsReadyCallback: (items: RecordSet) => void = this._itemsReady.bind(this);
     private _header = getCountriesStats().getMultiHeaderForDragScrolling();

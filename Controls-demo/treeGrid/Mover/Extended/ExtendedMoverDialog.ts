@@ -1,12 +1,12 @@
 import {Control, TemplateFunction} from "UI/Base";
 import * as Template from "wml!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog";
-import "css!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog";
 import {Record} from "Types/entity";
 import {RecordSet} from "Types/collection";
 import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog'];
     private _moverItemsCount: number;
     protected _filter: object = {};
 

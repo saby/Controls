@@ -3,13 +3,13 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WithoutCompatible',
       'Core/Control',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/WS3/WithoutCompatible',
       'Lib/Control/LayerCompatible/LayerCompatible',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(Control, template, CompatibleLayer) {
       'use strict';
 
       var WithoutCompatible = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
          _compatibleReady: false,
          _text: null,
 

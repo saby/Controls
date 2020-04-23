@@ -1,9 +1,9 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/toggle/Separator/Index');
-import 'css!Controls-demo/Controls-demo';
 
 class ViewModes extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _expanded1: boolean = false;
     protected _expanded2: boolean = false;
     protected _expanded3: boolean = false;

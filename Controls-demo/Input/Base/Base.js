@@ -4,7 +4,6 @@ define('Controls-demo/Input/Base/Base',
       'json!Controls-demo/Input/Base/Base',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
 
-      'css!Controls-demo/Input/Base/Base'
    ],
 
    function(Control, config, template) {
@@ -16,6 +15,7 @@ define('Controls-demo/Input/Base/Base',
 
       var Base = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/Base/Base'],
 
          _metaData: null,
 

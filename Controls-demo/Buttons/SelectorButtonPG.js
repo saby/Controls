@@ -5,13 +5,13 @@ define('Controls-demo/Buttons/SelectorButtonPG', [
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Input/Lookup/LookupData',
    'json!Controls-demo/PropertyGrid/pgtext',
-   'css!Controls-demo/Buttons/SelectorButtonPG'
 ], function (Control, template, sourceLib, memorySourceFilter, sourceData, config) {
    'use strict';
 
    return Control.extend({
       _selectedKeys: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       _template: template,
+      _styles: ['Controls-demo/Buttons/SelectorButtonPG'],
       _content: 'Controls/lookup:Selector',
       _dataObject: null,
       _sourceNames: null,

@@ -2,13 +2,13 @@ import Control = require('Core/Control')
 import template = require('wml!Controls-demo/List/VirtualScroll/resources/BaseTemplate')
 import {Memory} from 'Types/source'
 import {createItems} from './resources/Data'
-import 'css!Controls-demo/List/VirtualScroll/resources/Common'
 
 
 
 class FromLastPage extends Control {
     [x: string]: any;
     protected _template: Function = template;
+    static _styles: string[] = ['Controls-demo/List/VirtualScroll/resources/Common'];
     private _listName: string = 'myList';
     protected _viewSource: Memory;
     private _itemsCount: number = 1000;

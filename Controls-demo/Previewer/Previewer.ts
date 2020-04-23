@@ -1,14 +1,12 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Previewer/Previewer');
-import 'css!Controls-demo/InfoBox/resources/InfoboxButtonHelp';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Previewer/Previewer';
-import 'css!Controls-demo/Controls-demo';
 import {showType} from 'Controls/Utils/Toolbar';
 import {constants} from 'Env/Env';
 
 class Previewer extends Control<IControlOptions> {
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/InfoBox/resources/InfoboxButtonHelp', 'Controls-demo/Previewer/Previewer', 'Controls-demo/Controls-demo'];
    protected _triggerSource = null;
    protected _caption1: string = 'hover';
    protected  _caption2: string = 'click';

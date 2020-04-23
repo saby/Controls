@@ -4,13 +4,13 @@ define("Controls-demo/PropertyGridNew/PropertyGrid",
       "wml!Controls-demo/PropertyGridNew/PropertyGrid",
 
       'Types/collection',
-      "css!Controls-demo/PropertyGridNew/PropertyGrid"
    ],
    function(Control, template, collection) {
       "use strict";
 
       var PropertyGrid = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/PropertyGridNew/PropertyGrid'],
 
          _beforeMount: function() {
 

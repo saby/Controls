@@ -2,11 +2,11 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/EditInPlace/EditingOnMounting/EditingOnMounting';
 import {Memory} from 'Types/source';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {getActionsForContacts as getItemActions} from '../../DemoHelpers/ItemActionsCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _itemActions = getItemActions();
     private _viewSource: Memory;
     private _newData = getData().slice(0, 1);

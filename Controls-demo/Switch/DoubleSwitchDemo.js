@@ -2,14 +2,12 @@ define('Controls-demo/Switch/DoubleSwitchDemo', [
    'Core/Control',
    'Types/source',
    'wml!Controls-demo/Switch/DoubleSwitchDemo',
-   'css!Controls-demo/Headers/resetButton',
-   'css!Controls-demo/Switch/UnionSwitchDemo',
-   'css!Controls-demo/Switch/DoubleSwitchDemo'
 ], function(Control, source, template) {
    'use strict';
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Headers/resetButton', 'Controls-demo/Switch/UnionSwitchDemo', 'Controls-demo/Switch/DoubleSwitchDemo'],
          _orientationSource: null,
          _selectedOrientation: 'horizontal',
          _caption1: 'on',

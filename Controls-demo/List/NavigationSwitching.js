@@ -2,7 +2,6 @@ define('Controls-demo/List/NavigationSwitching', [
    'Core/Control',
    'wml!Controls-demo/List/NavigationSwitching/NavigationSwitching',
    'Types/source',
-   'css!Controls-demo/List/NavigationSwitching/NavigationSwitching'
 ], function (BaseControl,
              template,
              source
@@ -123,6 +122,7 @@ define('Controls-demo/List/NavigationSwitching', [
    var ModuleClass = BaseControl.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/List/NavigationSwitching/NavigationSwitching'],
          _navigationMode: '',
          _pageSize: null,
 

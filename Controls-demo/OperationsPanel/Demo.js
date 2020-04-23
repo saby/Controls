@@ -6,7 +6,6 @@ define('Controls-demo/OperationsPanel/Demo', [
    'Controls-demo/OperationsPanel/Demo/Data',
    'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog',
    'Controls/list',
-   'css!Controls-demo/OperationsPanel/Demo/Demo',
    'wml!Controls-demo/OperationsPanel/Demo/PersonInfo',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterButtonEngineTemplate',
    'wml!Controls-demo/OperationsPanel/Demo/resources/filterPanelItemsTemplate'
@@ -26,6 +25,7 @@ define('Controls-demo/OperationsPanel/Demo', [
    return Control.extend({
       _panelExpanded: false,
       _template: template,
+      _styles: ['Controls-demo/OperationsPanel/Demo/Demo'],
       _panelSource: undefined,
       _nodeProperty: 'Раздел@',
       _parentProperty: 'Раздел',

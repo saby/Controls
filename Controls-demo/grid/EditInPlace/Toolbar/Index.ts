@@ -5,12 +5,12 @@ import * as editingCellText from 'wml!Controls-demo/grid/EditInPlace/Toolbar/edi
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/Utils/Toolbar';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     private _viewSource: Memory;
     private _fakeItemId: number;

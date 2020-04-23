@@ -2,7 +2,6 @@ import { Control, TemplateFunction } from 'UI/Base';
 import { Memory, Query, DataSet } from 'Types/source';
 import { fetch } from 'Browser/Transport';
 import * as template from 'wml!Controls-demo/dataSource/Tree';
-import 'css!Controls-demo/Controls-demo';
 
 interface IFilter {
     parent?: string;
@@ -42,6 +41,7 @@ class TestSource extends Memory {
 
 export default class extends Control {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: TestSource = new TestSource({
         keyProperty: 'id',
         data: [{

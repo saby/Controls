@@ -8,7 +8,6 @@ import { CollectionItem, Collection, Abstract } from 'Controls/display';
 import { ICrud } from 'Types/source';
 import { RecordSet } from 'Types/collection';
 
-import 'css!Controls-demo/List/Display/DisplayList/DisplayList';
 
 interface IDisplayListOptions extends IControlOptions {
     keyProperty: string;
@@ -21,6 +20,7 @@ interface IDisplayListOptions extends IControlOptions {
 
 export default class DisplayList<TItem> extends Control<IDisplayListOptions> {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/List/Display/DisplayList/DisplayList'];
 
     private _sourceController: SourceController;
     private _collection: Collection<TItem>;

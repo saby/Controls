@@ -1,9 +1,9 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/Area/BubblingEvents');
-import 'css!Controls-demo/Controls-demo';
 
 class BubblingEvents extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _keyDown: boolean = false;
     protected _keyPress: boolean = false;
     protected _keyUp: boolean = false;

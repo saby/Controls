@@ -4,11 +4,11 @@ define('Controls-demo/Container/Scroll',
       'Types/source',
       'Controls/scroll',
       'wml!Controls-demo/Container/Scroll',
-      'css!Controls-demo/Container/Scroll'
    ],
    function(Control, source, scroll, template) {
       return Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Container/Scroll'],
          _pagingVisible: true,
          _scrollbarVisible: true,
          _shadowVisible: true,

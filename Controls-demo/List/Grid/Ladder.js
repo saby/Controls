@@ -4,7 +4,6 @@ define('Controls-demo/List/Grid/Ladder', [
    'Controls-demo/List/Grid/GridData',
    'Types/source',
 
-   'css!Controls-demo/List/Grid/resources/Ladder/Ladder',
 
    'Controls/scroll',
    'Controls/grid',
@@ -21,6 +20,7 @@ define('Controls-demo/List/Grid/Ladder', [
 
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Grid/resources/Ladder/Ladder'],
          _viewSource: null,
          _viewColumns: null,
          _selectedKeys: null,

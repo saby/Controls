@@ -2,10 +2,10 @@ import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/GroupProperty/Simple/Index');
 import {Memory} from 'Types/source';
 import {view as constView} from 'Controls/Constants';
-import 'css!Controls-demo/Controls-demo';
 
 class GroupProperty extends Control {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: Memory;
 
     protected _beforeMount(): void {

@@ -6,13 +6,13 @@ define('Controls-demo/Input/Lookup/Collection',
       'Types/source',
       'Types/entity',
 
-      'css!Controls-demo/Input/Lookup/Collection'
    ],
    function(Control, template, collection) {
 
       'use strict';
       var Collection = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/Lookup/Collection'],
          _sourceMulti: null,
          _sourceSingle: null,
          _beforeMount: function() {

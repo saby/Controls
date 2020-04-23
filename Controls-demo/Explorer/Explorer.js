@@ -5,13 +5,13 @@ define('Controls-demo/Explorer/Explorer', [
    'Controls/Utils/Toolbar',
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Explorer/ExplorerImages',
-   'css!Controls-demo/Explorer/Explorer',
    'Controls/explorer'
 ], function(Env, BaseControl, template, Toolbar, MemorySource, explorerImages) {
    'use strict';
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/Explorer/Explorer'],
          _viewSource: null,
          _viewColumns: null,
          _itemsHeight: 200,

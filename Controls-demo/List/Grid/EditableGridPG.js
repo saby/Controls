@@ -8,15 +8,13 @@ define('Controls-demo/List/Grid/EditableGridPG',
       'wml!Controls-demo/List/Grid/resources/DemoMoney',
       'wml!Controls-demo/List/Grid/resources/DemoRating',
       'wml!Controls-demo/List/Grid/resources/EditableGridPG/editableItem',
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, source, data, template, config) {
       'use strict';
        var Component = Control.extend({
            _template: template,
+           _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
            _content: 'Controls/grid:View',
 
            _beforeMount: function () {

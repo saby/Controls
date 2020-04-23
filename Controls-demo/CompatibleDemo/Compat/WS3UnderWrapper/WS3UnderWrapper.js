@@ -1,12 +1,12 @@
 define('Controls-demo/CompatibleDemo/Compat/WS3UnderWrapper/WS3UnderWrapper', [
    'Lib/Control/CompoundControl/CompoundControl',
    'wml!Controls-demo/CompatibleDemo/Compat/WS3UnderWrapper/WS3UnderWrapper',
-   'css!Controls-demo/CompatibleDemo/CompatibleDemo'
 ], function(CompoundControl, template) {
    'use strict';
 
    var WS3UnderWrapper = CompoundControl.extend({
       _dotTplFn: template,
+      _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
 
       init: function() {
          WS3UnderWrapper.superclass.init.call(this);

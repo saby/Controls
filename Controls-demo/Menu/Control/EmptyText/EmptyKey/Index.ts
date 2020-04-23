@@ -1,11 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/EmptyText/EmptyKey/Index');
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Menu/Menu';
 
 class EmptyKey extends Control {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Menu'];
     protected _source: Memory;
 
     protected _beforeMount(): void {

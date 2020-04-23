@@ -3,13 +3,13 @@ define('Controls-demo/Checkbox/Checkbox', [
    'wml!Controls-demo/Checkbox/Checkbox',
    'Types/source',
    'Controls/toggle',
-   'css!Controls-demo/Checkbox/Checkbox',
 ], function(Control, template, source) {
    'use strict';
 
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Checkbox/Checkbox'],
          _readOnly: false,
          _caption: 'default caption',
          _triState: false,

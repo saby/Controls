@@ -4,10 +4,10 @@ import {Memory} from "Types/source"
 import {Gadgets} from "../DemoHelpers/DataCatalog"
 import * as elipsisTpl from 'wml!Controls-demo/treeGrid/DeepTree/elipsisTpl'
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns = Gadgets.getColumnsWithFixedWidth().map((cur) => ({
         ...cur, template: elipsisTpl

@@ -1,10 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/FilterView/ItemTemplates/ItemTemplates');
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 class ViewModes extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: object[] = [
         {
             name: 'date',

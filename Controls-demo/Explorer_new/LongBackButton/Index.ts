@@ -3,10 +3,10 @@ import * as Template from 'wml!Controls-demo/Explorer_new/LongBackButton/LongBac
 import {DataWithLongFolderName} from '../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _viewSource;
    protected _columns = DataWithLongFolderName.getColumns();
    protected _viewMode: string = 'table';

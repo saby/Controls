@@ -4,7 +4,6 @@ define('Controls-demo/Selector/Suggest/Suggest',
       'wml!Controls-demo/Selector/Suggest/Suggest',
       'Types/source',
       'Controls-demo/Utils/MemorySourceFilter',
-      'css!Controls-demo/Selector/Suggest/Suggest'
    ],
    function(Control, template, source, memorySourceFilter) {
 
@@ -13,6 +12,7 @@ define('Controls-demo/Selector/Suggest/Suggest',
 
       var ComboBox = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Selector/Suggest/Suggest'],
          _source: null,
          _value: '',
          _selectedKey: '1',

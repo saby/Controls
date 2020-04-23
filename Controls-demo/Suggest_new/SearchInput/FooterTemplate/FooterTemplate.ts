@@ -7,11 +7,10 @@ import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/Foot
 import suggestTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/FooterTemplate/resources/SuggestTemplate');
 import footerTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/FooterTemplate/resources/FooterTemplate');
 import standartFooterTemplate = require('wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/StandartFooterTemplate');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Suggest_new/Index';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Suggest_new/Index'];
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    protected _demoFooterTemplate: TemplateFunction = footerTemplate;
    protected _standartFooterTemplate: TemplateFunction = standartFooterTemplate;

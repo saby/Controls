@@ -2,7 +2,6 @@ define('Controls-demo/List/Tree/SelectExpanderIcon', [
    'Core/Control',
    'Controls-demo/List/Tree/TreeData',
    'wml!Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon',
-   'css!Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon',
    'Controls/scroll',
    'Controls/treeGrid'
 ], function(Control, TreeData, template) {
@@ -10,6 +9,7 @@ define('Controls-demo/List/Tree/SelectExpanderIcon', [
    var
       SelectExpanderIcon = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon'],
          _tasksSource: null,
          _beforeMount: function() {
             this._tasksSource = TreeData.getTasksMemory();

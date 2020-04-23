@@ -6,8 +6,6 @@ define('Controls-demo/RadioGroup/RadioGroupDemo', [
    'wml!Controls-demo/RadioGroup/resources/RadioItemTemplate',
    'wml!Controls-demo/RadioGroup/resources/SingleItemTemplate',
    'wml!Controls-demo/RadioGroup/resources/ContentTemplate',
-   'css!Controls-demo/RadioGroup/RadioGroupDemo',
-   'css!Controls-demo/Headers/resetButton',
    'Types/collection'// Удалить после мержа https://online.sbis.ru/opendoc.html?guid=6989b29a-8e1d-4c3b-bb7d-23b09736ef2c
 ], function(Control,
              template,
@@ -16,6 +14,7 @@ define('Controls-demo/RadioGroup/RadioGroupDemo', [
    'use strict';
    var RadioGroupDemo = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/RadioGroup/RadioGroupDemo', 'Controls-demo/Headers/resetButton'],
       _source: null,
       _sourceOfSource: null,
       _selectKey: null,

@@ -6,7 +6,6 @@ define('Controls-demo/List/Swipe', [
    'Core/Control',
    'wml!Controls-demo/List/Swipe/Swipe',
    'Types/source',
-   'css!Controls-demo/List/Swipe/Swipe'
 ], function(Env,
    BaseControl,
    template,
@@ -20,6 +19,7 @@ define('Controls-demo/List/Swipe', [
          _itemActions: null,
          _actionsArrays: null,
          _template: template,
+         _styles: ['Controls-demo/List/Swipe/Swipe'],
          showType: null,
          _selectedKeys: null,
          _onActionClick: function(event, action, item) {

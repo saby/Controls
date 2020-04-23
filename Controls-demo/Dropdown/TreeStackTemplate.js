@@ -2,7 +2,6 @@ define('Controls-demo/Dropdown/TreeStackTemplate', [
    'Core/Control',
    'wml!Controls-demo/Dropdown/TreeStackTemplate',
    'Types/source',
-   'css!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector',
 
 ], function(Control, template, source) {
 
@@ -10,6 +9,7 @@ define('Controls-demo/Dropdown/TreeStackTemplate', [
 
    var DropdownDemo = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'],
 
       _beforeMount: function(options) {
          this._source = new source.Memory({

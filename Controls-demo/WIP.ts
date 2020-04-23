@@ -1,7 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from "UI/Base"
 import * as Template from "wml!Controls-demo/WIPPlaceholder/WIPPlaceholder"
 import {cookie} from "Env/Env"
-import 'css!Controls-demo/Controls-demo'
 
 export interface IWIPOptions extends IControlOptions {
     byTask?: string
@@ -10,6 +9,7 @@ export interface IWIPOptions extends IControlOptions {
 
 export default class extends Control<IWIPOptions> {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _canShowTask: boolean = false;
 
     constructor(cfg: IWIPOptions){

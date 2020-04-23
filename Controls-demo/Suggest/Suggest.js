@@ -11,7 +11,6 @@ define('Controls-demo/Suggest/Suggest', [
    'Controls-demo/Search/SearchMemory',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Utils/MemorySourceData',
-   'css!Controls-demo/Suggest/Suggest'
 ], function(Control, template, source, SearchMemory, memorySourceFilter, MemorySourceData) {
    'use strict';
 
@@ -27,6 +26,7 @@ define('Controls-demo/Suggest/Suggest', [
 
    var VDomSuggest = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Suggest/Suggest'],
       _suggestDownValue: '',
       _suggestNoFooterValue: '',
       _suggestWithTabsValue: '',

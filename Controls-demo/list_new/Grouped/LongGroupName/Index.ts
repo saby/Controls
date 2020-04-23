@@ -1,6 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 
@@ -8,6 +7,7 @@ import * as Template from 'wml!Controls-demo/list_new/Grouped/LongGroupName/Long
 
 export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
 
     protected _beforeMount(options?: IControlOptions, contexts?: object, receivedState?: void): Promise<void> | void {

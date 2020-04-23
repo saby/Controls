@@ -6,13 +6,12 @@ define('Controls-demo/Input/Lookup/Lookup',
       'Controls-demo/Utils/MemorySourceFilter',
       'Controls-demo/Input/Lookup/LookupData',
       'Controls/lookup',
-      'css!Controls-demo/Input/Lookup/Collection',
-      'css!Controls-demo/Input/Lookup/Lookup'
    ],
    function(Control, template, source, memorySourceFilter, lookupData) {
       'use strict';
       var Lookup = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/Lookup/Collection', 'Controls-demo/Input/Lookup/Lookup'],
          _value: '',
          _value1: '',
          _value2: '',

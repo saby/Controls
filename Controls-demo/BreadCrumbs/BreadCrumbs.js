@@ -2,7 +2,6 @@ define('Controls-demo/BreadCrumbs/BreadCrumbs', [
    'Core/Control',
    'wml!Controls-demo/BreadCrumbs/BreadCrumbs/BreadCrumbs',
    'Types/entity',
-   'css!Controls-demo/BreadCrumbs/BreadCrumbs/BreadCrumbs'
 ], function(
    Control,
    template,
@@ -10,6 +9,7 @@ define('Controls-demo/BreadCrumbs/BreadCrumbs', [
 ) {
    var BreadCrumbs = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/BreadCrumbs/BreadCrumbs/BreadCrumbs'],
       items: null,
       items1: null,
       items2: null,

@@ -8,15 +8,13 @@ define('Controls-demo/Input/ComboBox/ComboBoxPG',
       'Controls-demo/Combobox/historySourceCombobox',
       'wml!Controls-demo/Input/ComboBox/itemTemplateCustom',
       'wml!Controls-demo/Input/ComboBox/itemMyTemplateCustom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
-      'css!Controls-demo/Input/ComboBox/ComboBoxPG'
    ],
 
    function(Control, template, config, sourceLib, historySourceCombobox) {
       'use strict';
       var ComboBoxPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper', 'Controls-demo/Input/ComboBox/ComboBoxPG'],
          _metaData: null,
          _content: 'Controls/dropdown:Combobox',
          _dataObject: null,

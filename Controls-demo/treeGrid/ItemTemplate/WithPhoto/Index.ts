@@ -3,12 +3,11 @@ import * as Template from "wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/Wit
 import {Memory} from "Types/source"
 import {Gadgets} from "../../DemoHelpers/DataCatalog"
 
-import "css!Controls-demo/treeGrid/ItemTemplate/WithPhoto/styles";
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/treeGrid/ItemTemplate/WithPhoto/styles', 'Controls-demo/Controls-demo'];
    protected _viewSource: Memory;
    protected _viewSourceTwo: Memory;
    protected _columns = Gadgets.getGridColumnsWithPhoto();

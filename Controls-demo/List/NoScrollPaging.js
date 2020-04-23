@@ -5,7 +5,6 @@ define('Controls-demo/List/NoScrollPaging', [
    'wml!Controls-demo/List/NoScrollPaging/NoScrollPaging',
    'Types/source',
    'Controls/Utils/Toolbar',
-   'css!Controls-demo/List/NoScrollPaging/NoScrollPaging',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoCostPrice',
    'wml!Controls-demo/List/Grid/DemoName'
@@ -270,6 +269,7 @@ define('Controls-demo/List/NoScrollPaging', [
    var ModuleClass = BaseControl.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/List/NoScrollPaging/NoScrollPaging'],
          _footerPagingOptions: null,
          _footerPagingOptionsG: null,
          _selectKeyColumn: null,

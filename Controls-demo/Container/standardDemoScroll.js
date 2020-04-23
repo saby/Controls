@@ -2,7 +2,6 @@ define('Controls-demo/Container/standardDemoScroll', [
     'Core/Control',
     'tmpl!Controls-demo/Container/standardDemoScroll',
     'Types/source',
-    'css!Controls-demo/Container/standardDemoScroll'
 ], function(Control, template, source) {
     'use strict';
 
@@ -51,6 +50,7 @@ define('Controls-demo/Container/standardDemoScroll', [
 
     return Control.extend({
         _template: template,
+        _styles: ['Controls-demo/Container/standardDemoScroll'],
         _menuItems: null,
         _numberItems: 15,
         _demoText: 'Develop the theme of the "Scroll Container" component for Presto and Retail projects.\

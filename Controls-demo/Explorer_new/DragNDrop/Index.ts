@@ -4,11 +4,11 @@ import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 
-import 'css!Controls-demo/Controls-demo';
 
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource;
     protected _columns = Gadgets.getColumns();
     protected _viewMode: string = 'table';

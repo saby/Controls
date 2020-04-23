@@ -7,10 +7,10 @@ define('Controls-demo/DragNDrop/MasterDetail', [
    'Controls/dragnDrop',
    'Controls-demo/DragNDrop/MasterDetail/TasksEntity',
    'wml!Controls-demo/DragNDrop/MasterDetail/itemTemplates/masterItemTemplate',
-   'css!Controls-demo/DragNDrop/MasterDetail/MasterDetail'
 ], function(Control, template, data, source, cInstance, dragnDrop, TasksEntity, itemTemplate) {
    return Control.extend({
       _template: template,
+      _styles: ['Controls-demo/DragNDrop/MasterDetail/MasterDetail'],
       gridColumns: [{
          displayProperty: 'name',
          width: '1fr',

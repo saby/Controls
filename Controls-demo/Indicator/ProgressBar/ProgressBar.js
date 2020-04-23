@@ -4,14 +4,13 @@ define('Controls-demo/Indicator/ProgressBar/ProgressBar',
       'wml!Controls-demo/Indicator/ProgressBar/ProgressBar',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Wrapper/Wrapper',
-      'css!Controls-demo/Indicator/ProgressBar/ProgressBar'
    ],
 
    function(Control, template, config) {
       'use strict';
       return Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Wrapper/Wrapper', 'Controls-demo/Indicator/ProgressBar/ProgressBar'],
          _metaData: null,
          _content: 'Controls/progress:Bar',
          _dataObject: null,

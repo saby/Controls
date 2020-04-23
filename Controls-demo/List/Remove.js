@@ -4,11 +4,11 @@ define('Controls-demo/List/Remove', [
    'Controls/Utils/Toolbar',
    'Controls-demo/List/Remove/RemoveDemoSource',
    'wml!Controls-demo/List/Remove/Remove',
-   'css!Controls-demo/List/Remove/Remove'
 ], function(BaseControl, cClone, Toolbar, DemoSource, template) {
    'use strict';
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/List/Remove/Remove'],
       _itemActions: undefined,
       _items: null,
       _beforeMount: function() {

@@ -1,10 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/Toolbar/popupFooterTemplate/popupFooterTemplate');
-import 'css!Controls-demo/Controls-demo';
 import source = require('Types/source');
 
 class FooterTemplate extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     static _theme: string[] = ['Controls/Classes'];
     protected _getMemorySource = (items) => {
         return new source.Memory({

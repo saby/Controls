@@ -1,7 +1,6 @@
 define('Controls-demo/PendingRegistrator/RegistratorExample', [
    'Core/Control',
    'wml!Controls-demo/PendingRegistrator/RegistratorExample',
-   'css!Controls-demo/PendingRegistrator/RegistratorExample'
 ], function(Control, tmpl) {
    'use strict';
 
@@ -16,6 +15,7 @@ define('Controls-demo/PendingRegistrator/RegistratorExample', [
 
    var module = Control.extend({
       _template: tmpl,
+      _styles: ['Controls-demo/PendingRegistrator/RegistratorExample'],
       _message: noPendings,
       _pendingMessage: '',
       _pendingCount: 0,

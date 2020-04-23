@@ -3,10 +3,10 @@ import * as Template from 'wml!Controls-demo/treeGrid/DeepInside/DeepInside';
 import {HierarchicalMemory} from 'Types/source';
 import {DeepInside} from '../DemoHelpers/DataCatalog';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: HierarchicalMemory;
     protected _columns = DeepInside.getColumns();
     protected _expandedItems = [null];
