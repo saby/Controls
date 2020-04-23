@@ -3,7 +3,6 @@ define('Controls-demo/Input/Date/RangeLinkLite', [
    'wml!Controls-demo/Input/Date/RangeLinkLite',
    'wml!Controls/_shortDatePicker/monthTemplate',
    'Controls-demo/Date/MonthListSource',
-   'css!Controls-demo/Input/Date/RangeLinkLite',
 ], function(
    BaseControl,
    template,
@@ -14,6 +13,7 @@ define('Controls-demo/Input/Date/RangeLinkLite', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Date/RangeLinkLite'],
       _tmpl: tmpl,
       _periods: [[new Date(2017, 1), new Date(2020, 5)]],
       _startValueBind: new Date(2017, 0, 1),

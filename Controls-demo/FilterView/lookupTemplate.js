@@ -2,7 +2,6 @@ define('Controls-demo/FilterView/lookupTemplate',
    [
       'Core/Control',
       'wml!Controls-demo/FilterView/lookupTemplate/lookupTemplate',
-      'css!Controls-demo/Dropdown/Dropdown'
    ],
 
    function(Control, template) {
@@ -11,6 +10,7 @@ define('Controls-demo/FilterView/lookupTemplate',
       var LookupTemplate = Control.extend({
 
          _template: template,
+         _styles: ['Controls-demo/Dropdown/Dropdown'],
 
          _selectedKeysHandler: function(event, keys) {
             this._notify('selectedKeysChanged', [keys]);

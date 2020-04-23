@@ -4,8 +4,7 @@ import notifyHandler = require('Controls/Utils/tmplNotify');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
-import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
-import 'css!Controls-demo/OperationsPanel/Demo/Demo';
+import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 
@@ -13,6 +12,7 @@ const UNLOAD_OPERATION_KEY = 'save';
 
 export default class ListWithoutMarker extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/OperationsPanel/Demo/Demo'];
     protected _selectedKeys: string[] = [];
     protected _excludedKeys: string[] = [];
     protected _notifyHandler: Function = notifyHandler;

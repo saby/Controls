@@ -1,6 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 
@@ -13,6 +12,7 @@ interface INoStickyLadderColumn {
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns: INoStickyLadderColumn[] = getTasks().getColumns();
     protected _ladderProperties: string[] = ['photo', 'date'];

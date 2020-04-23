@@ -2,10 +2,10 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Grouping/Grouping';
 import {HierarchicalMemory} from 'Types/source';
 import {createGroupingSource} from 'Controls-demo/treeGrid/Grouping/Source';
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: HierarchicalMemory;
     protected _columns: object[];
     protected _navigation: object;

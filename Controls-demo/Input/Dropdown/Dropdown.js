@@ -9,7 +9,6 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Utils/MemorySourceFilter',
    'wml!Controls-demo/Input/Dropdown/itemTemplateDropdown',
-   'css!Controls-demo/Input/Dropdown/Dropdown',
    'Controls/dropdown',
    'wml!Controls-demo/Input/Dropdown/itemTemplateDropdownSub',
    'wml!Controls-demo/Input/Dropdown/contentTemplateDropdownIcon',
@@ -22,6 +21,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
 
    var DropdownDemo = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Dropdown/Dropdown'],
       _simpleItems: null,
       _subItems: null,
       _hierarchyItems: null,

@@ -2,14 +2,13 @@ define('Controls-demo/PropertyGrid/ArrayTemplate',
    [
       'Core/Control',
       'wml!Controls-demo/PropertyGrid/ArrayTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template) {
       'use strict';
 
       var arrayTmpl = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'],
          _param: null,
 
          _valueChangedHandler: function(event, tmp) {

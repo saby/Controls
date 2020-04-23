@@ -2,13 +2,13 @@ define('Controls-demo/CompatibleDemo/Compat/Demo',
    [
       'Lib/Control/CompoundControl/CompoundControl',
       'wml!Controls-demo/CompatibleDemo/Compat/Demo',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(CompoundControl, template) {
       'use strict';
 
       var CompatibleDemo = CompoundControl.extend({
          _dotTplFn: template,
+         _styles: ['Controls-demo/CompatibleDemo/CompatibleDemo'],
 
          init: function() {
             CompatibleDemo.superclass.init.call(this);

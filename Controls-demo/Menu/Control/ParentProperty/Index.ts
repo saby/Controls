@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/ParentProperty/Index');
 import {HierarchicalMemory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 class ParentProperty extends Control {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _hierarchySource: HierarchicalMemory;
     protected _hierarchySource2: HierarchicalMemory;
 

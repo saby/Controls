@@ -3,13 +3,13 @@ define('Controls-demo/Slider/Range/StandartSliderRangeDemo',
       'Core/Control',
       'Env/Env',
       'wml!Controls-demo/Slider/Range/StandartSliderRangeDemo',
-      'css!Controls-demo/Slider/Range/StandartSliderRangeDemo',
       'Controls/slider'
    ],
    function(Control, Env, template) {
       'use strict';
       var StandartSliderRangeDemo = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Slider/Range/StandartSliderRangeDemo'],
 
 
          _inputStartValue: null,

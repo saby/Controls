@@ -4,14 +4,13 @@ define('Controls-demo/Example/Label',
       'wml!Controls-demo/Example/Label/Label',
 
       'Controls/input',
-      'css!Controls-demo/Example/Label/Label',
-      'css!Controls-demo/Example/resource/Base'
    ],
    function(Control, template) {
       'use strict';
 
       return Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Example/Label/Label', 'Controls-demo/Example/resource/Base'],
 
          _value: 'text',
 

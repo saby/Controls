@@ -3,10 +3,10 @@ import * as Template from "wml!Controls-demo/grid/Grouped/Custom/Custom"
 import {Memory} from "Types/source"
 import {getTasks} from "../../DemoHelpers/DataCatalog";
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: Memory;
     protected _columns = getTasks().getDefaultColumns();
     protected _groupingKeyCallback = (item) => {

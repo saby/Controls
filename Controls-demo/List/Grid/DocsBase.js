@@ -3,7 +3,6 @@ define('Controls-demo/List/Grid/DocsBase', [
    'wml!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Types/source',
    'Controls/Constants',
-   'css!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Controls-demo/List/Grid/resources/DataDemoPG',
 
    'wml!Controls-demo/List/Grid/resources/BasePG/resultsTemplate',
@@ -15,6 +14,7 @@ define('Controls-demo/List/Grid/DocsBase', [
    var
       ModuleClass = BaseControl.extend({
          _template: template,
+         _styles: ['Controls-demo/List/Grid/resources/DocsBase/DocsBase'],
          _itemTemplate: ItemTemplate,
          _source: null,
          _columns: null,

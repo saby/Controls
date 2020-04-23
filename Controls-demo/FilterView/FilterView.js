@@ -10,7 +10,6 @@ define('Controls-demo/FilterView/FilterView',
       'Controls/history',
       'Core/core-clone',
       'Controls-demo/FilterView/resources/historySourceFast',
-      'css!Controls-demo/FilterView/FilterView',
 
       'wml!Controls-demo/FilterView/resources/itemTemplatePhoto'
 
@@ -62,6 +61,7 @@ define('Controls-demo/FilterView/FilterView',
 
       var FilterView = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/FilterView/FilterView'],
          _defaultSource: null,
          _hierarchyItems: null,
          _hierarchyItems2: null,

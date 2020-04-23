@@ -12,9 +12,6 @@ define('Controls-demo/Buttons/Menu/MenuPG',
       'wml!Controls-demo/Buttons/Menu/footerTemplate',
       'wml!Controls-demo/Buttons/Menu/headerTemplate',
 
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
-      'css!Controls-demo/Buttons/Menu/Menu'
    ],
 
    function(Control, template, sourceLib, ControlsConstants, config) {
@@ -22,6 +19,7 @@ define('Controls-demo/Buttons/Menu/MenuPG',
 
       var MenuPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper', 'Controls-demo/Buttons/Menu/Menu'],
          _metaData: null,
          _content: 'Controls/dropdown:Button',
          _dataObject: null,

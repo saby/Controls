@@ -2,8 +2,6 @@ define('Controls-demo/Input/Validate/FormController', [
    'Core/Control',
    'wml!Controls-demo/Input/Validate/FormController',
    'Types/source',
-   'css!Controls-demo/Input/Validate/ValidateInfobox',
-   'css!Controls-demo/Input/resources/VdomInputs',
    'Controls/validate',
    'Controls-demo/Input/Validate/Validator',
    'Controls-demo/Input/Validate/EqualEmailValidator'
@@ -18,6 +16,7 @@ define('Controls-demo/Input/Validate/FormController', [
    }];
    var VdomDemoText = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Input/Validate/ValidateInfobox', 'Controls-demo/Input/resources/VdomInputs'],
       _value1: '',
       _switchState: false,
       _value2: 'Иван',

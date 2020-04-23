@@ -1,7 +1,6 @@
 import Control = require('Core/Control');
 import * as template from 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/Shipments';
 import { HierarchicalMemory } from 'Types/source';
-import 'css!Controls-demo/List/Swipe/Scenarios/Shipments/Shipments';
 import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/firstColumn';
 import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/secondColumn';
 import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/thirdColumn';
@@ -11,6 +10,7 @@ import 'wml!Controls-demo/List/Swipe/Scenarios/Shipments/sixthColumn';
 
 export default class Shipments extends Control {
    protected _template: Function = template;
+   static _styles: string[] = ['Controls-demo/List/Swipe/Scenarios/Shipments/Shipments'];
    protected _itemActions: object[];
    protected _columns: object[];
    protected _source: HierarchicalMemory;

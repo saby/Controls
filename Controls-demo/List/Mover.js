@@ -6,11 +6,11 @@ define('Controls-demo/List/Mover', [
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Mover/Mover',
-   'css!Controls-demo/List/Mover/Mover'
 ], function(BaseControl, cClone, source, Toolbar, TreeMemory, GridData, template) {
    'use strict';
    return BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/List/Mover/Mover'],
       _countClicked: 0,
       _reloadCaption: 'Reload',
       _columns: null,

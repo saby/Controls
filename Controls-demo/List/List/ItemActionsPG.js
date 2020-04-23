@@ -7,15 +7,13 @@ define('Controls-demo/List/List/ItemActionsPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/List/List/resources/ItemActionsPG/cfg',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, sourceLib, memorySourceFilter, data, template, config) {
       'use strict';
       var Component = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _content: 'Controls/list:View',
          _dataObject: null,

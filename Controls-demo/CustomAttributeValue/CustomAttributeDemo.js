@@ -2,13 +2,13 @@ define('Controls-demo/CustomAttributeValue/CustomAttributeDemo',
    [
       'Core/Control',
       'wml!Controls-demo/CustomAttributeValue/CustomAttributeDemo',
-      'css!Controls-demo/CustomAttributeValue/CustomAttributeDemo',
    ],
    function(Control, template) {
       'use strict';
 
       var customAttributeDemo = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/CustomAttributeValue/CustomAttributeDemo'],
          _standardCount: 0,
          _customCount: 0,
          _inputControlCount: 0,

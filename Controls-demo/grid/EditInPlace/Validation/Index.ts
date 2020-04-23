@@ -8,10 +8,10 @@ import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired';
 import LengthChecker = require('Controls-demo/grid/EditInPlace/Validation/Custom');
 import {getMoreActions} from "../../../list_new/DemoHelpers/ItemActionsCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _columns = getEditing().getEditingColumnsValidation();
     private _header = getEditing().getEditingHeaderValidations();

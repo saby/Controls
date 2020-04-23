@@ -2,12 +2,12 @@ import {Control, TemplateFunction} from "UI/Base";
 import {Memory} from "Types/source";
 
 import * as Template from "wml!Controls-demo/grid/Header/Multiheader/ColumnScroll/ColumnScroll";
-import 'css!Controls-demo/Controls-demo';
 
 import {getCountriesStats} from "../../../DemoHelpers/DataCatalog";
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    private _viewSource: Memory;
    private _header = getCountriesStats().getMultiHeader();
    private _columns = getCountriesStats().getColumnsWithWidths();

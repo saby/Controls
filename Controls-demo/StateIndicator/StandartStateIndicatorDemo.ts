@@ -2,8 +2,6 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Record} from 'Types/entity';
 import * as template from 'wml!Controls-demo/StateIndicator/StandartStateIndicatorDemo';
 import * as popupTemplate from 'wml!Controls-demo/StateIndicator/template/template';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/StateIndicator/StandartStateIndicatorDemo';
 
 import {Infobox} from 'Controls/popup';
 
@@ -19,6 +17,7 @@ interface IStandartStateIndicatorDemoChildren extends Record {
 
 export default class StandartStateIndicatorDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/StateIndicator/StandartStateIndicatorDemo'];
     protected _states: null;
     protected _scales: number[];
     protected _datas: IStandartStateIndicatorDemoData[][];

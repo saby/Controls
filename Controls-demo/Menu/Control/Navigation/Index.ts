@@ -1,10 +1,10 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/Navigation/Index');
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 class Navigation extends Control {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _source: Memory;
     protected _navigation: object;
 

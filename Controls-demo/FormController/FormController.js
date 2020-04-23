@@ -5,13 +5,13 @@ define('Controls-demo/FormController/FormController', [
    'Types/source',
    'Core/Deferred',
    'Types/entity',
-   'css!Controls-demo/FormController/FormController',
    'Controls/validate'
 ], function(Env, Control, tmpl, source, Deferred, entity) {
    'use strict';
 
    var module = Control.extend({
       _template: tmpl,
+      _styles: ['Controls-demo/FormController/FormController'],
       _dataSource: null,
       idCount: 1,
       _key: 0,

@@ -5,7 +5,6 @@ define('Controls-demo/List/ItemActionsCustom', [
    'wml!Controls-demo/List/ItemActions/newsTmpl',
    'Types/source',
    'Core/constants',
-   'css!Controls-demo/List/ItemActions/ItemActionsCustom'
 ], function(
    Env,
    BaseControl,
@@ -148,6 +147,7 @@ define('Controls-demo/List/ItemActionsCustom', [
          _newsItemTemplate: newsTmpl,
          _itemActions: _firstItemActionsArray,
          _template: template,
+         _styles: ['Controls-demo/List/ItemActions/ItemActionsCustom'],
          _onActionClick: function(event, action, item) {
             Env.IoC.resolve('ILogger').info(arguments);
             this.__lastClicked = action.title;

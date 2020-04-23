@@ -7,8 +7,6 @@ define('Controls-demo/Combobox/ComboboxVDom',
       'Controls/dropdown',
       'wml!Controls-demo/Combobox/itemTemplateCombobox',
       'wml!Controls-demo/Combobox/itemTemplateMultiline',
-      'css!Controls-demo/Combobox/ComboboxVDom',
-      'css!Controls-demo/Controls-demo'
    ],
    function(Control, template, source, historySourceCombobox) {
 
@@ -17,6 +15,7 @@ define('Controls-demo/Combobox/ComboboxVDom',
 
       var ComboBox = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Combobox/ComboboxVDom', 'Controls-demo/Controls-demo'],
          _itemsRegions: null,
          _itemsCode: null,
          _itemsWorkers: null,

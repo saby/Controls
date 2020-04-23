@@ -4,7 +4,6 @@ define('Controls-demo/Date/MonthList', [
    'Controls-demo/Date/MonthListSource',
    'wml!Controls-demo/Date/MonthList',
    'wml!Controls-demo/Date/MonthListDay',
-   'css!Controls-demo/Date/MonthList'
 ], function(
    BaseControl,
    formatter,
@@ -16,6 +15,7 @@ define('Controls-demo/Date/MonthList', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Date/MonthList'],
       _dayTemplate: dayTemplate,
       _startValue: new Date(1900, 0, 1),
       _endValue: new Date(1900, 0, 31),

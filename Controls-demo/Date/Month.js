@@ -2,7 +2,6 @@ define('Controls-demo/Date/Month', [
    'Core/Control',
    'wml!Controls-demo/Date/Month',
    'Controls/calendar',
-   'css!Controls-demo/Date/Month'
 ], function (
    BaseControl,
    template
@@ -11,6 +10,7 @@ define('Controls-demo/Date/Month', [
 
    var ModuleClass = BaseControl.extend({
       _template: template,
+      _styles: ['Controls-demo/Date/Month'],
       _month: new Date(2017, 0, 1),
       _startValue: new Date(2017, 0, 1),
       _endValue: new Date(2017, 0, 30),

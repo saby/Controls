@@ -4,7 +4,6 @@ define('Controls-demo/FastFilter/FastFilter',
       'wml!Controls-demo/FastFilter/FastFilter',
       'Types/source',
       'Controls/filter',
-      'css!Controls-demo/FastFilter/FastFilter'
    ],
 
    function(Control, template, sourceLib) {
@@ -19,6 +18,7 @@ define('Controls-demo/FastFilter/FastFilter',
       var FastData = Control.extend({
 
          _template: template,
+         _styles: ['Controls-demo/FastFilter/FastFilter'],
          dataSourceDemoSource: null,
          dataSourceDemoItems: null,
          _beforeMount: function() {

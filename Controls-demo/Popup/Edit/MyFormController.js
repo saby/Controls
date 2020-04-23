@@ -8,13 +8,13 @@ define('Controls-demo/Popup/Edit/MyFormController',
       'wml!Controls-demo/Popup/Edit/MyFormController',
       'Types/source',
       'Core/Deferred',
-      'css!Controls-demo/Popup/Edit/MyFormController'
    ],
    function (Control, GridData, template, source, Deferred) {
       'use strict';
 
       var MyFormController = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Popup/Edit/MyFormController'],
          _record: null,
          _key: null,
          _beforeMount: function (options) {

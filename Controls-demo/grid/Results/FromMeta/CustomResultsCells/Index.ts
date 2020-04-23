@@ -6,10 +6,10 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     private _viewSource: Memory;
     private _header = getCountriesStats().getDefaultHeader();
     private _columns = getCountriesStats().getColumnsWithWidths().map((c, i) => ({

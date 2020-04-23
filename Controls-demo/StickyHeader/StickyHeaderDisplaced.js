@@ -3,7 +3,6 @@ define('Controls-demo/StickyHeader/StickyHeaderDisplaced',
       'Core/Control',
       'wml!Controls-demo/StickyHeader/StickyHeaderDisplaced',
 
-      'css!Controls-demo/StickyHeader/StickyHeader'
    ],
    function(Control, template) {
 
@@ -11,6 +10,7 @@ define('Controls-demo/StickyHeader/StickyHeaderDisplaced',
 
       var StickyHeader = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/StickyHeader/StickyHeader'],
          _headerVisible: false,
          _addButtonClickHandler: function() {
             this._headerVisible = !this._headerVisible;

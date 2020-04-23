@@ -5,10 +5,10 @@ import 'Controls-demo/Input/Constraint/Index';
 import 'Controls-demo/Input/MaxLength/Index';
 import 'Controls-demo/Input/Trim/Index';
 
-import 'css!Controls-demo/Controls-demo';
 
 class Text extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 
     static _theme: string[] = ['Controls/Classes'];
 }

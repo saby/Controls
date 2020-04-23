@@ -6,7 +6,6 @@ define('Controls-demo/Tabs/Buttons', [
    'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate',
    'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
    'Types/source',
-   'css!Controls-demo/Tabs/Buttons/Buttons'
 ], function(
    Control,
    template,
@@ -19,6 +18,7 @@ define('Controls-demo/Tabs/Buttons', [
    'use strict';
     var TabButtonsDemo = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/Tabs/Buttons/Buttons'],
       SelectedKey1: '1',
       SelectedKeyLeft: '2',
       SelectedKey2: '1',

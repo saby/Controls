@@ -10,7 +10,6 @@ define('Controls-demo/Layouts/SearchLayout', [
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls/list',
-   'css!Controls-demo/Layouts/SearchLayout/SearchLayout',
    'Controls/input',
    'Controls-demo/Layouts/LayoutFilterComponent',
    'Controls/filter',
@@ -28,6 +27,7 @@ define('Controls-demo/Layouts/SearchLayout', [
    var ModuleClass = BaseControl.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Layouts/SearchLayout/SearchLayout'],
          _dataSource: null,
          _filterSource: null,
          _switchValue: false,

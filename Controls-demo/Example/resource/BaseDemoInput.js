@@ -4,8 +4,6 @@ define('Controls-demo/Example/resource/BaseDemoInput',
       'wml!Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
-      'css!Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput'
    ],
    function(Control, template) {
 
@@ -37,6 +35,7 @@ define('Controls-demo/Example/resource/BaseDemoInput',
 
       return Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Example/resource/Base', 'Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput'],
 
          _switchBlocker: function() {
             this._lock = !this._lock;

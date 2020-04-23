@@ -3,12 +3,12 @@ import template = require('wml!Controls-demo/Explorer/CheckboxOnHover/CheckboxOn
 import {view as constView} from 'Controls/Constants';
 import ExplorerImages = require('Controls-demo/Explorer/ExplorerImages');
 import {HierarchicalMemory} from 'Types/source';
-import 'css!Controls-demo/Explorer/Demo/Demo';
 import {showType} from 'Controls/Utils/Toolbar';
 
 class Demo extends Control {
 
     protected _template = template;
+    static _styles: string[] = ['Controls-demo/Explorer/Demo/Demo'];
     _viewSource: HierarchicalMemory;
     _viewSourceDynamic: HierarchicalMemory;
     _selectedKeys: Array<number> = [];

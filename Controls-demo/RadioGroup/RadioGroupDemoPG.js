@@ -7,15 +7,13 @@ define('Controls-demo/RadioGroup/RadioGroupDemoPG',
       'wml!Controls-demo/RadioGroup/resources/itemTemplateWithContent',
       'wml!Controls-demo/RadioGroup/resources/SingleItemTemplate',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config, sourceLib) {
       'use strict';
       var SwitchDemoPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _content: 'Controls/toggle:RadioGroup',
          _dataObject: null,

@@ -5,9 +5,6 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
       'wml!Controls-demo/Filter/Button/panelOptions/panelPG',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
       'tmpl!Controls-demo/Filter/Button/resources/withAdditional/mainBlockPanel',
       'tmpl!Controls-demo/Filter/Button/resources/withAdditional/additionalBlockPanel',
       'Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
@@ -19,6 +16,7 @@ define('Controls-demo/Filter/Button/panelOptions/panelPG',
       'use strict';
       var panelPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _content: 'Controls/filterPopup:Panel',
          _dataObject: null,

@@ -6,15 +6,13 @@ define('Controls-demo/Popup/Opener/ConfirmationPG',
       'wml!Controls-demo/Popup/Opener/DialogTpl',
       'wml!Controls-demo/Popup/Opener/ConfirmationTpl',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
    ],
 
    function(Control, template, config) {
       'use strict';
       var DialogPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _dataOptions: null,
          _content: 'Controls/popup:Confirmation',

@@ -4,11 +4,11 @@ import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
-import 'css!Controls-demo/Controls-demo';
 
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
     protected _viewSource: HierarchicalMemory;
     protected _columns = Gadgets.getGridColumnsForFlat();
     protected _viewMode: string = 'table';

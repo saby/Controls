@@ -4,7 +4,6 @@ define('Controls-demo/Example/Input/Suggest',
       'Types/source',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/Suggest/Suggest',
-      'css!Controls-demo/Example/Input/Suggest/Suggest',
 
       'Controls/suggest',
       'Controls-demo/Example/resource/BaseDemoInput'
@@ -87,6 +86,7 @@ define('Controls-demo/Example/Input/Suggest',
 
       return Control.extend([SetValueMixin], {
          _template: template,
+         _styles: ['Controls-demo/Example/Input/Suggest/Suggest'],
 
          _source: null,
 

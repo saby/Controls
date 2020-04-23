@@ -6,11 +6,10 @@ import {_departmentsDataLong} from 'Controls-demo/Suggest_new/DemoHelpers/DataCa
 import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplate/SuggestTemplate');
 import suggestTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplate/resources/SuggestTemplate');
 import suggestTemplateGrid = require('wml!Controls-demo/Suggest_new/SearchInput/SuggestTemplate/resources/SuggestTemplateGrid');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Suggest_new/Index';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Suggest_new/Index'];
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    protected _suggestTemplateGrid: TemplateFunction = suggestTemplateGrid;
    protected _source: Memory;

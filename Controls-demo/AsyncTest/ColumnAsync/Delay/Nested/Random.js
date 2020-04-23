@@ -2,12 +2,12 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/Random',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/Random',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ], function (Control, template) {
       'use strict';
 
       var delayRandomModule = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/AsyncTest/AsyncTestDemo'],
          _isOpen: false,
 
          _beforeMount: function (options) {

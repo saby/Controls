@@ -11,14 +11,13 @@ define('Controls-demo/Input/Dropdown/DropdownPG',
       'wml!Controls-demo/Input/Dropdown/footerTemplateDropdown',
       'wml!Controls-demo/Input/Dropdown/itemTemplateDropdown',
       'wml!Controls-demo/Input/Dropdown/itemTemplateDropdownCustom2',
-      'css!Controls-demo/Input/Dropdown/Dropdown',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config, sourceLib) {
       'use strict';
       var DropdownPG = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Input/Dropdown/Dropdown', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _content: 'Controls/dropdown:Input',
          _eventType: 'selectedKeysChanged',

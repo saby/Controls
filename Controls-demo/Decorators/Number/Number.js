@@ -5,7 +5,6 @@ define('Controls-demo/Decorators/Number/Number',
 
       'Controls/input',
       'Controls/decorator',
-      'css!Controls-demo/Decorators/Number/Number'
    ],
    function(Control, template) {
 
@@ -13,6 +12,7 @@ define('Controls-demo/Decorators/Number/Number',
 
       return Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Decorators/Number/Number'],
 
          _number: 0,
 

@@ -2,13 +2,12 @@ define('Controls-demo/AsyncTest/DepthAsync/Test7',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/DepthAsync/Test7',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
-      'css!Controls-demo/AsyncTest/DepthAsync/Depth',
    ], function (Control, template) {
       'use strict';
 
       var testDepthModule = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/AsyncTest/AsyncTestDemo', 'Controls-demo/AsyncTest/DepthAsync/Depth'],
          _isGrid: true,
          _readOnly: false,
 

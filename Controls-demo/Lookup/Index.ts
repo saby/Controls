@@ -6,10 +6,10 @@ import controlTemplate = require('wml!Controls-demo/Lookup/Index');
 import suggestTemplate = require('wml!Controls-demo/Lookup/resources/SuggestTemplate');
 import selectorTemplate = require('Controls-demo/Lookup/FlatListSelector/FlatListSelector');
 import selectorTemplateWithTabs = require('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs');
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
    protected _suggestTemplate: TemplateFunction = suggestTemplate;
    protected _selectorTemplate: TemplateFunction = null;
    protected _selectedKeyWithComment: any = ['Иванова Зинаида Михайловна, ИП'];

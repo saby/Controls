@@ -5,7 +5,6 @@ define('Controls-demo/Buttons/Menu/Menu', [
    'Controls/Constants',
    'Controls-demo/Buttons/Menu/historySourceMenu',
 
-   'css!Controls-demo/Buttons/Menu/Menu',
    'wml!Controls-demo/Buttons/Menu/itemTemplateSub',
    'wml!Controls-demo/Buttons/Menu/itemTemplateComment'
 ], function(Control, template, source, ControlsConstants, HistorySourceMenu) {
@@ -14,6 +13,7 @@ define('Controls-demo/Buttons/Menu/Menu', [
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Buttons/Menu/Menu'],
          _oneItem: null,
          _simpleItems: null,
          _simpleItems2: null,

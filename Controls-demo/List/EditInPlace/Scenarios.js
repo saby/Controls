@@ -15,7 +15,6 @@ define('Controls-demo/List/EditInPlace/Scenarios', [
    'wml!Controls-demo/List/EditInPlace/FifthScenario/Column',
    'wml!Controls-demo/List/EditInPlace/FifthScenario/SecondColumn',
    'wml!Controls-demo/List/EditInPlace/FifthScenario/Results',
-   'css!Controls-demo/List/EditInPlace/Scenarios'
 ], function(
    Control,
    template,
@@ -221,6 +220,7 @@ define('Controls-demo/List/EditInPlace/Scenarios', [
 
    var EIPScenarios = Control.extend({
       _template: template,
+      _styles: ['Controls-demo/List/EditInPlace/Scenarios'],
       editingConfig: null,
       _enabled: true,
       _showAddButton: true,

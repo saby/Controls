@@ -4,15 +4,13 @@ define('Controls-demo/Input/Date/RangeLinkLitePG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config) {
       'use strict';
       var Component = Control.extend({
          _template: template,
+         _styles: ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'],
          _metaData: null,
          _content: 'Controls/dateRange:LiteSelector',
          _dataObject: null,

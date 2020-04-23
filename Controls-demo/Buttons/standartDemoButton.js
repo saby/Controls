@@ -1,7 +1,6 @@
 define('Controls-demo/Buttons/standartDemoButton', [
    'Core/Control',
    'wml!Controls-demo/Buttons/standartDemoButton',
-   'css!Controls-demo/Buttons/standartDemoButton',
    'Controls/buttons'
 ], function(Control, template) {
    'use strict';
@@ -10,6 +9,7 @@ define('Controls-demo/Buttons/standartDemoButton', [
    var ModuleClass = Control.extend(
       {
          _template: template,
+         _styles: ['Controls-demo/Buttons/standartDemoButton'],
          toggleState: false,
          toggleState2: false,
          toggleState3: false,
