@@ -1,4 +1,4 @@
-define(['Controls/treeGrid'], function(treeGrid) {
+define(['Controls/treeGrid', 'ControlsUnit/CustomAsserts'], function(treeGrid, cAssert) {
    describe('Controls.List.TreeGridView.TreeGridView', function() {
       it('TreeGridView._onExpanderClick', function() {
          var
@@ -28,6 +28,20 @@ define(['Controls/treeGrid'], function(treeGrid) {
          };
          treeGridView._onLoadMoreClick(null, {});
          assert.isTrue(notifyLoadMoreClickCalled, 'Incorrect notify by "_onLoadMoreClick()".');
+      });
+      it('TreeGridView._getFooterClasses', function() {
+         const treeGridView = new treeGrid.TreeGridView();
+         let hasNodes = true;
+         treeGridView._listModel = {
+            hasNodes: () => hasNodes
+         };
+         treeGridView._options.theme = 'default';
+
+         cAssert.isClassesEqual(treeGridView._getFooterClasses(), 'controls-TreeGridView__footer controls-TreeGridView__footer__expanderPadding-default_theme-default');
+
+         hasNodes = false;
+         cAssert.isClassesEqual(treeGridView._getFooterClasses(), 'controls-TreeGridView__footer');
+         cAssert.hasNoClasses(treeGridView._getFooterClasses(), 'controls-TreeGridView__footer__expanderPadding-default_theme-default');
       });
    });
 });

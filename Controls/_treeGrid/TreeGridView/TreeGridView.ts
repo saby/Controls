@@ -30,8 +30,11 @@ var
         },
         // protected
         _getFooterClasses(): string {
-            const expanderPadding = (this._options.expanderSize || 'default').toLowerCase();
-            const classes = ` controls-TreeGridView__footer controls-TreeGridView__footer__expanderPadding-${expanderPadding}_theme-${this._options.theme}`;
+            let classes = ' controls-TreeGridView__footer';
+            if (this._listModel.hasNodes()) {
+                const expanderPadding = (this._options.expanderSize || 'default').toLowerCase();
+                classes += ` controls-TreeGridView__footer__expanderPadding-${expanderPadding}_theme-${this._options.theme}`;
+            }
             return TreeGridView.superclass._getFooterClasses.apply(this, arguments) + classes;
         }
     });

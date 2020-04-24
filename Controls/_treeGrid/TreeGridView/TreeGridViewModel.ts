@@ -267,6 +267,10 @@ var
 
         getDisplayChildrenCount(nodeKey, items) {
             return this._model.getDisplayChildrenCount(nodeKey, items);
+        },
+
+        hasNodes(): boolean {
+            return this._model.hasNodes();
         }
     });
 

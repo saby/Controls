@@ -817,6 +817,9 @@ var
             });
 
             return childrenCount;
+        },
+        hasNodes(): boolean {
+            return this._thereIsChildItem;
         }
     });
 
