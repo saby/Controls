@@ -61,7 +61,6 @@
 
 @item_hover_background-color_list:                                  @hover_background-color;
 @item_active_background-color_list:                                 @hover_background-color;
-@master_item_hover_background-color_list:                           #FFFFFF;
 @item_editing_background-color_list:                                #F3F3F3;
 @item_dragging_opacity_list:                                        0.6;
 
@@ -137,17 +136,35 @@
 
 // Список в стиле Мастер - деталь
 
-@master_separator_thickness_list:                                   4px;
-@master_separator_color_list:                                       #EAEAEA;
+// Разделитель
+@master_separator_thickness_list:                                   3px;
+@master_separator_contrast-color_list:                              #F0F0F0;
+@master_separator_color_list:                                       @detail_background-color_masterDetail;
+
+// Маркер
+@master-marker_thickness_list:                                      6px;
+@master-marker_height_list:                                         12px;
+@master-marker_color_list:                                          #349CEE;
+
+// Цвет фона элемента
 @master_item_background-color_list:                                 #F8F8F8;
 @master_item_hover_background-color_list:                           #FFFFFF;
-@master_item_selected_background-color_list:                        #FFFFFF;
-@master_item_selected_border-thickness_list:                        @border-thickness;
-@master_item_selected_border-top-color_list:                        #C2D0DE;
-@master_item_selected_border-bottom-color_list:                     #9CB3CA;
-@master_item_selected_box-shadow_list:                              6px 0 6px rgba(0, 0, 0, 0.15);
 
-@detail_background-color_masterDetail:                              transparent;
+// Текст
+@master_item_selected_text-color_list:                              #D94700;
+@master_item_font-size_list:                                        @font-size_l;
+@master_item_selected_font-size_list:                               @font-size_2xl;
+
+// Отступы
+@master_item_padding-top_list:                                      4px;
+@master_item_padding-bottom_list:                                   4px;
+
+// Цвет фона списка detail
+@detail_contrast_background-color_masterDetail:                     transparent;
+@detail_background-color_masterDetail:                              #F8F8F8;
+
+
+
 @editing-toolbar_offset-left_listEditInPlace:                       @offset_xs;
 
 // Разделители между элементами

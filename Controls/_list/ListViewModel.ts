@@ -37,11 +37,12 @@ var _private = {
     getSpacingClassList: function(cfg) {
         var
             classList = '',
-            itemPadding = _private.getItemPadding(cfg);
+            itemPadding = _private.getItemPadding(cfg),
+            style = cfg.style || 'default';
 
-        classList += ' controls-ListView__itemContent';
-        classList += ' controls-ListView__item-topPadding_' + (itemPadding.top || 'default').toLowerCase() + `_theme-${cfg.theme}`;
-        classList += ' controls-ListView__item-bottomPadding_' + (itemPadding.bottom || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+        classList += ' controls-ListView__itemContent controls-ListView__itemContent_' + style;
+        classList += ' controls-ListView__item_' + style + '-topPadding_' + (itemPadding.top || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+        classList += ' controls-ListView__item_' + style + '-bottomPadding_' + (itemPadding.bottom || 'default').toLowerCase() + `_theme-${cfg.theme}`;
         classList += ' controls-ListView__item-rightPadding_' + (itemPadding.right || 'default').toLowerCase() + `_theme-${cfg.theme}`;
 
         if (cfg.multiSelectVisibility !== 'hidden') {
@@ -208,7 +209,8 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         };
 
         itemsModelCurrent.getMarkerClasses = (): string => {
-            return `controls-ListView__itemV_marker controls-ListView__itemV_marker_theme-${self._options.theme}`;
+            const style = this._options.style || 'default';
+            return `controls-ListView__itemV_marker controls-ListView__itemV_marker_${style}_theme-${self._options.theme}`;
         };
 
         if (itemsModelCurrent.itemActions) {

@@ -5,6 +5,7 @@
             template="wml!Controls/_listRender/Render/resources/For"
             collection="{{ _options.listModel }}"
             keyPrefix="{{ _templateKeyPrefix }}"
+            style="{{_options.style}}"
 
             itemActionsPosition="{{ _options.itemActionsPosition }}"
             multiSelectTpl="{{ _options.multiSelectTpl }}"

@@ -7,7 +7,7 @@
                @content_l_padding_loadingIndicator * 2;
 }
 
-.controls-ListView__itemV_marker_theme-@{themeName} {
+.controls-ListView__itemV_marker_default_theme-@{themeName} {
    position: absolute;
    width: @marker_thickness_list;
    background-color: @marker_color_list;
@@ -37,35 +37,35 @@
    padding-left: @item_padding-left_m_list;
 }
 
-.controls-ListView__item-topPadding_null_theme-@{themeName} {
+.controls-ListView__item_default-topPadding_null_theme-@{themeName} {
   padding-top: 0;
 }
 
-.controls-ListView__item-bottomPadding_null_theme-@{themeName} {
+.controls-ListView__item_default-bottomPadding_null_theme-@{themeName} {
   padding-bottom: 0;
 }
 
-.controls-ListView__item-topPadding_l_theme-@{themeName} {
+.controls-ListView__item_default-topPadding_l_theme-@{themeName} {
    padding-top: @item_padding-top_l_list;
  }
- 
- .controls-ListView__item-bottomPadding_l_theme-@{themeName} {
+
+ .controls-ListView__item_default-bottomPadding_l_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_l_list;
  }
 
-.controls-ListView__item-topPadding_default_theme-@{themeName} {
+.controls-ListView__item_default-topPadding_default_theme-@{themeName} {
   padding-top: @item_padding-top_default_list;
 }
 
-.controls-ListView__item-bottomPadding_default_theme-@{themeName} {
+.controls-ListView__item_default-bottomPadding_default_theme-@{themeName} {
   padding-bottom: @item_padding-bottom_default_list;
 }
 
-.controls-ListView__item-topPadding_s_theme-@{themeName} {
+.controls-ListView__item_default-topPadding_s_theme-@{themeName} {
   padding-top: @item_padding-top_s_list;
 }
 
-.controls-ListView__item-bottomPadding_s_theme-@{themeName} {
+.controls-ListView__item_default-bottomPadding_s_theme-@{themeName} {
   padding-bottom: @item_padding-bottom_s_list;
 }
 
@@ -370,34 +370,42 @@
    transform: translateZ(0);
 }
 
-.controls-ListView__item__marked_master_theme-@{themeName} {
-   //z-index 1 is needed to overlap the right line of master
-   z-index: 1;
+.controls-ListView__item_master-topPadding_default_theme-@{themeName} {
+   padding-top: @master_item_padding-top_list;
+}
+
+.controls-ListView__item_master-bottomPadding_default_theme-@{themeName} {
+   padding-bottom: @master_item_padding-top_list;
+}
+
+.controls-ListView__item__unmarked_master_theme-@{themeName} {
+   font-size: @master_item_font-size_list;
+}
+
+.controls-ListView__itemContent_master {
+   display: flex;
+   align-items: baseline;
+
    &:before {
-      content: '';
-      z-index: 2;
-      box-sizing: border-box;
-      border-width: @master_item_selected_border-thickness_list 0 @master_item_selected_border-thickness_list 0;
-      border-style: solid;
-      border-color: @master_item_selected_border-top-color_list transparent @master_item_selected_border-bottom-color_list transparent;
-      box-shadow: @master_item_selected_box-shadow_list;
-      width: ~'calc(100% + @{master_separator_thickness_list})';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      pointer-events: none;
-      height: 100%;
+      content: '\200b';
+      font-size: @master_item_selected_font-size_list;
    }
-   &:after {
-      content: '';
-      z-index: 1;
-      height: 100%;
-      top: 0;
-      width: @master_separator_thickness_list;
-      position: absolute;
-      right: -@master_separator_thickness_list;
-      background-color: @master_item_selected_background-color_list;
-   }
+}
+
+.controls-ListView__item__marked_master_theme-@{themeName} {
+   font-size: @master_item_selected_font-size_list;
+   font-weight: bold;
+   color: @master_item_selected_text-color_list;
+}
+
+.controls-ListView__itemV_marker_master_theme-@{themeName} {
+   position: absolute;
+   width: @master-marker_thickness_list;
+   height: @master-marker_height_list;
+   background-color: @master-marker_color_list;
+   top: 50%;
+   left: 0;
+   transform: translateY(-50%);
 }
 
 .controls-ListView__groupContent_cursor-default {

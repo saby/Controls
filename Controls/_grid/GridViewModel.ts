@@ -247,7 +247,7 @@ var
             const backgroundStyle = current.backgroundStyle || current.style || 'default';
 
             // Стиль колонки
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style}`;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style}  controls-Grid__row-cell_${style}_theme-${theme}`;
             _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (current.columnScroll) {
@@ -1369,7 +1369,8 @@ var
             current.shouldDrawMarker = (marker?: boolean, columnIndex: number): boolean => {
                 return columnIndex === 0 && superShouldDrawMarker.apply(this, [marker]);
             };
-            current.getMarkerClasses = () => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${self._options.theme}`;
+            current.getMarkerClasses = () => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${self._options.theme}
+            controls-GridView__itemV_marker-${current.style || 'default'}_theme-${self._options.theme}`;
 
             if (current.multiSelectVisibility !== 'hidden') {
                 current.columns = [{}].concat(this._columns);

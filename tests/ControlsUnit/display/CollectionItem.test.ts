@@ -463,8 +463,8 @@ describe('Controls/_display/CollectionItem', () => {
         };
         const defaultClasses = [
             'controls-ListView__itemContent',
-            'controls-ListView__item-topPadding_#rowspacing#',
-            'controls-ListView__item-bottomPadding_#rowspacing#',
+            'controls-ListView__item_default-topPadding_#rowspacing#',
+            'controls-ListView__item_default-bottomPadding_#rowspacing#',
             'controls-ListView__item-rightPadding_#rightspacing#'
         ];
 

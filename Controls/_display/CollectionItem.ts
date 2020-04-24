@@ -415,22 +415,22 @@ export default class CollectionItem<T> extends mixin<
         return `controls-itemActionsV_${itemActionsPosition}`;
     }
 
-    getContentClasses(theme: string): string {
-        return `controls-ListView__itemContent ${this._getSpacingClasses(theme)}`;
+    getContentClasses(theme: string, style: string): string {
+        return `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
     }
 
     getItemTemplate(userTemplate: TemplateFunction|string): TemplateFunction|string {
         return userTemplate;
     }
 
-    protected _getSpacingClasses(theme: string): string {
+    protected _getSpacingClasses(theme: string, style: string = 'default'): string {
         let classes = '';
 
         const rowSpacing = this.getOwner().getRowSpacing().toLowerCase();
         const rightSpacing = this.getOwner().getRightSpacing().toLowerCase();
 
-        classes += ` controls-ListView__item-topPadding_${rowSpacing}_theme-${theme}`;
-        classes += ` controls-ListView__item-bottomPadding_${rowSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item_${style}-topPadding_${rowSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item_${style}-bottomPadding_${rowSpacing}_theme-${theme}`;
         classes += ` controls-ListView__item-rightPadding_${rightSpacing}_theme-${theme}`;
 
         if (this.getOwner().getMultiSelectVisibility() !== 'hidden') {

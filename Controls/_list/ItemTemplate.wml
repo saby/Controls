@@ -1,5 +1,7 @@
 <ws:template name="itemOutputTpl">
-   <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}} {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ? (' controls-ListView__itemV_withMarker controls-ListView__item__marked_' + itemData.style + '_theme-' + _options.theme)}}
+   <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}}
+       {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ?
+       ' controls-ListView__itemV_withMarker controls-ListView__item__marked_' : ' controls-ListView__item__unmarked_') + itemData.style + '_theme-' + _options.theme}}
        {{highlightOnHover !== false && !itemData.isEditing ? 'controls-ListView__item_highlightOnHover_' + itemData.style + '_theme_' + _options.theme}}
        controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{_options.theme}}
        controls-ListView__item_showActions
