@@ -3,6 +3,11 @@
    overflow: hidden;
    width: 100%;
 }
+// Крошки выравниваются по 18px, а в гриде элементы должны выравниваться по 17px. Поднимаем крошки на 1px.
+.controls-BreadCrumbsView__grid {
+   position: relative;
+   top: -1px;
+}
 .controls-BreadCrumbsView__items_theme-@{themeName} {
    height: @height_breadcrumbsView;
 }
