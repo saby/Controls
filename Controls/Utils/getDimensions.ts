@@ -17,7 +17,7 @@ function getVisibleChildren(element : HTMLElement) : Array<HTMLElement> {
     });
 }
 
-function getBoundingClientRect(element: HTMLElement, clear?: boolean): ClientRect {
+function getBoundingClientRect(element: HTMLElement, clear?: boolean, canUseGetDimensions?: boolean): ClientRect {
     let position;
 
     // To calculate the actual position of the 'position: sticky' element in the layout,
@@ -26,7 +26,7 @@ function getBoundingClientRect(element: HTMLElement, clear?: boolean): ClientRec
         position = element.style.position;
         element.style.position = 'static';
     }
-    const clientRect: ClientRect = element.getBoundingClientRect();
+    const clientRect: ClientRect = canUseGetDimensions && getComputedStyle(element).display === 'contents' ? getDimensions(element, clear) : element.getBoundingClientRect();
     if (clear && position !== undefined) {
         element.style.position = position;
     }
@@ -44,7 +44,7 @@ function getBoundingClientRect(element: HTMLElement, clear?: boolean): ClientRec
  * as if it were in layout and 'position: sticky' styles do not act on it.
  * @returns {ClientRect}
  */
-function getDimensions(element: HTMLElement, clear?: boolean): ClientRect {
+ const getDimensions = function(element: HTMLElement, clear?: boolean): ClientRect {
     let dimensions : ClientRect = getBoundingClientRect(element, clear);
 
     if (dimensions.width !== 0 || dimensions.height !== 0) {
@@ -57,8 +57,8 @@ function getDimensions(element: HTMLElement, clear?: boolean): ClientRect {
         return dimensions;
     }
 
-    const firstChildDimensions = getBoundingClientRect(visibleChildren[0], clear);
-    const lastChildDimensions = getBoundingClientRect(visibleChildren[visibleChildren.length - 1], clear);
+    const firstChildDimensions = getBoundingClientRect(visibleChildren[0], clear, true);
+    const lastChildDimensions = getBoundingClientRect(visibleChildren[visibleChildren.length - 1], clear, true);
 
     dimensions = {
         width: lastChildDimensions.right - firstChildDimensions.left,

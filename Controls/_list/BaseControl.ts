@@ -1012,7 +1012,7 @@ var _private = {
     }, SET_MARKER_AFTER_SCROLL_DELAY),
 
     getTopOffsetForItemsContainer: function(self, itemsContainer) {
-        let offsetTop = uDimension(itemsContainer.children[0]).top;
+        let offsetTop = uDimension(itemsContainer.children[0], true).top;
         let container = self._container[0] || self._container;
         offsetTop += container.offsetTop - uDimension(container).top;
         return offsetTop;
