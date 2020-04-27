@@ -315,10 +315,14 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (key === this._markedKey) {
             return;
         }
+        const changedItems = [
+            this.getItemById(this._markedKey),
+            this.getItemById(key)
+        ];
         this._markedKey = key;
         this._savedMarkedKey = undefined;
         this._updateMarker(key);
-        this._nextModelVersion(true, 'markedKeyChanged');
+        this._nextModelVersion(true, 'markedKeyChanged', '', changedItems);
         this._notify('onMarkedKeyChanged', this._markedKey);
     },
 
