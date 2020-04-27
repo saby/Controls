@@ -13,7 +13,6 @@ define('Controls-demo/Container/Scroll',
          _scrollbarVisible: true,
          _shadowVisible: true,
          _numberOfRecords: 50,
-         _selectedStyle: 'default',
          _scrollStyleSource: null,
 
          _getChildContext: function() {
