@@ -60,12 +60,14 @@
 
 <ws:template name="columnContent">
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
-           <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                               checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
-                               multiSelectStatus="{{itemData.multiSelectStatus}}"
-                               key="{{itemData.key}}"/>
-       </ws:partial>
+       <div class="{{ currentColumn.classList.padding.getAll() }}">
+           <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
+               <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
+                                   checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                                   multiSelectStatus="{{itemData.multiSelectStatus}}"
+                                   key="{{itemData.key}}"/>
+           </ws:partial>
+       </div>
    </ws:if>
    <ws:else>
        <ws:partial template="cellPartialTemplate"/>
@@ -93,8 +95,7 @@
        colspan="{{itemData.getColspanFor((itemData.multiSelectVisibility !== 'hidden' && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
        <div class="controls-TreeGridView__row-cell_innerWrapper
                    {{ currentColumn.classList.relativeCellWrapper }}
-                   {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}
-                   {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}">
+                   {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}">
            <ws:partial template="columnContentWrapper"
                        attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
            <div if="{{!!itemData.dragTargetNode}}"
