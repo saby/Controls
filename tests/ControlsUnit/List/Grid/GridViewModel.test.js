@@ -245,10 +245,10 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                      }
                   }
                };
-            assert.equal('LP_2_1_0_', gridMod.GridViewModel._private.calcLadderVersion(onlySimpleLadder, 0));
+            assert.equal('LP_', gridMod.GridViewModel._private.calcLadderVersion(onlySimpleLadder, 0));
             assert.equal('LP_', gridMod.GridViewModel._private.calcLadderVersion(onlySimpleLadder, 1));
 
-            assert.equal('LP_2_1_0_SP_2_1_0_', gridMod.GridViewModel._private.calcLadderVersion(withSticky, 0));
+            assert.equal('LP_SP_2_1_0_', gridMod.GridViewModel._private.calcLadderVersion(withSticky, 0));
             assert.equal('LP_SP_', gridMod.GridViewModel._private.calcLadderVersion(withSticky, 1));
 
 
