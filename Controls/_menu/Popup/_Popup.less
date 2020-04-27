@@ -56,11 +56,14 @@
    flex-direction: column;
 }
 
-.control-Menu__popup-header {
+.control-Menu__popup-header_theme-@{themeName} {
    display: flex;
    align-items: center;
    overflow: hidden;
    cursor: default;
+   background: @header_background-color_sticky;
+   padding: 0 @header_padding-horizontal_sticky 0 @header_padding-horizontal_sticky;
+   height: @header_min-height_sticky;
 }
 
 .controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
