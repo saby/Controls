@@ -10,7 +10,6 @@ import {parse as parserLib} from 'Core/library';
 import StackContent = require('Controls/_popupTemplate/Stack/Opener/StackContent');
 import {detection} from 'Env/Env';
 import {Bus} from 'Env/Event';
-import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
 
 /**
  * Stack Popup Controller
@@ -48,7 +47,6 @@ class StackController extends BaseController {
         }
 
         if (!isNewEnvironment()) {
-            oldWindowManager.addZIndex(item.currentZIndex);
             if (isSinglePopup) {
                 this._updateSideBarVisibility();
             }
@@ -76,9 +74,6 @@ class StackController extends BaseController {
     elementDestroyed(item: IPopupItem): Promise<null> {
         this._stack.remove(item);
         this._update();
-        if (!isNewEnvironment()) {
-            oldWindowManager.removeZIndex(item.currentZIndex);
-        }
         return (new Deferred()).callback();
     }
 

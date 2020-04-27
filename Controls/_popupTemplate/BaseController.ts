@@ -1,6 +1,7 @@
 import Deferred = require('Core/Deferred');
 import Utils = require('Types/util');
-import collection = require('Types/collection');
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import oldWindowManager from 'Controls/_popupTemplate/_oldWindowManager';
 import {Controller as ManagerController, IPopupItem, IPopupSizes} from 'Controls/popup';
 
 export interface IDragOffset {
@@ -48,6 +49,9 @@ abstract class BaseController {
     _elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         if (this._checkContainer(item, container, 'elementCreated')) {
             item.popupState = this.POPUP_STATE_CREATED;
+            if (!isNewEnvironment()) {
+                oldWindowManager.addZIndex(item.currentZIndex);
+            }
             return this.elementCreated && this.elementCreated.apply(this, arguments);
         }
     }
@@ -94,6 +98,9 @@ abstract class BaseController {
             item.popupState = this.POPUP_STATE_DESTROYING;
             item._destroyDeferred = this.elementDestroyed && this.elementDestroyed.apply(this, arguments);
             return item._destroyDeferred.addCallback(() => {
+                if (!isNewEnvironment()) {
+                    oldWindowManager.removeZIndex(item.currentZIndex);
+                }
                 item.popupState = this.POPUP_STATE_DESTROYED;
             });
         }
