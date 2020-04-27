@@ -2,5 +2,6 @@
     <ws:partial
             template="{{ content.resolvedTemplate }}"
             scope="{{_options}}"
+            attr:class="controls-MenuButton__popup-header_theme-{{_options.theme}}"
     />
 </Controls.Container.Async>
