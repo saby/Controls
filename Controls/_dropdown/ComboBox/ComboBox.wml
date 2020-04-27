@@ -22,6 +22,7 @@
               size="{{_options.size}}"
               style="{{_options.style}}"
               value="{{_value}}"
+              validationStatus="{{_options.validationStatus}}"
               tooltip="{{_options.tooltip}}"
               tagStyle="{{_options.tagStyle}}"
               autoComplete="{{_options.autoComplete}}"
