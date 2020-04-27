@@ -1,168 +1,319 @@
-// Стили окна
+// Переменные для большого выбора периода
+//
+// Тень
+
+@box-shadow-size_datePicker:                                                  0 0 6px 0;
+@box-shadow-color_datePicker:                                                 rgba(0,0,0,0.35);
+
+// Обводка
+
+@border-thickness_datePicker:                                                 @border-thickness;
+@border-color_datePicker:                                                     @border-color_sticky;
+
 // Цвет фона
-@background-color_datePicker:                            @background-color;
-// Толщина обводки окна
-@border-thickness_datePicker:                            @border-thickness;
-// Цвет обводки окна
-@border-color_datePicker:                                @border-color_sticky;
-// Размер тени окна
-@box-shadow-size_datePicker:                             0 0 6px 0;
-// Цвет тени окна
-@box-shadow-color_datePicker:                            rgba(0,0,0,0.35);
+
+@background-color_datePicker:                                                 @background-color;
 
 // Заголовок
-// Высота заголовка
-@header_height_datePicker:                               @header-min-height_dialog;
-// Цвет фона заголовка
-@header_background-color_datePicker:                     @header_background-color_sticky;
-// Отступ контента заголовка от края слева
-@header_padding-left_datePicker:                         10px;
-// Отступ между кнопкой перелючения режимов выбора и заголовком окна или полями ввода
-@switcher_offset_datePicker:                             @offset_m;
 
-//Кнопка переключения режимов выбора
-@switcher_icon-size_datePicker:                          @icon-size_s;
-@switcher_icon-color_datePicker:                         @secondary_color;
-@switcher_hover_icon-color_datePicker:                   @link_hover_text-color;
-@switcher_active_icon-color_datePicker:                  @switcher_hover_icon-color_datePicker;
+@header_height_datePicker:                                                    @header-min-height_dialog;
+@header_background-color_datePicker:                                          @header_background-color_sticky;
+@header_padding-left_datePicker:                                              10px;
+@switcher_offset_datePicker:                                                  @offset_m;
+
+//Кнопка переключения периодов
+
+@switcher_icon-size_datePicker:                                               @icon-size_s;
+@switcher_icon-color_datePicker:                                              @secondary_color;
+@switcher_hover_icon-color_datePicker:                                        @link_hover_text-color;
+@switcher_active_icon-color_datePicker:                                       @switcher_hover_icon-color_datePicker;
 
 // Отступ между кнопкой подтвержения выбора и другими элементами справа и слева
-@apply-button_offset_datePicker:                         @offset_m;
+
+@apply-button_offset_datePicker:                                              @offset_m;
 
 //Кнопка переключения к текущему периоду
-@home_icon-size_datePicker:                              @icon-size_s;
-@home_icon-color_datePicker:                             @secondary_color;
-@home_hover_icon-color_datePicker:                       @link_hover_text-color;
-@home_active_icon-color_datePicker:                      @home_hover_icon-color_datePicker;
 
-// Годовой режим
-// Панель выбора и переключения годов
-// Высота панели
-@yearnav_height_datePicker:                              44px;
-// Ширина кнопок со стрелками
-@yearnav_arrow_width_datePicker:                         33px;
-// Ширина кнопок с годами
-@yearnav_item_width_datePicker:                          39px;
-// Высота кнопки года
-@yearnav_item_height_datePicker:                         30px;
-// Размер шрифта кнопки года
-@yearnav_item_font-size_datePicker:                      @font-size_m;
-// Цвет текста кнопки года
-@yearnav_item_text-color_datePicker:                     @unaccented_text-color;
-// Цвет текста кнопки текущего года
-@yearnav_item_current_text-color_datePicker:             @secondary_text-color;
-// Цвет текста кнопки отображаемого года
-@yearnav_item_displayed_text-color_datePicker:           @primary_text-color;
-// Размер шрифта кнопки отображаемого года
-@yearnav_item_displayed_font-size_datePicker:            @font-size_l;
+@home_icon-size_datePicker:                                                    @icon-size_s;
+@home_icon-color_datePicker:                                                   @secondary_color;
+@home_hover_icon-color_datePicker:                                             @link_hover_text-color;
+@home_active_icon-color_datePicker:                                            @home_hover_icon-color_datePicker;
+
+
+
+// Переменные для большого выбора периода в режиме переключения года
+//
+//Шапка со списком годов
+
+@yearnav_height_datePicker:                                                    44px;
+@yearnav_arrow_width_datePicker:                                               33px;
+@yearnav_item_width_datePicker:                                                39px;
+@yearnav_item_height_datePicker:                                               30px;
+
+//Переменные для текста внутри кнопок годов
+
+@yearnav_item_font-size_datePicker:                                             @font-size_m;
+@yearnav_item_text-color_datePicker:                                            @unaccented_text-color;
+@yearnav_item_current_text-color_datePicker:                                    @secondary_text-color;
+@yearnav_item_displayed_text-color_datePicker:                                  @primary_text-color;
+@yearnav_item_displayed_font-size_datePicker:                                   @font-size_l;
 
 // Выбор месяцев, кварталов и полугодий
-// Высота заголовка года
-@yearlist_heading_height_datePicker:                    32px;
-// Цвет текста заголовка года
-@yearlist_heading_text-color_datePicker:                 @primary_text-color;
-// Размер шрифта заголовка года
-@yearlist_heading_font-size_datePicker:                  @font-size_l;
-// Толщина шрифта заголовка года
-@yearlist_heading_font-weight_datePicker:                bold;
-// Цвет границ разделяющих элементы
-@yearlist_block-separator_color_datePicker:              #f4f4f4;
-// Толщина границ разделяющих разнае области выбора
-@yearlist_block-separator_thickness_datePicker:          4px;
-// Ширина кнопок выбора квартала
-@yearlist_quarters_width_datePicker:                     30px;
-// Цвет текста заголовка квартала
-@yearlist_quarters_text-color_datePicker:                @secondary_text-color;
-// Размер шрифта заголовка квартала
-@yearlist_quarters_font-size_datePicker:                 @font-size_l;
-// Цвет фона заголовка квартала
-@yearlist_quarters_background-color_datePicker:          @background-color_datePicker;
-// Ширина кнопок выбора полугодия
-@yearlist_halfyears_width_datePicker:                    30px;
-// Цвет текста заголовка полугодия
-@yearlist_halfyears_text-color_datePicker:               @secondary_text-color;
-// Размер шрифта заголовка полугодия
-@yearlist_halfyears_font-size_datePicker:                @font-size_3xl;
-// Цвет фона заголовка полугодия
-@yearlist_halfyears_backround-color_datePicker:          @background-color_datePicker;
-// Толщина границ разделяющих месяцы
-@yearlist_item_border-thickness_datePicker:              @border-thickness;
-// Цвет границ выделенного периода
-@yearlist_item_hover_border-color_datePicker:            #8991A9;
-// Цвет фона выделенного периода
-@yearlist_item_hover_background-color_datePicker:        #E6ECFA;
-// Отступы контента месяца внутри области месяца
-@yearlist_month_padding_datePicker:                      0 @offset_2xs @offset_2xs @offset_2xs;
-// Ширина месяца
-@yearlist_month_width_datePicker:                        100px;
-// Высота месяца
-@yearlist_month_height_datePicker:                       100px;
-// Цвет заголовка месяца
-@yearlist_month_heading_text-color_datePicker:           @secondary_text-color;
-// Размер шрифта заголовка месяца
-@yearlist_month_heading_font-size_datePicker:            @font-size_m;
+//
+// Переменные для заголовка года
 
-// Месячный режим
+@yearlist_heading_height_datePicker:                                             32px;
+@yearlist_heading_text-color_datePicker:                                         @primary_text-color;
+@yearlist_heading_font-size_datePicker:                                          @font-size_l;
+@yearlist_heading_font-weight_datePicker:                                        bold;
+
+//Переменные для разделителей между периодами
+
+@yearlist_block-separator_color_datePicker:                                      #f4f4f4;
+@yearlist_block-separator_thickness_datePicker:                                  4px;
+
+//Переменные для кнопки выбора квартала
+
+@yearlist_quarters_width_datePicker:                                             30px;
+@yearlist_quarters_text-color_datePicker:                                        @secondary_text-color;
+@yearlist_quarters_font-size_datePicker:                                         @font-size_l;
+@yearlist_quarters_background-color_datePicker:                                  @background-color_datePicker;
+
+//Переменные для кнопки выбора полугодия
+
+@yearlist_halfyears_width_datePicker:                                            30px;
+@yearlist_halfyears_text-color_datePicker:                                       @secondary_text-color;
+@yearlist_halfyears_font-size_datePicker:                                        @font-size_3xl;
+@yearlist_halfyears_backround-color_datePicker:                                  @background-color_datePicker;
+
+//Граница выбранного периода
+
+@yearlist_item_border-thickness_datePicker:                                      @border-thickness;
+@yearlist_item_hover_border-color_datePicker:                                    #8991A9;
+
+// Фон выбранного периода
+
+@yearlist_item_hover_background-color_datePicker:                                #E6ECFA;
+
+//Переменные для ячейки месяца
+
+@yearlist_month_padding_datePicker:                                              0 @offset_2xs @offset_2xs @offset_2xs;
+@yearlist_month_width_datePicker:                                                100px;
+@yearlist_month_height_datePicker:                                               100px;
+@yearlist_month_heading_text-color_datePicker:                                   @secondary_text-color;
+@yearlist_month_heading_font-size_datePicker:                                    @font-size_m;
+
+
+
+// Переменные для режима переключения месяцев
+//
+// Переменные для заголовка месяцев
+
+@calendar-header_height_datePicker:                                              44px;
+@calendar-header_border-bottom-thickness_datePicker:                             @border-thickness;
+@calendar-header_border-bottom-color_datePicker:                                 #BDBDBD;
+@calendar-header_padding-left_datePicker:                                        @offset_m;
+
+//Переменные для текущего года
+
+@current-year_font-size_datePicker:                                              @font-size_l;
+@current-year_text-color_datePicker:                                             @primary_text-color_heading;
+@current-year_font-weight_datePicker:                                            bold;
+
+// Переменные для дней недели в заголовке
+@weekdays_font-size_datePicker:                                                  @font-size_l;
+@weekdays_text-color_datePicker:                                                 @label_text-color;
+@weekend_weekdays_text-color_datePicker:                                         @primary_text-color;
+
+
+
+// Переменные для панели навигации по месяцам
+//
+// Размеры и отступы
+
+@monthnav_width_datePicker:                                                      82px;
+@monthnav_item_padding-left_datePicker:                                          @offset_m;
+
+//Фон
+
+@monthnav_item_background-color_datePicker:                                      transparent;
+@monthnav_item_hover_background-color_datePicker:                                transparent;
+
+//Обводка
+
+@monthnav_item_border-color_datePicker:                                          #F4F4F4;
+@monthnav_item_border-thickness_datePicker:                                      @border-thickness;
+@monthnav_item_hover_border-color_datePicker:                                    #8991A9;
+
+// Ячейка месяца
+
+@monthnav_item_text-color_datePicker:                                            @text-color;
+@monthnav_item_font-size_datePicker:                                             @font-size_m;
+@monthnav_item_height_datePicker:                                                30px;
+
+// Переменные для кнопки года
+//
+//Размеры и отступы
+
+@monthnav_year_height_datePicker:                                                36px;
+@monthnav_year_padding-left_datePicker:                                          @monthnav_item_padding-left_datePicker;
+
+//Фон
+
+@monthnav_year_background-color_datePicker:                                      transparent;
+@monthnav_year_hover_background-color_datePicker:                                @monthnav_year_background-color_datePicker;
+
+//Обводка
+
+@monthnav_year_border-color_datePicker:                                          #F4F4F4;
+@monthnav_year_hover_border-color_datePicker:                                    #D94700;
+
+//Текст
+
+@monthnav_year_text-color_datePicker:                                            @primary_text-color;
+@monthnav_year_font-size_datePicker:                                             @font-size_l;
+
+//Разделитель
+
+@monthnav_year_separator_thickness_datePicker:                                   1px;
+@monthnav_year_separator_color_datePicker:                                       #EAEAEA;
+
+
+
+//Переменные для выбранного периода
+//
+//Фон
+
+@rangeSelection_item_background-color_datePicker:                                #f0f5fb;
+@rangeSelection_item_hover_background-color_datePicker:                          #E6ECFA;
+@rangeSelection_item_edge_background-color_datePicker:                           #E6ECFA;
+
+//Обводка
+
+@rangeSelection_border_thickness_datePicker:                                     3px;
+@rangeSelection_border_color_datePicker:                                         #0055BB;
+@rangeSelection_border_single_thickness_datePicker:                              2px;
+@rangeSelection_border_single_color_datePicker:                                  #0055BB;
+
+
+
+// Переменные для переключения месяцев
+//
+// Размеры
+
+@monthlist_monthview_width_datePicker:                                           281px;
+@monthlist_monthview_height_datePicker:                                          auto;
+
+// Переменные для ячейки дня
+//
+// Размеры
+
+@monthlist_monthview_item_height_datePicker:                                     39px;
+@monthlist_monthview_item_width_datePicker:                                      39px;
+
+// Текст
+
+@monthlist_monthview_item_font-size_datePicker:                                  @font-size_l;
+@monthlist_monthview_item_text-color_datePicker:                                 @text-color;
+
+// Обводка
+
+@monthlist_monthview_item_border-thickness_datePicker:                           @border-thickness;
+@monthlist_monthview_item_border-color_datePicker:                               transaprent;
+@monthlist_monthview_item_hover_border-color_datePicker:                         #8991A9;
+@monthlist_monthview_item_selected_border-color_datePicker:                      @monthlist_monthview_item_hover_border-color_datePicker;
+
+// Фон
+
+@monthlist_monthview_item_background-color_datePicker:                           #F4F4F4;
+
+
+// Переменные для заголовка месяца
+//
+// Размеры
+
+@monthlist_heading_height_datePicker:                                            36px;
+
+// Текст
+
+@monthlist_heading_font-size_datePicker:                                         @font-size_3xl;
+@monthlist_heading_text-color_datePicker:                                        @secondary_text-color;
+@monthlist_heading_font-weight_datePicker:                                       bold;
+
+// Фон
+@monthlist_heading_background-color_datePicker:                                  transparent;
+@monthlist_heading_hover_background-color_datePicker:                            @monthlist_heading_background-color_datePicker;
+
+// Обводка
+@monthlist_heading_border-color_datePicker:                                      transparent;
+@monthlist_heading_border-thickness_datePicker:                                  @border-thickness;
+@monthlist_heading_hover_border-color_datePicker:                                #8991A9;
+
+
+//Переменные для дней недели
+//
+// Отступы
+
+@monthlist_monthview_today_offset_datePicker:                                    5px;
+
+// Обводка текущего дня
+
+@monthlist_monthview_today_border-color_datePicker:                              transparent;
+@monthlist_monthview_today_border-thickness_datePicker:                          0;
+@monthlist_monthview_today_border-radius_datePicker:                             50%;
+
+// Текст дней недели
+
+@monthlist_monthview_weekend_text-color_datePicker:                              @primary_text-color;
+@monthlist_monthview_today_text-color_datePicker:                                #fff;
+
+// Фон
+
+@monthlist_monthview_today_background-color_datePicker:                          #DA4600;
+
+// Обводка выбранного периода
+
+@monthlist_monthview_selection-border_thickness_datePicker:                      @rangeSelection_border_thickness_datePicker;
+@monthlist_monthview_selection-border_color_datePicker:                          @rangeSelection_border_color_datePicker;
+@monthlist_monthview_selection-border_single_thickness_datePicker:               @rangeSelection_border_single_thickness_datePicker;
+@monthlist_monthview_selection-border_single_color_datePicker:                   @rangeSelection_border_single_color_datePicker;
+
+// Фон выбранного периода
+
+@monthlist_monthview_item_selected_background-color_datePicker:                  @rangeSelection_item_background-color_datePicker;
+@monthlist_monthview_item_selected_hover_background-color_datePicker:            @rangeSelection_item_hover_background-color_datePicker;
+@monthlist_monthview_item_selected_edge_background-color_datePicker:             @rangeSelection_item_edge_background-color_datePicker;
+
+// Переменные для большого периода
+//
+// Размеры и отступы
+
+@yearlist_monthview_height_datePicker:											  72px;
+
 // Заголовок
-// Высота области заголовка
-@calendar-header_height_datePicker:                      44px;
-// Толщина нижней границы заголвка
-@calendar-header_border-bottom-thickness_datePicker:     @border-thickness;
-// Цвет нижней границы заголвка
-@calendar-header_border-bottom-color_datePicker:         #BDBDBD;
-// Отступ между левой границей и контентом
-@calendar-header_padding-left_datePicker:                @offset_m;
-// Размер шрифта года в заголовке
-@current-year_font-size_datePicker:                      @font-size_l;
-// Цвет текста года в заголовке
-@current-year_text-color_datePicker:                     @primary_text-color_heading;
-// Толщина шрифта года в заголовке
-@current-year_font-weight_datePicker:                    bold;
-// Размер шрифта дней недели в заголовке
-@weekdays_font-size_datePicker:                          @font-size_l;
-// Цвет текста дней недели в заголовке
-@weekdays_text-color_datePicker:                         @label_text-color;
-// Цвет текста выходных дней недели в заголовке
-@weekend_weekdays_text-color_datePicker:                 @primary_text-color;
 
-// Панель навигации по месяцам
-// Ширина панели навигации по месяцам
-@monthnav_width_datePicker:                              82px;
-// Цвет текста месяцев
-@monthnav_item_text-color_datePicker:                    @text-color;
-// Размер шрифта месяцев
-@monthnav_item_font-size_datePicker:                     @font-size_m;
-// Отступ между левой границей и месяцем
-@monthnav_item_padding-left_datePicker:                  @offset_m;
-// Высота кнопки месяца
-@monthnav_item_height_datePicker:                        30px;
-// Цвет границ
-@monthnav_item_border-color_datePicker:                  #F4F4F4;
-// Толщина границ
-@monthnav_item_border-thickness_datePicker:              @border-thickness;
-// Цвет границ при наведении мышкой
-@monthnav_item_hover_border-color_datePicker:            #8991A9;
-// Цвет фона
-@monthnav_item_background-color_datePicker:              transparent;
-// Цвет фона при наведении мышкой
-@monthnav_item_hover_background-color_datePicker:        transparent;
-// Высота кнопки года
-@monthnav_year_height_datePicker:                        36px;
-// Отступ между левой границей и годом в кнопке года в панели навигации по месяцам
-@monthnav_year_padding-left_datePicker:                  @monthnav_item_padding-left_datePicker;
-// Цвет текста на кнопке года
-@monthnav_year_text-color_datePicker:                    @primary_text-color;
-// Размер шрифта на кнопке года
-@monthnav_year_font-size_datePicker:                     @font-size_l;
-// Цвет границ у кнопки года
-@monthnav_year_border-color_datePicker:                  #F4F4F4;
-// Цвет границ у кнопки года при наведении
-@monthnav_year_hover_border-color_datePicker:            #D94700;
-// Цвет фона кнопки
-@monthnav_year_background-color_datePicker:              transparent;
-// Цвет фона кнопки года при наведении
-@monthnav_year_hover_background-color_datePicker:        @monthnav_year_background-color_datePicker;
-// Толщина линии разделяющей года
-@monthnav_year_separator_thickness_datePicker:           1px;
-// Цвет линии разделяющей месяца
-@monthnav_year_separator_color_datePicker:               #EAEAEA;
+@yearlist_monthview_heading_height_datePicker:                                   auto;
+
+//Переменные для ячейки месяца
+//
+// Размеры и отступы
+
+@yearlist_monthview_item_height_datePicker:                                      @offset_m;
+@yearlist_monthview_item_width_datePicker:                                       @offset_m;
+@yearlist_monthview_item_font-size_datePicker:                                   8px;
+@yearlist_monthview_today_border-radius_datePicker:                              50%;
+@yearlist_monthview_bottom-offset_datePicker:                                    @offset_3xs;//todo
+
+// Переменные для выбранного периода
+//
+// Обводка
+
+@yearlist_monthview_selection-border_thickness_datePicker:                       1px;
+@yearlist_monthview_selection-border_single_thickness_datePicker:                1px;
+@yearlist_monthview_selection-border_single_color_datePicker:                    @rangeSelection_border_single_color_datePicker;
+@yearlist_monthview_item_selected_border-color_datePicker:                       #8991A9;
+
+// Фон
+
+@yearlist_monthview_item_selected_hover_background-color_datePicker:             @rangeSelection_item_hover_background-color_datePicker;
+@yearlist_monthview_item_selected_background-color_datePicker:                   @rangeSelection_item_background-color_datePicker;
