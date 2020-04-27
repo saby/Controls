@@ -43,7 +43,7 @@
         <ws:if data="{{_options.footerTemplate}}">
             <ws:partial template="{{ _options.footerTemplate.templateName }}" scope="{{_options.footerTemplate.templateOptions}}" searchResult="{{_searchResult}}">
                 <ws:showSelectorButtonTemplate>
-                            <span class="controls-Suggest__showAllLink" on:click="_showAllClick()">
+                            <span class="controls-Suggest__showAllLink controls-Suggest__showAllLink_theme-{{_options.theme}}" on:click="_showAllClick()">
                                 <span class="controls-Suggest__showAllLink-content">{[Показать все]}</span>
                             </span>
                 </ws:showSelectorButtonTemplate>
