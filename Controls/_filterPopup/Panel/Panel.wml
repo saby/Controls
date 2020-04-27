@@ -38,7 +38,7 @@
     <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
                                                     headingStyle="{{_options.headingStyle}}"
                                                     attr:class="controls-PanelFilter
-                                                    controls-FilterPanel__{{_options.orientation}}
+                                                    controls-FilterPanel__{{_options.orientation}}_theme-{{_options.theme}}
                                                     {{_hasHistory ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
@@ -60,7 +60,7 @@
        <ws:bodyContentTemplate>
           <Controls.scroll:Container attr:class="controls-ScrollContainer__flex" attr:ws-autofocus="true">
              <ws:if data="{{_options.orientation === 'horizontal'}}">
-                <div class="controls-FilterPanel__content-horizontal">
+                <div class="controls-FilterPanel__content-horizontal_theme-{{_options.theme}}">
                    <div class="controls-FilterPanel__filtersWrapper
                     controls-FilterPanel_{{_historyId && _historyItems.getCount() ? 'twoColumn' : 'oneColumn'}}__filtersWrapper">
                       <ws:partial template="filtersContent"/>
@@ -69,7 +69,7 @@
                 </div>
              </ws:if>
              <ws:else>
-                <div class="controls-FilterPanel__content-vertical">
+                <div class="controls-FilterPanel__content-vertical_theme-{{_options.theme}}">
                     <ws:partial template="filtersContent"/>
                 </div>
                 <ws:partial template="history"/>
