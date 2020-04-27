@@ -237,7 +237,8 @@
 }
 
 .controls-ListView__groupContent-text_theme-@{themeName} {
-   display: inline-block;
+   display: inline-flex;
+   align-items: center;
    color: @grouping_expander_text-color_list;
    font-size: @grouping_expander_font-size_list;
    white-space: nowrap;
@@ -253,14 +254,14 @@
 }
 
 .controls-ListView__groupExpander_left_theme-@{themeName}::before {
-   width: @grouping_expander_icon-size_list;
+   width: fit-content;
    font-size: @grouping_expander_icon-size_list;
    padding-right: @grouping_expander_icon_offset_list;
    content: '\e000';
 }
 
 .controls-ListView__groupExpander_right_theme-@{themeName}::after {
-   width: @grouping_expander_icon-size_list;
+   width: fit-content;
    font-size: @grouping_expander_icon-size_list;
    padding-left: @grouping_expander_icon_offset_list;
    content: '\e000';
