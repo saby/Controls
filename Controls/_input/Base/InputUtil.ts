@@ -22,6 +22,13 @@ export interface ISplitValue {
    delete: string;
 }
 
+export interface IInputData {
+   oldValue: string;
+   oldSelection: ISelection;
+   newValue: string;
+   newPosition: number;
+}
+
 /**
  * @type {String} InputType
  * @variant insert Enter value.

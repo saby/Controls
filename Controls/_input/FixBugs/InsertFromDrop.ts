@@ -1,11 +1,5 @@
-import {ISelection} from '../Base/InputUtil';
-
-export interface IInputData {
-    oldValue: string;
-    oldSelection: ISelection;
-    newValue: string;
-    newPosition: number;
-}
+import {IInputData} from '../Base/InputUtil';
+import {IText, pasteWithRepositioning} from '../Base/Util';
 
 /**
  * Класс для исправления бага не правильной вставки значения при перетаскивании.
@@ -33,7 +27,7 @@ export class InsertFromDrop {
         }, 0);
     }
 
-    positionForInputProcessing(data: IInputData): IInputData {
+    inputProcessing(data: IInputData): IInputData {
         if (this._position === null) {
             return data;
         }
@@ -41,17 +35,18 @@ export class InsertFromDrop {
         const insertLength: number = data.newPosition - data.oldSelection.end;
         const dropValue: string = data.newValue.substr(data.oldSelection.end, insertLength);
         const oldPosition = this._position;
-        const newPosition = this._position + insertLength;
-        const newValue: string =
-            data.oldValue.substring(0, oldPosition) +
-            dropValue +
-            data.oldValue.substring(oldPosition);
+        const newText: IText = pasteWithRepositioning({
+            value: data.oldValue,
+            carriagePosition: oldPosition
+        }, dropValue, oldPosition);
         return {
+            newValue: newText.value,
             oldValue: data.oldValue,
+            newPosition: newText.carriagePosition,
             oldSelection: {
                 start: oldPosition,
                 end: oldPosition
-            }, newPosition, newValue
+            }
         };
     }
 }

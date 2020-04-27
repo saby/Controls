@@ -802,7 +802,7 @@ var Base = Control.extend({
     _inputHandler: function (event) {
         const field = this._getField();
         const model = this._viewModel;
-        const data = this._fixBugs.positionForInputProcessing({
+        const data = this._fixBugs.dataForInputProcessing({
             oldSelection: model.oldSelection,
             newPosition: field.selectionEnd,
             newValue: field.value,
@@ -818,22 +818,6 @@ var Base = Control.extend({
             selection, event.nativeEvent.inputType
         );
         const splitValue: ISplitValue = split(value, newValue, position, selection, inputType);
-
-        /**
-         * The iPad has a feature to replace the twice-entered "-" with hyphen or dash.
-         * After the second input, the previous character is deleted and, the hyphen or dash is entered.
-         * An error occurs if the previous character is not "-". For example, during the previous processing "-"
-         * could not be entered because of the logic of the control. The previous character must not be deleted in this case.
-         * It is necessary to restore it and consider that entered "-".
-         */
-        if (this._isMobileIOS) {
-            if (this._remoteChar && (splitValue.insert === _private.HYPHEN || splitValue.insert === _private.DASH)) {
-                splitValue.before += this._remoteChar;
-                splitValue.insert = '-';
-            }
-
-            this._remoteChar = inputType === 'deleteBackward' && splitValue.delete !== '-' ? splitValue.delete : '';
-        }
 
         _private.handleInput(this, splitValue, inputType);
 

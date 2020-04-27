@@ -28,7 +28,7 @@ define(
                }
             });
             inst.focusHandler(event);
-            const res = inst.positionForInputProcessing(data);
+            const res = inst.inputProcessing(data);
             assert.deepEqual(res, {
                oldSelection: {
                   start: 0,
@@ -48,7 +48,7 @@ define(
             });
             inst.focusHandler(event);
             inst.cancel();
-            const res = inst.positionForInputProcessing(data);
+            const res = inst.inputProcessing(data);
             assert.equal(res, data);
          });
       });

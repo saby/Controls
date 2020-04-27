@@ -1,6 +1,7 @@
 <div>
    <div class="demo_controls_list_wrapper demo_controls_list_section">
-      <Controls.input:Text attr:class="Controls-demo_router-input" bind:value="_urlToGo" placeholder="Относительный путь роутера:"/>
+      <Controls.input:Text attr:class="Controls-demo_router-input" bind:value="_urlToGo" placeholder="Относительный путь роутера:"
+                           on:inputCompleted="_openRelativePath()"/>
       <Controls.buttons:Button on:click="_openRelativePath()" caption="Открыть" />
    </div>
    <div class="demo_controls_list_wrapper">
@@ -58,15 +59,15 @@
          </div>
 
          <h1>TreeGrid <small style="color: #CCC; font-size: 16px">PG</small></h1>
-          <div>
-              <a href="{{'Controls-demo%252FList%252FTreeGrid%252FBasePG'}}">TreeGrid/Base</a>
-          </div>
-          <div>
-              <a href="{{'Controls-demo%252FList%252FTreeGrid%252FExtendedPG'}}">TreeGrid/Extended</a>
-          </div>
-          <div>
-              <a href="{{'Controls-demo%252FList%252FTreeGrid%252FItemTemplatePG'}}">TreeGrid/ItemTemplate</a>
-          </div>
+         <div>
+            <a href="{{'Controls-demo%252FList%252FTreeGrid%252FBasePG'}}">TreeGrid/Base</a>
+         </div>
+         <div>
+            <a href="{{'Controls-demo%252FList%252FTreeGrid%252FExtendedPG'}}">TreeGrid/Extended</a>
+         </div>
+         <div>
+            <a href="{{'Controls-demo%252FList%252FTreeGrid%252FItemTemplatePG'}}">TreeGrid/ItemTemplate</a>
+         </div>
 
          <h1>List</h1>
          <div>
@@ -100,7 +101,7 @@
          <div>
             <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/NoScrollPaging' }}">
                <a href="{{content.href}}">List/NoScrollPaging</a>
-             </Router.router:Reference>
+            </Router.router:Reference>
          </div>
          <div>
             <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/NavigationSwitching' }}">
@@ -108,103 +109,103 @@
             </Router.router:Reference>
          </div>
 
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll' }}">
-            <a href="{{content.href}}">List/VirtualScroll</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/list_new/VirtualScroll/NewIndex' }}">
-            <a href="{{content.href}}">List/NewVirtualScroll</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/VirtualScroll' }}">
-            <a href="{{content.href}}">Grid/VirtualScroll</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/ColumnScroll' }}">
-            <a href="{{content.href}}">Grid/ColumnScroll</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FMultiselect">
-            List/Multiselect
-         </a>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FGroup">List/Group</a>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FGrid%252FGrid">List/Grid</a>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FTree%252FTree">List/Tree</a>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/SingleExpand' }}">
-            <a href="{{content.href}}">Tree/SingleExpand</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/EditArrow' }}">
-            <a href="{{content.href}}">Tree/EditArrow</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FTree%252FTreeWithPhoto">List/TreeWithPhoto</a>
-      </div>
-      <div>
-         <a href="Controls-demo%252FList%252FTree%252FMultiSelection%252FMultiSelection">Tree/MultiSelection</a>
-      </div>
-      <h1>Explorer</h1>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer/Explorer' }}">
-            <a href="{{content.href}}">Old Explorer</a>
-         </Router.router:Reference>
-      </div>
-      <div>
-         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer_new/Index' }}">
-            <a href="{{content.href}}">New Explorer</a>
-         </Router.router:Reference>
-      </div>
-      <h1>MasterDetail</h1>
-      <div>
-         <a href="Controls-demo%252FMasterDetail%252FDemo">MasterDetail</a>
-      </div>
-      <h1>Paging</h1>
-      <div>
-         <a href="Controls-demo%252FList%252FPaging">Paging</a>
-      </div>
-      <h1>ItemActions</h1>
-      <div>
-         <a href="Controls-demo%252FList%252FItemActions">
-            ItemActions
-         </a>
-         <br />
-         <a href="Controls-demo%252FList%252FSwipe">
-            Swipe
-         </a>
-      </div>
-      <h1>DragNDrop</h1>
-      <div>
-         <a href="Controls-demo%252FDragNDrop%252FContainer">DragNDrop</a>
-      </div>
-      <h1>Actions</h1>
-      <div>
-         <a href="Controls-demo%252FList%252FRemove">Remove</a>
-         <br/>
-         <a href="Controls-demo%252FList%252FMover">Mover</a>
-      </div>
-      <h1>Edit And Remove Operations</h1>
-      <div>
-         <a href="Controls-demo%252FList%252FEditAndRemoveOperations">
-            Base
-         </a>
-      </div>
-      <h1>Label</h1>
-      <a href="Controls-demo%252FLabel%252FLabel">Label</a>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/VirtualScroll' }}">
+               <a href="{{content.href}}">List/VirtualScroll</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/list_new/VirtualScroll/NewIndex' }}">
+               <a href="{{content.href}}">List/NewVirtualScroll</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/VirtualScroll' }}">
+               <a href="{{content.href}}">Grid/VirtualScroll</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Grid/ColumnScroll' }}">
+               <a href="{{content.href}}">Grid/ColumnScroll</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FMultiselect">
+               List/Multiselect
+            </a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FGroup">List/Group</a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FGrid%252FGrid">List/Grid</a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FTree%252FTree">List/Tree</a>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/SingleExpand' }}">
+               <a href="{{content.href}}">Tree/SingleExpand</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/List/Tree/EditArrow' }}">
+               <a href="{{content.href}}">Tree/EditArrow</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FTree%252FTreeWithPhoto">List/TreeWithPhoto</a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FList%252FTree%252FMultiSelection%252FMultiSelection">Tree/MultiSelection</a>
+         </div>
+         <h1>Explorer</h1>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer/Explorer' }}">
+               <a href="{{content.href}}">Old Explorer</a>
+            </Router.router:Reference>
+         </div>
+         <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer_new/Index' }}">
+               <a href="{{content.href}}">New Explorer</a>
+            </Router.router:Reference>
+         </div>
+         <h1>MasterDetail</h1>
+         <div>
+            <a href="Controls-demo%252FMasterDetail%252FDemo">MasterDetail</a>
+         </div>
+         <h1>Paging</h1>
+         <div>
+            <a href="Controls-demo%252FList%252FPaging">Paging</a>
+         </div>
+         <h1>ItemActions</h1>
+         <div>
+            <a href="Controls-demo%252FList%252FItemActions">
+               ItemActions
+            </a>
+            <br />
+            <a href="Controls-demo%252FList%252FSwipe">
+               Swipe
+            </a>
+         </div>
+         <h1>DragNDrop</h1>
+         <div>
+            <a href="Controls-demo%252FDragNDrop%252FContainer">DragNDrop</a>
+         </div>
+         <h1>Actions</h1>
+         <div>
+            <a href="Controls-demo%252FList%252FRemove">Remove</a>
+            <br/>
+            <a href="Controls-demo%252FList%252FMover">Mover</a>
+         </div>
+         <h1>Edit And Remove Operations</h1>
+         <div>
+            <a href="Controls-demo%252FList%252FEditAndRemoveOperations">
+               Base
+            </a>
+         </div>
+         <h1>Label</h1>
+         <a href="Controls-demo%252FLabel%252FLabel">Label</a>
 
          <h1>VirtualScroll <small style="color: #CCC; font-size: 16px">List + MemorySource</small></h1>
          <div>
@@ -340,7 +341,7 @@
       <div class="demo_controls_list_section">
          <h1>InfoBox</h1>
          <a href="Controls-demo%252FInfoBox%252FInfoBox">InfoBox</a>
-          <br />
+         <br />
          <a href="Controls-demo%252FInfoBox%252FOpener%252FInfoBox">Opener/InfoBox</a>
          <br/>
          <a href="Controls-demo%252FInput%252FValidate%252FValidateInfobox"> ValidateInfoBox</a>
@@ -351,14 +352,14 @@
          <a href="Controls-demo%252FPopup%252FTemplates%252FConfirmationTemplatePG">Confirmation Template</a>
 
          <h1>Stack</h1>
-          <a href="Controls-demo%252FPopup%252FOpener%252FStackPG">StackPG</a>
+         <a href="Controls-demo%252FPopup%252FOpener%252FStackPG">StackPG</a>
          <br/>
          <a href="Controls-demo%252FPopup%252FTemplates%252FStackTemplatePG">Stack Template</a>
 
          <h1>Notification</h1>
          <a href="Controls-demo%252FNotificationDemo%252FNotificationDemo">Notification</a>
          <br/>
-          <a href="Controls-demo%252FPopup%252FOpener%252FNotificationPG">NotificationPG</a>
+         <a href="Controls-demo%252FPopup%252FOpener%252FNotificationPG">NotificationPG</a>
 
          <h1>TabButtons</h1>
          <a href="Controls-demo%252FTabs%252FButtons?compat=true">

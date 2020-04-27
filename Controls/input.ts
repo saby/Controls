@@ -104,6 +104,7 @@ export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
  */
 export {FixBugs as __FixBugs} from 'Controls/_input/FixBugs';
 export {InsertFromDrop as __InsertFromDrop} from 'Controls/_input/FixBugs/InsertFromDrop';
+export {MinusProcessing as __MinusProcessing} from 'Controls/_input/FixBugs/MinusProcessing';
 export {CarriagePositionWhenFocus as __CarriagePositionWhenFocus} from 'Controls/_input/FixBugs/CarriagePositionWhenFocus';
 
 /**
