@@ -8,6 +8,8 @@
 /**
  * Перезагружает данные дерева.
  * @function Controls/_treeGrid/interface/IReloadableTreeGrid#reload
+ * @param {boolean} keepScroll Сохранить ли позицию скролла после перезагрузки.
+ * @param {object} sourceConfig {@link Controls/_interface/INavigation/INavigationSourceConfig.typedef Конфигурация навигации } для перезагрузки.
  * @remark
  * Перезагрузка выполняется с сохранением раскрытых узлов.
  * При этом в поле фильтра, указанное в parentProperty будет отправлен массив раскрытых узлов.

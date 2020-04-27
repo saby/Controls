@@ -2,7 +2,7 @@ import {IAdditionalQueryParams, Direction} from './IAdditionalQueryParams';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {Collection} from 'Controls/display';
-import {INavigationSourceConfig} from 'Controls/interface';
+import {INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
 
 /**
  * Интерфейс для работы с контроллерами пейджинации
@@ -37,7 +37,7 @@ export interface IQueryParamsController {
      * Collect current pagination state to pass them to Query object
      * @param direction
      */
-    prepareQueryParams(direction: Direction): IAdditionalQueryParams;
+    prepareQueryParams(direction: Direction, config?: IBaseSourceConfig): IAdditionalQueryParams;
 
     /**
      * Метод для разрушения текущего объекта IQueryParamsController

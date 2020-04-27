@@ -8,6 +8,7 @@ import {Logger} from 'UI/Utils';
 import {CursorDirection} from 'Controls/Constants';
 
 import { Collection } from 'Controls/display';
+import { IBasePositionSourceConfig } from 'Controls/interface';
 
 interface IPositionHasMore {
     backward: boolean;
@@ -179,23 +180,23 @@ class PositionQueryParamsController implements IQueryParamsController {
         this._more = null;
     }
 
-    prepareQueryParams(loadDirection: Direction): IAdditionalQueryParams {
+    prepareQueryParams(loadDirection: Direction, config?: IBasePositionSourceConfig): IAdditionalQueryParams {
         let navDirection: CursorDirection;
         let navPosition: Position;
         let sign: string = '';
         let additionalFilter: object;
         let navField: Field;
 
-        navDirection = this._resolveDirection(loadDirection, this._getDirection());
+        navDirection = this._resolveDirection(loadDirection, this._getDirection(config?.direction));
         if (loadDirection === 'up') {
             navPosition = this._beforePosition;
         } else if (loadDirection === 'down') {
             navPosition = this._afterPosition;
         } else {
-            if (this._options.position instanceof Array) {
-                navPosition = this._options.position;
+            if ((config?.position || this._options.position) instanceof Array) {
+                navPosition = (config?.position || this._options.position);
             } else {
-                navPosition = [this._options.position];
+                navPosition = [(config?.position || this._options.position)];
             }
         }
 
@@ -219,7 +220,7 @@ class PositionQueryParamsController implements IQueryParamsController {
 
         const addParams: IAdditionalQueryParams = {
             filter: additionalFilter,
-            limit: this._options.limit,
+            limit: config?.limit || this._options.limit,
             meta: {
                 navigationType: QueryNavigationType.Position
             }
@@ -401,8 +402,8 @@ class PositionQueryParamsController implements IQueryParamsController {
      * Возвращает название напрвыления
      * @private
      */
-    private _getDirection(): CursorDirection {
-        return PositionQueryParamsController._convertDirection(this._options.direction);
+    private _getDirection(direction?): CursorDirection {
+        return PositionQueryParamsController._convertDirection(direction || this._options.direction);
     }
 
     /**

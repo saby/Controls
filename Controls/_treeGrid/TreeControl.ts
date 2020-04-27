@@ -617,14 +617,14 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
         //вызываем обновление, так как, если нет биндинга опции, то контрол не обновится. А обновление нужно, чтобы отдать в модель нужные collapsedItems
         this._forceUpdate();
     },
-    reload: function() {
+    reload: function(keepScroll, sourceConfig) {
         var self = this;
 
         //deep reload is needed only if reload was called from public API.
         //otherwise, option changing will work incorrect.
         //option changing may be caused by search or filtering
         self._deepReload = true;
-        return this._children.baseControl.reload();
+        return this._children.baseControl.reload(keepScroll, sourceConfig);
     },
 
     setMarkedKey: function(key) {
