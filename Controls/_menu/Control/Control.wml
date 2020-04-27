@@ -17,7 +17,7 @@
                              on:mouseenter="_mouseEnterHandler()"
                              on:touchstart="_touchStartHandler()"
 
-                             on:mouseleave="_mouseOutHandler()"
+                             on:mouseleave="_mouseLeaveHandler()"
                              on:mousemove="_mouseMove()"
                              on:pinClick="_pinClick()">
       </Controls._menu.Render>
@@ -65,5 +65,5 @@
                           on:result="_subMenuResult()"
                           on:close="_closeSubMenu()"
                           template="Controls/menu:Popup"
-                          className="controls-DropdownList__subMenu controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
+                          className="controls-DropdownList__subMenu controls-Menu__subMenu controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
 </div>
