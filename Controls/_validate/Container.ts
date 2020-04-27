@@ -252,19 +252,14 @@ class ValidateContainer extends Control {
     }
 
     /**
-     * Возвращает результат валидации.
+     * Возвращает значение, указывающее, прошла ли проверка валидации содержимого успешно.
      * @name Controls/_validate/Container#isValid
      * @function
-     * @returns {undefined|Array.<String>}
+     * @returns {Boolean}
      * @see setValidationResult
      * @see validate
      */
     isValid(): boolean {
-        return !this._validationResult;
-    }
-
-    //todo: временный метод для корректного перехода у прикладников на isValid(): boolean
-    isValidOld(): boolean {
         return !this._validationResult;
     }
 
@@ -371,13 +366,3 @@ export default ValidateContainer;
  * @name Controls/_validate/Container#validators
  * @cfg {Array.<Function>|Function} Функция (или массив функций) валидации.
  */
-
-/**
- * @name Controls/_validate/Container#readOnly
- * @cfg {Boolean} Валидация контрола в режиме чтения.
- */
-/*
- * @name Controls/_validate/Container#readOnly
- * @cfg {Boolean} Validate field in read mode.
- */
-

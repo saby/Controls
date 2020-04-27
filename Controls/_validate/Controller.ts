@@ -107,17 +107,6 @@ class Form extends Control<IControlOptions> {
         }
         return true;
     }
-
-    //todo: удалить после перевода прикладников на новую сигнатуру метода isValid()
-    isValidOld(): boolean {
-        for (const item in this._validates) {
-           if (!this._validates[item].isValid()) {
-               return false;
-           }
-        }
-        return true;
-
-    }
 }
 
 export default Form;
@@ -125,10 +114,6 @@ export default Form;
 /**
  * @name Controls/_validate/Controller#content
  * @cfg {Content} Содержимое, к которому добавлена ​​логика валидации.
- */
-/*
- * @name Controls/_validate/Controller#content
- * @cfg {Content} The content to which the logic of validation is added.
  */
 
 /**
@@ -165,49 +150,10 @@ export default Form;
  *    });
  * </pre>
  */
-/*
- * @name Controls/_validate/Controller#submit
- * @description Start the validation
- * @returns {Deferred}
- * @example
- * WML
- * <pre>
- * <Controls.validate:Controller name="formController">
- *    <ws:content>
- *       <Controls.validate:Container>
- *          <ws:validators>
- *             <ws:Function value="{{_value2}}" >Controls/validate:isRequired</ws:Function>
- *          </ws:validators>
- *          <ws:content>
- *             <Controls.input:Text bind:value="_value2"/>
- *          </ws:content>
- *       </Controls.validate:Container>
- *    </ws:content>
- * </Controls.validate:Controller>
- * <Controls.buttons:Button caption="Submit" on:click="_clickHandler()"
- * </pre>
- * JavaScript
- * <pre>
- *     Control.extend({
- *        ...
- *
- *        _clickHandler: function() {
- *           this._children.formController.submit();
- *        }
- *        ...
- *    });
- * </pre>
- */
 
 /**
- * Return the result of validation
+ * Возвращает значение, указывающее, прошла ли проверка валидации содержимого успешно.
  * @name Controls/_validate/Controller#isValid
  * @function
- * @returns {Array}
- */
-/*
- * Возвращает результат валидации.
- * @name Controls/_validate/Controller#isValid
- * @function
- * @returns {Array}
+ * @returns {Boolean}
  */
