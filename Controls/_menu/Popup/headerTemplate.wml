@@ -1,5 +1,5 @@
 <div class="controls-DropdownList-header
-            control-Menu__popup-header">
+            control-Menu__popup-header_theme-{{_options.theme}}">
    <ws:if data="{{_options.icon}}">
       <div class="controls-icon {{_options.icon}}
       controls-Menu__popup_headerIcon_theme-{{_options.theme}}
