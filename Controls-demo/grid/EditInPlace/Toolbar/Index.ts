@@ -5,7 +5,6 @@ import * as editingCellText from 'wml!Controls-demo/grid/EditInPlace/Toolbar/edi
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/Utils/Toolbar';
 
@@ -76,4 +75,6 @@ export default class extends Control {
             this._children.grid.reload();
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

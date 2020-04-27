@@ -21,9 +21,6 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
 
 
       'json!Controls-demo/PropertyGrid/pgtext',
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
@@ -106,5 +103,7 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
             this.myEvent = '';
          }
       });
+      PGWrapper._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return PGWrapper;
    });

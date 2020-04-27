@@ -2,7 +2,6 @@ define('Controls-demo/Slider/Base/StandartSliderBaseDemo',
    [
       'Core/Control',
       'wml!Controls-demo/Slider/Base/StandartSliderBaseDemo',
-      'css!Controls-demo/Slider/Base/StandartSliderBaseDemo',
       'Controls/slider'
    ],
    function(Control, template) {
@@ -22,6 +21,8 @@ define('Controls-demo/Slider/Base/StandartSliderBaseDemo',
             this._inputValue = this._valueI = Math.min(this._maxValueI, Math.max(val, this._minValueI));
          }
       });
+
+      StandartSliderBaseDemo._styles = ['Controls-demo/Slider/Base/StandartSliderBaseDemo'];
 
       return StandartSliderBaseDemo;
    }

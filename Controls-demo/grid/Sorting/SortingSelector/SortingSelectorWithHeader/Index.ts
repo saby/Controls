@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/grid/Sorting/SortingSelector/Sortin
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -35,4 +34,6 @@ export default class extends Control {
         ];
         this._sorting.push({population: 'ASC'});
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

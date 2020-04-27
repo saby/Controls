@@ -2,8 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Scroll/ScrollContainer/VirtualSCroll/Template');
 import {Memory} from 'Types/source';
 import {generateData} from '../../../list_new/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Scroll/ScrollContainer/VirtualScroll/Style';
 import {getCountriesStats, countries} from '../../../grid/DemoHelpers/DataCatalog';
 
 class DemoSource extends Memory {
@@ -69,4 +67,6 @@ export default class SlowVirtualScrollDemo extends Control<IControlOptions> {
     }
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Scroll/ScrollContainer/VirtualScroll/Style'];
 }

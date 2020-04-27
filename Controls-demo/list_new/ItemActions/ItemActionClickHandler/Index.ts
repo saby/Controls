@@ -4,7 +4,6 @@ import {Memory} from "Types/source"
 import {Model} from "Types/entity"
 import {getContactsCatalog as getData} from "../../DemoHelpers/DataCatalog"
 import {getActionsForContacts as getItemActions} from "../../DemoHelpers/ItemActionsCatalog"
-import 'css!Controls-demo/Controls-demo'
 import {SyntheticEvent} from "Vdom/Vdom";
 
 export default class extends Control {
@@ -31,4 +30,6 @@ export default class extends Control {
     protected _clearMessage(): void {
         this._clickedMessage = '';
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

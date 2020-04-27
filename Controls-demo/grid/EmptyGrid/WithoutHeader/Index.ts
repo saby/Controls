@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/EmptyGrid/WithoutHeader/Withou
 import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -16,4 +15,6 @@ export default class extends Control {
             data: []
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

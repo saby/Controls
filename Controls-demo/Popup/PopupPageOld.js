@@ -4,7 +4,6 @@ define('Controls-demo/Popup/PopupPageOld',
       'wml!Controls-demo/Popup/PopupPageOld',
       'SBIS3.CONTROLS/Action/List/OpenEditDialog',
       'Controls-demo/Popup/TestDialog',
-      'css!Controls-demo/Popup/PopupPageOld'
    ],
    function (Control, template, OpenEditDialog) {
       'use strict';
@@ -73,6 +72,8 @@ define('Controls-demo/Popup/PopupPageOld',
             }
          }
       });
+
+      PopupPage._styles = ['Controls-demo/Popup/PopupPageOld'];
 
       return PopupPage;
    }

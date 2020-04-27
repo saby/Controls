@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/list_new/VirtualScroll/Resize/List/List';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 interface IItem {
     id: number;
@@ -37,4 +36,6 @@ export default class extends Control {
             pageSize: 1
         };
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

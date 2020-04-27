@@ -8,7 +8,6 @@ import {getFewCategories as getData} from '../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/list_new/DragNDrop/DragNDrop';
 
-import 'css!Controls-demo/Controls-demo';
 import * as Dnd from '../../../Controls/dragnDrop';
 
 export default class extends Control {
@@ -48,4 +47,6 @@ export default class extends Control {
         this._multiselect = this._multiselect === 'visible' ? 'hidden' : 'visible';
     }
 
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

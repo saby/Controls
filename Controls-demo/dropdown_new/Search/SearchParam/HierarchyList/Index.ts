@@ -2,8 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/dropdown_new/Search/SearchParam/HierarchyList/Index');
 import {Memory} from 'Types/source';
 import * as ExplorerMemory from 'Controls-demo/Explorer/ExplorerMemory';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Menu/Control/Menu';
 
 class SearchHierarchy extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -40,5 +38,7 @@ class SearchHierarchy extends Control<IControlOptions> {
             keyProperty: 'id'
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Control/Menu'];
 }
 export default SearchHierarchy;

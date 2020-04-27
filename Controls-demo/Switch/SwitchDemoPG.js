@@ -4,9 +4,6 @@ define('Controls-demo/Switch/SwitchDemoPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config) {
@@ -39,5 +36,7 @@ define('Controls-demo/Switch/SwitchDemoPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      SwitchDemoPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return SwitchDemoPG;
    });

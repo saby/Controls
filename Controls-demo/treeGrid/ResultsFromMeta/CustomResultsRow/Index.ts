@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResu
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
@@ -71,4 +70,6 @@ export default class extends Control {
         this._fullResultsIndex = ++this._fullResultsIndex % Gadgets.getResults().full.length;
         return results;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
