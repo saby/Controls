@@ -9,6 +9,12 @@ import { error as dataSourceError } from 'Controls/dataSource';
 
 let displayLib: typeof import('Controls/display');
 
+enum PendingInputRenderState {
+    Null,
+    PendingRender,
+    Rendering
+}
+
 var
     typographyStyles = [
         'fontFamily',
@@ -548,6 +554,16 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                            clientY: originalEvent.nativeEvent.clientY,
                            item: record
                        };
+
+                       // После старта редактирования нужно установить фокус на поле ввода, каретку под курсор.
+                       // Старт редактирования может быть асинхронным (если из события beforeBeginEdit вернулся Promise)
+                       // и колбек отстреляет после EditInPlace._afterUpdate.
+                       // Необходимо запустить еще одно обновление, в котором гарантировано будет отрисовано поле ввода.
+                       // Именно в этом обновлении можно проставлять фокус и каретку.
+                       // Не должно и не будет работать в случае, если внутри шаблона редактора поле ввода вставляется
+                       // через Controls.Container.Async.
+                       self._pendingInputRenderState = PendingInputRenderState.PendingRender;
+                       self._forceUpdate();
                    }
                 });
                 // The click should not bubble over the editing controller to ensure correct control works.
@@ -565,11 +581,18 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                 this._setEditingItemData(this._editingItemData.item, newOptions.listModel, newOptions);
             }
         }
+
+        if (this._pendingInputRenderState === PendingInputRenderState.PendingRender) {
+            // Запустилась синхронизация, по завершению которой будет отрисовано поле ввода
+            this._pendingInputRenderState = PendingInputRenderState.Rendering;
+        }
     },
 
     _afterUpdate: function () {
         var target, fakeElement, targetStyle, offset, currentWidth, previousWidth, lastLetterWidth, hasHorizontalScroll;
-        if (this._clickItemInfo && this._clickItemInfo.item === this._originalItem) {
+
+        // Выставляем каретку и активируем поле только после начала редактирования и гарантированной отрисовке полей ввода.
+        if (this._clickItemInfo && this._clickItemInfo.item === this._originalItem && this._pendingInputRenderState === PendingInputRenderState.Rendering) {
             target = document.elementFromPoint(this._clickItemInfo.clientX, this._clickItemInfo.clientY);
             if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
                 fakeElement = document.createElement('div');
@@ -628,6 +651,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                 target.scrollLeft = 0;
             }
             this._clickItemInfo = null;
+            this._pendingInputRenderState = PendingInputRenderState.Null;
         }
     },
 
