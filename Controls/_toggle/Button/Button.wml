@@ -13,6 +13,7 @@
             _fontColorStyle="{{_fontColorStyle}}"
             _hasIcon="{{_hasIcon}}"
             _stringCaption="{{_stringCaption}}"
+            _captionPosition="{{ _captionPosition }}"
             _iconStyle="{{_iconStyle}}"
             on:click="_clickHandler()"
             on:keypress="_keyUpHandler()"/>
