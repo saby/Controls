@@ -81,11 +81,11 @@ var _private = {
       return cntInstance;
    },
 
-   modifyQueryParamsWithNavigation: function(cleanParams, direction, paramsController) {
+   modifyQueryParamsWithNavigation: function(cleanParams, direction, paramsController, config?) {
       var resultParams, navigParams, navFilter;
 
       resultParams = cleanParams;
-      navigParams = paramsController.prepareQueryParams(direction);
+      navigParams = paramsController.prepareQueryParams(direction, config);
 
       resultParams.limit = navigParams.limit;
       resultParams.offset = navigParams.offset;
@@ -125,7 +125,7 @@ var SourceController = cExtend.extend({
       }
    },
 
-   load: function(filter, sorting?, direction?) {
+   load: function(filter, sorting?, direction?, config?) {
       var def, queryParams, self;
 
       queryParams = {
@@ -137,7 +137,7 @@ var SourceController = cExtend.extend({
       this.cancelLoading();
 
       if (this._queryParamsController) {
-         queryParams = _private.modifyQueryParamsWithNavigation(queryParams, direction, this._queryParamsController);
+         queryParams = _private.modifyQueryParamsWithNavigation(queryParams, direction, this._queryParamsController, config);
       }
 
       self = this;
@@ -149,7 +149,7 @@ var SourceController = cExtend.extend({
          queryParams.meta)
          .addCallback(function(list) {
             if (self._queryParamsController) {
-               self._queryParamsController.updateQueryProperties(list, direction);
+               self._queryParamsController.updateQueryProperties(list, direction, config);
             }
             return list;
          }).addErrback(function(error) {

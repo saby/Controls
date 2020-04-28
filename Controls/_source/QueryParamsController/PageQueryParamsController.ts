@@ -5,6 +5,7 @@ import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {default as More} from './More';
 import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
+import { IBasePageSourceConfig } from 'Controls/interface';
 
 export interface IPageQueryParamsControllerOptions {
     pageSize: number;
@@ -75,7 +76,7 @@ class PageQueryParamsController implements IQueryParamsController {
         }
     }
 
-    prepareQueryParams(direction: Direction): IAdditionalQueryParams {
+    prepareQueryParams(direction: Direction, config?: IBasePageSourceConfig): IAdditionalQueryParams {
         const addParams: IAdditionalQueryParams = {};
         let neededPage: number;
 
@@ -91,8 +92,8 @@ class PageQueryParamsController implements IQueryParamsController {
             neededPage = this._page;
         }
 
-        addParams.offset = neededPage * this._options.pageSize;
-        addParams.limit = this._options.pageSize;
+        addParams.offset = (config?.page || neededPage) * (config?.pageSize || this._options.pageSize);
+        addParams.limit = (config?.pageSize || this._options.pageSize);
 
         if (this._options.hasMore === false) {
             addParams.meta.hasMore = false;
@@ -139,7 +140,7 @@ class PageQueryParamsController implements IQueryParamsController {
      * @param list {Types/collection:RecordSet} object containing meta information for current request
      * @param direction {Direction} nav direction ('up' or 'down')
      */
-    updateQueryProperties(list?: RecordSet | {[p: string]: unknown}, direction?: Direction): void {
+    updateQueryProperties(list?: RecordSet | {[p: string]: unknown}, direction?: Direction, config?: IBasePageSourceConfig): void {
         const meta = (list as RecordSet).getMetaData();
 
         // Look at the Types/source:DataSet there is a remark "don't use 'more' anymore"...
@@ -154,6 +155,17 @@ class PageQueryParamsController implements IQueryParamsController {
 
             // Если направление не указано,
             // значит это расчет параметров после начальной загрузки списка или после перезагрузки
+            if (config) {
+                const pageSizeRemainder = config.pageSize % this._options.pageSize;
+                const pageSizeCoef = (config.pageSize - pageSizeRemainder) / this._options.pageSize;
+
+                if (pageSizeRemainder) {
+                    throw new Error('pageSize, переданный для единичной перезагрузки списка, должен нацело делиться на pageSize из опции navigation.sourceConfig.');
+                }
+
+                // если мы загрузили 0 страницу размера 30 , то мы сейчас на 2 странице размера 10
+                this._page = (config.page + 1) * pageSizeCoef - 1;
+            }
             this._nextPage = this._page + 1;
             this._prevPage = this._page - 1;
         }

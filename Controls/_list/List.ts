@@ -98,8 +98,8 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
         return !useNewModel ? ListViewModel : 'Controls/display:Collection';
     }
 
-    reload() {
-        return this._children.listControl.reload();
+    reload(keepScroll, sourceConfig) {
+        return this._children.listControl.reload(keepScroll, sourceConfig);
     }
 
     reloadItem():Deferred {
