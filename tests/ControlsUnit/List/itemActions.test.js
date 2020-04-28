@@ -611,6 +611,49 @@ define([
          lists.ItemActionsControl._private.updateActions(ctrl, cfg);
          assert.isTrue(modelUpdated);
       });
+      it('updateItemAction with child action', () => {
+         var cfg = {
+            listModel: listViewModel,
+            itemActions: [{
+               id: 0,
+               title: 'first',
+               showType: tUtil.showType.TOOLBAR
+            },
+            {
+               id: 1,
+               title: 'second',
+               showType: tUtil.showType.TOOLBAR
+            },
+            {
+               id: 2,
+               title: 'child',
+               parent: 1,
+               showType: tUtil.showType.TOOLBAR
+            }],
+            itemActionsPosition: 'outside'
+         };
+         var ctrl = new lists.ItemActionsControl(cfg);
+         ctrl._beforeMount(cfg);
+         ctrl.saveOptions(cfg);
+
+         listViewModel.reset();
+         ctrl.updateItemActions(listViewModel.getCurrent().item);
+         assert.deepEqual([{
+            id: 0,
+            title: 'first',
+            iconStyle: 'secondary',
+            style: 'secondary',
+            showType: tUtil.showType.TOOLBAR
+         },
+         {
+            id: 1,
+            title: 'second',
+            iconStyle: 'secondary',
+            style: 'secondary',
+            showType: tUtil.showType.TOOLBAR
+         }], listViewModel._actions[0].showed);
+
+      });
       it('updateItemActions', function() {
          var cfg = {
             listModel: listViewModel,

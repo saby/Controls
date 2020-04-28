@@ -62,7 +62,7 @@ var _private = {
         let showed = [];
         if (all.length > 1) {
             all.forEach((action: any) => {
-                if (action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR) {
+                if (!action.parent && (action.showType === showType.TOOLBAR || action.showType === showType.MENU_TOOLBAR)) {
                     showed.push(cClone(action));
                 }
             });
