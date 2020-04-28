@@ -21,9 +21,11 @@
 
 <ws:template name="columnContent">
     <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-        <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
-            <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
-        </ws:partial>
+        <div class="{{ currentColumn.classList.padding.getAll() }}">
+            <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
+                <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
+            </ws:partial>
+        </div>
     </ws:if>
     <ws:else>
         <ws:if data="{{colspan}}">
@@ -66,7 +68,7 @@
                     {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
                     controls-Grid__cell_valign_{{currentColumn.column.compatibleValign || 'top'}}
                     {{className || ''}}">
-        <div class="{{ currentColumn.classList.relativeCellWrapper }} {{ itemData.hasMultiSelect && itemData.columnIndex === 0 ? currentColumn.classList.padding.getAll() }}">
+        <div class="{{ currentColumn.classList.relativeCellWrapper }}">
             <ws:partial template="{{content}}" />
         </div>
     </td>
