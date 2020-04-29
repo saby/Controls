@@ -7,5 +7,6 @@
             nodeProperty="type"
             multiSelectVisibility="visible"
             selectDescendants="{{true}}"
-            bind:selectedKeys="_selectedKeys"/>
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys"/>
 </div>

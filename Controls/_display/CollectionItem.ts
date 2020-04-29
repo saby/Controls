@@ -220,8 +220,6 @@ export default class CollectionItem<T> extends mixin<
     /**
      * Возвращает признак, что элемент выбран
      */
-    // TODO This is not implemented yet, but will be working when
-    // multiselect manager is created
     isSelected(): boolean {
         return this._$selected;
     }

@@ -8,5 +8,6 @@
             multiSelectVisibility="visible"
             selectAncestors="{{false}}"
             selectDescendants="{{false}}"
-            bind:selectedKeys="_selectedKeys"/>
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys"/>
 </div>

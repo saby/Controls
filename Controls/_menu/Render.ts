@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {IRenderOptions} from 'Controls/listRender';
 import {IMenuBaseOptions} from 'Controls/_menu/interface/IMenuBase';
-import {Tree, TreeItem, GroupItem, SelectionController} from 'Controls/display';
+import {Tree, TreeItem, GroupItem} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
@@ -141,7 +141,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         collection.prepend([emptyItem]);
 
         if (!options.selectedKeys.length || options.selectedKeys.includes(options.emptyKey)) {
-            SelectionController.selectItem(listModel, options.emptyKey, true);
+            this._selectItem(listModel, options.emptyKey, true);
         }
     }
 
@@ -218,6 +218,14 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 }
             });
             return result;
+        }
+    }
+
+    private _selectItem(collection: any, key: number|string, state: boolean): void {
+        const item = collection.getItemBySourceKey(key);
+        if (item) {
+            item.setSelected(state, true);
+            collection.nextVersion();
         }
     }
 

@@ -12,6 +12,7 @@ import { CollectionItem } from 'Controls/display';
 import { CssClassList } from "../Utils/CssClassList";
 import {Logger} from 'UI/Utils';
 import {detection} from 'Env/Env';
+import { Model } from 'Types/entity';
 
 /**
  *
@@ -659,6 +660,21 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     updateSelection: function(selectedKeys) {
         this._selectedKeys = selectedKeys || [];
         this._nextModelVersion(true);
+    },
+
+    setSelectedItems(items: Model[], selected: boolean|null): void {
+        // говнокод для совместимости с новой моделью
+        // вместо false ставим undefined,
+        // чтобы не сломалось показывание только при наведении
+        items.forEach((item) => {
+            if (selected === false) {
+                this._selectedKeys[item.getId()] = undefined;
+            } else {
+                this._selectedKeys[item.getId()] = selected;
+            }
+        });
+
+        this._display.setSelectedItems(items, selected);
     },
 
     getActiveItem: function() {

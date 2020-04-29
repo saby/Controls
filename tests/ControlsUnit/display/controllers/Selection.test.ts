@@ -1,3 +1,4 @@
+/*
 import { assert } from 'chai';
 
 import * as SelectionController from 'Controls/_display/controllers/Selection';
@@ -45,3 +46,4 @@ describe('Controls/_display/controllers/Selection', () => {
         assert.isTrue(nextVersionCalled);
     });
 });
+*/

@@ -10,6 +10,7 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _columns: object[] = Gadgets.getGridColumnsForFlat();
     protected _selectedKeys: number[] = [];
+    protected _excludedKeys: number[] = [];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

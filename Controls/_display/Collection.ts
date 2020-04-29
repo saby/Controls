@@ -1994,12 +1994,13 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      *     display.setSelectedItems([list.at(0), list.at(1)], true) //установит признак двум элементам;
      * </pre>
      */
-    setSelectedItems(items: any[], selected: boolean): void {
+    setSelectedItems(items: any[], selected: boolean|null): void {
         const sourceItems = [];
         for (let i = 0, count = items.length; i < count; i++) {
-            sourceItems.push(
-                this.getItemBySourceItem(items[i])
-            );
+            const item = this.getItemBySourceItem(items[i]);
+            if (item) {
+                sourceItems.push(item);
+            }
         }
         this._setSelectedItems(sourceItems, selected);
     }
@@ -2431,9 +2432,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * @param selecItems массив элементов проекции
      * @param selected Элемент выбран.
      */
-    protected _setSelectedItems(selecItems: T[], selected: boolean): void {
+    protected _setSelectedItems(selecItems: T[], selected: boolean|null): void {
         const items = [];
-        selected = !!selected;
         for (let i = selecItems.length - 1; i >= 0; i--) {
             if (selecItems[i].isSelected() !== selected) {
                 selecItems[i].setSelected(selected, true);

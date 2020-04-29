@@ -228,20 +228,6 @@ define([
          assert.deepEqual(lists.BaseControl._private.getSortingOnChange(sortingASC, 'test'), emptySorting);
       });
 
-      it('_private::isItemsSelectionAllowed', () => {
-         let options = {};
-         assert.isFalse(lists.BaseControl._private.isItemsSelectionAllowed(options));
-
-         options.selectedKeysCount = undefined;
-         assert.isTrue(lists.BaseControl._private.isItemsSelectionAllowed(options));
-
-         options.selectedKeysCount = 0;
-         assert.isTrue(lists.BaseControl._private.isItemsSelectionAllowed(options));
-
-         options.selectedKeysCount = 1;
-         assert.isTrue(lists.BaseControl._private.isItemsSelectionAllowed(options));
-      });
-
       it('_private::needLoadNextPageAfterLoad', function() {
          let list = new collection.RecordSet({
             rawData: [
@@ -1419,8 +1405,7 @@ define([
          assert.isFalse(notified);
       });
 
-      it('toggleSelection', async function() {
-
+      it('spaceHandler', async function() {
          var
              cfg = {
                 viewModelConstructor: lists.ListViewModel,
@@ -1447,9 +1432,9 @@ define([
 
          baseControl.saveOptions(cfg);
          await baseControl._beforeMount(cfg);
-         baseControl._children.selectionController = {
-            onCheckBoxClick: (key, status) => {
-               if (status) {
+         baseControl._selectionController = {
+            toggleItem: (key) => {
+               if (baseControl._listViewModel.getSelectionStatus(key)) {
                   baseControl._listViewModel._selectedKeys.pop(key);
                } else {
                   baseControl._listViewModel._selectedKeys.push(key);
@@ -1463,11 +1448,11 @@ define([
 
          baseControl._loadingIndicatorState = null;
          sandbox.replace(lists.BaseControl._private, 'moveMarkerToNext', () => {});
-         lists.BaseControl._private.toggleSelection(baseControl, event);
+         lists.BaseControl._private.spaceHandler(baseControl, event);
          assert.deepEqual([1], baseControl._listViewModel._selectedKeys);
 
          baseControl.getViewModel()._markedKey = 5;
-         lists.BaseControl._private.toggleSelection(baseControl, event);
+         lists.BaseControl._private.spaceHandler(baseControl, event);
          assert.deepEqual([1, 1], baseControl._listViewModel._selectedKeys);
 
 
@@ -2751,6 +2736,9 @@ define([
                viewModelConstructor: lists.ListViewModel
             },
             lnBaseControl = new lists.BaseControl(lnCfg);
+         lnBaseControl._selectionController = {
+            toggleItem: function() { }
+         };
 
          lnBaseControl.saveOptions(lnCfg);
          lnBaseControl._beforeMount(lnCfg);
@@ -2767,12 +2755,6 @@ define([
                assert.equal(lnBaseControl.getViewModel()
                   .getMarkedKey(), 2, 'Invalid value of markedKey after press "down".');
 
-               lnBaseControl._children = {
-                  selectionController: {
-                     onCheckBoxClick: function() {
-                     }
-                  }
-               };
                lnBaseControl._onViewKeyDown(getParamsKeyDown(Env.constants.key.space));
                assert.equal(lnBaseControl.getViewModel()
                   .getMarkedKey(), 3, 'Invalid value of markedKey after press "space".');
@@ -2841,12 +2823,9 @@ define([
             assert.equal(args[0], 2);
             assert.equal(args[1], 0);
          };
-         ctrl._children = {
-            selectionController: {
-               onCheckBoxClick: function(key, status) {
-                  assert.equal(key, 2);
-                  assert.equal(status, 0);
-               }
+         ctrl._selectionController = {
+            toggleItem: function(key) {
+               assert.equal(key, 2);
             }
          };
          ctrl._onCheckBoxClick({}, 2, 0);
@@ -2855,12 +2834,9 @@ define([
             assert.equal(args[0], 1);
             assert.equal(args[1], 1);
          };
-         ctrl._children = {
-            selectionController: {
-               onCheckBoxClick: function(key, status) {
-                  assert.equal(key, 1);
-                  assert.equal(status, 1);
-               }
+         ctrl._selectionController = {
+            toggleItem: function(key) {
+               assert.equal(key, 1);
             }
          };
          ctrl._onCheckBoxClick({}, 1, 1);
@@ -4588,6 +4564,9 @@ define([
                      }
                   }
                };
+               instance._selectionController = {
+                  toggleItem: function() { }
+               };
                instance.saveOptions(cfg);
                instance._beforeMount(cfg);
             }
@@ -4644,43 +4623,14 @@ define([
                      }
                   }
                };
+               instance._selectionController = {
+                  toggleItem: function() { }
+               };
                instance.saveOptions(cfg);
                instance._beforeMount(cfg);
                instance._notify = function(eventName) {
                   if (eventName === 'itemSwipe') {
                      throw new Error('itemSwipe event should not fire if the list has itemActions');
-                  }
-               };
-               instance._listSwipe({}, itemData, childEvent);
-            });
-
-            it('list has multiselection, event should not fire', function() {
-               var
-                  cfg = {
-                     viewName: 'Controls/List/ListView',
-                     viewConfig: {
-                        idProperty: 'id'
-                     },
-                     viewModelConfig: {
-                        items: rs,
-                        idProperty: 'id'
-                     },
-                     viewModelConstructor: lists.ListViewModel,
-                     source: source,
-                     selectedKeysCount: 1
-                  },
-                  instance = new lists.BaseControl(cfg);
-               instance._children = {
-                  itemActionsOpener: {
-                     close: function() {
-                     }
-                  }
-               };
-               instance.saveOptions(cfg);
-               instance._beforeMount(cfg);
-               instance._notify = function(eventName) {
-                  if (eventName === 'itemSwipe') {
-                     throw new Error('itemSwipe event should not fire if the list has multiselection');
                   }
                };
                instance._listSwipe({}, itemData, childEvent);
@@ -4722,10 +4672,6 @@ define([
                               updated = true;
                               instance._listViewModel._actions[1] = cfg.itemActions;
                            },
-                        },
-                        selectionController: {
-                           onCheckBoxClick: function() {
-                           }
                         }
                      };
                      let itemData = instance._listViewModel.getCurrent();
@@ -4773,10 +4719,6 @@ define([
                               updated = true;
                               instance._listViewModel._actions[1] = cfg.itemActionsProperty;
                            },
-                        },
-                        selectionController: {
-                           onCheckBoxClick: function() {
-                           }
                         }
                      };
                      let itemData = instance._listViewModel.getCurrent();
@@ -4800,7 +4742,7 @@ define([
                         idProperty: 'id'
                      },
                      viewModelConstructor: lists.ListViewModel,
-                     source: source
+                     source: source,
                   },
                   instance = new lists.BaseControl(cfg),
                   notifyCalled = false;
@@ -4810,11 +4752,14 @@ define([
                      }
                   }
                };
+               instance._selectionController = {
+                  toggleItem: function() { }
+               };
                instance.saveOptions(cfg);
                instance._beforeMount(cfg);
                instance._notify = function(eventName, eventArgs, eventOptions) {
-                  assert.equal(eventName, 'itemSwipe');
-                  assert.deepEqual(eventArgs, [itemData.actionsItem, childEvent]);
+                  assert.equal(eventName, 'checkboxClick');
+                  assert.deepEqual(eventArgs, [1 false]);
                   notifyCalled = true;
                };
                instance._listSwipe({}, itemData, childEvent);
@@ -4896,10 +4841,6 @@ define([
                            updated = true;
                            instance._listViewModel._actions[2] = cfg.itemActions;
                         }
-                     },
-                     selectionController: {
-                        onCheckBoxClick: function() {
-                        }
                      }
                   };
                   instance._listViewModel.reset();
@@ -4954,10 +4895,6 @@ define([
                      itemActionsOpener: {
                         close: function() {
                            callBackCount++;
-                        }
-                     },
-                     selectionController: {
-                        onCheckBoxClick: function() {
                         }
                      }
                   };
