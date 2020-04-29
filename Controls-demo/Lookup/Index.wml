@@ -335,7 +335,7 @@
             </ws:itemTemplate>
          </Controls.lookup:Input>
       </div>
-      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400controlsDemo-Lookup-multi_readOnly">
+      <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-multi_readOnly">
          <div class="controls-text-label_theme-{{_options.theme}}">Lookup multi select with read only</div>
          <Controls.lookup:Input
                  bind:selectedKeys="_selectedKeysMultiSelectReadOnly"
