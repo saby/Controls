@@ -1,5 +1,5 @@
 <div class="controls-SelectedCollection__item controls-SelectedCollection__item-{{isSingleItem ? 'single' : 'multi'}} controls-SelectedCollection__item_layout_{{_options.itemsLayout}}">
-   <span class="controls-SelectedCollection__item__caption-wrapper controls-SelectedCollection__item__caption-wrapper-{{itemsLayout}}">
+   <span class="controls-SelectedCollection__item__caption-wrapper controls-SelectedCollection__item__caption-wrapper-{{itemsLayout}}_theme-{{_options.theme}}">
       <ws:partial template="{{contentTemplate}}"
                   item="{{item}}"
                   size="{{itemsLayout === 'twoColumns' || !size ? 'default' : size}}"

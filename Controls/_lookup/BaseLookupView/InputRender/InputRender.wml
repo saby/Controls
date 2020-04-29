@@ -40,7 +40,7 @@
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isEdge="{{_isEdge}}"
                      attr:class="controls-Lookup__fieldWrapper
-                     controls-Lookup__fieldWrapper-size-{{_options.size}}
+                     controls-Lookup__fieldWrapper-size-{{_options.size}}_theme-{{_options.theme}}
                      controls-Lookup__fieldWrapper_content_width_{{_options.multiline && _options.inputWidth ? 'custom' : 'default'}}
                      {{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}"
                      attr:style="width: {{_options.inputWidth}}px;"
