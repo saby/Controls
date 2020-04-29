@@ -18,6 +18,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
 import * as scrollToElement from 'Controls/Utils/scrollToElement';
 import {descriptor} from 'Types/entity';
+import {constants} from 'Env/Env';
+import {LocalStorageNative} from 'Browser/Storage';
 
 /**
  * Контейнер с тонким скроллом.
@@ -496,6 +498,10 @@ let
             self = this,
             def;
 
+         if (!constants.isServerSide) {
+             this._showScrollbarOnHover = getEnableScrollbar();
+         }
+
          if ('shadowVisible' in options) {
             Logger.warn('Controls/scroll:Container: Опция shadowVisible устарела, используйте topShadowVisibility и bottomShadowVisibility.', self);
          }
@@ -866,6 +872,12 @@ let
          }
       },
 
+       _wheelHandler(event: SyntheticEvent): void {
+          if (enableScrollbar) {
+              setEnableScrollbar(false);
+          }
+       },
+
       _keydownHandler: function(ev) {
          // если сами вызвали событие keydown (горячие клавиши), нативно не прокрутится, прокрутим сами
          if (!ev.nativeEvent.isTrusted) {
@@ -944,6 +956,10 @@ let
 
       _mouseenterHandler: function(event) {
          this._scrollbarTaken(true);
+         if (this._showScrollbarOnHover !== getEnableScrollbar()) {
+             this._showScrollbarOnHover = getEnableScrollbar();
+             this._forceUpdate();
+         }
       },
 
       _mouseleaveHandler: function(event) {
@@ -1271,5 +1287,20 @@ Scroll.contextTypes = function() {
 };
 
 Scroll._private = _private;
+
+function setEnableScrollbar(value: boolean): void {
+    enableScrollbar = value;
+    localStorage.setItem('enableScrollbar', JSON.stringify(value));
+}
+
+function getEnableScrollbar(): void {
+    if (enableScrollbar === null) {
+        enableScrollbar = LocalStorageNative.getItem('enableScrollbar');
+        enableScrollbar = enableScrollbar === null ? true : enableScrollbar;
+    }
+    return enableScrollbar;
+}
+
+let enableScrollbar = null;
 
 export = Scroll;

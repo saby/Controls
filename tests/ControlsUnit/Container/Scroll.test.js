@@ -412,6 +412,7 @@ define(
          describe('_mouseenterHandler', function() {
             it(`Should show vertical scrollbar and generate scrollbarTaken event on mouseenter`, function() {
                const sandbox = sinon.sandbox.create();
+               global.enableScrollbar = false;
                scroll._displayState = { canScroll: true };
                scroll._options.scrollbarVisible = true;
                sandbox.stub(scroll, '_notify');
