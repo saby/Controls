@@ -3,10 +3,11 @@ import {Memory} from 'Types/source';
 
 const SEARCH_DELAY = 35000;
 
-export default class PortionedSearchSource {
+export default class PortionedSearchSource extends Memory {
     private source: Memory = null;
 
     constructor(opts) {
+        super(opts);
         this.source = opts.source;
     }
 
@@ -26,6 +27,4 @@ export default class PortionedSearchSource {
         });
         return loadDef;
     }
-
-    static '[Types/_source/ICrud]': boolean = true;
 }
