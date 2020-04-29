@@ -14,7 +14,7 @@
       </Controls.popup:Sticky>
       <span name="infoBoxLink"
             attr:style="order: {{_getItemOrder(index, _visibleItems.length, _options.itemsLayout, !(_options.readOnly && !_options.maxVisibleItems))}}"
-            attr:class="controls-SelectedCollection__InfoBox{{_options.itemsLayout === 'oneRow' && _options.readOnly && !_options.maxVisibleItems ? ' controls-SelectedCollection__InfoBox_fixed_theme-' + _options.theme}} {{_options.counterClassName}}"
+            attr:class="controls-SelectedCollection__InfoBox_theme-{{_options.theme}} controls-SelectedCollection__InfoBox{{_options.itemsLayout === 'oneRow' && _options.readOnly && !_options.maxVisibleItems ? ' controls-SelectedCollection__InfoBox_fixed_theme-' + _options.theme}} {{_options.counterClassName}}"
             on:click="_openInfoBox()">
          <ws:partial template="{{_counterTemplate}}"
                      itemsCount="{{_options.items.getCount()}}"
