@@ -4,7 +4,6 @@ import {Memory} from "Types/source"
 import {getPorts} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/EditInPlace/EditingRow/_rowEditor';
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -48,4 +47,6 @@ export default class extends Control {
     private onChange2 = (_, key) => {
         this.selectedKey = key;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

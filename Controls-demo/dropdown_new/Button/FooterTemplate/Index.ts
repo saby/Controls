@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/dropdown_new/Button/FooterTemplate/FooterTemplate';
 import {Memory} from 'Types/source';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -33,4 +32,6 @@ export default class extends Control {
             data: items
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

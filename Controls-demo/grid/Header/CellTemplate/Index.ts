@@ -5,7 +5,6 @@ import * as SquareTemplate from "wml!Controls-demo/grid/Header/CellTemplate/squa
 import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -22,4 +21,6 @@ export default class extends Control {
         this._header[this._header.length-2].template = SquareTemplate;
         this._header[this._header.length-1].template = PopulationTemplate;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

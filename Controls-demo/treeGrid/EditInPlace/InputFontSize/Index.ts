@@ -5,7 +5,6 @@ import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import * as TitleCellTemplate from 'wml!Controls-demo/treeGrid/EditInPlace/InputFontSize/ColumnTemplate/Title';
 import * as CountryCellTemplate from 'wml!Controls-demo/treeGrid/EditInPlace/InputFontSize/ColumnTemplate/Country';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -20,4 +19,6 @@ export default class extends Control {
         this._columns[0].template = TitleCellTemplate;
         this._columns[2].template = CountryCellTemplate;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

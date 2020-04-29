@@ -7,9 +7,6 @@ define('Controls-demo/RadioGroup/RadioGroupDemoPG',
       'wml!Controls-demo/RadioGroup/resources/itemTemplateWithContent',
       'wml!Controls-demo/RadioGroup/resources/SingleItemTemplate',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config, sourceLib) {
@@ -136,5 +133,7 @@ define('Controls-demo/RadioGroup/RadioGroupDemoPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      SwitchDemoPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return SwitchDemoPG;
    });

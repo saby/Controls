@@ -4,7 +4,6 @@ define('Controls-demo/Selector/Suggest/Suggest',
       'wml!Controls-demo/Selector/Suggest/Suggest',
       'Types/source',
       'Controls-demo/Utils/MemorySourceFilter',
-      'css!Controls-demo/Selector/Suggest/Suggest'
    ],
    function(Control, template, source, memorySourceFilter) {
 
@@ -83,6 +82,8 @@ define('Controls-demo/Selector/Suggest/Suggest',
             });
          }
       });
+
+      ComboBox._styles = ['Controls-demo/Selector/Suggest/Suggest'];
 
       return ComboBox;
    }

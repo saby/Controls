@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from "UI/Base";
 import * as Template from "wml!Controls-demo/treeGrid/Mover/Extended/Extended";
 import {HierarchicalMemory} from "Types/source";
 import {Gadgets} from "../../DemoHelpers/DataCatalog";
-import 'css!Controls-demo/Controls-demo';
 import {TColumns} from 'Controls/grid';
 
 export default class extends Control {
@@ -51,4 +50,6 @@ export default class extends Control {
     protected _afterItemsMove(): void {
         this._children.treeGrid.reload();
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

@@ -4,8 +4,6 @@ import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
-import 'css!Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling';
-import 'css!Controls-demo/Controls-demo';
 
 
 export default class extends Control {
@@ -47,4 +45,6 @@ export default class extends Control {
         this._selectedKeys = [];
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
+
+    static _styles: string[] = ['Controls-demo/grid/ColumnScroll/DragScrolling/DragScrolling', 'Controls-demo/Controls-demo'];
 }

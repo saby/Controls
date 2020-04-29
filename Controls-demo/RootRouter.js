@@ -6,7 +6,6 @@ define('Controls-demo/RootRouter', [
    'wml!Controls-demo/RootRouter',
    'Application/Initializer',
    'Application/Env',
-   'css!Controls-demo/RootRouter'
 ], function(BaseControl,
             template,
             AppInit,
@@ -58,6 +57,8 @@ define('Controls-demo/RootRouter', [
          }
       }
    );
+
+   ModuleClass._styles = ['Controls-demo/RootRouter'];
 
    return ModuleClass;
 });

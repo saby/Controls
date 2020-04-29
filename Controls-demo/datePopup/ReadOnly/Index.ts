@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/datePopup/ReadOnly/Template');
-import 'css!Controls-demo/Controls-demo';
 
 class Single extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -15,5 +14,7 @@ class Single extends Control<IControlOptions> {
         this._children.datePopup1._displayedDate = this._startValue;
         this._children.datePopup2._displayedDate = this._startValue;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Single;

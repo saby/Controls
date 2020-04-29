@@ -5,7 +5,6 @@ import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 import * as Template from 'wml!Controls-demo/grid/Ladder/Sticky/Sticky';
 import * as ResultsTpl from 'wml!Controls-demo/grid/Ladder/Sticky/ResultsCell';
@@ -49,4 +48,6 @@ export default class extends Control {
     protected _dragEnd(_: SyntheticEvent, entity: Collection<Record>, target: any, position: any): void {
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

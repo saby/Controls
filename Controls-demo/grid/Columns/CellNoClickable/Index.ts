@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/Columns/CellNoClickable/CellNo
 import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -15,4 +14,6 @@ export default class extends Control {
             data: getCountriesStats().getData().slice(0, 5)
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

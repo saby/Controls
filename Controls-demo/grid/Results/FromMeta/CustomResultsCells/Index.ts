@@ -6,7 +6,6 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -81,4 +80,6 @@ export default class extends Control {
         this._fullResultsIndex = ++this._fullResultsIndex % getCountriesStats().getResults().full.length;
         return results;
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

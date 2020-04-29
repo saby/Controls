@@ -3,7 +3,6 @@ define('Controls-demo/Switch/standartDemoSwitch', [
    'wml!Controls-demo/Switch/standartDemoSwitch',
    'Types/source',
    'tmpl!Controls-demo/Switch/resources/customCaptionTemplate',
-   'css!Controls-demo/Switch/standartDemoSwitch'
 ], function(Control, template, source, customCaptionTemplate) {
    'use strict';
    var ModuleClass = Control.extend({
@@ -69,5 +68,7 @@ define('Controls-demo/Switch/standartDemoSwitch', [
          }
       }
    });
+   ModuleClass._styles = ['Controls-demo/Switch/standartDemoSwitch'];
+
    return ModuleClass;
 });

@@ -3,7 +3,6 @@ define('Controls-demo/Slider/Base/SliderBaseDemo',
       'Core/Control',
       'Types/source',
       'wml!Controls-demo/Slider/Base/SliderBaseDemo',
-      'css!Controls-demo/Slider/Base/SliderBaseDemo',
       'Controls/slider'
    ],
    function(Control, source, template) {
@@ -73,6 +72,8 @@ define('Controls-demo/Slider/Base/SliderBaseDemo',
          },
 
       });
+
+      SliderBaseDemo._styles = ['Controls-demo/Slider/Base/SliderBaseDemo'];
 
       return SliderBaseDemo;
    }

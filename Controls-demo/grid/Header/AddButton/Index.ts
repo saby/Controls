@@ -4,7 +4,6 @@ import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/Header/AddButton/FirstHeaderCellTemplate'
 import 'wml!Controls-demo/grid/Header/AddButton/Cell'
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -31,4 +30,6 @@ export default class extends Control {
             data: getCountriesStats().getData().slice(0, 10)
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

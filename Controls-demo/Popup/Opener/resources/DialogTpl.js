@@ -3,7 +3,6 @@ define('Controls-demo/Popup/Opener/resources/DialogTpl',
       'Env/Env',
       'Core/Control',
       'wml!Controls-demo/Popup/Opener/resources/DialogTpl',
-      'css!Controls-demo/Popup/Opener/resources/StackHeader'
    ],
    function(Env, Control, template) {
       'use strict';
@@ -14,5 +13,7 @@ define('Controls-demo/Popup/Opener/resources/DialogTpl',
             this._notify('close', [], { bubbling: true });
          }
       });
+      PopupPage._styles = ['Controls-demo/Popup/Opener/resources/StackHeader'];
+
       return PopupPage;
    });

@@ -8,7 +8,6 @@ define('Controls-demo/Popup/Edit/MyFormController',
       'wml!Controls-demo/Popup/Edit/MyFormController',
       'Types/source',
       'Core/Deferred',
-      'css!Controls-demo/Popup/Edit/MyFormController'
    ],
    function (Control, GridData, template, source, Deferred) {
       'use strict';
@@ -85,6 +84,8 @@ define('Controls-demo/Popup/Edit/MyFormController',
             this._children.stack.open();
          }
       });
+
+      MyFormController._styles = ['Controls-demo/Popup/Edit/MyFormController'];
 
       return MyFormController;
    });

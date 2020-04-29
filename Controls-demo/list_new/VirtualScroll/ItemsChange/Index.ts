@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls-demo/list_new/VirtualScroll/ItemsChange/ItemsChange';
 import {Memory} from 'Types/source';
 import {generateData} from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
-import 'css!Controls-demo/Controls-demo';
 import {RecordSet} from 'Types/collection';
 
 interface IItem {
@@ -50,4 +49,6 @@ export default class extends Control {
     protected _removeItem(event: Event, edge: IEdge): void {
         this._items.removeAt(edge === 'start' ? 0 : this._items.getCount() - 1);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

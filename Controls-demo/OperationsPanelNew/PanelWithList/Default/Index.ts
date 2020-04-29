@@ -4,7 +4,6 @@ import {Memory} from 'Types/source';
 import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
-import 'css!Controls-demo/OperationsPanel/Demo/Demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = template;
@@ -74,4 +73,6 @@ export default class extends Control {
          type: 'ok'
       });
    }
+
+   static _styles: string[] = ['Controls-demo/OperationsPanel/Demo/Demo'];
 }

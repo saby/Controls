@@ -6,8 +6,6 @@ import {Memory} from 'Types/source';
 import {_departmentsDataLong} from 'Controls-demo/Suggest_new/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/DirectoryUnavailable/DirectoryUnavailable');
 import suggestTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/DirectoryUnavailable/resources/SuggestTemplate');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Suggest_new/Index';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
@@ -36,4 +34,6 @@ export default class extends Control{
          }
       };
    }
+
+   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Suggest_new/Index'];
 }

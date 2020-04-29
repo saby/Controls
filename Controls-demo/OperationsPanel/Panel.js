@@ -3,7 +3,6 @@ define('Controls-demo/OperationsPanel/Panel', [
    'wml!Controls-demo/OperationsPanel/Panel/Panel',
    'wml!Controls-demo/OperationsPanel/Panel/RightTemplate',
    'Types/source',
-   'css!Controls-demo/OperationsPanel/Panel/Panel'
 ], function(Control, template, RightTemplate, source) {
    'use strict';
    var PANEL_ITEMS_FIRST = [{
@@ -79,7 +78,7 @@ define('Controls-demo/OperationsPanel/Panel', [
       id: 2,
       title: '6 items'
    }];
-   return Control.extend({
+   var ModuleClass = Control.extend({
       _template: template,
       _expanded: false,
       _eventName: '',
@@ -131,4 +130,8 @@ define('Controls-demo/OperationsPanel/Panel', [
          this._eventName = e.type;
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/OperationsPanel/Panel/Panel'];
+
+   return ModuleClass;
 });
