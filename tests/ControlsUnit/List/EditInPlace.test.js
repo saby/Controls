@@ -19,6 +19,7 @@ define([
 ) {
    describe('Controls.List.EditInPlace', function() {
       var eip, items, newItem, listModel, listModelWithGroups, data, treeData, treeModel;
+      var originalOnKeyDown, originalOnRowDeactivated;
       beforeEach(function() {
          data = [
             {
@@ -144,6 +145,8 @@ define([
                }
             }
          };
+         originalOnKeyDown = eip._onKeyDown;
+         originalOnRowDeactivated = eip._onRowDeactivated;
       });
 
       afterEach(function() {
@@ -1340,6 +1343,21 @@ define([
       });
 
       describe('_onKeyDown', function() {
+         beforeEach(function() {
+            eip._onKeyDown = (event, nativeEvent) => {
+               originalOnKeyDown.call(eip, event, nativeEvent);
+               eip._beforeUpdate(eip._options);
+               eip._afterUpdate();
+            };
+            eip._onRowDeactivated = (event, nativeEvent) => {
+               originalOnRowDeactivated.call(eip, event, nativeEvent);
+               eip._beforeUpdate(eip._options);
+               eip._afterUpdate();
+            };
+         });
+         afterEach(function() {
+            eip._onRowDeactivated = originalOnRowDeactivated;
+         });
          it('Enter', function() {
             let isPropagationStopped = false;
             eip.beginEdit = function(options) {

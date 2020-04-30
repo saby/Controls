@@ -6,6 +6,7 @@ import getWidthUtil = require('Controls/Utils/getWidth');
 import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
 import {editing as constEditing} from 'Controls/Constants';
 import { error as dataSourceError } from 'Controls/dataSource';
+import editAfterRedraw from 'Controls/Utils/editAfterRedraw';
 
 let displayLib: typeof import('Controls/display');
 
@@ -522,11 +523,11 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
                 // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
                 e.stopPropagation();
                 if (this._isAdd) {
-                    _private.editNextRow(this, true, !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton);
+                    editAfterRedraw(this, _private.editNextRow.bind(_private, this, true, !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton));
                 } else if (this._options.editingConfig && !this._sequentialEditing) {
-                    this.commitEdit();
+                    editAfterRedraw(this, this.commitEdit.bind(this));
                 } else {
-                    _private.editNextRow(this, true);
+                    editAfterRedraw(this, _private.editNextRow.bind(_private, this, true));
                 }
                 break;
             case 27: // Esc
@@ -738,7 +739,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
 
     _onRowDeactivated: function (e, eventOptions) {
         if (eventOptions.isTabPressed) {
-            _private.editNextRow(this, !eventOptions.isShiftKey);
+            editAfterRedraw(this, _private.editNextRow.bind(_private, this, !eventOptions.isShiftKey));
         }
         e.stopPropagation();
     },
