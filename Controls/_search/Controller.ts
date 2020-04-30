@@ -77,6 +77,7 @@ var _private = {
       if (_private.isSearchViewMode(self) && self._searchValue) {
          self._searchValue = '';
          self._misspellValue = '';
+         self._searchAborted = true;
 
          if (self._options.parentProperty) {
             _deleteServiceFilters(self._options, filter);
@@ -246,8 +247,9 @@ var _private = {
       const isSearchValueShorterThenMinLength = _private.isSearchValueShort(options.minSearchLength, searchValue);
       const startSearchWithNewSourceController = searchValue && needRecreateSearchController;
       const needStartSearchBySearchValueChanged =
-          isSearchValueChanged &&
+          isSearchValueChanged && !self._searchAborted &&
           (!isSearchValueShorterThenMinLength || _private.isSearchViewMode(self) && !searchValue);
+      self._searchAborted = false;
 
       return needStartSearchBySearchValueChanged &&
              !needUpdateRoot ||
