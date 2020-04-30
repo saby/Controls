@@ -16,7 +16,8 @@ define([
          eventQueue,
          instance,
          cfg,
-         cfg2;
+         cfg2,
+         originalOnDeactivatedHandler, originalOnKeyDown;
       beforeEach(function() {
          eventQueue = [];
          instance = new editableArea.View();
@@ -32,6 +33,8 @@ define([
                text: 'test'
             })
          };
+         originalOnKeyDown = instance._onKeyDown;
+         originalOnDeactivatedHandler = instance._onDeactivatedHandler;
       });
       afterEach(function() {
          instance = null;
@@ -86,9 +89,15 @@ define([
             instance.commitEdit = function() {
                result = true;
             };
+            instance._onDeactivatedHandler = (event) => {
+               originalOnDeactivatedHandler.call(instance, event);
+               instance._beforeUpdate(instance._options);
+               instance._afterUpdate();
+            };
          });
          afterEach(function() {
             result = null;
+            instance._onDeactivatedHandler = originalOnDeactivatedHandler;
          });
 
          it('commitOnDeactivate: true, isEditing: true', function(done) {
@@ -114,6 +123,16 @@ define([
       });
 
       describe('_onKeyDown', function() {
+         beforeEach(function() {
+            instance._onKeyDown = (event) => {
+               originalOnKeyDown.call(instance, event);
+               instance._beforeUpdate(instance._options);
+               instance._afterUpdate();
+            };
+         });
+         afterEach(function() {
+            instance._onKeyDown = originalOnKeyDown;
+         });
          it('Enter', function(done) {
             var result = false;
             instance._beforeMount(cfg);
