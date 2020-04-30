@@ -84,6 +84,11 @@ var BaseLookupView = Control.extend({
 
         if (!this._isEmpty(this._options)) {
             this._calculatingSizes(this._options);
+            /* На коллекции висит shrink: 0, чтобы beforeFieldWrapper не сжимался, когда есть input.
+               Поэтому до расчета ширины коллекция выталкивает все содержимое.
+               Повесим класс после расчета, чтобы уменьшить моргание
+            */
+            this._sizesCalculated = true;
         }
     },
 
