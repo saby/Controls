@@ -7,4 +7,4 @@
         делать шаблон публичным и обращаться по библиотечному пути;
         звать partial со строкой-именем шаблона, а не с переменной, в которой лежит имя -->
 
-<ws:partial template="{{itemData.resolveBaseItemTemplate()}}" scope="{{_options}}"/>
+<ws:partial template="{{itemData.resolvers.baseItemTemplate()}}" scope="{{_options}}"/>

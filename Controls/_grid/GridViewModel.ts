@@ -493,10 +493,18 @@ var
         _columnsVersion: 0,
 
         _isMultiHeader: null,
+        _resolvers: null,
 
         constructor: function(cfg) {
             this._options = cfg;
             GridViewModel.superclass.constructor.apply(this, arguments);
+
+            // Резолверы шаблонов. Передается объект, чтобы всегда иметь актуальные резолверы. Передача по ссылке
+            // требуется например для построения таблицы с запущенным редактированием по месту. Редактирование строится
+            // до GridView и устанавливает editingItemData в которую передаются резолверы. На момент взятия itemData
+            // резолверов еще нет, поэтому передаем объект, позже Gridview запишет в него резолверы. С таким подходом
+            // порядок маунтов не важен, главное, что все произойдет до маунта.
+            this._resolvers = {};
             this._model = this._createModel(cfg);
             this._onListChangeFn = function(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
                 if (changesType === 'collectionChanged' || changesType === 'indexesChanged') {
@@ -1269,8 +1277,7 @@ var
             });
 
             current.isFullGridSupport = this.isFullGridSupport.bind(this);
-            current.resolveBaseItemTemplate = this._baseItemTemplateResolver;
-
+            current.resolvers = this._resolvers;
             current.columnScroll = this._options.columnScroll;
             current.getColspanForColumnScroll = () => _private.getColspanForColumnScroll(self);
             current.getColspanFor = (elementName: string) => self.getColspanFor.apply(self, [elementName]);
@@ -1486,6 +1493,7 @@ var
 
         setBaseItemTemplateResolver(baseItemTemplateResolver: () => TemplateFunction): void {
             this._baseItemTemplateResolver = baseItemTemplateResolver;
+            this._resolvers.baseItemTemplate = baseItemTemplateResolver;
             this.resetCachedItemData();
         },
 

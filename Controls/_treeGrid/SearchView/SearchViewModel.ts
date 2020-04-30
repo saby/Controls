@@ -64,7 +64,7 @@ var
             if (!itemData.breadCrumbs && self._options.itemTemplate) {
                return self._options.itemTemplate;
             }
-            return data.resolveBaseItemTemplate();
+            return data.resolvers.baseItemTemplate();
          };
          return data;
       },

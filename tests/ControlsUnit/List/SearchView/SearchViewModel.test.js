@@ -45,7 +45,9 @@ define(['Controls/_treeGrid/SearchView/SearchViewModel', 'Types/collection', 'Co
          SearchViewModel.superclass.getItemDataByItem = function(breadCrumbs) {
             const itemData = {
                item: {},
-               resolveBaseItemTemplate: treeView._resolveBaseItemTemplate.bind(treeView)
+               resolvers: {
+                  baseItemTemplate: treeView._resolveBaseItemTemplate.bind(treeView)
+               }
             };
 
             if (breadCrumbs) {
