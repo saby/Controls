@@ -42,6 +42,7 @@ import Button = require('Controls/_dropdown/Button');
 import Input = require('Controls/_dropdown/Input');
 import _Controller = require('Controls/_dropdown/_Controller');
 import Combobox = require('Controls/_dropdown/ComboBox');
+import Opener = require('Controls/_dropdown/Opener');
 import ItemTemplate = require('wml!Controls/_dropdown/itemTemplate');
 import GroupTemplate = require('wml!Controls/_dropdown/GroupTemplate');
 import HeaderTemplate = require('wml!Controls/_dropdown/HeaderTemplate');
