@@ -1,0 +1,13 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <div class="controls-text-label_theme-{{_options.theme}}">С указанием footerContentTemplate</div>
+      <Controls.menu:Popup
+              source="{{_source}}"
+              keyProperty="key"
+              displayProperty="title">
+         <ws:footerContentTemplate>
+            <div class="ControlsDemo-Menu-Control__footerContentTemplate">+ {[Добавить]}</div>
+         </ws:footerContentTemplate>
+      </Controls.menu:Popup>
+   </div>
+</div>

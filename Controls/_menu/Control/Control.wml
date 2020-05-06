@@ -5,7 +5,7 @@
                                           controls-DropdownList__scroll
                                           controls-Menu__scroll_theme-{{_options.theme}}"
                               topShadowVisibility="hidden"
-                              bottomShadowVisibility="{{_options.footerTemplate ? 'auto' : 'hidden'}}">
+                              bottomShadowVisibility="{{_options.footerContentTemplate ? 'auto' : 'hidden'}}">
    <Controls._menu.Render scope="{{_options}}"
                              listModel="{{_listModel}}"
                              on:itemClick="_itemClick()"
