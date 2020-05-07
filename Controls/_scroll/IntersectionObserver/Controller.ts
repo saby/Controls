@@ -18,6 +18,22 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions 
  * @author Красильников А.С.
  * @see Controls/_scroll/IntersectionObserver/Container
  * @public
+ * @example
+ * <pre>
+ *     <Controls.scroll:IntersectionObserverController
+ *          observerName="monthList"
+ *          on:intersect="_intersectHandler()">
+ *             <Controls.scroll:Container>
+ *                <div>Контент сверху</div>
+ *                <Controls.scroll:IntersectionObserverContainer
+ *                   observerName="monthList"
+ *                   data="{{_data}}">
+ *                      <div>Отслеживаемый контент</div>
+ *                </Controls.scroll:IntersectionObserverContainer>
+ *                <div>Контент снизу</div>
+ *             </Controls.scroll:Container>
+ *     </Controls.scroll:IntersectionObserverController>
+ * </pre>
  */
 
 /**
