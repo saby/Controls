@@ -5,6 +5,12 @@
 
 .controls-Menu__popup_theme-@{themeName} {
    max-width: @popup_max-width_menuPopup;
+   .flexbox();
+   .flex-direction(column);
+   border: @border-thickness_sticky solid @border-color_sticky;
+   background: @background-color_sticky;
+   box-sizing: border-box;
+   overflow: hidden;
 }
 
 .controls-Menu__popup-list-padding-top_theme-@{themeName} {

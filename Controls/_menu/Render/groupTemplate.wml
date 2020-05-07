@@ -1,12 +1,12 @@
 <ws:if data="{{showText !== true}}">
-   <div class="controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
+   <div class="controls-Menu__group_separator_theme-{{_options.theme}}"></div>
 </ws:if>
 <ws:else>
-<div class="controls-DropdownList__group_content theme_{{_options.theme}}">
+<div class="controls-Menu__group_content">
    <ws:if data="{{textAlign !== 'left' && showText !== false}}">
-      <div class="controls-DropdownList__group_separator_left controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
+      <div class="controls-Menu__group_separator_left_theme-{{_options.theme}} controls-Menu__group_separator_theme-{{_options.theme}}"></div>
    </ws:if>
-   <div class="controls-DropdownList__group_content-text theme_{{_options.theme}} {{ !contentTemplate ? 'controls-DropdownList__group_content_textAlign-'+textAlign+'_theme-'+_options.theme }}">
+   <div class="controls-Menu__group_content-text_theme-{{_options.theme}} {{ !contentTemplate ? 'controls-Menu__group_content_textAlign-'+textAlign+'_theme-'+_options.theme }}">
       <ws:if data="{{!!contentTemplate}}">
          <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}" />
       </ws:if>
@@ -15,7 +15,7 @@
       </ws:else>
    </div>
    <ws:if data="{{textAlign !== 'right' && showText !== false}}">
-      <div class="controls-DropdownList__group_separator_right controls-DropdownList__group_separator theme_{{_options.theme}}"></div>
+      <div class="controls-Menu__group_separator_right_theme-{{_options.theme}} controls-Menu__group_separator_theme-{{_options.theme}}"></div>
    </ws:if>
 </div>
 </ws:else>

@@ -3928,8 +3928,8 @@ define([
                itemActionsOpener: {
                   open: function(args) {
                      callBackCount++;
-                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.items, 'Types/collection:RecordSet'));
-                     assert.equal(args.templateOptions.items.getKeyProperty(), 'id');
+                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.source, 'Types/source:Memory'));
+                     assert.equal(args.templateOptions.source.getKeyProperty(), 'id');
                      assert.equal(args.templateOptions.keyProperty, 'id');
                      assert.equal(args.templateOptions.parentProperty, 'parent');
                      assert.equal(args.templateOptions.nodeProperty, 'parent@');
@@ -3991,8 +3991,8 @@ define([
                itemActionsOpener: {
                   open: function(args) {
                      callBackCount++;
-                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.items, 'Types/collection:RecordSet'));
-                     assert.equal(args.templateOptions.items.getKeyProperty(), 'id');
+                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.source, 'Types/source:Memory'));
+                     assert.equal(args.templateOptions.source.getKeyProperty(), 'id');
                      assert.equal(args.templateOptions.keyProperty, 'id');
                      assert.equal(args.templateOptions.parentProperty, 'parent');
                      assert.equal(args.templateOptions.nodeProperty, 'parent@');
@@ -4349,7 +4349,7 @@ define([
                   open: function(args) {
                      callBackCount++;
                      assert.deepEqual(target.getBoundingClientRect(), args.target.getBoundingClientRect());
-                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.items, 'Types/collection:RecordSet'));
+                     assert.isTrue(cInstance.instanceOfModule(args.templateOptions.source, 'Types/source:Memory'));
                   }
                }
             };
@@ -4418,10 +4418,9 @@ define([
                   }
                }
             };
-            instance._actionsMenuResultHandler({
-               action: 'itemClick',
-               event: fakeEvent,
-               data: [{
+            instance._actionsMenuResultHandler(
+               'itemClick',
+               {
                   getRawData: function() {
                      callBackCount++;
                      return {
@@ -4430,8 +4429,9 @@ define([
                         }
                      };
                   }
-               }]
-            });
+               },
+               fakeEvent
+            );
             assert.equal(instance._listViewModel._activeItem, null);
             assert.equal(instance._listViewModel._menuState, 'hidden');
             assert.equal(callBackCount, 5);

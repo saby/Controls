@@ -266,7 +266,7 @@
         </ws:if>
         <Controls.popup:Sticky
             name="itemActionsOpener"
-            template="Controls/dropdownPopup:List"
+            template="Controls/menu:Popup"
             closeOnOutsideClick="{{true}}"
             actionOnScroll="close">
             <ws:fittingMode vertical="overflow"/>

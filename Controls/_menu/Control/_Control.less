@@ -19,6 +19,7 @@
    position: relative;
    display: flex;
    align-items: center;
+   box-sizing: border-box;
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -232,6 +233,7 @@
    justify-content: center;
    align-items: center;
    width: 100%;
+   cursor: pointer;
 }
 
 .controls-Menu__applyButton_theme-@{themeName} {
@@ -283,6 +285,40 @@
 
 .controls-Menu__row-breadcrumbs_theme-@{themeName} {
    max-height: @height_breadcrumbsView;
+}
+
+.controls-Menu__group_separator_theme-@{themeName} {
+   border-bottom: @grouping_separator_thickness_menu solid @grouping_separator_color_menu;
+   margin: @grouping_padding-vertical_menu @grouping_padding-horizontal_menu;
+}
+
+.controls-Menu__group_separator_left_theme-@{themeName},
+.controls-Menu__group_separator_right_theme-@{themeName} {
+   flex-shrink: 1;
+   height: @grouping_separator_thickness_menu;
+   width: 100%;
+}
+
+.controls-Menu__group_content {
+   display: flex;
+   align-items: center;
+}
+
+.controls-Menu__group_content-text_theme-@{themeName} {
+   display: inline-block;
+   color: @grouping_text-color_menu;
+   font-size: @grouping_font-size_menu;
+   white-space: nowrap;
+   text-align: center;
+   flex-shrink: 0;
+}
+
+.controls-Menu__group_content_textAlign-right_theme-@{themeName} {
+   margin-right: @grouping_padding-horizontal_menu;
+}
+
+.controls-Menu__group_content_textAlign-left_theme-@{themeName} {
+   margin-left: @grouping_padding-horizontal_menu;
 }
 
 .ws-is-hover {

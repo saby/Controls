@@ -16,7 +16,7 @@
             on:close="_onClose()"
             on:open="_onOpen()"
             name="menuOpener"
-            template="Controls/dropdownPopup:List"
+            template="Controls/menu:Popup"
             closeOnOutsideClick="{{true}}"
             actionOnScroll="close">
         <ws:templateOptions className="controls-BreadCrumbsController__menu_theme-{{_options.theme}}"/>

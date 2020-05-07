@@ -2,7 +2,6 @@
      attr:ws-no-focus="true">
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                           controls-Menu__scroll
-                                          controls-DropdownList__scroll
                                           controls-Menu__scroll_theme-{{_options.theme}}"
                               topShadowVisibility="hidden"
                               bottomShadowVisibility="{{_options.footerContentTemplate ? 'auto' : 'hidden'}}">
@@ -24,7 +23,7 @@
       </Controls._menu.Render>
    </Controls.scroll:Container>
    <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
-      <div class="controls-DropdownList__footer controls-Menu__footer_theme-{{_options.theme}}"
+      <div class="controls-Menu__footer_theme-{{_options.theme}}"
                   on:mouseenter="_footerMouseEnter()">
          <ws:if data="{{_moreButtonVisible}}">
             <div class="controls-Menu__footer-moreButton
@@ -36,8 +35,7 @@
             </div>
          </ws:if>
          <ws:else data="{{_expandButtonVisible}}">
-            <div class="controls-DropdownList__additional-button
-                              controls-Menu__additional">
+            <div class="controls-Menu__additional">
                <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
                   <ws:partial template="{{content.resolvedTemplate}}"
                               bind:value="_expander"
@@ -66,5 +64,5 @@
                           on:result="_subMenuResult()"
                           on:close="_closeSubMenu()"
                           template="Controls/menu:Popup"
-                          className="controls-DropdownList__subMenu controls-Menu__subMenu controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
+                          className="controls-Menu__subMenu controls-Menu__subMenu_margin_theme-{{_options.theme}}"/>
 </div>

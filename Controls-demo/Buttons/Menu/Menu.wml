@@ -104,7 +104,7 @@
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText2"
                  tooltip="Add">
             <ws:headerTemplate>
-               <ws:partial template="Controls/dropdownPopup:Template" caption="Add" />
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" />
             </ws:headerTemplate>
          </Controls.dropdown:Button>
          <Controls.dropdown:Button
@@ -174,7 +174,7 @@
                  attr:class="ControlsDemo__history"
                  tooltip="Add">
             <ws:headerTemplate>
-               <ws:partial template="Controls/dropdownPopup:Template" caption="Add" icon=""/>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" icon=""/>
             </ws:headerTemplate>
             <ws:itemTemplate>
                <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
@@ -250,7 +250,7 @@
                  showHeader="{{false}}"
                  source="{{_createMemory(_groupItems)}}"
                  groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdownPopup:GroupTemplate"
+                 groupTemplate="Controls/dropdown:GroupTemplate"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups"
                  tooltip="Add">
          </Controls.dropdown:Button>
@@ -264,10 +264,10 @@
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups2"
                  tooltip="Add">
             <ws:groupTemplate>
-               <ws:partial template="Controls/dropdownPopup:GroupTemplate" showText="{{true}}"/>
+               <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
             </ws:groupTemplate>
             <ws:headerTemplate>
-               <ws:partial template="Controls/dropdownPopup:Template" caption="Related documents" icon=""/>
+               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Related documents" icon=""/>
             </ws:headerTemplate>
             <ws:itemTemplate>
                <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
@@ -283,7 +283,7 @@
                  showHeader="{{false}}"
                  source="{{_createMemory(_oneGroupItems)}}"
                  groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdownPopup:GroupTemplate"
+                 groupTemplate="Controls/dropdown:GroupTemplate"
                  attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups3"
                  tooltip="Add">
          </Controls.dropdown:Button>
@@ -311,7 +311,7 @@
                  keyProperty="id"
                  additionalProperty="additional"
                  groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdownPopup:GroupTemplate"
+                 groupTemplate="Controls/dropdown:GroupTemplate"
                  attr:class="ControlsDemo__additionalItems"
                  style="secondary"
                  viewMode="link"

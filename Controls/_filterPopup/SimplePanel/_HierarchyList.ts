@@ -3,7 +3,7 @@ import template = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/
 import {factory} from 'Types/chain';
 import {RecordSet} from 'Types/collection';
 import emptyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate');
-import {DropdownViewModel} from 'Controls/dropdownPopup';
+import DropdownViewModel = require('Controls/_filterPopup/SimplePanel/DropdownViewModel');
 import hierarchyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/hierarchyItemTemplate');
 
 var _private = {

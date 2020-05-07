@@ -1,8 +1,7 @@
 <ws:template name="menuPopup" >
    <div class="controls-Menu__popup">
       <Controls.popupTemplate:Sticky
-              attr:class="controls-DropdownList__popup
-                          controls-Popup__isolatedFocusingContext
+              attr:class="controls-Popup__isolatedFocusingContext
                           controls-Menu__popup-template
                           controls-Menu__popup_theme-{{_options.theme}}
                           controls-Menu__popup-direction-vertical-{{_verticalDirection}}

@@ -1,5 +1,4 @@
 <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV js-controls-SwipeControl__actionsContainer
                  {{itemData.itemClassList}} theme_{{_options.theme}}
                  {{marker !== false && treeItem.isSelected() && (!itemData.multiSelect || itemData.isEmptyItem) ? 'controls-Menu__row_selected_theme-' + _options.theme}}

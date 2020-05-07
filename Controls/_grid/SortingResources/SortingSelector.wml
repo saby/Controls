@@ -8,7 +8,7 @@
             source="{{_source}}">
         <ws:headerTemplate>
             <ws:if data="{{_options.header}}">
-                <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
+                <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
                     <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" caption="{{_options.header}}"/>
                 </Controls.Container.Async>
             </ws:if>

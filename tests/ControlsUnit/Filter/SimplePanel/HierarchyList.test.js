@@ -1,7 +1,7 @@
 define(
    [
       'Controls/filterPopup',
-      'Controls/_dropdownPopup/DropdownViewModel',
+      'Controls/_filterPopup/SimplePanel/DropdownViewModel',
       'Types/collection',
       'Types/entity',
       'Types/chain'

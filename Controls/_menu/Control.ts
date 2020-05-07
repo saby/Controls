@@ -664,7 +664,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         }
     }
 
-    static _theme: string[] = ['Controls/menu', 'Controls/dropdownPopup'];
+    static _theme: string[] = ['Controls/menu'];
 
     static getDefaultOptions(): object {
         return {

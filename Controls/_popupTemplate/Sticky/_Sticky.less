@@ -19,16 +19,6 @@
    border: @border-thickness_sticky solid @border-color_sticky;
 }
 
-.controls-StickyTemplate__top-area_theme_@{themeName} {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   flex-shrink: 0;
-   padding-left: @header_padding-horizontal_sticky;
-   min-height: @header_min-height_sticky;
-   background: @header_background-color_sticky;
-}
-
 .controls-StickyTemplate__top-area-withClose_theme_@{themeName} {
    padding-right: @close-button_offset-right_sticky + @close-button_offset-left_sticky + @width_closeButton_link;
 }
@@ -41,6 +31,22 @@
    width: 100%;
    display: flex;
    align-items: center;
+}
+
+.controls-StickyTemplate__top-area-content_theme_@{themeName} {
+   height: @header_min-height_sticky;
+   cursor: default;
+   .flex-shrink(0);
+}
+
+.controls-StickyTemplate__top-area_theme_@{themeName} {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-shrink: 0;
+   padding-left: @header_padding-horizontal_sticky;
+   min-height: @header_min-height_sticky;
+   background: @header_background-color_sticky;
 }
 
 .controls-StickyTemplate__content-area {
@@ -80,4 +86,9 @@
    font-size: @header_font-size_sticky;
    font-weight: bold;
    color: @header_color_sticky;
+}
+
+.controls-StickyTemplate__footer_theme-@{themeName} {
+   display: flex;
+   align-items: center;
 }

@@ -1,27 +1,52 @@
 <div>
-   <ws:partial template="Controls/dropdownPopup:_ForTemplate"
-               listModel="{{_listModel}}"
-               selectedKeys="{{_options.selectedKeys}}"
-               displayProperty="{{_options.displayProperty}}"
-               nodeProperty="{{_options.nodeProperty}}"
-               itemTemplate="{{_options.itemTemplate}}"
-               multiSelect="{{_options.multiSelect}}"
-               checkBoxAlign="right"
-               showClose="{{true}}"
-               defaultItemTemplate="{{_defaultItemTemplate}}"
-               emptyTemplate="{{_emptyItemTemplate}}"
-   />
+   <ws:if data="{{_listModel.getEmptyItem()}}">
+      <ws:partial
+              on:click="_itemClickHandler(_listModel.getEmptyItem().item)"
+              on:mouseenter="_itemMouseEnter(_listModel.getEmptyItem().item, _listModel.getEmptyItem().hasChildren)"
+              template="{{_emptyItemTemplate || _options.itemTemplate || _defaultItemTemplate}}"
+              itemData="{{_listModel.getEmptyItem()}}"
+              resultHandler="{{resultHandler}}"
+              marker="{{_options.multiSelect ? false : marker}}"
+              displayProperty="{{_options.displayProperty}}"
+              showClose="{{true}}"
+              hasApplyButton="{{hasApplyButton}}"
+              class="{{!_emptyItemTemplate ? 'controls-SimplePanel-List__emptyItem controls-SimplePanel-List_' + (_options.multiSelect ? '_options.multiSelect' : 'singleSelect') + '__emptyItem'}}
+                  controls-SimplePanel-List__row-separator theme_{{_options.theme}}"/>
+   </ws:if>
+   <ws:for data="_listModel.reset(); _listModel.isEnd(); _listModel.goToNext();">
+      <ws:if data="{{_listModel.getCurrent().isGroup}}">
+         <ws:if data="{{!_listModel.getCurrent().isHiddenGroup}}">
+            <ws:partial
+                    template="{{groupTemplate}}"
+                    itemData="{{_listModel.getCurrent()}}"/>
+         </ws:if>
+      </ws:if>
+      <ws:else>
+         <ws:partial
+                 on:swipe="_onItemSwipe(_listModel.getCurrent().item)"
+                 on:click="_itemClickHandler(_listModel.getCurrent().item)"
+                 on:mouseenter="_itemMouseEnter(_listModel.getCurrent().item, _listModel.getCurrent().hasChildren)"
+                 template="{{_listModel.getCurrent().template || _options.itemTemplate || _defaultItemTemplate}}"
+                 itemData="{{_listModel.getCurrent()}}"
+                 resultHandler="{{resultHandler}}"
+                 marker="{{_options.multiSelect ? false : marker}}"
+                 multiSelect="{{_options.multiSelect}}"
+                 checkBoxAlign="right"
+                 displayProperty="{{_options.displayProperty}}"
+                 showClose="{{true}}"
+                 parentProperty="{{parentProperty}}"
+                 nodeProperty="{{_options.nodeProperty}}"
+                 iconPadding="{{iconPadding}}"
+                 class="controls-SimplePanel-List__defaultItem {{!_listModel.isLast() && !_listModel.isGroupNext() ? 'controls-SimplePanel-List__row-separator'}}_theme-{{_options.theme}}"/>
+      </ws:else>
+   </ws:for>
    <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
-      <Controls.dropdownPopup:MoreButton
-              class="controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}"
-              caption="{[Еще]}..."
-              items="{{_options.selectorItems}}"
-              selectedKeys="{{_options.selectorSelectedKeys || _listModel.getSelectedKeys()}}"
-              selectorTemplate="{{_options.selectorTemplate}}"
-              isCompoundTemplate="{{_options.isCompoundTemplate}}"
-              selectorOpener="{{_options.selectorOpener}}"
-              selectorDialogResult="{{_options.selectorDialogResult}}"
-              afterOpenCallback="{{_afterOpenDialogCallback}}"/>
+      <Controls.buttons:Button viewMode="link"
+                               class="controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}"
+                               fontColorStyle="link"
+                               caption="{[Еще]}..."
+                               on:click="_openSelectorDialog()"
+                               afterOpenCallback="{{_afterOpenDialogCallback}}"/>
    </ws:if>
    <ws:if data="{{!_options.isLast && _options.showSeparator !== false}}">
       <div class="controls-SimplePanel__block_separator_theme_{{_options.theme}}"></div>

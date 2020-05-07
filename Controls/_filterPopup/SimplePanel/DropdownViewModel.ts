@@ -4,7 +4,7 @@
 import {BaseViewModel, getStyle, ItemsUtil, ItemsViewModel} from 'Controls/list';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import * as multiSelectTpl from 'wml!Controls/_dropdownPopup/multiSelectTpl';
+import * as multiSelectTpl from 'wml!Controls/_filterPopup/SimplePanel/multiSelectTpl';
 import entity = require('Types/entity');
 
 var _private = {
@@ -73,19 +73,19 @@ var _private = {
 
          getClassList: function(itemPadding, multiSelect, itemData, hasHierarchy, hasApplyButton?) {
             const item = itemData.item;
-            let classes = 'controls-DropdownList__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
+            let classes = 'controls-SimplePanel-List__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
 
             if (item.get('pinned') === true && !itemData.hasParent) {
-               classes += ' controls-DropdownList__row_pinned';
+               classes += ' controls-SimplePanel-List__row_pinned';
             }
 
             const paddings = itemPadding || {};
             if (multiSelect && itemData.emptyText) {
-               classes += ' controls-DropdownList__emptyItem-leftPadding_multiSelect';
+               classes += ' controls-SimplePanel-List__emptyItem-leftPadding_multiSelect';
             } else if (!multiSelect) {
-               classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
+               classes += ' controls-SimplePanel-List__item-leftPadding_' + (paddings.left || 'default');
             }
-            classes += ' controls-DropdownList__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, hasApplyButton);
+            classes += ' controls-SimplePanel-List__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, hasApplyButton);
             return classes;
          },
 
@@ -232,7 +232,7 @@ var _private = {
             if (!this._itemsModel.isLast()) {
                itemsModelCurrent.hasSeparator = _private.needToDrawSeparator(itemsModelCurrent.item, this._itemsModel.getNext().item, itemsModelCurrent.hasParent);
             }
-            itemsModelCurrent.iconStyle = getStyle(itemsModelCurrent.item.get('iconStyle'), 'DropdownList');
+            itemsModelCurrent.iconStyle = getStyle(itemsModelCurrent.item.get('iconStyle'), 'SimplePanel-List');
             itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
             itemsModelCurrent.template = itemsModelCurrent.item.get(itemsModelCurrent.itemTemplateProperty);
             itemsModelCurrent.multiSelect = this._options.multiSelect;

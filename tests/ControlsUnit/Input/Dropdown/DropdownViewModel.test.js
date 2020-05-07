@@ -1,6 +1,6 @@
 define(
    [
-      'Controls/_dropdownPopup/DropdownViewModel',
+      'Controls/_filterPopup/SimplePanel/DropdownViewModel',
       'Types/collection',
       'Controls/Constants',
       'Types/entity',
@@ -336,58 +336,58 @@ define(
 
          it('_private.getSpacingClassList', () => {
             let itemPadding = {}, multiSelect = true, itemData = { emptyText: 'test', item: { get: () => false } }, hasHierarchy = false;
-            let expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
+            let expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__emptyItem-leftPadding_multiSelect controls-SimplePanel-List__item-rightPadding_default';
             let classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             multiSelect = false;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_default controls-DropdownList__item-rightPadding_default';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_default controls-SimplePanel-List__item-rightPadding_default';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             multiSelect = false;
             itemPadding.left = 's';
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_default';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             hasHierarchy = true;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_hierarchy';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_hierarchy';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             itemData.hasClose = true;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_close';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_close';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             itemData.hasPinned = true;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_history';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_history';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_multiSelect';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_multiSelect';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy, true); // hasApplyButton = true
             assert.equal(classList, expectedClassList);
 
             itemData = { item: { get: () => false } };
             hasHierarchy = false;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_default';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_default';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData, hasHierarchy);
             assert.equal(classList, expectedClassList);
 
             itemData = { item: { get: () => false } };
             itemPadding.right = 'm';
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_s controls-DropdownList__item-rightPadding_m';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_s controls-SimplePanel-List__item-rightPadding_m';
             classList = DropdownViewModel._private.getClassList(itemPadding, multiSelect, itemData);
             assert.equal(classList, expectedClassList);
          });
@@ -498,20 +498,20 @@ define(
             assert.equal(emptyItem.item.get('id'), 0);
 
             // spacingClassList
-            let expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__item-leftPadding_default ' +
-               'controls-DropdownList__item-rightPadding_default';
+            let expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__item-leftPadding_default ' +
+               'controls-SimplePanel-List__item-rightPadding_default';
             assert.equal(emptyItem.itemClassList, expectedClassList);
 
             emptyConfig.multiSelect = true;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_default';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__emptyItem-leftPadding_multiSelect controls-SimplePanel-List__item-rightPadding_default';
             emptyItem = getEmpty(emptyConfig);
             assert.equal(emptyItem.itemClassList, expectedClassList);
 
             emptyConfig.hasClose = true;
-            expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__emptyItem-leftPadding_multiSelect controls-DropdownList__item-rightPadding_close';
+            expectedClassList = 'controls-SimplePanel-List__row_state_default ' +
+               'controls-SimplePanel-List__emptyItem-leftPadding_multiSelect controls-SimplePanel-List__item-rightPadding_close';
             emptyItem = getEmpty(emptyConfig);
             assert.equal(emptyItem.itemClassList, expectedClassList);
          });

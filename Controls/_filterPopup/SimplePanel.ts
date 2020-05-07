@@ -167,7 +167,7 @@ Panel.getDefaultOptions = (): object => {
     };
 };
 
-Panel._theme = ['Controls/filterPopup', 'Controls/dropdownPopup', 'Controls/menu'];
+Panel._theme = ['Controls/filterPopup', 'Controls/menu'];
 
 Panel._private = _private;
 
