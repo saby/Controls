@@ -1,0 +1,12 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <div class="DeviceInfo-dateItem-wrapper">
+            <div class="DeviceInfo-DateList-date">
+                {{itemData.item.get('Date').getDate()}}.{{'0' + (itemData.item.get('Date').getMonth() + 1)}}.{{itemData.item.get('Date').getFullYear()}}
+            </div>
+            <div class="DeviceInfo-DateList-time">
+                {{itemData.item.get('Date').getHours()}}:{{itemData.item.get('Date').getMinutes()}}
+            </div>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>
