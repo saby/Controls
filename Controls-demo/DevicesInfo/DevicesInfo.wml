@@ -1,0 +1,75 @@
+<div class="DevicesInfo-wrapper">
+    <Controls.scroll:Container
+            attr:class="DevicesInfo-scroll"
+            topShadowVisibility="hidden"
+            bottomShadowVisibility="hidden">
+        <div class="DevicesInfo-List-wrapper">
+            <div class="DeviceInfo-header">
+                <Controls.heading:Title caption="Активные сессии" readOnly="{{true}}" fontColorStyle="primary" fontSize="3xl"/>
+            </div>
+                <Controls.grid:View
+                        dataLoadCallback="{{_myDataLoadCallback}}"
+                        backgroundStyle="default"
+                        rowSeparatorVisibility="true"
+                        navigation="{{_devicesNavigation}}"
+                        name="devices"
+                        on:actionClick="_actionDevicesClick()"
+                        keyProperty="@Id"
+                        markerVisibility="hidden"
+                        source="{{_viewSourceDevices}}"
+                        columns="{{_columns}}"
+                        hello="{{hello}}"
+                        itemActions="{{_itemActions}}"
+                        itemActionsClass="controls-itemActionsV_position_topRight">
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate" highlightOnHover="{{false}}" hello="{{hello}}"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            <div class="DevicesInfo-button-wrapper {{_viewSourceDevices.data.d.length <= 3? 'DevicesInfo-invisible'}}">
+                <Controls.toggle:BigSeparator on:click="_toggleDevices()" value="{{_devicesShown}}"/>
+            </div>
+        </div>
+        <div class="DevicesInfo-List-wrapper DevicesInfo-List-indent {{_blockedDevicesInvisible? 'DevicesInfo-invisible'}}">
+            <div class="DeviceInfo-header">
+                <Controls.heading:Title caption="Заблокированные устройства" readOnly="{{true}}" fontColorStyle="primary" fontSize="3xl"/>
+            </div>
+                <Controls.grid:View
+                        on:actionClick="_actionBlockedDevicesClick()"
+                        rowSeparatorVisibility="true"
+                        keyProperty="@Id"
+                        navigation="{{_blockedDevicesNavigation}}"
+                        name="blockedDevices"
+                        markerVisibility="hidden"
+                        source="{{_viewSourceBlockedDevices}}"
+                        columns="{{_columns}}"
+                        itemActions="{{_itemActionBlockedDevices}}"
+                        itemActionsClass="controls-itemActionsV_position_topRight"/>
+            <div class="DevicesInfo-button-wrapper {{_viewSourceBlockedDevices.data.d.length <= 3? 'DevicesInfo-invisible'}}">
+                <Controls.toggle:BigSeparator on:click="_toggleBlockedDevices()" value="{{_blockedDevicesShown}}"/>
+            </div>
+        </div>
+        <div class="DevicesInfo-List-wrapper DevicesInfo-List-indent {{_failedTriesInvisible? 'DevicesInfo-invisible'}}">
+           <div class="DeviceInfo-header">
+               <Controls.heading:Title caption="Неудачные попытки" readOnly="{{true}}" fontColorStyle="primary" fontSize="3xl"/>
+           </div>
+                <Controls.grid:View
+                        on:actionClick="_actionFailedTriesClick()"
+                        rowSeparatorVisibility="true"
+                        keyProperty="@Id"
+                        filter="{{_filter}}"
+                        dataLoadCallback="{{_onDataLoadCallback}}"
+                        name="failedTries"
+                        markerVisibility="hidden"
+                        source="{{_viewSourceFailedTries}}"
+                        columns="{{_columns}}"
+                        itemActions="{{_itemActionFailedTries}}"
+                        itemActionsClass="controls-itemActionsV_position_topRight">
+                    <ws:virtualScrollConfig pageSize="{{20}}"/>
+                    <ws:navigation source="page" view="infinity">
+                        <ws:sourceConfig pageSize="{{50}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
+                    </ws:navigation>
+                </Controls.grid:View>
+            <Controls.popup:Confirmation name="devicesInfoPopup"/>
+        </div>
+    </Controls.scroll:Container>
+</div>
