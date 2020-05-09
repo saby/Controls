@@ -307,6 +307,23 @@ define(
                });
             });
 
+            it('new source when items is loading', () => {
+               dropdownController._items = itemsRecords.clone();
+               dropdownController._source = true;
+               dropdownController._sourceController = { isLoading: () => true };
+               dropdownController._beforeUpdate({
+                  selectedKeys: [2],
+                  keyProperty: 'id',
+                  lazyItemsLoading: true,
+                  source: new sourceLib.Memory({
+                     keyProperty: 'id',
+                     data: updatedItems
+                  })
+               });
+               assert.isTrue(dropdownController._source);
+               assert.isNull(dropdownController._items);
+            });
+
             it('new source and selectedKeys', () => {
                dropdownController._items = itemsRecords.clone();
                dropdownController._source = true;
@@ -331,7 +348,7 @@ define(
             it('new source and dropdown is open', () => {
                dropdownController._items = itemsRecords.clone();
                dropdownController._isOpened = true;
-               dropdownController._sourceController = { hasMoreData: () => {} };
+               dropdownController._sourceController = { hasMoreData: () => {}, isLoading: () => {} };
                return new Promise((resolve) => {
                   dropdownController._beforeUpdate({
                      selectedKeys: [2],
