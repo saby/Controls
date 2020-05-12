@@ -77,7 +77,8 @@
 .controls-TileView__item_theme-@{themeName} {
    position: relative;
    flex-grow: 1;
-   margin: @item_offset_tile / 2;
+   // offset + 1px for outline
+   margin: (@item_offset_tile / 2) + 1;
 }
 
 .controls-TileView__item .controls-itemActionsV {
@@ -228,11 +229,11 @@
 }
 
 .controls-TileView__item_withoutMarker_theme-@{themeName} {
-   border: @item_border-thickness_tile solid @item_border-color_tile;
+   outline: @item_border-thickness_tile solid @item_border-color_tile;
 }
 
 .controls-TileView__item_withMarker_theme-@{themeName} {
-   border: @item_border-thickness_tile solid @item_marked_border-color_tile;
+   outline: @item_border-thickness_tile solid @item_marked_border-color_tile;
 }
 
 //TODO: Убрать перебитие, сделать отдельные классы в плитке и других списках
