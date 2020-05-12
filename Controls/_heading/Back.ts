@@ -4,10 +4,10 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
 import {detection} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {backSize, backStyle} from './_ActualAPI';
-import {IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions, IIconSize, IIconSizeOptions, IIconStyle, IIconStyleOptions} from 'Controls/interface';
+import {IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions, IIconSize, IIconSizeOptions, IFontWeight, IFontWeightOptions, IIconStyle, IIconStyleOptions} from 'Controls/interface';
 type TBackStyle = 'primary' | 'secondary';
 
-export interface IBackOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions, IIconStyleOptions, IIconSizeOptions {
+export interface IBackOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions, IIconStyleOptions, IIconSizeOptions, IFontWeight {
     style?: TBackStyle;
     size?: 's' | 'm' | 'l';
 }
@@ -18,7 +18,7 @@ const MODERN_IE_VERSION = 11;
  * Специализированный заголовок-кнопка для перехода на предыдущий уровень.
  *
  * Дополнительно о работе с заголовками читайте <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/heading/">здесь</a>.
- * 
+ *
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
  *
  * @class Controls/_heading/Back
@@ -124,7 +124,7 @@ const MODERN_IE_VERSION = 11;
  * </pre>
  */
 
-class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, IIconStyle, IIconSize {
+class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, IIconStyle, IIconSize, IFontWeight {
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
     protected _style: TBackStyle;
