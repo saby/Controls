@@ -5,6 +5,7 @@
                           style="{{ _options.backButtonStyle }}"
                           fontSize="headingPathBack"
                           theme="{{ _options.theme}}"
+                          fontWeight="headingPathBack"
                           on:click="_onBackButtonClick()"/>
 
    <ws:if data="{{ _options.afterBackButtonTemplate }}">

@@ -10,6 +10,7 @@ type TBackStyle = 'primary' | 'secondary';
 export interface IBackOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions, IIconStyleOptions, IIconSizeOptions {
     style?: TBackStyle;
     size?: 's' | 'm' | 'l';
+    fontWeight?: string;
 }
 
 const MODERN_IE_VERSION = 11;
@@ -18,7 +19,7 @@ const MODERN_IE_VERSION = 11;
  * Специализированный заголовок-кнопка для перехода на предыдущий уровень.
  *
  * Дополнительно о работе с заголовками читайте <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/heading/">здесь</a>.
- * 
+ *
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
  *
  * @class Controls/_heading/Back
@@ -173,7 +174,8 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
     static getDefaultOptions(): object {
         return {
             style: 'primary',
-            size: 'm'
+            size: 'm',
+            fontWeight: 'default'
         };
     }
 
