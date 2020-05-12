@@ -3933,7 +3933,8 @@ define([
                      idProperty: 'id'
                   },
                   viewModelConstructor: lists.ListViewModel,
-                  source: source
+                  source: source,
+                  theme: 'default'
                },
                instance = new lists.BaseControl(cfg),
                fakeEvent = {
@@ -3969,6 +3970,7 @@ define([
                      assert.equal(args.templateOptions.parentProperty, 'parent');
                      assert.equal(args.templateOptions.nodeProperty, 'parent@');
                      assert.equal(itemData, instance._listViewModel._activeItem);
+                     assert.equal(args.className, 'controls-Toolbar__popup__list_theme-default');
                      assert.equal(instance._listViewModel._menuState, 'shown');
                      assert.equal(callBackCount, 3);
                      done();
