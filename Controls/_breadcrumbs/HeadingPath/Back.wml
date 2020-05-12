@@ -4,6 +4,7 @@
                           tooltip="{{ _options.backButtonCaption }}"
                           style="{{ _options.backButtonStyle }}"
                           fontSize="headingPathBack"
+                          fontWeight="headingPathBack"
                           theme="{{ _options.theme}}"
                           on:click="_onBackButtonClick()"/>
 
