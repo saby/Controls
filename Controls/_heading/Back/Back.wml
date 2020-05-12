@@ -1,5 +1,7 @@
 <ws:template name="caption">
-   <span attr:class="controls-Back__caption controls-fontsize-{{_fontSize}}_theme-{{_options.theme}} controls-Back__caption_style-{{_fontColorStyle}}_theme-{{_options.theme}}">{{_options.caption}}</span>
+   <span attr:class="controls-Back__caption controls-Back__caption_fontWeight-{{_options.fontWeight}}_theme-{{_options.theme}}
+                     controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+                     controls-Back__caption_style-{{_fontColorStyle}}_theme-{{_options.theme}}">{{_options.caption}}</span>
 </ws:template>
 <span attr:title="{{_options.tooltip}}" class="controls-Back">
    <span class="controls-Back__wrapper controls-Back__wrapper_theme-{{_options.theme}} controls-Back__wrapper_{{_fontSize}}_theme-{{_options.theme}}">
