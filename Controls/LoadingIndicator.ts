@@ -156,6 +156,8 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         const POPUP_BASE_ZINDEX = 10;
         if (popupItem) {
             this._zIndex = popupItem.currentZIndex;
+        } else if (this.isGlobal) {
+            this._zIndex = 1000000;
         } else {
             this._zIndex = POPUP_BASE_ZINDEX - 1;
         }
