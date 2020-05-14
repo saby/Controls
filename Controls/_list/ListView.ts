@@ -251,6 +251,10 @@ var ListView = BaseControl.extend(
             }
         },
 
+        _onItemTouchStart(event, itemData) {
+            this._notify('itemTouchStart', [itemData, event]);
+        },
+
         _onItemMouseUp(e, itemData) {
             this._notify('itemMouseUp', [itemData, e]);
         },

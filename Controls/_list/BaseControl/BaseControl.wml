@@ -142,6 +142,7 @@
                     on:groupClick="_onGroupClick()"
                     on:editArrowClick="_notifyHandler('editArrowClick')"
                     on:itemContextMenu="_onItemContextMenu()"
+                    on:itemTouchStart="_onItemTouchStart()"
                     on:itemMouseDown="_itemMouseDown()"
                     on:itemMouseUp="_itemMouseUp()"
                     on:itemMouseEnter="_itemMouseEnter()"

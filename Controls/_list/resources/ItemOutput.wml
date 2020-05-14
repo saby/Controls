@@ -4,6 +4,7 @@
       on:contextmenu="_onItemContextMenu(itemData)"
       on:swipe="_onItemSwipe(itemData)"
       on:mousedown="_onItemMouseDown(itemData)"
+      on:touchstart="_onItemTouchStart(itemData)"
       on:mouseup="_onItemMouseUp(itemData)"
       on:mouseenter="_onItemMouseEnter(itemData)"
       on:mouseleave="_onItemMouseLeave(itemData)"

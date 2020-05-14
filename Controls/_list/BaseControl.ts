@@ -2749,12 +2749,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.onItemsChanged(this, action, removedItems);
     },
 
-    _itemMouseDown(event, itemData, domEvent) {
-        let hasDragScrolling = false;
-        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
-        if (this._options.columnScroll) {
-            hasDragScrolling = typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop;
+    _onItemTouchStart(event, itemData, domEvent) {
+        const hasDragScrolling = this._options.columnScroll && this._options.dragScrolling !== false;
+        if (hasDragScrolling) {
+            this._savedItemMouseDownEventArgs = {event, itemData, domEvent};
         }
+    },
+
+    _itemMouseDown: function(event, itemData, domEvent) {
+        const hasDragScrolling = this._options.columnScroll && this._options.dragScrolling !== false;
+        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
 
         if (!hasDragScrolling) {
             _private.startDragNDrop(this, domEvent, itemData);

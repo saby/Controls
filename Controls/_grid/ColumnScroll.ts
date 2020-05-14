@@ -358,9 +358,8 @@ const
        },
 
        _isDragScrollingEnabled(): boolean {
-          const hasOption = typeof this._options.dragScrolling === 'boolean';
           const isDisplayColumnScroll = !!this._children.content && this._isDisplayColumnScroll();
-          return isDisplayColumnScroll && (hasOption ? this._options.dragScrolling : !this._options.itemsDragNDrop);
+          return isDisplayColumnScroll && (this._options.dragScrolling !== false);
        }
    });
 ColumnScroll._theme = ['Controls/grid', 'Controls/Classes'];
