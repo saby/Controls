@@ -2,7 +2,8 @@ import cExtend = require('Core/core-simpleExtend');
 import formatter = require('Types/formatter');
 import {dateMaskConstants} from 'Controls/interface';
 import dateUtils = require('Controls/Utils/Date');
-import {getMaskType, DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, TIME_MASK_TYPE} from './Utils';
+import {DateTime} from 'Types/entity';
+import {getMaskType, DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, TIME_MASK_TYPE, DEFAULT_YEAR_NUM} from './Utils';
 
 var _private = {
    maskMap: {
@@ -48,7 +49,7 @@ var _private = {
 
    parseString: function(self, str) {
       var valueModel = {
-            year: { str: null, value: 1904, valid: false },
+            year: { str: null, value: DEFAULT_YEAR_NUM, valid: false },
             month: { str: null, value: 0, valid: false },
             date: { str: null, value: 1, valid: false },
             hours: { str: null, value: 0, valid: false },
@@ -116,7 +117,7 @@ var _private = {
    },
 
    fillFromBaseValue: function(self, valueModel, baseValue) {
-      baseValue = dateUtils.isValidDate(baseValue) ? baseValue : new Date(1904, 0, 1);
+      baseValue = dateUtils.isValidDate(baseValue) ? baseValue : new Date(DEFAULT_YEAR_NUM, 0, 1);
 
       if (valueModel.year.str === null) {
          valueModel.year.value = baseValue.getFullYear();
@@ -335,11 +336,13 @@ var ModuleClass = cExtend.extend({
    /**
     * Returns the text displayed value
     * @param value
-    * @returns {*}
+    * @param mask
     */
-   getStringByValue: function(value, mask) {
+   getStringByValue(value: Date, mask: string): string {
       if (dateUtils.isValidDate(value)) {
-         return formatter.date(value, this._mask || mask);
+         const tzOffset: number = DateTime.getClientTimezoneOffset();
+         const actualMask: string = this._mask || mask;
+         return formatter.date(value, actualMask, tzOffset);
       }
       return '';
    },
@@ -381,7 +384,7 @@ var ModuleClass = cExtend.extend({
       return new this._dateConstructor('Invalid');
    },
    getCurrentDate: function(baseValue, mask) {
-      baseValue = dateUtils.isValidDate(baseValue) ? baseValue : new Date(1904, 0, 1)
+      baseValue = dateUtils.isValidDate(baseValue) ? baseValue : new Date(DEFAULT_YEAR_NUM, 0, 1);
       let
           year = baseValue.getFullYear(),
           month = baseValue.getMonth(),

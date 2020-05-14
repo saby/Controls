@@ -109,6 +109,7 @@ export {ValueInField as __ValueInField} from 'Controls/_input/FixBugs/ValueInFie
 export {InsertFromDrop as __InsertFromDrop} from 'Controls/_input/FixBugs/InsertFromDrop';
 export {MinusProcessing as __MinusProcessing} from 'Controls/_input/FixBugs/MinusProcessing';
 export {CarriagePositionWhenFocus as __CarriagePositionWhenFocus} from 'Controls/_input/FixBugs/CarriagePositionWhenFocus';
+export {DEFAULT_YEAR_NUM as __DEFAULT_YEAR_NUM} from 'Controls/_input/DateTime/Utils';
 
 /**
  * Объект с набором методов для опции {@link Controls/_input/interface/IValue#inputCallback}
