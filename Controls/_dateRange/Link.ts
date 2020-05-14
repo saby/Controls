@@ -1,8 +1,8 @@
 import BaseControl = require('Core/Control');
 import ILinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/Link/Link');
-import 'css!theme?Controls/dateRange';
 import getOptions from 'Controls/Utils/datePopupUtils';
+import LinkView from "./LinkView";
 /**
  * Controls that allows user to select date value in calendar.
  *
@@ -65,6 +65,8 @@ var Component = BaseControl.extend({
       this._notify('valueChanged', [value]);
    }
 });
+
+Component._theme = ['Controls/dateRange'];
 
 Component.EMPTY_CAPTIONS = ILinkView.EMPTY_CAPTIONS;
 
