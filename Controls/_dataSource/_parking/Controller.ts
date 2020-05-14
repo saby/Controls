@@ -106,7 +106,7 @@ export function findTemplate<TConfig>(
             // Если это не отмена, то логируем ошибку и продолжаем выполнение обработчиков.
             Logger.error('Handler error', null, error);
         })
-        .then((viewConfig) => viewConfig || findTemplate(otherHandlers, config));
+        .finally((viewConfig) => viewConfig || findTemplate(otherHandlers, config));
 }
 
 /// endregion helpers
