@@ -153,11 +153,10 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     // Indicator is opened above existing popups.
     _updateZIndex(config: ILoadingIndicatorOptions): void {
         const popupItem = ManagerController && ManagerController.find((config || {}).popupId);
-        const POPUP_BASE_ZINDEX = 10;
-        if (popupItem) {
+        if (popupItem && !this.isGlobal) {
             this._zIndex = popupItem.currentZIndex;
         } else {
-            this._zIndex = POPUP_BASE_ZINDEX - 1;
+            this._zIndex = null;
         }
     }
 
