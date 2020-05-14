@@ -101,11 +101,11 @@ define([
             { mask: 'DD.MM', stringValue: '__.__', value: null },
             { mask: masks.MM_YYYY, stringValue: '__.____', value: null },
             { mask: masks.MM_YYYY, stringValue: '10.2019', value: new Date(2019, 9) },
-            { mask: 'HH.mm', stringValue: '10.__', value: new Date(1904, 0, 1, 10) },
-            { mask: 'HH.mm.ss', stringValue: '10.__.__', value: new Date(1904, 0, 1, 10) },
-            { mask: 'HH.mm.ss', stringValue: '10.05.__', value: new Date(1904, 0, 1, 10, 5) },
-            { mask: 'HH.mm.ss', stringValue: '1_.5_.1_', value: new Date(1904, 0, 1, 10, 50, 10) },
-            { mask: 'HH.mm.ss', stringValue: '_1._5._1', value: new Date(1904, 0, 1, 1, 5, 1) },
+            { mask: 'HH.mm', stringValue: '10.__', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10) },
+            { mask: 'HH.mm.ss', stringValue: '10.__.__', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10) },
+            { mask: 'HH.mm.ss', stringValue: '10.05.__', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10, 5) },
+            { mask: 'HH.mm.ss', stringValue: '1_.5_.1_', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10, 50, 10) },
+            { mask: 'HH.mm.ss', stringValue: '_1._5._1', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 1, 5, 1) },
             { mask: 'HH.mm', stringValue: '__.10', value: new Date('Invalid') },
 
             // the date is more than maybe
@@ -123,14 +123,14 @@ define([
             { mask: 'DD.MM.YYYY', stringValue: '11.12.0200', value: new Date('Invalid') },
 
             // incorrect time
-            { mask: 'HH:mm:ss', stringValue: '80:80:80', value: new Date(1904, 0, 1, 23, 59, 59) },
-            { mask: 'HH:mm:ss', stringValue: '80:10:10', value: new Date(1904, 0, 1, 23, 10, 10) },
-            { mask: 'HH:mm:ss', stringValue: '10:80:80', value: new Date(1904, 0, 1, 10, 59, 59) },
-            { mask: 'HH:mm:ss', stringValue: '10:10:80', value: new Date(1904, 0, 1, 10, 10, 59) },
-            { mask: 'HH:mm', stringValue: '80:80', value: new Date(1904, 0, 1, 23, 59, 0) },
-            { mask: 'HH:mm', stringValue: '10:80', value: new Date(1904, 0, 1, 10, 59, 0) },
-            { mask: 'HH:mm', stringValue: '24:60', value: new Date(1904, 0, 1, 23, 59, 0) },
-            { mask: 'HH:mm', stringValue: '80:10', value: new Date(1904, 0, 1, 23, 10, 0) },
+            { mask: 'HH:mm:ss', stringValue: '80:80:80', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 23, 59, 59) },
+            { mask: 'HH:mm:ss', stringValue: '80:10:10', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 23, 10, 10) },
+            { mask: 'HH:mm:ss', stringValue: '10:80:80', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10, 59, 59) },
+            { mask: 'HH:mm:ss', stringValue: '10:10:80', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10, 10, 59) },
+            { mask: 'HH:mm', stringValue: '80:80', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 23, 59, 0) },
+            { mask: 'HH:mm', stringValue: '10:80', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 10, 59, 0) },
+            { mask: 'HH:mm', stringValue: '24:60', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 23, 59, 0) },
+            { mask: 'HH:mm', stringValue: '80:10', value: new Date(input.__DEFAULT_YEAR_NUM, 0, 1, 23, 10, 0) },
 
             { mask: 'HH:mm', stringValue: '10:20', value: new Date(2000, 1, 2, 10, 20, 0), baseDate: new Date(2000, 1, 2, 3, 4, 0) }
          ].forEach(function(test) {
