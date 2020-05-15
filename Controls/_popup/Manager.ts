@@ -557,16 +557,22 @@ class Manager extends Control<IManagerOptions> {
     }
 
     private _redrawItems(): void {
-        this._updateZIndex();
-        this._popupItems._nextVersion();
+        const zIndexChanged = this._updateZIndex();
+        // индекс обновляется после вызова show
+        // но после вызывается еще eventHandler и тут уже индексы не меняются
+        // поэтому nextVersion не вызовется и попап не отобржается
+        if (zIndexChanged) {
+            this._popupItems._nextVersion();
+        }
         ManagerController.getContainer().setPopupItems(this._popupItems);
     }
 
-    private _updateZIndex(): void {
+    private _updateZIndex(): boolean {
         const popupList = this._preparePopupList();
         const POPUP_ZINDEX_STEP = 10;
         // для topPopup сделал шаг 2000, чтобы не писать отдельный просчет zIndex на старой странице
         const TOP_POPUP_ZINDEX_STEP = 2000;
+        let zIndexChanged = false;
 
         this._popupItems.each((item: IPopupItem, index: number) => {
             // todo Нужно будет удалить поддержку опции zIndex, теперь есть zIndexCallback
@@ -579,8 +585,14 @@ class Manager extends Control<IManagerOptions> {
             const calculatedZIndex: number = currentItem.parentZIndex ? currentItem.parentZIndex + step : null;
             const baseZIndex: number = (index + 1) * step;
 
-            item.currentZIndex = customZIndex || calculatedZIndex || baseZIndex;
+            const newZIndex = customZIndex || calculatedZIndex || baseZIndex;
+            if (newZIndex !== item.currentZIndex) {
+                zIndexChanged = true;
+            }
+            item.currentZIndex = newZIndex;
         });
+
+        return zIndexChanged;
     }
 
     private _preparePopupList(): List<IPopupItemInfo> {
