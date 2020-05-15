@@ -25,10 +25,14 @@ define(['Controls/_suggestPopup/Layer/__PopupLayer'], function(PopupLayer) {
          const resultOpenConfig = Object.assign({
             opener: layer,
             actionOnScroll: 'close',
-            target: undefined
+            target: undefined,
+            theme: 'testTheme'
          }, resultPopupOptions);
          let openedWithConfig;
 
+         layer._options = {
+            theme: 'testTheme'
+         };
          layer._popupOptions = {};
          layer._children = {
             suggestPopup: {
