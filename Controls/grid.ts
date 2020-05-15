@@ -24,6 +24,7 @@ import ResultsTemplate = require('wml!Controls/_grid/ResultsTemplateResolver');
 import GroupTemplate = require('wml!Controls/_grid/GroupTemplate');
 import LadderWrapper = require('wml!Controls/_grid/LadderWrapper');
 import ColumnTemplate = require('wml!Controls/_grid/Column');
+import ColumnLightTemplate = require('wml!Controls/_grid/ColumnLight');
 
 import HeaderContent = require('wml!Controls/_grid/HeaderContent');
 import SortingButton from 'Controls/_grid/SortingButton';
@@ -42,6 +43,7 @@ export {
     GroupTemplate,
     LadderWrapper,
     ColumnTemplate,
+    ColumnLightTemplate,
 
     HeaderContent,
     SortingButton,

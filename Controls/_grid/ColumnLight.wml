@@ -1,0 +1,5 @@
+<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_2XL_theme-{{_options.theme}}
+            {{itemData.classList.padding.getAll()}} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}">
+    <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}" editArrowTemplate="{{editArrowTemplate}}"/>
+</div>
+<!--TODO https://online.sbis.ru/opendoc.html?guid=3cce47db-f24c-484d-81a5-62fe5ff53657-->
