@@ -8,7 +8,7 @@
       <div class="controls-ListView__itemV_marker controls-ListView__itemV_marker_theme-{{theme}}"></div>
    </ws:if>
    <ws:if data="{{ contentTemplate }}">
-      <div attr:class="{{ item.getContentClasses(theme, style) }}">
+      <div attr:class="{{ item.getContentClasses(theme) }}">
          <ws:partial
             template="{{ contentTemplate }}"
             item="{{ item }}"
@@ -19,7 +19,7 @@
       </div>
    </ws:if>
    <ws:else>
-      <div attr:class="{{ item.getContentClasses(theme, style) }}">
+      <div attr:class="{{ item.getContentClasses(theme) }}">
          {{ item.getContents()[item.getDisplayProperty() || 'title'] }}
       </div>
    </ws:else>

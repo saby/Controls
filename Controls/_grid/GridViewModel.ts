@@ -127,9 +127,9 @@ var
             if (params.columnIndex === params.columns.length - arrayLengthOffset) {
                 classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
-            if (!params.isHeader && !params.isResult) {const style = params.style || 'master';
-                classLists.top += ` controls-Grid__row-cell_${style}_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
-                classLists.bottom += ` controls-Grid__row-cell_${style}_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
+            if (!params.isHeader && !params.isResult) {
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
             return classLists;
@@ -247,8 +247,7 @@ var
 
             // Стиль колонки
             const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__row-cell_${style}_theme-${theme}
-                                controls-Grid__cell_${style} ${rowSeparatorSize}`;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} ${rowSeparatorSize}`;
             classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
 
             if (current.columnScroll) {
@@ -268,8 +267,8 @@ var
             if (checkBoxCell) {
                 classLists.base += ` controls-Grid__row-cell-checkbox_theme-${theme}`;
                 classLists.padding = createClassListCollection('top', 'bottom');
-                classLists.padding.top = `controls-Grid__row-cell_${style}_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
-                classLists.padding.bottom =  `controls-Grid__row-cell_${style}_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
+                classLists.padding.top = `controls-Grid__row-cell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
+                classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
             } else {
                 classLists.padding = _private.getPaddingCellClasses(current, theme);
             }
@@ -1296,9 +1295,7 @@ var
             };
 
             current.getMarkerClasses = (rowSeparatorVisibility): string => {
-                const style = this._options.style || 'default';
-                let classes = `controls-GridView__itemV_marker controls-GridView__itemV_marker-${style}
-                                controls-GridView__itemV_marker-${style}_theme-${self._options.theme}`;
+                let classes = ' controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-' + self._options.theme;
 
                 if (rowSeparatorVisibility) {
                     classes += ' controls-GridView-with-rowSeparator_item_marker';
