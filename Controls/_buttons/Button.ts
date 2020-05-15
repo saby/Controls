@@ -67,10 +67,9 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * Графический контрол, который предоставляет пользователю возможность простого запуска события при нажатии на него.
  * @remark
  * Кнопки могут отображаться в нескольких режимах, отличающихся друга от друга внешне.
- * Более подробное описание можно найти <a href='/doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/'>здесь</a>
+ * Подробное о работе с кнопками читайте <a href='/doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/'>здесь</a>.
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Демо-пример</a>.
- *
+ * См. <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">демо-пример</a>.
  * @class Controls/_buttons/Button
  * @extends Core/Control
  * @mixes Controls/_buttons/interface/IHref
@@ -115,37 +114,47 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * @category Button
  * @demo Controls-demo/Buttons/ViewModes/Index
  */
+
 /**
- * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Режим отображения кнопки.
+ * @typedef {String} ViewMode
  * @variant button В виде обычной кнопки по-умолчанию.
  * @variant link В виде гиперссылки.
  * @variant toolButton В виде кнопки для панели инструментов.
  * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
+ */
+
+/**
+ * @name Controls/_buttons/Button#viewMode
+ * @cfg {ViewMode} Режим отображения кнопки.
  * @default button
  * @demo Controls-demo/Buttons/ViewModes/Index
  * @example
  * Кнопка в режиме отображения 'link'.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.buttons:Button caption="Send document" style="primary" viewMode="link" size="xl"/>
  * </pre>
  * Кнопка в режиме отображения 'toolButton'.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.buttons:Button caption="Send document" style="danger" viewMode="toolButton"/>
  * </pre>
  * Кнопка в режиме отображения 'button'.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.buttons:Button caption="Send document" style="success" viewMode="button"/>
  * </pre>
  * @see Size
  */
 
-/*
- * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Button view mode.
+/*ENG
+ * @typedef {String} ViewMode
  * @variant link Decorated hyperlink.
  * @variant button Default button.
  * @variant toolButton Toolbar button.
+ * @variant functionalButton
+ */
+
+/*ENG
+ * @name Controls/_buttons/Button#viewMode
+ * @cfg {ViewMode} Button view mode.
  * @default button
  * @example
  * Button with 'link' viewMode.
@@ -164,15 +173,19 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  */
 
 /**
- * @name Controls/_buttons/Button#captionPosition
- * @cfg {String} Определяет, с какой стороны расположен текст кнопки относительно иконки.
+ * @typedef {String} CaptionPosition
  * @variant left Текст расположен перед иконкой.
  * @variant right Текст расположен после иконки.
+ */
+
+/**
+ * @name Controls/_buttons/Button#captionPosition
+ * @cfg {CaptionPosition} Определяет, с какой стороны расположен текст кнопки относительно иконки.
  * @default right
  * @demo Controls-demo/Buttons/CaptionPosition/Index
  */
 
-/*
+/*ENG
  * @name Controls/_buttons/Button#captionPosition
  * @cfg {String} Determines on which side of the icon caption is located.
  * @variant left Caption before icon.
