@@ -1,4 +1,4 @@
-<div class="controls-Label controls-Label_underline_{{_options.underline}}_theme-{{_options.theme}}">
+<div class="controls-Label controls-Label_theme-{{_options.theme}} controls-Label_underline_{{_options.underline}}_theme-{{_options.theme}}">
    <div class="controls-Label__wrapper">
       <div class="controls-Label__caption
                {{_options.fontSize ? 'controls-fontsize-' + _options.fontSize : 'controls-Label__caption'}}_theme-{{_options.theme}}
