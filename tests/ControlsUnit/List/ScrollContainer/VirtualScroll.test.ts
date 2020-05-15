@@ -126,9 +126,8 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.resetRange(0, 5);
             // @ts-ignore
             instance.updateItemsHeights(generateContainer([60, 60, 60, 60, 60]));
-            assert.deepEqual({range: {start: 0, stop: 5}, placeholders: {top: 0, bottom: 60}},
-                instance.insertItems(0, 1, {up: false, down: false})
-            );
+            assert.deepEqual({range: {start: 0, stop: 6}, placeholders: {top: 0, bottom: 0}},
+                instance.insertItems(0, 1, {up: false, down: false}));
         });
         it('without specified options', () => {
             instance.setOptions({pageSize: undefined, segmentSize: undefined});
