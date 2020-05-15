@@ -179,11 +179,11 @@
   .controls-itemActionsV_style_master_theme-@{themeName} {
     //because of selected item border in Grid is realized by box-shadow, itemAction overlaps bottom shadow by z-index
     //best solution is to increase bottom position of itemAction by border bottom width in old grid master
-    bottom: 0;
+    bottom: @master_item_selected_border-thickness_list;
     //for the same reason as the problem described above, if in itemActions spacing between content and border-right will
     //realized by padding, itemActions will overlaps right shadow, with margin work fine
     padding-right: 0;
     margin-right: @offset-right_itemActions;
-    height: @height_itemActions;
+    height: @height_itemActions - @master_item_selected_border-thickness_list;
   }
 }

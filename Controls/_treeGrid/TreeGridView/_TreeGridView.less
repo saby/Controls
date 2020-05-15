@@ -8,38 +8,31 @@
 @_hierarchy_offset_l_treeGrid:    @expander_l_padding-left_treeGrid + @expander_l_padding-right_treeGrid + @expander_width_treeGrid;
 @_hierarchy_offset_xl_treeGrid:   @expander_xl_padding-left_treeGrid + @expander_xl_padding-right_treeGrid + @expander_width_treeGrid;
 
-.controls-TreeGrid__row_default-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
+.controls-TreeGrid__row-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
    padding-top: @expander_s_padding-top_treeGrid;
    padding-bottom: @expander_s_padding-bottom_treeGrid;
    padding-left: @expander_s_padding-left_treeGrid;
    padding-right: @expander_s_padding-right_treeGrid;
 }
-.controls-TreeGrid__row_default-expander_size_m_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_m_theme-@{themeName} {
+.controls-TreeGrid__row-expander_size_m_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_m_theme-@{themeName} {
    padding-top: @expander_m_padding-top_treeGrid;
    padding-bottom: @expander_m_padding-bottom_treeGrid;
    padding-left: @expander_m_padding-left_treeGrid;
    padding-right: @expander_m_padding-right_treeGrid;
 }
-.controls-TreeGrid__row_default-expander_size_l_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_l_theme-@{themeName} {
+.controls-TreeGrid__row-expander_size_l_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_l_theme-@{themeName} {
    padding-top: @expander_l_padding-top_treeGrid;
    padding-bottom: @expander_l_padding-bottom_treeGrid;
    padding-left: @expander_l_padding-left_treeGrid;
    padding-right: @expander_l_padding-right_treeGrid;
 }
-.controls-TreeGrid__row_default-expander_size_xl_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_xl_theme-@{themeName} {
+.controls-TreeGrid__row-expander_size_xl_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_xl_theme-@{themeName} {
    padding-top: @expander_xl_padding-top_treeGrid;
    padding-bottom: @expander_xl_padding-bottom_treeGrid;
    padding-left: @expander_xl_padding-left_treeGrid;
    padding-right: @expander_xl_padding-right_treeGrid;
 }
-.controls-TreeGrid__row_default-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-   padding-top: @expander_default_padding-top_treeGrid;
-   padding-bottom: @expander_default_padding-bottom_treeGrid;
-   padding-left: @expander_default_padding-left_treeGrid;
-   padding-right: @expander_default_padding-right_treeGrid;
-}
-
-.controls-TreeGrid__row_master-expander_size_default_theme-@{themeName} {
+.controls-TreeGrid__row-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
    padding-top: @expander_default_padding-top_treeGrid;
    padding-bottom: @expander_default_padding-bottom_treeGrid;
    padding-left: @expander_default_padding-left_treeGrid;
@@ -191,7 +184,7 @@
    }
 }
 
-.controls-TreeGrid__row_-expander__spacingBottom_default_theme-@{themeName} {
+.controls-TreeGrid__row-expander__spacingBottom_default_theme-@{themeName} {
    margin-bottom: @item_padding-bottom_default_grid;
 }
 .controls-TreeGrid__row-expander__spacingBottom_m_theme-@{themeName} {
@@ -255,15 +248,15 @@
 .controls-TreeGridView__footer__expanderPadding-xl_theme-@{themeName}{
    margin-left: @_hierarchy_offset_xl_treeGrid;
 }
-.controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
+.controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
   font-size: @node_font-size_treeGrid;
 }
-.controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
+.controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
 .controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
   font-size: @hidden-node_font-size_treeGrid;
 }
-.controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
+.controls-TreeGrid__row-cell_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
 .controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
   font-size: @item_font-size_m_grid;
 }

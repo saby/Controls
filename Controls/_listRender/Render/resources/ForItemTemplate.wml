@@ -4,7 +4,6 @@
    itemTemplate="{{ item.getItemTemplate(itemTemplate, groupTemplate) }}"
    multiSelectVisibility="{{ collection.getMultiSelectVisibility() }}"
    searchValue="{{ collection.getSearchValue() }}"
-   style="{{_options.style}}"
 
    attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
 

@@ -109,7 +109,7 @@ define(['Controls/treeGrid',
          assert.isTrue(!!itemData.getCurrentColumn);
          var
             currentColumn = itemData.getCurrentColumn();
-         assert.equal(currentColumn.classList.base, ' controls-TreeGrid__row-cell_theme-default controls-TreeGrid__row-cell_default_theme-default controls-TreeGrid__row-cell__item_theme-default');
+         assert.equal(currentColumn.classList.base, ' controls-TreeGrid__row-cell_theme-default controls-TreeGrid__row-cell__item_theme-default');
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });
 

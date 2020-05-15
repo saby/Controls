@@ -29,33 +29,16 @@
 .controls-MasterDetail_master-template_theme-@{themeName} {
    &:before {
       width: @master_separator_thickness_list;
-   }
-}
-
-.controls-MasterDetail_master-template-contrast_theme-@{themeName} {
-   &:before {
-      background-color: @master_separator_contrast-color_list;
-   }
-}
-
-.controls-MasterDetail_master-template-same_theme-@{themeName} {
-   &:before {
       background-color: @master_separator_color_list;
    }
 }
-
 .controls-MasterDetail_details {
    min-width: 1px;
 }
 
-.controls-MasterDetail_details_bg-contrast_theme-@{themeName} {
-   background-color: @detail_contrast_background-color_masterDetail;
-}
-
-.controls-MasterDetail_details_bg-same_theme-@{themeName} {
+.controls-MasterDetail_details_theme-@{themeName} {
    background-color: @detail_background-color_masterDetail;
 }
-
 .controls-MasterDetail_resizing-line {
    position: absolute;
    right: 0;
@@ -71,18 +54,9 @@
 
 // Класс для установки фона контрола через backgroundStyle (master)
 .controls-background-master_theme-@{themeName} {
-   background-color: @master_item_background-color_list;
+   background-color: @master_item_selected_background-color_list;
 }
 
-// Класс для установки фона контрола через backgroundStyle (detail)
-.controls-background-detail_theme-@{themeName} {
-   background-color: @detail_background-color_masterDetail;
-}
-
-// Класс для установки фона контрола через backgroundStyle (detailContrast)
-.controls-background-detailContrast_theme-@{themeName} {
-   background-color: @detail_contrast_background-color_masterDetail;
-}
 
 // Набор классов для установки градиента горизонтального скролла через backgroundStyle (master, detail)
 .controls-horizontal-gradient-master_theme-@{themeName} {
@@ -90,12 +64,36 @@
    border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
 }
 
-.controls-horizontal-gradient-detail_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.ws-is-mobile-safari,
+.ws-is-desktop-safari {
+   // stack of z-index on safari and ie work differently, then in chrome and ff
+   // https://online.sbis.ru/opendoc.html?guid=1b3f1c99-6d0c-47c2-af1b-621d81c6bab9
+   // https://online.sbis.ru/opendoc.html?guid=06db74da-222c-48f8-9843-42263175d973
+   .controls-MasterDetail_master-template::before {
+      z-index: 1;
+   }
 }
 
-.controls-horizontal-gradient-detailContrast_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.ws-is-mobile-safari,
+.ws-is-desktop-safari {
+   .controls-MasterDetail_master .controls-Scroll__content {
+      //if width more than 100.4 ipad sometimes can scroll container to left
+      //100.4 is needed to resolve bug https://css-tricks.com/percentage-bugs-in-webkit/, https://bugs.webkit.org/show_bug.cgi?id=140371 with subpixel render
+      width: 100.4%;
+   }
+}
+
+.ws-is-mobile-safari {
+   .controls-MasterDetail_master .controls-Scroll__content {
+      //z-index is needed in mobile safari, because scroll have webkit-overflow-scrolling: touch style,
+      //webkit-overflow-scrolling creating stacking context, and all elements inside can not be higher by z-index,
+      //than elements on the same level with the scroll.
+      //Grey line of master (master option of the MasterDetail control) is on the same level with the scroll,
+      //white line, that should overlaps grey line is in list item (list control is inside scroll container).
+      //Because of the webkit-overflow-scrolling, white line can not overlaps grey line,
+      // to solve this problem make z-index: 1 on scroll.
+      z-index: 1;
+      //https://stackoverflow.com/questions/37696746/ios-not-respecting-z-index-with-webkit-overflow-scrolling
+      transform: translateX(0);
+   }
 }

@@ -35,7 +35,6 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterWidth: number|string;
     masterMinWidth: number|string;
     masterMaxWidth: number|string;
-    contrastBackground: boolean;
 }
 
 class Base extends Control<IMasterDetail> {
@@ -82,15 +81,6 @@ class Base extends Control<IMasterDetail> {
      * @cfg {String} Уникальный идентификатор контрола, по которому будет сохраняться конфигурация в хранилище данных.
      * С помощью этой опции включается функционал движения границ.
      * Помимо propStorageId необходимо задать опции {@link masterWidth}, {@link masterMinWidth}, {@link masterMaxWidth}.
-     */
-
-    /**
-     * @name Controls/_masterDetail/Base#contrastBackground
-     * @cfg {Boolean} Определяет контрастность фона контента detail по отношению к контенту master.
-     * @default true
-     * @remark
-     * * true - контрастный фон.
-     * * false - фон, гармонично сочетающийся с окружением.
      */
 
     protected _template: TemplateFunction = template;
@@ -290,12 +280,6 @@ class Base extends Control<IMasterDetail> {
     }
 
     static _theme: string[] = ['Controls/masterDetail'];
-
-    static getDefaultOptions(): Partial<IMasterDetail> {
-        return {
-            contrastBackground: true
-        };
-    }
 }
 
 export default Base;
