@@ -5,7 +5,7 @@ import Deferred = require('Core/Deferred');
 import {factory} from 'Types/chain';
 import Utils = require('Types/util');
 import {isEqual} from 'Types/object';
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import isEmptyObject = require('Core/helpers/Object/isEmpty');
 import {Logger} from 'UI/Utils';
 

@@ -5,7 +5,7 @@ import Control = require('Core/Control');
 import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
 import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
 import {Logger} from 'UI/Utils';
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {factory} from 'Types/chain';
 import * as cInstance from 'Core/core-instance';
 

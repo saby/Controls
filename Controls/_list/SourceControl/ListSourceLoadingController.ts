@@ -9,7 +9,7 @@ import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interfac
 import {
     CrudWrapper,
     ICrudWrapperOptions
-} from 'Controls/_dataSource/CrudWrapper';
+} from 'Controls/_source/CrudWrapper';
 
 import {NavigationOptionsResolver} from './NavigationOptionsResolver';
 import * as ErrorModule from 'Controls/_dataSource/error';

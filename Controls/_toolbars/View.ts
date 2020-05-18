@@ -26,7 +26,7 @@ import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
 import {ButtonTemplate, cssStyleGeneration} from 'Controls/buttons';
-import {CrudWrapper} from "../dataSource";
+import {CrudWrapper} from 'Controls/source';
 
 type TItem = Record;
 type TItems = RecordSet<TItem>;

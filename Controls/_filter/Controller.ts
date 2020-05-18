@@ -8,7 +8,7 @@ import merge = require('Core/core-merge');
 import clone = require('Core/core-clone');
 import isEmpty = require('Core/helpers/Object/isEmpty');
 import {isEqual} from 'Types/object';
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {RecordSet} from 'Types/Collection';
 import Prefetch from 'Controls/_filter/Prefetch';
 import {IPrefetchHistoryParams} from './IPrefetch';

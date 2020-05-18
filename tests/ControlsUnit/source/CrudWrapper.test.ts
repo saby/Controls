@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {Memory} from 'Types/source';
 import {Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {error as dsError} from 'Controls/dataSource';
 
 const data = [

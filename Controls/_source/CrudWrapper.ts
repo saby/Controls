@@ -9,11 +9,11 @@ import {IAdditionalQueryParams} from 'Controls/_source/interface/IAdditionalQuer
 
 export interface ICrudWrapperOptions {
     /**
-     * @name Controls/_source/NavigationController#source
+     * @name Controls/_source/CrudWrapper#source
      * @cfg {Types/source:ICrud} Ресурс для запроса данных
      */
     /*
-     * @name Controls/_source/NavigationController#source
+     * @name Controls/_source/CrudWrapper#source
      * @cfg {Types/source:ICrud} Source to request data
      */
     source: ICrud;
@@ -36,7 +36,7 @@ export interface ICrudWrapperOptions {
 }
 
 /**
- * @name Controls/dataSource/SourceCrudInterlayer#source
+ * @name Controls/dataSource/CrudWrapper#source
  * @cfg {Types/source:ICrud} Ресурс для запроса данных
  * @example
  * const source = new Memory({
@@ -45,12 +45,12 @@ export interface ICrudWrapperOptions {
  * });
  */
 /*
- * @name Controls/dataSource/SourceCrudInterlayer#source
+ * @name Controls/dataSource/CrudWrapper#source
  * @cfg {Types/source:ICrud} Data source
  */
 
 /**
- * @name Controls/dataSource/SourceCrudInterlayer#errorController
+ * @name Controls/dataSource/CrudWrapper#errorController
  * @cfg {Controls/dataSource:error.Controller} Контроллер ошибки c предварительно настроенными Handlers
  * @example
  * const handlers = {
@@ -72,7 +72,7 @@ export interface ICrudWrapperOptions {
  * const errorController = new error.Controller(handlers);
  */
 /*
- * @name Controls/dataSource/SourceCrudInterlayer#errorController
+ * @name Controls/dataSource/CrudWrapper#errorController
  * @cfg {Controls/dataSource:error.Controller} Error controller instance with previously configured handlers
  */
 
@@ -84,7 +84,7 @@ export interface ICrudWrapperOptions {
  *  • formController ({@link Controls/_form/FormController.ts})
  *  • dataSource/error/DataLoader ({@link Controls/_dataSource/_error/DataLoader.ts} and {@link Controls/_dataSource/requestDataUtil.ts})
  * НЕ РЕАЛИЗУЕТ интерфейс Types/_source/ICrud, т.к. метод query должен принимать параметры filter, sorting, offset, limit
- * @class Controls/dataSource/SourceCrudInterlayer
+ * @class Controls/dataSource/CrudWrapper
  * @example
  * const source = new Memory({
  *     keyProperty: 'id',
@@ -113,8 +113,8 @@ export interface ICrudWrapperOptions {
  *         console.log(error);
  *     }
  * }
- * const sourceCrudInterlayer = new SourceCrudInterlayer(source, errorConfig, errorController);
- * sourceCrudInterlayer.create(...)
+ * const CrudWrapper = new CrudWrapper(source, errorConfig, errorController);
+ * CrudWrapper.create(...)
  *     .then((record: Record) => {
  *         // ...
  *     })

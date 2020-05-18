@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_toggle/CheckboxGroup/CheckboxGroup');
 import groupTemplate = require('wml!Controls/_toggle/CheckboxGroup/GroupTemplate');
 import defaultItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {isEqual} from 'Types/object';
 import {descriptor as EntityDescriptor, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';

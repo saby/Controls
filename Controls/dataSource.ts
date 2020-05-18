@@ -14,4 +14,3 @@ import * as error from 'Controls/_dataSource/error';
 import requestDataUtil, {ISourceConfig, IRequestDataResult} from 'Controls/_dataSource/requestDataUtil';
 
 export {parking, error, requestDataUtil, ISourceConfig, IRequestDataResult};
-export { CrudWrapper } from 'Controls/_dataSource/CrudWrapper';

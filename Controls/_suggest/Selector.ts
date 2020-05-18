@@ -1,7 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_suggest/Selector/Selector');
 import Merge = require('Core/core-merge');
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';

@@ -5,7 +5,7 @@ import chain = require('Types/chain');
 import Utils = require('Types/util');
 import cInstance = require('Core/core-instance');
 import {ContextOptions} from 'Controls/context';
-import {CrudWrapper} from 'Controls/dataSource';
+import {CrudWrapper} from 'Controls/source';
 import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
 import {IData, IDecorator} from 'Types/source';

@@ -16,15 +16,12 @@
  * @author Крайнов Д.О.
  */
 
-import {default as EnumAdapter} from './_source/Adapter/Enum';
-import Controller = require('Controls/_source/SourceController');
+export {default as EnumAdapter} from './_source/Adapter/Enum';
+export {default as SelectedKey} from './_source/Adapter/SelectedKey';
 
 export {NavigationController} from 'Controls/_source/NavigationController';
 export {IAdditionalQueryParams, Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
+export { CrudWrapper } from 'Controls/_source/CrudWrapper';
 
-export {default as SelectedKey} from './_source/Adapter/SelectedKey';
-
-export {
-   EnumAdapter,
-   Controller
-};
+import Controller = require('Controls/_source/SourceController');
+export {Controller};
