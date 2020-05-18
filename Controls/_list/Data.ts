@@ -260,7 +260,8 @@ type GetSourceResult = {
             } else if (!isEqual(newOptions.filter, this._options.filter) ||
                        !isEqual(newOptions.navigation, this._options.navigation) ||
                        newOptions.sorting !== this._options.sorting ||
-                       newOptions.keyProperty !== this._options.keyProperty) {
+                       newOptions.keyProperty !== this._options.keyProperty ||
+                       newOptions.root !== this._options.root) {
                _private.updateDataOptions(this, this._dataOptionsContext);
                this._dataOptionsContext.updateConsumers();
             }

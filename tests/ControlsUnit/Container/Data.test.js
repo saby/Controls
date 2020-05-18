@@ -294,6 +294,17 @@ define(
             });
          });
 
+         it('rootChanged', async () => {
+            const config = {source: source, keyProperty: 'id', filter: {test: 'test'}, root: '123', parentProperty: 'root'};
+            const data = getDataWithConfig(config);
+
+            await data._beforeMount(config);
+            const newConfig = {...config};
+            delete newConfig.root;
+            data._beforeUpdate(newConfig);
+            assert.isTrue(!data._dataOptionsContext.filter.root);
+         });
+
          it('query returns error', function(done) {
             var source = {
                query: function() {
