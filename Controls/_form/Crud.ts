@@ -56,30 +56,21 @@ let CRUD = Control.extend({
 
     update(record: Model, isNewRecord: boolean, config?: unknown): Promise<void> | null {
         const updateMetaData = config?.additionalData;
-
+        let def;
         if (record.isChanged() || isNewRecord) {
-            const resultUpdate = this._dataSource
-                .update(record, updateMetaData)
-                .then((key) => {
-                    this._notify('updateSuccessed', [record, key, config]);
-                    return key;
-                })
-                .catch((error) => {
-                    this._notify('updateFailed', [error, record]);
-                    return error;
-                });
-            const argsPending = [
-                resultUpdate, {
-                    showLoadingIndicator: this._options.showLoadingIndicator
-                }
-            ];
-
-            this._notify('registerPending', argsPending, {bubbling: true});
-
-            return resultUpdate;
+            def = this._dataSource.update(record, updateMetaData);
+            this._notify('registerPending', [def, {showLoadingIndicator: this._options.showLoadingIndicator}], {bubbling: true});
+            def.then((key) => {
+                this._notify('updateSuccessed', [record, key]);
+                return key;
+            }, (e) => {
+                this._notify('updateFailed', [e, record]);
+                return e;
+            });
+        } else {
+            def = null;
         }
-
-        return null;
+        return def;
     },
 
     delete(record, destroyMeta) {
