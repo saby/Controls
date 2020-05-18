@@ -113,7 +113,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
    getCount(selection: ISelection, hasMoreData: boolean): number|null {
       let countItemsSelected: number|null = null;
-      const itemsCount: number = this._items.getCount();
+      const itemsCount = this._items instanceof Array ? this._items.length : this._items.getCount();
 
       if (this._isAllSelected(selection)) {
          if (!hasMoreData) {
