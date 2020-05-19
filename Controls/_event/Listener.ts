@@ -20,7 +20,7 @@ interface IListenerOptions extends IControlOptions {
  * @extends UI/Base:Control
  * @control
  * @public
- * @author Белотелов Н.В.
+ * @author Шипин А.А.
  */
 
 /**
