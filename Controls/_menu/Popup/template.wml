@@ -1,5 +1,17 @@
 <ws:template name="menuPopup" >
    <div class="controls-Menu__popup">
+      <ws:if data="{{_headerTemplate && _applyButtonVisibility && _options.applyButtonAlign === 'top'}}">
+         <div class="controls-DropdownList__applyButton
+                              controls-Menu__applyButton-top_theme-{{_options.theme}}">
+            <Controls.buttons:Button viewMode="functionalButton"
+                                     icon="icon-Yes"
+                                     iconSize="m"
+                                     iconStyle="contrast"
+                                     buttonStyle="success"
+                                     inlineHeight="menuapplytop"
+                                     on:click="_applySelection()"/>
+         </div>
+      </ws:if>
       <Controls.popupTemplate:Sticky
               attr:class="controls-DropdownList__popup
                           controls-Popup__isolatedFocusingContext
@@ -62,6 +74,7 @@
                        itemPadding="{{_itemPadding}}"
                        dataLoadCallback="{{_dataLoadCallback}}"
                        headingIcon="{{_headingIcon}}"
+                       headerContentTemplate="{{_headerTemplate}}"
                        theme="{{_options.theme}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:applyClick="_sendResult('applyClick')"
@@ -70,6 +83,8 @@
                        on:menuOpened="_sendResult('menuOpened')"
                        on:beforeSubMenuOpen="_prepareSubMenuConfig()"
                        on:subMenuMouseenter="_sendResult('subMenuMouseenter')"
+                       on:applyButtonVisible="_setApplyButtonVisible()"
+                       on:selectedKeysChanged="_setSelectedKeys()"
                />
             </div>
          </ws:bodyContentTemplate>
