@@ -23,9 +23,10 @@
         </div>
     </ws:if>
     <ws:if data="{{_options.footerContentTemplate}}">
-         <ws:partial template="{{_options.footerContentTemplate}}"
-                     class="controls-StickyTemplate__footer controls-DropdownList__footer"
-                     scope="{{_options}}"
-                     on:click="_proxyEvent('footerClick')"></ws:partial>
+        <div class="controls-StickyTemplate__footerContainer" on:click="_proxyEvent('footerClick')">
+            <ws:partial template="{{_options.footerContentTemplate}}"
+                        class="controls-StickyTemplate__footer controls-DropdownList__footer"
+                        scope="{{_options}}"></ws:partial>
+        </div>
     </ws:if>
 </div>
