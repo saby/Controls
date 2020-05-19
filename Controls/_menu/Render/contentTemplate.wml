@@ -7,6 +7,7 @@
 <div class="controls-Menu__content {{item.get('readOnly') ? 'controls-Menu__content-readOnly'}}
                      controls-Menu__content_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}
                      controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}
+                     {{_options.multiSelect && _options.applyButtonAlign === 'top' ? 'controls-Menu__content-multiselect_theme-' + _options.theme}}
                      {{treeItem.getLevel && treeItem.getLevel() > 1 ? 'controls-Menu__content_levelPadding_theme-' + _options.theme}}"
      title="{{item.get('tooltip') || item.get(displayProperty || 'title')}}">
    <ws:if data="{{iconAlign !== 'right'}}">

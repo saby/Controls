@@ -2,6 +2,7 @@
    display: flex;
    flex-direction: column;
    overflow: hidden;
+   position: relative;
    max-height: 100%;
    width: 100%;
 }
@@ -78,7 +79,7 @@
 .controls-Menu__row-checkbox-right_theme-@{themeName} {
    position: absolute;
    top: (@item_height_menu - @height_checkbox) / 2;
-   right: 0;
+   right: @checkbox_offset_menu;
 }
 
 .controls-Menu__row-checkbox_invisible_theme-@{themeName} {
@@ -101,6 +102,10 @@
    max-width: 100%;
    min-width: 0;
    flex-shrink: 1;
+}
+
+.controls-Menu__content-multiselect_theme-@{themeName} {
+   padding-right: @apply-button_width_menuPopup + (@apply-button-right_offset_menuPopup * 2);
 }
 
 .controls-Menu__defaultItem_theme-@{themeName},
@@ -243,6 +248,20 @@
    cursor: pointer;
 }
 
+.controls-Menu__applyButton {
+   height: 100%;
+   width: 100%;
+}
+
+.controls-Menu__applyButton-top_theme-@{themeName} {
+   position: absolute;
+   right: @apply-button-right_offset_menuPopup;
+   top: (@item_height_menu - @icon-size_m) / 2;
+   z-index: 2;
+   height: @apply-button_height_menuPopup;
+   width: @apply-button_width_menuPopup;
+}
+
 .controls-Menu__applyButton_theme-@{themeName} {
    display: flex;
    padding-right: @item_padding-horizontal_l_menu;
@@ -274,6 +293,10 @@
 .controls-inlineheight-menuapply_theme-@{themeName} {
    height: @apply-button_inline-height_menuPopup;
    min-width: @apply-button_inline-height_menuPopup;
+   border-radius: @apply-button_border-radius_menuPopup;
+}
+
+.controls-inlineheight-menuapplytop_theme-@{themeName} {
    border-radius: @apply-button_border-radius_menuPopup;
 }
 
