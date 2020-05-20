@@ -1,5 +1,20 @@
 <div class="controls-menu"
      attr:ws-no-focus="true">
+   <ws:template name="applyButton">
+      <div class="controls-DropdownList__applyButton">
+         <Controls.buttons:Button viewMode="functionalButton"
+                                  icon="icon-Yes"
+                                  iconSize="m"
+                                  iconStyle="contrast"
+                                  buttonStyle="success"
+                                  attr:class="controls-Menu__applyButton"
+                                  inlineHeight="{{inlineHeight}}"
+                                  on:click="_applySelection()"/>
+      </div>
+   </ws:template>
+   <ws:if data="{{_applyButtonVisible && !_options.headerContentTemplate && _options.applyButtonAlign === 'top'}}">
+      <ws:partial template="applyButton" attr:class="controls-Menu__applyButton-top_theme-{{_options.theme}}" inlineHeight="menuapplytop"></ws:partial>
+   </ws:if>
    <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                           controls-Menu__scroll
                                           controls-DropdownList__scroll
@@ -23,7 +38,7 @@
                              on:pinClick="_pinClick()">
       </Controls._menu.Render>
    </Controls.scroll:Container>
-   <ws:if data="{{_applyButtonVisible || _moreButtonVisible || _expandButtonVisible}}">
+   <ws:if data="{{( _applyButtonVisible && !(_options.applyButtonAlign && _options.applyButtonAlign === 'top')) || _moreButtonVisible || _expandButtonVisible}}">
       <div class="controls-DropdownList__footer controls-Menu__footer_theme-{{_options.theme}}"
                   on:mouseenter="_footerMouseEnter()">
          <ws:if data="{{_moreButtonVisible}}">
@@ -46,16 +61,7 @@
             </div>
          </ws:else>
          <ws:if data="{{_applyButtonVisible}}">
-            <div class="controls-DropdownList__applyButton
-                              controls-Menu__applyButton_theme-{{_options.theme}}">
-               <Controls.buttons:Button viewMode="functionalButton"
-                                        icon="icon-Yes"
-                                        iconSize="m"
-                                        iconStyle="contrast"
-                                        buttonStyle="success"
-                                        inlineHeight="menuapply"
-                                        on:click="_applySelection()"/>
-            </div>
+            <ws:partial template="applyButton" attr:class="controls-Menu__applyButton_theme-{{_options.theme}}" inlineHeight="menuapply"></ws:partial>
          </ws:if>
       </div>
    </ws:if>

@@ -35,6 +35,8 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _closeButtonVisibility: boolean;
     protected _verticalDirection: string = 'bottom';
     protected _horizontalDirection: string = 'right';
+    protected _applyButtonVisibility: boolean = false;
+    protected _selectedKeys: any = [];
 
     protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
         this._headerTheme = this._getTheme();
@@ -52,7 +54,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _beforeUpdate(newOptions: IMenuPopupOptions): void {
         this._headerTheme = this._getTheme();
 
-        if (newOptions.stickyPosition.direction && this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
+        if (newOptions.stickyPosition && newOptions.stickyPosition.direction && this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
             this._verticalDirection = newOptions.stickyPosition.direction.vertical;
             this._horizontalDirection = newOptions.stickyPosition.direction.horizontal;
         }
@@ -61,6 +63,10 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _sendResult(event: SyntheticEvent<MouseEvent>, action, data, nativeEvent): void {
         this._notify('sendResult', [action, data, nativeEvent], {bubbling: true});
         return false; // Чтобы подменю не закрывалось после клика на пункт https://wi.sbis.ru/docs/js/Controls/menu/Control/events/itemClick/
+    }
+
+    protected _setSelectedKeys(event: SyntheticEvent<MouseEvent>, selectedKeys): void {
+        this._selectedKeys = selectedKeys;
     }
 
     protected _afterMount(options?: IMenuPopupOptions): void {
@@ -75,6 +81,14 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
 
     protected _footerClick(event: SyntheticEvent<MouseEvent>, sourceEvent): void {
         this._notify('sendResult', ['footerClick', sourceEvent], {bubbling: true});
+    }
+
+    protected _setApplyButtonVisible(event: SyntheticEvent<MouseEvent>, applyButtonVisible): void {
+        this._applyButtonVisibility = applyButtonVisible;
+    }
+
+    private _applySelection(): void {
+        this._notify('applyClick', [this._selectedKeys]);
     }
 
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
