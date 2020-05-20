@@ -13,6 +13,6 @@
                on:closeInfoBox="_notifyHandler('closeInfoBox')"/>
 
    <ws:if data="{{_options.selectorTemplate}}">
-      <Controls._lookup.Opener name="selectorOpener" template="{{_options.selectorTemplate.templateName}}" on:result="_selectCallback()" on:close="_closeHandler()"/>
+      <Controls._lookup.Opener name="selectorOpener"/>
    </ws:if>
 </div>

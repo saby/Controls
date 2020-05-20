@@ -1,5 +1,5 @@
 import Control = require('Core/Control');
-import template = require('tmpl!Controls/_lookup/Opener');
+import {Stack as StackOpener} from 'Controls/popup';
 
 /**
  * Контрол, который открывает всплывающее окно со списком, располагающимся справа от контентной области на всю высоту экрана, из которого можно выбрать значение.
@@ -27,18 +27,19 @@ import template = require('tmpl!Controls/_lookup/Opener');
 
 var SelectorOpener = Control.extend({
 
-   _template: template,
+   _popupId: null,
 
    open: function (cfg) {
-      return this._children.stackOpener.open(cfg || {});
+      cfg.opener = cfg.opener || this._options._logicParent;
+      return StackOpener.openPopup(Object.assign(cfg, this._options) || {}).then((popupId) => {
+         this._popupId = popupId;
+      });
    },
 
    close: function () {
-      return this._children.stackOpener.close();
+      return StackOpener.closePopup(this._popupId);
    }
 
 });
 
 export = SelectorOpener;
-
-
