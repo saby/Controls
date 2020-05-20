@@ -19,6 +19,7 @@ export default function(self, popupOptions, multiSelect) {
         selectorTemplate = self._options.selectorTemplate,
         defaultPopupOptions: PopupOptions = merge({
             opener: self,
+            template: selectorTemplate.templateName,
             closeOnOutsideClick: true,
             isCompoundTemplate: self._options.isCompoundTemplate
         }, selectorTemplate && selectorTemplate.popupOptions || {});
