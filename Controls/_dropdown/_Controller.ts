@@ -15,6 +15,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import * as cInstance from 'Core/core-instance';
 import {PrefetchProxy} from 'Types/source';
 import * as Merge from 'Core/core-merge';
+import {Sticky as StickyOpener} from 'Controls/popup';
 
 const PRELOAD_DEPENDENCIES_HOVER_DELAY = 80;
 
@@ -223,7 +224,7 @@ var _private = {
    },
 
    closeDropdownList: function (self) {
-      self._children.DropdownOpener.close();
+      self._children.Sticky.closePopup(self._popupId);
       self._isOpened = false;
    },
 
@@ -296,26 +297,40 @@ var _private = {
    },
 
    getPopupOptions(self, popupOptions?): object {
+      let templateOptions = {
+         closeButtonVisibility: false,
+         emptyText: self._getEmptyText(),
+         items: self._items,
+         source: self._menuSource,
+         filter: self._filter,
+         // FIXME self._container[0] delete after
+         // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+         width: self._options.width !== undefined ?
+             (self._container[0] || self._container).offsetWidth :
+             undefined,
+         hasMoreButton: self._sourceController.hasMoreData('down'),
+         selectorOpener: self._children.selectorOpener,
+         selectorDialogResult: self._onSelectorTemplateResult.bind(self)
+      };
       const config = {
-         templateOptions: {
-            items: self._items,
-            source: self._menuSource,
-            filter: self._filter,
-            // FIXME self._container[0] delete after
-            // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            width: self._options.width !== undefined ?
-                (self._container[0] || self._container).offsetWidth :
-                undefined,
-            hasMoreButton: self._sourceController.hasMoreData('down'),
-            selectorOpener: self._children.selectorOpener,
-            selectorDialogResult: self._onSelectorTemplateResult.bind(self)
-         },
+         templateOptions: Object.assign(templateOptions, self._options),
+         className: self._options.popupClassName,
+         template: 'Controls/menu:Popup',
+         actionOnScroll: 'close',
          target: self._container,
          targetPoint: self._options.targetPoint,
          opener: self,
          fittingMode: {
             vertical: 'adaptive',
             horizontal: 'overflow'
+         },
+         eventHandlers: {
+            onOpen: self._onOpen(),
+            onClose: () => {
+               self._popupId = null;
+               self._onClose();
+            },
+            onResult: self._onResult()
          },
          autofocus: false,
          closeOnOutsideClick: true
@@ -417,8 +432,10 @@ var _Controller = Control.extend({
    _loadItemsTempPromise: null,
 
    _beforeMount: function (options, context, receivedState) {
+      this._children = {
+         Sticky: StickyOpener
+      };
       let result;
-
       this._onResult = _private.onResult.bind(this);
       _private.setHandlers(this, options);
       if (!options.lazyItemsLoading) {
@@ -496,7 +513,7 @@ var _Controller = Control.extend({
    },
 
    _keyDown: function(event) {
-      if (event.nativeEvent.keyCode === Env.constants.key.esc && this._children.DropdownOpener.isOpened()) {
+      if (event.nativeEvent.keyCode === Env.constants.key.esc && this._popupId) {
          _private.closeDropdownList(this);
          event.stopPropagation();
       }
@@ -530,7 +547,9 @@ var _Controller = Control.extend({
          if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerTemplate)) {
             let config = _private.getPopupOptions(this, popupOptions);
             this._isOpened = true;
-            this._children.DropdownOpener.open(config, this);
+            this._children.Sticky.openPopup(config, this).then((popupId) => {
+               this._popupId = popupId;
+            });
          } else if (count === 1) {
             this._notify('selectedItemsChanged', [
                [this._items.at(0)]
@@ -550,7 +569,7 @@ var _Controller = Control.extend({
    },
 
    _mouseDownHandler(): void {
-      if (this._children.DropdownOpener.isOpened()) {
+      if (this._popupId) {
          _private.closeDropdownList(this);
       } else {
          this._open();
