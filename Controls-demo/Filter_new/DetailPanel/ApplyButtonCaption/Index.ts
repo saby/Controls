@@ -1,8 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/ApplyButtonCaption';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Filter_new/Filter';
 import 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown';
 
 export default class extends Control {
@@ -32,4 +30,6 @@ export default class extends Control {
             viewMode: 'basic'
         }];
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Filter_new/Filter'];
 }

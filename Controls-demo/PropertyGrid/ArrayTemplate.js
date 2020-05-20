@@ -2,8 +2,6 @@ define('Controls-demo/PropertyGrid/ArrayTemplate',
    [
       'Core/Control',
       'wml!Controls-demo/PropertyGrid/ArrayTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template) {
       'use strict';
@@ -26,6 +24,8 @@ define('Controls-demo/PropertyGrid/ArrayTemplate',
             this._notify('valueChanged', [item.get('items')]);
          }
       });
+
+      arrayTmpl._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'];
 
       return arrayTmpl;
    });

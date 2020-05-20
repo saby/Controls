@@ -1,0 +1,34 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/RadioGroup/Base/Index' }}">
+            <a href="{{content.href}}">Базовая настройка radio group</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.RadioGroup.Base.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/RadioGroup/CustomItemTemplate/Index' }}">
+            <a href="{{content.href}}">radio group c шаблоном</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.RadioGroup.CustomItemTemplate.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/RadioGroup/Direction/Index' }}">
+            <a href="{{content.href}}">Настройка расположения элементов</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.RadioGroup.Direction.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/RadioGroup/ValidationStatus/Index' }}">
+            <a href="{{content.href}}">Настройка статуса валидации</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.RadioGroup.ValidationStatus.Index/>
+    </div>
+</div>

@@ -546,8 +546,8 @@ var
       commitEdit: function() {
          return this._children.treeControl.commitEdit();
       },
-      reload: function() {
-         return this._children.treeControl.reload();
+      reload: function(keepScroll, sourceConfig) {
+         return this._children.treeControl.reload(keepScroll, sourceConfig);
       },
       // todo removed or documented by task:
       // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac

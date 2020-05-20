@@ -65,11 +65,10 @@ let CRUD = Control.extend({
                 }
             ];
             this._notify('registerPending', argsPending, {bubbling: true});
-            resultUpdate.then((key) => {
+            resultUpdate.addCallback((key) => {
                     this._notify('updateSuccessed', [record, key, config]);
                     return key;
-                })
-                .catch((error) => {
+                }).addErrback((error) => {
                     this._notify('updateFailed', [error, record]);
                     return error;
                 });

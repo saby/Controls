@@ -21,7 +21,7 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  * @public
  * @author Красильников А.С.
  * @category Toggle
- * @demo Controls-demo/Switch/SwitchDemo
+ * @demo Controls-demo/toggle/Switch/Base/Index
  */
 
 /*
@@ -37,7 +37,7 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  * @public
  * @author Красильников А.С.
  * @category Toggle
- * @demo Controls-demo/Switch/SwitchDemo
+ * @demo Controls-demo/toggle/Switch/Base/Index
  */
 
 /**
@@ -92,7 +92,6 @@ class Switch extends Control<ISwitchOptions> implements ITooltip, ICheckable, IV
    static getOptionTypes(): object {
       return {
          value: EntityDescriptor(Boolean),
-         caption: EntityDescriptor(String),
          captionPosition: EntityDescriptor(String).oneOf([
             'left',
             'right'

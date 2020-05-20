@@ -1,0 +1,4 @@
+<span>
+    <span class="controls-text-secondary_theme-{{_options.theme}}">ЕГАИС</span>
+    <span> - Обмен данными с ЕГАИС по покупке и продаже алкоголя</span>
+</span>

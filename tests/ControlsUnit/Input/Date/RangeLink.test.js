@@ -18,13 +18,13 @@ define([
       replacer: ' ',
    };
 
-   describe('Controls/_dateRange/Selector', function() {
+   describe('Controls/_dateRange/RangeSelector', function() {
       describe('initialization', function() {
          it('should set endValue if selectionType is equal "single"', function() {
             const
                date = new Date(2019, 0),
                component = calendarTestUtils.createComponent(
-                  dateRange.Selector, { startValue: date, selectionType: 'single' });
+                  dateRange.RangeSelector, { startValue: date, selectionType: 'single' });
 
             assert.equal(component._rangeModel.startValue, date);
             assert.equal(component._rangeModel.endValue, date);
@@ -35,10 +35,10 @@ define([
          it('should set endValue if selectionType is equal "single"', function() {
             const
                date = new Date(2019, 0),
-               component = calendarTestUtils.createComponent(dateRange.Selector, {});
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, {});
 
             component._beforeUpdate(
-               calendarTestUtils.prepareOptions(dateRange.Selector, { startValue: date, selectionType: 'single' }));
+               calendarTestUtils.prepareOptions(dateRange.RangeSelector, { startValue: date, selectionType: 'single' }));
 
             assert.equal(component._rangeModel.startValue, date);
             assert.equal(component._rangeModel.endValue, date);
@@ -52,7 +52,7 @@ define([
                   startValue: new Date(2019, 0, 1),
                   endValue: new Date(2019, 0, 1)
                }, options),
-               component = calendarTestUtils.createComponent(dateRange.Selector, opts),
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, opts),
                TARGET = 'value';
 
             component._options.nextArrowVisibility = true;
@@ -86,7 +86,7 @@ define([
                   captionFormatter: function(){},
                   readOnly: true
                },
-               component = calendarTestUtils.createComponent(dateRange.Selector, cMerge(cClone(extOptions), options));
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, cMerge(cClone(extOptions), options));
             component._children = {
                opener: {
                   open: sinon.fake()
@@ -131,7 +131,7 @@ define([
             }].forEach(function (test) {
                it(`${JSON.stringify(test)}`, function () {
                   const
-                     component = calendarTestUtils.createComponent(dateRange.Selector, cMerge(cClone(test), options));
+                     component = calendarTestUtils.createComponent(dateRange.RangeSelector, cMerge(cClone(test), options));
                   component._children = {
                      opener: {
                         open: sinon.fake()
@@ -161,7 +161,7 @@ define([
             }].forEach(function (test) {
                it(`${JSON.stringify(test)}`, function () {
                   const
-                     component = calendarTestUtils.createComponent(dateRange.Selector, cMerge(cClone(test), options));
+                     component = calendarTestUtils.createComponent(dateRange.RangeSelector, cMerge(cClone(test), options));
                   component._children = {
                      opener: {
                         open: sinon.fake()
@@ -184,7 +184,7 @@ define([
          it('should generate valueChangedEvent and close opener', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Selector, options),
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, options),
                startValue = new Date(2018, 11, 10),
                endValue = new Date(2018, 11, 13);
 
@@ -206,7 +206,7 @@ define([
          it('should set range on model', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Selector, options),
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, options),
                startValue = new Date(2018, 11, 10),
                endValue = new Date(2018, 11, 13);
 

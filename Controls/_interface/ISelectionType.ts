@@ -1,7 +1,7 @@
 export type TSelectionType = 'all' | 'leaf' | 'node';
 
 export type TKeySelection = number|string|null;
-export type TKeysSelection = Array<number|null>|Array<string|null>;
+export type TKeysSelection = TKeySelection[];
 
 export type TSelectionRecord = Record<{
     marked: TKeysSelection,

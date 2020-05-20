@@ -2,7 +2,7 @@ import {TemplateFunction} from 'UI/Base';
 import {IMenuBaseOptions} from './IMenuBase';
 import {ISourceOptions, INavigationOptions, IFilterOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {Stack} from 'Controls/popup/Stack';
-import {IItemAction} from 'Controls/list';
+import {IItemAction} from 'Controls/itemActions';
 
 export type TKey = string|number|null;
 

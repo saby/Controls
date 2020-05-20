@@ -16,8 +16,8 @@
             <ws:if data ="{{item.isEditing() && toolbarVisibility}}">
                 <ws:partial template="Controls/editableArea:Buttons"
                             attr:class="controls-itemActionsV__wrapper-isEditing"
-                            on:applyButtonClick="_applyEdit()"
-                            on:closeButtonClick="_cancelEdit()" />
+                            on:applyButtonClick="_commitEditActionHandler()"
+                            on:closeButtonClick="_cancelEditActionHandler()" />
             </ws:if>
         </div>
     </div>

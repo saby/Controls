@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {RecordSet} from 'Types/collection';
+import {Memory} from 'Types/source';
 import applyHighlighter = require('Controls/Utils/applyHighlighter');
 import template = require('wml!Controls/_breadcrumbs/View/View');
 import itemTemplate = require('wml!Controls/_breadcrumbs/View/resources/itemTemplate');
@@ -54,25 +54,24 @@ class BreadCrumbsView extends Control<IControlOptions> {
     }
 
     private _dotsClick(e: SyntheticEvent<MouseEvent>): void {
-            const rs = new RecordSet({
-                rawData: this._options.items.map((item) => {
+            const rs = new Memory({
+                data: this._options.items.map((item, index) => {
                     const newItem = {};
                     item.each((field) => {
                         newItem[field] = item.get(field);
+                        newItem['indentation'] = index;
+                        newItem['displayProperty'] = this._options.displayProperty;
                     });
                     return newItem;
                 }),
                 keyProperty: this._options.items[0].getKeyProperty()
-            });
-            rs.each((item, index) => {
-                item.set('indentation', index);
             });
 
             if (!this._popupIsOpen) {
                 this._children.menuOpener.open({
                     target: e.currentTarget,
                     templateOptions: {
-                        items: rs,
+                        source: rs,
                         itemTemplate: menuItemTemplate,
                         displayProperty: this._options.displayProperty
                     },
@@ -104,12 +103,11 @@ class BreadCrumbsView extends Control<IControlOptions> {
         this._notify('hoveredItemChanged', [item]);
     }
 
-    protected _onResult(event: SyntheticEvent<Event>, args): void {
-        const actionName = args && args.action;
+    protected _onResult(event: SyntheticEvent<Event>, actionName, data): void {
         if (actionName === 'itemClick' && !this._options.readOnly) {
-            this._notify('itemClick', [args.data[0]]);
+            this._notify('itemClick', [data]);
+            this._children.menuOpener.close();
         }
-        this._children.menuOpener.close();
     }
 
     static getDefaultOptions() {

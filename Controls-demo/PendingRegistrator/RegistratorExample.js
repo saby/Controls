@@ -1,7 +1,6 @@
 define('Controls-demo/PendingRegistrator/RegistratorExample', [
    'Core/Control',
    'wml!Controls-demo/PendingRegistrator/RegistratorExample',
-   'css!Controls-demo/PendingRegistrator/RegistratorExample'
 ], function(Control, tmpl) {
    'use strict';
 
@@ -51,6 +50,8 @@ define('Controls-demo/PendingRegistrator/RegistratorExample', [
          this._forceUpdate();
       }
    });
+
+   module._styles = ['Controls-demo/PendingRegistrator/RegistratorExample'];
 
    return module;
 });

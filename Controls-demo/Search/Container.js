@@ -7,7 +7,6 @@ define('Controls-demo/Search/Container', [
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/Search/Container'
 ], function(Control, template, sourceLib, memorySourceData, memorySourceFilter) {
 
    'use strict';
@@ -40,5 +39,7 @@ define('Controls-demo/Search/Container', [
          return filter(item, query);
       }
    });
+   SearchContainer._styles = ['Controls-demo/Search/Container'];
+
    return SearchContainer;
 });

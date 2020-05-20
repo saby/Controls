@@ -5,8 +5,6 @@ import {Memory} from 'Types/source';
 import {_departmentsWithImges} from 'Controls-demo/Suggest_new/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/DialogMode/DialogMode');
 import suggestTemplate = require('wml!Controls-demo/Suggest_new/SearchInput/DialogMode/resources/SuggestTemplatePopup');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Suggest_new/Index';
 
 export default class extends Control{
    protected _template: TemplateFunction = controlTemplate;
@@ -30,4 +28,6 @@ export default class extends Control{
          }
       };;
    }
+
+   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Suggest_new/Index'];
 }

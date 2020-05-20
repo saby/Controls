@@ -133,13 +133,13 @@ define('Controls/interface/IFilterButton', [
     *       templateName="wml!MyModule/panelTemplate"
     *       items="{{_items}}">
     *       <ws:lineSpaceTemplate>
-    *          <Controls.dateRange:LiteSelector
+    *          <Controls.dateRange:RangeShortSelector
     *             startValue="{{_startValue}}"
     *             endValue="{{_endValue}}"/>
     *       </ws:lineSpaceTemplate>
     *    </Controls.filter:Selector>
     * </pre>
-    * @see Controls.dateRange:LiteSelector
+    * @see Controls.dateRange:RangeShortSelector
     */
 
    /*
@@ -154,13 +154,13 @@ define('Controls/interface/IFilterButton', [
     *       templateName="wml!MyModule/panelTemplate"
     *       items="{{_items}}">
     *       <ws:lineSpaceTemplate>
-    *          <Controls.dateRange:LiteSelector
+    *          <Controls.dateRange:RangeShortSelector
     *             startValue="{{_startValue}}"
     *             endValue="{{_endValue}}"/>
     *       </ws:lineSpaceTemplate>
     *    </Controls.filter:Selector>
     * </pre>
-    * @see Controls.dateRange:LiteSelector
+    * @see Controls.dateRange:RangeShortSelector
     */
 
    /**

@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/Grouped/Custom/Custom"
 import {Memory} from "Types/source"
 import {getTasks} from "../../DemoHelpers/DataCatalog";
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -19,4 +18,6 @@ export default class extends Control {
             data: getTasks().getData()
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

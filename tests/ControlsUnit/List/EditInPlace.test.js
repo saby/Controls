@@ -167,8 +167,6 @@ define([
             });
             assert.equal(listModel.at(0).getContents(), eip._editingItem);
             assert.equal(listModel.at(0).getContents(), eip._originalItem);
-            eip._afterMount();
-            assert.isTrue(!!eip._pendingDeferred);
          });
 
          it('Add', function() {
@@ -182,8 +180,6 @@ define([
             assert.equal(newItem, eip._editingItem);
             assert.isTrue(eip._isAdd);
             assert.isTrue(eip._editingItemData.drawActions);
-            eip._afterMount();
-            assert.isTrue(!!eip._pendingDeferred);
          });
 
          it('Adding to the top of the list', function() {
@@ -216,7 +212,6 @@ define([
                item: listModel.at(0).getContents()
             });
             assert.isTrue(result.isSuccessful());
-            assert.isNull(eip._pendingDeferred);
          });
 
          it('Without handler', function() {
@@ -366,13 +361,18 @@ define([
                source: source
             });
 
-            listModel.setItemActions(listModel.at(0).getContents(), [{
-               id: 0,
-               title: 'Удалить'
-            }]);
-
+            listModel.at(0).setActions({
+               all: {
+                  id: 0,
+                  title: 'Удалить'
+               },
+               showed: {
+                  id: 0,
+                  title: 'Удалить'
+               }
+            });
             await eip.beginAdd();
-            assert.isUndefined(eip._editingItemData.itemActions);
+            assert.isNull(eip._editingItemData.getActions());
          });
 
          it('Without handler', function(done) {
@@ -2142,225 +2142,23 @@ define([
             }
          };
 
-         it('register and cancel pending events should bubble', function () {
-            let
-                isPendingStarted = false,
-                isPendingCanceled = false;
-
-            eip.saveOptions({
-               listModel: listModel
-            });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            eip.beginAdd({
-               item: newItem
-            });
-
-            eip._children.formController = failedValidationFormController;
-            eip._editingItem.isChanged = () => true;
-            // Emulate closing popup. It will call _onPendingFail;
-            eip._onPendingFail(undefined, new Deferred());
-
-            assert.isTrue(isPendingStarted);
-            assert.isTrue(isPendingCanceled);
-         });
          it('dont close popup if validation failed', function () {
-            let
-                isPendingStarted = false,
-                isPendingCanceled = false;
-
             eip.saveOptions({
                listModel: listModel
             });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  assert.equal(args[0], eip._pendingDeferred);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            assert.isNull(eip._pendingDeferred);
 
             eip.beginAdd({
                item: newItem
             });
 
-            assert.isTrue(eip._pendingDeferred instanceof Deferred);
-
             eip._children.formController = failedValidationFormController;
             eip._editingItem.isChanged = () => true;
 
-            // Emulate closing popup. It will call _onPendingFail;
+            // Emulate closing popup. It will call _formOperationHandler;
             let result = new Deferred();
-            eip._onPendingFail(undefined, result);
+            eip._formOperationHandler(undefined, result);
 
-            assert.isTrue(isPendingStarted);
             assert.isFalse(result.isReady());
-            assert.isTrue(isPendingCanceled);
-         });
-         it('commit changes and close popup if validation passed', async function () {
-            let
-                isPendingStarted = false,
-                isPendingCanceled = false,
-                isPendingDeferredFired = false;
-
-            eip.saveOptions({
-               listModel: listModel
-            });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  assert.equal(args[0], eip._pendingDeferred);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            assert.isNull(eip._pendingDeferred);
-
-            await eip.beginAdd({
-               item: newItem
-            });
-
-            assert.isTrue(eip._pendingDeferred instanceof Deferred);
-            const nativeCallback = eip._pendingDeferred.callback;
-            eip._pendingDeferred.callback = () => {
-               nativeCallback.apply(eip._pendingDeferred, arguments);
-               isPendingDeferredFired = true;
-            };
-
-            eip._children.formController = successValidationFormController;
-            eip._editingItem.isChanged = () => true;
-
-            // Emulate closing popup. It will call _onPendingFail;
-            eip._onPendingFail(undefined, eip._pendingDeferred);
-
-            assert.isTrue(isPendingStarted);
-            assert.isTrue(!!listModel.getItemById(4));
-            assert.isTrue(isPendingDeferredFired);
-            assert.isNull(eip._pendingDeferred);
-            assert.isFalse(isPendingCanceled);
-         });
-         it('unregister pending if editing has been canceled', async function () {
-            let
-                isPendingStarted = false,
-                isPendingCanceled = false;
-
-            eip.saveOptions({
-               listModel: listModel
-            });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  assert.equal(args[0], eip._pendingDeferred);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            assert.isNull(eip._pendingDeferred);
-
-            await eip.beginAdd({
-               item: newItem
-            });
-
-            eip._children.formController = failedValidationFormController;
-
-            await eip.cancelEdit();
-
-            assert.isTrue(isPendingStarted);
-            assert.isFalse(isPendingCanceled);
-            assert.isNull(eip._pendingDeferred);
-         });
-         it('new standard: close eip by close panel', function() {
-            let
-               isPendingStarted = false,
-               isPendingCanceled = false;
-
-            eip.saveOptions({
-               listModel: listModel,
-               task1178703576: true
-            });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            eip.beginAdd({
-               item: newItem
-            });
-
-            eip._children.formController = failedValidationFormController;
-            eip._editingItem.isChanged = () => true;
-            // Emulate closing popup. It will call _onPendingFail;
-            eip._onPendingFail(undefined, new Deferred());
-
-            assert.isTrue(isPendingStarted);
-            assert.isFalse(isPendingCanceled);
-            assert.isNull(eip._pendingDeferred);
-         });
-         it('cancel edit if there is no changes', function () {
-            let
-                isPendingStarted = false,
-                isPendingCanceled = false;
-
-            eip.saveOptions({
-               listModel: listModel
-            });
-
-            eip._notify = (eName, args, params) => {
-               if (eName === 'registerPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingStarted = true;
-               }
-               if (eName === 'cancelFinishingPending') {
-                  assert.isTrue(params.bubbling);
-                  isPendingCanceled = true;
-               }
-            };
-
-            eip.beginAdd({
-               item: newItem
-            });
-
-            eip._children.formController = failedValidationFormController;
-            eip._editingItem.isChanged = () => false;
-            // Emulate closing popup. It will call _onPendingFail;
-            eip._onPendingFail(undefined, new Deferred());
-
-            assert.isTrue(isPendingStarted);
-            assert.isFalse(isPendingCanceled);
          });
       });
 

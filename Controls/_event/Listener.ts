@@ -16,20 +16,20 @@ interface IListenerOptions extends IControlOptions {
 
 /**
  * Позволяет реагировать на события родителя, использующего Controls.events:Register в своем шаблоне
- * @class Controls/_event/Register
+ * @class Controls/_event/Listener
  * @extends UI/Base:Control
  * @control
  * @public
- * @author Белотелов Н.В.
+ * @author Красильников А.С.
  */
 
 /**
- * @name Controls/_event/Register#event
+ * @name Controls/_event/Listener#event
  * @cfg {String} Имя событие, на которое нужно среагировать.
  */
 
 /**
- * @name Controls/_event/Register#listenAll
+ * @name Controls/_event/Listener#listenAll
  * @cfg {boolean} Нужно ли реагировать на события всех родительских контролов с Register в шаблоне,
  *  либо же только на события ближайшего такого контрола
  */

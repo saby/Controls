@@ -55,6 +55,26 @@ export type TCellVerticalAlign = 'top' | 'center' | 'bottom' | 'baseline';
 export type TOverflow = 'ellipsis' | 'none';
 
 /**
+ * @typedef {Enum} TRowSeparatorSize
+ * @description Ширина линии-разделителя колонок.
+ * @variant s Размер тонкой линии-разделителя.
+ * @variant null Без линии-разделителя.
+ * @default null
+ */
+type TRowSeparatorSize = 's' | null;
+
+/**
+ * @typedef {Object} TColumnRowSeparatorSize
+ * @description Ширина линии-разделителя колонок слева и справа.
+ * @property {TRowSeparatorSize} left Ширина линии-разделителя колонок слева.
+ * @property {TRowSeparatorSize} right Ширина линии-разделителя колонок справа.
+ */
+type TColumnRowSeparatorSize = {
+    left?: TRowSeparatorSize;
+    right?: TRowSeparatorSize;
+};
+
+/**
  * Интерфейс для конфигурации колонки в контроле {@link Controls/grid:View Таблица}.
  *
  * @interface Controls/grid:IColumn
@@ -134,6 +154,35 @@ export interface IColumn {
      * @default none
      */
     textOverflow?: TOverflow;
+    /**
+     * @name Controls/grid:IColumn#rowSeparatorSize
+     * @cfg {TColumnRowSeparatorSize} Ширина вертикальных разделителей колонок
+     * @default none
+     * @remark
+     * Ширину линии разделителя между двумя колонками можно задать на любой из них(левую или правую соответственно).
+     * В случае, если одна и таже граница была определена на двух ячейках, приоретет отдается ячейки, для которой эта граница является левой.
+     * Опция {@link https://wi.sbis.ru/docs/js/Controls/grid/IColumn/options/rowSeparatorSize rowSeparatorSize на колонке}
+     * является приорететной по сравнению с опцией {@link https://wi.sbis.ru/docs/js/Controls/grid/View/options/rowSeparatorSize/ rowSeparatorSize на таблице}.
+     * @example
+     * Разделитель только медлу первой и второй колонкой.
+     * <pre class="brush: js">
+     * <Controls.grid:View
+     *      keyProperty="id"
+     *      source="{{_viewSource}}"
+     *      columns="{{_columns}}"
+     *      columnSeparatorSize="s">
+     *          <ws:columns>
+     *              <ws:Array>
+     *                  <ws:Object .../>
+     *                  <ws:Object .../>
+     *                  <ws:Object ... columnSeparatorSize="{{ {left: null, right: null} }}" />
+     *                  <ws:Object .../>
+     *             </ws:Array>
+     *         </ws:columns>
+     * </Controls.grid:View>
+     * </pre>
+     */
+    rowSeparatorSize?: TColumnRowSeparatorSize;
     /**
      * @name Controls/grid:IColumn#cellPadding
      * @cfg {ICellPadding} Опции для задания ячейкам левого и правого отступа, исключая левый отступ первой ячейки и правый последней.

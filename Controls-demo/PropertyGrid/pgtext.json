@@ -513,13 +513,13 @@
       }
     }
   },
-  "Controls/dateRange:LiteSelector": {
-    "name": "Controls/dateRange:LiteSelector",
+  "Controls/dateRange:RangeShortSelector": {
+    "name": "Controls/dateRange:RangeShortSelector",
     "title": "Input for selection date range links in Light Calendar.",
-    "className": "Controls/dateRange:LiteSelector",
+    "className": "Controls/dateRange:RangeShortSelector",
     "kind": "control",
     "isPublic": true,
-    "fullname": "Controls/dateRange:LiteSelector",
+    "fullname": "Controls/dateRange:RangeShortSelector",
     "properties": {
       "ws-config": {
         "title": "Базовая конфигурация",

@@ -7,10 +7,8 @@ define('Controls-demo/MasterDetail/Demo', [
    'wml!Controls-demo/MasterDetail/itemTemplates/masterItemTemplate',
    'Controls-demo/MasterDetail/DemoSource',
    'Env/Env',
-   'css!Controls-demo/MasterDetail/Demo',
-   'css!Controls-demo/Controls-demo'
 ], function(Control, template, data, cClone, source, itemTemplate, DemoSource, Env) {
-   return Control.extend({
+   var ModuleClass = Control.extend({
       _template: template,
 
 
@@ -59,4 +57,8 @@ define('Controls-demo/MasterDetail/Demo', [
          }
       ]
    });
+
+   ModuleClass._styles = ['Controls-demo/MasterDetail/Demo', 'Controls-demo/Controls-demo'];
+
+   return ModuleClass;
 });

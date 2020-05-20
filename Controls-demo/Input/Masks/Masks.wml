@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">IP: mask=ddd.ddd.ddd.ddd</div>
-      <Controls.input:Mask replacer=" " mask="ddd.ddd.ddd.ddd" bind:value="_value1"/>
+      <Controls.input:Mask replacer=" " mask="ddd.ddd.ddd.ddd" bind:value="_value1" attr:class="ControlsDemo-MaskInput_ipField"/>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Credit card: mask=dddd dddd dddd dddd, replacer=_</div>
-      <Controls.input:Mask replacer="_" mask="dddd dddd dddd dddd" bind:value="_value2"/>
+      <Controls.input:Mask replacer="_" mask="dddd dddd dddd dddd" bind:value="_value2" attr:class="ControlsDemo-MaskInput_cardField"/>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Phone: mask=+7(ddd)ddd-dd-dd</div>
-      <Controls.input:Mask replacer=" " mask="+7(ddd)ddd-dd-dd" bind:value="_value3"/>
+      <Controls.input:Mask replacer=" " mask="+7(ddd)ddd-dd-dd" bind:value="_value3" attr:class="ControlsDemo-MaskInput_phoneField"/>
    </div>
 </div>

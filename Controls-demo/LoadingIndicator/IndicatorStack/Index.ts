@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/LoadingIndicator/IndicatorStack/IndicatorStack');
-import 'css!Controls-demo/Controls-demo';
 
 class IndicatorStack extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -71,5 +70,7 @@ class IndicatorStack extends Control<IControlOptions> {
             }
         }, 1000);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default IndicatorStack;

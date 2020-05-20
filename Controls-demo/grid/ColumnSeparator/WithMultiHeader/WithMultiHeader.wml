@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div style="margin-bottom: 20px;">
+        <Controls.toggle:Checkbox bind:value="_rowSeparator" caption="Show row separator"/>
+        <Controls.toggle:Checkbox bind:value="_columnSeparator" caption="Show column separator"/>
+    </div>
+    <Controls.grid:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            header="{{_header}}"
+            columns="{{_columns}}"
+            rowSeparatorSize="{{ _rowSeparator ? 's' }}"
+            columnSeparatorSize="{{ _columnSeparator ? 's' }}">
+    </Controls.grid:View>
+</div>

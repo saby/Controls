@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_toggle/CheckboxGroup/CheckboxGroup');
 import groupTemplate = require('wml!Controls/_toggle/CheckboxGroup/GroupTemplate');
 import defaultItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');
-import {Controller as SourceController} from 'Controls/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import {isEqual} from 'Types/object';
 import {descriptor as EntityDescriptor, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
@@ -65,7 +65,7 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
     protected _groupTemplate: Function = groupTemplate;
     protected _defaultItemTemplate: Function = defaultItemTemplate;
     protected _items: RecordSet;
-    protected _sourceController: any;
+    protected _crudWrapper: CrudWrapper;
     protected _selectedKeys: string[] = [];
     protected _triStateKeys: string[] = [];
     protected _groups: object;
@@ -94,10 +94,10 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
     }
 
     private _initItems(options: ICheckboxGroupOptions): Promise<RecordSet> {
-        this._sourceController = new SourceController({
+        this._crudWrapper = new CrudWrapper({
             source: options.source
         });
-        return this._sourceController.load().addCallback((items) => {
+        return this._crudWrapper.query({}).then((items) => {
             this._prepareItems(options, items);
             return items;
         });

@@ -1,0 +1,126 @@
+/* ============== Верхний отступ ============== */
+// Верхний отступ контента ячейки.
+// Необходимо обеспечить непордвижность контента при смене размера межстрочных разделителей.
+
+// Без разделителей
+.controls-Grid__row-cell_withRowSeparator_size-null {
+   .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
+      padding-top: @item_padding-top_default_grid;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
+      padding-top: @item_padding-top_s_grid;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
+      padding-top: @item_padding-top_l_grid;
+   }
+}
+
+// С тонким разделителем
+.controls-Grid__row-cell_withRowSeparator_size-s_theme-@{themeName} {
+   .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
+      padding-top: @item_padding-top_default_grid - @item-separator_s_thickness_list;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
+      padding-top: @item_padding-top_s_grid - @item-separator_s_thickness_list;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
+      padding-top: @item_padding-top_l_grid - @item-separator_s_thickness_list;
+   }
+}
+
+// С широким разделитем
+.controls-Grid__row-cell_withRowSeparator_size-l_theme-@{themeName} {
+   .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
+      padding-top: @item_padding-top_default_grid - @item-separator_l_thickness_list;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
+      padding-top: @item_padding-top_s_grid - @item-separator_l_thickness_list;
+   }
+
+   .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
+      padding-top: @item_padding-top_l_grid - @item-separator_l_thickness_list;
+   }
+}
+
+/* ============== Верхний отступ "прилипшей" ячейки лесенки ============== */
+
+// Отступ этой ячейки не зависит от границ, т.к. это отдельный фиктивный блок поверх контента.
+// Расстояние от начала границы до контента обычной ячейки равен @item_padding-top_s_grid и @item_padding-top_l_grid,
+// но padding может быть меньше, для компенсации границы. У прилипшей ячейки нет границы.
+
+.controls-Grid__row-ladder-cell__content_default_theme-@{themeName} {
+   padding-top: @item_padding-top_default_grid;
+}
+.controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
+   padding-top: @item_padding-top_s_grid;
+
+}
+.controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
+   padding-top: @item_padding-top_l_grid;
+}
+
+/* ============== Нижний отступ ============== */
+
+.controls-Grid__row-cell_rowSpacingBottom_default_theme-@{themeName} {
+   padding-bottom: @item_padding-bottom_default_grid;
+}
+
+.controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
+   padding-bottom: @item_padding-bottom_s_grid;
+}
+
+.controls-Grid__row-cell_rowSpacingBottom_l_theme-@{themeName} {
+   padding-bottom: @item_padding-bottom_l_grid;
+}
+
+
+/* ============== Левый отступ ============== */
+
+.controls-Grid__cell_spacingLeft_theme-@{themeName} {
+   padding-left: @cell_padding-left_default_grid;
+}
+
+.controls-Grid__cell_spacingLeft_null_theme-@{themeName} {
+   padding-left: 0;
+}
+
+.controls-Grid__cell_spacingLeft_s_theme-@{themeName} {
+   padding-left: @cell_padding-left_s_grid;
+}
+
+.controls-Grid__cell_spacingLeft_m_theme-@{themeName} {
+   padding-left: @cell_padding-left_default_grid;
+}
+
+
+/* ============== Правый отступ ============== */
+
+.controls-Grid__cell_spacingRight_theme-@{themeName} {
+   padding-right: @cell_padding-right_default_grid;
+}
+
+.controls-Grid__cell_spacingRight_null_theme-@{themeName} {
+   padding-right: 0;
+}
+
+.controls-Grid__cell_spacingRight_s_theme-@{themeName} {
+   padding-right: @cell_padding-right_s_grid;
+}
+
+.controls-Grid__cell_spacingRight_m_theme-@{themeName} {
+   padding-right: @cell_padding-right_default_grid;
+}

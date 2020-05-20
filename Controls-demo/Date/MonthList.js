@@ -4,7 +4,6 @@ define('Controls-demo/Date/MonthList', [
    'Controls-demo/Date/MonthListSource',
    'wml!Controls-demo/Date/MonthList',
    'wml!Controls-demo/Date/MonthListDay',
-   'css!Controls-demo/Date/MonthList'
 ], function(
    BaseControl,
    formatter,
@@ -75,5 +74,7 @@ define('Controls-demo/Date/MonthList', [
          return date ? formatter.date(date, formatter.date.FULL_MONTH) : '';
       }
    });
+   ModuleClass._styles = ['Controls-demo/Date/MonthList'];
+
    return ModuleClass;
 });

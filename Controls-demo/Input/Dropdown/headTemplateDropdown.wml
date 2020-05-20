@@ -1,1 +1,1 @@
-<ws:partial template="Controls/dropdownPopup:Template" caption="Add"/>
+<ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add"/>

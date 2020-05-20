@@ -3,7 +3,6 @@ define('Controls-demo/List/Grid/DocsBase', [
    'wml!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Types/source',
    'Controls/Constants',
-   'css!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Controls-demo/List/Grid/resources/DataDemoPG',
 
    'wml!Controls-demo/List/Grid/resources/BasePG/resultsTemplate',
@@ -106,6 +105,8 @@ define('Controls-demo/List/Grid/DocsBase', [
             return item.get('description');
          },
       });
+
+   ModuleClass._styles = ['Controls-demo/List/Grid/resources/DocsBase/DocsBase'];
 
    return ModuleClass;
 });

@@ -8,9 +8,16 @@ import cInstance = require('Core/core-instance');
 import { Object as EventObject } from 'Env/Event';
 import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
-import { CollectionItem } from 'Controls/display';
+import { Model } from 'Types/entity';
+import { CollectionItem, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
 import { CssClassList } from "../Utils/CssClassList";
 import {Logger} from 'UI/Utils';
+import {IItemAction} from 'Controls/itemActions';
+
+const ITEMACTIONS_POSITION_CLASSES = {
+    bottomRight: 'controls-itemActionsV_position_bottomRight',
+    topRight: 'controls-itemActionsV_position_topRight'
+};
 
 /**
  *
@@ -57,7 +64,8 @@ var _private = {
         }
         return self.getItemById(markedKey, self._options.keyProperty);
     },
-    isSelected(self: ListViewModel, current: IListItemData): boolean {
+
+    isMarked(self: {_markedKey: number | string}, current: {key: number | string}): boolean {
         const markedItem = _private.getItemByMarkedKey(self, self._markedKey);
         if (markedItem) {
             const item = markedItem.getContents ? markedItem.getContents() : markedItem;
@@ -65,6 +73,7 @@ var _private = {
         }
         return false;
     },
+
     getMultiSelectClassList: function (current): string {
         let
             checkboxOnHover = current.multiSelectVisibility === 'onhover',
@@ -75,39 +84,92 @@ var _private = {
                            .add('controls-ListView__checkbox-onhover', checkboxOnHover && !isSelected)
                            .compile();
     },
-    needToDrawActions: function (editingItemData, currentItem, editingConfig, drawnActions) {
-        if (editingItemData) {
-            return !!(currentItem.key === editingItemData.key &&
-                (drawnActions && drawnActions.length || editingConfig.toolbarVisibility));
-        } else {
-            return !!(drawnActions && drawnActions.length);
-        }
-    },
+
     getGroupPaddingClasses(current, theme: string): { left: string; right: string } {
         const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}_theme-${theme}`;
         const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}_theme-${theme}`;
         return {right, left};
+    },
+
+    getItemActionsContainerPaddingClass(classes: string, itemPadding: {top?: string, bottom?: string}, theme: string): string {
+        const _classes = classes || ITEMACTIONS_POSITION_CLASSES.bottomRight;
+        const paddingClass: string[] = [];
+        const themedPositionClassCompile = (position) => (
+            `controls-itemActionsV_padding-${position}_${(itemPadding && itemPadding[position] === 'null' ? 'null' : 'default')}_theme-${theme}`
+        );
+        if (_classes.indexOf(ITEMACTIONS_POSITION_CLASSES.topRight) !== -1) {
+            paddingClass.push(themedPositionClassCompile('top'));
+        } else if (_classes.indexOf(ITEMACTIONS_POSITION_CLASSES.bottomRight) !== -1) {
+            paddingClass.push(themedPositionClassCompile('bottom'));
+        }
+        return ` ${paddingClass.join(' ')} `;
+    },
+
+    // New Model compatibility
+    addNewModelCompatibilityForItem(itemsModelCurrent: any): void {
+        itemsModelCurrent.setActions = (actions: {showed: IItemAction[], all: IItemAction[]}, silent: boolean = true): void => {
+            itemsModelCurrent.itemActions = actions;
+            if (itemsModelCurrent.dispItem.setActions) {
+                itemsModelCurrent.dispItem.setActions(actions, silent);
+            }
+        };
+        itemsModelCurrent.getActions = (): {showed: IItemAction[], all: IItemAction[]} => (
+            itemsModelCurrent.dispItem.getActions ? itemsModelCurrent.dispItem.getActions() : itemsModelCurrent.itemActions
+        );
+        itemsModelCurrent.setActive = (state: boolean): void => {
+            if (itemsModelCurrent.dispItem.setActive !== undefined) {
+                itemsModelCurrent.dispItem.setActive(state);
+            }
+        };
+        itemsModelCurrent.isActive = (): boolean => (
+            itemsModelCurrent.dispItem.isActive() !== undefined ? itemsModelCurrent.dispItem.isActive() : false
+        );
+        itemsModelCurrent.setSwiped = (state: boolean): void => {
+            if (itemsModelCurrent.dispItem.setSwiped !== undefined) {
+                itemsModelCurrent.dispItem.setSwiped(state);
+            }
+        };
+        itemsModelCurrent.isSwiped = (): boolean => (
+            itemsModelCurrent.dispItem.isSwiped !== undefined ? itemsModelCurrent.dispItem.isSwiped() : false
+        );
+        itemsModelCurrent.getContents = () => (
+            itemsModelCurrent.dispItem.getContents ? itemsModelCurrent.dispItem.getContents() : null
+        );
+        itemsModelCurrent.hasVisibleActions = (): boolean => (
+            itemsModelCurrent.dispItem.hasVisibleActions !== undefined ? itemsModelCurrent.dispItem.hasVisibleActions() : false
+        );
+        itemsModelCurrent.shouldDisplayActions = (): boolean => (
+            itemsModelCurrent.hasVisibleActions() || itemsModelCurrent.isEditing
+        );
+        itemsModelCurrent.hasActionWithIcon = (): boolean => (
+            itemsModelCurrent.dispItem.hasActionWithIcon !== undefined ? itemsModelCurrent.dispItem.hasActionWithIcon() : false
+        );
+        itemsModelCurrent.isSelected = (): boolean => (
+            itemsModelCurrent.dispItem.isSelected !== undefined ? itemsModelCurrent.dispItem.isSelected() : itemsModelCurrent._isSelected
+        );
+        itemsModelCurrent.setSelected = (selected: boolean|null, silent?: boolean): void => {
+            itemsModelCurrent._isSelected = true;
+            if (itemsModelCurrent.dispItem.setSelected !== undefined) {
+                itemsModelCurrent.dispItem.setSelected(selected, silent);
+            }
+        };
     }
 };
 
-var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
+const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _markedItem: null,
     _dragEntity: null,
     _draggingItemData: null,
     _dragTargetPosition: null,
-    _actions: null,
-    _actionsVersions: null,
     _selectedKeys: null,
     _markedKey: null,
     _hoveredItem: null,
-    _menuState: '',
     _reloadedKeys: null,
     _singleItemReloadCount: 0,
+    _editingItemData: null,
 
-    constructor: function(cfg) {
-        var self = this;
-        this._actions = {};
-        this._actionsVersions = {};
+    constructor(cfg): void {
+        const self = this;
         ListViewModel.superclass.constructor.apply(this, arguments);
 
         if (this._items && cfg.markerVisibility !== 'hidden') {
@@ -124,12 +186,6 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         this._reloadedKeys = {};
     },
-    setEditingConfig: function(editingConfig) {
-        if (!isEqual(editingConfig, this._options.editingConfig)) {
-            this._options.editingConfig = editingConfig;
-            this._nextModelVersion();
-        }
-    },
     setItemPadding: function(itemPadding) {
         this._options.itemPadding = itemPadding;
         this._nextModelVersion();
@@ -137,15 +193,10 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     getItemPadding: function() {
         return _private.getItemPadding(this._options);
     },
-    setMenuState(state: string): void {
-        this._menuState = state;
-    },
     getItemDataByItem: function() {
-        var
-            self = this,
-            itemsModelCurrent = ListViewModel.superclass.getItemDataByItem.apply(this, arguments),
-            dragItems,
-            drawnActions;
+        const self = this;
+        const itemsModelCurrent = ListViewModel.superclass.getItemDataByItem.apply(this, arguments);
+        let dragItems;
 
         if (itemsModelCurrent._listViewModelCached) {
             return itemsModelCurrent;
@@ -153,20 +204,21 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent._listViewModelCached = true;
         }
 
-        itemsModelCurrent.isMenuShown = this._menuState === 'shown';
+        // New Model compatibility
+        _private.addNewModelCompatibilityForItem(itemsModelCurrent);
+
+        itemsModelCurrent.itemActions = {};
         itemsModelCurrent.itemActionsPosition = this._options.itemActionsPosition;
         itemsModelCurrent.actionsItem = this.getActionsItem(itemsModelCurrent.item);
-        itemsModelCurrent.isSelected = _private.isSelected(this, itemsModelCurrent);
-        itemsModelCurrent.itemActions = this.getItemActions(itemsModelCurrent.item);
-        itemsModelCurrent.isActive = this._activeItem && itemsModelCurrent.dispItem.getContents() === this._activeItem.item;
-        itemsModelCurrent.isSwiped = this._swipeItem && itemsModelCurrent.actionsItem === this._swipeItem.actionsItem;
+        // TODO USE itemsModelCurrent.isSelected()
+        itemsModelCurrent._isSelected = _private.isMarked(this, itemsModelCurrent);
         itemsModelCurrent.isRightSwiped = this._rightSwipedItem && itemsModelCurrent.dispItem.getContents() === this._rightSwipedItem.item;
         itemsModelCurrent.multiSelectStatus = this._selectedKeys[itemsModelCurrent.key];
         itemsModelCurrent.searchValue = this._options.searchValue;
         itemsModelCurrent.multiSelectVisibility = this._options.multiSelectVisibility;
         itemsModelCurrent.markerVisibility = this._options.markerVisibility;
         itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
-        itemsModelCurrent.isSticky = itemsModelCurrent.isSelected && itemsModelCurrent.style === 'master';
+        itemsModelCurrent.isSticky = itemsModelCurrent._isSelected && itemsModelCurrent.style === 'master';
         itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options);
         itemsModelCurrent.itemPadding = _private.getItemPadding(this._options);
         itemsModelCurrent.hasMultiSelect = !!this._options.multiSelectVisibility && this._options.multiSelectVisibility !== 'hidden';
@@ -181,7 +233,7 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         itemsModelCurrent.shouldDrawMarker = (marker: boolean) => {
             const canDrawMarker = marker !== false && itemsModelCurrent.markerVisibility !== 'hidden' && !self._editingItemData;
-            return canDrawMarker && _private.isSelected(self, itemsModelCurrent);
+            return canDrawMarker && _private.isMarked(self, itemsModelCurrent);
         };
 
         itemsModelCurrent.getMarkerClasses = (): string => {
@@ -189,25 +241,13 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             return `controls-ListView__itemV_marker controls-ListView__itemV_marker_${style}_theme-${self._options.theme}`;
         };
 
-        if (itemsModelCurrent.itemActions) {
-           drawnActions = itemsModelCurrent.itemActions.showed;
-        }
-
         if (itemsModelCurrent.isGroup) {
             itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, self._options.theme);
         }
 
-        itemsModelCurrent.drawActions = _private.needToDrawActions(this._editingItemData, itemsModelCurrent, this._options.editingConfig, drawnActions);
+        itemsModelCurrent.getContainerPaddingClass = _private.getItemActionsContainerPaddingClass;
 
-        if (itemsModelCurrent.drawActions && drawnActions) {
-            itemsModelCurrent.hasActionWithIcon = false;
-            for (var i = 0; i < drawnActions.length; i++) {
-                if (drawnActions[i].icon) {
-                    itemsModelCurrent.hasActionWithIcon = true;
-                    break;
-                }
-            }
-        }
+        // isEditing напрямую используется в Engine, поэтому просто так его убирать нельзя
         if (this._editingItemData && itemsModelCurrent.key === this._editingItemData.key) {
             itemsModelCurrent.isEditing = true;
             itemsModelCurrent.item = this._editingItemData.item;
@@ -272,10 +312,6 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (this._swipeItem && this._swipeItem.key === key) {
             version = 'SWIPE_' + version;
         }
-        if (this._actionsVersions.hasOwnProperty(key)) {
-            version = 'ITEM_ACTION_' + this._actionsVersions[key] + version;
-        }
-
         return version;
     },
 
@@ -338,11 +374,11 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     getLastItem: function() {
         return ItemsUtil.getLastItem(this._display);
     },
-    getIndexByKey: function(key) {
-        var
-            item = this.getItemById(key, this._options.keyProperty);
-        return this._display.getIndex(item);
+
+    getIndexByKey(key: string | number) {
+        return this._display.getIndexByKey(key);
     },
+
     getNextItemKey: function(key) {
         var
             itemIdx = this.getIndexByKey(key),
@@ -384,11 +420,31 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this._swipeItem.actionsItem;
     },
 
-    setActiveItem: function(itemData) {
-        if (!this._activeItem || !itemData || itemData.dispItem.getContents() !== this._activeItem.item) {
-            this._activeItem = itemData;
-            this._nextModelVersion(true, 'activeItemChanged');
+    getActiveItem: function() {
+        return this._activeItem;
+    },
+
+    /**
+     * TODO работа с activeItem Должна производиться через item.isActive(),
+     *  но из-за того, как в TileView организована работа с isHovered, isScaled и isAnimated
+     *  мы не можем снять эти состояния при клике внутри ItemActions
+     * @param itemData
+     */
+    setActiveItem(item: CollectionItem<Model>): void {
+        if (item === this._activeItem) {
+            return;
         }
+        const oldActiveItem = this.getActiveItem();
+        if (oldActiveItem) {
+            oldActiveItem.setActive(false);
+        }
+        // TODO костыль. В TileView вместо item передаётся объект, поэтому проверяем на function
+        //  надо передавать настроенный item
+        if (item && typeof item.setActive === 'function') {
+            item.setActive(true);
+        }
+        this._activeItem = item;
+        this._nextModelVersion(true, 'activeItemChanged');
     },
 
     setDragEntity: function(entity) {
@@ -460,6 +516,12 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
     },
 
+    /**
+     * задаёт Для Item controls-ListView__item_rightSwipeAnimation
+     * для решения https://online.sbis.ru/doc/e3866e50-5a3e-4403-a64e-0841db9cda9f
+     * надо понять, надо это или нет.
+     * Если надо, то реализовать в новой модели
+     */
     setRightSwipedItem: function(itemData) {
         this._rightSwipedItem = itemData;
         this._nextModelVersion();
@@ -509,21 +571,6 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     _onBeginCollectionChange: function(action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
-        var
-           self = this;
-        if (action === IObservable.ACTION_REMOVE && removedItems && removedItems.length) {
-            // TODO KINGO. При удалении элементов очищаем закешированные для них операции над записью. Тем самым:
-            // а) избавляемся от утечек (не храним в памяти лишние ссылки);
-            // б) при создании записи с таким же ID мы сгенерим для неё новые операции над записью, а не переиспользуем старые.
-            // https://online.sbis.ru/opendoc.html?guid=905c3018-384a-4587-845c-aca5dc51944b
-            removedItems.forEach(function(removedItem) {
-                var
-                   removedItemContents = removedItem.getContents();
-                if (removedItemContents.get) {
-                    delete self._actions[removedItemContents.get(self._options.keyProperty)];
-                }
-            });
-        }
         _private.updateIndexes(this, 0, this.getCount());
         if (action === IObservable.ACTION_REMOVE && removedItems && removedItems.length) {
             const curenMarkerIndex = this.getIndexByKey(this._markedKey);
@@ -599,36 +646,102 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return !!this.getItemById(id, keyProperty);
     },
 
-    setItemActions: function(item, actions) {
-        if (item.get) {
-            const id = item.get(this._options.keyProperty);
-            if (this.hasItemById(id, this._options.keyProperty)) {
-               if (isEqual(this._actions[id], actions)) {
-                   return 'none';
-               }
-               const result = Object.keys(this._actions).length ? 'partial' : 'all';
-               this._actions[id] = actions;
-               this._actionsVersions[id] = this._actionsVersions[id] ? ++this._actionsVersions[id] : 1;
-               this.resetCachedItemData(this._convertItemKeyToCacheKey(id));
-               return result;
-            } else if (this._editingItemData && this._editingItemData.key === id) {
-                this._editingItemData.itemActions = actions;
-                this._editingItemData.drawActions = !!(actions && actions.all.length) ||
-                   !!(this._options.editingConfig && this._options.editingConfig.toolbarVisibility);
-                return 'all';
-            }
-        }
-    },
-
     _prepareDisplayItemForAdd: function(item) {
         return ItemsUtil.getDefaultDisplayItem(this._display, item);
     },
+
     getActionsItem: function(item) {
       return item;
     },
-    getItemActions: function(item) {
-        const id = ItemsUtil.getPropertyValue(item, this._options.keyProperty);
-        return this._actions[id];
+
+    // New Model compatibility
+    getItemBySourceKey(key: number | string): Model {
+        return this.getItemById(key, this._options.keyProperty);
+    },
+
+    // New Model compatibility
+    nextVersion(): void {
+        this._nextVersion();
+    },
+
+    // New Model compatibility
+    isActionsAssigned(): boolean {
+        return this._display ? this._display.isActionsAssigned() : false;
+    },
+
+    // New Model compatibility
+    setActionsAssigned(assigned: boolean): void {
+        if (this._display) {
+            this._display.setActionsAssigned(assigned)
+        }
+    },
+
+    // Old method
+    setEditingConfig(editingConfig: IEditingConfig): void {
+        if (!isEqual(editingConfig, this._options.editingConfig)) {
+            this._options.editingConfig = editingConfig;
+            this._nextModelVersion();
+        }
+    },
+
+    // New Model compatibility
+    getEditingConfig(): IEditingConfig {
+        return this._options.editingConfig;
+    },
+
+    // New Model compatibility
+    getActionsTemplateConfig(): IItemActionsTemplateConfig {
+        return this._display ? this._display.getActionsTemplateConfig() : {};
+    },
+
+    // New Model compatibility
+    setActionsTemplateConfig(config: IItemActionsTemplateConfig): void {
+        if (this._display) {
+            this._display.setActionsTemplateConfig(config);
+        }
+    },
+
+    // New Model compatibility
+    getActionsMenuConfig(): any {
+        return this._display ? this._display.getActionsMenuConfig() : {};
+    },
+
+    // New Model compatibility
+    setActionsMenuConfig(config: any): void {
+        if (this._display) {
+            this._display.setActionsMenuConfig(config);
+        }
+    },
+
+    // New Model compatibility
+    getSwipeConfig(): ISwipeConfig {
+        return this._display ? this._display.getSwipeConfig() : {};
+    },
+
+    // New Model compatibility
+    setSwipeConfig(config: ISwipeConfig): void {
+        if (this._display) {
+            this._display.setSwipeConfig(config);
+        }
+    },
+
+    // New Model compatibility
+    setSwipeAnimation(animation: ANIMATION_STATE): void {
+        if (this._display) {
+            this._display.setSwipeAnimation(animation);
+        }
+    },
+
+    // New Model compatibility
+    getSwipeAnimation(): ANIMATION_STATE {
+        return this._display ? this._display.getSwipeAnimation() : {};
+    },
+
+    // New Model compatibility
+    setEventRaising(enabled: boolean, analyze: boolean): void {
+        if (this._display) {
+            this._display.setEventRaising(enabled, analyze);
+        }
     },
 
     updateSelection: function(selectedKeys) {
@@ -636,8 +749,19 @@ var ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true);
     },
 
-    getActiveItem: function() {
-        return this._activeItem;
+    setSelectedItems(items: Model[], selected: boolean|null): void {
+        // говнокод для совместимости с новой моделью
+        // вместо false ставим undefined,
+        // чтобы не сломалось показывание только при наведении
+        items.forEach((item) => {
+            if (selected === false) {
+                this._selectedKeys[item.getId()] = undefined;
+            } else {
+                this._selectedKeys[item.getId()] = selected;
+            }
+        });
+
+        this._display.setSelectedItems(items, selected);
     },
 
     setItemTemplateProperty: function(itemTemplateProperty) {

@@ -3,8 +3,6 @@ define('Controls-demo/Input/Suggest/Suggest', [
    'wml!Controls-demo/Input/Suggest/Suggest',
    'Types/source',
    'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
-   'css!Controls-demo/Input/Suggest/Suggest',
-   'css!Controls-demo/Input/resources/VdomInputs'
 ], function(Control, template, sourceLib, myTmpl) {
 
    'use strict';
@@ -200,5 +198,7 @@ define('Controls-demo/Input/Suggest/Suggest', [
          _private.createMemory(this);
       }
    });
+   VDomSuggest._styles = ['Controls-demo/Input/Suggest/Suggest', 'Controls-demo/Input/resources/VdomInputs'];
+
    return VDomSuggest;
 });

@@ -30,14 +30,10 @@
                </div>
             </ws:headerTemplate>
             <ws:bodyTemplate>
-               <div class="controls-PeriodDialog-DateRangeItem__monthList_title{{
-                     _monthSelectionEnabled ? ' controls-PeriodDialog-DateRangeItem__monthList_title_selectable'}}"
-                     on:click="_monthCaptionClick(date, month)">
-                  {{ _formatMonth(month) }}
-               </div>
                <Controls.calendar:MonthView
                   attr:class="controls-DateRangeBigChoose-DateRangePicker__item"
                   monthViewModel="{{_monthViewModel}}"
+                  showCaption="{{true}}"
                   selectionType="{{_options.selectionType}}"
                   quantum="{{_options.quantum}}"
                   showWeekdays="{{false}}"
@@ -64,6 +60,13 @@
                   on:itemMouseEnter="_proxyEvent()"
                   on:itemMouseLeave="_proxyEvent()"
                >
+                  <ws:captionTemplate>
+                     <div class="controls-PeriodDialog-DateRangeItem__monthList_title{{
+                     _monthSelectionEnabled ? ' controls-PeriodDialog-DateRangeItem__monthList_title_selectable'}}"
+                          on:click="_monthCaptionClick(date, month)">
+                        {{ _formatMonth(month) }}
+                     </div>
+                  </ws:captionTemplate>
                   <ws:dayTemplate>
                      <ws:partial template="{{_options.dayTemplate}}"
                                  sizeStyle="DateRangeItem"

@@ -1,9 +1,11 @@
 <div class="controls-MonthSlider {{_themeCssClass}}">
    <div attr:class="controls-MonthSlider__header">
-      <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} controls-MonthSlider__home-button controls-MonthSlider__home-button_theme-{{_options.theme}} icon-size icon-Home3 {{ !_isHomeVisible ? 'ws-invisible' }}" on:click="_setCurrentMonth()"></span>
-      <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} icon-size icon-MarkCLeftLight" on:click="_slideMonth(-1)"></span>
+      <div class="controls-MonthSlider__home-button controls-MonthSlider__home-button_theme-{{_options.theme}} {{ !_isHomeVisible ? 'ws-invisible' }}" on:click="_setCurrentMonth()">
+         <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} controls-MonthSlider__header-button icon-size icon-Home3"></span>
+      </div>
+      <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} controls-MonthSlider__header-button icon-size icon-MarkCLeftLight" on:click="_slideMonth(-1)"></span>
       <span attr:class="controls-MonthSlider__header-title controls-MonthSlider__header-title_theme-{{_options.theme}}">{{ _formatDate(_month, 'MMMM, YYYY') }}</span>
-      <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} icon-size icon-MarkCRightLight" on:click="_slideMonth(1)"></span>
+      <span attr:class="controls-MonthSlider__header-button_theme-{{_options.theme}} controls-MonthSlider__header-button icon-size icon-MarkCRightLight" on:click="_slideMonth(1)"></span>
    </div>
 
    <div attr:class="controls-MonthSlider__weekdays-container">

@@ -1,9 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Previewer/Previewer');
-import 'css!Controls-demo/InfoBox/resources/InfoboxButtonHelp';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Previewer/Previewer';
-import 'css!Controls-demo/Controls-demo';
 import {showType} from 'Controls/Utils/Toolbar';
 import {constants} from 'Env/Env';
 
@@ -121,5 +118,7 @@ class Previewer extends Control<IControlOptions> {
    }
 
    static _theme: string[] = ['Controls/Classes'];
+
+   static _styles: string[] = ['Controls-demo/InfoBox/resources/InfoboxButtonHelp', 'Controls-demo/Previewer/Previewer', 'Controls-demo/Controls-demo'];
 }
 export default Previewer;

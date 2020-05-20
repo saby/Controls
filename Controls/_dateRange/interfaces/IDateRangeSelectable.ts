@@ -29,7 +29,7 @@ export = {
        * @example 
        * В данном примере можно выбрать либо 1 день, либо диапазон в 4 дня, либо 2 целые недели, либо 1 месяц.
        * <pre class="brush: html">
-       * <Controls.dateRange:Selector ranges="{days: [1,4], weeks: [2], months: [1] }" />
+       * <Controls.dateRange:RangeSelector ranges="{days: [1,4], weeks: [2], months: [1] }" />
        * </pre>
        */
       options.ranges = [];

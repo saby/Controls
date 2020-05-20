@@ -1,7 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/LoadingIndicator/Delay/Delay');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/LoadingIndicator/IndicatorContainer';
 
 class Delay extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -18,5 +16,7 @@ class Delay extends Control<IControlOptions> {
             this._children.loadingIndicatorSecond.hide();
         }.bind(this), time);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/LoadingIndicator/IndicatorContainer'];
 }
 export default Delay;

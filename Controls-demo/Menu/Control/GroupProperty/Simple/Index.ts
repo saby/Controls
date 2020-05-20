@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/GroupProperty/Simple/Index');
 import {Memory} from 'Types/source';
 import {view as constView} from 'Controls/Constants';
-import 'css!Controls-demo/Controls-demo';
 
 class GroupProperty extends Control {
     protected _template: TemplateFunction = controlTemplate;
@@ -23,5 +22,7 @@ class GroupProperty extends Control {
 
     static _theme: string[] = ['Controls/Classes'];
 
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default GroupProperty;

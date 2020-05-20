@@ -1,4 +1,4 @@
-import { IItemAction } from 'Controls/_list/Swipe/interface/IItemAction';
+import { IItemAction } from 'Controls/itemActions';
 // @ts-ignore
 import { Model } from 'Types/entity';
 
@@ -12,15 +12,8 @@ export interface IItemData {
 
 export interface IListModel {
    getSwipeItem: () => IItemData;
-   nextModelVersion: (notUpdatePrefixItemVersion?: boolean) => void;
+   nextModelVersion: (notUpdatePrefixItemVersion?: boolean, changesType?: string) => void;
    setSwipeItem: (itemData: IItemData) => void;
    setActiveItem: (itemData: IItemData) => void;
-   setItemActions: (
-      item: Model,
-      actions: {
-         all: IItemAction[];
-         showed: IItemAction[];
-      }
-   ) => void;
    subscribe: (eventName: string, handler: Function) => void;
 }

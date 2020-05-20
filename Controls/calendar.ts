@@ -1,20 +1,19 @@
 /**
- * Библиотека контролов, которые служат для задания и отображения диапазона дат в рамках одного или нескольких месяцев. 
+ * Библиотека контролов, которые служат для задания и отображения диапазона дат в рамках одного или нескольких месяцев.
  * @library Controls/calendar
  * @includes Month Controls/_calendar/Month
  * @includes MonthList Controls/_calendar/MonthList
  * @includes MonthSlider Controls/_calendar/MonthSlider
  * @includes MonthModel Controls/_calendar/Month/Model
- * @includes MonthViewDayTemplate wml!Controls/_calendar/MonthView/dayTemplate
- * @includes MonthViewTemplate wml!Controls/_calendar/MonthView/MonthView
- * @includes MonthViewTableBodyTemplate wml!Controls/_calendar/MonthView/MonthViewTableBody
+ * @includes MonthViewDayTemplate Controls/_calendar/interfaces/MonthViewDayTemplate
  * @includes MonthViewModel Controls/_calendar/MonthView/MonthViewModel
  * @includes MonthView Controls/_calendar/MonthView
  * @includes IMonth Controls/_calendar/interfaces/IMonth
  * @includes IMonthList Controls/_calendar/interfaces/IMonthList
  * @includes IMonthListSource Controls/_calendar/interfaces/IMonthListSource
  * @includes IMonthListVirtualPageSize Controls/_calendar/interfaces/IMonthListVirtualPageSize
- * 
+ * @includes MonthListMonthTemplate Controls/_calendar/interfaces/MonthListMonthTemplate
+ * @includes MonthListYearTemplate Controls/_calendar/interfaces/MonthListYearTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -26,22 +25,20 @@
  * @includes MonthList Controls/_calendar/MonthList
  * @includes MonthSlider Controls/_calendar/MonthSlider
  * @includes MonthModel Controls/_calendar/Month/Model
- * @includes MonthViewDayTemplate wml!Controls/_calendar/MonthView/dayTemplate
- * @includes MonthViewTemplate wml!Controls/_calendar/MonthView/MonthView
- * @includes MonthViewTableBodyTemplate wml!Controls/_calendar/MonthView/MonthViewTableBody
+ * @includes MonthViewDayTemplate Controls/_calendar/interfaces/MonthViewDayTemplate
  * @includes MonthViewModel Controls/_calendar/MonthView/MonthViewModel
  * @includes MonthView Controls/_calendar/MonthView
  * @includes IMonth Controls/_calendar/interfaces/IMonth
  * @includes IMonthList Controls/_calendar/interfaces/IMonthList
  * @includes IMonthListSource Controls/_calendar/interfaces/IMonthListSource
  * @includes IMonthListVirtualPageSize Controls/_calendar/interfaces/IMonthListVirtualPageSize
+ * @includes MonthListMonthTemplate Controls/_calendar/interfaces/MonthListMonthTemplate
+ * @includes MonthListYearTemplate Controls/_calendar/interfaces/MonthListYearTemplate
  * @public
  * @author Крайнов Д.О.
  */
 
 import MonthViewDayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
-import MonthViewTemplate = require('wml!Controls/_calendar/MonthView/MonthView');
-import MonthViewTableBodyTemplate = require('wml!Controls/_calendar/MonthView/MonthViewTableBody');
 
 import MonthListYearTemplate = require('wml!Controls/_calendar/MonthList/YearTemplate');
 import MonthListMonthTemplate = require('wml!Controls/_calendar/MonthList/MonthTemplate');
@@ -61,8 +58,6 @@ export {default as IMonthListVirtualPageSize} from './_calendar/interfaces/IMont
 
 export {
    MonthViewDayTemplate,
-   MonthViewTemplate,
-   MonthViewTableBodyTemplate,
    MonthListYearTemplate,
    MonthListMonthTemplate
-}
+};

@@ -1,5 +1,5 @@
 <div class="controls-demo_LiteSelector-block">
-    <Controls.dateRange:LiteSelector
+    <Controls.dateRange:RangeShortSelector
             prevArrowVisibility="{{true}}"
             nextArrowVisibility="{{true}}"
             bind:startValue="_startValue"

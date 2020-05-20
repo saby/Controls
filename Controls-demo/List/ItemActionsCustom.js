@@ -5,7 +5,6 @@ define('Controls-demo/List/ItemActionsCustom', [
    'wml!Controls-demo/List/ItemActions/newsTmpl',
    'Types/source',
    'Core/constants',
-   'css!Controls-demo/List/ItemActions/ItemActionsCustom'
 ], function(
    Env,
    BaseControl,
@@ -196,5 +195,7 @@ define('Controls-demo/List/ItemActionsCustom', [
             });
          }
       });
+   ModuleClass._styles = ['Controls-demo/List/ItemActions/ItemActionsCustom'];
+
    return ModuleClass;
 });

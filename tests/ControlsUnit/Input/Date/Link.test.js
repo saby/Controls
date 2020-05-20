@@ -15,11 +15,11 @@ define([
       replacer: ' ',
    };
 
-   describe('Controls/Input/Date/Link', function() {
+   describe('Controls/Input/Date/DateSelector', function() {
 
       describe('openPopup', function() {
          it('should open opener', function() {
-            const component = calendarTestUtils.createComponent(dateRange.Link, options);
+            const component = calendarTestUtils.createComponent(dateRange.DateSelector, options);
             component._children = {
                opener: {
                   open: sinon.fake()
@@ -37,7 +37,7 @@ define([
          it('should generate valueChangedEvent and close opener', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Link, options),
+               component = calendarTestUtils.createComponent(dateRange.DateSelector, options),
                value = new Date(2018, 11, 10);
 
             component._children.opener = {
@@ -52,31 +52,11 @@ define([
             sandbox.restore();
          });
       });
-
-      describe('_onResultWS3', function() {
-         it('should generate valueChangedEvent and close opener', function() {
-            const
-               sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Link, options),
-               value = new Date(2018, 11, 10);
-
-            component._children.opener = {
-               close: sinon.fake()
-            };
-            sandbox.stub(component, '_notify');
-
-            component._onResultWS3(null, value);
-
-            sinon.assert.calledWith(component._notify, 'valueChanged');
-            sinon.assert.called(component._children.opener.close);
-            sandbox.restore();
-         });
-      });
       describe('_rangeChangedHandler', function() {
          it('should generate valueChangedEvent', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Link, options),
+               component = calendarTestUtils.createComponent(dateRange.DateSelector, options),
                value = new Date(2018, 11, 10);
 
             component._children.opener = {

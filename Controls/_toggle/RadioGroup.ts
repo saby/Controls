@@ -1,7 +1,17 @@
-import Control = require('Core/Control');
-import {Controller as SourceController} from 'Controls/source';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Model} from 'Types/entity';
+import {RecordSet} from 'Types/collection';
+import {CrudWrapper} from 'Controls/dataSource';
 import template = require('wml!Controls/_toggle/RadioGroup/RadioGroup');
 import defaultItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
+import {ISource, ISourceOptions, ISingleSelectable, ISingleSelectableOptions} from 'Controls/interface';
+import {IToggleGroup, IToggleGroupOptions} from './interface/IToggleGroup';
+
+export interface IRadioGroupOptions extends IControlOptions,
+    ISingleSelectableOptions,
+    ISourceOptions,
+    IToggleGroupOptions {}
 
    /**
     * Группа контролов, которые предоставляют пользователям возможность выбора между двумя или более параметрами.
@@ -18,7 +28,7 @@ import defaultItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/
     * @public
     * @author Красильников А.С.
     * @category Toggle
-    * @demo Controls-demo/RadioGroup/RadioGroupDemoPG
+    * @demo Controls-demo/toggle/RadioGroup/Index
     */
 
    /*
@@ -35,62 +45,62 @@ import defaultItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/
     * @public
     * @author Красильников А.С.
     * @category Toggle
-    * @demo Controls-demo/RadioGroup/RadioGroupDemoPG
+    * @demo Controls-demo/toggle/RadioGroup/Index
     */
 
-   var _private = {
-      initItems: function(source, self) {
-         self._sourceController = new SourceController({
-            source: source
-         });
-         return self._sourceController.load().addCallback(function(items) {
+class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, ISingleSelectable, IToggleGroup {
+   '[Controls/_interface/ISource]': boolean = true;
+   '[Controls/_interface/ISingleSelectable]': boolean = true;
+   '[Controls/_toggle/interface/IToggleGroup]': boolean = true;
+
+   protected _template: TemplateFunction = template;
+   protected _defaultItemTemplate: TemplateFunction = defaultItemTemplate;
+   protected _items: RecordSet;
+   protected _crudWrapper: CrudWrapper;
+
+   protected _beforeMount(options: IRadioGroupOptions, context: object, receivedState: RecordSet): void|Promise<RecordSet> {
+      if (receivedState) {
+         this._items = receivedState;
+      } else {
+         return this._initItems(options).then((items: RecordSet) => {
+            this._items = items;
             return items;
          });
       }
-   };
+   }
 
-   var Radio = Control.extend({
-      _template: template,
-      _defaultItemTemplate: defaultItemTemplate,
-
-      _beforeMount: function(options, context, receivedState) {
-         if (receivedState) {
-            this._items = receivedState;
-         } else {
-            return _private.initItems(options.source, this).addCallback(function(items) {
-               this._items = items;
-               return items;
-            }.bind(this));
-         }
-      },
-
-      _beforeUpdate: function(newOptions) {
-         var self = this;
-         if (newOptions.source && newOptions.source !== this._options.source) {
-            return _private.initItems(newOptions.source, this).addCallback(function(items) {
-               this._items = items;
-               self._forceUpdate();
-            }.bind(this));
-         }
-      },
-
-      _selectKeyChanged: function(e, item, keyProperty) {
-         if (!this._options.readOnly) {
-            this._notify('selectedKeyChanged', [item.get(keyProperty)]);
-         }
+   protected _beforeUpdate(newOptions: IRadioGroupOptions): Promise<void> {
+      if (newOptions.source && newOptions.source !== this._options.source) {
+         return this._initItems(newOptions).then((items: RecordSet) => {
+            this._items = items;
+            this._forceUpdate();
+         });
       }
-   });
+   }
 
-   Radio.getDefaultOptions = function getDefaultOptions() {
+   protected _selectKeyChanged(e: SyntheticEvent<MouseEvent | TouchEvent>, item: Model, keyProperty: string): void {
+      if (!this._options.readOnly && item.get('readOnly') !== true) {
+         this._notify('selectedKeyChanged', [item.get(keyProperty)]);
+      }
+   }
+
+   private _initItems(options: IRadioGroupOptions): Promise<RecordSet> {
+      this._crudWrapper = new CrudWrapper({
+         source: options.source
+      });
+      return this._crudWrapper.query({}).then((items) => {
+         return items;
+      });
+   }
+
+   static _theme: string[] = ['Controls/toggle'];
+
+   static getDefaultOptions(): object {
       return {
          direction: 'vertical',
          validationStatus: 'valid'
       };
-   };
+   }
+}
 
-   Radio._theme = [ 'Controls/toggle' ];
-
-   Radio._private = _private;
-
-   export = Radio;
-
+export default Radio;

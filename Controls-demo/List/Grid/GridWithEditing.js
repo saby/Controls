@@ -10,7 +10,6 @@ define('Controls-demo/List/Grid/GridWithEditing', [
    'wml!Controls-demo/List/Grid/DemoBalancePrice',
    'wml!Controls-demo/List/Grid/DemoCostPrice',
    'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
-   'css!Controls-demo/List/Grid/Grid',
    'Controls/scroll',
    'Controls/grid',
 ], function(Env, BaseControl, GridData, template, source, cClone) {
@@ -173,6 +172,8 @@ define('Controls-demo/List/Grid/GridWithEditing', [
          Env.IoC.resolve('ILogger').info(arguments);
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/List/Grid/Grid'];
 
    return ModuleClass;
 });

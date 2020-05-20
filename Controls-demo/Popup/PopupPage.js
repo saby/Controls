@@ -3,7 +3,6 @@ define('Controls-demo/Popup/PopupPage',
       'Core/Control',
       'wml!Controls-demo/Popup/PopupPage',
       'Controls/popup',
-      'css!Controls-demo/Popup/PopupPage'
    ],
    function (Control, template, popupLib) {
       'use strict';
@@ -197,6 +196,8 @@ define('Controls-demo/Popup/PopupPage',
             }
          }
       });
+
+      PopupPage._styles = ['Controls-demo/Popup/PopupPage'];
 
       return PopupPage;
    }

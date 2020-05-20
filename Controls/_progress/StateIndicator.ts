@@ -70,6 +70,16 @@ export interface IStateIndicatorOptions extends IControlOptions {
  */
 
 /**
+ * @name Controls/_progress/StateIndicator#sectorSize
+ * @cfg {String} Размер одного сектора диаграммы.
+ * @variant s
+ * @variant m
+ * @variant l
+ * @default m
+ * @demo Controls-demo/StateIndicator/SectorSize/Index
+ */
+
+/**
  * @typedef {Object} IndicatorCategory
  * @property {Number} [value=0] Процент от соответствующей категории.
  * @property {String} [className=''] Имя css-класса, который будет применяться к секторам этой категории. Если не указано, будет использоваться цвет по умолчанию.
@@ -252,14 +262,16 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
       return {
          theme: 'default',
          scale: 10,
-         data: [{value: 0, title: '', className: ''}]
+         data: [{value: 0, title: '', className: ''}],
+         sectorSize: 'm'
       };
    }
 
    static getOptionTypes(): object {
       return {
          scale: EntityDescriptor(Number),
-         data: EntityDescriptor(Array)
+         data: EntityDescriptor(Array),
+         sectorSize: EntityDescriptor(String)
       };
    }
 }

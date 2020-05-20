@@ -2,8 +2,6 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/MasterDetail/MasterDetail');
 import columnTemplate = require('wml!Controls-demo/DragNDrop/MasterDetail/itemTemplates/masterItemTemplate');
 import * as data from 'Controls-demo/DragNDrop/MasterDetail/Data';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/DragNDrop/MasterDetail/MasterDetail';
 import cInstance = require('Core/core-instance');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
@@ -103,4 +101,6 @@ export default class RenderDemo extends Control {
     _dragEndDetail(event, entity, target, position) {
         this._children.detailMover.moveItems(entity.getItems(), target, position);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/DragNDrop/MasterDetail/MasterDetail'];
 }

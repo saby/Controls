@@ -12,6 +12,7 @@
             isAdd="{{ _options.isAdd }}"
             itemTemplate="{{ _options.itemTemplate }}"
             groupTemplate="{{ _options.groupTemplate }}"
+            menuIsShown="{{ _options.menuIsShown }}"
 
             itemActionsTemplate="{{ _options.itemActionsTemplate }}"
             swipeTemplate="{{ _options.swipeTemplate }}" />
@@ -37,8 +38,10 @@
          </div>
       </ws:else>
    </ws:if>
-   <Controls.popup:Sticky name="menuOpener"
-                          template="Controls/menu:Popup"
-                          closeOnOutsideClick="{{true}}"
-                          actionOnScroll="close" />
+   <Controls.popup:Sticky
+           on:open="_onOpen()"
+           name="menuOpener"
+           template="Controls/menu:Popup"
+           closeOnOutsideClick="{{true}}"
+           actionOnScroll="close" />
 </div>

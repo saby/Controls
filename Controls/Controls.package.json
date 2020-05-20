@@ -17,12 +17,6 @@
   "output": "controls-container-async.package.js"
 }, {
   "include": [
-    "Controls/Container/Input/Search",
-    "wml!Controls/Container/Input/Search/Search"
-  ],
-  "output": "controls-container.package.js"
-}, {
-  "include": [
     "Controls/Utils/*"
   ],
   "exclude": [

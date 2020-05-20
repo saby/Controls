@@ -1,7 +1,5 @@
 import {Logger} from 'UI/Utils';
-
-import * as Formatter from 'Controls/_input/Mask/Formatter';
-import * as FormatBuilder from 'Controls/_input/Mask/FormatBuilder';
+import {FormatBuilder, Formatter} from 'Controls/decorator';
 
 export interface IOptions {
     mask: string;

@@ -25,12 +25,10 @@
             <ws:partial
                template="{{_options.monthTemplate}}"
                date="{{_getMonth(date.getFullYear(), month)}}"
-               dateId="{{dateId}}"
                extData="{{extData[month]}}"
                _formatMonth="{{_formatMonth}}"
                _options="{{_options}}"
                dayTemplate="{{dayTemplate}}"
-               _dateToDataString="{{_dateToDataString}}"
             />
          </ws:for>
       </ws:else>

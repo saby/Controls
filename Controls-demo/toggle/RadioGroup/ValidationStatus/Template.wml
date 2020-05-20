@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">valid status</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey"
+                keyProperty="id"
+                source="{{_source}}"
+                validationStatus="valid"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__cell">invalid status</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey2"
+                keyProperty="id"
+                source="{{_source}}"
+                directio="horizontal"
+                validationStatus="invalid"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__cell">invalidAccent status</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey3"
+                keyProperty="id"
+                source="{{_source}}"
+                directio="horizontal"
+                validationStatus="invalidAccent"
+        />
+    </div>
+</div>

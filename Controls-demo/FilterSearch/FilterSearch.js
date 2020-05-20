@@ -7,7 +7,6 @@ define('Controls-demo/FilterSearch/FilterSearch', [
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/FilterSearch/FilterSearch',
    'Controls/deprecatedList',
    'Controls/search',
    'Controls/filter'
@@ -149,6 +148,8 @@ define('Controls-demo/FilterSearch/FilterSearch', [
          });
       }
    });
+
+   SearchContainer._styles = ['Controls-demo/FilterSearch/FilterSearch'];
 
    return SearchContainer;
 });

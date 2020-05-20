@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/treeGrid/NodeFooter/NodeFooterTempl
 import {HierarchicalMemory} from "Types/source"
 import {Gadgets} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -20,4 +19,6 @@ export default class extends Control {
             }
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

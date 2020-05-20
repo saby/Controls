@@ -1,6 +1,5 @@
 import {Control, TemplateFunction} from "UI/Base";
 import * as Template from "wml!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog";
-import "css!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog";
 import {Record} from "Types/entity";
 import {RecordSet} from "Types/collection";
 import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";
@@ -54,4 +53,6 @@ export default class extends Control {
     moveItemsWithDialog(params): void {
         this._children.listMover.moveItemsWithDialog(params);
     }
+
+    static _styles: string[] = ['Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog'];
 }

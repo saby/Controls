@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/Toolbar/popupFooterTemplate/popupFooterTemplate');
-import 'css!Controls-demo/Controls-demo';
 import source = require('Types/source');
 
 class FooterTemplate extends Control<IControlOptions> {
@@ -77,5 +76,7 @@ class FooterTemplate extends Control<IControlOptions> {
             parent: '6'
         }
     ];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default FooterTemplate;

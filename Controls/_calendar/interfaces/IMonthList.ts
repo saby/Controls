@@ -5,6 +5,9 @@ export interface IMonthListOptions {
    position?: Date;
    yearTemplate?: TemplateFunction;
    monthTemplate?: TemplateFunction;
+   dayTemplate?: TemplateFunction;
+   dayHeaderTemplate?: TemplateFunction;
+   captionTemplate?: TemplateFunction;
    stubTemplate?: TemplateFunction;
    displayedRanges?: [];
 }
@@ -156,6 +159,70 @@ export interface IMonthList {
  * </pre>
  * @see Controls/_calendar/interfaces/IMonthList#yearTemplate
  * @see Controls/_calendar/interfaces/IMonthList#viewMode
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthListSource#dayTemplate
+ * @cfg {String|Function} Шаблон дня.
+ * @remark
+ * В шаблон передается объект value, в котором хранятся:
+ * <ul>
+ *     <li>date - дата дня</li>
+ *     <li>day - порядковый номер дня</li>
+ *     <li>today - определяет, является ли день сегодняшним </li>
+ *     <li>weekend - определяет, является ли день выходным </li>
+ *     <li>extData - данные, загруженные через источник данных</li>
+ * </ul>
+ * @example
+ * <pre>
+ * <Controls.calendar:MonthView>
+ *    <ws:dayTemplate>
+ *      <ws:partial template="Controls/calendar:MonthViewDayTemplate">
+ *          <ws:contentTemplate>
+ *                 {{contentTemplate.value.day}}
+ *          </ws:contentTemplate>
+ *      </ws:partial>
+ *    </ws:dayTemplate>
+ * </Controls.calendar:MonthView>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthListSource#dayHeaderTemplate
+ * @cfg {String|Function} Шаблон заголовка дня.
+ * @remark В шаблоне можно использовать объект value, в котором хранятся:
+ *  <ul>
+ *      <li>caption - сокращенное название дня недели</li>
+ *      <li>day - индекс дня</li>
+ *      <li>weekend - определяет, является ли день выходным</li>
+ *  </ul>
+ * @example
+ * <pre class="brush: html">
+ *  <Controls.calendar:MonthView bind:month="_month">
+ *       <ws:dayHeaderTemplate>
+ *          <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
+ *             <div class="controls-MonthViewDemo-day"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:if>
+ *          <ws:else>
+ *             <div class="controls-MonthViewDemo-day-weekend"> {{dayHeaderTemplate.value.caption}}</div>
+ *          </ws:else>
+ *       </ws:dayHeaderTemplate>
+ *  </Controls.calendar:MonthView>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_calendar/interfaces/IMonthListSource#captionTemplate
+ * @cfg {String|Function} Шаблон заголовка.
+ * @remark В шаблоне можно использовать date (Дата месяца) caption (Заголовок месяца)
+ * @example
+ * <pre class="brush: html">
+ *  <Controls.calendar:MonthView bind:month="_month">
+ *       <ws:captionTemplate>
+ *          <div>{{captionTemplate.caption}}</div>
+ *       </ws:captionTemplate>
+ *  </Controls.calendar:MonthView>
+ *  </pre>
  */
 
 /**

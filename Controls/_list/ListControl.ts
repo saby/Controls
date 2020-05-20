@@ -34,8 +34,8 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
             saveConfig(cfg.propStorageId, ['sorting'], cfg);
         }
     }
-    reload() {
-        return this._children.baseControl.reload();
+    reload(keepScroll, sourceConfig) {
+        return this._children.baseControl.reload(keepScroll, sourceConfig);
     }
     beginEdit(options) {
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginEdit(options);

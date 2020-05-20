@@ -1,6 +1,6 @@
 {
    "name": "wasaby-controls",
-   "version": "20.3100.0",
+   "version": "20.4000.0",
    "repository": {
       "type": "git",
       "url": "git@git.sbis.ru:root/sbis3-controls"
@@ -12,34 +12,30 @@
       "Controls-demo/*"
    ],
    "scripts": {
-      "build": "npm run builder && node build-app",
-      "build:typescript": "saby-typescript --install --tsconfig=tsconfig.base.json",
-      "builder": "wasaby-cli --tasks=build --only",
+      "build": "npm run builder && npm run build:index",
+      "build:typescript": "wasaby-cli --tasks=prepare",
+      "builder": "wasaby-cli --tasks=build",
+      "build:index": "wasaby-cli --tasks=createIndex --moduleName=Controls-demo",
       "compile": "saby-typescript --compiler",
-      "start": "node app --applicationRoot=application",
-      "start:units": "wasaby-cli --tasks=startTest --only --server",
-      "test": "wasaby-cli --tasks=startTest --only --node --report=console -c",
-      "test:node": "wasaby-cli --tasks=startTest --only --node",
-      "test:node-coverage": "wasaby-cli --tasks=startTest --only --node --coverage",
+      "start": "wasaby-cli --tasks=app",
+      "start:units": "wasaby-cli --tasks=startTest --server",
+      "test": "wasaby-cli --tasks=startTest --node --report=console",
+      "test:coverage": "wasaby-cli --tasks=startTest --node --coverage",
       "lint": "node ./node_modules/eslint/bin/eslint --color --no-eslintrc -c=.eslintrc -f=stylish .",
       "lintless": "stylelint \"Controls/**/*.less\"",
-      "update-cli-store": "wasaby-cli --tasks=initStore --only",
-      "prepare": "npm run update-cli-store"
+      "update-cli-store": "wasaby-cli --tasks=initStore",
+      "prepare": "npm run update-cli-store && npm run build:typescript"
+   },
+   "wasaby-cli": {
+      "port": 777
    },
    "dependencies": {},
    "devDependencies": {
       "@tensor-corp/eslint-config": "^2.0.3",
-      "body-parser": "^1.19.0",
-      "cookie-parser": "^1.4.3",
       "eslint": "^5.7.0",
-      "express": "^4.17.1",
-      "wasaby-cli": "git+https://platform-git.sbis.ru/saby/wasaby-cli.git#rc-20.3100",
-      "saby-typescript": "git+https://platform-git.sbis.ru/saby/TypeScript.git#rc-20.3100",
-      "saby-units": "git+https://platform-git.sbis.ru/saby/Units.git#rc-20.3100",
-      "serve-static": "1.11.x",
+      "wasaby-cli": "git+https://platform-git.sbis.ru/saby/wasaby-cli.git#rc-20.4000",
       "stylelint": "^9.7.1",
       "stylelint-config-standard": "^18.2.0",
-      "tslint": "^5.18.0",
-      "fs-extra": "9.0.0"
+      "tslint": "^5.18.0"
    }
 }

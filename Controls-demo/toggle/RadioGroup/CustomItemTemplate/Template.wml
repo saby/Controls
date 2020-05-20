@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">custom item template</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey"
+                keyProperty="id"
+                source="{{_source}}"
+                itemTemplateProperty="customTemplate">
+            <ws:itemTemplate>
+                <ws:partial template='Controls/toggle:ItemTemplate'
+                            item="{{item}}"
+                            readOnly="{{readOnly}}"
+                            selected="{{selected}}"
+                            displayProperty="caption"
+                />
+            </ws:itemTemplate>
+        </Controls.toggle:RadioGroup>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">custom template in itemTemplateProperty</div>
+        <Controls.toggle:RadioGroup
+                keyProperty="id"
+                bind:selectedKey="_selectedKey2"
+                source="{{_source}}"
+                readOnly="{{false}}"
+                itemTemplateProperty="templateTwo">
+        </Controls.toggle:RadioGroup>
+    </div>
+</div>

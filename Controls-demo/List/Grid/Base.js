@@ -9,10 +9,8 @@ define('Controls-demo/List/Grid/Base', [
    'wml!Controls-demo/List/Grid/DemoCostPrice',
    'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
    'wml!Controls-demo/List/Grid/DemoName',
-   'css!Controls-demo/List/Grid/Grid',
    'Controls/scroll',
    'Controls/grid',
-   'css!Controls-demo/List/Grid/resources/Base/Base'
 ], function(Env, BaseControl, GridData, template, source) {
    'use strict';
    var
@@ -202,6 +200,8 @@ define('Controls-demo/List/Grid/Base', [
             this._forceUpdate();
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/List/Grid/Grid', 'Controls-demo/List/Grid/resources/Base/Base'];
 
    return ModuleClass;
 });

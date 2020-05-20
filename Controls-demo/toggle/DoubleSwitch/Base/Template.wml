@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.toggle:DoubleSwitch bind:value="value"
+                                      captions="{{['Turned on', 'Turned off']}}"/>
+        <div class="controls-text-label_theme-{{_options.theme}}">default doubleSwitch</div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">readonly</div>
+        <Controls.toggle:DoubleSwitch bind:value="value"
+                                      captions="{{['Turned on', 'Turned off']}}"
+                                      readonly="{{true}}"/>
+    </div>
+</div>

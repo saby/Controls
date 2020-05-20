@@ -1,18 +1,33 @@
-<Controls.list:DataContainer
-   keyProperty="id"
-   source="{{ _source }}"
-   bind:filter="_filter"
-   attr:class="controlsDemo_fixedWidth500"
->
-   <Controls.search:Controller searchParam="title">
-      <div>
-         <Controls.search:InputContainer>
-            <Controls.search:Input />
-         </Controls.search:InputContainer>
-         <Controls.list:Container itemActions="{{_itemActions}}">
-            <Controls.list:View />
-         </Controls.list:Container>
-         <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()" />
-      </div>
-   </Controls.search:Controller>
-</Controls.list:DataContainer>
+<div>
+   <div class="controlsDemo__flex controlsDemo_fixedWidth500 controlsDemo__flex-jc-sb">
+      <Controls.toggle:Checkbox
+         caption="Разорвать соединение"
+         bind:value="_lostConnection"
+      />
+      <Controls.buttons:Button
+         caption="Сбросить source"
+         on:click="_resetSource()"
+      />
+   </div>
+   <Controls.list:DataContainer
+      keyProperty="id"
+      source="{{ _source }}"
+      navigation="{{ _navigation }}"
+      bind:filter="_filter"
+      attr:class="controlsDemo_fixedWidth500"
+   >
+      <Controls.search:Controller searchParam="title">
+         <div>
+            <Controls.search:InputContainer>
+               <Controls.search:Input />
+            </Controls.search:InputContainer>
+            <Controls.list:Container itemActions="{{ _itemActions }}">
+               <Controls.scroll:Container attr:style="height: 300px;">
+                  <Controls.list:View />
+               </Controls.scroll:Container>
+            </Controls.list:Container>
+            <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()" />
+         </div>
+      </Controls.search:Controller>
+   </Controls.list:DataContainer>
+</div>

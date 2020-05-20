@@ -431,6 +431,22 @@ define('Controls/interface/IFilterPanel', [], function() {
     */
 
    /**
+    * @name Controls/interface/IFilterPanel#emptyHistoryTemplate
+    * @cfg {Function|String} Шаблон, который отображаеться в блоке с историей фильтров,
+    * если фильтров, сохранённых в историю, ещё нет.
+    * @demo Controls-demo/Filter_new/DetailPanel/EmptyHistoryTemplate/Index
+    * @example
+    * Пример настройки опции emptyHistoryTemplate
+    * <pre>
+    *    <Controls.filterPopup:Panel>
+    *       <ws:emptyHistoryTemplate>
+    *           <ws:partial template="MyModule/control:emptyHistoryTemplate" />
+    *       </ws:emptyHistoryTemplate>
+    *    </Controls.filterPopup:Panel>
+    * </pre>
+    */
+
+   /**
     * @name Controls/interface/IFilterPanel#additionalTemplateProperty
     * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
     * @cfg {String} Имя свойства элемента, содержащего шаблон отображения элемента в блоке "Еще можно отобрать". Если параметр не задан, вместо него используется additionalTemplate.

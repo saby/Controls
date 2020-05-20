@@ -3,7 +3,6 @@ define('Controls-demo/Input/Date/Picker', [
    'Controls-demo/Date/MonthListSource',
    'wml!Controls-demo/Input/Date/Picker',
    'wml!Controls-demo/Date/MonthListDay',
-   'css!Controls-demo/Input/Date/Picker'
 ], function(
    BaseControl,
    MonthListSource,
@@ -30,5 +29,7 @@ define('Controls-demo/Input/Date/Picker', [
       },
 
    });
+   ModuleClass._styles = ['Controls-demo/Input/Date/Picker'];
+
    return ModuleClass;
 });

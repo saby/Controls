@@ -1,5 +1,7 @@
 <div class="controls-BaseControl controls-BaseControl_showActions controls-BaseControl__renderContainer">
    <ws:partial
+      attr:class="{{_itemActionsMenuId !== null ? 'controls-itemActionsV_invisible'}}"
+      name="renderer"
       template="{{ _options.render }}"
       listModel="{{ _collection }}"
       scope="{{ _options }}"
@@ -9,6 +11,7 @@
 
       on:itemClick="_onItemClick()"
       on:itemSwipe="_onItemSwipe()"
+      on:closeSwipe="_onCloseSwipe()"
       on:itemActionClick="_onItemActionClick()"
       on:itemContextMenu="_onItemContextMenu()"
       on:itemKeyDown="_onItemKeyDown()"/>

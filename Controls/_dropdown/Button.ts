@@ -34,7 +34,6 @@ import ActualApi from 'Controls/_buttons/ActualApi';
  * @public
  * @author Герасимов А.М.
  * @category Button
- * @demo Controls-demo/Buttons/Menu/MenuPG
  */
 
 /*

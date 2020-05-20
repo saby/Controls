@@ -21,7 +21,12 @@ enum Mode {
      * @name Controls/_dataSource/_error/Mode#include
      * @cfg {string} В области контрола (вместо содержимого).
      */
-    include = 'include'
+    include = 'include',
+    /**
+     * @name Controls/_dataSource/_error/Mode#inlist
+     * @cfg {string} В области списка (вместе с содержимым).
+     */
+    inlist = 'inlist'
 }
 
 export default Mode;

@@ -3,7 +3,6 @@ define('Controls-demo/List/Tree/SingleExpand', [
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Tree/SingleExpand',
    'Controls-demo/List/Tree/TreeMemory',
-   'css!Controls-demo/List/Tree/Tree',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
@@ -31,6 +30,8 @@ define('Controls-demo/List/Tree/SingleExpand', [
       }
 
    });
+
+   ModuleClass._styles = ['Controls-demo/List/Tree/Tree'];
 
    return ModuleClass;
 });

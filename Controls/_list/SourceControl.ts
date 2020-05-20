@@ -3,7 +3,6 @@ import {ICrud, QueryOrderSelector, QueryWhere} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 import {ViewConfig, Controller as ErrorController} from 'Controls/_dataSource/error';
-import {ISourceErrorConfig} from 'Controls/_dataSource/SourceCrudInterlayer';
 import {IPagingOptions} from 'Controls/_paging/Paging';
 import {Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
 
@@ -42,15 +41,6 @@ export interface ISourceControlOptions extends IControlOptions {
      */
     navigation?: INavigationOptionValue<INavigationSourceConfig>;
 
-    /**
-     * @name Controls/_list/SourceControl#errorConfig
-     * @cfg {Controls/_dataSource/SourceCrudInterlayer:ISourceErrorConfig} настройки для отображения ошибки
-     */
-    /*
-     * @name Controls/_list/SourceControl#errorConfig
-     * @cfg {Controls/_dataSource/SourceCrudInterlayer:ISourceErrorConfig} error display configuration
-     */
-    errorConfig?: ISourceErrorConfig;
 
     /**
      * @name Controls/_list/SourceControl#errorController

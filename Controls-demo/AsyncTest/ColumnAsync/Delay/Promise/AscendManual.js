@@ -2,7 +2,6 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Promise/AscendManual',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Delay/Promise/AscendManual',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ], function (Control, template) {
       'use strict';
 
@@ -23,6 +22,8 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Promise/AscendManual',
             this._forceUpdate();
          },
       });
+
+      delayAscendManualModule._styles = ['Controls-demo/AsyncTest/AsyncTestDemo'];
 
       return delayAscendManualModule;
    });

@@ -5,8 +5,6 @@ define('Controls-demo/PropertyGrid/SuggestTemplate/SuggestTemplate',
       'Types/source',
       'Types/collection',
       'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template, source, collection) {
       'use strict';
@@ -32,6 +30,8 @@ define('Controls-demo/PropertyGrid/SuggestTemplate/SuggestTemplate',
             this._notify('choose', [this.rs.getRecordById(key)]);
          }
       });
+
+      sugTmpl._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'];
 
       return sugTmpl;
    });

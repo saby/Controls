@@ -8,6 +8,7 @@
    align-items: center;
    justify-content: space-between;
    width: 100%;
+   height: @item_height_menu;
 }
 
 .controls-SortingSelector_arrow-outside_theme-@{themeName},
@@ -21,8 +22,21 @@
    cursor: pointer;
 }
 
+.controls-SortingSelector_itemTitle {
+   display: inline-flex;
+   width: 100%;
+   height: 100%;
+   align-items: center
+}
+
 .controls-SortingSelector_arrow_spacing_theme-@{themeName} {
    margin-left: @item_icon_offset_gridSortingSelector;
+}
+
+.controls-SortingSelector_arrow_separator_theme-@{themeName} {
+   width: @item_separator_thickness_gridSortingSelector;
+   background-color: @item_separator_color_gridSortingSelector;
+   height: inherit;
 }
 
 .controls-SortingArrow_desc {
@@ -31,10 +45,14 @@
 
 .controls-SortingSelector_arrowsContainer {
    display: flex;
+   height: 100%;
+   align-items: center;
+   padding-right: @item_icon_offset_gridSortingSelector;
+   margin-left: @item_icon_offset_gridSortingSelector;
 }
 
 .controls-SortingSelector_arrow_unselected_theme-@{themeName} {
-   fill: @item_icon-color_unselected_gridSortingSelector;
+   fill: @item_icon-color_gridSortingSelector;
    cursor: pointer;
 }
 
@@ -47,3 +65,4 @@
 .controls-SortingSelector_arrow_unselected_theme-@{themeName}:hover {
    fill: @item_hover_icon-color_unselected_gridSortingSelector;
 }
+

@@ -3,9 +3,7 @@ import * as Template from "wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/Two
 import {Memory} from "Types/source"
 import {Gadgets} from "../../../DemoHelpers/DataCatalog"
 
-import "css!Controls-demo/treeGrid/ItemTemplate/WithPhoto/styles";
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -24,4 +22,6 @@ export default class extends Control {
       });
 
    }
+
+   static _styles: string[] = ['Controls-demo/treeGrid/ItemTemplate/WithPhoto/styles', 'Controls-demo/Controls-demo'];
 }

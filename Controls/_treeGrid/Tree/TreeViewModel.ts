@@ -293,6 +293,7 @@ var
                     if (!current.hasMultiSelect) {
                         classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
                     }
+                    // TODO: Исправить по ошибке https://online.sbis.ru/opendoc.html?guid=e4de50e3-8071-49bf-8cd1-69944e8704e5
                     if (self._options.rowSeparatorVisibility) {
                         const separatorSize = self._options.rowSeparatorSize;
                         const isWideSeparator = separatorSize && separatorSize.toLowerCase() === 'l';

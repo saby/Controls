@@ -8,6 +8,7 @@ import 'css!theme?Controls/filterPopup';
  * @extends Core/Control
  * @control
  * @public
+ * @author Золотова Э.Е.
  * @example
  * Пример использования контрола на панели фильтра в блоке "Еще можно отобрать"
  * AdditionalItemTemplate.wml

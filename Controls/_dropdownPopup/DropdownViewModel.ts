@@ -1,7 +1,8 @@
 /**
  * Created by as.krasilnikov on 26.12.2017.
  */
-import {BaseViewModel, getStyle, ItemsUtil, ItemsViewModel} from 'Controls/list';
+import {BaseViewModel, ItemsUtil, ItemsViewModel} from 'Controls/list';
+import {Utils} from 'Controls/itemActions';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import * as multiSelectTpl from 'wml!Controls/_dropdownPopup/multiSelectTpl';
@@ -92,12 +93,12 @@ var _private = {
          getNewTreeItem(currentItem): object {
             return {
                isNode: () => currentItem.hasChildren,
-               isSelected: () => currentItem.isSelected,
+               isSelected: () => currentItem.isSelected ? currentItem.isSelected() : currentItem._isSelected,
                getContents: () => currentItem.item,
-               isSwiped: () => currentItem.isSwiped,
-               shouldDisplayActions: () => {return false},
-               getLevel: () => {},
-               getParent: () => {return {getContents: () => currentItem.hasParent}}
+               isSwiped: () => currentItem.isSwiped ? currentItem.isSwiped() : false,
+               shouldDisplayActions: () => false,
+               getLevel: () => undefined,
+               getParent: () => ({getContents: () => currentItem.hasParent})
             };
          }
    };
@@ -221,10 +222,10 @@ var _private = {
             }
             itemsModelCurrent.hasChildren = this._hasItemChildren(itemsModelCurrent.item);
             itemsModelCurrent.hasParent = this._hasParent(itemsModelCurrent.item);
-            itemsModelCurrent.isSelected = this._isItemSelected(itemsModelCurrent.item);
+            // TODO USE itemsModelCurrent.isSelected()
+            itemsModelCurrent._isSelected = this._isItemSelected(itemsModelCurrent.item);
             itemsModelCurrent.icon = itemsModelCurrent.item.get('icon');
             itemsModelCurrent.iconSize = this._options.iconSize;
-            itemsModelCurrent.isSwiped = this._swipeItem && itemsModelCurrent.dispItem.getContents() === this._swipeItem;
 
             //Draw the separator to split history and nohistory items.
             //Separator is needed only when list has both history and nohistory items
@@ -232,7 +233,7 @@ var _private = {
             if (!this._itemsModel.isLast()) {
                itemsModelCurrent.hasSeparator = _private.needToDrawSeparator(itemsModelCurrent.item, this._itemsModel.getNext().item, itemsModelCurrent.hasParent);
             }
-            itemsModelCurrent.iconStyle = getStyle(itemsModelCurrent.item.get('iconStyle'), 'DropdownList');
+            itemsModelCurrent.iconStyle = Utils.getStyle(itemsModelCurrent.item.get('iconStyle'), 'DropdownList');
             itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
             itemsModelCurrent.template = itemsModelCurrent.item.get(itemsModelCurrent.itemTemplateProperty);
             itemsModelCurrent.multiSelect = this._options.multiSelect;
@@ -319,7 +320,7 @@ var _private = {
                   rawData: itemData
                });
                emptyItem.item = item;
-               emptyItem.isSelected = this._options.selectedKeys.length ? this._isItemSelected(item) : true;
+               emptyItem._isSelected = this._options.selectedKeys.length ? this._isItemSelected(item) : true;
                emptyItem.getPropValue = ItemsUtil.getPropertyValue;
                emptyItem.emptyText = this._options.emptyText;
                emptyItem.hasClose = this._options.hasClose;

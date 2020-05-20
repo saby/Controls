@@ -9,9 +9,6 @@ import * as cfg from 'json!Controls-demo/List/Grid/MultiSelectGroupedPG/property
 
 import * as template from 'wml!Controls-demo/List/Grid/MultiSelectGroupedPG/MultiSelectGroupedPG';
 
-import 'css!Controls-demo/Filter/Button/PanelVDom';
-import 'css!Controls-demo/Input/resources/VdomInputs';
-import 'css!Controls-demo/Wrapper/Wrapper';
 
 export default class MultiSelectGroupedPG extends Control<IControlOptions> {
     _template: TemplateFunction = template;
@@ -116,4 +113,6 @@ export default class MultiSelectGroupedPG extends Control<IControlOptions> {
             groupResults: rates
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
 }

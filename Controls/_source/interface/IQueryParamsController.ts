@@ -2,7 +2,7 @@ import {IAdditionalQueryParams, Direction} from './IAdditionalQueryParams';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {Collection} from 'Controls/display';
-import {INavigationSourceConfig} from 'Controls/interface';
+import {INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
 
 /**
  * Интерфейс для работы с контроллерами пейджинации
@@ -37,7 +37,7 @@ export interface IQueryParamsController {
      * Collect current pagination state to pass them to Query object
      * @param direction
      */
-    prepareQueryParams(direction: Direction): IAdditionalQueryParams;
+    prepareQueryParams(direction: Direction, callback?, config?: IBaseSourceConfig, multiNavigation?: boolean): IAdditionalQueryParams;
 
     /**
      * Метод для разрушения текущего объекта IQueryParamsController
@@ -57,7 +57,7 @@ export interface IQueryParamsController {
      * @param list {Types/collection:RecordSet} object containing meta information for current request
      * @param direction {Direction} nav direction ('up' or 'down')
      */
-    updateQueryProperties(list?: RecordSet  | {[p: string]: unknown}, direction?: Direction): void;
+    updateQueryProperties(list?: RecordSet  | {[p: string]: unknown}, direction?: Direction, root?: string|number): void;
 
     /**
      * Считает количество записей всего по мета информации из текущего состояния контроллера и ключу DataSet

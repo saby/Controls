@@ -20,9 +20,6 @@ define('Controls-demo/List/Grid/resources/StickyPG/PGWrapper',
       'wml!Controls-demo/PropertyGrid/Types/object',
 
       'json!Controls-demo/PropertyGrid/pgtext',
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
@@ -99,5 +96,7 @@ define('Controls-demo/List/Grid/resources/StickyPG/PGWrapper',
             this.myEvent = '';
          }
       });
+      PGWrapper._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return PGWrapper;
    });

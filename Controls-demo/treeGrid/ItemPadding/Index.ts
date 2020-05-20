@@ -1,6 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
-import 'css!Controls-demo/Controls-demo';
 
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
@@ -17,4 +16,6 @@ export default class extends Control {
             data: Gadgets.getFlatData()
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

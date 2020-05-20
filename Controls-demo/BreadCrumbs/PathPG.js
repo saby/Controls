@@ -3,14 +3,13 @@ define('Controls-demo/BreadCrumbs/PathPG', [
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/PropertyGrid/pgtext',
    'Types/entity',
-   'css!Controls-demo/BreadCrumbs/PathPG'
 ], function(
    Control,
    template,
    config,
    entity
 ) {
-   return Control.extend({
+   var ModuleClass = Control.extend({
       _template: template,
       _dataObject: null,
       _componentOptions: null,
@@ -109,4 +108,8 @@ define('Controls-demo/BreadCrumbs/PathPG', [
          this._metaData = config[this._content].properties['ws-config'].options;
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/BreadCrumbs/PathPG'];
+
+   return ModuleClass;
 });

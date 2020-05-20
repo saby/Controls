@@ -24,7 +24,7 @@ class DateRangeEditor extends Control<IControlOptions> {
     protected _fontColorStyle: string;
 
     protected _beforeMount(options: IControlOptions): Promise<void>|void {
-        this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'Selector' : 'LiteSelector');
+        this._templateName = 'Controls/dateRange:' + (options.editorMode === 'Selector' ? 'RangeSelector' : 'RangeShortSelector');
         this._fontColorStyle = options.readOnly ? 'label' : options.fontColorStyle;
         if (options.emptyCaption) {
             this._emptyCaption = options.emptyCaption;
@@ -88,7 +88,7 @@ export default DateRangeEditor;
 
 /**
  * @name Controls/_filter/Editors/DateRange#value
- * @cfg {Array<Date>} Массив из двух значений - дата "от" и дата "до". 
+ * @cfg {Array<Date>} Массив из двух значений - дата "от" и дата "до".
  * @see resetValue
  */
 

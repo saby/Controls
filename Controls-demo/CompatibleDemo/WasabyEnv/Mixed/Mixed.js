@@ -3,7 +3,6 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Mixed/Mixed',
       'Core/Control',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/Mixed/Mixed',
       'Lib/Control/LayerCompatible/LayerCompatible',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(Control, template, CompatibleLayer) {
       'use strict';
@@ -34,6 +33,8 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Mixed/Mixed',
             this.getTopParent()._logicParent._setText(e, value);
          },
       });
+      Mixed._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];
+
       return Mixed;
    }
 );

@@ -7,7 +7,6 @@ define('Controls-demo/Popup/resources/SimpleListEditDialog',
       'Types/source',
       'SBIS3.CONTROLS/TextBox',
       'SBIS3.CONTROLS/Button', 
-      'css!Controls-demo/Popup/resources/SimpleListEditDialog/SimpleListEditDialog',
       'SBIS3.CONTROLS/FormattedTextBox', 
       'SBIS3.CONTROLS/ComboBox',
       'SBIS3.CONTROLS/DataGridView',
@@ -44,6 +43,8 @@ define('Controls-demo/Popup/resources/SimpleListEditDialog',
          width: '550px',
          height: '100px'
       };
+      moduleClass._styles = ['Controls-demo/Popup/resources/SimpleListEditDialog/SimpleListEditDialog'];
+
       return moduleClass;
    }
 );

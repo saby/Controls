@@ -5,13 +5,12 @@ define('Controls-demo/Decorators/WrapURLs/WrapURLs',
 
       'Controls/input',
       'Controls/decorator',
-      'css!Controls-demo/Decorators/WrapURLs/WrapURLs'
    ],
    function(Control, template) {
 
       'use strict';
 
-      return Control.extend({
+      var ModuleClass = Control.extend({
          _template: template,
 
          _wrapText: null,
@@ -20,5 +19,9 @@ define('Controls-demo/Decorators/WrapURLs/WrapURLs',
             this._wrapText = value;
          }
       });
-   }
+   
+      ModuleClass._styles = ['Controls-demo/Decorators/WrapURLs/WrapURLs'];
+
+      return ModuleClass;
+}
 );

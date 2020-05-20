@@ -1,0 +1,28 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:if data="{{!itemData.item.get('Blocked')}}">
+            <ws:if data="{{itemData.item.get('CurrentDevice') || itemData.item.get('Status') === 2}}">
+                <div class="icon-16 DevicesInfo-DeviceList-indicator
+                        DevicesInfo-DeviceList-indicator-active"></div>
+            </ws:if>
+            <ws:else data="{{itemData.item.get('Status') === 1}}">
+                <div class="icon-16 DevicesInfo-DeviceList-indicator
+                        DevicesInfo-DeviceList-indicator-inactive"></div>
+            </ws:else>
+        </ws:if>
+       <div class="DeviceInfo-deviceItem-wrapper">
+           <div class="DevicesInfo-DeviceList-name">
+               {{itemData.item.get('DeviceName')}}
+           </div>
+
+           <div class="DeviceInfo-DeviceList-platform">
+               {{itemData.item.get('Browser')}}
+           </div>
+           <ws:if data="{{itemData.item.get('Cause') && !itemData.item.get('Blocked')}}">
+               <div class="DevicesInfo-DeviceList-error">
+                   {{itemData.item.get('Cause')}}
+               </div>
+           </ws:if>
+       </div>
+    </ws:contentTemplate>
+</ws:partial>

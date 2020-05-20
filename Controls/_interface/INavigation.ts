@@ -65,6 +65,23 @@ export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
 export type TNavigationDirection = 'backward' | 'forward' | 'bothways';
 
 /**
+ * @typedef {Object} IBasePositionSourceConfig
+ * @description Конфигурация источника данных для перезагрузки при навигации по курсору.
+ * Подробнее о данном типе навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
+ * @property {String|Array.<String>} position Начальная позиция для курсора.
+ * Относительно этой позиции будет создаваться выборка при навигации.
+ * Позиция определяется по значению поля или по массиву значений полей, имена которых заданы в опции field.
+ * @property {TNavigationDirection} direction Направление выборки. Варианты значений: 'backward' | 'forward' | 'bothways'
+ * @property {Number} limit Количество записей, которые запрашиваются при выборке.
+ */
+
+export interface IBasePositionSourceConfig {
+    position?: unknown[] | unknown;
+    direction?: TNavigationDirection;
+    limit?: number;
+}
+
+/**
  * @typedef {Object} INavigationPositionSourceConfig
  * @description Конфигурация для навигации по курсору.
  * Подробнее о данном типе навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
@@ -86,18 +103,27 @@ export type TNavigationDirection = 'backward' | 'forward' | 'bothways';
  * @property {Number} limit Limit of records requested for a single load.
  */
 
-export interface INavigationPositionSourceConfig {
+export interface INavigationPositionSourceConfig extends IBasePositionSourceConfig {
     field: string[] | string;
-    position?: unknown[] | unknown;
-    direction?: TNavigationDirection;
-    limit?: number;
+}
+
+/**
+ * @typedef {Object} IBasePageSourceConfig
+ * @description Конфигурация для постраничной навигации.
+ * @property {Number} page Номер загружаемой страницы.
+ * @property {Number} pageSize Размер загружаемой страницы.
+ */
+
+export interface IBasePageSourceConfig {
+    page?: number;
+    pageSize: number;
 }
 
 /**
  * @typedef {Object} INavigationPageSourceConfig
- * @description Конфигурация для постраничной навигации.
- * @property {Number} page Загружать номер страницы.
- * @property {Number} pageSize Загружать размер страницы.
+ * @description Конфигурация источника данных для перезагрузки при постраничной навигации.
+ * @property {Number} page Номер загружаемой страницы.
+ * @property {Number} pageSize Размер загружаемой страницы.
  * @property {Boolean} hasMore Если поле hasMore имеет значение false, аналогичный параметр добавляется в запрос. В ответ, вместо получения флага наличия записей (логическое значение), ожидается общее количество записей (числовое значение).
  */
 
@@ -108,9 +134,7 @@ export interface INavigationPositionSourceConfig {
  * @property {Number} pageSize Loading page size.
  * @property {Boolean} hasMore If hasMore field has false value, similar parameter is added to request. In response instead of receiving a flag for the presence of records (boolean value), the total count of records is expected (number value).
  */
-export interface INavigationPageSourceConfig {
-    page?: number;
-    pageSize: number;
+export interface INavigationPageSourceConfig extends IBasePageSourceConfig{
     hasMore?: boolean;
 }
 
@@ -123,6 +147,7 @@ export interface INavigationPageSourceConfig {
  * @description Source configuration for both page-based and position-based (cursor) navigation.
  */
 export type INavigationSourceConfig = INavigationPositionSourceConfig | INavigationPageSourceConfig;
+export type IBaseSourceConfig = IBasePositionSourceConfig | IBasePageSourceConfig;
 
 /**
  * @typedef {String} TNavigationTotalInfo
@@ -223,6 +248,13 @@ export interface INavigationOptions<U> {
  *    };
  * }
  * </pre>
+ */
+
+/**
+ * @event Controls/_interface/INavigation#navigationParamsChanged Оповещает о смене параметров навигации.
+ * 
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {IBaseSourceConfig} params Параметры, с которыми происходила последнаяя загрузка данных в списке.
  */
 
 /*

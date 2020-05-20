@@ -1,0 +1,8 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <div class="DeviceInfo-locationItem-wrapper">
+            <div class="DevicesInfo-LocationList-city">{{itemData.item.get('City')}}</div>
+            <div class="DevicesInfo-LocationList-ip">{{itemData.item.get('IP')}}</div>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

@@ -4431,4 +4431,43 @@ describe('Controls/_display/Collection', () => {
             assert.isAbove(display.getVersion(), version);
         });
     });
+
+    // TODO возможно, это уйдёт из Collection
+    describe('setActiveItem(), getActiveItem()', () => {
+        let rs: RecordSet;
+        let display: CollectionDisplay<unknown>;
+
+        beforeEach(() => {
+            const items = [
+                { id: 1, name: 'Ivan' },
+                { id: 2, name: 'Alexey' },
+                { id: 3, name: 'Olga' }
+            ];
+            rs = new RecordSet({
+                rawData: items,
+                keyProperty: 'id'
+            });
+            display = new CollectionDisplay({
+                collection: rs
+            });
+        });
+
+        it('deactivates old active item', () => {
+            const testingItem = display.getItemBySourceKey(1);
+            display.setActiveItem(display.getItemBySourceKey(1));
+            display.setActiveItem(display.getItemBySourceKey(2));
+            assert.isFalse(testingItem.isActive());
+        });
+        it('activates new active item', () => {
+            const testingItem = display.getItemBySourceKey(2);
+            display.setActiveItem(display.getItemBySourceKey(1));
+            display.setActiveItem(display.getItemBySourceKey(2));
+            assert.isTrue(testingItem.isActive());
+        });
+        it('correctly returns active item', () => {
+            const testingItem = display.getItemBySourceKey(2);
+            display.setActiveItem(display.getItemBySourceKey(2));
+            assert.equal(display.getActiveItem(), testingItem);
+        });
+    });
 });

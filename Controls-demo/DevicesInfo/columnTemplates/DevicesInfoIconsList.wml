@@ -1,0 +1,53 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+       <div class="DeviceInfo-IconsList-wrapper">
+           <ws:if data="{{itemData.item.get('EnterType') === 0}}">
+               <div title="Вход по сертификату" class="icon-16 icon-CommercialSignature icon-primary"></div>
+           </ws:if>
+           <ws:else data="{{itemData.item.get('EnterType') === 1}}">
+               <div title="Вход по логину" class="icon-16 icon-Key icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 2}}">
+               <div title="Вход по пропуску/карте" class="icon-16 icon-Badge icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 3}}">
+               <div title="Вход по отпечатку пальца" class="icon-16 icon-Finger icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 4}}">
+               <div title="Вход через социальную сеть" class="icon-16 icon-Chat icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 5}}">
+               <div title="Вход через LDAP" class="icon-16 icon-LDAPnew icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 6}}">
+               <div title="Вход по номеру телефона" class="icon-16 icon-statusConnected icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('EnterType') === 7}}">
+               <div title="Вход через переключение аккаунта" class="icon-16 icon-ConnectionPeriod icon-primary"></div>
+           </ws:else>
+
+           <ws:if data="{{itemData.item.get('DeviceType') === 1}}">
+               <ws:if data="{{itemData.item.get('IsPlugin')}}">
+                   <div title="Рабочее устройство, плагин установлен" class="icon-16 icon-TFComputer icon-done"></div>
+               </ws:if>
+               <ws:else>
+                   <div title="Рабочее устройство, плагин не установлен" class="icon-16 icon-TFComputer icon-primary"></div>
+               </ws:else>
+           </ws:if>
+           <ws:else data="{{itemData.item.get('DeviceType') === 2}}">
+               <ws:if data="{{itemData.item.get('IsPlugin')}}">
+                   <div title="Домашнее устройство, плагин установлен" class="icon-16 icon-Home icon-done"></div>
+               </ws:if>
+               <ws:else>
+                   <div title="Домашнее устройство, плагин не установлен" class="icon-16 icon-Home icon-primary"></div>
+               </ws:else>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('DeviceType') === 3}}">
+               <div title="Мобильное устройство" class="icon-16 icon-PhoneCell icon-primary"></div>
+           </ws:else>
+           <ws:else data="{{itemData.item.get('IsPlugin')}}">
+               <div title="Мобильное устройство" class="icon-16 icon-SabyBird icon-done"></div>
+           </ws:else>
+       </div>
+    </ws:contentTemplate>
+</ws:partial>

@@ -193,7 +193,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          treeTileViewModel.setActiveItem(null);
          assert.equal(treeTileViewModel.getHoveredItem(), null);
          treeTileViewModel.setHoveredItem({key: 2});
-         treeTileViewModel.setActiveItem({key: 3});
+         treeTileViewModel.setActiveItem({key: 3, setActive: function() {return null;}});
          assert.equal(treeTileViewModel.getHoveredItem().key, 2);
       });
 
@@ -225,6 +225,8 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
                }
             },
             isHovered: true,
+            isActive: () => false,
+            isSwiped: () => false
          };
          assert.isTrue(treeTileViewModel.isScaled(itemData));
          itemData = {
@@ -235,6 +237,8 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
                   return this.prop;
                }
             },
+            isActive: () => false,
+            isSwiped: () => false
          };
          assert.isFalse(treeTileViewModel.isScaled(itemData));
          itemData = {
@@ -245,6 +249,8 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             },
             scalingMode: 'none',
             isHovered: true,
+            isActive: () => false,
+            isSwiped: () => false
          };
          assert.isFalse(treeTileViewModel.isScaled(itemData));
          itemData = {
@@ -255,6 +261,8 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             },
             scalingMode: 'inside',
             isHovered: true,
+            isActive: () => false,
+            isSwiped: () => false
          };
          assert.isTrue(treeTileViewModel.isScaled(itemData));
       });

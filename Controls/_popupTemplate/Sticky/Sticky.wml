@@ -9,13 +9,12 @@
         />
     </ws:if>
     <ws:else>
-       <ws:if data="{{_options.closeButtonVisibility}}">
-          <Controls._popupTemplate.CloseButton attr:class="controls-DropdownList-cross
-                                                           controls-StickyTemplate__close_button controls-StickyTemplate__close_button-without-header_theme-{{_options.theme}}
+        <ws:if data="{{_options.closeButtonVisibility}}">
+            <Controls._popupTemplate.CloseButton attr:class="controls-DropdownList-cross controls-StickyTemplate__close_button controls-StickyTemplate__close_button-without-header_theme-{{_options.theme}}
                                                            controls-StickyTemplate__close_button_theme_{{_options.theme}}"
-                                               viewMode="link"
-                                               on:click="close()"/>
-       </ws:if>
+                                                 viewMode="link"
+                                                 on:click="close()"/>
+        </ws:if>
     </ws:else>
     <ws:if data="{{_options.bodyContentTemplate}}">
         <div class="controls-StickyTemplate__content-area">
@@ -23,9 +22,9 @@
         </div>
     </ws:if>
     <ws:if data="{{_options.footerContentTemplate}}">
-         <ws:partial template="{{_options.footerContentTemplate}}"
-                     class="controls-StickyTemplate__footer controls-DropdownList__footer"
-                     scope="{{_options}}"
-                     on:click="_proxyEvent('footerClick')"></ws:partial>
+        <ws:partial template="{{_options.footerContentTemplate}}"
+                    class="controls-StickyTemplate__footer_theme-{{_options.theme}} controls-DropdownList__footer"
+                    scope="{{_options}}"
+                    on:click="_proxyEvent('footerClick')"></ws:partial>
     </ws:if>
 </div>

@@ -3,8 +3,6 @@ define('Controls-demo/PropertyGrid/StringTemplate',
       'Types/entity',
       'Core/Control',
       'wml!Controls-demo/PropertyGrid/StringTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(entity, Control, template) {
       'use strict';
@@ -84,6 +82,8 @@ define('Controls-demo/PropertyGrid/StringTemplate',
             ])
          };
       };
+
+      stringTmpl._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'];
 
       return stringTmpl;
    });

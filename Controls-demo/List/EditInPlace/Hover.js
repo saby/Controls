@@ -2,7 +2,6 @@ define('Controls-demo/List/EditInPlace/Hover', [
    'Core/Control',
    'wml!Controls-demo/List/EditInPlace/Hover',
    'Types/source',
-   'css!Controls-demo/List/EditInPlace/EditInPlace'
 ], function(Control,
    template,
    source
@@ -32,5 +31,7 @@ define('Controls-demo/List/EditInPlace/Hover', [
          });
       }
    });
+   Hover._styles = ['Controls-demo/List/EditInPlace/EditInPlace'];
+
    return Hover;
 });

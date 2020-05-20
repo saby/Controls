@@ -1,7 +1,7 @@
 import DataContext = require('Core/DataContext');
 
 /**
- * Контекст для {@link Controls/_scroll/Container}.
+ * Контекст для {@link Controls/scroll:Container}.
  * Используется для управления видимостью кнопок постраничной навигации.
  *
  * @example

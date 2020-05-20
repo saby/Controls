@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/toggle/Button/ViewModes/ViewModes');
-import 'css!Controls-demo/Controls-demo';
 
 class ViewModes extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -11,5 +10,7 @@ class ViewModes extends Control<IControlOptions> {
     protected _button5Value: boolean = false;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default ViewModes;

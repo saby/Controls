@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">sectorSize=s</div>
+        <Controls.progress:StateIndicator data="{{_data}}" scale="{{10}}" sectorSize="s"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">sectorSize=m</div>
+        <Controls.progress:StateIndicator data="{{_data}}" scale="{{10}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">sectorSize=l</div>
+        <Controls.progress:StateIndicator data="{{_data}}" scale="{{10}}" sectorSize="l"/>
+    </div>
+</div>

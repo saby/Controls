@@ -5,7 +5,6 @@ define('Controls-demo/Input/Lookup/LookupPropertyGrid', [
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Input/Lookup/LookupData',
    'json!Controls-demo/PropertyGrid/pgtext',
-   'css!Controls-demo/Input/Lookup/LookupPropertyGrid'
 ], function (Control, template, sourceLib, memorySourceFilter, sourceData, config) {
    'use strict';
 
@@ -119,6 +118,8 @@ define('Controls-demo/Input/Lookup/LookupPropertyGrid', [
          }
       }
    });
+
+   Lookup._styles = ['Controls-demo/Input/Lookup/LookupPropertyGrid'];
 
    return Lookup;
 });

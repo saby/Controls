@@ -5,7 +5,6 @@ define('Controls-demo/List/Grid/ValignGrid', [
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoCostPriceFullHeight',
    'wml!Controls-demo/List/Grid/DemoName',
-   'css!Controls-demo/List/Grid/Grid',
    'Controls/scroll',
    'Controls/grid',
 ], function(BaseControl, template, source) {
@@ -121,6 +120,8 @@ define('Controls-demo/List/Grid/ValignGrid', [
             }
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/List/Grid/Grid'];
 
    return ModuleClass;
 });

@@ -19,6 +19,8 @@ import {
 } from 'Controls/_grid/utils/GridRowIndexUtil';
 import cClone = require('Core/core-clone');
 import collection = require('Types/collection');
+import { Model } from 'Types/entity';
+import { IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 import {createClassListCollection} from "../Utils/CssClassList";
@@ -28,6 +30,16 @@ import {IHeaderCell} from './interface/IHeaderCell';
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
 
+interface IGridSeparatorOptions {
+    rowSeparatorSize?: null | 's' | 'l';
+    columnSeparatorSize?: null | 's';
+}
+
+// TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
+interface IGridSeparatorOptionsDeprecated {
+    rowSeparatorVisibility?: 'visible' | 'hidden' | boolean;
+}
+
 interface IGridColumn {
     displayProperty?: string;
     template?: string | TemplateFunction;
@@ -35,9 +47,10 @@ interface IGridColumn {
     compatibleWidth?: string;
 }
 
-interface IGridItemData {
+interface IGridItemData extends Partial<IGridSeparatorOptions> {
     hasMultiSelect: boolean;
     columns: any[];
+    columnIndex: number;
 }
 
 interface IColgroupColumn {
@@ -77,7 +90,7 @@ var
             );
         },
         isDrawActions: function(itemData, currentColumn, colspan) {
-            return itemData.drawActions && _private.isActionsColumn(itemData, currentColumn, colspan);
+            return itemData.shouldDisplayActions() && _private.isActionsColumn(itemData, currentColumn, colspan);
         },
         getCellStyle: function(self, itemData, currentColumn, colspan) {
            var
@@ -128,9 +141,8 @@ var
                 classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
             }
             if (!params.isHeader && !params.isResult) {
-                const style = params.style === 'masterClassic' ? 'master' : params.style || 'master';
-                classLists.top += ` controls-Grid__row-cell_${style}_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
-                classLists.bottom += ` controls-Grid__row-cell_${style}_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
+                classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
             }
 
             return classLists;
@@ -201,16 +213,6 @@ var
                 return itemIndex === rowCount - 1;
             }
         },
-        prepareRowSeparatorClasses: function (current, theme) {
-            let result = '';
-            if (current.rowSeparatorVisibility) {
-                result += ` controls-Grid__row-cell_withRowSeparator${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? '-l' : ''}_theme-${theme} `;
-            } else {
-                result += `controls-Grid__row-cell_withoutRowSeparator_theme-${theme}`;
-            }
-            return result;
-        },
-
         isFixedCell: function(params) {
             const { multiSelectVisibility, stickyColumnsCount, columnIndex, rowIndex, isMultiHeader } = params;
             const
@@ -241,16 +243,14 @@ var
 
         getItemColumnCellClasses: function(current, theme) {
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
-            const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'relativeCellWrapper');
+            const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'relativeCellWrapper', 'columnContent');
             let style = current.style === 'masterClassic' || !current.style ? 'default' : current.style;
             const backgroundStyle = current.backgroundStyle || current.style || 'default';
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
             // Стиль колонки
-            const rowSeparatorSize = ` controls-Grid__row-cell_rowSeparatorSize-${current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's'}_theme-${theme} `;
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__row-cell_${style}_theme-${theme}
-                                controls-Grid__cell_${style} ${rowSeparatorSize}`;
-            classLists.base += ` ${_private.prepareRowSeparatorClasses(current, theme)}`;
+            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
+            _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (current.columnScroll) {
                 classLists.columnScroll += _private.getColumnScrollCellClasses(current, theme);
@@ -269,13 +269,13 @@ var
             if (checkBoxCell) {
                 classLists.base += ` controls-Grid__row-cell-checkbox_theme-${theme}`;
                 classLists.padding = createClassListCollection('top', 'bottom');
-                classLists.padding.top = `controls-Grid__row-cell_${style}_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
-                classLists.padding.bottom =  `controls-Grid__row-cell_${style}_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
+                classLists.padding.top = `controls-Grid__row-checkboxCell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
+                classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
             } else {
                 classLists.padding = _private.getPaddingCellClasses(current, theme);
             }
 
-            if (current.isSelected) {
+            if (current._isSelected) {
                 style = current.style || 'default';
                 classLists.base += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
 
@@ -468,6 +468,79 @@ var
                 stickyColumn: self._options.stickyColumn,
                 columns: self._options.columns
             });
+        },
+
+        // TODO: Исправить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
+        // Оставить просто
+        // options.rowSeparatorSize && options.rowSeparatorSize.toLowerCase() || null,
+        // options.columnSeparatorSize && options.columnSeparatorSize.toLowerCase() || null
+        getSeparatorSizes(options: Partial<IGridSeparatorOptions & IGridSeparatorOptionsDeprecated>): {
+            row: IGridSeparatorOptions['rowSeparatorSize'],
+            column: IGridSeparatorOptions['columnSeparatorSize']
+        } {
+            let row: IGridSeparatorOptions['rowSeparatorSize'];
+
+            // Поддерживаем старое поведение. Чтобы не отвалилось, делаю его приоритетным. Кидаю варнинг.
+            // Условие сложное: если Visibility задано, надо брать size(только строки, потому что могли смешать
+            // старое и новое), если нет, то устанавливать null.
+            // Все условие удаляется в 20.5000
+            if (typeof options.rowSeparatorVisibility !== 'undefined') {
+                if (options.rowSeparatorVisibility === 'visible' || options.rowSeparatorVisibility === true) {
+                    if (typeof options.rowSeparatorSize === 'string') {
+                        row = options.rowSeparatorSize.toLowerCase();
+                    } else {
+                        // Старое дефолтное значение.
+                        row = 's';
+                    }
+                } else {
+                    row = null;
+                }
+            } else {
+                row = options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : options.rowSeparatorSize || null;
+            }
+
+            return {
+                row,
+                column:  options.columnSeparatorSize ? options.columnSeparatorSize.toLowerCase() : options.columnSeparatorSize || null
+            };
+        },
+        getSeparatorForColumn(columns, index, baseColumnSeparatorSize) {
+            let columnSeparatorSize;
+            const hasInColumn = (c, side) => !!c && !!c.columnSeparatorSize && typeof c.columnSeparatorSize === 'object'
+                && c.columnSeparatorSize.hasOwnProperty(side);
+            const normalize = (value) => typeof value === 'string' ? value.toLowerCase() : null;
+            const currentColumn = columns[index];
+            const previousColumn = columns[index - 1];
+
+            if (hasInColumn(currentColumn, 'left')) {
+                columnSeparatorSize = normalize(currentColumn.columnSeparatorSize.left);
+            } else if (hasInColumn(previousColumn, 'right')) {
+                columnSeparatorSize = normalize(previousColumn.columnSeparatorSize.right);
+            } else {
+                columnSeparatorSize = baseColumnSeparatorSize;
+            }
+            return columnSeparatorSize;
+        },
+        prepareSeparatorClasses(current: IGridItemData, classLists, theme): void {
+
+            if (current.rowSeparatorSize === null) {
+
+                // Вспомогательный класс, вешается на ячейку. Через него задаются правильные отступы ячейке
+                // обеспечивает отсутствие "скачков" при динамической смене размера границы.
+                classLists.base += ` controls-Grid__row-cell_withRowSeparator_size-${current.rowSeparatorSize}`;
+            } else {
+                classLists.base += ` controls-Grid__row-cell_withRowSeparator_size-${current.rowSeparatorSize}_theme-${theme}`;
+                classLists.base += ` controls-Grid__rowSeparator_size-${current.rowSeparatorSize}_theme-${theme}`;
+            }
+
+            if (current.columnIndex > current.hasMultiSelect ? 1 : 0) {
+                const columnSeparatorSize = _private.getSeparatorForColumn(current.columns, current.columnIndex, current.columnSeparatorSize);
+
+                if (columnSeparatorSize !== null) {
+                    classLists.base += ' controls-Grid__row-cell_withColumnSeparator';
+                    classLists.columnContent += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                }
+            }
         }
     },
 
@@ -548,6 +621,9 @@ var
             this._model.subscribe('onMarkedKeyChanged', this._onMarkedKeyChangedFn);
             this._model.subscribe('onGroupsExpandChange', this._onGroupsExpandChangeFn);
             this._model.subscribe('onCollectionChange', this._onCollectionChangeFn);
+            const separatorSizes = _private.getSeparatorSizes(this._options);
+            this._options.rowSeparatorSize = separatorSizes.row;
+            this._options.columnSeparatorSize = separatorSizes.column;
             this._ladder = _private.prepareLadder(this);
             this._setColumns(this._options.columns);
             if (this._options.header && this._options.header.length) {
@@ -827,6 +903,12 @@ var
                     hasActionCell: this._shouldAddActionsCell()
                 }, this._options.theme);
                 cellClasses += ' controls-Grid__header-cell_min-width';
+                if (!this._isMultiHeader && columnIndex > hasMultiSelect ? 1 : 0) {
+                    const columnSeparatorSize = _private.getSeparatorForColumn(this._columns, columnIndex, this._options.columnSeparatorSize);
+                    if (columnSeparatorSize !== null) {
+                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                    }
+                }
             }
 
             // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
@@ -853,6 +935,7 @@ var
             if (headerColumn.column.sortingProperty) {
                 headerColumn.sortingDirection = _private.getSortingDirectionByProp(this.getSorting(), headerColumn.column.sortingProperty);
             }
+
             // -----------------------------------------------------------
             // ---------------------- multiHeader ------------------------
             // -----------------------------------------------------------
@@ -882,6 +965,13 @@ var
                 }
                 cellClasses += endRow - startRow > 1 ? ' controls-Grid__header-cell_justify_content_center' : '';
                 cellContentClasses += rowIndex !== this._headerRows.length - 1 && endRow - startRow === 1 ? ` controls-Grid__cell_header-content_border-bottom_theme-${this._options.theme}` : '';
+
+                if (startColumn - hasMultiSelect ? 1 : 0) {
+                    const columnSeparatorSize = _private.getSeparatorForColumn(this._columns, startColumn - 1, this._options.columnSeparatorSize);
+                    if (columnSeparatorSize !== null) {
+                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                    }
+                }
             }
 
             if (columnIndex === 0 && rowIndex === 0 && this._options.multiSelectVisibility !== 'hidden' && this._headerRows[rowIndex][columnIndex + 1].startColumn && !cell.title) {
@@ -943,6 +1033,10 @@ var
 
         setResultsPosition: function(position) {
             this._options.resultsPosition = position;
+        },
+
+        setResultsVisibility(resultsVisibility) {
+            this._options.resultsVisibility = resultsVisibility;
         },
 
         getStyleForCustomResultsTemplate(): string {
@@ -1249,10 +1343,6 @@ var
             };
         },
 
-        setMenuState(state: string): void {
-            this._model.setMenuState(state);
-        },
-
         isCachedItemData: function(itemKey) {
             return this._model.isCachedItemData(itemKey);
         },
@@ -1269,11 +1359,10 @@ var
             return this._model._getDisplayItemCacheKey(dispItem);
         },
 
-        getItemDataByItem: function(dispItem) {
-            var
-                self = this,
-                current = this._model.getItemDataByItem(dispItem),
-                stickyColumn;
+        getItemDataByItem(dispItem) {
+            const self = this;
+            const current = this._model.getItemDataByItem(dispItem);
+            let stickyColumn;
 
             if (current._gridViewModelCached) {
                 return current;
@@ -1294,6 +1383,8 @@ var
             current.stickyColumnsCount = this._options.stickyColumnsCount;
 
             current.style = this._options.style;
+            current.rowSeparatorSize = this._options.rowSeparatorSize;
+            current.columnSeparatorSize = this._options.columnSeparatorSize;
             current.multiSelectClassList += current.hasMultiSelect ? ` controls-GridView__checkbox_theme-${this._options.theme}` : '';
 
             current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
@@ -1304,28 +1395,15 @@ var
             current.shouldDrawMarker = (marker?: boolean, columnIndex: number): boolean => {
                 return columnIndex === 0 && superShouldDrawMarker.apply(this, [marker]);
             };
-
-            current.getMarkerClasses = (rowSeparatorVisibility): string => {
-                const style = this._options.style === 'masterClassic' || !this._options.style ? 'default' : this._options.style;
-                let classes = `controls-GridView__itemV_marker controls-GridView__itemV_marker-${style}
-                                controls-GridView__itemV_marker-${style}_theme-${self._options.theme}`;
-
-                if (rowSeparatorVisibility) {
-                    classes += ' controls-GridView-with-rowSeparator_item_marker';
-                } else {
-                    classes += ' controls-GridView-without-rowSeparator_item_marker';
-                }
-                classes += '_theme-' + self._options.theme;
-
-                return classes;
-            }
+            const style = current.style === 'masterClassic' || !current.style ? 'default' : current.style;
+            current.getMarkerClasses = () => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${self._options.theme}
+            controls-GridView__itemV_marker-${style}_theme-${self._options.theme}`;
 
             if (current.multiSelectVisibility !== 'hidden') {
                 current.columns = [{}].concat(this._columns);
             } else {
                 current.columns = this._columns;
             }
-
 
             current.isHovered = !!self._model.getHoveredItem() && self._model.getHoveredItem().getId() === current.key;
 
@@ -1345,13 +1423,10 @@ var
             if (current.isGroup) {
                 current.groupPaddingClasses = _private.getGroupPaddingClasses(current, this._options.theme);
                 current.shouldFixGroupOnColumn = (columnAlignGroup?: number) => {
-                    return columnAlignGroup !== undefined && columnAlignGroup < current.columns.length - (current.hasMultiSelect ? 1 : 0)
+                    return columnAlignGroup !== undefined && columnAlignGroup < current.columns.length - (current.hasMultiSelect ? 1 : 0);
                 };
                 return current;
             }
-
-                current.rowSeparatorVisibility = this._options.showRowSeparator !== undefined ? this._options.showRowSeparator : this._options.rowSeparatorVisibility;
-                current.rowSeparatorSize = this._options.rowSeparatorSize;
 
             current.itemActionsDrawPosition =
                 this._options.columnScroll ? 'after' : 'before';
@@ -1395,7 +1470,6 @@ var
                 const currentColumn: any = {
                         item: current.item,
                         style: current.style,
-                        isMenuShown: current.isMenuShown,
                         dispItem: current.dispItem,
                         keyProperty: current.keyProperty,
                         displayProperty: current.displayProperty,
@@ -1511,6 +1585,16 @@ var
             return this._model.getItems();
         },
 
+        // для совместимости с новой моделью
+        getCollection: function() {
+            return this.getItems();
+        },
+        /**
+         * TODO работа с activeItem Должна производиться через item.isActive(),
+         *  но из-за того, как в TileView организована работа с isHovered, isScaled и isAnimated
+         *  мы не можем снять эти состояния при клике внутри ItemActions
+         * @param itemData
+         */
         setActiveItem: function(itemData) {
             this._model.setActiveItem(itemData);
         },
@@ -1529,10 +1613,6 @@ var
 
         prependItems: function(items) {
             this._model.prependItems(items);
-        },
-
-        setItemActions: function(item, actions) {
-            return this._model.setItemActions(item, actions);
         },
 
         nextModelVersion: function() {
@@ -1582,15 +1662,97 @@ var
             return this._model.getCurrentIndex();
         },
 
-        getItemActions: function(item) {
-            return this._model.getItemActions(item);
+        // New Model compatibility
+        getItemBySourceKey(key: number | string): Model {
+            return this._model.getItemBySourceKey(key);
         },
 
-        getIndexBySourceItem: function(item) {
-            return this._model.getIndexBySourceItem(item);
+        // New Model compatibility
+        nextVersion(): void {
+            this._nextVersion();
         },
 
-        at: function(index) {
+        // New Model compatibility
+        isActionsAssigned(): boolean {
+            return this._model.isActionsAssigned();
+        },
+
+        // New Model compatibility
+        setActionsAssigned(assigned: boolean): void {
+            this._model.setActionsAssigned(assigned);
+        },
+
+        // New Model compatibility
+        getEditingConfig(): IEditingConfig {
+            return this._model.getEditingConfig();
+        },
+
+        // New Model compatibility
+        getActionsTemplateConfig(): IItemActionsTemplateConfig {
+            return this._model.getActionsTemplateConfig();
+        },
+
+        // New Model compatibility
+        setActionsTemplateConfig(config: IItemActionsTemplateConfig): void {
+            this._model.setActionsTemplateConfig(config);
+        },
+
+        // New Model compatibility
+        getActionsMenuConfig(): any {
+            return this._model.getActionsMenuConfig();
+        },
+
+        // New Model compatibility
+        setActionsMenuConfig(config: any): void {
+            this._model.setActionsMenuConfig(config);
+        },
+
+        // New Model compatibility
+        getSwipeConfig(): ISwipeConfig {
+            return this._model.getSwipeConfig();
+        },
+
+        // New Model compatibility
+        setSwipeConfig(config: ISwipeConfig): void {
+            this._model.setSwipeConfig(config);
+        },
+
+        // New Model compatibility
+        getSwipeAnimation(): ANIMATION_STATE {
+            return this._model.getSwipeAnimation();
+        },
+
+        // New Model compatibility
+        setSwipeAnimation(animation: ANIMATION_STATE): void {
+            this._model.setSwipeAnimation(animation);
+        },
+
+        // New Model compatibility
+        each(callback: collection.EnumeratorCallback<Model>, context?: object): void {
+            this._model.each(callback, context);
+        },
+
+        // New Model compatibility
+        find(predicate: (item: Model) => boolean): Model {
+            return this._model.find(predicate);
+        },
+
+        // New Model compatibility
+        getSourceIndexByItem(item: Model): number {
+            return this._model ? this._model.getSourceIndexByItem(item) : undefined;
+        },
+
+        // New Model compatibility
+        getIndexBySourceItem(item: Model): number | string {
+            return this._model ? this._model.getIndexBySourceItem(item) : undefined;
+        },
+
+        // New Model compatibility
+        setEventRaising(enabled: boolean, analyze: boolean): void {
+            return this._model.setEventRaising(enabled, analyze);
+        },
+
+        at(index: number): Model {
             return this._model.at(index);
         },
 
@@ -1606,13 +1768,24 @@ var
             this._model.setRightSwipedItem(itemData);
         },
 
-        setShowRowSeparator: function(showRowSeparator) {
-            this._options.showRowSeparator = showRowSeparator;
+        // TODO: Исправить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
+        setRowSeparatorVisibility: function(rowSeparatorVisibility) {
+            this._options.rowSeparatorVisibility = rowSeparatorVisibility;
             this._nextModelVersion();
         },
 
-        setRowSeparatorVisibility: function(rowSeparatorVisibility) {
-            this._options.rowSeparatorVisibility = rowSeparatorVisibility;
+        setRowSeparatorSize(rowSeparatorSize: IGridSeparatorOptions['rowSeparatorSize']): void {
+            this._options.rowSeparatorSize = _private.getSeparatorSizes({
+                rowSeparatorSize,
+                rowSeparatorVisibility: this._options.rowSeparatorVisibility
+            }).row;
+            this._nextModelVersion();
+        },
+
+        setColumnSeparatorSize(columnSeparatorSize: IGridSeparatorOptions['columnSeparatorSize']): void {
+            this._options.columnSeparatorSize = _private.getSeparatorSizes({
+                columnSeparatorSize
+            }).column;
             this._nextModelVersion();
         },
 
@@ -1623,6 +1796,10 @@ var
 
         updateSelection: function(selectedKeys) {
             this._model.updateSelection(selectedKeys);
+        },
+
+        setSelectedItems(items: Model[], selected: boolean|null): void {
+            this._model.setSelectedItems(items, selected);
         },
 
         setDragTargetPosition: function(position) {

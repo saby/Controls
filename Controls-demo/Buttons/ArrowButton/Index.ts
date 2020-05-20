@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Buttons/ArrowButton/Index');
-import 'css!Controls-demo/Controls-demo';
 
 class Demo extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -16,5 +15,7 @@ class Demo extends Control<IControlOptions> {
     private _shiftForward = (): void => {
         this._children.selector.shiftForward();
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Demo;

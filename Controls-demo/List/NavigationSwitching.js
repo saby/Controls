@@ -2,7 +2,6 @@ define('Controls-demo/List/NavigationSwitching', [
    'Core/Control',
    'wml!Controls-demo/List/NavigationSwitching/NavigationSwitching',
    'Types/source',
-   'css!Controls-demo/List/NavigationSwitching/NavigationSwitching'
 ], function (BaseControl,
              template,
              source
@@ -146,5 +145,7 @@ define('Controls-demo/List/NavigationSwitching', [
          }
 
       });
+   ModuleClass._styles = ['Controls-demo/List/NavigationSwitching/NavigationSwitching'];
+
    return ModuleClass;
 });

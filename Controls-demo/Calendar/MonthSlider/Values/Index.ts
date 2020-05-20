@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require("wml!Controls-demo/Calendar/MonthSlider/Values/Values");
-import 'css!Controls-demo/Controls-demo';
 
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -17,6 +16,8 @@ class DemoControl extends Control<IControlOptions> {
     private _changeEndValue = (event, coeff: number): void => {
         this._endValue = new Date(this._endValue.getFullYear(), this._endValue.getMonth(), this._endValue.getDate() + coeff);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
 export default DemoControl;

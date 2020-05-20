@@ -296,19 +296,6 @@ describe('Controls/_source/NavigationController', () => {
             const where = query.filter;
             assert.equal(where['key>='], navigation.sourceConfig.position);
         });
-
-        it('should correctly calculate next page params', () => {
-            recordSet.setMetaData({
-                /*
-                 * valid anyway
-                 */
-                more: more2RecordSet
-            });
-            controller.updateQueryProperties(recordSet, 'down');
-            query = controller.getQueryParams('down');
-            const where = query.filter;
-            assert.equal(where['key>='], more2RecordSet.getCount() - 1);
-        });
     });
 
     describe('getQueryParams with source="position" and direction="bothways"', () => {

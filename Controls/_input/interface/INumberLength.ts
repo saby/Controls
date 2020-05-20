@@ -3,6 +3,7 @@
  *
  * @interface Controls/_input/interface/INumberLength
  * @public
+ * @author Красильников А.С.
  */
 interface INumberLength {
     readonly '[Controls/_input/interface/INumberLength]': boolean;

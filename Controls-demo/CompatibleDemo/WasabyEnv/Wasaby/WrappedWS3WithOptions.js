@@ -3,7 +3,6 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Wasaby/WrappedWS3WithOptions',
       'Core/Control',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/Wasaby/WrappedWS3WithOptions',
       'Lib/Control/LayerCompatible/LayerCompatible',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(Control, template, CompatibleLayer) {
       'use strict';
@@ -34,6 +33,8 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Wasaby/WrappedWS3WithOptions',
             this.getTopParent()._logicParent._setText(e, value);
          },
       });
+      WrappedWS3WithOptions._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];
+
       return WrappedWS3WithOptions;
    }
 );

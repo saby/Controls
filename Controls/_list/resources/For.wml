@@ -15,6 +15,7 @@
       backgroundStyle="{{backgroundStyle}}"
       tagTemplate="{{tagTemplate}}"/>
 </ws:template>
+
 <ws:template name="addItem">
    <ws:partial
            on:click="_onItemClick(editingItemData.dispItem)"
@@ -50,6 +51,7 @@
       </ws:for>
    </ws:if>
 </ws:template>
+
 <ws:template name="itemTemplate">
    <ws:if data="{{currentItem.beforeItemTemplate}}">
       <ws:partial template="{{currentItem.beforeItemTemplate}}"

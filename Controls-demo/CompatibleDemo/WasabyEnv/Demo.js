@@ -2,7 +2,6 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Demo',
    [
       'Core/Control',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/Demo',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(Control, template) {
       'use strict';
@@ -10,6 +9,8 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/Demo',
       var CompatibleDemo = Control.extend({
          _template: template,
       });
+      CompatibleDemo._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];
+
       return CompatibleDemo;
    }
 );

@@ -9,7 +9,9 @@ import {Logger} from 'UI/Utils';
 import collection = require('Types/collection');
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import {RecordSet} from 'Types/collection';
+import {Record, Model} from 'Types/entity';
 import {isEqual} from 'Types/object';
+import {CollectionItem} from 'Controls/display';
 
 /**
  *
@@ -18,7 +20,7 @@ import {isEqual} from 'Types/object';
  */
 
 var _private = {
-    isFullCacheResetAction: function(action) {
+    isFullCacheResetAction(action: string) {
         return (
             action === collection.IObservable.ACTION_REMOVE ||
             action === collection.IObservable.ACTION_ADD ||
@@ -139,13 +141,13 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     reset: function() {
-        this._startIndex = Boolean(this._options.virtualScrollConfig) && !!this._startIndex ? this._startIndex : 0;
+        this._startIndex = Boolean(this._options?.virtualScrollConfig) && !!this._startIndex ? this._startIndex : 0;
         this._curIndex = 0;
     },
 
     isEnd: function() {
         var endIndex;
-        if (Boolean(this._options.virtualScrollConfig)) {
+        if (Boolean(this._options?.virtualScrollConfig)) {
             endIndex = !!this._stopIndex ? this._stopIndex : 0;
         } else {
             endIndex = (this._display ? this._display.getCount() : 0);
@@ -202,7 +204,14 @@ var ItemsViewModel = BaseViewModel.extend({
         this._options.keyProperty = keyProperty;
     },
 
-    _nextModelVersion: function(notUpdatePrefixItemVersion, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
+    _nextModelVersion(
+        notUpdatePrefixItemVersion?: boolean,
+        changesType?: string | string[],
+        action?: string,
+        newItems?: [CollectionItem<Model>],
+        newItemsIndex?: number,
+        removedItems?: [CollectionItem<Model>],
+        removedItemsIndex?: number): void {
         let changedItems = [];
 
         if (!notUpdatePrefixItemVersion) {
@@ -384,6 +393,10 @@ var ItemsViewModel = BaseViewModel.extend({
         return this._display ? ItemsUtil.getDisplayItemById(this._display, id, keyProperty) : undefined;
     },
 
+    getItemBySourceKey: function(id) {
+        return this.getItemById(id);
+    },
+
     getCount: function() {
         return this._display ? this._display.getCount() : 0;
     },
@@ -546,6 +559,11 @@ var ItemsViewModel = BaseViewModel.extend({
         return this._items;
     },
 
+    // для совместимости с новой моделью
+    getCollection: function() {
+        return this.getItems();
+    },
+
     appendItems: function(items) {
         let shouldAppend = true;
         if (cInstance.instanceOfModule(items, 'Types/collection:RecordSet')) {
@@ -579,11 +597,63 @@ var ItemsViewModel = BaseViewModel.extend({
         }
     },
 
-    getIndexBySourceItem: function(item) {
+    /**
+     * New Model compatibility
+     * Иногда Обновление ItemActions происходит в хуке BeforeUpdate
+     * Тогда к моменту вызова itemActionsController.update() в модели ещё не вызывался
+     * метод this.setItems() и this._display ещё не установлен после последнего сброса в null.
+     */
+    each(callback: collection.EnumeratorCallback<Record>, context?: object): void {
+        if (this._display) {
+            this._display.each(callback, context);
+        } else {
+            this.reset();
+            while (this.isEnd()) {
+                const index = this.getCurrentIndex();
+                if (this.isShouldBeDrawnItem()) {
+                    callback.call(
+                        context,
+                        this.getCurrent(),
+                        index
+                    );
+                }
+                this.goToNext();
+            }
+        }
+    },
+
+    /**
+     * New Model compatibility
+     * Иногда Обновление ItemActions происходит в хуке BeforeUpdate
+     * Тогда к моменту вызова itemActionsController.update() в модели ещё не вызывался
+     * метод this.setItems() и this._display ещё не установлен после последнего сброса в null.
+     */
+    find(predicate: (item: Model) => boolean): Model {
+        if (this._display) {
+            return this._display.find(predicate);
+        } else {
+            this.reset();
+            while (this.isEnd()) {
+                const current = this.getCurrent();
+                if (predicate(current)) {
+                    return current;
+                }
+                this.goToNext();
+            }
+        }
+    },
+
+    // New Model compatibility
+    getSourceIndexByItem(item: Model): number {
+        return this._display ? this._display.getSourceIndexByItem(item) : undefined;
+    },
+
+    // New Model compatibility
+    getIndexBySourceItem(item: Model): number | string {
         return this._display ? this._display.getIndexBySourceItem(item) : undefined;
     },
 
-    at: function(index) {
+    at(index: number): Model {
         return this._display ? this._display.at(index) : undefined;
     },
 

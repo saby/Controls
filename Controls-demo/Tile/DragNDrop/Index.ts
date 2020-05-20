@@ -5,7 +5,6 @@ import {HierarchicalMemory} from 'Types/source';
 import * as Dnd from 'Controls/dragnDrop';
 
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -39,4 +38,6 @@ export default class extends Control {
    protected _dragEnd(event, entity, target, position) {
       this._children.listMover.moveItems(entity.getItems(), target, position);
    };
+
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

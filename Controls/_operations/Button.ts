@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IExpandableOptions, IExpandable} from 'Controls/interface';
 import ButtonTemplate = require('wml!Controls/_operations/Button/Button');
+import {default as Store} from 'Controls/Store';
 export interface IOperationsButtonOptions extends IControlOptions, IExpandableOptions {
 }
 
@@ -34,10 +35,32 @@ class OperationsButton extends Control<IOperationsButtonOptions> implements IExp
    '[Controls/_toggle/interface/IExpandable]': true;
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = ButtonTemplate;
+   protected _expanded: boolean = false;
+   protected _expandedCallbackId: string;
 
+   protected _expandedChanged(value): void {
+      if (this._expanded !== !!value) {
+         this._expanded = !!value;
+      }
+   }
+   protected _afterMount(options): void {
+      if (options.useStore) {
+         this._expandedCallbackId = Store.onPropertyChanged('operationsPanelExpanded',
+             (expanded) => this._expandedChanged(expanded)
+         );
+      }
+   }
+   protected _beforeUnmount(): void {
+      if (this._expandedCallbackId) {
+         Store.unsubscribe(this._expandedCallbackId);
+      }
+   }
    protected _onClick(): void {
       if (!this._options.readOnly) {
-         this._notify('expandedChanged', [!this._options.expanded]);
+         this._notify('expandedChanged', [!this._expanded]);
+         if (this._options.useStore) {
+            Store.dispatch('operationsPanelExpanded', !this._expanded);
+         }
       }
    }
    static _theme: string[] = ['Controls/operations'];

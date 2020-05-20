@@ -5,10 +5,9 @@ define('Controls-demo/Popup/PopupAnimation',
    [
       'Core/Control',
       'wml!Controls-demo/Popup/PopupAnimation/PopupAnimation',
-      'css!Controls-demo/Popup/PopupAnimation/PopupAnimation'
    ],
    function(Control, template) {
-      return Control.extend({
+      var ModuleClass = Control.extend({
          _animationDelay: 200,
          _fullCreateDelay: 1000,
          _template: template,
@@ -41,4 +40,8 @@ define('Controls-demo/Popup/PopupAnimation',
             }
          }
       });
-   });
+   
+      ModuleClass._styles = ['Controls-demo/Popup/PopupAnimation/PopupAnimation'];
+
+      return ModuleClass;
+});

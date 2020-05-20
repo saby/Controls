@@ -1,33 +1,33 @@
 <ws:template name="localItemActionsTemplate">
-<div attr:class="controls-itemActionsV
-            {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') + '_theme-' + theme }}
-            {{itemActionsPosition !== 'outside' ? (itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight') : ''}}
-            controls-itemActionsV_{{itemActionsPosition}}_theme-{{theme}}
-            {{getContainerPaddingClass(itemActionsClass || 'controls-itemActionsV_position_bottomRight', itemPadding, theme)}}
-            {{itemData.isEditing ? 'controls-itemActionsV_editing_theme-' + theme}}
-            {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
-            {{itemData.isActive && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
-            {{itemData.isSwiped ? 'controls-itemActionsV_swiped'}}
-            {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
-    <div attr:class="controls-itemActionsV__wrapper">
-        <ws:partial
-                template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
-                itemData="{{itemData}}"
-                needShowTitle="{{needShowTitle}}"
-                needShowIcon="{{needShowIcon}}"
-                getTooltip="{{getTooltip}}"
-                size="{{size}}"
-                showedActions="{{itemData.itemActions.showed}}"/>
-        <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
-            <Controls.Container.Async templateName="Controls/editableArea:Buttons">
-                <ws:partial template="{{content.resolvedTemplate}}"
-                            attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
-                            on:applyButtonClick="_applyEdit()"
-                            on:closeButtonClick="_cancelEdit()"/>
-            </Controls.Container.Async>
-        </ws:if>
+    <div attr:class="controls-itemActionsV
+                {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') + '_theme-' + theme }}
+                {{itemActionsPosition !== 'outside' ? (itemActionsClass ? itemActionsClass : 'controls-itemActionsV_position_bottomRight') : ''}}
+                controls-itemActionsV_{{itemActionsPosition}}_theme-{{theme}}
+                {{itemData.getContainerPaddingClass(itemActionsClass, itemPadding, theme)}}
+                {{itemData.isEditing ? 'controls-itemActionsV_editing_theme-' + theme}}
+                {{itemData.isEditing && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
+                {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
+                {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
+                {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
+        <div attr:class="controls-itemActionsV__wrapper">
+            <ws:partial
+                    template="wml!Controls/_list/ItemActions/resources/ItemActionsFor"
+                    itemData="{{itemData}}"
+                    needShowTitle="{{needShowTitle}}"
+                    needShowIcon="{{needShowIcon}}"
+                    getTooltip="{{getTooltip}}"
+                    size="{{size}}"
+                    showedActions="{{itemData.getActions().showed}}"/>
+            <ws:if data ="{{itemData.isEditing && toolbarVisibility}}">
+                <Controls.Container.Async templateName="Controls/editableArea:Buttons">
+                    <ws:partial template="{{content.resolvedTemplate}}"
+                                attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
+                                on:applyButtonClick="_commitEditActionHandler()"
+                                on:closeButtonClick="_cancelEditActionHandler()"/>
+                </Controls.Container.Async>
+            </ws:if>
+        </div>
     </div>
-</div>
 </ws:template>
 
 <!-- TODO moved to Grid/Item.wml after complete task: https://online.sbis.ru/opendoc.html?guid=d473668a-3c9a-43b9-a59c-b994cbf873bd -->

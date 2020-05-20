@@ -36,11 +36,11 @@
       <Controls.decorator:Phone value="9206469857"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 492555555555</div>
-      <Controls.decorator:Phone value="492555555555"/>
+      <div class="controls-text-label_theme-{{_options.theme}}">value = +4200555555555</div>
+      <Controls.decorator:Phone value="+4200555555555"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 420055555555</div>
-      <Controls.decorator:Phone value="420055555555"/>
+      <div class="controls-text-label_theme-{{_options.theme}}">value = 492555555555</div>
+      <Controls.decorator:Phone value="492555555555"/>
    </div>
 </div>

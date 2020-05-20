@@ -1,0 +1,77 @@
+.controls-Grid__row-cell,
+.controls-Grid__row-cell__content {
+   border: 0 solid transparent;
+}
+
+// Разделители строк
+
+/*
+ Вспомогательный класс, вешается на ячейку. Через него задаются правильные отступы ячейке.
+ Обеспечивает отсутствие "скачков" при динамической смене размера границы.
+ .controls-Grid__row-cell_withRowSeparator_size-null {}
+ .controls-Grid__row-cell_withRowSeparator_size-s_theme-themeName
+ .controls-Grid__row-cell_withRowSeparator_size-l_theme-themeName
+*/
+
+// Сам сепаратор, его главный класс, дает границы.
+.controls-Grid__rowSeparator_size-s_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_s_thickness_list;
+   border-top-color: @item_separator_s_color_list;
+}
+
+.controls-Grid__rowSeparator_size-l_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_l_thickness_list;
+   border-top-color: @item_separator_l_color_list;
+}
+
+// Первая граница списка, самая верхняя
+.controls-Grid__row:first-child {
+   .controls-Grid__rowSeparator_size-s_theme-@{themeName} {
+      border-top-color: @item_edge_separator_s_color_list;
+   }
+
+   .controls-Grid__rowSeparator_size-l_theme-@{themeName} {
+      border-top-color: @item_edge_separator_l_color_list;
+   }
+}
+
+// Последняя граница списка, самая нижняя
+.controls-Grid__row:last-child {
+   .controls-Grid__rowSeparator_size-s_theme-@{themeName} {
+      border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
+      min-height: @cell_min-height_grid + @item-separator_s_thickness_list;
+   }
+
+   .controls-Grid__rowSeparator_size-l_theme-@{themeName} {
+      border-bottom: @item-separator_l_thickness_list solid @item_edge_separator_l_color_list;
+      min-height: @cell_min-height_grid + @item-separator_l_thickness_list;
+   }
+}
+
+// В таблицах IE(table-layout) функцию min-height выполняет height
+.controls-Grid_table-layout .controls-Grid__row:last-child {
+   .controls-Grid__rowSeparator_size-s_theme-@{themeName} {
+      height: @cell_min-height_grid + @item-separator_s_thickness_list;
+   }
+
+   .controls-Grid__rowSeparator_size-l_theme-@{themeName} {
+      height: @cell_min-height_grid + @item-separator_l_thickness_list;
+   }
+}
+
+
+// Разделители колонок
+
+.controls-Grid__columnSeparator_size-s_theme-@{themeName} {
+   border-left-style: solid;
+   border-left-width: @column_separator_s_thickness_grid;
+   border-left-color: @column_separator_s_color_grid;
+}
+
+.controls-Grid__row-cell_withColumnSeparator:first-child .controls-Grid__columnSeparator_size-s_theme-@{themeName},
+.controls-Grid__row-cell_withColumnSeparator:first-child.controls-Grid__columnSeparator_size-s_theme-@{themeName}{
+   border-left-width: 0;
+   border-left-color: transparent;
+}

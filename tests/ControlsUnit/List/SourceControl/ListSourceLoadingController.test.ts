@@ -74,7 +74,7 @@ describe('Controls/_list/SourceControl/ListSourceLoadingController', () => {
         });
 
         it('should load previous page on demand', () => {
-            source = new SourceFaker({perPage: NUMBER_OF_ITEMS, keyProperty: 'id');
+            source = new SourceFaker({perPage: NUMBER_OF_ITEMS, keyProperty: 'id'});
             rawData = source.getRawData();
             instance = new ListSourceLoadingController({
                 source,

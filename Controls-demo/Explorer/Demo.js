@@ -5,7 +5,6 @@ define('Controls-demo/Explorer/Demo', [
    'Controls/Utils/Toolbar',
    'Controls/Constants',
    'Controls-demo/Explorer/ExplorerImages',
-   'css!Controls-demo/Explorer/Demo/Demo',
    'Controls/explorer'
 ], function(BaseControl, template, source, Toolbar, constants, explorerImages) {
    'use strict';
@@ -209,6 +208,8 @@ define('Controls-demo/Explorer/Demo', [
             return group;
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/Explorer/Demo/Demo'];
 
    return ModuleClass;
 });

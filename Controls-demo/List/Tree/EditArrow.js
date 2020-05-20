@@ -4,7 +4,6 @@ define('Controls-demo/List/Tree/EditArrow', [
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/Utils/MemorySourceFilter',
    'wml!Controls-demo/List/Tree/EditArrow/columnTemplate',
-   'css!Controls-demo/List/Tree/EditArrow/EditArrow',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
@@ -136,6 +135,8 @@ define('Controls-demo/List/Tree/EditArrow', [
             this._editArrowClickSurfaced = true;
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/List/Tree/EditArrow/EditArrow'];
 
    return ModuleClass;
 });

@@ -5,7 +5,6 @@ import {getEditing} from "../../DemoHelpers/DataCatalog"
 import {showType} from 'Controls/Utils/Toolbar';
 import 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor';
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -22,7 +21,7 @@ export default class extends Control {
         icon: 'icon-Erase icon-error',
         title: 'delete',
         style: 'bordered',
-        showType: showType.MENU_TOOLBAR,
+        showType: showType.TOOLBAR,
         handler: function(item) {
             this._children.remover.removeItems([item.get('id')]);
         }.bind(this)
@@ -67,4 +66,6 @@ export default class extends Control {
             return items;
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

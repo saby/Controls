@@ -2,7 +2,6 @@ define('Controls-demo/Dropdown/TreeStackTemplate', [
    'Core/Control',
    'wml!Controls-demo/Dropdown/TreeStackTemplate',
    'Types/source',
-   'css!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector',
 
 ], function(Control, template, source) {
 
@@ -50,5 +49,7 @@ define('Controls-demo/Dropdown/TreeStackTemplate', [
       }
 
    });
+   DropdownDemo._styles = ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'];
+
    return DropdownDemo;
 });

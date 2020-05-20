@@ -5,12 +5,11 @@ define('Controls-demo/Input/Auth',
       'i18n!Controls-demo',
 
       'Controls/input',
-      'css!Controls-demo/Input/Auth/Auth'
    ],
    function(Control, template, rk) {
       'use strict';
 
-      return Control.extend({
+      var ModuleClass = Control.extend({
          _template: template,
 
          _login: '',
@@ -35,4 +34,8 @@ define('Controls-demo/Input/Auth',
             this._update();
          }
       });
-   });
+   
+      ModuleClass._styles = ['Controls-demo/Input/Auth/Auth'];
+
+      return ModuleClass;
+});

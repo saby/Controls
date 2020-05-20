@@ -41,6 +41,12 @@
    width: 100%;
    display: flex;
    align-items: center;
+   cursor: default;
+   .flex-shrink(0);
+}
+
+.controls-StickyTemplate__top-area-content_theme_@{themeName} {
+   height: @header_min-height_sticky;
 }
 
 .controls-StickyTemplate__content-area {
@@ -80,4 +86,9 @@
    font-size: @header_font-size_sticky;
    font-weight: bold;
    color: @header_color_sticky;
+}
+
+.controls-StickyTemplate__footer_theme-@{themeName} {
+   display: flex;
+   align-items: center;
 }

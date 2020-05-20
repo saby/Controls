@@ -10,7 +10,6 @@ define('Controls-demo/Layouts/SearchLayout', [
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls/list',
-   'css!Controls-demo/Layouts/SearchLayout/SearchLayout',
    'Controls/input',
    'Controls-demo/Layouts/LayoutFilterComponent',
    'Controls/filter',
@@ -247,5 +246,7 @@ define('Controls-demo/Layouts/SearchLayout', [
          }
       }
    );
+   ModuleClass._styles = ['Controls-demo/Layouts/SearchLayout/SearchLayout'];
+
    return ModuleClass;
 });

@@ -20,6 +20,7 @@ export type AutoComplete = 'on' | 'off' | 'username' | 'current-password';
  *
  * @interface Controls/_input/interface/IBase
  * @public
+ * @author Красильников А.С.
  */
 export interface IBaseOptions {
     /**

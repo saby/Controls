@@ -105,26 +105,27 @@ define([
          version = model._calcItemVersion(item, key);
          assert.notInclude(version, 'SWIPE');
 
-         model.setItemActions(model._items.at(0), [{
-            id: 0,
-            title: 'first'
-         }]);
-         version = model._calcItemVersion(item, key);
-         assert.include(version, 'ITEM_ACTION_1');
-
-         model.setItemActions(model._items.at(0), [{
-            id: 0,
-            title: 'second'
-         }]);
-         version = model._calcItemVersion(item, key);
-         assert.include(version, 'ITEM_ACTION_2');
-
-         model.setItemActions(model._items.at(0), [{
-            id: 0,
-            title: 'second'
-         }]);
-         version = model._calcItemVersion(item, key);
-         assert.include(version, 'ITEM_ACTION_2');
+         // TODO REMOVE OR IMPLEMENT (Not implemented in new lists)
+         // model.setItemActions(model._items.at(0), [{
+         //    id: 0,
+         //    title: 'first'
+         // }]);
+         // version = model._calcItemVersion(item, key);
+         // assert.include(version, 'ITEM_ACTION_1');
+         //
+         // model.setItemActions(model._items.at(0), [{
+         //    id: 0,
+         //    title: 'second'
+         // }]);
+         // version = model._calcItemVersion(item, key);
+         // assert.include(version, 'ITEM_ACTION_2');
+         //
+         // model.setItemActions(model._items.at(0), [{
+         //    id: 0,
+         //    title: 'second'
+         // }]);
+         // version = model._calcItemVersion(item, key);
+         // assert.include(version, 'ITEM_ACTION_2');
 
          assert.include(version, 'WITHOUT_EDITING');
          model._setEditingItemData({ key: 21, item: {} });
@@ -213,28 +214,8 @@ define([
          assert.equal('title', cur.displayProperty, 'Incorrect field set on getCurrent()');
          assert.equal(0, cur.index, 'Incorrect field set on getCurrent()');
          assert.deepEqual(cfg.items.at(0), cur.item, 'Incorrect field set on getCurrent()');
-         assert.isTrue(cur.isSelected, 'Incorrect field set on getCurrent()');
+         assert.isTrue(cur._isSelected, 'Incorrect field set on getCurrent()');
          assert.isTrue(cur.multiSelectStatus, 'Incorrect field set on getCurrent()');
-      });
-
-      it('isSelected', function () {
-         const
-             cfg = {
-                items: new collection.RecordSet({
-                   rawData: data,
-                   keyProperty: 'id'
-                }),
-                keyProperty: 'id',
-                displayProperty: 'title',
-                markedKey: 1,
-                markerVisibility: 'visible',
-                selectedKeys: {1: true}
-             },
-             iv = new lists.ListViewModel(cfg);
-
-         assert.isTrue(lists.ListViewModel._private.isSelected(iv, iv.getCurrent()));
-         iv.goToNext();
-         assert.isFalse(lists.ListViewModel._private.isSelected(iv, iv.getCurrent()));
       });
 
       it('getItemByMarkedKey', function () {
@@ -267,49 +248,6 @@ define([
          edditingItem.isAdd = true;
          iv._markedKey = 21;
          assert.isUndefined(lists.ListViewModel._private.getItemByMarkedKey(iv, 21));
-      });
-
-      describe('needToDrawActions', function () {
-         let needToDrawActions = lists.ListViewModel._private.needToDrawActions;
-         let currentItem = {
-               key: 1
-             },
-             editingItem = {
-               key: 1
-             },
-             editingConfig = {
-               toolbarVisibility: true
-             },
-             drawnActions = [1];
-         it('editing with actions and toolbar', function() {
-            assert.isTrue(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-            assert.isFalse(needToDrawActions(editingItem, {key: 2}, editingConfig, drawnActions));
-         });
-         it('editing without actions and with toolbar', function() {
-            drawnActions = [];
-            assert.isTrue(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-            assert.isFalse(needToDrawActions(editingItem, {key: 2}, editingConfig, drawnActions));
-         });
-         it('editing with actions and without toolbar', function() {
-            drawnActions = [1];
-            editingConfig.toolbarVisibility = false;
-            assert.isTrue(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-            assert.isFalse(needToDrawActions(editingItem, {key: 2}, editingConfig, drawnActions));
-         });
-         it('editing without actions and without toolbar', function() {
-            drawnActions = [];
-            editingConfig.toolbarVisibility = false;
-            assert.isFalse(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-            assert.isFalse(needToDrawActions(editingItem, {key: 2}, editingConfig, drawnActions));
-         });
-         it('without actions', function() {
-            editingItem = null;
-            assert.isFalse(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-         });
-         it('with actions', function() {
-            drawnActions = [1]
-            assert.isTrue(needToDrawActions(editingItem, currentItem, editingConfig, drawnActions));
-         });
       });
 
       it('updateIndexes', function() {
@@ -673,88 +611,67 @@ define([
          assert.isTrue(markedKeyChangedFired, 'onMarkedKeyChanged event should fire after setItems');
       });
 
-      it('setItemActions should not change actions if an item does not exist in display', function() {
-         var
-            cfg = {
-               keyProperty: 'id',
-               markerVisibility: 'visible',
-               markedKey: null
-            },
-            listModel = new lists.ListViewModel(cfg),
-            editingItem = {key: 'test'};
-
-         listModel.setItemActions(new entity.Record({
-            rawData: {
-               id: 'test',
-               title: 'test'
-            },
-            keyProperty: 'id'
-         }), {
-            all: [],
-            showed: []
-         });
-         assert.equal(0, Object.keys(listModel._actions).length);
-
-         listModel._editingItemData = editingItem;
-         listModel.setItemActions(new entity.Record({
-            rawData: {
-               id: 'test',
-               title: 'test'
-            },
-            keyProperty: 'id'
-         }), {
-            all: [],
-            showed: []
-         });
-         assert.isFalse(editingItem.drawActions, "shoud not draw actions on editing item if actions array is empty");
-         listModel.setItemActions(new entity.Record({
-            rawData: {
-               id: 'test',
-               title: 'test'
-            },
-            idProperty: 'id'
-         }), {
-            all: [1,2,3],
-            showed: [1,2,3]
-         });
-         assert.isTrue(editingItem.drawActions, "shoud draw actions on editing item if actions array is not empty");
-         listModel.setEditingConfig({
-            toolbarVisibility: true
-         });
-         listModel.setItemActions(new entity.Record({
-            rawData: {
-               id: 'test',
-               title: 'test'
-            },
-            idProperty: 'id'
-         }), {
-            all: [],
-            showed: []
-         });
-         assert.isTrue(editingItem.drawActions, 'should draw actions on editing item if actions array is empty and toolbarVisibility = true');
-      });
-
-      it('Clear itemActions for removed items', function() {
-         var
-            cfg = {
-               keyProperty: 'id',
-               markerVisibility: 'visible',
-               markedKey: null,
-               items: new collection.RecordSet({
-                  rawData: data,
-                  keyProperty: 'id'
-               })
-            },
-            listModel = new lists.ListViewModel(cfg);
-
-         listModel.setItemActions(cfg.items.at(0), {
-            all: [{ id: 1, icon: 'testIcon' }],
-            showed: []
-         });
-         assert.equal(1, Object.keys(listModel._actions).length);
-         listModel.getItems().removeAt(0);
-         assert.equal(0, Object.keys(listModel._actions).length);
-      });
+      // TODO SetItemActions
+      // it('setItemActions should not change actions if an item does not exist in display', function() {
+      //    var
+      //       cfg = {
+      //          keyProperty: 'id',
+      //          markerVisibility: 'visible',
+      //          markedKey: null
+      //       },
+      //       listModel = new lists.ListViewModel(cfg),
+      //       editingItem = {key: 'test'};
+      //
+      //    listModel.setItemActions(new entity.Record({
+      //       rawData: {
+      //          id: 'test',
+      //          title: 'test'
+      //       },
+      //       keyProperty: 'id'
+      //    }), {
+      //       all: [],
+      //       showed: []
+      //    });
+      //    assert.equal(0, Object.keys(listModel._actions).length);
+      //
+      //    listModel._editingItemData = editingItem;
+      //    listModel.setItemActions(new entity.Record({
+      //       rawData: {
+      //          id: 'test',
+      //          title: 'test'
+      //       },
+      //       keyProperty: 'id'
+      //    }), {
+      //       all: [],
+      //       showed: []
+      //    });
+      //    assert.isFalse(editingItem.shouldDisplayActions(), "should not draw actions on editing item if actions array is empty");
+      //    listModel.setItemActions(new entity.Record({
+      //       rawData: {
+      //          id: 'test',
+      //          title: 'test'
+      //       },
+      //       idProperty: 'id'
+      //    }), {
+      //       all: [1,2,3],
+      //       showed: [1,2,3]
+      //    });
+      //    assert.isTrue(editingItem.shouldDisplayActions(), "should draw actions on editing item if actions array is not empty");
+      //    listModel.setEditingConfig({
+      //       toolbarVisibility: true
+      //    });
+      //    listModel.setItemActions(new entity.Record({
+      //       rawData: {
+      //          id: 'test',
+      //          title: 'test'
+      //       },
+      //       idProperty: 'id'
+      //    }), {
+      //       all: [],
+      //       showed: []
+      //    });
+      //    assert.isTrue(editingItem.shouldDisplayActions(), 'should draw actions on editing item if actions array is empty and toolbarVisibility = true');
+      // });
 
       it('_updateSelection', function() {
          var cfg = {
@@ -949,12 +866,12 @@ define([
             item = lvm.getItemDataByItem(lvm.getItemById('1', 'id'));
             assert.isUndefined(item.isDragging);
             assert.isUndefined(item.isVisible);
-            lvm.setItemActions(lvm.getItemById('2', 'id').getContents(), {
+            item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
+            item.setActions({
                all: [1, 2],
                showed: [1]
             });
-            item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
-            assert.isTrue(!!item.drawActions);
+            assert.isTrue(!!item.shouldDisplayActions());
          });
 
          it('getMultiSelectClassList hidden', function() {

@@ -1,4 +1,4 @@
-import Formatter = require('Controls/_input/Mask/Formatter');
+import {Formatter} from 'Controls/decorator';
 
 
 

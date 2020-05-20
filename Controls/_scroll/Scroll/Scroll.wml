@@ -40,7 +40,8 @@
                            on:checkboxClick="_tmplNotify('checkboxClick')"
                            on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
                            on:actionClick="_tmplNotify('actionClick')"
-                           on:editArrowClick="_tmplNotify('editArrowClick')"/>
+                           on:editArrowClick="_tmplNotify('editArrowClick')"
+                           on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"/>
             </span>
          </Controls._scroll.StickyHeader.Controller>
       </Controls.event:Register>

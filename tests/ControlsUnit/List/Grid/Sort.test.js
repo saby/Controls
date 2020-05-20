@@ -44,7 +44,6 @@ define(['Controls/grid', 'Types/source'], function(grid, TypesSource) {
          assert.deepEqual(sortingSelector._currentParamName, 'F');
          assert.deepEqual(sortingSelector._currentOrder, 'DESC');
          sortingSelector._afterUpdate();
-         assert.isTrue(menuClosed);
          menuClosed = false;
       });
 
@@ -57,7 +56,7 @@ define(['Controls/grid', 'Types/source'], function(grid, TypesSource) {
             }
          };
          assert.isFalse(menuClosed);
-         sortingSelector._itemArrowClick({}, item, 'ASC');
+         sortingSelector._itemClick({}, item);
          sortingSelector.__beforeUpdate(cfg);
          assert.deepEqual(sortingSelector._selectedKeys, [2]);
          assert.deepEqual(sortingSelector._currentParamName, 'S');

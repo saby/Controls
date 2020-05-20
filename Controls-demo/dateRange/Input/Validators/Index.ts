@@ -1,7 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import controlTemplate = require('wml!Controls-demo/dateRange/Input/Validators/Validators');
-import 'css!Controls-demo/Controls-demo';
 
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -13,5 +12,7 @@ class DemoControl extends Control<IControlOptions> {
     protected _endValue3: Date;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default DemoControl;

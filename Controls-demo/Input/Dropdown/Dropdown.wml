@@ -66,7 +66,7 @@
                                      attr:class="demo-InputDropdown__withTitle ControlsDemo-InputDropdown__item"
                                      contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon">
                <ws:headerTemplate>
-                  <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
+                  <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
                      <ws:partial template="{{ content.resolvedTemplate }}" scope="{{headerTemplate}}" caption="Sort"/>
                   </Controls.Container.Async>
                </ws:headerTemplate>
@@ -211,7 +211,7 @@
                                      attr:class="demo-InputDropdown__withDuplicate ControlsDemo-InputDropdown__item"
                                      source="{{_duplicateItems}}">
                <ws:headerTemplate>
-                  <Controls.Container.Async templateName="Controls/dropdownPopup:Template">
+                  <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
                      <ws:partial template="{{ content.resolvedTemplate }}" scope="{{headerTemplate}}" caption="{{_duplicateCaption}}"/>
                   </Controls.Container.Async>
                </ws:headerTemplate>
@@ -287,7 +287,7 @@
                                      keyProperty="id"
                                      displayProperty="title"
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
-                                     groupTemplate="Controls/dropdownPopup:GroupTemplate"
+                                     groupTemplate="Controls/dropdown:GroupTemplate"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__keysGroup"
                                      source="{{_groupItems}}">
             </Controls.dropdown:Input>
@@ -300,7 +300,7 @@
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
                                      source="{{_groupTextItems}}">
                <ws:groupTemplate>
-                  <ws:partial template="Controls/dropdownPopup:GroupTemplate" showText="{{true}}"/>
+                  <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
                </ws:groupTemplate>
             </Controls.dropdown:Input>
          </div>
@@ -312,7 +312,7 @@
                                      nodeProperty="@parent"
                                      attr:class="ControlsDemo-InputDropdown__item demo-InputDropdown__keysGroupHierarchy"
                                      groupingKeyCallback="{{_groupingKeyCallback}}"
-                                     groupTemplate="Controls/dropdownPopup:GroupTemplate"
+                                     groupTemplate="Controls/dropdown:GroupTemplate"
                                      source="{{_groupHierarchyItems}}">
             </Controls.dropdown:Input>
          </div>

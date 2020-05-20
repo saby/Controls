@@ -1,0 +1,9 @@
+<span attr:class="controls-demo-radioGroup__itemWrapper">
+    <ws:partial attr:class="controls-RadioItem__SwitchCircle_theme-{{_options.theme}}" template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" item="{{item}}" readOnly="{{readOnly}}" selected="{{selected}}"/>
+    <span attr:class="controls-text-secondary_theme-{{_options.theme}}">{{item.title}}
+    </span>
+    <span attr:class="controls-RadioItem__caption_{{selected ? 'selected' : 'unselected'}}_{{readOnly ? 'disabled' : 'enabled'}}
+                      controls-RadioItem__caption_{{selected ? 'selected' : 'unselected'}}_{{readOnly ? 'disabled' : 'enabled'}}_theme-{{_options.theme}}
+                      controls-RadioItem__caption_theme-{{_options.theme}}"> {{item.caption}}
+    </span>
+</span>

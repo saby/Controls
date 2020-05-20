@@ -7,14 +7,14 @@ import {NavigationController} from 'Controls/_source/NavigationController';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 
 import {
-    SourceCrudInterlayer,
-    ISourceCrudInterlayerOptions
-} from 'Controls/_dataSource/SourceCrudInterlayer';
+    CrudWrapper,
+    ICrudWrapperOptions
+} from 'Controls/_dataSource/CrudWrapper';
 
 import {NavigationOptionsResolver} from './NavigationOptionsResolver';
 import * as ErrorModule from 'Controls/_dataSource/error';
 
-export interface IListSourceLoaderOptions extends ISourceCrudInterlayerOptions {
+export interface IListSourceLoaderOptions extends ICrudWrapperOptions {
     /**
      * @name Controls/_list/SourceControl/ListSourceLoader:IListSourceLoaderOptions#navigation
      * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации
@@ -68,7 +68,7 @@ export class ListSourceLoadingController {
     private readonly _keyProperty: string;
 
     // Прослойке с ресурсом, возвращающая конфиг для ошибки
-    private readonly _source: SourceCrudInterlayer;
+    private readonly _source: CrudWrapper;
 
     // текущая загрузка
     private _request: Promise<void | RecordSet>;
@@ -81,7 +81,7 @@ export class ListSourceLoadingController {
         this._navigationController = new NavigationController({
             navigation: this._navigationOptions
         });
-        this._source = new SourceCrudInterlayer(cfg as ISourceCrudInterlayerOptions);
+        this._source = new CrudWrapper(cfg as ICrudWrapperOptions);
     }
 
     /**
@@ -109,15 +109,7 @@ export class ListSourceLoadingController {
         const query = this._navigationController.getQueryParams(_direction, _filter, _sorting);
 
         this._request = this._source.query(query)
-            .then((dataSet: DataSet) => {
-                let recordSet: RecordSet;
-                if (this._keyProperty && this._keyProperty !== dataSet.getKeyProperty()) {
-                    dataSet.setKeyProperty(this._keyProperty);
-                }
-                if ('getAll' in dataSet) {
-                    recordSet = dataSet.getAll();
-                    this._navigationController.updateQueryProperties(recordSet, _direction);
-                }
+            .then((recordSet: RecordSet) => {
                 return recordSet;
             });
         return this._request

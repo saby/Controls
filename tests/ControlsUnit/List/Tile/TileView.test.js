@@ -580,7 +580,7 @@ define(['Controls/_tile/TileView/TileView',
          tileView._listModel.setHoveredItem({key: 2});
 
          //active
-         tileView._onItemMouseLeave(event, {key: 2, isActive: true});
+         tileView._onItemMouseLeave(event, {key: 2, isActive: () => true});
          assert.equal(tileView._listModel.getHoveredItem().key, 2);
 
          //another
@@ -588,7 +588,7 @@ define(['Controls/_tile/TileView/TileView',
          assert.equal(tileView._listModel.getHoveredItem().key, 2);
 
          //hovered
-         tileView._onItemMouseLeave({}, {key: 2});
+         tileView._onItemMouseLeave({}, {key: 2, isActive: () => false});
          assert.equal(tileView._listModel.getHoveredItem(), null);
       });
 

@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/Columns/Width/Width"
 import {Memory} from "Types/source"
 import {forShowWidths} from "../../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -18,4 +17,6 @@ export default class extends Control {
             data: forShowWidths().getData()
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

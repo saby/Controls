@@ -1,0 +1,90 @@
+@import "Controls-default-theme/_theme";
+//TODO: удалить
+.Demo-background {
+   background-color: #F0F0F0;
+}
+
+.DevicesInfo-scroll {
+   height: 600px;
+}
+
+.DevicesInfo-wrapper {
+   padding-left: 3px;
+   padding-right: 3px;
+}
+
+.DevicesInfo-List-wrapper {
+   background-color: @background-color;
+}
+
+.DevicesInfo-List-indent {
+   margin-top: 6px;
+}
+
+.DeviceInfo-header {
+   padding-left: 12px;
+   height: 35px;
+   display: flex;
+   align-items: center;
+}
+
+.DevicesInfo-button-wrapper {
+   align-items: center;
+   display: flex;
+   height: 32px;
+   justify-content: center;
+}
+
+.DeviceInfo-deviceItem-wrapper {
+   display: flex;
+   flex-direction: column;
+   margin-left: 18px;
+}
+
+.DeviceInfo-dateItem-wrapper {
+   text-align: right;
+}
+
+.DevicesInfo-DeviceList-indicator {
+   top: 6px;
+   left: 7px;
+   position: absolute;
+   &:before {
+      content: "\e624";
+   }
+}
+
+.DevicesInfo-DeviceList-indicator-inactive {
+   color: @unaccented_icon-color;
+}
+
+.DevicesInfo-DeviceList-indicator-active {
+   color: @marker_color;
+}
+
+.DeviceInfo-IconsList-wrapper {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   margin-right: 30px;
+}
+
+.DeviceInfo-DeviceList-platform {
+   color: @unaccented_color;
+   font-size: 12px;
+}
+
+.DeviceInfo-DateList-time {
+   font-size: 12px;
+   color: @unaccented_color;
+}
+
+.DevicesInfo-LocationList-ip {
+   color: @unaccented_color;
+   font-size: 12px;
+}
+
+.DevicesInfo-DeviceList-error {
+   font-size: 12px;
+   color: @danger_color;
+}

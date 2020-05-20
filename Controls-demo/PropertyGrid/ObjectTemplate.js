@@ -3,8 +3,6 @@ define('Controls-demo/PropertyGrid/ObjectTemplate',
       'Core/Control',
       'Core/core-clone',
       'wml!Controls-demo/PropertyGrid/ObjectTemplate',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, cClone, template) {
       'use strict';
@@ -22,6 +20,8 @@ define('Controls-demo/PropertyGrid/ObjectTemplate',
          },
 
       });
+
+      arrayTmpl._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'];
 
       return arrayTmpl;
    });

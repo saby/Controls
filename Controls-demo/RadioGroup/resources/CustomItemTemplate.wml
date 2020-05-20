@@ -1,7 +1,0 @@
-<ws:partial template='Controls/toggle:ItemTemplate'
-            item="{{item}}"
-            readOnly="{{readOnly}}"
-            selected="{{selected}}"
-            displayProperty="{{_displayProperty}}"
-            contentTemplate="{{_contentTemplate}}"
-/>

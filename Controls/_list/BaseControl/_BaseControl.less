@@ -56,10 +56,12 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl_paging-Padding_theme-@{themeName} {
-   height: @item_height_paging;
+   // margin, а не height, чтобы при возникновении ошибки при скролле вниз
+   // этот margin схлопывался с margin шаблона ошибки и не создавал большое пустое пространство
+   margin-bottom: @item_height_paging;
 }
 .ws-is-mobile-safari .controls-BaseControl_paging-Padding_theme-@{themeName} {
-   height: 0;
+   margin-bottom: 0;
 }
 
 .controls-BaseControl__scrollPaging_theme-@{themeName} {

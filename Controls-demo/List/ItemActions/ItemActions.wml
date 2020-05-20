@@ -2,12 +2,12 @@
      <h2>itemActionsPosition="inline"</h2>
     <Controls.list:View
             source = "{{_viewSource}}"
-            markedKey="{{2}}"
+            bind:markedKey="_markedKey"
             allowEmptySelection="{{false}}"
             keyProperty="id"
             itemActions="{{_itemActions}}"
             on:actionClick="_onActionClick()"
-            itemActionVisibilityCallback="{{_showAction}}"
+            itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
             class="test_list_1 itemActionsDemo__list itemActionsDemo__marginleft10">
 
         <ws:itemTemplate>
@@ -25,13 +25,13 @@
     <h2>itemActionsPosition="outside"</h2>
     <Controls.list:View
             source = "{{_viewSource2}}"
-            markedKey="{{2}}"
+            bind:markedKey="_markedKey2"
             allowEmptySelection="{{false}}"
             itemActionsPosition="outside"
             keyProperty="id"
             on:actionClick="_onActionClick()"
             itemActions="{{_itemActions}}"
-            itemActionVisibilityCallback="{{_showAction}}"
+            itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
             class="test_list_2 itemActionsDemo__list itemActionsDemo__marginleft10">
 
         <ws:itemTemplate>
@@ -46,5 +46,5 @@
         </ws:itemTemplate>
     </Controls.list:View>
     <div class="itemActionsDemo__marginleft10">последний нажатый экшн</div>
-    <div class="action__last_clicked itemActionsDemo__marginleft10">{{__lastClicked}}</div>
+    <div class="action__last_clicked itemActionsDemo__marginleft10">{{_lastClickedTitle}}</div>
 </div>

@@ -5,7 +5,6 @@ define('Controls-demo/Explorer/Explorer', [
    'Controls/Utils/Toolbar',
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Explorer/ExplorerImages',
-   'css!Controls-demo/Explorer/Explorer',
    'Controls/explorer'
 ], function(Env, BaseControl, template, Toolbar, MemorySource, explorerImages) {
    'use strict';
@@ -390,6 +389,8 @@ define('Controls-demo/Explorer/Explorer', [
             this._changeViewIcon = this._viewMode === 'tile' ? 'icon-ArrangeList' : 'icon-ArrangePreview';
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/Explorer/Explorer'];
 
    return ModuleClass;
 });

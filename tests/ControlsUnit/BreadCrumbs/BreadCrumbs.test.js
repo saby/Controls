@@ -105,7 +105,6 @@ define([
                menuOpener: {
                   open: function(openerOptions) {
                      assert.equal(openerOptions.target, 123);
-                     assert.equal(openerOptions.templateOptions.items.at(0).get('title'), data[0].title);
                      assert.equal(openerOptions.templateOptions.displayProperty, 'test');
                   },
                   close: function() {}
@@ -125,12 +124,9 @@ define([
          });
       });
       it('_onResult', function(done) {
-         var args = {
-            action: 'itemClick',
-            data: [new entity.Model({
-               rawData: data[0]
-            })]
-         };
+         var args = new entity.Model({
+            rawData: data[0]
+         });
          bc._notify = function(e, eventArgs) {
             if (e === 'itemClick') {
                assert.equal(bc._options.items[0].get('id'), eventArgs[0].get('id'));
@@ -143,7 +139,7 @@ define([
                }
             }
          };
-         bc._onResult(args);
+         bc._onResult(null, 'itemClick', args);
       });
    });
 });

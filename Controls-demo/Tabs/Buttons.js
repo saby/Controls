@@ -6,7 +6,6 @@ define('Controls-demo/Tabs/Buttons', [
    'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate',
    'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
    'Types/source',
-   'css!Controls-demo/Tabs/Buttons/Buttons'
 ], function(
    Control,
    template,
@@ -316,5 +315,7 @@ define('Controls-demo/Tabs/Buttons', [
          this._source6.destroy();
       }
    });
+   TabButtonsDemo._styles = ['Controls-demo/Tabs/Buttons/Buttons'];
+
    return TabButtonsDemo;
 });

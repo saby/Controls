@@ -17,6 +17,7 @@ import {RecordSet} from 'Types/collection';
  * @see Controls/popupTemplate:Stack
  * @see Controls/form:Controller
  * @public
+ * @author Красильников А.С.
  * @remark
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.

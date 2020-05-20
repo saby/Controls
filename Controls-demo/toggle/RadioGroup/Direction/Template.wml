@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">default radio group</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey"
+                keyProperty="id"
+                source="{{_source}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__cell">horizontal radio group</div>
+        <Controls.toggle:RadioGroup
+                bind:selectedKey="_selectedKey2"
+                keyProperty="id"
+                source="{{_source}}"
+                direction="horizontal"
+        />
+    </div>
+</div>

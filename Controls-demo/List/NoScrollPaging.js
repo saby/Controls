@@ -5,7 +5,6 @@ define('Controls-demo/List/NoScrollPaging', [
    'wml!Controls-demo/List/NoScrollPaging/NoScrollPaging',
    'Types/source',
    'Controls/Utils/Toolbar',
-   'css!Controls-demo/List/NoScrollPaging/NoScrollPaging',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoCostPrice',
    'wml!Controls-demo/List/Grid/DemoName'
@@ -264,6 +263,8 @@ define('Controls-demo/List/NoScrollPaging', [
 
    var mySource = source.Memory.extend({
       query: function(query) {
+         mySource._styles = ['Controls-demo/List/NoScrollPaging/NoScrollPaging'];
+
          return mySource.superclass.query.apply(this, arguments);
       }
    });

@@ -17,18 +17,18 @@
             <Controls.dateRange:RelationWrapper
                   number="{{0}}"
                   ranges="{{content.ranges}}">
-               <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
+               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationWrapper
                   number="{{1}}"
                   ranges="{{content.ranges}}"
                   >
-               <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
+               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationWrapper
                   number="{{2}}"
                   ranges="{{content.ranges}}">
-               <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector3"/>
+               <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector3"/>
             </Controls.dateRange:RelationWrapper>
             <Controls.dateRange:RelationButton
                attr:class="controlsDemo-dateRange-RelationController__relationButton"
@@ -55,7 +55,7 @@
          <Controls.dateRange:RelationWrapper
                number="{{0}}"
                ranges="{{content.ranges}}">
-            <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
+            <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
          </Controls.dateRange:RelationWrapper>
          <Controls.dateRange:RelationButton 
                attr:class="controlsDemo-dateRange-RelationController__relationButton demo-dateRange-RelationController__{{_bindType2}}"
@@ -63,7 +63,7 @@
          <Controls.dateRange:RelationWrapper
                number="{{1}}"
                ranges="{{content.ranges}}">
-            <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
+            <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
          </Controls.dateRange:RelationWrapper>
          <Controls.buttons:Button
             iconSize="m" icon="icon-MarkRightBold" iconStyle="secondary"
@@ -85,13 +85,13 @@
                number="{{0}}"
                ranges="{{content.ranges}}"
                relationMode="byCapacity">
-            <Controls.dateRange:LiteSelector styleMode="info" attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
+            <Controls.dateRange:RangeShortSelector styleMode="info" attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector1"/>
          </Controls.dateRange:RelationWrapper>
          <Controls.dateRange:RelationWrapper
                number="{{1}}"
                ranges="{{content.ranges}}"
                relationMode="normal">
-            <Controls.dateRange:LiteSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
+            <Controls.dateRange:RangeShortSelector attr:class="controlsDemo-dateRange-RelationController__selector demo-dateRange-RelationController__selector2"/>
          </Controls.dateRange:RelationWrapper>
          <Controls.buttons:Button
             iconSize="m" icon="icon-MarkRightBold" iconStyle="secondary"

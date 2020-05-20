@@ -9,7 +9,7 @@
          />
       </ws:if>
    </div>
-   <div class="controls-MonthList__month-body" data-date="{{_dateToDataString(date)}}">
+   <div class="controls-MonthList__month-body">
       <ws:if data="{{bodyTemplate}}">
          <ws:partial
             template="{{bodyTemplate}}"

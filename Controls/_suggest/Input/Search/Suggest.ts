@@ -23,6 +23,7 @@ import 'Controls/search';
  * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  * @control
  * @public
+ * @author Герасимов А.М.
  * @category Input
  */
 

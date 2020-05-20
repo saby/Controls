@@ -3,7 +3,6 @@ import cConstants = require('Core/constants');
 import * as template from 'wml!Controls-demo/List/Swipe/Scenarios/News/News';
 import { Memory } from 'Types/source';
 import { Model } from 'Types/entity';
-import 'css!Controls-demo/List/Swipe/Scenarios/News/News';
 
 export default class News extends Control {
    protected _template: Function = template;
@@ -114,4 +113,6 @@ export default class News extends Control {
       }
       return true;
    }
+
+   static _styles: string[] = ['Controls-demo/List/Swipe/Scenarios/News/News'];
 }

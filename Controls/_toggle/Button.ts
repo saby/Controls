@@ -38,7 +38,7 @@ export interface IToggleButtonOptions extends
 /**
  * Кнопка, которая переключается между двумя состояниями: включено и выключено.
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Демо-пример</a>.
  *
  * @class Controls/_toggle/Button
  * @extends Core/Control
@@ -62,7 +62,7 @@ export interface IToggleButtonOptions extends
 /*
  * Button that switches between two states: on-state and off-state.
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Demo-example</a>.
  *
  * @class Controls/_toggle/Button
  * @extends Core/Control

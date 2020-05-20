@@ -1,4 +1,0 @@
-<ws:partial template="{{_options.content}}"
-            on:valueChanged="_valueChanged()"
-            on:searchClick="_searchClick()"
-            on:keyDown="_keyDown()"/>

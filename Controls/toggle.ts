@@ -15,7 +15,7 @@
  * @includes IToggleGroup Controls/_toggle/interface/IToggleGroup
  * @includes switchCircleTemplate Controls/_toggle/resources/SwitchCircle/SwitchCircle
  * @public
- * @author Крайнов Д.О. 
+ * @author Крайнов Д.О.
  */
 
 /*
@@ -46,14 +46,13 @@ export {default as CheckboxMarker} from './_toggle/Checkbox/resources/CheckboxMa
 export {default as Separator} from './_toggle/Separator';
 export {default as BigSeparator} from './_toggle/BigSeparator';
 export {IToggleGroupOptions, IToggleGroup} from './_toggle/interface/IToggleGroup';
-import RadioGroup = require('./_toggle/RadioGroup');
+export {default as RadioGroup} from './_toggle/RadioGroup';
 
 import ItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import CheckboxItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');
 import switchCircleTemplate = require('wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle');
 
 export {
-    RadioGroup,
     ItemTemplate,
     CheckboxItemTemplate,
     switchCircleTemplate

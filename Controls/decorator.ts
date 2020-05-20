@@ -43,14 +43,20 @@
  * @author Крайнов Д.О.
  */
 
-import {default as Markup} from './_decorator/Markup';
+import * as Formatter from './_decorator/resources/Formatter';
+import * as FormatBuilder from './_decorator/resources/FormatBuilder';
 import PhoneNumber = require('Controls/_decorator/PhoneNumber');
 
+export {default as Markup} from './_decorator/Markup';
 export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
 export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as Money, IMoneyOptions} from 'Controls/_decorator/Money';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
+export * from './_decorator/resources/IMask';
+export * from './_decorator/resources/Util';
+export * from './_decorator/Phone/phoneMask';
+export {Formatter, FormatBuilder};
 
 import * as Converter from './_decorator/Markup/Converter';
 import {default as InnerText}  from './_decorator/Markup/resolvers/innerText';
@@ -60,9 +66,7 @@ import {default as linkDecorate}  from './_decorator/Markup/resolvers/linkDecora
 import {default as linkWrapResolver}  from './_decorator/Markup/resolvers/linkWrap';
 
 export {
-    Markup,
     PhoneNumber,
-
     Converter,
     InnerText,
     noOuterTag,

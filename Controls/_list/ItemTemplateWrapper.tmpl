@@ -8,7 +8,7 @@
             itemData="{{itemData}}"/>
 </ws:template>
 
-<ws:if data="{{itemData.isEditing}}">
+<ws:if data="{{itemData.isEditing()}}">
     <!-- TODO: убрать этот шаблон после исправления ошибки: https://online.sbis.ru/opendoc.html?guid=6a0aefdf-779c-4257-98d8-900095ac0aa3 -->
     <Controls._list.EditInPlace.EditingRow on:deactivated="_onRowDeactivated()">
         <ws:partial template="itemTpl"/>

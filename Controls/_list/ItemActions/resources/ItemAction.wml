@@ -1,6 +1,6 @@
 <div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding_theme-{{theme}}
-            controls-itemActionsV__action_style_{{action.style}}
-            controls-itemActionsV__action_iconStyle_{{action.iconStyle}}_theme-{{theme}}"
+            controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
+            controls-itemActionsV__action_iconStyle_{{action.iconStyle ? action.iconStyle : 'secondary'}}_theme-{{theme}}"
       attr:title="{{tooltip}}"
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">

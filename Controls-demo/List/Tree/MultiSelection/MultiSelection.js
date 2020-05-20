@@ -3,7 +3,6 @@ define('Controls-demo/List/Tree/MultiSelection/MultiSelection', [
    'Controls-demo/List/Tree/MultiSelection/MultiSelectionData',
    'wml!Controls-demo/List/Tree/MultiSelection/MultiSelection',
    'Types/source',
-   'css!Controls-demo/List/Tree/MultiSelection/MultiSelection'
 ], function(Control, Data, template, source) {
    'use strict';
 
@@ -28,6 +27,8 @@ define('Controls-demo/List/Tree/MultiSelection/MultiSelection', [
             });
          }
       });
+
+   ModuleClass._styles = ['Controls-demo/List/Tree/MultiSelection/MultiSelection'];
 
    return ModuleClass;
 });

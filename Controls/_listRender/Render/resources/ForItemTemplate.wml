@@ -34,7 +34,7 @@
          template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/listRender:swipeTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          swipeConfig="{{ collection.getSwipeConfig() }}"
-         animationState="open"
+         animationState="{{ collection.getSwipeAnimation() }}"
          item="{{ item }}" />
       <!-- using || instead of ws:if because template is constantly being updated otherwise -->
    </ws:swipeTemplate>

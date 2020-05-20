@@ -1,7 +1,6 @@
 define('Controls-demo/Input/Validate/Text', [
    'Core/Control',
    'wml!Controls-demo/Input/Validate/Text',
-   'css!Controls-demo/Input/resources/VdomInputs',
    'Controls/validate'
 ], function(Control, template) {
    'use strict';
@@ -10,5 +9,7 @@ define('Controls-demo/Input/Validate/Text', [
       _value4: '',
       _placeholder: 'Input text',
    });
+   VdomDemoText._styles = ['Controls-demo/Input/resources/VdomInputs'];
+
    return VdomDemoText;
 });

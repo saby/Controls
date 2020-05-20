@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper">
+    <div class="control-demo__FilterDetailPanel__wrapper">
+        <Controls.filterPopup:DetailPanel
+                attr:class="controls-FilterPanel__width-l"
+                items="{{_items}}"
+                itemTemplateProperty="itemTemplate"
+                orientation="horizontal"
+                historyId="DEMO_HISTORY_ID_3">
+            <ws:emptyHistoryTemplate>
+                <div>Нет фильтров в истории</div>
+            </ws:emptyHistoryTemplate>
+        </Controls.filterPopup:DetailPanel>
+    </div>
+</div>

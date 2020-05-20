@@ -8,12 +8,12 @@ define(['Controls/filter'],
             rangeEditor._beforeMount({
                editorMode: 'Lite'
             });
-            assert.equal(rangeEditor._templateName, 'Controls/dateRange:LiteSelector');
+            assert.equal(rangeEditor._templateName, 'Controls/dateRange:RangeShortSelector');
 
             rangeEditor._beforeMount({
                editorMode: 'Selector'
             });
-            assert.equal(rangeEditor._templateName, 'Controls/dateRange:Selector');
+            assert.equal(rangeEditor._templateName, 'Controls/dateRange:RangeSelector');
          });
 
          describe('_beforeMount _emptyCaption', () => {

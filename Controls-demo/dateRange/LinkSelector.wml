@@ -6,19 +6,19 @@
       </div>
       <div class="PageBlock__content">
          <div class="PageBlock__component-left">
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                bind:startValue="_startValue"
                bind:endValue="_endValue"/>
          </div>
          <div class="PageBlock__component-right">
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                bind:startValue="_startValue"
                bind:endValue="_endValue"/>
          </div>
       </div>
       <div class="PageBlock__content">
          <div class="PageBlock__component-left">
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                bind:startValue="_startValue"
                bind:endValue="_endValue"
                chooseHalfyears="{{false}}"
@@ -26,7 +26,7 @@
                chooseQuarters="{{false}}"/>
          </div>
          <div class="PageBlock__component-right">
-            <Controls.dateRange:LiteSelector
+            <Controls.dateRange:RangeShortSelector
                bind:startValue="_startValue"
                bind:endValue="_endValue"
                chooseHalfyears="{{false}}"

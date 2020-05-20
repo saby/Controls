@@ -12,9 +12,6 @@ define('Controls-demo/Buttons/Menu/MenuPG',
       'wml!Controls-demo/Buttons/Menu/footerTemplate',
       'wml!Controls-demo/Buttons/Menu/headerTemplate',
 
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
-      'css!Controls-demo/Buttons/Menu/Menu'
    ],
 
    function(Control, template, sourceLib, ControlsConstants, config) {
@@ -184,7 +181,7 @@ define('Controls-demo/Buttons/Menu/MenuPG',
                },
                groupTemplate: {
                   items: [
-                     { id: '1', title: 'Default groupTemplate', comment: 'groupingKeyCallback must be set', template: 'Controls/dropdownPopup:GroupTemplate' },
+                     { id: '1', title: 'Default groupTemplate', comment: 'groupingKeyCallback must be set', template: 'Controls/dropdown:GroupTemplate' },
                      { id: '2', title: 'With text', comment: 'groupingKeyCallback must be set', template: 'wml!Controls-demo/Buttons/Menu/groupTemplate' },
                      { id: '3', title: 'Not specified', template: '' }
                   ],
@@ -250,5 +247,7 @@ define('Controls-demo/Buttons/Menu/MenuPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      MenuPG._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper', 'Controls-demo/Buttons/Menu/Menu'];
+
       return MenuPG;
    });

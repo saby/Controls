@@ -2,7 +2,6 @@ import Control = require('Core/Control')
 import template = require('wml!Controls-demo/List/VirtualScroll/resources/BaseTemplate')
 import {Memory} from 'Types/source'
 import {createItems} from './resources/Data'
-import 'css!Controls-demo/List/VirtualScroll/resources/Common'
 
 
 
@@ -34,6 +33,8 @@ class EqualPages extends Control {
         this._children[this._listName].reload();
     }
 
+
+    static _styles: string[] = ['Controls-demo/List/VirtualScroll/resources/Common'];
 }
 
 export = EqualPages;

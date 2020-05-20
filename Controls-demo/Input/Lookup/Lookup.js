@@ -6,8 +6,6 @@ define('Controls-demo/Input/Lookup/Lookup',
       'Controls-demo/Utils/MemorySourceFilter',
       'Controls-demo/Input/Lookup/LookupData',
       'Controls/lookup',
-      'css!Controls-demo/Input/Lookup/Collection',
-      'css!Controls-demo/Input/Lookup/Lookup'
    ],
    function(Control, template, source, memorySourceFilter, lookupData) {
       'use strict';
@@ -52,6 +50,8 @@ define('Controls-demo/Input/Lookup/Lookup',
             this._children.lookup2.showSelector();
          }
       });
+
+      Lookup._styles = ['Controls-demo/Input/Lookup/Collection', 'Controls-demo/Input/Lookup/Lookup'];
 
       return Lookup;
    });

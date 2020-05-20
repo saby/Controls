@@ -70,31 +70,6 @@ define(
 
                assert.isFalse(pNav.hasMoreData('down'), 'Method hasMoreData returns incorrect value after reload');
                assert.isTrue(pNav.hasMoreData('up'), 'Method hasMoreData returns incorrect value after reload');
-
-               let moreDataRs = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [
-                     {
-                        id: 0,
-                        nav_result: true
-                     },
-                     {
-                        id: 1,
-                        nav_result: true
-                     },
-                     {
-                        id: 2,
-                        nav_result: false
-                     }
-                  ]
-               });
-               dataRsbyLoad.setMetaData({more: moreDataRs});
-               pNav.updateQueryProperties(dataRsbyLoad, null);
-               assert.isTrue(pNav.hasMoreData('down', 0), 'Method hasMoreData returns incorrect value for root "0" after reload');
-               assert.isTrue(pNav.hasMoreData('down', 1), 'Method hasMoreData returns incorrect value for root "1" after reload');
-               assert.isFalse(pNav.hasMoreData('down', 2), 'Method hasMoreData returns incorrect value for root "2" after reload');
-               assert.isTrue(pNav.hasMoreData('down', 1234) === undefined, 'Method hasMoreData returns incorrect value for root "1234" after reload');
-
             });
 
             it('should correctly calculate hasMoreData() and allDataCount() when hasMore is set false', function () {
@@ -178,33 +153,6 @@ define(
                });
 
                assert.isFalse(!!pNav.hasMoreData('down'));
-
-               //first query with direction: after
-               dataRs.setMetaData({more: true});
-               pNav.updateQueryProperties(dataRs, null);
-
-               let moreDataRs = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [
-                     {
-                        id: 1,
-                        nav_result: true
-                     },
-                     {
-                        id: 2,
-                        nav_result: false
-                     },
-                     {
-                        id: 3,
-                        nav_result: true
-                     }
-                  ]
-               });
-               dataRs.setMetaData({more: moreDataRs});
-               pNav.updateQueryProperties(dataRs, null);
-               assert.isTrue(pNav.hasMoreData('down'), 'Method hasMoreData returns incorrect value after reload');
-               assert.isTrue(pNav.hasMoreData('down', 1), 'Method hasMoreData returns incorrect value for root "1" after reload');
-               assert.isFalse(pNav.hasMoreData('down', 2), 'Method hasMoreData returns incorrect value for root "2" after reload');
             });
 
             it('should calculate hasMoreData() with load to direction query', function () {
@@ -219,13 +167,11 @@ define(
                dataRs.setMetaData({more: true});
                pNav.updateQueryProperties(dataRs, null);
                assert.isTrue(pNav.hasMoreData('down'), 'Wrong hasMoreData result');
-               assert.isUndefined(pNav.hasMoreData('down', 'testId'), 'Wrong hasMoredata for root');
 
                //load down
                dataRsbyLoad.setMetaData({more: false});
                pNav.updateQueryProperties(dataRsbyLoad, 'down');
                assert.isFalse(pNav.hasMoreData('down'), 'Wrong hasMoreData result');
-               assert.isUndefined(pNav.hasMoreData('down', 'testId'), 'Wrong hasMoredata for root');
 
                pNav = new PositionQueryParamsController.default({
                   field: ['field', 'id'],
@@ -238,13 +184,11 @@ define(
                dataRs.setMetaData({more: {forward: true, backward: true}});
                pNav.updateQueryProperties(dataRs, null);
                assert.isTrue(pNav.hasMoreData('up'), 'Wrong hasMoreData result');
-               assert.isUndefined(pNav.hasMoreData('up', 'testId'), 'Wrong hasMoredata for root');
 
                //load up
                dataRsbyLoad.setMetaData({more: true});
                pNav.updateQueryProperties(dataRsbyLoad, 'up');
                assert.isTrue(pNav.hasMoreData('up'), 'Wrong hasMoreData result');
-               assert.isUndefined(pNav.hasMoreData('up', 'testId'), 'Wrong hasMoredata for root');
             });
 
             it('prepare query params first load', function () {

@@ -78,10 +78,7 @@ import * as ActualAPI from 'Controls/_input/ActualAPI';
 
 import BaseViewModel = require('Controls/_input/Base/ViewModel');
 import TextViewModel = require('Controls/_input/Text/ViewModel');
-import MaskFormatBuilder = require('Controls/_input/Mask/FormatBuilder');
 import MaskInputProcessor = require('Controls/_input/Mask/InputProcessor');
-import MaskFormatter = require('Controls/_input/Mask/Formatter');
-import PhoneMaskBuilder = require('Controls/_input/Phone/MaskBuilder');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 
 import hoursFormat from  'Controls/_input/InputCallback/hoursFormat';
@@ -90,7 +87,6 @@ import lengthConstraint from 'Controls/_input/InputCallback/lengthConstraint';
 import INewLineKey from 'Controls/_input/interface/INewLineKey';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 export {default as IText, ITextOptions} from 'Controls/_input/interface/IText';
-export {default as IMask, IMaskOptions, IFormatMaskChars, getDefaultMaskOptions} from 'Controls/_input/interface/IMask';
 export {default as IBase, IBaseOptions, TextAlign, AutoComplete} from 'Controls/_input/interface/IBase';
 export {default as ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/ITag';
 export {default as INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
@@ -98,6 +94,7 @@ export {default as IValue, IValueOptions, ICallback, ICallbackData, IFieldData} 
 export {default as MobileFocusController} from 'Controls/_input/Base/MobileFocusController';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 export {default as isMaskFormatValid} from 'Controls/_input/Mask/isFormatValid';
+export {Formatter as MaskFormatter, FormatBuilder as MaskFormatBuilder} from 'Controls/decorator';
 
 /**
  * ПРИВАТНЫЕ МОДУЛИ.
@@ -114,6 +111,7 @@ export {CarriagePositionWhenFocus as __CarriagePositionWhenFocus} from 'Controls
  * Объект с набором методов для опции {@link Controls/_input/interface/IValue#inputCallback}
  * @class Controls/input/InputCallback
  * @public
+ * @author Красильников А.С.
  * @mixes Controls/_input/InputCallback/hoursFormat
  * @mixes Controls/_input/InputCallback/lengthConstraint
  */
@@ -138,14 +136,11 @@ export {
     Money,
     BaseViewModel,
     TextViewModel,
-    MaskFormatBuilder,
     MaskInputProcessor,
     MaskFormatterValue,
     StringValueConverter,
     InputCallback,
     INewLineKey,
     ActualAPI,
-    MaskFormatter,
-    PhoneMaskBuilder,
     IDateTimeMask
 };

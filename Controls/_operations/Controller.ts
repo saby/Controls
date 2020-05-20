@@ -3,7 +3,7 @@ import template = require('wml!Controls/_operations/Controller/Controller');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 
 import { SyntheticEvent } from 'Vdom/Vdom';
-import { TKeySelection as TKey } from 'Controls/interface/';
+import { TKeySelection as TKey } from 'Controls/interface';
 
 /** 
  * Контрол используется для организации множественного выбора. 
@@ -44,11 +44,11 @@ export default class MultiSelector extends Control {
       this._itemOpenHandler = this._itemOpenHandler.bind(this);
    }
 
-   protected _selectedTypeChangedHandler(event: SyntheticEvent<null>, typeName: string, limit: number): void {
+   protected _selectedTypeChangedHandler(event: SyntheticEvent<null>, typeName: string): void {
       if (typeName === 'all' || typeName === 'selected') {
          this._notify('selectionViewModeChanged', [typeName]);
       } else {
-         this._children.registrator.start(typeName, limit);
+         this._children.registrator.start(typeName);
       }
    }
 

@@ -10,9 +10,6 @@ define('Controls-demo/List/Grid/StickyPG',
       'wml!Controls-demo/List/Grid/resources/StickyPG/TasksPhoto',
       'wml!Controls-demo/List/Grid/resources/StickyPG/TasksDescr',
       'wml!Controls-demo/List/Grid/resources/StickyPG/TasksReceived',
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper'
    ],
 
    function(Control, template, config, source, data) {
@@ -68,5 +65,7 @@ define('Controls-demo/List/Grid/StickyPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      DialogPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return DialogPG;
    });

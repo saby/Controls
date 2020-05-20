@@ -1,0 +1,44 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator1" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator1" on:valueChanged="_togglePartialColumnSeparator()"
+                                      caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns1}}"
+                rowSeparatorSize="{{ _rowSeparator1 ? 's' }}"
+        />
+    </div>
+    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator2" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns2}}"
+                rowSeparatorSize="{{ _rowSeparator2 ? 's' }}"
+                columnSeparatorSize="{{ _columnSeparator2 ? 's' }}"
+        />
+    </div>
+    <div class="controlsDemo__inline-block" style="margin-right: 20px; margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator3" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>
+        </div>
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns3}}"
+                rowSeparatorSize="{{ _rowSeparator3 ? 's' }}"
+                columnSeparatorSize="{{ _columnSeparator3 ? 's' }}">
+        </Controls.grid:View>
+    </div>
+</div>

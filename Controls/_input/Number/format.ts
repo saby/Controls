@@ -1,7 +1,7 @@
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
 import {IParsedNumber} from 'Controls/_input/Number/parse';
 import {decimalSplitter} from 'Controls/_input/Number/constant';
-import {IText, paste, pasteWithRepositioning, remove, removeWithRepositioning} from 'Controls/_input/Base/Util';
+import {IText, paste, pasteWithRepositioning, remove, removeWithRepositioning} from 'Controls/decorator';
 
 interface INumberLength {
     precision: number;

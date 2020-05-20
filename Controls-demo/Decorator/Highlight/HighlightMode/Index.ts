@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Decorator/Highlight/HighlightMode/HighlightMode');
-import 'css!Controls-demo/Controls-demo';
 
 class HighlightMode extends Control<IControlOptions> {
     protected _value = 'Наша мама мыла раму.\n' +
@@ -13,6 +12,8 @@ class HighlightMode extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
 export default HighlightMode;

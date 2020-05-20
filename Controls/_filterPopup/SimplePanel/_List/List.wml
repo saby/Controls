@@ -12,16 +12,12 @@
                emptyTemplate="{{_emptyItemTemplate}}"
    />
    <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
-      <Controls.dropdownPopup:MoreButton
-              class="controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}"
-              caption="{[Еще]}..."
-              items="{{_options.selectorItems}}"
-              selectedKeys="{{_options.selectorSelectedKeys || _listModel.getSelectedKeys()}}"
-              selectorTemplate="{{_options.selectorTemplate}}"
-              isCompoundTemplate="{{_options.isCompoundTemplate}}"
-              selectorOpener="{{_options.selectorOpener}}"
-              selectorDialogResult="{{_options.selectorDialogResult}}"
-              afterOpenCallback="{{_afterOpenDialogCallback}}"/>
+      <Controls.buttons:Button viewMode="link"
+                               class="controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}"
+                               fontColorStyle="link"
+                               caption="{[Еще]}..."
+                               on:click="_openSelectorDialog()"
+                               afterOpenCallback="{{_afterOpenDialogCallback}}"/>
    </ws:if>
    <ws:if data="{{!_options.isLast && _options.showSeparator !== false}}">
       <div class="controls-SimplePanel__block_separator_theme_{{_options.theme}}"></div>

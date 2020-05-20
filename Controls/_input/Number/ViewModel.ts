@@ -2,7 +2,7 @@ import BaseViewModel = require('Controls/_input/Base/ViewModel');
 
 import toString from 'Controls/Utils/Formatting/toString';
 import {format} from 'Controls/_input/Number/format';
-import {IText, paste, replaceWithRepositioning} from 'Controls/_input/Base/Util';
+import {IText, paste, replaceWithRepositioning} from 'Controls/decorator';
 import {IParsedNumber, parse} from 'Controls/_input/Number/parse';
 import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant';
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
@@ -286,4 +286,4 @@ var ViewModel = BaseViewModel.extend({
 });
 
 export = ViewModel;
-   
+

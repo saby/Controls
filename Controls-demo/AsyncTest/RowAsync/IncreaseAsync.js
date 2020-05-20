@@ -2,7 +2,6 @@ define('Controls-demo/AsyncTest/RowAsync/IncreaseAsync',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/RowAsync/IncreaseAsync',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ],
    function(Control, template) {
       'use strict';
@@ -16,6 +15,8 @@ define('Controls-demo/AsyncTest/RowAsync/IncreaseAsync',
             this._forceUpdate();
          },
       });
+      rowAsyncModule._styles = ['Controls-demo/AsyncTest/AsyncTestDemo'];
+
       return rowAsyncModule;
    }
 );

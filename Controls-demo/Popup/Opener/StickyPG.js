@@ -7,9 +7,6 @@ define('Controls-demo/Popup/Opener/StickyPG',
       'wml!Controls-demo/Popup/Opener/ConfirmationTpl',
 
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
    ],
 
    function(Control, template, config) {
@@ -95,5 +92,7 @@ define('Controls-demo/Popup/Opener/StickyPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      DialogPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return DialogPG;
    });

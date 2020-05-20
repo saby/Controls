@@ -2,7 +2,6 @@ define('Controls-demo/Container/standardDemoScroll', [
     'Core/Control',
     'tmpl!Controls-demo/Container/standardDemoScroll',
     'Types/source',
-    'css!Controls-demo/Container/standardDemoScroll'
 ], function(Control, template, source) {
     'use strict';
 
@@ -49,7 +48,7 @@ define('Controls-demo/Container/standardDemoScroll', [
         };
     }
 
-    return Control.extend({
+    var ModuleClass = Control.extend({
         _template: template,
         _menuItems: null,
         _numberItems: 15,
@@ -108,4 +107,8 @@ define('Controls-demo/Container/standardDemoScroll', [
             this._gridHeader = gridHeader;
         }
     });
+
+    ModuleClass._styles = ['Controls-demo/Container/standardDemoScroll'];
+
+    return ModuleClass;
 });

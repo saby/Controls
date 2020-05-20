@@ -5,17 +5,20 @@ define('Controls-demo/Example/Input/Label',
       'wml!Controls-demo/Example/Input/Label/Label',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
    function(Control, SetValueMixin, template) {
       'use strict';
 
-      return Control.extend([SetValueMixin], {
+      var ModuleClass = Control.extend([SetValueMixin], {
          _template: template,
 
          _labelClickHandler: function(event, nameText) {
             this._children[nameText].activate();
          }
       });
-   });
+   
+      ModuleClass._styles = ['Controls-demo/Example/resource/Base'];
+
+      return ModuleClass;
+});

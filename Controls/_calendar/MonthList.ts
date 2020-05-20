@@ -34,7 +34,7 @@ interface IModuleComponentOptions extends
 
 const enum ITEM_BODY_SELECTOR {
     year = '.controls-MonthList__year-months',
-    month = '.controls-MonthList__month-body',
+    month = '.controls-MonthViewVDOM',
     day = '.controls-MonthViewVDOM__item'
 }
 

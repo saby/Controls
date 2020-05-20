@@ -167,7 +167,7 @@ var TileView = ListView.extend({
     _onItemMouseLeave: function (event, itemData) {
         var hoveredItem = this._listModel.getHoveredItem();
         if (hoveredItem && hoveredItem.key === itemData.key) {
-            if (!itemData.isActive || hoveredItem.key !== itemData.key) {
+            if (!itemData.isActive() || hoveredItem.key !== itemData.key) {
                 this._listModel.setHoveredItem(null);
             }
         }

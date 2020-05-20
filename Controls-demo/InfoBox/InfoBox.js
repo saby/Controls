@@ -2,7 +2,6 @@ define('Controls-demo/InfoBox/InfoBox',
    [
       'Core/Control',
       'wml!Controls-demo/InfoBox/InfoBox',
-      'css!Controls-demo/InfoBox/resources/Infobox',
 
       'Controls/popup'
    ],
@@ -10,7 +9,7 @@ define('Controls-demo/InfoBox/InfoBox',
 
       'use strict';
 
-      return Control.extend({
+      var ModuleClass = Control.extend({
          _template: template,
          _dblClickHandler: function() {
             var child = this._children.demandInfobox;
@@ -18,5 +17,9 @@ define('Controls-demo/InfoBox/InfoBox',
             setTimeout(child.close.bind(child), 5000);
          }
       });
-   }
+   
+      ModuleClass._styles = ['Controls-demo/InfoBox/resources/Infobox'];
+
+      return ModuleClass;
+}
 );

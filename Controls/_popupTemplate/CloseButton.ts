@@ -10,7 +10,7 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
     * @demo Controls-demo/PopupTemplate/CloseButton/ViewModes/Index
     * @mixes Controls/_buttons/interface/IClick
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">демо-пример</a>
+    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">демо-пример</a>
     *
     */
 

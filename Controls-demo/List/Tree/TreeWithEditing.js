@@ -5,7 +5,6 @@ define('Controls-demo/List/Tree/TreeWithEditing', [
    'Controls-demo/List/Tree/TreeMemory',
    'wml!Controls-demo/List/Tree/treeEditingTemplate',
    'Core/core-clone',
-   'css!Controls-demo/List/Tree/Tree'
 ], function(
    BaseControl,
    TreeWithEditingData,
@@ -55,6 +54,8 @@ define('Controls-demo/List/Tree/TreeWithEditing', [
             });
          }
       });
+
+   TreeWithEditing._styles = ['Controls-demo/List/Tree/Tree'];
 
    return TreeWithEditing;
 });

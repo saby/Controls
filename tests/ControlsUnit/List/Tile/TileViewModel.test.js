@@ -51,7 +51,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection'], function(T
          tileViewModel.setActiveItem(null);
          assert.equal(tileViewModel.getHoveredItem(), null);
          tileViewModel.setHoveredItem({key: 2});
-         tileViewModel.setActiveItem({key: 3});
+         tileViewModel.setActiveItem({key: 3, setActive: function() {return null;}});
          assert.equal(tileViewModel.getHoveredItem().key, 2);
       });
 

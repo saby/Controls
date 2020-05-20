@@ -107,6 +107,9 @@ define('Controls/interface/IRemovable', [], function() {
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Array.<String>|Array.<Number>} idArray Массив удаленных элементов.
     * @param {*} result Результат удаления элемента из источника данных.
+    * @returns {Boolean} Если возвращен false, то при ошибке удаления не будет показано всплывающее окно.
+    * @remark
+    * По отображению дружелюбных ошибок при удалении записей подробнее читайте <a href="/doc/platform/developmentapl/interface-development/pattern-and-practice/handling-errors/handling-errors-base/#list-features">здесь</a>.
     * @example
     * В следующем примере показано, как удалить элементы из списка после клика по кнопке.
     * <pre>

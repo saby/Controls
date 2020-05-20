@@ -1,0 +1,4 @@
+<div class="controlsDemo__formController-editInPlace">
+   <Controls.buttons:Button caption="Открыть окно с FormController и редактированием записи" on:click="_clickHandler()"/>
+   <Controls.popup:Stack name="stackOpener" template="Controls-demo/FormController/EditInPlace/FormControllerTemplate" width="{{900}}"/>
+</div>

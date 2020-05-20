@@ -1,4 +1,4 @@
-<ws:partial template="Controls/dropdownPopup:GroupTemplate"
+<ws:partial template="Controls/dropdown:GroupTemplate"
             itemData="{{itemData}}"
             showText="{{true}}"
             textAlign="right"

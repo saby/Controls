@@ -9,11 +9,15 @@ import { load } from 'Core/library';
 import { default as IContainer, IContainerConfig } from './IContainer';
 import Popup from './Popup';
 
+interface IInlistTemplateOptions {
+    listOptions: object;
+}
+
 /**
  * @interface Controls/dataSource/error/Container/Config
  * @extends Controls/_dataSource/_error/ViewConfig
  */
-type Config = ViewConfig & {
+type Config<OptionsType = object> = ViewConfig<OptionsType> & {
     /**
      * @cfg {Boolean} [isShowed?]
      * @name Controls/dataSource/error/Container/Config#isShowed
@@ -95,6 +99,13 @@ export default class Container extends Control<IContainerConfig> implements ICon
 
     protected _beforeUpdate(options: IContainerConfig): void {
         if (isEqual(options.viewConfig, this._options.viewConfig)) {
+            /**
+             * Если viewConfig не изменился для режима отображения ошибки в списке,
+             * то обновляем опции списка, чтобы он корректно обновлялся
+             */
+            if (options.viewConfig?.mode === Mode.inlist) {
+                this._updateInlistOptions(options);
+            }
             return;
         }
         this.__updateConfig(options);
@@ -184,8 +195,15 @@ export default class Container extends Control<IContainerConfig> implements ICon
 
     private __updateConfig(options: IContainerConfig): void {
         this.__setConfig(options.viewConfig);
+
         if (this.__viewConfig) {
             this.__viewConfig.isShowed = this.__viewConfig.isShowed || this.__viewConfig.mode !== Mode.dialog;
+
+            if (this.__viewConfig.mode === Mode.inlist) {
+                // __updateConfig вызывается при первом возникновении ошибки.
+                // Здесь прокидываем опции для списка в список
+                this._updateInlistOptions(options);
+            }
         }
     }
 
@@ -202,6 +220,13 @@ export default class Container extends Control<IContainerConfig> implements ICon
             ...viewConfig,
             templateName
         };
+    }
+
+    private _updateInlistOptions(options: IContainerConfig): void {
+        this.__viewConfig.options = {
+            ...this.__viewConfig.options
+        };
+        (this.__viewConfig as Config<IInlistTemplateOptions>).options.listOptions = options;
     }
 
     /**

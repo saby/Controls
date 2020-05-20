@@ -3,7 +3,9 @@ import IItemsStrategy from './IItemsStrategy';
 export type TItemKey = string | number;
 
 export interface IBaseCollection<T> {
+    each(cb: (item: T) => void): void;
     getItemBySourceKey(key: TItemKey): T;
+    getCount(): number;
     find(predicate: (item: T) => boolean): T;
     getNext(item: T): T;
     getPrevious(item: T): T;

@@ -1,4 +1,4 @@
-<span attr:class="controls-RadioItem__wrapper{{selected ? ' js-controls-RaidoItem__wrapper__selected'}} controls-RadioItem__wrapper_theme-{{_options.theme}}">
+<span attr:class="controls-RadioItem__wrapper{{selected ? ' js-controls-RaidoItem__wrapper__selected'}} controls-RadioItem__wrapper_{{readOnly ? 'disabled' : 'enabled'}} controls-RadioItem__wrapper_theme-{{_options.theme}}">
     <ws:partial attr:class="controls-RadioItem__SwitchCircle_theme-{{_options.theme}}" template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" item="{{item}}" readOnly="{{readOnly}}" selected="{{selected}}"/>
     <ws:if data="{{contentTemplate}}">
         <ws:partial template="{{contentTemplate}}" item="{{item}}" readOnly="{{readOnly}}" selected="{{selected}}"/>

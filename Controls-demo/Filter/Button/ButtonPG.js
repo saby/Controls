@@ -5,9 +5,6 @@ define('Controls-demo/Filter/Button/ButtonPG',
       'Types/source',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
       'Controls/dropdown',
       'wml!Controls-demo/Filter/Button/buttonPGTemplate',
       'wml!Controls-demo/Filter/Button/mainBlockPG',
@@ -138,5 +135,7 @@ define('Controls-demo/Filter/Button/ButtonPG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      FilterButtonPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return FilterButtonPG;
    });

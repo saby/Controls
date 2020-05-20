@@ -234,9 +234,13 @@ describe('Controls/_listRender/Render', () => {
         let itemContextMenuParameter;
         let itemContextMenuBubbling = false;
         let contextMenuStopped = false;
+        let contextMenuPrevented = false;
         const mockEvent = {
             stopPropagation(): void {
                 contextMenuStopped = true;
+            },
+            preventDefault(): void {
+                contextMenuPrevented = true;
             }
         };
         render._notify = (eventName, params, opts) => {
@@ -280,6 +284,7 @@ describe('Controls/_listRender/Render', () => {
 
         assert.isTrue(itemContextMenuFired, 'itemContextMenu should fire');
         assert.isTrue(contextMenuStopped, 'contextMenu should be stopped');
+        assert.isTrue(contextMenuPrevented, 'default contextMenu should be prevented');
         assert.strictEqual(itemContextMenuParameter, item);
         assert.isFalse(itemContextMenuBubbling, 'itemContextMenu should not bubble');
     });

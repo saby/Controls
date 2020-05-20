@@ -5,7 +5,6 @@ define('Controls-demo/DragNDrop/Notes', [
    'wml!Controls-demo/DragNDrop/Notes/Notes',
    'Controls-demo/DragNDrop/Notes/EntityTriangle',
    'Controls-demo/DragNDrop/Notes/EntityNote',
-   'css!Controls-demo/DragNDrop/Notes/Notes'
 ], function(BaseControl, cInstance, source, template, EntityTriangle, EntityNote) {
    'use strict';
 
@@ -136,6 +135,8 @@ define('Controls-demo/DragNDrop/Notes', [
          }
       }
    });
+
+   Notes._styles = ['Controls-demo/DragNDrop/Notes/Notes'];
 
    return Notes;
 });

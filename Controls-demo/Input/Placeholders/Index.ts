@@ -1,7 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/Placeholders/Placeholders');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Input/Placeholders/Placeholders';
 
 class Placeholders extends Control<IControlOptions> {
     protected _value: string = '';
@@ -13,6 +11,8 @@ class Placeholders extends Control<IControlOptions> {
     }
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/Placeholders/Placeholders'];
 }
 
 export default Placeholders;

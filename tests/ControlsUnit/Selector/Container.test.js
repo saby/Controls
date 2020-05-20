@@ -162,16 +162,15 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
          });
       });
 
-      it('getSourceController', function() {
+      it('getCrudWrapper', function() {
          var source = new sourceLib.Memory();
          var navigation = {};
-         var sourceController = lookupPopup.Container._private.getSourceController(source, navigation);
+         var crudWrapper = lookupPopup.Container._private.getCrudWrapper(source);
 
          assert.include(
-            ['Controls/source:Controller', 'Controls/_source/SourceController'],
-            sourceController._moduleName
+            ['Controls/dataSource:CrudWrapper', 'Controls/_dataSource/CrudWrapper'],
+             crudWrapper._moduleName
          );
-         assert.isTrue(!sourceController._options.navigation);
       });
 
       it('_selectedKeysChanged', function() {

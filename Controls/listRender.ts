@@ -8,7 +8,7 @@ import TileItemTemplateWrapper = require('wml!Controls/_listRender/Tile/resource
 import ColumnsItemTemplateWrapper = require('wml!Controls/_listRender/Columns/resources/ItemTemplate');
 import groupTemplate = require('wml!Controls/_listRender/Render/resources/GroupTemplate');
 
-export { default as Render, IRenderOptions, IRenderChildren } from 'Controls/_listRender/Render';
+export { default as Render, IRenderOptions, IRenderChildren, ISwipeEvent } from 'Controls/_listRender/Render';
 
 export { default as Tile } from 'Controls/_listRender/Tile';
 export { default as Columns } from 'Controls/_listRender/Columns';

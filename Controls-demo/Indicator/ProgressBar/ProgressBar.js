@@ -4,13 +4,11 @@ define('Controls-demo/Indicator/ProgressBar/ProgressBar',
       'wml!Controls-demo/Indicator/ProgressBar/ProgressBar',
       'json!Controls-demo/PropertyGrid/pgtext',
 
-      'css!Controls-demo/Wrapper/Wrapper',
-      'css!Controls-demo/Indicator/ProgressBar/ProgressBar'
    ],
 
    function(Control, template, config) {
       'use strict';
-      return Control.extend({
+      var ModuleClass = Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/progress:Bar',
@@ -32,4 +30,8 @@ define('Controls-demo/Indicator/ProgressBar/ProgressBar',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
-   });
+   
+      ModuleClass._styles = ['Controls-demo/Wrapper/Wrapper', 'Controls-demo/Indicator/ProgressBar/ProgressBar'];
+
+      return ModuleClass;
+});

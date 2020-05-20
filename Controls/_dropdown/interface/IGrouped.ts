@@ -20,7 +20,7 @@ export interface IGroupedOptions {
      * @remark
      * Для определения шаблона вызовите базовый шаблон - "Controls/dropdown:GroupTemplate".
      * Шаблон должен быть помещен в компонент с помощью тега <ws:partial> с атрибутом "template".
-     * Базовый шаблон wml!Controls/_dropdownPopup/defaultGroupTemplate по умолчанию отображает только разделитель.
+     * Базовый шаблон Controls/dropdown/GroupTemplate по умолчанию отображает только разделитель.
      * Вы можете изменить отображение разделителя, установив опцию:
      *    -  showText - определяет, отображается ли название группы.
      * Содержимое можно переопределить с помощью параметра "contentTemplate".

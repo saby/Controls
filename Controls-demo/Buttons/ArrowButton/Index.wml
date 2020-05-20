@@ -14,6 +14,6 @@
     <div class="controlDemo__input-row">
         <Controls.buttons:ArrowButton direction="left" on:click="_shiftBack()"/>
         <Controls.buttons:ArrowButton direction="right" on:click="_shiftForward()"/>
-        <Controls.dateRange:LiteSelector attr:class='controlsDemo__ml2' name="selector" bind:startValue="_startValue" bind:endValue="_endValue"/>
+        <Controls.dateRange:RangeShortSelector attr:class='controlsDemo__ml2' name="selector" bind:startValue="_startValue" bind:endValue="_endValue"/>
     </div>
 </div>

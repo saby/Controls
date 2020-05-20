@@ -70,7 +70,7 @@ define([
                delete: '7',
                insert: '',
             }, 'deleteBackward');
-            assert.equal(component._viewModel.displayValue, '+9721161');
+            assert.equal(component._viewModel.displayValue, '+972 116 1');
          });
       });
    });

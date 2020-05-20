@@ -2,7 +2,6 @@ define('Controls-demo/CompatibleDemo/Compat/Demo',
    [
       'Lib/Control/CompoundControl/CompoundControl',
       'wml!Controls-demo/CompatibleDemo/Compat/Demo',
-      'css!Controls-demo/CompatibleDemo/CompatibleDemo'
    ],
    function(CompoundControl, template) {
       'use strict';
@@ -17,6 +16,8 @@ define('Controls-demo/CompatibleDemo/Compat/Demo',
             CompatibleDemo.superclass.destroy.apply(this, arguments);
          }
       });
+      CompatibleDemo._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];
+
       return CompatibleDemo;
    }
 );

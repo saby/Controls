@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Popup/SearchParam/HierarchyList/Index');
 import {Memory} from 'Types/source';
 import * as ExplorerMemory from 'Controls-demo/Explorer/ExplorerMemory';
-import 'css!Controls-demo/Controls-demo';
 
 class SearchParamTemplate extends Control {
     protected _template: TemplateFunction = controlTemplate;
@@ -41,5 +40,7 @@ class SearchParamTemplate extends Control {
 
     static _theme: string[] = ['Controls/Classes'];
 
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default SearchParamTemplate;

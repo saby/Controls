@@ -36,9 +36,13 @@ const DEBOUNCE_HOVERED_CELL_CHANGED = 150;
 var
     _private = {
         checkDeprecated: function(cfg, self) {
-            // TODO: https://online.sbis.ru/opendoc.html?guid=837b45bc-b1f0-4bd2-96de-faedf56bc2f6
+            // TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
             if (cfg.showRowSeparator !== undefined) {
-                Logger.warn('IGridControl: Option "showRowSeparator" is deprecated and removed in 19.200. Use option "rowSeparatorVisibility".', self);
+                Logger.error('IGridControl: Option "showRowSeparator" is deprecated and was removed in 20.4000. Use option "rowSeparatorSize={ none | s | l }".', self);
+            }
+            // TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
+            if (cfg.rowSeparatorVisibility !== undefined) {
+                Logger.warn('IGridControl: Option "rowSeparatorVisibility" is deprecated and will be removed in 20.5000. Use option "rowSeparatorSize={ none | s | l }".', self);
             }
             if (cfg.stickyColumn !== undefined) {
                 Logger.warn('IGridControl: Option "stickyColumn" is deprecated and removed in 19.200. Use "stickyProperty" option in the column configuration when setting up the columns.', self);
@@ -167,6 +171,9 @@ var
             if (this._options.columnScroll !== newCfg.columnScroll) {
                 this._listModel.setColumnScroll(newCfg.columnScroll);
             }
+            if (this._options.resultsVisibility !== newCfg.resultsVisibility) {
+                this._listModel.setResultsVisibility(newCfg.resultsVisibility);
+            }
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
             if (!GridIsEqualUtil.isEqualWithSkip(this._options.columns, newCfg.columns, { template: true, resultTemplate: true })) {
                 this._listModel.setColumns(newCfg.columns);
@@ -181,11 +188,16 @@ var
             if (this._options.ladderProperties !== newCfg.ladderProperties) {
                 this._listModel.setLadderProperties(newCfg.ladderProperties);
             }
+
+            // TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=2c5630f6-814a-4284-b3fb-cc7b32a0e245.
             if (this._options.rowSeparatorVisibility !== newCfg.rowSeparatorVisibility) {
                 this._listModel.setRowSeparatorVisibility(newCfg.rowSeparatorVisibility);
             }
-            if (this._options.showRowSeparator !== newCfg.showRowSeparator) {
-                this._listModel.setShowRowSeparator(newCfg.showRowSeparator);
+            if (this._options.rowSeparatorSize !== newCfg.rowSeparatorSize) {
+                this._listModel.setRowSeparatorSize(newCfg.rowSeparatorSize);
+            }
+            if (this._options.columnSeparatorSize !== newCfg.columnSeparatorSize) {
+                this._listModel.setColumnSeparatorSize(newCfg.columnSeparatorSize);
             }
             if (this._options.stickyColumnsCount !== newCfg.stickyColumnsCount) {
                 this._listModel.setStickyColumnsCount(newCfg.stickyColumnsCount);

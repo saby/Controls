@@ -12,6 +12,7 @@
         <div class="controls-Search__button_theme-{{options.theme}} controls-Search__searchButton
                     controls-Search__button_{{options.readOnly ? 'readOnly' : 'enabled'}}
                     controls-Search__searchButton_theme-{{options.theme}}
+                    controls-Search__searchButton_inlineheight-{{inlineHeight}}_theme-{{options.theme}}
                     controls-Search__searchButton_theme_{{options.theme}}_position
                     controls-Search__searchButton_theme_{{options.theme}}_color{{calculateState()}} icon-Search2"
              on:click="_searchClick()"></div>

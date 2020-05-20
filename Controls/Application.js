@@ -29,7 +29,7 @@ define('Controls/Application',
     *
     * @control
     * @public
-    * @author Белотелов Н.В.
+    * @author Санников К.А.
     */
 
    /*
@@ -46,7 +46,7 @@ define('Controls/Application',
     *
     * @control
     * @public
-    * @author Белотелов Н.В.
+    * @author Санников К.А.
     */
 
    function(Base,

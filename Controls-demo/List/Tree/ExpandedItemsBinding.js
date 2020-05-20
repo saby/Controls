@@ -4,7 +4,6 @@ define('Controls-demo/List/Tree/ExpandedItemsBinding', [
    'wml!Controls-demo/List/Tree/ExpandedItemsBinding',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/List/Tree/Tree',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
@@ -38,6 +37,8 @@ define('Controls-demo/List/Tree/ExpandedItemsBinding', [
          });
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/List/Tree/Tree'];
 
    return ModuleClass;
 });

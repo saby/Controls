@@ -20,7 +20,7 @@ define([
    describe('Controls/dateRange/Selector', function() {
       describe('_beforeUpdate', function() {
          it('should not generate exceptions if value option is set', function() {
-            const component = calendarTestUtils.createComponent(dateRange.Selector, options);
+            const component = calendarTestUtils.createComponent(dateRange.RangeSelector, options);
             component._beforeUpdate({
                startValue: options.startValue,
                endValue: options.endValue,
@@ -33,7 +33,7 @@ define([
          it('should set range on model', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.Selector, options),
+               component = calendarTestUtils.createComponent(dateRange.RangeSelector, options),
                startValue = new Date(2018, 11, 10),
                endValue = new Date(2018, 11, 13);
 

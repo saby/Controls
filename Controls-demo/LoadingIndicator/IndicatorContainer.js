@@ -1,7 +1,6 @@
 define('Controls-demo/LoadingIndicator/IndicatorContainer', [
    'Core/Control',
    'wml!Controls-demo/LoadingIndicator/IndicatorContainer',
-   'css!Controls-demo/LoadingIndicator/IndicatorContainer'
 ], function(Control, tmpl) {
    'use strict';
 
@@ -14,6 +13,8 @@ define('Controls-demo/LoadingIndicator/IndicatorContainer', [
          }.bind(this), time);
       },
    });
+
+   module._styles = ['Controls-demo/LoadingIndicator/IndicatorContainer'];
 
    return module;
 });

@@ -4,8 +4,6 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {ISource} from 'Types/source';
 import Env = require('Env/Env');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/FormController/FormControllerDemo';
 
 class FormController extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -181,5 +179,7 @@ class FormController extends Control<IControlOptions> {
         return false;
     }
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/FormController/FormControllerDemo'];
 }
 export default FormController;

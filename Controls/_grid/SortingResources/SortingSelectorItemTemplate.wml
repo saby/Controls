@@ -2,18 +2,13 @@
             itemData="{{itemData}}">
     <ws:contentTemplate>
         <div class="controls-SortingSelector_itemWrapper">
-            <div class="controls-SortingSelector_itemTitle">{{itemData.item.get(_options.displayProperty)}}</div>
+            <div class="controls-SortingSelector_itemTitle" on:click="_itemClick(itemData.item)">{{itemData.item.get(_options.displayProperty)}}</div>
             <ws:if data="{{itemData.item.get('paramName') !== null}}">
-                <div class="controls-SortingSelector_arrowsContainer">
+                <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
+                    <div class="controls-SortingSelector_arrow_separator_theme-{{_options.theme}}"></div>
                     <div class="controls-SortingSelector_arrow_spacing_theme-{{_options.theme}}
-                                controls-SortingSelector_arrow_{{itemData.item.get('value') === 'DESC' ? 'selected' : 'unselected'}}_theme-{{_options.theme}}"
-                         on:click="_itemArrowClick(itemData.item, 'DESC')">
-                        <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" value="DESC" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
-                    </div>
-                    <div class="controls-SortingSelector_arrow_spacing_theme-{{_options.theme}}
-                                controls-SortingSelector_arrow_{{itemData.item.get('value') === 'ASC' ? 'selected' : 'unselected'}}_theme-{{_options.theme}}"
-                         on:click="_itemArrowClick(itemData.item, 'ASC')">
-                        <ws:partial  attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
+                                controls-SortingSelector_arrow_unselected_theme-{{_options.theme}}">
+                        <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" value="{{itemData.item.get('value')}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
                     </div>
                 </div>
             </ws:if>

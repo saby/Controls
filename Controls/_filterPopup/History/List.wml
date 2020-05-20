@@ -17,17 +17,22 @@
 </ws:template>
 
 <div class="controls-HistoryList">
-   <div class="controls-HistoryList__heading">{[Ранее отбирались]}</div>
-   <div class="controls-HistoryList__content {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-HistoryList_block-maxHeight'}}">
-      <ws:for data="index, item in _items">
-         <ws:if data="{{index < _historyCount}}">
-            <ws:partial template="itemContent"
-                        item="{{item}}"
-                        text="{{_itemsText[index]}}"
-                        iconTemplate="{{_options.saveMode === 'favorite' ? 'favorite' : 'pinned'}}"/>
-         </ws:if>
-      </ws:for>
-   </div>
+   <ws:if data="{{_items.getCount()}}">
+      <div class="controls-HistoryList__heading">{[Ранее отбирались]}</div>
+      <div class="controls-HistoryList__content {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-HistoryList_block-maxHeight'}}">
+         <ws:for data="index, item in _items">
+            <ws:if data="{{index < _historyCount}}">
+               <ws:partial template="itemContent"
+                           item="{{item}}"
+                           text="{{_itemsText[index]}}"
+                           iconTemplate="{{_options.saveMode === 'favorite' ? 'favorite' : 'pinned'}}"/>
+            </ws:if>
+         </ws:for>
+      </div>
+   </ws:if>
+   <ws:else data="{{_options.emptyTemplate}}">
+      <ws:partial template="{{_options.emptyTemplate}}"/>
+   </ws:else>
    <ws:if data="{{_arrowVisible}}">
       <div class="controls-FilterPanel__separator" title="{{!_isMaxHeight ? rk('Свернуть') : rk('Развернуть')}}">
          <Controls.toggle:BigSeparator

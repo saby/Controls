@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">default switch</div>
+        <Controls.toggle:Switch bind:value="_value"
+                                caption="state"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+        <Controls.toggle:Switch bind:value="_value2"
+                                caption="state"
+                                readonly="{{true}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">custom caption</div>
+        <Controls.toggle:Switch bind:value="_value3"
+                                caption="{{_caption}}"
+                                readonly="{{true}}"/>
+    </div>
+</div>

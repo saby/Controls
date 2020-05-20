@@ -191,9 +191,9 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
       it('_beforeUpdate new historyId', function () {
          var filterLayout = new Filter();
          filterLayout.saveOptions({historyId: 'HISTORY_ID'});
-         filterLayout._sourceController = 'history_loader';
+         filterLayout._crudWrapper = 'history_loader';
          filterLayout._beforeUpdate({ historyId: 'UPDATED_HISTORY_ID' });
-         assert.isNull(filterLayout._sourceController);
+         assert.isNull(filterLayout._crudWrapper);
       });
 
       it('_itemsChanged', function () {
@@ -804,7 +804,7 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
             Filter._private.getHistoryItems({}, 'TEST_HISTORY_ID').addCallback(function(history) {
                assert.deepEqual(history.length, 15);
 
-               self._sourceController = { load: () => Deferred.fail() };
+               self._crudWrapper = { query: () => Deferred.fail() };
                Filter._private.getHistoryItems(self, 'TEST_HISTORY_ID').addCallback(function(hItems) {
                   assert.equal(hItems.length, 0);
 
@@ -816,7 +816,7 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
                         getRecent: () => historyItems
                      };
                   });
-                  self._sourceController = { load: () => Promise.resolve(new collection.RecordSet()) };
+                  self._crudWrapper = { query: () => Promise.resolve(new collection.RecordSet()) };
 
                   Filter._private.getHistoryItems(self, 'TEST_HISTORY_ID').addCallback(function(histItems) {
                      assert.equal(histItems.length, 0);

@@ -3,8 +3,6 @@ define('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
    'wml!Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
    'Controls-demo/Lookup/DemoHelpers/DataCatalog',
    'Types/source',
-   'css!Controls-demo/Controls-demo',
-   'css!Controls-demo/Lookup/Index'
 ], function(Control, template, lookupData, source) {
 
    'use strict';
@@ -42,6 +40,8 @@ define('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
          filter: {}
       };
    };
+
+   FlatListSelector._styles = ['Controls-demo/Controls-demo', 'Controls-demo/Lookup/Index'];
 
    return FlatListSelector;
 });

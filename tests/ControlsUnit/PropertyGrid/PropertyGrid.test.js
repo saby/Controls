@@ -1,117 +1,104 @@
-define(["Controls/_propertyGrid/PropertyGrid"], function(PropertyGrid) {
-
-    "use strict";
-
-    describe("Controls.PropertyGrid", function() {
-
-        const configWithEditingObject = {
-            options: {
-                editingObject: {
-                    stringField: "stringValue",
-                    booleanField: false
-                },
-                source: [
-                    {name: "stringField"},
-                    {name: "booleanField"}
-                ]
-            },
-            result: [
-                {name: "stringField", propertyValue: "stringValue", group: "CONTROLS_HIDDEN_GROUP"},
-                {name: "booleanField", propertyValue: false, group: "CONTROLS_HIDDEN_GROUP"}
-            ],
-        };
-
-        const configWithEditingObjectAndSource = {
-            options: {
-                editingObject: {
-                    booleanField: false,
-                    stringField: "stringValue",
-                    stringField1: "stringValue1"
-                },
-                source: [
-                        {name: "stringField", editorTemplateName: "Controls/_input/Text"},
-                        {name: "booleanField", editorOptions: {icon: "testIcon"}},
-                        {name: "stringField1"}
-                    ],
-            },
-            result: [
-                {name: "stringField", editorTemplateName: "Controls/_input/Text", propertyValue: "stringValue", group: "CONTROLS_HIDDEN_GROUP"},
-                {name: "booleanField", editorOptions: {icon: "testIcon"}, propertyValue: false, group: "CONTROLS_HIDDEN_GROUP"},
-                {name: "stringField1", propertyValue: "stringValue1", group: "CONTROLS_HIDDEN_GROUP"}
-            ],
-        };
-
-        const configWithGroup = {
-            options: {
-                editingObject: {
-                    booleanField: false,
-                    stringField: "stringValue",
-                },
-                source: [
-                    {name: "stringField", editorTemplateName: "Controls/_input/Text", group: "string"},
-                    {name: "booleanField", editorOptions: {icon: "testIcon"}, group: "boolean"}
-                ],
-            }
-        };
-
-        describe("_beforeMount with different configs", function() {
-
-            it("config with editingObject", () => {
-                let pg = new PropertyGrid();
-                pg._beforeMount(configWithEditingObject.options);
-
-                /* testing items of propertyGrid, that generated on editingObject */
-                assert.deepStrictEqual(pg.items.getRawData(), configWithEditingObject.result);
-
-                /* testing default templates */
-                assert.strictEqual(pg.items.at(0).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/String");
-                assert.strictEqual(pg.items.at(1).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/Boolean");
-                assert.strictEqual(Object.getPrototypeOf(pg.items.at(0))._moduleName, 'Controls/_propertyGrid/PropertyGridItem');
+define([
+    'Controls/_propertyGrid/PropertyGrid',
+    'Controls/_propertyGrid/Constants',
+    'Controls/display'
+], function (
+    PropertyGrid,
+    Constants,
+    display
+) {
+    describe('Controls/_propertyGrid/PropertyGrid', () => {
+        const ViewInstance = new PropertyGrid.default();
+        let source, editingObject, editors;
+        beforeEach(() => {
+            source = [
+                {name: 'stringField', group: 'text'},
+                {name: 'booleanField', editorOptions: {icon: 'testIcon'}},
+                {name: 'stringField1'}];
+            editingObject = {
+                booleanField: false,
+                stringField: 'stringValue',
+                stringField1: 'stringValue1'
+            };
+            editors = {
+                stringField: Constants.DEFAULT_EDITORS.string,
+                booleanField: Constants.DEFAULT_EDITORS.boolean,
+                stringField1: Constants.DEFAULT_EDITORS.string
+            };
+        });
+        describe('getPropertyGridItems', () => {
+            it('returns merged editingObject and source items', () => {
+                const itemsRS = ViewInstance._getPropertyGridItems(source, editingObject);
+                const items = itemsRS.getRawData();
+                const propertyValueMerged = items.every((item => item.propertyValue === editingObject[item.name]));
+                assert.isTrue(propertyValueMerged);
             });
-
-            it("config with editingObject and source", () => {
-                let pg = new PropertyGrid();
-                pg._beforeMount(configWithEditingObjectAndSource.options);
-
-                /* testing items of propertyGrid, that generated on editingObject and source */
-                assert.deepEqual(pg.items.getRawData(), configWithEditingObjectAndSource.result);
-
-                /* testing default and custom templates */
-                assert.strictEqual(pg.items.at(0).get("editorTemplateName"), "Controls/_input/Text");
-                assert.strictEqual(pg.items.at(1).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/Boolean");
-                assert.strictEqual(pg.items.at(2).get("editorTemplateName"), "Controls/_propertyGrid/defaultEditors/String");
+            it('returns editor templates by value type', () => {
+                const itemsRS = ViewInstance._getPropertyGridItems(source, editingObject);
+                let result = false;
+                itemsRS.each((item) => {
+                    result = item.get('editorTemplateName') === editors[item.get('name')];
+                });
+                assert.isTrue(result);
             });
         });
 
-        describe('_propertyValueChanged handler', () => {
-            it ('property changed (simple config)', function() {
-                var pg = new PropertyGrid();
-                pg._beforeMount(configWithEditingObject.options);
-
-                pg._propertyValueChanged({stopPropagation: () => {}}, pg.items.at(0), 'testValue');
-
-                assert.equal(pg.items.at(0).get('propertyValue'), 'testValue');
+        describe('getCollection', () => {
+            it('returns flat collection', () => {
+                const collection = ViewInstance._getCollection(null, null, editingObject, source);
+                assert.isTrue(collection instanceof display.Collection);
+            });
+            it('returns tree Collection', () => {
+                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+                assert.isTrue(collection instanceof display.Tree);
             });
         });
 
-        describe('_beforeUpdate', () => {
-            it ('property changed', function() {
-                var pg = new PropertyGrid();
-                pg._beforeMount(configWithEditingObject.options);
-                configWithEditingObject.options.editingObject.booleanField = true;
-                pg._beforeUpdate(configWithEditingObject.options);
-
-                assert.isTrue(pg.items.at(1).get('propertyValue'));
-            });
-            it ('string property changed', function() {
-                var pg = new PropertyGrid();
-                pg._beforeMount(configWithEditingObject.options);
-                configWithEditingObject.options.editingObject.stringField = 'test';
-                pg._beforeUpdate(configWithEditingObject.options);
-
-                assert.equal(pg.items.at(0).get('propertyValue'), 'test');
-            });
+        describe('_getCollapsedGroups', () => {
+            const groups = [1, 2, 3];
+            const result = {
+                1: true,
+                2: true,
+                3: true
+            };
+            const collapsedGroups = ViewInstance._getCollapsedGroups(groups);
+            assert.deepEqual(collapsedGroups, result);
         });
 
+        describe('displayFilter', () => {
+            it('not filtered item from collapsed group', () => {
+                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+                const collapsedItem = collection.getItemBySourceKey('stringField');
+                ViewInstance._collapsedGroups = {
+                    text: true
+                };
+                const resultDisplay = ViewInstance._displayFilter(collapsedItem.getContents());
+                assert.isFalse(resultDisplay);
+            });
+            it('filtered groupItem', () => {
+                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+                collection.moveToFirst();
+                const group = collection.getCurrent();
+                const resultDisplay = ViewInstance._displayFilter(group.getContents());
+                assert.isTrue(resultDisplay);
+            });
+        });
+        describe('itemClick', () => {
+            it('toggle expand state on group item', () => {
+                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+                collection.moveToFirst();
+                const groupItem = collection.getCurrent();
+                const expandedState = groupItem.isExpanded();
+                const clickEvent = {
+                    target: {
+                        closest: () => true
+                    }
+                };
+                ViewInstance._collapsedGroups = {};
+                ViewInstance._listModel = collection;
+                ViewInstance._itemClick(null, groupItem, clickEvent);
+                assert.isTrue(expandedState !== groupItem.isExpanded());
+            });
+        });
     });
 });

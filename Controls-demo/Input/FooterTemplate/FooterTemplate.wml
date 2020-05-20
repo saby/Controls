@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.input:Area attr:class="controlsDemo__input" placeholder="{{_placeholder}}"
+                           maxLines="{{3}}">
+         <ws:footerTemplate>
+            <div class="controls-text-label_theme-{{_options.theme}}">в т.ч. НДС (20%) 18 800-00</div>
+         </ws:footerTemplate>
+      </Controls.input:Area>
+   </div>
+</div>

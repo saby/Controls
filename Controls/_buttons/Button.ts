@@ -69,7 +69,7 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * Кнопки могут отображаться в нескольких режимах, отличающихся друга от друга внешне.
  * Более подробное описание можно найти <a href='/doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/'>здесь</a>
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">Демо-пример</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Демо-пример</a>.
  *
  * @class Controls/_buttons/Button
  * @extends Core/Control
@@ -94,7 +94,7 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
 /*
  * Graphical control element that provides the user a simple way to trigger an event.
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Demo-example</a>.
  *
  * @class Controls/_buttons/Button
  * @extends Core/Control

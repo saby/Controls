@@ -1,6 +1,0 @@
-<div class="controls-PropertyGrid__editor_theme-{{theme}}" >
-    <ws:if data="{{itemData.item.caption !== ''}}">
-        <span class="controls-PropertyGrid__editor-caption_theme-{{theme}}">{{itemData.item.caption || itemData.item.name}}</span>
-    </ws:if>
-    <Controls.Container.Async templateName="{{itemData.item.editorTemplateName}}" templateOptions="{{itemData.item.editorOptions}}" class="{{itemData.item.editorClass}}"/>
-</div>

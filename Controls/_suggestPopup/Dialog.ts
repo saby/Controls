@@ -34,7 +34,7 @@ import 'Controls/popupTemplate';
        * </pre>
        * @class Controls/_suggestPopup/List
        * @extends Controls/Control
-       * @author Герасимов Александр
+       * @author Герасимов А.М.
        * @control
        * @public
        */

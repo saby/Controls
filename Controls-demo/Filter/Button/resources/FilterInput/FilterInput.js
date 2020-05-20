@@ -1,7 +1,6 @@
 define('Controls-demo/Filter/Button/resources/FilterInput/FilterInput', [
    'Core/Control',
    'wml!Controls-demo/Filter/Button/resources/FilterInput/FilterInput',
-   'css!Controls-demo/Filter/Button/resources/FilterInput/FilterInput'
 ], function(Control, template) {
 
    'use strict';
@@ -14,5 +13,7 @@ define('Controls-demo/Filter/Button/resources/FilterInput/FilterInput', [
          this._notify('valueChanged', [value]);
       }
    });
+   FilterInputVDom._styles = ['Controls-demo/Filter/Button/resources/FilterInput/FilterInput'];
+
    return FilterInputVDom;
 });

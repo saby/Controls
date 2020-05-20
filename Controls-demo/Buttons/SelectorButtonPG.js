@@ -5,11 +5,10 @@ define('Controls-demo/Buttons/SelectorButtonPG', [
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Input/Lookup/LookupData',
    'json!Controls-demo/PropertyGrid/pgtext',
-   'css!Controls-demo/Buttons/SelectorButtonPG'
 ], function (Control, template, sourceLib, memorySourceFilter, sourceData, config) {
    'use strict';
 
-   return Control.extend({
+   var ModuleClass = Control.extend({
       _selectedKeys: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       _template: template,
       _content: 'Controls/lookup:Selector',
@@ -67,4 +66,8 @@ define('Controls-demo/Buttons/SelectorButtonPG', [
          this._metaData = config[this._content].properties['ws-config'].options;
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/Buttons/SelectorButtonPG'];
+
+   return ModuleClass;
 });

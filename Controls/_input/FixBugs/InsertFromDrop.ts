@@ -1,5 +1,5 @@
 import {IInputData} from '../Base/InputUtil';
-import {IText, pasteWithRepositioning} from '../Base/Util';
+import {IText, pasteWithRepositioning} from 'Controls/decorator';
 
 /**
  * Класс для исправления бага не правильной вставки значения при перетаскивании.

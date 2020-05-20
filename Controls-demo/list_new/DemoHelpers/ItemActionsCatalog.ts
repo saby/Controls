@@ -1,5 +1,5 @@
-import {showType} from 'Controls/Utils/Toolbar';
-import {IItemAction} from 'Controls/_list/interface/IList';
+import { showType } from 'Controls/Utils/Toolbar';
+import { IItemAction } from 'Controls/itemActions';
 
 function getActionsForContacts(): IItemAction[] {
     return [

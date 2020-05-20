@@ -5,7 +5,6 @@ import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 import 'wml!Controls-demo/grid/ColumnScroll/WithEditing/_cellEditor';
 
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -24,4 +23,6 @@ export default class extends Control {
             data: getCountriesStats().getData()
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

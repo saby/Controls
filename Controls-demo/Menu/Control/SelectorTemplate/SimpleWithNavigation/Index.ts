@@ -2,8 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/SelectorTemplate/SimpleWithNavigation/Index');
 import {Memory} from 'Types/source';
 import {factory} from 'Types/chain';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Menu/Menu';
 
 class SelectorTemplate extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -47,5 +45,7 @@ class SelectorTemplate extends Control<IControlOptions> {
         this._selectedKeys = [];
         factory(items).each((item) => this._selectedKeys.push(item.getId()));
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Menu'];
 }
 export default SelectorTemplate;

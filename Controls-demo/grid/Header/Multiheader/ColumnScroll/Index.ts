@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from "UI/Base";
 import {Memory} from "Types/source";
 
 import * as Template from "wml!Controls-demo/grid/Header/Multiheader/ColumnScroll/ColumnScroll";
-import 'css!Controls-demo/Controls-demo';
 
 import {getCountriesStats} from "../../../DemoHelpers/DataCatalog";
 
@@ -20,4 +19,6 @@ export default class extends Control {
          data: getCountriesStats().getData()
       });
    }
+
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

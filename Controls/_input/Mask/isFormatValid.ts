@@ -1,6 +1,4 @@
-import {IFormatMaskChars, getDefaultMaskOptions} from '../interface/IMask';
-import {getFormat} from './FormatBuilder';
-import {splitValue} from './Formatter';
+import {IFormatMaskChars, getDefaultMaskOptions, FormatBuilder, Formatter} from 'Controls/decorator';
 
 const DEFAULT_OPTIONS = getDefaultMaskOptions();
 
@@ -22,8 +20,8 @@ function isFormatValid(
     formatMaskChars: IFormatMaskChars = DEFAULT_OPTIONS.formatMaskChars
 ): boolean {
     try {
-        const format = getFormat(mask, formatMaskChars, replacer);
-        splitValue(format, value);
+        const format = FormatBuilder.getFormat(mask, formatMaskChars, replacer);
+        Formatter.splitValue(format, value);
         return true;
     } catch {
         return false;

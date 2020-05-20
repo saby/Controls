@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Phone</div>
-      <Controls.input:Phone/>
+      <Controls.input:Phone attr:class="ControlsDemo-PhoneInput_phoneField"/>
    </div>
 </div>

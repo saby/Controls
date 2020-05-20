@@ -17,14 +17,6 @@
    width: @marker_thickness_list;
    background-color: @marker_color_list;
    left: 0;
-}
-
-.controls-GridView-without-rowSeparator_item_marker_theme-@{themeName} {
-   height: ~'calc(100% + @{item-separator_s_thickness_list})';
-   top: -@item-separator_s_thickness_list;
-}
-
-.controls-GridView-with-rowSeparator_item_marker_theme-@{themeName} {
    top: 0px;
    height: 100%;
 }
@@ -165,8 +157,13 @@
 }
 .controls-Grid__row-cell {
    height: 100%;
+   display: flex;
    box-sizing: border-box;
    position: relative;
+}
+
+.controls-Grid__row-cell_theme-@{themeName} {
+   min-height: @cell_min-height_grid;
 }
 
 .controls-Grid__row-cell_colspaned {
@@ -290,60 +287,6 @@
    }
 }
 
-.controls-Grid__row-cell_default_rowSpacingTop_default_theme-@{themeName} {
-   padding-top: @item_padding-top_default_grid;
-}
-.controls-Grid__row-cell_default_rowSpacingBottom_default_theme-@{themeName} {
-   padding-bottom: @item_padding-bottom_default_grid;
-}
-
-.controls-Grid__row-cell_default_rowSpacingTop_m_theme-@{themeName} {
-   padding-top: @item_padding-top_s_grid;
-}
-.controls-Grid__row-cell_default_rowSpacingBottom_m_theme-@{themeName} {
-   padding-bottom: @item_padding-bottom_s_grid;
-}
-
-.controls-Grid__row-cell_default_rowSpacingTop_l_theme-@{themeName} {
-   padding-top: @item_padding-top_l_grid;
-}
-.controls-Grid__row-cell_default_rowSpacingBottom_l_theme-@{themeName} {
-   padding-bottom: @item_padding-bottom_l_grid;
-}
-
-.controls-Grid__cell_spacingLeft_theme-@{themeName} {
-   padding-left: @cell_padding-left_default_grid;
-}
-
-.controls-Grid__cell_spacingRight_theme-@{themeName} {
-   padding-right: @cell_padding-right_default_grid;
-}
-
-.controls-Grid__cell_spacingLeft_m_theme-@{themeName} {
-   padding-left: @cell_padding-left_default_grid;
-}
-
-.controls-Grid__cell_spacingRight_m_theme-@{themeName} {
-   padding-right: @cell_padding-right_default_grid;
-}
-
-.controls-Grid__cell_spacingLeft_s_theme-@{themeName} {
-   padding-left: @cell_padding-left_s_grid;
-}
-
-.controls-Grid__cell_spacingRight_s_theme-@{themeName} {
-   padding-right: @cell_padding-right_s_grid;
-}
-
-.controls-Grid__cell_spacingLeft_null_theme-@{themeName} {
-   padding-left: 0;
-}
-
-.controls-Grid__cell_spacingRight_null_theme-@{themeName} {
-   padding-right: 0;
-}
-
-
 .controls-Grid__row-cell__content_hiddenForLadder {
    visibility: hidden;
 }
@@ -404,6 +347,10 @@
 .controls-Grid__row-cell__content_baseline_2XL_theme-@{themeName}:before {
    content: '\200b';
    font-size: @item_font-size_2xl_grid;
+}
+.controls-Grid__row-cell__content_baseline_default_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_max-font-size_grid;
 }
 
 .controls-Grid__header-cell-content-block:before {
@@ -561,14 +508,6 @@
 .controls-Grid_master_theme-@{themeName} {
    padding-right: @master_separator_thickness_list;
    box-sizing: border-box;
-}
-
-.controls-Grid__row-cell_master_rowSpacingTop_default_theme-@{themeName} {
-   padding-top: @item_padding-top_default_grid;
-}
-
-.controls-Grid__row-cell_master_rowSpacingBottom_default_theme-@{themeName} {
-   padding-bottom: @item_padding-bottom_default_grid;
 }
 
 .ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},

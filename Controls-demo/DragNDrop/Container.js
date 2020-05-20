@@ -1,7 +1,6 @@
 define('Controls-demo/DragNDrop/Container', [
    'Core/Control',
    'wml!Controls-demo/DragNDrop/Container/Container',
-   'css!Controls-demo/DragNDrop/Container/Container'
 ], function(BaseControl, template) {
    'use strict';
 
@@ -14,5 +13,7 @@ define('Controls-demo/DragNDrop/Container', [
       _hasMasterDetail: false,
       _selectedKeys: []
    });
+   ModuleClass._styles = ['Controls-demo/DragNDrop/Container/Container'];
+
    return ModuleClass;
 });

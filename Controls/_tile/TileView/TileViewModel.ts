@@ -86,6 +86,9 @@ var TileViewModel = ListViewModel.extend({
         return version;
     },
 
+    // TODO работа с activeItem Должна производиться через item.isActive(),
+    //  но из-за того, как в TileView организована работа с isHovered, isScaled и isAnimated
+    //  мы не можем снять эти состояния при клике внутри ItemActions
     setActiveItem: function (activeItem) {
         if (!activeItem) {
             this.setHoveredItem(null);

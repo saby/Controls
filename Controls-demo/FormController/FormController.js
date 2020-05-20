@@ -5,7 +5,6 @@ define('Controls-demo/FormController/FormController', [
    'Types/source',
    'Core/Deferred',
    'Types/entity',
-   'css!Controls-demo/FormController/FormController',
    'Controls/validate'
 ], function(Env, Control, tmpl, source, Deferred, entity) {
    'use strict';
@@ -185,6 +184,8 @@ define('Controls-demo/FormController/FormController', [
          return false;
       }
    });
+
+   module._styles = ['Controls-demo/FormController/FormController'];
 
    return module;
 });

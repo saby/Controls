@@ -7,7 +7,7 @@
             {{enabled ? 'controls-EditingTemplateText_enabled' + theme}}
             controls-EditingTemplateText_size_{{size ? size : 'default'}}_theme-{{theme}}
             controls-EditingTemplateText_style_{{style ? style : 'default'}}
-            {{itemData.isActive && !itemData.isMenuShown ? 'controls-EditingTemplateText_active_theme-' + theme}}">
+            {{itemData.isActive() && !itemData.shouldDisplayActions() ? 'controls-EditingTemplateText_active_theme-' + theme}}">
             <div class="controls-EditingTemplateText__inner">
                 <ws:partial template="{{ viewTemplate }}"/>
             </div>

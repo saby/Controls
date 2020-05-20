@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {TimeInterval} from 'Types/entity';
 import {ICallback, InputCallback as IC} from 'Controls/input';
 import controlTemplate = require('wml!Controls-demo/Input/InputCallback/InputCallback');
-import 'css!Controls-demo/Controls-demo';
 
 const MAX_LENGTH = 5;
 
@@ -20,6 +19,8 @@ class InputCallback extends Control<IControlOptions> {
     }
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
 export default InputCallback;

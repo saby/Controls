@@ -3,7 +3,6 @@ import {date as formatDate} from 'Types/formatter';
 import isInRange from 'Controls-demo/Input/DateBase/Validators/isInRange';
 // @ts-ignore
 import controlTemplate = require('wml!Controls-demo/Input/DateBase/Validators/Validators');
-import 'css!Controls-demo/Controls-demo';
 
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -17,5 +16,7 @@ class DemoControl extends Control<IControlOptions> {
     protected _formatDate: Function = formatDate;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default DemoControl;

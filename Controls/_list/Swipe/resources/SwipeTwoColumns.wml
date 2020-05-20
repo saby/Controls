@@ -4,13 +4,13 @@
             <ws:partial
                     template="wml!Controls/_list/Swipe/resources/SwipeAction"
                     action="{{action}}"
-                    needIcon="{{needIcon}}"
-                    needTitle="{{needTitle}}"
+                    needIcon="{{swipeConfig.needIcon}}"
+                    needTitle="{{swipeConfig.needTitle}}"
                     actionAlignment="horizontal"
                     itemActionsSize="{{swipeConfig.itemActionsSize}}"
                     paddingSize="{{swipeConfig.paddingSize}}"
                     actionCaptionPosition="{{actionCaptionPosition}}"
-                    hasActionWithIcon="{{itemData.hasActionWithIcon}}"
+                    hasActionWithIcon="{{itemData.hasActionWithIcon()}}"
                     on:click="_onItemActionsClick(action, itemData)"/>
             <div if="{{actionIndex === 0}}" class="controls-Swipe__separator_theme-{{itemData.theme}}
                 controls-Swipe__separator_columns_{{columnIndex === 0 ? 'first' : 'second'}}_theme-{{itemData.theme}}"></div>

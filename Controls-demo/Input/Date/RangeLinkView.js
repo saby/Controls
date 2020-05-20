@@ -1,7 +1,6 @@
 define('Controls-demo/Input/Date/RangeLinkView', [
     'Core/Control',
     'wml!Controls-demo/Input/Date/RangeLinkView',
-    'css!Controls-demo/Controls-demo'
 ], function(
     BaseControl,
     template
@@ -17,5 +16,7 @@ define('Controls-demo/Input/Date/RangeLinkView', [
             return 'Custom range format';
         }
     });
+    ModuleClass._styles = ['Controls-demo/Controls-demo'];
+
     return ModuleClass;
 });

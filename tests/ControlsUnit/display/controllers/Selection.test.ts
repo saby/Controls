@@ -1,3 +1,4 @@
+/*
 import { assert } from 'chai';
 
 import * as SelectionController from 'Controls/_display/controllers/Selection';
@@ -27,7 +28,7 @@ describe('Controls/_display/controllers/Selection', () => {
         let nextVersionCalled = false;
         const collection = {
             each: Array.prototype.forEach.bind(items),
-            nextVersion: () => nextVersionCalled = true;
+            nextVersion: () => nextVersionCalled = true
         };
 
         const testMap = new Map<string, boolean>([
@@ -45,3 +46,4 @@ describe('Controls/_display/controllers/Selection', () => {
         assert.isTrue(nextVersionCalled);
     });
 });
+*/

@@ -1,7 +1,6 @@
 define('Controls-demo/CompatibleDemo/Compat/Wasaby/CreateControlWithValue/CreateControlWithValue', [
    'Lib/Control/CompoundControl/CompoundControl',
    'wml!Controls-demo/CompatibleDemo/Compat/Wasaby/CreateControlWithValue/CreateControlWithValue',
-   'css!Controls-demo/CompatibleDemo/CompatibleDemo'
 ], function(CompoundControl, template) {
    'use strict';
 
@@ -15,5 +14,7 @@ define('Controls-demo/CompatibleDemo/Compat/Wasaby/CreateControlWithValue/Create
          WasabyCreateDemo.superclass.destroy.apply(this, arguments);
       }
    });
+   WasabyCreateDemo._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];
+
    return WasabyCreateDemo;
 });

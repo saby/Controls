@@ -27,12 +27,6 @@ var
           }
           return item;
       },
-      getItemActions(item) {
-         if (!!item.forEach) {
-            return SearchViewModel.superclass.getItemActions.call(this, item[item.length - 1]);
-         }
-         return SearchViewModel.superclass.getItemActions.call(this, item);
-      },
       setHoveredItem(item) {
          let actualItem = item;
          if (item && isBreadCrumbsItem(item)) {

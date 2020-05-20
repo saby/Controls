@@ -8,7 +8,7 @@
             controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
             {{_options.multiline ? 'controls-Render_multiline' :
             'controls-inlineheight-' + _inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _inlineHeight + '_theme-' + _options.theme}}">
-   <div class="controls-Render__wrapper">
+   <div class="controls-Render__wrapper {{_options.footerTemplate ? 'controls-Render__wrapper_footer'}}">
       <ws:if data="{{!_options.multiline}}">
          <span class="controls-Render__baseline">&#65279;</span>
       </ws:if>
@@ -29,7 +29,10 @@
          </ws:placeholderTemplate>
       </ws:partial>
       <ws:if data="{{_options.rightFieldWrapper}}">
-         <ws:partial attr:class="controls-Render__afterField" template="{{_options.rightFieldWrapper}}"/>
+         <ws:partial attr:class="controls-Render__afterField" template="{{_options.rightFieldWrapper}}" inlineHeight="{{_inlineHeight}}"/>
+      </ws:if>
+      <ws:if data="{{_options.footerTemplate}}">
+         <ws:partial template="{{_options.footerTemplate}}"/>
       </ws:if>
    </div>
    <ws:if data="{{_options.tagStyle}}">

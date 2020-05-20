@@ -1,7 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls-demo/LoadingIndicator/isGlobal/IsGlobal');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/LoadingIndicator/IndicatorContainer';
 
 class IsGlobal extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -25,5 +23,7 @@ class IsGlobal extends Control<IControlOptions> {
             this._children.loadingIndicator.hide();
         }.bind(this), time);
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/LoadingIndicator/IndicatorContainer'];
 }
 export default IsGlobal;

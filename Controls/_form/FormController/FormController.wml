@@ -8,6 +8,7 @@
          on:readFailed="_crudHandler()"
          on:deleteSuccessed="_crudHandler()"
          on:deleteFailed="_crudHandler()"
+         on:registerFormOperation="_registerFormOperationHandler()"
          showLoadingIndicator="{{ true }}"
          name="crud"
          dataSource="{{ _source }}">

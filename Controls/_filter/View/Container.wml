@@ -1,7 +1,8 @@
 <!-- TODO: remove options items after transfer to filter:View-->
 <ws:partial template="{{_options.content}}"
-            items="{{_options.filterButtonItems}}"
-            source="{{_options.filterButtonItems}}"
+            items="{{_source || _options.filterButtonItems}}"
+            source="{{_source || _options.filterButtonItems}}"
+            useStore="{{_options.useStore}}"
             historyId="{{_options.historyId}}"
             on:itemsChanged="_itemsChanged()"
             on:filterChanged="_filterChanged()"

@@ -4,7 +4,6 @@ import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/grid/Results/SingleRecordResults/Simple/Simple';
 
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -19,4 +18,6 @@ export default class extends Control {
             data: [data[0]]
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

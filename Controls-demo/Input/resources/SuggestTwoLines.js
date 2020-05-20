@@ -3,7 +3,6 @@ define('Controls-demo/Input/resources/SuggestTwoLines',
       'Core/Control',
       'wml!Controls-demo/Input/resources/SuggestTwoLines',
       'Types/source',
-      'css!Controls-demo/Input/resources/VdomInputs'
    ],
    function(Base, template, source) {
       'use strict';
@@ -29,5 +28,7 @@ define('Controls-demo/Input/resources/SuggestTwoLines',
             });
          }
       });
+      SuggestTwoLines._styles = ['Controls-demo/Input/resources/VdomInputs'];
+
       return SuggestTwoLines;
    });

@@ -1,50 +1,69 @@
+// Core imports
 import Control = require('Core/Control');
 import cClone = require('Core/core-clone');
 import cMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
-import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import Deferred = require('Core/Deferred');
-import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
-import aUtil = require('Controls/_list/ItemActions/Utils/Actions');
-import tmplNotify = require('Controls/Utils/tmplNotify');
-import keysHandler = require('Controls/Utils/keysHandler');
-import ScrollPagingController = require('Controls/_list/Controllers/ScrollPaging');
-import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
-import uDimension = require("Controls/Utils/getDimensions");
-import {IObservable, RecordSet} from 'Types/collection';
-import {Controller as SourceController} from 'Controls/source';
-import {isEqual} from 'Types/object';
-import {showType} from 'Controls/Utils/Toolbar';
-import 'wml!Controls/_list/BaseControl/Footer';
-import {error as dataSourceError} from 'Controls/dataSource';
+
 import {constants, detection} from 'Env/Env';
-import ListViewModel from 'Controls/_list/ListViewModel';
-import {ICrud, Memory} from "Types/source";
-import {TouchContextField} from 'Controls/context';
-import {SyntheticEvent} from 'Vdom/Vdom';
-import {IDirection} from './interface/IVirtualScroll';
+
+import {IObservable, RecordSet} from 'Types/collection';
+import {isEqual} from 'Types/object';
+import {ICrud, Memory} from 'Types/source';
 import {debounce} from 'Types/function';
-import {CssClassList} from "../Utils/CssClassList";
-import {Logger} from 'UI/Utils';
-import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
-import * as GroupingController from 'Controls/_list/Controllers/Grouping';
-import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import {create as diCreate} from 'Types/di';
-import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
-import {CollectionItem, ItemActionsController} from 'Controls/display';
-import {Model} from 'saby-types/Types/entity';
-import {IItemAction} from "./interface/IList";
-import InertialScrolling from './resources/utils/InertialScrolling';
+import {Model, relation} from 'Types/entity';
 import {IHashMap} from 'Types/declarations';
 
-//TODO: getDefaultOptions зовётся при каждой перерисовке, соответственно если в опции передаётся не примитив, то они каждый раз новые
-//Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
-var
-    defaultSelectedKeys = [],
-    defaultExcludedKeys = [];
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Logger} from 'UI/Utils';
 
-let displayLib: typeof import('Controls/display');
+import {TouchContextField} from 'Controls/context';
+import {Controller as SourceController} from 'Controls/source';
+import {error as dataSourceError} from 'Controls/dataSource';
+import {INavigationOptionValue, INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
+import { Sticky } from 'Controls/popup';
+
+// Utils imports
+import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
+import tmplNotify = require('Controls/Utils/tmplNotify');
+import keysHandler = require('Controls/Utils/keysHandler');
+import uDimension = require('Controls/Utils/getDimensions');
+import {CollectionItem, EditInPlaceController, MarkerCommands, VirtualScrollController, GroupItem, ANIMATION_STATE} from 'Controls/display';
+import {Controller as ItemActionsController, IItemAction} from 'Controls/itemActions';
+
+import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
+import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
+import ListViewModel from 'Controls/_list/ListViewModel';
+import ScrollPagingController = require('Controls/_list/Controllers/ScrollPaging');
+import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
+import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
+import * as GroupingController from 'Controls/_list/Controllers/Grouping';
+import {ISwipeEvent} from 'Controls/listRender';
+
+import {IDirection} from './interface/IVirtualScroll';
+import InertialScrolling from './resources/utils/InertialScrolling';
+import {CssClassList} from '../Utils/CssClassList';
+import {
+   FlatSelectionStrategy,
+   TreeSelectionStrategy,
+   ISelectionStrategy,
+   ITreeSelectionStrategyOptions,
+   IFlatSelectionStrategyOptions,
+   ISelectionControllerResult,
+   SelectionController
+} from 'Controls/multiselection';
+
+import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
+import 'wml!Controls/_list/BaseControl/Footer';
+import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
+import * as swipeTemplate from 'wml!Controls/_list/Swipe/resources/SwipeTemplate';
+
+// TODO: getDefaultOptions зовётся при каждой перерисовке,
+//  соответственно если в опции передаётся не примитив, то они каждый раз новые.
+//  Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
+const defaultSelectedKeys = [];
+const defaultExcludedKeys = [];
 
 const PAGE_SIZE_ARRAY = [{id: 1, title: '5', pageSize: 5},
     {id: 2, title: '10', pageSize: 10},
@@ -59,7 +78,7 @@ const
     HOT_KEYS = {
         moveMarkerToNext: constants.key.down,
         moveMarkerToPrevious: constants.key.up,
-        toggleSelection: constants.key.space,
+        spaceHandler: constants.key.space,
         enterHandler: constants.key.enter,
         keyDownHome: constants.key.home,
         keyDownEnd: constants.key.end,
@@ -74,32 +93,40 @@ const SET_MARKER_AFTER_SCROLL_DELAY = 100;
 const LIMIT_DRAG_SELECTION = 100;
 const PORTIONED_LOAD_META_FIELD = 'iterative';
 const MIN_SCROLL_PAGING_PROPORTION = 2;
+
+const ITEM_ACTIONS_SWIPE_CONTAINER_SELECTOR = 'js-controls-SwipeControl__actionsContainer';
+
+interface IAnimationEvent extends Event {
+    animationName: string;
+}
+
 /**
  * Object with state from server side rendering
  * @typedef {Object}
- * @name ReceivedState
+ * @name IReceivedState
  * @property {*} [data]
  * @property {Controls/_dataSource/_error/ViewConfig} [errorConfig]
  */
-type ReceivedState = {
+interface IReceivedState {
     data?: any;
     errorConfig?: dataSourceError.ViewConfig;
 }
 
 /**
  * @typedef {Object}
- * @name CrudResult
+ * @name ICrudResult
  * @property {*} [data]
  * @property {Controls/_dataSource/_error/ViewConfig} [errorConfig]
  * @property {Error} [error]
  */
-type CrudResult = ReceivedState & {
+interface ICrudResult extends IReceivedState {
     error: Error;
 }
 
-type ErrbackConfig = {
+interface IErrbackConfig {
     dataLoadErrback?: (error: Error) => any;
     mode?: dataSourceError.Mode;
+    templateOptions?: object;
     error: Error;
 }
 
@@ -114,22 +141,22 @@ interface IIndicatorConfig {
 }
 
 /**
- * Удаляет оригинал ошибки из CrudResult перед вызовом сриализатора состояния,
+ * Удаляет оригинал ошибки из ICrudResult перед вызовом сриализатора состояния,
  * который не сможет нормально разобрать/собрать экземпляр случайной ошибки
- * @param {CrudResult} crudResult
- * @return {ReceivedState}
+ * @param {ICrudResult} crudResult
+ * @return {IReceivedState}
  */
-let getState = (crudResult: CrudResult): ReceivedState => {
+const getState = (crudResult: ICrudResult): IReceivedState => {
     delete crudResult.error;
     return crudResult;
 };
 
 /**
  * getting result from <CrudResult> wrapper
- * @param {CrudResult} [crudResult]
+ * @param {ICrudResult} [crudResult]
  * @return {Promise}
  */
-let getData = (crudResult: CrudResult): Promise<any> => {
+const getData = (crudResult: ICrudResult): Promise<any> => {
     if (!crudResult) {
         return Promise.resolve();
     }
@@ -139,7 +166,7 @@ let getData = (crudResult: CrudResult): Promise<any> => {
     return Promise.reject(crudResult.error);
 };
 
-var _private = {
+const _private = {
     isNewModelItemsChange: (action, newItems) => {
         return action && (action !== 'ch' || newItems && !newItems.properties);
     },
@@ -174,7 +201,7 @@ var _private = {
         }
     },
 
-    reload(self, cfg): Promise<any> | Deferred<any> {
+    reload(self, cfg, sourceConfig?: IBaseSourceConfig): Promise<any> | Deferred<any> {
         const filter: IHashMap<unknown> = cClone(cfg.filter);
         const sorting = cClone(cfg.sorting);
         const navigation = cClone(cfg.navigation);
@@ -188,7 +215,6 @@ var _private = {
 
         if (self._sourceController) {
             _private.showIndicator(self);
-            _private.hideError(self);
             _private.getPortionedSearch(self).reset();
 
             if (cfg.groupProperty) {
@@ -197,96 +223,104 @@ var _private = {
             }
             // Need to create new Deffered, returned success result
             // load() method may be fired with errback
-            self._sourceController.load(filter, sorting).addCallback(function(list) {
+            self._sourceController.load(filter, sorting, null,sourceConfig).addCallback(function(list) {
+                _private.hideError(self);
                 _private.doAfterUpdate(self, () => {
-                    if (list.getCount()) {
-                        self._loadedItems = list;
-                    } else {
-                        self._loadingIndicatorContainerOffsetTop = _private.getListTopOffset(self);
-                    }
-                    if (self._pagingNavigation) {
-                        var hasMoreDataDown = list.getMetaData().more;
+                if (list.getCount()) {
+                    self._loadedItems = list;
+                } else {
+                    self._loadingIndicatorContainerOffsetTop = _private.getListTopOffset(self);
+                }
+                if (self._pagingNavigation) {
+                    var hasMoreDataDown = list.getMetaData().more;
                         _private.updatePagingData(self, hasMoreDataDown);
-                    }
-                    var
-                        listModel = self._listViewModel;
+                }
+                var
+                    listModel = self._listViewModel;
 
-                    if (cfg.afterReloadCallback) {
-                        cfg.afterReloadCallback(cfg, list);
+                if (cfg.afterReloadCallback) {
+                    cfg.afterReloadCallback(cfg, list);
+                }
+
+                if (cfg.serviceDataLoadCallback instanceof Function) {
+                    cfg.serviceDataLoadCallback(self._items, list);
+                }
+
+                if (cfg.dataLoadCallback instanceof Function) {
+                    cfg.dataLoadCallback(list);
+                }
+
+                if (!self._shouldNotResetPagingCache) {
+                    self._cachedPagingState = false;
+                }
+                clearTimeout(self._needPagingTimeout);
+
+                if (listModel) {
+                    if (self._options.groupProperty) {
+                        self._groupingLoader.resetLoadedGroups(listModel);
                     }
 
-                    if (cfg.serviceDataLoadCallback instanceof Function) {
-                        cfg.serviceDataLoadCallback(self._items, list);
-                    }
-
-                    if (cfg.dataLoadCallback instanceof Function) {
-                        cfg.dataLoadCallback(list);
-                    }
-
-                    if (!self._shouldNotResetPagingCache) {
-                        self._cachedPagingState = false;
-                    }
-                    clearTimeout(self._needPagingTimeout);
-
-                    if (listModel) {
-                        if (self._options.groupProperty) {
-                            self._groupingLoader.resetLoadedGroups(listModel);
+                        if (self._items) {
+                           self._items.unsubscribe('onCollectionChange', self._onItemsChanged);
                         }
-                        if (self._options.useNewModel) {
-                            // TODO restore marker + maybe should recreate the model completely
-                            // instead of assigning items
-                            // https://online.sbis.ru/opendoc.html?guid=ed57a662-7a73-4f11-b7d4-b09b622b328e
-                            const modelCollection = listModel.getCollection();
-                            listModel.setCompatibleReset(true);
-                            modelCollection.setMetaData(list.getMetaData());
-                            modelCollection.assign(list);
-                            listModel.setCompatibleReset(false);
-                            self._items = listModel.getCollection();
-                        } else {
-                            listModel.setItems(list);
-                            self._items = listModel.getItems();
-                        }
-
-                        if (self._sourceController) {
-                            _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
-                        }
-
-                        if (self._loadedItems) {
-                            self._shouldRestoreScrollPosition = true;
-                        }
-                        // после reload может не сработать beforeUpdate поэтому обновляем еще и в reload
-                        if (self._itemsChanged) {
-                            self._shouldNotifyOnDrawItems = true;
-                        }
-
+                    if (self._options.useNewModel) {
+                        // TODO restore marker + maybe should recreate the model completely
+                        // instead of assigning items
+                        // https://online.sbis.ru/opendoc.html?guid=ed57a662-7a73-4f11-b7d4-b09b622b328e
+                        const modelCollection = listModel.getCollection();
+                        listModel.setCompatibleReset(true);
+                        modelCollection.setMetaData(list.getMetaData());
+                        modelCollection.assign(list);
+                        listModel.setCompatibleReset(false);
+                        self._items = listModel.getCollection();
+                    } else {
+                        listModel.setItems(list);
+                        self._items = listModel.getItems();
                     }
-                    if (cfg.afterSetItemsOnReloadCallback instanceof Function) {
-                        cfg.afterSetItemsOnReloadCallback();
-                    }
-                    _private.prepareFooter(self, navigation, self._sourceController);
-                    _private.resolveIndicatorStateAfterReload(self, list, navigation);
+                        self._items.subscribe('onCollectionChange', self._onItemsChanged);
 
-                    resDeferred.callback({
-                        data: list
-                    });
-
-                    if (self._isMounted && self._isScrollShown) {
-                        // При полной перезагрузке данных нужно сбросить состояние скролла
-                        // и вернуться к началу списка, иначе браузер будет пытаться восстановить
-                        // scrollTop, догружая новые записи после сброса.
-                        self._resetScrollAfterReload = true;
+                    if (self._sourceController) {
+                        _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
                     }
 
-                    // If received list is empty, make another request. If it’s not empty, the following page will be requested in resize event handler after current items are rendered on the page.
-                    if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, navigation)) {
-                        _private.checkLoadToDirectionCapability(self, filter, navigation);
+                    if (self._loadedItems) {
+                        self._shouldRestoreScrollPosition = true;
                     }
+                    // после reload может не сработать beforeUpdate поэтому обновляем еще и в reload
+                    if (self._itemsChanged) {
+                        self._shouldNotifyOnDrawItems = true;
+                    }
+
+                }
+                if (cfg.afterSetItemsOnReloadCallback instanceof Function) {
+                    cfg.afterSetItemsOnReloadCallback();
+                }
+                _private.prepareFooter(self, navigation, self._sourceController);
+                _private.resolveIndicatorStateAfterReload(self, list, navigation);
+
+                resDeferred.callback({
+                    data: list
                 });
-            }).addErrback(function(error) {
+
+                if (self._isMounted && self._isScrollShown) {
+                    // При полной перезагрузке данных нужно сбросить состояние скролла
+                    // и вернуться к началу списка, иначе браузер будет пытаться восстановить
+                    // scrollTop, догружая новые записи после сброса.
+                        self._resetScrollAfterReload = !self._keepScrollAfterReload;
+                        self._keepScrollAfterReload = false;
+                }
+
+                // If received list is empty, make another request. If it’s not empty, the following page will be requested in resize event handler after current items are rendered on the page.
+                if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, navigation)) {
+                    _private.checkLoadToDirectionCapability(self, filter, navigation);
+                }
+                });
+            }).addErrback(function(error: Error) {
+                _private.hideIndicator(self);
                 return _private.processError(self, {
-                    error: error,
+                    error,
                     dataLoadErrback: cfg.dataLoadErrback
-                }).then(function(result: CrudResult) {
+                }).then(function(result: ICrudResult) {
                     if (cfg.afterReloadCallback) {
                         cfg.afterReloadCallback(cfg);
                     }
@@ -294,7 +328,7 @@ var _private = {
                         data: null,
                         ...result
                     });
-                });
+                }) as Deferred<Error>;
             });
         } else {
             if (cfg.afterReloadCallback) {
@@ -344,18 +378,7 @@ var _private = {
             });
         }
     },
-    /**
-     * TODO: Сейчас нет возможности понять предусмотрено выделение в списке или нет.
-     * Опция multiSelectVisibility не подходит, т.к. даже если она hidden, то это не значит, что выделение отключено.
-     * Пока единственный надёжный способ различить списки с выделением и без него - смотреть на то, приходит ли опция selectedKeysCount.
-     * Если она пришла, то значит выше есть Controls/Container/MultiSelector и в списке точно предусмотрено выделение.
-     *
-     * По этой задаче нужно придумать нормальный способ различать списки с выделением и без:
-     * https://online.sbis.ru/opendoc.html?guid=ae7124dc-50c9-4f3e-a38b-732028838290
-     */
-    isItemsSelectionAllowed(options: object): boolean {
-        return options.hasOwnProperty('selectedKeysCount');
-    },
+
 
     resolveIndicatorStateAfterReload: function(self, list, navigation):void {
         if (!self._isMounted) {
@@ -402,18 +425,19 @@ var _private = {
     scrollToItem: function(self, key, toBottom, force) {
         return self._children.scrollController.scrollToItem(key, toBottom, force);
     },
-    setMarkedKey: function(self, key) {
+
+    setMarkedKey(self, key: string | number): void {
         if (key !== undefined) {
             const model = self.getViewModel();
             if (self._options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(key);
+                const markCommand = new MarkerCommands.Mark(key);
                 markCommand.execute(model);
             } else {
                 model.setMarkedKey(key);
             }
-            _private.scrollToItem(self, key);
         }
     },
+
     moveMarker: function(self, newMarkedKey) {
         // activate list when marker is moving. It let us press enter and open current row
         // must check mounted to avoid fails on unit tests
@@ -421,6 +445,7 @@ var _private = {
             self.activate();
         }
         _private.setMarkedKey(self, newMarkedKey);
+        _private.scrollToItem(self, newMarkedKey, true, false);
     },
     moveMarkerToNext: function (self, event) {
         if (_private.isBlockedForLoading(self._loadingIndicatorState)) {
@@ -500,9 +525,9 @@ var _private = {
             self._notify('itemClick', [markedItem.getContents(), event], { bubbling: true });
         }
     },
-    toggleSelection: function(self, event) {
+    spaceHandler: function(self, event) {
         const allowToggleSelection = !_private.isBlockedForLoading(self._loadingIndicatorState) &&
-            self._children.selectionController;
+            self._selectionController;
 
         if (allowToggleSelection) {
             const model = self.getViewModel();
@@ -513,7 +538,7 @@ var _private = {
             }
 
             if (toggledItemId) {
-                self._children.selectionController.onCheckBoxClick(toggledItemId, model.getSelectionStatus(toggledItemId));
+                self._selectionController.toggleItem(toggledItemId);
                 _private.moveMarkerToNext(self, event);
             }
         }
@@ -641,13 +666,45 @@ var _private = {
                     }
                 });
 
+                // Скрываем ошибку после успешной загрузки данных
+                _private.hideError(self);
+
                 return addedItems;
-            }).addErrback((error) => {
+            }).addErrback((error: Error) => {
                 _private.hideIndicator(self);
+                // скроллим в край списка, чтобы при ошибке загрузки данных шаблон ошибки сразу был виден
+                _private.scrollPage(self, (direction === 'up' ? 'Up' : 'Down'));
                 return _private.crudErrback(self, {
                     error,
-                    dataLoadErrback: userErrback
-                });
+                    dataLoadErrback: userErrback,
+                    mode: dataSourceError.Mode.inlist,
+                    templateOptions: {
+                        /**
+                         * Действие при нажатии на кнопку повтора в шаблоне ошибки.
+                         * Вернет промис с коллбэком, скрывающим ошибку.
+                         * Контрол ошибки сам выполнит этот коллбэк для того,
+                         * чтобы подгрузка данных произошла без скачка положения скролла
+                         * из-за исчезновения шаблона ошибки.
+                         */
+                        action: () => {
+                            const afterActionCallback = () => _private.hideError(self);
+                            const errorConfig = self.__error;
+                            return _private.loadToDirection(
+                                self, direction,
+                                userCallback, userErrback,
+                                receivedFilter
+                            ).then(() => {
+                                _private.showError(self, errorConfig);
+                                return Promise.resolve(afterActionCallback);
+                            });
+                        },
+                        /**
+                         * Позиция шаблона ошибки относительно списка.
+                         * Зависит от направления подгрузки данных.
+                         */
+                        showInDirection: direction
+                    }
+                }) as Deferred<any>;
             });
         }
         Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
@@ -809,7 +866,13 @@ var _private = {
     },
     scrollPage: function(self, direction) {
         if (!self._scrollPageLocked) {
-            self._scrollPageLocked = true;
+            /**
+             * скроллу не нужно блокироваться, если есть ошибка, потому что
+             * тогда при пэйджинге до упора не инициируется цикл обновления
+             * (не происходит подгрузки данных), а флаг снимается только после него
+             * или при ручном скролле - из-за этого пэйджинг перестает работать
+             */
+            self._scrollPageLocked = !self.__error;
             _private.setMarkerAfterScroll(self);
             self._notify('doScroll', ['page' + direction], { bubbling: true });
         }
@@ -1061,7 +1124,7 @@ var _private = {
     setMarkerToFirstVisibleItem: function(self, itemsContainer, verticalOffset) {
         let firstItemIndex =
             self._options.useNewModel
-            ? displayLib.VirtualScrollController.getStartIndex(self._listViewModel)
+            ? VirtualScrollController.getStartIndex(self._listViewModel)
             : self._listViewModel.getStartIndex();
         firstItemIndex += _private.getFirstVisibleItemIndex(itemsContainer, verticalOffset);
         firstItemIndex = Math.min(firstItemIndex, self._listViewModel.getStopIndex());
@@ -1069,7 +1132,7 @@ var _private = {
             const item = self._listViewModel.at(firstItemIndex);
             if (item) {
                 const key = item.getContents().getId();
-                const markCommand = new displayLib.MarkerCommands.Mark(key);
+                const markCommand = new MarkerCommands.Mark(key);
                 markCommand.execute(self._listViewModel);
             }
         } else {
@@ -1220,11 +1283,26 @@ var _private = {
             if (self._options.navigation && self._options.navigation.source) {
                 self._sourceController.setState(self._listViewModel);
             }
-            if (action === IObservable.ACTION_REMOVE && self._menuIsShown) {
+            if (action === IObservable.ACTION_REMOVE && self._itemActionsMenuId) {
                 if (removedItems.find((item) => item.getContents().getId() === self._itemWithShownMenu.getId())) {
-                    self._closeActionsMenu();
-                    self._children.itemActionsOpener.close();
+                    _private.closePopup(self);
+                    self._onItemActionsMenuClose();
                 }
+            }
+
+            if (self._selectionController) {
+               let result;
+
+               switch (action) {
+                  case IObservable.ACTION_RESET:
+                     result = self._selectionController.handleReset(newItems, self._prevRootId, self._prevRootId !== self._options.root);
+                     break;
+                  case IObservable.ACTION_ADD:
+                     result = self._selectionController.handleAddItems(newItems);
+                     break;
+        }
+
+               self.handleSelectionControllerResult(result);
             }
         }
         // VirtualScroll controller can be created and after that virtual scrolling can be turned off,
@@ -1237,14 +1315,8 @@ var _private = {
             newModelChanged
         ) {
             self._itemsChanged = true;
-            if (self._itemActionsInitialized && !self._modelRecreated) {
-                // If actions were already initialized update them in place
-                self._updateItemActions();
-            } else {
-                // If model was recreated or actions have not been initialized
-                // yet, postpone item actions update until the new model is
-                // received by ItemActionsControl as an option
-                self._shouldUpdateItemActions = true;
+            if (self._itemActionsInitialized) {
+                self._updateItemActions(self._options);
             }
         }
         // If BaseControl hasn't mounted yet, there's no reason to call _forceUpdate
@@ -1275,182 +1347,79 @@ var _private = {
         });
     },
 
-    getMenuConfig(items: IItemAction[], contextMenuConfig: object, action?: IItemAction): object {
-        let defaultMenuConfig: object = {
-            source: new Memory({ data: items, keyProperty: 'id' }),
-            keyProperty: 'id',
-            parentProperty: 'parent',
-            nodeProperty: 'parent@',
-            root: action && action.id,
-            dropdownClassName: 'controls-itemActionsV__popup'
-        };
-        if (action) {
-            defaultMenuConfig = {
-                ...defaultMenuConfig,
-                rootKey: action.id,
-                showHeader: true,
-                headConfig: {
-                    caption: action.title,
-                    iconSize: contextMenuConfig && contextMenuConfig.iconSize,
-                    icon: action.icon
-                }
+    /**
+     * Обрабатывает клик по записи и отправляет событие actionClick наверх
+     * @param self
+     * @param action
+     * @param clickEvent
+     * @param item
+     */
+    handleItemActionClick(
+        self: any,
+        action: IItemAction,
+        clickEvent: SyntheticEvent<MouseEvent>,
+        item: CollectionItem<Model>): void {
+        const contents = item?.getContents();
+
+        // TODO Корректно ли тут обращаться по CSS классу для поиска контейнера?
+        const itemContainer = (clickEvent.target as HTMLElement).closest('.controls-ListView__itemV');
+        self._notify('actionClick', [action, contents, itemContainer]);
+        if (action.handler) {
+            action.handler(contents);
+        }
+        _private.closeActionsMenu(self);
+    },
+
+    /**
+     * Открывает меню операций
+     * @param self
+     * @param action
+     * @param clickEvent
+     * @param item
+     * @param isContextMenu
+     */
+    openItemActionsMenu(
+        self: any,
+        action: IItemAction,
+        clickEvent: SyntheticEvent<MouseEvent>,
+        item: CollectionItem<Model>,
+        isContextMenu: boolean): void {
+        const itemKey = item?.getContents()?.getKey();
+        const menuConfig = self._itemActionsController.prepareActionsMenuConfig(itemKey, clickEvent, action, self, isContextMenu);
+        if (menuConfig) {
+            menuConfig.eventHandlers = {
+                onResult: self._onItemActionsMenuResult,
+                onClose: self._onItemActionsMenuClose
             };
-        } else {
-            defaultMenuConfig.showClose = true;
-        }
-        if (contextMenuConfig) {
-            if (typeof contextMenuConfig === 'object') {
-                cMerge(defaultMenuConfig, contextMenuConfig);
-            } else {
-                Logger.error('Controls/list:View: Некорректное значение опции contextMenuConfig. Ожидается объект');
-            }
-        }
-        return defaultMenuConfig;
-    },
-
-    mockElem(elem) {
-        const rect = elem.getBoundingClientRect();
-        return {
-            getBoundingClientRect: () => rect
-        }
-    },
-    showActionsMenu: function(self, event, itemData, childEvent, showAll) {
-        const context = event.type === 'itemcontextmenu';
-        const hasMenuFooterOrHeader = !!(self._options.contextMenuConfig?.footerTemplate
-                                      || self._options.contextMenuConfig?.headerTemplate);
-        const itemActions = self._options.useNewModel ? itemData.getActions() : itemData.itemActions;
-        if ((context && self._isTouch) || !itemActions) {
-            return false;
-        }
-        const showActions = showAll && itemActions.all
-            ? itemActions.all
-            : itemActions && itemActions.all.filter(
-            (action) => action.showType !== showType.TOOLBAR
-        );
-        /**
-         * Не во всех раскладках можно получить DOM-элемент, зная только индекс в коллекции, поэтому запоминаем тот,
-         * у которого открываем меню. Потом передадим его для события actionClick.
-         */
-        self._targetItem = childEvent.target.closest('.controls-ListView__itemV');
-
-        /**
-         * В процессе открытия меню, запись может пререрисоваться, и таргета не будет в DOM.
-         * Поэтому сохраняем объект, с методом getBoundingClientRect
-         */
-        const target = context ? null : _private.mockElem(childEvent.target);
-        if (showActions && showActions.length || hasMenuFooterOrHeader) {
-            childEvent.nativeEvent.preventDefault();
-            childEvent.stopImmediatePropagation();
-            if (self._options.useNewModel) {
-                displayLib.ItemActionsController.setActiveItem(
-                    self._listViewModel,
-                    itemData.getContents().getId()
-                );
-            } else {
-                self._listViewModel.setActiveItem(itemData);
-                self._listViewModel.setMenuState('shown');
-            }
-            self._itemWithShownMenu = self._options.useNewModel ? itemData.getContents() : itemData.item;
-            require(['css!theme?Controls/toolbars'], function() {
-                const menuConfig = _private.getMenuConfig(showActions, self._options.contextMenuConfig);
-
-                self._children.itemActionsOpener.open({
-                    opener: self._children.listView,
-                    target,
-                    templateOptions: menuConfig,
-                    eventHandlers: {
-                        onResult: self._actionsMenuResultHandler,
-                        onClose: self._closeActionsMenu
-                    },
-                    closeOnOutsideClick: true,
-                    targetPoint: {vertical: 'top', horizontal: 'right'},
-                    direction: {horizontal: context ? 'right' : 'left'},
-                    className: 'controls-Toolbar__popup__list_theme-' + self._options.theme,
-                    nativeEvent: context ? childEvent.nativeEvent : false,
-                    autofocus: false
-                });
-                self._menuIsShown = true;
-                self._forceUpdate();
+            self._listViewModel.setActiveItem(item);
+            Sticky.openPopup(menuConfig).then((popupId) => {
+                self._itemActionsMenuId = popupId;
             });
         }
     },
 
-    showActionMenu(
-        self: Control,
-        itemData,
-        childEvent: Event,
-        action: IItemAction
-    ): void {
-        /**
-         * For now, BaseControl opens menu because we can't put opener inside ItemActionsControl, because we'd get 2 root nodes.
-         * When we get fragments or something similar, it would be possible to move this code where it really belongs.
-         */
-        const itemActions = self._options.useNewModel ? itemData.getActions() : itemData.itemActions;
-        const children = self._children.itemActions.getChildren(action, itemActions.all);
-        if (children.length) {
-            if (self._options.useNewModel) {
-                displayLib.ItemActionsController.setActiveItem(
-                    self._listViewModel,
-                    itemData.getContents().getId()
-                );
-            } else {
-                self._listViewModel.setActiveItem(itemData);
-                self._listViewModel.setMenuState('shown');
-            }
-            require(['css!theme?Controls/input'], () => {
-                const menuConfig = _private.getMenuConfig(children, self._options.contextMenuConfig, action);
-
-                self._children.itemActionsOpener.open({
-                    opener: self._children.listView,
-                    target: childEvent.target,
-                    templateOptions: menuConfig,
-                    eventHandlers: {
-                        onResult: self._actionsMenuResultHandler,
-                        onClose: self._closeActionsMenu
-                    },
-                    className: 'controls-MenuButton_link_iconSize-medium_popup',
-                    autofocus: false
-                });
-                self._actionMenuIsShown = true;
-                self._forceUpdate();
-            });
-        }
+    /**
+     * Метод, который закрывает меню
+     * @private
+     */
+    closeActionsMenu(self: any): void {
+        self._listViewModel.setActiveItem(null);
+        self._itemActionsController.deactivateSwipe();
+        _private.closePopup(self);
     },
 
-    closeActionsMenu(self): void {
-        if (self._options.useNewModel) {
-            displayLib.ItemActionsController.setActiveItem(
-                self._listViewModel,
-                null
-            );
-        } else {
-            self._listViewModel.setActiveItem(null);
-            self._listViewModel.setMenuState('hidden');
-        }
-        self._children.swipeControl?.closeSwipe();
-        self._menuIsShown = false;
-        self._itemWithShownMenu = null;
-        self._actionMenuIsShown = false;
+    /**
+     * Закрывает popup меню
+     * @param self
+     */
+    closePopup(self): void {
+        Sticky.closePopup(self._itemActionsMenuId);
+        self._itemActionsMenuId = null;
     },
 
-    actionsMenuResultHandler(self, actionName, data, event): void {
-        if (actionName === 'itemClick') {
-            const action = data && data.getRawData();
-            const activeItem =
-                self._options.useNewModel
-                    ? displayLib.ItemActionsController.getActiveItem(self._listViewModel)
-                    : self._listViewModel.getActiveItem();
-            aUtil.itemActionsClick(self, event, action, activeItem, self._listViewModel, false, self._targetItem);
-            if (!action['parent@']) {
-                self._children.itemActionsOpener.close();
-                _private.closeActionsMenu(self);
-            }
-        }
-    },
-
-    bindHandlers: function(self) {
-        self._closeActionsMenu = self._closeActionsMenu.bind(self);
-        self._actionsMenuResultHandler = self._actionsMenuResultHandler.bind(self);
+    bindHandlers(self): void {
+        self._onItemActionsMenuClose = self._onItemActionsMenuClose.bind(self);
+        self._onItemActionsMenuResult = self._onItemActionsMenuResult.bind(self);
     },
 
     groupsExpandChangeHandler: function(self, changes) {
@@ -1509,21 +1478,21 @@ var _private = {
 
     /**
      * @param {Controls/_list/BaseControl} self
-     * @param {ErrbackConfig} config
+     * @param {IErrbackConfig} config
      * @return {Promise}
      * @private
      */
-    crudErrback(self: BaseControl, config: ErrbackConfig): Promise<CrudResult>{
+    crudErrback(self: BaseControl, config: IErrbackConfig): Promise<any> {
         return _private.processError(self, config).then(getData);
     },
 
     /**
      * @param {Controls/_list/BaseControl} self
-     * @param {ErrbackConfig} config
-     * @return {Promise.<CrudResult>}
+     * @param {IErrbackConfig} config
+     * @return {Promise.<ICrudResult>}
      * @private
      */
-    processError(self: BaseControl, config: ErrbackConfig): Promise<CrudResult> {
+    processError(self: BaseControl, config: IErrbackConfig): Promise<ICrudResult> {
         if (config.dataLoadErrback instanceof Function) {
             config.dataLoadErrback(config.error);
         }
@@ -1535,10 +1504,14 @@ var _private = {
             theme: self._options.theme,
             mode: config.mode || dataSourceError.Mode.include
         }).then((errorConfig) => {
+            if (errorConfig && config.templateOptions) {
+                errorConfig.options.action = config.templateOptions.action;
+                errorConfig.options.showInDirection = config.templateOptions.showInDirection;
+            }
             _private.showError(self, errorConfig);
             return {
                 error: config.error,
-                errorConfig: errorConfig
+                errorConfig
             };
         });
     },
@@ -1550,13 +1523,11 @@ var _private = {
      */
     showError(self: BaseControl, errorConfig: dataSourceError.ViewConfig): void {
         self.__error = errorConfig;
-        self._forceUpdate();
     },
 
     hideError(self: BaseControl): void {
         if (self.__error) {
             self.__error = null;
-            self._forceUpdate();
         }
     },
 
@@ -1587,11 +1558,12 @@ var _private = {
         return pagingLabelData;
     },
 
-    getSourceController: function({source, navigation, keyProperty}:{source: ICrud, navigation: object, keyProperty: string}): SourceController {
+    getSourceController: function({source, navigation, keyProperty}:{source: ICrud, navigation: object, keyProperty: string}, queryParamsCallback): SourceController {
         return new SourceController({
             source: source,
             navigation: navigation,
-            keyProperty: keyProperty
+            keyProperty: keyProperty,
+            queryParamsCallback: queryParamsCallback
         })
     },
 
@@ -1604,7 +1576,7 @@ var _private = {
     needBottomPadding: function(options, items, listViewModel) {
         const isEditing =
             options.useNewModel
-            ? displayLib.EditInPlaceController.isEditing(listViewModel)
+            ? EditInPlaceController.isEditing(listViewModel)
             : !!listViewModel.getEditingItemData();
         return (
             !!items &&
@@ -1613,6 +1585,12 @@ var _private = {
             !options.footerTemplate &&
             options.resultsPosition !== 'bottom'
         );
+    },
+
+    notifyNavigationParamsChanged(actualParams) {
+        if (this._isMounted) {
+            this._notify('navigationParamsChanged', [actualParams]);
+        }
     },
 
     isPagingNavigation: function(navigation) {
@@ -1674,7 +1652,7 @@ var _private = {
         const newSourceCfg = newNavigation && newNavigation.sourceConfig ? newNavigation.sourceConfig : {};
         if (oldSourceCfg.page !== newSourceCfg.page) {
             const isEditing = !!self._children.editInPlace && !!self._listViewModel && (
-                self._options.useNewModel ? displayLib.EditInPlaceController.isEditing(self._listViewModel) : !!self._listViewModel.getEditingItemData()
+                self._options.useNewModel ? EditInPlaceController.isEditing(self._listViewModel) : !!self._listViewModel.getEditingItemData()
             );
             if (isEditing) {
                 self._children.editInPlace.cancelEdit();
@@ -1697,9 +1675,6 @@ var _private = {
             .add(`controls-BaseControl__loadingIndicator_style-portionedSearch_theme-${theme}`,
                           isPortionedSearchInProgress)
             .compile();
-    },
-    hasItemActions: function(itemActions, itemActionsProperty) {
-        return !!(itemActions || itemActionsProperty);
     },
     updateIndicatorContainerHeight(self, viewRect: DOMRect, viewPortRect: DOMRect): void {
         let top;
@@ -1766,24 +1741,111 @@ var _private = {
         });
     },
 
-    /**
-     * Запускает расчёт опций для шаблона Действий над записью.
-     * Когда используется newModel с контролом из Controls.list (например Controls.list:View или Controls.columns:View),
-     * в шаблон itemActions опции задаются из метода getActionsTemplateConfig()
-     * (см Controls/_listRender/Render/resources/ForItemTemplate.wml) и их необходимо рассчитывать
-     * на основе текущей модели viewModel.
-     * @param self
-     * @param options
-     */
-    calculateActionsTemplateConfig(self: any, options: any): void {
-        ItemActionsController.calculateActionsTemplateConfig(self.getViewModel(), {
-            itemActionsPosition: options.itemActionsPosition,
-            style: options.style,
-            actionAlignment: options.actionAlignment,
-            actionCaptionPosition: options.actionCaptionPosition,
-            itemActionsClass: options.itemActionsClass
-        });
+   createSelectionController(self: any, options: any): SelectionController {
+      const strategy = this.createSelectionStrategy(options, self._listViewModel.getCollection());
+
+      return new SelectionController({
+         model: self._listViewModel,
+         selectedKeys: options.selectedKeys,
+         excludedKeys: options.excludedKeys,
+         strategy
+      });
+   },
+
+   updateSelectionController(self: any, newOptions: any): void {
+      const result = self._selectionController.update({
+         model: self._listViewModel,
+         selectedKeys: newOptions.selectedKeys,
+         excludedKeys: newOptions.excludedKeys,
+         strategyOptions: this.getSelectionStrategyOptions(newOptions, self._listViewModel.getCollection())
+      });
+      this.handleSelectionControllerResult(self, result);
+   },
+
+   createSelectionStrategy(options: any, items: RecordSet): ISelectionStrategy {
+      const strategyOptions = this.getSelectionStrategyOptions(options, items);
+      if (options.parentProperty) {
+         return new TreeSelectionStrategy(strategyOptions);
+      } else {
+         return new FlatSelectionStrategy(strategyOptions);
     }
+   },
+
+   getSelectionStrategyOptions(options: any, items: RecordSet): ITreeSelectionStrategyOptions | IFlatSelectionStrategyOptions {
+      if (options.parentProperty) {
+         return {
+            nodesSourceControllers: options.nodesSourceControllers,
+            selectDescendants: options.selectDescendants,
+            selectAncestors: options.selectAncestors,
+            hierarchyRelation: new relation.Hierarchy({
+               keyProperty: options.keyProperty || 'id',
+               parentProperty: options.parentProperty || 'Раздел',
+               nodeProperty: options.nodeProperty || 'Раздел@',
+               declaredChildrenProperty: options.hasChildrenProperty || 'Раздел$'
+            }),
+            rootId: options.root,
+            items
+};
+      } else {
+         return { items };
+      }
+   },
+
+   onSelectedTypeChanged(typeName: string): void {
+      let result;
+      if (!this._selectionController) {
+       this._createSelectionController();
+      }
+
+      switch (typeName) {
+       case 'selectAll':
+          result = this._selectionController.selectAll();
+          break;
+       case 'unselectAll':
+          result = this._selectionController.unselectAll();
+          break;
+       case 'toggleAll':
+          result = this._selectionController.toggleAll();
+          break;
+      }
+
+      this.handleSelectionControllerResult(result);
+   },
+
+   handleSelectionControllerResult(self: any, result: ISelectionControllerResult): void {
+      if (!result) {
+         return;
+      }
+
+      const selectedDiff = result.selectedKeysDiff;
+      if (selectedDiff.added.length || selectedDiff.removed.length) {
+         self._notify('selectedKeysChanged', [selectedDiff.keys, selectedDiff.added, selectedDiff.removed]);
+      }
+
+      const excludedDiff = result.excludedKeysDiff;
+      if (excludedDiff.added.length || excludedDiff.removed.length) {
+         self._notify('excludedKeysChanged', [excludedDiff.keys, excludedDiff.added, excludedDiff.removed]);
+      }
+
+      // для связи с контроллером ПМО
+      self._notify('listSelectedKeysCountChanged', [result.selectedCount, result.isAllSelected], {bubbling: true});
+   },
+
+   onItemsChanged(self: any, action: string, removedItems: []): void {
+      // подписываемся на рекордсет, чтобы следить какие элементы будут удалены
+      // при подписке на модель событие remove летит еще и при скрытии элементов
+      if (self._selectionController) {
+         let result;
+
+         switch (action) {
+            case IObservable.ACTION_REMOVE:
+               result = self._selectionController.removeKeys(removedItems);
+               break;
+         }
+
+         this.handleSelectionControllerResult(self, result);
+      }
+   }
 };
 
 /**
@@ -1818,7 +1880,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _template: BaseControlTpl,
     iWantVDOM: true,
-    _isActiveByClick: false,
 
     _listViewModel: null,
     _viewModelConstructor: null,
@@ -1848,7 +1909,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _loadOffsetTop: LOAD_TRIGGER_OFFSET,
     _loadOffsetBottom: LOAD_TRIGGER_OFFSET,
     _loadingIndicatorContainerOffsetTop: 0,
-    _menuIsShown: null,
     _viewSize: null,
     _viewPortSize: null,
     _scrollTop: 0,
@@ -1869,6 +1929,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _intertialScrolling: null,
     _checkLoadToDirectionTimeout: null,
 
+    _keepScrollAfterReload: false,
     _resetScrollAfterReload: false,
     _scrollPageLocked: false,
 
@@ -1884,6 +1945,21 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _draggingEntity: null,
     _draggingTargetItem: null,
 
+    _selectionController: null,
+    _itemActionsController: null,
+    _prevRootId: null,
+
+    _notifyHandler: tmplNotify,
+
+    // Идентификатор текущего открытого popup
+    _itemActionsMenuId: null,
+
+    // Шаблон операций с записью
+    _itemActionsTemplate: itemActionsTemplate,
+
+    // Шаблон операций с записью для swipe
+    _swipeTemplate: swipeTemplate,
+
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
@@ -1894,21 +1970,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     /**
      * @param {Object} newOptions
      * @param {Object} context
-     * @param {ReceivedState} receivedState
+     * @param {IReceivedState} receivedState
      * @return {Promise}
      * @protected
      */
-    _beforeMount: function(newOptions, context, receivedState: ReceivedState = {}) {
+    _beforeMount: function(newOptions, context, receivedState: IReceivedState = {}) {
         var self = this;
 
         this._inertialScrolling = new InertialScrolling();
 
-        // todo Костыль, т.к. построение ListView зависит от SelectionController.
-        // Будет удалено при выполнении одного из пунктов:
-        // 1. Все перешли на платформенный хелпер при формировании рекордсета на этапе первой загрузки и удален асинхронный код из SelectionController.beforeMount.
-        // 2. Полностью переведен BaseControl на новую модель и SelectionController превращен в умный, упорядоченный менеджер, умеющий работать асинхронно.
-        this._multiSelectReadyCallback = this._multiSelectReadyCallbackFn.bind(this);
-
+        this._notifyNavigationParamsChanged = _private.notifyNavigationParamsChanged.bind(this);
         const receivedError = receivedState.errorConfig;
         const receivedData = receivedState.data;
 
@@ -1920,10 +1991,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.initializeNavigation(this, newOptions);
         _private.updateNavigation(this);
 
-        this._needSelectionController = newOptions.multiSelectVisibility !== 'hidden';
         this._loadTriggerVisibility = {};
-
-        this._hasItemActions = _private.hasItemActions(newOptions.itemActions, newOptions.itemActionsProperty);
 
         return _private.prepareCollapsedGroups(newOptions).addCallback(function(collapsedGroups) {
             let viewModelConfig = cClone(newOptions);
@@ -1952,15 +2020,13 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 if (newOptions.itemsReadyCallback) {
                     newOptions.itemsReadyCallback(self._listViewModel.getCollection());
                 }
-                _private.calculateActionsTemplateConfig(self, newOptions);
             }
             if (self._listViewModel) {
                 _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
             }
 
             if (newOptions.source) {
-                self._sourceController = _private.getSourceController(newOptions);
-
+                self._sourceController = _private.getSourceController(newOptions, self._notifyNavigationParamsChanged);
                 if (receivedData) {
                     self._sourceController.calculateState(receivedData);
                     _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
@@ -2015,7 +2081,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                         if (self._listViewModel) {
                             _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
                         }
-                        _private.calculateActionsTemplateConfig(self, newOptions);
                     }
                     self._needBottomPadding = _private.needBottomPadding(newOptions, data, self._listViewModel);
 
@@ -2116,17 +2181,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.updateIndicatorContainerHeight(this, container.getBoundingClientRect(), this._viewPortRect);
     },
 
-    // todo Костыль, т.к. построение ListView зависит от SelectionController.
-    // Будет удалено при выполнении одного из пунктов:
-    // 1. Все перешли на платформенный хелпер при формировании рекордсета на этапе первой загрузки и удален асинхронный код из SelectionController.beforeMount.
-    // 2. Полностью переведен BaseControl на новую модель и SelectionController превращен в умный, упорядоченный менеджер, умеющий работать асинхронно.
-    _multiSelectReadyCallbackFn: function(multiSelectReady) {
-        if (!this._options.task1179321660) {
-            this._multiSelectReady = multiSelectReady;
-        }
-    },
-
-    getViewModel: function() {
+    getViewModel() {
         return this._listViewModel;
     },
 
@@ -2138,17 +2193,23 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._isMounted = true;
         const container = this._container[0] || this._container;
         this._viewSize = container.clientHeight;
-
-        // при создании списка с редактируемой записью, нужно проинициализировать itemActions.
-        // это нельзя сделать до afterMount из-за того, что ItemActionsControl является ребенком BaseControl и
-        // мы не можем к нему обратиться до того, как контролы будут построены.
-        if (this._options.editingConfig && this._options.editingConfig.item) {
-            this._initItemActions();
-        }
         if (this._options.itemsDragNDrop) {
             container.addEventListener('dragstart', this._nativeDragStart);
         }
         this._loadedItems = null;
+
+        if (this._options.selectedKeys && this._options.selectedKeys.length !== 0) {
+            this._createSelectionController();
+        }
+
+        if (this._options.useNewModel) {
+            return import('Controls/listRender').then((listRender) => {
+                this._itemActionsTemplate = listRender.itemActionsTemplate;
+            });
+        }
+
+        // для связи с контроллером ПМО
+        this._notify('register', ['selectedTypeChanged', this, _private.onSelectedTypeChanged], {bubbling: true});
     },
 
     _beforeUpdate: function(newOptions) {
@@ -2159,11 +2220,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         var recreateSource = newOptions.source !== this._options.source || navigationChanged || resetPaging;
         var sortingChanged = !isEqual(newOptions.sorting, this._options.sorting);
         var self = this;
-        let itemActionVisibilityCallbackChanged = this._options.itemActionVisibilityCallback
-                                                !== newOptions.itemActionVisibilityCallback;
-        this._shouldUpdateItemActions = recreateSource || itemActionVisibilityCallbackChanged;
-        this._hasItemActions = _private.hasItemActions(newOptions.itemActions, newOptions.itemActionsProperty);
         this._needBottomPadding = _private.needBottomPadding(newOptions, this._items, self._listViewModel);
+        this._prevRootId = this._options.root;
         if (!isEqual(newOptions.navigation, this._options.navigation)) {
 
             // При смене страницы, должно закрыться редактирование записи.
@@ -2205,12 +2263,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
 
         if (newOptions.markedKey !== this._options.markedKey) {
-            if (newOptions.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(newOptions.markedKey);
-                markCommand.execute(this._listViewModel);
-            } else {
-                this._listViewModel.setMarkedKey(newOptions.markedKey, true);
-            }
+            _private.setMarkedKey(this, newOptions.markedKey);
         }
 
         if (newOptions.markerVisibility !== this._options.markerVisibility && !newOptions.useNewModel) {
@@ -2231,11 +2284,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (recreateSource) {
             this.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
         }
-
         if (newOptions.multiSelectVisibility !== this._options.multiSelectVisibility) {
             this._listViewModel.setMultiSelectVisibility(newOptions.multiSelectVisibility);
         }
-        this._needSelectionController = newOptions.multiSelectVisibility !== 'hidden' || this._delayedSelect;
 
         if (newOptions.itemTemplateProperty !== this._options.itemTemplateProperty) {
             this._listViewModel.setItemTemplateProperty(newOptions.itemTemplateProperty);
@@ -2251,11 +2302,24 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             this._groupingLoader.destroy();
         }
 
+        // UC1: Record might be editing on page load, then we should initialize Item Actions.
+        // UC2: We should reassign ItemActions on model change before drawing them in For template
+        if (
+            recreateSource ||
+            newOptions.itemActions !== this._options.itemActions ||
+            newOptions.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
+            ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated) ||
+            newOptions.itemActionsProperty ||
+            (newOptions.editingConfig && newOptions.editingConfig.item)
+        ) {
+            this._updateItemActions(newOptions);
+        }
+
         if (filterChanged || recreateSource || sortingChanged) {
             _private.resetPagingNavigation(this, newOptions.navigation);
-            if (this._menuIsShown) {
-                this._children.itemActionsOpener.close();
-                this._closeActionsMenu();
+            if (this._itemActionsMenuId) {
+                _private.closePopup(self);
+                this._onItemActionsMenuClose();
             }
 
             // return result here is for unit tests
@@ -2271,12 +2335,16 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (this._loadedItems) {
             this._shouldRestoreScrollPosition = true;
         }
+
+        if (this._selectionController) {
+            _private.updateSelectionController(this, newOptions);
+        }
     },
 
     reloadItem: function(key:String, readMeta:Object, replaceItem:Boolean, reloadType = 'read'):Deferred {
         const items = this._listViewModel.getItems();
         const currentItemIndex = items.getIndexByValue(this._options.keyProperty, key);
-        const sourceController = _private.getSourceController(this._options);
+        const sourceController = _private.getSourceController(this._options, this._notifyNavigationParamsChanged);
 
         let reloadItemDeferred;
         let filter;
@@ -2365,6 +2433,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         this._loadTriggerVisibility = null;
 
+        // для связи с контроллером ПМО
+        this._notify('unregister', ['selectedTypeChanged', this], {bubbling: true});
+
         BaseControl.superclass._beforeUnmount.apply(this, arguments);
     },
 
@@ -2392,7 +2463,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         // Чтобы предотвратить эту ошибку - восстанавливаем скролл на ту позицию, которая была до вставки новых записей.
         // todo 2 Фантастически, но свежеиспеченный afterRender НЕ ПОДХОДИТ! Падают тесты. ХФ на носу, разбираться
         // некогда, завел подошибку: https://online.sbis.ru/opendoc.html?guid=d83711dd-a110-4e10-b279-ade7e7e79d38
-        if (this._shouldRestoreScrollPosition) {
+        if (this._shouldRestoreScrollPosition && !this.__error) {
             this._loadedItems = null;
             this._shouldRestoreScrollPosition = false;
             this._children.scrollController.checkTriggerVisibilityWithTimeout();
@@ -2409,21 +2480,12 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
     },
 
-    _afterUpdate: function(oldOptions) {
+    _afterUpdate(oldOptions): void {
         this._updateInProgress = false;
-        if (this._shouldUpdateItemActions && this._itemActionsInitialized) {
-            this._shouldUpdateItemActions = false;
-            this._updateItemActions();
-        }
         if (this._shouldNotifyOnDrawItems) {
             this._notify('drawItems');
             this._shouldNotifyOnDrawItems = false;
             this._itemsChanged = false;
-        }
-        if (this._delayedSelect && this._children.selectionController) {
-            this._children.selectionController.onCheckBoxClick(this._delayedSelect.key, this._delayedSelect.status);
-            this._notify('checkboxClick', [this._delayedSelect.key, this._delayedSelect.status]);
-            this._delayedSelect = null;
         }
 
         //FIXME need to delete after https://online.sbis.ru/opendoc.html?guid=4db71b29-1a87-4751-a026-4396c889edd2
@@ -2466,7 +2528,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         const noData = !listViewModel.getCount();
         const noEdit =
             this._options.useNewModel
-            ? !displayLib.EditInPlaceController.isEditing(listViewModel)
+            ? !EditInPlaceController.isEditing(listViewModel)
             : !listViewModel.getEditingItemData();
         const isLoading = this._sourceController && this._sourceController.isLoading();
         const notHasMore = !_private.hasMoreDataInAnyDirection(this, this._sourceController);
@@ -2476,60 +2538,13 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     _onCheckBoxClick: function(e, key, status, readOnly) {
         if (!readOnly) {
-            this._children.selectionController.onCheckBoxClick(key, status);
+            if (!this._selectionController) {
+               this._createSelectionController();
+            }
+
+            const result = this._selectionController.toggleItem(key);
+            _private.handleSelectionControllerResult(this, result);
             this._notify('checkboxClick', [key, status]);
-        }
-    },
-
-    _listSwipe: function(event, itemData, childEvent) {
-        var direction = childEvent.nativeEvent.direction;
-        this._children.itemActionsOpener.close();
-
-        const isSwiped = this._options.useNewModel ? itemData.isSwiped() : itemData.isSwiped;
-        const key = this._options.useNewModel ? itemData.getContents().getId() : itemData.key;
-
-        if (direction === 'right' && !isSwiped && _private.isItemsSelectionAllowed(this._options)) {
-            const multiSelectStatus = this._options.useNewModel ? itemData.isSelected() : itemData.multiSelectStatus;
-            /**
-             * After the right swipe the item should get selected.
-             * But, because selectionController is a component, we can't create it and call it's method in the same event handler.
-             */
-            this._needSelectionController = true;
-            this._delayedSelect = {
-                key,
-                status: multiSelectStatus
-            };
-
-            // TODO Right swiping for new model
-            //Animation should be played only if checkboxes are visible.
-            if (this._options.multiSelectVisibility !== 'hidden') {
-                this.getViewModel().setRightSwipedItem(itemData);
-            }
-        }
-        if (direction === 'right' || direction === 'left') {
-            if (this._options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(key);
-                markCommand.execute(this._listViewModel);
-            } else {
-                var newKey = ItemsUtil.getPropertyValue(itemData.item, this._options.keyProperty);
-                this._listViewModel.setMarkedKey(newKey);
-            }
-        }
-        const actionsItem = this._options.useNewModel ? itemData : itemData.actionsItem;
-        if (direction === 'left' && this._hasItemActions && !this._options.useNewModel) {
-            this._children.itemActions.updateItemActions(actionsItem);
-
-            // FIXME: https://online.sbis.ru/opendoc.html?guid=7a0a273b-420a-487d-bb1b-efb955c0acb8
-            itemData.itemActions = this.getViewModel().getItemActions(actionsItem);
-        }
-        if (!this._options.itemActions && !_private.isItemsSelectionAllowed(this._options)) {
-            this._notify('itemSwipe', [actionsItem, childEvent]);
-        }
-    },
-
-    _onAnimationEnd: function(e) {
-        if (e.nativeEvent.animationName === 'rightSwipe') {
-            this.getViewModel().setRightSwipedItem(null);
         }
     },
 
@@ -2541,8 +2556,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.hideIndicator(this);
     },
 
-    reload: function() {
-        return _private.reload(this, this._options).addCallback(getData);
+    reload: function(keepScroll: boolean, sourceConfig: IBaseSourceConfig) {
+        if (keepScroll) {
+            this._keepScrollAfterReload = true;
+        }
+        return _private.reload(this, this._options, sourceConfig).addCallback(getData);
     },
 
     _onGroupClick: function(e, groupId, baseEvent) {
@@ -2594,88 +2612,170 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.commitEdit();
     },
 
-    _notifyHandler: tmplNotify,
-
-    _closeSwipe: function(event, item) {
-        this._children.itemActions.updateItemActions(item);
-    },
-
-    _commitEditActionHandler: function() {
+    /**
+     * Обработка нажатия на кнопку "сохранить"
+     * TODO вроде делает то же самое, что commitEdit
+     * @private
+     */
+    _commitEditActionHandler(): void {
         this._children.editInPlace.commitAndMoveNextRow();
     },
 
-    _cancelEditActionHandler: function() {
+    /**
+     * Обработка нажатия на кнопку "отмена"
+     * TODO вроде делает то же самое, что cancelEdit
+     * @private
+     */
+    _cancelEditActionHandler(): void {
         this._children.editInPlace.cancelEdit();
     },
-
-    _showActionsMenu: function(event, itemData, childEvent, showAll) {
-        _private.showActionsMenu(this, event, itemData, childEvent, showAll);
-    },
+    /**
+     * Выполняется из шаблона при mouseenter
+     * @private
+     */
     _initItemActions(): void {
         if (!this._itemActionsInitialized) {
-            this._updateItemActions();
+            this._updateItemActions(this._options);
             this._itemActionsInitialized = true;
-            this._shouldUpdateItemActions = false;
         }
     },
-    _updateItemActions: function() {
-        if (this.__error) {
-            return;
-        }
 
+    /**
+     * Необходимо передавать опции для случая, когда в результате изменения модели меняются параметры
+     * для показа ItemActions и их нужно поменять до отрисовки.
+     * @param options
+     * @private
+     */
+    _updateItemActions(options: any): void {
         // Проверки на __error не хватает, так как реактивность работает не мгновенно, и это состояние может не
         // соответствовать опциям error.Container. Нужно смотреть по текущей ситуации на наличие ItemActions
-        if (this._listViewModel && this._hasItemActions && this._children.itemActions) {
-            this._children.itemActions.updateActions();
+        if (this.__error || !this._listViewModel) {
+            return;
+        }
+        if (!this._itemActionsController) {
+            this._itemActionsController = new ItemActionsController();
+        }
+        const editingConfig = this._listViewModel.getEditingConfig();
+        const isActionsAssigned = this._listViewModel.isActionsAssigned();
+        const itemActionsChangeResult = this._itemActionsController.update({
+            collection: this._listViewModel,
+            itemActions: options.itemActions,
+            itemActionsProperty: options.itemActionsProperty,
+            visibilityCallback: options.itemActionVisibilityCallback,
+            itemActionsPosition: options.itemActionsPosition,
+            style: options.style,
+            theme: options.theme,
+            actionAlignment: options.actionAlignment,
+            actionCaptionPosition: options.actionCaptionPosition,
+            itemActionsClass: options.itemActionsClass,
+            iconSize: editingConfig ? 's' : 'm',
+            editingToolbarVisible: editingConfig?.toolbarVisibility
+        });
+        if (itemActionsChangeResult.length > 0 && this._listViewModel.resetCachedItemData) {
+            itemActionsChangeResult.forEach((recordKey: number | string) => {
+                this._listViewModel.resetCachedItemData(recordKey);
+            });
+            this._listViewModel.nextModelVersion(!isActionsAssigned, 'itemActionsUpdated');
         }
     },
-    _onAfterEndEdit: function(event, item, isAdd) {
-        this._notify('afterEndEdit', [item, isAdd]);
-        this._updateItemActions();
-    },
-    _onAfterBeginEdit: function (event, item, isAdd) {
-        var result = this._notify('afterBeginEdit', [item, isAdd]);
 
+    _onAfterEndEdit(event: SyntheticEvent, item: Model, isAdd: boolean) {
+        this._notify('afterEndEdit', [item, isAdd]);
+        this._updateItemActions(this._options);
+    },
+
+    /**
+     * Обработчик создания/редактирования записи
+     * @param event
+     * @param item
+     * @param isAdd
+     * @private
+     */
+    _onAfterBeginEdit(event: SyntheticEvent, item: Model, isAdd: boolean) {
+        const result = this._notify('afterBeginEdit', [item, isAdd]);
         /*
         * TODO: KINGO
         * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
         * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
         * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
-        * _canUpdateItemsActions  приведет к показу неактуальных операций.
+        * _canUpdateItemsActions приведет к показу неактуальных операций.
         */
-        this._children.itemActions.updateItemActions(item);
+        this._updateItemActions(this._options);
         return result;
     },
 
-    _showActionMenu(
-        event: Event,
-        itemData: object,
-        childEvent: Event,
-        action: object
-    ): void {
-        _private.showActionMenu(this, itemData, childEvent, action);
+    /**
+     * Обработчик показа контекстного меню
+     * @param e
+     * @param item
+     * @param clickEvent
+     * @private
+     */
+    _onItemContextMenu(e: SyntheticEvent<Event>, item: CollectionItem<Model>, clickEvent: SyntheticEvent<MouseEvent>): void {
+        clickEvent.preventDefault();
+        clickEvent.stopPropagation();
+        let contents = item.getContents();
+        if (item['[Controls/_display/BreadcrumbsItem]']) {
+            contents = contents[contents.length - 1];
+        }
+        _private.openItemActionsMenu(this, null, clickEvent, item, true);
+        _private.setMarkedKey(this, contents.getKey());
     },
 
-    _onItemContextMenu: function(event, itemData) {
-        this._showActionsMenu.apply(this, arguments);
+    /**
+     * Обработчик клика по операции
+     * @param event
+     * @param action
+     * @param item
+     * @private
+     */
+    _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: IItemAction, item: CollectionItem<Model>): void {
         event.stopPropagation();
-        if (this._options.useNewModel) {
-            const markCommand = new displayLib.MarkerCommands.Mark(itemData.getContents().getId());
-            markCommand.execute(this._listViewModel);
+        let contents: Model = item.getContents();
+        if (item['[Controls/_display/BreadcrumbsItem]']) {
+            contents = contents[contents.length - 1];
+        }
+        _private.setMarkedKey(this, contents.getKey());
+        if (action && !action._isMenu && !action['parent@']) {
+            _private.handleItemActionClick(this, action, event, item);
         } else {
-            this._listViewModel.setMarkedKey(itemData.key);
+            _private.openItemActionsMenu(this, action, event, item, false);
         }
     },
 
-    _closeActionsMenu: function(args) {
-        _private.closeActionsMenu(this, args);
+    /**
+     * Обработчик событий, брошенных через onResult в выпадающем/контекстном меню
+     * @param eventName название события, брошенного из Controls/menu:Popup.
+     * Варианты значений itemClick, applyClick, selectorDialogOpened, pinClick, menuOpened
+     * @param actionModel
+     * @param clickEvent
+     * @private
+     */
+    _onItemActionsMenuResult(eventName: string, actionModel: Model, clickEvent: SyntheticEvent<MouseEvent>): void {
+        if (eventName === 'itemClick') {
+            const action = actionModel && actionModel.getRawData();
+            if (action && !action['parent@']) {
+                const item = this._listViewModel.getActiveItem();
+                _private.handleItemActionClick(this, action, clickEvent, item);
+            }
+        }
     },
 
-    _actionsMenuResultHandler(actionName, data, event): void {
-        _private.actionsMenuResultHandler(this, actionName, data, event);
+    /**
+     * Обработчик закрытия выпадающего/контекстного меню
+     * @private
+     */
+    _onItemActionsMenuClose(clickEvent: SyntheticEvent<MouseEvent>): void {
+        this._listViewModel.setActiveItem(null);
+        this._itemActionsController.deactivateSwipe();
+        this._itemActionsMenuId = null;
     },
 
-    _itemMouseDown: function(event, itemData, domEvent) {
+    _onItemsChanged(event, action, newItems, newItemsIndex, removedItems): void {
+        _private.onItemsChanged(this, action, removedItems);
+    },
+
+    _itemMouseDown(event, itemData, domEvent) {
         let hasDragScrolling = false;
         this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
         if (this._options.columnScroll) {
@@ -2704,12 +2804,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         const canBeMarked = this._mouseDownItemKey === key && (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1));
 
         if (canBeMarked) {
-            if (this._options.useNewModel) {
-                const markCommand = new displayLib.MarkerCommands.Mark(key);
-                markCommand.execute(this._listViewModel);
-            } else {
-                this._listViewModel.setMarkedKey(key);
-            }
+            _private.setMarkedKey(this, key);
         }
         this._mouseDownItemKey = undefined;
         this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
@@ -2731,7 +2826,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.getPortionedSearch(this).abortSearch();
     },
 
-    _onDataError(event: unknown, errorConfig: ErrbackConfig): void {
+    _onDataError(event: unknown, errorConfig: IErrbackConfig): void {
         _private.processError(this, {
             error: errorConfig.error,
             mode: errorConfig.mode || dataSourceError.Mode.dialog
@@ -2851,12 +2946,12 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
     },
     _processItemMouseEnterWithDragNDrop(_, itemData) {
+        const dragEntity = this._options.useNewModel ? this._draggingEntity : this._listViewModel.getDragEntity();
         let dragPosition;
-        let dragEntity = this._options.useNewModel ? this._draggingEntity : this._listViewModel.getDragEntity();
-
         if (dragEntity) {
-            dragPosition = this._options.useNewModel ? {position: 'before', item: itemData.getContents()} : this._listViewModel.calculateDragTargetPosition(itemData);
-
+            dragPosition = this._options.useNewModel ?
+                    {position: 'before', item: itemData.getContents()} :
+                    this._listViewModel.calculateDragTargetPosition(itemData);
             if (dragPosition && this._notify('changeDragTarget', [dragEntity, dragPosition.item, dragPosition.position]) !== false) {
                 if (this._options.useNewModel) {
                     this._draggingTargetItem = dragPosition.item;
@@ -2867,7 +2962,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             this._unprocessedDragEnteredItem = null;
         }
     },
-    _itemMouseEnter: function(event, itemData, nativeEvent) {
+    _itemMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>, nativeEvent: Event): void {
         if (this._options.itemsDragNDrop) {
             this._unprocessedDragEnteredItem = itemData;
             this._processItemMouseEnterWithDragNDrop(event, itemData);
@@ -2950,9 +3045,14 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         this._sourceController = new SourceController({
             source: newSource,
             navigation: newNavigation,
-            keyProperty: newKeyProperty
+            keyProperty: newKeyProperty,
+            queryParamsCallback: this._notifyNavigationParamsChanged
         });
 
+    },
+
+    _createSelectionController(): void {
+        this._selectionController = _private.createSelectionController(this, this._options);
     },
 
     _getLoadingIndicatorClasses(state?: string): string {
@@ -2981,24 +3081,82 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         return styles;
     },
-    _listDeactivated: function() {
-        if (!this._menuIsShown) {
-            this._children.swipeControl?.closeSwipe();
+
+    /**
+     * Обработчик свайпа по записи. Показывает операции по свайпу
+     * @param e
+     * @param item
+     * @param swipeEvent
+     * @private
+     */
+    _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<ISwipeEvent>): void {
+        if (item instanceof GroupItem) {
+            return;
+        }
+        swipeEvent.stopPropagation();
+        const key = item.getContents().getKey();
+        const itemContainer = (swipeEvent.target as HTMLElement).closest('.controls-ListView__itemV');
+        const swipeContainer =
+            itemContainer.classList.contains(ITEM_ACTIONS_SWIPE_CONTAINER_SELECTOR)
+                ? itemContainer
+                : itemContainer.querySelector('.' + ITEM_ACTIONS_SWIPE_CONTAINER_SELECTOR);
+
+        if (swipeEvent.nativeEvent.direction === 'left') {
+            this._itemActionsController.activateSwipe(item.getContents().getKey(), swipeContainer?.clientHeight);
+            _private.setMarkedKey(this, key);
+        }
+        if (swipeEvent.nativeEvent.direction === 'right') {
+            // After the right swipe the item should get selected. (Кусок старого кода)
+            if (!this._selectionController) {
+                this._createSelectionController();
+            }
+            const result = this._selectionController.toggleItem(key);
+            _private.handleSelectionControllerResult(this, result);
+            this._notify('checkboxClick', [key, item.isSelected()]);
+
+            // TODO Проверить. Код ниже задавал Для Item controls-ListView__item_rightSwipeAnimation
+            //  для решения https://online.sbis.ru/doc/e3866e50-5a3e-4403-a64e-0841db9cda9f.
+            //  Надо, то реализовать в новой модели.
+            // Animation should be played only if checkboxes are visible.
+            // if (this._options.multiSelectVisibility !== 'hidden') {
+            //     this._listViewModel.setRightSwipedItem(itemData);
+            // }
+            this._listViewModel.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+            this._listViewModel.nextVersion();
+            _private.setMarkedKey(this, key);
+        }
+        if (!this._options.itemActions && item.isSwiped()) {
+            this._notify('itemSwipe', [item, swipeEvent, swipeContainer?.clientHeight]);
         }
     },
 
-    _createNewModel(items, modelConfig, modelName) {
+    /**
+     * Обработчик события окончания анимации свайпа по записи
+     * @param e
+     * @private
+     */
+    _onSwipeAnimationEnd(e: SyntheticEvent<IAnimationEvent>): void {
+        if (e.nativeEvent.animationName === 'rightSwipe' && this._listViewModel.getSwipeAnimation() === ANIMATION_STATE.CLOSE) {
+            const item = this._itemActionsController.getSwipeItem();
+            if (!this._options.itemActions && item) {
+                this._notify('itemSwipe', [item, e]);
+            }
+            this._itemActionsController.deactivateSwipe();
+        }
+    },
+
+    _createNewModel(items, modelConfig, modelName): void {
         // Подразумеваем, что Controls/display уже загружен. Он загружается при подключении
         // библиотеки Controls/listRender
         if (typeof modelName !== 'string') {
             throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
         }
-        if (typeof displayLib === 'undefined') {
-            displayLib = require('Controls/display');
-        }
         return diCreate(modelName, { ...modelConfig, collection: items });
-    }
+    },
 
+    handleSelectionControllerResult(result: ISelectionControllerResult): void {
+       _private.handleSelectionControllerResult(this, result);
+    }
 });
 
 // TODO https://online.sbis.ru/opendoc.html?guid=17a240d1-b527-4bc1-b577-cf9edf3f6757

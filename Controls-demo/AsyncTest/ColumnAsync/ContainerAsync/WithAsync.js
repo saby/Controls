@@ -2,7 +2,6 @@ define('Controls-demo/AsyncTest/ColumnAsync/ContainerAsync/WithAsync',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/ColumnAsync/ContainerAsync/WithAsync',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ], function (Control, template) {
       'use strict';
 
@@ -15,6 +14,8 @@ define('Controls-demo/AsyncTest/ColumnAsync/ContainerAsync/WithAsync',
             this._forceUpdate();
          },
       });
+
+      withAsyncModule._styles = ['Controls-demo/AsyncTest/AsyncTestDemo'];
 
       return withAsyncModule;
    });

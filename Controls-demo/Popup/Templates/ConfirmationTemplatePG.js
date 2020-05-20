@@ -8,9 +8,6 @@ define('Controls-demo/Popup/Templates/ConfirmationTemplatePG',
       'wml!Controls-demo/Popup/Templates/resources/defaultFooterContent',
       'wml!Controls-demo/Popup/Templates/resources/customFooterContent',
 
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
    ],
 
    function(Control, template, config) {
@@ -68,5 +65,7 @@ define('Controls-demo/Popup/Templates/ConfirmationTemplatePG',
             this._metaData = config[this._content].properties['ws-config'].options;
          }
       });
+      DialogPG._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return DialogPG;
    });

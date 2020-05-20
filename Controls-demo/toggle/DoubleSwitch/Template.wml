@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/DoubleSwitch/Base/Index' }}">
+            <a href="{{content.href}}">Базовая настройка двойного переключателя</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.DoubleSwitch.Base.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/DoubleSwitch/Orientation/Index' }}">
+            <a href="{{content.href}}">Настройка ориентации</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.DoubleSwitch.Orientation.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/toggle/DoubleSwitch/Tooltip/Index' }}">
+            <a href="{{content.href}}">Настройка всплывающей подсказки</a>
+        </Router.router:Reference>
+        <Controls-demo.toggle.DoubleSwitch.Tooltip.Index/>
+    </div>
+</div>

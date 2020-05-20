@@ -1,6 +1,6 @@
 <div style="height: 100%; min-width: 500px; max-width: 700px;">
     <h1>Opened Revive</h1>
-    <Core.CompoundContainer attr:class="outerContainer" component="SBIS3.CONTROLS/Button">
-        <ws:componentOptions className="innerComponent" caption="TestButton"/>
-    </Core.CompoundContainer>
+    <SBIS3.CONTROLS.Button
+          className="innerComponent"
+          caption="TestButton"/>
 </div>

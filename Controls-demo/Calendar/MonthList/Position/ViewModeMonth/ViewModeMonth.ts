@@ -2,8 +2,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {date as formatDate} from 'Types/formatter';
 import template = require('wml!Controls-demo/Calendar/MonthList/Position/ViewModeMonth/ViewModeMonth');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Calendar/MonthList/resources/MonthListDemo';
 
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -22,5 +20,7 @@ class DemoControl extends Control<IControlOptions> {
     }
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Calendar/MonthList/resources/MonthListDemo'];
 }
 export default DemoControl;

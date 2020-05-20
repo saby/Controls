@@ -82,6 +82,12 @@ import 'Controls/decorator';
  * A value between 1 and 10 is supported.
  */
 
+/**
+ * @name Controls/_input/Area#footerTemplate
+ * @cfg {String|TemplateFunction} Строка или шаблон, содержащие контент подвала, который будет отображаться в многострочном поле.
+ * @demo Controls-demo/Input/FooterTemplate/Index
+ */
+
 var _private = {
     calcPositionCursor: function (container, textBeforeCursor) {
         var measuredBlock = document.createElement('div');

@@ -9,9 +9,6 @@ define('Controls-demo/List/List/ItemTemplatePG',
       'wml!Controls-demo/List/List/resources/ItemTemplatePG/noHighlightOnHover',
       'wml!Controls-demo/List/List/resources/ItemTemplatePG/CustomItemTemplateOne',
       'wml!Controls-demo/List/List/resources/ItemTemplatePG/CustomItemTemplateTwo',
-      'css!Controls-demo/Filter/Button/PanelVDom',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Wrapper/Wrapper',
       'wml!Controls-demo/List/List/resources/ItemTemplatePG/CustomItemTemplate'
 ],
 
@@ -85,5 +82,7 @@ define('Controls-demo/List/List/ItemTemplatePG',
 
 
       });
+      Component._styles = ['Controls-demo/Filter/Button/PanelVDom', 'Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Wrapper/Wrapper'];
+
       return Component;
    });

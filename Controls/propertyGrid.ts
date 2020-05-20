@@ -28,15 +28,15 @@
  * @author Герасимов А.М.
  */
 
-import PropertyGrid = require("Controls/_propertyGrid/PropertyGrid");
+import {default as PropertyGrid} from 'Controls/_propertyGrid/PropertyGrid';
 import BooleanEditor = require("Controls/_propertyGrid/defaultEditors/Boolean");
 import StringEditor = require("Controls/_propertyGrid/defaultEditors/String");
 import TextEditor = require("Controls/_propertyGrid/defaultEditors/Text");
 import EnumEditor = require("Controls/_propertyGrid/defaultEditors/Enum");
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
-import IProperty = require("Controls/_propertyGrid/IProperty");
-import GroupTemplate = require("wml!Controls/_propertyGrid/groupTemplate");
+import {default as IProperty} from 'Controls/_propertyGrid/IProperty';
+import GroupTemplate = require("wml!Controls/_propertyGrid/Render/resources/groupTemplate");
 
 export {
     PropertyGrid,

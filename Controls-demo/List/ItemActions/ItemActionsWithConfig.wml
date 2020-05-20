@@ -22,7 +22,7 @@
         </ws:itemTemplate>
         <ws:contextMenuConfig groupingKeyCallback="{{_groupingKeyCallback}}">
             <ws:groupTemplate>
-                <ws:partial template="Controls/dropdownPopup:GroupTemplate" showText="{{true}}"/>
+                <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
             </ws:groupTemplate>
         </ws:contextMenuConfig>
     </Controls.list:View>

@@ -3,7 +3,6 @@ import {Memory} from 'Types/source';
 import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import {_departmentsDataLong} from 'Controls-demo/Lookup/DemoHelpers/DataCatalog';
 import controlTemplate = require('wml!Controls-demo/Lookup/FlatListSelectorWithTabs/resources/DepartmentsTemplate');
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control{
     protected _template: TemplateFunction = controlTemplate;
@@ -39,4 +38,6 @@ export default class extends Control{
             this._children.SelectorController._selectComplete();
         }
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

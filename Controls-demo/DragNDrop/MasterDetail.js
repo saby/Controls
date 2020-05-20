@@ -7,9 +7,8 @@ define('Controls-demo/DragNDrop/MasterDetail', [
    'Controls/dragnDrop',
    'Controls-demo/DragNDrop/MasterDetail/TasksEntity',
    'wml!Controls-demo/DragNDrop/MasterDetail/itemTemplates/masterItemTemplate',
-   'css!Controls-demo/DragNDrop/MasterDetail/MasterDetail'
 ], function(Control, template, data, source, cInstance, dragnDrop, TasksEntity, itemTemplate) {
-   return Control.extend({
+   var ModuleClass = Control.extend({
       _template: template,
       gridColumns: [{
          displayProperty: 'name',
@@ -94,4 +93,8 @@ define('Controls-demo/DragNDrop/MasterDetail', [
          this._children.detailMover.moveItems(entity.getItems(), target, position);
       }
    });
+
+   ModuleClass._styles = ['Controls-demo/DragNDrop/MasterDetail/MasterDetail'];
+
+   return ModuleClass;
 });

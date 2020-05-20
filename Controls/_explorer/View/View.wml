@@ -57,6 +57,7 @@
                                     on:expandedItemsChanged="_notifyHandler('expandedItemsChanged')"
                                     on:collapsedItemsChanged="_notifyHandler('collapsedItemsChanged')"
                                     on:editArrowClick="_notifyHandler('editArrowClick')"
+                                    on:navigationParamsChanged="_notifyHandler('navigationParamsChanged')"
                                     dataLoadErrback="{{_dataLoadErrback}}"
                                     itemsReadyCallback="{{_itemsReadyCallback}}"
                                     serviceDataLoadCallback="{{_serviceDataLoadCallback}}"

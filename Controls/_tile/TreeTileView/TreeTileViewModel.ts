@@ -70,7 +70,7 @@ var TreeTileViewModel = TreeViewModel.extend({
 
         current.isScaled = this.isScaled(current);
         current.isUnscaleable = !current.scalingMode || current.scalingMode === 'none';
-        current.isUnfixed = current.isSwiped || !current.isScaled && !current.isUnscaleable;
+        current.isUnfixed = current.isSwiped() || !current.isScaled && !current.isUnscaleable;
 
         var
             originalGetVersion = current.getVersion;
@@ -91,7 +91,7 @@ var TreeTileViewModel = TreeViewModel.extend({
     },
     isScaled: function(itemData) {
         return (itemData.item.get && itemData.item.get(itemData.displayProperty) || itemData.scalingMode !== 'none')
-            && (!!itemData.isActive || !!itemData.isSwiped || !!itemData.isHovered);
+            && (!!itemData.isActive() || !!itemData.isSwiped() || !!itemData.isHovered);
     },
     getTileItemData: function () {
         var opts = this._tileModel.getTileItemData();
@@ -123,6 +123,12 @@ var TreeTileViewModel = TreeViewModel.extend({
         return this._tileModel.getHoveredItem();
     },
 
+    /**
+     * TODO работа с activeItem Должна производиться через item.isActive(),
+     *  но из-за того, как в TileView организована работа с isHovered, isScaled и isAnimated
+     *  мы не можем снять эти состояния при клике внутри ItemActions
+     * @param itemData
+     */
     setActiveItem: function (itemData) {
         this._tileModel.setActiveItem(itemData);
         TreeTileViewModel.superclass.setActiveItem.apply(this, arguments);

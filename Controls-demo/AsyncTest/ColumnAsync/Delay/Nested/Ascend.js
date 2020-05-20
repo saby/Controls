@@ -2,7 +2,6 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/Ascend',
    [
       'Core/Control',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/Ascend',
-      'css!Controls-demo/AsyncTest/AsyncTestDemo',
    ], function (Control, template) {
       'use strict';
 
@@ -23,6 +22,8 @@ define('Controls-demo/AsyncTest/ColumnAsync/Delay/Nested/Ascend',
             this._forceUpdate();
          },
       });
+
+      delayAscendModule._styles = ['Controls-demo/AsyncTest/AsyncTestDemo'];
 
       return delayAscendModule;
    });

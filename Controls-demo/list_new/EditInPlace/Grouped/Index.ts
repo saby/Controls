@@ -4,7 +4,6 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
 import {view as constView} from 'Controls/Constants';
-import 'css!Controls-demo/Controls-demo';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {
@@ -43,4 +42,6 @@ export default class extends Control {
     protected _beginAdd(): void {
         this._children.list.beginAdd();
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

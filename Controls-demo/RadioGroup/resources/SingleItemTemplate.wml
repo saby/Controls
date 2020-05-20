@@ -1,3 +1,0 @@
-<span>
-    <span attr:class="controls-RadioItem__wrapper controls-SingleRadioItem__caption_{{selected ? 'selected' : 'unselected'}}_{{readOnly ? 'disabled' : 'enabled'}} controls-SingleRadioItem__caption">{{item['caption']}}</span>
-</span>

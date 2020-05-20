@@ -9,8 +9,8 @@
    <div attr:class="controls-TileView__itemContent controls-TileView__itemContent_theme-{{theme}} {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
                {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover_theme-' + theme}}
                js-controls-SwipeControl__actionsContainer
-               {{!!itemData.isActive ? ' controls-TileView__item_active_theme-' + theme}}
-               {{!!itemData.isSwiped ? ' controls-TileView__item_swiped_theme-' + theme}}
+               {{!!itemData.isActive() ? ' controls-TileView__item_active_theme-' + theme}}
+               {{!!itemData.isSwiped() ? ' controls-TileView__item_swiped_theme-' + theme}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
                {{itemData.isUnfixed ? ' controls-TileView__item_unfixed' }}
                {{itemData.isUnscaleable ? ' controls-TileView__item_unscaleable'}}
@@ -19,7 +19,7 @@
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
                {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + theme}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
-               {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ?
+               {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
                   ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
                   ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
                {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"
@@ -40,7 +40,7 @@
       </ws:if>
       <ws:else>
          <ws:partial template="{{imageWrapper}}"/>
-         <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.drawActions}}">
+         <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.shouldDisplayActions()}}">
             <ws:if data="{{titleStyle === 'accent'}}">
                <div class="controls-TileView__title_accent_theme-{{theme}}"
                     title="{{itemData.item[itemData.displayProperty]}}">
@@ -54,12 +54,12 @@
 
          </ws:if>
       </ws:else>
-      <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
+      <ws:partial if="{{!itemData.isSwiped() && itemData.shouldDisplayActions() && itemData.itemActionsPosition !== 'custom'}}"
                   template="{{itemActionsTemplate}}"
                   highlightOnHover="{{highlightOnHover}}"
                   itemData="{{itemData}}"
                   itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions_theme-' + theme + ' controls-TileView__itemActions_bottomRight'}}"/>
-      <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
+      <ws:partial if="{{itemData.isSwiped() && itemData.shouldDisplayActions()}}"
                   template="{{swipeTemplate}}"
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"/>

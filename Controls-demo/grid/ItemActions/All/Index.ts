@@ -4,7 +4,6 @@ import {Memory} from "Types/source"
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 import {getActionsForContacts as getItemActions, getMoreActions} from "../../../list_new/DemoHelpers/ItemActionsCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -26,4 +25,6 @@ export default class extends Control {
             data: getCountriesStats().getData().slice(1, 4)
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

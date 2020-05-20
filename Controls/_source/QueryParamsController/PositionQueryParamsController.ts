@@ -3,11 +3,11 @@ import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {IAdditionalQueryParams, Direction} from '../interface/IAdditionalQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
-import {default as More} from './More';
 import {Logger} from 'UI/Utils';
 import {CursorDirection} from 'Controls/Constants';
 
 import { Collection } from 'Controls/display';
+import { IBasePositionSourceConfig } from 'Controls/interface';
 
 interface IPositionHasMore {
     backward: boolean;
@@ -34,7 +34,7 @@ interface IPositionBoth {
 }
 
 declare type PositionBoth = Position | IPositionBoth;
-declare type HasMore = boolean | IPositionHasMore | RecordSet;
+declare type HasMore = boolean | IPositionHasMore;
 
 export interface IPositionQueryParamsControllerOptions {
     field: FieldCfg;
@@ -53,7 +53,7 @@ export interface IPositionQueryParamsControllerOptions {
  * @author Крайнов Дмитрий
  */
 class PositionQueryParamsController implements IQueryParamsController {
-    protected _more: More;
+    protected _more: HasMore;
     protected _beforePosition: Position = [null];
     protected _afterPosition: Position = [null];
     protected _shouldLoadLastPage: boolean = false;
@@ -77,13 +77,7 @@ class PositionQueryParamsController implements IQueryParamsController {
         if (this._options.limit === undefined) {
             throw new Error('Option limit is undefined in PositionQueryParamsController');
         }
-    }
-
-    private _getMore(): More {
-        if (!this._more) {
-            this._createMore();
-        }
-        return this._more;
+        this._more = this._getDefaultMoreMeta();
     }
 
     private _resolveDirection(loadDirection: Direction, optDirection: CursorDirection): CursorDirection {
@@ -125,77 +119,45 @@ class PositionQueryParamsController implements IQueryParamsController {
         };
     }
 
-    private _processMoreByType(navResult: HasMore, loadDirection?: Direction): void {
+    private _processMoreByType(more: HasMore, loadDirection?: Direction): void {
         let navDirection: CursorDirection;
 
-        const process = (more, key?) => {
-            if (typeof more === 'boolean') {
-                if (loadDirection || this._getDirection() !== CursorDirection.bothways) {
-                    navDirection = this._resolveDirection(loadDirection, this._getDirection());
-                    let newMore = this._getMoreMeta(key);
-
-                    if (!newMore) {
-                        newMore = this._getDefaultMoreMeta();
-                    }
-
-                    newMore[navDirection] = more;
-                    this._getMore().setMoreMeta(newMore, key);
-                } else if (!loadDirection) {
-                    Logger.error('Wrong type of \"more\" value. Must be Object', 'Controls/_source/QueryParamsController/PositionQueryParamsController');
-                }
-            } else if (more instanceof Object) {
+        if (typeof more === 'boolean') {
+            if (loadDirection || this._getDirection() !== CursorDirection.bothways) {
+                navDirection = this._resolveDirection(loadDirection, this._getDirection());
+                this._more[navDirection] = more;
+            } else if (!loadDirection) {
+                Logger.error('Wrong type of \"more\" value. Must be Object', 'Controls/_source/QueryParamsController/PositionQueryParamsController');
+            }
+        } else {
+            if (more instanceof Object) {
                 if (!loadDirection && this._getDirection() === CursorDirection.bothways) {
-                    this._getMore().setMoreMeta({...more}, key);
+                    this._more = {...more};
                 } else {
                     Logger.error('Wrong type of \"more\" value. Must be boolean', 'Controls/_source/QueryParamsController/PositionQueryParamsController');
                 }
             }
-        };
-
-        if (navResult && (navResult instanceof RecordSet)) {
-            if (!this._isMoreCreated()) {
-                this._createMore(navResult);
-            } else {
-                navResult.each((navRec) => {
-                    process(navRec.get('nav_result'), navRec.get('id'));
-                });
-            }
-        } else {
-            process(navResult);
         }
     }
 
-    private _isMoreCreated(): boolean {
-        return !!this._more;
-    }
-
-    private _createMore(meta?: HasMore): void {
-        this._more = new More({
-            moreMeta: meta || this._getDefaultMoreMeta()
-        });
-    }
-
-    private _destroyMore(): void {
-        this._more = null;
-    }
-
-    prepareQueryParams(loadDirection: Direction): IAdditionalQueryParams {
+    prepareQueryParams(loadDirection: Direction, callback?, config?: IBasePositionSourceConfig): IAdditionalQueryParams {
         let navDirection: CursorDirection;
         let navPosition: Position;
         let sign: string = '';
         let additionalFilter: object;
         let navField: Field;
+        const limit = config?.limit || this._options.limit;
 
-        navDirection = this._resolveDirection(loadDirection, this._getDirection());
+        navDirection = this._resolveDirection(loadDirection, this._getDirection(config?.direction));
         if (loadDirection === 'up') {
             navPosition = this._beforePosition;
         } else if (loadDirection === 'down') {
             navPosition = this._afterPosition;
         } else {
-            if (this._options.position instanceof Array) {
-                navPosition = this._options.position;
+            if ((config?.position || this._options.position) instanceof Array) {
+                navPosition = (config?.position || this._options.position);
             } else {
-                navPosition = [this._options.position];
+                navPosition = [(config?.position || this._options.position)];
             }
         }
 
@@ -219,11 +181,16 @@ class PositionQueryParamsController implements IQueryParamsController {
 
         const addParams: IAdditionalQueryParams = {
             filter: additionalFilter,
-            limit: this._options.limit,
+            limit,
             meta: {
                 navigationType: QueryNavigationType.Position
             }
         };
+
+        callback && callback({
+            limit,
+            position: navPosition
+        });
 
         if (this._shouldLoadLastPage) {
             addParams.offset = -1;
@@ -355,8 +322,6 @@ class PositionQueryParamsController implements IQueryParamsController {
 
     hasMoreData(loadDirection: Direction, rootKey: string | number): boolean | undefined {
         let navDirection: CursorDirection;
-        let moreData: HasMore | unknown;
-        let navigationResult: boolean | undefined;
 
         if (loadDirection === 'up') {
             navDirection = CursorDirection.backward;
@@ -364,16 +329,7 @@ class PositionQueryParamsController implements IQueryParamsController {
             navDirection = CursorDirection.forward;
         }
 
-        if (this._isMoreCreated()) {
-            moreData = this._getMoreMeta(rootKey);
-        }
-
-        // moreData can be undefined for root with rootKey, if method does not support multi-navigation.
-        if (moreData) {
-            navigationResult = moreData[navDirection];
-        }
-
-        return navigationResult;
+        return this._getMoreMeta()[navDirection];
     }
 
     setEdgeState(direction: Direction): void {
@@ -391,7 +347,6 @@ class PositionQueryParamsController implements IQueryParamsController {
 
     destroy(): void {
         this._options = null;
-        this._destroyMore();
         this._afterPosition = null;
         this._beforePosition = null;
         this._positionByMeta = null;
@@ -401,8 +356,8 @@ class PositionQueryParamsController implements IQueryParamsController {
      * Возвращает название напрвыления
      * @private
      */
-    private _getDirection(): CursorDirection {
-        return PositionQueryParamsController._convertDirection(this._options.direction);
+    private _getDirection(direction?): CursorDirection {
+        return PositionQueryParamsController._convertDirection(direction || this._options.direction);
     }
 
     /**
@@ -411,8 +366,8 @@ class PositionQueryParamsController implements IQueryParamsController {
      * @param key
      * @private
      */
-    private _getMoreMeta(key: string | number): IPositionHasMore {
-        const meta: IPositionHasMore = this._getMore().getMoreMeta(key) as IPositionHasMore;
+    private _getMoreMeta(): IPositionHasMore {
+        const meta: IPositionHasMore = this._more as IPositionHasMore;
         if (meta && meta.backward === undefined) {
             meta.backward = meta.before;
         }

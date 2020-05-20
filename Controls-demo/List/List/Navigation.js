@@ -6,7 +6,6 @@ define('Controls-demo/List/List/Navigation', [
    'wml!Controls-demo/List/List/resources/Navigation/Navigation',
    'Types/source',
    'Controls-demo/List/List/resources/Navigation/Data',
-   'css!Controls-demo/List/List/resources/Navigation/Navigation'
 ], function (BaseControl,
              template,
              source,
@@ -52,5 +51,7 @@ define('Controls-demo/List/List/Navigation', [
             this._eventsList = '';
          }
       });
+   ModuleClass._styles = ['Controls-demo/List/List/resources/Navigation/Navigation'];
+
    return ModuleClass;
 });

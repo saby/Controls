@@ -1,8 +1,6 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/FieldTemplate/FieldTemplate');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Input/FieldTemplate/FieldTemplate';
 
 class FieldTemplate extends Control<IControlOptions> {
     private _value1: string = '123qweASD';
@@ -21,5 +19,7 @@ class FieldTemplate extends Control<IControlOptions> {
     }
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Input/FieldTemplate/FieldTemplate'];
 }
 export default FieldTemplate;

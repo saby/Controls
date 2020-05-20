@@ -4,7 +4,6 @@ import controlTemplate = require('wml!Controls-demo/Checkbox/standartDemoCheckbo
 import content1 = require('wml!Controls-demo/Checkbox/resources/content1');
 import content2 = require('wml!Controls-demo/Checkbox/resources/content2');
 import content3 = require('wml!Controls-demo/Checkbox/resources/content3');
-import 'css!Controls-demo/Controls-demo';
 
 class StandartDemoCheckbox extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -36,5 +35,7 @@ class StandartDemoCheckbox extends Control<IControlOptions> {
         }
     }
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default StandartDemoCheckbox;

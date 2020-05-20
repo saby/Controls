@@ -12,8 +12,6 @@ import {HierarchicalMemory} from 'Types/source';
 import {constants} from 'Env/Env';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/BreadCrumbs/Scenarios/Scenarios';
 
 class ScenarioSecond extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
@@ -404,5 +402,7 @@ class ScenarioSecond extends Control<IControlOptions> {
 
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/BreadCrumbs/Scenarios/Scenarios'];
 }
 export default ScenarioSecond;

@@ -21,13 +21,14 @@
 </ws:template>
 
 <ws:template name="history">
-   <ws:if data="{{_historyId && _historyItems.getCount()}}">
+   <ws:if data="{{_historyId && (_historyItems.getCount() || _options.emptyHistoryTemplate)}}">
       <Controls._filterPopup.History.List
               items="{{_historyItems}}"
               filterItems="{{_items}}"
               historyId="{{_historyId}}"
               saveMode="{{_options.orientation === 'horizontal' ? 'favorite' : 'pinned'}}"
               orientation="{{_options.orientation}}"
+              emptyTemplate="{{_options.emptyHistoryTemplate}}"
               on:historyChanged="_historyItemsChanged()"
               attr:class="controls-HistoryList__{{_options.orientation}}"
               on:applyHistoryFilter="_applyHistoryFilter()"/>

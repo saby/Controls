@@ -2,7 +2,7 @@
             controls-StickyTemplate__top-area_theme_{{_options.theme}}
             controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}_theme_{{_options.theme}}
             controls-DropdownList-header">
-   <div class="controls-StickyTemplate__top-area-content controls-DropdownList__head">
+   <div class="controls-StickyTemplate__top-area-content controls-StickyTemplate__top-area-content_theme_{{_options.theme}} controls-DropdownList__head">
       <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
          <div class="controls-StickyTemplate__caption">
             <div class="controls-StickyTemplate__caption_text

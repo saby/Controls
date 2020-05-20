@@ -27,6 +27,7 @@ var getDayRange = function(startDate, endDate, quantum) {
 /**
  * @class Controls/_dateRange/Utils
  * @public
+ * @author Красильников А.С.
  */
 var Utils = {
 

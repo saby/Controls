@@ -2,7 +2,6 @@ import { Control, TemplateFunction } from 'UI/Base';
 import { Memory, Query, DataSet } from 'Types/source';
 import { fetch } from 'Browser/Transport';
 import * as template from 'wml!Controls-demo/dataSource/Tree';
-import 'css!Controls-demo/Controls-demo';
 
 interface IFilter {
     parent?: string;
@@ -66,4 +65,6 @@ export default class extends Control {
             node: null
         }]
     });
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

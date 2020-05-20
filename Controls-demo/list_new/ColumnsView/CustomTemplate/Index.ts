@@ -1,6 +1,5 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/CustomTemplate/CustomTemplate');
-import 'css!Controls-demo/Controls-demo';
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
 import {ListItems} from 'Controls/dragnDrop';
@@ -64,4 +63,6 @@ export default class RenderDemo extends Control {
             }
         };
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

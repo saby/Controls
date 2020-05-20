@@ -90,7 +90,7 @@ class Component extends Control {
             header = this._headers[headerId];
 
             const ignoreHeight: boolean = type === TYPE_FIXED_HEADERS.initialFixed &&
-                                            header.inst.shadowVisibility === SHADOW_VISIBILITY.hidden;
+                (!header || header.inst.shadowVisibility === SHADOW_VISIBILITY.hidden);
             if (ignoreHeight) {
                 continue;
             }

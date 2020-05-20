@@ -7,8 +7,7 @@ define('Controls-demo/FilterButton/Panel/resources/FBPanel/FBPanel', // Уста
       'wml!Controls-demo/FilterButton/Panel/resources/FBPanel/FBPanel', // Подключаем вёрстку диалога с фильтрами
       'SBIS3.CONTROLS/ComboBox', // Подключаем контрол "Выпадающий список"
       'SBIS3.CONTROLS/TextBox', 
-      'SBIS3.CONTROLS/Filter/Button/Text',
-      'css!Controls-demo/FilterButton/Panel/resources/FBPanel/FBPanel' // Подключаем CSS-файл со стилями, которые будут использованы в вёрстке диалога
+      'SBIS3.CONTROLS/Filter/Button/Text', // Подключаем CSS-файл со стилями, которые будут использованы в вёрстке диалога
    ],
    function( // Подключенные в массиве зависимостей файлы будут доступны в следующих переменных
       CompoundControl, // В эту переменную импортируется класс CompoundControl из файла CompoundControl.module.js
@@ -22,6 +21,8 @@ define('Controls-demo/FilterButton/Panel/resources/FBPanel/FBPanel', // Уста
             
          }
       });
+      moduleClass._styles = ['Controls-demo/FilterButton/Panel/resources/FBPanel/FBPanel'];
+
       return moduleClass;
    }
 );

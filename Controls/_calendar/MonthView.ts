@@ -2,6 +2,7 @@ import BaseControl = require('Core/Control');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import DateUtil = require('Controls/Utils/Date');
+import monthListUtils from './MonthList/Utils';
 
 import {IDateRangeSelectable, Utils as calendarUtils} from 'Controls/dateRange';
 import MonthViewModel from './MonthView/MonthViewModel';
@@ -80,6 +81,10 @@ var MonthView = BaseControl.extend({
       _private._updateView(this, newOptions);
 
       this._monthViewModel.updateOptions(newOptions);
+   },
+
+    _dateToDataString: function(date) {
+      return monthListUtils.dateToId(date);
    },
 
    _getDayData: function() {

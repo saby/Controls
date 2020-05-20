@@ -1,6 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_search/Input/Container');
 import {constants} from 'Env/Env';
+import {default as Store} from 'Controls/Store';
 
 /**
  * Контрол используют в качестве контейнера для {@link Controls/search:Input}. Он обеспечивает передачу текстового значения, введённого в Controls/search:Input, в {@link Controls/search:Controller}.
@@ -47,7 +48,11 @@ var SearchContainer = Control.extend(/** @lends Controls/_search/Input/Container
    },
 
    _notifySearch: function (value, force) {
-      this._notify('search', [value || '', force], {bubbling: true});
+      if (this._options.useStore) {
+         Store.dispatch('searchValue', value);
+      } else {
+          this._notify('search', [value || '', force], {bubbling: true});
+      }
    },
 
    _valueChanged: function (event, value) {

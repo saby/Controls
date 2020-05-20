@@ -5,18 +5,25 @@
    position: relative;
    cursor: pointer;
 }
+
 .controls-OperationsButton_theme-@{themeName} {
    color: @icon-color_operationsButton;
    width: @width_operationsButton;
    height: @height_operationsButton;
    font-size: @icon-size_operationsButton;
    font-family: @icon_font-family_l;
+   background-color: @background-color_operationsButton;
+   text-shadow: @text-shadow_operationsButton;
+   box-shadow: @box-shadow_operationsButton;
 }
+
 .controls-OperationsButton_state_disabled_theme-@{themeName} {
    color: @readonly_icon-color_operationsButton;
 }
+
 .controls-OperationsButton_state_enabled_theme-@{themeName}:active {
    color: @icon-color_active_operationsButton;
+   background-color: @background-color_active_operationsButton;
 }
 
 .controls-OperationsButton::after {
@@ -35,5 +42,6 @@
 .ws-is-hover {
    .controls-OperationsButton_state_enabled_theme-@{themeName}:hover {
       color: @icon-color_hover_operationsButton;
+      background-color: @background-color_hover_operationsButton;
    }
 }

@@ -7,8 +7,8 @@
     <ws:else data="{{swipeConfig}}">
         <div class="controls-itemActionsV_swipe_animationContainer">
             <div class="controls-Swipe_theme-{{itemData.theme}}
-                controls-Swipe_{{animationState}}"
-                 on:animationend="_onAnimationEnd()">
+                controls-Swipe_{{ animationState }}_theme-{{ itemData.theme }}"
+                on:animationend="_onSwipeAnimationEnd()">
                 <div class="controls-Swipe_{{swipeConfig.twoColumns ? 'columns' : actionAlignment}}_theme-{{itemData.theme}}">
 
                     <ws:if data="{{swipeConfig.twoColumns}}">
@@ -20,19 +20,17 @@
                                 actionAlignment="{{actionAlignment}}"
                                 actionCaptionPosition="{{actionCaptionPosition}}"
                                 needSeparator="{{needSeparator}}"
-                                needIcon="{{needIcon}}"
                                 needTitle="{{needTitle}}"/>
                     </ws:if>
                     <ws:else>
                         <ws:partial
                                 template="wml!Controls/_list/Swipe/resources/SwipeFor"
                                 itemData="{{itemData}}"
-                                showedActions="{{itemData.itemActions.showed}}"
+                                showedActions="{{itemData.getActions().showed}}"
                                 swipeConfig="{{swipeConfig}}"
                                 actionAlignment="{{actionAlignment}}"
                                 actionCaptionPosition="{{actionCaptionPosition}}"
                                 needSeparator="{{needSeparator}}"
-                                needIcon="{{needIcon}}"
                                 needTitle="{{needTitle}}"/>
                     </ws:else>
 

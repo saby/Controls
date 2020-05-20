@@ -5,7 +5,6 @@ define('Controls-demo/Example/Input/Font',
       'wml!Controls-demo/Example/Input/Font/Font',
 
       'Controls/input',
-      'css!Controls-demo/Example/resource/Base',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
    function(Control, SetValueMixin, template) {
@@ -15,7 +14,7 @@ define('Controls-demo/Example/Input/Font',
       var FILLED_MONEY_VALUE = '852.45';
       var FILLED_NUMBER_VALUE = 123.456;
 
-      return Control.extend([SetValueMixin], {
+      var ModuleClass = Control.extend([SetValueMixin], {
          _template: template,
 
          _filled1Value: FILLED_VALUE,
@@ -31,4 +30,8 @@ define('Controls-demo/Example/Input/Font',
          _filledNumber3Value: FILLED_NUMBER_VALUE,
          _filledNumberRMValue: FILLED_NUMBER_VALUE
       });
-   });
+   
+      ModuleClass._styles = ['Controls-demo/Example/resource/Base'];
+
+      return ModuleClass;
+});

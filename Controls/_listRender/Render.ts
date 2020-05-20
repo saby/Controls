@@ -7,6 +7,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import { CollectionItem, Collection, EditInPlaceController, GroupItem } from 'Controls/display';
 import { constants } from 'Env/Env';
 import { Opener as DropdownOpener } from 'Controls/dropdown';
+import {Model} from 'types/entity';
 
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
@@ -21,6 +22,10 @@ export interface IRenderChildren {
     menuOpener?: DropdownOpener;
 }
 
+export interface ISwipeEvent extends Event {
+    direction: 'left'|'right'|'top'|'bottom';
+}
+
 export default class Render extends Control<IRenderOptions> {
     protected _template: TemplateFunction = template;
     protected _children: IRenderChildren;
@@ -28,7 +33,6 @@ export default class Render extends Control<IRenderOptions> {
     protected _templateKeyPrefix: string;
 
     protected _pendingResize: boolean = false;
-    protected _currentMenuConfig: unknown = null;
     protected _onCollectionChange(_e: unknown, action: string): void {
         if (action !== 'ch') {
             // Notify resize when items are added, removed or replaced, or
@@ -47,16 +51,6 @@ export default class Render extends Control<IRenderOptions> {
         if (newOptions.listModel !== this._options.listModel) {
             this._subscribeToModelChanges(newOptions.listModel);
         }
-
-        const menuConfig = newOptions.listModel.getActionsMenuConfig();
-        if (menuConfig !== this._currentMenuConfig) {
-            if (menuConfig) {
-                this._children.menuOpener.open(menuConfig, this);
-            } else {
-                this._children.menuOpener.close();
-            }
-            this._currentMenuConfig = menuConfig;
-        }
     }
 
     protected _afterRender(): void {
@@ -68,7 +62,6 @@ export default class Render extends Control<IRenderOptions> {
 
     protected _beforeUnmount(): void {
         this._unsubscribeFromModelChanges(this._options.listModel);
-        this._currentMenuConfig = null;
     }
 
     protected _afterMount(): void {
@@ -104,11 +97,12 @@ export default class Render extends Control<IRenderOptions> {
             !EditInPlaceController.isEditing(this._options.listModel)
         ) {
             this._notify('itemContextMenu', [item, e, false]);
+            e.preventDefault();
             e.stopPropagation();
         }
     }
 
-    protected _onItemSwipe(e: SyntheticEvent<null>, item: CollectionItem<unknown>): void {
+    protected _onItemSwipe(e: SyntheticEvent<ISwipeEvent>, item: CollectionItem<unknown>): void {
         if (item instanceof GroupItem) {
             return;
         }
@@ -128,8 +122,7 @@ export default class Render extends Control<IRenderOptions> {
     }
 
     protected _onAnimationEnd(e: SyntheticEvent<null>): void {
-        // TODO Swipe animation has finished. If this was a close animation,
-        // clear swipe state
+        this._notify('closeSwipe', [e]);
     }
 
     protected _onItemActionsClick(e: SyntheticEvent<MouseEvent>, action: unknown, item: CollectionItem<unknown>): void {

@@ -6,7 +6,7 @@
                             on:click="_selectKeyChanged(item, _options.keyProperty)"
                             attr:class="controls-RadioGroup_defaultItem_{{_options.direction}}_theme-{{_options.theme}}"
                             item="{{item}}"
-                            readOnly="{{_options.readOnly}}"
+                            readOnly="{{_options.readOnly || item['readOnly']}}"
                             selected="{{item[_options.keyProperty] === _options.selectedKey}}"/>
             </ws:for>
         </div>

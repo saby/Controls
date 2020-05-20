@@ -5,7 +5,7 @@ import chain = require('Types/chain');
 import Utils = require('Types/util');
 import cInstance = require('Core/core-instance');
 import {ContextOptions} from 'Controls/context';
-import {Controller as SourceController} from 'Controls/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
 import {IData, IDecorator} from 'Types/source';
@@ -168,8 +168,8 @@ import {ISelectionObject, TSelectionRecord, TSelectionType} from 'Controls/inter
             return options.selectedItems || context.selectorControllerContext.selectedItems || new List();
          },
 
-         getSourceController: function(source) {
-            return new SourceController({
+         getCrudWrapper: function(source) {
+            return new CrudWrapper({
                source: source
             });
          },
@@ -336,14 +336,14 @@ import {ISelectionObject, TSelectionRecord, TSelectionType} from 'Controls/inter
                   selectedItems.add(items.getRecordById(self._selectedKeys[0]));
                   loadItemsPromise = Promise.resolve(selectedItems);
                } else {
-                  const sourceController = _private.getSourceController(dataOptions.source);
+                  const crudWrapper = _private.getCrudWrapper(dataOptions.source);
                   const loadItemsCallback = (loadedItems) => {
                      self._notify('hideIndicator', [indicatorId], {bubbling: true});
                      return loadedItems;
                   };
 
                   indicatorId = self._notify('showIndicator', [], {bubbling: true});
-                  loadItemsPromise = sourceController.load(filter).then(loadItemsCallback, loadItemsCallback);
+                  loadItemsPromise = crudWrapper.query({filter}).then(loadItemsCallback, loadItemsCallback);
                }
             } else {
                loadItemsPromise = Promise.resolve(_private.getEmptyItems(items));

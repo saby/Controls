@@ -9,8 +9,6 @@ define('Controls-demo/Menu/MenuVdom', [
    'Core/Deferred',
    'Types/entity',
    'wml!Controls-demo/Menu/DemoGroupTemplate',
-   'css!Controls-demo/Dropdown/MenuVdom',
-   'css!Controls-demo/Menu/MenuVdom'
 ], function(Control, template, cClone, collection, history, ControlsConstants, source, Deferred, entity) {
    'use strict';
    var ModuleClass = Control.extend(
@@ -228,5 +226,7 @@ define('Controls-demo/Menu/MenuVdom', [
          },
       }
    );
+   ModuleClass._styles = ['Controls-demo/Dropdown/MenuVdom', 'Controls-demo/Menu/MenuVdom'];
+
    return ModuleClass;
 });

@@ -7,7 +7,6 @@ define('Controls-demo/DragNDrop/Demo', [
    'Controls/dragnDrop',
    'Core/core-instance',
    'Controls/Utils/Toolbar',
-   'css!Controls-demo/DragNDrop/Demo/Demo',
    'wml!Controls-demo/DragNDrop/Demo/columnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/timeColumnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/receivedColumnTemplate'
@@ -132,5 +131,7 @@ define('Controls-demo/DragNDrop/Demo', [
          });
       }
    });
+   ModuleClass._styles = ['Controls-demo/DragNDrop/Demo/Demo'];
+
    return ModuleClass;
 });

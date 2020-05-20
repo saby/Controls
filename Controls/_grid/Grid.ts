@@ -4,8 +4,7 @@ import viewName = require('Controls/_grid/GridView');
 
 /**
     * Контрол «Таблица». Может загружать данные из источника данных.
-    * Подробное описание и инструкции по настройке контрола можно найти <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/'>здесь</a>.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">Демо-пример</a>.
+    * Подробное о работе с контролом можно прочитать <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/'>здесь</a>.
     *
     * @class Controls/_grid/Grid
     * @extends Controls/list:View
@@ -26,7 +25,7 @@ import viewName = require('Controls/_grid/GridView');
     * @public
     * @author Авраменко А.С.
     * @category List
-    * @demo Controls-demo/List/Grid/BasePG
+    * @demo Controls-demo/grid/Base/Index
     */
 
    /*
@@ -72,6 +71,7 @@ Grid.getDefaultOptions = function() {
    return {
        stickyHeader: true,
        stickyColumnsCount: 1,
-       rowSeparatorSize: 's'
+       rowSeparatorSize: null,
+       columnSeparatorSize: null
    };
 };

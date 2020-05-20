@@ -258,6 +258,45 @@ define([
          });
       });
 
+      it('FormController user operations', () => {
+         const FC = new form.Controller();
+         let isSaveCalled = false;
+         let isCancelCalled = false;
+         let isDestroyed = false;
+         const operation = {
+            save() {
+               isSaveCalled = true;
+            },
+            cancel() {
+               isCancelCalled = true;
+            },
+            isDestroyed() {
+               return isDestroyed;
+            }
+         };
+         FC._registerFormOperationHandler(null, operation);
+         FC._registerFormOperationHandler(null, operation);
+         assert.equal(FC._formOperationsStorage.length, 2);
+
+         FC._startFormOperations('save');
+         assert.equal(isSaveCalled, true);
+         assert.equal(isCancelCalled, false);
+
+         isSaveCalled = false;
+         FC._startFormOperations('cancel');
+         assert.equal(isSaveCalled, false);
+         assert.equal(isCancelCalled, true);
+         isCancelCalled = false;
+
+         isDestroyed = true;
+         FC._startFormOperations('cancel');
+         assert.equal(isSaveCalled, false);
+         assert.equal(isCancelCalled, false);
+         assert.equal(FC._formOperationsStorage.length, 0);
+
+         FC.destroy();
+      });
+
       it('FormController update with Config', (done) => {
          let configData = {
             additionalData: {

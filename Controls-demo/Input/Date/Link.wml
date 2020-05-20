@@ -3,12 +3,12 @@
       <div class="controlsDemo-Link__title"></div>
       <div class="controlsDemo-Link__content">
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
 			   attr:test_name="default_range"
                bind:value="_value"/>
          </div>
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
                prevArrowVisibility="{{true}}"
                nextArrowVisibility="{{true}}"
                bind:value="_value"
@@ -16,7 +16,7 @@
             />
          </div>
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
                bind:value="_value"
                chooseHalfyears="{{false}}"
                chooseQuarters="{{false}}"
@@ -26,7 +26,7 @@
             />
          </div>
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
                bind:value="_value"
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"
@@ -37,14 +37,14 @@
 
          </div>
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
                viewMode="label"
                emptyCaption="не задан"
 			   attr:test_name="range_not_value"
             />
          </div>
          <div class="controlsDemo-Link__componentWrap">
-            <Controls.dateRange:Link
+            <Controls.dateRange:DateSelector
                bind:value="_value"
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"

@@ -2,7 +2,6 @@ define('Controls-demo/List/Tree/SelectExpanderIcon', [
    'Core/Control',
    'Controls-demo/List/Tree/TreeData',
    'wml!Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon',
-   'css!Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon',
    'Controls/scroll',
    'Controls/treeGrid'
 ], function(Control, TreeData, template) {
@@ -18,6 +17,8 @@ define('Controls-demo/List/Tree/SelectExpanderIcon', [
             this._children.tasksTreeGrid.toggleExpanded(key);
          }
       });
+
+   SelectExpanderIcon._styles = ['Controls-demo/List/Tree/resources/SelectExpanderIcon/SelectExpanderIcon'];
 
    return SelectExpanderIcon;
 });

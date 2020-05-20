@@ -1,7 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Decorator/Highlight/ClassName/ClassName');
-import 'css!Controls-demo/Controls-demo';
-import 'css!Controls-demo/Decorator/Highlight/ClassName/ClassName';
 
 class ClassName extends Control<IControlOptions> {
     protected _value = 'Наша мама мыла раму.\n' +
@@ -14,6 +12,8 @@ class ClassName extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Decorator/Highlight/ClassName/ClassName'];
 }
 
 export default ClassName;

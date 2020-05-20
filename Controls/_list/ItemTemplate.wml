@@ -1,11 +1,11 @@
 <ws:template name="itemOutputTpl">
    <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}}
-       {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ?
+       {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
        ' controls-ListView__itemV_withMarker controls-ListView__item__marked_' : ' controls-ListView__item__unmarked_') + itemData.style + '_theme-' + _options.theme}}
        {{highlightOnHover !== false && !itemData.isEditing ? 'controls-ListView__item_highlightOnHover_' + itemData.style + '_theme_' + _options.theme}}
        controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{_options.theme}}
        controls-ListView__item_showActions
-       {{!!itemData.isActive && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + _options.theme}}
+       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + _options.theme}}
        {{!!itemData.isEditing ? ' controls-ListView__item_editing_theme-' + _options.theme}}
        {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}
        js-controls-SwipeControl__actionsContainer"
@@ -35,8 +35,9 @@
     <ws:else>
         <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div>
     </ws:else>
-    <ws:if data="{{itemData.drawActions}}">
-        <ws:if data="{{itemData.isSwiped}}">
+
+    <ws:if data="{{itemData.shouldDisplayActions()}}">
+        <ws:if data="{{itemData.isSwiped()}}">
             <ws:partial template="{{swipeTemplate}}"
                         itemData="{{itemData}}"
                         itemActionsTemplate="{{itemActionsTemplate}}"
@@ -46,8 +47,7 @@
             <ws:partial template="{{itemActionsTemplate}}"
                         itemActionsClass="{{itemActionsClass}}"
                         itemData="{{itemData}}"
-                        highlightOnHover="{{highlightOnHover}}"
-            />
+                        highlightOnHover="{{highlightOnHover}}"/>
         </ws:else>
     </ws:if>
 </ws:template>

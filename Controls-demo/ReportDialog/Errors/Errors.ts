@@ -1,6 +1,5 @@
 import {Control, TemplateFunction} from "UI/Base";
 import * as controlTemplate from 'wml!Controls-demo/ReportDialog/Errors/Errors';
-import 'css!Controls-demo/Controls-demo';
 
 export default class extends Control {
    protected _template: TemplateFunction = controlTemplate;
@@ -13,4 +12,6 @@ export default class extends Control {
           'Ошибка3: информация с описанием ошибки 3'
       ];
    }
+
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

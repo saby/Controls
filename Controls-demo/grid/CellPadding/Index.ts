@@ -3,7 +3,6 @@ import * as Template from "wml!Controls-demo/grid/CellPadding/CellPadding"
 import {Memory} from "Types/source"
 import {cellPadding} from "../DemoHelpers/DataCatalog"
 
-import 'css!Controls-demo/Controls-demo'
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -17,4 +16,6 @@ export default class extends Control {
             data: cellPadding().getData().slice(0, 5)
         });
     }
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

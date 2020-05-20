@@ -1,10 +1,10 @@
 <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}}  js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}} controls-TreeTileView__item_theme-{{theme}} js-controls-SwipeControl__actionsContainer
          {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
          controls-ListView__item_showActions
-         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData.isSelected ?
+         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
             ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme
             : ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
-         {{!!itemData.isActive ? ' controls-TreeTileView__item_active_theme-' + theme}}
+         {{!!itemData.isActive() ? ' controls-TreeTileView__item_active_theme-' + theme}}
          {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
          {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme' + theme}}"
      attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultFolderWidth) + 'px; flex-basis: ' + (width || itemData.defaultFolderWidth)+ 'px;'}}">
@@ -21,12 +21,12 @@
      <div attr:class="controls-TreeTileView__dragTargetNode_theme-{{theme}}"></div>
   </ws:if>
   <div attr:class=" controls-TreeTileView__title controls-TreeTileView__title_theme-{{theme}}" title="{{itemData.item.title}}">{{itemData.item[itemData.displayProperty]}}</div>
-  <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
+  <ws:partial if="{{itemData.isSwiped() && itemData.shouldDisplayActions()}}"
               highlightOnHover="{{highlightOnHover}}"
               template="{{swipeTemplate}}"
               itemData="{{itemData}}"
               itemActionsTemplate="{{itemActionsTemplate}}"/>
-  <ws:partial if="{{!itemData.isSwiped && itemData.drawActions && itemData.itemActionsPosition !== 'custom'}}"
+  <ws:partial if="{{!itemData.isSwiped() && itemData.shouldDisplayActions() && itemData.itemActionsPosition !== 'custom'}}"
               template="{{itemActionsTemplate}}"
               highlightOnHover="{{highlightOnHover}}"
               itemData="{{itemData}}"

@@ -1,6 +1,10 @@
-<div class="controls-PropertyGrid controls-PropertyGrid_theme-{{_options.theme}}">
-    <ws:partial template="wml!Controls/_propertyGrid/for"
-                itemsViewModel="{{itemsViewModel}}"
-                theme="{{_options.theme}}"
-                groupTemplate="{{_options.groupTemplate || _defaultGroupTemplate}}"/>
-</div>
+<ws:partial
+    template="{{_options.render}}"
+    groupTemplate="{{_options.groupTemplate}}"
+    itemTemplate="{{_options.itemTemplate}}"
+    listModel="{{_listModel}}"
+    collapsedGroups="{{_collapsedGroups}}"
+    editingObject="{{_options.editingObject}}"
+    on:itemClick="_itemClick()"
+    on:propertyValueChanged="_propertyValueChanged()"
+/>

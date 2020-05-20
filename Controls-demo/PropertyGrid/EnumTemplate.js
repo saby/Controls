@@ -4,8 +4,6 @@ define('Controls-demo/PropertyGrid/EnumTemplate',
       'wml!Controls-demo/PropertyGrid/EnumTemplate',
       'Types/source',
       'Core/core-merge',
-      'css!Controls-demo/Input/resources/VdomInputs',
-      'css!Controls-demo/Input/Suggest/Suggest'
    ],
    function(Control, template, sourceLib, cMerge) {
       'use strict';
@@ -51,6 +49,8 @@ define('Controls-demo/PropertyGrid/EnumTemplate',
          }
       });
 
+
+      stringTmpl._styles = ['Controls-demo/Input/resources/VdomInputs', 'Controls-demo/Input/Suggest/Suggest'];
 
       return stringTmpl;
    });

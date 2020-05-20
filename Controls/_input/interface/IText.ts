@@ -3,6 +3,7 @@
  *
  * @interface Controls/_input/interface/IText
  * @public
+ * @author Красильников А.С.
  */
 export interface ITextOptions {
     /**

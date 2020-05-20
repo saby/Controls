@@ -5,7 +5,7 @@ import Deferred = require('Core/Deferred');
 import {factory} from 'Types/chain';
 import Utils = require('Types/util');
 import {isEqual} from 'Types/object';
-import {Controller} from 'Controls/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import isEmptyObject = require('Core/helpers/Object/isEmpty');
 import {Logger} from 'UI/Utils';
 
@@ -44,13 +44,13 @@ var _private = {
       var that = this;
       var recent, lastFilter;
 
-      if (!self._sourceController) {
-         self._sourceController = new Controller({
+      if (!self._crudWrapper) {
+         self._crudWrapper = new CrudWrapper({
             source: this.getHistorySource(self, id)
          });
       }
 
-      return self._sourceController.load({$_history: true}).addCallback(function() {
+      return self._crudWrapper.query({filter : {$_history: true}}).then(() => {
          recent = that.getHistorySource(self, id).getRecent();
          if (recent.getCount()) {
             lastFilter = recent.at(0);

@@ -44,6 +44,11 @@ export interface ISplicedArray<T> extends Array<T> {
     start?: number;
 }
 
+export enum ANIMATION_STATE {
+    CLOSE = 'close',
+    OPEN = 'open'
+}
+
 type FilterFunction<S> = (
     item: S,
     index: number,
@@ -118,6 +123,16 @@ export interface IItemActionsTemplateConfig {
     itemActionsClass?: string;
 }
 
+export interface IContextMenuConfig {
+    items?: RecordSet;
+    groupTemplate?: TemplateFunction|string;
+    groupProperty?: string;
+    itemTemplate?: TemplateFunction|string;
+    footerTemplate?: TemplateFunction|string;
+    headerTemplate?: TemplateFunction|string;
+    iconSize?: string;
+}
+
 export interface ISwipeConfig {
     itemActionsSize?: 's'|'m'|'l';
     itemActions?: {
@@ -131,11 +146,32 @@ export interface ISwipeConfig {
     needIcon?: Function;
 }
 
-// При необходимости добавлять поля, сейчас описаны только те, которые
-// реально используются
+/**
+ * @typedef {Object} IEditingConfig
+ * @property {Boolean} [editOnClick=false] Если передано значение "true", клик по элементу списка начинает редактирование по месту.
+ * @property {Boolean} [autoAdd=false] Если передано значение "true", после окончания редактирования последнего (уже сущестсвующего) элемента списка автоматически добавляется новый элемент и начинается его редактирование.
+ * @property {Boolean} [autoAddByApplyButton=false] Если передано значение "true", после окончания редактирования только что добавленного элемента списка автоматически добавляется новый элемент и начинается его редактирование.
+ * @property {Boolean} [sequentialEditing=true] Если передано значение "true", после окончания редактирования любого элемента списка, кроме последнего, автоматически запускается редактирование следующего элемента списка.
+ * @property {Boolean} [toolbarVisibility=false] Определяет, должны ли отображаться кнопки "Сохранить" и "Отмена".
+ * @property {AddPosition} [addPosition] Позиция редактирования по месту.
+ * @property {Types/entity:Record} [item=undefined] Запись, которая будет запущена на редактирование при первой отрисовке списка.
+ */
+/*
+ * @typedef {Object} IEditingConfig
+ * @property {Boolean} [editOnClick=false] If true, click on list item starts editing in place.
+ * @property {Boolean} [autoAdd=false] If true, after the end of editing of the last list item, new item adds automatically and its editing begins.
+ * @property {Boolean} [sequentialEditing=true] If true, after the end of editing of any list item other than the last, editing of the next list item starts automatically.
+ * @property {Boolean} [toolbarVisibility=false] Determines whether buttons 'Save' and 'Cancel' should be displayed.
+ * @property {AddPosition} [addPosition] Editing in place position.
+ * @property {Types/entity:Record} [item=undefined] If present, editing of this item will begin on first render.
+ */
 export interface IEditingConfig {
     addPosition?: 'top'|'bottom';
     toolbarVisibility?: boolean;
+    editOnClick?: boolean;
+    autoAdd?: boolean;
+    sequentialEditing?: boolean;
+    item?: CollectionItem<any>;
 }
 
 interface IUserStrategy<S, T> {
@@ -498,7 +534,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * @see getGroup
      * @see setGroup
      */
-    protected _$group: GroupFunction<S, T>;
+    protected _$
+        : GroupFunction<S, T>;
 
     /**
      * @cfg {
@@ -563,7 +600,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _$hasMoreData: boolean;
 
-    protected _$contextMenuConfig: any;
+    protected _$contextMenuConfig: IContextMenuConfig;
 
     protected _$compatibleReset: boolean;
 
@@ -668,6 +705,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _actionsMenuConfig: any;
     protected _actionsTemplateConfig: IItemActionsTemplateConfig;
     protected _swipeConfig: ISwipeConfig;
+
+    protected _hoveredItem: T;
+
+    /**
+     * ссылка на текущий активный Item
+     */
+    protected _$activeItem: T;
+
+    /**
+     * Анимация свайпа: открытие или закрытие меню опций
+     */
+    protected _swipeAnimation: ANIMATION_STATE;
 
     protected _userStrategies: Array<IUserStrategy<S, T>>;
 
@@ -1994,12 +2043,13 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      *     display.setSelectedItems([list.at(0), list.at(1)], true) //установит признак двум элементам;
      * </pre>
      */
-    setSelectedItems(items: any[], selected: boolean): void {
+    setSelectedItems(items: any[], selected: boolean|null): void {
         const sourceItems = [];
         for (let i = 0, count = items.length; i < count; i++) {
-            sourceItems.push(
-                this.getItemBySourceItem(items[i])
-            );
+            const item = this.getItemBySourceItem(items[i]);
+            if (item) {
+                sourceItems.push(item);
+            }
         }
         this._setSelectedItems(sourceItems, selected);
     }
@@ -2142,7 +2192,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$compatibleReset = compatible;
     }
 
-    getContextMenuConfig(): unknown {
+    // yet not used anywhere
+    getContextMenuConfig(): IContextMenuConfig {
         return this._$contextMenuConfig;
     }
 
@@ -2162,7 +2213,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._actionsAssigned = assigned;
     }
 
-    areActionsAssigned(): boolean {
+    isActionsAssigned(): boolean {
         return this._actionsAssigned;
     }
 
@@ -2203,6 +2254,34 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._hoveredItem;
     }
 
+    /**
+     * Устанавливает флаг активности переданному элементу коллекции
+     * @param item Элемент коллекции, для которого нужно обновить операции с записью
+     * TODO работа с activeItem Должна производиться через item.isActive(),
+     *  но из-за того, как в TileView организована работа с isHovered, isScaled и isAnimated
+     *  мы не можем снять эти состояния при клике внутри ItemActions
+     */
+    setActiveItem(item: T): void {
+        const oldActiveItem = this.getActiveItem();
+
+        if (oldActiveItem) {
+            oldActiveItem.setActive(false);
+        }
+        if (item) {
+            item.setActive(true);
+        }
+        this._$activeItem = item;
+        this._nextVersion();
+    }
+
+    /**
+     * Получает текущий активный элемент коллекции
+     * this.find((item) => item.isActive())
+     */
+    getActiveItem(): T {
+        return this._$activeItem;
+    }
+
     getSwipeConfig(): ISwipeConfig {
         return this._swipeConfig;
     }
@@ -2212,6 +2291,22 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this._swipeConfig = config;
             this._nextVersion();
         }
+    }
+
+    /**
+     * Устанавливает текущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    setSwipeAnimation(animation: ANIMATION_STATE): void {
+        this._swipeAnimation = animation;
+    }
+
+    /**
+     * Получает еткущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    getSwipeAnimation(): ANIMATION_STATE {
+        return this._swipeAnimation;
     }
 
     appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
@@ -2431,9 +2526,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * @param selecItems массив элементов проекции
      * @param selected Элемент выбран.
      */
-    protected _setSelectedItems(selecItems: T[], selected: boolean): void {
+    protected _setSelectedItems(selecItems: T[], selected: boolean|null): void {
         const items = [];
-        selected = !!selected;
         for (let i = selecItems.length - 1; i >= 0; i--) {
             if (selecItems[i].isSelected() !== selected) {
                 selecItems[i].setSelected(selected, true);

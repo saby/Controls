@@ -42,10 +42,10 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *             bind:startValue1="_startValue1"
  *             bind:endValue1="_endValue1">
  *        <Controls.dateRange:RelationWrapper number="{{0}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *        <Controls.dateRange:RelationWrapper number="{{1}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>
@@ -70,10 +70,10 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *             bind:startValue1="_startValue1"
  *             bind:endValue1="_endValue1">
  *        <Controls.dateRange:RelationWrapper number="{{0}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *        <Controls.dateRange:RelationWrapper number="{{1}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>
@@ -112,10 +112,10 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *             bind:startValue1="_startValue1"
  *             bind:endValue1="_endValue1">
  *        <Controls.dateRange:RelationWrapper number="{{0}}" ranges="{{content.ranges}}" relationMode="byCapacity">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *        <Controls.dateRange:RelationWrapper number="{{1}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>
@@ -142,10 +142,10 @@ import template = require('wml!Controls/_dateRange/RelationWrapper/RelationWrapp
  *             bind:startValue1="_startValue1"
  *             bind:endValue1="_endValue1">
  *        <Controls.dateRange:RelationWrapper number="{{0}}" ranges="{{content.ranges}}" relationMode="byCapacity">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *        <Controls.dateRange:RelationWrapper number="{{1}}" ranges="{{content.ranges}}">
- *            <Controls.dateRange:LiteSelector/>
+ *            <Controls.dateRange:RangeShortSelector/>
  *        </Controls.dateRange:RelationWrapper>
  *    </Controls.dateRange:RelationController>
  * </pre>

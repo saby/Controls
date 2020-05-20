@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Input/Trim/Trim');
-import 'css!Controls-demo/Controls-demo';
 
 class Trim extends Control<IControlOptions> {
     protected _placeholder = 'Tooltip';
@@ -8,6 +7,8 @@ class Trim extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
 
     static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
 export default Trim;

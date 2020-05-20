@@ -14,6 +14,7 @@ export type TagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | '
  *
  * @interface Controls/_input/interface/ITag
  * @public
+ * @author Красильников А.С.
  */
 export interface ITagOptions {
     /**

@@ -4,7 +4,6 @@ define('Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector', [
    'Controls-demo/Input/Lookup/LookupData',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
-   'css!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector',
    'Controls/list'
 ], function(Control, template, lookupData, source, MemorySourceFilter) {
 
@@ -59,6 +58,8 @@ define('Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector', [
          multiSelect: false
       };
    };
+
+   FlatListSelector._styles = ['Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector'];
 
    return FlatListSelector;
 });

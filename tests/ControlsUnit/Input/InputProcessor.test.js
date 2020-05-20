@@ -1,14 +1,15 @@
 define(
    [
-      'Controls/_input/Mask/Formatter',
+      'Controls/decorator',
       'Controls/input'
    ],
-   function(Formatter, inputMod) {
+   function(formatter, inputMod) {
 
       'use strict';
 
       describe('Controls/_input/Mask/InputProcessor', function() {
          var
+            Formatter = formatter.Formatter,
             replacer = ' ',
             format = inputMod.MaskFormatBuilder.getFormat('dd.dd', {
                d: '[0-9]'

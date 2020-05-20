@@ -1,0 +1,24 @@
+<ws:if data="{{!collectionItem.isHiddenGroup()}}">
+    <div attr:class="controls-PropertyGrid__group
+                 controls-PropertyGrid__group_theme-{{theme}}" attr:key="group-{{item}}">
+        <div class="controls-PropertyGrid__group-content_theme-{{theme}}">
+            <ws:if data="{{!!contentTemplate}}">
+                <ws:partial template="{{contentTemplate}}"
+                            collectionItem="{{collectionItem}}"
+                            item="{{item}}"
+                />
+            </ws:if>
+            <ws:else>
+                {{item}}
+            </ws:else>
+        </div>
+        <ws:if data="{{expanderVisible}}">
+            <div title="{{collectionItem.isExpanded() && !collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
+                 class="controls-PropertyGrid__groupExpander
+                    controls-icon
+                    controls-icon_size-s_theme-{{theme}}
+                    {{collectionItem.isExpanded() && !collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
+                    controls-PropertyGrid__groupExpander_theme-{{theme}}"></div>
+        </ws:if>
+    </div>
+</ws:if>

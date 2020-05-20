@@ -16,31 +16,39 @@
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
-   <Controls.scroll:Container name="scroll"
-                              attr:class="controls-Area__scroll controls-InputBase__field
+   <ws:content>
+      <Controls.scroll:Container name="scroll"
+                                 attr:class="controls-Area__scroll controls-InputBase__field
                                           controls-Area__minHeight_theme_{{_options.theme}}_countLines_{{_minLines}}_size_{{_heightLine}}_indented
                                           {{_maxLines ? 'controls-Area__maxHeight_theme_' + _options.theme + '_countLines_' + _maxLines + '_size_' + _heightLine + '_indented'}}">
-      <ws:if data="{{_options.readOnly}}">
-         <ws:partial options="{{_options}}"
-                     scope="{{_readOnlyField.scope}}"
-                     value="{{_viewModel.displayValue}}"
-                     selection="{{_viewModel.selection}}"
-                     template="{{_readOnlyField.template}}"/>
+         <ws:if data="{{_options.readOnly}}">
+            <ws:partial options="{{_options}}"
+                        scope="{{_readOnlyField.scope}}"
+                        value="{{_viewModel.displayValue}}"
+                        selection="{{_viewModel.selection}}"
+                        template="{{_readOnlyField.template}}"/>
+         </ws:if>
+         <ws:else>
+            <ws:partial type="{{_type}}"
+                        options="{{_options}}"
+                        scope="{{_field.scope}}"
+                        minLines="{{_minLines}}"
+                        maxLines="{{_maxLines}}"
+                        fieldName="{{_fieldName}}"
+                        heightLine="{{_heightLine}}"
+                        template="{{_field.template}}"
+                        wasActionUser="{{_wasActionUser}}"
+                        value="{{_viewModel.displayValue}}"
+                        selection="{{_viewModel.selection}}"
+                        hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
+                        isEdge="{{_isEdge}}"/>
+         </ws:else>
+      </Controls.scroll:Container>
+   </ws:content>
+   <ws:footerTemplate>
+      <ws:if data="{{_options.footerTemplate}}">
+         <ws:partial template="{{_options.footerTemplate}}"
+                     attr:class="controls-Area__footer controls-Area__footer_theme_{{_options.theme}}"/>
       </ws:if>
-      <ws:else>
-         <ws:partial type="{{_type}}"
-                     options="{{_options}}"
-                     scope="{{_field.scope}}"
-                     minLines="{{_minLines}}"
-                     maxLines="{{_maxLines}}"
-                     fieldName="{{_fieldName}}"
-                     heightLine="{{_heightLine}}"
-                     template="{{_field.template}}"
-                     wasActionUser="{{_wasActionUser}}"
-                     value="{{_viewModel.displayValue}}"
-                     selection="{{_viewModel.selection}}"
-                     hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
-                     isEdge="{{_isEdge}}"/>
-      </ws:else>
-   </Controls.scroll:Container>
+   </ws:footerTemplate>
 </Controls._input.Render>

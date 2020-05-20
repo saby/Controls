@@ -1,7 +1,6 @@
 define('Controls-demo/Input/DateTime/DateTime', [
    'Core/Control',
    'wml!Controls-demo/Input/DateTime/DateTime',
-   'css!Controls-demo/Input/DateTime/DateTime'
 ], function(
    BaseControl,
    template
@@ -46,5 +45,7 @@ define('Controls-demo/Input/DateTime/DateTime', [
       }],
 
    });
+   ModuleClass._styles = ['Controls-demo/Input/DateTime/DateTime'];
+
    return ModuleClass;
 });

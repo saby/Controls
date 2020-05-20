@@ -1,7 +1,6 @@
 define('Controls-demo/dateRange/RelationController', [
    'Core/Control',
    'wml!Controls-demo/dateRange/RelationController',
-   'css!Controls-demo/dateRange/RelationController'
 ], function(
    BaseControl,
    template
@@ -39,5 +38,7 @@ define('Controls-demo/dateRange/RelationController', [
       _beforeMount: function() {
       }
    });
+   ModuleClass._styles = ['Controls-demo/dateRange/RelationController'];
+
    return ModuleClass;
 });

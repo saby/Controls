@@ -1,6 +1,6 @@
 <div attr:class="controls-MonthViewVDOM controls-MonthViewVDOM_theme-{{_options.theme}}
                   {{_options.newMode !== true? 'controls-MonthViewVDOM-old controls-MonthViewVDOM-old_theme-' + _options.theme}}
-                  {{rangeselect ? ' controls-RangeSelectable__rangeselect'}} {{_themeCssClass}}">
+         {{rangeselect ? ' controls-RangeSelectable__rangeselect'}} {{_themeCssClass}}" data-date="{{_dateToDataString(_month)}}">
    <ws:if data="{{_options.showCaption}}">
       <div attr:class="controls-MonthViewVDOM__caption {{_themeCssClass}}">
          <ws:partial
