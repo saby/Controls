@@ -1,0 +1,8 @@
+<div class="controls-CommandToolbar__item{{buttonTemplateOptions.readOnly ? '_readOnly'}}
+            controls-CommandToolbar__item_theme-{{theme}}"
+     title="{{item.tooltip}}">
+   <ws:partial template="{{buttonTemplate}}"
+               scope="{{buttonTemplateOptions}}"
+               theme="{{theme}}"
+               attr:class="controls-CommandToolbar__button"/>
+</div>

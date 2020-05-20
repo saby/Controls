@@ -1,0 +1,13 @@
+<div class="controls-CommandToolbar ws-flexbox ws-align-items-center">
+   <ws:for data="item in _items">
+      <div class="controls-CommandToolbar__userBtn ws-flexbox ws-align-items-center" on:click="_itemClickHandler(item)">
+         <ws:partial template="{{_getTemplateByItem(item)}}"
+                     item="{{item}}"
+                     itemsSpacing="{{_options.itemsSpacing}}"
+                     buttonTemplate="{{_buttonTemplate}}"
+                     buttonTemplateOptions="{{_getButtonTemplateOptionsByItem(item)}}"
+                     theme="{{_options.theme}}"
+                     on:click="_itemClickHandler(item)"/>
+      </div>
+   </ws:for>
+</div>

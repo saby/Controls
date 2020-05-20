@@ -1,0 +1,21 @@
+.controls-CommandToolbar {
+  max-width: 100%;
+  height: 28px;
+  justify-content: space-evenly;
+  background-color: #f8f8f8;
+  border-radius: 13px;
+  margin-right: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.156863);
+
+  &__userBtn {
+    padding: 0 10px 0 10px;
+    font-weight: bold;
+    height: 16px;
+    line-height: 16px;
+
+    &:not(:first-child):not(:last-child) {
+      border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+    }
+  }
+}
