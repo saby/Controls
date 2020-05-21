@@ -76,8 +76,10 @@ console.log('app available on port ' + port);
 global.require = global.requirejs = require = requirejs;
 
 console.log('start init');
-require(['Core/core-init'], function(){
+require(['Application/Initializer', 'SbisEnv/PresentationService', 'UI/Base' ,'Core/core-init'], 
+   function (AppInit, PresentationService, UI) {
    initEnv();
+   AppInit.default({}, PresentationService.default, new UI.StateReceiver());
    console.log('core init success');
 }, function(err){
    console.log(err);
