@@ -7,9 +7,10 @@ define(
       'Controls/history',
       'Core/Deferred',
       'Types/entity',
-      'Core/core-instance'
+      'Core/core-instance',
+      'Controls/popup'
    ],
-   (dropdown, sourceLib, clone, collection, history, Deferred, entity, cInstance) => {
+   (dropdown, sourceLib, clone, collection, history, Deferred, entity, cInstance, popup) => {
       describe('Dropdown/Controller', () => {
          let items = [
             {
@@ -94,7 +95,7 @@ define(
 
          it('before mount', (done) => {
             let newConfig = clone(config),
-               loadedItems;
+                loadedItems;
             newConfig.dataLoadCallback = (items) => {loadedItems = items;};
             let dropdownController = getDropdownController(newConfig);
             dropdownController._beforeMount(newConfig).then((beforeMountResult) => {
@@ -125,7 +126,7 @@ define(
 
          it('dataLoadCallback', (done) => {
             let newConfig = clone(config),
-               selectedItems;
+                selectedItems;
             newConfig.dataLoadCallback = (items) => {items.assign(itemsRecords.clone());};
             newConfig.selectedItemsChangedCallback = (items) => {selectedItems = items;};
             newConfig.selectedKeys = ['2'];
@@ -150,13 +151,8 @@ define(
 
          it('_keyDown', function() {
             let dropdownController = getDropdownController(config),
-               closed = false, isOpened = true, isStopped = false;
-            dropdownController._children = {
-               DropdownOpener: {
-                  isOpened: () => {return isOpened;},
-                  close: () => {closed = true; }
-               }
-            };
+                closed = false, isStopped = false;
+            popup.Sticky.closePopup = () => {closed = true; };
             let event = {
                nativeEvent: {
                   keyCode: 28
@@ -172,12 +168,13 @@ define(
             // Тестируем нажатие esc, когда выпадающий список открыт
             isStopped = false;
             event.nativeEvent.keyCode = 27;
+            dropdownController._popupId = 'test';
             dropdownController._keyDown(event);
             assert.isTrue(closed);
             assert.isTrue(isStopped);
 
             // Тестируем нажатие esc, когда выпадающий список закрыт
-            isOpened = false;
+            dropdownController._popupId = null;
 
             isStopped = false;
             closed = false;
@@ -206,7 +203,7 @@ define(
 
          it('received state, selectedItems = [null], emptyText is set', () => {
             let selectedItemsChangeCalled = false,
-               selectedItems = [];
+                selectedItems = [];
             const config = {
                selectedKeys: [null],
                keyProperty: 'id',
@@ -229,7 +226,7 @@ define(
 
          it('received state, selectedItems = [null], emptyText is NOT set', () => {
             let selectedItemsChangeCalled = false,
-               selectedItems = [];
+                selectedItems = [];
             const config = {
                selectedKeys: [null],
                keyProperty: 'id',
@@ -254,16 +251,7 @@ define(
             beforeEach(function() {
                opened = false;
                dropdownController = getDropdownController(config);
-               dropdownController._children = {
-                  DropdownOpener: {
-                     open: function() {
-                        opened = true;
-                     },
-                     isOpened: function() {
-                        return opened;
-                     }
-                  }
-               };
+               popup.Sticky.openPopup = () => {opened = true; };
 
                updatedItems = clone(items);
                updatedItems.push({
@@ -369,7 +357,7 @@ define(
 
             it('change filter', (done) => {
                let configFilter = clone(config),
-                  selectedItems = [];
+                   selectedItems = [];
                configFilter.selectedKeys = ['2'];
                configFilter.selectedItemsChangedCallback = function(items) {
                   selectedItems = items;
@@ -383,7 +371,7 @@ define(
 
             it('without loaded items', () => {
                let configItems = clone(config),
-                  selectedItems = [];
+                   selectedItems = [];
                configItems.selectedItemsChangedCallback = function(items) {
                   selectedItems = items;
                };
@@ -451,11 +439,9 @@ define(
 
             it('change readOnly', () => {
                let readOnlyConfig = clone(config),
-                  isClosed = false;
+                   isClosed = false;
 
-               dropdownController._children.DropdownOpener = {
-                  close: () => {isClosed = true;}
-               };
+               popup.Sticky.closePopup = () => {isClosed = true; };
                readOnlyConfig.readOnly = true;
                dropdownController._beforeUpdate(readOnlyConfig);
                assert.isTrue(isClosed);
@@ -474,7 +460,7 @@ define(
                   isFooterClicked = true;
                }
             };
-            dropdownController._onResult(null, 'footerClick');
+            dropdownController._onResult('footerClick');
             assert.isFalse(isClosed);
             assert.isTrue(isFooterClicked);
          });
@@ -488,14 +474,8 @@ define(
 
             dropdownController._beforeMount(configLazyLoad);
             dropdownController._items = itemsRecords.clone();
-            dropdownController._children.DropdownOpener = {
-               close: function() {
-                  closed = true;
-               },
-               open: function() {
-                  opened = true;
-               }
-            };
+            popup.Sticky.closePopup = () => {closed = true; };
+            popup.Sticky.openPopup = () => {opened = true; };
 
             dropdownController._notify = (e, eventResult) => {
                assert.equal(e, 'selectedItemsChanged');
@@ -508,25 +488,26 @@ define(
             };
 
             // returned false from handler and no hierarchy
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(4));
+            dropdownController._onResult('itemClick', dropdownController._items.at(4));
             assert.isFalse(closed);
 
             // returned undefined from handler and there is hierarchy
             closed = false;
             closeByNodeClick = false;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(5));
+            dropdownController._onResult('itemClick', dropdownController._items.at(5));
             assert.isFalse(closed);
 
             // returned undefined from handler and no hierarchy
             closed = false;
+            dropdownController._popupId = 'test';
             closeByNodeClick = undefined;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(4));
+            dropdownController._onResult('itemClick', dropdownController._items.at(4));
             assert.isTrue(closed);
 
             // returned true from handler and there is hierarchy
             closed = false;
             closeByNodeClick = undefined;
-            dropdownController._onResult(null, 'itemClick', dropdownController._items.at(5));
+            dropdownController._onResult('itemClick', dropdownController._items.at(5));
             assert.isTrue(closed);
          });
 
@@ -550,7 +531,7 @@ define(
 
          it('check empty item update', () => {
             let dropdownController = getDropdownController(config),
-               selectedItems = [];
+                selectedItems = [];
             let selectedItemsChangedCallback = function(items) {
                selectedItems = items;
             };
@@ -578,7 +559,7 @@ define(
 
          it('_open dropdown', () => {
             let dropdownController = getDropdownController(config),
-               opened = false;
+                opened = false;
             dropdownController._items = itemsRecords.clone();
             dropdownController._source = 'testSource';
             dropdownController._children.DropdownOpener = {
@@ -779,7 +760,7 @@ define(
 
          it('_onSelectorTemplateResult', () => {
             let dropdownController = getDropdownController(config),
-               opened;
+                opened;
             dropdownController._onResult = dropdown._Controller._private.onResult.bind(dropdownController);
             dropdownController._children.DropdownOpener = {
                close: function() {
@@ -787,55 +768,55 @@ define(
                }
             };
             let curItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  }, {
-                     id: '2',
-                     title: 'Запись 2'
-                  }, {
-                     id: '3',
-                     title: 'Запись 3'
-                  }]
-               }),
-               selectedItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  },
-                  {
-                     id: '9',
-                     title: 'Запись 9'
-                  },
-                  {
-                     id: '10',
-                     title: 'Запись 10'
-                  }]
-               });
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   }, {
+                      id: '2',
+                      title: 'Запись 2'
+                   }, {
+                      id: '3',
+                      title: 'Запись 3'
+                   }]
+                }),
+                selectedItems = new collection.RecordSet({
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   },
+                      {
+                         id: '9',
+                         title: 'Запись 9'
+                      },
+                      {
+                         id: '10',
+                         title: 'Запись 10'
+                      }]
+                });
             dropdownController._items = curItems;
             dropdownController._source = config.source;
             let newItems = [ {
                id: '9',
                title: 'Запись 9'
             },
-            {
-               id: '10',
-               title: 'Запись 10'
-            },
-            {
-               id: '1',
-               title: 'Запись 1'
-            },
-            {
-               id: '2',
-               title: 'Запись 2'
-            },
-            {
-               id: '3',
-               title: 'Запись 3'
-            }
+               {
+                  id: '10',
+                  title: 'Запись 10'
+               },
+               {
+                  id: '1',
+                  title: 'Запись 1'
+               },
+               {
+                  id: '2',
+                  title: 'Запись 2'
+               },
+               {
+                  id: '3',
+                  title: 'Запись 3'
+               }
             ];
 
             dropdownController._onSelectorTemplateResult('selectorResult', selectedItems);
@@ -844,7 +825,7 @@ define(
 
          it('_onSelectorTemplateResult selectorCallback', () => {
             let dropdownController = getDropdownController(config),
-               opened;
+                opened;
             dropdownController._onResult = dropdown._Controller._private.onResult.bind(dropdownController);
             dropdownController._children.DropdownOpener = {
                close: function() {
@@ -859,33 +840,33 @@ define(
             };
 
             let curItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  }, {
-                     id: '2',
-                     title: 'Запись 2'
-                  }, {
-                     id: '3',
-                     title: 'Запись 3'
-                  }]
-               }),
-               selectedItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  },
-                     {
-                        id: '9',
-                        title: 'Запись 9'
-                     },
-                     {
-                        id: '10',
-                        title: 'Запись 10'
-                     }]
-               });
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   }, {
+                      id: '2',
+                      title: 'Запись 2'
+                   }, {
+                      id: '3',
+                      title: 'Запись 3'
+                   }]
+                }),
+                selectedItems = new collection.RecordSet({
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   },
+                      {
+                         id: '9',
+                         title: 'Запись 9'
+                      },
+                      {
+                         id: '10',
+                         title: 'Запись 10'
+                      }]
+                });
             dropdownController._items = curItems;
             dropdownController._source = config.source;
             let newItems = [
@@ -912,17 +893,8 @@ define(
             dropdownController._items = items2;
             dropdownController._source = 'testSource';
             dropdownController._sourceController = { hasMoreData: () => false };
-            dropdownController._children.DropdownOpener = {
-               close: function() {
-                  opened = false;
-               },
-               open: function() {
-                  opened = true;
-               },
-               isOpened: function() {
-                  return opened;
-               }
-            };
+            popup.Sticky.closePopup = () => {opened = false; };
+            popup.Sticky.openPopup = () => {opened = true; };
 
             dropdownController._open = function() {
                opened = true;
@@ -930,6 +902,7 @@ define(
             dropdownController._mouseDownHandler();
             assert.isTrue(opened);
 
+            dropdownController._popupId = 'test';
             dropdownController._mouseDownHandler();
             assert.isFalse(opened);
          });
@@ -993,11 +966,7 @@ define(
             let dropdownController = getDropdownController(config);
             let closed = false;
 
-            dropdownController._children.DropdownOpener = {
-               close: () => {
-                  closed = true;
-               }
-            };
+            popup.Sticky.closePopup = () => {closed = true; };
 
             dropdownController.closeMenu();
             assert.isTrue(closed);
@@ -1005,29 +974,29 @@ define(
 
          it('_private::getNewItems', function() {
             let curItems = new collection.RecordSet({
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  }, {
-                     id: '2',
-                     title: 'Запись 2'
-                  }, {
-                     id: '3',
-                     title: 'Запись 3'
-                  }]
-               }),
-               selectedItems = new collection.RecordSet({
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  }, {
-                     id: '9',
-                     title: 'Запись 9'
-                  }, {
-                     id: '10',
-                     title: 'Запись 10'
-                  }]
-               });
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   }, {
+                      id: '2',
+                      title: 'Запись 2'
+                   }, {
+                      id: '3',
+                      title: 'Запись 3'
+                   }]
+                }),
+                selectedItems = new collection.RecordSet({
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   }, {
+                      id: '9',
+                      title: 'Запись 9'
+                   }, {
+                      id: '10',
+                      title: 'Запись 10'
+                   }]
+                });
             let newItems = [selectedItems.at(1), selectedItems.at(2)];
             let result = dropdown._Controller._private.getNewItems(curItems, selectedItems, 'id');
 
@@ -1037,54 +1006,54 @@ define(
          it('_private::onSelectorResult', function() {
             let dropdownController = getDropdownController(config);
             let curItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  }, {
-                     id: '2',
-                     title: 'Запись 2'
-                  }, {
-                     id: '3',
-                     title: 'Запись 3'
-                  }]
-               }),
-               selectedItems = new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  },
-                  {
-                     id: '9',
-                     title: 'Запись 9'
-                  },
-                  {
-                     id: '10',
-                     title: 'Запись 10'
-                  }]
-               });
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   }, {
+                      id: '2',
+                      title: 'Запись 2'
+                   }, {
+                      id: '3',
+                      title: 'Запись 3'
+                   }]
+                }),
+                selectedItems = new collection.RecordSet({
+                   keyProperty: 'id',
+                   rawData: [{
+                      id: '1',
+                      title: 'Запись 1'
+                   },
+                      {
+                         id: '9',
+                         title: 'Запись 9'
+                      },
+                      {
+                         id: '10',
+                         title: 'Запись 10'
+                      }]
+                });
             dropdownController._items = curItems;
             let newItems = [ {
                id: '9',
                title: 'Запись 9'
             },
-            {
-               id: '10',
-               title: 'Запись 10'
-            },
-            {
-               id: '1',
-               title: 'Запись 1'
-            },
-            {
-               id: '2',
-               title: 'Запись 2'
-            },
-            {
-               id: '3',
-               title: 'Запись 3'
-            }
+               {
+                  id: '10',
+                  title: 'Запись 10'
+               },
+               {
+                  id: '1',
+                  title: 'Запись 1'
+               },
+               {
+                  id: '2',
+                  title: 'Запись 2'
+               },
+               {
+                  id: '3',
+                  title: 'Запись 3'
+               }
             ];
             dropdownController._source = config.source;
             dropdown._Controller._private.onSelectorResult(dropdownController, selectedItems);
@@ -1113,7 +1082,7 @@ define(
          });
 
          let historySource,
-            dropdownController;
+             dropdownController;
          describe('history', ()=> {
             beforeEach(function() {
                historySource = new history.Source({
@@ -1168,7 +1137,7 @@ define(
                   filter: {}
                });
 
-               dropdownController._onResult(null, 'applyClick', items);
+               dropdownController._onResult('applyClick', items);
                assert.deepEqual(selectedItems, items);
             });
 
@@ -1203,7 +1172,7 @@ define(
                item.set('originalId', item.getId());
                item.set('id', item.getId() + '_history');
                assert.equal(item.getId(), '6_history');
-               dropdownController._onResult(null, 'itemClick', item);
+               dropdownController._onResult('itemClick', item);
                assert.equal(resultItems[0].getId(), '6');
                assert.isTrue(updated);
 
@@ -1215,7 +1184,7 @@ define(
                   },
                   keyProperty: 'id'
                });
-               dropdownController._onResult(null, 'itemClick', item);
+               dropdownController._onResult('itemClick', item);
                assert.equal(resultItems[0].getId(), '5');
                assert.isFalse(updated);
             });
@@ -1253,7 +1222,7 @@ define(
                closed = false;
                assert.equal(item.getId(), '6_history');
                dropdownController._source = historySource;
-               dropdownController._onResult(null, 'pinClick', item);
+               dropdownController._onResult('pinClick', item);
                assert.isFalse(closed);
                assert.equal(resultItem.getId(), '6');
             });
