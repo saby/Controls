@@ -16,15 +16,8 @@
    display: inline-flex;
    height: @item_height_tabs;
    position: relative;
-   &:after {
-      content: '';
-      position: absolute;
-      bottom:0;
-      left:0;
-      width: 100%;
-      height: @border-thickness_tabs;
-      background: @border-color_tabs;
-   }
+   border-bottom: @border-thickness_tabs solid @border-color_tabs;
+   box-sizing: border-box;
 }
 .controls-Tabs__space_theme_@{themeName} {
    display: inline-flex;
@@ -58,7 +51,7 @@
    &:after {
       content: '';
       position: absolute;
-      bottom:0;
+      bottom: -@border-thickness_tabs;
       left:0;
       width: 100%;
    }
