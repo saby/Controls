@@ -2,6 +2,7 @@
 import Control = require('Core/Control');
 // @ts-ignore
 import template = require('wml!Controls/_dropdown/_Controller');
+import {Sticky as StickyOpener} from 'Controls/popup';
 import chain = require('Types/chain');
 import historyUtils = require('Controls/_dropdown/dropdownHistoryUtils');
 import dropdownUtils = require('Controls/_dropdown/Util');
@@ -15,6 +16,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import * as cInstance from 'Core/core-instance';
 import {PrefetchProxy} from 'Types/source';
 import * as Merge from 'Core/core-merge';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
 const PRELOAD_DEPENDENCIES_HOVER_DELAY = 80;
 
@@ -34,7 +36,7 @@ var _private = {
    },
 
    isLocalSource(source): boolean {
-     return cInstance.instanceOfModule(source, 'Types/source:Local');
+      return cInstance.instanceOfModule(source, 'Types/source:Local');
    },
 
    loadError(self, error: Error): void {
@@ -189,7 +191,7 @@ var _private = {
       }
    },
 
-   onResult: function (event, action, data, popupId) {
+   onResult: function (action, data) {
       switch (action) {
          case 'pinClick':
             _private.pinClick(this, data);
@@ -223,7 +225,7 @@ var _private = {
    },
 
    closeDropdownList: function (self) {
-      self._children.DropdownOpener.close();
+      StickyOpener.closePopup(self._popupId);
       self._isOpened = false;
    },
 
@@ -296,26 +298,45 @@ var _private = {
    },
 
    getPopupOptions(self, popupOptions?): object {
+      let templateOptions = {
+         closeButtonVisibility: false,
+         emptyText: self._getEmptyText(),
+         allowPin: self._options.allowPin && self._hasHistory(),
+         headerTemplate: self._options.headTemplate || self._options.headerTemplate,
+         footerContentTemplate: self._options.footerContentTemplate || self._options.footerTemplate,
+         items: self._items,
+         source: self._menuSource,
+         filter: self._filter,
+         // FIXME self._container[0] delete after
+         // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+         width: self._options.width !== undefined ?
+             (self._container[0] || self._container).offsetWidth :
+             undefined,
+         hasMoreButton: self._sourceController.hasMoreData('down'),
+         selectorOpener: self._children.selectorOpener,
+         selectorDialogResult: self._onSelectorTemplateResult.bind(self)
+      };
+      let options = {...self._options};
       const config = {
-         templateOptions: {
-            items: self._items,
-            source: self._menuSource,
-            filter: self._filter,
-            // FIXME self._container[0] delete after
-            // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            width: self._options.width !== undefined ?
-                (self._container[0] || self._container).offsetWidth :
-                undefined,
-            hasMoreButton: self._sourceController.hasMoreData('down'),
-            selectorOpener: self._children.selectorOpener,
-            selectorDialogResult: self._onSelectorTemplateResult.bind(self)
-         },
+         id: self._popupId,
+         templateOptions: Object.assign(options, templateOptions),
+         className: self._options.popupClassName,
+         template: 'Controls/menu:Popup',
+         actionOnScroll: 'close',
          target: self._container,
          targetPoint: self._options.targetPoint,
          opener: self,
          fittingMode: {
             vertical: 'adaptive',
             horizontal: 'overflow'
+         },
+         eventHandlers: {
+            onOpen: self._onOpen,
+            onClose: () => {
+               self._popupId = null;
+               self._onClose();
+            },
+            onResult: self._onResult
          },
          autofocus: false,
          closeOnOutsideClick: true
@@ -418,7 +439,6 @@ var _Controller = Control.extend({
 
    _beforeMount: function (options, context, receivedState) {
       let result;
-
       this._onResult = _private.onResult.bind(this);
       _private.setHandlers(this, options);
       if (!options.lazyItemsLoading) {
@@ -456,6 +476,10 @@ var _Controller = Control.extend({
       }
 
       return result;
+   },
+
+   _afterMount: function() {
+      RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
    },
 
    _beforeUpdate: function (newOptions) {
@@ -496,7 +520,7 @@ var _Controller = Control.extend({
    },
 
    _keyDown: function(event) {
-      if (event.nativeEvent.keyCode === Env.constants.key.esc && this._children.DropdownOpener.isOpened()) {
+      if (event.nativeEvent.keyCode === Env.constants.key.esc && this._popupId) {
          _private.closeDropdownList(this);
          event.stopPropagation();
       }
@@ -518,7 +542,7 @@ var _Controller = Control.extend({
    loadDependencies(): void {
       return Promise.all([_private.loadMenuTemplates(this, this._options), this._loadItems()]).then( () => {
          return _private.loadItemsTemplates(this, this._options);
-       });
+      });
    },
 
    _open(popupOptions?: object): void {
@@ -530,7 +554,9 @@ var _Controller = Control.extend({
          if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerTemplate)) {
             let config = _private.getPopupOptions(this, popupOptions);
             this._isOpened = true;
-            this._children.DropdownOpener.open(config, this);
+            StickyOpener.openPopup(config, this).then((popupId) => {
+               this._popupId = popupId;
+            });
          } else if (count === 1) {
             this._notify('selectedItemsChanged', [
                [this._items.at(0)]
@@ -541,7 +567,7 @@ var _Controller = Control.extend({
 
    _onSelectorTemplateResult: function(event, selectedItems) {
       let result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
-      this._onResult(event, 'selectorResult', result);
+      this._onResult('selectorResult', result);
    },
 
    _clickHandler(event: SyntheticEvent): void {
@@ -550,7 +576,7 @@ var _Controller = Control.extend({
    },
 
    _mouseDownHandler(): void {
-      if (this._children.DropdownOpener.isOpened()) {
+      if (this._popupId) {
          _private.closeDropdownList(this);
       } else {
          this._open();
@@ -565,12 +591,19 @@ var _Controller = Control.extend({
       clearTimeout(this._loadDependenciesTimer);
    },
 
+   _scrollHandler: function() {
+      if (this._popupId) {
+         _private.closeDropdownList(this);
+      }
+   },
+
    _beforeUnmount: function() {
       if (this._sourceController) {
          this._sourceController.cancelLoading();
          this._sourceController = null;
       }
       this._setItems(null);
+      UnregisterUtil(this, 'scroll');
    },
 
    _getEmptyText: function () {
