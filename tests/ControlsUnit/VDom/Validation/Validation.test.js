@@ -63,7 +63,7 @@ define([
       it('cleanValid', () => {
          var validCtrl = new validateMod.Container();
          validCtrl._valueChangedHandler(null, 'test');
-         assert.deepEqual(validCtrl._validationResult, undefined);
+         assert.deepEqual(validCtrl._validationResult, null);
          validCtrl._validationResult = 'Error';
          validCtrl._valueChangedHandler(null, 'test');
          assert.deepEqual(validCtrl._validationResult, 'Error');
