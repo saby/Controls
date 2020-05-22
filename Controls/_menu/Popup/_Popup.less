@@ -1,5 +1,6 @@
 .controls-Menu__popup {
    display: flex;
+   position: relative;
    flex-direction: column;
 }
 
@@ -11,6 +12,10 @@
    background: @background-color_sticky;
    box-sizing: border-box;
    overflow: hidden;
+}
+
+.controls-Menu__popup-list {
+   position: static;
 }
 
 .controls-Menu__popup-list-padding-top_theme-@{themeName} {
