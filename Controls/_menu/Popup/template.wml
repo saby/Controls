@@ -31,7 +31,7 @@
                               on:click="_headerClick()"/>
                </ws:if>
                <Controls._menu.Control
-                       attr:class="controls-Menu__popup-list-padding-{{_verticalDirection}}_theme-{{_options.theme}}"
+                       attr:class="controls-Menu__popup-list controls-Menu__popup-list-padding-{{_verticalDirection}}_theme-{{_options.theme}}"
                        selectorOpenCallback="{{_options.selectorOpenCallback}}"
                        nodeFooterTemplate="{{_options.nodeFooterTemplate}}"
                        root="{{_options.root}}"
@@ -58,6 +58,7 @@
                        groupTemplate="{{_options.groupTemplate}}"
                        groupProperty="{{_options.groupProperty}}"
                        allowPin="{{_options.allowPin}}"
+                       applyButtonAlign="{{_options.applyButtonAlign}}"
                        additionalProperty="{{_options.additionalProperty}}"
                        groupingKeyCallback="{{_options.groupingKeyCallback}}"
                        selectorDialogResult="{{_options.selectorDialogResult}}"

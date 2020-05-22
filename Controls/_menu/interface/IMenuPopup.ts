@@ -6,6 +6,7 @@ export interface IMenuPopupOptions extends IMenuControlOptions, ISearch {
     headerContentTemplate: TemplateFunction;
     footerContentTemplate: TemplateFunction;
     closeButtonVisibility: boolean;
+    applyButtonAlign?: string;
 }
 
 /**
@@ -20,9 +21,20 @@ export interface IMenuPopupOptions extends IMenuControlOptions, ISearch {
  * @public
  * @author Золотова Э.Е.
  */
+
+/**
+ * @typedef {String} ApplyButtonAlign
+ * @variant top Кнопка расположена наверху.
+ * @variant bottom Кнопка расположена внизу.
+ */
 export default interface IMenuPopup {
     readonly '[Controls/_menu/interface/IMenuPopup]': boolean;
 }
+
+/**
+ * @name Controls/_menu/interface/IMenuPopup#applyButtonAlign
+ * @cfg {ApplyButtonAlign} Устанавливает вертикальное выравнивание для кнопки подтверждения выбора.
+ */
 
 /**
  * @name Controls/_menu/interface/IMenuPopup#headerContentTemplate

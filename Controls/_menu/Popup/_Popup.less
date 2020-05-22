@@ -1,10 +1,15 @@
 .controls-Menu__popup {
    display: flex;
+   position: relative;
    flex-direction: column;
 }
 
 .controls-Menu__popup_theme-@{themeName} {
    max-width: @popup_max-width_menuPopup;
+}
+
+.controls-Menu__popup-list {
+   position: static;
 }
 
 .controls-Menu__popup-list-padding-top_theme-@{themeName} {
