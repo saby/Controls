@@ -54,6 +54,10 @@ export interface INumberOptions extends IControlOptions {
 /**
  * Графический контрол, декорирующий число таким образом, что оно приводится к форматируемому виду.
  * Форматом является число разбитое на триады с ограниченной дробной частью.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
  *
  * @mixes Controls/_decorator/Number/INumberOptions
  *

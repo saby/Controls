@@ -10,7 +10,12 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
  * Выбор происходит с помощью панели большого выбора периода.
+ * 
+ * @remark
  * В отличии от {@link Controls/_dateRange/LiteSelector быстрого выбора периода} позволяет выбирать произвольный диапазон дат.
+ * 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">переменные тем оформления</a> 
  *
  * @class Controls/_dateRange/Selector
  * @extends Core/Control

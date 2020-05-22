@@ -5,10 +5,12 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
 
 /**
  * Хлебные крошки.
+ * 
  * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FBreadCrumbs%2FScenarios">демо-пример</a>.
- * Набор переменных тем оформления смотрите <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less">здесь</a>. 
- * Подробнее о работе с контролом читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/ здесь}.
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FBreadCrumbs%2FScenarios">демо-пример</a>
+ * * <a href="https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less">переменные тем оформления</a>
  * @class Controls/_breadcrumbs/Path
  * @extends Core/Control
  * @mixes Controls/interface/IBreadCrumbs

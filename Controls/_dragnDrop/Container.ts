@@ -82,7 +82,12 @@ import entity = require('Types/entity');
       /**
        * Контейнер, который отслеживает события мыши и генерирует события перемещения.
        * Контрол-контейнер должен быть встроен в Controls/dragnDrop:Controller.
-       * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">здесь</a>.
+       * 
+       * @remark
+       * Полезные ссылки:
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+       * 
        * @class Controls/_dragnDrop/Container
        * @extends Core/Control
        * @control

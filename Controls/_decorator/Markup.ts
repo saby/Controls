@@ -10,6 +10,10 @@ import {delay} from 'Types/function';
 
    /**
     * Создает контрол по данным в json-массиве.
+    * 
+    * @remark
+    * Полезные ссылки:
+    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
     *
     * @class Controls/_decorator/Markup
     * @extends Core/Control

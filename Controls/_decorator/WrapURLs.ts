@@ -61,9 +61,12 @@ type Path = ILink | IEmail | IPlain;
  * Активная ссылка - это элемент страницы, при клике на который происходит переход на внешний ресурс.
  * @remark
  * Поддерживаемые ссылки:
- * 1. Ссылка на web-страницу ({@link https://en.wikipedia.org/wiki/File_Transfer_Protocol ftp}, www, http, https).
- * 2. Ссылка на email адрес ([текст]@[текст].[текст от 2 до 6 знаков]).
- * 3. Ссылка на локальный файл ({@link https://en.wikipedia.org/wiki/File_URI_scheme file}).
+ * * Ссылка на web-страницу ({@link https://en.wikipedia.org/wiki/File_Transfer_Protocol ftp}, www, http, https).
+ * * Ссылка на email адрес ([текст]@[текст].[текст от 2 до 6 знаков]).
+ * * Ссылка на локальный файл ({@link https://en.wikipedia.org/wiki/File_URI_scheme file}).
+ * 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
  *
  * @class Controls/_decorator/WrapURLs
  * @extends UI/Base:Control

@@ -17,7 +17,12 @@ import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemp
 
    /**
     * Стандартный шаблон перемещения для списка.
-    * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">здесь</a>.
+    * 
+    * @remark
+    * Полезные ссылки:
+    * * <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">руководство разработчика</a>
+    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+    *
     * @class Controls/_dragnDrop/DraggingTemplate
     * @extends Core/Control
     * @control
