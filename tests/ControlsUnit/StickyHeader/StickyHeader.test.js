@@ -258,7 +258,7 @@ define([
          });
       });
 
-      describe('_getTopObserverStyle', function() {
+      describe('_getObserverStyle', function() {
          it('should return correct style', function() {
             const component = createComponent(StickyHeader, {});
             component._model = { fixedPosition: '' };
@@ -271,6 +271,23 @@ define([
             };
             assert.strictEqual(component._getObserverStyle('top'), 'top: -5px;');
             assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -6px;');
+            sinon.restore();
+         });
+         it('should consider borders', function() {
+            const component = createComponent(StickyHeader, {});
+            component._container = {};
+            sinon.stub(component, '_getComputedStyle').returns({ 'border-top-width': '1px', 'border-bottom-width': '1px' });
+            component._model = { fixedPosition: '' };
+
+            assert.strictEqual(component._getObserverStyle('top'), 'top: -4px;');
+            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -4px;');
+            component._stickyHeadersHeight = {
+               top: 2,
+               bottom: 3
+            };
+            assert.strictEqual(component._getObserverStyle('top'), 'top: -6px;');
+            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -7px;');
+            sinon.restore();
          });
       });
 

@@ -50,6 +50,7 @@ define(
             it('The browser does support sticky', function() {
                inst._isStickySupport = true;
                inst._options.content = TemplateUtil.content;
+               sinon.stub(_StickyHeader.prototype, '_getComputedStyle').returns({ });
 
                template(inst, function(result) {
                   assert.equal(result, '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader__background controls-StickyHeader_position">' +
@@ -59,6 +60,7 @@ define(
                      '<div class="controls-StickyHeader__observationTargetBottom" style="bottom: -3px;"></div>' +
                      '</div>');
                });
+               sinon.restore();
             });
          });
 

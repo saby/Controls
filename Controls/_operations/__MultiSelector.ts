@@ -151,7 +151,9 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       } else {
          this._children.countIndicator.show();
          countResult = getCountUtil.getCount(selection, selectionCountConfig).then((result: number): number => {
-            this._children.countIndicator.hide();
+            if (this._children.countIndicator) {
+               this._children.countIndicator.hide();
+            }
             return result;
          });
       }

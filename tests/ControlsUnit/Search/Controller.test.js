@@ -303,7 +303,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          assert.isTrue(stubNotify.calledTwice);
          assert.equal(controller._viewMode, 'search');
          assert.isFalse(controller._loading);
-         assert.equal(controller._misspellValue, '');
+         assert.equal(controller._misspellValue, 'testStr');
          assert.equal(controller._searchValue, '');
          assert.equal(controller._inputSearchValue, 'testInputValue');
          assert.deepEqual(filter, {test: 'test'});
@@ -344,6 +344,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
             })
          });
 
+         controller._misspellValue = 'testMisspellValue';
          controller._viewMode = 'search';
          controller._previousViewMode = 'testViewMode';
          controller._dataLoadCallback(rs);
@@ -351,6 +352,7 @@ define(['Controls/search', 'Types/source', 'Core/core-instance', 'Types/collecti
          assert.isTrue(dataLoadCallbackCalled);
          assert.equal(controller._viewMode, 'testViewMode');
          assert.equal(controller._path.getCount(), 1);
+         assert.equal(controller._misspellValue, '');
       });
 
       it('_private.searchStartCallback', function() {

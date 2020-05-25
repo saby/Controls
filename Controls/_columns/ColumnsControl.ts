@@ -8,7 +8,7 @@ import ListControlTpl = require('wml!Controls/_columns/ColumnsControl');
 export default class ColumnsControl extends ListControl {
     protected _template: TemplateFunction = ListControlTpl;
     private _keyDownHandler: Function;
-    protected _afterMount(): void {
+    protected _beforeMount(): void {
         this._keyDownHandler = this.keyDownHandler.bind(this);
     }
     protected keyDownHandler(e: SyntheticEvent<KeyboardEvent>): boolean {

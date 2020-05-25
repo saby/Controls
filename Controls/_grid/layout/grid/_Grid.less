@@ -735,7 +735,6 @@
 
 .controls-Grid__editArrow_theme-@{themeName} {
    position: relative;
-   background: @item_hover_background-color_list;
    z-index: 1;
    .icon(@edit-arrow_icon-size_grid)
 }
@@ -745,6 +744,10 @@
 }
 
 .controls-Grid__editArrow_style-master_background_theme-@{themeName} {
+   background-color: @master_item_hover_background-color_list;
+}
+
+.controls-Grid__editArrow_style-masterClassic_background_theme-@{themeName} {
    background-color: @master_item_hover_background-color_list;
 }
 

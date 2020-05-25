@@ -71,6 +71,9 @@ class Popup extends Control<IPopupControlOptions> {
     protected _beforeMount(options: IPopupControlOptions): void {
         this._stringTemplate = typeof options.template === 'string';
         this._compatibleTemplateName = this._getCompatibleTemplateName(options);
+
+        this._controlResizeHandler = debounce(this._controlResizeHandler.bind(this), RESIZE_DELAY, true);
+        this._scrollHandler = debounce(this._scrollHandler.bind(this), SCROLL_DELAY);
     }
 
     //TODO: https://online.sbis.ru/opendoc.html?guid=728a9f94-c360-40b1-848c-e2a0f8fd6d17
@@ -88,9 +91,6 @@ class Popup extends Control<IPopupControlOptions> {
 
         /* TODO: COMPATIBLE. You can't just count on afterMount position and zooming on creation
          * inside can be compoundArea and we have to wait for it, and there is an asynchronous phase. Look at the flag waitForPopupCreated */
-        this._controlResizeHandler = debounce(this._controlResizeHandler.bind(this), RESIZE_DELAY, true);
-        this._scrollHandler = debounce(this._scrollHandler.bind(this), SCROLL_DELAY);
-
         if (this.waitForPopupCreated) {
             this.callbackCreated = (() => {
                 this.callbackCreated = null;

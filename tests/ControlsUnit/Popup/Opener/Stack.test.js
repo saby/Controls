@@ -746,5 +746,32 @@ define(
             // для аккордеона нет места
             assert.equal(Controller._sideBarVisible, false);
          });
+
+         it('test stack getPanelWidth. When the width of the panel with the property "isCompoundTemplate: true" is greater than the width of the browser window', () => {
+            const item = {
+               popupOptions: {
+                  isStack: true,
+                  minWidth: 950,
+                  maxWidth: 1150,
+                  width: 950,
+                  isCompoundTemplate: true
+               }
+            };
+            StackStrategy.getParentPosition = () => {
+               return undefined;
+            };
+            let tCoords = {
+               right: 150,
+               top: 0
+            };
+            // document.body.clientWidth = 1024, maxPanelWidth = 1024 - 100 = 924
+            const panelWidth = StackStrategy._private.getPanelWidth(item, tCoords, 924);
+            assert.equal(panelWidth, 950);
+            /* Так как окно спозиционируется с координатами right: 150 с шириной 950 - то панель не влезет в окно браузера.
+            Если панель не уместилась по ширине, то позиционирование панели осуществляется от правого края экрана.
+            Проверяем координаты right. */
+            assert.equal(tCoords.right, 0);
+         });
+
       });
    });

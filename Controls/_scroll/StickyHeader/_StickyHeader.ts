@@ -455,6 +455,14 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (position === POSITION.top && this._options.offsetTop && this._options.shadowVisibility === SHADOW_VISIBILITY.visible) {
             coord += this._options.offsetTop;
         }
+        // Учитываем бордеры на фиксированных заголовках
+        if (this._container ) {
+            const styles = this._getComputedStyle();
+            const borderWidth = parseInt(styles[`border-${position}-width`], 10);
+            if (borderWidth) {
+                coord += borderWidth;
+            }
+        }
 
         // "bottom" and "right" styles does not work in list header control on ios 13. Use top instead.
         const container: HTMLElement = this._getNormalizedContainer();

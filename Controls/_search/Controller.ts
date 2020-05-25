@@ -64,7 +64,6 @@ var _private = {
       self._loading = false;
       if (_private.isSearchViewMode(self) && self._searchValue) {
          self._searchValue = '';
-         self._misspellValue = '';
 
          if (self._options.parentProperty) {
             _deleteServiceFilters(self._options, filter);
@@ -149,6 +148,7 @@ var _private = {
       if (_private.isSearchViewMode(self) && !self._searchValue) {
          self._viewMode = self._previousViewMode;
          self._previousViewMode = null;
+         self._misspellValue = '';
       }
       if (self._options.dataLoadCallback) {
          self._options.dataLoadCallback(data);
