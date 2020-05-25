@@ -272,7 +272,7 @@ const BaseOpener = {
 
       // Если вдомное окно открывается из PopupMixin, нужно вычислить zindex вручную
       if (cfg.opener && cfg.opener._container) {
-         let sbis3FloatArea = cfg.opener._container.closest('.controls-FloatArea');
+         let sbis3FloatArea = cfg.opener._container.closest('.controls-FloatArea, .ws-FieldEditAtPlace__editArea');
 
          // get DOM node, cause it can be jQuery
          sbis3FloatArea = sbis3FloatArea && sbis3FloatArea.length !== undefined ? sbis3FloatArea[0] : sbis3FloatArea;

@@ -173,7 +173,7 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         }
     }
 
-    protected _previewerClickHandler(event: SyntheticEvent<MouseEvent>): void {
+    protected _contentMouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
         if (this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick') {
             /**
              * When trigger is set to 'hover', preview shouldn't be shown when user clicks on content.
@@ -181,6 +181,14 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
             if (!this._isPopupOpened()) {
                 this._debouncedAction('_open', [event]);
             }
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    protected _contentClickHandler(event: SyntheticEvent<MouseEvent>): void {
+        // Stopping mousedown event doesn't stop click event
+        if (this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick') {
             event.preventDefault();
             event.stopPropagation();
         }

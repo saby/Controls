@@ -38,17 +38,20 @@
 }
 
 .controls-ListView__item_default-topPadding_null_theme-@{themeName},
-.controls-ListView__item_master-topPadding_null_theme-@{themeName} {
+.controls-ListView__item_master-topPadding_null_theme-@{themeName},
+.controls-ListView__itemV_marker_master_topPadding-null_theme-@{themeName} {
   padding-top: 0;
 }
 
 .controls-ListView__item_default-topPadding_s_theme-@{themeName},
-.controls-ListView__item_master-topPadding_s_theme-@{themeName} {
+.controls-ListView__item_master-topPadding_s_theme-@{themeName},
+.controls-ListView__itemV_marker_master_topPadding-s_theme-@{themeName} {
    padding-top: @item_padding-top_s_list;
 }
 
 .controls-ListView__item_default-topPadding_l_theme-@{themeName},
-.controls-ListView__item_master-topPadding_l_theme-@{themeName} {
+.controls-ListView__item_master-topPadding_l_theme-@{themeName},
+.controls-ListView__itemV_marker_master_topPadding-l_theme-@{themeName} {
    padding-top: @item_padding-top_l_list;
 }
 
@@ -56,23 +59,27 @@
    padding-top: @item_padding-top_default_list;
 }
 
-.controls-ListView__item_master-topPadding_default_theme-@{themeName} {
+.controls-ListView__item_master-topPadding_default_theme-@{themeName},
+.controls-ListView__itemV_marker_master_topPadding-default_theme-@{themeName}{
    padding-top: @master_item_padding-top_list;
 }
 
 
 .controls-ListView__item_default-bottomPadding_null_theme-@{themeName},
-.controls-ListView__item_master-bottomPadding_null_theme-@{themeName} {
+.controls-ListView__item_master-bottomPadding_null_theme-@{themeName},
+.controls-ListView__itemV_marker_master_bottomPadding-null_theme-@{themeName} {
   padding-bottom: 0;
 }
 
 .controls-ListView__item_default-bottomPadding_s_theme-@{themeName},
-.controls-ListView__item_master-bottomPadding_s_theme-@{themeName} {
+.controls-ListView__item_master-bottomPadding_s_theme-@{themeName},
+.controls-ListView__itemV_marker_master_bottomPadding-s_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_s_list;
 }
 
 .controls-ListView__item_default-bottomPadding_l_theme-@{themeName},
-.controls-ListView__item_master-bottomPadding_l_theme-@{themeName} {
+.controls-ListView__item_master-bottomPadding_l_theme-@{themeName},
+.controls-ListView__itemV_marker_master_bottomPadding-l_theme-@{themeName} {
   padding-bottom: @item_padding-bottom_l_list;
 }
 
@@ -80,7 +87,8 @@
   padding-bottom: @item_padding-bottom_default_list;
 }
 
-.controls-ListView__item_master-bottomPadding_default_theme-@{themeName} {
+.controls-ListView__item_master-bottomPadding_default_theme-@{themeName},
+.controls-ListView__itemV_marker_master_bottomPadding-default_theme-@{themeName} {
    padding-bottom: @master_item_padding-bottom_list;
 }
 
@@ -444,11 +452,24 @@
 .controls-ListView__itemV_marker_master_theme-@{themeName} {
    position: absolute;
    width: @master-marker_thickness_list;
-   height: @master-marker_height_list;
-   background-color: @master-marker_color_list;
-   top: 50%;
+   height: auto;
+   display: inline-flex;
+   align-items: baseline;
+   top: 0;
    left: 0;
-   margin-top: -@master-marker_height_list/2;
+   bottom: 0;
+}
+
+.controls-ListView__itemV_marker_master_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @master_item_selected_font-size_list;
+}
+
+.controls-ListView__itemV_marker_master_theme-@{themeName}:after {
+   content: '';
+   background-color: @master-marker_color_list;
+   width: @master-marker_thickness_list;
+   height: @master-marker_height_list;
 }
 
 .controls-ListView__itemV_marker_masterClassic_theme-@{themeName} {
