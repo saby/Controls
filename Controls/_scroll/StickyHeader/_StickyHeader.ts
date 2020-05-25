@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import {detection} from 'Env/Env';
+import {detection, constants} from 'Env/Env';
 import {descriptor} from 'Types/entity';
 import Context = require('Controls/_scroll/StickyHeader/Context');
 import {
@@ -456,7 +456,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             coord += this._options.offsetTop;
         }
         // Учитываем бордеры на фиксированных заголовках
-        if (this._container ) {
+        // Во время серверной верстки на страницах на ws3 в this._container находится какой то объект...
+        // https://online.sbis.ru/opendoc.html?guid=ea21ab20-8346-4092-ac24-5ac6198ed2b8
+        if (this._container && !constants.isServerSide) {
             const styles = this._getComputedStyle();
             const borderWidth = parseInt(styles[`border-${position}-width`], 10);
             if (borderWidth) {
