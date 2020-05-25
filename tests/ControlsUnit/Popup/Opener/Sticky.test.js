@@ -644,6 +644,7 @@ define(
                }
             };
             let container = {
+               querySelector: () => null,
                style: {
                   width: '100px',
                   height: '300px'

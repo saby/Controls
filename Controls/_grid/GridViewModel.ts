@@ -1310,7 +1310,9 @@ var
             current.getMarkerClasses = (rowSeparatorVisibility): string => {
                 const style = this._options.style === 'masterClassic' || !this._options.style ? 'default' : this._options.style;
                 let classes = `controls-GridView__itemV_marker controls-GridView__itemV_marker-${style}
-                                controls-GridView__itemV_marker-${style}_theme-${self._options.theme}`;
+                               controls-GridView__itemV_marker-${style}_theme-${self._options.theme}
+                               controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}_theme-${self._options.theme}
+                               controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}_theme-${self._options.theme}`;
 
                 if (rowSeparatorVisibility) {
                     classes += ' controls-GridView-with-rowSeparator_item_marker';
@@ -1320,7 +1322,7 @@ var
                 classes += '_theme-' + self._options.theme;
 
                 return classes;
-            }
+            };
 
             if (current.multiSelectVisibility !== 'hidden') {
                 current.columns = [{}].concat(this._columns);
