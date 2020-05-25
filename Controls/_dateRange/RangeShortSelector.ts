@@ -17,7 +17,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
- * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_interface/IFontColorStyle
