@@ -291,7 +291,7 @@ define([
             };
             let itemActionsWithEditArrow = [{
                id: 'view',
-               icon: 'icon-Forward',
+               icon: 'icon-View',
                showType: 2
             }];
             let cfg = {
