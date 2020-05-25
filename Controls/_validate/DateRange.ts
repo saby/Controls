@@ -2,6 +2,17 @@ import Container from 'Controls/_validate/Container';
 import {TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_validate/DateRange');
 
+/**
+ * Контрол, регулирующий валидацию своего контента. Используется с контролами, поддерживающими интерфейс {@link Controls/_dateRamge/IDateRange IDateRange}.
+ * Валидация запускается автоматически при потере фокуса.
+ * @remark
+ * Подробнее о работе с валидацией читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
+ * @class Controls/_validate/DateRange
+ * @extends Controls/_validate/Container
+ * @control
+ * @public
+ */
+
 class DateRange extends Container {
     _template: TemplateFunction = template;
     _rangeChangedHandler(): void {

@@ -27,6 +27,7 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  * @extends Core/Control
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/interface/IDateMask
@@ -46,6 +47,7 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  * @extends Core/Control
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_dateRange/interfaces/IInput
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/interface/IDateMask
  *
