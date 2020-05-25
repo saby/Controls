@@ -1,0 +1,42 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/listRender/itemPadding/xs/Index' }}">
+            <a href="{{content.href}}">xs</a>
+        </Router.router:Reference>
+        <Controls-demo.listRender.itemPadding.xs.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/listRender/itemPadding/s/Index' }}">
+            <a href="{{content.href}}">s</a>
+        </Router.router:Reference>
+        <Controls-demo.listRender.itemPadding.s.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/listRender/itemPadding/m/Index' }}">
+            <a href="{{content.href}}">m</a>
+        </Router.router:Reference>
+        <Controls-demo.listRender.itemPadding.m.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/listRender/itemPadding/l/Index' }}">
+            <a href="{{content.href}}">l</a>
+        </Router.router:Reference>
+        <Controls-demo.listRender.itemPadding.l.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/listRender/itemPadding/xl/Index' }}">
+            <a href="{{content.href}}">xl</a>
+        </Router.router:Reference>
+        <Controls-demo.listRender.itemPadding.xl.Index/>
+    </div>
+</div>

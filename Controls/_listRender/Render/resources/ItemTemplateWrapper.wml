@@ -20,7 +20,7 @@
    </ws:if>
    <ws:else>
       <div attr:class="{{ item.getContentClasses(theme, style) }}">
-         {{ item.getContents()[item.getDisplayProperty() || 'title'] }}
+         {{ item.getContents()[displayProperty || 'title'] }}
       </div>
    </ws:else>
    <ws:if data="{{ item.shouldDisplayActions() }}">

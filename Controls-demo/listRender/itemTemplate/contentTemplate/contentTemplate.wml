@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200 controlDemo_list-new_base">
+    <Controls.listRender:ListView keyProperty="key" items="{{_items}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    {{itemTemplate.item.contents.caption}}
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.listRender:ListView>
+</div>
