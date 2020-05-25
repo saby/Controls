@@ -46,7 +46,7 @@
                     on:actionClick="_onActionClick()"
                     itemActionVisibilityCallback="{{_showAction}}"
                     columns="{{gridColumns}}">
-               <ws:itemPadding right="M" left="S" top="M" bottom="M"/>
+               <ws:itemPadding right="M" left="S" top="s" bottom="s"/>
             </Controls.grid:View>
          </ws:content>
       </Controls.scroll:Container>
