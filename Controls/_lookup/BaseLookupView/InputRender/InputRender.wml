@@ -32,7 +32,15 @@
       </ws:if>
    </ws:placeholder>
    <ws:content>
-      <ws:if data="{{ _options.isInputVisible }}">
+      <ws:if data="{{_options.readOnly && !_options.multiline && _options.value}}">
+         <ws:partial options="{{_options}}"
+                     scope="{{_readOnlyField.scope}}"
+                     value="{{_viewModel.displayValue}}"
+                     template="{{_readOnlyField.template}}"
+                     attr:class="{{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}"
+         />
+      </ws:if>
+      <ws:else data="{{ _options.isInputVisible }}">
          <ws:partial type="{{_type}}"
                      options="{{_options}}"
                      scope="{{_field.scope}}"
@@ -47,6 +55,6 @@
                      {{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}"
                      attr:style="width: {{_options.inputWidth}}px;"
                      on:keyDown="_keyDownInput()"/>
-      </ws:if>
+      </ws:else>
    </ws:content>
 </Controls.input:Render>

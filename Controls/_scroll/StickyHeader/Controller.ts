@@ -5,6 +5,7 @@ import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEAD
 import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_StickyHeader';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import fastUpdate from './FastUpdate';
+import StickyHeaderResizeObserver from './Utils/StickyHeaderResizeObserver';
 
 // @ts-ignore
 
@@ -26,6 +27,7 @@ class Component extends Control {
     private _delayedHeaders: TRegisterEventData[] = [];
     private _stickyControllerMounted: boolean = false;
     private _updateTopBottomInitialized: boolean = false;
+    private _stickyHeaderObserver: StickyHeaderResizeObserver;
 
     _beforeMount(options) {
         this._headersStack = {
@@ -38,16 +40,17 @@ class Component extends Control {
         };
         this._headers = {};
         this._resizeHandlerDebounced = debounce(this._resizeHandler.bind(this), 50);
+        this._stickyHeaderObserver = new StickyHeaderResizeObserver(this);
     }
 
     _afterMount(options) {
         this._stickyControllerMounted = true;
-        RegisterUtil(this, 'controlResize', this._resizeHandler.bind(this));
+        this._stickyHeaderObserver.initialize();
         this._registerDelayed();
     }
 
     _beforeUnmount(): void {
-        UnregisterUtil(this, 'controlResize');
+        this._stickyHeaderObserver.terminate();
     }
 
     /**
@@ -132,8 +135,9 @@ class Component extends Control {
             if (!isHidden(data.container) && this._stickyControllerMounted) {
                 return Promise.resolve().then(this._registerDelayed.bind(this));
             }
-
+            this._stickyHeaderObserver.observe(data.container);
         } else {
+            this._stickyHeaderObserver.unobserve(this._headers[data.id].container);
             delete this._headers[data.id];
             this._removeFromHeadersStack(data.id, data.position);
             this._removeFromDelayedStack(data.id);
@@ -171,9 +175,10 @@ class Component extends Control {
     }
 
     _resizeHandler() {
+        const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
         // Игнорируем все собятия ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
-        if (this._stickyControllerMounted) {
+        if (this._stickyControllerMounted && !isSimpleHeaders) {
             this._registerDelayed();
             this._updateTopBottom();
         }

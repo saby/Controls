@@ -42,7 +42,6 @@ define([
                offsetParent: null,
                closest: sinon.stub().returns(true)
             };
-            sinon.stub(component, '_initResizeObserver');
             sinon.stub(component, '_createObserver');
             component._afterMount(coreMerge(options, StickyHeader.getDefaultOptions(), {preferSource: true}));
             assert.isUndefined(component._observer);
@@ -82,7 +81,6 @@ define([
             component._container = {
                closest: sinon.stub().returns(true)
             };
-            sinon.stub(component, '_initResizeObserver');
             sinon.stub(component, '_createObserver');
             sinon.stub(StickyHeaderUtils, 'isHidden').returns(true);
             component._afterMount(coreMerge(options, StickyHeader.getDefaultOptions(), {preferSource: true}));
