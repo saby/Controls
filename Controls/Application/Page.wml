@@ -47,6 +47,8 @@
                                                 <div class="bodyContent">
                                                    <!-- In case of using application in html.tmpl there will not be content option -->
                                                    <ws:if data="{{!_options.builder}}">
+                                                      <Controls.popup:Container attr:id="popup"
+                                                                                eventHandler="{{content._managerEventHandler}}"/>
                                                       <ws:partial
                                                          template="{{ _options.content }}"
                                                          scope="{{ templateConfig }}"
@@ -61,9 +63,6 @@
                                                                      draggingTemplateOptions="{{content.draggingTemplateOptions}}"
                                                                      draggingTemplate="{{content.draggingTemplate}}"/>
                                                       </ws:if>
-
-                                                      <Controls.popup:Container attr:id="popup"
-                                                                                eventHandler="{{content._managerEventHandler}}"/>
                                                    </ws:if>
                                                    <Core.TimeTester resourceRoot="{{ resourceRoot }}" RUMEnabled="{{ RUMEnabled }}" pageName="{{ pageName }}" />
                                                 </div>
