@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container class="controlsDemo__wrapper__padding-top controlsDemo__height300">
+        <div style="height: 100px;"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="1"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered" style="height: 120px;">Блок 1</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <Controls.scroll:IntersectionObserverContainer
+                data="2"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered" style="height: 120px;">Блок 2</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+    </Controls.scroll:Container>
+    <Controls.scroll:Container class="controlsDemo__height300">
+        <ws:for data="line in _logs">
+            <p>{{line}}</p>
+        </ws:for>
+    </Controls.scroll:Container>
+</div>

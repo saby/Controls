@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container class="controlsDemo__wrapper__padding-top controlsDemo__height500">
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="1"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 1. rootMargin не задан, значение по умолчанию "0px 0px 0px 0px"</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="2"
+                rootMargin="45% 0px 45% 0px"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 2. rootMargin = "45% 0px 45% 0px". Отслеживаем пересечение с серединой скроллируемой области.</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="3"
+                rootMargin="0px 0px 100% 0px"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 3. rootMargin = "0px 0px 100% 0px". Отслеживаем пересечение с верхом скроллируемой области.</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+    </Controls.scroll:Container>
+    <Controls.scroll:Container class="controlsDemo__height300">
+        <ws:for data="line in _logs">
+            <p>{{line}}</p>
+        </ws:for>
+    </Controls.scroll:Container>
+</div>
