@@ -38,4 +38,4 @@ var
             return result;
         }
     };
-export = GroupUtil;
+export default GroupUtil;
