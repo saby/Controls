@@ -2,16 +2,16 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
 import SyntheticEntry from 'Controls/_scroll/IntersectionObserver/SyntheticEntry';
+import {IIntersectionObserverObject, IIntersectionObserverOptions} from './Types';
 import template = require('wml!Controls/_scroll/IntersectionObserver/Controller');
 import {descriptor} from "Types/entity";
 
-export interface IIntersectionObserverControllerOptions extends IControlOptions {
-   observerName: string;
-   threshold: number[];
+export interface IIntersectionObserverControllerOptions extends IControlOptions, IIntersectionObserverOptions {
 }
 
 /**
- * Контейнер позволяющий отслеживать пересечение с внутренними контейнерами.
+ * Контейнер позволяющий отслеживать пересечение с внутренними контейнерами {@link Controls/scroll:IntersectionObserverContainer}.
+ * Встроен в скролируемые области {@link Controls/scroll:Container}.
  *
  * @class Controls/_scroll/IntersectionObserver/Controller
  * @control
@@ -30,7 +30,15 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions 
  * @name Controls/_scroll/IntersectionObserver/Controller#threshold
  * @cfg {Array} Число или массив чисел, указывающий, при каком проценте видимости целевого элемента должен
  * сработать callback. Например, в этом случае callback функция будет вызываться при появлении в зоне видимости
- * каждый 25% целевого элемента:  [0, 0.25, 0.5, 0.75, 1]
+ * каждые 25% целевого элемента:  [0, 0.25, 0.5, 0.75, 1]
+ */
+
+/**
+ * @name Controls/_scroll/IntersectionObserver/Controller#rootMargin
+ * @cfg {String} Смещение прямоугольника, применяемое к bounding box корня при расчёте пересечений,
+ * эффективно сжимает или увеличивает корень для целей расчёта. Может быть выражено в пикселях (px) или в процентах (%).
+ * Например "50% 0px 0px 0px"
+ * @default "0px 0px 0px 0px".
  */
 
 /**
@@ -38,45 +46,74 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions 
  * указанного в опции threshold
  */
 
-class  ModuleComponent extends Control<IIntersectionObserverControllerOptions> {
-   protected _template: TemplateFunction = template;
-   protected _observer: IntersectionObserver;
-   protected _items: object = {};
+interface IIntersectionContainersMap {
+   [key: string]: IIntersectionObserverObject;
+}
 
-   protected _registerHandler(event: SyntheticEvent, instId: string, observerName: string, element: HTMLElement, data: object): void {
-      if (observerName === this._options.observerName) {
-         this._items[instId] = {
-            instId,
-            element,
-            data
-         };
-         this._observe(element);
+interface IObserversMap {
+   [key: string]: IntersectionObserver;
+}
+
+const RPLACE_SPACE_IN_KEY_REGEXP = / /g;
+
+class  IntersectionObserverController extends Control<IIntersectionObserverControllerOptions> {
+   protected _template: TemplateFunction = template;
+   protected _observers: IObserversMap = {};
+   protected _items: IIntersectionContainersMap = {};
+
+   protected _registerHandler(event: SyntheticEvent, intersectionObserverObject: IIntersectionObserverObject): void {
+      if (intersectionObserverObject.observerName !== this._options.observerName) {
+         return;
       }
+
+      const item: IIntersectionObserverObject = {
+         ...intersectionObserverObject,
+         threshold: intersectionObserverObject.threshold || this._options.threshold,
+         rootMargin: intersectionObserverObject.rootMargin || this._options.rootMargin,
+      }
+      this._items[intersectionObserverObject.instId] = item;
+      this._observe(item.element, item.threshold, item.rootMargin);
+      event.stopImmediatePropagation();
    }
 
    protected _unregisterHandler(event: SyntheticEvent, instId: string): void {
-      // TODO: remove after complete https://online.sbis.ru/opendoc.html?guid=310360e5-ab07-4aa2-8327-f5f8422aedd9
-      // _beforeUnmount in IntersectionObserverController called 2 times.
-      if (!this._items[instId]) {
-         return;
-      }
-      this._observer.unobserve(this._items[instId].element);
+      const item = this._items[instId];
+      this._unobserve(item.element, item.threshold, item.rootMargin);
       delete this._items[instId];
    }
 
-   private _observe(element: HTMLElement): void {
-      if (!this._observer) {
-         this._observer = this._createObserver();
+   private _observe(element: HTMLElement, threshold: number[], rootMargin: string): void {
+      const key = this._getObserverKey(threshold, rootMargin);
+      const observer = this._createObserver(threshold, rootMargin);
+      if (this._observers.hasOwnProperty(key)) {
+         this._observers[key].observe(element);
+      } else {
+         observer.observe(element);
+         this._observers[key] = observer;
       }
-      this._observer.observe(element);
+
    }
 
-   private _createObserver(): IntersectionObserver {
+   private _unobserve(element: HTMLElement, threshold: number[], rootMargin: string): void {
+      const key = this._getObserverKey(threshold, rootMargin);
+      const observer = this._observers[key];
+      observer.unobserve(element);
+      if (!observer.takeRecords().length) {
+         delete this._observers[key];
+      }
+   }
+
+   private _getObserverKey(threshold: number[], rootMargin: string): string {
+      return `t${threshold.join('_')}_rm${rootMargin.replace(RPLACE_SPACE_IN_KEY_REGEXP, '_')}`
+   }
+
+   private _createObserver(threshold: number[], rootMargin: string): IntersectionObserver {
       //TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
       const container = this._container.get ? this._container.get(0) : this._container;
       return new IntersectionObserver(this._intersectionObserverHandler.bind(this), {
          root: container,
-         threshold: this._options.threshold
+         threshold: threshold,
+         rootMargin: rootMargin
       });
    }
 
@@ -87,7 +124,9 @@ class  ModuleComponent extends Control<IIntersectionObserverControllerOptions> {
          itemId = Object.keys(this._items).find((key) => this._items[key].element === entry.target);
          // don't handle unregistered containers
          if (itemId) {
-            items.push(new SyntheticEntry(entry, this._items[itemId].data));
+            const eventEntry = new SyntheticEntry(entry, this._items[itemId].data)
+            items.push(eventEntry);
+            this._items[itemId].handler(eventEntry);
          }
       }
       if (items.length) {
@@ -96,23 +135,25 @@ class  ModuleComponent extends Control<IIntersectionObserverControllerOptions> {
    }
 
    protected _beforeUnmount(): void {
-      if (this._observer) {
-         this._observer.disconnect();
-         this._observer = null;
+      for (const observer of this._observers.values()) {
+         observer.disconnect()
       }
+      this._observers = null;
    }
 
    static getOptionTypes(): object {
         return {
-            threshold: descriptor(Array)
+            threshold: descriptor(Array),
+            rootMargin: descriptor(String)
         };
     }
 
     static getDefaultOptions(): object {
         return {
-            threshold: [1]
+            threshold: [1],
+            rootMargin: '0px 0px 0px 0px'
         };
     }
 }
 
-export default ModuleComponent;
+export default IntersectionObserverController;
