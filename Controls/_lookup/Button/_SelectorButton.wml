@@ -16,7 +16,7 @@
          </ws:itemTemplate>
       </Controls._lookup.SelectedCollection>
       <ws:if data="{{_options.multiSelect && !_options.readOnly}}">
-         <span on:click="_open()" attr:class="controls-Selectorbutton_button-more">+{[еще]}</span>
+         <span on:click="_open()" attr:class="controls-Selectorbutton_button-more">{{_options.showSelectorCaption}}</span>
       </ws:if>
       <ws:if data="{{_options.items.getCount() > 1 && !_options.readOnly}}">
          <span on:click="_reset()" attr:class="controls-Selectorbutton__button-reset">{[Очистить]}</span>
