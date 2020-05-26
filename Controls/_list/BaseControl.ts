@@ -33,7 +33,6 @@ import {CollectionItem, EditInPlaceController, VirtualScrollController, GroupIte
 import {Controller as ItemActionsController, IItemAction} from 'Controls/itemActions';
 
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
-import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
 import ListViewModel from 'Controls/_list/ListViewModel';
 import ScrollPagingController = require('Controls/_list/Controllers/ScrollPaging');
 import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
@@ -41,6 +40,7 @@ import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import {ISwipeEvent} from 'Controls/listRender';
 
+import {groupUtil} from 'Controls/dataSource';
 import {IDirection} from './interface/IVirtualScroll';
 import InertialScrolling from './resources/utils/InertialScrolling';
 import {CssClassList} from '../Utils/CssClassList';
@@ -1384,7 +1384,7 @@ const _private = {
         self._notify('collapsedGroupsChanged', [changes.collapsedGroups]);
         _private.prepareFooter(self, self._options.navigation, self._sourceController);
         if (self._options.historyIdCollapsedGroups || self._options.groupHistoryId) {
-            GroupUtil.storeCollapsedGroups(changes.collapsedGroups, self._options.historyIdCollapsedGroups || self._options.groupHistoryId);
+            groupUtil.storeCollapsedGroups(changes.collapsedGroups, self._options.historyIdCollapsedGroups || self._options.groupHistoryId);
         }
     },
 
@@ -1392,7 +1392,7 @@ const _private = {
         var
             result = new Deferred();
         if (config.historyIdCollapsedGroups || config.groupHistoryId) {
-            GroupUtil.restoreCollapsedGroups(config.historyIdCollapsedGroups || config.groupHistoryId).addCallback(function(collapsedGroupsFromStore) {
+            groupUtil.restoreCollapsedGroups(config.historyIdCollapsedGroups || config.groupHistoryId).addCallback(function(collapsedGroupsFromStore) {
                 result.callback(collapsedGroupsFromStore || config.collapsedGroups);
             });
         } else {

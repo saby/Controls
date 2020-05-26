@@ -7,9 +7,8 @@ import getPrefetchSource from './getPrefetchSource';
 import {ContextOptions} from 'Controls/context';
 import {isEqual} from "Types/object";
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
 
-
+import {groupUtil} from 'Controls/dataSource';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {TArrayGroupId, prepareFilterCollapsedGroups} from 'Controls/_list/Controllers/Grouping';
@@ -111,7 +110,7 @@ type GetSourceResult = {
                   resolve(self._filter);
                } else {
                   // restoreCollapsedGroups всегда завершается через Promise.resolve()
-                  GroupUtil.restoreCollapsedGroups(groupHistoryId).then((collapsedGroups?: TArrayGroupId) => {
+                  groupUtil.restoreCollapsedGroups(groupHistoryId).then((collapsedGroups?: TArrayGroupId) => {
                      resolve(prepareFilterCollapsedGroups(collapsedGroups, self._filter || {}));
                   });
                }
