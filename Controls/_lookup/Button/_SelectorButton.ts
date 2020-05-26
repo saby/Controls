@@ -1,6 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_lookup/Button/_SelectorButton');
 import itemTemplate = require('wml!Controls/_lookup/Button/itemTemplate');
+import rk = require('i18n!Controls');
 import {List} from 'Types/collection';
 
 
@@ -37,7 +38,8 @@ import {List} from 'Types/collection';
       return {
          style: 'secondary',
          maxVisibleItems: 7,
-         itemTemplate: itemTemplate
+         itemTemplate: itemTemplate,
+         showSelectorCaption: `+${rk('еще')}`
       };
    };
 
