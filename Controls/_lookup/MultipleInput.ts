@@ -4,10 +4,15 @@ import itemTemplate = require('wml!Controls/_lookup/Lookup/itemTemplate');
 
 /**
  * Поле ввода с автодополнением и возможностью выбора значений из справочника.
+ * 
+ * @remark
  * Отличается от {@link Controls/_lookup/Lookup поля связи} выводом выбранных значений.
  * Ширина выбранных занчений будет пропорционально распределена по ширине контрола, чтобы все значения поместились.
- * Подробное описание и инструкции по настройке контрола можно найти <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/directory/lookup/'>здесь</a>
- * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демонстрационный пример</a>
+ * 
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
  *
  * @class Controls/_lookup/MultipleInput
  * @extends Core/Control

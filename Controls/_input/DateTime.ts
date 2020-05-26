@@ -23,7 +23,11 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *    <li>времени;</li>
  *    <li>даты и времени.</li>
  * </ol>
- * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDateTime%2FDateTime">Демо-пример</a>.
+ * 
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDateTime%2FDateTime">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/input/date/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/DateTime
  * @extends Core/Control

@@ -78,7 +78,11 @@ define(
 
          it('stack shadow', () => {
             let baseGetItemPosition = popupTemplate.StackController._getItemPosition;
-            popupTemplate.StackController._getItemPosition = items => (items.position);
+            popupTemplate.StackController._updateItemPosition = (popupItem) => {
+               if (!popupItem.position) {
+                  popupItem.position = {};
+               }
+            };
             popupTemplate.StackController._stack.add({
                position: { width: 720 },
                popupOptions: { stackClassName: '' }
@@ -314,10 +318,11 @@ define(
             let baseGetItemPosition = popupTemplate.StackController._getItemPosition;
             popupTemplate.StackController._getItemPosition = items => (items.position);
             popupTemplate.StackController._stack.clear();
-            popupTemplate.StackController._stack.add({
+            popupTemplate.StackController._getDefaultConfig({
                position: { stackWidth: 720 },
                popupOptions: { className: '' }
             });
+            assert.isTrue(popupTemplate.StackController._stack.at(0).popupOptions.className.indexOf('controls-Stack__last-item') >= 0);
             popupTemplate.StackController._update();
             assert.isTrue(popupTemplate.StackController._stack.at(0).popupOptions.className.indexOf('controls-Stack__last-item') >= 0);
             popupTemplate.StackController._stack.add({

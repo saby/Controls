@@ -11,8 +11,11 @@ import {default as ListControl} from 'Controls/_list/ListControl';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
+ * 
  * @remark
- * Подробное описание и инструкцию по настройке контрола вы можете прочитать {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ здесь}.
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
  *
  * @class Controls/_list/List
  * @extends Core/Control

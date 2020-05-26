@@ -10,11 +10,16 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
       /**
        * Поле ввода значения с заданным форматом.
+       * 
        * @remark
        * Каждый вводимый символ проходит проверку на соответствие формату {@link mask маски}.
        * Контрол поддерживает возможность показа или скрытия формата маски в незаполненном поле ввода, регулируемую с помощью опции {@link replacer}.
        * Если {@link replacer символ замены} определен, то поле ввода вычисляет свою ширину автоматически по контенту. При этом во всех режимах поддерживается возможность установки ширины поля ввода через CSS.
-       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
+       * 
+       * Полезные ссылки:
+       * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/input/mask/">руководство разработчика</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
        *
        * @class Controls/_input/Mask
        * @extends Controls/_input/Base

@@ -3,9 +3,13 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 
 /**
  * Контрол, предназначенный для операций над множеством записей списка.
+ * 
  * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>.
- * Подробное описание и инструкцию по настройке читайте контрола читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/operations/ здесь}.
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/operations/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ *
  * @class Controls/_operations/Panel
  * @extends Core/Control
  * @mixes Controls/_toolbars/IToolbarSource

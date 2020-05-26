@@ -4,10 +4,16 @@ import template = require('wml!Controls/_lookup/Lookup/Lookup');
 /**
  * Поле ввода с автодополнением и возможностью выбора значений из справочника.
  * Выбранные значения отображаются в виде текста с кнопкой удаления внутри поля ввода.
+ * 
+ * @remark
  * Поддерживает автовысоту в зависимости от выбранных значений {@link multiLine},
  * одиночный и множественный выбор {@link multiSelect}.
- * Подробное описание и инструкции по настройке контрола можно найти <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/directory/lookup/'>здесь</a>
- * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демонстрационный пример</a>.
+ * 
+ * Полезные ссылки:
+ * * <a href="">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">переменные тем оформления</a>
+ * 
  *
  * @class Controls/_lookup/Lookup
  * @extends Core/Control

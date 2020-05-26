@@ -5,16 +5,19 @@
 // Без разделителей
 .controls-Grid__row-cell_withRowSeparator_size-null {
    .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-default_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
       padding-top: @item_padding-top_default_grid;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-m_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
       padding-top: @item_padding-top_s_grid;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-l_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
       padding-top: @item_padding-top_l_grid;
    }
@@ -23,16 +26,19 @@
 // С тонким разделителем
 .controls-Grid__row-cell_withRowSeparator_size-s_theme-@{themeName} {
    .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-default_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
       padding-top: @item_padding-top_default_grid - @item-separator_s_thickness_list;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-m_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
       padding-top: @item_padding-top_s_grid - @item-separator_s_thickness_list;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-l_theme-@{themeName}
    &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
       padding-top: @item_padding-top_l_grid - @item-separator_s_thickness_list;
    }
@@ -41,16 +47,19 @@
 // С широким разделитем
 .controls-Grid__row-cell_withRowSeparator_size-l_theme-@{themeName} {
    .controls-Grid__row-cell_rowSpacingTop_default_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-default_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-@{themeName} {
       padding-top: @item_padding-top_default_grid - @item-separator_l_thickness_list;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_m_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-m_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_m_theme-@{themeName} {
       padding-top: @item_padding-top_s_grid - @item-separator_l_thickness_list;
    }
 
    .controls-Grid__row-cell_rowSpacingTop_l_theme-@{themeName},
+   .controls-GridView__itemV_marker-master_rowSpacingTop-l_theme-@{themeName},
    &.controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-@{themeName} {
       padding-top: @item_padding-top_l_grid - @item-separator_l_thickness_list;
    }
@@ -75,15 +84,18 @@
 
 /* ============== Нижний отступ ============== */
 
-.controls-Grid__row-cell_rowSpacingBottom_default_theme-@{themeName} {
+.controls-Grid__row-cell_rowSpacingBottom_default_theme-@{themeName},
+.controls-Grid__row-cell_default_rowSpacingBottom_default_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_default_grid;
 }
 
-.controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName} {
+.controls-Grid__row-cell_rowSpacingBottom_m_theme-@{themeName},
+.controls-Grid__row-cell_default_rowSpacingBottom_m_theme-@{themeName}{
    padding-bottom: @item_padding-bottom_s_grid;
 }
 
-.controls-Grid__row-cell_rowSpacingBottom_l_theme-@{themeName} {
+.controls-Grid__row-cell_rowSpacingBottom_l_theme-@{themeName},
+.controls-Grid__row-cell_default_rowSpacingBottom_l_theme-@{themeName}{
    padding-bottom: @item_padding-bottom_l_grid;
 }
 

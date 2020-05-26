@@ -8,7 +8,11 @@ import { TKeySelection as TKey } from 'Controls/interface';
 /** 
  * Контрол используется для организации множественного выбора. 
  * Он обеспечивает связь между Controls/operationsPanel:Containter и {@link Controls/list:Containter}.
- * Подробное описание и инструкцию по настройке читайте <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/operations/'>здесь</a>.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
  *
  * @class Controls/_operations/Controller
  * @extends Core/Control

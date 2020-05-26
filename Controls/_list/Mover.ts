@@ -317,10 +317,16 @@ var _private = {
 
 /**
  * Контрол для перемещения элементов списка в recordSet и dataSource.
+ * 
+ * @remark
  * Контрол должен располагаться в одном контейнере {@link Controls/list:DataContainer} со списком.
- * В случае использования {@link Controls/operations:Controller} для корректной обработки событий
- * необходимо помещать Controls/list:Mover внутри Controls/operations:Controller.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Демо-пример</a>.
+ * В случае использования {@link Controls/operations:Controller} для корректной обработки событий необходимо помещать Controls/list:Mover внутри Controls/operations:Controller.
+ * 
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/actions/mover-remover/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a
+ * 
  * @class Controls/_list/Mover
  * @extends Controls/_list/BaseAction
  * @mixes Controls/interface/IMovable

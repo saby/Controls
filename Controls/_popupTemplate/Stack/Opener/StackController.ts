@@ -31,7 +31,6 @@ class StackController extends BaseController {
         const isSinglePopup = this._stack.getCount() < 2;
         if (isSinglePopup) {
             this._prepareSizeWithoutDOM(item);
-            this._addLastStackClass(item);
         } else {
             this._prepareSizes(item, container);
         }
@@ -42,8 +41,7 @@ class StackController extends BaseController {
         } else if (!isSinglePopup) {
             this._update();
         } else {
-            // Пересчитаем еще раз позицию, на случай, если ресайзили окно браузера
-            item.position = this._getItemPosition(item);
+            this._updateItemPosition(item);
         }
 
         if (!isNewEnvironment()) {
@@ -110,13 +108,23 @@ class StackController extends BaseController {
         this._savePopupWidth(item);
     }
 
+    private _updateItemPosition(item: IPopupItem): void {
+        // Пересчитаем еще раз позицию, на случай, если ресайзили окно браузера
+        const position = this._getItemPosition(item);
+        // быстрая проверка на равенство простых объектов
+        if (JSON.stringify(item.position) !== JSON.stringify(position)) {
+            item.position = position;
+            this._updatePopupOptions(item);
+        }
+    }
+
     private _update(): void {
         const maxPanelWidth = StackStrategy.getMaxPanelWidth();
         let cache: IPopupItem[] = [];
         this._stack.each((item) => {
             if (item.popupState !== this.POPUP_STATE_DESTROYING) {
-                item.position = this._getItemPosition(item);
-                this._updatePopupWidth(item);
+                this._updateItemPosition(item);
+                this._updatePopupWidth(item, item.position.width);
                 this._removeLastStackClass(item);
                 const currentWidth = this._getPopupHorizontalLength(item);
                 let forRemove;
@@ -261,23 +269,23 @@ class StackController extends BaseController {
                     this._prepareMaximizedState(StackStrategy.getMaxPanelWidth(), item);
                 }
                 this._updatePopupOptions(item);
+                this._addLastStackClass(item);
             }
         }
     }
 
     private _getItemPosition(item: IPopupItem): IPopupPosition {
         const targetCoords = this._getStackParentCoords();
-        item.position = StackStrategy.getPosition(targetCoords, item);
-        item.popupOptions.stackWidth = item.position.width;
-        item.popupOptions.workspaceWidth = item.position.width;
-        item.popupOptions.stackMinWidth = item.position.minWidth;
-        item.popupOptions.stackMaxWidth = item.position.maxWidth;
+        const position = StackStrategy.getPosition(targetCoords, item);
+        item.popupOptions.stackWidth = position.width;
+        item.popupOptions.workspaceWidth = position.width;
+        item.popupOptions.stackMinWidth = position.minWidth;
+        item.popupOptions.stackMaxWidth = position.maxWidth;
         // todo https://online.sbis.ru/opendoc.html?guid=256679aa-fac2-4d95-8915-d25f5d59b1ca
         item.popupOptions.stackMinimizedWidth = item.popupOptions.minimizedWidth;
 
-        this._updatePopupWidth(item);
-        this._updatePopupOptions(item);
-        return item.position;
+        this._updatePopupWidth(item, position.width);
+        return position;
     }
 
     private _validateConfiguration(item: IPopupItem): void {
@@ -316,8 +324,8 @@ class StackController extends BaseController {
         return templateWidth;
     }
 
-    private _updatePopupWidth(item: IPopupItem): void {
-        if (!item.containerWidth && !item.position.width && item.popupState !== this.POPUP_STATE_INITIALIZING) {
+    private _updatePopupWidth(item: IPopupItem, width: number): void {
+        if (!item.containerWidth && !width && item.popupState !== this.POPUP_STATE_INITIALIZING) {
             item.containerWidth = this._getContainerWidth(this._getPopupContainer(item.id));
         }
     }

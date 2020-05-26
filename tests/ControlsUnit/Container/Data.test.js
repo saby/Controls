@@ -256,7 +256,6 @@ define(
                const newList = new collection.RecordSet();
                data._itemsChanged(event, newList);
                assert.isTrue(propagationStopped);
-               assert.equal(data._items, newList);
                done();
             });
          });

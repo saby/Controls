@@ -1,0 +1,7 @@
+<div class="controls-ToolbarBox__item{{buttonTemplateOptions.readOnly ? '_readOnly'}}"
+     title="{{item.tooltip}}">
+   <ws:partial template="{{buttonTemplate}}"
+               scope="{{buttonTemplateOptions}}"
+               theme="{{theme}}"
+               attr:class="controls-Toolbar__button"/>
+</div>

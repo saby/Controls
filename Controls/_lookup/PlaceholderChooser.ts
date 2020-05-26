@@ -4,6 +4,11 @@ import collection = require('Types/collection');
 
 /**
  * Обертка над "Lookup", которая следит за изменениями выбранных записей, и на основании них отдает один из возможных заранее сформированных "placeholders".
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * 
  * @class Controls/_lookup/PlaceholderChooser
  * @control
  * @extends Core/Control

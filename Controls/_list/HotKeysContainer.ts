@@ -5,6 +5,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Контрол добавляет обработку клавиш KeyUp и KeyDown в контрол {@link Controls/list:Container}.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * 
  * @class Controls/_list/HotKeysContainer
  * @extends Core/Control
  * @author Шипин А.А.

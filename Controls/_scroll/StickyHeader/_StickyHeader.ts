@@ -88,7 +88,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
      * @private
      */
     private _observer: IntersectionObserver;
-    private _resizeObserver: IResizeObserver;
 
     private _model: Model;
 
@@ -174,7 +173,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._initObserver();
 
         this._updateBottomShadowStyle();
-        this._initResizeObserver();
     }
 
     protected _beforeUnmount(): void {
@@ -191,13 +189,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._observer.disconnect();
         }
 
-        if (this._resizeObserver) {
-            this._resizeObserver.disconnect();
-        }
-
         this._observeHandler = undefined;
         this._observer = undefined;
-        this._resizeObserver = undefined;
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
     }
 
@@ -293,15 +286,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         );
         this._observer.observe(children.observationTargetTop);
         this._observer.observe(children.observationTargetBottom);
-    }
-
-    private _initResizeObserver(): void {
-        if (typeof window !== 'undefined' && window.ResizeObserver) {
-            this._resizeObserver = new ResizeObserver(() => {
-                this._selfResizeHandler();
-            });
-            this._resizeObserver.observe(this._container);
-        }
     }
 
     /**

@@ -75,10 +75,14 @@ export interface ISourceControlOptions extends IControlOptions {
 
 /**
  * Контрол, который предоставляет возможность загрузить данные для списков и перемещаться по ним, использую навигацию Page/Position.
+ * 
  * @remark
  * Принимает настройки для постраничной навигации и загружает данные, используя
  * NavigationControl для управления состояния навигации и SourceCrudInterlayer для обработки ошибки загрузки данных.
- * В случае ошибки загрузки данных показывает стран6ицу с ошибкой
+ * В случае ошибки загрузки данных показывает стран6ицу с ошибкой.
+ * 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
  *
  * @class Controls/list:SourceControl
  *

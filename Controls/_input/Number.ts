@@ -6,7 +6,12 @@ import ViewModel = require('Controls/_input/Number/ViewModel');
 
 /**
  * Поле ввода числовых значений.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/input/number/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
@@ -194,6 +199,15 @@ var _private = {
 
 var NumberInput = Base.extend({
     _defaultValue: 0,
+
+    _beforeMount: function (options) {
+        NumberInput.superclass._beforeMount.apply(this, arguments);
+
+        if (options.type) {
+            this._type = options.type;
+        }
+    },
+
     _getViewModelOptions: function (options) {
         _private.validateOptions(options);
 

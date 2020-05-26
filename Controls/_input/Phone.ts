@@ -5,11 +5,13 @@ import ViewModel = require('Controls/_input/Phone/ViewModel');
        * Поле ввода телефона.
        * @remark
        * В зависимости от введенных символов формат номера телефона изменяется.
-       * {@link http://axure.tensor.ru/standarts/v7/%D0%BF%D0%BE%D0%BB%D0%B5_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html Стандарт}.
-       * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
-       * @remark
-       * Если вы хотите, чтобы поле телефона не меняло формат, используйте
-       * {@link Controls/_input/Mask маску). Например, поле для ввода мобильного телефона или дома.
+       * Если вы хотите, чтобы поле телефона не меняло формат, используйте {@link Controls/_input/Mask маску}. Например, поле для ввода мобильного телефона или дома.
+       *
+       * Полезные ссылки:
+       * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/input/phone/">руководство разработчика</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+       * * <a href="http://axure.tensor.ru/standarts/v7/%D0%BF%D0%BE%D0%BB%D0%B5_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html">стандарт</a>
        *
        * @class Controls/_input/Phone
        * @extends Controls/_input/Base

@@ -3,11 +3,16 @@ import entity = require('Types/entity');
 import ViewModel = require('Controls/_input/Password/ViewModel');
 import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/PasswordVisibilityButton');
 /**
- *  Поле ввода пароля.
- *  @remark
- *  Контрол скрывает введенные символы и вместо них отображает символы-заменители.
- *  Видимость введенного текста можно переключить, нажав на иконку 'eye'.
- *  <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Демо-пример</a>.
+ * Поле ввода пароля.
+ * 
+ * @remark
+ * Контрол скрывает введенные символы и вместо них отображает символы-заменители.
+ * Видимость введенного текста можно переключить, нажав на иконку 'eye'.
+ * 
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/input/password/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/Password
  * @extends Controls/_input/Base

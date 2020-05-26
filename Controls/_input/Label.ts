@@ -11,6 +11,10 @@ export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSi
 
 /**
  * Текстовая метка для поля ввода.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/Label
  * @extends Core/Control

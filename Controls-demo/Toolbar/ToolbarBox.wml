@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.toolbars:BoxView
+         name="myToolbarBox"
+         source="{{ _defaultSource }}"
+         itemTemplateProperty="myTemplate"
+         on:itemClick="_itemClick()"
+      />
+   </div>
+</div>

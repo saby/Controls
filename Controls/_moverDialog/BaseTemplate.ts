@@ -3,6 +3,11 @@ import template = require('wml!Controls/_moverDialog/BaseTemplate/BaseTemplate')
 
 /**
  * Базовый шаблон диалогового окна, используемый в списках при перемещении элементов для выбора целевой папки.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_moveDialog.less">переменные тем оформления</a>
+ * 
  * @control
  * @public
  * @class Controls/_moverDialog/BaseTemplate

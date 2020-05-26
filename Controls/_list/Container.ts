@@ -4,8 +4,11 @@ import {ContextOptions as DataOptions} from 'Controls/context';
 
 /**
  * Контрол-контейнер для списка. Передает опции из контекста в список.
- *
- * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/'>здесь</a>.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
  *
  * @class Controls/_list/Container
  * @extends Core/Control

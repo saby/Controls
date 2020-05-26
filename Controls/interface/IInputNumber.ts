@@ -103,6 +103,19 @@ interface IInputNumber {
          * @see inputCompleted
          */
         value: number | string | null;
+
+        /**
+         * @name Controls/interface/IInputNumber#type
+         * @cfg {Enum} Сообщает браузеру, к какому типу относится элемент формы.
+         * @variant text - Текстовое поле.
+         * @variant number - Ввод чисел.
+         * @example
+         * В этом примере мы укажем числовую форму ввода.
+         * <pre>
+         *    <Controls.input:Number type="number"/>
+         * </pre>
+         */
+        type: string;
     };
 }
 

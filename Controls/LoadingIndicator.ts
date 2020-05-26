@@ -21,6 +21,9 @@ import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
  *
  * Событие hideIndicator используется для удаления запроса отображения индикатора.
  * Параметры события hideIndicator идентичны аргументам метода {@link hide}.
+ * 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_loadingIndicator.less">переменные тем оформления</a>
  *
  * @class Controls/LoadingIndicator
  * @extends Core/Control

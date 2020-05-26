@@ -359,6 +359,10 @@ var _private = {
 
 /**
  * Базовый класс для текстовых полей ввода.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/Base
  * @extends UI/_base/Control
@@ -483,7 +487,12 @@ var Base = Control.extend({
             if (!this._isIE) {
                 this._numberSkippedSaveSelection++;
             }
-            field.setSelectionRange(selection.start, selection.end);
+            /**
+             * The input element's type ('number') does not support selection
+             */
+            if (this._type !== 'number') {
+                field.setSelectionRange(selection.start, selection.end);
+            }
             return true;
         }
         return false;

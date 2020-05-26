@@ -3,9 +3,12 @@ import template = require('tmpl!Controls/_lookup/Opener');
 
 /**
  * Контрол, который открывает всплывающее окно со списком, располагающимся справа от контентной области на всю высоту экрана, из которого можно выбрать значение.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/ Подробнее}.
- *
- * Здесь вы можете увидеть <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">демонстрационный пример</a>.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
  *
  * @class Controls/_lookup/Opener
  * @control

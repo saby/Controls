@@ -86,6 +86,10 @@ var
  * Если в качестве шаблона редактирования используются поля ввода, то при переключении в режим чтения может наблюдаться скачок текста.
  * Для того, чтобы избежать этого, рекомендуется навесить css класс controls-Input_negativeOffset_theme_{{_options.theme}} на редактируемую область.
  *
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less">переменные тем оформления</a>
+ * 
  * @demo Controls-demo/EditableArea/EditableArea
  */
 

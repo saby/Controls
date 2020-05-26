@@ -6,7 +6,7 @@ import ActualApi from 'Controls/_buttons/ActualApi';
 
 /**
  * Контрол «Кнопка с меню».
- *
+ * 
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FMenu%2FMenu">демо-пример</a>

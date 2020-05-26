@@ -1,0 +1,14 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper controlsDemo-Menu-Popup_absolute">
+      <div class="controls-text-label_theme-{{_options.theme}}">Открытие меню вверх</div>
+      <Controls.dropdown:Button
+              keyProperty="key"
+              displayProperty="title"
+              caption="{[Выберите город]}"
+              source="{{_source}}">
+         <ws:headerTemplate>
+            <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Выберите город]}" />
+         </ws:headerTemplate>
+      </Controls.dropdown:Button>
+   </div>
+</div>

@@ -27,6 +27,11 @@ export interface IPagingOptions extends IControlOptions {
 
 /**
  * Контрол для отображения кнопок постраничной навигации.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_paging.less">переменные тем оформления</a>
+ * 
  * @class Controls/_paging/Paging
  * @extends UI/Base:Control
  * @public

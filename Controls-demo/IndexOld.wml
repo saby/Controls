@@ -440,6 +440,11 @@
                Toolbar
             </a>
          </div>
+         <div>
+            <a href="Controls-demo%252FToolbar%252FToolbarBox">
+               ToolbarBox
+            </a>
+         </div>
 
          <h1>RadioGroup</h1>
          <a href="Controls-demo%252FRadioGroup%252FRadioGroupDemo">

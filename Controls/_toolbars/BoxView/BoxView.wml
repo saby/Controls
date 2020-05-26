@@ -1,0 +1,18 @@
+<div class="controls-ToolbarBox controls-ToolbarBox_theme-{{_options.theme}}">
+   <div class="ws-flexbox ws-align-items-center">
+      <ws:for data="key, item in _items">
+         <ws:partial template="{{_getTemplateByItem(item)}}"
+                     attr:class="controls-ToolbarBox__item controls-ToolbarBox__item_theme-{{_options.theme}}
+                                 ws-flexbox ws-align-items-center ws-justify-content-center"
+                     item="{{item}}"
+                     itemsSpacing="{{_options.itemsSpacing}}"
+                     buttonTemplate="{{_buttonTemplate}}"
+                     buttonTemplateOptions="{{_getButtonTemplateOptionsByItem(item)}}"
+                     theme="{{_options.theme}}"
+                     on:click="_itemClickHandler(item)"/>
+         <ws:if data="{{ key < (_items.getCount() - 1) }}">
+            <div class="controls-ToolbarBox__separator_theme-{{_options.theme}}"></div>
+         </ws:if>
+      </ws:for>
+   </div>
+</div>
