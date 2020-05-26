@@ -79,6 +79,28 @@ define(
             assert.equal(menu._offsetClassName, 'controls-MenuButton_link_iconSize-medium_popup');
          });
 
+         it('_afterMount', () => {
+            let newOptions = Clone(config);
+            menu._children = {
+               content: 'testContent'
+            };
+            menu._afterMount(newOptions);
+            assert.deepEqual(menu._menuPopupOptions, {
+               target: 'testContent'
+            });
+
+            newOptions.menuPopupOptions = {
+               closeOnOutsideClick: false,
+               templateOptions: {}
+            };
+            menu._afterMount(newOptions);
+            assert.deepEqual(menu._menuPopupOptions, {
+               target: 'testContent',
+               closeOnOutsideClick: false,
+               templateOptions: {}
+            });
+         });
+
          it('_beforeUpdate', function() {
             let newOptions = Clone(config);
             newOptions.icon = 'icon-small icon-Doge icon-primary';
