@@ -206,6 +206,7 @@ define([
             position: 'topbottom'
          }].forEach(function(test) {
             it(`should unregister deleted header on position ${test.position}`, function() {
+               sinon.stub(component._stickyHeaderObserver, 'unobserve');
                let event = {
                      blockUpdate: false,
                      stopImmediatePropagation: sinon.fake()
@@ -232,6 +233,7 @@ define([
          });
 
          it('should remove header from delayedHeaders when its unregister', function () {
+            sinon.stub(component._stickyHeaderObserver, 'unobserve');
             let event = {
                    blockUpdate: false,
                    stopImmediatePropagation: sinon.fake()

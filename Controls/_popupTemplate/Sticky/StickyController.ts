@@ -281,6 +281,9 @@ class StickyController extends BaseController {
         /* start: We remove the set values that affect the size and positioning to get the real size of the content */
         const width = container.style.width;
         const maxHeight = container.style.maxHeight;
+        // Если внутри лежит скроллконтейнер, то восстанавливаем позицию скролла после изменения размеров
+        const scroll = container.querySelector('.controls-Scroll__content');
+        const scrollTop = scroll?.scrollTop;
         container.style.maxHeight = item.position.maxHeight ? item.position.maxHeight + 'px' : '100vh';
         container.style.width = 'auto';
         container.style.height = 'auto';
@@ -298,6 +301,8 @@ class StickyController extends BaseController {
         // Если ограничивающих размеров нет (контент влезает в экран), то ставим высоту по контенту.
         container.style.height = item.position.height ? item.position.height + 'px' : 'auto';
 
+        //TODO: https://online.sbis.ru/opendoc.html?guid=5ddf9f3b-2d0e-49aa-b5ed-12e943c761d8
+        scroll?.scrollTop = scrollTop;
         /* end: Return all values to the node. Need for vdom synchronizer */
 
         // toDO выписана задача https://online.sbis.ru/opendoc.html?guid=79cdc24c-cf4c-45da-97b4-7353540a2b1b

@@ -33,7 +33,10 @@ var __PopupContent = BaseLayer.extend({
       }
       this._pendingShowContent = newOptions.showContent;
 
-      this._reverseList = isPopupOpenedToTop;
+      if (isPopupOpenedToTop !== this._reverseList) {
+         this._showContent = false;
+         this._reverseList = isPopupOpenedToTop;
+      }
    },
 
    _afterUpdate(oldOptions): void {
@@ -42,16 +45,16 @@ var __PopupContent = BaseLayer.extend({
          this._notify('controlResize', [], {bubbling: true});
       }
 
+      // Для Ipad'а фиксируем автодополнение, только если оно отобразилось вверх, если оно отобразилось вниз,
+      // то при появлении клавиатуры автодополнению может не хватить места тогда оно должно будет отобразиться сверху
+      if (this._showContent && !this._positionFixed && (!detection.isMobileIOS || this._reverseList)) {
+         this._positionFixed = true;
+         this._notify('sendResult', [this._options.stickyPosition], {bubbling: true});
+      }
+
       if (this._pendingShowContent) {
          this._showContent = this._pendingShowContent;
          this._pendingShowContent = null;
-      }
-
-      // Для Ipad'а фиксируем автодополнение, только если оно отобразилось вверх, если оно отобразилось вниз,
-      // то при появлении клавиатуры автодополнению может не хватить места тогда оно должно будет отобразиться сверху
-      if (this._options.showContent && !this._positionFixed && (!detection.isMobileIOS || this._reverseList)) {
-         this._positionFixed = true;
-         this._notify('sendResult', [this._options.stickyPosition], {bubbling: true});
       }
    },
 

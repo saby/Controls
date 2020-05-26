@@ -96,8 +96,7 @@
        <div class="controls-TreeGridView__row-cell_innerWrapper
                    {{ currentColumn.classList.relativeCellWrapper }}
                    {{itemData.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}">
-           <ws:partial template="columnContentWrapper"
-                       attr:class="{{currentColumn.hiddenForLadder ? 'controls-Grid__row-cell__content_hiddenForLadder'}}"/>
+           <ws:partial template="columnContentWrapper"/>
            <div if="{{!!itemData.dragTargetNode}}"
                 class="controls-TreeGridView__dragTargetNode_theme-{{_options.theme}} {{itemData.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + _options.theme}}
                        {{itemData.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + _options.theme}}"></div>

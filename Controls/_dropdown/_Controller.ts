@@ -316,7 +316,8 @@ var _private = {
              undefined,
          hasMoreButton: self._sourceController.hasMoreData('down'),
          selectorOpener: self._children.selectorOpener,
-         selectorDialogResult: self._onSelectorTemplateResult.bind(self)
+         selectorDialogResult: self._onSelectorTemplateResult.bind(self),
+         iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
       };
       let options = {...self._options};
       const config = {

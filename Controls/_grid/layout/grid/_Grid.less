@@ -290,24 +290,30 @@
    }
 }
 
-.controls-Grid__row-cell_default_rowSpacingTop_default_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_default_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingTop-default_theme-@{themeName} {
    padding-top: @item_padding-top_default_grid;
 }
-.controls-Grid__row-cell_default_rowSpacingBottom_default_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_default_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingBottom-default_theme-@{themeName}{
    padding-bottom: @item_padding-bottom_default_grid;
 }
 
-.controls-Grid__row-cell_default_rowSpacingTop_m_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_m_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingTop-m_theme-@{themeName} {
    padding-top: @item_padding-top_s_grid;
 }
-.controls-Grid__row-cell_default_rowSpacingBottom_m_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_m_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingBottom-m_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_s_grid;
 }
 
-.controls-Grid__row-cell_default_rowSpacingTop_l_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingTop_l_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingTop-l_theme-@{themeName} {
    padding-top: @item_padding-top_l_grid;
 }
-.controls-Grid__row-cell_default_rowSpacingBottom_l_theme-@{themeName} {
+.controls-Grid__row-cell_default_rowSpacingBottom_l_theme-@{themeName},
+.controls-GridView__itemV_marker-master_rowSpacingBottom-l_theme-@{themeName} {
    padding-bottom: @item_padding-bottom_l_grid;
 }
 
@@ -626,12 +632,25 @@
 
 .controls-GridView__itemV_marker-master_theme-@{themeName} {
    position: absolute;
+   display: inline-flex;
+   align-items: baseline;
+   width: @master-marker_thickness_list;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   height: auto;
+}
+
+.controls-GridView__itemV_marker-master_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_font-size_2xl_grid;
+}
+
+.controls-GridView__itemV_marker-master_theme-@{themeName}:after {
+   content: '';
+   background-color: @master-marker_color_list;
    width: @master-marker_thickness_list;
    height: @master-marker_height_list;
-   background-color: @master-marker_color_list;
-   top: calc(50% - @item-separator_s_thickness_list);
-   left: 0;
-   margin-top: -@master-marker_height_list/2;
 }
 
 .ws-is-hover {

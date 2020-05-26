@@ -307,10 +307,20 @@ type GetSourceResult = {
                target: this._source
             });
 
-            _private.resolvePrefetchSourceResult(this, {
-               source: source,
-               data: items
-            });
+            let result;
+
+            if (this._options.task1179350201) {
+               result = {
+                  source
+               };
+            } else {
+               result = {
+                  source,
+                  data: items
+               };
+            }
+
+            _private.resolvePrefetchSourceResult(this, result);
 
             _private.updateDataOptions(this, this._dataOptionsContext);
             this._dataOptionsContext.updateConsumers();

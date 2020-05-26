@@ -483,7 +483,12 @@ var Base = Control.extend({
             if (!this._isIE) {
                 this._numberSkippedSaveSelection++;
             }
-            field.setSelectionRange(selection.start, selection.end);
+            /**
+             * The input element's type ('number') does not support selection
+             */
+            if (this._type !== 'number') {
+                field.setSelectionRange(selection.start, selection.end);
+            }
             return true;
         }
         return false;

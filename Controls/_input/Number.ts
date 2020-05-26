@@ -194,6 +194,15 @@ var _private = {
 
 var NumberInput = Base.extend({
     _defaultValue: 0,
+
+    _beforeMount: function (options) {
+        NumberInput.superclass._beforeMount.apply(this, arguments);
+
+        if (options.type) {
+            this._type = options.type;
+        }
+    },
+
     _getViewModelOptions: function (options) {
         _private.validateOptions(options);
 
