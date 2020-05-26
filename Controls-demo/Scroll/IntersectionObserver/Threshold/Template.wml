@@ -1,0 +1,37 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container class="controlsDemo__wrapper__padding-top controlsDemo__height500">
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="1"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 1. threshold не задан, значение по умолчанию [1]</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="2"
+                threshold="{{[0, 0.25, 0.5, 1]}}"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 2. threshold = [0, 0.25, 0.5, 1]</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="3"
+                threshold="{{[0, 0.5]}}"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 3. threshold = [0, 0.5]</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="4"
+                threshold="{{[0.01, 0.99]}}"
+                on:intersect="_intersectHandler()">
+            <div class="controlsDemo_bordered controlsDemo__height300">Блок 4. threshold = [0.01, 0.99]</div>
+        </Controls.scroll:IntersectionObserverContainer>
+        <div class="controlsDemo__height300"></div>
+    </Controls.scroll:Container>
+    <Controls.scroll:Container class="controlsDemo__height300">
+        <ws:for data="line in _logs">
+            <p>{{line}}</p>
+        </ws:for>
+    </Controls.scroll:Container>
+</div>

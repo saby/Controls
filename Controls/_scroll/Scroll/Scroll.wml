@@ -1,49 +1,50 @@
 <ws:template name="content">
    <Controls._scroll.Scroll.Watcher scope="{{_options}}" name="scrollWatcher">
       <Controls.event:Register name="scrollDetect" register="scroll">
-         <Controls._scroll.StickyHeader.Controller
-            name="stickyController"
-            on:fixed="_fixedHandler()">
-            <!--Реализация области блоков требует наличия следующей структуры: controls-BlockLayout > controls-BlockLayout__blockGroup.
-            Добавляем класс controls-BlockLayout__blockGroup, для того чтобы была соблюдена структура, когда используется controls-BlockLayout на контейнере.
-            Таким образом мы избавляемся от лишней вложенности.
-            Контейнер с классом controls-BlockLayout имеет несколько дочерних элементов. Из них только контент должен быть группой в
-            соответствии с блочной структурой. Набор групп определяется для каждого типа тега отдельно.
-            Поэтому тег контента должен отличаться от остальных. Например подойдет span.
-            https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/containers/blocks/-->
-            <span name="content"
-                 style="{{_displayState.heightFix ? '' : _contentStyles}}"
-                 class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-{{_options.theme}}
-                           {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
-                           {{_displayState.hasScroll ? 'controls-Scroll__content_possibleScroll'}}
-                           {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' :
-                            _classTypeScroll}}
-                           {{_overflowScrolling ? 'controls-Scroll__content-overflowScrolling'}}"
-                 on:controlResize="_resizeHandler()"
-                 on:scroll="_scrollHandler()"
-                 on:wheel="_wheelHandler()">
-               <ws:partial template="{{_options.content}}"
-                           scope="{{_options}}"
-                           attr:class="controls-Scroll__userContent"
-                           on:saveScrollPosition="_saveScrollPosition()"
-                           on:scrollToElement="_scrollToElement()"
-                           on:updatePlaceholdersSize="_updatePlaceholdersSize()"
-                           on:restoreScrollPosition="_restoreScrollPosition()"
-                           on:updateShadowMode="_updateShadowMode()"
-                           on:selectedKeysChanged="selectedKeysChanged()"
-                           on:excludedKeysChanged="excludedKeysChanged()"
-                           on:itemClick="itemClick()"
-                           on:itemMouseDown="_tmplNotify('itemMouseDown')"
-                           on:rootChanged="_tmplNotify('rootChanged')"
-                           on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
-                           on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
-                           on:checkboxClick="_tmplNotify('checkboxClick')"
-                           on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
-                           on:actionClick="_tmplNotify('actionClick')"
-                           on:editArrowClick="_tmplNotify('editArrowClick')"
+         <Controls._scroll.IntersectionObserver.Controller>
+            <Controls._scroll.StickyHeader.Controller
+               name="stickyController"
+               on:fixed="_fixedHandler()">
+               <!--Реализация области блоков требует наличия следующей структуры: controls-BlockLayout > controls-BlockLayout__blockGroup.
+               Добавляем класс controls-BlockLayout__blockGroup, для того чтобы была соблюдена структура, когда используется controls-BlockLayout на контейнере.
+               Таким образом мы избавляемся от лишней вложенности.
+               Контейнер с классом controls-BlockLayout имеет несколько дочерних элементов. Из них только контент должен быть группой в
+               соответствии с блочной структурой. Набор групп определяется для каждого типа тега отдельно.
+               Поэтому тег контента должен отличаться от остальных. Например подойдет span.
+               https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/content-managment/containers/blocks/-->
+               <span name="content"
+                    style="{{_displayState.heightFix ? '' : _contentStyles}}"
+                    class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-{{_options.theme}}
+                              {{_useNativeScrollbar && _options.scrollbarVisible ? '' : 'controls-Scroll__content_hideNativeScrollbar'}}
+                              {{_displayState.hasScroll ? 'controls-Scroll__content_possibleScroll'}}
+                              {{_useNativeScrollbar ? 'controls-Scroll__content_auto' : _displayState.heightFix || _contentStyles === undefined ? 'controls-Scroll__content_hidden' :
+                               _classTypeScroll}}
+                              {{_overflowScrolling ? 'controls-Scroll__content-overflowScrolling'}}"
+                    on:controlResize="_resizeHandler()"
+                    on:scroll="_scrollHandler()"
+                    on:wheel="_wheelHandler()">
+                  <ws:partial template="{{_options.content}}"
+                              scope="{{_options}}"
+                              attr:class="controls-Scroll__userContent"
+                              on:saveScrollPosition="_saveScrollPosition()"
+                              on:scrollToElement="_scrollToElement()"
+                              on:updatePlaceholdersSize="_updatePlaceholdersSize()"
+                              on:restoreScrollPosition="_restoreScrollPosition()"
+                              on:updateShadowMode="_updateShadowMode()"
+                              on:selectedKeysChanged="selectedKeysChanged()"
+                              on:excludedKeysChanged="excludedKeysChanged()"
+                              on:itemClick="itemClick()"
+                              on:itemMouseDown="_tmplNotify('itemMouseDown')"
+                              on:rootChanged="_tmplNotify('rootChanged')"
+                              on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
+                              on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
+                              on:checkboxClick="_tmplNotify('checkboxClick')"
+                              on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
+                              on:actionClick="_tmplNotify('actionClick')"
+                              on:editArrowClick="_tmplNotify('editArrowClick')"
                            on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"/>
             </span>
-         </Controls._scroll.StickyHeader.Controller>
+         </Controls._scroll.StickyHeader.Controller></Controls._scroll.IntersectionObserver.Controller>
       </Controls.event:Register>
    </Controls._scroll.Scroll.Watcher>
 </ws:template>
