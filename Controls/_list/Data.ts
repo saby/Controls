@@ -7,9 +7,8 @@ import getPrefetchSource from './getPrefetchSource';
 import {ContextOptions} from 'Controls/context';
 import {isEqual} from "Types/object";
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import GroupUtil = require('Controls/_list/resources/utils/GroupUtil');
 
-
+import {groupUtil} from 'Controls/dataSource';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {TArrayGroupId, prepareFilterCollapsedGroups} from 'Controls/_list/Controllers/Grouping';
@@ -22,11 +21,8 @@ type GetSourceResult = {
 
       /**
        * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
-       * 
        * @remark
-       * Полезные ссылки:
-       * * <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+       * См. <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>.
        *
        * @class Controls/_list/Data
        * @mixes Controls/_interface/IFilter
@@ -111,7 +107,7 @@ type GetSourceResult = {
                   resolve(self._filter);
                } else {
                   // restoreCollapsedGroups всегда завершается через Promise.resolve()
-                  GroupUtil.restoreCollapsedGroups(groupHistoryId).then((collapsedGroups?: TArrayGroupId) => {
+                  groupUtil.restoreCollapsedGroups(groupHistoryId).then((collapsedGroups?: TArrayGroupId) => {
                      resolve(prepareFilterCollapsedGroups(collapsedGroups, self._filter || {}));
                   });
                }
@@ -309,7 +305,8 @@ type GetSourceResult = {
             });
 
             _private.resolvePrefetchSourceResult(this, {
-               source
+               source: source,
+               data: items
             });
 
             _private.updateDataOptions(this, this._dataOptionsContext);

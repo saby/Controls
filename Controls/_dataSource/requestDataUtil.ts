@@ -8,6 +8,7 @@
  * * fastFilterSource: Array - элементы {@link Controls/filter:Controller#fastFilterSource FastFilter};
  * * navigation: object - навигация для получения данных;
  * * historyId: string - идентификатор для получения истории фильтрации;
+ * * groupHistoryId: string - идентификатор для получения состояния группировки;
  * * filter: FilterObject - фильтр для получения данных;
  * * sorting: SortingObject - сортировка для получения данных;
  * * propStorageId: string - идентификатор стора, в котором хранится сохраненная пользовательская сортировка;
@@ -24,6 +25,7 @@ import {RecordSet} from 'Types/collection';
 import {SbisService} from 'Types/source';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {Logger} from 'UI/Utils';
+import groupUtil from 'Controls/_dataSource/GroupUtil';
 
 type HistoryItems = object[];
 type SortingObject = object[];
@@ -41,6 +43,7 @@ export interface IRequestDataResult {
    filter?: FilterObject;
    sorting?: SortingObject;
    historyItems?: HistoryItems;
+   collapsedGroups?: string[];
 }
 
 export interface ISourceConfig {
@@ -48,6 +51,7 @@ export interface ISourceConfig {
    filterButtonSource?: object[];
    fastFilterSource?: object[];
    navigation?: object;
+   groupHistoryId?: string;
    historyId?: string;
    filter?: FilterObject;
    sorting?: SortingObject;
@@ -64,6 +68,7 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
    });
    let sortingPromise;
    let filterPromise;
+   let collapsedGroupsPromise;
    if (cfg.historyId && cfg.filterButtonSource && cfg.filter) {
       filterPromise = import('Controls/filter').then((filterLib): Promise<IFilter> => {
          return filterLib.Controller.getCalculatedFilter(cfg);
@@ -78,12 +83,22 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
          Logger.info('Controls.dataSource:requestDataUtil: Данные сортировки не загрузились за 1 секунду');
       });
    }
+   if (cfg.groupHistoryId) {
+      collapsedGroupsPromise = groupUtil.restoreCollapsedGroups(cfg.groupHistoryId);
+   }
 
-   return Promise.all([filterPromise, sortingPromise]).then(([filterObject, sortingObject]: [IFilter, ISorting]) => {
+   return Promise.all([
+       filterPromise,
+      sortingPromise,
+      collapsedGroupsPromise
+   ]).then(([filterObject, sortingObject, collapsedGroups]: [IFilter, ISorting, string[]]) => {
       const filter = filterObject ? filterObject.filter : cfg.filter;
       const historyItems = filterObject ? filterObject.historyItems : null;
       const sorting = sortingObject ? sortingObject.sorting : cfg.sorting;
-      const result = {filter, sorting, historyItems};
+      if (collapsedGroups) {
+         filter.collapsedGroups = collapsedGroups;
+      }
+      const result = {filter, sorting, historyItems, collapsedGroups};
 
       return sourceController.load(filter, sorting).then((data: RecordSet) => {
          return {...result, data};
