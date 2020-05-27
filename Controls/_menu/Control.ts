@@ -270,8 +270,8 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
         this._checkOpenedMenu(event.nativeEvent);
     }
 
-    protected _separatorMouseEnter(event: SyntheticEvent<MouseEvent>): void {
-        this._checkOpenedMenu(event.nativeEvent);
+    protected _separatorMouseEnter(): void {
+        this._closeSubMenu();
     }
 
     private _checkOpenedMenu(nativeEvent: MouseEvent, newItem?: CollectionItem<Model>): void {

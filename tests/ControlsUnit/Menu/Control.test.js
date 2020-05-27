@@ -335,6 +335,16 @@ define(
             assert.isFalse(result);
          });
 
+         it('_separatorMouseEnter', function() {
+            let isClosed = false;
+            let menuControl = getMenu();
+            menuControl._children = {
+               Sticky: { close: () => { isClosed = true; } }
+            };
+            menuControl._separatorMouseEnter();
+            assert.isTrue(isClosed);
+         });
+
          it('_footerMouseEnter', function() {
             let isClosed = false;
             let menuControl = getMenu();
