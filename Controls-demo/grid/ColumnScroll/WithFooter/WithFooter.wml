@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px">
+        <Controls.grid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                columnScroll="{{true}}"
+                backgroundStyle="default"
+                header="{{_header}}"
+                stickyColumnsCount="{{2}}">
+            <ws:footerTemplate>
+                <div class="controlsDemo__hor-scroll__grid__footerContent">Подвал таблицы</div>
+            </ws:footerTemplate>
+        </Controls.grid:View>
+    </Controls.scroll:Container>
+</div>

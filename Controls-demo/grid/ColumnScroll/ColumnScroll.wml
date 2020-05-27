@@ -55,7 +55,7 @@
         <Controls-demo.grid.ColumnScroll.DragScrolling.Index/>
     </div>
 
-    
+
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
@@ -63,6 +63,16 @@
             <a href="{{content.href}}">WithoutHeader</a>
         </Router.router:Reference>
         <Controls-demo.grid.ColumnScroll.WithoutHeader.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/ColumnScroll/WithFooter/Index' }}">
+            <a href="{{content.href}}">С подвалом таблицы</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.ColumnScroll.WithFooter.Index/>
     </div>
 
 </div>

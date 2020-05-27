@@ -146,7 +146,10 @@ const
                `.${self._transformSelector} .controls-Grid__cell_fixed { transform: translateX(${position}px); }` +
 
                // Не скроллируем скроллбар
-               `.${self._transformSelector} .js-controls-Grid_columnScroll_thumb-wrapper { transform: translateX(${position}px); }`;
+               `.${self._transformSelector} .js-controls-Grid_columnScroll_thumb-wrapper { transform: translateX(${position}px); }` +
+
+               // не скроллируем подвал таблицы
+               `.${self._transformSelector} .controls-GridView__footer { transform: translateX(${position}px); }`;
 
            // Не скроллируем операции над записью
            if (isFullGridSupport()) {
