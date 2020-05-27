@@ -22,7 +22,7 @@
       on:tagClick="_proxyEvent('startTagClick')"
       on:tagHover="_proxyEvent('startTagHover')">
    </Controls.input:DateBase>
-   <div class="controls-Input-DateRange__dash"></div>
+   <div class="controls-Input-DateRange__dash controls-Input-DateRange__dash_theme-{{_options.theme}}"></div>
    <Controls.input:DateBase
       name="endValueField"
       class="controls-Input-DateRange_endValue"
@@ -46,10 +46,14 @@
       on:tagClick="_proxyEvent('endTagClick')"
       on:tagHover="_proxyEvent('endTagHover')">
    </Controls.input:DateBase>
-   <span class="controls-Input-DateRange__buttonWrapper" attr:tabindex="-1">
+   <span class="controls-Input-DateRange__buttonWrapper
+                controls-Input-DateRange__buttonWrapper_theme-{{_options.theme}}"
+         attr:tabindex="-1">
       <span class="ws-flexbox ws-align-items-center controls-Input-DateRange__buttonBaseLine">
          <span
-            attr:class="controls-Input-DateRange__button controls-icon icon-Calendar2 controls-icon_style-secondary_theme-{{_options.theme}}"
+            attr:class="controls-Input-DateRange__button controls-icon icon-Calendar2
+                        controls-Input-DateRange__button_theme-{{_options.theme}}
+                        controls-icon_style-secondary_theme-{{_options.theme}}"
             iconStyle="secondary"
             on:click="openPopup()">
          </span>
