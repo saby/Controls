@@ -99,6 +99,19 @@ define('Controls/interface/IFormController', [
     */
 
    /**
+    * @name Controls/_interface/IFormController#isFormChangedCallback
+    * @cfg {Function} Устанавливает функцию, которая при закрытии диалога редактирования записи извещает о необходимости сохранения изменений данных, не связанных с рекордом.
+    * @returns {Boolean} Определяет, должнно ли показаться окно с подтверждением сохранения. (true - окно покажется. false - диалог закроется без появления окна подтверждения, если при этом рекорд не был изменен).
+    */
+
+   /**
+    * @name Controls/_interface/IFormController#isFormChangedCallback
+    * @cfg {Function} Sets a function that notifies about the need to save data changes that are not related to the record when closing the editing dialog.
+    * @returns {Boolean} Determines whether the confirmation popup will be open. (true - the confirmation popup will be opened. false - the editing dialog will be closed without the confirmation popup, if the record has not been changed).
+    */
+
+
+    /**
     * @name Controls/interface/IFormController#errorContainer
     * @cfg {Controls/dataSource:error.IContainerConstructor} Компонент для отображения шаблона ошибки по данным от {@link Controls/_dataSource/_error/Controller}
     */
