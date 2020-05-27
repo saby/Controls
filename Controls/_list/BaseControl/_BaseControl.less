@@ -85,10 +85,30 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    position: relative;
    pointer-events: none;
 }
+
+// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка
 .controls-BaseControl__loadingIndicator__state-down {
    position: sticky;
    bottom: 0;
    pointer-events: none;
+}
+
+// Поднимаем индикатор на высоту контейнера с пэйджингом
+.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
+   margin-bottom: -@item_height_paging;
+}
+
+// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.
+// IE не поддерживает position: sticky, поэтому прижимаем индикатор загрузки к низу последней записи, тем самым урезая функционал в IE
+.ws-is-ie .controls-BaseControl__loadingIndicator__state-down {
+   position: absolute;
+   left: 0;
+   right: 0;
+}
+
+// IE не поддерживает position: sticky, положение sticky контейнера не нужно компенсировать на контейнер с пагинацией.
+.ws-is-ie .controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
+   margin-bottom: 0;
 }
 
 .controls-BaseControl__loadingIndicator__state-down_theme-@{themeName} {
