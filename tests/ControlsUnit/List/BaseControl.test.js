@@ -2974,27 +2974,27 @@ define([
             }
          };
 
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is outside, padding is needed");
+         assert.isTrue(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, model), "itemActionsPosinon is outside, padding is needed");
          cfg = {
             itemActionsPosition: 'inside'
          };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is inside, padding is not needed");
+         assert.isFalse(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, model), "itemActionsPosinon is inside, padding is not needed");
          cfg = {
             itemActionsPosition: 'outside',
             footerTemplate: "footer"
          };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is outside, footer exists, padding is not needed");
+         assert.isFalse(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, model), "itemActionsPosinon is outside, footer exists, padding is not needed");
          cfg = {
             itemActionsPosition: 'outside',
             resultsPosition: "bottom"
          };
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is outside, results row is in bottom padding is not needed");
+         assert.isFalse(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, model), "itemActionsPosinon is outside, results row is in bottom padding is not needed");
          cfg = {
             itemActionsPosition: 'outside',
          };
          count = 0;
-         assert.isFalse(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is outside, empty items, padding is not needed");
-         assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, items, editingModel), "itemActionsPosinon is outside, empty items, run editing in place padding is needed");
+         assert.isFalse(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, model), "itemActionsPosinon is outside, empty items, padding is not needed");
+         assert.isTrue(lists.BaseControl._private.needBottomPadding(lists.BaseControl, cfg, items, editingModel), "itemActionsPosinon is outside, empty items, run editing in place padding is needed");
       });
 
       describe('EditInPlace', function() {

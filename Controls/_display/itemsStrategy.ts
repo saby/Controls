@@ -23,3 +23,4 @@ export {default as MaterializedPath} from './itemsStrategy/MaterializedPath';
 export {default as Root} from './itemsStrategy/Root';
 export {default as Search} from './itemsStrategy/Search';
 export {default as User} from './itemsStrategy/User';
+export {default as AddInPlace} from './itemsStrategy/AddInPlace';

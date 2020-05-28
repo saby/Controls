@@ -4,10 +4,11 @@ import template = require('wml!Controls/_listRender/Render/Render');
 import defaultItemTemplate = require('wml!Controls/_listRender/Render/resources/ItemTemplateWrapper');
 
 import { SyntheticEvent } from 'Vdom/Vdom';
-import { CollectionItem, Collection, EditInPlaceController, GroupItem } from 'Controls/display';
+import { CollectionItem, Collection, GroupItem } from 'Controls/display';
 import { constants } from 'Env/Env';
 import { Opener as DropdownOpener } from 'Controls/dropdown';
 import {Model} from 'types/entity';
+import { EditInPlaceController } from 'Controls/editInPlace';
 
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
