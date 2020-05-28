@@ -300,29 +300,62 @@ var _private = {
    },
 
    getPopupOptions(self, popupOptions?): object {
-      let templateOptions = {
-         closeButtonVisibility: false,
-         emptyText: self._getEmptyText(),
-         allowPin: self._options.allowPin && self._hasHistory(),
-         headerTemplate: self._options.headTemplate || self._options.headerTemplate,
-         footerContentTemplate: self._options.footerContentTemplate || self._options.footerTemplate,
-         items: self._items,
-         source: self._menuSource,
-         filter: self._filter,
-         // FIXME self._container[0] delete after
-         // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-         width: self._options.width !== undefined ?
-             (self._container[0] || self._container).offsetWidth :
-             undefined,
-         hasMoreButton: self._sourceController.hasMoreData('down'),
-         selectorOpener: self._children.selectorOpener,
-         selectorDialogResult: self._onSelectorTemplateResult.bind(self),
-         iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
-      };
-      let options = {...self._options};
       const config = {
          id: self._popupId,
-         templateOptions: Object.assign(options, templateOptions),
+         templateOptions: {
+            closeButtonVisibility: false,
+            headingCaption: self._options.headingCaption,
+            headingIcon: self._options.headingIcon,
+            headingIconSize: self._options.headingIconSize,
+            navigation: self._options.navigation,
+            keyProperty: self._options.keyProperty,
+            displayProperty: self._options.displayProperty,
+            parentProperty: self._options.parentProperty,
+            additionalProperty: self._options.additionalProperty,
+            nodeProperty: self._options.nodeProperty,
+            itemTemplateProperty: self._options.itemTemplateProperty,
+            itemTemplate: self._options.itemTemplate,
+            headerContentTemplate: self._options.headerContentTemplate,
+            groupTemplate: self._options.groupTemplate,
+            groupProperty: self._options.groupProperty,
+            groupingKeyCallback: self._options.groupingKeyCallback,
+            dropdownClassName: self._options.dropdownClassName,
+            nodeFooterTemplate: self._options.nodeFooterTemplate,
+            multiSelect: self._options.multiSelect,
+            selectorTemplate: self._options.selectorTemplate,
+            isCompoundTemplate: self._options.isCompoundTemplate,
+            headConfig: self._options.headConfig,
+            showHeader: self._options.showHeader,
+            selectedKeys: self._options.selectedKeys,
+            marker: self._options.marker,
+            icon: self._options.icon,
+            iconSize: self._options.iconSize,
+            caption: self._options.caption,
+            typeShadow: self._options.typeShadow,
+            itemPadding: self._options.itemPadding,
+            itemActions: self._options.itemActions,
+            searchParam: self._options.searchParam,
+            minSearchLength: self._options.minSearchLength,
+            searchDelay: self._options.searchDelay,
+            searchValueTrim: self._options.searchValueTrim,
+            emptyTemplate: self._options.emptyTemplate,
+            emptyText: self._getEmptyText(),
+            allowPin: self._options.allowPin && self._hasHistory(),
+            headerTemplate: self._options.headTemplate || self._options.headerTemplate,
+            footerContentTemplate: self._options.footerContentTemplate || self._options.footerTemplate,
+            items: self._items,
+            source: self._menuSource,
+            filter: self._filter,
+            // FIXME self._container[0] delete after
+            // https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
+            width: self._options.width !== undefined ?
+                (self._container[0] || self._container).offsetWidth :
+                undefined,
+            hasMoreButton: self._sourceController.hasMoreData('down'),
+            selectorOpener: self._children.selectorOpener,
+            selectorDialogResult: self._onSelectorTemplateResult.bind(self),
+            iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
+         },
          className: self._options.popupClassName,
          template: 'Controls/menu:Popup',
          actionOnScroll: 'close',
