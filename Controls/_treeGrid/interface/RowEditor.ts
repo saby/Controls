@@ -1,5 +1,6 @@
 /**
  * Шаблон, который используют для настройки отображения элемента контрола {@link Controls/treeGrid:View Дерево} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/edit/ режиме редактирования}.
+ * 
  * @class Controls/treeGrid:RowEditor
  * @author Авраменко А.С.
  * @see Controls/treeGrid:View#itemTemplate

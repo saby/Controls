@@ -1,5 +1,6 @@
 /**
  * Шаблон, используемый по умолчанию для построения подвала {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/autocompletion/index/ автодополнения}.
+ *  
  * @class Controls/suggestPopup:FooterTemplate
  * @author Герасимов А.М.
  * @see Controls/suggestPopup
