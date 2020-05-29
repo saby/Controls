@@ -10,8 +10,12 @@ import 'Controls/search';
 
 /**
  * Строка поиска с автодополнением, позволяет пользователю вводить однострочный текст.
- * Подробное описание и инструкцию по настройке смотрите <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/suggest/'>здесь</a>.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSearchInput">Демо-пример</a>
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSearchInput">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/suggest/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less">переменные тем оформления</a>
  *
  * @class Controls/_suggest/Input/Search/Suggest
  * @extends Controls/_input/Text

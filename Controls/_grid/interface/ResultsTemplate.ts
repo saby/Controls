@@ -1,5 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения строки итогов в контроле {@link Controls/grid:View Таблица}.
+ *  
  * @class Controls/grid:ResultsTemplate
  * @author Авраменко А.С.
  * @see Controls/grid:View#resultsTemplate
