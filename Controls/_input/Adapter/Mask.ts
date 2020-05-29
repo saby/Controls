@@ -6,6 +6,10 @@ import * as tmplNotify from 'Controls/Utils/tmplNotify';
 
 /**
  * Контрол обертка над полем ввода маски. Обеспечивает работу со значением с разделителями.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
  *
  * @class Controls/_input/Adapter/Mask
  * @extends UI/_base/Control
