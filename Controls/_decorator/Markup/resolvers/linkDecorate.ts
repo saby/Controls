@@ -6,9 +6,15 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
 /**
  * Модуль с функцией замены общей ссылки на декорированную ссылку, если это необходимо.
  * Распознаватель тегов для {@link Controls/decorator:Markup}.
+ * 
+ * @remark
  * Модуль содержит функцию, которая позволяет преобразовать обычную ссылку в декорированную.
  * Декорация ссылки выполняется через {@link https://wi.sbis.ru/doc/platform/developmentapl/middleware/link-decorator/ Сервис декорирования ссылок}.
  * Функция предназначена для использования в контроле {@link Controls/decorator:Markup} в опции {@link https://wi.sbis.ru/docs/js/Controls/decorator/Markup/options/tagResolver/ tagResolver}.
+ * 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
+ * 
  * @example
  * <pre class="brush: xml">
  * <!-- WML -->
