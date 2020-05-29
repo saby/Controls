@@ -52,6 +52,11 @@ function getSiblingItem(direction, item, items, parentProperty, nodeProperty, ro
 
 /**
  * Список хелперов для отображения панели операций над записью.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * 
  * @class Controls/_list/ItemActions/Helpers
  * @public
  * @author Сухоручкин А.С.

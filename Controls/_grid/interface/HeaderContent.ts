@@ -1,5 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки шапки} в контроле {@link Controls/grid:View Таблица}.
+ *  
  * @class Controls/grid:HeaderContent
  * @author Авраменко А.С.
  * @see Controls/_grid/interface/IGridControl/HeaderCell.typedef

@@ -2,7 +2,7 @@ import {TemplateFunction} from 'UI/Base';
 
 /**
  * Шаблон, который по умолчанию используется для отображения индикатора загрузки в списочных контролах.
- *
+ * 
  * @class Controls/list:LoadingIndicatorTemplate
  * @author Михайлов С.Е.
  * @public
