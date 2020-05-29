@@ -1,5 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/list:View плоского списка} без элементов.
+ * 
  * @class Controls/list:EmptyTemplate
  * @author Авраменко А.С.
  * @see Controls/list:IList#emptyTemplate

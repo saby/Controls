@@ -5,8 +5,13 @@ import {SyntheticEvent} from 'Vdom/Vdom';
    /**
     * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки и используется на панели фильтров.
     * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию скрыто.
+    * 
+    * @remark
     * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
     *
+    * Полезные ссылки:
+    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+    * 
     * @class Controls/_filterPopup/Panel/Dropdown
     * @extends Controls/_dropdown/Input
     * @control

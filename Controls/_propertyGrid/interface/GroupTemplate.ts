@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения группы в {@link Controls/propertyGrid:PropertyGrid редакторе свойств}.
- *
+ * 
  * @class Controls/propertyGrid:GroupTemplate
  * @author Герасимов А.М.
  * @public
