@@ -1,5 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения горизонтальной линии-разделителя {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/grouping/ группы} в контроле {@link Controls/grid:View Таблица}.
+ * 
  * @class Controls/grid:GroupTemplate
  * @mixes Controls/list:BaseGroupTemplate
  * @author Авраменко А.С.

@@ -12,6 +12,10 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions 
 
 /**
  * Контейнер позволяющий отслеживать пересечение с внутренними контейнерами.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
  *
  * @class Controls/_scroll/IntersectionObserver/Controller
  * @control
