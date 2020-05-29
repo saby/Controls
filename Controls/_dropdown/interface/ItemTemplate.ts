@@ -1,7 +1,11 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в выпадающих списках.
+ * 
  * @remark
- * Подробнее о работе с выпадающими списками читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/dropdown-menu/ здесь}.
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления</a>
+ * 
  * @see Controls/interface/IDropdown#itemTemplate
  * @class Controls/dropdown:ItemTemplate
  * @public

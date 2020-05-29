@@ -4,7 +4,11 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 
 /**
  * Базовый шаблон редактирования полей ввода. Имитирует стили {@link Controls/input:Text Text}.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">Демо-пример</a>.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FEditableArea%2FEditableArea">демо-пример</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less">переменные тем оформления</a>
  *
  * @class Controls/_editableArea/Templates/Editors/Base
  * @extends Core/Control
