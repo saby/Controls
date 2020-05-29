@@ -1,6 +1,7 @@
 /**
  * Шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования по месту} денежных полей в {@link Controls/list:View плоских списках}.
  * В режиме чтения выводит значение с помощью {@link Controls/decorator:Money}.
+ * 
  * @class Controls/list:MoneyEditingTemplate
  * @mixes Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.

@@ -5,6 +5,10 @@ import {factory} from 'Types/chain';
 
 /**
  * Обертка над контролом {@link Controls/_filterPopup/Panel/Lookup Controls/filterPopup:Lookup} для работы с иерархическим фильтром.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
  *
  * @class Controls/_filterPopup/Panel/HierarchyLookup
  * @extends Core/Control
