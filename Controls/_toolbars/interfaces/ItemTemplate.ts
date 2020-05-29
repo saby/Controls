@@ -23,8 +23,10 @@
  *    </ws:itemTemplate>
  * </Controls.toolbars:View>
  * </pre>
+ * 
  * @remark
- * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart здесь}.
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart">руководство разработчика</a>
  */
 
 /**
