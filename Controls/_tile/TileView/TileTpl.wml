@@ -21,7 +21,7 @@
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
                   ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
-                  ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
+                  border !== false ? ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
                {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"
         attr:style="{{itemData.position ? itemData.position}} ">
       <ws:partial if="{{itemData.hasMultiSelect}}"
@@ -81,7 +81,7 @@
 </ws:if>
 <ws:else>
    <ws:if data="{{itemData.tileMode === 'dynamic'}}">
-      <ws:partial template="itemTpl" attr:style="{{'-ms-flex-preferred-size: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; flex-basis: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; height: ' + itemData.itemsHeight + 'px; max-width: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
+      <ws:partial template="itemTpl" attr:style="{{'-ms-flex-preferred-size: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; flex-basis: ' + ((width || itemData.defaultItemWidth) * itemData.itemCompressionCoefficient) + 'px; height: ' + (height || itemData.itemsHeight) + 'px; max-width: ' + (width || itemData.defaultItemWidth) + 'px;'}}">
          <ws:partial template="defaultContentTpl">
             <ws:imageWrapper>
                <ws:partial template="imageWrapperTpl" attr:class="{{( titleStyle === undefined && hasTitle ) || titleStyle === 'partial' ? 'controls-TileView__imageWrapper_reduced_theme-' + theme}} {{itemData.isAnimated ? ' controls-TileView__item_animated'}}" attr:style="{{'height: ' + (itemData.isAnimated && itemData.zoomCoefficient ? itemData.zoomCoefficient * itemData.itemsHeight : itemData.itemsHeight) + 'px;'}}">
