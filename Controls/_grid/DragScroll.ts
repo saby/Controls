@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_grid/resources/DragScroll/DragScroll';
-import 'css!Controls/_grid/resources/DragScroll/DragScroll';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export interface IDragScrollOptions extends IControlOptions {
@@ -426,6 +425,8 @@ export class DragScroll extends Control<IDragScrollOptions> {
     protected _onOverlayMouseLeave(e: SyntheticEvent<TouchEvent>): void {
         this._manageDragScrollStop();
     }
+
+    static _styles: string[] = ['Controls/_grid/resources/DragScroll/DragScroll'];
 
     //#endregion
 }
