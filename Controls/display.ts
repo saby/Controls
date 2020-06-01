@@ -52,7 +52,7 @@ export {default as Search} from './_display/Search';
 export {default as Tree} from './_display/Tree';
 export {default as TreeItem} from './_display/TreeItem';
 
-export { IBaseCollection, ICollectionCommand, TItemKey } from './_display/interface';
+export { IBaseCollection, ICollectionCommand, TItemKey, IStrategyCollection} from './_display/interface';
 
 export {default as TileCollection} from './_display/TileCollection';
 export {default as TileCollectionItem} from './_display/TileCollectionItem';
@@ -63,9 +63,6 @@ export {default as ColumnsCollectionItem} from './_display/ColumnsCollectionItem
 export {default as GridCollection} from './_display/GridCollection';
 export {default as GridCollectionItem} from './_display/GridCollectionItem';
 export {default as GridColumn} from './_display/GridColumn';
-
-import * as EditInPlaceController from './_display/controllers/EditInPlace';
-export { EditInPlaceController };
 
 import * as VirtualScrollController from './_display/controllers/VirtualScroll';
 export { VirtualScrollController };

@@ -113,18 +113,7 @@
             collection="{{_listViewModel}}"
             needScrollCalculation="{{_needScrollCalculation}}"
             scope="{{_options}}">
-        <Controls._list.EditInPlace
-                name="editInPlace"
-                editingConfig="{{_options.editingConfig}}"
-                on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
-                on:afterBeginEdit="_onAfterBeginEdit()"
-                on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
-                on:afterEndEdit="_onAfterEndEdit()"
-                listModel="{{_listViewModel}}"
-                multiSelectVisibility="{{_options.multiSelectVisibility}}"
-                errorController="{{ __errorController }}"
-                source="{{_sourceController}}"
-                useNewModel="{{ _options.useNewModel }}">
+        <Controls.validate:Controller name="formController">
             <ws:partial
                     attr:class="{{_itemActionsMenuId !== null ? 'controls-itemActionsV_invisible'}}"
                     name="{{name}}"
@@ -148,7 +137,13 @@
                     on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                     on:hoveredCellChanged="_notifyHandler('hoveredCellChanged')"
                     on:itemSwipe="_onItemSwipe()"
-                    on:dragStart="_notifyHandler('dragStart')">
+                    on:dragStart="_notifyHandler('dragStart')"
+                    on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
+                    on:afterBeginEdit="_onAfterBeginEdit()"
+                    on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
+                    on:afterEndEdit="_onAfterEndEdit()"
+                    on:editingRowKeyDown="_onKeyDown()"
+                    >
                 <ws:itemActionsTemplate>
                     <ws:partial
                             template="{{_itemActionsTemplate}}"
@@ -184,7 +179,7 @@
                     <ws:partial template="emptyTemplateIf"/>
                 </ws:emptyTemplate>
             </ws:partial>
-        </Controls._list.EditInPlace>
+        </Controls.validate:Controller>
     </Controls._list.ScrollContainer>
 </ws:template>
 <ws:template name="fullView">

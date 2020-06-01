@@ -29,7 +29,7 @@ import getItemsBySelection = require('Controls/Utils/getItemsBySelection');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import keysHandler = require('Controls/Utils/keysHandler');
 import uDimension = require('Controls/Utils/getDimensions');
-import {CollectionItem, EditInPlaceController, VirtualScrollController, GroupItem, ANIMATION_STATE} from 'Controls/display';
+import {CollectionItem, VirtualScrollController, GroupItem, ANIMATION_STATE} from 'Controls/display';
 import {Controller as ItemActionsController, IItemAction} from 'Controls/itemActions';
 
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
@@ -39,6 +39,23 @@ import PortionedSearch from 'Controls/_list/Controllers/PortionedSearch';
 import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import {ISwipeEvent} from 'Controls/listRender';
+
+import {EditInPlaceController, IEditingOptions, EditInPlace} from '../editInPlace';
+
+/*
+<Controls._list.EditInPlace
+    name="editInPlace"
+editingConfig="{{_options.editingConfig}}"
+on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
+on:afterBeginEdit="_onAfterBeginEdit()"
+on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
+on:afterEndEdit="_onAfterEndEdit()"
+listModel="{{_listViewModel}}"
+multiSelectVisibility="{{_options.multiSelectVisibility}}"
+errorController="{{ __errorController }}"
+source="{{_sourceController}}"
+useNewModel="{{ _options.useNewModel }}">
+*/
 
 import {groupUtil} from 'Controls/dataSource';
 import {IDirection} from './interface/IVirtualScroll';
@@ -60,7 +77,6 @@ import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
 import 'wml!Controls/_list/BaseControl/Footer';
 import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
 import * as swipeTemplate from 'wml!Controls/_list/Swipe/resources/SwipeTemplate';
-
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
 //  Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
@@ -1619,7 +1635,7 @@ const _private = {
                 self._options.useNewModel ? EditInPlaceController.isEditing(self._listViewModel) : !!self._listViewModel.getEditingItemData()
             );
             if (isEditing) {
-                self._children.editInPlace.cancelEdit();
+                self._editInPlace.cancelEdit();
             }
         }
     },
@@ -1827,6 +1843,26 @@ const _private = {
             markerVisibility: options.markerVisibility,
             markedKey: options.hasOwnProperty('markedKey') ? options.markedKey : self._markedKey
         });
+    },
+
+    createEditInPlace(self: typeof BaseControl, options: any): void {
+        if (options.editingConfig) {
+            self._editInPlace = new EditInPlace(<IEditingOptions> {
+                editingConfig: options.editingConfig,
+                listModel: self._listViewModel,
+                multiSelectVisibility: options.multiSelectVisibility,
+                errorController: self.__errorController,
+                source: self._sourceController,
+                useNewModel: options.useNewModel,
+                listView: self,
+                notify: (name, args, params) => {
+                    self._notify(name, args, params);
+                },
+                forceUpdate: () => {
+                    self._forceUpdate();
+                }
+            });
+        }
     }
 };
 
@@ -1977,6 +2013,14 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         _private.updateNavigation(this);
 
         this._loadTriggerVisibility = {};
+
+        if (newOptions.editingConfig) {
+            _private.createEditInPlace(self, newOptions);
+        }
+
+        if (this._editInPlace) {
+            this._editInPlace.beforeMount(newOptions, this._listViewModel, this._children.formController);
+        }
 
         return _private.prepareCollapsedGroups(newOptions).addCallback(function(collapsedGroups) {
             let viewModelConfig = cClone(newOptions);
@@ -2205,6 +2249,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             });
         }
 
+        if (this._editInPlace) {
+            this._editInPlace.afterMount();
+        }
         // для связи с контроллером ПМО
         this._notify('register', ['selectedTypeChanged', this, _private.onSelectedTypeChanged], {bubbling: true});
         this._notifyOnDrawItems();
@@ -2302,6 +2349,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._markerController) {
             _private.updateMarkerController(this, newOptions);
+        }
+
+        if (this._editInPlace) {
+            this._editInPlace.beforeUpdate(newOptions, this._listViewModel, this._children.formController);
         }
 
         // UC1: Record might be editing on page load, then we should initialize Item Actions.
@@ -2435,6 +2486,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         this._loadTriggerVisibility = null;
 
+        if (this._editInPlace) {
+            this._editInPlace.reset();
+        }
+
         // для связи с контроллером ПМО
         this._notify('unregister', ['selectedTypeChanged', this], {bubbling: true});
 
@@ -2517,6 +2572,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 callback();
             });
             this._callbackAfterUpdate = null;
+        }
+
+        if (this._editInPlace) {
+            this._editInPlace.afterUpdate();
         }
     },
 
@@ -2603,23 +2662,28 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              can use it for their own reasons (e.g. something like TouchDetector can use it).
              */
             e.stopPropagation();
+            return;
         }
+        if (this._editInPlace) {
+            this._editInPlace.onItemClick(e, item, originalEvent);
+        }
+
     },
 
     beginEdit: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.beginEdit(options);
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginEdit(options);
     },
 
     beginAdd: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.beginAdd(options);
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginAdd(options);
     },
 
     cancelEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.cancelEdit();
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.cancelEdit();
     },
 
     commitEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.commitEdit();
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.commitEdit();
     },
 
     /**
@@ -2628,7 +2692,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      * @private
      */
     _commitEditActionHandler(): void {
-        this._children.editInPlace.commitAndMoveNextRow();
+        this._editInPlace.commitAndMoveNextRow();
     },
 
     /**
@@ -2637,7 +2701,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      * @private
      */
     _cancelEditActionHandler(): void {
-        this._children.editInPlace.cancelEdit();
+        this._editInPlace.cancelEdit();
     },
     /**
      * Выполняется из шаблона при mouseenter
@@ -3163,6 +3227,12 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     handleSelectionControllerResult(result: ISelectionControllerResult): void {
        _private.handleSelectionControllerResult(this, result);
+    },
+
+    _onKeyDown(e: SyntheticEvent<KeyboardEvent>, nativeEvent: KeyboardEvent): void {
+        if (this._editInPlace) {
+            this._editInPlace.onKeyDown(e, nativeEvent);
+        }
     }
 });
 
