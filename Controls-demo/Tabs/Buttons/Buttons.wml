@@ -45,7 +45,7 @@
     <div class="separator">Прикладной контент перед вкладками</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__contentBefore">
         <div class="demo-TabButtons-container controls-Tabs__item-underline_theme-{{_options.theme}}">
-                <Controls.heading:Title caption="Бизнес" style="secondary"/>
+                <Controls.heading:Title caption="Бизнес" fontColorStyle="secondary"/>
         </div>
         <Controls.tabs:Buttons
                 bind:selectedKey='SelectedKey8'

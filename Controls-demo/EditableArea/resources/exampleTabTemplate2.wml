@@ -11,7 +11,7 @@
         >
             <ws:editorTemplate>
                 <Controls.input:Text selectOnClick="{{ false }}"
-                                     size="m"
+                                     inlineHeight="m"
                                      fontStyle="secondary"
                                      attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
             </ws:editorTemplate>

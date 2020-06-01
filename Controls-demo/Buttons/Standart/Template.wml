@@ -108,10 +108,10 @@
         <h3>Icon toggle-button</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__iconToggle">
             <div attr:class="test_element_two_column">
-                <Controls.toggle:Button readOnly="{{false}}" bind:value="toggleState" size="m" icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}" iconSize="s" viewMode="link" attr:class="ControlsDemo__iconToggleButton"/>
+                <Controls.toggle:Button readOnly="{{false}}" bind:value="toggleState" fontSize="l" icons="{{['icon-ArrangeList03', 'icon-ArrangeList04']}}" iconSize="s" viewMode="link" attr:class="ControlsDemo__iconToggleButton"/>
             </div>
             <div attr:class="test_element_two_column">
-                <Controls.toggle:Button attr:class="test_element" readOnly="{{false}}" bind:value="toggleState2" size="m" icons="{{['icon-ArrangePreview', 'icon-ArrangeList']}}" iconSize="s" viewMode="link"/>
+                <Controls.toggle:Button attr:class="test_element" readOnly="{{false}}" bind:value="toggleState2" fontSize="l" icons="{{['icon-ArrangePreview', 'icon-ArrangeList']}}" iconSize="s" viewMode="link"/>
             </div>
         </div>
         <h3>Text toggle-button</h3>
@@ -282,7 +282,7 @@
                 <div class="demo-Button__Label">Unload</div>
             </div>
             <div attr:class="test_element">
-                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" fontColorStyle="link" viewMode="linkButton" size="m"/>
+                <Controls.buttons:Button readOnly="{{false}}" iconSize="s" icon="icon-Send" fontColorStyle="link" viewMode="linkButton" fontSize="m"/>
                 <div class="demo-Button__Label">Message</div>
             </div>
             <div attr:class="test_element">

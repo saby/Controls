@@ -380,7 +380,7 @@ define(
                   },
                   {
                      id: '2',
-                     buttonIconStyle: 'secondary'
+                     iconStyle: 'secondary'
                   }
                ];
 
