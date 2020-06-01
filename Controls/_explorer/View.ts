@@ -10,6 +10,7 @@ import {factory} from 'Types/chain';
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import 'Types/entity';
+import {ListView} from 'Controls/list';
 
 var
       HOT_KEYS = {
@@ -26,12 +27,14 @@ var
       VIEW_NAMES = {
          search: SearchView,
          tile: null,
-         table: TreeGridView
+         table: TreeGridView,
+         list: ListView
       },
       VIEW_MODEL_CONSTRUCTORS = {
          search: SearchGridViewModel,
          tile: null,
-         table: TreeGridViewModel
+         table: TreeGridViewModel,
+         list: TreeGridViewModel
       },
       _private = {
          setRoot: function(self, root, dataRoot = null) {

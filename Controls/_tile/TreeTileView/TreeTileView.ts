@@ -8,6 +8,9 @@ var TreeTileView = TileView.extend({
         if (this._options.nodesHeight !== newOptions.nodesHeight) {
             this._listModel.setNodesHeight(newOptions.nodesHeight);
         }
+        if (this._options.tileSize !== newOptions.tileSize) {
+            this._listModel.setTileSize(newOptions.tileSize);
+        }
         TreeTileView.superclass._beforeUpdate.apply(this, arguments);
     },
     _onTileViewKeyDown: function (event) {
