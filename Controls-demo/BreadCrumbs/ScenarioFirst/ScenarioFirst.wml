@@ -1,7 +1,7 @@
 <div class="demo-BreadCrumbs__wrapper">
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__withoutHeaders">
         <Controls.heading:Title caption="Реестр без заголовков"
-                                size="xl"/>
+                                fontSize="4xl"/>
         <Controls.explorer:View
                 bind:root="_root"
                 keyProperty="id"
@@ -15,7 +15,7 @@
     </div>
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__withoutTotal">
         <Controls.heading:Title caption="Реестр с однострочными заголовками"
-                                size="xl"/>
+                                fontSize="4xl"/>
         <div>
             <Controls.input:Label caption='Без строки "Итого"' />
         </div>

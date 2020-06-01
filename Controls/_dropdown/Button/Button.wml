@@ -37,7 +37,7 @@
                         viewMode="{{_options.viewMode}}"
                         tooltip="{{_options.tooltip}}"
 
-                        style="{{_options.style}}"
+                        fontColorStyle="{{_options.style}}"
                         transparent="{{_options.transparent}}"
                         size="{{_options.size}}"
                 />

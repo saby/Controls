@@ -84,7 +84,7 @@ class Previewer extends Control<IControlOptions> {
             buttonStyle: 'secondary',
             showHeader: true,
             buttonViewMode: 'link',
-            buttonIconStyle: 'secondary',
+            iconStyle: 'secondary',
             buttonTransparent: false,
             title: 'Обсудить',
             '@parent': true,

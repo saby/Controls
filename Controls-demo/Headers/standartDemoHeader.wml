@@ -234,7 +234,7 @@
             <div attr:class="test_element__wrapper">
                 <div attr:class="test_element ControlsDemo-standartDemoHeader_ButtonSeparatorPrimary controls-Header_all__clickable">
                     <Controls.toggle:Separator on:click="clickIcon(10)" bold="{{true}}" style="primary" value="{{_iconValue10}}"/>
-                    <Controls.heading:Counter on:click="clickIcon(10)" attr:class="counter-left-direction" caption="12" style="primary" fontSize="l"/>
+                    <Controls.heading:Counter on:click="clickIcon(10)" attr:class="counter-left-direction" caption="12" fontColorStyle="primary" fontSize="l"/>
                     <Controls.heading:Title on:click="clickIcon(10)" caption="Header" fontColorStyle="secondary" fontSize="l"/>
                 </div>
             </div>
@@ -286,22 +286,22 @@
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">l size</span>
-                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonDefault" style="primary" size="l" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonPrimary" style="secondary" size="l" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonDefault" fontColorStyle="primary" fontSize="4xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonPrimary" fontColorStyle="secondary" fontSize="4xl" caption="Back"/>
             </div>
         </div>
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">m size</span>
-                <Controls.heading:Back attr:class="test_element" style="primary" size="m" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element" style="secondary" size="m" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="3xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="3xl" caption="Back"/>
             </div>
         </div>
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">s size</span>
-                <Controls.heading:Back attr:class="test_element" style="primary" size="s" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element" style="secondary" size="s" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="l" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="l" caption="Back"/>
             </div>
         </div>
     </div>

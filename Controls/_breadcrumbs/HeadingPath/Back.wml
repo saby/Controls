@@ -14,7 +14,7 @@
    <ws:if data="{{ _options.counterCaption }}">
       <Controls.heading:Counter attr:class="controls-BreadCrumbsPath__counter_theme-{{_options.theme}}"
                                 caption="{{ _options.counterCaption }}"
-                                style="disabled"/>
+                                fontColorStyle="unaccented"/>
    </ws:if>
    <ws:if data="{{ _options.showActionButton }}">
       <div class="controls-BreadCrumbsPath__backButtonArrow-container controls-BreadCrumbsPath__backButtonArrow-container_theme-{{_options.theme}}

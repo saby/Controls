@@ -1,8 +1,8 @@
 <ws:partial template="Controls/grid:HeaderContent" colData="{{colData}}">
     <ws:contentTemplate>
         <div class="controlsDemo__Grid_header-gridTitle-spacing">
-            <Controls.heading:Title caption="{{colData.column.captionForGrid}}" fontColorStyle="primary" size="m" readOnly="{{true}}"/>
-            <Controls.buttons:Button viewMode="toolButton" icon="icon-Add" iconStyle="secondary" size="s" iconSize="s"/>
+            <Controls.heading:Title caption="{{colData.column.captionForGrid}}" fontColorStyle="primary" fontSize="l" readOnly="{{true}}"/>
+            <Controls.buttons:Button viewMode="toolButton" icon="icon-Add" iconStyle="secondary" fontSize="m" inlineHeight="default" iconSize="s"/>
         </div>
     </ws:contentTemplate>
 </ws:partial>

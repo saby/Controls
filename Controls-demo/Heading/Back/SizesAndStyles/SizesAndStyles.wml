@@ -1,26 +1,26 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = s, style = secondary</div>
-        <Controls.heading:Back caption="Back" size="s" style="secondary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="l" style="secondary"></Controls.heading:Back>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = m, style = secondary</div>
-        <Controls.heading:Back caption="Back" size="m" style="secondary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="3xl" style="secondary"></Controls.heading:Back>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = l, style = secondary</div>
-        <Controls.heading:Back caption="Back" size="l" style="secondary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="4xl" style="secondary"></Controls.heading:Back>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = s, style = primary</div>
-        <Controls.heading:Back caption="Back" size="s" style="primary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="l" style="primary"></Controls.heading:Back>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = m, style = primary</div>
-        <Controls.heading:Back caption="Back" size="m" style="primary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="3xl" style="primary"></Controls.heading:Back>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">size = l, style = primary</div>
-        <Controls.heading:Back caption="Back" size="l" style="primary"></Controls.heading:Back>
+        <Controls.heading:Back caption="Back" fontSize="4xl" style="primary"></Controls.heading:Back>
     </div>
 </div>
