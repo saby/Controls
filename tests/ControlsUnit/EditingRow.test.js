@@ -1,4 +1,4 @@
-define(['Controls/_list/EditInPlace/EditingRow'], function(EditingRow) {
+define(['Controls/_editInPlace/Templates/EditingRow'], function(EditingRow) {
    describe('Controls.List.EditInPlace.EditingRow', function() {
       it('_onKeyDown', function() {
          var
