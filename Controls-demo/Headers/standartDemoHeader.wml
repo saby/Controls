@@ -286,22 +286,22 @@
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">l size</span>
-                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonDefault" fontColorStyle="primary" fontSize="4xl" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonPrimary" fontColorStyle="secondary" fontSize="4xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonDefault" fontColorStyle="primary" fontSize="4xl" iconSize="4xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element ControlsDemo-standartDemoHeader_BackButtonPrimary" fontColorStyle="secondary" fontSize="4xl" iconSize="4xl" caption="Back"/>
             </div>
         </div>
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">m size</span>
-                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="3xl" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="3xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="3xl" iconSize="3xl" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="3xl" iconSize="3xl" caption="Back"/>
             </div>
         </div>
         <div attr:class="test_element__wrapper">
             <div>
                 <span attr:class="test_element">s size</span>
-                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="l" caption="Back"/>
-                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="l" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="primary" fontSize="l" iconSize="l" caption="Back"/>
+                <Controls.heading:Back attr:class="test_element" fontColorStyle="secondary" fontSize="l" iconSize="l" caption="Back"/>
             </div>
         </div>
     </div>

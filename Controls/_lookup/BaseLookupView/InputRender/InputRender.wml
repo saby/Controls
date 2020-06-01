@@ -2,7 +2,7 @@
                        state="{{_renderStyle()}}"
                        viewModel="{{_viewModel}}"
                        inlineHeight="{{_options.size}}"
-                       fontColorStyle="{{_options.style}}" fontSize="m"
+                       fontColorStyle="{{_options.fontColorStyle}}" fontSize="m"
                        validationStatus="{{_options.validationStatus}}"
                        multiline="{{_options.multiline}}"
                        tagStyle="{{_options.tagStyle}}"

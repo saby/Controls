@@ -3,7 +3,7 @@
                           caption="{{ _options.backButtonCaption }}"
                           tooltip="{{ _options.backButtonCaption }}"
                           style="{{ _options.backButtonStyle }}"
-                          fontSize="headingPathBack"
+                          fontSize="headingPathBack" iconSize="headingPathBack"
                           theme="{{ _options.theme}}"
                           on:click="_onBackButtonClick()"/>
 
