@@ -8,6 +8,12 @@ import {
 } from './interfaces';
 import * as getDimensions from 'Controls/Utils/getDimensions';
 
+/**
+ * Контроллер, управляющий виртуальным скроллом.
+ * @class Controls/_list/ScrollContainer/VirtualScroll
+ * @private
+ * @author Авраменко А.С.
+ */
 export default class VirtualScroll {
     private _containerHeightsData: IContainerHeights = {scroll: 0, trigger: 0, viewport: 0};
     private _options: IVirtualScrollOptions;
