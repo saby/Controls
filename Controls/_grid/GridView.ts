@@ -168,11 +168,11 @@ var
                 this._listModel.setColumnScroll(newCfg.columnScroll);
             }
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
-            if (!GridIsEqualUtil.isEqualWithSkip(this._options.columns, newCfg.columns, { template: true, resultTemplate: true })) {
+            if (!GridIsEqualUtil.isEqualWithSkip(this._options.columns, newCfg.columns, { resultTemplate: true })) {
                 this._listModel.setColumns(newCfg.columns);
             }
             // Вычисления в setHeader зависят от columnScroll.
-            if (!GridIsEqualUtil.isEqualWithSkip(this._options.header, newCfg.header, { template: true })) {
+            if (!GridIsEqualUtil.isEqualWithSkip(this._options.header, newCfg.header, {})) {
                 this._listModel.setHeader(newCfg.header);
             }
             if (this._options.stickyColumn !== newCfg.stickyColumn) {
