@@ -490,7 +490,7 @@ define([
             });
          });
 
-         it('add item to a folder', function(done) {
+         it('add item to a folder', function() {
             var source = new sourceLib.Memory({
                keyProperty: 'id',
                data: treeModel._items
@@ -502,17 +502,16 @@ define([
             });
             treeModel.setExpandedItems([1]);
 
-            source.create().addCallback(function(model) {
+            return source.create().then(function(model) {
                model.set('parent', 1);
                model.set('parent@', false);
-               eip.beginAdd({
+               return eip.beginAdd({
                   item: model
-               }).addCallback(function() {
+               }).then(function() {
                   assert.instanceOf(eip._editingItem, entity.Model);
                   assert.isTrue(eip._isAdd);
-                  assert.equal(2, eip._editingItemData.level);
-                  assert.equal(4, eip._editingItemData.index);
-                  done();
+                  assert.equal(eip._editingItemData.level, 2);
+                  assert.equal(eip._editingItemData.index, 4);
                });
             });
          });

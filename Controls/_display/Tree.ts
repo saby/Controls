@@ -382,6 +382,13 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
     }
 
     /**
+     * Возвращает уровень вложенности корня дерева
+     */
+    getRootLevel(): number {
+        return this.isRootEnumerable() ? 1 : 0;
+    }
+
+    /**
      * Возвращает коллекцию потомков элемента коллекции
      * @param parent Родительский узел
      * @param [withFilter=true] Учитывать {@link setFilter фильтр}
