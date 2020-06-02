@@ -37,7 +37,7 @@ export default interface IToolbarSource {
  * @property {Boolean} [item.readOnly] Determines item readOnly state.
  * @property {String} [item.buttonCaption] Caption of toolbar element.
  * @property {Boolean} [item.buttonTransparent] Transparent of toolbar element.
- * @property {String} [item.buttonIconStyle] Icon style of toolbar element.
+ * @property {String} [item.iconStyle] Icon style of toolbar element.
  * @property {String} [item.icon] Icon of toolbar element.
  * @property {String} [item.title] Determines item caption.
  * @property {Boolean} [item.showHeader] Indicates whether folders should be displayed.

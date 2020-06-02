@@ -1,9 +1,9 @@
 <div class="controls-Grid__header-cell__content">
    <Controls.heading:Title caption="{{colData.column.title}}"
-                     style="secondary"
+                     fontColorStyle="secondary"
                      readOnly="{{true}}"
                      attr:class="ControlsDemo-EipScenarios__headerCaption"
-                     size="m"/>
+                     fontSize="l"/>
    <Controls.buttons:Button iconSize="s" icon="icon-AddButtonNew"
                     buttonStyle="secondary"
                     iconStyle="secondary"
