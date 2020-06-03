@@ -105,5 +105,18 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/BaseController', 'Con
          assert.isTrue(stub.notCalled);
          sandbox.restore();
       });
+
+      it('opening showSelector', function() {
+         const baseController = getBaseController();
+         isShowSelector = false;
+         baseController._openingSelector = null;
+         showSelector.default(baseController, {});
+         assert.isTrue(isShowSelector);
+         assert.isNotNull(baseController._openingSelector);
+
+         isShowSelector = false;
+         showSelector.default(baseController, {});
+         assert.isFalse(isShowSelector);
+      });
    });
 });
