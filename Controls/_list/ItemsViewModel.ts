@@ -622,19 +622,6 @@ var ItemsViewModel = BaseViewModel.extend({
     each(callback: collection.EnumeratorCallback<Record>, context?: object): void {
         if (this._display) {
             this._display.each(callback, context);
-        } else {
-            this.reset();
-            while (this.isEnd()) {
-                const index = this.getCurrentIndex();
-                if (this.isShouldBeDrawnItem()) {
-                    callback.call(
-                        context,
-                        this.getCurrent(),
-                        index
-                    );
-                }
-                this.goToNext();
-            }
         }
     },
 
@@ -647,15 +634,6 @@ var ItemsViewModel = BaseViewModel.extend({
     find(predicate: (item: Model) => boolean): Model {
         if (this._display) {
             return this._display.find(predicate);
-        } else {
-            this.reset();
-            while (this.isEnd()) {
-                const current = this.getCurrent();
-                if (predicate(current)) {
-                    return current;
-                }
-                this.goToNext();
-            }
         }
     },
 
