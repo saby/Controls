@@ -12,6 +12,9 @@ define('Controls-demo/Popup/TestStack',
       var TestDialog = Control.extend({
          _template: template,
          _indicatorId: null,
+         _beforeUnmount: function() {
+            this._notify('hideIndicator', [this._indicatorId], { bubbling: true });
+         },
 
          _close: function() {
             this._notify('close', [], { bubbling: true });

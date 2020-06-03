@@ -1,19 +1,20 @@
-<Controls.event:Register name="registrator" register="selectedTypeChanged">
-   <ws:partial
-           template="{{_options.content}}"
-           scope="{{_options}}"
-           viewMode="{{_options.selectionViewMode === 'selected' ? 'search': _options.viewMode}}"
-           itemOpenHandler="{{_itemOpenHandler}}"
-           on:listSelectedKeysChanged="_notifyHandler('selectedKeysChanged')"
-           on:listExcludedKeysChanged="_notifyHandler('excludedKeysChanged')"
-           on:listSelectedKeysCountChanged="_selectedKeysCountChanged()"
-           selectedKeysCount="{{ _selectedKeysCount }}"
-           isAllSelected="{{ _isAllSelected }}"
-           listMarkedKey="{{_listMarkedKey}}"
-           on:markedKeyChanged="_markedKeyChangedHandler()"
-           on:selectedTypeChanged="_selectedTypeChangedHandler()"
-           on:listMarkedKeyChanged="_listMarkedKeyChangedHandler()"
-           on:operationsPanelOpen="_operationsPanelOpen()"
-           on:operationsPanelClose="_operationsPanelClose()"
-   />
-</Controls.event:Register>
+<ws:partial
+        template="{{_options.content}}"
+        scope="{{_options}}"
+        viewMode="{{_options.selectionViewMode === 'selected' ? 'search': _options.viewMode}}"
+        itemOpenHandler="{{_itemOpenHandler}}"
+        on:listSelectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+        on:listExcludedKeysChanged="_notifyHandler('excludedKeysChanged')"
+        on:listSelectedKeysCountChanged="_selectedKeysCountChanged()"
+        selectedKeysCount="{{ _selectedKeysCount }}"
+        isAllSelected="{{ _isAllSelected }}"
+        listMarkedKey="{{_listMarkedKey}}"
+        on:markedKeyChanged="_markedKeyChangedHandler()"
+        on:selectedTypeChanged="_selectedTypeChangedHandler()"
+        on:listMarkedKeyChanged="_listMarkedKeyChangedHandler()"
+        on:operationsPanelOpen="_operationsPanelOpen()"
+        on:operationsPanelClose="_operationsPanelClose()"
+        on:register="_registerHandler()"
+        on:unregister="_unregisterHandler()"
+/>
+

@@ -2842,7 +2842,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (this._options.columnScroll) {
             hasDragScrolling = typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop;
         }
-
+        if (this._unprocessedDragEnteredItem) {
+            this._unprocessedDragEnteredItem = null;
+        }
         if (!hasDragScrolling) {
             _private.startDragNDrop(this, domEvent, itemData);
         } else {

@@ -100,6 +100,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
+    updateBottomShadowStyle(): void {
+        for (const id in this._headers) {
+            this._headers[id].inst.updateBottomShadowStyle();
+        }
+    }
+
     get height(): number {
         // Group can be with style display: content. Use the height of the first header as the height of the group.
         const headersIds: number[] = Object.keys(this._headers);

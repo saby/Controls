@@ -183,6 +183,30 @@ define(
             assert.equal(data._prefetchSource._$data.query, sourceData);
          });
 
+         it('_beforeMount with root and parentProperty', async() => {
+            const data = {test: true};
+            let sourceQuery;
+            const source = {
+               query: function(query) {
+                  sourceQuery = query;
+                  return Deferred.success(data);
+               },
+               _mixins: [],
+               "[Types/_source/ICrud]": true
+            };
+
+            const dataOptions = {
+               source: source,
+               keyProperty: 'id',
+               filter: {},
+               parentProperty: 'testParentProperty',
+               root: 'testRoot'
+            };
+            const dataContainer = getDataWithConfig(dataOptions);
+            await dataContainer._beforeMount(dataOptions);
+            assert.deepEqual(sourceQuery.getWhere(), {testParentProperty: 'testRoot'});
+         });
+
          it('_itemsReadyCallbackHandler', async function() {
             const options = {source: source, keyProperty: 'id'};
             let data = getDataWithConfig(options);
@@ -333,7 +357,7 @@ define(
             var self = getDataWithConfig(config);
             lists.DataContainer._private.resolveOptions(self, {source:source});
 
-            var promise = lists.DataContainer._private.createPrefetchSource(self, error, dataLoadErrback);
+            var promise = lists.DataContainer._private.createPrefetchSource(self, error, config);
             assert.instanceOf(promise, Promise);
             promise.then(function(result) {
                assert.equal(result.error, error);
@@ -366,7 +390,7 @@ define(
             var self = getDataWithConfig(config);
             lists.DataContainer._private.resolveOptions(self, {source:source});
 
-            var promise = lists.DataContainer._private.createPrefetchSource(self, undefined, dataLoadErrback);
+            var promise = lists.DataContainer._private.createPrefetchSource(self, undefined, config);
 
             assert.instanceOf(promise, Promise);
             promise.then(function(result) {
@@ -400,7 +424,7 @@ define(
             var self = getDataWithConfig(config);
             lists.DataContainer._private.resolveOptions(self, {source:source});
 
-            var promise = lists.DataContainer._private.createPrefetchSource(self, data, dataLoadErrback);
+            var promise = lists.DataContainer._private.createPrefetchSource(self, data, config);
 
             assert.instanceOf(promise, Promise);
             promise.then(function(result) {
@@ -477,7 +501,7 @@ define(
 
             lists.DataContainer._private.resolveOptions(self, {source:source});
 
-            var promise = lists.DataContainer._private.createPrefetchSource(self, data, dataLoadErrback, 'gid');
+            var promise = lists.DataContainer._private.createPrefetchSource(self, data, config);
 
             assert.instanceOf(promise, Promise);
             promise.then(function(result) {
@@ -494,40 +518,17 @@ define(
          });
 
          it('_private.resolveOptions', function() {
-            var self = {
-               _options: {
-                  filter: {}
-               }
+            const self = {
+               _options: {}
             };
-            var options = {
+            const dataOptions = {
                filter: {},
                root: 'test',
                parentProperty: 'testParentProperty'
             };
 
-            lists.DataContainer._private.resolveOptions(self, options);
-            assert.deepEqual(self._filter, {testParentProperty: 'test'});
-            assert.isTrue(self._filter !== options.filter);
-
-
-            let filter = {test: 123};
-            self._options.filter = filter;
-            self._options.root = 'test';
-            options.filter = filter;
-            lists.DataContainer._private.resolveOptions(self, options);
-            //if filter option was not changed, _filter from state will not updated by resolveOptions
-            assert.deepEqual(self._filter, {testParentProperty: 'test'});
-
-            options.root = null;
-            lists.DataContainer._private.resolveOptions(self, options);
-            assert.deepEqual(self._filter, {test: 123});
-
-            self._options.root = undefined;
-            options.root = null;
-            delete self._options.filter['root'];
-            filter = self._filter;
-            lists.DataContainer._private.resolveOptions(self, options);
-            assert.isTrue(filter === self._filter);
+            lists.DataContainer._private.resolveOptions(self, dataOptions);
+            assert.deepEqual(self._filter, dataOptions.filter);
          });
          it('_private.isEqualItems', function() {
 

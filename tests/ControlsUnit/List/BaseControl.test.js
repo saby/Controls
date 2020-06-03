@@ -5082,6 +5082,17 @@ define([
          });
 
          describe('_onItemMouseDown', () => {
+            it('reset _unprocessedDragEnteredItem', () => {
+               const originalEvent = {
+                  target: {},
+                  nativeEvent: {}
+               };
+               const itemData = { item: {} };
+               const event = { stopPropagation: () => {} };
+               baseControl._unprocessedDragEnteredItem = {};
+               baseControl._itemMouseDown(event, itemData, originalEvent);
+               assert.isNull(baseControl._unprocessedDragEnteredItem);
+            });
             it('notify parent', () => {
                const originalEvent = {
                   target: {},
@@ -5109,9 +5120,38 @@ define([
 
                baseControl._itemMouseDown(event, { key: 3 }, originalEvent);
 
-                  assert.equal(baseControl._listViewModel.getMarkedItem(), undefined);
-               });
+               assert.equal(baseControl._listViewModel.getMarkedItem(), undefined);
             });
+         });
+
+         describe('itemMouseEnter', () => {
+            it('reset _unprocessedDragEnteredItem', () => {
+               const originalEvent = {
+                  target: {},
+                  nativeEvent: {}
+               };
+               const event = { 
+                  stopPropagation: () => {} 
+               };
+               const dragEvent = { 
+                  stopPropagation: () => {}
+               };
+               const dragObject = {
+                  entity: {}
+               };
+               const itemData = { item: {} };
+               baseControl._listViewModel.setDragItemData = () => {};
+               baseControl._listViewModel.getItemDataByItem = () => { return { item: {} };};
+               baseControl._options.itemsDragNDrop = true;
+               baseControl._draggingItem = { dispItem: {} };
+               baseControl._unprocessedDragEnteredItem = null;
+               baseControl._itemMouseEnter(event, itemData, originalEvent);
+               assert.equal(baseControl._unprocessedDragEnteredItem, itemData, 'should save itemData');
+               baseControl._dragStart(dragEvent, dragObject);
+               assert.isNull(baseControl._unprocessedDragEnteredItem, 'should reset itemData after processing');
+               baseControl._options.itemsDragNDrop = false;
+            });
+         });
 
          describe('_onItemMouseUp', () => {
 

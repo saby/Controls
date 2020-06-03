@@ -73,15 +73,4 @@
             </ws:content>
         </ws:partial>
     </ws:if>
-
-   <ws:if data="{{_options.suggestTemplate}}">
-       <Controls.popup:Stack name="stackOpener" on:result="_select()" template="Controls/suggestPopup:Dialog" closeOnOutsideClick="{{true}}">
-           <ws:templateOptions searchValue="{{_searchValue}}" filter="{{_filter}}">
-               <ws:template>
-                   <ws:partial template="suggestTpl"/>
-               </ws:template>
-           </ws:templateOptions>
-       </Controls.popup:Stack>
-   </ws:if>
-
 </div>

@@ -45,7 +45,7 @@ function getSource(sourceOptions) {
    return sourceOptions.source instanceof PrefetchProxy ? sourceOptions.source.getOriginal() : sourceOptions.source;
 }
 
-export default function(sourceOptions, data) {
+export default function(sourceOptions, data?) {
    var thenFunction = getThenFunction(sourceOptions);
    return load(sourceOptions, data).then(thenFunction, thenFunction);
 }

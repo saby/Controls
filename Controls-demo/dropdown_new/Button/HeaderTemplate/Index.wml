@@ -1,5 +1,5 @@
 <div class="controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper controlsDemo-Menu-Popup_absolute">
+   <div class="controlsDemo__wrapper controlsDemo-Dropdown_absolute">
       <div class="controls-text-label_theme-{{_options.theme}}">Открытие меню вверх</div>
       <Controls.dropdown:Button
               keyProperty="key"

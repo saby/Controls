@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_operations/Controller/Controller');
 import tmplNotify = require('Controls/Utils/tmplNotify');
-
+import {RegisterClass} from 'Controls/event';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { TKeySelection as TKey } from 'Controls/interface';
 
@@ -43,16 +43,33 @@ export default class MultiSelector extends Control {
    protected _notifyHandler: Function = tmplNotify;
    protected _isOperationsPanelOpened: boolean = false;
    protected _savedListMarkedKey: TKey = null;
+   protected _selectedTypeRegister: RegisterClass = null;
 
    protected _beforeMount() {
       this._itemOpenHandler = this._itemOpenHandler.bind(this);
+      this._selectedTypeRegister = new RegisterClass({register: 'selectedTypeChanged'});
+   }
+
+   protected _beforeUnmount() {
+      if (this._selectedTypeRegister) {
+         this._selectedTypeRegister.destroy();
+         this._selectedTypeRegister = null;
+      }
+   }
+
+   protected _registerHandler(event, registerType, component, callback, config): void {
+      this._selectedTypeRegister.register(event, registerType, component, callback, config);
+   }
+
+   protected _unregisterHandler(event, registerType, component, config): void {
+      this._selectedTypeRegister.unregister(event, component, config);
    }
 
    protected _selectedTypeChangedHandler(event: SyntheticEvent<null>, typeName: string): void {
       if (typeName === 'all' || typeName === 'selected') {
          this._notify('selectionViewModeChanged', [typeName]);
       } else {
-         this._children.registrator.start(typeName);
+         this._selectedTypeRegister.start(typeName);
       }
    }
 

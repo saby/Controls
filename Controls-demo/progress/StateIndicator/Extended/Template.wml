@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Граничный случай 33%, 33%, 33%, 1%</div>
+        <Controls.progress:StateIndicator
+                data="{{_data}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">С подсказкой</div>
+        <Controls.progress:StateIndicator
+                on:itemEnter="_mouseEnterHandler()"
+                data="{{_dataWithUser}}"
+        />
+        <Controls.popup:Infobox name="IBOpener"></Controls.popup:Infobox>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Controls/history', 'Core/Deferred'], function(suggestMod, collection, entity, Env, history, Deferred) {
+define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Controls/history', 'Core/Deferred', 'Controls/popup'], function(suggestMod, collection, entity, Env, history, Deferred, popupLib) {
 'use strict';
    describe('Controls.Container.Suggest.Layout', function() {
       var IDENTIFICATORS = [1, 2, 3];
@@ -378,12 +378,13 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
 
          suggest._notify = (event, options) => { openCfg = options; return eventResult; };
          suggest._showContent = true;
-         suggest._children = {
-            stackOpener: {
-               open: () => {
-                  stackOpened = true;
-               }
-            }
+         popupLib.Stack.openPopup = () => {
+            stackOpened = true;
+         };
+
+         suggest._options.suggestTemplate = {
+            templateName: 'test',
+            templateOptions: {}
          };
 
          suggest._showAllClick();
@@ -398,19 +399,17 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
             isNotifyShowSelector = false,
             suggest = new suggestMod._InputController();
 
-         suggest._children = {
-            stackOpener: {
-               open: () => {}
-            }
+         popupLib.Stack.openPopup = () => {};
+
+         suggest._options.suggestTemplate = {
+            templateName: 'test',
+            templateOptions: {}
          };
+
          suggest._notify = function(eventName, data) {
             if (eventName === 'showSelector') {
                isNotifyShowSelector = true;
-               assert.deepEqual(data[0], {
-                  templateOptions: {
-                     filter: suggest._filter
-                  }
-               });
+               assert.deepEqual(data[0].templateOptions.filter, suggest._filter);
             }
          };
 

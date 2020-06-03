@@ -4,6 +4,7 @@
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Suggest__dialog-scrollContainer" name="scroll">
                 <ws:content>
                     <ws:partial template="{{_options.template}}"
+                                scope="{{_options.templateOptions}}"
                                 on:itemClick="_itemClick()"
                                 dialogMode="{{true}}"/>
                 </ws:content>

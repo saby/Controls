@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import controlTemplate = require('wml!Controls-demo/Menu/Popup/Button/Index');
+import controlTemplate = require('wml!Controls-demo/dropdown_new/Button/HeaderTemplate/Index');
 import {Memory} from 'Types/source';
 
 class HeaderContentTemplate extends Control {
@@ -20,6 +20,6 @@ class HeaderContentTemplate extends Control {
     static _theme: string[] = ['Controls/Classes'];
 
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Menu/Popup/Index'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/dropdown_new/Button/Index'];
 }
 export default HeaderContentTemplate;

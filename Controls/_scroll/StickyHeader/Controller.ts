@@ -6,6 +6,7 @@ import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_St
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import fastUpdate from './FastUpdate';
 import StickyHeaderResizeObserver from './Utils/StickyHeaderResizeObserver';
+import {detection} from 'Env/Env';
 
 // @ts-ignore
 
@@ -178,9 +179,22 @@ class Component extends Control {
         const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
         // Игнорируем все собятия ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
-        if (this._stickyControllerMounted && !isSimpleHeaders) {
-            this._registerDelayed();
-            this._updateTopBottom();
+        if (this._stickyControllerMounted) {
+            // Отдельно вызываем пересчет стилей для сафари13, т.к стили "bottom" и "right" не работают
+            // в стики элементах на ios 13
+            if (detection.safariVersion >= 13) {
+                this._updateBottomShadowStyle();
+            }
+            if (!isSimpleHeaders) {
+                this._registerDelayed();
+                this._updateTopBottom();
+            }
+        }
+    }
+
+    private _updateBottomShadowStyle(): void {
+        for (const id in this._headers) {
+            this._headers[id].inst.updateBottomShadowStyle();
         }
     }
 

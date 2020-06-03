@@ -320,7 +320,9 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         clearTimeout(this.delayTimeout);
         this._updateZIndex(config);
         if (visible) {
-            this._toggleEvents(true);
+            // TODO: https://online.sbis.ru/opendoc.html?guid=8a294eac-6874-4dae-9621-ae095bd1c9d3
+            // this._toggleEvents(true);
+            this._toggleOverlayAsync(true, config);
             if (force) {
                 this._toggleIndicatorVisible(true, config);
             } else {
@@ -338,10 +340,24 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
             // if we dont't have indicator in stack, then hide overlay
             if (this._stack.getCount() === 0) {
                 this._toggleIndicatorVisible(false);
-                this._toggleEvents(false);
+                // this._toggleEvents(false);
+                this._toggleOverlayAsync(false, {});
             }
         }
         this._forceUpdate();
+    }
+
+    private _toggleOverlayAsync(toggle: boolean, config: ILoadingIndicatorOptions): void {
+        // контролы, которые при ховере показывают окно, теряют свой ховер при показе оверлея,
+        // что влечет за собой вызов обработчиков на mouseout + визуально дергается ховер таргета.
+        // Делаю небольшую задержку, если окно не имеет в себе асинхронного кода, то оно успеет показаться раньше
+        // чем покажется оверлей. Актуально для инфобокса, превьюера и выпадающего списка.
+        // Увеличил до 100мс, за меньшее время не во всех браузерах успевает отрсиоваться окно даже без асинхронных фаз
+        this._clearOverlayTimerId();
+        const delay = Math.min(this._getDelay(config), 100);
+        this._toggleOverlayTimerId = setTimeout(() => {
+            this._toggleOverlay(toggle, config);
+        }, delay);
     }
 
     private _toggleEvents(toggle: boolean): void {
@@ -401,7 +417,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
             this._clearOverlayTimerId();
             this._isMessageVisible = true;
             this._isOverlayVisible = true;
-            this._toggleEvents(false);
+            // this._toggleEvents(false);
             this._updateProperties(config);
         } else {
             this._isMessageVisible = false;

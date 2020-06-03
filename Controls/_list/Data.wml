@@ -1,15 +1,12 @@
-<Controls.event:Register
-   name="dataErrorRegistrar"
-   register="dataError"
->
-   <ws:partial template="{{_options.content}}"
+<ws:partial template="{{_options.content}}"
                on:filterChanged="_filterChanged()"
                on:rootChanged="_rootChanged()"
                on:itemsChanged="_itemsChanged()"
                on:dataError="_onDataError()"
+               on:register="_registerHandler()"
+               on:unregister="_unregisterHandler()"
                loading="{{_loading || _options.loading}}"
                scope="{{_options}}"
                items="{{_items}}"
                filter="{{_filter}}"
                itemsReadyCallback="{{_itemsReadyCallback}}"/>
-</Controls.event:Register>

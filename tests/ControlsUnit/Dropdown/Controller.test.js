@@ -582,6 +582,7 @@ define(
             };
             dropdownController._sourceController = { hasMoreData: () => false, load: () => Deferred.success(itemsRecords.clone()) };
             dropdownController._open().then(function() {
+               assert.isTrue(!!dropdownController._menuSource);
                assert.isTrue(opened);
             });
 

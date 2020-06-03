@@ -2,21 +2,25 @@ import Control = require('Core/Control');
 import cInstance = require('Core/core-instance');
 import template = require('wml!Controls/_list/Data');
 import Deferred = require('Core/Deferred');
-import clone = require('Core/core-clone');
 import getPrefetchSource from './getPrefetchSource';
 import {ContextOptions} from 'Controls/context';
 import {isEqual} from "Types/object";
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-
+import {RegisterClass} from 'Controls/event';
 import {groupUtil} from 'Controls/dataSource';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {TArrayGroupId, prepareFilterCollapsedGroups} from 'Controls/_list/Controllers/Grouping';
+import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions} from 'Controls/interface';
 
 type GetSourceResult = {
    data?: RecordSet;
    error?: Error;
    source: ICrud;
+}
+
+export interface IDataOptions extends ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions {
+   dataLoadErrback?: Function;
 }
 
       /**
@@ -100,10 +104,10 @@ type GetSourceResult = {
 
          createPrefetchSource(
             self,
-            data: RecordSet | void,
-            dataLoadErrback: Function | void,
-            groupHistoryId: string
+            data: RecordSet | Error | void,
+            options: IDataOptions
          ): Promise<GetSourceResult> {
+            const groupHistoryId = _private.getGroupHistoryId(options);
 
             return new Promise((resolve) => {
                if (typeof groupHistoryId !== 'string') {
@@ -119,20 +123,19 @@ type GetSourceResult = {
                   source: self._source,
                   navigation: self._navigation,
                   sorting: self._sorting,
-                  filter,
+                  filter: _private.prepareFilter(filter, options),
                   keyProperty: self._keyProperty
                }, data).then((result: GetSourceResult) => {
-                  if (result.error && dataLoadErrback instanceof Function) {
-                     dataLoadErrback(result.error);
+                  if (result.error && options.dataLoadErrback instanceof Function) {
+                     options.dataLoadErrback(result.error);
                   }
                   return result;
                });
             });
          },
 
-         resolveOptions: function(self, options) {
+         resolveOptions: function(self, options: IDataOptions) {
             const filterChanged = !isEqual(self._options.filter, options.filter);
-            const rootChanged = self._options.root !== options.root;
 
             self._navigation = options.navigation;
             self._source = options.source;
@@ -140,25 +143,8 @@ type GetSourceResult = {
             self._keyProperty = options.keyProperty;
 
             //https://online.sbis.ru/opendoc.html?guid=8dd3b48d-9123-4d6c-ac26-9c908e6e25f8
-            if (!self._filter || filterChanged || rootChanged) {
+            if (!self._filter || filterChanged) {
                self._filter = options.filter;
-
-               if (options.parentProperty) {
-                  const hasRootInOptions = options.root;
-                  const hasRootInFilter = self._filter && self._filter[options.parentProperty];
-
-                  if ((hasRootInFilter || hasRootInOptions) && rootChanged) {
-                     const newFilter = clone(options.filter);
-
-                     if (hasRootInOptions) {
-                        newFilter[options.parentProperty] = options.root;
-                     } else {
-                        delete newFilter[options.parentProperty];
-                     }
-
-                     self._filter = newFilter;
-                  }
-               }
             }
          },
 
@@ -184,7 +170,7 @@ type GetSourceResult = {
           * @param self control instance
           * @param result {prefetchSourceResult}
           */
-         createDataContextBySourceResult: function (self, result: { data: RecordSet<Model>; source: PrefetchProxy }) {
+         createDataContextBySourceResult: function (self, result: GetSourceResult) {
             _private.resolvePrefetchSourceResult(self, result);
             self._dataOptionsContext = _private.getDataContext(self);
          },
@@ -201,21 +187,37 @@ type GetSourceResult = {
          getGroupHistoryId(options): string {
             const hasGrouping = !!options.groupProperty || !!options.groupingKeyCallback;
             return hasGrouping ? (options.groupHistoryId || options.historyIdCollapsedGroups) : undefined;
+         },
+
+         prepareFilter(filter: object, options: IDataOptions): object {
+            let resultFilter = filter;
+
+            if (options.root && options.parentProperty) {
+               resultFilter = {...filter};
+               resultFilter[options.parentProperty] = options.root;
+            }
+
+            return resultFilter;
          }
       };
 
       var Data = Control.extend(/** @lends Controls/_list/Data.prototype */{
-
          _template: template,
          _loading: false,
          _itemsReadyCallback: null,
+         _filter: null,
+         _navigation: null,
+         _keyProperty: null,
+         _sorting: null,
+         _errorRegister: null,
 
-         _beforeMount: function(options, context, receivedState:RecordSet|undefined):Deferred<GetSourceResult>|void {
+         _beforeMount: function(options: IDataOptions, context, receivedState:RecordSet|undefined):Deferred<GetSourceResult>|void {
             let self = this;
             let source:ICrud;
 
             _private.resolveOptions(this, options);
             this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
+            this._errorRegister = new RegisterClass({register: 'dataError'});
 
             // isNewEnvironment - проверка в 20.11хх, в 20.2ххх удалена
             // Нужна для редкого случая, когда на старой странице на сервере строится wasaby контрол,
@@ -237,7 +239,7 @@ type GetSourceResult = {
                   })
                });
             } else if (self._source) {
-               return _private.createPrefetchSource(this, null, options.dataLoadErrback, _private.getGroupHistoryId(options)).addCallback(function(result) {
+               return _private.createPrefetchSource(this, null, options).then((result) => {
                   _private.createDataContextBySourceResult(self, result);
                   return result.data;
                });
@@ -246,12 +248,12 @@ type GetSourceResult = {
             }
          },
 
-         _beforeUpdate: function(newOptions) {
+         _beforeUpdate: function(newOptions: IDataOptions) {
             _private.resolveOptions(this, newOptions);
 
             if (this._options.source !== newOptions.source) {
                this._loading = true;
-               return _private.createPrefetchSource(this, null, null, _private.getGroupHistoryId(newOptions)).addCallback((result) => {
+               return _private.createPrefetchSource(this, null, newOptions).then((result) => {
                   this._items = null;
                   _private.resolvePrefetchSourceResult(this, result);
                   _private.updateDataOptions(this, this._dataOptionsContext);
@@ -268,6 +270,21 @@ type GetSourceResult = {
                _private.updateDataOptions(this, this._dataOptionsContext);
                this._dataOptionsContext.updateConsumers();
             }
+         },
+
+         _beforeUnmount(): void {
+            if (this._errorRegister) {
+               this._errorRegister.destroy();
+               this._errorRegister = null;
+            }
+         },
+
+         _registerHandler(event, registerType, component, callback, config): void {
+            this._errorRegister.register(event, registerType, component, callback, config);
+         },
+
+         _unregisterHandler(event, registerType, component, config): void {
+            this._errorRegister.unregister(event, component, config);
          },
 
          _itemsReadyCallbackHandler(items): void {
@@ -323,7 +340,7 @@ type GetSourceResult = {
          },
 
          _onDataError: function(event, errbackConfig) {
-            this._children.dataErrorRegistrar.start(errbackConfig);
+            this._errorRegister.start(errbackConfig);
          }
       });
 

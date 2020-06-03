@@ -238,6 +238,7 @@ var _private = {
       };
       self._onClose = function(event, args) {
          self._isOpened = false;
+         self._menuSource = null;
          self._notify('dropDownClose');
          if (typeof (options.close) === 'function') {
             options.close(args);
@@ -577,9 +578,9 @@ var _Controller = Control.extend({
       return this.loadDependencies().then( () => {
          const count = this._items.getCount();
          if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerTemplate)) {
-            let config = _private.getPopupOptions(this, popupOptions);
+            this._createMenuSource(this._items);
             this._isOpened = true;
-            StickyOpener.openPopup(config, this).then((popupId) => {
+            StickyOpener.openPopup(_private.getPopupOptions(this, popupOptions)).then((popupId) => {
                this._popupId = popupId;
             });
          } else if (count === 1) {
@@ -638,16 +639,20 @@ var _Controller = Control.extend({
 
    _setItems(items: RecordSet|null): void {
       if (items) {
-         this._menuSource = new PrefetchProxy({
-            target: this._source,
-            data: {
-               query: items
-            }
-         });
+         this._createMenuSource(items);
       } else {
          this._loadItemsPromise = null;
       }
       this._items = items;
+   },
+
+   _createMenuSource(items: RecordSet): void {
+      this._menuSource = new PrefetchProxy({
+         target: this._source,
+         data: {
+            query: items
+         }
+      });
    },
 
    _hasHistory(): boolean {
