@@ -60,20 +60,6 @@ export default {
              * @variant info Style for selector and link view mode. Control display as info style.
              */
 
-            /**
-             * @name Controls/_dateRange/interfaces/ILinkView#styleMode
-             * @cfg {StyleMode} Стиль отображения контрола.
-             * @default undefined
-             * @deprecated Данная опция устарела. Вместо неё используйте {@link fontColorStyle}.
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#styleMode
-             * @cfg {StyleMode} Display style of control. Different view modes support different styles.
-             * @default undefined
-             */
-            styleMode: undefined,
-
             clickable: true,
 
             /**
@@ -144,21 +130,10 @@ export default {
 
     getOptionTypes: function () {
         return {
-            style: descriptor(String).oneOf([
-                'default',
-                'linkMain',
-                'linkMain2',
-                'linkAdditional',
-                'secondary'
-            ]),
             viewMode: descriptor(String).oneOf([
                'selector',
                'link',
                'label'
-            ]),
-            styleMode: descriptor(String).oneOf([
-               'secondary',
-               'info'
             ]),
             nextArrowVisibility: descriptor(Boolean),
             prevArrowVisibility: descriptor(Boolean),
