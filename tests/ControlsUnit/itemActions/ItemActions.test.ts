@@ -89,37 +89,39 @@ const horizontalOnlyItemActions: IItemAction[] = [
     }
 ];
 
+const data = [
+    {id: 1, name: 'Philip J. Fry', gender: 'M', itemActions: []},
+    {
+        id: 2,
+        name: 'Turanga Leela',
+        gender: 'F',
+        itemActions: [
+            {
+                id: 1,
+                icon: 'icon-Link',
+                title: 'valar morghulis',
+                showType: TItemActionShowType.TOOLBAR
+            },
+            {
+                id: 2,
+                icon: 'icon-Print',
+                title: 'print',
+                showType: TItemActionShowType.MENU
+            }
+        ]
+    },
+    {id: 3, name: 'Professor Farnsworth', gender: 'M', itemActions: []},
+    {id: 4, name: 'Amy Wong', gender: 'F', itemActions: []},
+    {id: 5, name: 'Bender Bending Rodriguez', gender: 'R', itemActions: []}
+];
+
 describe('Controls/_itemActions/Controller', () => {
     let itemActionsController: ItemActionsController;
     let collection: Collection<Record>; // IItemActionsCollection;
     let initialVersion: number;
 
-    function makeCollection(): Collection<Record> {
-        const rawData = [
-            {id: 1, name: 'Philip J. Fry', gender: 'M', itemActions: []},
-            {
-                id: 2,
-                name: 'Turanga Leela',
-                gender: 'F',
-                itemActions: [
-                    {
-                        id: 1,
-                        icon: 'icon-Link',
-                        title: 'valar morghulis',
-                        showType: TItemActionShowType.TOOLBAR
-                    },
-                    {
-                        id: 2,
-                        icon: 'icon-Print',
-                        title: 'print',
-                        showType: TItemActionShowType.MENU
-                    }
-                ]
-            },
-            {id: 3, name: 'Professor Farnsworth', gender: 'M', itemActions: []},
-            {id: 4, name: 'Amy Wong', gender: 'F', itemActions: []},
-            {id: 5, name: 'Bender Bending Rodriguez', gender: 'R', itemActions: []}
-        ];
+    function makeCollection(rawData): Collection<Record> {
+
         const list = new RecordSet({
             keyProperty: 'id',
             rawData
@@ -138,7 +140,7 @@ describe('Controls/_itemActions/Controller', () => {
 
     function initializeControllerOptions(options?: IItemActionsControllerOptions): IItemActionsControllerOptions {
         return {
-            collection,
+            collection: options ? options.collection : null,
             itemActions: options ? options.itemActions : null,
             itemActionsProperty: options ? options.itemActionsProperty : null,
             visibilityCallback: options ? options.visibilityCallback : null,
@@ -154,7 +156,7 @@ describe('Controls/_itemActions/Controller', () => {
     }
 
     beforeEach(() => {
-        collection = makeCollection();
+        collection = makeCollection(data);
         // @ts-ignore
         initialVersion = collection.getVersion();
         itemActionsController = new ItemActionsController();
@@ -268,7 +270,7 @@ describe('Controls/_itemActions/Controller', () => {
 
         // T1.11. Если в ItemActions всё пусто, не должно происходить инициализации
         it('should not initialize item actions when itemActions and itemActionsProperty are not set ', () => {
-            collection = makeCollection();
+            collection = makeCollection(data);
             itemActionsController.update(initializeControllerOptions({
                 collection,
                 itemActions: null,
@@ -277,6 +279,21 @@ describe('Controls/_itemActions/Controller', () => {
             const actionsOf3 = collection.getItemBySourceKey(3).getActions();
             assert.notExists(actionsOf3, 'actions have been set to item 3, but they shouldn\'t');
         });
+
+        // T1.12. При смене модели нужно менять модель также и в контроллере
+        it('should change model inside controller when model is not the same', () => {
+            const newData = [
+                {id: 6, name: 'Doctor John Zoidberg', gender: 'M', itemActions: []},
+                {id: 7, name: 'Zapp Brannigan', gender: 'M', itemActions: []}
+            ];
+            const newCollection = makeCollection(newData);
+            itemActionsController.update(initializeControllerOptions({
+                collection: newCollection,
+                itemActions,
+                theme: 'default',
+            }));
+            assert.exists(newCollection.getItemBySourceKey(6).getActions());
+        })
 
         // T1.14. Должны адекватно набираться ItemActions для breadcrumbs (когда getContents() возвращает массив записей)
         // TODO возможно, это уйдёт из контроллера, т.к. по идее уровень абстракции в контроллере ниже и он не должен знать о breadcrumbs

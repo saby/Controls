@@ -124,7 +124,8 @@ export class Controller {
         if (!options.itemActions ||
             !isEqual(this._commonItemActions, options.itemActions) ||
             this._itemActionsProperty !== options.itemActionsProperty ||
-            this._itemActionVisibilityCallback !== options.visibilityCallback
+            this._itemActionVisibilityCallback !== options.visibilityCallback ||
+            this._collection !== options.collection
         ) {
             this._collection = options.collection;
             this._commonItemActions = options.itemActions;

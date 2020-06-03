@@ -2322,19 +2322,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             _private.updateMarkerController(this, newOptions);
         }
 
-        // UC1: Record might be editing on page load, then we should initialize Item Actions.
-        // UC2: We should reassign ItemActions on model change before drawing them in For template
-        if (
-           recreateSource ||
-           newOptions.itemActions !== this._options.itemActions ||
-           newOptions.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
-           ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated) ||
-           newOptions.itemActionsProperty ||
-           (newOptions.editingConfig && newOptions.editingConfig.item)
-        ) {
-            this._updateItemActions(newOptions);
-        }
-
         if (filterChanged || recreateSource || sortingChanged) {
             _private.resetPagingNavigation(this, newOptions.navigation);
             if (this._itemActionsMenuId) {
@@ -2345,7 +2332,24 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             // return result here is for unit tests
             return _private.reload(self, newOptions).addCallback(() => {
                 this._needBottomPadding = _private.needBottomPadding(newOptions, this._items, this._listViewModel);
+                this._updateItemActions(newOptions);
             });
+        }
+
+        /*
+         * Переинициализация опций записи нужна при:
+         * 1. Изменились опции записи
+         * 2. Редактирование записи при загрузке (Может быть изменится после версии 20.5000, т.к. там появились опции, отображаемые всегда)
+         * 3. Изменился коллбек видимости опции
+         * 4. Модель была пересоздана
+         */
+        if (
+            newOptions.itemActions !== this._options.itemActions ||
+            newOptions.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
+            ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated) ||
+            (newOptions.editingConfig && newOptions.editingConfig.item)
+        ) {
+            this._updateItemActions(newOptions);
         }
 
         if (this._itemsChanged) {
