@@ -88,8 +88,7 @@
    cursor: default;
 }
 
-.controls-Search__searchButton_inlineheight-s_theme-@{themeName},
-.controls-Search__searchButton_inlineheight-default_theme-@{themeName}{
+.controls-Search__searchButton_inlineheight-s_theme-@{themeName} {
    .icon-size(@trigger_s_icon-size_searchInput);
 }
 
@@ -97,7 +96,8 @@
    .icon-size(@trigger_xs_icon-size_searchInput);
 }
 
-.controls-Search__searchButton_inlineheight-m_theme-@{themeName} {
+.controls-Search__searchButton_inlineheight-m_theme-@{themeName},
+.controls-Search__searchButton_inlineheight-default_theme-@{themeName} {
    .icon-size(@trigger_m_icon-size_searchInput);
 }
 
