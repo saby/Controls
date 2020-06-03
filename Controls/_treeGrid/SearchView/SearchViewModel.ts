@@ -63,17 +63,6 @@ var
          };
          return data;
       },
-       _convertItemKeyToCacheKey(key: number|string): number|string {
-           let correctKey = SearchViewModel.superclass._convertItemKeyToCacheKey.call(this, key);
-           const items = this.getItems();
-           if (items) {
-               const item = items.getRecordById(key);
-               if (item && item.get(this._options.nodeProperty) === true) {
-                   correctKey += '_breadcrumbs';
-               }
-           }
-           return correctKey;
-       },
        _getItemVersion(item: Record|Record[]): string {
            if (isBreadCrumbsItem(item)) {
                const versions = [];

@@ -35,12 +35,12 @@
 <ws:if data="{{itemData.isStickyHeader}}">
    <Controls.scroll:StickyHeader
            backgroundStyle="{{itemData.backgroundStyle}}"
-           attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="group-{{itemData.item}}">
+           attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="{{itemData.instanceId}}">
             <ws:partial template="groupTemplate" itemData="{{itemData}}"/>
    </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
-   <div class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="group-{{itemData.item}}">
+   <div class="controls-ListView__itemV controls-ListView__itemV_cursor-pointer {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-ListView__group'}}" attr:key="{{itemData.instanceId}}">
       <ws:partial template="groupTemplate" itemData="{{itemData}}"/>
    </div>
 </ws:else>

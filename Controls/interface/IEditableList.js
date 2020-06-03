@@ -177,7 +177,7 @@ define('Controls/interface/IEditableList', [
     *    define('ModuleName', ['Controls/Constants'], function(constants) {
     *       ...
     *       beforeBeginEditHandler: function(e, options) {
-    *          if (options.item.getId() === 1) {
+    *          if (options.item.getKey() === 1) {
     *             return constants.editing.CANCEL;
     *          }
     *       }
@@ -191,7 +191,7 @@ define('Controls/interface/IEditableList', [
     * JS:
     * <pre>
     *    beforeBeginEditHandler: function(e, options) {
-    *       return this.source.read(options.item.getId()).addCallback(function(result) {
+    *       return this.source.read(options.item.getKey()).addCallback(function(result) {
     *          return {
     *             item: result
     *          };
@@ -243,7 +243,7 @@ define('Controls/interface/IEditableList', [
     *    define('ModuleName', ['Controls/Constants'], function(constants) {
     *       ...
     *       beforeBeginEditHandler: function(e, options) {
-    *          if (options.item.getId() === 1) {
+    *          if (options.item.getKey() === 1) {
     *             return constants.editing.CANCEL;
     *          }
     *       }
@@ -257,7 +257,7 @@ define('Controls/interface/IEditableList', [
     * JS:
     * <pre>
     *    beforeBeginEditHandler: function(e, options) {
-    *       return this.source.read(options.item.getId()).addCallback(function(result) {
+    *       return this.source.read(options.item.getKey()).addCallback(function(result) {
     *          return {
     *             item: result
     *          };

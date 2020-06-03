@@ -9,7 +9,7 @@
        {{!!itemData.isEditing ? ' controls-ListView__item_editing_theme-' + _options.theme}}
        {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}
        js-controls-SwipeControl__actionsContainer"
-       attr:key="{{itemData.item.getId()}}"
+       attr:key="{{itemData.instanceId}}"
        template="{{content}}"
        theme="{{_options.theme}}"/>
 </ws:template>

@@ -287,7 +287,7 @@ var ItemsViewModel = BaseViewModel.extend({
                 rightSpacing: this._options.rightSpacing || this._options.rightPadding,
                 _preferVersionAPI: true,
                 getVersion: function() {
-                    return self._calcItemVersion(itemData.item, itemData.key);
+                    return self._calcItemVersion(itemData.item, itemData.key, itemData.dispItem);
                 }
             };
 
@@ -298,6 +298,8 @@ var ItemsViewModel = BaseViewModel.extend({
         } else {
             itemData.key = ItemsUtil.getPropertyValue(dispItem.getContents(), this._options.keyProperty);
         }
+
+        itemData.instanceId = dispItem.getInstanceId();
 
         if (this._options.groupingKeyCallback || this._options.groupProperty) {
             if (this._isGroup(itemData.item)) {
@@ -471,35 +473,24 @@ var ItemsViewModel = BaseViewModel.extend({
         }
         return shouldUpdate;
     },
-
-    _convertItemKeyToCacheKey: function(itemKey) {
-        // Model can have an item with the key 1 and a group with the key "1".
-        // We need to differentiate between them in cache, so we add an _str postfix
-        // to the string ids (for cache only)
-        if (typeof itemKey === 'string') {
-            return itemKey + '_str';
-        }
-        return itemKey;
-    },
     _getDisplayItemCacheKey: function(dispItem) {
-        const key = ItemsUtil.getDisplayItemKey(dispItem, this._options.keyProperty);
-        return this._convertItemKeyToCacheKey(key);
+        return dispItem.getInstanceId();
     },
-    isCachedItemData: function(itemKey) {
+    isCachedItemData: function(instanceId) {
         return (
-            typeof itemKey !== 'undefined' &&
-            typeof this._itemDataCache[itemKey] !== 'undefined'
+            typeof instanceId !== 'undefined' &&
+            typeof this._itemDataCache[instanceId] !== 'undefined'
         );
     },
-    getCachedItemData: function(itemKey) {
-        return this._itemDataCache[itemKey];
+    getCachedItemData: function(instanceId) {
+        return this._itemDataCache[instanceId];
     },
-    setCachedItemData: function(itemKey, cache) {
-        this._itemDataCache[itemKey] = cache;
+    setCachedItemData: function(instanceId, cache) {
+        this._itemDataCache[instanceId] = cache;
     },
-    resetCachedItemData: function(itemKey?) {
-        if (typeof itemKey !== 'undefined') {
-            delete this._itemDataCache[itemKey];
+    resetCachedItemData: function(instanceId?) {
+        if (typeof instanceId !== 'undefined') {
+            delete this._itemDataCache[instanceId];
         } else {
             this._itemDataCache = {};
         }

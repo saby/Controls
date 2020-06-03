@@ -134,7 +134,7 @@ var
             // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
             if (self._isAdd && commit && self._options.listModel.getCount() > 1) {
                 // TODO переделать на marker.Controller, когда этот контрол будет переводиться в контроллер
-                self._options.listModel.setMarkedKey(self._editingItem.getId());
+                self._options.listModel.setMarkedKey(self._editingItem.getKey());
             }
             if (self._options.useNewModel) {
                 self._options.listModel.getCollection().acceptChanges();
@@ -705,7 +705,7 @@ var EditInPlace = Control.extend(/** @lends Controls/_list/EditInPlace.prototype
         }
 
         if (options.useNewModel) {
-            displayLib.EditInPlaceController.beginEdit(listModel, item.getId(), item);
+            displayLib.EditInPlaceController.beginEdit(listModel, item.getKey(), item);
         } else {
             this._editingItemData = listModel.getItemDataByItem(editingItemProjection);
 

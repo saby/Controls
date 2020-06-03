@@ -295,7 +295,7 @@ define('Controls/interface/IMovable', [
     *          this._itemActions = [{
     *             icon: 'icon-ArrowUp',
     *             handler: function(item) {
-    *                self._children.listMover.moveItemUp(item.getId());
+    *                self._children.listMover.moveItemUp(item.getKey());
     *             }
     *          }]
     *       }
@@ -326,7 +326,7 @@ define('Controls/interface/IMovable', [
     *          this._itemActions = [{
     *             icon: 'icon-ArrowUp',
     *             handler: function(item) {
-    *                self._children.listMover.moveItemUp(item.getId());
+    *                self._children.listMover.moveItemUp(item.getKey());
     *             }
     *          }]
     *       }
@@ -357,7 +357,7 @@ define('Controls/interface/IMovable', [
     *       this._itemActions = [{
     *          icon: 'icon-ArrowDown',
     *          handler: function(item) {
-    *             self._children.listMover.moveItemDown(item.getId());
+    *             self._children.listMover.moveItemDown(item.getKey());
     *          }
     *       }]
     *    }
@@ -388,7 +388,7 @@ define('Controls/interface/IMovable', [
     *          this._itemActions = [{
     *             icon: 'icon-ArrowDown',
     *             handler: function(item) {
-    *                self._children.listMover.moveItemDown(item.getId());
+    *                self._children.listMover.moveItemDown(item.getKey());
     *             }
     *          }]
     *       }

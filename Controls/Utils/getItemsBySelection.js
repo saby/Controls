@@ -41,7 +41,7 @@ define('Controls/Utils/getItemsBySelection', [
       selection.selected.forEach(function(key) {
          item = items.getRecordById(key);
          if (item) {
-            selectedItems.push(item.getId());
+            selectedItems.push(item.getKey());
          }
       });
 
@@ -58,7 +58,7 @@ define('Controls/Utils/getItemsBySelection', [
          }
          result = dataSource.query(query.where(filterClone)).addCallback(function(list) {
             return chain.factory(list.getAll()).toArray().map(function(curItem) {
-               return curItem.getId();
+               return curItem.getKey();
             });
          }).addErrback(function() {
             return [];

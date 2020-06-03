@@ -488,7 +488,7 @@ const _private = {
             let toggledItemId = model.getMarkedKey();
 
             if (!model.getItemById(toggledItemId) && model.getCount()) {
-                toggledItemId = model.at(0).getContents().getId();
+                toggledItemId = model.at(0).getContents().getKey();
             }
 
             if (toggledItemId) {
@@ -1251,7 +1251,7 @@ const _private = {
                 }
             }
             if (action === IObservable.ACTION_REMOVE && self._itemActionsMenuId) {
-                if (removedItems.find((item) => item.getContents().getId() === self._itemWithShownMenu.getId())) {
+                if (removedItems.find((item) => item.getContents().getKey() === self._itemWithShownMenu.getKey())) {
                     _private.closePopup(self);
                     self._onItemActionsMenuClose();
                 }
@@ -2388,8 +2388,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             // New item has a version of 0. If the replaced item has the same
             // version, it will not be redrawn. Notify the model that the
             // item was reloaded to force its redraw.
-            if (item && item.getId) {
-                this._listViewModel.markItemReloaded(item.getId());
+            if (item && item.getKey) {
+                this._listViewModel.markItemReloaded(item.getKey());
                 this._itemReloaded = true;
             }
         };
@@ -2736,8 +2736,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             editArrowVisibilityCallback: options.editArrowVisibilityCallback
         });
         if (itemActionsChangeResult.length > 0 && this._listViewModel.resetCachedItemData) {
-            itemActionsChangeResult.forEach((recordKey: number | string) => {
-                this._listViewModel.resetCachedItemData(recordKey);
+            itemActionsChangeResult.forEach((instanceId) => {
+                this._listViewModel.resetCachedItemData(instanceId);
             });
             this._listViewModel.nextModelVersion(!isActionsAssigned, 'itemActionsUpdated');
         }

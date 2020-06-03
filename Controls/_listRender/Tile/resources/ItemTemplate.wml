@@ -10,7 +10,7 @@
             template="{{ multiSelectTpl }}"
             checkboxReadOnly="{{ checkboxReadOnly }}"
             attr:class="{{ item.getMultiSelectClasses(theme) }}">
-            <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getId() }}" />
+            <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getKey() }}" />
          </ws:partial>
       </ws:if>
       <ws:if data="{{ contentTemplate }}">

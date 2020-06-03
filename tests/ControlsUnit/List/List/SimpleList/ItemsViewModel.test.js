@@ -153,6 +153,9 @@ define([
              },
              iv = new list.ItemsViewModel(cfg),
              dispItem = {
+                getInstanceId: function() {
+                   return '123';
+                },
                 getContents: function () {
                    return {
                       getId: function () {
@@ -168,6 +171,9 @@ define([
 
          // Breadcrumbs item
          dispItem = {
+            getInstanceId: function() {
+               return 'breadcrumbs_item';
+            },
             getContents: function () {
                return [
                   {
@@ -463,7 +469,7 @@ define([
             keyProperty: 'id'
          };
          let model = new list.ItemsViewModel(cfg);
-         let itemData = model.getItemDataByItem({ getContents: () => [] });
+         let itemData = model.getItemDataByItem({ getInstanceId: () => 0, getContents: () => [] });
 
          assert.isFalse(!!itemData.isGroup);
       });
@@ -476,6 +482,9 @@ define([
             },
             model = new list.ItemsViewModel(cfg),
             dispItem = {
+               getInstanceId: function() {
+                  return 1;
+               },
                getContents: function () {
                   return {
                      getId: function() {
@@ -505,6 +514,9 @@ define([
             },
             model = new list.ItemsViewModel(cfg),
             dispItem = {
+               getInstanceId: function() {
+                  return 1;
+               },
                getContents: function () {
                   return {
                      getId: function() {
@@ -530,6 +542,9 @@ define([
          };
          const model = new list.ItemsViewModel(cfg);
          const dispItem = {
+            getInstanceId: function() {
+               return 1;
+            },
             getContents: function () {
                return {
                   getId: function() {
@@ -556,34 +571,14 @@ define([
          };
          const model = new list.ItemsViewModel(cfg);
          const dispItem = {
-            getContents: () => {
-               return {
-                  '[Types/_entity/IObject]': true,
-                  getId: () => {
-                     return 123;
-                  },
-                  get: (propName) => {
-                     if (propName === 'id') {
-                        return 456;
-                     }
-                  },
-                  has: (propName) => {
-                     return propName === 'id'
-                  }
-               };
+            getInstanceId: () => {
+               return '123';
             }
          };
 
          assert.strictEqual(
             model._getDisplayItemCacheKey(dispItem),
-            model._convertItemKeyToCacheKey(456)
-         );
-
-         // emulate group
-         const groupDisplay = { getContents: () => 'hiddenGroup' };
-         assert.strictEqual(
-            model._getDisplayItemCacheKey(groupDisplay),
-            model._convertItemKeyToCacheKey('hiddenGroup')
+            dispItem.getInstanceId()
          );
       });
 

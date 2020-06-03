@@ -670,6 +670,14 @@ export interface IList {
  */
 
 /**
+ * @name Controls/_list/interface/IList#uniqueKeys
+ * @cfg {Boolean} Уникальность идентификаторов записей.
+ * При значении false вместо идентификаторов будут использоваться автогенерируемые UID, что позволит отображать записи
+ * с одинаковыми идентификаторами.
+ * @default true
+ */
+
+/**
  * @typedef {String} MarkerVisibility
  * @variant visible Маркер отображается всегда, даже если ключевая запись не указана.
  * @variant hidden Маркер всегда скрыт.

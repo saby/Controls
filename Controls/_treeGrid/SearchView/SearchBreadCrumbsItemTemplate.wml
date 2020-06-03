@@ -3,7 +3,7 @@
             colspan="{{true}}"
             expanderIcon="none"
             marker="{{false}}"
-            attr:key="{{ itemData.key }}__breadcrumbs">
+            attr:key="{{ itemData.instanceId }}__breadcrumbs">
     <ws:colspanTemplate>
         <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
             <ws:partial template="{{ content.resolvedTemplate }}"

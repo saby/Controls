@@ -482,7 +482,7 @@ var
          }
       },
       _hoveredCrumbChanged: function(event, item) {
-         this._hoveredBreadCrumb = item ? item.getId() : undefined;
+         this._hoveredBreadCrumb = item ? item.getKey() : undefined;
 
          // If you change hovered bread crumb, must be called installed in the breadcrumbs highlighter,
          // but is not called, because the template has no reactive properties.
@@ -494,8 +494,8 @@ var
 
          const changeRoot = () => {
              // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся
-            _private.setRestoredKeyObject(this, item.getId());
-            _private.setRoot(this, item.getId());
+            _private.setRestoredKeyObject(this, item.getKey());
+            _private.setRoot(this, item.getKey());
             this._isGoingFront = true;
          };
 
@@ -518,8 +518,8 @@ var
          return res;
       },
       _onBreadCrumbsClick: function(event, item) {
-          _private.cleanRestoredKeyObject(this, item.getId());
-          _private.setRoot(this, item.getId());
+          _private.cleanRestoredKeyObject(this, item.getKey());
+          _private.setRoot(this, item.getKey());
           this._isGoingBack = true;
       },
       _onExternalKeyDown(event): void {

@@ -725,7 +725,7 @@ define([
                   get: function() {
                      return true;
                   },
-                  getId: function() {
+                  getKey: function() {
                      return 'itemId';
                   }
                }, {
@@ -834,7 +834,7 @@ define([
             };
 
             explorer._onBreadCrumbsClick({}, {
-               getId: function() {
+               getKey: function() {
                   return null;
                }
             });
@@ -855,7 +855,7 @@ define([
             explorer._root = 'itemId1';
 
             explorer._onBreadCrumbsClick({}, {
-               getId: function() {
+               getKey: function() {
                   return 'itemId';
                }
             });

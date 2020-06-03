@@ -67,7 +67,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             this._unselectLeaf(cloneSelection, key);
          }
          if (key !== this._rootId && item && this._selectAncestors) {
-            const parentId = this._getParentId(item.getId());
+            const parentId = this._getParentId(item.getKey());
             this._unselectParentNodes(cloneSelection, parentId);
          }
       });
@@ -139,7 +139,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const selectedKeysWithEntryPath = this._mergeEntryPath(selection.selected);
 
       this._items.forEach((item) => {
-         const itemId: TKey = item.getId();
+         const itemId: TKey = item.getKey();
          const parentId = this._getParentId(itemId);
          let isSelected = !selection.excluded.includes(itemId) && (selection.selected.includes(itemId) ||
             this._isAllSelected(selection, parentId));
@@ -208,7 +208,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       while (currentParentId !== this._rootId && allChildrenExcluded) {
          const item = this._items.getRecordById(currentParentId);
          this._unselectNode(selection, currentParentId);
-         currentParentId = this._getParentId(item.getId());
+         currentParentId = this._getParentId(item.getKey());
          allChildrenExcluded = this._isAllChildrenExcluded(selection, currentParentId);
       }
    }
@@ -344,7 +344,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       for (let index = 0; index < children.length; index++) {
          const child: Record = children[index];
-         const childId: TKey = child.getId();
+         const childId: TKey = child.getKey();
          const childInList = listKeys.includes(childId);
 
          if (this._hierarchyRelation.isNode(child)) {
@@ -374,7 +374,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    private _isAllChildrenExcluded(selection: ISelection, nodeId: TKey): boolean {
       const children = this._getChildren(nodeId, this._items, this._hierarchyRelation);
-      return !children.some((item): boolean => !selection.excluded.includes(item.getId()));
+      return !children.some((item): boolean => !selection.excluded.includes(item.getKey()));
    }
 
    private _removeChildrenIdsFromSelection(selection: ISelection, nodeId: TKey): void {
@@ -388,7 +388,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          ArraySimpleValuesUtil.addSubArray(children, [child]);
 
          if (hierarchyRelation.isNode(child)) {
-            ArraySimpleValuesUtil.addSubArray(children, this._getAllChildren(child.getId(), items, hierarchyRelation));
+            ArraySimpleValuesUtil.addSubArray(children, this._getAllChildren(child.getKey(), items, hierarchyRelation));
          }
       });
 
@@ -411,7 +411,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    private _getChildrenIds(nodeId: TKey, items: RecordSet, hierarchyRelation: relation.Hierarchy): TKeys {
       const entriesPath = items.getMetaData()[FIELD_ENTRY_PATH];
       let childrenIds = this._getAllChildren(nodeId, items, hierarchyRelation).map((child) => {
-         return child.getId();
+         return child.getKey();
       });
 
       if (entriesPath) {
@@ -447,7 +447,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
          children.forEach((childItem) => {
             if (selectedChildrenCount !== null) {
-               childId = childItem.getId();
+               childId = childItem.getKey();
 
                if (!selection.excluded.includes(childId)) {
                   if (!selection.selected.includes(childId)) {

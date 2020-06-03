@@ -99,7 +99,7 @@ function getIndexById(cfg: TreeGridRowIndexOptions<ItemId>): number {
  */
 function getIndexByItem(cfg: TreeGridRowIndexOptions<DisplayItem>): number {
 
-    let id = cfg.item.getContents().getId(),
+    let id = cfg.item.getContents().getKey(),
         index = cfg.display.getIndex(cfg.item);
 
     return getItemRealIndex({id, index, ...cfg});
@@ -116,7 +116,7 @@ function getIndexByItem(cfg: TreeGridRowIndexOptions<DisplayItem>): number {
 function getIndexByDisplayIndex(cfg: TreeGridRowIndexOptions<DisplayItemIndex>): number {
 
     let item = cfg.display.at(cfg.index).getContents(),
-        id = item.getId ? item.getId() : item;
+        id = item.getKey ? item.getKey() : item;
 
     return getItemRealIndex({item, id, ...cfg});
 }
@@ -330,7 +330,7 @@ function getChildrenOnDisplayCount(id, display, hierarchyRelation, expandedItems
         count = children.length;
 
         children.forEach((item) => {
-            count += getChildrenOnDisplayCount(item.getId(), display, hierarchyRelation, expandedItems);
+            count += getChildrenOnDisplayCount(item.getKey(), display, hierarchyRelation, expandedItems);
         });
     }
 

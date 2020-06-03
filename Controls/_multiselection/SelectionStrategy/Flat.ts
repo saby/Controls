@@ -102,7 +102,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       const isAllSelected: boolean = this._isAllSelected(selection);
 
       this._items.forEach((item) => {
-         const itemId: TKey = item.getId();
+         const itemId: TKey = item.getKey();
          const selected = selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId);
 
          selectedItems.get(selected).push(item);

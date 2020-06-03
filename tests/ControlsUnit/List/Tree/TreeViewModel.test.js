@@ -24,6 +24,9 @@ define([
             getId: function() {
                return self._id;
             },
+            getKey: function() {
+               return self._id;
+            },
             get: function() {
                return self._isNode;
             }
@@ -121,14 +124,22 @@ define([
          it('removeNodeFromExpanded', function() {
             var removed = false;
             var self = {
-               _expandedItems: ['test']
+               _expandedItems: ['test'],
+               _options: {}
             };
             self._notify = function(event) {
                if (event === 'onNodeRemoved') {
                   removed = true;
                }
             };
-            treeGrid.TreeViewModel._private.removeNodeFromExpanded(self, 'test');
+            var mockedDispItem = {
+               getContents: () => {
+                  return {
+                     getKey: () => 'test'
+                  };
+               }
+            };
+            treeGrid.TreeViewModel._private.removeNodeFromExpanded(self, mockedDispItem);
 
             assert.equal(Object.keys(self._expandedItems).length, 0);
             assert.isTrue(removed);
@@ -595,7 +606,7 @@ define([
                treeViewModel = new treeGrid.TreeViewModel(cMerge({
                   nodeFooterTemplate: 'footer',
                   nodeFooterVisibilityCallback: function(item) {
-                     return item.getId() !== '345';
+                     return item.getKey() !== '345';
                   }
                }, cfg));
             treeViewModel.setExpandedItems([null]);

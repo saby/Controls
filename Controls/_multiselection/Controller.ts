@@ -162,7 +162,7 @@ export class Controller {
    }
 
    private _getItemsKeys(items: Array<CollectionItem<Record>>): TKeys {
-      return items.map((item) => item.getContents ? item.getContents().getId() : item.getId());
+      return items.map((item) => item.getContents ? item.getContents().getKey() : item.getKey());
    }
 
    private _isSelectionChanged(selectedKeys: TKeys, excludedKeys: TKeys): boolean {

@@ -69,7 +69,7 @@ var _private = {
         const markedItem = _private.getItemByMarkedKey(self, self._markedKey);
         if (markedItem) {
             const item = markedItem.getContents ? markedItem.getContents() : markedItem;
-            return item.getId ? item.getId() === current.key : false;
+            return item.getKey ? item.getKey() === current.key : false;
         }
         return false;
     },
@@ -385,7 +385,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         while (nextItemId < itemsCount) {
             nextItem = this._display.at(nextItemId).getContents();
             if (cInstance.instanceOfModule(nextItem, 'Types/entity:Model')) {
-                return this._display.at(nextItemId).getContents().getId();
+                return this._display.at(nextItemId).getContents().getKey();
             }
             nextItemId++;
         }
@@ -398,7 +398,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         while (prevItemId >= 0) {
             prevItem = this._display.at(prevItemId).getContents();
             if (cInstance.instanceOfModule(prevItem, 'Types/entity:Model')) {
-                return this._display.at(prevItemId).getContents().getId();
+                return this._display.at(prevItemId).getContents().getKey();
             }
             prevItemId--;
         }
@@ -538,11 +538,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     setHoveredItem: function(item){
         const changedItems = [];
-        if (this._hoveredItem && typeof this._hoveredItem.getId === 'function') {
-            changedItems.push(this.getItemById(this._hoveredItem.getId()));
+        if (this._hoveredItem && typeof this._hoveredItem.getKey === 'function') {
+            changedItems.push(this.getItemById(this._hoveredItem.getKey()));
         }
-        if (item && typeof item.getId === 'function') {
-            changedItems.push(this.getItemById(item.getId()));
+        if (item && typeof item.getKey === 'function') {
+            changedItems.push(this.getItemById(item.getKey()));
         }
 
         this._hoveredItem = item;
@@ -578,14 +578,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         _private.updateIndexes(this, 0, this.getCount());
     },
     isValidItemForMarkedKey: function (item) {
-        return !this._isGroup(item) && item.getId;
+        return !this._isGroup(item) && item.getKey;
     },
     getPreviousItem: function (itemIndex) {
         var prevIndex = itemIndex - 1, prevItem;
         while (prevIndex >= 0) {
             prevItem = this._display.at(prevIndex).getContents();
             if (this.isValidItemForMarkedKey(prevItem)) {
-                return prevItem.getId();
+                return prevItem.getKey();
             }
             prevIndex--;
         }
@@ -595,7 +595,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         while (nextIndex < itemsCount) {
             nextItem = this._display.at(nextIndex).getContents();
             if (this.isValidItemForMarkedKey(nextItem)) {
-                return nextItem.getId();
+                return nextItem.getKey();
             }
             nextIndex++;
         }
@@ -756,9 +756,9 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         // чтобы не сломалось показывание только при наведении
         items.forEach((item) => {
             if (selected === false) {
-                this._selectedKeys[item.getId()] = undefined;
+                this._selectedKeys[item.getKey()] = undefined;
             } else {
-                this._selectedKeys[item.getId()] = selected;
+                this._selectedKeys[item.getKey()] = selected;
             }
         });
 

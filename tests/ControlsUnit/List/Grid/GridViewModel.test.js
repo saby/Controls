@@ -165,6 +165,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
       describe('"_private" block', function() {
          const dummyDispitem = {
             getContents: () => [],
+            getInstanceId: () => 1,
             isEditing: () => false,
             setEditing: (v) => {}
          };
@@ -1282,7 +1283,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.equal(3, Object.keys(ladderViewModel._ladder.stickyLadder).length);
             assert.equal(3, Object.keys(ladderViewModel._ladder.ladder).length);
             assert.isFalse(fullCacheReset, 'Не должен сбрасываться весь кэш');
-            assert.equal(1, resetCacheKey, 'Неверный id записи со сброшенным кэшем');
+            assert.equal(resetCacheKey, ladderViewModel.getDisplay().at(1).getInstanceId(), 'Неверный id записи со сброшенным кэшем');
          });
       });
       describe('other methods of the class', function() {

@@ -31,7 +31,7 @@
 
 <ws:template name="itemsListTemplate">
    <ws:if data="{{listModel.isShouldBeDrawnItem(currentItem)}}">
-      <ws:partial template="itemOutputLocalTemplate" attr:key="{{currentItem.key}}"/>
+      <ws:partial template="itemOutputLocalTemplate" attr:key="{{currentItem.instanceId}}"/>
    </ws:if>
    <ws:else>
       {{listModel.goToNext()}}
@@ -64,10 +64,10 @@
          <ws:partial template="addItem" currentItem="{{currentItem}}"/>
       </ws:if>
       <ws:partial template="groupOutputLocalTemplate" currentGroup="{{currentItem}}"
-                  attr:key="{{currentItem.key}}"/>
+                  attr:key="{{currentItem.instanceId}}"/>
    </ws:if>
    <ws:else>
-      <ws:partial template="itemOutputLocalTemplate" attr:key="{{currentItem.key}}"/>
+      <ws:partial template="itemOutputLocalTemplate" attr:key="{{currentItem.instanceId}}"/>
    </ws:else>
    <ws:if data="{{currentItem.afterItemTemplate}}">
       <ws:partial template="{{currentItem.afterItemTemplate}}"

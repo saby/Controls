@@ -24,7 +24,7 @@ var _private = {
             const nodes = display.getItems().filter((item) => {
                 return item.getContents().get && item.getContents().get(nodeProperty) !== null
             });
-            return nodes.map(node => node.getContents().getId());
+            return nodes.map(node => node.getContents().getKey());
         } else {
             return <Array<T>>expandedItems;
         }

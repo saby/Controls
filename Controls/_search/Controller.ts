@@ -118,7 +118,7 @@ var _private = {
       do {
          item = items.getRecordById(nextItemKey);
          nextItemKey = item.get(parentProperty);
-         expandedItems.unshift(item.getId());
+         expandedItems.unshift(item.getKey());
       } while (nextItemKey !== searchRoot);
       return expandedItems;
    },

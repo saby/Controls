@@ -424,7 +424,7 @@ var
                     if (!isEqual(newLadder.stickyLadder[i], self._ladder.stickyLadder[i]) ||
                         !isEqual(newLadder.ladder[i], self._ladder.ladder[i])) {
 
-                        const dispItem = self.getItemById(self.getItems()?.at(i)?.getId());
+                        const dispItem = self.getItemById(self.getItems()?.at(i)?.getKey());
                         if (dispItem) {
                             self.resetCachedItemData(self._getDisplayItemCacheKey(dispItem));
                         }
@@ -1333,17 +1333,17 @@ var
             };
         },
 
-        isCachedItemData: function(itemKey) {
-            return this._model.isCachedItemData(itemKey);
+        isCachedItemData: function(instanceId) {
+            return this._model.isCachedItemData(instanceId);
         },
-        getCachedItemData: function(itemKey) {
-            return this._model.getCachedItemData(itemKey);
+        getCachedItemData: function(instanceId) {
+            return this._model.getCachedItemData(instanceId);
         },
-        setCachedItemData: function(itemKey, cache) {
+        setCachedItemData: function(instanceId, cache) {
             this._model.setCachedItemData(itemKey, cache);
         },
-        resetCachedItemData: function(itemKey?) {
-            this._model.resetCachedItemData(itemKey);
+        resetCachedItemData: function(instanceId?) {
+            this._model.resetCachedItemData(instanceId);
         },
         _getDisplayItemCacheKey(dispItem) {
             return this._model._getDisplayItemCacheKey(dispItem);
@@ -1397,7 +1397,7 @@ var
                 current.columns = this._columns;
             }
 
-            current.isHovered = !!self._model.getHoveredItem() && self._model.getHoveredItem().getId() === current.key;
+            current.isHovered = !!self._model.getHoveredItem() && self._model.getHoveredItem().getKey() === current.key;
 
             // current.index === -1 если записи ещё нет в проекции/рекордсете. такое возможно при добавлении по месту
             // лесенка не хранится для элементов вне текущего диапазона startIndex - stopIndex
@@ -1432,7 +1432,7 @@ var
             current.columnIndex = 0;
 
             current.getVersion = function() {
-                return self._calcItemVersion(current.item, current.key, current.index);
+                return self._calcItemVersion(current.item, current.key, current.dispItem, current.index);
             };
 
             current.resetColumnIndex = () => {
@@ -1653,8 +1653,8 @@ var
             this._model.setItemActionVisibilityCallback(callback);
         },
 
-        _calcItemVersion(item, key, index): string {
-            let version: string = this._model._calcItemVersion(item, key) + (item.getId ? item.getId() : '');
+        _calcItemVersion(item, key, dispItem, index): string {
+            let version: string = this._model._calcItemVersion(item, key, dispItem) + (item.getKey ? item.getKey() : '');
 
             if (this._lastItemKey === key) {
                 version = 'LAST_ITEM_' + version;

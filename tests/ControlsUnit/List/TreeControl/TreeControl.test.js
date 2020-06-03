@@ -203,7 +203,7 @@ define([
             treeGrid.TreeControl._private.toggleExpanded(treeControl, {
                getContents: function() {
                   return {
-                     getId: function() {
+                     getKey: function() {
                         return 1;
                      }
                   };
@@ -217,7 +217,7 @@ define([
             treeGrid.TreeControl._private.toggleExpanded(treeControl, {
                getContents: function() {
                   return {
-                     getId: function() {
+                     getKey: function() {
                         return 2;
                      }
                   };
@@ -489,7 +489,7 @@ define([
          treeGrid.TreeControl._private.toggleExpanded(treeControl, {
             getContents: function() {
                return {
-                  getId: function() {
+                  getKey: function() {
                      return 1;
                   }
                };
@@ -628,7 +628,7 @@ define([
             fakeDispItem = {
                getContents: function() {
                   return {
-                     getId: function() {
+                     getKey: function() {
                         return 1;
                      }
                   };
@@ -1352,7 +1352,7 @@ define([
              dispItem = {
                 getContents: function () {
                    return {
-                      getId: function () {
+                      getKey: function () {
                          return 1;
                       }
                    };

@@ -40,7 +40,7 @@ const _private = {
         const changedValues: object = _private.getChangedValues(syncRecord, editRecord);
         _private.setRecordValues(syncRecord, changedValues);
 
-        const key: string = additionalData.key || editRecord.getId();
+        const key: string = additionalData.key || editRecord.getKey();
         syncRecord.set(items.getKeyProperty(), key);
         return syncRecord;
     },
@@ -184,7 +184,7 @@ const RecordSynchronizer = {
         if (editRecord instanceof Array) {
             items.setEventRaising(false, true);
             for (let i = 0; i < editRecord.length; i++) {
-                _private.mergeRecord(editRecord[i], items, editRecord[i].getId());
+                _private.mergeRecord(editRecord[i], items, editRecord[i].getKey());
             }
             items.setEventRaising(true, true);
         } else {

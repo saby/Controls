@@ -3,7 +3,7 @@
 
         <ws:template name="templatePart">
             <ws:partial
-                    attr:class="{{applyHighlighter(highlighter, itemData.item.getId(), itemData.hasArrow)}} controls-BreadCrumbsView__max-width{{edge ? '__edge'}}"
+                    attr:class="{{applyHighlighter(highlighter, itemData.key, itemData.hasArrow)}} controls-BreadCrumbsView__max-width{{edge ? '__edge'}}"
                     template="{{itemTemplate}}"
                     itemData="{{itemData}}"
                     displayProperty="{{ displayProperty }}"

@@ -2467,7 +2467,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const contents = item.getContents();
         let uid;
         if (contents['[Types/_entity/Model]']) {
-            uid = (contents as any).getId();
+            uid = (contents as any).getKey();
         } else if (this._$keyProperty) {
             uid = object.getPropertyValue(contents, this._$keyProperty);
         } else {

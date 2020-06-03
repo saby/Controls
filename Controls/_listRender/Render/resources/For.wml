@@ -2,5 +2,5 @@
    <ws:partial
       template="wml!Controls/_listRender/Render/resources/ForItemTemplate"
       scope="{{ _options }}"
-      attr:key="{{ keyPrefix }}-{{ item.getUid() }}" />
+      attr:key="{{ keyPrefix }}-{{ item.getInstanceId() }}" />
 </ws:for>

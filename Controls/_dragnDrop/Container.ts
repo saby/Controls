@@ -473,7 +473,7 @@ import entity = require('Types/entity');
        *       _items: [...],
        *       _dragItemKey: null,
        *       _onDragStart: function(event, dragObject) {
-       *          this._dragItemKey = dragObject.entity._options.item.getId();
+       *          this._dragItemKey = dragObject.entity._options.item.getKey();
        *       },
        *       _startDragNDrop: function(event, item) {
        *          this._children.dragNDropController.startDragNDrop(new Entity({
@@ -518,7 +518,7 @@ import entity = require('Types/entity');
        *       _items: [...],
        *       _dragItemKey: null,
        *       _onDragStart: function(event, dragObject) {
-       *          this._dragItemKey = dragObject.entity._options.item.getId();
+       *          this._dragItemKey = dragObject.entity._options.item.getKey();
        *       },
        *       _startDragNDrop: function(event, item) {
        *          this._children.dragNDropController.startDragNDrop(new Entity({

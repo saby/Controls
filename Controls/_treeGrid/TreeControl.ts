@@ -116,7 +116,7 @@ var _private = {
         const filter = cClone(self._options.filter);
         const listViewModel = self._children.baseControl.getViewModel();
         const item = dispItem.getContents();
-        const nodeKey = item.getId();
+        const nodeKey = item.getKey();
         const baseSourceController = self._children.baseControl.getSourceController();
         const expanded = !listViewModel.isExpanded(dispItem);
         const options = self._options;
@@ -209,7 +209,7 @@ var _private = {
         const filter = cClone(self._options.filter);
         const listViewModel = self._children.baseControl.getViewModel();
         const baseSourceController = self._children.baseControl.getSourceController();
-        const nodeKey = dispItem.getContents().getId();
+        const nodeKey = dispItem.getContents().getKey();
         const nodeSourceControllers = _private.getNodesSourceControllers(self);
 
         filter[self._options.parentProperty] = nodeKey;
@@ -343,7 +343,7 @@ var _private = {
             if (loadedList) {
                 loadedList.each((item) => {
                     if (item.get(options.nodeProperty) !== null) {
-                        const itemKey = item.getId();
+                        const itemKey = item.getKey();
                         if (!self._nodesSourceControllers[itemKey] && viewModel.getChildren(itemKey, loadedList).length) {
                             _private.createSourceControllerForNode(self, itemKey, options.source, options.navigation);
                         }

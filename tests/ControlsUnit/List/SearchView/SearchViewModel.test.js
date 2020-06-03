@@ -152,7 +152,7 @@ define(['Controls/_treeGrid/SearchView/SearchViewModel', 'Types/collection', 'Co
          });
 
          // emulate breadcrumbs
-         const crumbsDisplay = { getContents: () => [{}, {}, { id: 456 }] };
+         const crumbsDisplay = { getInstanceId: () => '456_breadcrumbs', getContents: () => [{}, {}, { id: 456 }] };
          assert.strictEqual(
             model._getDisplayItemCacheKey(crumbsDisplay),
             '456_breadcrumbs'

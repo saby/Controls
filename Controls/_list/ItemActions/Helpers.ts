@@ -39,7 +39,7 @@ function getSiblingItem(direction, item, items, parentProperty, nodeProperty, ro
     //Для плоского списка можно получить следующий(предыдущий) элемент просто по индексу в рекордсете.
     if (parentProperty) {
         display = getDisplay(items, parentProperty, nodeProperty, root);
-        itemFromProjection = display.getItemBySourceItem(items.getRecordById(item.getId()));
+        itemFromProjection = display.getItemBySourceItem(items.getRecordById(item.getKey()));
         siblingItem = display[direction === MOVE_DIRECTION.UP ? 'getPrevious' : 'getNext'](itemFromProjection);
         result = siblingItem ? siblingItem.getContents() : null;
     } else {
