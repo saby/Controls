@@ -87,9 +87,9 @@ define(
             var options;
 
             beforeEach(function() {
-               ctrl._options.text = 'text1';
-               ctrl._options.searchMode = 'word';
-               ctrl._options.highlight = 'highlight1';
+               ctrl._options.value = 'text1';
+               ctrl._options.highlightMode = 'word';
+               ctrl._options.highlightedValue = 'highlight1';
                ctrl = ProxyCall.set(ctrl, ['_parsedText'], calls, true);
             });
 

@@ -1,1 +1,1 @@
-<Controls.decorator:Number number="{{ column.result }}" attr:style="color: #313E78; font-size: 14px; font-weight: 800" useGrouping="{{true}}"/>
+<Controls.decorator:Number value="{{ column.result }}" attr:style="color: #313E78; font-size: 14px; font-weight: 800" useGrouping="{{true}}"/>

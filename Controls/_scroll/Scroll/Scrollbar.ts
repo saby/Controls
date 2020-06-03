@@ -82,8 +82,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
     protected _beforeMount(options: IScrollBarOptions): void {
         //TODO Compatibility на старых страницах нет Register, который скажет controlResize
         this._resizeHandler = this._resizeHandler.bind(this);
-        this._thumbStyle = this._getThumbStyle(options);
-        this._thumbThickness = this._getThumbThickness(options);
+        this._thumbStyle = options.thumbStyle;
+        this._thumbThickness = options.thumbThickness;
     }
 
     protected _afterMount(): void {
@@ -101,8 +101,8 @@ class Scrollbar extends Control<IScrollBarOptions> {
     }
 
     protected _beforeUpdate(options: IScrollBarOptions): void {
-        this._thumbStyle = this._getThumbStyle(options);
-        this._thumbThickness = this._getThumbThickness(options);
+        this._thumbStyle = options.thumbStyle;
+        this._thumbThickness = options.thumbThickness;
     }
 
     protected _afterUpdate(oldOptions: IScrollBarOptions): void {
@@ -124,20 +124,6 @@ class Scrollbar extends Control<IScrollBarOptions> {
         if (!newEnv() && window) {
             window.removeEventListener('resize', this._resizeHandler);
         }
-    }
-
-    private _getThumbStyle(options: IScrollBarOptions): string {
-        if (options.thumbStyle) {
-            return options.thumbStyle;
-        }
-        return (options.direction === 'vertical' ? 'accented' : 'unaccented');
-    }
-
-    private _getThumbThickness(options: IScrollBarOptions): string {
-        if (options.thumbThickness) {
-            return options.thumbThickness;
-        }
-        return (options.direction === 'vertical' ? 'l' : 's');
     }
 
     private _getThumbCoordByScroll(scrollbarSize: number, thumbSize: number, scrollPosition: number): number {
