@@ -1267,7 +1267,7 @@ const _private = {
                      result = self._selectionController.handleAddItems(newItems);
                      break;
                }
-                self.handleSelectionControllerResult(result);
+               self.handleSelectionControllerResult(result);
             }
         }
         // VirtualScroll controller can be created and after that virtual scrolling can be turned off,
@@ -1736,11 +1736,13 @@ const _private = {
 
    updateSelectionController(self: any, newOptions: any): void {
       const result = self._selectionController.update({
-         model: self._listViewModel,
-         selectedKeys: newOptions.selectedKeys,
-         excludedKeys: newOptions.excludedKeys,
-         strategyOptions: this.getSelectionStrategyOptions(newOptions, self._listViewModel.getCollection())
-      });
+            model: self._listViewModel,
+            selectedKeys: newOptions.selectedKeys,
+            excludedKeys: newOptions.excludedKeys,
+            strategyOptions: this.getSelectionStrategyOptions(newOptions, self._listViewModel.getCollection())
+         },
+         self._options.root !== newOptions.root,
+         self._options.filter !== newOptions.filter);
       this.handleSelectionControllerResult(self, result);
    },
 

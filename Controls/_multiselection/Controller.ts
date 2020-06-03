@@ -48,8 +48,10 @@ export class Controller {
    /**
     * Обновить состояние контроллера
     * @param options
+    * @param rootChanged
+    * @param filterChanged
     */
-   update(options: ISelectionControllerOptions): ISelectionControllerResult {
+   update(options: ISelectionControllerOptions, rootChanged: boolean, filterChanged: boolean): ISelectionControllerResult {
       const modelChanged = options.model !== this._model;
       const itemsChanged = modelChanged ? true : options.model.getCollection() !== this._model.getCollection();
       const selectionChanged = this._isSelectionChanged(options.selectedKeys, options.excludedKeys);
@@ -63,10 +65,17 @@ export class Controller {
       if (selectionChanged) {
          this._selectedKeys = options.selectedKeys.slice();
          this._excludedKeys = options.excludedKeys.slice();
-         this._updateModel(this._selection);
-      } else if (itemsChanged || modelChanged) {
+      }
+
+      const clearSelection = this._isAllSelected(this._selection) && (rootChanged || filterChanged);
+      if (clearSelection) {
+         this._clearSelection();
+      }
+
+      if (selectionChanged || itemsChanged || modelChanged || clearSelection) {
          this._updateModel(this._selection);
       }
+
       return this._getResult(oldSelection, this._selection);
    }
 
@@ -135,7 +144,8 @@ export class Controller {
 
       // если у нас изменился корень и этот корень выбран, то это значит, что мы зашли в него нажали Выбрать все
       // и вышли в родительский узел, по стандартам элементы должны стать невыбранными
-      if (rootChanged && this._selectedKeys.includes(prevRootId) && this._excludedKeys.includes(prevRootId)) {
+      if (rootChanged && this._selectedKeys.includes(prevRootId) && this._excludedKeys.includes(prevRootId)
+            || this._isAllSelected(this._selection) && this._model.getCollection().getCount() === 0) {
          this._clearSelection();
       }
 
@@ -209,6 +219,6 @@ export class Controller {
    }
 
    private _isAllSelected(selection: ISelection): boolean {
-      return selection.selected.includes(ALL_SELECTION_VALUE) && selection.excluded.includes(ALL_SELECTION_VALUE);
+      return selection.selected.includes(ALL_SELECTION_VALUE);
    }
 }
