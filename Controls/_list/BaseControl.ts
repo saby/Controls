@@ -2344,11 +2344,17 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             });
         }
 
-        // UC1: Редактирование записи при загрузке (Может быть изменится после версии 20.5000, т.к. там появились опции, отображаемые всегда)
-        // UC2: Нужно переопределять ItemActions прежде чем они будут нарисованы в шаблоне For
+        /*
+         * Переинициализация опций записи нужна при:
+         * 1. Изменились опции записи
+         * 2. Редактирование записи при загрузке (Может быть изменится после версии 20.5000, т.к. там появились опции, отображаемые всегда)
+         * 3. Изменился коллбек видимости опции
+         * 4. Модель была пересоздана
+         */
         if (
             newOptions.itemActions !== this._options.itemActions ||
             newOptions.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
+            ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated) ||
             (newOptions.editingConfig && newOptions.editingConfig.item)
         ) {
             this._updateItemActions(newOptions);
