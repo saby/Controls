@@ -23,13 +23,13 @@
          <Controls.dateRange:LinkView
                bind:startValue="_startValue"
                bind:endValue="_endValue"
-               viewMode="link" styleMode="secondary"
+               viewMode="link" fontColorStyle="link"
                clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
-               viewMode="link" styleMode="info"
+               viewMode="link" styleMode="unaccented"
          />
          <Controls.dateRange:LinkView
                startValue="{{_startValue}}"
@@ -56,7 +56,7 @@
                bind:startValue="_startValue"
                bind:endValue="_endValue"
                viewMode="link"
-               styleMode="secondary"
+               fontColorStyle="link"
                clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
@@ -64,7 +64,7 @@
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                viewMode="link"
-               styleMode="info"
+               styleMode="unaccented"
          />
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"
@@ -92,7 +92,7 @@
                bind:startValue="_startValue"
                bind:endValue="_endValue"
                viewMode="link"
-               styleMode="secondary"
+               fontColorStyle="link"
                clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
@@ -100,7 +100,7 @@
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                viewMode="link"
-               styleMode="info"
+               styleMode="unaccented"
          />
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"

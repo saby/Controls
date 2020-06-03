@@ -14,7 +14,7 @@
          <Controls.toggle:Switch bind:value="_isTrunc" caption="trunc"/>
       </div>
       <div class="controlsDemo-Number_offsetV">
-         result=<Controls.decorator:Number number="{{_number}}"
+         result=<Controls.decorator:Number value="{{_number}}"
                                            fractionSize="{{_fractionSize < 21 ? _fractionSize}}"
                                            roundMode="{{_isTrunc ? 'trunc' : 'round'}}"/>
       </div>

@@ -2,7 +2,10 @@
    <ws:contentTemplate>
       <ws:if data="{{itemData.item.sum}}">
          <Controls.decorator:Money value="{{itemData.item.sum}}"
-                                   style="noAccentRegistry" />
+                                   fontColorStyle="unaccented"
+                                   fontSize="l"
+                                   fontWeight="bold"
+         />
       </ws:if>
    </ws:contentTemplate>
 </ws:partial>

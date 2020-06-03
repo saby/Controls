@@ -4,6 +4,6 @@
    <Controls.input:Area minLines="{{5}}" bind:value="_value2" on:inputCompleted="_highlightInputCompletedHandler()"/>
 
    <ws:if data="{{_wrapText && _highlightText}}">
-      <Controls.decorator:Highlight text="{{_wrapText}}" highlight="{{_highlightText}}"/>
+      <Controls.decorator:Highlight value="{{_wrapText}}" highlightedValue="{{_highlightText}}"/>
    </ws:if>
 </div>
