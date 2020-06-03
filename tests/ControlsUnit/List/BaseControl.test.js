@@ -4443,7 +4443,131 @@ define([
          instance._beforeUpdate({ ...cfg, groupProperty: undefined });
          assert.isTrue(instance._groupingLoader._destroyed);
 
-      })
+      });
+
+      // Иногда необходимо переинициализировать опции записи в момент обновления контрола
+      describe('Update ItemActions in beforeUpdate hook', function() {
+         let cfg;
+         let instance;
+         let items;
+         let visibilityResult;
+
+         beforeEach(() => {
+            items = new collection.RecordSet({
+               keyProperty: 'id',
+               rawData: data
+            });
+            cfg = {
+               viewName: 'Controls/List/ListView',
+               viewModelConfig: {
+                  items,
+                  keyProperty: 'id'
+               },
+               itemActions: [
+                  {
+                     id: 1,
+                     title: '123'
+                  }
+               ],
+               viewModelConstructor: lists.ListViewModel,
+               itemActionVisibilityCallback: () => {
+                  visibilityResult = 'first';
+                  return true;
+               },
+               keyProperty: 'id',
+               source
+            };
+            instance = new lists.BaseControl(cfg);
+            instance.saveOptions(cfg);
+            instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
+         });
+
+         // Необходимо обновлять опции записи при изиенении visibilityCallback (демка Controls-demo/OperationsPanel/Demo)
+         it('should update ItemActions when visibilityCallback has changed', () => {
+            instance._beforeUpdate({
+               ...cfg,
+               source: instance._options.source,
+               itemActionVisibilityCallback: () => {
+                  visibilityResult = 'second';
+                  return true;
+               }
+            });
+            instance._listViewModel.getEditingItemData = function() {
+               return null;
+            };
+            assert.equal(visibilityResult, 'second');
+         });
+
+         // Необходимо обновлять опции записи при изиенении самих ItemActions
+         it('should update ItemActions when ItemActions have changed', () => {
+            instance._beforeUpdate({
+               ...cfg,
+               source: instance._options.source,
+               itemActions: [
+                  {
+                     id: 2,
+                     title: '456'
+                  }
+               ]
+            });
+            const actionsOf0 = instance._listViewModel.at(0).getActions();
+            assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
+            assert.equal(actionsOf0.all[0].title, '456', 'new actions for item at 0 pos. were not assigned');
+         });
+
+         // Необходимо обновлять опции записи при изиенении модели (Демка Controls-demo/Explorer/ExplorerLayout)
+         it('should update ItemActions when Model constructor has changed', () => {
+            const columns = [
+               {
+                  displayProperty: 'title',
+                  width: '1fr',
+                  valign: 'top',
+                  style: 'default',
+                  textOverflow: 'ellipsis'
+               }
+            ];
+            instance._beforeUpdate({
+               ...cfg,
+               source: instance._options.source,
+               columns,
+               viewModelConstructor: grid.GridViewModel
+            });
+            const actionsOf0 = instance._listViewModel.at(0).getActions();
+            assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
+         });
+
+         // Необходимо обновлять опции записи если в конфиге editingConfig передан item
+         it('should update ItemActions when item was passed within options.editingConfig', () => {
+            instance._beforeUpdate({
+               ...cfg,
+               source: instance._options.source,
+               editingConfig: {
+                  item: { id: 1 }
+               }
+            });
+            const actionsOf0 = instance._listViewModel.at(0).getActions();
+            assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
+            const actionsTemplateConfig = instance._listViewModel.getActionsTemplateConfig();
+            assert.exists(actionsTemplateConfig, 'actionsTemplateConfig for model was not assigned');
+            assert.equal(actionsTemplateConfig.size, 's', 'incorrect size for item actions on editingConfig');
+         });
+
+         // при неидентичности source необходимо перезапрашивать данные этого source и затем инициализировать ItemActions
+         it('should update ItemActions when data was reloaded', async () => {
+            await instance._beforeUpdate({
+               ...cfg,
+               itemActions: [
+                  {
+                     id: 2,
+                     title: '456'
+                  }
+               ]
+            });
+            const actionsOf0 = instance._listViewModel.at(0).getActions();
+            assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
+            assert.equal(actionsOf0.all[0].title, '456', 'new actions for item at 0 pos. were not assigned');
+         });
+      });
 
       it('_beforeMount with PrefetchProxy in source', function() {
          let prefetchSource = new sourceLib.PrefetchProxy({
