@@ -5,7 +5,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
 
-import {highlightOptions} from 'Controls/_decorator/ActualAPI';
 import {addWordCheck} from 'Controls/Utils/RegExp';
 
 /**
@@ -22,10 +21,6 @@ export type HighlightMode = 'word' | 'substring';
  * @author Красильников А.С.
  */
 export interface IHighlightOptions extends IControlOptions {
-    text?: string;
-    highlight?: string;
-    class?: string;
-    searchMode?: HighlightMode;
     /**
      * Класс обеспечивающий внешнее отображение подсветки.
      * @default controls-Highlight_highlight_theme-{{_options.theme}}
@@ -74,7 +69,7 @@ type Element = IHighlight | IPlain;
  * Изменение внешнего вида текста используется с целью акцентирования на нём внимания.
  * @remark
  * Для нахождения подсвечиваемого текста выполняется поиск сопоставления между {@link value текстом} и {@link highlightedValue искомым текстом}.
- * 
+ *
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
  * * <a href="http://axure.tensor.ru/standarts/v7/%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D1%8B_%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%D0%B0__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_02_.html">алгоритм поиска</a>
@@ -188,28 +183,23 @@ class Highlight extends Control<IHighlightOptions> {
     }
 
     private _needChangeParsedText(newOptions: IHighlightOptions): boolean {
-        const currentOptions = highlightOptions(this._options);
         return [
             'value',
             'highlightedValue',
             'highlightMode'
-        ].some((optionName: string) => currentOptions[optionName] !== newOptions[optionName]);
+        ].some((optionName: string) => this._options[optionName] !== newOptions[optionName]);
     }
 
     protected _beforeMount(options: IHighlightOptions): void {
-        const actualOptions = highlightOptions(options);
-
-        this._className = actualOptions.className;
-        this._parsedText = this._prepareParsedText(highlightOptions(options));
+        this._className = options.className;
+        this._parsedText = this._prepareParsedText(options);
     }
 
     protected _beforeUpdate(newOptions: IHighlightOptions): void {
-        const actualOptions = highlightOptions(newOptions);
-
-        if (this._needChangeParsedText(actualOptions)) {
-            this._parsedText = this._prepareParsedText(actualOptions);
+        if (this._needChangeParsedText(newOptions)) {
+            this._parsedText = this._prepareParsedText(newOptions);
         }
-        this._className = actualOptions.className;
+        this._className = newOptions.className;
     }
 
     private static WORD_SEPARATOR: RegExp = /\s+/g;
@@ -298,11 +288,9 @@ class Highlight extends Control<IHighlightOptions> {
             highlightMode: descriptor(String).oneOf([
                 'word',
                 'substring'
-            ])/*,
-            TODO: https://online.sbis.ru/opendoc.html?guid=d04dc579-2453-495f-b0a7-282370f6a9c5
+            ]),
             value: descriptor(String).required(),
             highlightedValue: descriptor(String).required()
-            */
         };
     }
 }

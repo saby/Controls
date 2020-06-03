@@ -5,6 +5,6 @@
          <div>phoneNumber</div>
          <Controls.input:Text bind:value="_number"/>
       </div>
-      <Controls.decorator:Phone number="{{_number}}"/>
+      <Controls.decorator:Phone value="{{_number}}"/>
    </div>
 </div>

@@ -7,7 +7,7 @@
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
                 viewMode="selector"
-                styleMode="info"
+                styleMode="unaccented"
                 attr:test_name="quarters_range"
         />
     </div>
@@ -31,7 +31,7 @@
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
                 viewMode="link"
-                styleMode="secondary"
+                fontColorStyle="link"
                 attr:test_name="quarters_range"
         />
     </div>
@@ -45,7 +45,7 @@
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
                 viewMode="link"
-                styleMode="info"
+                styleMode="unaccented"
                 attr:test_name="quarters_range"
         />
     </div>
