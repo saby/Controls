@@ -17,6 +17,7 @@
                         columns="{{gridColumns}}"
                         itemActions="{{_itemActions}}"
                         on:actionClick="_onActionClick()"
+                        on:beforeBeginEdit="_beforeBeginEdit()"
                         itemActionVisibilityCallback="{{_showAction}}"
                         itemActionsPosition="outside">
                     <ws:editingConfig>
