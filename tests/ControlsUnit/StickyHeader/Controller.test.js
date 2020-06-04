@@ -133,6 +133,8 @@ define([
                      stopImmediatePropagation: sinon.fake()
                   },
                   data = getRegisterObject(test);
+               sinon.stub(component, '_observeStickyHeader');
+
                return new Promise((resolve) => {
                   Promise.all([
                      component._stickyRegisterHandler(event, data, true),
@@ -206,13 +208,12 @@ define([
             position: 'topbottom'
          }].forEach(function(test) {
             it(`should unregister deleted header on position ${test.position}`, function() {
-               sinon.stub(component._stickyHeaderObserver, 'unobserve');
+               sinon.stub(component, '_unobserveStickyHeader');
                let event = {
                      blockUpdate: false,
                      stopImmediatePropagation: sinon.fake()
                   },
                   data = getRegisterObject(test);
-
                component._headers[data.id] = data;
                if (test.position === 'topbottom') {
                   component._headersStack['top'].push(data.id);
@@ -233,7 +234,7 @@ define([
          });
 
          it('should remove header from delayedHeaders when its unregister', function () {
-            sinon.stub(component._stickyHeaderObserver, 'unobserve');
+            sinon.stub(component, '_unobserveStickyHeader');
             let event = {
                    blockUpdate: false,
                    stopImmediatePropagation: sinon.fake()
@@ -442,6 +443,7 @@ define([
             assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
          });
          it('should return the correct height after a new header has been registered.', function () {
+            sinon.stub(component, '_observeStickyHeader');
             return component._stickyRegisterHandler(event, data, true).then(function() {
                assert.equal(component.getHeadersHeight('top'), 0);
                assert.equal(component.getHeadersHeight('bottom'), 0);

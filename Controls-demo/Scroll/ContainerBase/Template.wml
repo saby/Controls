@@ -1,0 +1,71 @@
+<div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
+    <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
+    <Controls._scroll.ContainerBase
+            attr:class="overflowContainer {{_heightAdded ? 'controlsDemo__height400'}} {{_widthAdded ? 'controlsDemo_fixedWidth350'}} controlsDemo__height300 controlsDemo_fixedWidth300"
+            name="containerBase">
+        <div class="controlsDemo_fixedWidth350">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+            cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+            cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum
+            <ws:if data="{{_contentAdded}}">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim id est laborum.
+            </ws:if>
+            <Controls.event:Listener event="scrollStateChanged" on:scrollStateChanged="scrollStateChangedHandler()"/>
+        </div>
+    </Controls._scroll.ContainerBase>
+    <div class="controlsDemo__inline-block">
+        <div>События:</div>
+        <div class="controlsDemo__height300 controlsDemo_fixedWidth300 overflowContainer">
+            <ws:for data="key, value in _eventStore">
+                <div>{{key + ') ' + value}}</div>
+            </ws:for>
+        </div>
+    </div>
+    <div class="controlsDemo__inline-block controlsDemo__vertical-top">
+        <div>state:</div>
+        <span class="controlsDemo_fixedWidth300">
+            <ws:for data="key, value in _state">
+                <div class="{{key}}">{{key + ': ' + value}}</div>
+            </ws:for>
+        </span>
+    </div>
+    <div class="controlsDemo__wrapper">
+        <span
+            class="addContent_button controlsDemo__button"
+            on:click="_addContentHandler()">Добавить контент</span>
+        <span
+            class="changeHeightContent_button controlsDemo__button"
+            on:click="_changeHeightContentHandler()">Изменить высоту</span>
+        <span
+            class="changeWidthContent_button controlsDemo__button"
+            on:click="_changeWidthContentHandler()">Изменить ширину</span>
+        <span
+            class="changeScrollTop_button controlsDemo__button"
+            on:click="_changeScrollTopHandler()">Изменить scrollTop</span>
+    </div>
+    <div class="controlsDemo__wrapper">
+        <span
+            class="changeHeightAddContent_button controlsDemo__button"
+            on:click="_changeHeightAddContentHandler()">Изменить размеры, scrollTop, scrollLeft, добавить контент</span>
+        <span
+            class="changeScrollLeft_button controlsDemo__button"
+            on:click="_changeScrollLeftHandler()">Изменить scrollLeft</span>
+    </div>
+</div>

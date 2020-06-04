@@ -1,0 +1,12 @@
+<div class="controls-Scroll_containerBase"
+     on:scroll="_scrollHandler()">
+    <div class="controls-containerBase_contentObserver" name="contentObserver">
+        <ws:partial
+            attr:class="controls-containerBase_userContent"
+            template="{{_options.content}}"
+            scope="{{_options}}"
+            on:controlResize="_resizeHandler()"
+            on:register="_registerIt()"
+            on:unregister="_unRegisterIt()"/>
+    </div>
+</div>
