@@ -956,8 +956,16 @@ export interface IList {
 /**
  * @name Controls/_list/interface/IList#backgroundStyle
  * @cfg {String} Префикс стиля для настройки фона внутренних компонентов списочного контрола с фиксированным или абсолютным позиционированием.
- * @remark
+ * @variant master Предназначен для настройки фона masterDetail (Берётся из свойства style)
+ * @variant infoBox Предназначен для настройки фона infoBox
+ * @variant stack Предназначен для настройки фона стековой панели
+ * @variant masterClassic
+ * @variant detailContrast
+ * @variant listItem
+ * @variant stackHeader
  * @default default
+ * @remark 
+ * Согласно <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/">документации</a> поддерживаются любые произвольные значения опции.
  */
 
 /*ENG
