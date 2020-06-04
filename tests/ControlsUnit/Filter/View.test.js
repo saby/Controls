@@ -1101,6 +1101,24 @@ define(
                assert.deepStrictEqual(view._displayText.document, {text: 'Folder 1', title: 'Folder 1', hasMoreText: '' });
             });
 
+            it ('itemClick', function () {
+               let filterChanged;
+               view._notify = (event, data) => {
+                  if (event === 'filterChanged') {
+                     filterChanged = data[0];
+                  }
+               };
+               let eventResult = {
+                  action: 'itemClick',
+                  id: 'document',
+                  selectedKeys: { '-1': [1], '-2': [-2, 4] }
+               };
+               view._configs.document.multiSelect = false;
+               view._resultHandler('resultEvent', eventResult);
+               assert.deepStrictEqual(view._source[0].value, {'-1': [1], '-2': [-2]});
+               assert.deepStrictEqual(filterChanged, {document: {'-1': [1], '-2': [-2]}});
+            });
+
             it ('applyClick', function () {
                let filterChanged;
                view._notify = (event, data) => {

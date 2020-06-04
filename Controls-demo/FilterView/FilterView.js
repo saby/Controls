@@ -206,7 +206,7 @@ define('Controls-demo/FilterView/FilterView',
                viewMode: 'frequent'
             }, {
                name: 'lists',
-               value: {'Список1': ['Список1'], 'Список2': ['21', '22']},
+               value: {'Список1': ['Список1'], 'Список2': ['21']},
                resetValue: null,
                emptyText: 'All',
                editorOptions: {
@@ -218,8 +218,7 @@ define('Controls-demo/FilterView/FilterView',
                      idProperty: 'id',
                      data: this._hierarchyDataSource2
                   }),
-                  navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-                  multiSelect: true
+                  navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}}
                },
                viewMode: 'frequent'
             }];

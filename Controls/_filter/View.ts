@@ -35,7 +35,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
- *  
+ *
  * @class Controls/_filter/View
  * @extends Core/Control
  * @mixes Controls/_filter/View/interface/IFilterView
@@ -219,10 +219,11 @@ var _private = {
             if (configs[item.name]) {
                 self._displayText[item.name] = {};
                 if (_private.isItemChanged(item)) {
-                    const selectedKeys = configs[item.name].multiSelect ? item.value : [item.value];
+                    const nodeProperty = configs[item.name].nodeProperty;
+                    const selectedKeys = configs[item.name].multiSelect || nodeProperty ? item.value : [item.value];
 
                     // [ [selectedKeysList1], [selectedKeysList2] ] in hierarchy list
-                    const flatSelectedKeys = configs[item.name].nodeProperty ? factory(selectedKeys).flatten().value() : selectedKeys;
+                    const flatSelectedKeys = nodeProperty ? factory(selectedKeys).flatten().value() : selectedKeys;
                     self._displayText[item.name] = _private.getFastText(configs[item.name], flatSelectedKeys);
                     if (!self._displayText[item.name].text && detailPanelHandler) {
                         // If method is called after selecting from detailPanel, then textValue will contains actual display value
@@ -406,14 +407,19 @@ var _private = {
     },
 
     setValue: function(self, selectedKeys, name) {
+        const config = self._configs[name];
         const item = _private.getItemByName(self._source, name);
+        const resetValue = object.getPropertyValue(item, 'resetValue');
+
+        if (config.nodeProperty) {
+            selectedKeys = _private.prepareHierarchySelection(selectedKeys, config, resetValue);
+        }
         let value;
-        let resetValue = object.getPropertyValue(item, 'resetValue');
         if (selectedKeys instanceof Array && (!selectedKeys.length || selectedKeys.includes(resetValue) || isEqual(selectedKeys, resetValue)
             // empty item is selected, but emptyKey not set
             || item.emptyText && !item.hasOwnProperty('emptyKey') && selectedKeys.includes(null))) {
             value = object.getPropertyValue(item, 'resetValue');
-        } else if (self._configs[name].multiSelect) {
+        } else if (self._configs[name].multiSelect || self._configs[item.name].nodeProperty) {
             value = selectedKeys;
         } else {
             value = selectedKeys[0];
@@ -520,12 +526,9 @@ var _private = {
         factory(result.selectedKeys).each(function(sKey, index) {
             if (sKey) {
                 let curConfig = self._configs[index];
-                const item = _private.getItemByName(self._source, index);
-                if (curConfig.nodeProperty) {
-                    sKey = _private.prepareHierarchySelection(sKey, curConfig, item.resetValue);
-                }
-                const selectedItems = _private.getSelectedItems(curConfig.items, sKey);
                 _private.setValue(self, sKey, index);
+
+                const selectedItems = _private.getSelectedItems(curConfig.items, sKey);
                 _private.updateHistory(self, index, selectedItems);
             }
         });
@@ -544,9 +547,6 @@ var _private = {
             curConfig.sourceController = null;
         }
         let selectedKeys = _private.getSelectedKeys(result.data, curConfig);
-        if (curConfig.nodeProperty) {
-            selectedKeys = _private.prepareHierarchySelection(selectedKeys, curConfig, curItem.resetValue);
-        }
         _private.setValue(this, selectedKeys, result.id);
         _private.updateText(this, this._source, this._configs);
     },
@@ -843,7 +843,8 @@ var Filter = Control.extend({
             this._children.StickyOpener.close();
         }
         factory(this._source).each(function(item) {
-            // Fast filters could not be reset from the filter button.
+            // Быстрые фильтры и фильтр выбора периода
+            // не должны сбрасываться по клику на крестик строки выбранных параметров
             if (!_private.isFrequentItem(item) && item.type !== 'dateRange') {
                 item.value = item.resetValue;
                 if (object.getPropertyValue(item, 'visibility') !== undefined) {
