@@ -35,6 +35,12 @@ class RegisterClass {
       this._registrar.start.apply(this._registrar, arguments);
    }
 
+   startOnceTarget(target): void {
+       const argsClone = Array.prototype.slice.call(arguments);
+       argsClone.splice(0, 1);
+       this._registrar.startOnceTarget(target, ...argsClone);
+   }
+
    destroy(): void {
       if (this._registrar) {
          this._registrar.destroy();
