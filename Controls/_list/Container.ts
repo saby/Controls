@@ -1,10 +1,46 @@
-import Control = require('Core/Control');
-import template = require('wml!Controls/_list/Container');
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import * as template from 'wml!Controls/_list/Container';
 import {ContextOptions as DataOptions} from 'Controls/context';
+import {PrefetchProxy} from 'Types/source';
+import {IFilterOptions, INavigationOptions, ISortingOptions} from 'Controls/interface';
+import {SyntheticEvent} from 'Vdom/Vdom';
+
+interface IDataContextOptions extends IFilterOptions, INavigationOptions<unknown>, ISortingOptions {
+    prefetchSource: PrefetchProxy;
+}
+
+interface IDataContext {
+    dataOptions: IDataContextOptions;
+}
+
+export default class ListContainer extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _dataOptions: IDataContextOptions = null;
+
+    protected _beforeMount(options: IControlOptions, context: IDataContext): void {
+        this._dataOptions = context.dataOptions;
+    }
+
+    protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
+        this._dataOptions = context.dataOptions;
+    }
+
+    protected _notifyEventWithBubbling(e: SyntheticEvent, eventName: string): unknown {
+        return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
+            bubbling: true
+        });
+    }
+
+    static contextTypes() {
+        return {
+            dataOptions: DataOptions
+        };
+    }
+}
 
 /**
  * Контрол-контейнер для списка. Передает опции из контекста в список.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика</a>
@@ -26,27 +62,3 @@ import {ContextOptions as DataOptions} from 'Controls/context';
  * @author Герасимов А.М.
  * @public
  */
-
-var List = Control.extend({
-
-    _template: template,
-
-    _beforeMount: function (options, context) {
-        this._dataOptions = context.dataOptions;
-    },
-    _expandedItemsChanged(event, expandedItems) {
-        this._notify('listExpandedItemsChanged', [expandedItems], { bubbling: true });
-    },
-    _beforeUpdate: function (options, context) {
-        this._dataOptions = context.dataOptions;
-    }
-
-});
-
-List.contextTypes = function () {
-    return {
-        dataOptions: DataOptions
-    };
-};
-
-export = List;

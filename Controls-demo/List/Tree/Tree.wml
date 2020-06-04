@@ -11,24 +11,22 @@
             <Controls.operations:Controller>
                <Controls.scroll:Container attr:class="demo-Grid__wrapper">
                   <Controls.list:Container>
-                     <Controls.operations:Container>
-                        <Controls.treeGrid:View
-                                attr:class="demo-Grid__control ControlsDemo-TreeDemo__groupsDefault"
-                                parentProperty="Раздел"
-                                groupingKeyCallback="{{_groupingKeyCallback}}"
-                                nodeProperty="Раздел@"
-                                columns="{{gridColumns}}"
-                                multiSelectVisibility="visible"
-                                itemActions="{{_itemActions}}"
-                                itemActionsPosition="outside"
-                                on:actionClick="_onActionClick()"
-                                nodeFooterVisibilityCallback="{{_nodeFooterVisibilityCallback}}"
-                                itemActionVisibilityCallback="{{_showAction}}">
-                           <ws:nodeFooterTemplate>
-                              <Controls.list:AddButton caption="Новая запись"/>
-                           </ws:nodeFooterTemplate>
-                        </Controls.treeGrid:View>
-                     </Controls.operations:Container>
+                     <Controls.treeGrid:View
+                             attr:class="demo-Grid__control ControlsDemo-TreeDemo__groupsDefault"
+                             parentProperty="Раздел"
+                             groupingKeyCallback="{{_groupingKeyCallback}}"
+                             nodeProperty="Раздел@"
+                             columns="{{gridColumns}}"
+                             multiSelectVisibility="visible"
+                             itemActions="{{_itemActions}}"
+                             itemActionsPosition="outside"
+                             on:actionClick="_onActionClick()"
+                             nodeFooterVisibilityCallback="{{_nodeFooterVisibilityCallback}}"
+                             itemActionVisibilityCallback="{{_showAction}}">
+                        <ws:nodeFooterTemplate>
+                           <Controls.list:AddButton caption="Новая запись"/>
+                        </ws:nodeFooterTemplate>
+                     </Controls.treeGrid:View>
                   </Controls.list:Container>
                </Controls.scroll:Container>
             </Controls.operations:Controller>
@@ -48,7 +46,7 @@
                <Controls.operations:Controller>
                <Controls.scroll:Container attr:class="demo-Grid__wrapper">
                   <Controls.list:Container>
-                     <Controls.operations:Container>
+
                         <Controls.treeGrid:View
                                 attr:class="demo-Grid__control ControlsDemo-Tree__withoutGroups"
                                 parentProperty="Раздел"
@@ -66,7 +64,7 @@
                               <Controls.list:AddButton caption="Новая запись"/>
                            </ws:nodeFooterTemplate>
                         </Controls.treeGrid:View>
-                     </Controls.operations:Container>
+
                   </Controls.list:Container>
                </Controls.scroll:Container>
             </Controls.operations:Controller>

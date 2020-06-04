@@ -3,28 +3,26 @@
       <Controls.list:Mover name="listMover" parentProperty="Раздел"/>
       <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
          <Controls.list:Container>
-            <Controls.operations:Container>
-               <Controls.explorer:View
-                       on:dragStart="_dragStart()"
-                       on:dragEnd="_dragEnd()"
-                       displayProperty="title"
-                       viewMode="table"
-                       parentProperty="Раздел"
-                       nodeProperty="Раздел@"
-                       itemsDragNDrop="{{true}}"
-                       itemsReadyCallback="{{_itemsReadyCallback}}"
-                       multiSelectVisibility="visible"
-                       header="{{_gridHeader}}"
-                       columns="{{_gridColumns}}">
-                  <ws:draggingTemplate>
-                     <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                 mainText="{{draggingTemplate.entity._options.mainText}}"
-                                 image="{{draggingTemplate.entity._options.image}}"
-                                 additionalText="{{draggingTemplate.entity._options.additionalText}}">
-                     </ws:partial>
-                  </ws:draggingTemplate>
-               </Controls.explorer:View>
-            </Controls.operations:Container>
+            <Controls.explorer:View
+                    on:dragStart="_dragStart()"
+                    on:dragEnd="_dragEnd()"
+                    displayProperty="title"
+                    viewMode="table"
+                    parentProperty="Раздел"
+                    nodeProperty="Раздел@"
+                    itemsDragNDrop="{{true}}"
+                    itemsReadyCallback="{{_itemsReadyCallback}}"
+                    multiSelectVisibility="visible"
+                    header="{{_gridHeader}}"
+                    columns="{{_gridColumns}}">
+               <ws:draggingTemplate>
+                  <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                              mainText="{{draggingTemplate.entity._options.mainText}}"
+                              image="{{draggingTemplate.entity._options.image}}"
+                              additionalText="{{draggingTemplate.entity._options.additionalText}}">
+                  </ws:partial>
+               </ws:draggingTemplate>
+            </Controls.explorer:View>
          </Controls.list:Container>
       </Controls.operations:Controller>
    </div>

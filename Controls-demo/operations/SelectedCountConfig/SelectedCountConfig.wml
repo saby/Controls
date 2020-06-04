@@ -4,7 +4,7 @@
             bind:excludedKeys="_excludedKeys">
         <div>
             <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}"/>
-            <Controls.operations:Container>
+
                 <Controls.list:Container>
                     <Controls.treeGrid:View
                             keyProperty="id"
@@ -13,7 +13,7 @@
                             nodeProperty="type"
                             multiSelectVisibility="onhover"/>
                 </Controls.list:Container>
-            </Controls.operations:Container>
+
         </div>
     </Controls.operations:Controller>
 </Controls.list:DataContainer>

@@ -12,31 +12,29 @@
             <Controls.list:Mover name="listMover"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
                 <Controls.list:Container>
-                    <Controls.operations:Container>
-                        <Controls.scroll:Container attr:class="controlsDemo__inline-flex"
-                                                   attr:style="width: 700px; height: 500px;">
-                            <Controls.grid:View
-                                    header="{{_header}}"
-                                    columns="{{_columns}}"
-                                    multiSelectVisibility="onhover"
-                                    rowSeparatorSize="s"
-                                    itemsReadyCallback="{{_itemsReadyCallback}}"
-                                    itemsDragNDrop="{{ _itemsDragNDrop }}"
-                                    on:dragStart="_dragStart()"
-                                    on:dragEnd="_dragEnd()"
-                                    columnScroll="{{true}}"
-                                    columnScrollStartPosition="end"
-                                    dragScrolling="{{ _dragScrolling }}"
-                                    dragNDropDelay="{{ _dndDelay }}"
-                            >
-                                <ws:draggingTemplate>
-                                    <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                                mainText="{{draggingTemplate.entity._options.title}}">
-                                    </ws:partial>
-                                </ws:draggingTemplate>
-                            </Controls.grid:View>
-                        </Controls.scroll:Container>
-                    </Controls.operations:Container>
+                    <Controls.scroll:Container attr:class="controlsDemo__inline-flex"
+                                               attr:style="width: 700px; height: 500px;">
+                        <Controls.grid:View
+                                header="{{_header}}"
+                                columns="{{_columns}}"
+                                multiSelectVisibility="onhover"
+                                rowSeparatorSize="s"
+                                itemsReadyCallback="{{_itemsReadyCallback}}"
+                                itemsDragNDrop="{{ _itemsDragNDrop }}"
+                                on:dragStart="_dragStart()"
+                                on:dragEnd="_dragEnd()"
+                                columnScroll="{{true}}"
+                                columnScrollStartPosition="end"
+                                dragScrolling="{{ _dragScrolling }}"
+                                dragNDropDelay="{{ _dndDelay }}"
+                        >
+                            <ws:draggingTemplate>
+                                <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                            mainText="{{draggingTemplate.entity._options.title}}">
+                                </ws:partial>
+                            </ws:draggingTemplate>
+                        </Controls.grid:View>
+                    </Controls.scroll:Container>
                 </Controls.list:Container>
             </Controls.operations:Controller>
         </div>

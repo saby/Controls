@@ -4,25 +4,23 @@
         <div>
             <Controls.list:Mover name="listMover"/>
             <Controls.list:Container>
-                <Controls.operations:Container>
-                    <Controls.tile:View
-                            tileMode="dynamic"
-                            on:dragStart="_dragStart()"
-                            on:dragEnd="_dragEnd()"
-                            itemsDragNDrop="{{true}}"
-                            itemsReadyCallback="{{_itemsReadyCallback}}"
-                            displayProperty="title"
-                            imageProperty="image"
-                            keyProperty="id"
-                            source="{{_viewSource}}">
-                        <ws:draggingTemplate>
-                            <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                        mainText="{{draggingTemplate.entity._options.title}}"
-                                        image="{{draggingTemplate.entity._options.image}}">
-                            </ws:partial>
-                        </ws:draggingTemplate>
-                    </Controls.tile:View>
-                </Controls.operations:Container>
+                <Controls.tile:View
+                        tileMode="dynamic"
+                        on:dragStart="_dragStart()"
+                        on:dragEnd="_dragEnd()"
+                        itemsDragNDrop="{{true}}"
+                        itemsReadyCallback="{{_itemsReadyCallback}}"
+                        displayProperty="title"
+                        imageProperty="image"
+                        keyProperty="id"
+                        source="{{_viewSource}}">
+                    <ws:draggingTemplate>
+                        <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                    mainText="{{draggingTemplate.entity._options.title}}"
+                                    image="{{draggingTemplate.entity._options.image}}">
+                        </ws:partial>
+                    </ws:draggingTemplate>
+                </Controls.tile:View>
             </Controls.list:Container>
         </div>
     </Controls.operations:Controller>

@@ -10,21 +10,19 @@
                             name="multiSelector">
                         <Controls.scroll:Container attr:class="grid-scroll-container" attr:test_name="default">
                             <Controls.list:Container>
-                                <Controls.operations:Container>
-                                    <Controls.grid:View
-                                            displayProperty="title"
-                                            markedKey="{{448390}}"
-                                            rowSeparatorVisibility="{{true}}"
-                                            header="{{gridHeader}}"
-                                            itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
-                                            itemActions="{{_itemActions}}"
-                                            on:actionClick="_onActionClick()"
-                                            itemActionVisibilityCallback="{{_showAction}}"
-                                            itemActionsPosition="outside"
-                                            columns="{{gridColumns}}"
-                                            bind:sorting="_sorting">
-                                    </Controls.grid:View>
-                                </Controls.operations:Container>
+                                <Controls.grid:View
+                                        displayProperty="title"
+                                        markedKey="{{448390}}"
+                                        rowSeparatorVisibility="{{true}}"
+                                        header="{{gridHeader}}"
+                                        itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
+                                        itemActions="{{_itemActions}}"
+                                        on:actionClick="_onActionClick()"
+                                        itemActionVisibilityCallback="{{_showAction}}"
+                                        itemActionsPosition="outside"
+                                        columns="{{gridColumns}}"
+                                        bind:sorting="_sorting">
+                                </Controls.grid:View>
                             </Controls.list:Container>
                         </Controls.scroll:Container>
                     </Controls.operations:Controller>

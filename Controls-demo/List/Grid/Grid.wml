@@ -7,25 +7,23 @@
                  name="multiSelector">
             <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="default">
                <Controls.list:Container>
-                  <Controls.operations:Container>
-                     <Controls.grid:View
-                             attr:class="demo-Grid__control test_grid_1"
-                             displayProperty="title"
-                             bind:markedKey="_markedKey1"
-                             stickyHeader="{{false}}"
-                             resultsPosition="top"
-                             rowSeparatorVisibility="{{true}}"
-                             multiSelectVisibility="visible"
-                             header="{{gridHeader}}"
-                             itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
-                             itemActions="{{_itemActions}}"
-                             on:actionClick="_onActionClick()"
-                             itemActionVisibilityCallback="{{_showAction}}"
-                             itemActionsPosition="outside"
-                             columns="{{gridColumns}}"
-                             bind:sorting="_sorting">
-                     </Controls.grid:View>
-                  </Controls.operations:Container>
+                  <Controls.grid:View
+                          attr:class="demo-Grid__control test_grid_1"
+                          displayProperty="title"
+                          bind:markedKey="_markedKey1"
+                          stickyHeader="{{false}}"
+                          resultsPosition="top"
+                          rowSeparatorVisibility="{{true}}"
+                          multiSelectVisibility="visible"
+                          header="{{gridHeader}}"
+                          itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
+                          itemActions="{{_itemActions}}"
+                          on:actionClick="_onActionClick()"
+                          itemActionVisibilityCallback="{{_showAction}}"
+                          itemActionsPosition="outside"
+                          columns="{{gridColumns}}"
+                          bind:sorting="_sorting">
+                  </Controls.grid:View>
                </Controls.list:Container>
             </Controls.scroll:Container>
          </Controls.operations:Controller>
@@ -58,7 +56,7 @@
                  name="multiSelector">
             <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="mark_record">
                <Controls.list:Container>
-                  <Controls.operations:Container>
+
                      <Controls.grid:View
                              attr:class="demo-Grid__control test_grid_3"
                              displayProperty="title"
@@ -73,7 +71,7 @@
                              columns="{{gridColumns}}">
                         <ws:itemPadding right="L" left="M"/>
                      </Controls.grid:View>
-                  </Controls.operations:Container>
+
                </Controls.list:Container>
             </Controls.scroll:Container>
          </Controls.operations:Controller>

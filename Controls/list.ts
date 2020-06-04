@@ -60,7 +60,7 @@
  * @author Крайнов Д.О.
  */
 import AddButton = require('Controls/_list/AddButton');
-import Container = require('Controls/_list/Container');
+import {default as Container} from 'Controls/_list/Container';
 import EmptyTemplate = require('wml!Controls/_list/emptyTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import ItemTemplate = require('wml!Controls/_list/ItemTemplateChooser');

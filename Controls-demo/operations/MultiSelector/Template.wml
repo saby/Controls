@@ -4,16 +4,14 @@
             bind:excludedKeys="_excludedKeys">
         <div>
             <Controls.operations:SimpleMultiSelector/>
-            <Controls.operations:Container>
-                <Controls.list:Container>
-                    <Controls.treeGrid:View
-                            keyProperty="id"
-                            columns="{{_gridColumns}}"
-                            parentProperty="parent"
-                            nodeProperty="type"
-                            multiSelectVisibility="visible"/>
-                </Controls.list:Container>
-            </Controls.operations:Container>
+            <Controls.list:Container>
+                <Controls.treeGrid:View
+                        keyProperty="id"
+                        columns="{{_gridColumns}}"
+                        parentProperty="parent"
+                        nodeProperty="type"
+                        multiSelectVisibility="visible"/>
+            </Controls.list:Container>
         </div>
     </Controls.operations:Controller>
 </Controls.list:DataContainer>

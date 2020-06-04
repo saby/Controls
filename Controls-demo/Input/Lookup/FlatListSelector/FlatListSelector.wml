@@ -12,11 +12,9 @@
                 <Controls.lookupPopup:Container multiSelect="{{_options.multiSelect ? 'visible'}}" keyProperty="{{_keyProperty}}">
                     <Controls.operations:Controller>
                         <Controls.list:Container>
-                            <Controls.operations:Container>
-                                <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect ? 'visible'}}">
-                                    <Controls.list:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
-                                </Controls.lookupPopup:ListContainer>
-                            </Controls.operations:Container>
+                            <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect ? 'visible'}}">
+                                <Controls.list:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
+                            </Controls.lookupPopup:ListContainer>
                         </Controls.list:Container>
                     </Controls.operations:Controller>
                 </Controls.lookupPopup:Container>

@@ -6,40 +6,38 @@
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
             <Controls.list:Container>
-               <Controls.operations:Container>
-                  <Controls.explorer:View
-                     bind:root="_root"
-                     attr:class="demo-Explorer ControlsDemo-Explorer"
-                     backgroundStyle="default"
-                     keyProperty="id"
-                     displayProperty="title"
-                     parentProperty="parent"
-                     nodeProperty="parent@"
-                     viewMode="{{_viewMode}}"
-                     itemActions="{{_itemActions}}"
-                     itemsHeight="{{_itemsHeight}}"
-                     header="{{_gridHeader}}"
-                     imageProperty="image"
-                     tileScalingMode="outside"
-                     multiSelectVisibility="visible"
-                     showActionButton="{{true}}"
-                     columns="{{_viewColumns}}">
-                     <ws:tileItemTemplate>
-                        <ws:partial
-                           template="Controls/tile:ItemTemplate"
-                           folderWidth="{{250}}"
-                           itemWidth="{{250}}"
-                           hasTitle="{{tileItemTemplate.itemData.item.isDocument}}">
-                           <ws:contentTemplate>
-                              <ws:partial template="wml!Controls-demo/Explorer/resources/CustomItemContent"/>
-                           </ws:contentTemplate>
-                        </ws:partial>
-                     </ws:tileItemTemplate>
-                     <ws:footerTemplate>
-                        <Controls.input:Label caption="Footer" underline="hovered"/>
-                     </ws:footerTemplate>
-                  </Controls.explorer:View>
-               </Controls.operations:Container>
+               <Controls.explorer:View
+                  bind:root="_root"
+                  attr:class="demo-Explorer ControlsDemo-Explorer"
+                  backgroundStyle="default"
+                  keyProperty="id"
+                  displayProperty="title"
+                  parentProperty="parent"
+                  nodeProperty="parent@"
+                  viewMode="{{_viewMode}}"
+                  itemActions="{{_itemActions}}"
+                  itemsHeight="{{_itemsHeight}}"
+                  header="{{_gridHeader}}"
+                  imageProperty="image"
+                  tileScalingMode="outside"
+                  multiSelectVisibility="visible"
+                  showActionButton="{{true}}"
+                  columns="{{_viewColumns}}">
+                  <ws:tileItemTemplate>
+                     <ws:partial
+                        template="Controls/tile:ItemTemplate"
+                        folderWidth="{{250}}"
+                        itemWidth="{{250}}"
+                        hasTitle="{{tileItemTemplate.itemData.item.isDocument}}">
+                        <ws:contentTemplate>
+                           <ws:partial template="wml!Controls-demo/Explorer/resources/CustomItemContent"/>
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:tileItemTemplate>
+                  <ws:footerTemplate>
+                     <Controls.input:Label caption="Footer" underline="hovered"/>
+                  </ws:footerTemplate>
+               </Controls.explorer:View>
             </Controls.list:Container>
          </Controls.operations:Controller>
       </Controls.list:DataContainer>

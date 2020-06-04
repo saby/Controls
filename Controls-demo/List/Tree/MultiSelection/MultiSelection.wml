@@ -4,17 +4,15 @@
             <Controls.operations:Controller>
                 <Controls.scroll:Container attr:class="demo-Grid__wrapper">
                     <Controls.list:Container>
-                        <Controls.operations:Container>
-                            <Controls.treeGrid:View
-                                    name="list"
-                                    attr:class="demo-Grid__control"
-                                    keyProperty="id"
-                                    parentProperty="Раздел"
-                                    nodeProperty="Раздел@"
-                                    multiSelectVisibility="visible"
-                                    columns="{{gridColumns}}">
-                            </Controls.treeGrid:View>
-                        </Controls.operations:Container>
+                        <Controls.treeGrid:View
+                                name="list"
+                                attr:class="demo-Grid__control"
+                                keyProperty="id"
+                                parentProperty="Раздел"
+                                nodeProperty="Раздел@"
+                                multiSelectVisibility="visible"
+                                columns="{{gridColumns}}">
+                        </Controls.treeGrid:View>
                     </Controls.list:Container>
                 </Controls.scroll:Container>
             </Controls.operations:Controller>

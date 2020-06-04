@@ -7,21 +7,19 @@
                     name="multiSelector">
                 <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="default" attr:style="width:70%">
                     <Controls.list:Container>
-                        <Controls.operations:Container>
-                            <Controls.grid:View
-                                    attr:class="demo-Grid__control test_grid_1"
-                                    displayProperty="title"
-                                    resultsPosition="top"
-                                    stickyHeader="{{true}}"
-                                    rowSeparatorVisibility="{{true}}"
-                                    header="{{gridHeader}}"
-                                    itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
-                                    multiSelectVisibility="visible"
-                                    columns="{{gridColumns}}"
-                                    bind:sorting="_sorting">
+                        <Controls.grid:View
+                                attr:class="demo-Grid__control test_grid_1"
+                                displayProperty="title"
+                                resultsPosition="top"
+                                stickyHeader="{{true}}"
+                                rowSeparatorVisibility="{{true}}"
+                                header="{{gridHeader}}"
+                                itemTemplate="wml!Controls-demo/List/Grid/DemoItem"
+                                multiSelectVisibility="visible"
+                                columns="{{gridColumns}}"
+                                bind:sorting="_sorting">
 
-                            </Controls.grid:View>
-                        </Controls.operations:Container>
+                        </Controls.grid:View>
                     </Controls.list:Container>
                 </Controls.scroll:Container>
             </Controls.operations:Controller>
@@ -34,7 +32,7 @@
                     name="multiSelector">
                 <Controls.scroll:Container attr:class="demo-Grid__wrapper" attr:test_name="default" attr:style="width:70%">
                     <Controls.list:Container>
-                        <Controls.operations:Container>
+
                             <Controls.grid:View
                                     attr:class="demo-Grid__control test_grid_1"
                                     displayProperty="title"
@@ -47,7 +45,7 @@
                                     columns="{{gridColumns}}"
                                     bind:sorting="_sorting">
                             </Controls.grid:View>
-                        </Controls.operations:Container>
+
                     </Controls.list:Container>
                 </Controls.scroll:Container>
             </Controls.operations:Controller>

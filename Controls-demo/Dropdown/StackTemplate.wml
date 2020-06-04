@@ -12,13 +12,11 @@
             <Controls.lookupPopup:Container multiSelect="{{_options.multiSelect}}">
                <Controls.operations:Controller>
                   <Controls.list:Container>
-                     <Controls.operations:Container>
-                        <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect}}">
-                           <Controls.scroll:Container attr:class="demo-selector__scroll">
-                              <Controls.list:View class="ControlsDemo-Selector__flatList" emptyTemplate="Не найдено"  multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
-                           </Controls.scroll:Container>
-                        </Controls.lookupPopup:ListContainer>
-                     </Controls.operations:Container>
+                     <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect}}">
+                        <Controls.scroll:Container attr:class="demo-selector__scroll">
+                           <Controls.list:View class="ControlsDemo-Selector__flatList" emptyTemplate="Не найдено"  multiSelectVisibility="{{_options.multiSelect ? 'visible'}}"/>
+                        </Controls.scroll:Container>
+                     </Controls.lookupPopup:ListContainer>
                   </Controls.list:Container>
                </Controls.operations:Controller>
             </Controls.lookupPopup:Container>

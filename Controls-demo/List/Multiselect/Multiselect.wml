@@ -5,13 +5,11 @@
          <div class="123">
             <h2>Default</h2>
             <Controls.list:Container>
-               <Controls.operations:Container>
-                  <Controls.list:View
-                          markedKey="{{2}}"
-                          allowEmptySelection="{{false}}"
-                          multiSelectVisibility="visible"
-                  />
-               </Controls.operations:Container>
+              <Controls.list:View
+                      markedKey="{{2}}"
+                      allowEmptySelection="{{false}}"
+                      multiSelectVisibility="visible"
+              />
             </Controls.list:Container>
          </div>
       </Controls.operations:Controller>

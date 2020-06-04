@@ -7,22 +7,20 @@
                     <div>
                         <Controls.list:Mover name="listMover"/>
                         <Controls.list:Container>
-                            <Controls.operations:Container>
-                                <Controls.grid:View
-                                        on:dragStart="_dragStart()"
-                                        on:dragEnd="_dragEnd()"
-                                        displayProperty="title"
-                                        multiSelectVisibility="{{_multiselect}}"
-                                        itemsReadyCallback="{{_itemsReadyCallback}}"
-                                        itemsDragNDrop="{{true}}"
-                                        columns="{{_columns}}">
-                                    <ws:draggingTemplate>
-                                        <ws:partial template="Controls/dragnDrop:DraggingTemplate"
-                                                    mainText="{{draggingTemplate.entity._options.title}}">
-                                        </ws:partial>
-                                    </ws:draggingTemplate>
-                                </Controls.grid:View>
-                            </Controls.operations:Container>
+                            <Controls.grid:View
+                                    on:dragStart="_dragStart()"
+                                    on:dragEnd="_dragEnd()"
+                                    displayProperty="title"
+                                    multiSelectVisibility="{{_multiselect}}"
+                                    itemsReadyCallback="{{_itemsReadyCallback}}"
+                                    itemsDragNDrop="{{true}}"
+                                    columns="{{_columns}}">
+                                <ws:draggingTemplate>
+                                    <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                                mainText="{{draggingTemplate.entity._options.title}}">
+                                    </ws:partial>
+                                </ws:draggingTemplate>
+                            </Controls.grid:View>
                         </Controls.list:Container>
                     </div>
                 </Controls.operations:Controller>

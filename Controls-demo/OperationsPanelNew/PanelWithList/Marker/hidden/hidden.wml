@@ -20,19 +20,17 @@
                 </Controls.operations:PanelContainer>
             </ws:if>
             <Controls.list:Container>
-                <Controls.operations:Container>
-                    <Controls.treeGrid:View
-                            name="list"
-                            attr:class="demo-Grid__control"
-                            markerVisibility="hidden"
-                            multiSelectVisibility="{{_expandedOperationsPanel ? 'visible' : 'hidden'}}"
-                            source="{{_viewSource}}"
-                            parentProperty="Раздел"
-                            nodeProperty="Раздел@"
-                            keyProperty="id"
-                            columns="{{_gridColumns}}">
-                    </Controls.treeGrid:View>
-                </Controls.operations:Container>
+                <Controls.treeGrid:View
+                        name="list"
+                        attr:class="demo-Grid__control"
+                        markerVisibility="hidden"
+                        multiSelectVisibility="{{_expandedOperationsPanel ? 'visible' : 'hidden'}}"
+                        source="{{_viewSource}}"
+                        parentProperty="Раздел"
+                        nodeProperty="Раздел@"
+                        keyProperty="id"
+                        columns="{{_gridColumns}}">
+                </Controls.treeGrid:View>
             </Controls.list:Container>
         </div>
     </Controls.operations:Controller>
