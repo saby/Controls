@@ -1,0 +1,90 @@
+<ws:template name="wrapForTable">
+    <ws:if data="{{ footer.isFullGridSupport }}">
+        <ws:partial template="{{ tagContent }}"/>
+    </ws:if>
+    <ws:else>
+        <td colspan="{{ tdColspan || 1}}">
+            <ws:partial template="{{ tagContent }}"/>
+        </td>
+    </ws:else>
+</ws:template>
+
+
+<ws:template name="footer_content">
+    <ws:for data="i in footer.level">
+        <div class="controls-TreeGrid__row-levelPadding {{footer.getLevelIndentClasses(footer.getExpanderSize(expanderSize), levelIndentSize)}}"></div>
+    </ws:for>
+
+    <div class="{{footer.getExpanderPaddingClasses(footer.getExpanderSize(expanderSize), theme, true)}}"></div>
+
+    <ws:if data="{{ footer.hasMoreStorage }}">
+        <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
+                                 fontSize="xs"
+                                 viewMode="link"
+                                 fontColorStyle="listMore"
+                                 caption="{{rk('Еще') + '...'}}"
+                                 readOnly="{{false}}"/>
+    </ws:if>
+    <ws:else data="{{ content }}">
+        <ws:partial attr:class="controls-TreeGrid__nodeFooterCustomTemplate" template="{{ content }}" itemData="{{footer}}"/>
+    </ws:else>
+</ws:template>
+
+
+<ws:template name="footer_colspan">
+    <ws:partial template="wrapForTable" tdColspan="{{ footer.colspan }}">
+        <ws:tagContent>
+            <div class="{{ footer.getColumnClasses(0, _options)  }} {{ cellClassName || '' }}" style="{{ footer.colspanStyles  }}">
+                <ws:partial template="footer_content" />
+            </div>
+        </ws:tagContent>
+    </ws:partial>
+</ws:template>
+
+<ws:template name="footer_separated">
+    <ws:for data="index,column in footer.columns">
+        <ws:partial template="wrapForTable">
+            <ws:tagContent>
+                <div class="{{ footer.getColumnClasses(index, _options) }} {{ cellClassName || '' }}" attr:key="nodeFooter_{{footer.key}}_column_{{index}}">
+                    <ws:partial template="footer_content" if="{{ index === 0 }}"/>
+                </div>
+            </ws:tagContent>
+        </ws:partial>
+    </ws:for>
+</ws:template>
+
+
+<ws:template name="footer">
+    <!-- Колонка под чекбокс -->
+    <ws:partial template="wrapForTable" if="{{footer.multiSelectVisibility !== 'hidden'}}">
+        <ws:tagContent>
+            <div></div>
+        </ws:tagContent>
+    </ws:partial>
+
+    <!-- Подвал во всю строку -->
+    <ws:if data="{{ colspan !== false }}">
+        <ws:partial template="footer_colspan"/>
+    </ws:if>
+    <ws:else>
+        <ws:partial template="footer_separated"/>
+    </ws:else>
+</ws:template>
+
+
+
+<!-- Не выводим подвал, если это не кнопка еще и при этом не был переопределен контент. -->
+<!-- В таком случае подвал просто не ожидается прикладным разработчиком. -->
+<ws:if data="{{ !(!footer.hasMoreStorage && !content) }}">
+    <ws:if data="{{ footer.isFullGridSupport }}">
+        <div class="controls-Grid__row controls-TreeGrid__nodeFooter" attr:key="nodeFooter_{{footer.key}}">
+            <ws:partial template="footer"/>
+        </div>
+    </ws:if>
+    <ws:else>
+        <tr class="controls-Grid__row controls-TreeGrid__nodeFooter" attr:key="nodeFooter_{{footer.key}}" >
+            <ws:partial template="footer"/>
+        </tr>
+    </ws:else>
+</ws:if>
+

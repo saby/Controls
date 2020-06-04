@@ -1,6 +1,7 @@
 <ws:partial template="{{itemData.resolveItemTemplate(itemData)}}"
             scope="{{_options}}"
-            colspan="{{true}}"
+            colspan="{{itemData.getColspan(colspan)}}"
+            colspanLength="{{ 1 }}"
             expanderIcon="none"
             marker="{{false}}"
             attr:key="{{ itemData.key }}__breadcrumbs">

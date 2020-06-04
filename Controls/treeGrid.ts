@@ -11,6 +11,7 @@
 
 import {default as View} from 'Controls/_treeGrid/View';
 import ItemTemplate = require('wml!Controls/_grid/ItemTemplateResolver');
+import NodeFooterTemplate = require('wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate');
 
 import ViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
 import TreeControl = require('Controls/_treeGrid/TreeControl');
@@ -24,6 +25,7 @@ import RowEditor = require('wml!Controls/_treeGrid/TreeGrid/RowEditor');
 export {
     View,
     ItemTemplate,
+    NodeFooterTemplate,
 
     ViewModel,
     TreeControl,

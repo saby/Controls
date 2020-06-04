@@ -54,7 +54,7 @@ var
          data.searchBreadCrumbsItemTemplate = this._options.searchBreadCrumbsItemTemplate || 'Controls/treeGrid:SearchBreadCrumbsItemTemplate';
          data.searchBreadCrumbsItemContent = "Controls/breadcrumbs:ItemTemplate";
          data.breadcrumbsItemClickCallback = this._breadcrumbsItemClickCallback;
-
+         data.getColspan = (tmplColspan) => typeof tmplColspan === 'undefined' || data.columnScroll ? true : tmplColspan;
          data.resolveItemTemplate = function(itemData) {
             if (!itemData.breadCrumbs && self._options.itemTemplate) {
                return self._options.itemTemplate;

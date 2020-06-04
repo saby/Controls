@@ -282,6 +282,7 @@ define(['Controls/treeGrid',
                columns: initialColumns,
                nodeFooters: [{}],
                rowIndex: 1,
+               itemPadding: {},
                getCurrentColumn: function() {
                   return {
                      cellClasses: ''

@@ -18,7 +18,7 @@
 <ws:template name="itemRenderNodeFooterWrapper">
    <ws:partial template="itemOutputLocalTemplate" currentItemTemplate="{{'Controls/list:ItemOutputWrapper'}}" key="{{listModel.getCurrent().key}}"/>
    <ws:if data="{{itemData.nodeFooters.length > 0}}">
-      <ws:partial template="wml!Controls/_treeGrid/TreeGridView/NodeFooter" nodeFooters="{{itemData.nodeFooters}}"/>
+      <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{itemData.nodeFooters}}"/>
    </ws:if>
 </ws:template>
 <ws:template name="nodeOutputLocalTemplate">

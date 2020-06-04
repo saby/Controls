@@ -1,5 +1,0 @@
-<!-- Вынесено в отдельный файл, чтобы сохранить видимость логического родителя. -->
-<!-- Ошибка ядра https://online.sbis.ru/opendoc.html?guid=791d9f0b-aa1c-4422-a173-0de95ad00d59 -->
-<ws:for data="nodeFooter in nodeFooters">
-    <ws:partial template="wml!Controls/_treeGrid/TreeGridView/NodeFooterContent" footer="{{nodeFooter}}" theme="{{_options.theme}}"/>
-</ws:for>

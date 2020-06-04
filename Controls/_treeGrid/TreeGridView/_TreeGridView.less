@@ -228,6 +228,15 @@
    box-sizing: border-box;
    border-top-style: solid;
 }
+.ws-is-ie .controls-TreeGrid__nodeFooterContent {
+   display: flex;
+}
+.controls-TreeGrid__nodeFooterCell_columnSeparator-size_null_theme-@{themeName} {
+   border-left-width: 0;
+}
+.controls-TreeGrid__nodeFooterCell_columnSeparator-size_s_theme-@{themeName} {
+   border-left: @column_separator_s_thickness_grid solid @column_separator_s_color_grid;
+}
 .controls-TreeGrid__nodeFooterContent_padding-top-s_theme-@{themeName} {
    padding-top: @node-footer_padding-top-s;
 }

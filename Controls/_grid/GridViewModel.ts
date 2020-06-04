@@ -1376,6 +1376,7 @@ var
             current.rowSeparatorSize = this._options.rowSeparatorSize;
             current.columnSeparatorSize = this._options.columnSeparatorSize;
             current.multiSelectClassList += current.hasMultiSelect ? ` controls-GridView__checkbox_theme-${this._options.theme}` : '';
+            current.getSeparatorForColumn = _private.getSeparatorForColumn;
 
             current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
                 _private.getColumnAlignGroupStyles(current, columnAlignGroup)
@@ -1401,10 +1402,10 @@ var
 
             // current.index === -1 если записи ещё нет в проекции/рекордсете. такое возможно при добавлении по месту
             // лесенка не хранится для элементов вне текущего диапазона startIndex - stopIndex
-            if (stickyColumn && 
-                current.isFullGridSupport() && 
-                !current.dragTargetPosition && 
-                current.index !== -1 && 
+            if (stickyColumn &&
+                current.isFullGridSupport() &&
+                !current.dragTargetPosition &&
+                current.index !== -1 &&
                 self._ladder.stickyLadder[current.index]) {
                 current.styleLadderHeading = self._ladder.stickyLadder[current.index].headingStyle;
             }

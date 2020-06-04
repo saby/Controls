@@ -142,6 +142,17 @@ var
                 current._treeGridViewModelCached = true;
             }
 
+            current.getColspanType = (tmplOptions) => {
+                if (tmplOptions.colspan === true) {
+                    return 'full';
+                } else if (tmplOptions.colspan === false && !!tmplOptions.colspanLength) {
+                    return 'partial';
+                } else {
+                    return 'none';
+                }
+            };
+            current.getPartialColspanStyles = (columnStart, columnSpan) => GridLayoutUtil.getColumnStyles({ columnStart, columnSpan });
+
             current.isLastColumn = isLastColumn;
 
             current.getCurrentColumn = function () {
@@ -192,10 +203,53 @@ var
             };
 
             const setNodeFooterRowStyles = (footer, index) => {
-                footer.columns = current.columns;
+                const columns = self._options.columns;
+                footer.columns = columns;
                 footer.isFullGridSupport = GridLayoutUtil.isFullGridSupport();
                 footer.colspan = self.getColspanFor('nodeFooter');
                 footer.getLevelIndentClasses = current.getLevelIndentClasses;
+
+                if (current.useNewNodeFooters) {
+                    footer.template = self._options.nodeFooterTemplate || 'wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate';
+                }
+
+                footer.getColumnClasses = (index, tmplOptions = {}) => {
+                    let classes =
+                        `controls-TreeGrid__nodeFooterContent ` +
+                        `controls-TreeGrid__nodeFooterContent_theme-${theme}`;
+
+                    // TODO: Исправить по ошибке https://online.sbis.ru/opendoc.html?guid=e4de50e3-8071-49bf-8cd1-69944e8704e5
+                    if (self._options.rowSeparatorVisibility) {
+                        const separatorSize = self._options.rowSeparatorSize;
+                        const isWideSeparator = separatorSize && separatorSize.toLowerCase() === 'l';
+                        classes += ` controls-TreeGrid__nodeFooterContent_withRowSeparator${isWideSeparator ? '-l' : ''}_theme-${theme}`;
+                        classes += ` controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${isWideSeparator ? 'l' : 's'}_theme-${theme}`;
+                        classes += ` controls-TreeGrid__nodeFooterContent_padding-top-${isWideSeparator ? 'l' : 's'}_theme-${theme}`;
+                    } else {
+                        classes += ` controls-TreeGrid__nodeFooterContent_withoutRowSeparator_theme-${theme} controls-TreeGrid__nodeFooterContent_padding-top-s_theme-${theme} controls-TreeGrid__nodeFooterContent_rowSeparatorSize-s_theme-${theme}`;
+                    }
+
+                    if (tmplOptions.colspan === false) {
+                        if (index > 0) {
+                            classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}_theme-${theme}`;
+                        }
+                        if (!current.hasMultiSelect && index === 0) {
+                            classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
+                        }
+
+                        if (index === self._options.columns.length - 1) {
+                            classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
+                        }
+                    } else {
+                        classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
+                        classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
+                    }
+
+                    return classes;
+                };
+
+                footer.classes = footer.getColumnClasses(0);
+
                 const colspanCfg = {
                     columnStart: self._options.multiSelectVisibility !== 'hidden' ? 1 : 0,
                     columnSpan: self._options.columnScroll ? self._columns.length + 1 : self._columns.length,
@@ -203,6 +257,7 @@ var
                 if (current.columnScroll) {
                     footer.rowIndex = current.rowIndex + index + 1;
 
+                    footer.colspanStyles = '';
                     if (self._options.columnScroll) {
                         footer.colspanStyles = GridLayoutUtil.getColumnStyles(colspanCfg);
                     } else {

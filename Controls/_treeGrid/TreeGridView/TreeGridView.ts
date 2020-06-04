@@ -5,7 +5,7 @@ import * as ItemOutputWrapper from 'wml!Controls/_treeGrid/TreeGridView/ItemOutp
 import * as GridItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/table/Item';
 
-import 'wml!Controls/_treeGrid/TreeGridView/NodeFooter';
+import 'wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser';
 import {isFullGridSupport} from '../../_grid/utils/GridLayoutUtil';
 
 var
@@ -27,6 +27,12 @@ var
         },
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
+        },
+        _onNodeFooterClick(e, dispItem) {
+            if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
+                e.stopPropagation();
+                this._notify('loadMoreClick', [dispItem]);
+            }
         },
         // protected
         _getFooterClasses(): string {

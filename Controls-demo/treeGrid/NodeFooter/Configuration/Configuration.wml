@@ -1,0 +1,74 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Подвал не определен</div>
+
+        <Controls.treeGrid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}" />
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Кастомный подвал не определен, colspan false</div>
+
+        <Controls.treeGrid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}">
+            <ws:nodeFooterTemplate>
+                <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
+            </ws:nodeFooterTemplate>
+        </Controls.treeGrid:View>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, с colspan</div>
+
+        <Controls.treeGrid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}">
+            <ws:nodeFooterTemplate>
+                <ws:partial template="Controls/treeGrid:NodeFooterTemplate" cellClassName="customClass">
+                    <Controls.list:AddButton caption="Добавить товар" />
+                </ws:partial>
+            </ws:nodeFooterTemplate>
+        </Controls.treeGrid:View>
+    </div>
+
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, без colspan</div>
+
+        <Controls.treeGrid:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}">
+            <ws:nodeFooterTemplate>
+                <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
+                    <Controls.list:AddButton caption="Добавить товар" />
+                </ws:partial>
+            </ws:nodeFooterTemplate>
+        </Controls.treeGrid:View>
+    </div>
+
+</div>

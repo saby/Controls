@@ -287,25 +287,6 @@ var
                 template?: TemplateFunction,
                 hasMoreStorage?: boolean
             }) => {
-                const getFooterClasses = () => {
-                    let classes = `controls-TreeGrid__nodeFooterContent controls-TreeGrid__nodeFooterContent_theme-${theme} ` +
-                        `controls-TreeGrid__nodeFooterContent_spacingRight-${current.itemPadding.right}_theme-${theme}`;
-                    if (!current.hasMultiSelect) {
-                        classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${current.itemPadding.left}_theme-${theme}`;
-                    }
-                    // TODO: Исправить по ошибке https://online.sbis.ru/opendoc.html?guid=e4de50e3-8071-49bf-8cd1-69944e8704e5
-                    if (self._options.rowSeparatorVisibility) {
-                        const separatorSize = self._options.rowSeparatorSize;
-                        const isWideSeparator = separatorSize && separatorSize.toLowerCase() === 'l';
-                        classes += ` controls-TreeGrid__nodeFooterContent_withRowSeparator${isWideSeparator ? '-l' : ''}_theme-${theme}`;
-                        classes += ` controls-TreeGrid__nodeFooterContent_rowSeparatorSize-${isWideSeparator ? 'l' : 's'}_theme-${theme}`;
-                        classes += ` controls-TreeGrid__nodeFooterContent_padding-top-${isWideSeparator ? 'l' : 's'}_theme-${theme}`;
-                    } else {
-                        classes += ` controls-TreeGrid__nodeFooterContent_withoutRowSeparator_theme-${theme} controls-TreeGrid__nodeFooterContent_padding-top-s_theme-${theme} controls-TreeGrid__nodeFooterContent_rowSeparatorSize-s_theme${theme}`;
-                    }
-                    return classes;
-                };
-
                 current.nodeFooters.push({
                     key: params.key,
                     item: params.dispItem.getContents(),
@@ -314,7 +295,6 @@ var
                     getExpanderPaddingClasses: _private.getExpanderPaddingClasses,
                     multiSelectVisibility: current.multiSelectVisibility,
                     template: params.template,
-                    classes: getFooterClasses(),
                     hasMoreStorage: !!params.hasMoreStorage,
                     getExpanderSize: (tplExpanderSize) => tplExpanderSize || self._options.expanderSize
                 });
@@ -614,6 +594,7 @@ var
                 }
             }
 
+           current.useNewNodeFooters = this._options.useNewNodeFooters;
            if (current.item.get) {
                _private.setNodeFooterIfNeed(this, current);
            }

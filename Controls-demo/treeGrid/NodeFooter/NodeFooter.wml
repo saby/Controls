@@ -1,10 +1,19 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_wrapper-treeGrid-nodeFooter">
-    <div class="controlsDemo__cell">
+<div class="controlsDemo__wrapper controlsDemo_wrapper-treeGrid-nodeFooter">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth300">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/treeGrid/NodeFooter/NodeFooterTemplate/Index' }}">
             <a href="{{content.href}}">Шаблон подвалов узлов</a>
         </Router.router:Reference>
         <Controls-demo.treeGrid.NodeFooter.NodeFooterTemplate.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGrid/NodeFooter/Configuration/Index' }}">
+            <a href="{{content.href}}">Настройка шаблона подвалов узлов</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGrid.NodeFooter.Configuration.Index/>
     </div>
 </div>
