@@ -13,7 +13,6 @@
                                           maxOffset="{{_maxOffset}}"
                                           on:offset="_offsetHandler()"/>
       </ws:if>
-
    </div>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial

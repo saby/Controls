@@ -29,6 +29,9 @@ import {mixin, object} from 'Types/util';
 import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
+import { IDragPosition } from 'Controls/listDragNDrop';
+import DragStrategy from './itemsStrategy/Drag';
+import { ItemsEntity } from 'Controls/dragnDrop';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -2110,6 +2113,38 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     }
 
     // endregion
+
+
+    // region Drag-N-Drop
+
+    setDraggedItems(draggedItem: T, dragEntity: ItemsEntity): void {
+        // TODO dnd когда будет выполнен полный переход на новую модель,
+        // то можно будет передать только нужные параметры(ключ аватара и список перетаскиваемых ключей)
+        const avatarKey = draggedItem.getContents().getKey();
+        const avatarStartIndex = this.getIndexByKey(avatarKey);
+
+        this.appendStrategy(DragStrategy, {
+            draggedItemsKeys: dragEntity.getItems(),
+            avatarItemKey: avatarKey,
+            avatarIndex: avatarStartIndex
+        });
+    }
+
+    setDragPosition(position: IDragPosition): void {
+        const strategy = this.getStrategyInstance(DragStrategy) as DragStrategy<unknown>;
+        if (strategy) {
+            // TODO dnd в старой модели передается куда вставлять относительно этого индекса
+            strategy.avatarIndex = position.index;
+            this.nextVersion();
+        }
+    }
+
+    resetDraggedItems(): void {
+        this.removeStrategy(DragStrategy);
+    }
+
+    // endregion
+
 
     getDisplayProperty(): string {
         return this._$displayProperty;
