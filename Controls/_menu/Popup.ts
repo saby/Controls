@@ -1,11 +1,11 @@
-import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {IMenuPopup, IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
+import {Control, TemplateFunction} from 'UI/Base';
+import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as mStubs from 'Core/moduleStubs';
 import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
-import {Controller as ManagerController} from 'Controls/popup';
+import {Controller as ManagerController, IStickyPopupOptions} from 'Controls/popup';
 import {RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 
@@ -52,15 +52,22 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _beforeUpdate(newOptions: IMenuPopupOptions): void {
         this._headerTheme = this._getTheme();
 
-        if (newOptions.stickyPosition.direction && this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
+        if (newOptions.stickyPosition.direction &&
+            this._options.stickyPosition.direction !== newOptions.stickyPosition.direction) {
             this._verticalDirection = newOptions.stickyPosition.direction.vertical;
             this._horizontalDirection = newOptions.stickyPosition.direction.horizontal;
         }
     }
 
-    protected _sendResult(event: SyntheticEvent<MouseEvent>, action, data, nativeEvent): void {
+    protected _sendResult(event: SyntheticEvent<MouseEvent>,
+                          action: string,
+                          data: any,
+                          nativeEvent: SyntheticEvent<MouseEvent>): false {
         this._notify('sendResult', [action, data, nativeEvent], {bubbling: true});
-        return false; // Чтобы подменю не закрывалось после клика на пункт https://wi.sbis.ru/docs/js/Controls/menu/Control/events/itemClick/
+
+        // Чтобы подменю не закрывалось после клика на пункт
+        // https://wi.sbis.ru/docs/js/Controls/menu/Control/events/itemClick/
+        return false;
     }
 
     protected _afterMount(options?: IMenuPopupOptions): void {
@@ -73,7 +80,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    protected _footerClick(event: SyntheticEvent<MouseEvent>, sourceEvent): void {
+    protected _footerClick(event: SyntheticEvent<MouseEvent>, sourceEvent: SyntheticEvent<MouseEvent>): void {
         this._notify('sendResult', ['footerClick', sourceEvent], {bubbling: true});
     }
 
@@ -93,7 +100,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    protected _prepareSubMenuConfig(event: SyntheticEvent<MouseEvent>, popupOptions) {
+    protected _prepareSubMenuConfig(event: SyntheticEvent<MouseEvent>, popupOptions: IStickyPopupOptions): void {
         // The first level of the popup is always positioned on the right by standard
         if (this._options.root) {
             popupOptions.direction.horizontal = this._horizontalDirection;
@@ -101,11 +108,12 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    private _setCloseButtonVisibility(options) {
-        this._closeButtonVisibility = !!(options.closeButtonVisibility || (options.showClose && !options.root) || options.searchParam);
+    private _setCloseButtonVisibility(options: IMenuPopupOptions): void {
+        this._closeButtonVisibility = !!(options.closeButtonVisibility ||
+            (options.showClose && !options.root) || options.searchParam);
     }
 
-    private _prepareHeaderConfig(options) {
+    private _prepareHeaderConfig(options: IMenuPopupOptions): void {
         if (options.headerContentTemplate) {
             this._headerTemplate = options.headerContentTemplate;
         } else if (options.searchParam) {
@@ -126,7 +134,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
-    private _setItemPadding(options) {
+    private _setItemPadding(options: IMenuPopupOptions): void {
         if (options.itemPadding) {
             this._itemPadding = options.itemPadding;
         } else if (this._closeButtonVisibility) {
