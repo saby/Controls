@@ -93,6 +93,32 @@ define([
             sinon.assert.calledOnce(ml._extData.updateData);
             sandBox.restore();
          });
+         it('should create correct displayedDates, viewMode=month', function() {
+            let
+               sandbox = sinon.createSandbox(),
+               ml = calendarTestUtils.createComponent(calendar.MonthList),
+               normalizedPosition = DateUtil.getStartOfYear(new Date(2019, 3)),
+               virtualPageSize = 2,
+               viewMode = 'year';
+
+            let displayedDates = ml._getDisplayedRanges(normalizedPosition, virtualPageSize, viewMode);
+
+            assert.equal(displayedDates.length, 12);
+            sandbox.restore();
+         });
+         it('should create correct displayedDates, viewMode=year', function() {
+            let
+               sandbox = sinon.createSandbox(),
+               ml = calendarTestUtils.createComponent(calendar.MonthList),
+               normalizedPosition = DateUtil.getStartOfYear(new Date(2019, 3)),
+               virtualPageSize = 6,
+               viewMode = 'month';
+
+            let displayedDates = ml._getDisplayedRanges(normalizedPosition, virtualPageSize, viewMode);
+
+            assert.equal(displayedDates.length, 3);
+            sandbox.restore();
+         });
       });
 
       describe('_afterMount', function() {

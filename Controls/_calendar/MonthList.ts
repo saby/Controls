@@ -179,6 +179,11 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     private  _getDisplayedRanges(position: Date, virtualPageSize: number, viewMode): number[] {
         const displayedRanges = [];
+        //На клиенте после построения загужаются только видимые элементы. Сколько будет таких элементов при построении
+        // на сервере- не известно.
+        // Мы загружаем только половину, предпологая, что вторая половина будет скрыта пределами скроллируемой области.
+        //Остальные элементы загрузятся на клиенте.
+        virtualPageSize = Math.ceil(virtualPageSize / 2);
         if ( viewMode === 'year') {
             virtualPageSize *= 12;
         }
