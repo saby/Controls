@@ -30,7 +30,7 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions, 
  */
 
 /**
- * @name Controls/_scroll/IntersectionObserver/Controller#threshold
+ * @name Controls/_scroll/IntersectionObserver/Container#threshold
  * @cfg {Array} Число или массив чисел, указывающий, при каком проценте видимости целевого элемента должен
  * сработать callback. Например, в этом случае callback функция будет вызываться при появлении в зоне видимости
  * каждые 25% целевого элемента:  [0, 0.25, 0.5, 0.75, 1]
@@ -38,7 +38,7 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions, 
  */
 
 /**
- * @name Controls/_scroll/IntersectionObserver/Controller#rootMargin
+ * @name Controls/_scroll/IntersectionObserver/Container#rootMargin
  * @cfg {String} Смещение прямоугольника, применяемое к bounding box корня при расчёте пересечений/
  * Эффективно сжимает или увеличивает корень для целей расчёта. Может быть выражено в пикселях (px) или в процентах (%).
  * Например "50% 0px 0px 0px"
@@ -48,13 +48,13 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions, 
 
 /**
  * @name Controls/_scroll/IntersectionObserver/Container#data
- * @cfg {Object} Данные которые приходят в событие {@link Controls/_scroll/IntersectionObserver/Controller#intersect}
+ * @cfg {Object} Данные которые приходят в событие {@link Controls/_scroll/IntersectionObserver/Container#intersect}
  * в качестве параметра.
  * @demo Controls-demo/Scroll/IntersectionObserver/Default/Index
  */
 
 /**
- * @event Controls/_scroll/IntersectionObserver/Controller#intersect Происходит когда цель достигает порогового значения,
+ * @event Controls/_scroll/IntersectionObserver/Container#intersect Происходит когда цель достигает порогового значения,
  * указанного в опции threshold
  * @demo Controls-demo/Scroll/IntersectionObserver/Default/Index
  */
