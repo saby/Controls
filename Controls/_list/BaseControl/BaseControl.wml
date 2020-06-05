@@ -153,9 +153,8 @@
                     <ws:partial
                             template="{{_itemActionsTemplate}}"
                             scope="{{ _listViewModel.getActionsTemplateConfig() }}"
-                            itemActionsClass="{{_options.itemActionsClass}}"
+                            itemActionsClass="{{ itemActionsTemplate.itemActionsClass }}"
                             itemData="{{ itemActionsTemplate.currentItem }}" />
-                    <!-- using || instead of ws:if because template is constantly being updated otherwise -->
                 </ws:itemActionsTemplate>
                 <ws:swipeTemplate>
                     <ws:partial
@@ -164,7 +163,6 @@
                             swipeConfig="{{ _listViewModel.getSwipeConfig() }}"
                             animationState="{{ _listViewModel.getSwipeAnimation() }}"
                             itemData="{{ swipeTemplate.currentItem }}" />
-                    <!-- using || instead of ws:if because template is constantly being updated otherwise -->
                 </ws:swipeTemplate>
                <ws:tagTemplate>
                   <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"

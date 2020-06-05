@@ -34,7 +34,6 @@
                     editingItemData="{{_options.editingItemData}}"
                     isAdd="{{_options.isAdd}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
-                    itemActionsClass="{{_options.itemActionsClass}}"
                     groupTemplate="{{_groupTemplate}}"
                     itemActionsPosition="{{_options.itemActionsPosition}}"
                     itemOutputWrapper="{{_itemOutputWrapper}}"

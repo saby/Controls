@@ -12,7 +12,6 @@
                        columnMaxWidth="{{ _options.columnMaxWidth }}"
                        column="{{i}}"
                        columnsCount="{{_options.columnsCount}}"
-                       itemActionsClass="{{ _options.itemActionsClass }}"
                        itemActionsPosition="{{ _options.itemActionsPosition }}"
                        itemActionsTemplate="{{ _options.itemActionsTemplate }}"
                        swipeTemplate="{{ _options.swipeTemplate }}"

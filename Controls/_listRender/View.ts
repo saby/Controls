@@ -42,7 +42,6 @@ export interface IViewOptions extends IControlOptions {
     itemActionsPosition?: string;
     itemActionsProperty?: string;
     style?: string;
-    itemActionsClass?: string;
 
     actionAlignment?: string;
     actionCaptionPosition?: 'right'|'bottom'|'none';
@@ -409,7 +408,6 @@ export default class View extends Control<IViewOptions> {
             theme: this._options.theme,
             actionAlignment: this._options.actionAlignment,
             actionCaptionPosition: this._options.actionCaptionPosition,
-            itemActionsClass: this._options.itemActionsClass,
             iconSize: editingConfig ? 's' : 'm',
             editingToolbarVisible: editingConfig?.toolbarVisibility,
             editArrowAction,

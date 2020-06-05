@@ -8,13 +8,12 @@
          bind:selectedKeys="_selectedKeys"
          multiSelectVisibility="visible"
          itemsReadyCallback="{{_itemsReadyCallback}}"
-         itemActionsClass="controls-itemActionsV_position_topRight"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"
          navigation="{{_navigation}}"
          name="view">
          <ws:itemTemplate>
-            <ws:partial template="Controls/listRender:ColumnsItemTemplate" highlightOnHover="{{false}}">
+            <ws:partial template="Controls/listRender:ColumnsItemTemplate" itemActionsClass="controls-itemActionsV_position_topRight" highlightOnHover="{{false}}">
                <ws:contentTemplate>
                   <div class="controlsDemo_ColumnsView_itemTemplate-wrapper">
 

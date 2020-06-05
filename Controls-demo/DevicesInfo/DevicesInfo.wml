@@ -21,10 +21,9 @@
                     markerVisibility="hidden"
                     source="{{_viewSourceDevices}}"
                     columns="{{_columns}}"
-                    itemActions="{{_itemActions}}"
-                    itemActionsClass="controls-itemActionsV_position_topRight">
+                    itemActions="{{_itemActions}}">
                <ws:itemTemplate>
-                  <ws:partial template="Controls/grid:ItemTemplate" highlightOnHover="{{false}}"/>
+                  <ws:partial template="Controls/grid:ItemTemplate" itemActionsClass="controls-itemActionsV_position_topRight" highlightOnHover="{{false}}"/>
                </ws:itemTemplate>
             </Controls.grid:View>
             <div class="DevicesInfo-button-wrapper {{!_activityDevicesArrowVisible ? 'ws-hidden'}}">
@@ -48,8 +47,11 @@
                     markerVisibility="hidden"
                     source="{{_viewSourceBlockedDevices}}"
                     columns="{{_columns}}"
-                    itemActions="{{_itemActionBlockedDevices}}"
-                    itemActionsClass="controls-itemActionsV_position_topRight"/>
+                    itemActions="{{_itemActionBlockedDevices}}">
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/list:ItemTemplate" itemActionsClass="controls-itemActionsV_position_topRight"/>
+               </ws:itemTemplate>
+            </Controls.grid:View>
             <div
                     class="DevicesInfo-button-wrapper {{!_blockedDevicesArrowVisible ? 'ws-hidden'}}">
                <Controls.toggle:BigSeparator on:click="_toggleBlockedDevices()" value="{{_blockedDevicesArrowExpanded}}"/>
@@ -70,8 +72,10 @@
                     markerVisibility="hidden"
                     source="{{_viewSourceFailedTries}}"
                     columns="{{_columns}}"
-                    itemActions="{{_itemActionFailedTries}}"
-                    itemActionsClass="controls-itemActionsV_position_topRight">
+                    itemActions="{{_itemActionFailedTries}}">
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/list:ItemTemplate" itemActionsClass="controls-itemActionsV_position_topRight"/>
+               </ws:itemTemplate>
                <ws:virtualScrollConfig pageSize="{{20}}"/>
                <ws:navigation source="page" view="infinity">
                   <ws:sourceConfig pageSize="{{50}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>

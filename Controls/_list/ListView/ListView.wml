@@ -6,7 +6,6 @@
              template="wml!Controls/_list/resources/For"
              listModel="{{_listModel}}"
              itemActionsTemplate="{{_options.itemActionsTemplate}}"
-             itemActionsClass="{{_options.itemActionsClass}}"
              swipeTemplate="{{_options.swipeTemplate}}"
              groupTemplate="{{_groupTemplate}}"
              multiSelectTpl="{{_options.multiSelectTpl}}"

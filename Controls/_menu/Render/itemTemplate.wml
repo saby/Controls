@@ -64,7 +64,8 @@
             <ws:partial template="{{ swipeTemplate }}"/>
          </ws:if>
          <ws:else>
-            <ws:partial template="{{ itemActionsTemplate }}" />
+            <ws:partial template="{{ itemActionsTemplate }}"
+                        itemActionsClass="controls-Menu__itemActions_position_rightCenter_theme-{{_options.theme}}"/>
          </ws:else>
       </ws:if>
    </ws:else>
