@@ -3,7 +3,6 @@
             keyProperty="id"
             source="{{_viewSource}}"
             itemActions="{{_itemActions}}"
-            itemActionsClass="myClass"
             itemActionsPosition="custom">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate">
@@ -13,7 +12,7 @@
                     </div>
                     <div style="height: 50px; display: flex; justify-content: center;">
                         <div style="position: relative; width: 50%;  height: 100%;">
-                            <ws:partial template="{{contentTemplate.itemActionsTemplate}}"/>
+                            <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="myClass"/>
                         </div>
                     </div>
                 </ws:contentTemplate>

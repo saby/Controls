@@ -152,7 +152,7 @@
                     <ws:partial
                             template="{{_itemActionsTemplate}}"
                             scope="{{ _listViewModel.getActionsTemplateConfig() }}"
-                            itemActionsClass="{{_options.itemActionsClass}}"
+                            itemActionsClass="{{ itemActionsTemplate.itemActionsClass }}"
                             itemData="{{ itemActionsTemplate.currentItem }}" />
                 </ws:itemActionsTemplate>
                 <ws:swipeTemplate>

@@ -35,7 +35,6 @@
     <ws:else>
         <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div>
     </ws:else>
-
     <ws:if data="{{itemData.shouldDisplayActions()}}">
         <ws:if data="{{itemData.isSwiped()}}">
             <ws:partial template="{{swipeTemplate}}"

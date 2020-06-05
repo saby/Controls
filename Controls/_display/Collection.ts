@@ -124,6 +124,7 @@ export interface IItemActionsTemplateConfig {
     itemActionsPosition?: string;
     actionAlignment?: string;
     actionCaptionPosition?: 'right'|'bottom'|'none';
+    // Устанавливается только из шаблона ItemTemplate
     itemActionsClass?: string;
 }
 

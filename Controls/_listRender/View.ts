@@ -44,7 +44,6 @@ export interface IViewOptions extends IControlOptions {
     itemActionsPosition?: TItemActionsPosition;
     itemActionsProperty?: string;
     style?: string;
-    itemActionsClass?: string;
 
     actionAlignment?: 'horizontal'|'vertical';
     actionCaptionPosition?: 'right'|'bottom'|'none';
@@ -122,7 +121,7 @@ export default class View extends Control<IViewOptions> {
             options.itemActionsProperty ||
             (options.editingConfig && options.editingConfig.item)
         ) {
-            this._updateItemActions();
+            this._updateItemActions(options);
         }
     }
 
@@ -134,16 +133,16 @@ export default class View extends Control<IViewOptions> {
     }
 
     /**
-     * По событию youch мы должны показать операции
+     * По событию touch мы должны показать операции
      * @param e
      * @private
      */
     protected _onRenderTouchStart(e: SyntheticEvent<TouchEvent>): void {
-        this._updateItemActions();
+        this._updateItemActions(this._options);
     }
 
     /**
-     * По событию youch мы должны показать операции
+     * При наведении на запись в списке мы должны показать операции
      * @param e
      * @private
      */
@@ -428,7 +427,6 @@ export default class View extends Control<IViewOptions> {
             theme: options.theme,
             actionAlignment: options.actionAlignment,
             actionCaptionPosition: options.actionCaptionPosition,
-            itemActionsClass: options.itemActionsClass,
             iconSize: editingConfig ? 's' : 'm',
             editingToolbarVisible: editingConfig?.toolbarVisibility,
             editArrowAction,

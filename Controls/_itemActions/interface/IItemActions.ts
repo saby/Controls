@@ -134,7 +134,6 @@ export interface IItemActionsTemplateOptions {
     itemActionsPosition: string;
     actionAlignment?: string;
     actionCaptionPosition: TActionCaptionPosition;
-    itemActionsClass?: string;
     actionClickCallback?: TActionClickCallback;
     size?: string;
     toolbarVisibility?: boolean;
