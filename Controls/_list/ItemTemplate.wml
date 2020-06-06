@@ -1,41 +1,36 @@
 <ws:template name="itemOutputTpl">
-   <ws:partial attr:class="{{itemData.calcCursorClasses(clickable, cursor)}}
-       {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-       ' controls-ListView__itemV_withMarker controls-ListView__item__marked_' : ' controls-ListView__item__unmarked_') + itemData.style + '_theme-' + _options.theme}}
-       {{highlightOnHover !== false && !itemData.isEditing ? 'controls-ListView__item_highlightOnHover_' + itemData.style + '_theme_' + _options.theme}}
-       controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{_options.theme}}
-       controls-ListView__item_showActions
-       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + _options.theme}}
-       {{!!itemData.isEditing ? ' controls-ListView__item_editing_theme-' + _options.theme}}
-       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}
-       js-controls-SwipeControl__actionsContainer"
-       attr:key="{{itemData.item.getId()}}"
-       template="{{content}}"
-       theme="{{_options.theme}}"/>
+    <ws:partial attr:class="{{ itemData.getRowClasses({
+                    'clickable': clickable,
+                    'cursor': cursor,
+                    'marker': marker,
+                    'highlightOnHover': highlightOnHover
+                }) }}"
+                attr:key="{{ itemData.item.getId() }}"
+                template="{{ content }}"
+                theme="{{ _options.theme }}"/>
 </ws:template>
+
 <ws:template name="itemContentTpl">
-    <ws:if data="{{itemData.hasMultiSelect}}">
-       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{_options.theme}}">
-          <ws:templateOptions multiSelectStatus="{{itemData.multiSelectStatus}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
-       </ws:partial>
-    </ws:if>
 
-   <ws:if data="{{itemData.shouldDrawMarker(marker)}}">
-      <div class="{{itemData.getMarkerClasses()}}"></div>
-   </ws:if>
+    <!-- Маркер активной записи -->
+    <div if="{{ itemData.shouldDrawMarker(marker) }}" class="{{ itemData.getMarkerClasses() }}"></div>
 
-    <ws:if data="{{contentTemplate}}">
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}">
-            <ws:partial template="{{contentTemplate}}"
-                        itemData="{{itemData}}"
-                        itemActionsTemplate="{{itemActionsTemplate}}"
-            />
-        </div>
-    </ws:if>
-    <ws:else>
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation'}}">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div>
-    </ws:else>
+    <!-- Checkbox если включен множественный выбор  -->
+    <ws:partial if="{{ itemData.hasMultiSelect }}" template="{{ multiSelectTpl }}" attr:class="{{ itemData.multiSelectClassList }} controls-ListView__checkbox_theme-{{_options.theme}}">
+        <ws:templateOptions key="{{ itemData.key }}" multiSelectStatus="{{ itemData.multiSelectStatus }}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
+    </ws:partial>
 
+    <!-- Контент строки -->
+    <div class="{{ itemData.spacingClassList }} {{ itemData.isRightSwiped ? ' controls-ListView__item_rightSwipeAnimation' }}">
+        <ws:if data="{{ contentTemplate }}">
+            <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}" itemActionsTemplate="{{itemActionsTemplate}}"/>
+        </ws:if>
+        <ws:else>
+            {{ itemData.getPropValue(itemData.item, displayProperty || 'title') }}
+        </ws:else>
+    </div>
+
+    <!-- Операции над записью -->
     <ws:if data="{{itemData.shouldDisplayActions()}}">
         <ws:if data="{{itemData.isSwiped()}}">
             <ws:partial template="{{swipeTemplate}}"
@@ -51,17 +46,18 @@
         </ws:else>
     </ws:if>
 </ws:template>
+
 <ws:if data="{{itemData.isSticky}}">
-   <ws:partial template="itemOutputTpl">
-      <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{backgroundStyle}}">
-         <ws:partial template="itemContentTpl"/>
-      </Controls.scroll:StickyHeader>
-   </ws:partial>
+    <ws:partial template="itemOutputTpl">
+        <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{ backgroundStyle }}">
+            <ws:partial template="itemContentTpl"/>
+        </Controls.scroll:StickyHeader>
+    </ws:partial>
 </ws:if>
 <ws:else>
-   <ws:partial template="itemOutputTpl">
-      <div>
-         <ws:partial template="itemContentTpl"/>
-      </div>
-   </ws:partial>
+    <ws:partial template="itemOutputTpl">
+        <div>
+            <ws:partial template="itemContentTpl"/>
+        </div>
+    </ws:partial>
 </ws:else>

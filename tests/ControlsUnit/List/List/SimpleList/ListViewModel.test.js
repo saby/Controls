@@ -4,11 +4,13 @@
 define([
    'Controls/list',
    'Types/collection',
-   'Types/entity'
+   'Types/entity',
+   'ControlsUnit/CustomAsserts'
 ], function(
    lists,
    collection,
-   entity
+   entity,
+   cAssert
 ) {
    describe('Controls.List.ListControl.ListViewModel', function() {
       var data;
@@ -564,6 +566,44 @@ define([
          assert.isAbove(lv.getVersion(), originalVersion);
       });
 
+      it('getSpacingClassList', function() {
+         const theme = 'default';
+         assert.equal(lists.ListViewModel._private.getSpacingClassList({
+            itemPadding: {
+               left: 'm',
+               right: 'XS'
+            },
+            multiSelectVisibility: 'hidden',
+            theme
+         }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_default_theme-default controls-ListView__item_default-bottomPadding_default_theme-default` +
+            ` controls-ListView__item-rightPadding_xs_theme-default controls-ListView__item-leftPadding_m_theme-default`);
+         assert.equal(lists.ListViewModel._private.getSpacingClassList({
+            itemPadding: {
+               left: 'XS',
+               right: 'm',
+               top: 'null',
+               bottom: 's'
+            },
+            multiSelectVisibility: 'visible',
+            theme
+         }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_null_theme-default controls-ListView__item_default-bottomPadding_s_theme-default` +
+            ` controls-ListView__item-rightPadding_m_theme-default controls-ListView__itemContent_withCheckboxes_theme-default`);
+      });
+
+      it('check search value', function() {
+         const lvm = new lists.ListViewModel({
+            items: new collection.RecordSet({
+               rawData: [{id: 1, title: 'qwe'}],
+               keyProperty: 'id'
+            }),
+            keyProperty: 'id',
+            style: 'master',
+         });
+         lvm.setSearchValue('test');
+         assert.equal(lvm.getItemDataByItem(lvm._display.at(0)).searchValue, 'test');
+         lvm.setSearchValue(null);
+      });
+
       describe('DragNDrop methods', function() {
          var dragItemData, dragEntity, target, lvm, current;
 
@@ -733,34 +773,110 @@ define([
                assert.equal(current.dragTargetPosition, 'after');
                assert.equal(current.draggingItemData, dragItemData);
             });
-            it('getSpacingClassList', function() {
-               const theme = 'default';
-               assert.equal(lists.ListViewModel._private.getSpacingClassList({
-                  itemPadding: {
-                     left: 'm',
-                     right: 'XS'
-                  },
-                  multiSelectVisibility: 'hidden',
-                  theme
-               }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_default_theme-default controls-ListView__item_default-bottomPadding_default_theme-default` +
-                  ` controls-ListView__item-rightPadding_xs_theme-default controls-ListView__item-leftPadding_m_theme-default`);
-               assert.equal(lists.ListViewModel._private.getSpacingClassList({
-                  itemPadding: {
-                     left: 'XS',
-                     right: 'm',
-                     top: 'null',
-                     bottom: 's'
-                  },
-                  multiSelectVisibility: 'visible',
-                  theme
-               }), ` controls-ListView__itemContent controls-ListView__itemContent_default_theme-default controls-ListView__item_default-topPadding_null_theme-default controls-ListView__item_default-bottomPadding_s_theme-default` +
-                  ` controls-ListView__item-rightPadding_m_theme-default controls-ListView__itemContent_withCheckboxes_theme-default`);
+         });
+      });
+
+      // #reaNewTemplates
+      describe('For new item templates', () => {
+
+         describe('row classes', () => {
+            let itemData, allClassesArray, defaultItemClassArray;
+
+            const CURSOR_POINTER_CLASS = 'controls-ListView__itemV_cursor-pointer';
+            const CURSOR_DEFAULT_CLASS = 'controls-ListView__itemV_cursor-default';
+
+            const localModel = new lists.ListViewModel({
+               items: new collection.RecordSet({
+                  rawData: [{ id: 1, title: 'Первый' }],
+                  keyProperty: 'id'
+               }),
+               markerVisibility: 'onactivated',
+               keyProperty: 'id',
+               style: 'default',
+               theme: 'default'
             });
 
-            it('check search value', function() {
-               lvm.setSearchValue('test');
-               assert.equal(lvm.getItemDataByItem(lvm._display.at(0)).searchValue, 'test');
-               lvm.setSearchValue(null);
+            beforeEach(() => {
+               // Тестирование идет через утилиту классов, поэтому порядок классов не важен. можно добавлять вконец
+               allClassesArray = [
+                  'js-controls-SwipeControl__actionsContainer', // 0
+                  'controls-ListView__item_default', // 1
+                  'controls-ListView__item_default_theme-default', // 2
+                  'controls-ListView__item_showActions', // 3
+                  'controls-ListView__item_active_theme-default', // 4
+                  'controls-ListView__item_editing_theme-default', // 5
+                  'controls-ListView__item_dragging_theme-default', // 6
+                  'controls-ListView__item__marked_default_theme-default', // 7
+                  'controls-ListView__item__unmarked_default_theme-default', // 8
+                  'controls-ListView__item_highlightOnHover_default_theme_default', // 9
+
+                  // Курсор вешает это
+                  'controls-ListView__itemV', // 10
+                  CURSOR_POINTER_CLASS // 11
+               ];
+               defaultItemClassArray = allClassesArray.map((item, index) => (index > 3 && index < 8) ? '' : item);
+               itemData = localModel.getItemDataByItem(localModel._display.at(0));
+            });
+
+            afterEach(() => {
+               // Для каждего теста свежая itemData, а не пересоздание модели.
+               // Если не сбросить кеш, на itemData будут флаги с прошлого теста.
+               // Пересоздаваемая модель = более медленные тесты.
+               localModel.resetCachedItemData();
+            });
+
+
+            it('default itemData, no params', function() {
+               cAssert.isClassesEqual(itemData.getRowClasses({}), defaultItemClassArray.join(' '));
+            });
+
+            it('no highlight (highlightOnHover false)', function() {
+               defaultItemClassArray[9] = '';
+               cAssert.isClassesEqual(itemData.getRowClasses({highlightOnHover: false}), defaultItemClassArray.join(' '));
+            });
+
+            it('no marker (markerVisibility hidden)', function() {
+               itemData.markerVisibility = 'hidden';
+               cAssert.isClassesEqual(itemData.getRowClasses({}), defaultItemClassArray.join(' '));
+            });
+
+            it('no marker (marker false)', function() {
+               cAssert.isClassesEqual(itemData.getRowClasses({marker: false}), defaultItemClassArray.join(' '));
+            });
+
+            it('marked item', function() {
+               defaultItemClassArray[7] = allClassesArray[7];
+               defaultItemClassArray[8] = '';
+               itemData._isSelected = true;
+               cAssert.isClassesEqual(itemData.getRowClasses({}), defaultItemClassArray.join(' '));
+            });
+
+            it('cursor pointer', function() {
+               cAssert.isClassesEqual(itemData.getRowClasses({ cursor: 'pointer'}), defaultItemClassArray.join(' '));
+            });
+
+            it('cursor default', function() {
+               defaultItemClassArray[11] = CURSOR_DEFAULT_CLASS;
+               cAssert.isClassesEqual(itemData.getRowClasses({ cursor: 'default'}), defaultItemClassArray.join(' '));
+            });
+
+            it('dragging item', function() {
+               defaultItemClassArray[6] = allClassesArray[6];
+               itemData.isDragging = true;
+               cAssert.isClassesEqual(itemData.getRowClasses({ }), defaultItemClassArray.join(' '));
+            });
+
+            it('editing item', function() {
+               defaultItemClassArray[5] = allClassesArray[5];
+               defaultItemClassArray[9] = '';
+               itemData.isEditing = true;
+               cAssert.isClassesEqual(itemData.getRowClasses({ }), defaultItemClassArray.join(' '));
+            });
+
+            it('highlight active item (on .ws-no-hover)', function() {
+               defaultItemClassArray[4] = allClassesArray[4];
+               itemData.isActive = () => true;
+               cAssert.isClassesEqual(itemData.getRowClasses({ }), defaultItemClassArray.join(' '));
             });
          });
       });

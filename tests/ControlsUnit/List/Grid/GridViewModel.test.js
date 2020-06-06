@@ -1230,7 +1230,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.isUndefined(current.styleLadderHeading, 'shouldn\'t assign ladder');
 
-            
+
             ladderViewModel._model._curIndex = 2;
             current = ladderViewModel.getCurrent();
 
@@ -1268,7 +1268,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.equal(4, Object.keys(ladderViewModel._ladder.stickyLadder).length);
             assert.equal(4, Object.keys(ladderViewModel._ladder.ladder).length);
 
-            
+
             let resetCacheKey = null;
             let fullCacheReset = false;
             ladderViewModel.resetCachedItemData = (key) => {

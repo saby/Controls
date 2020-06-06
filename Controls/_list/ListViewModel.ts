@@ -75,10 +75,9 @@ var _private = {
         return false;
     },
 
-    getMultiSelectClassList: function (current): string {
-        let
-            checkboxOnHover = current.multiSelectVisibility === 'onhover',
-            isSelected = current.multiSelectStatus !== undefined;
+    getMultiSelectClassList(current): string {
+        const checkboxOnHover = current.multiSelectVisibility === 'onhover';
+        const isSelected = current.multiSelectStatus !== undefined;
 
         return CssClassList.add('js-controls-ListView__checkbox')
                            .add('js-controls-ListView__notEditable')
@@ -154,6 +153,38 @@ var _private = {
                 itemsModelCurrent.dispItem.setSelected(selected, silent);
             }
         };
+    },
+    getRowClasses(itemData, tmplParams: {
+        clickable?: boolean; // DEPRECATED
+        cursor?: 'default' | 'pointer';
+        highlightOnHover?: boolean;
+        marker?: boolean;
+    }): string {
+        const style: string = itemData.style;
+        const theme: string = itemData.theme;
+
+        const highlightAllowed = tmplParams.highlightOnHover !== false;
+        const shouldHighlight = highlightAllowed && !!itemData.isActive(); // touch устройства, где нет ховера
+        const markerAllowed = tmplParams.marker !== false && itemData.markerVisibility !== 'hidden';
+        const isMarked = markerAllowed && itemData._isSelected;
+
+        // TODO: Судя по тестам, можно избавиться от каскада для подсветки строки при редактировании, т.к.
+        //  есть класс item_active. Он делает тоже самое, просто меняет фон. Используется при тач устройствах.
+        //  Сейчас подсветка редактируемой строки - каскад. #reaNewTemplates
+        const classList = new CssClassList()
+            .add('js-controls-SwipeControl__actionsContainer')
+            .add(`controls-ListView__item_${style}`)
+            .add(`controls-ListView__item_${style}_theme-${theme}`)
+            .add('controls-ListView__item_showActions')
+            .add(`controls-ListView__item_active_theme-${theme}`, shouldHighlight)
+            .add(`controls-ListView__item_editing_theme-${theme}`, !!itemData.isEditing)
+            .add(`controls-ListView__item_dragging_theme-${theme}`, !!itemData.isDragging )
+            .add(`controls-ListView__item__marked_${style}_theme-${theme}`, isMarked)
+            .add(`controls-ListView__item__unmarked_${style}_theme-${theme}`, !isMarked)
+            .add(`controls-ListView__item_highlightOnHover_${style}_theme_${theme}`, highlightAllowed && !itemData.isEditing)
+            .add(itemData.calcCursorClasses(tmplParams.clickable, tmplParams.cursor));
+
+        return classList.compile();
     }
 };
 
@@ -220,6 +251,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.showEditArrow = this._options.showEditArrow;
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
         itemsModelCurrent.backgroundStyle = this._options.backgroundStyle || this._options.style;
+        itemsModelCurrent.getRowClasses = (tmplParams) => _private.getRowClasses(itemsModelCurrent, tmplParams);
+
         if (itemsModelCurrent.isGroup) {
             itemsModelCurrent.isStickyHeader = this._options.stickyHeader;
             itemsModelCurrent.virtualScrollConfig = this._isSupportVirtualScroll();
@@ -307,6 +340,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (typeof clickable !== 'undefined') {
             Logger.warn('Controls/list:BaseItemTemplate', 'Option "clickable" is deprecated and will be removed in 20.3000. Use option "cursor" with value "default".');
         }
+        // TODO: Убрать отсюда controls-ListView__itemV. Класс не отвечает за курсор. #reaNewTemplates
         return ` controls-ListView__itemV controls-ListView__itemV_cursor-${cursorStyle}`;
     },
 
