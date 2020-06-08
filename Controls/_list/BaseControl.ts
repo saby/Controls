@@ -1929,6 +1929,13 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
     _draggingEntity: null,
     _draggingTargetItem: null,
 
+    /*
+        Запоминаем сюда ключ из события markedKeyChanged
+        Так как бывает такая ситуация, что в списке проставили маркер, но прикладник не хочет его ставить,
+        поэтому он его сбрасывает, но baseControl не знает что был проставлен маркер и ничего не меняет
+     */
+    _markedKey: undefined,
+
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
@@ -2089,6 +2096,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         if (detection.isMobileIOS) {
             this._inertialScrolling.scrollStarted();
         }
+    },
+
+    _onMarkedKeyChanged(e, key): void {
+        this._markedKey = key;
+        this._notify('markedKeyChanged', [key]);
     },
 
     scrollMoveHandler(_: SyntheticEvent<Event>, params: unknown): void {
@@ -2259,7 +2271,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             this._listViewModel.setKeyProperty(newOptions.keyProperty);
         }
 
-        if (newOptions.markedKey !== this._options.markedKey) {
+        if (newOptions.markedKey !== this._markedKey) {
             if (newOptions.useNewModel) {
                 const markCommand = new displayLib.MarkerCommands.Mark(newOptions.markedKey);
                 markCommand.execute(this._listViewModel);

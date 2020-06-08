@@ -171,7 +171,7 @@
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 on:deactivated="_listDeactivated()"
                 on:animationend="_onAnimationEnd()"
-                on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
+                on:markedKeyChanged="_onMarkedKeyChanged()"
                 on:itemClick="_onItemClick()"
                 on:groupClick="_onGroupClick()"
                 on:editArrowClick="_notifyHandler('editArrowClick')"
