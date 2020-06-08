@@ -4,6 +4,10 @@ import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import Utils = require('Types/util');
 import dropdownUtils = require('Controls/_dropdown/Util');
 import tmplNotify = require('Controls/Utils/tmplNotify');
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {_beforeMountMethod} from 'Controls/_dropdown/Utils/CommonHookMethods';
+import _Controller = require('Controls/_dropdown/_Controller');
+import {SyntheticEvent} from "Vdom/Vdom";
 
 var getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
@@ -20,14 +24,14 @@ var _private = {
 
 /**
  * Контрол, позволяющий выбрать значение из списка. Полный список параметров отображается при нажатии на контрол.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/combobox/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
- * 
+ *
  * @class Controls/_dropdown/ComboBox
  * @extends Core/Control
  * @implements Controls/_interface/ISource
@@ -89,12 +93,32 @@ var ComboBox = Control.extend({
    _isOpen: false,
    _notifyHandler: tmplNotify,
 
-   _beforeMount: function (options) {
+   _beforeMount: function (options, recievedState) {
       this._onClose = _private.popupVisibilityChanged.bind(this, false);
       this._onOpen = _private.popupVisibilityChanged.bind(this, true);
       this._placeholder = options.placeholder;
       this._value = options.value;
       this._setText = this._setText.bind(this);
+      this._controller = new _Controller({...options, ...{
+            selectedKeys: [options.selectedKey],
+            marker: false,
+            popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup') + ' controls-ComboBox-popup_theme-' + options.theme,
+            typeShadow: 'suggestionsContainer',
+            close: this._onClose,
+            open: this._onOpen,
+            allowPin: false,
+            selectedItemsChangedCallback: this._setText,
+            theme: options.theme,
+            notifyEvent: this._notifyComboboxEvent.bind(this),
+            notifySelectedItemsChanged: this._selectedItemsChangedHandler.bind(this),
+            itemPadding: {
+               right: 'menu-xs',
+               left: 'menu-xs'
+            }
+         }
+      });
+
+      return _beforeMountMethod(this, options, recievedState);
    },
 
    _afterMount: function () {
@@ -103,17 +127,25 @@ var ComboBox = Control.extend({
       };
       this._width = _private.getContainerNode(this._container).offsetWidth;
       this._forceUpdate();
+      RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
+      this._controller.container = this._container;
    },
 
-   _beforeUpdate: function () {
+   _beforeUpdate: function (options) {
       var containerNode = _private.getContainerNode(this._container);
 
       if (this._width !== containerNode.offsetWidth) {
          this._width = containerNode.offsetWidth;
       }
+      this._controller.update({...options, ...{
+            width: this._width,
+            targetPoint: this._targetPoint,
+            selectedKeys: options.selectedKeys || []
+         }
+      });
    },
 
-   _selectedItemsChangedHandler: function (event, selectedItems) {
+   _selectedItemsChangedHandler: function (selectedItems, event) {
       var key = getPropValue(selectedItems[0], this._options.keyProperty);
       this._setText(selectedItems);
       this._notify('valueChanged', [this._value]);
@@ -142,6 +174,41 @@ var ComboBox = Control.extend({
 
    closeMenu(): void {
       this._children.controller.closeMenu();
+   },
+
+   _scrollHandler(): void {
+      if (this._controller._popupId) {
+         this.closeMenu();
+      }
+   },
+
+   _handleClick(event: SyntheticEvent): void {
+      // stop bubbling event, so the list does not handle click event.
+      event.stopPropagation();
+   },
+
+   _handleMouseDown(event: SyntheticEvent): void {
+      this._controller._mouseDownHandler();
+   },
+
+   _handleMouseEnter(event: SyntheticEvent): void {
+      this._controller._mouseEnterHandler();
+   },
+
+   _handleMouseLeave(event: SyntheticEvent): void {
+      this._controller._mouseLeaveHandler();
+   },
+
+   _handleKeyDown(event: SyntheticEvent): void {
+      this._controller._keyDown(event);
+   },
+
+   _beforeUnmount(): void {
+      UnregisterUtil(this, 'scroll');
+   },
+
+   _notifyComboboxEvent: function(eventName, data, additionData) {
+      return this._notify(eventName, [data, additionData]);
    }
 
 });
