@@ -679,6 +679,26 @@ const _private = {
             return;
         }
         if (self._needScrollCalculation) {
+            let triggerVisibilityUp;
+            let triggerVisibilityDown;
+
+            if (self._options.recalculateTriggersVisibility) {
+                const scrollParams = {
+                    clientHeight: self._viewPortSize,
+                    scrollHeight: self._viewSize,
+                    scrollTop: self._scrollTop
+                };
+
+                // Состояние триггеров не всегда соответствует действительности, приходится считать самим
+                triggerVisibilityUp = self._loadTriggerVisibility.up ||
+                    _private.calcTriggerVisibility(self, scrollParams, self._loadOffsetTop, 'up');
+                triggerVisibilityDown = self._loadTriggerVisibility.down ||
+                    _private.calcTriggerVisibility(self, scrollParams, self._loadOffsetBottom, 'down');
+            } else {
+                triggerVisibilityUp = self._loadTriggerVisibility.up;
+                triggerVisibilityDown = self._loadTriggerVisibility.down;
+            }
+
             // TODO Когда список становится пустым (например после поиска или смены фильтра),
             // если он находится вверху страницы, нижний загрузочный триггер может "вылететь"
             // за пределы экрана (потому что у него статически задан отступ от низа списка,
@@ -690,14 +710,14 @@ const _private = {
             // (уменьшать отступ триггеров, когда список пуст???). Выписал задачу:
             // https://online.sbis.ru/opendoc.html?guid=fb5a67de-b996-49a9-9312-349a7831f8f1
             const hasNoItems = self.getViewModel() && self.getViewModel().getCount() === 0;
-            if (self._loadTriggerVisibility.up || hasNoItems) {
+            if (triggerVisibilityUp || hasNoItems) {
                 _private.onScrollLoadEdge(self, 'up', filter);
             }
-            if (self._loadTriggerVisibility.down || hasNoItems) {
+            if (triggerVisibilityDown || hasNoItems) {
                 _private.onScrollLoadEdge(self, 'down', filter);
             }
             if (_private.isPortionedLoad(self)) {
-                _private.checkPortionedSearchByScrollTriggerVisibility(self, self._loadTriggerVisibility.down);
+                _private.checkPortionedSearchByScrollTriggerVisibility(self, triggerVisibilityDown);
             }
         } else if (_private.needLoadByMaxCountNavigation(self._listViewModel, navigation)) {
             _private.loadToDirectionIfNeed(self, 'down', filter);
@@ -3179,7 +3199,8 @@ BaseControl.getDefaultOptions = function() {
         continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
         stickyHeader: true,
         virtualScrollMode: 'remove',
-        filter: {}
+        filter: {},
+        recalculateTriggersVisibility: false
     };
 };
 export = BaseControl;

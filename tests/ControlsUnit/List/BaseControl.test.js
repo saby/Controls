@@ -293,6 +293,40 @@ define([
          sandbox.restore();
       });
 
+      // оказалось что нельзя доверять состоянию триггеров
+      // https://online.sbis.ru/opendoc.html?guid=e0927a79-c520-4864-8d39-d99d36767b31
+      // поэтому приходится вычислять видны ли они на экране
+      it('should recalculate triggers visibility when current up and down are not set or false', () => {
+         const self = {
+            _options: {
+               recalculateTriggersVisibility: true
+            },
+            _loadTriggerVisibility: {
+               up: false,
+               down: false
+            },
+            _needScrollCalculation: true,
+            getViewModel: () => ({
+               getCount: () => 3
+            })
+         };
+         const myFilter = {testField: 'testValue'};
+         const resultNavigation = 'testNavigation';
+         let upRecalculated = false;
+         let downRecalculated = false;
+         sandbox.replace(lists.BaseControl._private, 'calcTriggerVisibility', (self, scrollParams, triggerOffset, direction) => {
+            if (direction === 'up') {
+               upRecalculated = true;
+            } else {
+               downRecalculated = true;
+            }
+         });
+         lists.BaseControl._private.checkLoadToDirectionCapability(self, myFilter, resultNavigation);
+         assert.isTrue(upRecalculated, '_loadTriggerVisibility.up has not been recalculated');
+         assert.isTrue(downRecalculated, '_loadTriggerVisibility.down has not been recalculated');
+         sandbox.restore();
+      });
+
       describe('_private::loadToDirectionIfNeed', () => {
          const getInstanceMock = function() {
             return {
@@ -5201,10 +5235,10 @@ define([
                   target: {},
                   nativeEvent: {}
                };
-               const event = { 
-                  stopPropagation: () => {} 
+               const event = {
+                  stopPropagation: () => {}
                };
-               const dragEvent = { 
+               const dragEvent = {
                   stopPropagation: () => {}
                };
                const dragObject = {
