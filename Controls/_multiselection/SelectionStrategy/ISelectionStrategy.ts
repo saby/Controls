@@ -75,4 +75,9 @@ export default interface ISelectionStrategy {
     * @param options
     */
    update(options: ITreeSelectionStrategyOptions | IFlatSelectionStrategyOptions): void;
+
+   /**
+    * Проверяет все ли выбраны в текущем узле
+    */
+   isAllSelected(selection: ISelection): boolean;
 }

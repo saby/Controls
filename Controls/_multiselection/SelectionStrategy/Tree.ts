@@ -202,6 +202,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return countItemsSelected;
    }
 
+   isAllSelected(selection: ISelection): boolean {
+      return this._isAllSelectedInRoot(selection);
+   }
+
    private _unselectParentNodes(selection: ISelection, parentId: TKey): void {
       let allChildrenExcluded = this._isAllChildrenExcluded(selection, parentId);
       let currentParentId = parentId;
