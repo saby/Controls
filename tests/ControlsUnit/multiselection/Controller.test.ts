@@ -12,7 +12,11 @@ describe('Controls/_multiselection/Controller', () => {
          this.flag = true;
       },
       getHasMoreData(): boolean { return false; },
-      getCollection(): number[] { return this.items; },
+      getCollection(): object {
+         return {
+            getCount() { return 0; }
+         };
+      },
       getItemBySourceKey(): object {
          return {
             isSelected(): boolean { return false; }
@@ -32,13 +36,15 @@ describe('Controls/_multiselection/Controller', () => {
          return {
             get(): object { return {}; }
          };
+      },
+      isAllSelected(): boolean {
+         return true;
       }
    };
 
    let controller;
 
    beforeEach(() => {
-      model.items = [];
       model.flag = false;
       controller = new SelectionController({
          model,
@@ -79,7 +85,7 @@ describe('Controls/_multiselection/Controller', () => {
             excludedKeys: [],
             strategyOptions: {}
          });
-         assert.equal(controller._model.flag, true);
+         assert.equal(model.flag, true);
       });
 
       it('items changed', () => {
@@ -90,7 +96,7 @@ describe('Controls/_multiselection/Controller', () => {
             excludedKeys: [],
             strategyOptions: {}
          });
-         assert.equal(controller._model.flag, true);
+         assert.equal(model.flag, true);
       });
 
       it('selection changed', () => {
@@ -100,7 +106,37 @@ describe('Controls/_multiselection/Controller', () => {
             excludedKeys: [],
             strategyOptions: {}
          });
-         assert.equal(controller._model.flag, true);
+         assert.equal(model.flag, true);
+      });
+
+      it ('root changed and all selected', () => {
+         const cfg = {
+            model,
+            strategy,
+            selectedKeys: [null],
+            excludedKeys: []
+         };
+         controller = new SelectionController(cfg);
+
+         controller.update(cfg, true);
+
+         assert.equal(model.flag, true);
+         assert.deepEqual(controller._selection, { selected: [], excluded: [] })
+      });
+
+      it ('filter changed and all selected', () => {
+         const cfg = {
+            model,
+            strategy,
+            selectedKeys: [null],
+            excludedKeys: []
+         };
+         controller = new SelectionController(cfg);
+
+         controller.update(cfg, false, true);
+
+         assert.equal(model.flag, true);
+         assert.deepEqual(controller._selection, { selected: [], excluded: [] });
       });
    });
 
@@ -130,12 +166,44 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    it('handleRemoveItems', () => {
-      controller.handleRemoveItems([]); // TODO add args
+      controller.handleRemoveItems([]);
       assert.equal(model.flag, true);
    });
 
-   it('handleReset', () => {
-      controller.handleReset([]);
-      assert.equal(model.flag, true);
+   describe('handleReset', () => {
+      it('not changes', () => {
+         controller.handleReset([]);
+         assert.equal(model.flag, true);
+      });
+
+      it('root changed', () => {
+         const cfg = {
+            model,
+            strategy,
+            selectedKeys: [1],
+            excludedKeys: [1]
+         };
+         controller = new SelectionController(cfg);
+
+         controller.handleReset([], true, 1);
+
+         assert.equal(model.flag, true);
+         assert.deepEqual(controller._selection, { selected: [], excluded: [] });
+      });
+
+      it('all selected and empty model', () => {
+         const cfg = {
+            model,
+            strategy,
+            selectedKeys: [null],
+            excludedKeys: []
+         };
+         controller = new SelectionController(cfg);
+
+         controller.handleReset([]);
+
+         assert.equal(model.flag, true);
+         assert.deepEqual(controller._selection, { selected: [], excluded: [] });
+      });
    });
 });
