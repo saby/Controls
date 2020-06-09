@@ -101,14 +101,14 @@ define(
                   text = data[0];
                }
             };
-            ddl._selectedItemsChangedHandler('itemClick', [itemsRecords.at(5)]);
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick');
             assert.deepEqual(keys, ['6']);
             assert.strictEqual(text, 'Запись 6');
             assert.isTrue(isKeysChanged);
 
             isKeysChanged = false;
             ddl._options.selectedKeys = ['6'];
-            ddl._selectedItemsChangedHandler('itemClick', [itemsRecords.at(5)]); // key = '6'
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick'); // key = '6'
             assert.isFalse(isKeysChanged);
          });
 
@@ -143,7 +143,6 @@ define(
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
          });
-
 
          it('_deactivated', () => {
             let ddl = getDropdown(config);

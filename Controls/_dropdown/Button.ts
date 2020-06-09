@@ -1,8 +1,11 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_dropdown/Button/Button');
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
+import _Controller = require('Controls/_dropdown/_Controller');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import ActualApi from 'Controls/_buttons/ActualApi';
+import {SyntheticEvent} from "Vdom/Vdom";
+import {afterMountMethod, beforeMountMethod} from 'Controls/_dropdown/Utils/CommonHookMethods';
 
 /**
  * Контрол «Кнопка с меню».
@@ -77,9 +80,27 @@ var Button = Control.extend({
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
    },
 
-   _beforeMount: function (options) {
+   _beforeMount: function (options, recievedState) {
       this._offsetClassName = MenuUtils.cssStyleGeneration(options);
       this._updateState(options);
+      this._controller = new _Controller({ ...options, ...{
+            headerTemplate: options.headTemplate || this._options.headerTemplate,
+            headingCaption: options.caption,
+            headingIconSize: options.iconSize,
+            dataLoadCallback: this._dataLoadCallback,
+            popupClassName: options.popupClassName || this._offsetClassName,
+            hasIconPin: this._hasIconPin,
+            allowPin: true,
+            notifyEvent: this._notifyButtonEvent.bind(this),
+            notifySelectedItemsChanged: this._onItemClickHandler.bind(this)
+         }
+      });
+
+      return beforeMountMethod(this, options, recievedState);
+   },
+
+   _afterMount: function() {
+      afterMountMethod(this);
    },
 
    _beforeUpdate: function (options) {
@@ -88,6 +109,7 @@ var Button = Control.extend({
          this._offsetClassName = MenuUtils.cssStyleGeneration(options);
       }
       this._updateState(options);
+      this._controller.update(options);
    },
 
    _updateState: function (options) {
@@ -105,7 +127,14 @@ var Button = Control.extend({
       }
    },
 
-   _onItemClickHandler: function (event, result, nativeEvent) {
+   _notifyButtonEvent: function(eventName, data, additionData) {
+      return this._notify(eventName, [data, additionData]);
+      if (!data) {
+         this._tmplNotify(eventName);
+      }
+   },
+
+   _onItemClickHandler(result, nativeEvent) {
       //onMenuItemActivate will deleted by task https://online.sbis.ru/opendoc.html?guid=6175f8b3-4166-497e-aa51-1fdbcf496944
       const onMenuItemActivateResult = this._notify('onMenuItemActivate', [result[0], nativeEvent]);
       const menuItemActivateResult = this._notify('menuItemActivate', [result[0], nativeEvent]);
@@ -121,10 +150,8 @@ var Button = Control.extend({
       return handlerResult;
    },
 
-   _onPinClickHandler: function (event, item) {
-      this._options.source.update(item.clone(), {
-         $_pinned: !item.get('pinned')
-      });
+   _onSelectorTemplateResult(data) {
+      return this._notify('selectorCallback', data);
    },
 
    _deactivated: function() {
@@ -132,13 +159,37 @@ var Button = Control.extend({
    },
 
    openMenu(popupOptions?: object): void {
-      this._children.controller.openMenu(popupOptions);
+      this._controller.openMenu(popupOptions);
    },
 
    closeMenu(): void {
-      this._children.controller.closeMenu();
-   }
+      this._controller.closeMenu();
+   },
 
+   _handleClick(event: SyntheticEvent): void {
+      // stop bubbling event, so the list does not handle click event.
+      event.stopPropagation();
+   },
+
+   _handleMouseDown(event: SyntheticEvent): void {
+      this._controller.handleMouseDownOnMenuPopupTarget();
+   },
+
+   _handleMouseEnter(event: SyntheticEvent): void {
+      this._controller.handleMouseEnterOnMenuPopupTarget();
+   },
+
+   _handleMouseLeave(event: SyntheticEvent): void {
+      this._controller.handleMouseLeaveMenuPopupTarget();
+   },
+
+   _handleKeyDown(event: SyntheticEvent): void {
+      this._controller.handleKeyDown(event);
+   },
+
+   _beforeUnmount(): void {
+      this._controller.destroy();
+   }
 });
 
 Button.getDefaultOptions = function () {

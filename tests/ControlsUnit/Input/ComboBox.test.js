@@ -83,7 +83,7 @@ define(
                   assert.equal(data[0], '2');
                }
             };
-            combobox._selectedItemsChangedHandler('itemClick', [itemsRecords.at(1)]);
+            combobox._selectedItemsChangedHandler([itemsRecords.at(1)], 'itemClick');
             assert.isFalse(combobox._isOpen);
          });
 
@@ -107,6 +107,9 @@ define(
          it('_beforeUpdate width change', function() {
             let combobox = getCombobox(config);
             combobox._container = {offsetWidth: 250};
+            combobox._controller = {
+               update: () => {}
+            };
             assert.equal(combobox._width, undefined);
             combobox._beforeUpdate({});
             assert.equal(combobox._width, 250);
@@ -114,6 +117,10 @@ define(
          it('_afterMount', function() {
             let combobox = getCombobox(config);
             combobox._container = {offsetWidth: 250};
+            combobox._controller = {
+               setMenuPopupTarget: () => {},
+               registerScrollEvent: () => {}
+            };
             assert.equal(combobox._width, undefined);
             assert.equal(combobox._targetPoint, undefined);
             combobox._afterMount();
