@@ -4590,6 +4590,63 @@ define([
          assert.isTrue(portionSearchReseted);
       });
 
+      it('_beforeUpdate with new root', async function() {
+         let cfg = {
+            viewName: 'Controls/List/ListView',
+            sorting: [],
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            keyProperty: 'id',
+            source: source
+         };
+         let instance = new lists.BaseControl(cfg);
+
+         instance.saveOptions(cfg);
+         await instance._beforeMount(cfg);
+
+         let clearSelectionCalled = false;
+         instance._selectionController = {
+            update() {},
+            clearSelection() { clearSelectionCalled = true; },
+            handleReset() {}
+         };
+
+         let cfgClone = { ...cfg, root: 'newvalue' };
+         instance._beforeUpdate(cfgClone);
+         assert.isTrue(clearSelectionCalled);
+      });
+
+      it('_beforeUpdate with empty model', async function() {
+         let cfg = {
+            viewName: 'Controls/List/ListView',
+            sorting: [],
+            viewModelConfig: {
+               items: [],
+               keyProperty: 'id'
+            },
+            viewModelConstructor: lists.ListViewModel,
+            keyProperty: 'id'
+         };
+         let instance = new lists.BaseControl(cfg);
+
+         instance.saveOptions(cfg);
+         await instance._beforeMount(cfg);
+
+         let clearSelectionCalled = false;
+         instance._selectionController = {
+            update() {},
+            clearSelection() { clearSelectionCalled = true; },
+            handleReset() {}
+         };
+
+         let cfgClone = { ...cfg};
+         instance._beforeUpdate(cfgClone);
+         assert.isTrue(clearSelectionCalled);
+      });
+
       it('_beforeUpdate with new searchValue', async function() {
          let cfg = {
             viewName: 'Controls/List/ListView',

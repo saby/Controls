@@ -2460,11 +2460,15 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._selectionController) {
             _private.updateSelectionController(this, newOptions);
+            if (self._options.root !== newOptions.root || filterChanged || this._listViewModel.getCount() === 0) {
+                const result = this._selectionController.clearSelection();
+                _private.handleSelectionControllerResult(this, result);
+            }
         } else {
             // выбранные элементы могут проставить передав в опции, но контроллер еще может быть не создан
             if (newOptions.selectedKeys && newOptions.selectedKeys.length > 0) {
                 this._selectionController = _private.createSelectionController(this, newOptions);
-        }
+            }
         }
     },
 

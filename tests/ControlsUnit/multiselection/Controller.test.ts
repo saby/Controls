@@ -66,7 +66,7 @@ describe('Controls/_multiselection/Controller', () => {
             selectedKeys: [],
             excludedKeys: [],
             strategyOptions: {}
-         });
+         }, false, false);
 
          assert.isTrue(setSelectedItemsSpy.called);
       });
@@ -78,7 +78,7 @@ describe('Controls/_multiselection/Controller', () => {
             selectedKeys: [1],
             excludedKeys: [],
             strategyOptions: {}
-         });
+         }, false, false);
          assert.isTrue(setSelectedItemsSpy.called);
       });
    });
@@ -124,6 +124,26 @@ describe('Controls/_multiselection/Controller', () => {
       });
    });
 
+   it('clearSelection', () => {
+      const setSelectedItemsSpy = spy(model, 'setSelectedItems');
+      const result = controller.clearSelection();
+      assert.isTrue(setSelectedItemsSpy.called);
+      assert.deepEqual(result, {
+         selectedKeysDiff: {
+            added: [],
+            removed: [],
+            keys: []
+         },
+         excludedKeysDiff: {
+            added: [],
+            removed: [],
+            keys: []
+         },
+         selectedCount: undefined,
+         isAllSelected: false
+      });
+   });
+
    it('selectAll', () => {
       const setSelectedItemsSpy = spy(model, 'setSelectedItems');
       controller.selectAll();
@@ -155,8 +175,15 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    it('handleReset', () => {
+      controller = new SelectionController({
+         model,
+         strategy,
+         selectedKeys: [null],
+         excludedKeys: [null]
+      });
+
       const setSelectedItemsSpy = spy(model, 'setSelectedItems');
-      controller.handleReset([]);
+      controller.handleReset([], null, true);
       assert.isTrue(setSelectedItemsSpy.called);
    });
 });
