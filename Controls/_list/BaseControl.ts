@@ -1776,14 +1776,31 @@ const _private = {
          return;
       }
 
+      function addKeys(target: [], source: []): void {
+          source.forEach((val) => {
+              target.push(val);
+          })
+      }
+
+      function removeKeys(target: [], source: []): void {
+          source.forEach((val) => {
+              const index = target.indexOf(val);
+              target.splice(index, 1);
+          })
+      }
+
       const selectedDiff = result.selectedKeysDiff;
       if (selectedDiff.added.length || selectedDiff.removed.length) {
+         addKeys(self._options.selectedKeys, selectedDiff.added);
+         removeKeys(self._options.selectedKeys, selectedDiff.removed);
          self._notify('selectedKeysChanged', [selectedDiff.keys, selectedDiff.added, selectedDiff.removed]);
       }
 
       const excludedDiff = result.excludedKeysDiff;
       if (excludedDiff.added.length || excludedDiff.removed.length) {
-         self._notify('excludedKeysChanged', [excludedDiff.keys, excludedDiff.added, excludedDiff.removed]);
+          addKeys(self._options.excludedKeys, excludedDiff.added);
+          removeKeys(self._options.excludedKeys, excludedDiff.removed);
+          self._notify('excludedKeysChanged', [excludedDiff.keys, excludedDiff.added, excludedDiff.removed]);
       }
 
       // для связи с контроллером ПМО
