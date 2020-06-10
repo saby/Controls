@@ -297,6 +297,15 @@ const _private = {
 
                     if (self._markerController) {
                         _private.updateMarkerController(self, self._options);
+                    } else {
+                        if (cfg.markerVisibility !== 'hidden') {
+                            self._markerController = _private.createMarkerController(self, cfg);
+                        }
+                    }
+
+                    // выбранные элементы могут проставить передав в опции, но контроллер еще может быть не создан
+                    if (!self._selectionController && cfg.selectedKeys && cfg.selectedKeys.length > 0) {
+                        self._selectionController = _private.createSelectionController(self, cfg);
                     }
 
                     if (self._sourceController) {
@@ -2273,10 +2282,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         this._loadedItems = null;
 
-        if (this._options.selectedKeys && this._options.selectedKeys.length !== 0) {
-            this._createSelectionController();
-        }
-
         if (this._options.useNewModel) {
             return import('Controls/listRender').then((listRender) => {
                 this._itemActionsTemplate = listRender.itemActionsTemplate;
@@ -2407,10 +2412,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._markerController) {
             _private.updateMarkerController(this, newOptions);
-        } else {
-            if (newOptions.markerVisibility !== 'hidden') {
-                this._markerController = _private.createMarkerController(self, newOptions);
-        }
         }
 
         if (this._editInPlace) {
@@ -2460,11 +2461,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._selectionController) {
             _private.updateSelectionController(this, newOptions);
-        } else {
-            // выбранные элементы могут проставить передав в опции, но контроллер еще может быть не создан
-            if (newOptions.selectedKeys && newOptions.selectedKeys.length > 0) {
-                this._selectionController = _private.createSelectionController(this, newOptions);
-        }
         }
     },
 

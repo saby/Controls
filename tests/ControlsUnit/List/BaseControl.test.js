@@ -401,6 +401,28 @@ define([
          });
       });
 
+      it('create controllers in reload', async () => {
+         const
+            cfg = {
+               viewName: 'Controls/List/ListView',
+               source: new sourceLib.Memory({}),
+               viewModelConstructor: lists.ListViewModel,
+               markerVisibility: 'hidden'
+            },
+            ctrl = new lists.BaseControl(cfg);
+
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+
+         assert.isNull(ctrl._markerController);
+         await lists.BaseControl._private.reload(ctrl, { ...ctrl._options, markerVisibility: 'visible' });
+         assert.isNotNull(ctrl._markerController);
+
+         assert.isNull(ctrl._selectionController);
+         await lists.BaseControl._private.reload(ctrl, { ...ctrl._options, selectedKeys: [5], excludedKeys: [] });
+         assert.isNotNull(ctrl._selectionController);
+      });
+
       it('setHasMoreData', async function() {
          var gridColumns = [
             {
@@ -4845,26 +4867,6 @@ define([
             instance = new lists.BaseControl(cfg);
             instance.saveOptions(cfg);
             instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
-         });
-
-         it('should create marker controller', async () => {
-            assert.isNull(instance._markerController);
-            const createMarkerControllerSpy = sinon.spy(lists.BaseControl._private, 'createMarkerController');
-            await instance._beforeUpdate({
-               ...cfg,
-               markerVisibility: 'visible'
-            });
-            assert.isTrue(createMarkerControllerSpy.calledOnce);
-         });
-
-         it('should create selection controller', async () => {
-            assert.isNull(instance._markerController);
-            const createSelectionControllerSpy = sinon.spy(lists.BaseControl._private, 'createSelectionController');
-            await instance._beforeUpdate({
-               ...cfg,
-               selectedKeys: [1]
-            });
-            assert.isTrue(createSelectionControllerSpy.calledOnce);
          });
       });
 
