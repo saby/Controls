@@ -1521,7 +1521,11 @@ define([
 
       it('_private.handleSelectionControllerResult', () => {
          const baseControl = {
-            _notify: function(eventName, args) {}
+            _notify: function(eventName, args) {},
+            _options: {
+               selectedKeys: [],
+               excludedKeys: []
+            }
          };
 
          const notifySpy = sinon.spy(baseControl, '_notify');
@@ -1545,6 +1549,8 @@ define([
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
          assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.deepEqual(baseControl._options.selectedKeys, []);
+         assert.deepEqual(baseControl._options.excludedKeys, []);
 
          result.selectedKeysDiff.added = [5];
          result.selectedKeysDiff.keys = [5];
@@ -1552,13 +1558,30 @@ define([
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [result.selectedKeysDiff.keys, result.selectedKeysDiff.added, result.selectedKeysDiff.removed]).called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
          assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.deepEqual(baseControl._options.selectedKeys, [5]);
+         assert.deepEqual(baseControl._options.excludedKeys, []);
 
          result.excludedKeysDiff.added = [2];
          result.excludedKeysDiff.keys = [2];
+         result.selectedKeysDiff.added.pop();
          lists.BaseControl._private.handleSelectionControllerResult(baseControl, result);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [result.selectedKeysDiff.keys, result.selectedKeysDiff.added, result.selectedKeysDiff.removed]).called);
          assert.isTrue(notifySpy.withArgs('excludedKeysChanged', [result.excludedKeysDiff.keys, result.excludedKeysDiff.added, result.excludedKeysDiff.removed]).called);
          assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.deepEqual(baseControl._options.selectedKeys, [5]);
+         assert.deepEqual(baseControl._options.excludedKeys, [2]);
+
+         result.excludedKeysDiff.removed = [2];
+         result.excludedKeysDiff.added.pop();
+         result.selectedKeysDiff.removed = [5];
+         result.selectedKeysDiff.added.pop();
+         lists.BaseControl._private.handleSelectionControllerResult(baseControl, result);
+         assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [result.selectedKeysDiff.keys, result.selectedKeysDiff.added, result.selectedKeysDiff.removed]).called);
+         assert.isTrue(notifySpy.withArgs('excludedKeysChanged', [result.excludedKeysDiff.keys, result.excludedKeysDiff.added, result.excludedKeysDiff.removed]).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.deepEqual(baseControl._options.selectedKeys, []);
+         assert.deepEqual(baseControl._options.excludedKeys, []);
+
       });
 
       it('loadToDirection up', async function() {
