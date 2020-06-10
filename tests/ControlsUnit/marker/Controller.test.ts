@@ -77,6 +77,12 @@ describe('Controls/marker/Controller', () => {
          assert.equal(result, 2);
       });
 
+      it('same key which not exists in model', () => {
+         controller._markedKey = 4;
+         const result = controller.setMarkedKey(4);
+         assert.equal(result, 1);
+      });
+
       it('null', () => {
          controller = new MarkerController({model: model, markerVisibility: 'visible', markedKey: 2});
 
