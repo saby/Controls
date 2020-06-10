@@ -214,7 +214,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         factory(items).each((item) => {
             icon = item.get('icon');
             if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
-                iconPadding = this.getIconSize(options.iconSize, icon);
+                iconPadding = this.getIconSize(options.iconSize, icon) || 'm';
             }
         });
         return iconPadding;
