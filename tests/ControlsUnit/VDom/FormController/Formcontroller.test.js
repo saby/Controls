@@ -2,8 +2,9 @@ define([
    'Controls/form',
    'Core/Deferred',
    'Types/entity',
+   'Controls/_form/CrudController',
    'Core/polyfill/PromiseAPIDeferred'
-], (form, Deferred, entity) => {
+], (form, Deferred, entity, CrudController) => {
    'use strict';
 
    describe('FormController', () => {
@@ -19,76 +20,63 @@ define([
          let isReading = false;
          let isCreating = false;
 
-         FC._readRecordBeforeMount = () => {
-            isReading = true;
-            return Promise.resolve({ data: true });
-         };
-
-         FC._createRecordBeforeMount = () => {
-            isCreating = true;
-            return Promise.resolve({ data: true });
-         };
-
          let p1 = new Promise((resolve) => {
-            let beforeMountResult = FC._beforeMount(cfg);
+            FC._beforeMount(cfg);
             assert.equal(isReading, false);
             assert.equal(isCreating, false);
-            assert.notEqual(beforeMountResult, true);
             resolve();
          });
+         var sandbox = sinon.createSandbox();
 
+         let stubRead = sandbox.stub(FC, 'read').callsFake(() => {
+            return 123;
+         });
+         let stubCreate = sandbox.stub(FC, 'create').callsFake(() => {
+            return 456;
+         });
          let p2 = new Promise((resolve) => {
             cfg.key = '123';
-            let beforeMountResult = FC._beforeMount(cfg);
-            assert.equal(isReading, true);
-            assert.equal(isCreating, false);
-            assert.notEqual(beforeMountResult, true);
+            FC._beforeMount(cfg);
+            assert.equal(stubRead.callCount, 1);
+            assert.equal(stubCreate.callCount, 0);
             resolve();
          }).catch((error) => {
             done(error);
          });
 
+         stubRead.callCount = 0;
          let p3 = new Promise((resolve) => {
             cfg = {
                key: 123
             };
-            isReading = false;
-            let beforeMountResult = FC._beforeMount(cfg);
-            assert.equal(isReading, true);
-            assert.equal(isCreating, false);
-            assert.isTrue(
-               beforeMountResult instanceof Deferred ||
-               beforeMountResult instanceof Promise
-            );
-            beforeMountResult.then(({ data }) => {
-               assert.equal(data, true);
-               resolve();
-            }).catch((error) => {
-               done(error);
-            });
+            FC._beforeMount(cfg);
+            assert.equal(stubRead.callCount, 1);
+            assert.equal(stubCreate.callCount, 0);
+            resolve();
+         }).catch((error) => {
+            done(error);
          });
+
+         sandbox.restore();
+         stubCreate = sandbox.stub(FC, 'create').callsFake(() => {
+            return new Promise(res => res());
+         });
+
+         stubRead.callCount = 0;
          let p4 = new Promise((resolve) => {
-            isReading = false;
-            isCreating = false;
-            let beforeMountResult = FC._beforeMount({});
-            assert.equal(isReading, false);
-            assert.equal(isCreating, true);
-            assert.isTrue(
-               beforeMountResult instanceof Deferred ||
-               beforeMountResult instanceof Promise
-            );
-            beforeMountResult.then(({ data }) => {
-               assert.equal(data, true);
-               resolve();
-            });
+            FC._beforeMount({});
+            assert.equal(stubRead.callCount, 0);
+            assert.equal(stubCreate.callCount, 1);
+            resolve();
+         }).catch((error) => {
+            done(error);
          });
 
          Promise.all([p1, p2, p3, p4]).then(() => {
-            form.Controller._readRecordBeforeMount = baseReadRecordBeforeMount;
-            form.Controller._createRecordBeforeMount = baseCreateRecordBeforeMount;
             FC.destroy();
             done();
          });
+         sandbox.restore();
       });
 
       it('registerPending', async () => {
@@ -101,6 +89,9 @@ define([
          await updatePromise({});
          assert.isTrue(FC._pendingPromise === null);
 
+         FC._crudController = {
+            hideIndicator() {}
+         };
          FC._createChangeRecordPending();
          FC._beforeUnmount();
          assert.isTrue(FC._pendingPromise === null);
@@ -242,17 +233,21 @@ define([
       it('FormController update', (done) => {
          let isUpdatedCalled = false;
          let FC = new form.Controller();
+         FC._processError = () => {};
+
          let validation = {
             submit: () => Promise.resolve(true)
          };
-         let crud = {
-            update: () => Promise.resolve()
+         FC._children = { validation };
+
+         FC._crudController = {
+            update() {}
          };
-         FC._children = { crud, validation };
-         FC._processError = () => {};
+         var sandbox = sinon.createSandbox();
+         let stubUpdate = sandbox.spy(FC._crudController, 'update');
+
          FC._update().then(() => {
-            isUpdatedCalled = true;
-            assert.isTrue(isUpdatedCalled);
+            assert.equal(stubUpdate.callCount, 1);
             done();
             FC.destroy();
          });
@@ -304,7 +299,6 @@ define([
             }
          };
          let FC = new form.Controller();
-         let Crud = new form.Crud();
          let validation = {
             submit: () => Promise.resolve(true)
          };
@@ -314,32 +308,24 @@ define([
             isChanged: () => true
          };
          FC._isNewRecord = true;
-         let crud = {
-            update: Crud.update,
-            _dataSource: {
-               update: () => (new Deferred()).callback('key')
-            },
-            _options: {
-               showLoadingIndicator: 'true'
-            }
+         let dataSource = {
+            update: () => (new Deferred()).callback('key')
          };
          let argsCorrectUpdate = {
             key: 'key',
             isNewRecord: true,
             name: 'cat'
          };
-         crud._notify = (event, args, bubbling) => {
-            if (event === 'updateSuccessed') {
-               FC._notifyHandler(event, args);
-            }
-         };
          FC._notify = (event, arg) => {
             if (event === 'sendResult' && arg[0].formControllerEvent === 'update') {
                data = arg[0].additionalData;
             }
          };
-         FC._children = {crud, validation };
+         FC._children = { validation };
          FC._processError = () => {};
+         FC._crudController = new CrudController.default(FC, dataSource, true,
+             FC._crudHandler, FC.registerPendingNotifier, FC.indicatorNotifier);
+         FC._isMount = true;
          FC.update(configData).then(() => {
             assert.deepEqual(data, argsCorrectUpdate);
             done();
@@ -360,6 +346,9 @@ define([
          FC._source = dataSource;
          FC._record = {
             getId: () => 'id1'
+         };
+         FC._crudController = {
+            hideIndicator() {}
          };
          FC._beforeUnmount();
          assert.equal(isDestroyCall, false);
@@ -506,6 +495,7 @@ define([
 
       it('createHandler and readHandler ', () => {
          let FC = new form.Controller();
+         FC._isMount = true;
          FC._createHandler();
          assert.equal(FC._wasCreated, true);
          assert.equal(FC._isNewRecord, true);

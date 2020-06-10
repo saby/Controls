@@ -12,6 +12,7 @@ import {Memory} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IFormOperation} from 'Controls/interface';
 import {Confirmation} from 'Controls/popup';
+import CrudController from './CrudController';
 
 interface IFormController extends IControlOptions {
     createMetaData?: unknown;
@@ -72,6 +73,11 @@ interface IConfigInMounting {
 
 interface IUpdateConfig {
     additionalData: IAdditionalData;
+}
+
+interface ICrudNotifier {
+    eventType: string;
+    record: IConfigInMounting;
 }
 
 /**
@@ -166,19 +172,22 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _errorContainer: IContainerConstructor = dataSourceError.Container;
     private __errorController: dataSourceError.Controller;
     private _source: Memory;
-    private _createdInMounting: IConfigInMounting;
+    private _createdInMounting: ICrudNotifier;
     private _isMount: boolean;
-    private _readInMounting: IConfigInMounting;
+    private _readInMounting: ICrudNotifier;
     private _wasCreated: boolean;
     private _wasRead: boolean;
     private _formOperationsStorage: IFormOperation[] = [];
     private _wasDestroyed: boolean;
     private _pendingPromise: Promise<any>;
     private __error: dataSourceError.ViewConfig;
+    private _crudController: CrudController = null;
 
     protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._source = options.source || options.dataSource;
+        this._crudController = new CrudController(this, this._source, true,
+            this._crudHandler, this.registerPendingNotifier, this.indicatorNotifier);
         if (options.dataSource) {
             Logger.warn('FormController: Use option "source" instead of "dataSource"', this);
         }
@@ -206,16 +215,22 @@ class FormController extends Control<IFormController, IReceivedState> {
 
             // If there is a key - read the record. Not waiting for answer BL
             if (options.key !== undefined && options.key !== null) {
-                this._readRecordBeforeMount( options);
+                this.read(options.key, options.readMetaData);
             }
         } else if (options.key !== undefined && options.key !== null) {
-            return this._readRecordBeforeMount(options);
+            this.read(options.key, options.readMetaData);
         } else {
-            return this._createRecordBeforeMount(options);
+            this.create(options.initValues || options.createMetaData).then(() => {
+                if (options.hasOwnProperty('isNewRecord')) {
+                    this._isNewRecord = options.isNewRecord;
+                }
+                this._createMetaDataOnUpdate = null;
+            });
         }
     }
 
     protected _afterMount(): void {
+        this._isMount = true;
         // если рекорд был создан во время beforeMount, уведомим об этом
         if (this._createdInMounting) {
             this._createRecordBeforeMountNotify();
@@ -226,7 +241,6 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._readRecordBeforeMountNotify();
         }
         this._createChangeRecordPending();
-        this._isMount = true;
     }
 
     protected _beforeUpdate(newOptions: IFormController): void {
@@ -307,46 +321,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             const removePromise = this._tryDeleteNewRecord();
             this._notifyToOpener('deletestarted', [this._record, this._getRecordId(), {removePromise}]);
         }
-    }
-
-
-    private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
-        // если ни рекорда, ни ключа, создаем новый рекорд и используем его
-        // в beforeMount еще нет потомков, в частности _children.crud, поэтому будем создавать рекорд напрямую
-        return this._source.create(cfg.initValues || cfg.createMetaData).then((record: Model) => {
-            this._setRecord(record);
-            this._createdInMounting = {isError: false, result: record};
-
-            if (this._isMount) {
-                this._createRecordBeforeMountNotify();
-            }
-            return {
-                data: record
-            };
-        },  (e: Error) => {
-            this._createdInMounting = {isError: true, result: e};
-            return this._processError(e).then(this._getState);
-        });
-    }
-
-    private _readRecordBeforeMount(cfg: IFormController): Promise<{data: Model}> {
-        // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать
-        // в beforeMount еще нет потомков, в частности _children.crud, поэтому будем читать рекорд напрямую
-        return readWithAdditionalFields(this._source, cfg.key, cfg.readMetaData).then((record: Model) => {
-            this._setRecord(record);
-            this._readInMounting = {isError: false, result: record};
-
-            if (this._isMount) {
-                this._readRecordBeforeMountNotify();
-            }
-
-            return {
-                data: record
-            };
-        }, (e: Error) => {
-            this._readInMounting = {isError: true, result: e};
-            return this._processError(e).then(this._getState);
-        }) as Promise<{data: Model}>;
+        this._crudController.hideIndicator();
     }
 
     private _checkRecordType(record: Model): boolean {
@@ -354,26 +329,13 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     private _readRecordBeforeMountNotify(): void {
-        if (!this._readInMounting.isError) {
-            this._notifyHandler('readSuccessed', [this._readInMounting.result]);
-
-            // перерисуемся
-            this._readHandler(this._record);
-        } else {
-            this._notifyHandler('readFailed', [this._readInMounting.result]);
-        }
+        this._crudHandler(this._readInMounting.eventType, this._readInMounting.record);
         this._readInMounting = null;
     }
 
     private  _createRecordBeforeMountNotify(): void {
-        if (!this._createdInMounting.isError) {
-            this._notifyHandler('createSuccessed', [this._createdInMounting.result]);
-
-            // зарегистрируем пендинг, перерисуемся
-            this._createHandler(this._record);
-        } else {
-            this._notifyHandler('createFailed', [this._createdInMounting.result]);
-        }
+        this._crudHandler(this._createdInMounting.eventType, this._createdInMounting.record);
+        this._createHandler(this._createdInMounting.record);
         this._createdInMounting = null;
     }
 
@@ -508,25 +470,39 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     create(createMetaData: unknown): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.initValues || this._options.createMetaData;
-        return this._children.crud.create(createMetaData).then(
+        return this._crudController.create(createMetaData).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
     }
 
     private _createHandler(record: Model): Model {
-        this._updateIsNewRecord(true);
-        this._wasCreated = true;
-        this._forceUpdate();
-        return record;
+        if (this._isMount) {
+            this._updateIsNewRecord(true);
+            this._wasCreated = true;
+            this._forceUpdate();
+            return record;
+        }
     }
 
     read(key: string, readMetaData: unknown): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._children.crud.read(key, readMetaData).then(
+        return this._crudController.read(key, readMetaData).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
+    }
+
+    registerPendingNotifier(params: [any]): void {
+        if (this._isMount) {
+            this._notify('registerPending', params, {bubbling: true});
+        }
+    }
+
+    indicatorNotifier(eventType: string, params: []): string {
+        if (this._isMount) {
+            return this._notify(eventType, params, {bubbling: true});
+        }
     }
 
     private _readHandler(record: Model): Model {
@@ -585,8 +561,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             if (!results.hasErrors) {
                 // при успешной валидации пытаемся сохранить рекорд
                 this._notify('validationSuccessed', [], {bubbling: true});
-                let res = this._children.crud.update(record, this._isNewRecord, config);
-
+                let res = this._crudController.update(record, this._isNewRecord, config);
                 // fake deferred used for code refactoring
                 if (!(res && res.then)) {
                     res = new Deferred();
@@ -620,7 +595,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     delete(destroyMetaData: unknown): Promise<Model | undefined> {
         destroyMetaData = destroyMetaData || this._options.destroyMeta || this._options.destroyMetaData;
-        const resultDef = this._children.crud.delete(this._record, destroyMetaData);
+        const resultDef = this._crudController.delete(this._record, destroyMetaData);
 
         return resultDef.then((record) => {
             this._setRecord(null);
@@ -694,11 +669,24 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
     }
 
-    private _crudHandler(event: SyntheticEvent<Event>): void {
-        const eventName = event.type;
+    private _crudHandler(eventType: string): void {
         const args = Array.prototype.slice.call(arguments, 1);
-        event.stopPropagation(); // FC the notification event by itself
-        this._notifyHandler(eventName, args);
+        if (this._isMount) {
+            this._notifyHandler(eventType, args);
+        } else {
+            const createOperation = eventType.indexOf('create') !== -1;
+            if (createOperation) {
+                this._createdInMounting = {
+                    eventType,
+                    record: args[0]
+                };
+            } else {
+                this._readInMounting = {
+                    eventType,
+                    record: args[0]
+                };
+            }
+        }
     }
 
     private _notifyHandler(eventName: string, args): void {

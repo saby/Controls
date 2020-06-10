@@ -18,11 +18,6 @@
  * @author Крайнов Д.О.
  */
 
-import Crud = require('Controls/_form/Crud');
-
 export {default as PrimaryAction} from './_form/PrimaryAction';
 
-export {
-    Crud
-};
 export {default as Controller} from './_form/FormController';
