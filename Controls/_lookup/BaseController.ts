@@ -166,11 +166,11 @@ var _private = {
    /**
     * Контроллер выбранной коллекции, используется в полях связи и кнопках выбора из справочника.
     * Загружает выбранную коллекцию по ключам и источнику, совершает операции над коллекцией: добавление, удалением элементов и т.д, работает со справочником.
-    * 
+    *
     * @remark
     * Полезные ссылки:
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
-    * 
+    *
     * @class Controls/_lookup/SelectedCollection/Controller
     * @extends Core/Control
     * @control
@@ -290,9 +290,8 @@ var _private = {
 
       _onShowSelectorHandler: function(event, popupOptions) {
          if (this._notify('showSelector') !== false) {
-            this.showSelector(popupOptions);
+            return this.showSelector(popupOptions);
          }
-
          return false;
       },
 
