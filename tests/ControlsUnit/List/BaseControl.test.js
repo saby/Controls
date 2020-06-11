@@ -6130,7 +6130,34 @@ define([
                assert.isTrue(baseControl._pagingNavigation);
             });
          });
-         describe('initializeNavigation', function() {
+
+         describe('maxCount navigation', () => {
+            it('reduceItemsToMaxCount', async() => {
+               const baseControlOptions = {
+                  viewName: 'Controls/List/ListView',
+                  keyProperty: 'id',
+                  viewModelConstructor: lists.ListViewModel,
+                  navigation: {
+                     view: 'maxCount',
+                     viewConfig: {
+                        maxCountValue: 10
+                     }
+                  },
+                  source: source,
+                  items: rs
+               };
+
+               const baseControl = new lists.BaseControl(baseControlOptions);
+               baseControl.saveOptions(baseControlOptions);
+               await baseControl._beforeMount(baseControlOptions);
+
+               const loadedItems = rs.clone();
+               lists.BaseControl._private.reduceItemsToMaxCount(baseControl, loadedItems);
+               assert.equal(loadedItems.getCount(), 4);
+            });
+         });
+
+         describe('initializeNavigation', function () {
             let cfg, cfg1, bc;
             cfg = {
                navigation: {

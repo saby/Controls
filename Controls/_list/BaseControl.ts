@@ -514,6 +514,10 @@ var _private = {
         const isPortionedLoad = _private.isPortionedLoad(self);
         const beforeAddItems = (addedItems) => {
             if (addedItems.getCount()) {
+                if (_private.isMaxCountNavigation(navigation)) {
+                    _private.reduceItemsToMaxCount(self, addedItems);
+                }
+
                 self._loadedItems = addedItems;
             }
             _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController)
@@ -687,6 +691,17 @@ var _private = {
 
     isMaxCountNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         return navigation && navigation.view === 'maxCount';
+    },
+
+    reduceItemsToMaxCount(self, items: RecordSet): void {
+       const maxCount = _private.getMaxCountFromNavigation(self._options.navigation);
+       const totalItemsCount = _private.getItemsCount(self) + items.getCount();
+
+       if (totalItemsCount > maxCount) {
+            for (let i = 0; i < totalItemsCount - maxCount; i++) {
+                items.removeAt(items.getCount() - 1);
+            }
+       }
     },
 
     isMaxCountNavigationConfiguredCorrect(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
