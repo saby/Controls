@@ -177,6 +177,8 @@ var Component = BaseControl.extend([EventProxyMixin], {
     _startValueValidators: null,
     _endValueValidators: null,
 
+    hoveredRange: null,
+
     _beforeMount: function (options) {
         /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
          календарь в нужный период, если startValue endValue не заданы. */
@@ -254,6 +256,10 @@ var Component = BaseControl.extend([EventProxyMixin], {
             this.activate();
             this._activateInputField = false;
         }
+    },
+
+    _rangeHoveredHandler: function (event, items) {
+        this.hoveredRange = items;
     },
 
     _beforeUnmount: function () {

@@ -52,6 +52,7 @@
                   <ws:partial
                      template="wml!Controls/_datePopup/DateRangeItem"
                      _options="{{_options}}"
+                     hoveredRange="{{_options.hoveredRange}}"
                      _isStickySupport="{{_isStickySupport}}"
                      _formatDate="{{_formatDate}}"
                      _formatMonth="{{_formatMonth}}"

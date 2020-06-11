@@ -21,6 +21,20 @@ var ModuleClass = MonthViewModel.extend({
         var isChanged = ModuleClass.superclass._isStateChanged.apply(this, arguments),
             currentMonthStart = DateUtil.getStartOfMonth(this._state.month),
             currentMonthEnd = DateUtil.getEndOfMonth(this._state.month);
+        if (state.hoveredRange) {
+            // обновляем, если навели на ячейку месяца
+            if (state.hoveredRange[0] && state.hoveredRange[1]) {
+                if (DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.hoveredRange[0], state.hoveredRange[1])) {
+                    return true;
+                }
+            }
+            if (state.hoveredRange[2][0] && state.hoveredRange[2][1]) {
+                // обновляем, если убрали курсор с ячейки
+                if (DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.hoveredRange[2][0], state.hoveredRange[2][1])) {
+                    return true;
+                }
+            }
+        }
 
         return isChanged ||
             state.selectionProcessing !== this._state.selectionProcessing ||
@@ -30,7 +44,8 @@ var ModuleClass = MonthViewModel.extend({
             DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.startValue, state.endValue)) &&
 
             // не обновляем если отображаемый месяц полностью входит в старый и новый периоды
-            !(this._state.startValue < currentMonthStart && state.startValue < currentMonthStart && this._state.endValue > currentMonthEnd && state.endValue > currentMonthEnd);
+            !(this._state.startValue < currentMonthStart && state.startValue < currentMonthStart
+                && this._state.endValue > currentMonthEnd && state.endValue > currentMonthEnd);
     },
 
     _getDayObject: function (date, state) {
