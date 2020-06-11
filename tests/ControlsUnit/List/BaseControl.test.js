@@ -392,6 +392,28 @@ define([
          });
       });
 
+      it('create controllers in reload', async () => {
+         const
+            cfg = {
+               viewName: 'Controls/List/ListView',
+               source: new sourceLib.Memory({}),
+               viewModelConstructor: lists.ListViewModel,
+               markerVisibility: 'hidden'
+            },
+            ctrl = new lists.BaseControl(cfg);
+
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg);
+
+         assert.isNull(ctrl._markerController);
+         await lists.BaseControl._private.reload(ctrl, { ...ctrl._options, markerVisibility: 'visible' });
+         assert.isNotNull(ctrl._markerController);
+
+         assert.isNull(ctrl._selectionController);
+         await lists.BaseControl._private.reload(ctrl, { ...ctrl._options, selectedKeys: [5], excludedKeys: [] });
+         assert.isNotNull(ctrl._selectionController);
+      });
+
       it('setHasMoreData', async function() {
          var gridColumns = [
             {
@@ -4838,6 +4860,31 @@ define([
          });
       });
 
+      it('create controllers in beforeMount', async () => {
+         const
+            cfg = {
+               viewName: 'Controls/List/ListView',
+               source: new sourceLib.Memory({}),
+               viewModelConstructor: lists.ListViewModel,
+               markerVisibility: 'visible',
+               selectedKeys: [5],
+               excludedKeys: []
+            },
+            ctrl = new lists.BaseControl(cfg);
+
+         ctrl.saveOptions(cfg);
+         await ctrl._beforeMount(cfg, {},
+            {
+               data: new collection.RecordSet({
+                  keyProperty: 'id',
+                  rawData: data
+               })
+            });
+
+         assert.isNotNull(ctrl._markerController);
+         assert.isNotNull(ctrl._selectionController);
+      });
+
       it('_beforeMount with PrefetchProxy in source', function() {
          let prefetchSource = new sourceLib.PrefetchProxy({
             target: source,
@@ -4893,26 +4940,6 @@ define([
             instance = new lists.BaseControl(cfg);
             instance.saveOptions(cfg);
             instance._listViewModel = new lists.ListViewModel(cfg.viewModelConfig);
-         });
-
-         it('should create marker controller', async () => {
-            assert.isNull(instance._markerController);
-            const createMarkerControllerSpy = sinon.spy(lists.BaseControl._private, 'createMarkerController');
-            await instance._beforeUpdate({
-               ...cfg,
-               markerVisibility: 'visible'
-            });
-            assert.isTrue(createMarkerControllerSpy.calledOnce);
-         });
-
-         it('should create selection controller', async () => {
-            assert.isNull(instance._markerController);
-            const createSelectionControllerSpy = sinon.spy(lists.BaseControl._private, 'createSelectionController');
-            await instance._beforeUpdate({
-               ...cfg,
-               selectedKeys: [1]
-            });
-            assert.isTrue(createSelectionControllerSpy.calledOnce);
          });
       });
 
@@ -5483,7 +5510,6 @@ define([
       });
 
       describe('event handlers', function() {
-
          let
             baseControlOptions,
             baseControl;
@@ -5504,15 +5530,6 @@ define([
                   markedKey: null
                };
                const _baseControl = new lists.BaseControl(baseControlOptions);
-               sandbox.replace(lists.BaseControl._private, 'createMarkerController', () => {
-                  return {
-                     setMarkedKey() { },
-                     moveMarkerToNext() {},
-                     moveMarkerToPrev() {},
-                     handleRemoveItems() {},
-                     update() {}
-                  };
-               });
                await mountBaseControl(_baseControl, baseControlOptions);
                baseControl = _baseControl;
             });
@@ -5689,7 +5706,8 @@ define([
                      setMarkedKey: function (key) {
                         assert.equal(key, 1);
                         setMarkedKeyIsCalled = true;
-                     }
+                     },
+                     update: function() {}
                   };
 
                   baseControl._children = {
@@ -5719,7 +5737,8 @@ define([
                      setMarkedKey: function (key) {
                         assert.equal(key, 1);
                         setMarkedKeyIsCalled = true;
-                     }
+                     },
+                     update: function() {}
                   };
 
                baseControl._mouseDownItemKey = 1;

@@ -296,6 +296,15 @@ const _private = {
 
                     if (self._markerController) {
                         _private.updateMarkerController(self, self._options);
+                    } else {
+                        if (cfg.markerVisibility !== 'hidden') {
+                            self._markerController = _private.createMarkerController(self, cfg);
+                        }
+                    }
+
+                    // выбранные элементы могут проставить передав в опции, но контроллер еще может быть не создан
+                    if (!self._selectionController && cfg.selectedKeys && cfg.selectedKeys.length > 0) {
+                        _private.createSelectionControllerByOptions(self, cfg);
                     }
 
                     if (self._sourceController) {
@@ -1711,7 +1720,19 @@ const _private = {
       });
    },
 
-   updateSelectionController(self: any, newOptions: any): void {
+    /**
+     * Создать контроллер, когда передали selectedKeys
+     * @param self
+     * @param options
+     * @private
+     */
+    createSelectionControllerByOptions(self: any, options: any): void {
+        self._selectionController = _private.createSelectionController(self, options);
+        const result = self._selectionController.getResultAfterConstructor();
+        _private.handleSelectionControllerResult(self, result);
+    },
+
+    updateSelectionController(self: any, newOptions: any): void {
       const result = self._selectionController.update({
          model: self._listViewModel,
          selectedKeys: newOptions.selectedKeys,
@@ -2071,8 +2092,14 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
             }
 
-            if (newOptions.markerVisibility !== 'hidden') {
-                self._markerController = _private.createMarkerController(self, newOptions);
+            if (receivedData) {
+                if (newOptions.markerVisibility !== 'hidden') {
+                    self._markerController = _private.createMarkerController(self, newOptions);
+                }
+
+                if (!self._selectionController && newOptions.selectedKeys && newOptions.selectedKeys.length !== 0) {
+                    _private.createSelectionControllerByOptions(self, newOptions);
+                }
             }
 
             if (newOptions.source) {
@@ -2266,10 +2293,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         this._loadedItems = null;
 
-        if (this._options.selectedKeys && this._options.selectedKeys.length !== 0) {
-            this._createSelectionController();
-        }
-
         if (this._options.useNewModel) {
             return import('Controls/listRender').then((listRender) => {
                 this._itemActionsTemplate = listRender.itemActionsTemplate;
@@ -2394,10 +2417,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._markerController) {
             _private.updateMarkerController(this, newOptions);
-        } else {
-            if (newOptions.markerVisibility !== 'hidden') {
-                this._markerController = _private.createMarkerController(self, newOptions);
-        }
         }
 
         if (this._editInPlace) {
@@ -2450,11 +2469,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             if (self._options.root !== newOptions.root || filterChanged || this._listViewModel.getCount() === 0) {
                 const result = this._selectionController.clearSelection();
                 _private.handleSelectionControllerResult(this, result);
-            }
-        } else {
-            // выбранные элементы могут проставить передав в опции, но контроллер еще может быть не создан
-            if (newOptions.selectedKeys && newOptions.selectedKeys.length > 0) {
-                this._selectionController = _private.createSelectionController(this, newOptions);
             }
         }
     },
