@@ -10,23 +10,6 @@ import {descriptor} from 'Types/entity';
  * @public
  */
 interface ILinkView {
-    /**
-     * @name Controls/interface/ILinkView#style
-     * @cfg {String} Стиль отображения контрола.
-     * @variant default Стиль по умолчанию.
-     * @variant linkMain Основной стиль ссылки.
-     * @variant linkMain2 Первый неакцентный стиль ссылки.
-     * @variant linkAdditional Третий неакцентный стиль ссылки.
-     */
-    /*
-     * @name Controls/interface/ILinkView#style
-     * @cfg {String} Display style of component.
-     * @variant default Component display as default style.
-     * @variant linkMain Component display as main link style.
-     * @variant linkMain2 Component display as first nonaccent link style.
-     * @variant linkAdditional Component display as third nonaccent link style.
-     */
-    style: string;
     linkClickable: boolean;
 
     /**
