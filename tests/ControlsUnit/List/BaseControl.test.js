@@ -3425,6 +3425,81 @@ define([
             lists.BaseControl._private.closeEditingIfPageChanged(fakeCtrl, {sourceConfig: {page: 1}}, {sourceConfig: {page: 2}});
             assert.isTrue(isCanceled);
          });
+
+         it ('should create editinplace with readonly property', async () => {
+            var cfg = {
+               viewName: 'Controls/List/ListView',
+               source: source,
+               keyProperty: 'id',
+               viewConfig: {
+                  keyProperty: 'id'
+               },
+               editingConfig: {
+                  item: new entity.Model({rawData: { id: 1 }})
+               },
+               viewModelConfig: {
+                  items: rs,
+                  keyProperty: 'id',
+                  selectedKeys: [1, 3]
+               },
+               viewModelConstructor: lists.ListViewModel,
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 6,
+                     page: 0,
+                     hasMore: false
+                  },
+                  view: 'infinity',
+                  viewConfig: {
+                     pagingMode: 'direct'
+                  }
+               },
+               readOnly: true
+            };
+            var ctrl = new lists.BaseControl(cfg);
+            ctrl.saveOptions(cfg);
+            await ctrl._beforeMount(cfg);
+            assert.isTrue(ctrl._editInPlace._options.readOnly);
+         });
+
+         it('should update readonly property for editinplace', async () => {
+            var cfg = {
+               viewName: 'Controls/List/ListView',
+               source: source,
+               keyProperty: 'id',
+               viewConfig: {
+                  keyProperty: 'id'
+               },
+               editingConfig: {
+                  item: new entity.Model({rawData: { id: 1 }})
+               },
+               viewModelConfig: {
+                  items: rs,
+                  keyProperty: 'id',
+                  selectedKeys: [1, 3]
+               },
+               viewModelConstructor: lists.ListViewModel,
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 6,
+                     page: 0,
+                     hasMore: false
+                  },
+                  view: 'infinity',
+                  viewConfig: {
+                     pagingMode: 'direct'
+                  }
+               },
+            };
+            var ctrl = new lists.BaseControl(cfg);
+            ctrl.saveOptions(cfg);
+            await ctrl._beforeMount(cfg);
+            cfg.readOnly = true;
+            ctrl._beforeUpdate(cfg);
+            assert.isTrue(ctrl._editInPlace._options.readOnly);
+         });
       });
 
       it('can\'t start drag on readonly list', function() {

@@ -535,7 +535,7 @@ export default class EditInPlace {
                 return _private.beginEdit(self, options);
             }).then((newOptions) => {
                 return _private.beginEditCallback(self, newOptions);
-            });;
+            });
         }
 
         if (!this._editingItem || !this._editingItem.isEqual(options.item)) {
@@ -662,11 +662,8 @@ export default class EditInPlace {
     }
 
     updateEditingData(options: IEditingOptions): void {
+        this._updateOptions(options);
         this._sequentialEditing = _private.getSequentialEditing(options.editingConfig);
-        this._options.source = options.source;
-        this._options.editingConfig = options.editingConfig;
-        this._options.useNewModel = options.useNewModel;
-        this._options.multiSelectVisibility = options.multiSelectVisibility;
         if (this._editingItemData) {
             this._setEditingItemData(this._editingItemData.item);
         }
@@ -909,6 +906,14 @@ export default class EditInPlace {
 
     getEditingItemData(): any {
         return this._editingItemData;
+    }
+
+    _updateOptions(options: IEditingOptions): void {
+        Object.keys(this._options).forEach((name) => {
+            if (options.hasOwnProperty(name)) {
+                this._options[name] = options[name];
+            }
+        });
     }
 
     static _theme: string[];

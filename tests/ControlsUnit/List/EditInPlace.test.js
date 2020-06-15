@@ -143,6 +143,7 @@ define([
             forceUpdate: () => undefined,
             source: source,
             updateItemActions: () => undefined,
+            multiSelectVisibility: false,
             notify: () => undefined,
             forceUpdate: () => undefined
          });
