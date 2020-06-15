@@ -35,6 +35,8 @@
                   attr:class="controls-DateRangeBigChoose-DateRangePicker__item_theme-{{_options.theme}}"
                   monthViewModel="{{_monthViewModel}}"
                   showCaption="{{true}}"
+                  hoveredRange="{{_options.hoveredRange}}"
+                  multipleRange="{{true}}"
                   selectionType="{{_options.selectionType}}"
                   quantum="{{_options.quantum}}"
                   showWeekdays="{{false}}"

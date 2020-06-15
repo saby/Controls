@@ -5,6 +5,7 @@
         <div for="indexOfDay, value in week"
              on:click="_dayClickHandler(value.date, value.isCurrentMonth)"
              on:mouseenter="_mouseEnterHandler(value.date, value.isCurrentMonth)"
+             on:mouseleave="_mouseLeaveHandler(value.date, value.isCurrentMonth)"
              attr:class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item-old controls-MonthViewVDOM__item-old_theme-{{theme}}
                         {{ monthViewModel._prepareClass(value, theme, fontColorStyle, backgroundStyle, sizeStyle) }} {{_themeCssClass}}"
              data-date="{{value.id}}"
@@ -23,6 +24,7 @@
             <ws:partial
                     on:click="_dayClickHandler(value.date, value.isCurrentMonth)"
                     on:mouseenter="_mouseEnterHandler(value.date, value.isCurrentMonth)"
+                    on:mouseleave="_mouseLeaveHandler(value.date, value.isCurrentMonth)"
                     attr:data-date="{{value.id}}"
                     monthViewModel="{{monthViewModel}}"
                     template="{{dayTemplate}}"

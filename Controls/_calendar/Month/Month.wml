@@ -13,6 +13,7 @@
 
    on:rangeChanged="_onRangeChangedHandler()"
    on:itemClick="_itemClickHandler()"
+   on:hoveredValueChanged="_rangeHoveredHandler()"
 >
    <Controls._calendar.MonthView
       month="{{_options.month}}"
@@ -24,5 +25,7 @@
       monthViewModel="{{_monthViewModel}}"
       mode="{{_options.mode}}"
       selectionType="{{_options.selectionType}}"
+      hoveredRange="{{hoveredRange}}"
+      multipleRange="{{true}}"
    />
 </Controls.dateRange:DateRangeSelectionController>

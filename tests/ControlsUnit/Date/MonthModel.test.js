@@ -83,13 +83,18 @@ define([
             {start: new Date(2016, 0, 1), end: new Date(2017, 0, 15), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: true},
             {start: new Date(2017, 0, 10), end: new Date(2017, 0, 15), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: true},
             {start: new Date(2017, 0, 10), end: new Date(2017, 0, 15), newStart: new Date(2017, 0, 15), newEnd: new Date(2017, 0, 20), resp: true},
-            {start: new Date(2016, 0, 10), end: new Date(2016, 0, 15), newStart: new Date(2017, 0, 15), newEnd: new Date(2017, 0, 20), resp: true}
+            {start: new Date(2016, 0, 10), end: new Date(2016, 0, 15), newStart: new Date(2017, 0, 15), newEnd: new Date(2017, 0, 20), resp: true},
+            { hoveredRange: [new Date (2017, 0, 4), new Date(2017, 0, 7), [null, null]], resp: true },
+            { hoveredRange: [new Date (2016, 11, 7), new Date(2017, 0, 12), [null, null]], resp: true },
+            { hoveredRange: [new Date(2018, 0, 1), new Date(2018, 1, 1), [new Date(2017, 0, 4), new Date(2017, 0, 10)]], resp: true },
+            { hoveredRange: [new Date(2017, 1, 1), new Date(2017, 1, 10), [null, null]], resp: false}
          ];
          tests.forEach(function(test, index) {
             it(`should return ${test.resp}`, function() {
                let cfg = coreMerge({
                      startValue: test.start,
-                     endValue: test.end
+                     endValue: test.end,
+                     hoveredRange: test.hoveredRange
                   }, config, {preferSource: true}),
                   mvm = new MonthModel(cfg);
 

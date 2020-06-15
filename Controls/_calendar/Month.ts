@@ -7,7 +7,7 @@ import MonthViewModel from 'Controls/_calendar/Month/Model';
 /**
  * Календарь, отображающий 1 месяц.
  * Предназначен для задания даты или диапазона дат в рамках одного месяца путём выбора периода с помощью мыши.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
@@ -27,6 +27,7 @@ import MonthViewModel from 'Controls/_calendar/Month/Model';
 var Component = BaseControl.extend({
     _template: monthTmpl,
     _monthViewModel: MonthViewModel,
+    hoveredRange: null,
 
     // constructor: function() {
     //    this._dayFormatter = this._dayFormatter.bind(this);
@@ -44,6 +45,10 @@ var Component = BaseControl.extend({
 
     _itemClickHandler(event, item) {
         this._notify('itemClick', [item]);
+    },
+
+    _rangeHoveredHandler: function (event, items) {
+        this.hoveredRange = items;
     }
 
     // _startValueChangedHandler: function(event, value) {
