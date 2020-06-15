@@ -248,17 +248,17 @@ class FormController extends Control<IFormController, IReceivedState> {
                 this._showConfirmPopup('yesno').then((answer) => {
                     if (answer === true) {
                         this.update().then((res) => {
-                            this.read(newOptions.key, newOptions.readMetaData);
+                            this.read(newOptions.key, newOptions.readMetaData, this._source);
                             return res;
                         });
                     } else {
                         this._tryDeleteNewRecord().then(() => {
-                            this.read(newOptions.key, newOptions.readMetaData);
+                            this.read(newOptions.key, newOptions.readMetaData, this._source);
                         });
                     }
                 });
             } else {
-                this.read(newOptions.key, newOptions.readMetaData);
+                this.read(newOptions.key, newOptions.readMetaData, this._source);
             }
             return;
         }
@@ -521,9 +521,9 @@ class FormController extends Control<IFormController, IReceivedState> {
         return record;
     }
 
-    read(key: string, readMetaData: unknown): Promise<Model> {
+    read(key: string, readMetaData: unknown, dataSource?: Memory): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._children.crud.read(key, readMetaData).then(
+        return this._children.crud.read(key, readMetaData, dataSource).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
