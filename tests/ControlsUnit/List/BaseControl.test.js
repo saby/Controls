@@ -4924,6 +4924,18 @@ define([
             const actionsOf0 = instance._listViewModel.at(0).getActions();
             assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
          });
+
+         // при смене значения свойства itemActionsPosition необходимо делать переинициализвацию ItemActions
+         it('should update ItemActions when itemActionsPosition option has been changed', () => {
+            instance._itemActionsInitialized = true;
+            instance._beforeUpdate({
+               ...cfg,
+               source: instance._options.source,
+               itemActionsPosition: 'outside',
+            });
+            const actionsOf0 = instance._listViewModel.at(0).getActions();
+            assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
+         });
       });
 
       it('_beforeMount with PrefetchProxy in source', function() {
