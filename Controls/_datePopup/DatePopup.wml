@@ -80,6 +80,7 @@
             quantum="{{_options.quantum}}"
             bind:selectionProcessing="_dateRangeSelectionProcessing"
             on:rangeChanged="_dateRangeChanged()"
+            on:hoveredValueChanged="_rangeHoveredHandler()"
             on:selectionChanged="_dateRangeSelectionChanged()"
             on:selectionEnded="_dateRangeSelectionEnded()">
 
@@ -92,6 +93,7 @@
                quantum="{{_options.quantum}}"
                calendarSource="{{_options.calendarSource}}"
                dateConstructor="{{_options.dateConstructor}}"
+               hoveredRange="{{hoveredRange}}"
             >
                <ws:dayTemplate>
                   <ws:partial

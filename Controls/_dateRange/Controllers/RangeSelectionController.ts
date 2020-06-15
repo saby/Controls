@@ -124,6 +124,7 @@ var Component = BaseControl.extend({
    _selectionHoveredValue: null,
    _hoveredStartValue: null,
    _hoveredEndValue: null,
+   _lastHoveredValues: [null, null],
 
    _startValue: null,
    _endValue: null,
@@ -245,6 +246,7 @@ var Component = BaseControl.extend({
          this._hoveredEndValue = range[1];
          this._notify('hoveredStartValueChanged', [this._hoveredStartValue]);
          this._notify('hoveredEndValueChanged', [this._hoveredEndValue]);
+         this._notify('hoveredValueChanged', [[this._hoveredStartValue, this._hoveredEndValue, this._lastHoveredValues]]);
       }
    },
 
@@ -252,8 +254,12 @@ var Component = BaseControl.extend({
       if (this._options.readOnly) {
          return;
       }
+      this._lastHoveredValues = [this._hoveredStartValue, this._hoveredEndValue];
       this._hoveredStartValue = null;
       this._hoveredEndValue = null;
+      this._notify('hoveredStartValueChanged', [this._hoveredStartValue]);
+      this._notify('hoveredEndValueChanged', [this._hoveredEndValue]);
+      this._notify('hoveredValueChanged', [[this._hoveredStartValue, this._hoveredEndValue, this._lastHoveredValues]]);
    },
 
    _mouseleaveHandler: function(): void {

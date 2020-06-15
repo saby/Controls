@@ -41,11 +41,11 @@ var _private = {
  * Умеет только отображать представление месяца и поддерживает события взаимодействия пользователя с днями.
  * Есть возможность переопределить конструктор модели и шаблон дня.
  * С помощью этого механизма можно кастомизировать отображение дней.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
- * 
+ *
  * @class Controls/_calendar/MonthView
  * @extends Core/Control
  * @mixes Controls/_calendar/interface/IMonth
@@ -106,6 +106,12 @@ var MonthView = BaseControl.extend({
    _mouseEnterHandler: function(event, item, isCurrentMonth) {
       if (isCurrentMonth || this._options.mode === 'extended') {
          this._notify('itemMouseEnter', [item]);
+      }
+   },
+
+   _mouseLeaveHandler: function (event, item, isCurrentMonth) {
+      if (isCurrentMonth || this._options.mode === 'extended') {
+         this._notify('itemMouseLeave', [item]);
       }
    }
 

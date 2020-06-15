@@ -45,7 +45,9 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
          daysData: state.daysData,
          dateConstructor: state.dateConstructor || WSDate,
          readOnly: state.readOnly,
-         _date: state._date
+         hoveredRange: state.hoveredRange,
+         multipleRange: state.multipleRange,
+         _date: state._date,
       };
    },
 
@@ -86,6 +88,15 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       obj.weekend = obj.dayOfWeek === 5 || obj.dayOfWeek === 6;
       obj.enabled = state.enabled;
       obj.clickable = obj.mode === 'extended' || obj.isCurrentMonth;
+
+      if (state.hoveredRange && state.hoveredRange[0] <= obj.date && state.hoveredRange[0] !== null &&
+          state.hoveredRange[1] >= obj.date) {
+         obj.hovered = true;
+      } else {
+         obj.hovered = false;
+      }
+
+      obj.multipleRange = state.multipleRange;
 
       if (state.dayFormatter) {
          coreMerge(obj, state.dayFormatter(date) || {});
@@ -164,10 +175,14 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
             css.push('controls-MonthViewVDOM__cursor-item');
          }
          if (!scope.selected) {
-            if (scope.selectionEnabled && !backgroundStyle) {
+            if (scope.selectionEnabled && !backgroundStyle && !scope.multipleRange) {
                css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-' + theme);
+            } else if (scope.hovered) {
+               const style = backgroundStyle ? '_style-' + backgroundStyle : '';
+               css.push('controls-MonthViewVDOM__border-multiple-hover_theme-' + theme + style);
             }
          }
+
          css.push('controls-MonthViewVDOM__selectableItem');
          if (scope.enabled && scope.selectionEnabled) {
             css.push('controls-MonthViewVDOM__hover-selectableItem');
