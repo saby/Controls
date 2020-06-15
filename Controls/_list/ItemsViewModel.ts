@@ -613,24 +613,14 @@ var ItemsViewModel = BaseViewModel.extend({
         }
     },
 
-    /**
-     * New Model compatibility
-     * Иногда Обновление ItemActions происходит в хуке BeforeUpdate
-     * Тогда к моменту вызова itemActionsController.update() в модели ещё не вызывался
-     * метод this.setItems() и this._display ещё не установлен после последнего сброса в null.
-     */
+    // New Model compatibility
     each(callback: collection.EnumeratorCallback<Record>, context?: object): void {
         if (this._display) {
             this._display.each(callback, context);
         }
     },
 
-    /**
-     * New Model compatibility
-     * Иногда Обновление ItemActions происходит в хуке BeforeUpdate
-     * Тогда к моменту вызова itemActionsController.update() в модели ещё не вызывался
-     * метод this.setItems() и this._display ещё не установлен после последнего сброса в null.
-     */
+    // New Model compatibility
     find(predicate: (item: Model) => boolean): Model {
         if (this._display) {
             return this._display.find(predicate);
@@ -638,7 +628,12 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     // New Model compatibility
-    getSourceIndexByItem(item: Model): number {
+    getIndex(item: CollectionItem<Model>): number | string {
+        return this._display ? this._display.getIndex(item) : undefined;
+    },
+
+    // New Model compatibility
+    getSourceIndexByItem(item: CollectionItem<Model>): number {
         return this._display ? this._display.getSourceIndexByItem(item) : undefined;
     },
 

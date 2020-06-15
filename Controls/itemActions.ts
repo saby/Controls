@@ -16,6 +16,7 @@
 
 export {
     TItemActionVisibilityCallback,
+    TEditArrowVisibilityCallback,
     IItemActionsItem,
     IItemActionsCollection,
     TActionClickCallback,

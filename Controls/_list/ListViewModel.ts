@@ -456,8 +456,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
      *  мы не можем снять эти состояния при клике внутри ItemActions
      * @param itemData
      */
-    setActiveItem(item: CollectionItem<Model>): void {
-        if (item === this._activeItem) {
+    setActiveItem(itemData: CollectionItem<Model>): void {
+        if (itemData === this._activeItem) {
             return;
         }
         const oldActiveItem = this.getActiveItem();
@@ -466,11 +466,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
         // TODO костыль. В TileView вместо item передаётся объект, поэтому проверяем на function
         //  надо передавать настроенный item
-        if (item && typeof item.setActive === 'function') {
-            item.setActive(true);
+        if (itemData && typeof itemData.setActive === 'function') {
+            itemData.setActive(true);
         }
-        this._activeItem = item;
-        this._nextModelVersion(true, 'activeItemChanged');
+        this._activeItem = itemData;
+        this._nextModelVersion(false, 'activeItemChanged');
     },
 
     setDraggedItems(draggedItem: IFlatItemData, dragEntity): void {

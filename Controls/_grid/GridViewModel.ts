@@ -20,7 +20,13 @@ import {
 import cClone = require('Core/core-clone');
 import collection = require('Types/collection');
 import { Model } from 'Types/entity';
-import { IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
+import {
+    IEditingConfig,
+    IItemActionsTemplateConfig,
+    ISwipeConfig,
+    ANIMATION_STATE,
+    CollectionItem
+} from 'Controls/display';
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 import {createClassListCollection} from "../Utils/CssClassList";
@@ -1808,7 +1814,12 @@ var
         },
 
         // New Model compatibility
-        getSourceIndexByItem(item: Model): number {
+        getIndex(item: CollectionItem<Model>): number | string {
+            return this._model ? this._model.getIndex(item) : undefined;
+        },
+
+        // New Model compatibility
+        getSourceIndexByItem(item: CollectionItem<Model>): number {
             return this._model ? this._model.getSourceIndexByItem(item) : undefined;
         },
 
