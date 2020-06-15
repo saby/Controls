@@ -39,8 +39,8 @@ let CRUD = Control.extend({
 
         return def;
     },
-    read(key, readMetaData) {
-        const def = readWithAdditionalFields(this._dataSource, key, readMetaData);
+    read(key, readMetaData, dataSource = this._dataSource) {
+        const def = readWithAdditionalFields(dataSource, key, readMetaData);
         const id = this._indicatorId;
         const message = rk('Пожалуйста, подождите…');
         this._indicatorId = this._notify('showIndicator', [{id, message}], {bubbling: true});
