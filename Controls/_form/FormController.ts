@@ -75,11 +75,6 @@ interface IUpdateConfig {
     additionalData: IAdditionalData;
 }
 
-interface ICrudNotifier {
-    eventType: string;
-    record: IConfigInMounting;
-}
-
 /**
  * Контроллер, в котором определена логика CRUD-методов, выполняемых над редактируемой записью.
  * В частном случае контрол применяется для создания <a href="https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/">диалогов редактирования записи</a>. Может выполнять запросы CRUD-методов на БЛ.
@@ -172,9 +167,9 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _errorContainer: IContainerConstructor = dataSourceError.Container;
     private __errorController: dataSourceError.Controller;
     private _source: Memory;
-    private _createdInMounting: ICrudNotifier;
+    private _createdInMounting: IConfigInMounting;
     private _isMount: boolean;
-    private _readInMounting: ICrudNotifier;
+    private _readInMounting: IConfigInMounting;
     private _wasCreated: boolean;
     private _wasRead: boolean;
     private _formOperationsStorage: IFormOperation[] = [];
@@ -186,8 +181,8 @@ class FormController extends Control<IFormController, IReceivedState> {
     protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._source = options.source || options.dataSource;
-        this._crudController = new CrudController(this, this._source, true,
-            this._crudHandler, this.registerPendingNotifier, this.indicatorNotifier);
+        this._crudController = new CrudController(this._source, this._crudHandler.bind(this),
+            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
         if (options.dataSource) {
             Logger.warn('FormController: Use option "source" instead of "dataSource"', this);
         }
@@ -215,17 +210,12 @@ class FormController extends Control<IFormController, IReceivedState> {
 
             // If there is a key - read the record. Not waiting for answer BL
             if (options.key !== undefined && options.key !== null) {
-                this.read(options.key, options.readMetaData);
+                this._readRecordBeforeMount(options);
             }
         } else if (options.key !== undefined && options.key !== null) {
-            this.read(options.key, options.readMetaData);
+            return this._readRecordBeforeMount(options);
         } else {
-            this.create(options.initValues || options.createMetaData).then(() => {
-                if (options.hasOwnProperty('isNewRecord')) {
-                    this._isNewRecord = options.isNewRecord;
-                }
-                this._createMetaDataOnUpdate = null;
-            });
+            return this._createRecordBeforeMount(options);
         }
     }
 
@@ -244,6 +234,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions: IFormController): void {
+        this._crudController.setDataSource(newOptions.dataSource || newOptions.source);
         if (newOptions.dataSource || newOptions.source) {
             this._source = newOptions.source || newOptions.dataSource;
             //Сбрасываем состояние, только если данные поменялись, иначе будет зацикливаться
@@ -322,20 +313,75 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._notifyToOpener('deletestarted', [this._record, this._getRecordId(), {removePromise}]);
         }
         this._crudController.hideIndicator();
+        this._crudController = null;
     }
 
     private _checkRecordType(record: Model): boolean {
         return cInstance.instanceOfModule(record, 'Types/entity:Record');
     }
 
+    private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
+        // если ни рекорда, ни ключа, создаем новый рекорд и используем его.
+        // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
+        // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
+        return this._source.create(cfg.initValues || cfg.createMetaData).then((record: Model) => {
+            this._setRecord(record);
+            this._createdInMounting = {isError: false, result: record};
+
+            if (this._isMount) {
+                this._createRecordBeforeMountNotify();
+            }
+            return {
+                data: record
+            };
+        },  (e: Error) => {
+            this._createdInMounting = {isError: true, result: e};
+            return this._processError(e).then(this._getState);
+        });
+    }
+
+    private _readRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
+        // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать.
+        // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
+        // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
+        return readWithAdditionalFields(this._source, cfg.key, cfg.readMetaData).then((record: Model) => {
+            this._setRecord(record);
+            this._readInMounting = {isError: false, result: record};
+
+            if (this._isMount) {
+                this._readRecordBeforeMountNotify();
+            }
+
+            return {
+                data: record
+            };
+        }, (e: Error) => {
+            this._readInMounting = {isError: true, result: e};
+            return this._processError(e).then(this._getState);
+        }) as Promise<{data: Model}>;
+    }
+
     private _readRecordBeforeMountNotify(): void {
-        this._crudHandler(this._readInMounting.eventType, this._readInMounting.record);
+        if (!this._readInMounting.isError) {
+            this._notifyHandler('readSuccessed', [this._readInMounting.result]);
+
+            // перерисуемся
+            this._readHandler(this._record);
+        } else {
+            this._notifyHandler('readFailed', [this._readInMounting.result]);
+        }
         this._readInMounting = null;
     }
 
     private  _createRecordBeforeMountNotify(): void {
-        this._crudHandler(this._createdInMounting.eventType, this._createdInMounting.record);
-        this._createHandler(this._createdInMounting.record);
+        if (!this._createdInMounting.isError) {
+            this._notifyHandler('createSuccessed', [this._createdInMounting.result]);
+
+            // зарегистрируем пендинг, перерисуемся
+            this._createHandler(this._record);
+        } else {
+            this._notifyHandler('createFailed', [this._createdInMounting.result]);
+        }
         this._createdInMounting = null;
     }
 
@@ -477,12 +523,10 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     private _createHandler(record: Model): Model {
-        if (this._isMount) {
-            this._updateIsNewRecord(true);
-            this._wasCreated = true;
-            this._forceUpdate();
-            return record;
-        }
+        this._updateIsNewRecord(true);
+        this._wasCreated = true;
+        this._forceUpdate();
+        return record;
     }
 
     read(key: string, readMetaData: unknown): Promise<Model> {
@@ -494,15 +538,11 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     registerPendingNotifier(params: [any]): void {
-        if (this._isMount) {
-            this._notify('registerPending', params, {bubbling: true});
-        }
+        this._notify('registerPending', params, {bubbling: true});
     }
 
     indicatorNotifier(eventType: string, params: []): string {
-        if (this._isMount) {
-            return this._notify(eventType, params, {bubbling: true});
-        }
+        return this._notify(eventType, params, {bubbling: true});
     }
 
     private _readHandler(record: Model): Model {
@@ -595,9 +635,9 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     delete(destroyMetaData: unknown): Promise<Model | undefined> {
         destroyMetaData = destroyMetaData || this._options.destroyMeta || this._options.destroyMetaData;
-        const resultDef = this._crudController.delete(this._record, destroyMetaData);
+        const resultProm = this._crudController.delete(this._record, destroyMetaData);
 
-        return resultDef.then((record) => {
+        return resultProm.then((record) => {
             this._setRecord(null);
             this._wasDestroyed = true;
             this._updateIsNewRecord(false);
@@ -669,24 +709,9 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
     }
 
-    private _crudHandler(eventType: string): void {
+    private _crudHandler(eventType: string, record?: Model): void {
         const args = Array.prototype.slice.call(arguments, 1);
-        if (this._isMount) {
-            this._notifyHandler(eventType, args);
-        } else {
-            const createOperation = eventType.indexOf('create') !== -1;
-            if (createOperation) {
-                this._createdInMounting = {
-                    eventType,
-                    record: args[0]
-                };
-            } else {
-                this._readInMounting = {
-                    eventType,
-                    record: args[0]
-                };
-            }
-        }
+        this._notifyHandler(eventType, args);
     }
 
     private _notifyHandler(eventName: string, args): void {

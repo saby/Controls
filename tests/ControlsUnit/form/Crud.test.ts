@@ -1,18 +1,16 @@
 import {assert} from 'chai';
-import CrudController from 'Controls/_form/CrudController';
+import {Crud} from 'Controls/form';
 import {createSandbox, SinonSandbox, SinonStub} from 'sinon';
 import {Local, Memory as MemorySource} from 'Types/source';
 import {Record} from 'Types/entity';
-import {Controller} from 'Controls/form';
 
 interface ITestRecord {
     id: number;
     title: string;
 }
 
-describe('Controls/form:CrudController', () => {
-    let crud: CrudController;
-    let formController: Controller;
+describe('Controls/form:Crud', () => {
+    let crud: Crud;
     let source: Local;
     let stubNotify: SinonStub;
     const record: Record<ITestRecord> = new Record<ITestRecord>({
@@ -27,12 +25,12 @@ describe('Controls/form:CrudController', () => {
     const sandbox: SinonSandbox = createSandbox();
 
     beforeEach(() => {
-        formController = new Controller();
-        formController._isMount = true;
+        crud = new Crud({});
         source = new MemorySource();
-        crud = new CrudController(source,
-            formController._crudHandler.bind(formController), formController.registerPendingNotifier.bind(formController), formController.indicatorNotifier.bind(formController);
-        stubNotify = sandbox.stub(formController, '_notify');
+        crud._afterMount({
+            dataSource: source
+        });
+        stubNotify = sandbox.stub(crud, '_notify');
     });
     afterEach(() => {
         sandbox.restore();
@@ -45,9 +43,9 @@ describe('Controls/form:CrudController', () => {
 
             const actual = crud.create();
 
-            sinon.assert.calledWith(formController._notify, 'registerPending');
+            assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                sinon.assert.calledWith(formController._notify, 'createSuccessed');
+                assert.isTrue(stubNotify.calledWith('createSuccessed'));
                 done();
             });
         });
@@ -57,9 +55,9 @@ describe('Controls/form:CrudController', () => {
 
             const actual = crud.create();
 
-            sinon.assert.calledWith(formController._notify, 'registerPending');
+            assert.isTrue(stubNotify.calledWith('registerPending'));
             actual.finally(() => {
-                sinon.assert.calledWith(formController._notify, 'createFailed');
+                assert.isTrue(stubNotify.calledWith('createFailed'));
                 done();
             });
         });
