@@ -207,7 +207,12 @@ define([
             const component = createComponent(StickyHeader, {});
             component._model = {fixedPosition: ''};
             component._container = {
-               style: { top: null }
+               style: { top: null },
+               container: {
+                  getBoundingClientRect() {
+                     return {height: 500};
+                  }
+               }
             };
             sinon.stub(component, '_forceUpdate');
 

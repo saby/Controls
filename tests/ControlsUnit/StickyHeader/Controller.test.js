@@ -27,7 +27,10 @@ define([
             id: scroll.getNextStickyId(),
             position: (cfg && cfg.position) || 'top',
             container: {
-               offsetParent: {}
+               offsetParent: {},
+               getBoundingClientRect() {
+                  return {height: 500};
+               }
             },
             inst: {
                getOffset: function() {
@@ -52,6 +55,11 @@ define([
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake()
+            },
+            container: {
+               getBoundingClientRect() {
+                  return {height: 500};
+               }
             }
          };
 
@@ -88,6 +96,7 @@ define([
             };
             component._afterMount({});
             sinon.stub(component, '_updateTopBottom');
+            
             return component._stickyRegisterHandler(event, data, true).then(function() {
                sinon.assert.calledOnce(event.stopImmediatePropagation);
             });
@@ -251,7 +260,12 @@ define([
             component._afterMount({});
             return Promise.all([0, 20, 10].map(function(offset, index) {
                const header = {
-                  container: {parentElement: 1},
+                  container: {
+                     parentElement: 1,
+                     getBoundingClientRect() {
+                        return {height: 500};
+                     }
+                  },
                   id: index,
                   position: 'top',
                   mode: 'stackable',
@@ -479,6 +493,11 @@ define([
                   height: 10,
                   resetSticky: sinon.fake(),
                   restoreSticky: sinon.fake()
+               },
+               container: {
+                  getBoundingClientRect() {
+                     return {height: 500};
+                  }
                }
             };
             component._afterMount({});
