@@ -54,6 +54,7 @@
 
                   hoveredStartValue="{{_options.hoveredStartValue}}"
                   hoveredEndValue="{{_options.hoveredEndValue}}"
+                  lastHoveredValues="{{_options.lastHoveredValues}}"
 
                   on:monthClick="_proxyEvent()"
                   on:fixedPeriodClick="_proxyEvent()"

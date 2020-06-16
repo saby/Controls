@@ -71,10 +71,21 @@
       }
    }
 
+   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-hovered_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-hovered_theme-@{themeName},
+   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered_theme-@{themeName} {
+      background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
+   }
+
    .controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-@{themeName} {
       &:hover {
          outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
       }
+   }
+
+   .controls-MonthViewVDOM__border-hover_theme-@{themeName} {
+      outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
    }
 
    .controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected_theme-@{themeName}:hover,

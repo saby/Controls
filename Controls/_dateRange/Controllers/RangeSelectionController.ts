@@ -124,6 +124,7 @@ var Component = BaseControl.extend({
    _selectionHoveredValue: null,
    _hoveredStartValue: null,
    _hoveredEndValue: null,
+   _lastHoveredValues: [null, null],
 
    _startValue: null,
    _endValue: null,
@@ -252,6 +253,7 @@ var Component = BaseControl.extend({
       if (this._options.readOnly) {
          return;
       }
+      this._lastHoveredValues = [this._hoveredStartValue, this._hoveredEndValue];
       this._hoveredStartValue = null;
       this._hoveredEndValue = null;
    },

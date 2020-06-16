@@ -15,6 +15,9 @@
    on:itemClick="_itemClickHandler()"
 >
    <Controls._calendar.MonthView
+      hoveredStartValue="{{_options.hoveredStartValue}}"
+      hoveredEndValue="{{_options.hoveredEndValue}}"
+      lastHoveredValues="{{_options.lastHoveredValues}}"
       month="{{_options.month}}"
       showCaption="{{_options.showCaption}}"
       showWeekdays="{{_options.showWeekdays}}"

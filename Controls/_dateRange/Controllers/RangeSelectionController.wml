@@ -12,4 +12,5 @@
       selectionHoveredValue="{{_selectionHoveredValue}}"
       hoveredStartValue="{{_hoveredStartValue}}"
       hoveredEndValue="{{_hoveredEndValue}}"
+      lastHoveredValues="{{_lastHoveredValues}}"
 />
