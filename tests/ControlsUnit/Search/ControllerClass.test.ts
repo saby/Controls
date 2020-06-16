@@ -120,3 +120,4 @@ describe('Controls/search:ControllerClass', () => {
             assert.isFalse(searchValueChangedCallbackCalled);
         });
     });
+})
