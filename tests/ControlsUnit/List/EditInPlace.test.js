@@ -2160,6 +2160,29 @@ define([
          });
       });
 
+      describe('.registerFormOperation()', () => {
+         const formController = {};
+         it('should set form controller', async () => {
+            eip.registerFormOperation(formController);
+
+            assert.equal(eip._formController, formController);
+         });
+
+         it('should notify registerFormOperation', async () => {
+            const spyNotify = sinon.spy(eip, '_notify');
+            eip.registerFormOperation(formController);
+
+            assert.equal(spyNotify.firstCall.args[0], 'registerFormOperation');
+         });
+
+         it('should do nothing if formController was undefined', async () => {
+            eip._formController = formController;
+            eip.registerFormOperation();
+
+            assert.equal(eip._formController, formController);
+         });
+      });
+
    });
 
 });

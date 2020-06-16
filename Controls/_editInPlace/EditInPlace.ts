@@ -441,6 +441,7 @@ export interface IEditingOptions {
     forceUpdate?: Function;
     listView?: any;
     updateItemActions: Function;
+    isDestroyed: Function;
     theme: String;
 }
 
@@ -515,14 +516,19 @@ export default class EditInPlace {
         this._sequentialEditing = _private.getSequentialEditing(editingConfig);
     }
 
-    registerFormOperation(listViewModel: any, formContontroller: any, isDestroyed: Function): void {
-        this._formController = formContontroller;
+    registerFormOperation(formController: any): void {
+        if (formController && this._formController !== formController) {
+            this._formController = formController;
+            this._notify('registerFormOperation', [{
+                save: this._formOperationHandler.bind(this, true),
+                cancel: this._formOperationHandler.bind(this, false),
+                isDestroyed: () => this._options.isDestroyed()
+            }], {bubbling: true});
+        }
+    }
+
+    updateViewModel(listViewModel: any): void {
         this._options.listViewModel = listViewModel;
-        this._notify('registerFormOperation', [{
-            save: this._formOperationHandler.bind(this, true),
-            cancel: this._formOperationHandler.bind(this, false),
-            isDestroyed: () => isDestroyed()
-        }], {bubbling: true});
     }
 
     _formOperationHandler(shouldSave: boolean): Promise<any> {
@@ -667,7 +673,7 @@ export default class EditInPlace {
         return result;
     }
 
-    updateEditingData(options: IEditingOptions): void {
+    updateEditingData(options: IEditingOptions, formController: any): void {
         this._updateOptions(options);
         this._sequentialEditing = _private.getSequentialEditing(options.editingConfig);
         if (this._editingItemData) {
@@ -678,6 +684,8 @@ export default class EditInPlace {
             // Запустилась синхронизация, по завершению которой будет отрисовано поле ввода
             this._pendingInputRenderState = PendingInputRenderState.Rendering;
         }
+
+        this.registerFormOperation(formController);
     }
 
     prepareHtmlInput(): void {

@@ -368,9 +368,11 @@ export class Controller {
      */
     private _getFakeMenuTarget(realTarget: HTMLElement): {
         getBoundingClientRect(): ClientRect;
+        children: any;
     } {
         const rect = realTarget.getBoundingClientRect();
         return {
+            children: [],
             getBoundingClientRect(): ClientRect {
                 return rect;
             }

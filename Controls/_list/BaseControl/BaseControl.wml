@@ -240,9 +240,7 @@
             name="menuOpener"
             template="Controls/menu:Popup"
             closeOnOutsideClick="{{true}}"
-            actionOnScroll="close"
-            on:result="_onItemActionsMenuResult()"
-            on:close="_onItemActionsMenuClose()">
+            actionOnScroll="close">
             <ws:fittingMode vertical="overflow"/>
         </Controls.popup:Sticky>
         <Controls.event:Listener

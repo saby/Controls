@@ -94,7 +94,6 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     protected mods: Array<string> | string;
     protected delay: number;
     protected delayTimeout: number;
-    private _toggleEventTimerId: number;
 
     protected _beforeMount(cfg: ILoadingIndicatorOptions): void {
         this.mods = [];
@@ -317,7 +316,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     }
 
     private _toggleIndicator(visible?: boolean, config: ILoadingIndicatorOptions = {}, force?: boolean): void {
-        const isGlobal = config.isGlobal || this.isGlobal;
+        const isGlobal = config.hasOwnProperty('isGlobal') ? config.isGlobal : this.isGlobal;
         clearTimeout(this.delayTimeout);
         this._updateZIndex(config);
         if (visible) {
@@ -371,43 +370,12 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     }
 
     private _toggleEvents(toggle: boolean): void {
-        // TODO https://online.sbis.ru/opendoc.html?guid=157084a2-d702-40b9-b54e-1a42853c301e
-        // TODO в 4000 можно попробовать убрать таймаут, сейчас вернул его, чтобы не менять поведение перед выпуском
-        const delay = 100;
-
-        // Если оверлей отключен - блокировать ничего не надо
-        if (this._options.overlay === 'none') {
-            return;
-        }
-        this._clearToggleEventTimerId();
-        if (toggle) {
-            this._toggleEventTimerId = setTimeout(() => {
-                this._toggleEventTimerId = null;
-                this._toggleEventSubscribe(toggle);
-            }, delay);
-        } else {
-            this._toggleEventSubscribe(toggle);
-        }
-    }
-
-    _clearToggleEventTimerId(): void {
-        if (this._toggleEventTimerId) {
-            clearTimeout(this._toggleEventTimerId);
-            this._toggleEventTimerId = null;
-        }
-    }
-
-    private _toggleEventSubscribe(toggle: boolean): void {
         const action = toggle ? 'addEventListener' : 'removeEventListener';
         const events = ['mousedown', 'mouseup', 'click', 'keydown', 'keyup'];
+        // TODO https://online.sbis.ru/opendoc.html?guid=157084a2-d702-40b9-b54e-1a42853c301e
         for (const event of events) {
             if (window) {
                 window[action](event, LoadingIndicator._eventsHandler, true);
-                // В оффлайне стрельнул баг: если отписываться с флагом true(несмотря на такую же подписку)
-                // отписка от события не произойдет. вызываю дополнительно отписку без флага.
-                if (!toggle) {
-                    window[action](event, LoadingIndicator._eventsHandler);
-                }
             }
         }
     }

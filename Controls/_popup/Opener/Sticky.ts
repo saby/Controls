@@ -69,6 +69,16 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
         return baseConfig;
     }
 
+    protected _getIndicatorConfig(): void {
+        // В случае со стики глобальный индикатор только мешает, к примеру в саггесте пока вводят в поле ввода
+        // зовется открытие автодополнения. при открытии глобальный индикатор блокирует нажатие клавиш и не позволяет
+        // вводить символы, пока саггест не откроется, хотя в этом случае блокировка не нужна.
+        // По сути так со всеми окнами, открывающимися от таргета.
+        const baseConfig = super._getIndicatorConfig();
+        baseConfig.isGlobal = false;
+        return baseConfig;
+    }
+
     protected _scrollHandler(event: Event, scrollEvent: Event, initiator: string): void {
         if (this.isOpened() && event.type === 'scroll') {
             // Из-за флага listenAll на listener'e, подписка доходит до application'a всегда.

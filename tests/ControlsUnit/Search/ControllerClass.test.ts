@@ -104,8 +104,6 @@ describe('Controls/search:ControllerClass', () => {
         searchController._searchErrback({}, {testField: 'testValue'});
         assert.deepEqual(filter, {testField: 'testValue'});
     });
-});
-
 
     describe('constructor', () => {
 
@@ -120,4 +118,4 @@ describe('Controls/search:ControllerClass', () => {
             assert.isFalse(searchValueChangedCallbackCalled);
         });
     });
-})
+});

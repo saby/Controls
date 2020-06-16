@@ -3509,6 +3509,46 @@ define([
             ctrl._beforeUpdate(cfg);
             assert.isTrue(ctrl._editInPlace._options.readOnly);
          });
+
+         it('should update form controlled if it was updated', async () => {
+            var cfg = {
+               viewName: 'Controls/List/ListView',
+               source: source,
+               keyProperty: 'id',
+               viewConfig: {
+                  keyProperty: 'id'
+               },
+               editingConfig: {
+                  item: new entity.Model({rawData: { id: 1 }})
+               },
+               viewModelConfig: {
+                  items: rs,
+                  keyProperty: 'id',
+                  selectedKeys: [1, 3]
+               },
+               viewModelConstructor: lists.ListViewModel,
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 6,
+                     page: 0,
+                     hasMore: false
+                  },
+                  view: 'infinity',
+                  viewConfig: {
+                     pagingMode: 'direct'
+                  }
+               },
+            };
+            var ctrl = new lists.BaseControl(cfg);
+            ctrl.saveOptions(cfg);
+            await ctrl._beforeMount(cfg);
+            cfg.readOnly = true;
+            const formController = {};
+            ctrl._children.formController = formController;
+            ctrl._beforeUpdate(cfg);
+            assert.equal(ctrl._editInPlace._formController, formController);
+         });
       });
 
       it('can\'t start drag on readonly list', function() {
@@ -4055,12 +4095,17 @@ define([
                itemActions: [
                   {
                      id: 1,
-                     showType: 0,
+                     showType: 2,
                      'parent@': true
                   },
                   {
                      id: 2,
-                     showType: 2,
+                     showType: 0,
+                     parent: 1
+                  },
+                  {
+                     id: 3,
+                     showType: 0,
                      parent: 1
                   }
                ],
@@ -4124,14 +4169,13 @@ define([
          });
 
          // Записи-"хлебные крошки" в getContents возвращают массив. Не должно быть ошибок
-         it('should correctly work with breadcrumbs', () => {
+         it('should correctly work with breadcrumbs', async () => {
             const fakeEvent = initFakeEvent();
+            const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
                _$active: false,
-               getContents: () => ['fake', 'fake', 'fake', {
-                  getKey: () => 2
-               }],
+               getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
                   this._$active = true;
                },
@@ -4142,12 +4186,12 @@ define([
                   }]
                })
             };
-            instance._onItemContextMenu(null, breadcrumbItem, fakeEvent);
-            assert(instance._listViewModel.getActiveItem(), item);
+            await instance._onItemContextMenu(null, breadcrumbItem, fakeEvent);
+            assert.equal(instance._listViewModel.getActiveItem(), itemAt1);
          });
 
          // Клик по ItemAction в меню отдавать контейнер в событии
-         it('should send target container in event on click in menu', () => {
+         it('should send target container in event on click in menu', async () => {
             const fakeEvent = initFakeEvent();
             const fakeEvent2 = initFakeEvent();
             const action = {
@@ -4162,7 +4206,8 @@ define([
                   parent: 1
                })
             };
-            instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
+            instance._listViewModel.itemActions
+            await instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
 
             // popup.Sticky.openPopup called in openItemActionsMenu is an async function
             // we cannot determine that it has ended
@@ -4172,9 +4217,25 @@ define([
             assert.equal(lastOutgoingEvent.args[2].className, 'controls-ListView__itemV');
          });
 
+         // Нельзя открывать itemActionsMenu дважды подряд (надо сначала дождаться закрытия предыдущего меню)
+         it('should not open itemActionsMenu twice at the same time', () => {
+            const self = {
+               _itemActionsController: {
+                  prepareActionsMenuConfig: (item, clickEvent, action, self, isContextMenu) => {}
+               },
+               _itemActionsMenuId: 'somePopupId'
+            };
+
+            // Нам нужно только передать self с установленной опцией _itemActionsMenuId, чтобы метод вернул пустой промис
+            return lists.BaseControl._private.openItemActionsMenu(self, null, null, null, false)
+               .then(() => {
+                  assert.equal(self._itemActionsMenuId, null);
+               });
+         });
+
 
          // Клик по ItemAction в контекстном меню отдавать контейнер в событии
-         it('should send target container in event on click in context menu', () => {
+         it('should send target container in event on click in context menu', async () => {
             const fakeEvent = initFakeEvent();
             const fakeEvent2 = initFakeEvent();
             const actionModel = {
@@ -4183,7 +4244,7 @@ define([
                   showType: 0
                })
             };
-            instance._onItemContextMenu(null, item, fakeEvent);
+            await instance._onItemContextMenu(null, item, fakeEvent);
             instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
             assert.exists(lastOutgoingEvent.args[2], 'Third argument has not been set');
             assert.equal(lastOutgoingEvent.args[2].className, 'controls-ListView__itemV');
@@ -4200,6 +4261,27 @@ define([
             instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
             assert.exists(lastOutgoingEvent.args[2], 'Third argument has not been set');
             assert.equal(lastOutgoingEvent.args[2].className, 'controls-ListView__itemV');
+         });
+
+         // Нужно устанавливать active item только после того, как пришёл id нового меню
+         it('should set active item only after promise then result', (done) => {
+            const fakeEvent = initFakeEvent();
+            let activeItem = null;
+            const self = {
+               _itemActionsController: {
+                  prepareActionsMenuConfig: (item, clickEvent, action, self, isContextMenu) => ({}),
+                  setActiveItem: (_item) => {
+                     activeItem = _item;
+                  }
+               },
+               _itemActionsMenuId: null
+            };
+            lists.BaseControl._private.openItemActionsMenu(self, null, fakeEvent, item, false)
+               .then(() => {
+                  assert.equal(activeItem, item);
+               })
+               .then(done);
+            assert.equal(activeItem, null);
          });
       });
 
@@ -5022,7 +5104,7 @@ define([
                ...cfg,
                source: instance._options.source,
                itemActionsPosition: 'outside',
-            });
+      });
             const actionsOf0 = instance._listViewModel.at(0).getActions();
             assert.exists(actionsOf0, 'actions for item at 0 pos. were not assigned');
          });
