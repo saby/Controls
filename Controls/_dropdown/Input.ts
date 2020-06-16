@@ -6,6 +6,9 @@ import Utils = require('Types/util');
 import chain = require('Types/chain');
 import dropdownUtils = require('Controls/_dropdown/Util');
 import {isEqual} from 'Types/object';
+import _Controller = require('Controls/_dropdown/_Controller');
+import {beforeMountMethod, afterMountMethod} from 'Controls/_dropdown/Utils/CommonHookMethods';
+import {SyntheticEvent} from "Vdom/Vdom";
 
 var getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
@@ -55,13 +58,13 @@ var _private = {
  *
  * @remark
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
- * 
+ *
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDropdown%2FDropdown">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
- * 
+ *
  * @class Controls/_dropdown/Input
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
@@ -276,9 +279,12 @@ var Input = Control.extend({
    _hasMoreText: '',
    _selectedItems: '',
 
-   _beforeMount: function () {
+   _beforeMount: function (options, recievedState) {
       this._prepareDisplayState = this._prepareDisplayState.bind(this);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
+      this._controller = new _Controller(this._getControllerOptions(options));
+
+      return beforeMountMethod(this, options, recievedState);
    },
 
    _afterMount: function (options) {
@@ -287,9 +293,30 @@ var Input = Control.extend({
       if (options.showHeader && options.caption !== this._text) {
          this._forceUpdate();
       }
+      afterMountMethod(this);
    },
 
-   _selectedItemsChangedHandler: function (event, items) {
+   _beforeUpdate: function (options) {
+      this._controller.update(this._getControllerOptions(options));
+   },
+
+   _getControllerOptions(options) {
+      return { ...options, ...{
+            dataLoadCallback: this._dataLoadCallback,
+            selectedKeys: options.selectedKeys || [],
+            popupClassName: options.popupClassName || (options.showHeader || options.headerTemplate ?
+                'controls-DropdownList__margin-head' : options.multiSelect ?
+                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') + ' theme_' + options.theme,
+            caption: options.caption || this._text ,
+            allowPin: false,
+            selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
+            notifyEvent: this._notifyInputEvent.bind(this),
+            notifySelectedItemsChanged: this._selectedItemsChangedHandler.bind(this)
+         }
+      }
+   },
+
+   _selectedItemsChangedHandler: function (items) {
       this._notify('textValueChanged', [_private.getText(this, items) + _private.getMoreText(items)]);
       const newSelectedKeys = _private.getSelectedKeys(items, this._options.keyProperty);
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
@@ -321,19 +348,41 @@ var Input = Control.extend({
       }
    },
 
-   // Делаем через событие deactivated на Controller'e,
-   // т.к в Controller передается просто шаблон, а не контрол, который не обладает состоянием активности,
-   // и подписка на _deactivated на это шаблоне работать не будет
-   _deactivated: function() {
-      this.closeMenu();
-   },
-
    openMenu(popupOptions?: object): void {
-      this._children.controller.openMenu(popupOptions);
+      this._controller.openMenu(popupOptions);
    },
 
    closeMenu(): void {
-      this._children.controller.closeMenu();
+      this._controller.closeMenu();
+   },
+
+   _handleClick(event: SyntheticEvent): void {
+      // stop bubbling event, so the list does not handle click event.
+      event.stopPropagation();
+   },
+
+   _handleMouseDown(event: SyntheticEvent): void {
+      this._controller.handleMouseDownOnMenuPopupTarget();
+   },
+
+   _handleMouseEnter(event: SyntheticEvent): void {
+      this._controller.handleMouseEnterOnMenuPopupTarget();
+   },
+
+   _handleMouseLeave(event: SyntheticEvent): void {
+      this._controller.handleMouseLeaveMenuPopupTarget();
+   },
+
+   _handleKeyDown(event: SyntheticEvent): void {
+      this._controller.handleKeyDown(event);
+   },
+
+   _beforeUnmount(): void {
+      this._controller.destroy();
+   },
+
+   _notifyInputEvent(eventName, data, additionData) {
+      return this._notify(eventName, [data, additionData]);
    }
 });
 
