@@ -172,7 +172,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _draggingItemData: null,
     _dragTargetPosition: null,
     _selectedKeys: null,
-    _markedKey: undefined,
+    _markedKey: null,
     _hoveredItem: null,
     _reloadedKeys: null,
     _singleItemReloadCount: 0,
@@ -368,11 +368,9 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
 
         if (status === false) {
-            if (key === undefined) {
-                this._markedKey = undefined;
+            this._markedKey = null;
+            if (key === null) {
                 return;
-            } else {
-                this._markedKey = undefined;
             }
         } else {
             this._markedKey = key;

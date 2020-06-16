@@ -1,6 +1,6 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/treeGrid/VirtualScroll/Default/Default"
-import {Memory} from "Types/source"
+import {Control, TemplateFunction} from "UI/Base";
+import * as Template from "wml!Controls-demo/treeGrid/VirtualScroll/Default/Default";
+import {Memory} from "Types/source";
 import {Gadgets, VirtualScrollHasMore} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {

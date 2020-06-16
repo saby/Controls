@@ -34,15 +34,6 @@ class Container extends Control<IControlOptions> {
     }
 
     /**
-     * Set the index of popup, under which the overlay will be drawn
-     * @function Controls/_popup/Manager/Container#setPopupItems
-     * @param {String} id индекс попапа
-     */
-    setOverlay(id: string): void {
-        this._overlayId = id;
-    }
-
-    /**
      * Set a new set of popups
      * @function Controls/_popup/Manager/Container#setPopupItems
      * @param {List} popupItems new popup set
@@ -69,6 +60,7 @@ class Container extends Control<IControlOptions> {
     // todo: https://online.sbis.ru/opendoc.html?guid=728a9f94-c360-40b1-848c-e2a0f8fd6d17
     protected _getItems(popupItems: List<IPopupItem>): List<IPopupItem> {
         const reversePopupList: List<IPopupItem> = new List();
+        let maxModalPopup: IPopupItem;
         popupItems.each((item: IPopupItem) => {
             let at;
             // Для поддержки старых автотестов, нужно, чтобы открываемые стековые и диалоговые окна в DOM располагались
@@ -77,8 +69,14 @@ class Container extends Control<IControlOptions> {
             if (item.controller.TYPE === 'Stack' || item.controller.TYPE === 'Dialog') {
                 at = 0;
             }
+            if (item.modal) {
+                if (!maxModalPopup || item.currentZIndex > maxModalPopup.currentZIndex) {
+                    maxModalPopup = item;
+                }
+            }
             reversePopupList.add(item, at);
         });
+        this._overlayId = maxModalPopup?.id;
         return reversePopupList;
     }
 

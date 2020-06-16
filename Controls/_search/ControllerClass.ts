@@ -76,7 +76,7 @@ export default class SearchControllerClass {
         if (searchValue) {
             this._setInputSearchValue(searchValue);
             if (!this._isSearchValueShort(searchValue, options.minSearchLength)) {
-                this._setSearchValue(searchValue);
+                this._searchValue = searchValue;
 
                 if (this._needUpdateViewMode('search')) {
                     this._updateViewMode('search');
@@ -92,6 +92,7 @@ export default class SearchControllerClass {
     update(newOptions: ISearchControllerOptions, context: IDataContext): void {
         const currentOptions = this._dataOptions;
         let filter;
+        let updateResult;
 
         this._dataOptions = context.dataOptions;
 
@@ -138,13 +139,14 @@ export default class SearchControllerClass {
 
         if (this._needStartSearchBySearchValueChanged(newOptions, searchValue) || isNewSourceController) {
             if (!needUpdateRoot || isNewSourceController) {
-                this._startSearch(searchValue);
+                updateResult = this._startSearch(searchValue);
             }
             if (this._isInputSearchValueChanged(searchValue)) {
                 this._setInputSearchValue(searchValue);
             }
         }
         this._options = newOptions;
+        return updateResult;
     }
 
     destroy() {
@@ -398,7 +400,7 @@ export default class SearchControllerClass {
         this._options.loadingChangedCallback(true);
     }
 
-    private _searchErrback(error: Error): void {
+    private _searchErrback(error: Error, filter: object): void {
         if (this._options.dataLoadErrback) {
             this._options.dataLoadErrback(error);
         }

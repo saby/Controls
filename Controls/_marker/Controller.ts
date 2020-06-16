@@ -48,8 +48,8 @@ export class Controller {
 
       if (key === undefined && this._markedKey !== undefined) {
          this._model.setMarkedKey(this._markedKey, false);
-         this._markedKey = undefined;
-         return undefined;
+         this._markedKey = null;
+         return null;
       }
 
       const item = this._model.getItemBySourceKey(key);
@@ -69,7 +69,7 @@ export class Controller {
       } else {
          switch (this._markerVisibility) {
             case Visibility.OnActivated:
-               this._markedKey = undefined;
+               this._markedKey = null;
                break;
             case Visibility.Visible:
                this._markedKey = this._setMarkerOnFirstItem();

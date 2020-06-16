@@ -2,7 +2,7 @@
             on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
             on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
             on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
-            on:markedKeysChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
+            on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
             filter="{{_dataOptions.filter}}"
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"

@@ -5,7 +5,7 @@ import {RecordSet, List} from 'Types/collection';
 import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
 import {INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
-import {Direction, IAdditionalQueryParams} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {Direction, IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
 
 type Key = string|number|null;
 type NavigationRecord = Record<{

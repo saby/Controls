@@ -130,6 +130,34 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
+   _getChildrenByEntryPath(nodeId: TKey, path = []): TKey[] {
+      let result = [];
+      let children;
+      const childrenMap = new Map();
+      path.forEach((pathItem) => {
+         if (!childrenMap.has(pathItem.parent)) {
+            childrenMap.set(pathItem.parent, [pathItem.id]);
+         } else {
+            childrenMap.get(pathItem.parent).push(pathItem.id);
+         }
+      });
+      children = childrenMap.get(nodeId) || [];
+      childrenMap.delete(nodeId);
+      while (children.length) {
+         let tempChildren = [];
+         result = result.concat(children);
+         children.forEach((key: TKey): void => {
+            if (childrenMap.has(key)) {
+               tempChildren = tempChildren.concat(childrenMap.get(key));
+               childrenMap.delete(key);
+            }
+         });
+         children = tempChildren;
+      }
+
+      return result;
+   }
+
    getSelectionForModel(selection: ISelection): Map<boolean|null, Record[]> {
       const selectedItems = new Map();
       // IE не поддерживает инициализацию конструктором
@@ -150,10 +178,6 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                selected: selectedKeysWithEntryPath,
                excluded: selection.excluded
             });
-
-            if (!isSelected && (selectedKeysWithEntryPath.includes(itemId))) {
-               isSelected = null;
-            }
          }
 
          selectedItems.get(isSelected).push(item);
@@ -374,6 +398,13 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          } else {
             stateNode = null;
          }
+      } else if (!children.length) {
+         const entryPath = this._items.getMetaData()[FIELD_ENTRY_PATH];
+         const childrenFromPath = this._getChildrenByEntryPath(itemId, entryPath);
+         const hasChildrenInKeys = listKeys.some((key) => childrenFromPath.includes(key));
+         if (hasChildrenInKeys) {
+            stateNode = null;
+         }
       }
 
       return stateNode;
@@ -488,6 +519,6 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    }
 
    private _getChildren(nodeId: TKey, items: RecordSet, hierarchyRelation: relation.Hierarchy): Record[] {
-      return hierarchyRelation.getChildren(nodeId, items);;
+      return hierarchyRelation.getChildren(nodeId, items);
    }
 }

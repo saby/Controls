@@ -3,26 +3,29 @@ import {Memory} from 'Types/source';
 import {assert} from 'chai';
 import {createSandbox, assert as sinonAssert} from 'sinon';
 
-const memorySource = new Memory({
-    data: [
-        {
-            id: 0,
-            title: 'test'
-        },
-        {
-            id: 1,
-            title: 'test1'
-        },
-        {
-            id: 2,
-            title: 'test'
-        },
-        {
-            id: 3,
-            title: 'test2'
-        }
-    ]
-});
+function getMemorySource(): Memory {
+    return new Memory({
+        data: [
+            {
+                id: 0,
+                title: 'test'
+            },
+            {
+                id: 1,
+                title: 'test1'
+            },
+            {
+                id: 2,
+                title: 'test'
+            },
+            {
+                id: 3,
+                title: 'test2'
+            }
+        ]
+    });
+}
+
 function getDefaultOptions() {
     return {
         searchParam: 'test',
@@ -32,7 +35,7 @@ function getDefaultOptions() {
         sorting: [],
         filter: {},
         keyProperty: 'id',
-        source: memorySource,
+        source: getMemorySource(),
         navigation: {
             source: 'page',
             view: 'page',
@@ -41,9 +44,10 @@ function getDefaultOptions() {
                 page: 0,
                 hasMore: false
             }
-        }
+        },
+        loadingChangedCallback: () => {}
     };
-};
+}
 
 describe('Controls/search:ControllerClass', () => {
     let sandbox;
@@ -87,5 +91,33 @@ describe('Controls/search:ControllerClass', () => {
         assert.isTrue(!!searchController._isSearchValueEmpty('  ', ''));
         assert.isFalse(!!searchController._isSearchValueEmpty('', 'test'));
         assert.isFalse(!!searchController._isSearchValueEmpty('test', ''));
+    });
+
+    it('filter updated on search errback', async () => {
+        const options = getDefaultOptions();
+        const searchController = new ControllerClass(options, {dataOptions: {}});
+        let filter;
+
+        options.filterChangedCallback = (newFilter) => {
+            filter = newFilter;
+        };
+        searchController._searchErrback({}, {testField: 'testValue'});
+        assert.deepEqual(filter, {testField: 'testValue'});
+    });
+});
+
+
+    describe('constructor', () => {
+
+        it('searchValueChangedCallback is not called on constructor', () => {
+            let searchValueChangedCallbackCalled = false;
+            const options = getDefaultOptions();
+            options.searchValueChangedCallback = () => {
+                searchValueChangedCallbackCalled = true;
+            }
+            options.searchValue = 'test';
+            new ControllerClass(options, {});
+            assert.isFalse(searchValueChangedCallbackCalled);
+        });
     });
 })

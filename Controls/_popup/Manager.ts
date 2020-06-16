@@ -229,9 +229,6 @@ class Manager extends Control<IManagerOptions> {
 
     private _addElement(item: IPopupItem): void {
         this._popupItems.add(item);
-        if (item.modal) {
-            ManagerController.getContainer().setOverlay(item.id);
-        }
     }
 
     private _closeChilds(item: IPopupItem): Promise<null> {
@@ -266,7 +263,6 @@ class Manager extends Control<IManagerOptions> {
             this._popupItems.remove(item);
             this._removeFromParentConfig(item);
 
-            this._updateOverlay();
             this._redrawItems();
             this._notify('managerPopupDestroyed', [item, this._popupItems], {bubbling: true});
         });
@@ -282,13 +278,6 @@ class Manager extends Control<IManagerOptions> {
                 }
             }
         }
-    }
-
-    private _updateOverlay(): void {
-        const indices = this._popupItems.getIndicesByValue('modal', true);
-        const lastModalIndex = indices.length ? indices[indices.length - 1] : null;
-        const lastModalItem = this._popupItems.at(lastModalIndex);
-        ManagerController.getContainer().setOverlay(lastModalItem?.id);
     }
 
     protected _pageScrolled(id: string): boolean {
@@ -708,7 +697,6 @@ class Manager extends Control<IManagerOptions> {
 
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {
         if (result) {
-            this._updateOverlay();
             this._redrawItems();
 
             // wait, until popup will be update options

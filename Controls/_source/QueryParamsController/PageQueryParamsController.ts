@@ -1,6 +1,6 @@
 import {QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {IAdditionalQueryParams, Direction} from '../interface/IAdditionalQueryParams';
+import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';

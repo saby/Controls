@@ -5,7 +5,7 @@ import * as cInstance from 'Core/core-instance';
 
 import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/error';
 import {Logger} from 'UI/Utils';
-import {IAdditionalQueryParams} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
 
 export interface ICrudWrapperOptions {
     /**

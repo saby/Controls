@@ -1,10 +1,23 @@
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
+import { IItemAction } from 'Controls/itemActions';
+
+interface IData {
+   id: number,
+   parent: null | number,
+   title: string,
+   type: string,
+   hiddenGroup?: boolean,
+   isDocument: Boolean,
+   image: string
+   width: string | number,
+   isShadow: boolean
+}
 
 export const Gadgets = {
-   getData: () => [{
+   getData: (): IData[] => [{
       id: 1,
-      'parent': null,
-      'type': null,
+      parent: null,
+      type: null,
       title: 'Сравнение условий конкурентов по ЭДО.xlsx',
       image: explorerImages[4],
       isDocument: true,
@@ -13,8 +26,8 @@ export const Gadgets = {
       isShadow: true
    }, {
       id: 2,
-      'parent': null,
-      'type': null,
+      parent: null,
+      type: null,
       title: 'Сравнение систем по учету рабочего времени.xlsx',
       image: explorerImages[5],
       isDocument: true,
@@ -23,8 +36,8 @@ export const Gadgets = {
       isShadow: false
    }, {
       id: 3,
-      'parent': null,
-      'type': null,
+      parent: null,
+      type: null,
       title: 'Конфеты копия',
       image: explorerImages[3],
       isDocument: true,
@@ -32,7 +45,7 @@ export const Gadgets = {
       isShadow: true
    }],
 
-   getActions: () => [
+   getActions: (): IItemAction[] => [
       {
          id: 1,
          icon: 'icon-PhoneNull',
