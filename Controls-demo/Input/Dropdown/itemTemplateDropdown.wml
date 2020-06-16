@@ -1,4 +1,5 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
+            scope="{{_options}}"
             itemData="{{itemData}}"
             multiLine="{{true}}">
    <ws:additionalTextTemplate>

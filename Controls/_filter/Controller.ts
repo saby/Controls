@@ -206,7 +206,8 @@ const _private = {
                              historyData = historySource.getDataObject(item);
 
                              if (historyData) {
-                                 minimizedItemFromOption = _private.minimizeFilterItems(items);
+                                 const itemsToSave = items.filter((item) => !item.doNotSaveToHistory);
+                                 minimizedItemFromOption = _private.minimizeFilterItems(itemsToSave);
                                  minimizedItemFromHistory = _private.minimizeFilterItems(historyData.items || historyData);
                                  if (isEqual(minimizedItemFromOption, minimizedItemFromHistory)) {
                                      result = {

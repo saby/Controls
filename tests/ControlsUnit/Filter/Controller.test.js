@@ -1000,7 +1000,9 @@ define(['Controls/_filter/Controller', 'Core/Deferred', 'Types/entity', 'Control
                })
             ]
          });
-         let filterItems = [{id: 'testId', value: 'testValue', resetValue: 'testResetValue', textValue: '', anyField2: 'anyValue2'}];
+         let filterItems = [
+             {id: 'testId', value: 'testValue', resetValue: 'testResetValue', textValue: '', anyField2: 'anyValue2'},
+             {id: 'testId2', value: 'testValue2', resetValue: 'testResetValue2', textValue: '', anyField2: 'anyValue2', doNotSaveToHistory: true}];
          sandbox.replace(HistoryUtils, 'getHistorySource', () => {
             return {
                getItems: () => historyItems,
