@@ -269,18 +269,34 @@ class FormController extends Control<IFormController, IReceivedState> {
         // создание записи. Метод падает с ошибкой. У контрола стреляет _beforeUpdate, вызов метода создать повторяется бесконечно.
         // Нельзя чтобы контрол ддосил БЛ.
         if (newOptions.key === undefined && !newOptions.record && this._createMetaDataOnUpdate !== createMetaData) {
-            this._createMetaDataOnUpdate = createMetaData;
-            this.create(newOptions.initValues || newOptions.createMetaData).then(() => {
-                if (newOptions.hasOwnProperty('isNewRecord')) {
-                    this._isNewRecord = newOptions.isNewRecord;
-                }
-                this._createMetaDataOnUpdate = null;
-            });
+            // Если текущий рекорд изменен, то покажем вопрос
+            if (this._options.record && this._options.record.isChanged()) {
+                this._showConfirmPopup('yesno').then((answer) => {
+                    if (answer === true) {
+                        this.update().then((res) => {
+                            return res;
+                        });
+                    }
+                    this._createBeforeUpdate(createMetaData, newOptions);
+                });
+            } else {
+                this._createBeforeUpdate(createMetaData, newOptions);
+            }
         } else {
             if (newOptions.hasOwnProperty('isNewRecord')) {
                 this._isNewRecord = newOptions.isNewRecord;
             }
         }
+    }
+
+    private _createBeforeUpdate(createMetaData, newOptions: IFormController) {
+        this._createMetaDataOnUpdate = createMetaData;
+        this.create(newOptions.initValues || newOptions.createMetaData).then(() => {
+            if (newOptions.hasOwnProperty('isNewRecord')) {
+                this._isNewRecord = newOptions.isNewRecord;
+            }
+            this._createMetaDataOnUpdate = null;
+        });
     }
 
     protected _afterUpdate(): void {
