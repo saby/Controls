@@ -162,6 +162,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     protected _template: TemplateFunction = tmpl;
     private _record: Model = null;
     private _isNewRecord: boolean = false;
+    protected _isDataChanged: boolean = false;
     private _createMetaDataOnUpdate: unknown = null;
     private _errorContainer: IContainerConstructor = dataSourceError.Container;
     private __errorController: dataSourceError.Controller;
@@ -177,6 +178,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     private __error: dataSourceError.ViewConfig;
 
     protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
+        this.setDataChanged = this.setDataChanged.bind(this);
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._source = options.source || options.dataSource;
         if (options.dataSource) {
@@ -309,6 +311,10 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
     }
 
+    setDataChanged(arg: boolean): void {
+        this._isDataChanged = true;
+    }
+
 
     private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
         // если ни рекорда, ни ключа, создаем новый рекорд и используем его
@@ -427,7 +433,8 @@ class FormController extends Control<IFormController, IReceivedState> {
         self._notify('registerPending', [self._pendingPromise, {
             showLoadingIndicator: false,
             validate(isInside: boolean): boolean {
-                return self._record && self._record.isChanged() && !isInside;
+                // Если в диалоге были изменены данные, не связанные с рекордом, то вызываем окно подтверждения.
+                return self._record && self._record.isChanged() && !isInside || self._isDataChanged;
             },
             onPendingFail(forceFinishValue: boolean, deferred: Promise<boolean>): void {
                 self._startFormOperations('cancel').then(() => {

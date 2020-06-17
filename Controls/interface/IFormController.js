@@ -178,6 +178,12 @@ define('Controls/interface/IFormController', [
     */
 
    /**
+    * Метод, который определяет, должно ли показаться окно с подтверждением сохранения. Нужно для случаев, когда есть данные, не связанные с рекордом
+    * @function Controls/interface/IFormController#setDataChanged
+    * @param {Boolean} true - окно покажется. false - диалог закроется без появления окна подтверждения, если при этом рекорд не был изменен.
+    */
+
+   /**
     * @event Controls/interface/IFormController#createSuccessed Происходит, когда запись создана успешно.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Types/entity:Model} Редактируемая запись.
