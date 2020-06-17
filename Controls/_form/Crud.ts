@@ -9,6 +9,10 @@ let CRUD = Control.extend({
     _template: tmpl,
     showLoadingIndicator: false,
 
+    _beforeMount(): void {
+        Logger.error('HOC Controls.form:Crud устарел, используйте класс CrudController', 'Crud ', this);
+    },
+
     _afterMount(cfg) {
         if (!cfg.dataSource) {
             Logger.error('Crud', 'Необходимо задать опцию dataSource', this);

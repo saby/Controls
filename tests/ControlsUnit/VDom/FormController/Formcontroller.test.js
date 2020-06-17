@@ -2,8 +2,9 @@ define([
    'Controls/form',
    'Core/Deferred',
    'Types/entity',
+   'Controls/_form/CrudController',
    'Core/polyfill/PromiseAPIDeferred'
-], (form, Deferred, entity) => {
+], (form, Deferred, entity, CrudController) => {
    'use strict';
 
    describe('FormController', () => {
@@ -94,6 +95,9 @@ define([
       it('registerPending', async () => {
          let updatePromise;
          let FC = new form.Controller();
+         FC._crudController = {
+            hideIndicator() {}
+         };
          FC._createChangeRecordPending();
          assert.isTrue(FC._pendingPromise !== undefined);
          FC.update = () => new Promise((res) => updatePromise = res);
@@ -133,6 +137,9 @@ define([
             createCalled = true;
             createPromise = new Promise((res) => { createPromiseResolver = res; });
             return createPromise;
+         };
+         FC._crudController = {
+            setDataSource() {}
          };
 
          FC._beforeUpdate({
@@ -245,14 +252,16 @@ define([
          let validation = {
             submit: () => Promise.resolve(true)
          };
-         let crud = {
-            update: () => Promise.resolve()
+         FC._children = { validation };
+
+         FC._crudController = {
+            update() {}
          };
-         FC._children = { crud, validation };
-         FC._processError = () => {};
+         var sandbox = sinon.createSandbox();
+         let stubUpdate = sandbox.spy(FC._crudController, 'update');
+
          FC._update().then(() => {
-            isUpdatedCalled = true;
-            assert.isTrue(isUpdatedCalled);
+            assert.equal(stubUpdate.callCount, 1);
             done();
             FC.destroy();
          });
@@ -304,7 +313,6 @@ define([
             }
          };
          let FC = new form.Controller();
-         let Crud = new form.Crud();
          let validation = {
             submit: () => Promise.resolve(true)
          };
@@ -314,32 +322,23 @@ define([
             isChanged: () => true
          };
          FC._isNewRecord = true;
-         let crud = {
-            update: Crud.update,
-            _dataSource: {
-               update: () => (new Deferred()).callback('key')
-            },
-            _options: {
-               showLoadingIndicator: 'true'
-            }
+         let dataSource = {
+            update: () => (new Deferred()).callback('key')
          };
          let argsCorrectUpdate = {
             key: 'key',
             isNewRecord: true,
             name: 'cat'
          };
-         crud._notify = (event, args, bubbling) => {
-            if (event === 'updateSuccessed') {
-               FC._notifyHandler(event, args);
-            }
-         };
          FC._notify = (event, arg) => {
             if (event === 'sendResult' && arg[0].formControllerEvent === 'update') {
                data = arg[0].additionalData;
             }
          };
-         FC._children = {crud, validation };
+         FC._children = { validation };
          FC._processError = () => {};
+         FC._crudController = new CrudController.default(dataSource,
+             FC._crudHandler.bind(FC), FC.registerPendingNotifier.bind(FC), FC.indicatorNotifier.bind(FC));
          FC.update(configData).then(() => {
             assert.deepEqual(data, argsCorrectUpdate);
             done();
@@ -361,10 +360,16 @@ define([
          FC._record = {
             getId: () => 'id1'
          };
+         FC._crudController = {
+            hideIndicator () {}
+         };
          FC._beforeUnmount();
          assert.equal(isDestroyCall, false);
 
          FC._isNewRecord = true;
+         FC._crudController = {
+            hideIndicator () {}
+         };
          FC._beforeUnmount();
          assert.equal(isDestroyCall, true);
          FC.destroy();

@@ -26,3 +26,4 @@ export {
     Crud
 };
 export {default as Controller} from './_form/FormController';
+export {default as CrudController} from './_form/CrudController';

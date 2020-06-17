@@ -12,6 +12,7 @@ import {Memory} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IFormOperation} from 'Controls/interface';
 import {Confirmation} from 'Controls/popup';
+import CrudController from 'Controls/_form/CrudController';
 
 interface IFormController extends IControlOptions {
     createMetaData?: unknown;
@@ -175,10 +176,13 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _wasDestroyed: boolean;
     private _pendingPromise: Promise<any>;
     private __error: dataSourceError.ViewConfig;
+    private _crudController: CrudController = null;
 
     protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._source = options.source || options.dataSource;
+        this._crudController = new CrudController(this._source, this._notifyHandler.bind(this),
+            this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
         if (options.dataSource) {
             Logger.warn('FormController: Use option "source" instead of "dataSource"', this);
         }
@@ -206,7 +210,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
             // If there is a key - read the record. Not waiting for answer BL
             if (options.key !== undefined && options.key !== null) {
-                this._readRecordBeforeMount( options);
+                this._readRecordBeforeMount(options);
             }
         } else if (options.key !== undefined && options.key !== null) {
             return this._readRecordBeforeMount(options);
@@ -216,6 +220,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     protected _afterMount(): void {
+        this._isMount = true;
         // если рекорд был создан во время beforeMount, уведомим об этом
         if (this._createdInMounting) {
             this._createRecordBeforeMountNotify();
@@ -226,10 +231,10 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._readRecordBeforeMountNotify();
         }
         this._createChangeRecordPending();
-        this._isMount = true;
     }
 
     protected _beforeUpdate(newOptions: IFormController): void {
+        this._crudController.setDataSource(newOptions.dataSource || newOptions.source);
         if (newOptions.dataSource || newOptions.source) {
             this._source = newOptions.source || newOptions.dataSource;
             //Сбрасываем состояние, только если данные поменялись, иначе будет зацикливаться
@@ -307,12 +312,18 @@ class FormController extends Control<IFormController, IReceivedState> {
             const removePromise = this._tryDeleteNewRecord();
             this._notifyToOpener('deletestarted', [this._record, this._getRecordId(), {removePromise}]);
         }
+        this._crudController.hideIndicator();
+        this._crudController = null;
     }
 
+    private _checkRecordType(record: Model): boolean {
+        return cInstance.instanceOfModule(record, 'Types/entity:Record');
+    }
 
     private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
-        // если ни рекорда, ни ключа, создаем новый рекорд и используем его
-        // в beforeMount еще нет потомков, в частности _children.crud, поэтому будем создавать рекорд напрямую
+        // если ни рекорда, ни ключа, создаем новый рекорд и используем его.
+        // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
+        // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
         return this._source.create(cfg.initValues || cfg.createMetaData).then((record: Model) => {
             this._setRecord(record);
             this._createdInMounting = {isError: false, result: record};
@@ -329,9 +340,10 @@ class FormController extends Control<IFormController, IReceivedState> {
         });
     }
 
-    private _readRecordBeforeMount(cfg: IFormController): Promise<{data: Model}> {
-        // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать
-        // в beforeMount еще нет потомков, в частности _children.crud, поэтому будем читать рекорд напрямую
+    private _readRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
+        // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать.
+        // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
+        // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
         return readWithAdditionalFields(this._source, cfg.key, cfg.readMetaData).then((record: Model) => {
             this._setRecord(record);
             this._readInMounting = {isError: false, result: record};
@@ -347,10 +359,6 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._readInMounting = {isError: true, result: e};
             return this._processError(e).then(this._getState);
         }) as Promise<{data: Model}>;
-    }
-
-    private _checkRecordType(record: Model): boolean {
-        return cInstance.instanceOfModule(record, 'Types/entity:Record');
     }
 
     private _readRecordBeforeMountNotify(): void {
@@ -508,7 +516,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     create(createMetaData: unknown): Promise<undefined | Model> {
         createMetaData = createMetaData || this._options.initValues || this._options.createMetaData;
-        return this._children.crud.create(createMetaData).then(
+        return this._crudController.create(createMetaData).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)
         );
@@ -523,10 +531,18 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     read(key: string, readMetaData: unknown): Promise<Model> {
         readMetaData = readMetaData || this._options.readMetaData;
-        return this._children.crud.read(key, readMetaData).then(
+        return this._crudController.read(key, readMetaData).then(
             this._readHandler.bind(this),
             this._crudErrback.bind(this)
         );
+    }
+
+    registerPendingNotifier(params: [any]): void {
+        this._notify('registerPending', params, {bubbling: true});
+    }
+
+    indicatorNotifier(eventType: string, params: []): string {
+        return this._notify(eventType, params, {bubbling: true});
     }
 
     private _readHandler(record: Model): Model {
@@ -585,8 +601,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             if (!results.hasErrors) {
                 // при успешной валидации пытаемся сохранить рекорд
                 this._notify('validationSuccessed', [], {bubbling: true});
-                let res = this._children.crud.update(record, this._isNewRecord, config);
-
+                let res = this._crudController.update(record, this._isNewRecord, config);
                 // fake deferred used for code refactoring
                 if (!(res && res.then)) {
                     res = new Deferred();
@@ -620,9 +635,9 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     delete(destroyMetaData: unknown): Promise<Model | undefined> {
         destroyMetaData = destroyMetaData || this._options.destroyMeta || this._options.destroyMetaData;
-        const resultDef = this._children.crud.delete(this._record, destroyMetaData);
+        const resultProm = this._crudController.delete(this._record, destroyMetaData);
 
-        return resultDef.then((record) => {
+        return resultProm.then((record) => {
             this._setRecord(null);
             this._wasDestroyed = true;
             this._updateIsNewRecord(false);
@@ -692,13 +707,6 @@ class FormController extends Control<IFormController, IReceivedState> {
         if (!this._record) {
             this._notify('close', [], {bubbling: true});
         }
-    }
-
-    private _crudHandler(event: SyntheticEvent<Event>): void {
-        const eventName = event.type;
-        const args = Array.prototype.slice.call(arguments, 1);
-        event.stopPropagation(); // FC the notification event by itself
-        this._notifyHandler(eventName, args);
     }
 
     private _notifyHandler(eventName: string, args): void {
