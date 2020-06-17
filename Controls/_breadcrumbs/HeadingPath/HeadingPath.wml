@@ -1,5 +1,5 @@
 <div class="controls-BreadCrumbsPath{{_options.withoutBackButton ? ' controls-BreadCrumbsPath__twoRows_theme-' + _options.theme : ''}}">
-    <div class="controls-BreadCrumbsPath__wrapper">
+    <div class="controls-BreadCrumbsPath__wrapper {{_options.isDouble ? 'controls-BreadCrumbsPath__wrapper__double'}}">
         <ws:if data="{{ _backButtonCaption && !_options.withoutBackButton }}">
             <Controls._breadcrumbs.HeadingPath.Back backButtonCaption="{{_backButtonCaption}}"
                                                backgroundStyle="{{_options.backgroundStyle || _options.style}}"
@@ -8,32 +8,36 @@
                                                showArrowOutsideOfBackButton="{{!_breadCrumbsItems && !_options.rootVisible}}"
                                                backButtonStyle="{{ _options.backButtonStyle }}"
                                                showActionButton="{{_options.showActionButton}}"
+                                               isDouble="{{_options.isDouble}}"
                                                afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
                                                theme="{{_options.theme}}"
-                                               attr:class="{{!_visibleItems ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}}"
+                                               itemsExist="{{_visibleItems}}"
+                                               attr:class="{{!_visibleItems || _options.isDouble ? 'controls-BreadCrumbsPath__backButton__wrapper__only'}} "
                                                on:backButtonClick="_onBackButtonClick()"
                                                on:arrowClick="_notifyHandler('arrowClick')"/>
         </ws:if>
-        <ws:if data="{{_visibleItems || _options.rootVisible}}">
-            <div class="controls-BreadCrumbsPath__homeContainer controls-BreadCrumbsPath__homeContainer_theme-{{_options.theme}} {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}
-            {{_options.withoutBackButton ? ' controls-BreadCrumbsPath__homeContainer__withoutBackButton' : ' controls-BreadCrumbsPath__homeContainer__withBackButton_theme-' + _options.theme}}"
-                 on:mouseEnter="_notifyHandler('hoveredItemChanged', _getRootModel(_options.items ? _options.items[0].get(_options.parentProperty) : _options.root, _options.keyProperty))"
-                 on:mouseLeave="_notifyHandler('hoveredItemChanged')"
-                 on:click="_onHomeClick()">
-                <div class="controls-BreadCrumbsPath__home controls-BreadCrumbsPath__home_theme-{{_options.theme}} icon-Home3"></div>
-            </div>
-        </ws:if>
-        <ws:if data="{{_visibleItems}}">
-            <Controls._breadcrumbs.View attr:class="controls-BreadCrumbsPath__breadCrumbs_home-path-spacing_theme-{{_options.theme}} controls-BreadCrumbsPath__breadCrumbs {{_breadCrumbsClass}}"
-                                       items="{{_breadCrumbsItems}}"
-                                       visibleItems="{{_visibleItems}}"
-                                       backgroundStyle="{{_options.backgroundStyle || _options.style}}"
-                                       keyProperty="{{_options.keyProperty}}"
-                                       displayProperty="{{_options.displayProperty}}"
-                                       highlighter="{{_options.highlighter}}"
-                                       on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
-                                       on:itemClick="_notifyHandler('itemClick')"/>
-        </ws:if>
+        <div class="controls-BreadCrumbsPath__crumbsWrapper {{_options.isDouble ? 'controls-BreadCrumbsPath__twoRows_theme-' + _options.theme}}">
+            <ws:if data="{{_visibleItems || _options.rootVisible}}">
+                <div class="controls-BreadCrumbsPath__homeContainer controls-BreadCrumbsPath__homeContainer_theme-{{_options.theme}} {{ _applyHighlighter(_options.highlighter, _options.items ? _options.items[0].get(_options.parentProperty) : _options.root) }}
+            {{_options.withoutBackButton || _options.isDouble ? ' controls-BreadCrumbsPath__homeContainer__withoutBackButton' : ' controls-BreadCrumbsPath__homeContainer__withBackButton_theme-' + _options.theme}}"
+                     on:mouseEnter="_notifyHandler('hoveredItemChanged', _getRootModel(_options.items ? _options.items[0].get(_options.parentProperty) : _options.root, _options.keyProperty))"
+                     on:mouseLeave="_notifyHandler('hoveredItemChanged')"
+                     on:click="_onHomeClick()">
+                    <div class="controls-BreadCrumbsPath__home controls-BreadCrumbsPath__home_theme-{{_options.theme}} icon-Home3"></div>
+                </div>
+            </ws:if>
+            <ws:if data="{{_visibleItems}}">
+                <Controls._breadcrumbs.View attr:class="controls-BreadCrumbsPath__breadCrumbs_home-path-spacing_theme-{{_options.theme}} controls-BreadCrumbsPath__breadCrumbs {{_breadCrumbsClass}}"
+                                            items="{{_breadCrumbsItems}}"
+                                            visibleItems="{{_visibleItems}}"
+                                            backgroundStyle="{{_options.backgroundStyle || _options.style}}"
+                                            keyProperty="{{_options.keyProperty}}"
+                                            displayProperty="{{_options.displayProperty}}"
+                                            highlighter="{{_options.highlighter}}"
+                                            on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+                                            on:itemClick="_notifyHandler('itemClick')"/>
+            </ws:if>
+        </div>
 
 
     </div>
