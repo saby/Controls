@@ -9,7 +9,7 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-
+import {ISelectionObject} from 'Controls/interface';
 
 var _private = {
    recalculateToolbarItems: function(self, items, toolbarWidth) {
@@ -237,6 +237,13 @@ var OperationsPanel = Control.extend({
          // TODO: будет исправляться по этой задаче: https://online.sbis.ru/opendoc.html?guid=b4ed11ba-1e4f-4076-986e-378d2ffce013
          _private.checkToolbarWidth(this);
       }
+   },
+
+   getSelection(): ISelectionObject {
+      return {
+         selected: this._options.selectedKeys.slice(),
+         excluded: this._options.excludedKeys.slice()
+      };
    },
 
    _onResize: function() {
