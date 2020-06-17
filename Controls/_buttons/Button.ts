@@ -69,11 +69,9 @@ export function cssStyleGeneration(options: IButtonControlOptions): void {
  * @remark
  * Кнопки могут отображаться в нескольких режимах, отличающихся друга от друга внешне.
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">демо-пример</a>
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/buttons-switches/buttons-links/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_buttons.less">переменные тем оформления</a>
- *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Демо-пример</a>.
  *
  * @class Controls/_buttons/Button
  * @extends Core/Control
