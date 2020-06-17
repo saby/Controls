@@ -1,30 +1,33 @@
-<div class="controls-BreadCrumbsPath__backButton__wrapper controls-BreadCrumbsPath__backButton__wrapper_theme-{{_options.theme}} {{_options.backButtonClass}} {{_options.showArrowOutsideOfBackButton ? ' controls-BreadCrumbsPath__backButton__wrapper__only__withArrow_theme-' + _options.theme}}">
-   <Controls.heading:Back attr:class="controls-BreadCrumbsPath__backButton"
-                          caption="{{ _options.backButtonCaption }}"
-                          tooltip="{{ _options.backButtonCaption }}"
-                          style="{{ _options.backButtonStyle }}"
-                          fontSize="headingPathBack"
-                          theme="{{ _options.theme}}"
-                          on:click="_onBackButtonClick()"/>
+<div class="controls-BreadCrumbsPath__backButton__wrapper controls-BreadCrumbsPath__backButton__wrapper_theme-{{_options.theme}} {{_options.backButtonClass}}">
+    <div class="controls-BreadCrumbsPath__backButton__container {{_options.isDouble ? 'controls-BreadCrumbsPath__backButton__container__double'}} {{( _options.showArrowOutsideOfBackButton || _options.isDouble ) && _options.showActionButton ? ' controls-BreadCrumbsPath__backButton__container__only__withArrow_theme-' + _options.theme}}">
+        <Controls.heading:Back attr:class="controls-BreadCrumbsPath__backButton"
+                               caption="{{ _options.backButtonCaption }}"
+                               tooltip="{{ _options.backButtonCaption }}"
+                               style="{{ _options.backButtonStyle }}"
+                               fontSize="headingPathBack"
+                               theme="{{ _options.theme}}"
+                               on:click="_onBackButtonClick()"/>
 
-   <ws:if data="{{ _options.afterBackButtonTemplate }}">
-      <ws:partial template="{{ _options.afterBackButtonTemplate }}"/>
-   </ws:if>
+        <ws:if data="{{ _options.afterBackButtonTemplate }}">
+            <ws:partial template="{{ _options.afterBackButtonTemplate }}"/>
+        </ws:if>
 
-   <ws:if data="{{ _options.counterCaption }}">
-      <Controls.heading:Counter attr:class="controls-BreadCrumbsPath__counter_theme-{{_options.theme}}"
-                                caption="{{ _options.counterCaption }}"
-                                fontColorStyle="unaccented"/>
-   </ws:if>
-   <ws:if data="{{ _options.showActionButton }}">
-      <div class="controls-BreadCrumbsPath__backButtonArrow-container controls-BreadCrumbsPath__backButtonArrow-container_theme-{{_options.theme}}
+        <ws:if data="{{ _options.counterCaption }}">
+            <Controls.heading:Counter attr:class="controls-BreadCrumbsPath__counter_theme-{{_options.theme}}"
+                                      caption="{{ _options.counterCaption }}"
+                                      fontColorStyle="unaccented"/>
+        </ws:if>
+        <ws:if data="{{ _options.showActionButton }}">
+            <div class="controls-BreadCrumbsPath__backButtonArrow-container controls-BreadCrumbsPath__backButtonArrow-container_theme-{{_options.theme}}
+                  {{!_options.itemsExist || _options.isDouble  ? 'controls-BreadCrumbsPath__backButtonArrow-container__only'}}
                   controls-background-{{_options.backgroundStyle || 'default'}}_theme-{{_options.theme}}
                   {{_options.readOnly ? ' controls-Path__backButtonArrow_readonly_theme-' + _options.theme}}"
-           title="{[Подробнее]}"
-           on:click="_onArrowClick()">
-          <div class="controls-BreadCrumbsPath__backButtonArrow">
-              <svg attr:class="controls-BreadCrumbsPath__backButtonArrow_theme-{{_options.theme}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9,9.94l-6,6v-2l4-4-4-4v-2Zm5,0-6,6v-2l4-4-4-4v-2Z"/></svg>
-          </div>
-      </div>
-   </ws:if>
+                 title="{[Подробнее]}"
+                 on:click="_onArrowClick()">
+                <div class="controls-BreadCrumbsPath__backButtonArrow">
+                    <svg attr:class="controls-BreadCrumbsPath__backButtonArrow_theme-{{_options.theme}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9,9.94l-6,6v-2l4-4-4-4v-2Zm5,0-6,6v-2l4-4-4-4v-2Z"/></svg>
+                </div>
+            </div>
+        </ws:if>
+    </div>
 </div>
