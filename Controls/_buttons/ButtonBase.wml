@@ -1,15 +1,4 @@
-<a attr:class="controls-BaseButton
-            controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
-            {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
-            {{_toggled ? ' controls-Button_toggled' : ''}}
-            controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}_theme-{{_options.theme}}
-            controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}_theme-{{_options.theme}}
-            {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
-            {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
-            {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
-            controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}"
-   attr:title="{{_options.tooltip}}"
-   attr:href="{{_options.href}}">
+<ws:template name="wrapper">
     <span attr:class="controls-BaseButton__wrapper
                         controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
                         controls-Button__wrapper_viewMode-{{_viewMode}}
@@ -32,4 +21,36 @@
            </span>
         </ws:if>
     </span>
-</a>
+</ws:template>
+
+<ws:if data="{{_options.href}}">
+    <a attr:class="controls-BaseButton
+                controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
+                {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
+                {{_toggled ? ' controls-Button_toggled' : ''}}
+                controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}_theme-{{_options.theme}}
+                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}_theme-{{_options.theme}}
+                {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
+                {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
+                {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
+                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}"
+       attr:title="{{_options.tooltip}}"
+       attr:href="{{_options.href}}">
+        <ws:partial template="wrapper"></ws:partial>
+    </a>
+</ws:if>
+<ws:else>
+    <span attr:class="controls-BaseButton
+                controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
+                {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
+                {{_toggled ? ' controls-Button_toggled' : ''}}
+                controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}_theme-{{_options.theme}}
+                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}_theme-{{_options.theme}}
+                {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
+                {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
+                {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
+                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}"
+          attr:title="{{_options.tooltip}}">
+        <ws:partial template="wrapper"></ws:partial>
+    </span>
+</ws:else>
