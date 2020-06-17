@@ -12,6 +12,9 @@ var ModuleClass = MonthViewModel.extend({
     _normalizeState: function (state) {
         var nState = ModuleClass.superclass._normalizeState.apply(this, arguments);
         nState.selectionProcessing = state.selectionProcessing;
+        nState.selectionType = state.selectionType;
+        nState.hoveredEndValue = state.hoveredEndValue;
+        nState.hoveredStartValue = state.hoveredStartValue;
         nState.startValue = DateUtil.normalizeDate(state.startValue);
         nState.endValue = DateUtil.normalizeDate(state.endValue);
         return nState;
@@ -21,6 +24,12 @@ var ModuleClass = MonthViewModel.extend({
         var isChanged = ModuleClass.superclass._isStateChanged.apply(this, arguments),
             currentMonthStart = DateUtil.getStartOfMonth(this._state.month),
             currentMonthEnd = DateUtil.getEndOfMonth(this._state.month);
+        // обновляем, если навели на ячейку месяца
+        if (!this._singleDayHover && (state.hoveredStartValue !== this._state.hoveredStartValue || state.hoveredStartValue !== this._state.hoveredStartValue) &&
+            (DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.hoveredStartValue, state.hoveredEndValue) ||
+             DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, this._state.hoveredStartValue, this._state.hoveredEndValue))) {
+            return true;
+        }
 
         return isChanged ||
             state.selectionProcessing !== this._state.selectionProcessing ||

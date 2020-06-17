@@ -12,4 +12,5 @@
       selectionHoveredValue="{{_selectionHoveredValue}}"
       hoveredStartValue="{{_hoveredStartValue}}"
       hoveredEndValue="{{_hoveredEndValue}}"
+      quantum="{{_quantum}}"
 />
