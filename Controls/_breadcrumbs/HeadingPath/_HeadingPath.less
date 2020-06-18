@@ -16,6 +16,17 @@
       font-size: @line-height_breadcrumbsView;
    }
 }
+.controls-BreadCrumbsPath__wrapper__double {
+   flex-direction: column-reverse;
+}
+.controls-BreadCrumbsPath__crumbsWrapper {
+   white-space: nowrap;
+   display: flex;
+   max-width: 100%;
+   // добавляем минимальную ширину, чтобы обводка не обрезалась.
+   // min-width = ширина домика + левый отступ + обводка справа.
+   min-width: @home_icon-size_breadcrumbsPath + @back_offset_breadcrumbsHeadingPath + @droppable_padding-horizontal_breadcrumbsView;
+}
 
 .controls-BreadCrumbsPath__backButton {
    white-space: nowrap;
@@ -90,8 +101,11 @@
 .controls-Path__backButtonArrow_readonly_theme-@{themeName} {
    color: @back_editButton_readonly_icon-color_breadcrumbsHeadingPath;
 }
-.controls-BreadCrumbsPath__backButton__wrapper__only__withArrow_theme-@{themeName} {
-   padding-right: @back_offset_breadcrumbsHeadingPath;
+.controls-BreadCrumbsPath__backButton__container__only__withArrow_theme-@{themeName} {
+   padding-right: @back_editButton_icon-size_breadcrumbsHeadingPath;
+}
+.controls-BreadCrumbsPath__backButtonArrow-container__only {
+   right: 0;
 }
 .controls-BreadCrumbsPath__counter_theme-@{themeName} {
    margin-left: @back_counter_offset_breadcrumbsHeadingPath;
@@ -168,4 +182,12 @@
 
 .controls-fontsize-headingPathBack_theme-@{themeName} {
    font-size: @font-size_headingPathBack_headingBack;
+}
+
+.controls-BreadCrumbsPath__backButton__container {
+   position: relative;
+   display: inline-flex;
+   max-width: 100%;
+   align-items: baseline;
+   box-sizing: border-box;
 }

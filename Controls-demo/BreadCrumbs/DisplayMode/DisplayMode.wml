@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">displayMode = 'doubleline'</div>
+        <Controls.breadcrumbs:HeadingPath attr:id="double"
+                                          items="{{_items}}"
+                                          parentProperty="parent"
+                                          keyProperty="id"
+                                          displayMode="doubleline"
+                                          on:arrowActivated="_onArrowActivated()"
+                                          on:itemClick="_onItemClick()" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">displayMode = 'default'</div>
+        <Controls.breadcrumbs:HeadingPath attr:id="single"
+                                          items="{{_items}}"
+                                          parentProperty="parent"
+                                          keyProperty="id"/>
+    </div>
+</div>
