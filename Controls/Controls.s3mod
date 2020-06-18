@@ -14,7 +14,6 @@
       <module id="0f5d26db-dd61-4957-9375-8861ad66f219" name="Vdom"/>
       <module id="f27abe12-19df-4c9f-b886-634bd20a0011" name="UI"/>
       <module id="832cda0a-e19c-4ffc-a1d1-47edbb6b7501" name="I18n"/>
-      <module id="af50caf5-f84b-4b81-a19c-6f6618372dbd" name="Controls-default-theme"/>
     </depends>
 
   <load_after/>

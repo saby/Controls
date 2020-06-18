@@ -1,17 +1,5 @@
 [{
   "include": [
-    "Controls/Application",
-    "Controls/Application/*",
-    "css!Controls-default-theme/application"
-  ],
-  "exclude": [
-    "wml!Controls/Application/CompatibleScripts",
-    "Controls/Application/HeadDataContext",
-    "Controls/Application/AppData"
-  ],
-  "output": "controls-application.package.js"
-}, {
-  "include": [
     "Controls/Container/Async",
     "Controls/Container/Async/*"
   ],
