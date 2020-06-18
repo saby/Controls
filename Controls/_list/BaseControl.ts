@@ -1770,12 +1770,16 @@ const _private = {
     },
 
    updateSelectionController(self: any, newOptions: any): void {
+      /*
+          Передаем _itemsChanged, так как нам могут передать selectedKeys раньше, чем мы получим RecordSet.
+          То есть после того как передали новый RecordSet нужно в модели проставить выбранные элементы
+      */
       const result = self._selectionController.update({
          model: self._listViewModel,
          selectedKeys: newOptions.selectedKeys,
          excludedKeys: newOptions.excludedKeys,
          strategyOptions: this.getSelectionStrategyOptions(newOptions, self._listViewModel.getCollection())
-      });
+      }, self._itemsChanged);
       this.handleSelectionControllerResult(self, result);
    },
 

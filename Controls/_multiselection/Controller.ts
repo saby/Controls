@@ -46,10 +46,9 @@ export class Controller {
    /**
     * Обновить состояние контроллера
     * @param options
-    * @param rootChanged
-    * @param filterChanged
+    * @param itemsChanged RecordSet в модели был изменен
     */
-   update(options: ISelectionControllerOptions): ISelectionControllerResult {
+   update(options: ISelectionControllerOptions, itemsChanged: boolean): ISelectionControllerResult {
       const modelChanged = options.model !== this._model;
       const selectionChanged = this._isSelectionChanged(options.selectedKeys, options.excludedKeys);
       this._strategy.update(options.strategyOptions);
@@ -64,7 +63,7 @@ export class Controller {
          this._excludedKeys = options.excludedKeys.slice();
       }
 
-      if (selectionChanged || modelChanged) {
+      if (selectionChanged || modelChanged || itemsChanged) {
          this._updateModel(this._selection);
       }
 
