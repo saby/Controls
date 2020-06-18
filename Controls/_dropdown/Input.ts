@@ -1,53 +1,17 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Input/Input');
 import defaultContentTemplate = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplate');
 import Utils = require('Types/util');
 import chain = require('Types/chain');
 import dropdownUtils = require('Controls/_dropdown/Util');
 import {isEqual} from 'Types/object';
+import Controller = require('Controls/_dropdown/_Controller');
+import BaseDropdown = require('Controls/_dropdown/BaseDropdown');
+import {SyntheticEvent} from "Vdom/Vdom";
+import {Stack as StackOpener} from 'Controls/popup';
 
 var getPropValue = Utils.object.getPropertyValue.bind(Utils);
-
-var _private = {
-   getSelectedKeys: function (items, keyProperty) {
-      var keys = [];
-      chain.factory(items).each(function (item) {
-         keys.push(getPropValue(item, keyProperty));
-      });
-      return keys;
-   },
-
-   getTooltip: function (items, displayProperty) {
-      var tooltips = [];
-      chain.factory(items).each(function (item) {
-         tooltips.push(getPropValue(item, displayProperty));
-      });
-      return tooltips.join(', ');
-   },
-
-   isEmptyItem: function(self, item) {
-      return self._options.emptyText && (getPropValue(item, self._options.keyProperty) === null || !item);
-   },
-
-   getText: function(self, items) {
-      let text = '';
-      if (_private.isEmptyItem(self, items[0])) {
-         text = dropdownUtils.prepareEmpty(self._options.emptyText);
-      } else {
-         text = getPropValue(items[0], self._options.displayProperty);
-      }
-      return text;
-   },
-
-   getMoreText: function(items) {
-      let moreText = '';
-      if (items.length > 1) {
-         moreText = ', ' + rk('еще') + ' ' + (items.length - 1);
-      }
-      return moreText;
-   }
-};
 
 /**
  * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки.
@@ -55,13 +19,13 @@ var _private = {
  *
  * @remark
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
- * 
+ *
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDropdown%2FDropdown">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
- * 
+ *
  * @class Controls/_dropdown/Input
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
@@ -269,35 +233,59 @@ var _private = {
  * </pre>
  */
 
-var Input = Control.extend({
-   _template: template,
-   _defaultContentTemplate: defaultContentTemplate,
-   _text: '',
-   _hasMoreText: '',
-   _selectedItems: '',
+class Input extends BaseDropdown {
+   protected _template: TemplateFunction = template;
+   protected _defaultContentTemplate: TemplateFunction = defaultContentTemplate;
+   protected _text: string = '';
+   protected _hasMoreText: string = '';
+   protected _selectedItems = '';
 
-   _beforeMount: function () {
+   _beforeMount(options, recievedState): Promise<object>|void {
       this._prepareDisplayState = this._prepareDisplayState.bind(this);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
-   },
+      this._controller = new Controller(this._getControllerOptions(options));
 
-   _afterMount: function (options) {
+      return this._controller.loadItems(recievedState);
+   }
+
+   _afterMount(options) {
       /* Updating the text in the header.
       Since the text is set after loading source, the caption stored old value */
       if (options.showHeader && options.caption !== this._text) {
          this._forceUpdate();
       }
-   },
+      this._controller.registerScrollEvent();
+   }
 
-   _selectedItemsChangedHandler: function (event, items) {
-      this._notify('textValueChanged', [_private.getText(this, items) + _private.getMoreText(items)]);
-      const newSelectedKeys = _private.getSelectedKeys(items, this._options.keyProperty);
+   _beforeUpdate(options) {
+      this._controller.update(this._getControllerOptions(options));
+   }
+
+   _getControllerOptions(options): object {
+      return { ...options, ...{
+            dataLoadCallback: this._dataLoadCallback,
+            selectedKeys: options.selectedKeys || [],
+            popupClassName: options.popupClassName || (options.showHeader || options.headerTemplate ?
+                           'controls-DropdownList__margin-head' : options.multiSelect ?
+                           'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
+                           ' theme_' + options.theme,
+            caption: options.caption || this._text ,
+            allowPin: false,
+            selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
+            openerControl: this
+         }
+      };
+   }
+
+   _selectedItemsChangedHandler(items) {
+      this._notify('textValueChanged', [this._getText(items) + this._getMoreText(items)]);
+      const newSelectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
          return this._notify('selectedKeysChanged', [newSelectedKeys]);
       }
-   },
+   }
 
-   _dataLoadCallback: function (items) {
+   _dataLoadCallback(items): void {
       this._countItems = items.getCount();
       if (this._options.emptyText) {
          this._countItems += 1;
@@ -306,36 +294,132 @@ var Input = Control.extend({
       if (this._options.dataLoadCallback) {
          this._options.dataLoadCallback(items);
       }
-   },
+   }
 
-   _prepareDisplayState: function (items) {
+   _prepareDisplayState(items): void {
       if (items.length) {
          this._selectedItems = items;
          this._needInfobox = this._options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = _private.isEmptyItem(this, this._item);
+         this._isEmptyItem = this.isEmptyItem(this._item);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
-         this._text = _private.getText(this, items);
-         this._hasMoreText = _private.getMoreText(items);
-         this._tooltip = _private.getTooltip(items, this._options.displayProperty);
+         this._text = this._getText(items);
+         this._hasMoreText = this._getMoreText(items);
+         this._tooltip = this._getTooltip(items, this._options.displayProperty);
       }
-   },
-
-   // Делаем через событие deactivated на Controller'e,
-   // т.к в Controller передается просто шаблон, а не контрол, который не обладает состоянием активности,
-   // и подписка на _deactivated на это шаблоне работать не будет
-   _deactivated: function() {
-      this.closeMenu();
-   },
-
-   openMenu(popupOptions?: object): void {
-      this._children.controller.openMenu(popupOptions);
-   },
-
-   closeMenu(): void {
-      this._children.controller.closeMenu();
    }
-});
+
+   _handleMouseDown(event: SyntheticEvent): void {
+      const config = {
+         templateOptions: {
+            selectorDialogResult: this._selectorTemplateResult.bind(this),
+            selectorOpener: StackOpener
+         },
+         eventHandlers: {
+            onOpen: this._onOpen.bind(this),
+            onClose: () => {
+               this._popupId = null;
+               this._onClose();
+            },
+            onResult: this._onResult.bind(this)
+         }
+      };
+      this._controller.setMenuPopupTarget(this._container);
+      this._controller.openMenu(config).then((result) => {
+         if (typeof result === 'string') {
+            this._popupId = result;
+         } else if (result) {
+            this._selectedItemsChangedHandler(result);
+         }
+      });
+   }
+
+   protected _onResult(action, data) {
+      switch (action) {
+         case 'applyClick':
+            this._applyClick(data);
+            break;
+         case 'itemClick':
+            this._itemClick(data);
+            break;
+         case 'selectorResult':
+            this._selectorResult(data);
+            break;
+         case 'selectorDialogOpened':
+            this._selectorDialogOpened(data);
+            break;
+         case 'footerClick':
+            this._footerClick(data);
+      }
+   }
+
+   protected _itemClick(data): void {
+      const item = this._controller.getPreparedItem(data, this._options.keyProperty, this._source);
+      const res = this._selectedItemsChangedHandler([item]);
+
+      // dropDown must close by default, but user can cancel closing, if returns false from event
+      if (res !== false) {
+         this._controller.applyClick(item);
+      }
+   }
+
+   protected _applyClick(data): void {
+      this._selectedItemsChangedHandler(data);
+      this._controller.applyClick(data);
+   }
+
+   protected _selectorResult(data): void {
+      this._controller.onSelectorResult(data);
+      this._selectedItemsChangedHandler(data);
+   }
+
+   protected _selectorTemplateResult(event, selectedItems): void {
+      let result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
+      this._selectorResult(result);
+   }
+
+   _beforeUnmount(): void {
+      this._controller.destroy();
+   }
+
+   private _getSelectedKeys(items, keyProperty) {
+      let keys = [];
+      chain.factory(items).each(function (item) {
+         keys.push(getPropValue(item, keyProperty));
+      });
+      return keys;
+   }
+
+   private _getTooltip(items, displayProperty) {
+      var tooltips = [];
+      chain.factory(items).each(function (item) {
+         tooltips.push(getPropValue(item, displayProperty));
+      });
+      return tooltips.join(', ');
+   }
+
+   private isEmptyItem(item) {
+      return this._options.emptyText && (getPropValue(item, this._options.keyProperty) === null || !item);
+   }
+
+   private _getText(items) {
+      let text = '';
+      if (this.isEmptyItem(items[0])) {
+         text = dropdownUtils.prepareEmpty(this._options.emptyText);
+      } else {
+         text = getPropValue(items[0], this._options.displayProperty);
+      }
+      return text;
+   }
+
+   private _getMoreText(items) {
+      let moreText = '';
+      if (items.length > 1) {
+         moreText = ', ' + rk('еще') + ' ' + (items.length - 1);
+      }
+      return moreText;
+   }
+}
 
 Input._theme = ['Controls/dropdown', 'Controls/Classes'];
 
