@@ -1511,6 +1511,44 @@ define([
          sandbox.restore();
       });
 
+      it('_private.updateSelectionController', () => {
+         let itemsChanged = false;
+
+         const updateResult = {
+            selectedKeysDiff: {
+               added: [],
+               removed: [],
+               keys: []
+            },
+            excludedKeysDiff: {
+               added: [],
+               removed: [],
+               keys: []
+            },
+            selectedCount: 0,
+            isAllSelected: false
+         };
+
+         const baseControl = {
+            _itemsChanged: itemsChanged,
+            _listViewModel: { getCollection: () => {}},
+            _notify: function(eventName, args) {},
+            _selectionController: {
+               update: (args, itemsChang) => {
+                  assert.equal(itemsChang, itemsChanged);
+
+                  return updateResult;
+               }
+            }
+         };
+
+         lists.BaseControl._private.updateSelectionController(baseControl, { });
+
+         baseControl._itemsChanged = true;
+         itemsChanged = true;
+         lists.BaseControl._private.updateSelectionController(baseControl, { });
+      });
+
       it('_private.handleSelectionControllerResult', () => {
          const baseControl = {
             _notify: function(eventName, args) {}

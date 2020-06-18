@@ -81,6 +81,17 @@ describe('Controls/_multiselection/Controller', () => {
          }, false, false);
          assert.isTrue(setSelectedItemsSpy.called);
       });
+
+      it('items changed', () => {
+         const setSelectedItemsSpy = spy(model, 'setSelectedItems');
+         controller.update({
+            model,
+            selectedKeys: [1],
+            excludedKeys: [],
+            strategyOptions: {}
+         }, true);
+         assert.isTrue(setSelectedItemsSpy.called);
+      });
    });
 
    describe('toggleItem', () => {
