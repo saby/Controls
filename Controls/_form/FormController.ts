@@ -291,6 +291,11 @@ class FormController extends Control<IFormController, IReceivedState> {
             this._wasRead = false;
             this._wasDestroyed = false;
         }
+        /* Вновь регистрируем pending для показа окна подтверждения, если pending до этого завершился. Необходимо для случаев, когда
+         formController находится не внутри окна, которое закрывается при завершении пендинга*/
+        if (this._pendingPromise === null) {
+            this._createChangeRecordPending();
+        }
     }
 
     protected _beforeUnmount(): void {
