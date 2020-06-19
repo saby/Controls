@@ -62,7 +62,7 @@ class PendingClass {
         Object.keys(pending).forEach((key) => {
             const indicatorId = pending[key].loadingIndicatorId;
             if (indicatorId) {
-                // this._notify('hideIndicator', [indicatorId]);
+                this._notify('hideIndicator', [indicatorId]);
             }
         });
     }
