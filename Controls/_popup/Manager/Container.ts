@@ -3,6 +3,7 @@ import {List} from 'Types/collection';
 import {IPopupItem} from 'Controls/_popup/interface/IPopup';
 import {dispatcherHandler} from 'UI/HotKeys';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
+import PendingClass from './PendingClass';
 import template = require('wml!Controls/_popup/Manager/Container');
 
 // step zindex between popups.
@@ -25,9 +26,11 @@ class Container extends Control<IControlOptions> {
     protected _overlayId: string;
     protected _zIndexStep: number = POPUP_ZINDEX_STEP;
     protected _popupItems: List<IPopupItem>;
+    protected _pendingController: PendingClass;
 
     protected _beforeMount(): void {
         this._popupItems = new List();
+        this._pendingController = new PendingClass(this._notifyHandler.bind(this));
     }
     protected _afterMount(): void {
         ManagerController.setContainer(this);
@@ -53,8 +56,24 @@ class Container extends Control<IControlOptions> {
         }
     }
 
-    getPending(): Control {
-        return this._children.pending as Control;
+    getPending(): PendingClass {
+        return this._pendingController;
+    }
+
+    protected _notifyHandler(eventName: string, args?: []): void {
+        this._notify(eventName, args, {bubbling: true});
+    }
+
+    private _registerPendingHandler(event: Event, def, config): void {
+        this._pendingController.registerPending(def, config);
+    }
+
+    private _finishPendingHandler(event: Event, forceFinishValue, root): void {
+        this._pendingController.finishPendingOperations(forceFinishValue, root);
+    }
+
+    private _cancelFinishingPendingHandler(event: Event, root): void {
+        this._pendingController.cancelFinishingPending(root);
     }
 
     // todo: https://online.sbis.ru/opendoc.html?guid=728a9f94-c360-40b1-848c-e2a0f8fd6d17
@@ -96,6 +115,12 @@ class Container extends Control<IControlOptions> {
         // Click on the overlay shouldn't do anything
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    protected _beforeUnmount(): void {
+        if (this._pendingController) {
+            this._pendingController.destroy();
+        }
     }
 
     // To calculate the zIndex in a compatible notification Manager
