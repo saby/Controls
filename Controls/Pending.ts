@@ -121,7 +121,7 @@ import PendingClass from 'Controls/_popup/Manager/PendingClass';
          if (typeof window !== 'undefined') {
             this._beforeUnloadHandler = (event: Event) => {
                // We shouldn't close the tab if there are any pendings
-               if (this.hasPendings()) {
+               if (this._hasPendings()) {
                   event.preventDefault();
                   event.returnValue = false;
                } else {
