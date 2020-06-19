@@ -202,9 +202,13 @@ abstract class BaseController {
     }
 
     private getContentSizes(container: HTMLDivElement): IPopupSizes {
+        // дочерний элемент может содержать границы, из-за чего реальные размеры окна при масштабировании будут отличаться
+        // Проверяем размеры дочернего элемента. Если они больше - то указываем их.
+        const containerHeight = container.firstChild && container.firstChild.offsetHeight > container.offsetHeight ?  container.firstChild.offsetHeight : container.offsetHeight;
+        const containerWidth = container.firstChild && container.firstChild.offsetWidth > container.offsetWidth ?  container.firstChild.offsetWidth : container.offsetWidth;
         return {
-            width: container.offsetWidth,
-            height: container.offsetHeight
+            width: containerWidth,
+            height: containerHeight
         };
     }
 }
