@@ -37,28 +37,16 @@ export default {
             /**
              * @name Controls/_dateRange/interfaces/ILinkView#viewMode
              * @cfg {ViewMode} Режим отображения контрола.
+             * @demo Controls-demo/Input/Date/RangeLinkView
              * @default selector
              */
 
             /*
              * @name Controls/_dateRange/interfaces/ILinkView#viewMode
+             * @demo Controls-demo/Input/Date/RangeLinkView
              * @cfg {ViewMode} Display view of control.
              */
             viewMode: 'selector',
-
-            /**
-             * @typedef {String} StyleMode
-             * @description Стиль отображения контрола.
-             * @variant secondary Стиль отображения "secondary" (см.{@link http://axure.tensor.ru/standarts/v7/%D1%88%D1%80%D0%B8%D1%84%D1%82%D1%8B__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html Axure}).
-             * Используется по умолчанию, когда опция {@link viewMode} установлена в значения selector и link.
-             * @variant info Стиль отображения "info" (см.{@link http://axure.tensor.ru/standarts/v7/%D1%88%D1%80%D0%B8%D1%84%D1%82%D1%8B__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_03_.html Axure}).
-             */
-
-            /*
-             * @typedef {String} StyleMode
-             * @variant secondary Default style for selector and link view mode. Control display as secondry style.
-             * @variant info Style for selector and link view mode. Control display as info style.
-             */
 
             clickable: true,
 

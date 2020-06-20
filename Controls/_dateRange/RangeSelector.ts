@@ -32,7 +32,6 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @category Input
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/RangeLink
- * @demo Controls-demo/Input/Date/RangeLinkView
  *
  */
 
@@ -58,7 +57,6 @@ import getOptions from 'Controls/Utils/datePopupUtils';
  * @category Input
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/RangeLink
- * @demo Controls-demo/Input/Date/RangeLinkView
  *
  */
 var Component = BaseSelector.extend({
