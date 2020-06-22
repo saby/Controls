@@ -210,6 +210,12 @@ define(
                style: {
                   width: 10,
                   height: 10
+               },
+               getBoundingClientRect: () => {
+                  return {
+                     width: 10,
+                     height: 10
+                  };
                }
             };
             DialogController.elementUpdated({

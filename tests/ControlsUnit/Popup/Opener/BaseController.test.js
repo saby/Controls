@@ -17,8 +17,12 @@ define(
             };
 
             let container = {
-               offsetWidth: 100,
-               offsetHeight: 100
+               getBoundingClientRect: () => {
+                  return {
+                     width: 100,
+                     height: 100
+                  };
+               }
             };
 
             BCInstacne._getPopupSizes(config, container);

@@ -123,8 +123,12 @@ define(
                sizes: {}
             };
             let container = {
-               offsetWidth: 100,
-               offsetHeight: 100
+               getBoundingClientRect: () => {
+                  return {
+                     width: 100,
+                     height: 100
+                  };
+               }
             };
             StickyController.elementCreated(item, container);
             assert.equal(typeof item.positionConfig, 'object'); // Конфиг сохранился
