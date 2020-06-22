@@ -73,8 +73,16 @@ export class Controller {
       } else {
          switch (this._markerVisibility) {
             case Visibility.OnActivated:
-               this._markedKey = null;
-               this._model.nextVersion();
+               if (this._markedKey) {
+                  const firstItem = this._model.getFirstItem();
+                  if (firstItem && firstItem.getKey() !== this._markedKey) {
+                     this._markedKey = firstItem.getKey();
+                     this._model.setMarkedKey(this._markedKey, true);
+                  }
+               } else {
+                  this._markedKey = null;
+                  this._model.nextVersion();
+               }
                break;
             case Visibility.Visible:
                this._markedKey = this._setMarkerOnFirstItem();
