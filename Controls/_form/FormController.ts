@@ -250,22 +250,13 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
         if (newOptions.key !== undefined && this._options.key !== newOptions.key) {
             // Если текущий рекорд изменен, то покажем вопрос
-            if (this._needShowConfirmation()) {
-                this._showConfirmPopup('yesno').then((answer) => {
-                    if (answer === true) {
-                        this.update().then((res) => {
-                            this.read(newOptions.key, newOptions.readMetaData);
-                            return res;
-                        });
-                    } else {
-                        this._tryDeleteNewRecord().then(() => {
-                            this.read(newOptions.key, newOptions.readMetaData);
-                        });
-                    }
-                });
-            } else {
+            const result = this._confirmRecordChangeHandler(() => {
                 this.read(newOptions.key, newOptions.readMetaData);
-            }
+            }, () => {
+                this._tryDeleteNewRecord().then(() => {
+                    this.read(newOptions.key, newOptions.readMetaData);
+                });
+            });
             return;
         }
         // Если нет ключа и записи - то вызовем метод создать. Состояние isNewRecord обновим после того, как запись вычитается
@@ -275,17 +266,45 @@ class FormController extends Control<IFormController, IReceivedState> {
         // создание записи. Метод падает с ошибкой. У контрола стреляет _beforeUpdate, вызов метода создать повторяется бесконечно.
         // Нельзя чтобы контрол ддосил БЛ.
         if (newOptions.key === undefined && !newOptions.record && this._createMetaDataOnUpdate !== createMetaData) {
-            this._createMetaDataOnUpdate = createMetaData;
-            this.create(newOptions.initValues || newOptions.createMetaData).then(() => {
-                if (newOptions.hasOwnProperty('isNewRecord')) {
-                    this._isNewRecord = newOptions.isNewRecord;
-                }
-                this._createMetaDataOnUpdate = null;
+            const _createBeforeUpdate = (createMetaData, newOptions: IFormController) => {
+                this._createMetaDataOnUpdate = createMetaData;
+                this.create(newOptions.initValues || newOptions.createMetaData).then(() => {
+                    if (newOptions.hasOwnProperty('isNewRecord')) {
+                        this._isNewRecord = newOptions.isNewRecord;
+                    }
+                    this._createMetaDataOnUpdate = null;
+                });
+            };
+
+            const result = this._confirmRecordChangeHandler(() => {
+                    _createBeforeUpdate(createMetaData, newOptions);
+                }, () => {
+                _createBeforeUpdate(createMetaData, newOptions);
             });
         } else {
             if (newOptions.hasOwnProperty('isNewRecord')) {
                 this._isNewRecord = newOptions.isNewRecord;
             }
+        }
+    }
+
+    private _confirmRecordChangeHandler(onYesAnswer: Function, onNoAnswer?: Function): Promise<Boolean> | undefined {
+        if (this._needShowConfirmation()) {
+            return this._showConfirmPopup('yesno').then((answer) => {
+                if (answer === true) {
+                    this.update().then(() => {
+                        onYesAnswer();
+                    });
+                    return true;
+                } else {
+                    if (onNoAnswer) {
+                        onNoAnswer();
+                    }
+                    return false;
+                }
+            });
+        } else {
+            return onYesAnswer();
         }
     }
 
