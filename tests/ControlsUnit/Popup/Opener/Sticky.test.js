@@ -606,6 +606,18 @@ define(
             position = {bottom: 50};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
             assert.equal(position.maxHeight, BODY_HEIGHT - 50);
+
+            popupCfg.config.maxWidth = undefined;
+            position = {};
+            StickyStrategy._private.setMaxSizes(popupCfg, position);
+            assert.equal(position.maxWidth, 1920);
+            position = {left: 20};
+            StickyStrategy._private.setMaxSizes(popupCfg, position);
+            assert.equal(position.maxWidth, 1900);
+
+            position = {right: 200};
+            StickyStrategy._private.setMaxSizes(popupCfg, position);
+            assert.equal(position.maxWidth, 1720);
          });
 
          it('Centered targetPoint sticky', () => {

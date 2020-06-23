@@ -285,10 +285,12 @@ class StickyController extends BaseController {
         /* start: We remove the set values that affect the size and positioning to get the real size of the content */
         const width = container.style.width;
         const maxHeight = container.style.maxHeight;
+        const maxWidth = container.style.maxWidth;
         // Если внутри лежит скроллконтейнер, то восстанавливаем позицию скролла после изменения размеров
         const scroll = container.querySelector('.controls-Scroll__content');
         const scrollTop = scroll?.scrollTop;
         container.style.maxHeight = item.popupOptions.maxHeight ? item.popupOptions.maxHeight + 'px' : '100vh';
+        container.style.maxWidth = item.popupOptions.maxWidth ? item.popupOptions.maxWidth + 'px' : '100vw';
         container.style.width = 'auto';
         container.style.height = 'auto';
 
@@ -299,6 +301,7 @@ class StickyController extends BaseController {
         /* start: Return all values to the node. Need for vdom synchronizer */
         container.style.width = width;
         container.style.maxHeight = maxHeight;
+        container.style.maxWidth = maxWidth;
         // После того, как дочерние контролы меняют размеры, они кидают событие controlResize, окно отлавливает событие,
         // измеряет верстку и выставляет себе новую позицию и размеры. Т.к. это проходит минимум в 2 цикла синхронизации,
         // то визуально видны прыжки. Уменьшаю на 1 цикл синхронизации простановку размеров
