@@ -327,7 +327,8 @@ interface IPosition {
          if (popupCfg.config.maxWidth) {
             position.maxWidth = Math.min(popupCfg.config.maxWidth, windowSizes.width);
          } else {
-            position.maxWidth = windowSizes.width;
+            const horizontalPadding = position.left || position.right || 0;
+            position.maxWidth = windowSizes.width - horizontalPadding;
          }
 
          if (popupCfg.config.minWidth) {
