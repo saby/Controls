@@ -495,7 +495,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 const offsetWidth = container.offsetWidth;
                 let offsetHeight = container.offsetHeight;
                 if (this._options.position.indexOf('bottom') !== -1) {
-                    offsetHeight -= MOBILE_GAP_FIX_OFFSET;
+                    const borderGapFixOffset = parseInt(window.getComputedStyle(this._container).borderTopWidth, 10);
+                    offsetHeight -= MOBILE_GAP_FIX_OFFSET + borderGapFixOffset;
                 }
                 this._bottomShadowStyle =
                      `bottom: unset; right: unset; top:${offsetHeight}px; width:${offsetWidth}px;`;
