@@ -36,6 +36,7 @@ import _stickyHeaderController from 'Controls/_scroll/StickyHeader/Controller';
 import IntersectionObserverController from 'Controls/_scroll/IntersectionObserver/Controller';
 import IntersectionObserverContainer from 'Controls/_scroll/IntersectionObserver/Container';
 import IntersectionObserverSyntheticEntry from 'Controls/_scroll/IntersectionObserver/SyntheticEntry';
+import ContainerBase from 'Controls/_scroll/ContainerBase';
 
 import Group from 'Controls/_scroll/StickyHeader/Group';
 import {isStickySupport, getNextId as getNextStickyId, getOffset as getStickyOffset} from 'Controls/_scroll/StickyHeader/Utils';
@@ -58,5 +59,6 @@ export {
    HotKeysContainer,
    IntersectionObserverController,
    IntersectionObserverContainer,
-   IntersectionObserverSyntheticEntry
-}
+   IntersectionObserverSyntheticEntry,
+   ContainerBase
+};

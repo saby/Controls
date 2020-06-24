@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
-    <Controls._scroll.ContainerBase
+    <Controls.scroll:ContainerBase
             attr:class="overflowContainer {{_heightAdded ? 'controlsDemo__height400'}} {{_widthAdded ? 'controlsDemo_fixedWidth350'}} controlsDemo__height300 controlsDemo_fixedWidth300"
             name="containerBase">
         <div class="controlsDemo_fixedWidth350">
@@ -29,7 +29,7 @@
             </ws:if>
             <Controls.event:Listener event="scrollStateChanged" on:scrollStateChanged="scrollStateChangedHandler()"/>
         </div>
-    </Controls._scroll.ContainerBase>
+    </Controls.scroll:ContainerBase>
     <div class="controlsDemo__inline-block">
         <div>События:</div>
         <div class="controlsDemo__height300 controlsDemo_fixedWidth300 overflowContainer">
