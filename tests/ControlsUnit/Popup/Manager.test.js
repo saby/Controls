@@ -179,7 +179,7 @@ define(
             let pendingDeferred = new Deferred();
 
             let Pending = {
-               _hasRegisteredPendings: () => hasPending,
+               hasRegisteredPendings: () => hasPending,
                finishPendingOperations: () => pendingDeferred
             };
 
@@ -196,7 +196,7 @@ define(
                Manager.remove(id2).then(() => {
                   assert.equal(Manager._popupItems.getCount(), 2);
                   Pending = {
-                     _hasRegisteredPendings: () => hasPending,
+                     hasRegisteredPendings: () => hasPending,
                      finishPendingOperations: () => pendingDeferred
                   };
 

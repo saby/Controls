@@ -61,16 +61,18 @@ define(
             Registrator._registerPendingHandler(null, def1, {});
             Registrator._registerPendingHandler(null, def2, { showLoadingIndicator: true, root: firstRoot });
             Registrator._registerPendingHandler(null, def3, {});
-            assert.equal(Object.keys(Registrator._pendings).length, 2);
-            assert.equal(Object.keys(Registrator._pendings[baseRoot]).length, 2);
-            assert.equal(Object.keys(Registrator._pendings[firstRoot]).length, 1);
+            assert.equal(Object.keys(Registrator._pendingController._pendings).length, 2);
+            assert.equal(Object.keys(Registrator._pendingController._pendings[baseRoot]).length, 2);
+            assert.equal(Object.keys(Registrator._pendingController._pendings[firstRoot]).length, 1);
 
             def1.callback();
             def2.callback();
             def3.callback();
 
-            assert.equal(Object.keys(Registrator._pendings[baseRoot]).length, 0);
-            assert.equal(Object.keys(Registrator._pendings[firstRoot]).length, 0);
+            Promise.all([def1, def2, def3]).then(() => {
+               assert.equal(Object.keys(Registrator._pendingController._pendings[baseRoot]).length, 0);
+               assert.equal(Object.keys(Registrator._pendingController._pendings[firstRoot]).length, 0);
+            });
 
             Registrator._beforeUnmount();
             Registrator.destroy();

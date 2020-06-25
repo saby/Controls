@@ -1,19 +1,21 @@
-<Controls.Pending name="pending">
-    <div class="controls-PopupContainer ws-float-area-stack-panel-overflow" id="popup">
-        <ws:for data="index, item in _getItems(_popupItems)">
-            <ws:if data="{{item.id === _overlayId}}">
-                <div class="controls-Container__overlay"
-                     on:mousedown="_overlayClickHandler()"
-                     style="z-index: {{item.currentZIndex}};">
-                </div>
-            </ws:if>
-            <Controls._popup.Manager.Popup id="{{item.id}}" __key="{{item.id}}" attr:key="{{item.id}}"
-                                           name="{{item.id}}"
-                                           theme="{{_options.theme}}"
-                                           on:deactivated="_popupDeactivated(item.id)"
-                                           on:keydown="_keyDownHandler()"
-                                           on:activated="_popupActivated(item.id)"
-                                           attr:class="controls-Container__popup
+<div class="controls-PopupContainer ws-float-area-stack-panel-overflow" id="popup"
+     on:registerPending="_registerPendingHandler()"
+     on:finishPendingOperations="_finishPendingHandler()"
+     on:cancelFinishingPending="_cancelFinishingPendingHandler()">
+    <ws:for data="index, item in _getItems(_popupItems)">
+        <ws:if data="{{item.id === _overlayId}}">
+            <div class="controls-Container__overlay"
+                 on:mousedown="_overlayClickHandler()"
+                 style="z-index: {{item.currentZIndex}};">
+            </div>
+        </ws:if>
+        <Controls._popup.Manager.Popup id="{{item.id}}" __key="{{item.id}}" attr:key="{{item.id}}"
+                                       name="{{item.id}}"
+                                       theme="{{_options.theme}}"
+                                       on:deactivated="_popupDeactivated(item.id)"
+                                       on:keydown="_keyDownHandler()"
+                                       on:activated="_popupActivated(item.id)"
+                                       attr:class="controls-Container__popup
                    {{_popupItems.getCount() - 1 === index ? 'controls-Scroll_webkitOverflowScrollingTouch'}}
                    {{item.popupOptions.className}} {{item.position.hidden ? 'ws-invisible'}}"
                                            attr:style="z-index: {{item.currentZIndex}};
@@ -28,9 +30,8 @@
                    max-height: {{item.position.maxHeight !== undefined ? item.position.maxHeight + 'px'}};
                    min-height: {{item.position.minHeight !== undefined ? item.position.minHeight + 'px'}};
                    height: {{item.position.height === undefined ? 'auto': item.position.height + 'px'}};"
-                                           scope="{{item.popupOptions}}"
-                                           position="{{item.position}}"
-            />
-        </ws:for>
-    </div>
-</Controls.Pending>
+                                       scope="{{item.popupOptions}}"
+                                       position="{{item.position}}"
+        />
+    </ws:for>
+</div>

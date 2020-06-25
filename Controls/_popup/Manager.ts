@@ -636,7 +636,7 @@ class Manager extends Control<IManagerOptions> {
             popupCallback && popupCallback();
 
             if (registrator) {
-                const hasRegisterPendings = registrator._hasRegisteredPendings(popupId);
+                const hasRegisterPendings = registrator.hasRegisteredPendings(popupId);
                 if (hasRegisterPendings) {
                     pendingCallback && pendingCallback();
                 }
@@ -722,7 +722,7 @@ class Manager extends Control<IManagerOptions> {
         this._popupItems.each((item) => {
             const registrator = this._getPopupContainer().getPending();
             if (registrator) {
-                if (registrator._hasRegisteredPendings(item.id)) {
+                if (registrator.hasRegisteredPendings(item.id)) {
                     hasPendings = true;
                 }
             }

@@ -3,6 +3,7 @@ import {List} from 'Types/collection';
 import {IPopupItem} from 'Controls/_popup/interface/IPopup';
 import {dispatcherHandler} from 'UI/HotKeys';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
+import PendingClass, {IPendingConfig} from './PendingClass';
 import template = require('wml!Controls/_popup/Manager/Container');
 
 // step zindex between popups.
@@ -31,9 +32,16 @@ class Container extends Control<IControlOptions> {
     protected _zIndexStep: number = POPUP_ZINDEX_STEP;
     protected _popupItems: List<IPopupItem>;
     protected _removeItems: IRemovedItem[] = [];
+    protected _pendingController: PendingClass;
 
     protected _beforeMount(): void {
         this._popupItems = new List();
+        const pendingOptions = {
+            notifyHandler: (eventName: string, args?: []) => {
+                return this._notify(eventName, args, {bubbling: true});
+            }
+        };
+        this._pendingController = new PendingClass(pendingOptions);
     }
     protected _afterMount(): void {
         ManagerController.setContainer(this);
@@ -83,8 +91,20 @@ class Container extends Control<IControlOptions> {
         }
     }
 
-    getPending(): Control {
-        return this._children.pending as Control;
+    getPending(): PendingClass {
+        return this._pendingController;
+    }
+
+    private _registerPendingHandler(event: Event, promise: Promise<unknown>, config: IPendingConfig): void {
+        this._pendingController.registerPending(promise, config);
+    }
+
+    private _finishPendingHandler(event: Event, forceFinishValue: boolean, root: string): void {
+        this._pendingController.finishPendingOperations(forceFinishValue, root);
+    }
+
+    private _cancelFinishingPendingHandler(event: Event, root: string): void {
+        this._pendingController.cancelFinishingPending(root);
     }
 
     // todo: https://online.sbis.ru/opendoc.html?guid=728a9f94-c360-40b1-848c-e2a0f8fd6d17
