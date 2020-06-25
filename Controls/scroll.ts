@@ -60,7 +60,5 @@ export {
    HotKeysContainer,
    IntersectionObserverController,
    IntersectionObserverContainer,
-   EdgeIntersectionObserverContainer,
-   IntersectionObserverSyntheticEntry,
-   _ContainerBase
-};
+   IntersectionObserverSyntheticEntry
+}
