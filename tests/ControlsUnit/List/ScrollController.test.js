@@ -15,5 +15,14 @@ define(['Controls/_list/ScrollController'], function(ScrollControllerLib) {
             assert.equal(activeElement, scrollController._options.activeElement);
          });
       });
+
+      describe('._registerObserver()', () => {
+         it('should do nothing if trigers was undefined', () => {
+            scrollController._triggers = undefined;
+            scrollController._observerRegistered = true;
+
+            assert.doesNotThrow(() => scrollController._registerObserver());
+         });
+      });
    });
 });
