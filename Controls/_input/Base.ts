@@ -10,6 +10,7 @@ import hasHorizontalScroll = require('Controls/Utils/hasHorizontalScroll');
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
+import {ElementFinder, focus} from 'UI/Focus';
 
 import {
     split,
@@ -354,6 +355,16 @@ var _private = {
         }
 
         return self._defaultValue;
+    },
+
+    hasPrevLine: function (self, cursorPosition: number): boolean {
+        const beforeCursor: string = self._viewModel.displayValue.substring(0, cursorPosition);
+        return beforeCursor.indexOf('\n') !== -1;
+    },
+
+    hasNextLine: function (self, cursorPosition: number): boolean {
+        const afterCursor: string = self._viewModel.displayValue.substring(cursorPosition);
+        return afterCursor.indexOf('\n') !== -1;
     }
 };
 
@@ -754,6 +765,31 @@ var Base = Control.extend({
         const keyCode = event.nativeEvent.keyCode;
         if (keyCode === Env.constants.key.enter && this._isTriggeredChangeEventByEnterKey()) {
             _private.callChangeHandler(this);
+        }
+
+        let nextElement;
+        const cursorPosition: number = this._viewModel.selection.end;
+        switch (keyCode) {
+            case Env.constants.key.down:
+                if (!this._multiline || (this._multiline && !_private.hasNextLine(this, cursorPosition))) {
+                    nextElement = ElementFinder.findWithContexts(document.body, document.activeElement, false);
+                } else {
+                    nextElement = null;
+                }
+                break;
+            case Env.constants.key.up:
+                if (!this._multiline || (this._multiline && !_private.hasPrevLine(this, cursorPosition))) {
+                    nextElement = ElementFinder.findWithContexts(document.body, document.activeElement, true);
+                } else {
+                    nextElement = null;
+                }
+                break;
+            default:
+                nextElement = null;
+        }
+        if (nextElement) {
+            event.preventDefault();
+            focus(nextElement);
         }
     },
     /**
