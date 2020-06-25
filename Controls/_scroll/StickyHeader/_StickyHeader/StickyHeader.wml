@@ -5,26 +5,28 @@
    {{_options.backgroundVisible ? 'controls-StickyHeader__background'}}
    controls-StickyHeader_position" style="{{_getStyle() + (_options.style || '')}}">
    <!--We use visibility style instead of "if" statement to prevent jumps when scrolling on iPad-->
-   <ws:if data="{{_isShadowVisible('top') || _isMobileIOS}}">
-      <div class="controls-Scroll__shadow{{_isSafari13 || _isIOSChrome? '-safari13'}} controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
+   <div class="controls-StickyHeader__wrapper">
+      <ws:if data="{{_isShadowVisible('top') || _isMobileIOS}}">
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
                   {{ !_isShadowVisible('top') && _isMobileIOS ? ' ws-invisible' }}"
-            style="{{_topShadowStyle}}"></div>
-   </ws:if>
-   <Controls.event:Listener event="updateStickyHeight" on:updateStickyHeight="_updateStickyHeight()"/>
-   <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
-   <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{_getObserverStyle('top')}}"></div>
-   <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
-   <ws:partial template="{{_options.content}}"
-               attr:class="controls-StickyHeader__content"
-               scope="{{_options}}"
-               on:arrowClick="_notifyHandler('arrowClick')"
-               on:controlResize="_selfResizeHandler()"/>
-   <div name="observationTargetBottom" class="controls-StickyHeader__observationTargetBottom" style="{{_getObserverStyle('bottom')}}"></div>
-   <!--We use visibility style insted of "if" statement to prevent jumps when scrolling on iPad-->
-   <ws:if data="{{_isShadowVisible('bottom') || _isMobileIOS}}">
-      <div class="controls-Scroll__shadow{{_isSafari13 || _isIOSChrome? '-safari13'}} controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
+              style="{{_topShadowStyle}}"></div>
+      </ws:if>
+      <Controls.event:Listener event="updateStickyHeight" on:updateStickyHeight="_updateStickyHeight()"/>
+      <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
+      <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{_getObserverStyle('top')}}"></div>
+      <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
+      <ws:partial template="{{_options.content}}"
+                  attr:class="controls-StickyHeader__content"
+                  scope="{{_options}}"
+                  on:arrowClick="_notifyHandler('arrowClick')"
+                  on:controlResize="_selfResizeHandler()"/>
+      <div name="observationTargetBottom" class="controls-StickyHeader__observationTargetBottom" style="{{_getObserverStyle('bottom')}}"></div>
+      <!--We use visibility style insted of "if" statement to prevent jumps when scrolling on iPad-->
+      <ws:if data="{{_isShadowVisible('bottom') || _isMobileIOS}}">
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
                   {{ !_isShadowVisible('bottom') && _isMobileIOS ? ' ws-invisible' }}"
-          style="{{_bottomShadowStyle}}"
-          name="shadowBottom"></div>
-   </ws:if>
+              style="{{_bottomShadowStyle}}"
+              name="shadowBottom"></div>
+      </ws:if>
+   </div>
 </div>
