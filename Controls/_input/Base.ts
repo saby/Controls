@@ -637,6 +637,10 @@ var Base = Control.extend({
     },
 
     _afterMount: function () {
+        // Удалено в 5100. Выписана подошибка на ядро https://online.sbis.ru/opendoc.html?guid=83b3fa98-a11b-45b1-9c3e-1f8f78e8f3c4
+        if (this._options.fix1179583642) {
+            this._getField().value = this._viewModel.displayValue;
+        }
         _private.initField(this);
 
         this._hidePlaceholder = false;
