@@ -19,6 +19,8 @@ import HeadingPathBack = require('Controls/_explorer/HeadingPathBack');
                   showActionButton: !!options.showActionButton,
                   showArrowOutsideOfBackButton: !!options.showActionButton,
                   backButtonStyle: options.backButtonStyle,
+                  backButtonIconStyle: options.backButtonIconStyle,
+                  backButtonFontColorStyle: options.backButtonFontColorStyle,
                   displayProperty: options.displayProperty,
                   items
                },

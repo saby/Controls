@@ -1,18 +1,27 @@
-import {Controller} from 'Controls/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import {PrefetchProxy} from 'Types/source';
+import {NavigationController} from 'Controls/source';
+import {IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
 
 function load(sourceOptions, data) {
    if (data) {
       return Promise.resolve(data);
    }
 
-   var sourceController = new Controller({
-      source: sourceOptions.source,
-      navigation: sourceOptions.navigation,
-      idProperty: sourceOptions.keyProperty
+   const crudWrapper = new CrudWrapper({
+      source: sourceOptions.source
    });
 
-   return sourceController.load(sourceOptions.filter, sourceOptions.sorting);
+   let params = {filter: sourceOptions.filter, sorting: sourceOptions.sorting} as IAdditionalQueryParams;
+   if (sourceOptions.navigation) {
+      const navigationController = new NavigationController({
+         navigationType: sourceOptions.navigation.source,
+         navigationConfig: sourceOptions.navigation.sourceConfig
+      });
+      params = navigationController.getQueryParams({filter: params.filter, sorting: params.sorting});
+   }
+
+   return crudWrapper.query(params, sourceOptions.keyProperty);
 }
 
 function getThenFunction(sourceOptions) {

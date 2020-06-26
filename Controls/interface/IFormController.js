@@ -63,6 +63,12 @@ define('Controls/interface/IFormController', [
     */
 
    /**
+    * @name Controls/interface/IFormController#confirmationShowingCallback
+    * @cfg {Function} Функция, которая определяет должно ли показаться окно с подтверждением сохранения/не сохранения измененных данных при закрытии диалога редактирования записи. Необходимо для случаев, когда есть измененные данные, не связанные с рекордом.
+    * @returns {Boolean} true - окно покажется. false - нет
+    */
+
+   /**
     * @name Controls/interface/IFormController#createMetaData
     * @cfg {Object} Задает ассоциативный массив, который используется только при создании новой записи для инициализации её начальными значениями. Создание записи выполняется методом, который задан в опции {@link Types/source:ICrud#create}.
     * Также, это значение по умолчанию метода create.

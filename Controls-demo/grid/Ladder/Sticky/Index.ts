@@ -39,7 +39,7 @@ export default class extends Control {
         this._columns[2].stickyProperty = 'date';
     }
 
-    protected _dragStart(_: SyntheticEvent, items: string[]): ListItems {
+    protected _dragStart(_: SyntheticEvent, items: string[]): any {
         return new ListItems({
             items
         });

@@ -209,7 +209,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.multiSelectVisibility = this._options.multiSelectVisibility;
         itemsModelCurrent.markerVisibility = this._options.markerVisibility;
         itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
-        itemsModelCurrent.isSticky = itemsModelCurrent._isSelected && this._isSupportStickyMarkedItem();
+        itemsModelCurrent.isStickedMasterItem = itemsModelCurrent._isSelected && this._isSupportStickyMarkedItem();
         itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options);
         itemsModelCurrent.itemPadding = _private.getItemPadding(this._options);
         itemsModelCurrent.hasMultiSelect = !!this._options.multiSelectVisibility && this._options.multiSelectVisibility !== 'hidden';
@@ -271,8 +271,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             this._isSupportStickyMarkedItem();
     },
 
-    _isStickedItem(itemData: { isSticky?: boolean, isGroup?: boolean }): boolean {
-        return itemData.isSticky || itemData.isGroup;
+    _isStickedItem(itemData: { isStickedMasterItem?: boolean, isGroup?: boolean }): boolean {
+        return itemData.isStickedMasterItem || itemData.isGroup;
     },
 
     _getCurIndexForReset(startIndex: number): number {
@@ -294,7 +294,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     isShouldBeDrawnItem: function(item) {
         var isInRange = ListViewModel.superclass.isShouldBeDrawnItem.apply(this, arguments);
-        return isInRange || (item?.isGroup && item?.isStickyHeader) || item?.isSticky;
+        return isInRange || (item?.isGroup && item?.isStickyHeader) || item?.isStickedMasterItem;
     },
 
     _calcCursorClasses: function(clickable, cursor) {

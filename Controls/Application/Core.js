@@ -6,7 +6,6 @@ define('Controls/Application/Core',
       'Core/Control',
       'wml!Controls/Application/Core',
       'Application/Initializer',
-      'SbisEnv/PresentationService',
       'Application/Env',
       'Controls/Application/StateReceiver',
       'UI/theme/controller',
@@ -18,7 +17,6 @@ define('Controls/Application/Core',
    function(Control,
       template,
       AppInit,
-      PresentationService,
       AppEnv,
       StateReceiver,
       controller,
@@ -51,11 +49,7 @@ define('Controls/Application/Core',
             // и так и сяк
             if (!AppInit.isInit()) {
                var stateReceiverInst = new StateReceiver();
-               var environmentFactory = undefined;
-               if (typeof window === 'undefined') {
-                  environmentFactory = PresentationService.default;
-               }
-               AppInit.default(cfg, environmentFactory, stateReceiverInst);
+               AppInit.default(cfg, void 0, stateReceiverInst);
 
                if (typeof window === 'undefined' || window.__hasRequest === undefined) {
                   // need create request for SSR

@@ -1,10 +1,8 @@
 import {Control, TemplateFunction, IControlOptions } from 'UI/Base';
-import Controller from 'Controls/_dataSource/_error/Controller';
-import Mode from 'Controls/_dataSource/_error/Mode';
+import { Controller, Mode, ViewConfig as ErrorViewConfig } from 'Controls/error';
 import * as template from 'wml!Controls/_dataSource/_error/DataLoader';
 import requestDataUtil, {ISourceConfig, IRequestDataResult} from 'Controls/_dataSource/requestDataUtil';
 import {PrefetchProxy} from 'Types/source';
-import {ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/_error/Handler';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus } from 'Browser/Transport';
 

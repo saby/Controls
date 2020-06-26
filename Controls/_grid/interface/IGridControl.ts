@@ -306,6 +306,7 @@
  * @see Controls/_grid/interface/IGridControl#columnScroll
  * @remark
  * Столбец флагов множественного выбора всегда зафиксирован, и не входит в число stickyColumnsCount.
+ * @demo Controls-demo/grid/ColumnScroll/Base/Index
  */
 
 /*
@@ -315,6 +316,7 @@
  * @see Controls/_grid/interface/IGridControl#columnScroll
  * @remark
  * Multiple selection column is always fixed and does not count towards this number.
+ * @demo Controls-demo/grid/ColumnScroll/Base/Index
  */
 
 /**

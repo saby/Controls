@@ -4,11 +4,13 @@
    background-color: @ellipsis_background-color_paging;
    font-size: @item_font-size_paging;
 }
+
 .controls-DigitButtons__digit {
    border: 0 solid transparent;
    cursor: pointer;
    box-sizing: border-box;
 }
+
 .controls-DigitButtons__digit_theme-@{themeName} {
    border-bottom-width: @marker_thickness_paging;
    min-width: @item_min-width_paging;
@@ -17,9 +19,13 @@
    color: @item_text-color_paging;
    font-size: @item_font-size_paging;
 }
+
 .ws-is-hover .controls-DigitButtons__digit_theme-@{themeName}:hover {
    background-color: @item_hover_background-color_paging;
+   border-bottom-color: @marker_hover_color_paging;
 }
-.controls-DigitButtons__digit__selected_theme-@{themeName} {
+
+.controls-DigitButtons__digit__selected_theme-@{themeName},
+.ws-is-hover .controls-DigitButtons__digit__selected_theme-@{themeName}:hover {
    border-bottom-color: @marker_color_paging;
 }

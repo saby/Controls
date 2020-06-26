@@ -2,99 +2,143 @@
 define([
    'Controls/dataSource',
    'Env/Env'
-], function(dataSource, Env) {
+], function(
+   { parking: { Controller } },
+   { constants }
+) {
+   function getAppConfig() {
+      let appConfig = constants.ApplicationConfig;
+      if (!appConfig) {
+         appConfig = constants.ApplicationConfig = {};
+      }
+      return appConfig;
+   }
+
+   const configField = 'test-parking-controller';
+
+   class HandlerTest {
+      constructor(controller) {
+         this.calls = [];
+         this.controller = controller;
+      }
+
+      createHandler(id, result) {
+         return () => {
+            this.calls.push(id);
+            return result;
+         };
+      }
+
+      addHandler(id, result) {
+         this.controller.addHandler(this.createHandler(id, result));
+         return this;
+      }
+
+      addPostHandler(id, result) {
+         this.controller.addHandler(this.createHandler(id, result), true);
+         return this;
+      }
+
+      addAppHandler(id, result) {
+         const appHandlers = getAppConfig()[configField];
+         if (!appHandlers) {
+            getAppConfig()[configField] = [];
+         }
+         appHandlers.push(this.createHandler(id, result));
+         return this;
+      }
+   }
+
    describe('Controls/dataSource:parking.Controller', function() {
-      var Controller = dataSource.parking.Controller;
       it('is defined', function() {
          assert.isDefined(Controller);
       });
-      it('is constructor', function() {
+      it('is a constructor', function() {
          assert.isFunction(Controller);
          var controller = new Controller();
          assert.instanceOf(controller, Controller);
       });
-      describe('addHandler', function() {
-         var controller = new Controller();
-         it('is function', function() {
+
+      describe('handlers', function() {
+         const controller = new Controller();
+         let handler;
+
+         beforeEach(() => {
+            handler = () => undefined;
+         });
+
+         it('addHandler is a function', function() {
             assert.isFunction(controller.addHandler);
          });
-         it('add to _handlers', function() {
-            var handler = function(args) {
 
-            };
-            controller.addHandler(handler);
-            assert.include(controller._handlers, handler);
-         });
-         it('don\'t add to _handlers twice', function() {
-            var handler = function(args) {
-
-            };
-            controller.addHandler(handler);
-            controller.addHandler(handler);
-            assert.equal(
-               controller._handlers.indexOf(handler),
-               controller._handlers.lastIndexOf(handler)
-            );
-         });
-      });
-      describe('removeHandler', function() {
-         var controller = new Controller();
-         it('is function', function() {
+         it('removeHandler is a function', function() {
             assert.isFunction(controller.removeHandler);
          });
-         it('removed from _handlers', function() {
-            var handler = function(args) {
 
-            };
-            controller.addHandler(handler);
-            controller.removeHandler(handler);
-            assert.notInclude(controller._handlers, handler);
-         });
-         it('don\'t remove other handlers', function() {
-            var handler_1 = function(args) {
-            };
-            var handler_2 = function(args) {
-            };
-            controller.addHandler(handler_1);
-            controller.addHandler(handler_2);
+         function test(title, isPost) {
+            it(title, function() {
+               const property = isPost ? '_postHandlers' : '_handlers';
+               const otherProperty = isPost ? '_handlers' : '_postHandlers';
 
-            controller.removeHandler(handler_1);
-            assert.include(controller._handlers, handler_2);
-         });
+               controller.addHandler(handler, isPost);
+               assert.include(controller[property], handler, `must add to ${property}`);
+               assert.notInclude(controller[otherProperty], handler, `must not add to ${otherProperty}`);
+
+               controller.addHandler(handler, isPost);
+               assert.equal(
+                  controller[property].indexOf(handler),
+                  controller[property].lastIndexOf(handler),
+                  'must not add a handler twice');
+
+               controller.removeHandler(handler, isPost);
+               assert.notInclude(controller[property], handler, `must remove from ${property}`);
+            });
+         }
+
+         test('adds and removes a handler', false);
+         test('adds and removes a post-handler', true);
       });
       describe('process', function() {
-         var controller;
+         let controller;
+         let error;
+         let helper;
+
+         function addHandlerPromise(isPost) {
+            return new Promise(resolve => controller.addHandler(resolve, isPost));
+         }
+
          beforeEach(function() {
-            controller = new Controller();
+            controller = new Controller({ configField });
+            error = new Error('test error');
+            helper = new HandlerTest(controller);
+
+            const appConfig = getAppConfig();
+            appConfig[configField] = [];
          });
          afterEach(function() {
             controller.destroy();
             controller = null;
-         });
+            helper = null;
 
-         function getAppConfig() {
-            var applicationConfig = Env.constants.ApplicationConfig;
-            if (!applicationConfig) {
-               applicationConfig = Env.constants.ApplicationConfig = {};
-            }
-            return applicationConfig;
-         }
+            const appConfig = getAppConfig();
+            delete appConfig[configField];
+         });
 
          it('is function', function() {
             assert.isFunction(controller.process);
          });
-         it('return Promise', function() {
+         it('returns Promise', function() {
             assert.instanceOf(
                controller.process({}),
                Promise
             );
          });
-         it('call registered handler', function(done) {
-            var handler = function(args) {
+         it('calls registered handler', function(done) {
+            var handler = function() {
                done();
             };
             controller.addHandler(handler);
-            controller.process({});
+            controller.process({}).then();
          });
          it('call with current args', function(done) {
             var ARGS = {
@@ -107,68 +151,145 @@ define([
             controller.addHandler(handler);
             controller.process(ARGS);
          });
-         it('call all registered handlers', function(done) {
-            var promises = [];
-            for (var i = 0; i < 10; i++) {
-               promises.push(new Promise(function(resolve) {
-                  var handler = function(args) {
-                     resolve();
-                  };
-                  controller.addHandler(handler);
-               }));
-            }
-            controller.process({});
-            Promise.all(promises).then(function() {
-               done();
-            }, function(error) {
-               done(error);
-            })
-         });
-         it('stop calling when find answer', function(done) {
-            for (var i = 0; i < 5; i++) {
-               controller.addHandler(function(args) {
-               });
-            }
-            controller.addHandler(function(args) {
-               return {
-                  template: 'test',
-                  options: {}
-               }
-            });
-            controller.addHandler(function(args) {
-               done(new Error('handler should not be called'));
-            });
-            controller.process({}).then(function() {
-               done();
+         it('calls all registered handlers', function() {
+            helper
+               .addHandler(1)
+               .addHandler(2)
+               .addAppHandler(3)
+               .addAppHandler(4)
+               .addPostHandler(5)
+               .addPostHandler(6);
+
+            return controller.process({ error }).then(() => {
+               assert.deepEqual(helper.calls, [1, 2, 3, 4, 5, 6]);
             });
          });
-         it('return current handler result', function(done) {
-            var RESULT = {
+         it('stops calling handlers when a handler returns result', function() {
+            const viewConfig = {
                template: 'test',
                options: {}
             };
-            controller.addHandler(function(args) {
-               return RESULT;
-            });
-            controller.process({}).then(function(result) {
-               assert.deepEqual(RESULT, result);
-               done();
+
+            helper
+               .addHandler(1)
+               .addHandler(2, viewConfig)
+               .addAppHandler(3)
+               .addAppHandler(4)
+               .addPostHandler(5)
+               .addPostHandler(6);
+
+            return controller.process({ error }).then((processResult) => {
+               assert.deepEqual(
+                  helper.calls,
+                  [1, 2],
+                  'must stop calling handlers after getting result');
+               assert.deepEqual(processResult, viewConfig, 'must return handler result');
             });
          });
-         it('call application handler', function(done) {
-            var CONFIG_FIELD = 'test-parking-controller';
-            controller = new Controller({
-               configField: CONFIG_FIELD
-            });
-            var handler = function(args) {
-               done();
+         it('stops calling handlers when an app handler returns result', function() {
+            const viewConfig = {
+               template: 'test',
+               options: {}
             };
-            var appConfig = getAppConfig();
-            if (!appConfig[CONFIG_FIELD]) {
-               appConfig[CONFIG_FIELD] = [];
-            }
-            appConfig[CONFIG_FIELD].unshift(handler);
-            controller.process({});
+
+            helper
+               .addHandler(1)
+               .addHandler(2)
+               .addAppHandler(3)
+               .addAppHandler(4, viewConfig)
+               .addPostHandler(5)
+               .addPostHandler(6);
+
+            return controller.process({ error }).then((processResult) => {
+               assert.deepEqual(
+                  helper.calls,
+                  [1, 2, 3, 4],
+                  'must stop calling handlers after getting result');
+               assert.deepEqual(processResult, viewConfig, 'must return handler result');
+            });
+         });
+         it('stops calling handlers when a post handler returns result', function() {
+            const viewConfig = {
+               template: 'test',
+               options: {}
+            };
+
+            helper
+               .addHandler(1)
+               .addHandler(2)
+               .addAppHandler(3)
+               .addAppHandler(4)
+               .addPostHandler(5, viewConfig)
+               .addPostHandler(6);
+
+            return controller.process({ error }).then((processResult) => {
+               assert.deepEqual(
+                  helper.calls,
+                  [1, 2, 3, 4, 5],
+                  'must stop calling handlers after getting result');
+               assert.deepEqual(processResult, viewConfig, 'must return handler result');
+            });
+         });
+         it('merges preset viewConfig with result', function() {
+            controller = new Controller({
+               configField,
+               viewConfig: {
+                  mode: 'page',
+                  options: {
+                     size: 'small'
+                  }
+               }
+            });
+            helper = new HandlerTest(controller);
+
+            helper.addHandler(1, {
+               template: 'test',
+               options: {
+                  message: 'test-message'
+               }
+            });
+
+            return controller.process({ error }).then((processResult) => {
+               assert.deepEqual(processResult, {
+                  mode: 'page',
+                  template: 'test',
+                  options: {
+                     size: 'small',
+                     message: 'test-message'
+                  }
+               });
+            });
+         });
+         it('overwrites preset viewConfig with result', function() {
+            controller = new Controller({
+               configField,
+               viewConfig: {
+                  mode: 'page',
+                  options: {
+                     size: 'small',
+                     message: 'preset-message'
+                  }
+               }
+            });
+            helper = new HandlerTest(controller);
+
+            helper.addHandler(1, {
+               template: 'test',
+               options: {
+                  message: 'test-message'
+               }
+            });
+
+            return controller.process({ error }).then((processResult) => {
+               assert.deepEqual(processResult, {
+                  mode: 'page',
+                  template: 'test',
+                  options: {
+                     size: 'small',
+                     message: 'test-message'
+                  }
+               });
+            });
          });
       });
    });

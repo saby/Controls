@@ -643,7 +643,7 @@ class Manager extends Control<IManagerOptions> {
                 if (item.removePending) {
                     return item.removePending;
                 }
-                item.removePending = registrator.finishPendingOperations(undefined, undefined, popupId);
+                item.removePending = registrator.finishPendingOperations(undefined, popupId);
 
                 // TODO: Compatible Пендинги от совместимости старого FormController'a не
                 // попадают в _hasRegisteredPendings,

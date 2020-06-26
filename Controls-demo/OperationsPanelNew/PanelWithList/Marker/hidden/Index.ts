@@ -4,7 +4,8 @@ import notifyHandler = require('Controls/Utils/tmplNotify');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
-import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
+import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
+
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 
@@ -64,5 +65,5 @@ export default class ListWithoutMarker extends Control<IControlOptions> {
         }
     }
 
-    static _styles: string[] = ['Controls-demo/OperationsPanel/Demo/Demo'];
+    static _styles: string[] = ['Controls-demo/OperationsPanelNew/Index'];
 }

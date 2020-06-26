@@ -3,20 +3,24 @@ import * as Template from 'wml!Controls-demo/Explorer_new/DragNDropWithTile/Drag
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-
-
+import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
+import {RecordSet} from 'Types/collection';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Collection} from 'Controls/display';
+import {Model} from 'Types/entity';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    protected _viewSource;
+    protected _viewSource: MemorySource;
     protected _columns = Gadgets.getColumns();
     protected _viewMode: string = 'tile';
-    protected _root = null;
-    protected _selectedKeys = [];
-    protected _itemsReadyCallback = this._itemsReady.bind(this);
+    protected _root: TRoot = null;
+    protected _selectedKeys: Number[] = [];
+    protected _itemsReadyCallback: TItemsReadyCallback = this._itemsReady.bind(this);
     private _multiselect: 'visible'|'hidden' = 'hidden';
+    private _items: RecordSet;
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new MemorySource({
             keyProperty: 'id',
             data: Gadgets.getData(),
@@ -24,11 +28,11 @@ export default class extends Control {
         });
     }
 
-    private _itemsReady(items) {
+    private _itemsReady(items: RecordSet): void {
         this._items = items;
     }
 
-    protected _dragStart(_, items) {
+    protected _dragStart(_: SyntheticEvent, items: number[]): void {
         let hasBadItems = false;
         const firstItem = this._items.getRecordById(items[0]);
 
@@ -45,11 +49,11 @@ export default class extends Control {
         });
     }
 
-    protected _dragEnd(_, entity, target, position) {
+    protected _dragEnd(_: SyntheticEvent, entity: Collection<Model>, target: unknown, position: string): void {
         this._children.listMover.moveItems(entity.getItems(), target, position);
     }
 
-    protected _onToggle() {
+    protected _onToggle(): void {
         this._multiselect = this._multiselect === 'visible' ? 'hidden' : 'visible';
     }
 

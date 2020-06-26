@@ -25,6 +25,7 @@
                                     dragControlId="{{ _dragControlId }}"
                                     canStartDragNDrop="{{ _canStartDragNDrop }}"
                                     markerVisibility="{{ _options.markerVisibility }}"
+                                    navigation="{{ _navigation }}"
                                     on:itemClick="_onItemClick()"
                                     on:itemMouseDown="_notifyHandler('itemMouseDown')"
                                     on:checkboxClick="_notifyHandler('checkboxClick')"

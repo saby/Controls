@@ -4,6 +4,9 @@
     </ws:if>
     <span class="controls-BreadCrumbsView__titleWrapper"
          title="{{itemData.getPropValue(itemData.item, displayProperty)}}">
-        <span class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_theme-{{_options.theme}} {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}"><ws:if data="{{contentTemplate}}"><ws:partial template="{{contentTemplate}}" displayProperty="{{displayProperty}}" itemData="{{itemData}}"/></ws:if><ws:else>{{ itemData.getPropValue(itemData.item, displayProperty) }}</ws:else></span>
+        <span class="controls-BreadCrumbsView__title
+        {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}
+        {{'controls-fontsize-' + fontSize + '_theme-' + _options.theme}} {{'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}">
+            <ws:if data="{{contentTemplate}}"><ws:partial template="{{contentTemplate}}" displayProperty="{{displayProperty}}" itemData="{{itemData}}"/></ws:if><ws:else>{{ itemData.getPropValue(itemData.item, displayProperty) }}</ws:else></span>
     </span>
 </div>

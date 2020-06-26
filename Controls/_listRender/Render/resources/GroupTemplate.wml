@@ -5,8 +5,10 @@
       </ws:if>
       <div attr:class="controls-ListView__groupContent-text
          controls-ListView__groupContent-text_theme-{{theme}}
+         {{itemData.fontSize ? ' controls-fontsize-' + itemData.fontSize + '_theme-' + itemData.theme : ' controls-ListView__groupContent-text_default_theme-' + itemData.theme}}
          {{ expanderVisible !== false ? ' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + theme +
          (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + theme : ' controls-ListView__groupExpander_left_theme-' + theme) +
+         ' controls-ListView__groupExpander-iconSize_' + (itemData.iconSize || 'default') + '_theme-' + itemData.theme +
          (!item.isExpanded() ?
          ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
             ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'') }}">

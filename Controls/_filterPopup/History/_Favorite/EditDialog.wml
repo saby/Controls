@@ -11,7 +11,7 @@
 
 <Controls.form:PrimaryAction on:triggered="_apply()">
    <Controls.popupTemplate:Dialog headingCaption="{[Параметры]}"
-                                  headingStyle="info"
+                                  headingFontColorStyle="label"
                                   attr:class="controls-FilterPanel__FavoriteEditDialog">
 
       <ws:headerContentTemplate>

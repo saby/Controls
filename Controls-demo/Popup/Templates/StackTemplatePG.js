@@ -76,7 +76,7 @@ define('Controls-demo/Popup/Templates/StackTemplatePG',
             this._componentOptions = {
                name: 'StackTemplate',
                headingCaption: 'caption',
-               headingStyle: 'secondary',
+               headingFontColorStyle: 'secondary',
                headerContentTemplate: 'wml!Controls-demo/Popup/Templates/resources/headerContent',
                bodyContentTemplate: 'wml!Controls-demo/Popup/Templates/resources/defaultBodyContent',
                footerContentTemplate: 'wml!Controls-demo/Popup/Templates/resources/defaultFooterContent',

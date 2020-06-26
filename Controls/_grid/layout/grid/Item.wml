@@ -123,7 +123,8 @@
    <ws:if data="{{ itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan) && itemData.itemActionsDrawPosition === 'before' }}">
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{itemData.gridCellStyles}}"/>
    </ws:if>
-   <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{backgroundStyle}}"
+   <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
+   <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}"
                           attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
                                       {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
@@ -141,7 +142,7 @@
       </ws:else>
    </ws:if>
 </ws:template>
-<ws:if data="{{itemData.isSticky}}">
+<ws:if data="{{itemData.isStickedMasterItem}}">
    <Controls.scroll:Group>
       <div attr:class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} {{highlightOnHover !== false ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}">
          <!-- The iterator does not restart when the model changes. Instead, the internal partial is redrawn. We do a reboot forcibly. -->

@@ -7,14 +7,15 @@ import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/Utils/Toolbar';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
 
-    private _viewSource: Memory;
-    private _fakeItemId: number;
-    private _columns;
-    private _itemActions = [
+    protected _viewSource: Memory;
+    protected _fakeItemId: number;
+    protected _columns: IColumn[];
+    protected _itemActions: any = [
         {
             id: 1,
             icon: 'icon-Erase icon-error',
@@ -32,7 +33,7 @@ export default class extends Control {
         }
     ];
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._columns = getCountriesStats().getColumnsWithFixedWidths().map((column, index) => {
             const resultColumn = column;
             if (index !== 0) {

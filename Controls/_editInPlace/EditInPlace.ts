@@ -160,8 +160,11 @@ const _private = {
 
     createModel(self: EditInPlace, options: IEditingConfig): Promise<IEditingConfig> {
         return self.getSource().create().then((item) => {
-            options.item = item;
-            return options;
+            if (item && item instanceof entity.Record) {
+                options.item = item;
+                return options;
+            }
+            throw Error('EditInPlace:createModel() - the item must be Record');
         }).catch((error: Error) => {
             return _private.processError(self, error);
         });

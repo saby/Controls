@@ -39,7 +39,7 @@ export default class extends Control {
                 });
             });
         };
-        this._viewSource.update = (item) => {
+        this._viewSource.update = (item: any) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve(item);
@@ -55,6 +55,7 @@ export default class extends Control {
     }
 
     protected _addItem(): void {
+        //@ts-ignore
         this._children.list.beginAdd();
     }
     static _styles: string[] = ['Controls-demo/Controls-demo'];

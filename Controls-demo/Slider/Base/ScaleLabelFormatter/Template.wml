@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+   <div class="controls-text-label_theme-{{_options.theme}}">ScaleLabelFormatter</div>
+   <Controls.slider:Base
+           maxValue="{{100}}"
+           minValue="{{0}}"
+           scaleStep="{{10}}"
+           bind:value="_value"
+           scaleLabelFormatter="{{_scaleLabelFormatter}}"
+   />
+   <div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+   <Controls.slider:Base
+           maxValue="{{100}}"
+           minValue="{{0}}"
+           scaleStep="{{10}}"
+           bind:value="_value"
+           readOnly="{{true}}"
+           scaleLabelFormatter="{{_scaleLabelFormatter}}"
+   />
+</div>

@@ -5,9 +5,10 @@
             controls-Swipe__action_{{actionAlignment}}_theme-{{theme}}
             controls-Swipe__action_padding_size_{{paddingSize}}_theme-{{theme}}
             controls-itemActionsV__action_style_{{action.style || 'secondary'}}
-            controls-Swipe__action_iconStyle_{{action.iconStyle || 'secondary'}}_theme-{{theme}}">
+            {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
+            ('controls-icon_style-' + action.iconStyle) : ('controls-Swipe__action_iconStyle_secondary')}}_theme-{{theme}}">
    <ws:if data="{{needIcon(action, actionCaptionPosition, hasActionWithIcon)}}">
-      <i class="{{action.icon}} controls-Swipe__action_icon_size_{{itemActionsSize}}_theme-{{theme}} controls-Swipe__action_icon_swipe"/>
+       <i class="{{action.icon}} controls-Swipe__action_icon_size_{{itemActionsSize}}_theme-{{theme}} controls-Swipe__action_icon_swipe"/>
    </ws:if>
    <ws:if data="{{needTitle(action, actionCaptionPosition)}}">
         <span class="controls-Swipe__action_title_theme-{{theme}}

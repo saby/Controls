@@ -3,16 +3,19 @@ import * as Template from 'wml!Controls-demo/treeGrid/ColumnScroll/ColumnScroll'
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../list_new/DemoHelpers/ItemActionsCatalog';
+import { IItemAction } from 'Controls/itemActions';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader, TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _itemActions = getItemActions();
-    private _columns = Gadgets.getColumnsForColumnScroll();
-    private _header = Gadgets.getHeaderForColumnScroll();
-    private _expandedItems = [1];
+    protected _viewSource: Memory;
+    protected _itemActions: IItemAction[] = getItemActions();
+    protected _columns: IColumn[] = Gadgets.getColumnsForColumnScroll();
+    protected _header: IHeader[] = Gadgets.getHeaderForColumnScroll();
+    protected _expandedItems: TExpandOrColapsItems = [1];
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         const data = Gadgets.getFlatData();
         const country = 'Соединенные Штаты Америки';
         data[2].country = `${country} ${country} ${country}`;

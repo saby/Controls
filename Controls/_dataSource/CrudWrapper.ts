@@ -5,38 +5,16 @@ import * as cInstance from 'Core/core-instance';
 
 import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/error';
 import {Logger} from 'UI/Utils';
-import {IAdditionalQueryParams} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {IAdditionalQueryParams} from 'Controls/_interface/IAdditionalQueryParams';
 
 export interface ICrudWrapperOptions {
-    /**
-     * @name Controls/_source/NavigationController#source
-     * @cfg {Types/source:ICrud} Ресурс для запроса данных
-     */
-    /*
-     * @name Controls/_source/NavigationController#source
-     * @cfg {Types/source:ICrud} Source to request data
-     */
     source: ICrud;
-
-    /**
-     * @name Controls/_listRender/SourceControl#errorController
-     * @cfg {Controls/_dataSource/error:ErrorController} Экземпляр контроллера ошибки, инициализированный с собственными хандлерами
-     */
-    /*
-     * @name Controls/_listRender/SourceControl#errorController
-     * @cfg {Controls/_dataSource/error:ErrorController} Error controller instance, initialized with Custom handlers
-     */
     errorController?: ErrorController;
-
-    /**
-     * @name Controls/_listRender/SourceControl#errorViewMode
-     * @cfg {Controls/_dataSource/error:Mode} Внешний вид отображения ошибки.
-     */
     errorViewMode?: ErrorMode;
 }
 
 /**
- * @name Controls/dataSource/SourceCrudInterlayer#source
+ * @name Controls/dataSource/CrudWrapper#source
  * @cfg {Types/source:ICrud} Ресурс для запроса данных
  * @example
  * const source = new Memory({
@@ -45,12 +23,12 @@ export interface ICrudWrapperOptions {
  * });
  */
 /*
- * @name Controls/dataSource/SourceCrudInterlayer#source
+ * @name Controls/dataSource/CrudWrapper#source
  * @cfg {Types/source:ICrud} Data source
  */
 
 /**
- * @name Controls/dataSource/SourceCrudInterlayer#errorController
+ * @name Controls/dataSource/CrudWrapper#errorController
  * @cfg {Controls/dataSource:error.Controller} Контроллер ошибки c предварительно настроенными Handlers
  * @example
  * const handlers = {
@@ -72,20 +50,16 @@ export interface ICrudWrapperOptions {
  * const errorController = new error.Controller(handlers);
  */
 /*
- * @name Controls/dataSource/SourceCrudInterlayer#errorController
+ * @name Controls/dataSource/CrudWrapper#errorController
  * @cfg {Controls/dataSource:error.Controller} Error controller instance with previously configured handlers
  */
 
 /**
  * Прослойка между контролом и source: Types/_source/ICrud, которая позволяет перехватывать ошибку загрузки и возвращать в catch Controls/_dataSource/_error/ViewConfig конфиг для отображения ошибки
  * @remark
- * Этота обёртка должен вставляться везде где есть работа с сорсом, т.е. в
- *  • Списках ({@link Controls/_list/List.ts} and {@link Controls/_list/ListView.ts})
- *  • formController ({@link Controls/_form/FormController.ts})
- *  • dataSource/error/DataLoader ({@link Controls/_dataSource/_error/DataLoader.ts} and {@link Controls/_dataSource/requestDataUtil.ts})
- * НЕ РЕАЛИЗУЕТ интерфейс Types/_source/ICrud, т.к. метод query должен принимать параметры filter, sorting, offset, limit
- * @class Controls/dataSource/SourceCrudInterlayer
+ * @class Controls/dataSource/CrudWrapper
  * @example
+ * <pre>
  * const source = new Memory({
  *     keyProperty: 'id',
  *     data: data
@@ -113,14 +87,15 @@ export interface ICrudWrapperOptions {
  *         console.log(error);
  *     }
  * }
- * const sourceCrudInterlayer = new SourceCrudInterlayer(source, errorConfig, errorController);
- * sourceCrudInterlayer.create(...)
+ * const crudWrapper = new CrudWrapper(source, errorConfig, errorController);
+ * crudWrapper.create(...)
  *     .then((record: Record) => {
  *         // ...
  *     })
  *     .catch((error: error.ViewConfig) => {
  *         this._showError(error);
  *     })
+ * </pre>
  * @public
  * @author Аверкиев П.А.
  */
@@ -188,7 +163,8 @@ export class CrudWrapper {
 
     /**
      * Выполняет запрос на выборку
-     * @param [queryParams] Параметры для фыормирования запроса Query {@link Types/source/Query}
+     * @param [queryParams] Параметры для формирования запроса Query {@link Types/source/Query}
+     * @param [keyProperty] Поле, которое будет использоваться в качестве ключа возвращаемого рекордсета
      * @return Асинхронный результат выполнения: в случае успеха вернет {@link Types/_source/DataSet} - прочитаннные данные, в случае ошибки - Error.
      */
     /*
@@ -196,7 +172,7 @@ export class CrudWrapper {
      * @param [queryParams] Params to build Query {@link Types/source/Query}
      * @return Promise resolving created Record {@link Types/_entity/Record} and rejecting an Error.
      */
-    query(queryParams: IAdditionalQueryParams): Promise<RecordSet> {
+    query(queryParams: IAdditionalQueryParams, keyProperty?: string): Promise<RecordSet> {
         let query = new Query();
         if (queryParams.filter) {
             query = query.where(queryParams.filter);
@@ -214,7 +190,11 @@ export class CrudWrapper {
             query = query.meta(queryParams.meta);
         }
         return this._source.query(query).then((dataSet: DataSet) => {
-            return dataSet.getAll();
+            // TODO разобраться с типами. Похоже что PrefetchProxy отдает не DataSet
+            if (keyProperty && dataSet.getKeyProperty && keyProperty !== dataSet.getKeyProperty()) {
+                dataSet.setKeyProperty(keyProperty);
+            }
+            return dataSet.getAll ? dataSet.getAll() : dataSet as RecordSet;
         }).catch(this._boundPromiseCatchCallback);
     }
 
@@ -242,10 +222,9 @@ export class CrudWrapper {
      * @param error
      * @private
      */
-    private _promiseCatchCallback(error: Error): Promise<null> {
-        return this._processError(error, ErrorMode.include).then((errorConf: ErrorViewConfig) => {
-            return Promise.reject(errorConf);
-        });
+    private _promiseCatchCallback(error: Error): Promise<error> {
+        // TODO добавить обработку ошибок
+        return Promise.resolve(error);
     }
 
     /**

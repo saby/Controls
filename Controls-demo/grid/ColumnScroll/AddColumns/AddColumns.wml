@@ -6,8 +6,8 @@
     </div>
     <div class="controlDemo__input-row">
         Change table container width
-        <Controls.input:Text bind:value="_tableWidthTemp" placeholder="width"/>
-        <Controls.buttons:Button caption="Change Width" on:click="changeWidth()"/>
+        <Controls.input:Text bind:value="_tableWidthTemp" placeholder="width" attr:class="ControlsDemo-AddColumns__width"/>
+        <Controls.buttons:Button caption="Change Width" on:click="changeWidth()" attr:class="ControlsDemo-AddColumns__changeWidth"/>
     </div>
     <Controls.scroll:Container attr:style="width: {{ _tableWidth }}; height: 400px">
         <Controls.grid:View

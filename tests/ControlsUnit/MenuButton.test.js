@@ -99,7 +99,8 @@ define(
             assert.equal(menu._offsetClassName, 'controls-MenuButton_button_iconSize-small_popup');
 
             newOptions.viewMode = 'functionalButton';
-            newOptions.size = 'm';
+            newOptions.fontSize = 'm';
+            newOptions.inlineHeight = 'l';
             menu._beforeUpdate(newOptions);
             assert.equal(menu._offsetClassName, 'controls-MenuButton_functionalButton__l_popup');
 

@@ -1,10 +1,17 @@
-define(['Controls/buttons'], function(buttons) {
-   'use strict';
-
+define(['Controls/buttons', 'UI/Utils'], function(buttons, {Logger}) {
    var btn;
    var actualAPI = buttons.ActualApi;
 
    describe('Controls.Button', function() {
+      var sandbox;
+      beforeEach(() => {
+         sandbox = sinon.createSandbox();
+         sandbox.stub(Logger, 'error');
+      });
+
+      afterEach(() => {
+         sandbox.restore();
+      });
       describe('styleToViewMode', function() {
          it('style linkMain', function() {
             let cfg = actualAPI.styleToViewMode('linkMain');

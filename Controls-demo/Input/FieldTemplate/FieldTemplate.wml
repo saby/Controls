@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Controls.input:Text. Привести текст к нижнему регистру.</div>
-      <Controls.input:Text bind:value="_value2">
+      <Controls.input:Text bind:value="_value2" attr:class="controlsDemo-FieldTemplate__inputLower">
          <ws:leftFieldTemplate>
             <div class="controls-icon icon-MarkExpandBold controlsDemo__icon_active controlsDemo-FieldTemplate__icon
                         controls-icon_style-primary_theme-{{_options.theme}} controls-icon_size-default_theme-{{_options.theme}}"
@@ -21,7 +21,7 @@
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">Controls.input:Text. Привести текст к нижнему или верхнему регистру.</div>
-      <Controls.input:Text bind:value="_value3">
+      <Controls.input:Text bind:value="_value3" attr:class="controlsDemo-FieldTemplate__input">
          <ws:leftFieldTemplate>
             <div class="controls-icon icon-MarkExpandBold controlsDemo__icon_active controlsDemo-FieldTemplate__icon
                         controls-icon_style-primary_theme-{{_options.theme}} controls-icon_size-default_theme-{{_options.theme}}"
@@ -42,7 +42,8 @@
                               source="{{_source}}"
                               autoDropDown="{{true}}"
                               minSearchLength="{{0}}"
-                              bind:value="_value4">
+                              bind:value="_value4"
+							  attr:class="controlsDemo-FieldTemplate__suggest">
          <ws:suggestTemplate templateName="Controls-demo/Suggest/resources/SuggestTemplate"/>
          <ws:navigation source="page" view="page">
             <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>

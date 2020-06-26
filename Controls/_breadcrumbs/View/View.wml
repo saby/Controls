@@ -5,6 +5,8 @@
                         displayProperty="{{ _options.displayProperty }}"
                         highlighter="{{_options.highlighter}}"
                         applyHighlighter="{{_applyHighlighter}}"
+                        fontColorStyle="{{_options.fontColorStyle}}"
+                        fontSize="{{_options.fontSize}}"
                         items="{{_options.visibleItems}}"
                         backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                         itemTemplate="{{_options.itemTemplate}}" />

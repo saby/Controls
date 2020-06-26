@@ -1,7 +1,7 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/MultiSelect/AllSelected/AllSelected"
-import {Memory} from "Types/source"
-import {getFewCategories as getData} from "../../DemoHelpers/DataCatalog"
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/MultiSelect/AllSelected/AllSelected';
+import {Memory} from 'Types/source';
+import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -9,7 +9,7 @@ export default class extends Control {
     protected _selectedKeys: Array<null> = [null];
     protected _excludedKeys: Array<number> = [];
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getData()

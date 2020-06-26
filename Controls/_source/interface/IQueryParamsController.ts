@@ -1,4 +1,4 @@
-import {IAdditionalQueryParams, Direction} from './IAdditionalQueryParams';
+import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import {Collection} from 'Controls/display';

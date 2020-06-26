@@ -1,12 +1,9 @@
 define(
    [
       'Env/Env',
-      'Controls/input',
-      'ControlsUnit/resources/TemplateUtil',
-      'wml!ControlsUnit/Input/Render/Content',
-      'wml!ControlsUnit/Input/Render/PlaceholderTest'
+      'Controls/input'
    ],
-   function(Env, input, TemplateUtil, Content, placeholderTest) {
+   function(Env, input) {
       'use strict';
 
       describe('Controls.Input.Render', function() {
@@ -62,37 +59,6 @@ define(
 
                   assert.equal(ctrl._state, 'valid');
                });
-            });
-         });
-         describe('Template', function() {
-            var template = TemplateUtil.clearTemplate(new input.Render({})._template), compat;
-
-            before(function() {
-               compat = Env.constants.compat;
-               Env.constants.compat = true;
-            });
-
-            beforeEach(function() {
-               ctrl._options = {
-                  content: Content,
-                  size: 'm',
-                  state: '',
-                  fontStyle: 'default',
-                  textAlign: 'left',
-                  style: 'info',
-                  theme: 'default'
-               };
-               ctrl._beforeMount(ctrl._options);
-            });
-
-            after(function() {
-               Env.constants.compat = compat;
-            });
-
-            it('In the content template passed the placeholder template', function() {
-               ctrl._options.placeholder = 'test placeholder';
-
-               assert.equal(template(ctrl), placeholderTest({}));
             });
          });
       });

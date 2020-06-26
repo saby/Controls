@@ -108,7 +108,13 @@ var MonthView = BaseControl.extend({
       if (isCurrentMonth || this._options.mode === 'extended') {
          this._notify('itemMouseEnter', [item]);
       }
-   }
+   },
+
+   _mouseLeaveHandler: function(event, item, isCurrentMonth) {
+      if (isCurrentMonth || this._options.mode === 'extended') {
+         this._notify('itemMouseLeave', [item]);
+      }
+   },
 
    // cancelSelection: function () {
    //    var canceled = MonthView.superclass.cancelSelection.call(this);

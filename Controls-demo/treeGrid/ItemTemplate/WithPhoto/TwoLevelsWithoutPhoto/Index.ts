@@ -1,15 +1,15 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/TwoLevelsWithoutPhoto/TwoLevelsWithoutPhoto";
-import {Memory} from "Types/source"
-import {Gadgets} from "../../../DemoHelpers/DataCatalog"
-
-
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/TwoLevelsWithoutPhoto/TwoLevelsWithoutPhoto';
+import {Memory} from 'Types/source';
+import {Gadgets} from '../../../DemoHelpers/DataCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
-   protected _expandedItems: number[] = [1, 2, 4];
-   protected _twoLvlColumnsNoPhoto = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
+   protected _expandedItems: TExpandOrColapsItems = [1, 2, 4];
+   protected _twoLvlColumnsNoPhoto: IColumn[] = Gadgets.getGridTwoLevelColumnsWithPhoto().map((cur) => ({
       ...cur, template: undefined
    }));
 

@@ -29,17 +29,13 @@
                         iconSize="{{_options.iconSize}}"
                         iconStyle="{{_options.iconStyle}}"
                         caption="{{_options.caption}}"
-                        fontColorStyle="{{_options.fontColorStyle}}"
-                        fontSize="{{_options.fontSize}}"
-                        inlineHeight="{{_options.inlineHeight}}"
-                        buttonStyle="{{_options.buttonStyle}}"
-                        contrastBackground="{{_options.contrastBackground}}"
-                        viewMode="{{_options.viewMode}}"
+                        fontColorStyle="{{_fontColorStyleButton}}"
+                        fontSize="{{_fontSizeButton}}"
+                        inlineHeight="{{_inlineHeightButton}}"
+                        buttonStyle="{{_buttonStyleButton}}"
+                        contrastBackground="{{_contrastBackgroundButton}}"
+                        viewMode="{{_viewModeButton}}"
                         tooltip="{{_options.tooltip}}"
-
-                        style="{{_options.style}}"
-                        transparent="{{_options.transparent}}"
-                        size="{{_options.size}}"
                 />
             </ws:else>
         </ws:content>

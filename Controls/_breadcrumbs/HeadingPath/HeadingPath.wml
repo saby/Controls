@@ -7,6 +7,8 @@
                                                     counterCaption="{{ _getCounterCaption(_options.items) }}"
                                                     showArrowOutsideOfBackButton="{{!_breadCrumbsItems && !_options.rootVisible}}"
                                                     backButtonStyle="{{ _options.backButtonStyle }}"
+                                                    backButtonIconStyle="{{ _options.backButtonIconStyle }}"
+                                                    backButtonFontColorStyle="{{ _options.backButtonFontColorStyle }}"
                                                     showActionButton="{{_options.showActionButton}}"
                                                     displayMode="{{_options.displayMode}}"
                                                     afterBackButtonTemplate="{{_options.afterBackButtonTemplate}}"
@@ -33,10 +35,12 @@
                             keyProperty="{{_options.keyProperty}}"
                             displayProperty="{{_options.displayProperty}}"
                             highlighter="{{_options.highlighter}}"
+                            fontColorStyle="{{_options.fontColorStyle}}"
+                            fontSize="{{_options.fontSize}}"
                             on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                             on:itemClick="_notifyHandler('itemClick')"/>
                 </ws:if>
             </div>
         </ws:if>
-    </div>
+   </div>
 </div>

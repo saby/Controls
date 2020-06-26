@@ -6,7 +6,7 @@ import * as ExplorerMemory from 'Controls-demo/Explorer/ExplorerMemory';
 class SearchHierarchy extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _source: Memory;
-    protected _selectedKeys: any[] = ['1'];
+    protected _selectedKeys: number[] = ['1'];
 
     protected _beforeMount(): void {
         this._source = new ExplorerMemory({

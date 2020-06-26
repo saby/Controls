@@ -7,6 +7,7 @@ export interface ISliderOptions {
     size?: string;
     minValue: number;
     maxValue: number;
+    scaleLabelFormatter?: Function;
 }
 /**
  * Интерфейс для контрола Слайдер.
@@ -192,4 +193,24 @@ export interface ISlider {
  *   <Controls.slider:Base maxValue="{{100}}"/>
  * </pre>
  * @see minValue
+ */
+
+/**
+ * @name Controls/_slider/interface/ISlider#scaleLabelFormatter
+ * @cfg {Function} Функция форматирования метки шкалы.
+ * @remark
+ * Аргументы функции:
+ * <ul>
+ *    <li>value - текущее положение слайдера</li>
+ * </ul>
+ */
+
+/*
+ * @name Controls/_slider/interface/ISlider#scaleLabelFormatter
+ * @cfg {Function} Scale label formatter function.
+ * @remark
+ * Function Arguments:
+ * <ul>
+ *    <li>value - slider current position</li>
+ * </ul>
  */

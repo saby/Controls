@@ -4,18 +4,20 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ISlider, ISliderOptions} from './interface/ISlider';
 import SliderBase from './_SliderBase';
 import SliderTemplate = require('wml!Controls/_slider/sliderTemplate');
-import {IScaleData, ILineData, IPointDataList, default as Utils} from './Utils';
+import {IScaleData, ILineData, IPointDataList, IPositionedInterval, default as Utils} from './Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {IInterval} from './interface/IInterval';
 
 export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
    value: number;
+   intervals: IInterval[];
 }
 
 const maxPercentValue = 100;
 
 /**
  * Базовый слайдер с одним подвижным ползунком для выбора значения.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2fSlider%2fBase%2fIndex">демо-пример</a>
@@ -63,6 +65,45 @@ const maxPercentValue = 100;
  * </pre>
  */
 
+/**
+ * @name Controls/_slider/Base#intervals
+ * @cfg {Array<IInterval>>} Интервалы шкалы выбора значения, закрашенные выбранным цветом.
+ * @example
+ * Слайдер с закрашенным интервалом.
+ * <pre class="brush:html">
+ *    <Controls.slider:Base minValue={{10}} maxValue={{100}} scaleStep={{10}}>
+ *       <ws:intervals>
+ *          <ws:Array>
+ *             <ws:Object
+ *                color="success"
+ *                start={{10}}
+ *                end={{40}}
+ *             </ws:Object>
+ *          </ws:Array>
+ *       </ws:intervals>
+ *    </Controls.slider:Base>
+ * </pre>
+ */
+
+/*
+ * @name Controls/_slider/Base#intervals
+ * @cfg {Array<IInterval>>} Colored intervals of the scale for choose value.
+ * @example
+ * Colored slider.
+ * <pre class="brush:html">
+ *    <Controls.slider:Base minValue={{10}} maxValue={{100}} scaleStep={{10}}>
+ *       <ws:intervals>
+ *          <ws:Array>
+ *             <ws:Object
+ *                color="success"
+ *                start={{10}}
+ *                end={{40}}
+ *             </ws:Object>
+ *          </ws:Array>
+ *       </ws:intervals>
+ *    </Controls.slider:Base>
+ * </pre>
+ */
 
 class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    protected _template: TemplateFunction = SliderTemplate;
@@ -73,6 +114,7 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    private _tooltipPosition: number | null = null;
    protected _tooltipValue: string | null = null;
    protected _isDrag: boolean = false;
+   protected _intervals: IPositionedInterval[] = [];
 
    private _render(minValue: number, maxValue: number, value: number): void {
       const rangeLength = maxValue - minValue;
@@ -95,9 +137,24 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    }
 
    private _checkOptions(opts: ISliderBaseOptions): void {
+      const {minValue, maxValue, value, intervals} = opts;
       Utils.checkOptions(opts);
-      if (opts.value < opts.minValue || opts.value > opts.maxValue) {
+      if (value < minValue || value > maxValue) {
          Logger.error('Slider: value must be in the range [minValue..maxValue].', this);
+      }
+
+      if (intervals?.length) {
+         intervals.forEach(({start, end}) => {
+            if (start > end) {
+               Logger.error('Slider: start of the interval must be less than end.');
+            }
+            if (start <= minValue || start >= maxValue) {
+               Logger.error('Slider: start of the interval must be between minValue and maxValue.');
+            }
+            if (end <= minValue || end >= maxValue) {
+               Logger.error('Slider: end of the interval must be between minValue and maxValue.');
+            }
+         });
       }
    }
 
@@ -107,7 +164,9 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    protected _beforeMount(options: ISliderBaseOptions): void {
       this._checkOptions(options);
-      this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep);
+      this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep,
+          options.scaleLabelFormatter);
+      this._intervals = Utils.convertIntervals(options.intervals, options.minValue, options.maxValue);
       this._value = options.value === undefined ? options.maxValue : options.value;
       this._pointData = [{name: 'point', position: 100}, {name: 'tooltip', position: 0}];
       this._lineData = {position: 0, width: 100};
@@ -117,8 +176,14 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    protected _beforeUpdate(options: ISliderBaseOptions): void {
       if (this._needUpdate(this._options, options)) {
          this._checkOptions(options);
-         this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep);
+         this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep,
+             options.scaleLabelFormatter);
       }
+
+      if (this._options.intervals !== options.intervals) {
+         this._intervals = Utils.convertIntervals(options.intervals, options.minValue, options.maxValue);
+      }
+
       this._value = options.value === undefined ? options.maxValue : Math.min(options.maxValue, options.value);
       this._render(options.minValue, options.maxValue, this._value);
       this._renderTooltip(options.minValue, options.maxValue, this._tooltipPosition);
@@ -145,18 +210,25 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    static _theme: string[] = ['Controls/slider'];
 
    static getDefaultOptions(): object {
-      return {...{
-         theme: 'default',
-         value: undefined
-      }, ...SliderBase.getDefaultOptions()};
+      return {
+         ...{
+            theme: 'default',
+            value: undefined,
+            intervals: []
+         }, ...SliderBase.getDefaultOptions()
+      };
 
    }
-   static getOptionTypes(): object {
-      return {...{
-         value: EntityDescriptor(Number)
-      }, ...SliderBase.getOptionTypes()};
 
-}
+   static getOptionTypes(): object {
+      return {
+         ...{
+            value: EntityDescriptor(Number),
+            intervals: EntityDescriptor(Array)
+         }, ...SliderBase.getOptionTypes()
+      };
+
+   }
 }
 
 export default Base;

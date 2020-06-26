@@ -40,8 +40,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__pagingContainer {
    pointer-events: none;
    position: absolute;
-   bottom: 0;
-   right: 0;
+   bottom: @scrollpaging_offset-vertical_list;
+   right: @scrollpaging_offset-horizontal_list;
    // Должен отображаться выше элементов скрол контейнера
    z-index: @z-index_Scroll-contentEnvironment + 1;
    display: flex;
@@ -63,7 +63,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl_paging-Padding_theme-@{themeName} {
    // margin, а не height, чтобы при возникновении ошибки при скролле вниз
    // этот margin схлопывался с margin шаблона ошибки и не создавал большое пустое пространство
-   margin-bottom: @item_height_paging;
+   margin-bottom: @item_height_paging + 2 * @scrollpaging_offset-vertical_list;
 }
 .ws-is-mobile-safari .controls-BaseControl_paging-Padding_theme-@{themeName} {
    margin-bottom: 0;
@@ -71,8 +71,6 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 
 .controls-BaseControl__scrollPaging_theme-@{themeName} {
    pointer-events: auto;
-   border: 0 solid @scrollpaging_separator-color_list;
-   border-top-width: @scrollpaging_separator-thickness_list;
 }
 .controls-BaseControl__loadingIndicator {
    background-color: transparent;
@@ -99,7 +97,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 
 // Поднимаем индикатор на высоту контейнера с пэйджингом
 .controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
-   margin-bottom: -@item_height_paging;
+   margin-bottom: -(@item_height_paging + 2 * @scrollpaging_offset-vertical_list);
 }
 
 // По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.

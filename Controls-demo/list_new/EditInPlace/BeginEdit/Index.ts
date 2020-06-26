@@ -1,23 +1,23 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/EditInPlace/BeginEdit/BeginEdit"
-import {Memory} from "Types/source"
-import {Model} from "Types/entity"
-import {getEditableCatalog as getData} from "../../DemoHelpers/DataCatalog"
-import {SyntheticEvent} from "Vdom/Vdom";
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/EditInPlace/BeginEdit/BeginEdit';
+import {Memory} from 'Types/source';
+import {Model} from 'Types/entity';
+import {getEditableCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {editing as constEditing} from 'Controls/Constants';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getData()
         })
     }
 
-    protected _beforeBeginEdit(e: SyntheticEvent<null>, {item}: {item: Model}, isAdd: boolean) {
+    protected _beforeBeginEdit(e: SyntheticEvent<null>, {item}: {item: Model}, isAdd: boolean): Promise<any> | string {
         if (item.get('id') === 1) {
             return constEditing.CANCEL;
         }

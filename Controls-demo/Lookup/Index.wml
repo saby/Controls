@@ -109,6 +109,8 @@
          </Controls.lookup:Input>
          <Controls.lookup:Link caption="From whom" on:click="showSelectorLabelBeside()" attr:style="display: block"/>
       </div>
+   </div>
+   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
       <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-severalDir">
          <div class="controls-text-label_theme-{{_options.theme}}">Lookup from several directories</div>
          <Controls.lookup:Input
@@ -156,8 +158,6 @@
             </ws:itemTemplate>
          </Controls.lookup:Input>
       </div>
-   </div>
-   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
       <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-customPlaceholder">
          <div class="controls-text-label_theme-{{_options.theme}}">Lookup with custom placeholder(Records are related)</div>
          <Controls.lookup:PlaceholderChooser placeholderKeyCallback="{{_placeholderKeyCallback}}">
@@ -274,19 +274,21 @@
             </ws:itemTemplate>
          </Controls.lookup:Input>
       </div>
+   </div>
+   <div class="controlsDemo__wrapper controlsDemo__flexColumn">
       <div class="controlsDemo__mb1 controlsDemo__cell controlsDemo__childWidth400  controlsDemo-Lookup-link">
          <div class="controls-text-label_theme-{{_options.theme}}">Link with lookup</div>
          <Controls.filterPopup:Lookup
-             caption="Link above lookup"
-             bind:value="_valueLink"
-             bind:selectedKeys="_selectedKeyLink"
-             source="{{_source}}"
-             placeholder="Enter company name"
-             searchParam="title"
-             keyProperty="id"
-             navigation="{{_navigation}}"
-             selectorTemplate="{{_selectorTemplate}}"
-             multiSelect="{{false}}">
+                 caption="Link above lookup"
+                 bind:value="_valueLink"
+                 bind:selectedKeys="_selectedKeyLink"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiSelect="{{false}}">
             <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
             <ws:itemTemplate>
                <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
@@ -360,16 +362,16 @@
       <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400 controlsDemo-Lookup-line_readOnly">
          <div class="controls-text-label_theme-{{_options.theme}}">Lookup multi line with read only</div>
          <Controls.lookup:Input
-             bind:selectedKeys="_selectedKeysMultiLineReadOnly"
-             source="{{_source}}"
-             placeholder="Enter company name"
-             searchParam="title"
-             keyProperty="id"
-             navigation="{{_navigation}}"
-             selectorTemplate="{{_selectorTemplate}}"
-             multiSelect="{{true}}"
-             multiLine="{{true}}"
-             readOnly="{{true}}">
+                 bind:selectedKeys="_selectedKeysMultiLineReadOnly"
+                 source="{{_source}}"
+                 placeholder="Enter company name"
+                 searchParam="title"
+                 keyProperty="id"
+                 navigation="{{_navigation}}"
+                 selectorTemplate="{{_selectorTemplate}}"
+                 multiSelect="{{true}}"
+                 multiLine="{{true}}"
+                 readOnly="{{true}}">
             <ws:suggestTemplate templateName="wml!Controls-demo/Lookup/resources/SuggestTemplate"/>
             <ws:itemTemplate>
                <ws:partial template="Controls/lookup:ItemTemplate" style="{{_selectedKeyStyle}}"
@@ -390,10 +392,10 @@
       <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
          <div class="controls-text-label_theme-{{_options.theme}}">Choose size</div>
          <Controls.dropdown:Combobox source="{{_itemsSize}}"
-                                  keyProperty="id"
-                                  displayProperty="title"
-                                  bind:selectedKey="_selectedKeySize"
-                                  attr:class="controlsDemo-Lookup-chooseSize"/>
+                                     keyProperty="id"
+                                     displayProperty="title"
+                                     bind:selectedKey="_selectedKeySize"
+                                     attr:class="controlsDemo-Lookup-chooseSize"/>
       </div>
    </div>
 </div>

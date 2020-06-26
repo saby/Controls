@@ -1,21 +1,23 @@
-import {Control, TemplateFunction} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsCells/CustomResultsCells';
 import * as resTpl from 'wml!Controls-demo/treeGrid/ResultsFromMeta/CustomResultsCells/resultCell';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    protected _header = Gadgets.getHeaderForFlat();
-    protected _columns = Gadgets.getGridColumnsForFlat().map((c, i) => ({
+    protected _viewSource: Memory;
+    protected _header: IHeader[] = Gadgets.getHeaderForFlat();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat().map((c, i) => ({
         ...c,
         result: undefined,
         resultTemplate: i === 1 ? resTpl : undefined
     }));
-    private _fullResultsIndex = 0;
+    private _fullResultsIndex: number = 0;
 
     constructor() {
         super({});

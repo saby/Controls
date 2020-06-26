@@ -25,10 +25,6 @@ html {
 }
 
 body {
-   font-family: @font-family;
-   font-size: @font-size_default;
-   color: @text-color;
-   background-color: @background-color;
    text-decoration-skip: none;
    text-decoration-skip-ink: none;
    position: relative; // Для окон, им нужен релативный контейнер относительно которого будут позиционирование
@@ -36,6 +32,13 @@ body {
    /* Better Font Rendering =========== */
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
+}
+
+.Application-body_theme-@{themeName} {
+   font-family: @font-family;
+   font-size: @font-size_default;
+   color: @text-color;
+   background-color: @background-color;
 }
 
 .bodyContent {

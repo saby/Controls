@@ -50,7 +50,19 @@ type TMarkerVisibility = 'visible'|'onactivated'|'hidden';
 type TListStyle = 'master'|'default';
 type TVerticalItemPadding = 'S'|null;
 type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|null;
-
+/**
+ * @typedef {String} TItemActionsVisibility
+ * @variant onhover Операции над записью отображаются при наведении на запись;
+ * @variant visible Операции над записью отображены изначально.
+ * @variant delayed Операции над записью отображаются при наведении на запись и удержании над ней курсора мыши в течение 500 мс.
+ */
+/*
+ * @typedef {String} TItemActionsVisibility
+ * @variant onhover ItemActions will be Initialized and displayed right after mouseenter over Item
+ * @variant visible ItemActions will be Initialized and displayed on control mount
+ * @variant delayed ItemActions will be Initialized and displayed after mouseenter with 500ms delay over Item
+ */
+type TItemActionsVisibility = 'onhover'|'delayed'|'visible';
 interface IItemPadding {
     top?: TVerticalItemPadding;
     bottom?: TVerticalItemPadding;
@@ -68,6 +80,7 @@ export interface IList {
     itemActionsPosition?: TItemActionsPosition;
     actionAlignment?: TActionAlignment;
     actionCaptionPosition?: TActionCaptionPosition;
+    itemActionsVisibility?: TItemActionsVisibility;
     itemActionVisibilityCallback?: (action: IItemAction, item) => boolean;
     itemActionsProperty?: string;
     markedKey?: string|number;
@@ -484,6 +497,21 @@ export interface IList {
  * @variant right Title will be displayed to the right of the action's icon.
  * @variant bottom Title will be displayed under the action's icon.
  * @variant none Title will not be displayed.
+ */
+
+/**
+ * @name Controls/_list/interface/IList#itemActionsVisibility
+ * @cfg {TItemActionsVisibility} Настройка способа отображения опций записи
+ * @variant onhover Операции над записью отображаются при наведении на запись;
+ * @variant visible Операции над записью отображены изначально.
+ * @variant delayed Операции над записью отображаются при наведении на запись и удержании над ней курсора мыши в течение 500 мс.
+ */
+/*
+ * @name Controls/_list/interface/IList#itemActionsVisibility
+ * @cfg {TItemActionsVisibility} Setting of ItemActions visibility
+ * @variant onhover ItemActions will be Initialized and displayed right after mouseenter over Item
+ * @variant visible ItemActions will be Initialized and displayed on control mount
+ * @variant delayed ItemActions will be Initialized and displayed after mouseenter with 500ms delay over Item
  */
 
 /**

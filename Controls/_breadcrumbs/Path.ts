@@ -5,7 +5,7 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
 
 /**
  * Хлебные крошки.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FBreadCrumbs%2FScenarios">демо-пример</a>
@@ -14,6 +14,8 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
  * @class Controls/_breadcrumbs/Path
  * @extends Core/Control
  * @mixes Controls/interface/IBreadCrumbs
+ * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
  * @control
  * @public
  * @author Авраменко А.С.
@@ -28,6 +30,8 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
  * @class Controls/_breadcrumbs/Path
  * @extends Core/Control
  * @mixes Controls/interface/IBreadCrumbs
+ * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
  * @control
  * @private
  * @author Авраменко А.С.

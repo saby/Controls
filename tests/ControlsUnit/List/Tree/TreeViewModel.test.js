@@ -787,30 +787,30 @@ define([
             tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('123', 'id')));
 
             assert.isFalse(tvm.getDragItemData().isExpanded);
-            assert.isTrue(tvm.getDragItemData().getVersion().indexOf('_LEVEL_1') !== -1);
+            assert.include(tvm.getDragItemData().getVersion(), '_LEVEL_1');
 
             tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('234', 'id')));
-            assert.isTrue(tvm.getDragItemData().getVersion().indexOf('_LEVEL_2') !== -1);
+            assert.include(tvm.getDragItemData().getVersion(), '_LEVEL_2');
          });
 
          describe('setDragTargetPosition', function() {
             var itemData, dragTargetPosition;
 
-               it('on node without prev state', function() {
-                  //move item 567
-                  tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-                  tvm.setDragEntity(dragEntity);
+            it('on node without prev state', function() {
+               //move item 567
+               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
+               tvm.setDragEntity(dragEntity);
 
-                  //move on 123
-                  itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-                  tvm.setDragTargetPosition({
-                     index: 0,
-                     position: 'on'
-                  });
-
-                  assert.equal(tvm._prevDragTargetPosition.data.key, '567');
-                  assert.equal(tvm._prevDragTargetPosition.position, 'after');
+               //move on 123
+               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
+               tvm.setDragTargetPosition({
+                  index: 0,
+                  position: 'on'
                });
+
+               assert.equal(tvm._prevDragTargetPosition.data.key, '567');
+               assert.equal(tvm._prevDragTargetPosition.position, 'after');
+            });
 
             it('on node', function() {
                //move item 567
@@ -837,6 +837,25 @@ define([
 
                assert.equal(tvm._prevDragTargetPosition.data.key, '456');
                assert.equal(tvm._prevDragTargetPosition.position, 'before');
+            });
+
+            it('data = null', function() {
+               const targetPosition = {
+                  index: 1,
+                  position: 'before',
+                  data: null
+               };
+
+               //move item 567
+               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
+               tvm.setDragEntity(dragEntity);
+
+               //move before 456
+               itemData = tvm.getItemDataByItem(tvm.getItemById('456', 'id'));
+               tvm.setDragTargetPosition(targetPosition);
+
+               // тест не упал из-за ошибок
+               assert.deepEqual(tvm.getDragTargetPosition(), targetPosition);
             });
          });
       });

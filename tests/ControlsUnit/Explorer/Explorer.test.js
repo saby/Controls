@@ -905,8 +905,6 @@ define([
          });
       });
 
-
-
       describe('EditInPlace', function() {
          it('beginEdit', function() {
             var opt = {
@@ -1122,6 +1120,187 @@ define([
             assert.equal(dragEnrArgs[0], dragEntity);
             assert.equal(dragEnrArgs[1], 'hoveredItemKey');
             assert.equal(dragEnrArgs[2], 'on');
+         });
+      });
+
+      describe('restore position navigation when going back', () => {
+         it('_private::isCursorNavigation', () => {
+            assert.isFalse(explorerMod.View._private.isCursorNavigation({}));
+            assert.isFalse(explorerMod.View._private.isCursorNavigation({}));
+            assert.isFalse(explorerMod.View._private.isCursorNavigation({
+               source: 'page'
+            }));
+
+            assert.isTrue(explorerMod.View._private.isCursorNavigation({
+               source: 'position'
+            }));
+         });
+
+         it('_private::getCursorPositionFor', () => {
+            const item = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 12,
+                  title: 'Title'
+               }
+            });
+            const navigation = {
+               sourceConfig: {
+                  field: 'id'
+               }
+            };
+
+            assert.deepEqual(
+               explorerMod.View._private.getCursorPositionFor(item, navigation),
+               [12]
+            );
+
+            navigation.sourceConfig.field = ['id'];
+            assert.deepEqual(
+               explorerMod.View._private.getCursorPositionFor(item, navigation),
+               [12]
+            );
+
+            navigation.sourceConfig.field = ['id', 'title'];
+            assert.deepEqual(
+               explorerMod.View._private.getCursorPositionFor(item, navigation),
+               [12, 'Title']
+            );
+         });
+
+         it('step front', () => {
+
+            const cfg = {
+               nodeProperty: 'type',
+               parentProperty: 'parent',
+               navigation: {
+                  source: 'position',
+                  sourceConfig: {
+                     field: ['title', 'id']
+                  }
+               }
+            };
+            const explorer = new explorerMod.View(cfg);
+            explorer.saveOptions(cfg);
+            explorer._restoredMarkedKeys = {
+               null: {
+                  markedKey: null
+               }
+            };
+
+            const mockEvent = { stopPropagation: () => {} };
+            const rootItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 1,
+                  title: 'Title1',
+                  type: true,
+                  parent: null
+               }
+            });
+            const childItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 2,
+                  title: 'Title2',
+                  type: true,
+                  parent: 1
+               }
+            });
+
+
+            explorer._onItemClick(mockEvent, rootItem);
+            explorer._onItemClick(mockEvent, childItem);
+
+            assert.deepEqual(explorer._restoredMarkedKeys, {
+               null: {
+                  markedKey: 1,
+                  cursorPosition: ['Title1', 1]
+               },
+               1: {
+                  markedKey: 2,
+                  parent: null,
+                  cursorPosition: ['Title2', 2]
+               },
+               2: {
+                  markedKey: null,
+                  parent: 1
+               }
+            });
+         });
+
+
+         it('step back', () => {
+
+            const cfg = {
+               nodeProperty: 'type',
+               parentProperty: 'parent',
+               navigation: {
+                  source: 'position',
+                  sourceConfig: {
+                     field: ['title', 'id']
+                  }
+               }
+            };
+            const explorer = new explorerMod.View(cfg);
+            explorer.saveOptions(cfg);
+            explorer._navigation = cfg.navigation;
+            explorer._restoredMarkedKeys = {
+               null: {
+                  markedKey: 1,
+                  cursorPosition: ['Title1', 1]
+               },
+               1: {
+                  markedKey: 2,
+                  parent: null,
+                  cursorPosition: ['Title2', 2]
+               },
+               2: {
+                  markedKey: null,
+                  parent: 1
+               }
+            };
+
+            const mockEvent = { stopPropagation: () => {} };
+            const rootItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 1,
+                  title: 'Title1',
+                  type: true,
+                  parent: null
+               }
+            });
+            const childItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 2,
+                  title: 'Title2',
+                  type: true,
+                  parent: 1
+               }
+            });
+            explorer._viewMode = undefined;
+            explorer._forceUpdate = () => {
+               explorer._beforeUpdate(cfg);
+            };
+
+            explorer._breadCrumbsItems = [rootItem, childItem];
+            explorerMod.View._private.backByPath(explorer);
+
+            assert.deepEqual(
+               explorer._navigation.sourceConfig.position,
+               ['Title2', 2]
+            );
+
+
+            explorer._breadCrumbsItems = [rootItem];
+            explorerMod.View._private.backByPath(explorer);
+
+            assert.deepEqual(
+               explorer._navigation.sourceConfig.position,
+               ['Title1', 1]
+            );
          });
       });
    });

@@ -5,8 +5,6 @@ import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
 // @ts-ignore
 import * as template from 'wml!Controls/_decorator/Number/Number';
 
-import {numberValue} from 'Controls/_decorator/ActualAPI';
-
 type RoundingFn = (number: string, fractionSize: number) => string;
 
 /**
@@ -22,7 +20,6 @@ export type RoundMode = 'round' | 'trunc';
  * @author Красильников А.С.
  */
 export interface INumberOptions extends IControlOptions {
-    number: number;
     /**
      * Декорируемое число.
      * @demo Controls-demo/Decorator/Number/Value/Index
@@ -54,7 +51,7 @@ export interface INumberOptions extends IControlOptions {
 /**
  * Графический контрол, декорирующий число таким образом, что оно приводится к форматируемому виду.
  * Форматом является число разбитое на триады с ограниченной дробной частью.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
@@ -83,10 +80,9 @@ class NumberDecorator extends Control<INumberOptions> {
             'fractionSize',
             'useGrouping'
         ].some((optionName: string) => {
-            // TODO: https://online.sbis.ru/opendoc.html?guid=d04dc579-2453-495f-b0a7-282370f6a9c5
             if (optionName === 'value') {
-                const currentValue = numberValue(currentOptions.number, currentOptions.value);
-                const newValue = numberValue(newOptions.number, newOptions.value);
+                const currentValue = currentOptions.value;
+                const newValue = newOptions.value;
                 return currentValue !== newValue;
             }
 
@@ -95,12 +91,12 @@ class NumberDecorator extends Control<INumberOptions> {
     }
 
     protected _beforeMount(options: INumberOptions): void {
-        this._formattedNumber = NumberDecorator._formatNumber(numberValue(options.number, options.value), options);
+        this._formattedNumber = NumberDecorator._formatNumber(options.value, options);
     }
 
     protected _beforeUpdate(newOptions: INumberOptions): void {
         if (this._needChangeFormattedNumber(newOptions)) {
-            this._formattedNumber = NumberDecorator._formatNumber(numberValue(newOptions.number, newOptions.value), newOptions);
+            this._formattedNumber = NumberDecorator._formatNumber(newOptions.value, newOptions);
         }
     }
 
@@ -149,9 +145,8 @@ class NumberDecorator extends Control<INumberOptions> {
 
     static getOptionTypes() {
         return {
-            useGrouping: descriptor(Boolean)/*,
-            TODO: https://online.sbis.ru/opendoc.html?guid=d04dc579-2453-495f-b0a7-282370f6a9c5
-            value: descriptor(String, Number, null).required()*/,
+            useGrouping: descriptor(Boolean),
+            value: descriptor(String, Number, null).required(),
             fractionSize: descriptor(Number),
             roundMode: descriptor(String).oneOf([
                 'trunc',

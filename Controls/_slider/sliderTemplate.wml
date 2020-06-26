@@ -19,7 +19,9 @@
                     name="{{point.name}}"
                     style="left:{{point.position}}%;">
                   <ws:if data="{{point.name=='tooltip' && _options.tooltipVisible && !_options.readOnly && (_tooltipValue || _tooltipValue==0)}}">
-                     <div class="controls-Slider__tooltipValue controls-Slider__tooltipValue_theme-{{_options.theme}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_tooltipValue_theme-{{_options.theme}}">{{_tooltipValue}}</div>
+                     <div class="controls-Slider__tooltipValue controls-Slider__tooltipValue_theme-{{_options.theme}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_tooltipValue_theme-{{_options.theme}}">
+                        {{_tooltipValue}}
+                     </div>
                   </ws:if>
                </div>
             </ws:if>
@@ -40,6 +42,16 @@
                              controls-Slider__line__full controls-Slider__line__full{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}"
                     style="left:{{_lineData.position}}%; width:{{_lineData.width}}%;">
                </div>
+               <ws:if data="{{_options.intervals}}">
+                  <ws:for data="key, interval in _intervals">
+                     <div
+                             class="controls-Slider__interval
+                                    controls-Slider__interval_{{interval.color}}_theme-{{_options.theme}}
+                                    controls-Slider__interval_{{_options.size=='m' ? 'big' : 'small'}}_theme-{{_options.theme}}"
+                             style="left:{{interval.left}}%; width:{{interval.width}}%;">
+                     </div>
+                  </ws:for>
+               </ws:if>
             </div>
          </Controls.dragnDrop:Container>
       </div>

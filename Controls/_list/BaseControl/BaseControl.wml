@@ -100,8 +100,7 @@
         <div name="topLoadTrigger"></div>
         <Controls.validate:Controller name="formController">
             <ws:partial
-                    attr:class="{{_itemActionsMenuId !== null ? 'controls-itemActionsV_invisible'}}
-                    controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
+                    attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                     name="{{name}}"
                     template="{{ _options.content }}"
                     scope="{{_options}}"
@@ -141,7 +140,7 @@
                 >
                 <ws:itemActionsTemplate>
                     <ws:partial
-                            template="{{ _itemActionsTemplate }}"
+                            template="{{_itemActionsTemplate}}"
                             scope="{{ _listViewModel.getActionsTemplateConfig() }}"
                             useNewModel="{{ _options.useNewModel }}"/>
                 </ws:itemActionsTemplate>
@@ -207,7 +206,8 @@
 
             <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="up" loadingIndicatorState="up" attr:style="display: none;"/>
 
-            <ws:partial template="fullView" name="listView" attr:class="{{(_showActions || _options.useNewModel) ? 'controls-BaseControl_showActions'}}"/>
+            <ws:partial template="fullView" name="listView"
+                        attr:class="{{_isVisibleItemActions(_showActions, _itemActionsMenuId) ? 'controls-BaseControl_showActions controls-BaseControl_showActions_' + _options.itemActionsVisibility}}"/>
 
             <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="down" loadingIndicatorState="down" attr:style="display: none;"/>
         </ws:if>
@@ -232,6 +232,7 @@
             <div class="controls-BaseControl__pagingContainer {{_options.task1179362156 ? 'controls-BaseControl-hide-paging'}}">
                 <Controls.paging:Paging
                     attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
+                    contrastBackground="{{true}}"
                     scope="{{_pagingCfg}}"
                     showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
                     on:onArrowClick="__onPagingArrowClick()" />

@@ -2,9 +2,36 @@ import * as CntTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/conte
 import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto/contentTwoLvl';
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
-export const Gadgets = {
+import { IHeader } from 'Controls-demo/types';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
-    getDeepSet() {
+interface IData {
+   id: number,
+   parent?: null | number,
+   'parent@'?: null | Boolean,
+   title: string,
+   Раздел?: null | number,
+   'Раздел@'?: null | boolean,
+   Раздел$?: null | boolean,
+   hasChild?: boolean,
+   rating?: number | string,
+   country?: string,
+   type?: boolean | null,
+   photo?: string,
+   modelId?: string,
+   size?: string,
+   year?: string,
+   note?: string,
+   nodeType?: boolean | null
+}
+
+interface IResults {
+    full: Array<{ rating: number, price: number }>;
+    partial: number[];
+}
+
+export const Gadgets = {
+    getDeepSet(): IData[] {
         return [
             {
                 id: 1, title: 'Node', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true, rating: 1, country: 'Russia',
@@ -39,7 +66,7 @@ export const Gadgets = {
         ];
     },
 
-    getDataSet() {
+    getDataSet(): IData[] {
         return [
             {
                 id: 1, title: 'Node', Раздел: null, 'Раздел@': true, Раздел$: null, hasChild: true
@@ -68,7 +95,7 @@ export const Gadgets = {
         ];
     },
 
-    getFlatData() {
+    getFlatData(): IData[] {
         return [
             {
                 id: 1,
@@ -306,7 +333,7 @@ export const Gadgets = {
         ];
     },
 
-    getDataTwoLvl: function() {
+    getDataTwoLvl: function(): IData[] {
         return [
             {
                 id: 1, title: 'Apple', 'Раздел': null, 'Раздел@': true, photo: explorerImages[1], rating: '9.5',
@@ -355,7 +382,7 @@ export const Gadgets = {
         ];
     },
 
-    getResults() {
+    getResults(): IResults {
         return {
             full: [
                 {
@@ -377,14 +404,15 @@ export const Gadgets = {
         };
     },
 
-    getColumnsForFlat() {
+    getColumnsForFlat(): IColumn[] {
         return [
             {
-                displayProperty: 'title'
+                displayProperty: 'title',
+                width: ''
             }
         ];
     },
-    getColumnsForColumnScroll() {
+    getColumnsForColumnScroll(): IColumn[] {
         return [
             {
                 displayProperty: 'id',
@@ -416,7 +444,7 @@ export const Gadgets = {
             }
         ];
     },
-    getHeaderForColumnScroll() {
+    getHeaderForColumnScroll(): IHeader[] {
         return [
             {
                 title: '#'
@@ -441,49 +469,58 @@ export const Gadgets = {
             }
         ];
     },
-    getGridColumnsForFlat() {
+    getGridColumnsForFlat(): IColumn[] {
         return [
             {
-                displayProperty: 'title'
+                displayProperty: 'title',
+                width: ''
             },
             {
-                displayProperty: 'rating'
+                displayProperty: 'rating',
+                width: ''
             },
             {
-                displayProperty: 'country'
+                displayProperty: 'country',
+                width: ''
             }
         ];
     },
-    getGridColumnsWithPhoto() {
+    getGridColumnsWithPhoto(): IColumn[] {
         return [
             {
                 displayProperty: 'title',
-                template: CntTpl
+                template: CntTpl,
+                width: ''
             },
             {
-                displayProperty: 'rating'
+                displayProperty: 'rating',
+                width: ''
             },
             {
-                displayProperty: 'country'
+                displayProperty: 'country',
+                width: ''
             }
         ]
     },
-    getGridTwoLevelColumnsWithPhoto() {
+    getGridTwoLevelColumnsWithPhoto(): IColumn[] {
         return [
             {
                 displayProperty: 'title',
-                template: CntTwoLvlTpl
+                template: CntTwoLvlTpl,
+                width: ''
             },
             {
-                displayProperty: 'rating'
+                displayProperty: 'rating',
+                width: ''
             },
             {
-                displayProperty: 'country'
+                displayProperty: 'country',
+                width: ''
             }
         ]
     },
 
-    getCellPaddingHeader: () => {
+    getCellPaddingHeader: (): IHeader[] => {
         return [
             {
                 title: 'cellPadding: right: S',
@@ -497,27 +534,30 @@ export const Gadgets = {
         ];
     },
 
-    getGridColumnsWithCellPadding() {
+    getGridColumnsWithCellPadding(): IColumn[] {
         return [
             {
                 displayProperty: 'title',
                 cellPadding: {
-                    right: 's'
-                }
+                    right: 'S'
+                },
+                width: ''
             },
             {
                 displayProperty: 'rating',
                 cellPadding: {
-                    left: 's',
+                    left: 'S',
                     right: 'null'
-                }
+                },
+                width: ''
             },
             {
                 displayProperty: 'country',
+                width: ''
             }
         ];
     },
-    getColumnsWithFixedWidth() {
+    getColumnsWithFixedWidth(): IColumn[] {
         return [
             {
                 displayProperty: 'title',
@@ -533,7 +573,7 @@ export const Gadgets = {
             }
         ];
     },
-    getHeaderForFlat() {
+    getHeaderForFlat(): IHeader[] {
         return [
             {
                 title: 'Наименование'
@@ -546,7 +586,7 @@ export const Gadgets = {
             }
         ];
     },
-    getLongHeader: () => [
+    getLongHeader: (): IHeader[] => [
         {
             title: 'Население страны по данным на 2018г - 2019г.'
         },
@@ -557,7 +597,7 @@ export const Gadgets = {
             title: 'Плотность населения чел/км2'
         }
     ],
-    getMultiHeader: () => [
+    getMultiHeader: (): IHeader[] => [
         {
             title: 'Название',
             startRow: 1,
@@ -633,11 +673,12 @@ export const VirtualScrollHasMore = {
 
         return result.sort((a, b) => a.id > b.id ? 1 : -1);
     },
-    getColumns: () => ([{
-        displayProperty: 'title'
+    getColumns: (): IColumn[] => ([{
+        displayProperty: 'title',
+        width: ''
     }]),
 
-    getDataForVirtual: () => [
+    getDataForVirtual: (): IData[] => [
         {
             id: 1,
             title: 'Apple',
@@ -1360,10 +1401,11 @@ export const VirtualScrollHasMore = {
 };
 
 export const DeepInside = {
-    getColumns: () => ([{
-        displayProperty: 'title'
+    getColumns: (): IColumn[] => ([{
+        displayProperty: 'title',
+        width: ''
     }]),
-    getData: () => ([
+    getData: (): IData[] => ([
         { id: 1, title: 'Узел 1', parent: null, nodeType: true },
         { id: 11, title: 'Узел 1-1', parent: 1, nodeType: true },
         { id: 111, title: 'Узел 1-1-1', parent: 11, nodeType: true },

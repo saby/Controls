@@ -1,13 +1,20 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/VirtualScroll/ConstantHeights/SmallDialog/SmallDialog"
-import {Memory} from "Types/source"
-import {generateData} from "../../../DemoHelpers/DataCatalog"
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/VirtualScroll/ConstantHeights/SmallDialog/SmallDialog';
+import {Memory} from 'Types/source';
+import {generateData} from '../../../DemoHelpers/DataCatalog';
+
+interface IItem {
+    title: string,
+    id: number,
+    keyProperty: string,
+    count: number,
+}
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
 
-    private dataArray = generateData({
+    private dataArray: Array<IItem> = generateData({
         keyProperty: 'id',
         count: 1000,
         beforeCreateItemCallback: item => {
@@ -15,7 +22,7 @@ export default class extends Control {
         }
     });
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: this.dataArray

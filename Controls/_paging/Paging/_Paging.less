@@ -3,8 +3,11 @@
    justify-content: flex-end;
 }
 
-.controls-Paging__wrapper_theme-@{themeName} {
+.controls-Paging__same_theme-@{themeName} {
    background-color: @background-color_paging;
+}
+
+.controls-Paging__wrapper_theme-@{themeName} {
    padding: @padding-vertical_paging 0;
 }
 
@@ -27,11 +30,11 @@
 }
 
 .controls-Paging__btn_first_theme-@{themeName} {
-  margin-left: @padding-horizontal_paging;
+   margin-left: @padding-horizontal_paging;
 }
 
 .controls-Paging__btn_last_theme-@{themeName} {
-  margin-right: @padding-horizontal_paging;
+   margin-right: @padding-horizontal_paging;
 }
 
 .controls-Paging__digitButtons {
@@ -61,4 +64,57 @@
    font-family: @arrow_icon_font-family_paging;
    font-size: @arrow_icon-size_paging;
    font-style: normal;
+}
+
+.controls-Paging__contrast_theme-@{themeName} {
+   border-radius: @border-radius_ToolbarBox;
+   background-color: @background-color_ToolbarBox;
+   box-shadow: @box-shadow_ToolbarBox;
+}
+
+.controls-Paging_icon-Begin_digits_theme-@{themeName}::before {
+   content: @digits_arrow_begin_icon_content_paging;
+}
+
+.controls-Paging_icon-Prev_digits_theme-@{themeName}::before {
+   content: @digits_arrow_prev_icon_content_paging;
+}
+
+.controls-Paging_icon-Next_digits_theme-@{themeName}::before {
+   content: @digits_arrow_next_icon_content_paging;
+}
+
+.controls-Paging_icon-End_digits_theme-@{themeName}::before {
+   content: @digits_arrow_end_icon_content_paging;
+}
+
+.controls-Paging_icon-Begin_theme-@{themeName}::before {
+   content: @arrow_begin_icon_content_paging;
+}
+
+.controls-Paging_icon-Prev_theme-@{themeName}::before {
+   content: @arrow_prev_icon_content_paging;
+}
+
+.controls-Paging_icon-Next_theme-@{themeName}::before {
+   content: @arrow_next_icon_content_paging;
+}
+
+.controls-Paging_icon-End_theme-@{themeName}::before {
+   content: @arrow_end_icon_content_paging;
+}
+
+.controls-Paging__btn_separated_theme-@{themeName} {
+   position: relative;
+}
+
+.controls-Paging__btn_separated_theme-@{themeName}::before {
+   pointer-events: none;
+   position: absolute;
+   height: @arrow_separator_length_paging;
+   width: @arrow_separator_thickness_paging;
+   background: @arrow_separator_color_paging;
+   content: '';
+   top: (@item_height_paging - @arrow_separator_length_paging) / 2;
+   left: -@arrow_separator_thickness_paging;
 }

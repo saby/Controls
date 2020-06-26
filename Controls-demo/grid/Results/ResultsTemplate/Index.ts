@@ -1,6 +1,6 @@
-import {Control, TemplateFunction} from "UI/Base"
+import {Control, TemplateFunction} from 'UI/Base'
 import * as Template from "wml!Controls-demo/grid/Results/ResultsTemplate/ResultsTemplate"
-import {Memory} from "Types/source"
+import {Memory} from 'Types/source'
 import {getCountriesStats} from "../../DemoHelpers/DataCatalog"
 
 

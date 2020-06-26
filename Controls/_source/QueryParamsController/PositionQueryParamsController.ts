@@ -1,7 +1,7 @@
 import {QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
-import {IAdditionalQueryParams, Direction} from '../interface/IAdditionalQueryParams';
+import {IAdditionalQueryParams, Direction} from 'Controls/_interface/IAdditionalQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Logger} from 'UI/Utils';
 import {CursorDirection} from 'Controls/Constants';

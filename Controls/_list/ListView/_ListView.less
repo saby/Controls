@@ -47,7 +47,7 @@
 .controls-ListView__item_default-topPadding_s_theme-@{themeName},
 .controls-ListView__item_master-topPadding_s_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-s_theme-@{themeName} {
-   padding-top: @item_padding-top_s_list;
+   padding-top: @item_padding-top_s_list + @item-separator_s_thickness_list;
 }
 
 .controls-ListView__item_default-topPadding_l_theme-@{themeName},
@@ -201,13 +201,10 @@
 
 .controls-ListView__item_editing_theme-@{themeName} {
    background-color: @item_editing_background-color_list;
-   > .controls-itemActionsV {
-      display: inline-block;
-      opacity: 1;
-   }
+   > .controls-itemActionsV,
    .controls-itemActionsV_custom_theme-@{themeName} {
-      display: inline-block;
       opacity: 1;
+      visibility: visible;
    }
 }
 
@@ -215,23 +212,35 @@
    opacity: @item_dragging_opacity_list;
 }
 
-.ws-is-hover .controls-BaseControl_showActions {
+.controls-BaseControl_showActions_visible {
    .controls-ListView__item_showActions {
-      &:hover {
-         > .controls-itemActionsV {
-            display: inline-block;
-            opacity: 1;
-         }
-         .controls-itemActionsV_custom_theme-@{themeName} {
-            display: inline-block;
-            opacity: 1;
-         }
+      .controls-itemActionsV_custom_theme-@{themeName},
+      > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
       }
    }
-   .controls-ListView__item_highlightOnHover_editing {
-      &:hover {
-         background-color: @item_editing_background-color_list;
+}
+
+.ws-is-hover .controls-BaseControl_showActions_delayed {
+   .controls-ListView__item_showActions:hover {
+      .controls-itemActionsV_custom_theme-@{themeName},
+      > .controls-itemActionsV {
+         transition: opacity 500ms step-end;
       }
+   }
+}
+.ws-is-hover .controls-BaseControl_showActions_delayed,
+.ws-is-hover .controls-BaseControl_showActions_onhover {
+   .controls-ListView__item_showActions:hover {
+      .controls-itemActionsV_custom_theme-@{themeName},
+      > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
+      }
+   }
+   .controls-ListView__item_highlightOnHover_editing:hover {
+      background-color: @item_editing_background-color_list;
    }
 }
 
@@ -260,10 +269,13 @@
    margin-left: @grouping_expander_padding-right_list;
 }
 
+.controls-ListView__groupContent-text_default_theme-@{themeName} {
+   font-size: @grouping_expander_font-size_list;
+}
+
 .controls-ListView__groupContent-text_theme-@{themeName} {
    display: inline-block;
    color: @grouping_expander_text-color_list;
-   font-size: @grouping_expander_font-size_list;
    white-space: nowrap;
    text-align: center;
    flex-shrink: 1;
@@ -277,17 +289,32 @@
 }
 
 .controls-ListView__groupExpander_left_theme-@{themeName}::before {
-   width: @grouping_expander_icon-size_list;
-   font-size: @grouping_expander_icon-size_list;
    padding-right: @grouping_expander_icon_offset_list;
    content: '\e000';
 }
 
 .controls-ListView__groupExpander_right_theme-@{themeName}::after {
-   width: @grouping_expander_icon-size_list;
-   font-size: @grouping_expander_icon-size_list;
    padding-left: @grouping_expander_icon_offset_list;
    content: '\e000';
+}
+
+.controls-ListView__groupExpander-iconSize_default_theme-@{themeName} {
+   &::before,
+   &::after {
+      width: @grouping_expander_icon-size_list;
+      font-size: @grouping_expander_icon-size_list;
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_ {
+   @variants: 2xs, xs, s, m, l;
+   .for(@variants, { &@{_item}_theme-@{themeName} {
+      &::before,
+      &::after {
+         width: ~"@{grouping_expander_icon-size-@{_item}_list}";
+         font-size: ~"@{grouping_expander_icon-size-@{_item}_list}";
+      }
+   }});
 }
 
 .ws-is-hover .controls-ListView__groupExpander_theme-@{themeName}:hover {
@@ -416,9 +443,6 @@
    }
 }
 
-// TODO После https://online.sbis.ru/opendoc.html?guid=83aacafa-5b11-4615-9424-46d724b3793e
-//  вернуть как было в задаче https://online.sbis.ru/opendoc.html?guid=ecf7bb3e-a806-4477-9efa-dfc176195197
-.controls-background-masterClassic_theme-@{themeName}.controls-ListView__item__marked_masterClassic_theme-@{themeName},
 .controls-ListView__item__marked_masterClassic_theme-@{themeName} {
    background-color: @masterClassic_item_selected_background-color_list;
 }
@@ -476,7 +500,7 @@
 
 .controls-ListView__itemV_marker_master_theme-@{themeName}:before {
    content: '\200b';
-   font-size: @item_font-size_2xl_grid;
+   font-size: @master-marker_fontSize_list;
 }
 
 .controls-ListView__itemV_marker_master_theme-@{themeName}:after {

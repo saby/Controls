@@ -2,7 +2,7 @@ import { Control, TemplateFunction } from 'UI/Base';
 import template = require('wml!Controls-demo/list_new/ColumnsView/CustomTemplate/CustomTemplate');
 import {Memory as MemorySource, Memory} from 'Types/source';
 import {generateData} from '../../DemoHelpers/DataCatalog';
-import {ListItems} from 'Controls/dragnDrop';
+import {RecordSet} from 'Types/collection';
 
 const NUMBER_OF_ITEMS = 50;
 
@@ -15,17 +15,16 @@ export default class RenderDemo extends Control {
 
     protected _itemActions: [object];
 
-    protected _items: [object];
+    protected _items: RecordSet;
 
     private _dataArray: Array<{id: number, title: string, description: string}>;
 
-    private deleteHandler(item) {
+    private deleteHandler(item): void {
         const id = item.getId();
         const index = this._items.getIndex(item);
-       // this._viewSource.destroy(id);
         this._items.removeAt(index);
     }
-    private _itemsReadyCallback(items): void {
+    private _itemsReadyCallback(items: RecordSet): void {
         this._items = items;
     }
     protected _beforeMount(): void {

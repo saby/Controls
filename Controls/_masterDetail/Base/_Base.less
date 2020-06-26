@@ -82,13 +82,22 @@
    z-index: 9999;
 }
 
-// Класс для установки фона контрола через backgroundStyle (master)
+// Класс для установки фона контрола через backgroundStyle (master/masterClassic)
+// применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
 .controls-background-master_theme-@{themeName} {
    background-color: @master_item_background-color_list;
 }
 
 .controls-background-masterClassic_theme-@{themeName} {
    background-color: @master_item_background-color_list;
+}
+
+// данный стиль применяется к выбранной строке мастера, когда она застикана
+// он нужен потому, что в случае мастера строка прозрачная, а в застиканном виде надо проставить фон
+// В случае мастерКлассик фон задается у самой строки.
+// При изменении требований к внешнему виду класс может стать ненужным
+.controls-background-master_sticked_theme-@{themeName} {
+   background-color: @master_item_selected_background-color_list;
 }
 
 // Класс для установки фона контрола через backgroundStyle (detail)

@@ -58,17 +58,15 @@
  */
 
 /**
- * @name Controls/_explorer/interface/IExplorer#backButtonStyle
- * @cfg {String} Стиль отображения кнопки "Назад".
- * @default secondary
- * @see Controls/_heading/Back#style
+ * @name Controls/_explorer/interface/IExplorer#backButtonIconStyle
+ * @cfg {String} Стиль отображения иконки кнопки "Назад".
+ * @see Controls/_heading/Back#iconStyle
  */
 
-/*
- * @name Controls/_explorer/interface/IExplorer#backButtonStyle
- * @cfg {String} Back heading display style.
- * @default secondary
- * @see Controls/_heading/Back#style
+/**
+ * @name Controls/_explorer/interface/IExplorer#backButtonFontColorStyle
+ * @cfg {String} Стиль цвета кнопки "Назад".
+ * @see Controls/_heading/Back#fontColorStyle
  */
 
 /**

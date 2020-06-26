@@ -1,14 +1,13 @@
-<div class="controls-BaseControl controls-BaseControl_showActions controls-BaseControl__renderContainer">
+<div class="controls-BaseControl
+   {{!_isVisibleItemActions(itemActionsMenuId) ? 'controls-BaseControl_showActions controls-BaseControl_showActions_' + _options.itemActionsVisibility}}'
+   controls-BaseControl__renderContainer">
    <ws:partial
-      attr:class="{{_itemActionsMenuId !== null ? 'controls-itemActionsV_invisible'}}"
       name="renderer"
       template="{{ _options.render }}"
       listModel="{{ _collection }}"
       scope="{{ _options }}"
-
-      on:mouseenter="_onRenderMouseEnter()"
       on:touchstart="_onRenderTouchStart()"
-
+      on:mouseenter="_onRenderMouseEnter()"
       on:itemClick="_onItemClick()"
       on:itemSwipe="_onItemSwipe()"
       on:closeSwipe="_onCloseSwipe()"

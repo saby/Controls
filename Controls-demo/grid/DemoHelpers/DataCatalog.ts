@@ -18,12 +18,58 @@ import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScro
 import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 import * as dragScrollPopulationCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/populationCell';
 
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
+
+interface IData {
+    id: number;
+    number?: number;
+    country?: string;
+    capital?: string;
+    population?: number;
+    square?: number;
+    populationDensity?: number;
+    date?: string;
+    time?: string;
+    name?: string;
+    message?: string;
+    photo?: string;
+    state?: string;
+    fullName?: string;
+    invoice?: number,
+    documentSign?: number,
+    documentNum?: number,
+    taxBase?: number,
+    document?: string,
+    documentDate?: null | string,
+    serviceContract?: null | string,
+    description?: string,
+    shipper?: null | string
+}
+
+export interface IColumnRes extends IColumn {
+    result?: number;
+    results?: number;
+}
+
+interface IResults {
+    full: Array<{ population: number, square: number, populationDensity: number }>;
+    partial: number[];
+}
+
+interface IImages {
+    dogadkin: string
+    kesareva: string
+    korbyt: string
+    krainov: string
+    baturina: string
+}
 
 const resultCellTpl = numberResultTpl;
 
 function getCountriesStats() {
     return {
-        getData: () => [
+        getData: (): IData[] => [
             {
                 id: 0,
                 number: 1,
@@ -196,7 +242,7 @@ function getCountriesStats() {
                 populationDensity: 21.73
             }
         ],
-        getColumnsForVirtual: () => [
+        getColumnsForVirtual: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -211,27 +257,33 @@ function getCountriesStats() {
             },
         ],
 
-        getColumnsWithoutWidths: () => [
+        getColumnsWithoutWidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
+                width: ''
             },
             {
                 displayProperty: 'country',
+                width: ''
             },
             {
                 displayProperty: 'capital',
+                width: ''
             },
             {
                 displayProperty: 'population',
+                width: ''
             },
             {
                 displayProperty: 'square',
+                width: ''
             },
             {
                 displayProperty: 'populationDensity',
+                width: ''
             }
         ],
-        getColumnsForLoad: () => [
+        getColumnsForLoad: (): IColumn[] => [
             {
                 displayProperty: 'id',
                 width: '50px',
@@ -242,7 +294,7 @@ function getCountriesStats() {
             },
 
         ],
-        getColumnsWithFixedWidths: () => [
+        getColumnsWithFixedWidths: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: '30px'
@@ -268,7 +320,7 @@ function getCountriesStats() {
                 width: '120px'
             }
         ],
-        getColumnsWithWidthsForSortingDemo: () => [
+        getColumnsWithWidthsForSortingDemo: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
                 width: '40px',
@@ -297,7 +349,7 @@ function getCountriesStats() {
                 align: 'right'
             }
         ],
-        getColumnsWithWidths: () => [
+        getColumnsWithWidths: (): IColumnRes[] => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -333,7 +385,7 @@ function getCountriesStats() {
                 compatibleWidth: '175px'
             }
         ],
-        getColumnsForDragScrolling: () => ([
+        getColumnsForDragScrolling: (): IColumn[] => ([
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -369,7 +421,7 @@ function getCountriesStats() {
                 compatibleWidth: '175px'
             }
         ]),
-        getResults: () => ({
+        getResults: (): IResults => ({
             full: [
                 {
                     population: 3660205559.49,
@@ -389,7 +441,7 @@ function getCountriesStats() {
             ],
             partial: [12345678910, 23456789101, 34567891012]
         }),
-        getColumnsWithAlign: () => [
+        getColumnsWithAlign: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: '40px',
@@ -421,7 +473,7 @@ function getCountriesStats() {
                 compatibleWidth: '60px'
             }
         ],
-        getColumnsWithValign: () => [
+        getColumnsWithValign: (): any => [
             {
                 displayProperty: 'number',
                 width: '40px',
@@ -442,7 +494,7 @@ function getCountriesStats() {
                 width: '150px'
             }
         ],
-        getDefaultHeader: () => [
+        getDefaultHeader: (): IHeader[] => [
             {
                 title: '#'
             },
@@ -462,7 +514,7 @@ function getCountriesStats() {
                 title: 'Плотность населения чел/км2'
             }
         ],
-        getLongHeader: (textOverflow) => [
+        getLongHeader: (textOverflow): IHeader[] => [
             {
                 title: '#'
             },
@@ -486,7 +538,7 @@ function getCountriesStats() {
                 textOverflow: textOverflow
             }
         ],
-        getMultiHeader: () => [
+        getMultiHeader: (): IHeader[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -546,7 +598,7 @@ function getCountriesStats() {
                 endColumn: 7
             }
         ],
-        getMultiHeaderForDragScrolling: () => [
+        getMultiHeaderForDragScrolling: (): IHeader[] => [
             {
                 title: '#',
                 startRow: 1,
@@ -614,7 +666,7 @@ function getCountriesStats() {
             }
         ],
 
-        getMultiHeaderVar2: () => [
+        getMultiHeaderVar2: (): IHeader[] => [
             {
                 title: 'Географические характеристики стран',
                 startRow: 1,
@@ -659,7 +711,7 @@ function getCountriesStats() {
                 endColumn: 6
             }
         ],
-        getHeaderWithSorting: (textOverflow) => [
+        getHeaderWithSorting: (textOverflow): IHeader[] => [
             {
                 title: '#'
             },
@@ -689,7 +741,7 @@ function getCountriesStats() {
                 align: 'right'
             }
         ],
-        getColumnsWithTemplate: () => [
+        getColumnsWithTemplate: (): IColumn[] => [
             {
                 displayProperty: 'number',
                 width: 'max-content',
@@ -723,7 +775,7 @@ function getCountriesStats() {
 
 function getMultilineLadder() {
     return {
-        getData: () => [
+        getData: (): IData[] => [
             {
                 id: 1,
                 date: '01 мая',
@@ -809,7 +861,7 @@ function getMultilineLadder() {
                 name: 'Колесов В.'
             }
         ],
-        getColumns: () => [
+        getColumns: (): any => [
             {
                 template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderMultilineDateTime',
                 width: '125px',
@@ -825,7 +877,7 @@ function getMultilineLadder() {
 
 function getTasks() {
     return {
-        getData: () => [
+        getData: (): IData[] => [
             {
                 id: 1,
                 message: 'Регламент: Ошибка в разработку. Автор: Дубенец Д.А. Описание: (reg-chrome-presto) 3.18.150 controls - Поехала верстка кнопок когда они задизейблены prestocarry',
@@ -923,7 +975,7 @@ function getTasks() {
                 state: 'Выполнение'
             }
         ],
-        getColumns: () => [
+        getColumns: (): IColumn[] | any => [
             {
                 template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto',
                 width: '98px'
@@ -937,7 +989,7 @@ function getTasks() {
                 width: '200px'
             }
         ],
-        getDefaultColumns: () => [
+        getDefaultColumns: (): IColumn[] => [
             {
                 displayProperty: 'id',
                 width: '30px'
@@ -951,7 +1003,7 @@ function getTasks() {
                 width: '100px'
             }
         ],
-        getDefaultWithEditingColumns: () => [
+        getDefaultWithEditingColumns: (): IColumn[] | any => [
             {
                 displayProperty: 'id',
                 width: '30px',
@@ -970,7 +1022,7 @@ function getTasks() {
     }
 }
 
-function getImages() {
+function getImages(): IImages {
     return {
         dogadkin: constants.resourceRoot + 'Controls-demo/grid/resources/images/dogadkin.png',
         kesareva: constants.resourceRoot + 'Controls-demo/grid/resources/images/kesareva.png',
@@ -982,7 +1034,7 @@ function getImages() {
 
 function getPorts() {
     return {
-        getData: () => [
+        getData: (): IData[] => [
             {
                 id: 1,
                 name: 'Новороссийский морской торговый порт',
@@ -1023,7 +1075,7 @@ function getPorts() {
                 shipper: null
             }
         ],
-        getColumns: () => [
+        getColumns: (): IColumn[] => [
             {
                 width: '100px',
                 displayProperty: 'invoice'
@@ -1045,7 +1097,7 @@ function getPorts() {
                 displayProperty: 'taxBase'
             }
         ],
-        getDocumentSigns: () => [
+        getDocumentSigns: (): Array<{ id: number, title: string }> => [
             {
                 id: 1,
                 title: 'ТД предусмотрено'
@@ -1058,9 +1110,26 @@ function getPorts() {
     }
 }
 
+interface IEditingData {
+    id: number | string
+    title?: string
+    description?: string
+    price?: string
+    balance?: string
+    balanceCostSumm?: string
+    reserve?: string
+    costPrice?: string
+    email?: string
+    required?: string
+    length?: string
+    documentSign?: number,
+    taxBase?: number,
+    document?: string
+}
+
 function getEditing() {
     return {
-        getEditingData: () => [
+        getEditingData: (): IEditingData[] => [
             {
                 id: 1,
                 title: 'Время',
@@ -1092,7 +1161,7 @@ function getEditing() {
                 costPrice: '3'
             }
         ],
-        getEditingValidationData: () => [
+        getEditingValidationData: (): IEditingData[] => [
             {
                 id: '1',
                 email: 'semen@gmail.com',
@@ -1112,7 +1181,7 @@ function getEditing() {
                 length: 'hello',
             }
         ],
-        getEditingColumns: () => [
+        getEditingColumns: (): any => [
             {
                 displayProperty: 'title',
                 width: '200px',
@@ -1152,7 +1221,7 @@ function getEditing() {
                 results: 6
             }
         ],
-        getEditingColumnsValidation: () => [
+        getEditingColumnsValidation: (): any => [
             {
                 displayProperty: 'email',
                 width: '200px',
@@ -1169,7 +1238,7 @@ function getEditing() {
                 template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate',
             },
         ],
-        getEditingHeaderValidations: () => [
+        getEditingHeaderValidations: (): IHeader[] => [
             {
                 title: 'email'
             },
@@ -1180,7 +1249,7 @@ function getEditing() {
                 title: 'Length'
             },
         ],
-        getDecoratedEditingData: () => [
+        getDecoratedEditingData: (): IEditingData[] => [
             {
                 id: 1,
                 title: 'Новороссийский морской торговый порт',
@@ -1203,13 +1272,13 @@ function getEditing() {
                 document: '456990005'
             }
         ],
-        getDecoratedEditingHeader: () => [
+        getDecoratedEditingHeader: (): IHeader[] => [
             { title: 'Порт прибытия' },
             { title: 'Цена по накладной' },
             { title: 'Номер накладной' },
             { title: 'Код накладной' },
         ],
-        getDecoratedEditingColumns: () => [
+        getDecoratedEditingColumns: (): IColumn[] => [
             {
                 displayProperty: 'title',
                 width: '300px',
@@ -1234,9 +1303,19 @@ function getEditing() {
     };
 }
 
+interface IDataForShow {
+    id: number
+    px: string
+    fr1of3:string
+    fr2of3: string
+    minMax: string
+    auto: string
+    maxContent: string
+}
+
 function forShowWidths() {
     return {
-        getData() {
+        getData(): IDataForShow[] {
             return [
                 {
                     id: 1,
@@ -1258,7 +1337,7 @@ function forShowWidths() {
                 }
             ]
         },
-        getHeader() {
+        getHeader(): IHeader[] {
             return [
                 {
                     title: '150px'
@@ -1280,7 +1359,7 @@ function forShowWidths() {
                 }
             ]
         },
-        getColumns1() {
+        getColumns1(): IColumn[] {
             return [
                 {
                     displayProperty: 'px',
@@ -1316,14 +1395,24 @@ function forShowWidths() {
     }
 }
 
+interface IDataForPadding {
+    id: number,
+    number: string,
+    country: string,
+    capital: string,
+    population: number,
+    square: number,
+    populationDensity: number
+}
+
 const cellPadding = () => ({
-    getCollumns: () => ([
+    getCollumns: (): any => ([
         {
             displayProperty: 'number',
             width: '100px',
             template: itemCountr,
             cellPadding: {
-                right: 's'
+                right: 's',
             }
         },
         {
@@ -1340,7 +1429,7 @@ const cellPadding = () => ({
             width: '100px'
         },
     ]),
-    getData: () => ([
+    getData: (): IDataForPadding[] => ([
         {
             id: 0,
             number: 'Russian Federation',
@@ -1387,7 +1476,7 @@ const cellPadding = () => ({
             populationDensity: 21.86
         }
     ]),
-    getCellPaddingHeader: () => {
+    getCellPaddingHeader: (): IHeader[] => {
         return [
             {
                 title: 'right: S',
@@ -1402,49 +1491,63 @@ const cellPadding = () => ({
     }
 })
 
-const DragNDrop = () => ({
+interface IDndData {
+    id: number,
+    title: string,
+    additional: string,
+    image: string,
+    'Раздел@': boolean,
+    Раздел: null | boolean
+}
+
+interface IForDnD {
+  data: IDndData[]
+  columns: IColumn[]
+}
+
+const DragNDrop = (): IForDnD => ({
     data: [{
         id: 0,
         title: 'America',
         additional: 'USA',
         image: Images[0],
         'Раздел@': true,
-        'Раздел': null
+        Раздел: null
     }, {
         id: 1,
         title: 'France',
         additional: 'Europe',
         image: Images[1],
         'Раздел@': true,
-        'Раздел': null
+        Раздел: null
     }, {
         id: 2,
         title: 'Solar',
         additional: 'Star',
         image: Images[2],
         'Раздел@': true,
-        'Раздел': null
+        Раздел: null
     }, {
         id: 3,
         title: 'Luna',
         additional: 'Sattelite',
         image: Images[3],
         'Раздел@': null,
-        'Раздел': null
+        Раздел: null
     }, {
         id: 4,
         title: 'Pizza',
         additional: 'Food',
         image: Images[4],
         'Раздел@': null,
-        'Раздел': null
+        Раздел: null
     }, {
         id: 5,
         title: 'Monkey',
         additional: 'Animals',
         image: Images[5],
         'Раздел@': null,
-        'Раздел': null
+        Раздел: null
     }],
     columns: [{
         displayProperty: 'id',
@@ -1458,7 +1561,18 @@ const DragNDrop = () => ({
     }],
 })
 
-const changeSourceData = () => ({
+interface IDataForChangeSource {
+    id: number
+    load: string | number
+    title: string
+}
+
+interface IChangeSource {
+    data: IDataForChangeSource[];
+    data2: IDataForChangeSource[];
+}
+
+const changeSourceData = (): IChangeSource => ({
     data: [
         {
             id: 1,
@@ -1534,7 +1648,7 @@ const changeSourceData = () => ({
 });
 
 
-const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
+const countries: string[] = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
     ,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands"
     ,"Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica"
     ,"Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea"

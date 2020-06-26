@@ -539,6 +539,26 @@ describe('Controls/_display/Tree', () => {
         });
     });
 
+    describe('.getRootLevel()', () => {
+        it('should return 0 if root is not enumerable', () => {
+            const collection = new List();
+            const tree = new Tree({
+                collection,
+                rootEnumerable: false
+            });
+            assert.strictEqual(tree.getRootLevel(), 0);
+        });
+
+        it('should return 1 if root is enumerable', () => {
+            const collection = new List();
+            const tree = new Tree({
+                collection,
+                rootEnumerable: true
+            });
+            assert.strictEqual(tree.getRootLevel(), 1);
+        });
+    });
+
     describe('.getChildren()', () => {
         it('should return children of a root', () => {
             const children = tree.getChildren(tree.getRoot());

@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+   <div class="controls-text-label_theme-{{_options.theme}}">intervals</div>
+   <Controls.slider:Base
+           maxValue="{{100}}"
+           minValue="{{0}}"
+           bind:value="_value"
+           intervals="{{_intervals}}"
+   />
+   <div class="controls-text-label_theme-{{_options.theme}}">readOnly=true</div>
+   <Controls.slider:Base
+           maxValue="{{100}}"
+           minValue="{{0}}"
+           bind:value="_value"
+           readOnly="{{true}}"
+           intervals="{{_intervals}}"
+   />
+</div>

@@ -4,6 +4,7 @@ import * as library from 'Core/library';
 import { IoC, constants } from 'Env/Env';
 import { descriptor } from 'Types/entity';
 import { Control, IControlOptions, TemplateFunction, headDataStore } from 'UI/Base';
+import { parking } from 'Controls/dataSource';
 import rk = require('i18n!Controls');
 import template = require('wml!Controls/Container/Async/Async');
 
@@ -61,6 +62,12 @@ import template = require('wml!Controls/Container/Async/Async');
  * @cfg {Object} Options for content of Async
  */
 
+/**
+ * @name Controls/Container/Async#errorHandler
+ * @cfg {Controls/dataSource:parking.Handler} Обработчик ошибки возникнувшей при загрузке компонента,
+ * напр. если нужна обработка ошибки не стандартным обработчиком дружелюбных ошибок.
+ */
+
 const moduleLoader = new ModuleLoader();
 
 function generateErrorMsg(templateName: string, msg?: string): string {
@@ -77,6 +84,7 @@ type TStateRecivied = boolean | string;
 interface IOptions extends IControlOptions {
    templateName: string;
    templateOptions: IControlOptions;
+   errorHandler: parking.Handler;
 }
 
 const SUCCESS_BUILDED = 's';
@@ -87,6 +95,7 @@ class Async extends Control<IOptions, TStateRecivied> {
    private canUpdate: boolean = true;
    protected error: TStateRecivied | void;
    protected userErrorMessage: string | void;
+   private errorHandler: parking.Handler;
 
    _beforeMount(options: IOptions, _: unknown, receivedState: TStateRecivied): Promise<TStateRecivied> {
       if (typeof options.templateName === 'undefined') {
@@ -94,6 +103,7 @@ class Async extends Control<IOptions, TStateRecivied> {
          IoC.resolve('ILogger').warn(this.error);
          return Promise.resolve(this.error);
       }
+      this.errorHandler = options.errorHandler;
 
       if (receivedState && receivedState !== SUCCESS_BUILDED) {
          IoC.resolve('ILogger').error(receivedState);
@@ -160,7 +170,7 @@ class Async extends Control<IOptions, TStateRecivied> {
    }
 
    _loadContentAsync(name: string, options: IControlOptions): Promise<TStateRecivied> {
-      const promise = moduleLoader.loadAsync(name);
+      const promise = moduleLoader.loadAsync(name, this.errorHandler);
 
       // Need this flag to prevent setting new options for content
       // that wasn't loaded yet
@@ -178,7 +188,7 @@ class Async extends Control<IOptions, TStateRecivied> {
       }, (err) => {
          this.canUpdate = true;
          this.error = generateErrorMsg(name);
-         this.userErrorMessage = rk('У СБИС возникла проблема');
+         this.userErrorMessage = err.message;
          return err;
       });
 

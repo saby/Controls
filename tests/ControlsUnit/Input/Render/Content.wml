@@ -1,4 +1,0 @@
-<div>
-   <div>testing the content</div>
-   <ws:partial template="{{placeholderTemplate}}"/>
-</div>

@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell ControlsDemo-grouped__custom">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Grouped/Custom/Index' }}">
@@ -8,7 +8,7 @@
         <Controls-demo.grid.Grouped.Custom.Index/>
     </div>
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell ControlsDemo-grouped__withEditing">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Grouped/WithEditing/Index' }}">

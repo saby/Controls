@@ -16,7 +16,7 @@ export default class extends Control {
             source: new Memory({
                 keyProperty: 'id',
                 data: this._dataArray,
-                filter: (item, query) => {
+                filter: (item: any, query: any) => {
                     let res = true;
 
                     if (query.title) {
@@ -44,5 +44,4 @@ export default class extends Control {
 
     static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
-
 }

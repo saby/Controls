@@ -15,9 +15,18 @@ import DateUtil = require('Controls/Utils/Date');
 var ModuleClass = cExtend.extend([VersionableMixin], {
    _state: null,
    _modelArray: [],
+   _singleDayHover: true,
 
    constructor: function(cfg) {
       ModuleClass.superclass.constructor.apply(this, arguments);
+
+      // Нет необходимости каждый раз обовлять стили месяца при наведении,
+      // если хавер работает только по одной ячейке дня, а не по нескольким.
+      const isQuantumSelection = cfg.selectionType === 'quantum' && cfg.quantum;
+      if (isQuantumSelection) {
+         const isSingleDayQuantum = 'days' in cfg.quantum && cfg.quantum.days.indexOf(1) !== -1;
+         this._singleDayHover = isSingleDayQuantum;
+      }
 
       this._state = this._normalizeState(cfg);
       this._validateWeeksArray();
@@ -87,6 +96,9 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       obj.enabled = state.enabled;
       obj.clickable = obj.mode === 'extended' || obj.isCurrentMonth;
 
+      obj.hovered = state.hoveredStartValue <= obj.date && state.hoveredStartValue !== null &&
+          state.hoveredEndValue >= obj.date;
+
       if (state.dayFormatter) {
          coreMerge(obj, state.dayFormatter(date) || {});
       }
@@ -113,6 +125,7 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
       let textColorClass = 'controls-MonthViewVDOM__textColor',
          backgroundColorClass = 'controls-MonthViewVDOM__backgroundColor',
+         backgroundColorClassRangeHovered,
          css = [];
 
       if (scope.isCurrentMonth) {
@@ -143,8 +156,10 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       if (scope.readOnly) {
           backgroundColorClass += '-readOnly';
       }
+      backgroundColorClassRangeHovered = backgroundColorClass + '-hovered';
       textColorClass += '_theme-' + theme;
       backgroundColorClass += '_theme-' + theme;
+      backgroundColorClassRangeHovered += '_theme-' + theme;
 
       if (fontColorStyle) {
          textColorClass += '_style-' + fontColorStyle;
@@ -152,9 +167,13 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
       if (backgroundStyle) {
          backgroundColorClass += '_style-' + backgroundStyle;
+         backgroundColorClassRangeHovered += '_style-' + backgroundStyle;
       }
       if (scope.isCurrentMonth || scope.mode === 'extended') {
          css.push(textColorClass, backgroundColorClass);
+         if (scope.hovered) {
+            css.push(backgroundColorClassRangeHovered);
+         }
       }
 
       // Оставляем старые классы т.к. они используются в большом выборе периода до его редизайна
@@ -164,8 +183,15 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
             css.push('controls-MonthViewVDOM__cursor-item');
          }
          if (!scope.selected) {
-            if (scope.selectionEnabled && !backgroundStyle) {
-               css.push('controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-' + theme);
+            let borderStyle;
+            if (scope.selectionEnabled && this._singleDayHover) {
+               borderStyle = 'controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-' + theme;
+            } else if (scope.hovered) {
+               borderStyle = 'controls-MonthViewVDOM__border-hover_theme-' + theme;
+            }
+            if (borderStyle) {
+              borderStyle += backgroundStyle ? '_style-' + backgroundStyle : '';
+              css.push(borderStyle);
             }
          }
          css.push('controls-MonthViewVDOM__selectableItem');

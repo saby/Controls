@@ -5,31 +5,21 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 type TButtonState = 'normal' | 'disabled';
 
 export interface IPagingOptions extends IControlOptions {
-    /**
-     * @cfg {Boolean} Отображать кнопки с номерами страницы.
-     */
     showDigits: boolean;
-
-    /**
-     * @cfg {Number} Размер страницы.
-     */
     pagesCount: number;
-
-    /**
-     * @cfg {Number} Номер выбранной страницы.
-     */
     selectedPage?: number;
     backwardEnabled: boolean;
     forwardEnabled: boolean;
+    contrastBackground: boolean;
 }
 
 /**
  * Контрол для отображения кнопок постраничной навигации.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_paging.less">переменные тем оформления</a>
- * 
+ *
  * @class Controls/_paging/Paging
  * @extends UI/Base:Control
  * @public
@@ -38,6 +28,19 @@ export interface IPagingOptions extends IControlOptions {
  * @mixes Controls/_paging/Paging/Styles
  * @mixes Controls/_paging/Paging/DigitButtons/Styles
  *
+ */
+/**
+ * @name Controls/_paging/Paging#pagesCount
+ * @cfg {Boolean} Отображать кнопки с номерами страницы.
+ */
+
+/**
+ * @name Controls/_paging/Paging#showDigits
+ * @cfg {Number} Размер страницы.
+ */
+/**
+ * @name Controls/_paging/Paging#selectedPage
+ * @cfg {Number} Номер выбранной страницы.
  */
 class Paging extends Control<IPagingOptions> {
     protected _template: TemplateFunction = pagingTemplate;

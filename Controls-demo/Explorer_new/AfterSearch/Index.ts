@@ -3,18 +3,22 @@ import * as Template from 'wml!Controls-demo/Explorer_new/AfterSearch/AfterSearc
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
+interface IFilter {
+   demo: number;
+}
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
-   protected _viewSource;
-   protected _columns = Gadgets.getSearchColumns();
-   protected _root = null;
+   protected _viewSource: Memory;
+   protected _columns: IColumn[] = Gadgets.getSearchColumns();
+   protected _root: string | null = null;
    protected _searchStartingWith: string = 'root';
    protected _searchStartingWithSource: Memory = null;
-   protected _filter = { demo: 123 };
+   protected _filter: IFilter = { demo: 123 };
 
-   protected _beforeMount() {
+   protected _beforeMount(): void {
       this._viewSource = new MemorySource({
          keyProperty: 'id',
          data: Gadgets.getSearchData()

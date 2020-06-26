@@ -6,12 +6,12 @@ import * as clone from 'Core/core-clone';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _header: unknown[];
-    private _columns: unknown[];
+    protected _viewSource: Memory;
+    protected _header: unknown[];
+    protected _columns: unknown[];
 
-    private _rowSeparator: boolean = false;
-    private _columnSeparator: boolean = true;
+    protected _rowSeparator: boolean = false;
+    protected _columnSeparator: boolean = true;
 
     protected _beforeMount(): void {
         let columnData = clone(getCountriesStats().getColumnsWithFixedWidths());

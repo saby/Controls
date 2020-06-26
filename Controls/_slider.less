@@ -206,3 +206,41 @@
   border: @marker_border-thickness_slider solid transparent;
   background: none;
 }
+
+.controls-Slider__interval {
+  position: absolute;
+  height: @track_thickness_slider;
+  z-index: 1;
+
+  &_small_theme-@{themeName} {
+    margin-top: @marker_s_size_slider / 2 - @track_thickness_slider / 2;
+  }
+
+  &_big_theme-@{themeName} {
+    margin-top: @marker_l_size_slider / 2 - @track_thickness_slider / 2;
+  }
+
+  &_primary_theme-@{themeName} {
+    background: @primary_color;
+  }
+
+  &_secondary_theme-@{themeName} {
+    background: @secondary_color;
+  }
+
+  &_success_theme-@{themeName} {
+    background: @success_color;
+  }
+
+  &_warning_theme-@{themeName} {
+    background: @warning_color;
+  }
+
+  &_danger_theme-@{themeName} {
+    background: @danger_color;
+  }
+
+  &_unaccented_theme-@{themeName} {
+    background: @unaccented_color;
+  }
+}

@@ -31,6 +31,7 @@ export default class extends Control {
             this._activeGroup = this._groupingKeyCallback(options.item);
             return;
         }
+        //@ts-ignore
         return this._viewSource.create().addCallback((model) => {
             model.set('id', ++this._fakeItemId);
             model.set('title', '');
@@ -40,6 +41,7 @@ export default class extends Control {
     }
 
     protected _beginAdd(): void {
+        //@ts-ignore
         this._children.list.beginAdd();
     }
 

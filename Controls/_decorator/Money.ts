@@ -14,7 +14,6 @@ import {
 } from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
-import {moneyOptions, moneyUseGrouping, moneyValue, moneyStyle} from 'Controls/_decorator/ActualAPI';
 import numberToString from 'Controls/Utils/Formatting/numberToString';
 import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
 // tslint:disable-next-line:ban-ts-ignore
@@ -36,10 +35,6 @@ interface IPaths {
  */
 export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, ITooltipOptions,
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
-    number: number;
-    delimiters: boolean;
-    title: string;
-    style: string;
     /**
      * Декорируемое число.
      * @type string|number|null
@@ -52,11 +47,11 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
 /**
  * Графический контрол, декорирующий число таким образом, что оно приводится к денежному формату.
  * Денежным форматом является число с неограниченной целой частью, и двумя знаками в дробной части.
- * 
- * @remark 
+ *
+ * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
- * 
+ *
  * @class Controls/_decorator/Money
  * @extends UI/Base:Control
  *
@@ -98,18 +93,17 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
 
 
     private _getTooltip(options: IMoneyOptions): string {
-        const actualOptions = moneyOptions(options);
 
-        if (actualOptions.hasOwnProperty('tooltip')) {
-            return actualOptions.tooltip;
+        if (options.hasOwnProperty('tooltip')) {
+            return options.tooltip;
         }
 
         return this._parsedNumber.number;
     }
 
     private _changeState(options: IMoneyOptions, useLogging: boolean): boolean {
-        const value = moneyValue(options.number, options.value, useLogging);
-        const useGrouping = moneyUseGrouping(options.delimiters, options.useGrouping, useLogging);
+        const value = options.value;
+        const useGrouping = options.useGrouping;
 
         if (this._value !== value || this._useGrouping !== useGrouping) {
             this._value = value;
@@ -141,10 +135,9 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     }
 
     private _setFontState(options: IMoneyOptions): void {
-        const styles = moneyStyle(options);
-        this._fontSize = styles.fontSize;
-        this._fontWeight = styles.fontWeight;
-        this._fontColorStyle = styles.fontColorStyle;
+        this._fontSize = options.fontSize;
+        this._fontWeight = options.fontWeight;
+        this._fontColorStyle = options.readOnly ? 'readonly' : options.fontColorStyle;
     }
 
     protected _beforeMount(options: IMoneyOptions): void {

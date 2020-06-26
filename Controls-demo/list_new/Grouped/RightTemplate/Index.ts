@@ -2,7 +2,6 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 
-
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
 
 import * as Template from 'wml!Controls-demo/list_new/Grouped/RightTemplate/RightTemplate';

@@ -73,12 +73,16 @@ import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
 import 'wml!Controls/_list/BaseControl/Footer';
 import * as itemActionsTemplate from 'wml!Controls/_list/ItemActions/resources/ItemActionsTemplate';
 import * as swipeTemplate from 'wml!Controls/_list/Swipe/resources/SwipeTemplate';
+import {IList} from "./interface/IList";
 
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
 //  Нужно убрать после https://online.sbis.ru/opendoc.html?guid=1ff4a7fb-87b9-4f50-989a-72af1dd5ae18
 const defaultSelectedKeys = [];
 const defaultExcludedKeys = [];
+
+// = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
+const PAGING_PADDING = 40;
 
 const PAGE_SIZE_ARRAY = [{id: 1, title: '5', pageSize: 5},
     {id: 2, title: '10', pageSize: 10},
@@ -101,7 +105,6 @@ const
         keyDownPageDown: constants.key.pageDown
     };
 
-const PAGING_HEIGHT = 32;
 const LOAD_TRIGGER_OFFSET = 100;
 const INDICATOR_DELAY = 2000;
 const INITIAL_PAGES_COUNT = 1;
@@ -928,13 +931,13 @@ const _private = {
         } else {
             let bottomScroll = scrollParams.scrollHeight - scrollParams.clientHeight - scrollParams.scrollTop;
             if (self._pagingVisible) {
-                bottomScroll -= PAGING_HEIGHT;
+                bottomScroll -= PAGING_PADDING;
             }
             return bottomScroll < triggerOffset * 1.3;
         }
     },
     calcViewSize(viewSize: number, pagingVisible: boolean): number {
-        return viewSize - (pagingVisible ? PAGING_HEIGHT : 0);
+        return viewSize - (pagingVisible ? PAGING_PADDING : 0);
     },
     needShowPagingByScrollSize(self, viewSize: number, viewPortSize: number): boolean {
         let result = self._pagingVisible;
@@ -1025,12 +1028,12 @@ const _private = {
 
     onScrollHide(self) {
         _private.doAfterUpdate(self, () => {
-        if (self._pagingVisible) {
-            self._pagingVisible = false;
-            self._cachedPagingState = false;
-            self._forceUpdate();
-        }
-        self._isScrollShown = false;
+            if (self._pagingVisible) {
+                self._pagingVisible = false;
+                self._cachedPagingState = false;
+                self._forceUpdate();
+            }
+            self._isScrollShown = false;
         });
     },
     getScrollPagingControllerWithCallback(self, scrollParams, callback) {
@@ -1222,7 +1225,7 @@ const _private = {
         if (!_private.hasMoreDataInAnyDirection(self, self._sourceController) || !isPortionedLoad) {
             portionedSearch.reset();
         } else if (loadedItems.getCount() && !_private.isLoadingIndicatorVisible(self) && self._loadingIndicatorTimer) {
-                _private.resetShowLoadingIndicatorTimer(self);
+            _private.resetShowLoadingIndicatorTimer(self);
         }
     },
 
@@ -1328,7 +1331,7 @@ const _private = {
         ) {
             self._itemsChanged = true;
             _private.updateInitializedItemActions(self, self._options);
-        }
+            }
         // If BaseControl hasn't mounted yet, there's no reason to call _forceUpdate
         if (self._isMounted) {
             self._forceUpdate();
@@ -1937,7 +1940,7 @@ const _private = {
 
        let selectionControllerResult;
        switch (action) {
-            case IObservable.ACTION_REMOVE:
+           case IObservable.ACTION_REMOVE:
                if (self._selectionController) {
                    selectionControllerResult = self._selectionController.handleRemoveItems(removedItems);
                }
@@ -1945,7 +1948,7 @@ const _private = {
                    self._markedKey = self._markerController.handleRemoveItems(removedItemsIndex);
                }
                break;
-         }
+       }
        this.handleSelectionControllerResult(self, selectionControllerResult);
    },
 
@@ -2093,7 +2096,7 @@ const _private = {
             itemActionsProperty: options.itemActionsProperty,
             visibilityCallback: options.itemActionVisibilityCallback,
             itemActionsPosition: options.itemActionsPosition,
-            style: options.style,
+            style: options.itemActionsVisibility === 'visible' ? 'transparent' : options.style,
             theme: options.theme,
             actionAlignment: options.actionAlignment,
             actionCaptionPosition: options.actionCaptionPosition,
@@ -2119,7 +2122,7 @@ const _private = {
      * @private
      */
     updateInitializedItemActions(self, options: any): void {
-        if (self._itemActionsInitialized) {
+        if (self._listViewModel.isActionsAssigned()) {
             _private.updateItemActions(self, options);
         }
     },
@@ -2128,9 +2131,22 @@ const _private = {
      * Деактивирует свайп, если контроллер ItemActions проинициализирован
      * @param self
      */
-    closeSwipe(self) {
+    closeSwipe(self): void {
         if (self._listViewModel.isActionsAssigned()) {
             self._itemActionsController.deactivateSwipe();
+        }
+    },
+
+    /**
+     * инициализирует опции записи при загрузке контрола
+     * @param self
+     * @param options
+     * @private
+     */
+    initVisibleItemActions(self, options: IList): void {
+        if (options.itemActionsVisibility === 'visible') {
+            self._showActions = true;
+            _private.updateItemActions(self, options);
         }
     }
 };
@@ -2230,7 +2246,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _scrollPageLocked: false,
 
     _itemReloaded: false,
-    _itemActionsInitialized: false,
     _modelRecreated: false,
 
     _portionedSearch: null,
@@ -2246,6 +2261,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _prevRootId: null,
 
     _notifyHandler: tmplNotify,
+
+    // По умолчанию считаем, что показывать экшны не надо, пока не будет установлено true
+    _showActions: false,
 
     // Идентификатор текущего открытого popup
     _itemActionsMenuId: null,
@@ -2369,6 +2387,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     _private.createScrollController(self, newOptions);
 
                     _private.prepareFooter(self, newOptions.navigation, self._sourceController);
+
+                    _private.initVisibleItemActions(self, newOptions);
                     return;
                 }
                 if (receivedError) {
@@ -2406,6 +2426,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
                     _private.createEditingData(self, newOptions);
                     _private.createScrollController(self, newOptions);
+
+                    _private.initVisibleItemActions(self, newOptions);
+
                     // TODO Kingo.
                     // В случае, когда в опцию источника передают PrefetchProxy
                     // не надо возвращать из _beforeMount загруженный рекордсет, это вызывает проблему,
@@ -2609,6 +2632,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }));
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
+
+            // Сбрасываем скролл при смене конструктора модели
+            // https://online.sbis.ru/opendoc.html?guid=d4099117-ef37-4cd6-9742-a7a921c4aca3
+            if (this._isScrollShown) {
+                this._notify('doScroll', ['top'], {bubbling: true});
+            }
         }
 
         if (this._dndListController) {
@@ -2721,11 +2750,15 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (
             newOptions.itemActions !== this._options.itemActions ||
             newOptions.itemActionVisibilityCallback !== this._options.itemActionVisibilityCallback ||
-            ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated) ||
             newOptions.readOnly !== this._options.readOnly ||
             newOptions.itemActionsPosition !== this._options.itemActionsPosition
         ) {
             _private.updateInitializedItemActions(this, newOptions, newOptions.itemActions !== this._options.itemActions);
+        }
+
+        if (
+            ((newOptions.itemActions || newOptions.itemActionsProperty) && this._modelRecreated)) {
+            this._initItemActions(null, newOptions);
         }
 
         if (this._itemsChanged) {
@@ -3090,14 +3123,16 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _cancelEditActionHandler(): void {
         this._editInPlace.cancelEdit();
     },
+
     /**
-     * Выполняется из шаблона при mouseenter
+     * Инициализирует опции при mouseenter в шаблоне контрола
      * @private
      */
     _initItemActions(e: SyntheticEvent, options: any): void {
-        if (!this._itemActionsInitialized) {
-            _private.updateItemActions(this, options);
-            this._itemActionsInitialized = true;
+        if (this._options.itemActionsVisibility !== 'visible') {
+            if (!this._listViewModel.isActionsAssigned()) {
+                _private.updateItemActions(this, options);
+            }
         }
     },
 
@@ -3253,7 +3288,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         //TODO: убрать после выполнения https://online.sbis.ru/opendoc.html?guid=0a8fe37b-f8d8-425d-b4da-ed3e578bdd84
         if (this._unprocessedDragEnteredItem) {
             this._processItemMouseEnterWithDragNDrop(this._unprocessedDragEnteredItem);
-        }
+            }
     },
 
     _dragEnd(event, dragObject) {
@@ -3429,6 +3464,15 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             queryParamsCallback: this._notifyNavigationParamsChanged
         });
 
+    },
+
+    /**
+     * Возвращает видимость опций записи.
+     * @private
+     */
+    _isVisibleItemActions(showActions: boolean, itemActionsMenuId: number): boolean {
+        return (showActions || this._options.useNewModel) &&
+            (!itemActionsMenuId || this._options.itemActionsVisibility === 'visible');
     },
 
     _createSelectionController(): void {
@@ -3653,7 +3697,8 @@ BaseControl.getDefaultOptions = function() {
         continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
         stickyHeader: true,
         virtualScrollMode: 'remove',
-        filter: {}
+        filter: {},
+        itemActionsVisibility: 'onhover'
     };
 };
 export = BaseControl;

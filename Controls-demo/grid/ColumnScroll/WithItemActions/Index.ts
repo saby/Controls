@@ -3,15 +3,18 @@ import * as Template from 'wml!Controls-demo/grid/ColumnScroll/WithItemActions/W
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
+import { IItemAction } from 'Controls/itemActions';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _itemActions = getItemActions();
-    private _columns = getCountriesStats().getColumnsWithWidths();
-    private _header = getCountriesStats().getDefaultHeader();
+    protected _viewSource: Memory;
+    protected _itemActions: IItemAction[] = getItemActions();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
+    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         const data = getCountriesStats().getData();
         const country = data[2].country;
         data[2].country = `${country} ${country} ${country} ${country} ${country} ${country}`;

@@ -184,12 +184,20 @@ define(
          });
 
          it('_beforeMount with root and parentProperty', async() => {
-            const data = {test: true};
+            const dataSetMock = {
+               test: true,
+               getKeyProperty() {
+                  return 'id';
+               },
+               setKeyProperty() {
+                  return 1;
+               }
+            };
             let sourceQuery;
             const source = {
                query: function(query) {
                   sourceQuery = query;
-                  return Deferred.success(data);
+                  return Deferred.success(dataSetMock);
                },
                _mixins: [],
                "[Types/_source/ICrud]": true

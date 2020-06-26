@@ -4,4 +4,6 @@
                       keyProperty="{{_options.keyProperty}}"
                       displayProperty="{{_options.displayProperty}}"
                       itemTemplate="{{_options.itemTemplate}}"
+                      fontColorStyle="{{_options.fontColorStyle}}"
+                      fontSize="{{_options.fontSize}}"
                       on:itemClick="_itemClickHandler()"/>

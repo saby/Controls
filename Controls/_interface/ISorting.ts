@@ -80,14 +80,6 @@ export default interface ISorting {
  * ]
  * </pre>
  * 
- * Используйте политику сортировки null-значений, разместив их перед "непустыми" значениями или после:
- * 
- * <pre class="brush: js">
- * [
- *    ['price', 'DESC', false],
- * ]
- * </pre>
- * 
  * Дополнительную информацию смотрите в разделе <a href="/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/declr/#javascript">декларативный списочный метод</a>.
  * @see Controls/grid:SortingSelector
  */

@@ -1,5 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 
@@ -10,7 +11,7 @@ interface BaseIndexOptions extends IControlOptions {
 export default class extends Control<BaseIndexOptions> {
     protected _template: TemplateFunction;
     protected _viewSource: Memory;
-    protected _columns = Gadgets.getColumnsForFlat();
+    protected _columns: IColumn[] = Gadgets.getColumnsForFlat();
     protected _showTitle: boolean;
 
     protected _beforeMount(options?: BaseIndexOptions, contexts?: object, receivedState?: void): Promise<void> | void {

@@ -140,7 +140,9 @@ var _private = {
           return new Promise(function(resolve) {
               require(['Controls/suggestPopup'], function(result) {
                   self._emptyTemplate = result.EmptyErrorTemplate;
-                  self._children.indicator.hide();
+                  if (self._children.indicator) {
+                     self._children.indicator.hide();
+                  }
                   resolve();
               });
           });

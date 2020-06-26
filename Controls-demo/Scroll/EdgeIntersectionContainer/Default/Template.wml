@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container class="controlsDemo__height300">
+        <Controls.scroll:EdgeIntersectionObserverContainer
+                topOffset="{{_offset}}"
+                bottomOffset="{{_offset}}"
+                on:topOut="_handler('topOut')"
+                on:topIn="_handler('topIn')"
+                on:bottomOut="_handler('bottomOut')"
+                on:bottomIn="_handler('bottomIn')"
+                >
+            <div style="height:{{_offset}}px; background: red;"></div>
+            <div class="controlsDemo__height500" style="background: blue;"></div>
+            <div style="height:{{_offset}}px; background: red;"></div>
+        </Controls.scroll:EdgeIntersectionObserverContainer>
+    </Controls.scroll:Container>
+    <div class="controlsDemo_m">
+        <span class="controlsDemo__button" on:click="_increaseOffsets()">Увеличить отступы</span>
+    </div>
+    <Controls.scroll:Container class="controlsDemo__height300">
+        <ws:for data="line in _logs">
+            <p>{{line}}</p>
+        </ws:for>
+    </Controls.scroll:Container>
+</div>

@@ -6,7 +6,7 @@
             controls-Render-fontsize-{{_fontSize}}
             controls-Render_textAlign-{{_options.textAlign}}
             controls-Render{{_statePrefix}}_borderRadius-{{_inlineHeight}}_theme-{{_options.theme}}
-            controls-Render_state-{{_state}}_theme-{{_options.theme}}
+            controls-Render_state-{{_state}} controls-Render_state-{{_state}}_theme-{{_options.theme}}
             controls-fontsize-{{_fontSize}}{{_fontSize !== 'inherit' ? '_theme-' + _options.theme}}
             {{_fontSize !== 'inherit' ? 'controls-Render-fontsize-' + _fontSize + '_theme-' + _options.theme}}
             controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}

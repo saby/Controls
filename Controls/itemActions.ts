@@ -21,10 +21,9 @@ export {
     IItemActionsCollection,
     TActionClickCallback,
     IItemActionsContainer,
-    IMenuActionHandler,
-    IMenuConfig,
     IItemAction,
-    TItemActionShowType
+    TItemActionShowType,
+    TItemActionsPosition
 } from './_itemActions/interface/IItemActions';
 export {IContextMenuConfig} from './_itemActions/interface/IContextMenuConfig';
 export {Controller} from './_itemActions/Controller';

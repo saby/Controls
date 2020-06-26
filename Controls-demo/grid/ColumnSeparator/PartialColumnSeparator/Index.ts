@@ -3,23 +3,26 @@ import * as Template from 'wml!Controls-demo/grid/ColumnSeparator/PartialColumnS
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _header: unknown[];
-    private _columns1: unknown[];
-    private _columns2: unknown[];
-    private _columns3: unknown[];
+    protected _viewSource: Memory;
+    protected _header: IHeader[];
+    protected _columns1: IColumn[];
+    protected _columns2: IColumn[];
+    protected _columns3: IColumn[];
 
-    private _rowSeparator1: boolean = false;
-    private _columnSeparator1: boolean = true;
+    protected _rowSeparator1: boolean = false;
+    protected _columnSeparator1: boolean = true;
 
-    private _rowSeparator2: boolean = false;
-    private _columnSeparator2: boolean = true;
+    protected _rowSeparator2: boolean = false;
+    protected _columnSeparator2: boolean = true;
 
-    private _rowSeparator3: boolean = false;
-    private _columnSeparator3: boolean = true;
+    protected _rowSeparator3: boolean = false;
+    protected _columnSeparator3: boolean = true;
 
     protected _beforeMount(): void {
         let columnData = clone(getCountriesStats().getColumnsWithFixedWidths());
@@ -56,7 +59,7 @@ export default class extends Control {
 
     }
 
-    protected _togglePartialColumnSeparator(e, value) {
+    protected _togglePartialColumnSeparator(e: SyntheticEvent, value: unknown) {
         const newColumns = clone(this._columns1);
         if (value) {
             newColumns[2].columnSeparatorSize = {left: 's'};

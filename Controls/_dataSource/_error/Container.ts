@@ -2,12 +2,10 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import _template = require('wml!Controls/_dataSource/_error/Container');
 import { constants } from 'Env/Env';
-import { ViewConfig } from './Handler';
-import Mode from './Mode';
+import { Mode, Popup, ViewConfig } from 'Controls/error';
 import { isEqual } from 'Types/object';
 import { load } from 'Core/library';
 import { default as IContainer, IContainerConfig } from './IContainer';
-import Popup from './Popup';
 
 interface IInlistTemplateOptions {
     listOptions: object;

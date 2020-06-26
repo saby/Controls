@@ -36,13 +36,14 @@ define(
                tooltip: '',
                style: 'info',
                spellCheck: true,
-               size: 'default',
+               inlineHeight: 'default',
                placeholder: '',
                useGrouping: true,
                textAlign: 'left',
                autoComplete: 'off',
                onlyPositive: false,
-               fontStyle: 'default',
+               fontColorStyle: 'default',
+               fontSize: 'm',
                selectOnClick: false,
                showEmptyDecimals: false,
                horizontalPadding: 'xs'
@@ -50,14 +51,12 @@ define(
          });
          it('Checking types of options.', function() {
             assert.deepEqual(Object.keys(inputMod.Number.getOptionTypes()).sort(), [
-               'size',
                'value',
                'style',
                'tooltip',
                'tagStyle',
                'precision',
                'textAlign',
-               'fontStyle',
                'spellCheck',
                'useGrouping',
                'onlyPositive',

@@ -81,7 +81,7 @@
 }
 
 .controls-TileView__item .controls-itemActionsV {
-   display: inline-block;
+   visibility: visible;
    opacity: 0;
 }
 
@@ -297,11 +297,13 @@
 
 //TODO: Выписана задача. чтобы унести стили из плитки https://online.sbis.ru/opendoc.html?guid=f1421bfc-67dd-4aa5-bf13-28df0a9ab79b
 .ws-is-hover:not(.ws-is-mobile-platform) {
-   .controls-ListView__item_showActions:hover > .controls-itemActionsV {
-      display: inline-block;
-   }
-   .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV {
-      display: inline-block;
+   .controls-BaseControl_showActions_visible .controls-ListView__item_showActions > .controls-itemActionsV,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover > .controls-itemActionsV,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover > .controls-itemActionsV,
+   .controls-BaseControl_showActions_visible .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV,
+   .controls-BaseControl_showActions_delayed .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV,
+   .controls-BaseControl_showActions_onhover .controls-TileView__item:hover > .controls-TileView__item_unscaleable > .controls-itemActionsV {
+      visibility: visible;
       opacity: 1;
    }
 }

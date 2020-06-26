@@ -1,10 +1,21 @@
 import input = require('Controls/input');
 import template = require('wml!Controls/_lookup/BaseLookupView/InputRender/InputRender');
+import * as ActualAPI from "../../_input/ActualAPI";
 
 
    var InputRenderLookup = input.Text.extend({
       _template: template,
       _defaultInput: null,
+
+      _beforeMount: function(options) {
+         InputRenderLookup.superclass._beforeMount.apply(this, arguments);
+         this._inlineHeight = input.ActualAPI.inlineHeight(options.size, options.inlineHeight);
+      },
+
+      _beforeUpdate: function(options) {
+         InputRenderLookup.superclass._beforeUpdate.apply(this, arguments);
+         this._inlineHeight = input.ActualAPI.inlineHeight(options.size, options.inlineHeight);
+      },
 
       _beforeUnmount: function() {
          this._defaultInput = null;

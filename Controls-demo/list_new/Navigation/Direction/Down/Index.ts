@@ -1,14 +1,14 @@
-import {Control, TemplateFunction} from "UI/Base"
+import {Control, TemplateFunction} from 'UI/Base'
 import * as Template from "wml!Controls-demo/list_new/Navigation/Direction/Down/Down"
-import {Memory} from "Types/source"
+import {Memory} from 'Types/source'
 import {generateData} from "../../../DemoHelpers/DataCatalog"
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    private _dataArray = generateData({count: 100, entityTemplate: {title: 'lorem'}});
+    private _dataArray: any = generateData({count: 100, entityTemplate: {title: 'lorem'}});
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: this._dataArray

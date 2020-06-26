@@ -1,3 +1,4 @@
+import {IControlOptions} from "UI/Base";
 
 export interface IIntersectionObserverObject {
    instId: string;
@@ -13,4 +14,9 @@ export interface IIntersectionObserverOptions {
    observerName: string;
    threshold: number[];
    rootMargin: string;
+}
+
+export interface IEdgeIntersectionObserverOptions extends IControlOptions {
+    topOffset: number;
+    bottomOffset: number;
 }

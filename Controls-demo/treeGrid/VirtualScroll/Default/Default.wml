@@ -10,7 +10,7 @@
                         parentProperty="parent"
                         nodeProperty="type"
                         navigation="{{_options.navigation}}">
-                    <ws:virtualScrollConfig pageSize="{{100}}"/>
+                    <ws:virtualScrollConfig pageSize="{{40}}"/>
                 </Controls.treeGrid:View>
             </Controls.scroll:Container>
         </ws:content>

@@ -88,6 +88,8 @@ define([
                   displayProperty: 'title',
                   itemsAndHeaderPromise: instance._itemsAndHeaderPromise,
                   backButtonStyle: undefined,
+                  backButtonIconStyle: undefined,
+                  backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
                   showActionButton: false
                },
@@ -201,6 +203,8 @@ define([
                   displayProperty: 'title',
                   items: items.slice(0,1),
                   backButtonStyle: undefined,
+                  backButtonIconStyle: undefined,
+                  backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
                   showActionButton: false,
                   itemsAndHeaderPromise: instance._itemsAndHeaderPromise
@@ -276,6 +280,8 @@ define([
                template: HeadingPathBack,
                templateOptions: {
                   backButtonStyle: undefined,
+                  backButtonIconStyle: undefined,
+                  backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
                   showActionButton: false,
                   displayProperty: 'title',
@@ -335,6 +341,8 @@ define([
                template: HeadingPathBack,
                templateOptions: {
                   backButtonStyle: undefined,
+                  backButtonIconStyle: undefined,
+                  backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
                   showActionButton: false,
                   items: items.slice(0, 1),

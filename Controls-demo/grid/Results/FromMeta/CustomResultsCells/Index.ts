@@ -6,12 +6,14 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _header = getCountriesStats().getDefaultHeader();
-    private _columns = getCountriesStats().getColumnsWithWidths().map((c, i) => ({
+    protected _viewSource: Memory;
+    protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths().map((c, i) => ({
         ...c,
         result: undefined,
         resultTemplate: (i === 4 ? sqResTpl : (i === 5 ? defResTpl : undefined))

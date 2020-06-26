@@ -8,5 +8,10 @@
  * @private
  * @author Северьянов А.А.
  */
-export { Handler, ViewConfig } from 'Controls/_dataSource/_parking/Handler';
-export { default as Controller, loadHandlers, Config } from 'Controls/_dataSource/_parking/Controller';
+export {
+    ParkingHandler as Handler,
+    ParkingViewConfig as ViewConfig,
+    ParkingController as Controller,
+    loadHandlers,
+    IParkingControllerOptions as Config
+} from 'Controls/error';

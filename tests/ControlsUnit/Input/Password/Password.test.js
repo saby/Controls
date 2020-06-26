@@ -29,26 +29,25 @@ define(
             assert.deepEqual(input.Password.getDefaultOptions(), {
                tooltip: '',
                style: 'info',
-               size: 'default',
+               inlineHeight: 'default',
                placeholder: '',
                spellCheck: true,
                revealable: true,
                textAlign: 'left',
                autoComplete: 'on',
-               fontStyle: 'default',
+               fontColorStyle: 'default',
+               fontSize: 'm',
                selectOnClick: false,
                horizontalPadding: 'xs'
             });
          });
          it('Checking types of options.', function() {
             assert.deepEqual(Object.keys(input.Password.getOptionTypes()).sort(), [
-               'size',
                'value',
                'style',
                'tooltip',
                'tagStyle',
                'textAlign',
-               'fontStyle',
                'spellCheck',
                'revealable',
                'inputCallback',

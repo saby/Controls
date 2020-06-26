@@ -5,11 +5,20 @@
             on:selectedKeysChanged="_selectedKeysChangedHandler()"
             keyProperty="id"
             displayProperty="title"
-            source="{{_source}}">
+            source="{{_source}}"
+            fontSize="{{_options.fontSize}}"
+            dropdownClassName="{{_options.dropdownClassName}}"
+            popupClassName="{{_options.popupClassName}}"
+            menuPopupOptions="{{_options.menuPopupOptions}}"
+            emptyKey="{{_options.emptyKey}}"
+            emptyText="{{_options.emptyText}}"
+            footerContentTemplate="{{_options.footerContentTemplate}}"
+            fontColorStyle="{{_options.fontColorStyle}}"
+            emptyTemplate="{{_options.emptyTemplate}}">
         <ws:headerTemplate>
             <ws:if data="{{_options.header}}">
                 <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
-                    <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" caption="{{_options.header}}"/>
+                    <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" iconSize="{{_options.iconSize}}" icon="{{_options.icon}}" caption="{{_options.header}}"/>
                 </Controls.Container.Async>
             </ws:if>
         </ws:headerTemplate>

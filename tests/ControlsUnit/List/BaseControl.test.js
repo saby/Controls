@@ -153,7 +153,16 @@ define([
          setTimeout(function() {
             assert.equal(ctrl._items, ctrl.getViewModel().getItems());
             const prevModel = ctrl._listViewModel;
+            let doScrollToTop = false;
+            ctrl._notify = (name, params) => {
+               if (name === 'doScroll' && params && params[0] === 'top') {
+                  doScrollToTop = true;
+               }
+            };
+            ctrl._isScrollShown = true;
             ctrl._beforeUpdate(cfg);
+
+            assert.isTrue(doScrollToTop);
 
             // check saving loaded items after new viewModelConstructor
             // https://online.sbis.ru/opendoc.html?guid=72ff25df-ff7a-4f3d-8ce6-f19a666cbe98
@@ -2002,7 +2011,7 @@ define([
          var cfg = {};
          var ctrl = new lists.BaseControl(cfg);
          ctrl._container =  {getElementsByClassName: () => ([{
-            getBoundingClientRect: () => ({})
+               getBoundingClientRect: () => ({})
             }]), getBoundingClientRect: () => ({})};
          ctrl._scrollTop = 200;
 
@@ -2507,8 +2516,8 @@ define([
       });
       it('calcViewSize', () => {
          let calcViewSize = lists.BaseControl._private.calcViewSize;
-         assert.equal(calcViewSize(132, true), 100);
-         assert.equal(calcViewSize(132, false), 132);
+         assert.equal(calcViewSize(140, true), 100);
+         assert.equal(calcViewSize(140, false), 140);
       });
       it('needShowPagingByScrollSize', function() {
          var cfg = {
@@ -4379,7 +4388,7 @@ define([
             instance._itemActionsController = {
                activateRightSwipe: () => {
                   isRightSwipeActivated = true;
-               }
+         }
             };
          }
 
@@ -5121,7 +5130,9 @@ define([
                }
             },
             _listViewModel: {
-               getCount: () => 5
+               _isActionsAssigned: false,
+               getCount: () => 5,
+               isActionsAssigned: function() { return this._isActionsAssigned; }
             },
             handleSelectionControllerResult: () => {}
          };
@@ -5615,7 +5626,7 @@ define([
 
          // Необходимо вызывать updateItemActions при изменении visibilityCallback (демка Controls-demo/OperationsPanel/Demo)
          it('should call updateItemActions when visibilityCallback has changed', async () => {
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5631,7 +5642,7 @@ define([
 
          // Необходимо вызывать updateItemActions при изиенении самих ItemActions
          it('should call updateItemActions when ItemActions have changed', async () => {
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5650,7 +5661,6 @@ define([
 
          // Надо сбрасывать свайп, если изменились ItemActions. Иначе после их изменения свайп будет оставаться поверх записи
          it('should deactivate swipe if it is activated and itemActions have changed', async () => {
-            instance._itemActionsInitialized = true;
             instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {});
             await instance._beforeUpdate({
@@ -5677,7 +5687,7 @@ define([
                   textOverflow: 'ellipsis'
                }
             ];
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5692,7 +5702,7 @@ define([
 
          // при неидентичности source необходимо перезапрашивать данные этого source и затем вызывать updateItemActions
          it('should call updateItemActions when data was reloaded', async () => {
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5710,7 +5720,7 @@ define([
 
          // при смене значения свойства readOnly необходимо вызывать updateItemAction
          it('should call updateItemActions when readOnly option has been changed', () => {
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5724,7 +5734,7 @@ define([
 
          // при смене значения свойства itemActionsPosition необходимо вызывать updateItemAction
          it('should call updateItemActions when itemActionsPosition option has been changed', () => {
-            instance._itemActionsInitialized = true;
+            instance._listViewModel.setActionsAssigned(true);
             sandbox.replace(lists.BaseControl._private, 'updateItemActions', (self, options) => {
                updateItemActionsCalled = true;
             });
@@ -5732,7 +5742,7 @@ define([
                ...cfg,
                source: instance._options.source,
                itemActionsPosition: 'outside',
-            });
+      });
             assert.isTrue(updateItemActionsCalled);
          });
       });
@@ -6120,8 +6130,8 @@ define([
 
             ctrl._container = {
                getElementsByClassName: () => ([{
-               clientHeight: 100,
-               getBoundingClientRect: () => ({y: 0})
+                  clientHeight: 100,
+                  getBoundingClientRect: () => ({y: 0})
                }]),
                clientHeight: 100,
                getBoundingClientRect: () => ({y: 0})

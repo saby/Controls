@@ -17,19 +17,19 @@
  * </ul>
  *
  * @example
- * WML:
  * <pre>
- *    <Controls.lookup:Selector
- *          source="{{_source}}"
- *          keyProperty="id">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls.lookup:ItemTemplate"
- *                      style="primary"
- *                      size="xl"
- *                      displayProperty="title"
- *                      clickable="{{true}}"/>
- *       </ws:itemTemplate>
- *    </Controls.lookup:Selector>
+ * <!-- WML -->
+ * <Controls.lookup:Selector
+ *     source="{{_source}}"
+ *     keyProperty="id">
+ *     <ws:itemTemplate>
+ *         <ws:partial template="Controls/lookup:ItemTemplate"
+ *             style="primary"
+ *             size="xl"
+ *             displayProperty="title"
+ *             clickable="{{true}}" />
+ *     </ws:itemTemplate>
+ * </Controls.lookup:Selector>
  * </pre>
  */
 

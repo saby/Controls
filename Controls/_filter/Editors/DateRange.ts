@@ -10,6 +10,7 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
  * Подробнее о настройке объединенного фильтра с выбором периода читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3 здесь}.
  * @class Controls/_filter/Editors/DateRange
  * @mixes Controls/_dateRange/interfaces/ILinkView
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @extends Core/Control
  * @author Герасимов А.М.
  * @see Controls/filter:View

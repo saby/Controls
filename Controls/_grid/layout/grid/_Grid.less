@@ -246,21 +246,36 @@
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
+
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
       background-color: @item_hover_background-color_list;
    }
-   .controls-BaseControl_showActions .controls-Grid:not(.controls-itemActionsV_invisible) .controls-Grid__row:hover {
+
+   .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
       > .controls-Grid__row-cell,
       > .controls-itemActionsV__container,
       > .controls-Grid__row-cell .controls-Grid__table__relative-cell-wrapper {
          > .controls-itemActionsV {
-            display: inline-block;
+            transition: opacity 500ms step-end;
+         }
+      }
+   }
+
+   .controls-BaseControl_showActions_visible .controls-Grid .controls-Grid__row,
+   .controls-BaseControl_showActions_onhover .controls-Grid__row:hover,
+   .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
+      > .controls-Grid__row-cell,
+      > .controls-itemActionsV__container,
+      > .controls-Grid__row-cell .controls-Grid__table__relative-cell-wrapper {
+         > .controls-itemActionsV {
+            opacity: 1;
             visibility: visible;
          }
       }
+
       /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
       .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
          background-color: @item_hover_background-color_list;
@@ -271,9 +286,10 @@
       }
       /**********************************************/
    }
-
 }
-.ws-is-hover .controls-BaseControl_showActions .controls-Grid__row:hover,
+.ws-is-hover .controls-BaseControl_showActions_visible .controls-Grid__row,
+.ws-is-hover .controls-BaseControl_showActions_delayed .controls-Grid__row:hover,
+.ws-is-hover .controls-BaseControl_showActions_onhover .controls-Grid__row:hover,
 .ws-is-touch .controls-GridView__item_active_theme-@{themeName} {
    .controls-Grid__editArrow-blur_theme-@{themeName},
    .controls-Grid__editArrow-wrapper_theme-@{themeName} {
@@ -290,7 +306,8 @@
    > .controls-itemActionsV,
    +.controls-itemActionsV__container > .controls-itemActionsV
    {
-      display: inline-block;
+      visibility: visible;
+      opacity: 1;
    }
 }
 
@@ -566,9 +583,6 @@
    transform: translateZ(0);
 }
 
-// TODO После https://online.sbis.ru/opendoc.html?guid=83aacafa-5b11-4615-9424-46d724b3793e
-//  вернуть как было в задаче https://online.sbis.ru/opendoc.html?guid=ecf7bb3e-a806-4477-9efa-dfc176195197
-.controls-background-masterClassic_theme-@{themeName}.controls-Grid__row-cell_selected-masterClassic_theme-@{themeName},
 .controls-Grid__row-cell_selected-masterClassic_theme-@{themeName} {
    background-color: @masterClassic_item_selected_background-color_list;
 }

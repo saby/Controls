@@ -75,27 +75,26 @@ describe('Controls/_display/BreadcrumbsItem', () => {
             assert.strictEqual(item.getLevel(), 0);
         });
 
-        it('should return 1 if owner contains enumerable root', () => {
-            const root = new TreeItem({
-                contents: 'root'
-            });
-            const owner = {
-                getRoot: () => {
-                    return root;
-                },
-                isRootEnumerable: () => {
-                    return true;
-                }
+        it('should start counter with value given by getRootLevel() method', () => {
+            const owner: any = {
+                getRoot: () => root,
+                getRootLevel: () => 3
             };
+            const root = new TreeItem({
+                contents: 'root',
+                owner
+            });
             const last = new TreeItem({
-                owner: owner as any,
+                owner,
+                parent: root,
                 contents: 'last'
             });
             const item = new BreadcrumbsItem({
-                owner: owner as any,
+                owner,
                 last
             });
-            assert.strictEqual(item.getLevel(), 1);
+            assert.strictEqual(root.getLevel(), 3);
+            assert.strictEqual(item.getLevel(), 4);
         });
     });
 });

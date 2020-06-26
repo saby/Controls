@@ -1,5 +1,4 @@
 import {Control, TemplateFunction} from 'UI/Base';
-
 import * as Template from 'wml!Controls-demo/grid/Ladder/Ladder';
 
 export default class extends Control {

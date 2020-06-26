@@ -12,15 +12,30 @@ var ModuleClass = MonthViewModel.extend({
     _normalizeState: function (state) {
         var nState = ModuleClass.superclass._normalizeState.apply(this, arguments);
         nState.selectionProcessing = state.selectionProcessing;
+        nState.selectionType = state.selectionType;
+        nState.hoveredEndValue = state.hoveredEndValue;
+        nState.hoveredStartValue = state.hoveredStartValue;
         nState.startValue = DateUtil.normalizeDate(state.startValue);
         nState.endValue = DateUtil.normalizeDate(state.endValue);
         return nState;
     },
 
     _isStateChanged: function (state) {
-        var isChanged = ModuleClass.superclass._isStateChanged.apply(this, arguments),
+        let isChanged = ModuleClass.superclass._isStateChanged.apply(this, arguments),
             currentMonthStart = DateUtil.getStartOfMonth(this._state.month),
             currentMonthEnd = DateUtil.getEndOfMonth(this._state.month);
+
+        const hoveredRangeChanged = state.hoveredStartValue !== this._state.hoveredStartValue ||
+            state.hoveredStartValue !== this._state.hoveredStartValue;
+
+        const hoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.hoveredStartValue, state.hoveredEndValue);
+        // Нужно обновить месяц, если старое значение хавера пересекается с этим месяцем.
+        const lastHoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, this._state.hoveredStartValue, this._state.hoveredEndValue);
+
+        // Обновляем, если навели или убрали курсор с ячейки дня.
+         if (!this._singleDayHover && hoveredRangeChanged && (hoveredRangeOverlaps || lastHoveredRangeOverlaps)) {
+            return true;
+        }
 
         return isChanged ||
             state.selectionProcessing !== this._state.selectionProcessing ||

@@ -4,7 +4,7 @@ import {RecordSet} from 'Types/collection';
 import {INavigationOptionValue, INavigationSourceConfig} from 'Controls/interface';
 import {ViewConfig, Controller as ErrorController} from 'Controls/_dataSource/error';
 import {IPagingOptions} from 'Controls/_paging/Paging';
-import {Direction} from 'Controls/_source/interface/IAdditionalQueryParams';
+import {Direction} from 'Controls/_interface/IAdditionalQueryParams';
 
 import {ListSourceLoadingController} from './SourceControl/ListSourceLoadingController';
 

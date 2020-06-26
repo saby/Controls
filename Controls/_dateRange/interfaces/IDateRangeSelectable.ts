@@ -23,10 +23,10 @@ export = {
        * @name Controls/_dateRange/interfaces/IDateRangeSelectable#ranges
        * @cfg {Object} Кванты.
        * @remark
-       * Если заданы кванты, то нельзя выделить произвольный период, а можно только выделить заданные периоды. 
+       * Если заданы кванты, то нельзя выделить произвольный период, а можно только выделить заданные периоды.
        * Объект принимает свойства days, weeks, months, quarters, halfyears, и years со значениями типа Array.
        * @default []
-       * @example 
+       * @example
        * В данном примере можно выбрать либо 1 день, либо диапазон в 4 дня, либо 2 целые недели, либо 1 месяц.
        * <pre class="brush: html">
        * <Controls.dateRange:RangeSelector ranges="{days: [1,4], weeks: [2], months: [1] }" />
@@ -44,6 +44,7 @@ export = {
       /**
        * @name Controls/_dateRange/interfaces/IDateRangeSelectable#selectionType
        * @cfg {SelectionType} Определяет режим выделения диапазона.
+       * @demo Controls-demo/datePopup/SelectionType/Index
        * @default quantum
        */
 

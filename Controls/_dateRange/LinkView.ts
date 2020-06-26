@@ -36,49 +36,11 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
    protected _styleClass = null;
    protected _valueEnabledClass = null;
    protected _viewMode = null;
-   protected _styleMode = null;
    protected _fontColorStyle = null;
 
    protected _clearButtonVisible = null;
-   protected styleMap: object = {
-      default: {
-         viewMode: 'selector',
-         styleMode: 'secondary'
-      },
-      linkMain: {
-         viewMode: 'link',
-         styleMode: 'secondary'
-      },
-      linkMain2: {
-         viewMode: 'link',
-         styleMode: 'info'
-      },
-      linkAdditional: {
-         viewMode: 'label',
-         styleMode: null
-      }
-   };
-   protected _defaultStyleMap: object = {
-      selector: 'secondary',
-      link: 'secondary'
-   };
 
    protected _defaultFontColorStyle: string = 'link';
-
-   protected _actuallApi: object = {
-      selector: {
-         info: 'label',
-         secondary: 'link'
-      },
-      link: {
-         info: 'unaccented',
-         secondary: 'link'
-      },
-      label: {
-         info: 'label',
-         secondary: 'label'
-      }
-   };
 
    constructor(options: ILinkViewControlOptions) {
       super(arguments);
@@ -93,11 +55,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       this._updateCaption(options);
       this._updateStyles({}, options);
       this._updateClearButton(options);
-
-      // TODO: remove style option https://online.sbis.ru/opendoc.html?guid=882c43d4-8f3c-4998-8660-bfa08fcef227
-      if (options.style) {
-         Logger.error('LinkView: ' + rk('You should use viewMode, styleMode and fontColorStyle options instead of style option.'), this);
-      }
 
       if (options.showPrevArrow || options.showNextArrow) {
          Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
@@ -166,18 +123,10 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _updateStyles(options, newOption): void {
       var changed = false;
-      if (options.viewMode !== newOption.viewMode || options.styleMode !== newOption.styleMode
-          || options.fontColorStyle !== newOption.fontColorStyle) {
+      if (options.viewMode !== newOption.viewMode || options.fontColorStyle !== newOption.fontColorStyle) {
          this._viewMode = newOption.viewMode;
-         this._styleMode = newOption.styleMode || this._defaultStyleMap[newOption.viewMode];
-         if (newOption.styleMode) {
-            Logger.error('LinkView: Используется устаревшая опция styleMode, используйте опцию fontColorStyle', this);
-         }
-         if (newOption.fontColorStyle) {
-            this._fontColorStyle = newOption.fontColorStyle;
-         } else {
-            this._fontColorStyle = this._actuallApi[this._viewMode][this._styleMode] || this._defaultFontColorStyle;
-         }
+         this._fontColorStyle = newOption.fontColorStyle || this._defaultFontColorStyle;
+
          changed = true;
       }
       if (options.readOnly !== newOption.readOnly || options.clickable !== newOption.clickable) {

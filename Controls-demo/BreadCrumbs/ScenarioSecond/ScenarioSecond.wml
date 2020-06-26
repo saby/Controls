@@ -19,7 +19,8 @@
         <Controls.heading:Title caption="Хлебные крошки вынесены в сервисный блок"
                                 fontSize="4xl"/>
         <Controls.breadcrumbs:HeadingPath items="{{_breadCrumbs6}}"
-                                          backButtonStyle="primary"
+                                          backButtonFontColorStyle="primary"
+                                          backButtonIconStyle="secondary"
                                           keyProperty="id" />
     </div>
     <div class="demo-BreadCrumbs__example controlsDemo-BreadCrumbs__headExitStack">

@@ -44,7 +44,7 @@ export default class extends Control {
 
    _panelItemClick(event, item, nativeEvent, selection) {
       let itemId = item.get('id');
-      
+
       if (!['sum', 'merge', 'print', 'PDF', 'Excel'].includes(itemId) || this._children.baseAction.validate(selection)) {
          switch (itemId) {
             case 'PDF':
@@ -74,5 +74,5 @@ export default class extends Control {
       });
    }
 
-   static _styles: string[] = ['Controls-demo/OperationsPanel/Demo/Demo'];
+   static _styles: string[] = ['Controls-demo/OperationsPanelNew/Index'];
 }

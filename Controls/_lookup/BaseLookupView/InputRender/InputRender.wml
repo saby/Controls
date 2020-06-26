@@ -3,7 +3,6 @@
                        viewModel="{{_viewModel}}"
                        size="{{_options.size}}"
                        style="{{_options.style}}"
-                       validationStatus="{{_options.validationStatus}}"
                        multiline="{{_options.multiline}}"
                        tagStyle="{{_options.tagStyle}}"
                        fontStyle="{{_options.fontStyle}}"
@@ -50,7 +49,7 @@
                      hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
                      isEdge="{{_isEdge}}"
                      attr:class="controls-Lookup__fieldWrapper
-                     {{_options.multiline ? 'controls-Lookup__fieldWrapper-size-' + _options.size + '_theme-' + _options.theme }}
+                     {{_options.multiline ? 'controls-Lookup__fieldWrapper-size-' + _inlineHeight + '_theme-' + _options.theme }}
                      controls-Lookup__fieldWrapper_content_width_{{_options.multiline && _options.inputWidth ? 'custom' : 'default'}}
                      {{_options.forComment ? 'controls-Lookup__fieldWrapper_for_comment'}}"
                      attr:style="width: {{_options.inputWidth}}px;"

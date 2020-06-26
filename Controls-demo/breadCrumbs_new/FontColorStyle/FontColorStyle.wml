@@ -1,0 +1,38 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=default</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="default"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="secondary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="success" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="warning" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="danger" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="unaccented" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="link" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+        <Controls.breadcrumbs:Path keyProperty="id" items="{{_items}}" fontColorStyle="label" />
+    </div>
+</div>

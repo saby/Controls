@@ -36,7 +36,8 @@ import {List} from 'Types/collection';
    SelectorButton._theme = ['Controls/lookup'];
    SelectorButton.getDefaultOptions = function() {
       return {
-         style: 'secondary',
+         fontColorStyle: 'link',
+         buttonStyle: 'secondary',
          maxVisibleItems: 7,
          itemTemplate: itemTemplate,
          showSelectorCaption: `+${rk('еще')}`

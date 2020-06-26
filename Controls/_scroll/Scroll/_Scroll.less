@@ -171,10 +171,9 @@
 
 .controls-Scroll__paging {
    position: absolute;
-   bottom: 0;
-   right: 0;
    z-index: @z-index_Scroll-contentEnvironment;
-   border-top: @scrollpaging_separator-thickness_list solid @scrollpaging_separator-color_list;
+   bottom: @scrollpaging_offset-vertical_list;
+   right: @scrollpaging_offset-horizontal_list;
 }
 
 .controls-Scroll__content_paging::after {

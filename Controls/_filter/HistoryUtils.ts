@@ -2,7 +2,7 @@ import {Service as HistoryService, FilterSource as HistorySource, Constants} fro
 import {factory} from 'Types/chain';
 import * as CoreClone from 'Core/core-clone';
 
-import {Controller as SourceController} from 'Controls/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import {factory as CollectionFactory} from 'Types/collection';
 import entity = require('Types/entity');
 import collection = require('Types/collection');
@@ -51,13 +51,13 @@ function getHistorySource(cfg) {
 }
 
 function loadHistoryItems(historyConfig) {
-   var source = getHistorySource(historyConfig);
-   var sourceController = new SourceController({
-      source: source
-   });
-   return sourceController.load({
-      '$_history': true
-   }).addCallback(function(items) {
+   const source = getHistorySource(historyConfig);
+   const crudWrapper = new CrudWrapper({source});
+   return crudWrapper.query({
+      filter: {
+         $_history: true
+      }
+   }).then((items) => {
       return new collection.RecordSet({
          rawData: items.getRawData(),
          adapter: new entity.adapter.Sbis()

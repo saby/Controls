@@ -4,39 +4,54 @@
 
 @ellipsis_width_paging:                       24px;
 @ellipsis_text-color_paging:                  @text-color;
-@ellipsis_background-color_paging:            @background-color;
+@ellipsis_background-color_paging:            transparent;
 @ellipsis_font-size_paging:                   @font-size_m;
 
 // Маркер выбранного элемента
 
 @marker_thickness_paging:                     3px;
 @marker_color_paging:                         @marker_color;
+@marker_hover_color_paging:                   #EAEAEA;
 
 // Элемент с номером страницы
 
 @item_min-width_paging:                       28px;
 @item_text-color_paging:                      @text-color;
-@item_background-color_paging:                @background-color;
+@item_background-color_paging:                transparent;
 @item_font-size_paging:                       @font-size_m;
 @item_padding-horizontal_paging:              3px;
-@item_offset_paging:                          @offset_3xs;
-@item_hover_background-color_paging:          @hover_background-color;
-@item_height_paging:                          @inline_height_xl;
+@item_offset_paging:                          1px;
+@item_hover_background-color_paging:          transparent;
+@item_height_paging:                          @inline_height_l;
 @item_box-shadow_paging:                      none;
 
 // Элемент - стрелка
 
 @arrow_width_paging:                          32px;
-@arrow_background-color_paging:               @background-color;
-@arrow_hover_background-color_paging:         @hover_background-color;
+@arrow_background-color_paging:               transparent;
+@arrow_hover_background-color_paging:         transparent;
 @arrow_icon_font-family_paging:               @icon_font-family_s;
-@arrow_icon-size_paging:                      18px;
+@arrow_icon-size_paging:                      @icon-size_s;
 @arrow_icon-color_paging:                     @secondary_icon-color;
 @arrow_hover_icon-color_paging:               @secondary_hover_icon-color;
 @readonly_icon-color_paging:                  @readonly_color;
 
+@digits_arrow_begin_icon_content_paging:      '\e980';
+@digits_arrow_prev_icon_content_paging:       '\e97f';
+@digits_arrow_next_icon_content_paging:       '\e97e';
+@digits_arrow_end_icon_content_paging:        '\e97d';
+@arrow_begin_icon_content_paging:             '\e997';
+@arrow_prev_icon_content_paging:              '\e9a8';
+@arrow_next_icon_content_paging:              '\e9aa';
+@arrow_end_icon_content_paging:               '\e996';
+
 // Общие размеры и отступы
 
 @background-color_paging:                     @background-color;
-@padding-horizontal_paging:                   @offset_3xs;
+@padding-horizontal_paging:                   0;
 @padding-vertical_paging:                     0;
+
+// Разделители
+@arrow_separator_thickness_paging:            1px;
+@arrow_separator_length_paging:               16px;
+@arrow_separator_color_paging:                #e4e4e4;

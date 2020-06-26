@@ -16,7 +16,10 @@ import {
     TItemActionVisibilityCallback,
     TEditArrowVisibilityCallback,
     IItemAction,
-    TItemActionShowType, IItemActionsItem, IContextMenuConfig
+    TItemActionShowType,
+    TItemActionsPosition,
+    IItemActionsItem,
+    IContextMenuConfig
 } from 'Controls/itemActions';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 
@@ -26,7 +29,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import {constants, detection} from 'Env/Env';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import { MarkerController, TVisibility, Visibility } from 'Controls/marker';
-import {ISwipeEvent} from './Render';
+import { ISwipeEvent } from './Render';
 
 import template = require('wml!Controls/_listRender/View/View');
 
@@ -37,13 +40,14 @@ export interface IViewOptions extends IControlOptions {
     render: string;
 
     itemActions?: any[];
+    itemActionsVisibility?: 'onhover'|'delayed'|'visible';
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
-    itemActionsPosition?: string;
+    itemActionsPosition?: TItemActionsPosition;
     itemActionsProperty?: string;
     style?: string;
     itemActionsClass?: string;
 
-    actionAlignment?: string;
+    actionAlignment?: 'horizontal'|'vertical';
     actionCaptionPosition?: 'right'|'bottom'|'none';
 
     editingConfig?: any;
@@ -76,6 +80,11 @@ export default class View extends Control<IViewOptions> {
 
     protected async _beforeMount(options: IViewOptions): Promise<void> {
         this._collection = this._createCollection(options.collection, options.items, options);
+
+        if (options.itemActionsVisibility === 'visible') {
+            this._updateItemActions(options);
+        }
+
         if (options.markerVisibility !== Visibility.Hidden) {
             this._markerController = new MarkerController({
                 model: this._collection,
@@ -135,21 +144,25 @@ export default class View extends Control<IViewOptions> {
     }
 
     /**
-     * При наведении на запись в списке мы должны показать операции
-     * @param e
-     * @private
-     */
-    protected _onRenderMouseEnter(e: SyntheticEvent<MouseEvent>): void {
-        this._updateItemActions(this._options);
-    }
-
-    /**
-     * По событию youch мы должны показать операции
+     * По событию touch мы должны показать операции
      * @param e
      * @private
      */
     protected _onRenderTouchStart(e: SyntheticEvent<TouchEvent>): void {
         this._updateItemActions(this._options);
+    }
+
+    /**
+     * При наведении на запись в списке мы должны показать операции
+     * @param e
+     * @private
+     */
+    protected _onRenderMouseEnter(e: SyntheticEvent<TouchEvent>): void {
+        if (this._options.itemActionsVisibility !== 'visible') {
+            if (!this._collection.isActionsAssigned()) {
+                this._updateItemActions(this._options);
+            }
+        }
     }
 
     /**
@@ -268,6 +281,14 @@ export default class View extends Control<IViewOptions> {
             break;
         }
         // TODO fire 'markedKeyChanged' event if needed
+    }
+
+    /**
+     * Возвращает видимость опций записи.
+     * @private
+     */
+    _isVisibleItemActions(itemActionsMenuId: number): boolean {
+        return !itemActionsMenuId || this._options.itemActionsVisibility === 'visible';
     }
 
     /**
@@ -395,7 +416,7 @@ export default class View extends Control<IViewOptions> {
      */
     private _closePopup() {
         if (this._itemActionsMenuId) {
-            Sticky.closePopup(this._itemActionsMenuId);
+        Sticky.closePopup(this._itemActionsMenuId);
             UnregisterUtil(this, 'scroll');
         }
         this._itemActionsMenuId = null;
@@ -461,7 +482,7 @@ export default class View extends Control<IViewOptions> {
             itemActionsProperty: options.itemActionsProperty,
             visibilityCallback: options.itemActionVisibilityCallback,
             itemActionsPosition: options.itemActionsPosition,
-            style: options.style,
+            style: options.itemActionsVisibility === 'visible' ? 'transparent' : options.style,
             theme: options.theme,
             actionAlignment: options.actionAlignment,
             actionCaptionPosition: options.actionCaptionPosition,
@@ -494,7 +515,8 @@ export default class View extends Control<IViewOptions> {
             itemActionsPosition: 'inside',
             actionAlignment: 'horizontal',
             actionCaptionPosition: 'none',
-            style: 'default'
+            style: 'default',
+            itemActionsVisibility: 'onhover'
         };
     }
 }

@@ -1,11 +1,19 @@
 define(
    [
-      'Controls/input'
+      'Controls/input',
+      'UI/Utils'
    ],
-   function(input) {
-      'use strict';
-
+   function(input, {Logger}) {
       describe('InputActualAPI', function() {
+         var sandbox;
+         beforeEach(() => {
+            sandbox = sinon.createSandbox();
+            sandbox.stub(Logger, 'error');
+         });
+
+         afterEach(() => {
+            sandbox.restore();
+         });
          it('inlineHeight', function() {
             const inlineHeight = input.ActualAPI.inlineHeight;
 
@@ -13,10 +21,10 @@ define(
             assert.equal(inlineHeight('m', undefined), 'm');
             assert.equal(inlineHeight('l', undefined), 'l');
             assert.equal(inlineHeight('default', undefined), 'default');
-            assert.equal(inlineHeight('s', 'xs'), 'xs');
-            assert.equal(inlineHeight('m', 'xs'), 'xs');
-            assert.equal(inlineHeight('l', 'xs'), 'xs');
-            assert.equal(inlineHeight('default', 'xs'), 'xs');
+            assert.equal(inlineHeight(undefined, 'xs'), 'xs');
+            assert.equal(inlineHeight(undefined, 'xs'), 'xs');
+            assert.equal(inlineHeight(undefined, 'xs'), 'xs');
+            assert.equal(inlineHeight(undefined, 'xs'), 'xs');
          });
          it('fontColorStyle', function() {
             const fontColorStyle = input.ActualAPI.fontColorStyle;
@@ -24,9 +32,9 @@ define(
             assert.equal(fontColorStyle('default', undefined), 'default');
             assert.equal(fontColorStyle('primary', undefined), 'primary');
             assert.equal(fontColorStyle('secondary', undefined), 'secondary');
-            assert.equal(fontColorStyle('default', 'primary'), 'primary');
-            assert.equal(fontColorStyle('primary', 'default'), 'default');
-            assert.equal(fontColorStyle('secondary', 'default'), 'default');
+            assert.equal(fontColorStyle(undefined, 'primary'), 'primary');
+            assert.equal(fontColorStyle(undefined, 'default'), 'default');
+            assert.equal(fontColorStyle(undefined, 'default'), 'default');
          });
          it('fontSize', function() {
             const fontSize = input.ActualAPI.fontSize;
@@ -34,9 +42,9 @@ define(
             assert.equal(fontSize('default', undefined), 'm');
             assert.equal(fontSize('primary', undefined), '3xl');
             assert.equal(fontSize('secondary', undefined), '3xl');
-            assert.equal(fontSize('default', 's'), 's');
-            assert.equal(fontSize('primary', 's'), 's');
-            assert.equal(fontSize('secondary', 's'), 's');
+            assert.equal(fontSize(undefined, 's'), 's');
+            assert.equal(fontSize(undefined, 's'), 's');
+            assert.equal(fontSize(undefined, 's'), 's');
          });
          it('validationStatus', function() {
             const validationStatus = input.ActualAPI.validationStatus;
@@ -61,10 +69,10 @@ define(
             assert.equal(heightLine('m', undefined), 'm');
             assert.equal(heightLine('l', undefined), 'l');
             assert.equal(heightLine('default', undefined), 'm');
-            assert.equal(heightLine('s', 'xs'), 'xs');
-            assert.equal(heightLine('m', 'xs'), 'xs');
-            assert.equal(heightLine('l', 'xs'), 'xs');
-            assert.equal(heightLine('default', 'xs'), 'xs');
+            assert.equal(heightLine(undefined, 'xs'), 'xs');
+            assert.equal(heightLine(undefined, 'xs'), 'xs');
+            assert.equal(heightLine(undefined, 'xs'), 'xs');
+            assert.equal(heightLine(undefined, 'xs'), 'xs');
          });
       });
    }

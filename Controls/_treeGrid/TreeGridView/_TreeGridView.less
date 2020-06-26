@@ -288,19 +288,19 @@
 }
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
-.controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
+.controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @node_font-size_treeGrid;
 }
 
 .controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
-.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
+.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @hidden-node_font-size_treeGrid;
 }
 
 .controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
-.controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText_theme-@{themeName} {
+.controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @item_font-size_m_grid;
 }
 
@@ -385,7 +385,8 @@
 }
 
 .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
-   display: inline-block;
+   visibility: visible;
+   opacity: 1;
 }
 
 .ws-is-hover {
@@ -402,9 +403,12 @@
       color: @master_hidden-node_expander_hover_icon-color_treeGrid;
    }
 
-   .controls-BaseControl_showActions {
-      .controls-Grid__row:hover > .controls-TreeGrid__row-cell_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
-         display: inline-block;
+   .controls-BaseControl_showActions_visible .controls-Grid__row,
+   .controls-BaseControl_showActions_onhover .controls-Grid__row:hover,
+   .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
+      & > .controls-TreeGrid__row-cell_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+         visibility: visible;
+         opacity: 1;
       }
    }
 }

@@ -10,6 +10,7 @@ function getFewCategories(): Array<{
     tplPath?: string,
     cursor?: 'default' | 'pointer',
     hovered?: boolean
+    value?: string
 }> {
     return [
         {
@@ -216,7 +217,7 @@ function getEditableCatalog(): Array<{
     ]
 }
 
-function getContactsCatalog() {
+function getContactsCatalog(): Array<{ id: number, title: string }> {
     return [
         {
             id: 0,
@@ -237,7 +238,7 @@ function getContactsCatalog() {
     ];
 }
 
-function getContactsCatalogWithActions() {
+function getContactsCatalogWithActions(): any {
     const catalog = getContactsCatalog();
 
     catalog[0]['itemActions'] = [
@@ -332,6 +333,7 @@ function generateData<
 
     for (let i = 0; i < count; i++) {
         let item = createItem(entityTemplate, items.length);
+        //@ts-ignore
         item[keyProperty] = items.length;
         if (beforeCreateItemCallback(item) !== false) {
             items.push(item);

@@ -1,15 +1,16 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/grid/SourceChanger/WithFull/WithFull"
-import {Memory} from "Types/source"
-import {getCountriesStats, changeSourceData} from "../../DemoHelpers/DataCatalog"
-
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/grid/SourceChanger/WithFull/WithFull';
+import {Memory} from 'Types/source';
+import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { INavigation } from 'Controls-demo/types';
 
 const { data, data2 } = changeSourceData();
 
 class demoSource extends Memory {
     queryNumber: number = 0;
     pending: Promise<any>;
-    protected query(query) {
+    public query() {
         const args = arguments;
         return this.pending.then(() => {
             return super.query.apply(this, args).addCallback((items) => {
@@ -27,7 +28,7 @@ class demoSource extends Memory {
 }
 
 class initialMemory extends Memory {
-    protected query(query) {
+    public query() {
         return super.query.apply(this, arguments).addCallback((items) => {
             const rawData = items.getRawData();
             rawData.meta.more = false;
@@ -41,8 +42,9 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _columns = getCountriesStats().getColumnsForLoad();
-    private _resolve = null;
+    protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
+    private _resolve: any = null;
+    protected _navigation: INavigation;
 
     protected _beforeMount() {
         this._viewSource = new initialMemory({
@@ -69,12 +71,15 @@ export default class extends Control {
     protected _onPen() {
         const self = this;
         this._resolve();
+        // @ts-ignore
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
     }
 
     protected _onChangeSource() {
         const self = this;
+        // @ts-ignore
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
+        // @ts-ignore
         this._viewSource2.queryNumber = 0;
         this._viewSource = this._viewSource2;
     }

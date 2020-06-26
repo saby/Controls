@@ -5,7 +5,7 @@
                                app="{{ 'Controls-demo/dropdown_new/Search/SearchParam/FlatList/Index' }}">
          <a href="{{content.href}}">FlatList</a>
       </Router.router:Reference>
-      <Controls-demo.Menu.Control.Source.Index/>
+      <Controls-demo.dropdown_new.Search.SearchParam.FlatList.Index/>
    </div>
    <div class="controlsDemo__cell">
       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
@@ -13,6 +13,14 @@
                                app="{{ 'Controls-demo/dropdown_new/Search/SearchParam/HierarchyList/Index' }}">
          <a href="{{content.href}}">HierarchyList</a>
       </Router.router:Reference>
-      <Controls-demo.Menu.Control.MultiSelect.Index/>
+      <Controls-demo.dropdown_new.Search.SearchParam.HierarchyList.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/dropdown_new/Search/SearchParam/EmptyTemplate/Index' }}">
+         <a href="{{content.href}}">EmptyTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.dropdown_new.Search.SearchParam.EmptyTemplate.Index/>
    </div>
 </div>

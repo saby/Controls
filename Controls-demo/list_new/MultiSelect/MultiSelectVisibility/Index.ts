@@ -1,5 +1,5 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/MultiSelect/MultiSelectVisibility/MultiSelectVisibility"
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/MultiSelect/MultiSelectVisibility/MultiSelectVisibility';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

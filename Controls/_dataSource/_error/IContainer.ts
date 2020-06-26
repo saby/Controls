@@ -1,4 +1,4 @@
-import { ViewConfig } from './Handler';
+import { ViewConfig } from 'Controls/error';
 import { IControlOptions } from 'UI/Base';
 
 /**

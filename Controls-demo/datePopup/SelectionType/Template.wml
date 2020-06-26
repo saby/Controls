@@ -1,0 +1,49 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__flex-jc-sa">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">selectionType=range</div>
+        <Controls.datePopup
+                name="datePopup1"
+                selectionType="range"
+                startValue="{{_startValueRange}}"
+                endValue="{{_endValueRange}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">selectionType=single</div>
+        <Controls.datePopup
+                name="datePopup2"
+                selectionType="single"
+                startValue="{{_startValueSingle}}"
+                endValue="{{_endValueSingle}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">selectionType=disable</div>
+        <Controls.datePopup
+                name="datePopup3"
+                selectionType="disable"
+                startValue="{{_startValueDisable}}"
+                endValue="{{_endValueDisable}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">selectionType=quantum; quantum={'days': [1], 'months': [1]}</div>
+        <Controls.datePopup
+                name="datePopup4"
+                selectionType="quantum"
+                quantum="{{ {'days': [1], 'months': [1]} }}"
+                startValue="{{_startValueQuantum1}}"
+                endValue="{{_endValueQuantum1}}"
+        />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">selectionType=quantum; quantum={'days': [3]]}</div>
+        <Controls.datePopup
+                name="datePopup5"
+                selectionType="quantum"
+                quantum="{{ {'days': [3]} }}"
+                startValue="{{_startValueQuantum2}}"
+                endValue="{{_endValueQuantum2}}"
+        />
+    </div>
+</div>

@@ -10,7 +10,7 @@ export default class GridRenderContainerDemo extends Control {
     protected _template: TemplateFunction = template;
 
     protected _items: RecordSet = this._generateItems(100);
-    protected _columns = [
+    protected _columns: any = [
         {
             template: titleColumnTpl,
             width: '2fr'

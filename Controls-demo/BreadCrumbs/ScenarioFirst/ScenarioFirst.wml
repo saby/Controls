@@ -58,7 +58,7 @@
             <Controls.popupTemplate:Stack
                     attr:class="demo-FourthExample"
                     headingCaption="Продажи"
-                    headingStyle="primary"
+                    headingFontColorStyle="primary"
                     showMaximizedButton="{{true}}">
                 <ws:headerContentTemplate>
                     <div>

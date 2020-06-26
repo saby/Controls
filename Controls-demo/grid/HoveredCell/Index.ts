@@ -1,23 +1,23 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/grid/HoveredCell/HoveredCell"
-import {Memory} from "Types/source"
-import {getCountriesStats} from "../DemoHelpers/DataCatalog"
-
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/grid/HoveredCell/HoveredCell';
+import {Memory} from 'Types/source';
+import {getCountriesStats} from '../DemoHelpers/DataCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    private _hoveredCell: string = 'null';
-    private _columns = getCountriesStats().getColumnsWithFixedWidths();
+    protected _viewSource: Memory;
+    protected _hoveredCell: string = 'null';
+    protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths();
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getCountriesStats().getData()
         });
     }
 
-    protected _hoveredCellChanged(event, item, itemContainer, cell, cellContainer) {
+    protected _hoveredCellChanged(_, item: any, __: any, cell: number): void {
         this._hoveredCell = item ? ('key: ' + item.getKey() + '; cell: ' + cell) : 'null';
     }
 

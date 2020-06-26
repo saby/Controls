@@ -2,10 +2,10 @@ import {ICrudPlus, PrefetchProxy} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory, RecordSet} from 'Types/collection';
 import {descriptor, Record} from 'Types/entity';
+import {ActualApi} from 'Controls/buttons';
 
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Sticky  as StickyOpener} from 'Controls/popup';
-import {Controller as SourceController} from 'Controls/source';
 import {IShowType, showType, getMenuItems, needShowMenu} from 'Controls/Utils/Toolbar';
 import {IStickyPopupOptions, IStickyPosition, IEventHandlers} from 'Controls/popup';
 
@@ -27,7 +27,7 @@ import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
 import {ButtonTemplate, cssStyleGeneration} from 'Controls/buttons';
-import {CrudWrapper} from "../dataSource";
+import {CrudWrapper} from 'Controls/dataSource';
 
 type TItem = Record;
 type TItems = RecordSet<TItem>;
@@ -40,7 +40,7 @@ export function getButtonTemplateOptionsByItem(item: TItem, toolbarOptions: ICon
     const viewMode = item.get('viewMode');
 
     // todo: https://online.sbis.ru/opendoc.html?guid=244a5058-47c1-4896-a494-318ba2422497
-    const size = viewMode === 'functionalButton' ? 's' : 'm';
+    const inlineHeight = viewMode === 'functionalButton' ? 'default' : ActualApi.actualHeight('m', undefined, viewMode, false);
     const iconSize = viewMode === 'functionalButton' ? 's' : 'm';
 
     const iconStyle = item.get('iconStyle');
@@ -53,7 +53,7 @@ export function getButtonTemplateOptionsByItem(item: TItem, toolbarOptions: ICon
     const cfg: IButtonOptions = {};
     cfg._hoverIcon = true;
     cssStyleGeneration.call(cfg, {
-        size,
+        inlineHeight,
         icon,
         style,
         viewMode,

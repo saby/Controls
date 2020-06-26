@@ -1,7 +1,9 @@
 .controls-itemActionsV {
-  align-items:center;
-  display: none;
-  position:absolute;
+  align-items: center;
+  display: inline-block;
+  opacity: 0;
+  position: absolute;
+  visibility: hidden;
 }
 
 .controls-itemActionsV__wrapper {
@@ -12,22 +14,6 @@
 
 .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
   margin-left: @item_offset_itemActions;
-}
-
-.controls-itemActionsV_invisible {
-   /**
-   When menu is shown we should hide item actions on all rows.
-   There're 2 options to achieve this:
-   1) Add class on every row.
-   2) Add class on container and use cascade.
-
-   Option 1 causes re-render of every item each time a user opens\closes menu, so we use option 2 here.
-    */
-   .controls-itemActionsV,
-   .controls-Swipe_theme-@{themeName} {
-      visibility: hidden;
-      display: inline-flex;
-   }
 }
 
 .controls-itemActionsV_visible {
@@ -70,6 +56,10 @@
     border-top: @height_outside_itemActions solid @background-color_itemActions;
     border-left: @corner_width_outside_itemActions solid transparent;
     left: -@corner_width_outside_itemActions;
+  }
+  & .controls-itemActionsV__action-click_size{
+    width: @item_clickableArea-size_outside_itemActions;
+    height: @item_clickableArea-size_outside_itemActions;
   }
 }
 
@@ -136,29 +126,21 @@
   margin: 0 @item_offset_itemActions;
 }
 
-.controls-itemActionsV__action_iconStyle_danger_theme-@{themeName} {
-   color: @danger_color;
+.controls-action_iconStyle_secondary_theme-@{themeName} {
+  fill: @secondary_icon-color;
+  color: @secondary_icon-color;
+  &:hover {
+    fill: @secondary_hover_icon-color;
+    color: @secondary_hover_icon-color;
+  }
 }
-
-.controls-itemActionsV__action_iconStyle_success_theme-@{themeName} {
-   color: @success_color;
-}
-
-.controls-itemActionsV__action_iconStyle_secondary_theme-@{themeName} {
-   color: @secondary_icon-color;
-}
-
-.controls-itemActionsV__action_iconStyle_warning_theme-@{themeName} {
-   color: @warning_color;
-}
-
 //since Opener does not know the specific size of the icon
 .controls-itemActionsV__popup .icon-size_theme-@{themeName}{
   .icon-size-without-important(@item_icon-size_itemActions, @item_icon_font-family_itemsActions);
 }
 
 .controls-itemActionsV__action_icon_size_m_theme-@{themeName} {
-   .icon(@item_icon-size_itemActions, @item_icon_font-family_itemsActions);
+  .icon(@item_icon-size_itemActions, @item_icon_font-family_itemsActions);
 }
 
 .controls-itemActionsV__action_icon_size_s_theme-@{themeName} {
@@ -173,36 +155,14 @@
 
 .controls-itemActionsV_swiped {
   display: inline-flex;
+  visibility: visible;
+  opacity: 1;
 }
 
 .ws-is-hover {
    .controls-itemActionsV__action:hover .controls-itemActionsV__action_title_theme-@{themeName} {
       color: @item_hover_text-color_itemActions;
       text-decoration: underline;
-   }
-
-   .controls-itemActionsV__action_iconStyle_danger_theme-@{themeName}:hover {
-      color: @danger_color;
-   }
-
-   .controls-itemActionsV__action_iconStyle_success_theme-@{themeName}:hover {
-      color: @success_color;
-   }
-
-   .controls-itemActionsV__action_iconStyle_secondary_theme-@{themeName}:hover {
-      color: @secondary_hover_icon-color;
-   }
-
-   .controls-itemActionsV__action_iconStyle_warning_theme-@{themeName}:hover {
-      color: @warning_color;
-   }
-
-   .controls-itemActionsV__action_iconStyle_danger_theme-@{themeName}:hover {
-      border-color: @danger_color;
-   }
-
-   .controls-itemActionsV__action_iconStyle_success_theme-@{themeName}:hover {
-      border-color: @success_color;
    }
 }
 

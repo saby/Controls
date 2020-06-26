@@ -1,0 +1,9 @@
+<div class="controls-EdgeIntersectionContainer">
+    <ws:if data="{{_options.topOffset !== undefined}}">
+        <div class="controls-EdgeIntersectionContainer__trigger" name="topTrigger" style="top:{{_options.topOffset}}px;"></div>
+    </ws:if>
+    <ws:partial template="{{_options.content}}" scope="{{_options}}"/>
+    <ws:if data="{{_options.bottomOffset !== undefined}}">
+        <div class="controls-EdgeIntersectionContainer__trigger" name="bottomTrigger" style="bottom:{{_options.bottomOffset}}px;"></div>
+    </ws:if>
+</div>

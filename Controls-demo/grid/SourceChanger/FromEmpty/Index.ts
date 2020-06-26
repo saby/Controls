@@ -1,15 +1,16 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/grid/SourceChanger/FromEmpty/FromEmpty"
-import {Memory} from "Types/source"
-import {getCountriesStats, changeSourceData} from "../../DemoHelpers/DataCatalog"
-
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/grid/SourceChanger/FromEmpty/FromEmpty';
+import {Memory} from 'Types/source';
+import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { INavigation } from 'Controls-demo/types';
 
 const { data2: data } = changeSourceData();
 
 class demoSource extends Memory {
     queryNumber: number = 0;
     pending: Promise<any>;
-    protected query(query) {
+    public query() {
         const args = arguments;
         return this.pending.then(() => {
             return super.query.apply(this, args).addCallback((items) => {
@@ -29,8 +30,9 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _columns = getCountriesStats().getColumnsForLoad();
-    private _resolve = null;
+    protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
+    private _resolve: any = null;
+    protected _navigation: INavigation;
 
     protected _beforeMount() {
         this._viewSource = new Memory({
@@ -53,14 +55,17 @@ export default class extends Control {
             data: data,
         });
     }
-    protected _onPen() {
+    protected _onPen(): void {
         const self = this;
         this._resolve();
+        // @ts-ignore
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
     }
     protected _onChangeSource() {
         const self = this;
+        // @ts-ignore
         this._viewSource2.pending = new Promise((res) => { self._resolve = res; });
+        // @ts-ignore
         this._viewSource2.queryNumber = 0;
         this._viewSource = this._viewSource2;
     }

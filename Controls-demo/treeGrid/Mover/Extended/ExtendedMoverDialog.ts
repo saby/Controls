@@ -1,10 +1,10 @@
-import {Control, TemplateFunction} from "UI/Base";
-import * as Template from "wml!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog";
-import {Record} from "Types/entity";
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/treeGrid/Mover/Extended/ExtendedMoverDialog/ExtendedMoverDialog';
+import {Record} from 'Types/entity';
 import {RecordSet} from "Types/collection";
-import {SyntheticEvent} from "sbis3-ws/Vdom/Vdom";
+import {SyntheticEvent} from 'sbis3-ws/Vdom/Vdom';
 
-export default class extends Control {
+export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
     private _moverItemsCount: number;
     protected _filter: object = {};

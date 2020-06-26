@@ -2,7 +2,9 @@
 <ui_module id="af50caf5-f84b-4b81-a19c-6f6618372dbd" name="Controls-default-theme" package="Платформа" responsible="Крайнов Д.О." required="1" version="1.00">
   <description/>
 
-  <depends/>
+  <depends>
+    <module id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" name="Controls"/>
+  </depends>
 
   <load_after/>
 

@@ -18,12 +18,15 @@
  */
 
 export {
+    Config,
+    Controller,
     Handler,
-    ViewConfig,
-    HandlerConfig
-} from './_error/Handler';
-export { default as Controller, Config } from './_error/Controller';
-export { default as Mode } from './_error/Mode';
+    HandlerConfig,
+    Mode,
+    Popup,
+    process,
+    ViewConfig
+} from 'Controls/error';
 export { default as Container } from './_error/Container';
 export { default as DataLoader } from './_error/DataLoader';
 export {
@@ -31,5 +34,3 @@ export {
     IContainerConfig,
     IContainerConstructor
 } from './_error/IContainer';
-export { default as Popup } from './_error/Popup';
-export { default as process} from './_error/process';

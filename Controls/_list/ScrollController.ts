@@ -114,7 +114,7 @@ export default class ScrollController {
     // подскроллов создаваемых самим контролом (scrollToItem, восстановление позиции скролла после перерисовок)
     private _fakeScroll: boolean;
 
-    private __mounted: boolean = false;
+    private _isMounted: boolean = false;
 
     // Сущность управляющая инерционным скроллингом на мобильных устройствах
     private _inertialScrolling: InertialScrolling = new InertialScrolling();
@@ -147,7 +147,7 @@ export default class ScrollController {
     }
 
     afterMount(container: HTMLElement, triggers: IScrollTriggers): void {
-        this.__mounted = true;
+        this._isMounted = true;
         this._setContainer(container);
         if (this._container) {
             this._setTriggers(triggers);
@@ -323,10 +323,15 @@ export default class ScrollController {
                                 const rangeShiftResult = this._virtualScroll
                                     .resetRange(index, this._options.collection.getCount());
                                 this._notifyPlaceholdersChanged(rangeShiftResult.placeholders);
-                                this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
-                                    this._options.needScrollCalculation);
+                                this._setCollectionIndices(
+                                    this._options.collection,
+                                    rangeShiftResult.range,
+                                    false,
+                                    this._options.needScrollCalculation
+                                );
 
-                                // Скролл нужно восстанавливать после отрисовки, для этого используем _restoreScrollResolve
+                                // Скролл нужно восстанавливать после отрисовки, для этого используем
+                                // _restoreScrollResolve
                                 this._restoreScrollResolve = scrollCallback;
                             });
                         }
@@ -444,6 +449,7 @@ export default class ScrollController {
         if (needScrollCalculation) {
             let collectionStartIndex: number;
             let collectionStopIndex: number;
+
             if (collection.getViewIterator) {
                 collectionStartIndex = VirtualScrollController.getStartIndex(
                     collection as unknown as VirtualScrollController.IVirtualScrollCollection
@@ -467,7 +473,7 @@ export default class ScrollController {
                 }
             }
         }
-        if (this.__mounted) {
+        if (this._isMounted) {
             this._callbacks.updateShadowMode({
                 up: start > 0,
                 down: stop < collection.getCount()
@@ -686,8 +692,12 @@ export default class ScrollController {
             // Такое происходит например при добавлении в узел дерева
             // После решения ошибки этот код будет не нужен и индексы проставляться будут только здесь
             // @ts-ignore
-            this._setCollectionIndices(this._options.collection, this._virtualScroll._range, false,
-                this._options.needScrollCalculation);
+            this._setCollectionIndices(
+                this._options.collection,
+                this._virtualScroll._range,
+                false,
+                this._options.needScrollCalculation
+            );
         }
     }
 
@@ -736,7 +746,7 @@ export default class ScrollController {
     private _notifyPlaceholdersChanged(placeholders: IPlaceholders): void {
         this._placeholders = placeholders;
 
-        if (this.__mounted) {
+        if (this._isMounted) {
             this._notify('updatePlaceholdersSize', [placeholders], {bubbling: true});
         }
     }

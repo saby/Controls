@@ -6,8 +6,10 @@
          <div class="controls-StackTemplate__caption controls-StackTemplate__caption_theme_{{_options.theme}}">
             <Controls.heading:Title attr:class="controls-StackTemplate__caption_text controls-StackTemplate__caption_text_theme_{{_options.theme}}"
                                     caption="{{_options.headingCaption}}"
-                                    style="{{_options.headingStyle}}"
                                     size="{{_options.headingSize}}"
+                                    style="{{_options.headingStyle}}"
+                                    fontSize="{{_options.headingFontSize}}"
+                                    fontColorStyle="{{_options.headingFontColorStyle}}"
                                     readOnly="{{true}}"
                                     tooltip="{{_options.headingCaption}}"/>
          </div>

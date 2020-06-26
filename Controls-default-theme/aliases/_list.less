@@ -19,8 +19,8 @@
 //
 // Пэйджинг при подгрузке по скроллу
 
-@scrollpaging_separator-color_list:                                 @secondary_color;
-@scrollpaging_separator-thickness_list:                             1px;
+@scrollpaging_offset-vertical_list:                                 @offset_xs;
+@scrollpaging_offset-horizontal_list:                               @offset_s;
 
 // Футер
 
@@ -74,7 +74,7 @@
 
 // Чебоксы мультивыбора
 
-@checkbox_offset-top_list:                                          3px;
+@checkbox_offset-top_list:                                          4px;
 @checkbox_offset-left_list:                                         0;
 @checkbox_height_list:                                              @height_checkbox;
 
@@ -115,6 +115,11 @@
 @grouping_expander_hover_text-color_list:                           @link_hover_text-color;
 @grouping_expander_active_text-color_list:                          @link_hover_text-color;
 @grouping_expander_icon-size_list:                                  @icon-size_s;
+@grouping_expander_icon-size-2xs_list:                              @icon-size_2xs;
+@grouping_expander_icon-size-xs_list:                               @icon-size_xs;
+@grouping_expander_icon-size-s_list:                                @icon-size_s;
+@grouping_expander_icon-size-m_list:                                @icon-size_m;
+@grouping_expander_icon-size-l_list:                                @icon-size_l;
 @grouping_expander_icon_offset_list:                                @offset_xs;
 
 @grouping_right-template_padding-left_list:                         @offset_m;
@@ -148,13 +153,15 @@
 
 // Маркер
 @master-marker_thickness_list:                                      6px;
-@masterClassic-marker_thickness_list:                                   3px;
+@master-marker_fontSize_list:                                       @item_font-size_2xl_grid;
+@masterClassic-marker_thickness_list:                               3px;
 @master-marker_height_list:                                         11px;
 @master-marker_color_list:                                          #349CEE;
 
 // Цвет фона элемента
 @master_item_background-color_list:                                 #F8F8F8;
 @master_item_hover_background-color_list:                           #FFFFFF;
+@master_item_selected_background-color_list:                        @master_item_background-color_list;
 @masterClassic_item_selected_border-thickness_list:                 @border-thickness;
 @masterClassic_item_selected_border-top-color_list:                 #C2D0DE;
 @masterClassic_item_selected_background-color_list:                 #FFFFFF;
@@ -220,6 +227,7 @@
 @item_icon-size_editing_itemActions:                                @icon-size_s;
 @item_icon_font-family_itemsActions:                                @icon_font-family_m;
 @item_icon_font-family_editing_itemsActions:                        @icon_font-family_s;
+@item_clickableArea-size_outside_itemActions:                       @item_icon-size_itemActions;
 
 // Текст
 

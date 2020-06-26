@@ -1,19 +1,19 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/LoadingIndicator/Up/Up"
-import {Memory} from "Types/source"
-import {generateData} from "../../DemoHelpers/DataCatalog"
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/LoadingIndicator/Up/Up';
+import {Memory} from 'Types/source';
+import {generateData} from '../../DemoHelpers/DataCatalog';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     private _viewSource: Memory;
-    private _dataArray = generateData<{id: number, title: string}>({
+    private _dataArray: Array<{id: number, title: string}> = generateData<{id: number, title: string}>({
         count: 100,
         beforeCreateItemCallback: (item) => {
             item.title = `Запись списка с id = ${item.id}.`
         }
     });
 
-    protected _beforeMount() {
+    protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: this._dataArray
@@ -21,7 +21,7 @@ export default class extends Control {
         this._slowDownSource(this._viewSource, 3000);
     }
 
-    private _slowDownSource(source: Memory, timeMs: number) {
+    private _slowDownSource(source: Memory, timeMs: number): void {
         const originalQuery = source.query;
 
         source.query = function() {

@@ -1,10 +1,10 @@
-import {Control, TemplateFunction} from "UI/Base"
-import * as Template from "wml!Controls-demo/list_new/ItemActions/ItemActionVisibilityCallback/ItemActionVisibilityCallback"
-import {Memory} from "Types/source"
-import {Model} from "Types/entity"
-import {getContactsCatalog as getData} from "../../DemoHelpers/DataCatalog"
-import {getActionsForContacts as getItemActions} from "../../DemoHelpers/ItemActionsCatalog"
-import {showType} from "Controls/Utils/Toolbar"
+import {Control, TemplateFunction} from 'UI/Base';
+import * as Template from 'wml!Controls-demo/list_new/ItemActions/ItemActionVisibilityCallback/ItemActionVisibilityCallback';
+import {Memory} from 'Types/source';
+import {Model} from 'Types/entity';
+import {getContactsCatalog as getData} from '../../DemoHelpers/DataCatalog';
+import {getActionsForContacts as getItemActions} from '../../DemoHelpers/ItemActionsCatalog';
+import {showType} from 'Controls/Utils/Toolbar';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -18,7 +18,7 @@ export default class extends Control {
         });
     }
 
-    protected _itemActionVisibilityCallback(itemAction, item: Model) {
+    protected _itemActionVisibilityCallback(itemAction, item: any) {
 
         if (itemAction.title === 'Позвонить') {
             return false;

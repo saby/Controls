@@ -16,7 +16,7 @@ const maxPercentValue = 100;
 
 /**
  * Слайдер с двумя подвижными ползунками для выбора диапазона.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2fSlider%2fRange%2fIndex">демо-пример</a>
@@ -143,7 +143,8 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
 
    protected _beforeMount(options: ISliderRangeOptions): void {
       this._checkOptions(options);
-      this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep);
+      this._scaleData = Utils.getScaleData(options.minValue, options.maxValue, options.scaleStep,
+          options.scaleLabelFormatter);
       this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
       this._startValue = options.startValue === undefined ?
                                                 options.minValue : Math.max(options.minValue, options.startValue);
@@ -156,7 +157,8 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
    protected _beforeUpdate(options: ISliderRangeOptions): void {
       if (this._needUpdate(this._options, options)) {
          this._checkOptions(options);
-         this._scaleData = Utils.getScaleData( options.minValue, options.maxValue, options.scaleStep);
+         this._scaleData = Utils.getScaleData( options.minValue, options.maxValue, options.scaleStep,
+             options.scaleLabelFormatter);
       }
       this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
       this._startValue = options.startValue === undefined ?

@@ -4,8 +4,8 @@
  * @private
  */
 
-import {QueryWhere} from 'Types/source';
-import {Controller as SourceController} from 'Controls/source';
+import {QueryWhereExpression, QueryOrderSelector} from 'Types/source';
+import {CrudWrapper} from 'Controls/dataSource';
 import {ICrud} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {TGroupId, IGroupingModel} from 'Controls/_list/Controllers/Grouping';
@@ -17,11 +17,10 @@ export default class GroupingLoader extends Control {
     loadGroup(collection: IGroupingModel,
               groupId: TGroupId,
               source: ICrud,
-              filter: QueryWhere,
-              sorting?: object): Promise<void> {
-        const sourceController =  new SourceController({
-            source,
-            navigation: {}
+              filter: QueryWhereExpression<any>,
+              sorting?: QueryOrderSelector): Promise<void> {
+        const crudWrapper = new CrudWrapper({
+            source
         });
         filter = {...filter};
         filter[collection.getGroupProperty()] = [groupId];
@@ -29,7 +28,7 @@ export default class GroupingLoader extends Control {
             loadingGroups: [groupId],
             ...filter
         };
-        return sourceController.load(queryFilter, sorting).then((loadedItems: RecordSet) => {
+        return crudWrapper.query({filter: queryFilter, sorting}).then((loadedItems: RecordSet) => {
             this._loadedGroups[groupId] = true;
             collection.mergeItems(loadedItems);
         });

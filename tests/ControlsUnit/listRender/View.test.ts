@@ -155,10 +155,13 @@ describe('Controls/_listRender/View', () => {
                 getEditingConfig: () => null,
                 setActionsTemplateConfig: () => null,
                 getItemBySourceKey: () => item,
-                setActiveItem: function(_item) {
+                setEventRaising: (val1, val2) => null,
+                each: (val) => null,
+                setActionsAssigned: (val) => null,
+                setActiveItem(_item: any): void {
                     this._$activeItem = _item;
                 },
-                getActiveItem: function() {
+                getActiveItem(): any {
                     return this._$activeItem;
                 },
                 at: () => item
@@ -167,11 +170,11 @@ describe('Controls/_listRender/View', () => {
                 propagating: true,
                 nativeEvent: {
                     prevented: false,
-                    preventDefault: function() {
+                    preventDefault(): void {
                         this.prevented = true;
                     }
                 },
-                stopImmediatePropagation: function() {
+                stopImmediatePropagation(): void {
                     this.propagating = false;
                 },
                 target: {
@@ -186,7 +189,16 @@ describe('Controls/_listRender/View', () => {
                     closest: () => 'elem'
                 }
             };
-            view._updateItemActions(defaultCfg);
+            const cfg = {
+                ...defaultCfg,
+                itemActions: [
+                    {
+                        id: 2,
+                        showType: 0
+                    }
+                ]
+            };
+            view._updateItemActions(cfg);
         });
 
         // Не показываем контекстное меню браузера, если мы должны показать кастомное меню

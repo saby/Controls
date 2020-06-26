@@ -1,6 +1,8 @@
 <div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding_theme-{{theme}}
             controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
-            controls-itemActionsV__action_iconStyle_{{action.iconStyle ? action.iconStyle : 'secondary'}}_theme-{{theme}}"
+            {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
+            ('controls-icon_style-' + action.iconStyle) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
+            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-click_size') : '')}}"
       attr:title="{{action.tooltip}}"
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">

@@ -1,9 +1,37 @@
 import display = require('Controls/display');
-import entity = require('Types/entity');
 import isPlainObject = require('Core/helpers/Object/isPlainObject');
+import { Model } from 'Types/entity';
+import { RecordSet } from 'Types/collection';
+
+const DEFAULT_UNIQUE_SEPARATOR = ',';
 
 var
     TreeItemsUtil = {
+        getUniqueParentKey(item: Model,
+                           items: RecordSet,
+                           originalKeyProperty: string,
+                           originalParentProperty: string,
+                           separator?: string = DEFAULT_UNIQUE_SEPARATOR): string {
+            let curParentKey = item.get(originalParentProperty);
+            let uniqueKey = '' + curParentKey;
+            let curParent = items.at(items.getIndexByValue(originalKeyProperty, curParentKey));
+            while (curParent) {
+                curParentKey = curParent.get(originalParentProperty);
+                uniqueKey += separator + curParentKey;
+                curParent = items.at(items.getIndexByValue(originalKeyProperty, curParentKey));
+            }
+            return uniqueKey;
+        },
+
+        getUniqueHierarchicalKey(item: Model,
+                                 items: RecordSet,
+                                 originalKeyProperty: string,
+                                 originalParentProperty: string,
+                                 separator?: string = DEFAULT_UNIQUE_SEPARATOR): string {
+            return '' + item.get(originalKeyProperty) + separator +
+                TreeItemsUtil.getUniqueParentKey(item, items, originalKeyProperty, originalParentProperty, separator);
+        },
+
         prepareDisplayProperties: function(items, cfg, filter) {
            var
               displayProperties = {
@@ -42,7 +70,7 @@ var
            }
            rootAsNode = isPlainObject(root);
            if (rootAsNode) {
-              root = entity.Model.fromObject(root, 'Types/entity:adapter.Sbis');
+              root = Model.fromObject(root, 'Types/entity:adapter.Sbis');
               root.keyProperty = cfg.keyProperty;
               displayProperties.rootEnumerable = true;
            }

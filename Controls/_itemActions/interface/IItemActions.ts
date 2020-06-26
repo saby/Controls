@@ -215,30 +215,3 @@ export interface IMenuTemplateOptions extends IContextMenuConfig {
         iconSize: TItemActionsSize;
     };
 }
-
-export type IMenuActionHandler = (event: SyntheticEvent, action: string, data: Model) => void;
-
-export interface IMenuConfig {
-    opener: Element | Control<object, unknown>;
-    template: string;
-    actionOnScroll: string;
-    target: {
-        getBoundingClientRect(): ClientRect;
-    };
-    templateOptions: IMenuTemplateOptions;
-    closeOnOutsideClick: boolean;
-    targetPoint: {
-        vertical: string,
-        horizontal: string
-    };
-    direction: {
-        horizontal: string
-    };
-    className: string;
-    nativeEvent: Event;
-    autofocus: boolean;
-    eventHandlers?: {
-         onResult: IMenuActionHandler;
-         onClose: IMenuActionHandler;
-    };
-}

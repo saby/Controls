@@ -3,14 +3,15 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/EditingOnMount
 import {Memory} from 'Types/source';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../DemoHelpers/ItemActionsCatalog';
+import { IItemAction } from 'Controls/itemActions';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _itemActions = getItemActions();
+    protected _itemActions: IItemAction[] = getItemActions();
     private _viewSource: Memory;
-    private _newData = getData().slice(0, 1);
-    private _editingConfig = null;
-    protected _beforeMount() {
+    private _newData: any = getData().slice(0, 1);
+    protected _editingConfig: any = null;
+    protected _beforeMount(): Promise<any> {
         this._newData[0].id = 1;
 
         this._viewSource = new Memory({

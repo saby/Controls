@@ -215,6 +215,9 @@ define('Controls/Application',
 
             this._hoverClass = _private.isHover(this._touchClass, this._dragClass) ? 'ws-is-hover' : 'ws-is-no-hover';
          },
+         _updateThemeClass: function(cfg) {
+            this._themeClass = 'Application-body_theme-' + cfg.theme;
+         },
 
          _dragStartHandler: function() {
             this._dragClass = 'ws-is-drag';
@@ -317,6 +320,7 @@ define('Controls/Application',
                /* eslint-enable */
             }
             this._updateClasses();
+            this._updateThemeClass(cfg);
 
             SettingsController.setController(cfg.settingsController);
          },
@@ -337,6 +341,7 @@ define('Controls/Application',
                this._scrollData.updateConsumers();
             }
             this._updateClasses();
+            this._updateThemeClass(cfg);
          },
 
          _afterUpdate: function(oldOptions) {

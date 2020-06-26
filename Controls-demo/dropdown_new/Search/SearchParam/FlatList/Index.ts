@@ -7,7 +7,7 @@ import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 class SearchFlat extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _source: Memory;
-    protected _selectedKeys: any[] = [1];
+    protected _selectedKeys: number[] = [1];
 
     protected _beforeMount(): void {
 

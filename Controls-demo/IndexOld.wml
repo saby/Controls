@@ -187,6 +187,10 @@
          <a href="Controls-demo%252FList%252FSwipe">
             Swipe
          </a>
+         <br />
+         <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/list_new/ItemActions/Index' }}">
+            <a href="{{content.href}}">ItemActions (list_new)</a>
+         </Router.router:Reference>
       </div>
       <h1>DragNDrop</h1>
       <div>

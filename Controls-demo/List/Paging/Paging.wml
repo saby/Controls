@@ -1,5 +1,11 @@
 <div>
-   <Controls.paging:Paging showDigits="{{false}}" pagesCount="{{15}}" selectedKey="{{1}}"></Controls.paging:Paging>
-
-   <Controls.paging:Paging showDigits="{{true}}" pagesCount="{{15}}" bind:selectedPage="_selectedKey"></Controls.paging:Paging>
+   <div>
+      <Controls.paging:Paging attr:style="display: inline-block" showDigits="{{false}}" contrastBackground="{{true}}" pagesCount="{{15}}" selectedKey="{{1}}"></Controls.paging:Paging>
+   </div>
+   <div>
+      <Controls.paging:Paging attr:style="display: inline-block" showDigits="{{true}}" pagesCount="{{15}}" bind:selectedPage="_selectedKey"></Controls.paging:Paging>
+   </div>
+   <div>
+      <Controls.paging:Paging attr:style="display: inline-block" showDigits="{{true}}" contrastBackground="{{true}}" pagesCount="{{15}}" bind:selectedPage="_selectedKey"></Controls.paging:Paging>
+   </div>
 </div>

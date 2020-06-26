@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения горизонтальной линии-разделителя {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/grouping/ группы} в {@link Controls/list:View плоских списках}.
- * 
+ *
  * @class Controls/list:GroupTemplate
  * @mixes Controls/list:BaseGroupTemplate
  * @author Авраменко А.С.
@@ -14,6 +14,8 @@
  *          separatorVisibility="{{ false }}"
  *          expanderVisible="{{ false }}"
  *          textAlign="left"
+ *          fontSize="xs"
+ *          iconSize="m"
  *          scope="{{groupTemplate}}">
  *          <ws:contentTemplate>
  *             <ws:if data="{{contentTemplate.itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
@@ -27,4 +29,4 @@
  * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/ здесь}.
  * @public
  */
- 
+

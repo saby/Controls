@@ -11,11 +11,11 @@ export interface ICounterOptions extends IControlOptions, IFontColorStyleOptions
 
 /**
  * Счетчик с поддержкой различных стилей отображения и размеров.
- * 
+ *
  * @remark
  * Используется в составе сложных заголовков, состоящих из {@link Controls/heading:Separator}, {@link Controls/heading:Counter} и {@link Controls/heading:Title}.
  * Для одновременной подсветки всех частей сложного заголовка при наведении используйте класс controls-Header_all__clickable на контейнере.
- * 
+ *
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
  * * <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/heading/">руководство разработчика</a>
@@ -41,53 +41,13 @@ export interface ICounterOptions extends IControlOptions, IFontColorStyleOptions
  *
  * @class Controls/_heading/Counter
  * @extends Core/Control
- * @control
+ * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/IFontSize
  * @public
  * @author Красильников А.С.
  *
  * @demo Controls-demo/Heading/Counters/Index
  */
-
-/**
- * @name Controls/_heading/Counter#size
- * @cfg {String} Размер счетчика.
- * @variant l Большой счетчик.
- * @variant m Средний счетчик.
- * @variant s Маленький счетчик.
- * @default m
- * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте {@link Controls/_heading/Counter#fontSize}.
- */
-
-/*
- * @name Controls/_heading/Counter#size
- * @cfg {String} Size of Counter.
- * @variant l Large counter size.
- * @variant m Medium counter size.
- * @variant s Small counter size.
- * @default m
- * @deprecated
- */
-
-/**
- * @name Controls/_heading/Counter#style
- * @cfg {String} Стиль отображения счетчика.
- * @variant primary
- * @variant secondary
- * @variant disabled
- * @default primary
- * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте {@link Controls/_heading/Counter#fontColorStyle}.
- */
-
-/*
- * @name Controls/_heading/Counter#style
- * @cfg {String} Counter displaying style.
- * @variant primary
- * @variant secondary
- * @variant disabled
- * @default primary
- * @deprecated
- */
-
 class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFontSize {
     '[Controls/_interface/IFontColorStyle]': boolean = true;
     '[Controls/_interface/IFontSize]': boolean = true;
@@ -110,24 +70,14 @@ class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFont
 
     static getDefaultOptions(): object {
         return {
-            style: 'primary',
-            size: 'm'
+            fontSize: 'l',
+            fontColorStyle: 'primary'
         };
     }
 
     static getOptionTypes(): object {
         return {
-            value: EntityDescriptor(Number),
-            style: EntityDescriptor(String).oneOf([
-                'primary',
-                'secondary',
-                'disabled'
-            ]),
-            size: EntityDescriptor(String).oneOf([
-                'm',
-                's',
-                'l'
-            ])
+            value: EntityDescriptor(Number)
         };
     }
 }

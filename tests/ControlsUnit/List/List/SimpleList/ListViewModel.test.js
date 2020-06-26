@@ -147,20 +147,20 @@ define([
             },
             model = new lists.ListViewModel(cfg);
             const itemInRange = {
-               isSticky: false,
+               isStickedMasterItem: false,
                isGroup: false,
                isStickyHeader: false,
             }
             assert.isTrue(model.isShouldBeDrawnItem(itemInRange));
             const itemGroup = {
-               isSticky: false,
+               isStickedMasterItem: false,
                isGroup: true,
                isStickyHeader: true,
             }
             model._startIndex = 1;
             assert.isTrue(model.isShouldBeDrawnItem(itemGroup)); // curent index 0, strartIndex 1. item isn't in range but should render as group
             const itemSticky = {
-               isSticky: true,
+               isStickedMasterItem: true,
                isGroup: false,
                isStickyHeader: false,
             }
@@ -622,13 +622,13 @@ define([
             item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
             assert.isTrue(item.isDragging);
             assert.isTrue(item.isVisible);
-            assert.isTrue(item.isSticky);
+            assert.isTrue(item.isStickedMasterItem);
             assert.isFalse(item.hasMultiSelect);
 
             lvm._markedKey = 3;
             item = lvm.getItemDataByItem(lvm.getItemById('3', 'id'));
             assert.isUndefined(item.isDragging);
-            assert.isTrue(item.isSticky);
+            assert.isTrue(item.isStickedMasterItem);
             assert.isFalse(item.isVisible);
 
             item = lvm.getItemDataByItem(lvm.getItemById('1', 'id'));

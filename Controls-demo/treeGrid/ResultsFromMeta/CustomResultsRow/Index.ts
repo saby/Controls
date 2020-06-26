@@ -4,14 +4,16 @@ import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
+import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: Memory;
-    protected _header = Gadgets.getHeaderForFlat();
-    protected _columns = Gadgets.getGridColumnsForFlat();
-    private _fullResultsIndex = 0;
-    private _partialResultsIndex = 0;
+    protected _viewSource: Memory;
+    protected _header: IHeader[] = Gadgets.getHeaderForFlat();
+    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    private _fullResultsIndex: number = 0;
+    private _partialResultsIndex: number = 0;
 
     constructor() {
         super({});

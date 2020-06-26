@@ -1,11 +1,7 @@
 <Controls-demo.ReceivedStatesDemo.Wrapper>
    <ws:wrapperContent>
-      <Controls.Application scope="{{_options}}" theme="{{content.theme}}" bodyClass="controls-default-bg" title="{{_title}}">
-         <ws:content>
-            <div>
-               <Controls-demo.ReceivedStatesDemo.TestControlWithRS wrapperRS="{{wrapperContent.gotRS}}"/>
-            </div>
-         </ws:content>
-      </Controls.Application>
+      <div>
+         <Controls-demo.ReceivedStatesDemo.TestControlWithRS wrapperRS="{{wrapperContent.gotRS}}"/>
+      </div>
    </ws:wrapperContent>
 </Controls-demo.ReceivedStatesDemo.Wrapper>

@@ -3,12 +3,12 @@ import * as Template from 'wml!Controls-demo/Explorer_new/EditInPlace/LeafsOnly/
 import {Gadgets} from '../../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import * as CellTemplate from 'wml!Controls-demo/Explorer_new/EditInPlace/LeafsOnly/CellTemplate';
-
+import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
-    private _viewSource: MemorySource;
-    private _columns = Gadgets.getColumns();
+    protected _viewSource: MemorySource;
+    private _columns: IColumn[] = Gadgets.getColumns();
 
     protected _beforeMount(): void {
         this._columns[0].template = CellTemplate;

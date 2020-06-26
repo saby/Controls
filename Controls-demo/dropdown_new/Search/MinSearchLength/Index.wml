@@ -1,0 +1,13 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__ml3">
+      <div class="controls-text-label_theme-{{_options.theme}}">Минимальное количество символов: 2</div>
+      <Controls.dropdown:Input
+              source="{{_source}}"
+              keyProperty="key"
+              bind:selectedKeys="_selectedKeys"
+              displayProperty="title"
+              searchParam="title"
+              minSearchLength="2"
+      />
+   </div>
+</div>

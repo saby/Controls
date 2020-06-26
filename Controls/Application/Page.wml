@@ -29,7 +29,7 @@
                                        <UI.HotKeys:Dispatcher>
                                           <ws:partial template="{{bodyTemplate.content}}"
                                                       class="{{BodyClasses()}} {{_scrollingClass}} {{_options.bodyClass}}
-                                                            {{_touchClass}} {{_dragClass}} {{_hoverClass}} zIndex-context"
+                                                            {{_touchClass}} {{_dragClass}} {{_hoverClass}} zIndex-context {{_themeClass}}"
                                                       id="body"
                                                       key="1_2_"
                                                       on:scroll="_scrollPage()"

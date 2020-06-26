@@ -3,8 +3,10 @@
          <div class="controls-ListView__groupSeparator-left_theme-{{itemData.theme}}">&nbsp;</div>
       </ws:if>
       <div class="controls-ListView__groupContent-text controls-ListView__groupContent-text_theme-{{itemData.theme}}
+         {{itemData.fontSize ? ' controls-fontsize-' + itemData.fontSize + '_theme-' + itemData.theme : ' controls-ListView__groupContent-text_default_theme-' + itemData.theme}}
          {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + itemData.theme) +
          (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + itemData.theme : ' controls-ListView__groupExpander_left_theme-' + itemData.theme) +
+         ' controls-ListView__groupExpander-iconSize_' + (itemData.iconSize || 'default') + '_theme-' + itemData.theme +
          (!itemData.isGroupExpanded ?
          ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
             ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'')}}">

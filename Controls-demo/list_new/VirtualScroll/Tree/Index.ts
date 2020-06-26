@@ -11,8 +11,8 @@ interface IItem {
 
 class PositionSourceMock extends Memory {
     query(query?: Query<unknown>): Promise<DataSet> {
-        const filter = query.getWhere();
-        const limit = query.getLimit();
+        const filter: any = query.getWhere();
+        const limit: any = query.getLimit();
 
         const isPrepend = typeof filter['id<='] !== 'undefined';
         const isAppend = typeof filter['id>='] !== 'undefined';

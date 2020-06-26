@@ -95,6 +95,7 @@
    </ws:if>
    <ws:if data="{{_pagingState.visible}}">
          <Controls.paging:Paging class="controls-Scroll__paging"
+                            contrastBackground="{{true}}"
                             backwardEnabled="{{_pagingState.stateUp}}"
                             forwardEnabled="{{_pagingState.stateDown}}"
                             on:onArrowClick="_arrowClickHandler()"/>
