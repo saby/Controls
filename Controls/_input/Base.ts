@@ -72,6 +72,11 @@ var _private = {
          * must notify the parent that the value in the field has changed.
          */
         _private.forField(self, function (field) {
+            // Удалено в 5100. Выписана подошибка на ядро https://online.sbis.ru/opendoc.html?guid=83b3fa98-a11b-45b1-9c3e-1f8f78e8f3c4
+            if (this._options.fix1179583642) {
+                field.value = self._viewModel.displayValue;
+                return;
+            }
             if (_private.hasAutoFillField(field, self._viewModel)) {
                 self._viewModel.displayValue = field.value;
                 _private.notifyValueChanged(self);
