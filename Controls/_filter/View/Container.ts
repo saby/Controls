@@ -45,9 +45,12 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
 
     _template: template,
 
-    _itemsChanged(event: Event, items): void {
+    _sourceChanged(event: Event, items): void {
        event.stopPropagation();
-        this._notify('filterItemsChanged', [items], {bubbling: true});
+       if (this._items !== items) {
+           this._items = items;
+           this._notify('filterItemsChanged', [items], {bubbling: true});
+       }
     },
 
    _filterChanged(event: Event): void {

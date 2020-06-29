@@ -353,6 +353,7 @@ var _private = {
     notifyChanges: function(self, items) {
         self._notify('filterChanged', [_private.getFilter(items)]);
         self._notify('itemsChanged', [items]);
+        self._notify('sourceChanged', [items]);
     },
 
     getFilter: function(items) {
