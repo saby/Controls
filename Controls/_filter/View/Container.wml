@@ -1,8 +1,9 @@
-<!-- TODO: remove options items after transfer to filter:View-->
+<!-- TODO: Удалить опцию items и подписку на itemsChanged после перехода всех на filter:View-->
 <ws:partial template="{{_options.content}}"
             items="{{_options.filterButtonItems}}"
             source="{{_options.filterButtonItems}}"
             historyId="{{_options.historyId}}"
-            on:itemsChanged="_itemsChanged()"
+            on:sourceChanged="_sourceChanged()"
+            on:itemsChanged="_sourceChanged()"
             on:filterChanged="_filterChanged()"
             on:historyApply="_historyApply()"/>
