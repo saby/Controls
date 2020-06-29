@@ -2,7 +2,7 @@
 // tslint:disable:no-magic-numbers
 
 import { assert } from 'chai';
-import { spy } from 'sinon';
+import {createSandbox, spy} from 'sinon';
 import { DndTreeController} from 'Controls/listDragNDrop';
 import { RecordSet } from 'Types/collection';
 import { ItemsEntity } from 'Controls/dragnDrop';
@@ -78,13 +78,28 @@ describe('Controls/_listDragNDrop/TreeController', () => {
 
    describe('calculateDragPosition', () => {
       it('hover on dragged item', () => {
-         let newPosition = controller.calculateDragPosition({ index: 1 });
+         const sandbox = createSandbox();
+
+         // getIndexByKey срабатывает дважды. Мы не можем адекватно вернуть позицию, кроме как изменяя её тут
+         sandbox.replace(controller._model, 'getIndexByKey', (key) => 1);
+
+         let newPosition = controller.calculateDragPosition({
+            isNode: () => false,
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.isNull(newPosition);
 
          const position = { index: 0, position: 'on', data: { level: 1} };
          controller.setDragPosition(position);
 
-         newPosition = controller.calculateDragPosition({ index: 1 });
+         newPosition = controller.calculateDragPosition({
+            isNode: () => false,
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'after');
       });

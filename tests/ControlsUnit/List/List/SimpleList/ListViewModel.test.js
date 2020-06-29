@@ -596,9 +596,11 @@ define([
 
       describe('DragNDrop methods', function() {
          var dragItemData, dragEntity, target, lvm, current;
-
+         const contents = {id: 2};
          beforeEach(function() {
-            dragItemData = {key: 2};
+            dragItemData = {
+               getContents: () => contents
+            };
             dragEntity = {
                items: [2, 3],
                getItems: function() {
@@ -721,7 +723,7 @@ define([
          it('setDragItemData', function() {
             assert.equal(lvm.getDragItemData(), null);
             lvm.setDragItemData(dragItemData);
-            assert.equal(lvm.getDragItemData(), dragItemData);
+            assert.equal(lvm.getDragItemData().getContents(), dragItemData.getContents());
             lvm.setDragItemData(null);
             assert.equal(lvm.getDragItemData(), null);
          });

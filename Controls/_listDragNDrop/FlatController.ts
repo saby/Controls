@@ -26,7 +26,7 @@ export interface IFlatItemData {
 }
 
 export default class FlatController {
-   protected _draggingItemData: IFlatItemData;
+   protected _draggingItemData: CollectionItem<Model>;
    protected _model: IFlatModel;
    private _dragPosition: IDragPosition;
    private _entity: ItemsEntity;
@@ -46,13 +46,13 @@ export default class FlatController {
 
    setDraggedItems(entity: ItemsEntity, draggedItem: CollectionItem<Model> = null): void {
       this._entity = entity;
-
       if (draggedItem) {
-         this._draggingItemData = this._model.getItemDataByItem(draggedItem);
          // это перетаскиваемый элемент, поэтому чтобы на него навесился нужный css класс isDragging = true
-         this._draggingItemData.isDragging = true;
+         this._draggingItemData = draggedItem;
+         // Если тут будет бросаться событие на перерисовку, то эта перерисовка будет срабатывать раньше,
+         // чем установятся resolvers для GridViewModel, и в консоль упадёт ошибка, что нельзщя нарисовать шаблон
+         this._draggingItemData.setDragged(true, true);
       }
-
       this._model.setDraggedItems(this._draggingItemData, entity);
    }
 
@@ -62,6 +62,9 @@ export default class FlatController {
    }
 
    endDrag(): void {
+      if (this._draggingItemData) {
+         this._draggingItemData.setDragged(false, true);
+      }
       this._draggingItemData = null;
       this._dragPosition = null;
       this._entity = null;
@@ -80,33 +83,39 @@ export default class FlatController {
       return this._entity;
    }
 
-   calculateDragPosition(targetItemData: IFlatItemData, position?: TPosition): IDragPosition {
+   calculateDragPosition(targetItemData: CollectionItem<Model>, position?: TPosition): IDragPosition {
       let prevIndex = -1;
+      const draggingKey = this._draggingItemData.getContents().getKey();
+      const draggingIndex =  this._model.getIndexByKey(draggingKey);
+
+      const targetContents = targetItemData.getContents();
+      const targetKey = targetContents.getKey();
+      const targetIndex =  this._model.getIndexByKey(targetKey);
 
       //If you hover on a record that is being dragged, then the position should not change.
-      if (this._draggingItemData && this._draggingItemData.index === targetItemData.index) {
+      if (this._draggingItemData && draggingIndex === targetIndex) {
          return null;
       }
 
       if (this._dragPosition) {
          prevIndex = this._dragPosition.index;
       } else if (this._draggingItemData) {
-         prevIndex = this._draggingItemData.index;
+         prevIndex = draggingIndex;
       }
 
       if (prevIndex === -1) {
          position = 'before';
-      } else if (targetItemData.index > prevIndex) {
+      } else if (targetIndex > prevIndex) {
          position = 'after';
-      } else if (targetItemData.index < prevIndex) {
+      } else if (targetIndex < prevIndex) {
          position = 'before';
-      } else if (targetItemData.index === prevIndex) {
+      } else if (targetIndex === prevIndex) {
          position = this._dragPosition.position === 'after' ? 'before' : 'after';
       }
 
       return {
-         index: targetItemData.index,
-         item: targetItemData.item,
+         index: targetIndex,
+         item: targetContents,
          data: targetItemData,
          position: position
       };

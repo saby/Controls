@@ -2,7 +2,7 @@
 // tslint:disable:no-magic-numbers
 
 import { assert } from 'chai';
-import { spy } from 'sinon';
+import { spy, sandbox, createSandbox } from 'sinon';
 import { DndFlatController } from 'Controls/listDragNDrop';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
@@ -56,7 +56,7 @@ describe('Controls/_listDragNDrop/FlatController', () => {
 
          let modelSetDraggedItemsCalled = false;
          model.setDraggedItems = function (draggedItemData, e) {
-            assert.equal(draggedItemData.key, 1);
+            assert.equal(draggedItemData.getContents().getKey(), 1);
             assert.equal(e, entity);
             modelSetDraggedItemsCalled = true;
          }
@@ -68,7 +68,7 @@ describe('Controls/_listDragNDrop/FlatController', () => {
 
          // Это нужно обязательно проверить, так как если не проставить isDragging,
          // то на перетаскиваемый элемент не повесится нужный css класс
-         assert.isTrue(controller._draggingItemData.isDragging);
+         assert.isTrue(controller._draggingItemData.isDragged());
       });
    });
 
@@ -105,21 +105,48 @@ describe('Controls/_listDragNDrop/FlatController', () => {
       });
 
       it('hover on dragged item', () => {
-         const dragPosition = controller.calculateDragPosition({ index: 0 });
+         // this._model.getIndexByKey(targetKey); вернёт 0
+         const dragPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1,
+               index: 0
+            })
+         });
          assert.isNull(dragPosition);
       });
 
       it ('first calculate position', () => {
-         let newPosition = controller.calculateDragPosition({ index: 2});
+         const sandbox = createSandbox();
+
+         // getIndexByKey срабатывает дважды. Мы не можем адекватно вернуть позицию, кроме как изменяя её тут
+         let index = 0;
+         sandbox.replace(controller._model, 'getIndexByKey', (key) => ++index);
+         let newPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition({ index: 1});
-         assert.equal(newPosition.index, 1);
+         // getIndexByKey срабатывает дважды. Мы не можем адекватно вернуть позицию, кроме как изменяя её тут
+         index = 1;
+         newPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
+         assert.equal(newPosition.index, 3);
          assert.equal(newPosition.position, 'after');
+         sandbox.restore();
       });
 
       it ('position was set before it', () => {
+         const sandbox = createSandbox();
+
+         // getIndexByKey срабатывает дважды. Мы не можем адекватно вернуть позицию, кроме как изменяя её тут
+         let index = 4;
+         sandbox.replace(controller._model, 'getIndexByKey', (key) => --index);
          const setPosition = {
             index: 1,
             position: 'after'
@@ -127,16 +154,35 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          controller.setDragPosition(setPosition);
          assert.equal(controller.getDragPosition(), setPosition);
 
-         let newPosition = controller.calculateDragPosition({ index: 2});
+         let newPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition({ index: 1});
+         index = 3;
+
+         newPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'before');
+         sandbox.restore();
 
-         newPosition = controller.calculateDragPosition({ index: 0});
+         // тут мы предполагаем, что позиция не менялась
+         sandbox.replace(controller._model, 'getIndexByKey', function (key) { return 1; });
+
+         newPosition = controller.calculateDragPosition({
+            getContents: () => ({
+               getKey: () => 1
+            })
+         });
          assert.isNull(newPosition);
+         sandbox.restore();
       });
    });
 

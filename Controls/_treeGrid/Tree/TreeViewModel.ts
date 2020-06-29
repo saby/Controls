@@ -576,6 +576,8 @@ var
             current.shouldDrawExpanderPadding = _private.shouldDrawExpanderPadding;
             current.getExpanderPaddingClasses = _private.getExpanderPaddingClasses;
             current.prepareExpanderClasses = _private.prepareExpanderClasses;
+            // New model compatibility
+            current.isNode = () => current.dispItem.isNode ? current.dispItem.isNode() : false;
 
             current.getExpanderSize = (tplExpanderSize) => tplExpanderSize || this._options.expanderSize;
 

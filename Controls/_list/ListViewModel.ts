@@ -155,6 +155,12 @@ var _private = {
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?
                 itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme, useNewModel) : ''
         );
+        itemsModelCurrent.setDragged = (dragged: boolean, silent?: boolean) => {
+            itemsModelCurrent.isDragging = dragged;
+            if (itemsModelCurrent.dispItem.setDragged !== undefined) {
+                itemsModelCurrent.dispItem.setDragged(dragged, silent !== undefined ? silent : false);
+            }
+        };
     }
 };
 
@@ -494,8 +500,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this._dragEntity;
     },
 
-    setDragItemData: function(itemData) {
-        this._draggingItemData = itemData;
+    setDragItemData: function(item) {
+        if (item) {
+            this._draggingItemData = this.getItemDataByItem(item);
+        } else {
+            this._draggingItemData = null;
+        }
     },
     getDragItemData: function() {
         return this._draggingItemData;

@@ -2103,13 +2103,17 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     setDraggedItems(draggedItem: T, dragEntity: ItemsEntity): void {
         // TODO dnd когда будет выполнен полный переход на новую модель,
         // то можно будет передать только нужные параметры(ключ аватара и список перетаскиваемых ключей)
-        const avatarKey = draggedItem.getContents().getKey();
-        const avatarStartIndex = this.getIndexByKey(avatarKey);
+        let avatarItemKey;
+        let avatarIndex;
+        if (draggedItem) {
+            avatarItemKey = draggedItem.getContents().getKey();
+            avatarIndex = this.getIndexByKey(avatarItemKey);
+        }
 
         this.appendStrategy(DragStrategy, {
             draggedItemsKeys: dragEntity.getItems(),
-            avatarItemKey: avatarKey,
-            avatarIndex: avatarStartIndex
+            avatarItemKey,
+            avatarIndex
         });
     }
 
@@ -2117,7 +2121,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const strategy = this.getStrategyInstance(DragStrategy) as DragStrategy<unknown>;
         if (strategy) {
             // TODO dnd в старой модели передается куда вставлять относительно этого индекса
-            strategy.avatarIndex = position.index;
+            strategy.avatarIndex = position && position.index;
             this.nextVersion();
         }
     }

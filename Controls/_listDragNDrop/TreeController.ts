@@ -24,8 +24,8 @@ export interface ITreeItemData extends IFlatItemData {
 
 export default class TreeController extends FlatController {
    protected _model: ITreeModel;
-   protected _draggingItemData: ITreeItemData;
-   private _itemOnWhichStartCountDown: ITreeItemData;
+   protected _draggingItemData: TreeItem<Model>;
+   private _itemOnWhichStartCountDown: TreeItem<Model>;
    private _timeoutForExpandOnDrag: NodeJS.Timeout;
 
    constructor(model: ITreeModel) {
@@ -55,7 +55,12 @@ export default class TreeController extends FlatController {
       return false;
    }
 
-   calculateDragPositionRelativeNode(itemData: ITreeItemData, event: SyntheticEvent<MouseEvent>): IDragPosition {
+   /**
+    * itemData для старой модели работает в режиме совместимости с новой TreeItem<Model>
+    * @param itemData
+    * @param event
+    */
+   calculateDragPositionRelativeNode(itemData: TreeItem<Model>, event: SyntheticEvent<MouseEvent>): IDragPosition {
       let dragPosition;
 
       const offset = this._calculateOffset(event);
@@ -69,19 +74,26 @@ export default class TreeController extends FlatController {
       return dragPosition;
    }
 
-   calculateDragPosition(targetItemData: ITreeItemData, position: TPosition): IDragPosition {
+   calculateDragPosition(targetItemData: TreeItem<Model>, position: TPosition): IDragPosition {
       let result;
 
-      if (this._draggingItemData && this._draggingItemData.index === targetItemData.index) {
+      const draggingKey = this._draggingItemData.getContents().getKey();
+      const draggingIndex =  this._model.getIndexByKey(draggingKey);
+
+      const targetContents = targetItemData.getContents();
+      const targetKey = targetContents.getKey();
+      const targetIndex =  this._model.getIndexByKey(targetKey);
+
+      if (this._draggingItemData && draggingIndex === targetIndex) {
          result = this._model.getPrevDragPosition() || null;
-      } else if (targetItemData.dispItem.isNode()) {
+      } else if (targetItemData.isNode()) {
          if (position === 'after' || position === 'before') {
-            result = this._calculateDragTargetPosition(targetItemData, position);
+            result = this._calculateDragTargetPosition(targetItemData, targetIndex, position);
          } else {
             result = {
-               index: targetItemData.index,
+               index: targetIndex,
                position: 'on',
-               item: targetItemData.item,
+               item: targetContents,
                data: targetItemData
             };
          }
@@ -92,8 +104,8 @@ export default class TreeController extends FlatController {
       return result;
    }
 
-   startCountDownForExpandNode(itemData: ITreeItemData, expandNode: Function): void {
-      if (!this._itemOnWhichStartCountDown && itemData.dispItem.isNode() && !itemData.isExpanded
+   startCountDownForExpandNode(itemData: TreeItem<Model>, expandNode: Function): void {
+      if (!this._itemOnWhichStartCountDown && itemData.isNode() && !this._isItemExpanded(itemData)
             && this._itemOnWhichStartCountDown !== itemData) {
          this._clearTimeoutForExpandOnDrag();
          this._itemOnWhichStartCountDown = itemData;
@@ -105,7 +117,11 @@ export default class TreeController extends FlatController {
       this._clearTimeoutForExpandOnDrag();
    }
 
-   private _setTimeoutForExpandOnDrag(itemData: ITreeItemData, expandNode: Function): void {
+   private _isItemExpanded(itemData) {
+      return typeof itemData.isExpanded === "function" ? itemData.isExpanded() : itemData.isExpanded;
+   }
+
+   private _setTimeoutForExpandOnDrag(itemData: TreeItem<Model>, expandNode: Function): void {
       this._timeoutForExpandOnDrag = this._timeoutForExpand(itemData, expandNode);
    }
 
@@ -118,34 +134,37 @@ export default class TreeController extends FlatController {
    }
 
    // вынес, чтобы замокать в unit тесте и не делать паузы в unit-е
-   private _timeoutForExpand(itemData: ITreeItemData, expandNode: Function): NodeJS.Timeout {
+   private _timeoutForExpand(itemData: TreeItem<Model>, expandNode: Function): NodeJS.Timeout {
       return setTimeout(() => {
          expandNode(itemData);
       }, EXPAND_ON_DRAG_DELAY);
    }
 
-   private _calculateDragTargetPosition(itemData: ITreeItemData, position: TPosition): IDragPosition {
+   private _calculateDragTargetPosition(targetItemData: TreeItem<Model>, targetIndex: number, position: TPosition): IDragPosition {
+      const targetContents = targetItemData.getContents();
+      const targetKey = targetContents.getKey();
+
       let
          result,
          startPosition,
-         afterExpandedNode = position === 'after' && this._model.getExpandedItems().indexOf(itemData.dispItem.getContents().getKey()) !== -1;
+         afterExpandedNode = position === 'after' && this._model.getExpandedItems().indexOf(targetKey) !== -1;
 
       //The position should not change if the record is dragged from the
       //bottom/top to up/down and brought to the bottom/top of the folder.
       const prevDragPosition = this._model.getPrevDragPosition();
       if (prevDragPosition) {
-         if (prevDragPosition.index === itemData.index) {
+         if (prevDragPosition.index === targetIndex) {
             startPosition = prevDragPosition.position;
          } else {
-            startPosition = prevDragPosition.index < itemData.index ? 'before' : 'after';
+            startPosition = prevDragPosition.index < targetIndex ? 'before' : 'after';
          }
       }
 
       if (position !== startPosition && !afterExpandedNode) {
          result = {
-            index: itemData.index,
-            item: itemData.item,
-            data: itemData,
+            index: targetIndex,
+            item: targetContents,
+            data: targetItemData,
             position: position
          };
       }

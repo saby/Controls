@@ -156,9 +156,17 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          });
 
          it('setDragItemData', function() {
-            var dragItemData = {};
+            let contents = 'demo';
+            let dragItemData = {
+               getContents: () => contents
+            };
+
+            // Зануляем переданное в предыдущем тесте dragEntity, чтобы к его свойствам не было обращений
+            gridViewModel.setDragEntity(null);
             gridViewModel.setDragItemData(dragItemData);
-            assert.equal(gridViewModel.getDragItemData(), dragItemData);
+
+            // Сравниваем contents, т.к. раньше dragItemData было itemData, теперь это СollectionItem
+            assert.equal(gridViewModel.getDragItemData().getContents(), contents);
          });
       });
 
