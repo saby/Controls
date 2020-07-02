@@ -110,7 +110,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
 
     private _setCloseButtonVisibility(options: IMenuPopupOptions): void {
         this._closeButtonVisibility = !!(options.closeButtonVisibility ||
-            (options.showClose && !options.root) || options.searchParam);
+            (options.showClose && !options.root));
     }
 
     private _prepareHeaderConfig(options: IMenuPopupOptions): void {

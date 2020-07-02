@@ -1,5 +1,5 @@
 <ws:partial template="{{'Controls/search:InputContainer'}}"
-            attr:class="controls-Menu__popup_headerSearch_theme-{{_options.theme}}">
+            attr:class="controls-Menu__popup_headerSearch_theme-{{_options.theme}} {{_options.multiSelect ? 'controls-Menu__popup_headerSearch-multiSelect-' + _options.theme}}">
    <ws:partial template="{{'Controls/search:Input'}}"
                placeholder="{{searchPlaceholder}}"
                scope="{{_options}}"

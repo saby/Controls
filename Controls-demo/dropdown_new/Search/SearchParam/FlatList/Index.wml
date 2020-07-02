@@ -4,6 +4,7 @@
       <Controls.dropdown:Input
               source="{{_source}}"
               keyProperty="key"
+              multiSelect="true"
               bind:selectedKeys="_selectedKeys"
               displayProperty="title"
               searchParam="title"
