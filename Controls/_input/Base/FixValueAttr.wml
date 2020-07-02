@@ -16,8 +16,8 @@ value на defultValue. Значение этого свойство отобр�
 3. После монтирования в DOM, контрол берёт на себя работу со значением в поле, используя свойство value на node.
 -->
 <ws:if data="{{isBrowserPlatform}}">
-   <ws:partial template="{{content}}" attr:defaultValue="{{value ? value : undefined}}"/>
+   <ws:partial template="{{content}}" attr:defaultValue="{{displayValue ? displayValue : undefined}}"/>
 </ws:if>
 <ws:else>
-   <ws:partial template="{{content}}" attr:value="{{value ? value : undefined}}"/>
+   <ws:partial template="{{content}}" attr:value="{{displayValue ? displayValue : undefined}}"/>
 </ws:else>
