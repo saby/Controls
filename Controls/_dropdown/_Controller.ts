@@ -104,27 +104,32 @@ export default class _Controller implements IDropdownController {
       if ((newOptions.source && (newOptions.source !== oldOptions.source || !this._sourceController)) ||
           !isEqual(newOptions.navigation, oldOptions.navigation) ||
           !isEqual(newOptions.filter, oldOptions.filter)) {
-         if (this._sourceController && !this._sourceController.isLoading()) {
-            this._source = null;
-            this._sourceController = null;
-         }
-
-         if (newOptions.source !== oldOptions.source) {
-            this._resetLoadPromises();
-         }
-         if (newOptions.lazyItemsLoading && !this._isOpened) {
-            /* source changed, items is not actual now */
-            this._setItems(null);
-         } else {
-            return this._loadItems(newOptions).addCallback((items) => {
-               if (items && this._isOpened) {
-                  this._open();
-               }
-            });
-         }
+         return this.reloadItems(newOptions, oldOptions);
       } else if (newOptions.selectedKeys !== oldOptions.selectedKeys && this._items) {
          this._updateSelectedItems(newOptions.emptyText, newOptions.selectedKeys,
              newOptions.keyProperty, newOptions.selectedItemsChangedCallback);
+      }
+   }
+
+   reloadItems(newOptions: IDropdownControllerOptions, oldOptions?: IDropdownControllerOptions): Promise<RecordSet>|void {
+      const options = oldOptions || this._options;
+      if (this._sourceController && !this._sourceController.isLoading()) {
+         this._source = null;
+         this._sourceController = null;
+      }
+
+      if (newOptions.source !== options.source) {
+         this._resetLoadPromises();
+      }
+      if (newOptions.lazyItemsLoading && !this._isOpened) {
+         /* source changed, items is not actual now */
+         this._setItems(null);
+      } else {
+         return this._loadItems(newOptions).addCallback((items) => {
+            if (items && this._isOpened) {
+               this._open();
+            }
+         });
       }
    }
 

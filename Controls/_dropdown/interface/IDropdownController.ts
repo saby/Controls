@@ -9,6 +9,7 @@ import {IStickyPosition} from 'Controls/popup';
 export type TKey = string|number|null;
 
 export default interface IDropdownController {
+    reloadItems(newOptions: IDropdownControllerOptions, oldOptions?: IDropdownControllerOptions): Promise<RecordSet>|void;
     loadItems(): Promise<RecordSet>;
     setItems(recievedState: {items?: RecordSet, history?: RecordSet}):RecordSet;
     update(newOptions: IDropdownControllerOptions): Promise<RecordSet>|void;
