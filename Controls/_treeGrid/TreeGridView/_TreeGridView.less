@@ -9,55 +9,30 @@
 @_hierarchy_offset_xl_treeGrid:   @expander_xl_padding-left_treeGrid + @expander_xl_padding-right_treeGrid + @expander_width_treeGrid;
 
 .controls-TreeGrid__row_default-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
-   padding-top: @expander_s_padding-top_treeGrid;
-   padding-bottom: @expander_s_padding-bottom_treeGrid;
    padding-left: @expander_s_padding-left_treeGrid;
    padding-right: @expander_s_padding-right_treeGrid;
 }
 .controls-TreeGrid__row_default-expander_size_m_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_m_theme-@{themeName} {
-   padding-top: @expander_m_padding-top_treeGrid;
-   padding-bottom: @expander_m_padding-bottom_treeGrid;
    padding-left: @expander_m_padding-left_treeGrid;
    padding-right: @expander_m_padding-right_treeGrid;
 }
 .controls-TreeGrid__row_default-expander_size_l_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_l_theme-@{themeName} {
-   padding-top: @expander_l_padding-top_treeGrid;
-   padding-bottom: @expander_l_padding-bottom_treeGrid;
    padding-left: @expander_l_padding-left_treeGrid;
    padding-right: @expander_l_padding-right_treeGrid;
 }
 .controls-TreeGrid__row_default-expander_size_xl_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_xl_theme-@{themeName} {
-   padding-top: @expander_xl_padding-top_treeGrid;
-   padding-bottom: @expander_xl_padding-bottom_treeGrid;
    padding-left: @expander_xl_padding-left_treeGrid;
    padding-right: @expander_xl_padding-right_treeGrid;
 }
 .controls-TreeGrid__row_default-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-   padding-top: @expander_default_padding-top_treeGrid;
-   padding-bottom: @expander_default_padding-bottom_treeGrid;
    padding-left: @expander_default_padding-left_treeGrid;
    padding-right: @expander_default_padding-right_treeGrid;
 }
 
 .controls-TreeGrid__row_master-expander_size_default_theme-@{themeName},
 .controls-TreeGrid__row_masterClassic-expander_size_default_theme-@{themeName}, {
-   padding-top: @expander_default_padding-top_treeGrid;
-   padding-bottom: @expander_default_padding-bottom_treeGrid;
    padding-left: @expander_default_padding-left_treeGrid;
    padding-right: @expander_default_padding-right_treeGrid;
-}
-
-//выделение мастера верстается через before и after. В ие верстка через td. td могут иметь разную высоту.
-//при этом если красить цветом сами td все ок, они рисуются одинаково, но через after это не работает, визаульно
-//получается разная высота. По задаче надо переверстать выделение в ие, либо вообще везде.
-//https://online.sbis.ru/opendoc.html?guid=fd048300-3223-4bb5-8982-db3a14a05996
-
-.ws-is-ie {
-   .controls-Grid__cell_master .controls-TreeGrid__row-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName},
-   .controls-Grid__cell_masterClassic .controls-TreeGrid__row-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-      padding-top: @expander_s_padding-top_treeGrid - 1;
-      padding-bottom: @item_padding-bottom_s_grid - 1;
-   }
 }
 
 .controls-TreeGrid__row-expander_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_theme-@{themeName} {
@@ -104,7 +79,6 @@
    font-family: @node_expander_icon_font-family_treeGrid;
    font-size: @node_expander_icon-size_treeGrid;
    padding-left: @expander_width_treeGrid - @node_expander_icon-size_treeGrid;
-   padding-top: (@expander_height_treeGrid - @node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
@@ -112,7 +86,12 @@
    font-family: @hidden-node_expander_icon_font-family_treeGrid;
    font-size: @hidden-node_expander_icon-size_treeGrid;
    padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
-   padding-top: (@expander_height_treeGrid - @hidden-node_expander_icon-size_treeGrid) / 2;
+}
+
+.controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before,
+.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
+   position: relative;
+   bottom: -@expander_padding_icon-treeGrid;
 }
 
 .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before {
@@ -120,7 +99,6 @@
    font-family: @node_expander_icon_font-family_treeGrid;
    font-size: @master_node_expander_icon-size_treeGrid;
    padding-left: @expander_width_treeGrid - @master_node_expander_icon-size_treeGrid;
-   padding-top: (@expander_height_treeGrid - @master_node_expander_icon-size_treeGrid) / 2;
 }
 
 .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
@@ -128,18 +106,6 @@
    font-family: @hidden-node_expander_icon_font-family_treeGrid;
    font-size: @master_hidden-node_expander_icon-size_treeGrid;
    padding-left: @expander_width_treeGrid - @master_hidden-node_expander_icon-size_treeGrid;
-   padding-top: (@expander_height_treeGrid - @master_hidden-node_expander_icon-size_treeGrid) / 2;
-}
-
-// Костыль, связанный с тем, что в FireFox и на ios в safari стрелка экспандера поднимается на 1px над базовой линией,
-// а в IE - наоборот, становится ниже на 1 px.
-// См. обсуждение в https://online.sbis.ru/opendoc.html?guid=bebdaf88-37a2-4804-b05d-daebb03c3320
-// + https://online.sbis.ru/opendoc.html?guid=c29f8faa-c188-43e3-9555-0314604ecc2d
-.ws-is-firefox,
-.ws-is-mobile-safari {
-   .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before {
-      padding-top: ((@expander_height_treeGrid - @master_node_expander_icon-size_treeGrid) / 2) + 1;
-   }
 }
 
 .controls-TreeGrid__row-expander_theme-@{themeName}:before {
@@ -148,7 +114,6 @@
    cursor: pointer;
    overflow: hidden;
    text-align: center;
-   position: absolute;
    font-weight: normal; // https://online.sbis.ru/opendoc.html?guid=c9f0873b-3b20-4b73-a084-f67cc2c3071f
 }
 .controls-TreeGrid__row-expander_node_default_collapsed_theme-@{themeName}:before,
@@ -166,52 +131,6 @@
 .controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
    content: '\e9c1';
-}
-
-.controls-Grid__row-cell_withRowSeparator_size-null {
-   .controls-TreeGrid__row-expander__spacingTop_default_theme-@{themeName} {
-      margin-top: @item_padding-top_default_grid;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_s_theme-@{themeName} {
-      margin-top: @item_padding-top_s_grid;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_l_theme-@{themeName} {
-      margin-top: @item_padding-top_l_grid;
-   }
-}
-
-.controls-Grid__row-cell_withRowSeparator_size-s_theme-@{themeName} {
-   .controls-TreeGrid__row-expander__spacingTop_default_theme-@{themeName} {
-      margin-top: @item_padding-top_default_grid - @item-separator_s_thickness_list;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_s_theme-@{themeName} {
-      margin-top: @item_padding-top_s_grid - @item-separator_s_thickness_list;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_l_theme-@{themeName} {
-      margin-top: @item_padding-top_l_grid - @item-separator_s_thickness_list;
-   }
-}
-
-.controls-Grid__row-cell_withRowSeparator_size-l_theme-@{themeName} {
-   .controls-TreeGrid__row-expander__spacingTop_default_theme-@{themeName} {
-      margin-top: @item_padding-top_default_grid - @item-separator_l_thickness_list;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_s_theme-@{themeName} {
-      margin-top: @item_padding-top_s_grid - @item-separator_l_thickness_list;
-   }
-   .controls-TreeGrid__row-expander__spacingTop_l_theme-@{themeName} {
-      margin-top: @item_padding-top_l_grid - @item-separator_l_thickness_list;
-   }
-}
-
-.controls-TreeGrid__row-expander__spacingBottom_default_theme-@{themeName} {
-   margin-bottom: @item_padding-bottom_default_grid;
-}
-.controls-TreeGrid__row-expander__spacingBottom_s_theme-@{themeName} {
-   margin-bottom: @item_padding-bottom_s_grid;
-}
-.controls-TreeGrid__row-expander__spacingBottom_l_theme-@{themeName} {
-   margin-bottom: @item_padding-bottom_l_grid;
 }
 
 .controls-TreeGrid__row {
@@ -286,6 +205,11 @@
 .controls-TreeGridView__footer__expanderPadding-xl_theme-@{themeName}{
    margin-left: @_hierarchy_offset_xl_treeGrid;
 }
+
+.controls-TreeGrid__row-cell_theme-@{themeName} {
+   align-items: baseline;
+}
+
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
@@ -376,6 +300,7 @@
 // For right vertiacal align of items inside block with display: table-cell.
 .controls-Grid_table-layout .controls-TreeGridView__row-cell_innerWrapper {
    display: flex;
+   align-items: baseline;
 }
 
 // Master list sets ::before on selected item, witch overflows expander. It has z-index: 2 and pointer-events: none, but

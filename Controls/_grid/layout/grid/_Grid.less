@@ -198,8 +198,8 @@
    background-color: @readonly_color;
 }
 
-.controls-Grid__row-cell_theme-@{themeName} {
-   min-height: @cell_min-height_grid;
+.controls-Grid__row-cell__content_theme-@{themeName} {
+   min-height: @inline_height_default;
 }
 
 .controls-Grid__row-cell_colspaned {
@@ -619,7 +619,7 @@
    // иначе все position: absolute элементы внутри position: sticky
    // начинают сроиться относительно родителя уровнем выше
    // translateZ лечит высоту, но ломает ширину внутри sticky контейнер
-   // translateY правит обе проблемы, с ним нормализуетя и высота и ширина, поэтому используем его   
+   // translateY правит обе проблемы, с ним нормализуетя и высота и ширина, поэтому используем его
    transform: translateY(0);
 }
 
