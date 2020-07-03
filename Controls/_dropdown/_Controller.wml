@@ -1,0 +1,11 @@
+<div>
+   <ws:partial template="{{_options.content}}"
+               on:click="_clickHandler()"
+               on:mousedown="_mouseDownHandler()"
+               on:mouseenter="_mouseEnterHandler()"
+               on:mouseleave="_mouseLeaveHandler()"
+               on:keydown="_keyDown()"/>
+   <ws:if data="{{_options.selectorTemplate}}">
+      <Controls.popup:Stack name="selectorOpener" on:result="_onSelectorTemplateResult()" />
+   </ws:if>
+</div>

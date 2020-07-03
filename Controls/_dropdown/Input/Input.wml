@@ -1,29 +1,39 @@
-<Controls.popup:InfoboxTarget targetSide="bottom"
-                              trigger="{{_needInfobox ? 'hover' : 'demand'}}"
-                              on:click="_handleClick()"
-                              on:mousedown="_handleMouseDown()"
-                              on:mouseenter="_handleMouseEnter()"
-                              on:mouseleave="_handleMouseLeave()"
-                              on:keydown="_handleKeyDown()"
-                              attr:class="controls-Dropdown_theme_{{_options.theme}} {{_options.validationStatus === 'invalid' ? 'controls-Dropdown-validationStatus_invalid_theme_' + _options.theme}}">
+<Controls._dropdown._Controller
+        name="controller"
+        scope="{{_options}}"
+        dataLoadCallback="{{_dataLoadCallback}}"
+        popupClassName="{{_options.popupClassName || (_options.showHeader || _options.headerTemplate ? 'controls-DropdownList__margin-head' :
+                              _options.multiSelect ? 'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin')}} theme_{{_options.theme}}"
+        caption="{{_options.caption || _text}}"
+        selectedItemsChangedCallback="{{_prepareDisplayState}}"
+        allowPin="{{false}}"
+        on:deactivated="_deactivated()"
+        on:selectedItemsChanged="_selectedItemsChangedHandler()"
+        attr:class="controls-Dropdown_theme_{{_options.theme}} {{_options.validationStatus === 'invalid' ? 'controls-Dropdown-validationStatus_invalid_theme_' + _options.theme}}">
     <ws:content>
-        <ws:partial template="{{_options.contentTemplate || _defaultContentTemplate}}"
-                    item="{{_item}}"
-                    icon="{{_icon}}"
-                    iconSize="{{_options.iconSize}}"
-                    fontSize="{{_options.fontSize}}"
-                    fontColorStyle="{{_options.fontColorStyle}}"
-                    text="{{_text}}"
-                    tooltip="{{_needInfobox ? '' : _tooltip}}"
-                    countItems="{{_countItems}}"
-                    hasMoreText="{{_hasMoreText}}"
-                    isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
-                    readOnly="{{_options.readOnly}}"
-                    footerTemplate="{{_options.footerTemplate}}"/>
+        <Controls.popup:InfoboxTarget targetSide="bottom"
+                                      trigger="{{_needInfobox ? 'hover' : 'demand'}}"
+                                      attr:class="controls-Dropdown__infoboxWrapper">
+            <ws:content>
+                <ws:partial template="{{_options.contentTemplate || _defaultContentTemplate}}"
+                            item="{{_item}}"
+                            icon="{{_icon}}"
+                            iconSize="{{_options.iconSize}}"
+                            fontSize="{{_options.fontSize}}"
+                            fontColorStyle="{{_options.fontColorStyle}}"
+                            text="{{_text}}"
+                            tooltip="{{_needInfobox ? '' : _tooltip}}"
+                            countItems="{{_countItems}}"
+                            hasMoreText="{{_hasMoreText}}"
+                            isEmptyItem="{{_isEmptyItem && !_options.multiSelect}}"
+                            readOnly="{{_options.readOnly}}"
+                            footerTemplate="{{_options.footerTemplate}}"/>
+            </ws:content>
+            <ws:template>
+                <ws:partial template="wml!Controls/_dropdown/Input/resources/infoBoxContentTemplate"
+                            selectedItems="{{_selectedItems}}"
+                            displayProperty="{{_options.displayProperty}}"/>
+            </ws:template>
+        </Controls.popup:InfoboxTarget>
     </ws:content>
-    <ws:template>
-        <ws:partial template="wml!Controls/_dropdown/Input/resources/infoBoxContentTemplate"
-                    selectedItems="{{_selectedItems}}"
-                    displayProperty="{{_options.displayProperty}}"/>
-    </ws:template>
-</Controls.popup:InfoboxTarget>
+</Controls._dropdown._Controller>

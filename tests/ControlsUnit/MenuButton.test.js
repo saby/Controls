@@ -5,11 +5,9 @@ define(
       'Core/core-clone',
       'Controls/history',
       'Core/Deferred',
-      'Types/entity',
-      'Types/collection',
-      'Controls/popup'
+      'Types/entity'
    ],
-   (dropdown, sourceLib, Clone, history, Deferred, entity, collection, popup) => {
+   (dropdown, sourceLib, Clone, history, Deferred, entity) => {
       describe('MenuButton', () => {
          let items = [
             {
@@ -47,11 +45,6 @@ define(
             }
          ];
 
-         let itemsRecords = new collection.RecordSet({
-            keyProperty: 'id',
-            rawData: Clone(items)
-         });
-
          let config = {
             icon: 'icon-medium icon-Doge icon-primary',
             viewMode: 'link',
@@ -62,19 +55,6 @@ define(
                keyProperty: 'id',
                data: items
             })
-         };
-
-         let testConfig = {
-            selectedKeys: [2],
-            keyProperty: 'id',
-            emptyText: true,
-            source: new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            }),
-            nodeProperty: 'node',
-            itemTemplateProperty: 'itemTemplate'
-
          };
 
          let menu = new dropdown.Button(config);
@@ -91,7 +71,7 @@ define(
             let nativeEvent = {
                keyCode: 28
             };
-            let eventResult = menu._onItemClickHandler([{
+            let eventResult = menu._onItemClickHandler('itemClick', [{
                id: '1',
                title: 'Запись 1'
             }], nativeEvent);
@@ -104,249 +84,6 @@ define(
             menu._beforeMount(config);
             assert.equal(menu._offsetClassName, 'controls-MenuButton_link_iconSize-medium_popup');
             assert.isTrue(menu._hasItems);
-
-            let newConfig = Clone(testConfig),
-               loadedItems;
-            newConfig.dataLoadCallback = (items) => {loadedItems = items;};
-            menu._beforeMount(newConfig).then((beforeMountResult) => {
-               assert.deepEqual(beforeMountResult.items.getRawData(), itemsRecords.getRawData());
-               assert.deepEqual(loadedItems.getRawData(), itemsRecords.getRawData());
-
-               newConfig.historyId = 'TEST_HISTORY_ID';
-               menu._beforeMount(newConfig).then((res) => {
-                  assert.isTrue(res.hasOwnProperty('history'));
-
-                  newConfig.selectedKeys = [];
-                  let history = {
-                     frequent: [],
-                     pinned: [],
-                     recent: []
-                  };
-                  menu._beforeMount(newConfig, {}, { history: history, items: itemsRecords.clone() }).then((historyRes) => {
-                     assert.deepEqual(menu._source._oldItems.getRawData(), itemsRecords.getRawData());
-                     assert.deepEqual(menu._source.getHistory(), history);
-                     done();
-                     return historyRes;
-                  });
-
-                  return res;
-               });
-            });
-         });
-
-         it('before mount navigation', (done) => {
-            let navigationConfig = Clone(testConfig);
-            navigationConfig.navigation = {view: 'page', source: 'page', sourceConfig: {pageSize: 2, page: 0, hasMore: false}};
-            menu._beforeMount(navigationConfig).addCallback(function(beforeMountResult) {
-               assert.deepEqual(beforeMountResult.items.getCount(), 2);
-               done();
-            });
-         });
-
-         it('check received state', () => {
-            return menu._beforeMount(config, null, { items: itemsRecords.clone() }).then(() => {
-               assert.deepEqual(menu._controller._items.getRawData(), itemsRecords.getRawData());
-            });
-         });
-
-         it('received state, selectedItems = [null], emptyText is set', () => {
-            let selectedItemsChangeCalled = false,
-               selectedItems = [];
-            const config = {
-               selectedKeys: [null],
-               keyProperty: 'id',
-               emptyText: '123',
-               selectedItemsChangedCallback: function(items) {
-                  selectedItems = items;
-                  selectedItemsChangeCalled = true;
-               },
-               source: new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: items
-               })
-            };
-            return menu._beforeMount(config, null, itemsRecords.clone()).then(() => {
-               assert.deepEqual(selectedItems, [null]);
-               assert.isTrue(selectedItemsChangeCalled);
-            });
-         });
-
-         it('before mount filter', (done) => {
-            let filterConfig = Clone(testConfig);
-            filterConfig.filter = {id: ['3', '4']};
-            menu._beforeMount(filterConfig).addCallback(function(beforeMountResult) {
-               assert.deepEqual(beforeMountResult.items.getCount(), 2);
-               done();
-            });
-         });
-
-         it('received state, selectedItems = [null], emptyText is NOT set', () => {
-            let selectedItemsChangeCalled = false,
-               selectedItems = [];
-            const config = {
-               selectedKeys: [null],
-               keyProperty: 'id',
-               selectedItemsChangedCallback: function(items) {
-                  selectedItems = items;
-                  selectedItemsChangeCalled = true;
-               },
-               source: new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: items
-               })
-            };
-            return menu._beforeMount(config, null, itemsRecords.clone()).then(() => {
-               assert.deepEqual(selectedItems, []);
-               assert.isTrue(selectedItemsChangeCalled);
-            });
-         });
-
-         it('_mouseEnterHandler', () => {
-            menu._beforeMount(config);
-
-            menu._handleMouseEnter();
-            assert.isOk(menu._loadDependenciesTimer);
-
-            menu._loadDependenciesTimer = null;
-            menu._options.readOnly = true;
-            menu._handleMouseEnter();
-            assert.isNull(menu._loadDependenciesTimer);
-         });
-
-         it('_handleClick', () => {
-            let eventStopped = false;
-            const event = {
-               stopPropagation: () => { eventStopped = true; }
-            };
-
-            menu._handleClick(event);
-            assert.isTrue(eventStopped);
-         });
-
-         it('_handleKeyDown', () => {
-            // Тестируем нажатие не esc список закрыт
-            let menuClosed = false;
-            menu._controller.closeMenu = () => {
-               menuClosed = true;
-            };
-            const event = {
-               nativeEvent: {
-                  keyCode: 27
-               },
-               stopPropagation: () => {}
-            };
-            menu._handleKeyDown(event);
-            assert.isFalse(menuClosed);
-
-            // Тестируем нажатие esc, когда выпадающий список открыт
-            menu._popupId = 'testId';
-
-            menu._handleKeyDown(event);
-            assert.isTrue(menuClosed);
-         });
-
-         it('events on open/close', async () => {
-            let menuOpenNotified, menuCloseNotified;
-            menu._notify = function(e) {
-               if (e === 'dropDownOpen') {
-                  menuOpenNotified = true;
-               } else if (e === 'dropDownClose') {
-                  menuCloseNotified = true;
-               }
-            };
-            menu._onOpen();
-            menu._onClose();
-
-            assert.isTrue(menuOpenNotified);
-            assert.isTrue(menuCloseNotified);
-         });
-
-         it('lazy load', () => {
-            config.lazyItemsLoading = true;
-            menu._beforeMount(config);
-            assert.equal(menu._controller._items, undefined);
-         });
-
-         it('check pin click', () => {
-            let closed = false, opened;
-            let resultItem;
-            config.lazyItemsLoading = true;
-
-            menu._beforeMount(config);
-            menu._controller._items = itemsRecords.clone();
-            popup.Sticky.closePopup = () => {closed = true; };
-            popup.Sticky.openPopup = () => {opened = true; };
-
-            // return the original Id value
-            let item = new entity.Model({
-               rawData: {
-                  id: '6', title: 'title 6'
-               },
-               keyProperty: 'id'
-            });
-            item.set('originalId', item.getId());
-            item.set('id', item.getId() + '_history');
-            closed = false;
-            assert.equal(item.getId(), '6_history');
-            let historySource = new history.Source({
-               historyId: 'TEST_HISTORY_ID_DDL_CONTROLLER'
-            });
-            menu._source = historySource;
-            menu._source.update = () => {};
-            menu._onResult('pinClick', item);
-            assert.isFalse(closed);
-         });
-
-         it('notify footerClick', () => {
-            menu._notify = function(e) {
-               if (e === 'footerClick') {
-                  isFooterClicked = true;
-               }
-            };
-            let isClosed = false, isFooterClicked = false;
-            popup.Sticky.closePopup = () => {isClosed = true; };
-            menu._$active = true;
-            menu._onResult('footerClick');
-            assert.isFalse(isClosed);
-            assert.isTrue(isFooterClicked);
-         });
-
-         it('check item click', () => {
-            let closed = false;
-            let opened = false;
-            let closeByNodeClick = false;
-            let resultItems;
-            menu._onItemClickHandler = function(eventResult) {
-               resultItems = eventResult[0];
-               return closeByNodeClick;
-            };
-            menu._beforeMount(config);
-            menu._controller._items = itemsRecords.clone();
-            popup.Sticky.closePopup = () => {closed = true; };
-            popup.Sticky.openPopup = () => {opened = true; };
-
-            // returned false from handler and no hierarchy
-            menu._onResult('itemClick', menu._controller._items.at(4));
-            assert.isFalse(closed);
-
-            // returned undefined from handler and there is hierarchy
-            closed = false;
-            closeByNodeClick = false;
-            menu._onResult('itemClick', menu._controller._items.at(5));
-            assert.isFalse(closed);
-
-            // returned undefined from handler and no hierarchy
-            closed = false;
-            menu._popupId = 'test';
-            closeByNodeClick = undefined;
-            menu._onResult('itemClick', menu._controller._items.at(4));
-            assert.isTrue(closed);
-
-            // returned true from handler and there is hierarchy
-            closed = false;
-            closeByNodeClick = undefined;
-            menu._onResult('itemClick', menu._controller._items.at(5));
-            assert.isTrue(closed);
          });
 
          it('_beforeUpdate', function() {
@@ -390,6 +127,47 @@ define(
             newOptions.iconSize = 'l';
             menu._beforeUpdate(newOptions);
             assert.equal(menu._offsetClassName, 'controls-MenuButton_link_iconSize-large_duplicate_popup');
+         });
+
+         it('_onPinClickHandler', function() {
+            let actualMeta;
+            let newOptions = Clone(config);
+            newOptions.source = new history.Source({
+               originSource: new sourceLib.Memory({
+                  keyProperty: 'id',
+                  data: items
+               }),
+               historySource: new history.Service({
+                  historyId: 'TEST_HISTORY_ID'
+               }),
+               parentProperty: 'parent'
+            });
+            newOptions.source.update = function(item, meta) {
+               actualMeta = meta;
+               item.set('pinned', true);
+               return Deferred.success(false);
+            };
+            let menu = new dropdown.Button(newOptions);
+            menu.saveOptions(newOptions);
+            let expectedItem = new entity.Model({
+               rawData: {
+                  pinned: false
+               }
+            });
+            menu._onPinClickHandler('pinClicked', expectedItem);
+            assert.isFalse(expectedItem.get('pinned'));
+            assert.deepEqual(actualMeta, { '$_pinned': true });
+         });
+
+         it('_deactivated', () => {
+            let closed = false;
+
+            menu.closeMenu = () => {
+               closed = true;
+            };
+
+            menu._deactivated();
+            assert.isTrue(closed);
          });
       });
    }

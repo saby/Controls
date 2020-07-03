@@ -1,32 +1,44 @@
-<div class="controls-MenuButton_theme_{{_options.theme}} controls-MenuButton__Wrapper theme_{{_options.theme}}">
-    <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _viewModeButton === 'link'}}">
-        <div class="controls-text-default_theme-{{_options.theme}}
-                     controls-fontsize-{{_fontSizeButton}}_theme-{{_options.theme}}">{{_options.caption}}</div>
-    </ws:if>
-    <ws:else>
-        <Controls.buttons:Button
-                name="content"
-                attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
-                _useSpan="{{_options._useSpan}}"
-                icon="{{_options.icon}}"
-                iconSize="{{_options.iconSize}}"
-                iconStyle="{{_options.iconStyle}}"
-                caption="{{_options.caption}}"
-                fontColorStyle="{{_fontColorStyleButton}}"
-                fontSize="{{_fontSizeButton}}"
-                inlineHeight="{{_inlineHeightButton}}"
-                buttonStyle="{{_buttonStyleButton}}"
-                contrastBackground="{{_contrastBackgroundButton}}"
-                viewMode="{{_viewModeButton}}"
-                tooltip="{{_options.tooltip}}"
-                style="{{_options.style}}"
-                transparent="{{_options.transparent}}"
-                size="{{_options.size}}"
-                on:click="_handleClick()"
-                on:mousedown="_handleMouseDown()"
-                on:mouseenter="_handleMouseEnter()"
-                on:mouseleave="_handleMouseLeave()"
-                on:keydown="_handleKeyDown()"
-        />
-    </ws:else>
+<div class="controls-MenuButton_theme_{{_options.theme}}">
+    <Controls._dropdown._Controller
+            name="controller"
+            scope="{{_options}}"
+            headingCaption="{{_options.caption}}"
+            headingIcon="{{_options.icon}}"
+            headingIconSize="{{_options.iconSize}}"
+            itemTemplate="{{_options.itemTemplate}}"
+            headerTemplate="{{_options.headTemplate || _options.headerTemplate}}"
+            dataLoadCallback="{{_dataLoadCallback}}"
+            popupClassName="{{_options.popupClassName || _offsetClassName}} theme_{{_options.theme}}"
+            hasIconPin="{{_hasIconPin}}"
+            on:deactivated="_deactivated()"
+            on:selectedItemsChanged="_onItemClickHandler()"
+            on:pinClick="_onPinClickHandler()"
+            on:dropDownOpen="_tmplNotify('dropDownOpen')"
+            on:dropDownClose="_tmplNotify('dropDownClose')"
+            attr:class="controls-MenuButton__Wrapper theme_{{_options.theme}}">
+        <ws:content>
+            <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _viewModeButton === 'link'}}">
+                <div class="controls-text-default_theme-{{_options.theme}}
+                         controls-fontsize-{{_fontSizeButton}}_theme-{{_options.theme}}">{{_options.caption}}</div>
+            </ws:if>
+            <ws:else>
+                <Controls.buttons:Button
+                        name="content"
+                        attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
+                        icon="{{_options.icon}}"
+                        iconSize="{{_options.iconSize}}"
+                        iconStyle="{{_options.iconStyle}}"
+                        caption="{{_options.caption}}"
+                        fontColorStyle="{{_fontColorStyleButton}}"
+                        fontSize="{{_fontSizeButton}}"
+                        inlineHeight="{{_inlineHeightButton}}"
+                        buttonStyle="{{_buttonStyleButton}}"
+                        contrastBackground="{{_contrastBackgroundButton}}"
+                        viewMode="{{_viewModeButton}}"
+                        tooltip="{{_options.tooltip}}"
+                />
+            </ws:else>
+        </ws:content>
+    </Controls._dropdown._Controller>
+    <Controls.popup:Notification name="notificationOpener"/>
 </div>

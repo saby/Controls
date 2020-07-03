@@ -501,8 +501,8 @@ define(
 
             let selectCompleted = false, closed = false, opened = false, actualOptions;
             menuControl._options.selectorOpener = {
-               openPopup: (tplOptions) => { opened = true; actualOptions = tplOptions; return Promise.resolve()},
-               closePopup: () => { closed = true; }
+               open: (tplOptions) => { opened = true; actualOptions = tplOptions; },
+               close: () => { closed = true; }
             };
             menuControl._options.selectorDialogResult = () => {selectCompleted = true};
 
@@ -513,11 +513,12 @@ define(
             assert.deepStrictEqual(actualOptions.templateOptions.selectedItems.getCount(), 0);
             assert.strictEqual(actualOptions.templateOptions.option1, '1');
             assert.strictEqual(actualOptions.templateOptions.option2, '2');
-            assert.isOk(actualOptions.eventHandlers.onResult);
-            assert.isTrue(actualOptions.hasOwnProperty('opener'));
+            assert.isOk(actualOptions.templateOptions.handlers.onSelectComplete);
+            assert.isFalse(actualOptions.hasOwnProperty('opener'));
             assert.isTrue(opened);
 
-            actualOptions.eventHandlers.onResult();
+            actualOptions.templateOptions.handlers.onSelectComplete();
+            assert.isTrue(selectCompleted);
             assert.isTrue(closed);
          });
 
@@ -538,7 +539,7 @@ define(
             };
             items.push(emptyItem);
             emptyMenuControl._options.selectorOpener = {
-               openPopup: (tplOptions) => { selectorOptions = tplOptions; return Promise.resolve()},
+               open: (tplOptions) => { selectorOptions = tplOptions; },
             };
             emptyMenuControl._listModel = getListModel(items);
             emptyMenuControl._openSelectorDialog({});
