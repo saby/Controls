@@ -86,18 +86,20 @@ define('Controls/Application',
          },
 
          // Generates JML from options array of objects
-         translateJML: function JMLTranslator(type, objects) {
+         translateJML: function JMLTranslator(type, obj) {
+            var objects = obj || [];
             var result = [];
             for (var i = 0; i < objects.length; i++) {
                result[i] = [type, objects[i]];
             }
             return result;
          },
-         generateJML: function(links, styles, meta, scripts) {
-            var jml = [];
-            jml = jml.concat(_private.translateJML('style', styles || []));
-            jml = jml.concat(_private.translateJML('meta', meta || []));
-            return jml;
+         generateJML: function (links, styles, meta) {
+            return []
+               // фильтруем css (их вставит theme_controller)
+               .concat(_private.translateJML('link', links.filter((l) => l.type !== 'text/css')))
+               .concat(_private.translateJML('style', styles))
+               .concat(_private.translateJML('meta', meta));
          },
          isHover: function(touchClass, dragClass) {
             return touchClass === 'ws-is-no-touch' && dragClass === 'ws-is-no-drag';
@@ -291,7 +293,7 @@ define('Controls/Application',
             this._scrollData = new scroll._scrollContext({ pagingVisible: cfg.pagingVisible });
 
             // translate arrays of links, styles, meta and scripts from options to JsonML format
-            this.headJson = _private.generateJML(cfg.links, cfg.styles, cfg.meta, cfg.scripts);
+            this.headJson = _private.generateJML(cfg.links, cfg.styles, cfg.meta);
             if (Array.isArray(cfg.headJson)) {
                this.headJson = this.headJson.concat(cfg.headJson);
             }
