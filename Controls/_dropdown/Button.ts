@@ -3,6 +3,7 @@ import template = require('wml!Controls/_dropdown/Button/Button');
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import ActualApi from 'Controls/_buttons/ActualApi';
+import * as Merge from 'Core/core-merge';
 
 /**
  * Контрол «Кнопка с меню».
@@ -80,6 +81,10 @@ var Button = Control.extend({
    _beforeMount: function (options) {
       this._offsetClassName = MenuUtils.cssStyleGeneration(options);
       this._updateState(options);
+   },
+
+   _afterMount(options): void {
+      this._menuPopupOptions = Merge({ target: this._children.content }, options.menuPopupOptions || {});
    },
 
    _beforeUpdate: function (options) {

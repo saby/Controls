@@ -1,7 +1,8 @@
-<div class="controls-MenuButton_theme_{{_options.theme}}">
+<div class="controls-MenuButton controls-MenuButton_theme_{{_options.theme}}">
     <Controls._dropdown._Controller
             name="controller"
             scope="{{_options}}"
+            menuPopupOptions="{{_menuPopupOptions}}"
             headingCaption="{{_options.caption}}"
             headingIcon="{{_options.icon}}"
             headingIconSize="{{_options.iconSize}}"
@@ -15,7 +16,7 @@
             on:pinClick="_onPinClickHandler()"
             on:dropDownOpen="_tmplNotify('dropDownOpen')"
             on:dropDownClose="_tmplNotify('dropDownClose')"
-            attr:class="controls-MenuButton__Wrapper theme_{{_options.theme}}">
+            attr:class="controls-MenuButton__Wrapper">
         <ws:content>
             <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _viewModeButton === 'link'}}">
                 <div class="controls-text-default_theme-{{_options.theme}}
@@ -24,7 +25,7 @@
             <ws:else>
                 <Controls.buttons:Button
                         name="content"
-                        attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
+                        attr:class="controls-MenuButton__BaseButton"
                         icon="{{_options.icon}}"
                         iconSize="{{_options.iconSize}}"
                         iconStyle="{{_options.iconStyle}}"
@@ -44,5 +45,4 @@
             </ws:else>
         </ws:content>
     </Controls._dropdown._Controller>
-    <Controls.popup:Notification name="notificationOpener"/>
 </div>
