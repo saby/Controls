@@ -87,6 +87,10 @@ export default class FlatController {
       return this._entity;
    }
 
+   getDraggedItemData(): IFlatItemData {
+      return this._draggingItemData;
+   }
+
    calculateDragPosition(targetItemData: IFlatItemData, position?: TPosition): IDragPosition {
       let prevIndex = -1;
 
