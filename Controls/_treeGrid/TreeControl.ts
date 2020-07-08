@@ -12,8 +12,10 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 import {Map} from 'Types/shim';
 import {error as dataSourceError} from 'Controls/dataSource';
 import {MouseButtons, MouseUp} from './../Utils/MouseEventHelper';
-import { DndTreeController } from '../listDragNDrop';
-
+import { DndTreeController } from 'Controls/listDragNDrop';
+import { SyntheticEvent } from 'Vdom/Vdom';
+import { ItemsEntity } from 'Controls/dragnDrop';
+import { Model } from 'Types/entity';
 var
     HOT_KEYS = {
         expandMarkedItem: Env.constants.key.right,
@@ -669,7 +671,7 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     _draggingItemMouseMove(e, itemData, nativeEvent){
         e.stopPropagation();
         if (itemData.dispItem.isNode()) {
-            this._nodeMouseMove(itemData, nativeEvent)
+            this._nodeMouseMove(itemData, nativeEvent);
         }
     },
 
@@ -677,10 +679,19 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
         const dndListController = this._children.baseControl.getDndListController();
         dndListController.stopCountDownForExpandNode();
     },
-    _dragEnd: function() {
+
+    _dragEnd(e: SyntheticEvent, entity: ItemsEntity, item: Model, position: string): void {
         const dndListController = this._children.baseControl.getDndListController();
         if (dndListController instanceof DndTreeController) {
             dndListController.stopCountDownForExpandNode();
+        }
+
+        // Если перетаскиваем элемент с маркером в закрытый узел,
+        // то нужно раскрыть узел, чтобы маркер остался на том же элементе
+        const targetCollectionItem = this._children.baseControl.getViewModel().getItemBySourceKey(item.getKey());
+        const draggedItemData = dndListController.getDraggedItemData();
+        if (targetCollectionItem && draggedItemData.dispItem.isMarked() && entity.getItems().length === 1) {
+            _private.toggleExpanded(this, targetCollectionItem);
         }
     },
 
