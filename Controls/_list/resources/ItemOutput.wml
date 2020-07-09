@@ -25,13 +25,13 @@
    <ws:partial multiSelectTpl="{{multiSelectTpl}}" attr:key="{{ itemData.draggingItemData.key + '__dragged' }}" template="baseTemplate" itemData="{{itemData.draggingItemData}}" itemActionsTemplate="{{itemActionsTemplate}}"/>
 </ws:if>
 <ws:if data="{{editingItemData && isAdd && itemData.index === editingItemData.index && editingItemData.addPosition === 'top'}}">
-   <ws:partial template="baseTemplate" itemData="{{editingItemData}}" attr:key="{{ editingItemData.key }}"/>
+   <ws:partial template="baseTemplate" itemData="{{editingItemData}}" attr:key="{{ editingItemData.key }}_addingBefore"/>
 </ws:if>
 <ws:if data="{{itemData.isVisible !== false}}">
    <ws:partial template="baseTemplate" itemData="{{itemData}}" attr:key="{{ itemData.key }}"/>
 </ws:if>
 <ws:if data="{{editingItemData && isAdd && itemData.index === editingItemData.index - 1 && editingItemData.addPosition !== 'top'}}">
-   <ws:partial template="baseTemplate" itemData="{{editingItemData}}" attr:key="{{ editingItemData.key }}"/>
+   <ws:partial template="baseTemplate" itemData="{{editingItemData}}" attr:key="{{ editingItemData.key }}_addingAfter"/>
 </ws:if>
 <ws:if data="{{itemData.dragTargetPosition === 'after'}}">
    <ws:partial multiSelectTpl="{{multiSelectTpl}}" template="baseTemplate" itemData="{{itemData.draggingItemData}}" itemActionsTemplate="{{itemActionsTemplate}}" attr:key="{{itemData.draggingItemData.key + '__dragged'}}"/>

@@ -5,6 +5,7 @@ define('Controls-demo/List/Grid/GridWithEditing', [
    'wml!Controls-demo/List/Grid/GridWithEditing',
    'Types/source',
    'Core/core-clone',
+   'Types/entity',
    'wml!Controls-demo/List/Tree/treeEditingTemplate',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoBalancePrice',
@@ -13,7 +14,7 @@ define('Controls-demo/List/Grid/GridWithEditing', [
    'css!Controls-demo/List/Grid/Grid',
    'Controls/scroll',
    'Controls/grid',
-], function(Env, BaseControl, GridData, template, source, cClone) {
+], function(Env, BaseControl, GridData, template, source, cClone, entity) {
    'use strict';
    var ModuleClass = BaseControl.extend({
       _template: template,
@@ -22,6 +23,7 @@ define('Controls-demo/List/Grid/GridWithEditing', [
       gridColumns: null,
       gridHeader: null,
       showType: null,
+      _itemId: 0,
 
       _beforeMount: function() {
          this.showType = {
@@ -152,6 +154,23 @@ define('Controls-demo/List/Grid/GridWithEditing', [
                align: 'right'
             }
          ];
+      },
+      _beforeBeginEdit: function(e, options, isAdd) {
+         if (isAdd) {
+            return new entity.Model({
+               keyProperty: 'id',
+               rawData: {
+                  'id': ++this._itemId,
+                  'name': '',
+                  'description': '',
+                  'price': null,
+                  'balance': null,
+                  'balanceCostSumm': null,
+                  'reserve': null,
+                  'costPrice': 0
+               }
+            });
+         }
       },
       _showAction: function(action, item) {
          if (item.get('id') === '471329') {

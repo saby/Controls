@@ -4,6 +4,7 @@ import {Memory} from "Types/source"
 import {getEditing} from "../../DemoHelpers/DataCatalog"
 import {showType} from 'Controls/Utils/Toolbar';
 import 'wml!Controls-demo/grid/EditInPlace/EditingCell/_cellEditor';
+import {Model} from 'Types/entity';
 
 import 'css!Controls-demo/Controls-demo'
 
@@ -14,6 +15,7 @@ export default class extends Control {
     private _markedKey;
     private _dataLoadCallback = this._dataCallback.bind(this);
     private _items;
+    private _lastId: number;
     private _selectedKeys: number[] = [];
     protected _viewModel;
 
@@ -29,10 +31,12 @@ export default class extends Control {
     }];
 
     protected _beforeMount() {
+        const data = getEditing().getEditingData();
         this._viewSource = new Memory({
             keyProperty: 'id',
-            data: getEditing().getEditingData()
+            data
         });
+        this._lastId = data.length + 1;
     }
 
     protected _afterMount() {
@@ -45,6 +49,24 @@ export default class extends Control {
 
     protected _afterItemsRemove(e,i) {
         this._toggleAddButton();
+    }
+
+    protected _beginAdd() {
+        this._children.list.beginAdd({
+            item: new Model({
+                keyProperty: 'id',
+                rawData: {
+                    id: this._lastId++,
+                    title: '',
+                    description: '',
+                    price: '',
+                    balance: '',
+                    balanceCostSumm: '',
+                    reserve: '',
+                    costPrice: ''
+                }
+            })
+        });
     }
 
     private _toggleAddButton() {
