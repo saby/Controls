@@ -214,17 +214,16 @@ var Component = BaseControl.extend([EventProxyMixin], {
                 this._options.selectionHoveredValue,
                 this._options.hoveredStartValue,
                 this._options.hoveredEndValue,
-                {periodQuantum: rangeSelectionUtils.PERIOD_TYPE.month}
+                {periodQuantum: rangeSelectionUtils.PERIOD_TYPE.month, theme: this._options.theme}
             ));
         } else if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable) {
             const hoveredClass: string = rangeSelectionUtils.prepareHoveredClass(
                 itemValue,
                 this._options.hoveredStartValue,
                 this._options.hoveredEndValue,
-                {cssPrefix: MONTHS_RANGE_CSS_CLASS_PREFIX}
+                {cssPrefix: MONTHS_RANGE_CSS_CLASS_PREFIX, theme: this._options.theme}
             );
             css.push(hoveredClass);
-            css.push(`${hoveredClass}_theme-${this._options.theme}`);
         }
 
         return css.join(' ');

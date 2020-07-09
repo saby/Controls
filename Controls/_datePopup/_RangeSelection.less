@@ -1,15 +1,15 @@
-.controls-RangeSelection__selection-start-base,
-.controls-RangeSelection__selection-start-hovered,
-.controls-RangeSelection__selection-inner,
-.controls-RangeSelection__selection-end-base,
-.controls-RangeSelection__selection-end-hovered,
-.controls-RangeSelection__selection-start-base-hovered,
-.controls-RangeSelection__selected-start,
-.controls-RangeSelection__selected-start-hovered,
-.controls-RangeSelection__selected-inner,
-.controls-RangeSelection__selected-inner-hovered,
-.controls-RangeSelection__selected-end,
-.controls-RangeSelection__selected-end-hovered {
+.controls-RangeSelection__selection-start-base_theme-@{themeName},
+.controls-RangeSelection__selection-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selection-inner_theme-@{themeName},
+.controls-RangeSelection__selection-end-base_theme-@{themeName},
+.controls-RangeSelection__selection-end-hovered_theme-@{themeName},
+.controls-RangeSelection__selection-start-base-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-start_theme-@{themeName},
+.controls-RangeSelection__selected-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-inner_theme-@{themeName},
+.controls-RangeSelection__selected-inner-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-end_theme-@{themeName},
+.controls-RangeSelection__selected-end-hovered_theme-@{themeName} {
    outline: @yearlist_monthview_item_selected_border-color_datePicker solid @yearlist_monthview_selection-border_thickness_datePicker;
 }
 
@@ -23,18 +23,18 @@
    font-weight: bold;
 }
 
-.controls-RangeSelection__selected-start,
-.controls-RangeSelection__selected-inner,
-.controls-RangeSelection__selected-end,
-.controls-RangeSelection__selection-inner,
-.controls-RangeSelection__selected-start-end {
+.controls-RangeSelection__selected-start_theme-@{themeName},
+.controls-RangeSelection__selected-inner_theme-@{themeName},
+.controls-RangeSelection__selected-end_theme-@{themeName},
+.controls-RangeSelection__selection-inner_theme-@{themeName},
+.controls-RangeSelection__selected-start-end_theme-@{themeName} {
    background-color: @yearlist_monthview_item_selected_background-color_datePicker;
 }
 
-.controls-RangeSelection__selected-start,
-.controls-RangeSelection__selected-start-hovered,
-.controls-RangeSelection__selection-start-base,
-.controls-RangeSelection__selection-start-base-hovered {
+.controls-RangeSelection__selected-start_theme-@{themeName},
+.controls-RangeSelection__selected-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selection-start-base_theme-@{themeName},
+.controls-RangeSelection__selection-start-base-hovered_theme-@{themeName} {
    position: relative;
    &:before {
       content: "";
@@ -47,9 +47,9 @@
    }
 }
 
-.controls-RangeSelection__selected-end,
-.controls-RangeSelection__selected-end-hovered,
-.controls-RangeSelection__selection-end-base {
+.controls-RangeSelection__selected-end_theme-@{themeName},
+.controls-RangeSelection__selected-end-hovered_theme-@{themeName},
+.controls-RangeSelection__selection-end-base_theme-@{themeName} {
    position: relative;
    &:after {
       content: "";
@@ -62,29 +62,29 @@
    }
 }
 
-.controls-RangeSelection__selected-start-end,
-.controls-RangeSelection__selected-start-end-hovered {
+.controls-RangeSelection__selected-start-end_theme-@{themeName},
+.controls-RangeSelection__selected-start-end-hovered_theme-@{themeName} {
    outline: @yearlist_monthview_selection-border_single_color_datePicker solid @rangeSelection_border_single_thickness_datePicker;
    outline-offset: @yearlist_monthview_selection-border_thickness_datePicker - @rangeSelection_border_single_thickness_datePicker;
 }
 
-.controls-RangeSelection__selection-start-hovered,
-.controls-RangeSelection__selection-end-hovered,
-.controls-RangeSelection__selected-start-hovered,
-.controls-RangeSelection__selected-inner-hovered,
-.controls-RangeSelection__selected-start-end-hovered,
-.controls-RangeSelection__selected-start-hovered,
-.controls-RangeSelection__selected-end-hovered {
+.controls-RangeSelection__selection-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selection-end-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-inner-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-start-end-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-start-hovered_theme-@{themeName},
+.controls-RangeSelection__selected-end-hovered_theme-@{themeName} {
    background-color: @yearlist_monthview_item_selected_hover_background-color_datePicker;
 }
 
-.controls-RangeSelection__selection-start-base,
-.controls-RangeSelection__selection-end-base,
-.controls-RangeSelection__selection-start-base-hovered {
+.controls-RangeSelection__selection-start-base_theme-@{themeName},
+.controls-RangeSelection__selection-end-base_theme-@{themeName},
+.controls-RangeSelection__selection-start-base-hovered_theme-@{themeName} {
    background-color: @rangeSelection_item_edge_background-color_datePicker;
 }
 
-.controls-RangeSelection__hovered {
+.controls-RangeSelection__hovered_theme-@{themeName} {
    background-color: @yearlist_monthview_item_selected_hover_background-color_datePicker;
    outline: @yearlist_monthview_item_selected_border-color_datePicker solid  @yearlist_monthview_selection-border_thickness_datePicker;
 }

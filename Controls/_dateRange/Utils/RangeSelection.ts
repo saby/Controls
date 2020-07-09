@@ -96,7 +96,11 @@ var Utils = {
       if (!parts.length) {
          return DEFAULT_CSS_CLASS_BASE;
       }
-      return ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
+      let cssClass = ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
+      if (cfg.theme) {
+         cssClass += ` ${cssClass}_theme-${cfg.theme}`;
+      }
+      return cssClass;
    },
 
    isSelected: function(itemValue, startValue, endValue, selectionProcessing, baseSelectionValue,
