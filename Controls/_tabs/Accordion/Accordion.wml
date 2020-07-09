@@ -1,0 +1,54 @@
+<div class="controls-Tabs-Accordion">
+
+    <div class="controls-Tabs-Accordion__body">
+        <ws:for data="index, item in _options.items">
+            <div class="controls-Tabs-Accordion__item-title {{_getItemTitleClass(item, options.selectedKey, _isDistributed)}}"
+                on:mousedown="_onItemClick(item)">
+                <div class="controls-Tabs-Accordion__head-tab">
+                    <div class="controls-Tabs-Accordion__head-tab-background" style="{{_getItemStyle(item)}}"></div>
+                    <div class="controls-Tabs-Accordion__head-tab-text">{{item.title}}</div>
+                </div>
+            </div>
+            <div class="controls-Tabs-Accordion__item-content {{_getItemClass(item, options.selectedKey, _isDistributed)}}"
+                     style="{{_getItemStyle(item)}}">
+                <ws:if data="{{_options.selectedKey === _getItemKey(item)}}">
+                    <Controls.scroll:Container
+                            attr:style="height: 100%;"
+                            scrollbarVisible="{{false}}"
+                            topShadowVisibility="{{_options.selectedKey === _getItemKey(item)}}">
+                        <div>{{item.content}}</div>
+                    </Controls.scroll:Container>
+                </ws:if>
+                <ws:else>
+                    {{item.content}}
+                </ws:else>
+            </div>
+        </ws:for>
+    </div>
+
+    <div class="controls-Tabs-Accordion__head controls-Tabs-Accordion__head-top">
+        <div class="controls-Tabs-Accordion__head-switch-wrapper">
+            <div class="" on:click="_onDistributeClick()">распределить</div>
+        </div>
+        <ws:for data="item in _topTabs">
+            <div
+                class="controls-Tabs-Accordion__head-tab"
+                on:click="_onTabClick(item)">
+                <div class="controls-Tabs-Accordion__head-tab-background" style="{{_getItemStyle(item)}}"></div>
+                <div class="controls-Tabs-Accordion__head-tab-text">{{item.title}}</div>
+            </div>
+        </ws:for>
+    </div>
+
+    <div class="controls-Tabs-Accordion__head controls-Tabs-Accordion__head-bottom">
+        <ws:for data="item in _bottomTabs">
+            <div
+                class="controls-Tabs-Accordion__head-tab"
+                on:click="_onTabClick(item)">
+                <div class="controls-Tabs-Accordion__head-tab-background" style="{{_getItemStyle(item)}}"></div>
+                <div class="controls-Tabs-Accordion__head-tab-text">{{item.title}}</div>
+            </div>
+        </ws:for>
+    </div>
+
+</div>

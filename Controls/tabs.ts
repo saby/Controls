@@ -16,8 +16,12 @@
 
 import Buttons = require('Controls/_tabs/Buttons');
 import buttonsItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
+import Accordion from 'Controls/_tabs/Accordion';
+import Accordion2 from 'Controls/_tabs/Accordion2';
 
 export {
    Buttons,
-   buttonsItemTemplate
+   buttonsItemTemplate,
+   Accordion,
+   Accordion2
 }

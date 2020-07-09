@@ -1,0 +1,105 @@
+@height-tab: 24px;
+
+.controls-Tabs-Accordion {
+    position: relative;
+}
+
+.controls-Tabs-Accordion__body {
+    height: 100%;
+    padding-top: @height-tab;
+}
+
+.controls-Tabs-Accordion__head {
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.controls-Tabs-Accordion__head-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.controls-Tabs-Accordion__head-switch-wrapper {
+    flex-grow: 1;
+}
+
+.controls-Tabs-Accordion__head-tab {
+    flex-grow: 0;
+    position: relative;
+    height: @height-tab;
+    line-height: @height-tab;
+    padding: 0 12px 0 16px;
+    font-family: @font-size_m;
+    font-weight: bold;
+
+    &:last-child {
+        .controls-Tabs-Accordion__head-tab-background {
+            bottom: -1px;
+        }
+    }
+}
+
+.controls-Tabs-Accordion__head-tab-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -@height-tab;
+    left: 0;
+    transform: skewX(-34deg);
+    background: #FBE9E7;
+    border-top: 1px solid #E14C35;
+    border-left: 1px solid #E14C35;
+    border-right: 1px solid #E14C35;
+}
+
+.controls-Tabs-Accordion__head-tab-text {
+    position: relative;
+}
+
+.controls-Tabs-Accordion__item {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.controls-Tabs-Accordion__item-title {
+    margin-top: -@height-tab;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.controls-Tabs-Accordion2__item-content {
+    background: #FBE9E7;
+    border: 1px solid #E14C35;
+}
+
+.controls-Tabs-Accordion__item-content-distributed {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.controls-Tabs-Accordion__item-content-selected {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+}
+
+.controls-Tabs-Accordion__item-content-collapsed {
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 0;
+    overflow: hidden;
+    // Скрываем бордеры, переделать
+    border: none;
+}
+
+.controls-Tabs-Accordion__head-bottom {
+    margin-top: -@height-tab;
+}

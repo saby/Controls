@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
+    <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.tabs:AccordionTabs</div>
+    <Controls.tabs:Accordion
+            class="controlsDemo__height500"
+            bind:selectedKey="_selectedKey"
+            keyProperty="id"
+            items="{{_items}}"
+            >
+    </Controls.tabs:Accordion>
+    <div>Accordion 2</div>
+    <Controls.tabs:Accordion2
+            class="controlsDemo__height500"
+            bind:selectedKey="_selectedKey"
+            keyProperty="id"
+            items="{{_items}}"
+            >
+    </Controls.tabs:Accordion2>
+</div>
