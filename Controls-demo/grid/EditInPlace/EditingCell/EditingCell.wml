@@ -20,7 +20,7 @@
                                 <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
                             </ws:editingConfig>
                             <ws:footerTemplate>
-                                <Controls.list:AddButton caption="Add record" on:click="list.beginAdd()" class="test_add_record_1"/>
+                                <Controls.list:AddButton caption="Add record" on:click="_beginAdd()" class="test_add_record_1"/>
                             </ws:footerTemplate>
                         </Controls.grid:View>
                     </Controls.list:Container>

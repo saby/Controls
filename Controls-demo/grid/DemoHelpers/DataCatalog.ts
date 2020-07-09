@@ -958,7 +958,7 @@ function getEditing() {
     return {
         getEditingData: () => [
             {
-                id: '1',
+                id: 1,
                 title: 'Время',
                 description: 'Погода',
                 price: '1',
@@ -968,7 +968,7 @@ function getEditing() {
                 costPrice: '3'
             },
             {
-                id: '2',
+                id: 2,
                 title: 'Масса',
                 description: 'Скорость',
                 price: '1',
@@ -978,7 +978,7 @@ function getEditing() {
                 costPrice: '3'
             },
             {
-                id: '3',
+                id: 3,
                 title: 'Давление',
                 description: 'Плотность',
                 price: '1',
