@@ -122,7 +122,7 @@ var Component = BaseControl.extend({
             this._options.selectionHoveredValue,
             this._options.hoveredStartValue,
             this._options.hoveredEndValue,
-            { periodQuantum: rangeSelectionUtils.PERIOD_TYPE.year }
+            { periodQuantum: rangeSelectionUtils.PERIOD_TYPE.year, theme: this._options.theme }
         ));
 
         if (itemValue === this._year) {
