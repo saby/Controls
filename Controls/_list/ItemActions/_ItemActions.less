@@ -10,10 +10,13 @@
    height: 100%;
    display: inline-flex;
    align-items: center;
+   vertical-align: bottom;
+   min-height: @height_itemActions;
 }
 
 .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
   margin-left: @item_offset_itemActions;
+  margin-bottom: @item_offset-bottom_itemActions;
 }
 
 .controls-itemActionsV_visible {
@@ -22,7 +25,7 @@
 
 .controls-itemActionsV_inside_theme-@{themeName} {
    padding-right: @offset-right_itemActions;
-   height: @height_itemActions;
+   //height: @height_itemActions;
 }
 
 .controls-itemActionsV_style_default_theme-@{themeName} {
