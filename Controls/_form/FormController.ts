@@ -259,12 +259,12 @@ class FormController extends Control<IFormController, IReceivedState> {
             });
             return;
         }
-        // Если нет ключа и записи - то вызовем метод создать. Состояние isNewRecord обновим после того, как запись вычитается
-        // Иначе можем удалить рекорд, к которому новое значение опции isNewRecord не относится
-        const createMetaData = newOptions.initValues || newOptions.createMetaData;
+        // Если нет ключа и записи - то вызовем метод создать. Состояние isNewRecord обновим после того, как запись
+        // вычитается, иначе можем удалить рекорд, к которому новое значение опции isNewRecord не относится
+        const createMetaData = newOptions.initValues || newOptions.createMetaData || null;
         // Добавил защиту от циклических вызовов: У контрола стреляет _beforeUpdate, нет рекорда и ключа => вызывается
         // создание записи. Метод падает с ошибкой. У контрола стреляет _beforeUpdate, вызов метода создать повторяется бесконечно.
-        // Нельзя чтобы контрол ддосил БЛ.
+        // Нельзя чтобы контрол ддосил БЛ. Т.к сбрасываю значение в null, то если createMetaData не задан тоже беру null
         if (newOptions.key === undefined && !newOptions.record && this._createMetaDataOnUpdate !== createMetaData) {
             const _createBeforeUpdate = (createMetaData, newOptions: IFormController) => {
                 this._createMetaDataOnUpdate = createMetaData;
