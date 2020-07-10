@@ -18,7 +18,7 @@ export = {
 
     /**
      * Returns popup position
-     * @function Controls/_popupTemplate/Dialog/Opener/DialogStrategy#getPosition
+     * @function Controls/_popupDialog/Dialog/Opener/DialogStrategy#getPosition
      * @param windowData The parameters of the browser window
      * @param containerSizes Popup container sizes
      * @param item Popup configuration
