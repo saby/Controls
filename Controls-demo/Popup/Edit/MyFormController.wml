@@ -9,6 +9,7 @@
    <ws:bodyContentTemplate>
       <div>
          <Controls.form:Controller name="formControllerInst" dataSource="{{ _dataSource }}"
+                                        initialRecord="{{_options.initialRecord}}"
                                         record="{{ _record }}" key="{{ _options.key }}"
                                         on:updateFailed="_errorHandler()"
                                         on:createFailed="_errorHandler()"
@@ -22,28 +23,28 @@
                 <div class="controls-MyFormController__block">
                     <div class="controls-MyFormController__row controls-MyFormController__title">Название:</div>
                     <div class="controls-MyFormController__row">
-                        <Controls.input:Text bind:value="_record.name" class="demo-MyFormController__name"/>
+                        <Controls.input:Text bind:value="content.record.name" class="demo-MyFormController__name"/>
                     </div>
                 </div>
 
                 <div class="controls-MyFormController__block">
                     <div class="controls-MyFormController__row controls-MyFormController__title">Цена:</div>
                     <div class="controls-MyFormController__row">
-                        <Controls.input:Number bind:value="_record.price" class="demo-MyFormController__price"/>
+                        <Controls.input:Number bind:value="content.record.price" class="demo-MyFormController__price"/>
                     </div>
                 </div>
 
                 <div class="controls-MyFormController__block">
                     <div class="controls-MyFormController__row controls-MyFormController__title">Остаток:</div>
                     <div class="controls-MyFormController__row">
-                        <Controls.input:Number bind:value="_record.balance" class="demo-MyFormController__balance"/>
+                        <Controls.input:Number bind:value="content.record.balance" class="demo-MyFormController__balance"/>
                     </div>
                 </div>
 
                 <div class="controls-MyFormController__block">
                     <div class="controls-MyFormController__row controls-MyFormController__title">Себестоимость:</div>
                     <div class="controls-MyFormController__row">
-                        <Controls.input:Number bind:value="_record.costPrice" class="demo-MyFormController__costPrice"/>
+                        <Controls.input:Number bind:value="content.record.costPrice" class="demo-MyFormController__costPrice"/>
                     </div>
                 </div>
             </div>

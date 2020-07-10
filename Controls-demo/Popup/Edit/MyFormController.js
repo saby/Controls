@@ -26,6 +26,21 @@ define('Controls-demo/Popup/Edit/MyFormController',
             } else {
                this._dataSource = options.source;
             }
+
+            // Если есть initialRecord делаю искусственную задержку для создать, чтобы было видно как работает
+            if (options.initialRecord && !this._dataSource._patched) {
+               var baseCreate = this._dataSource.create;
+               var self = this;
+               this._dataSource._patched = this._dataSource.create;
+               this._dataSource.create = function() {
+                  var def = new Deferred();
+                  setTimeout(function() {
+                     baseCreate.call(self._dataSource).then(def.callback.bind(def));
+                  }, 1000);
+                  return def;
+               };
+            }
+
             var baseUpdate = this._dataSource.update;
             var self = this;
             this._dataSource.update = function () {

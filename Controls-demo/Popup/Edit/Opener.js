@@ -20,6 +20,7 @@ define('Controls-demo/Popup/Edit/Opener',
          _addRecordCount: 1,
          _cancelEdit: false,
          _openRecordByNewKey: false,
+         _openInitialRecord: false,
 
          _beforeMount: function(opt, context) {
             this._dataLoadCallback = this._dataLoadCallback.bind(this);
@@ -111,7 +112,21 @@ define('Controls-demo/Popup/Edit/Opener',
          },
 
          _addRecord: function() {
-            this._children.EditOpener.open();
+            var initialRecord;
+            if (this._openInitialRecord) {
+               initialRecord = this._items.at(0).clone();
+               initialRecord.set('id', 1000);
+               initialRecord.set('name', 'Запись для первичной отрисовки');
+               initialRecord.set('price', -10000);
+               initialRecord.set('balance', -10000);
+               initialRecord.set('costPrice', -10000);
+            }
+
+            this._children.EditOpener.open(null, {
+               templateOptions: {
+                  initialRecord: initialRecord
+               }
+            });
          },
 
          _openHandler: function(event) {

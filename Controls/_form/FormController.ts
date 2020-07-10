@@ -23,6 +23,7 @@ interface IFormController extends IControlOptions {
     keyProperty?: string;
     readMetaData?: unknown;
     record?: Model;
+    initialRecord?: Model;
     errorController?: dataSourceError.Controller;
     source?: Memory;
     confirmationShowingCallback?: Function;
@@ -203,6 +204,12 @@ class FormController extends Control<IFormController, IReceivedState> {
             return this._showError(receivedError);
         }
         const record = receivedData || options.record;
+        const loadRecord = () => {
+            if (options.key !== undefined && options.key !== null) {
+                return this._readRecordBeforeMount(options);
+            }
+            return this._createRecordBeforeMount(options);
+        };
 
         // use record
         if (record && this._checkRecordType(record)) {
@@ -213,10 +220,11 @@ class FormController extends Control<IFormController, IReceivedState> {
             if (options.key !== undefined && options.key !== null) {
                 this._readRecordBeforeMount(options);
             }
-        } else if (options.key !== undefined && options.key !== null) {
-            return this._readRecordBeforeMount(options);
+        } else if (options.initialRecord) {
+            this._setRecord(options.initialRecord);
+            loadRecord(); // Грузим данные, не прерывая построения
         } else {
-            return this._createRecordBeforeMount(options);
+            return loadRecord();
         }
     }
 

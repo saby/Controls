@@ -31,6 +31,8 @@
       <Controls.toggle:Checkbox bind:value="_cancelEdit" caption="Отменить синхронизацию" class="demo-PopupEditOpener__cancelEdit"/>
       <br />
       <Controls.toggle:Checkbox bind:value="_openRecordByNewKey" caption="Открыть запись на редактирование с другим ключом" class="demo-PopupEditOpener__openRecordByNewKey"/>
+      <br />
+      <Controls.toggle:Checkbox bind:value="_openInitialRecord" caption="Создать с рекордом для первичной отрисовки" class="demo-PopupEditOpener__openInitialRecord"/>
 
       <Controls.popup:EditContainer on:beforeItemEndEdit="_beforeSyncRecord()">
          <Controls.popup:Edit name="EditOpener" on:close="_closeHandler()" on:open="_openHandler()" on:result="_resultHandler()" template="Controls-demo/Popup/Edit/MyFormController">
