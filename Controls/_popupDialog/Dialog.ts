@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import template = require('wml!Controls/_popupTemplate/Dialog/Dialog');
+import template = require('wml!Controls/_popupDialog/Dialog/Dialog');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplate, IPopupTemplateOptions} from './interface/IPopupTemplate';
@@ -19,8 +19,8 @@ interface IDragObject {
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/dialog/#template">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
- * 
- * @class Controls/_popupTemplate/Dialog
+ *
+ * @class Controls/_popupDialog/Dialog
  * @extends Core/Control
  * @control
  * @public
@@ -32,7 +32,7 @@ interface IDragObject {
  */
 
 /**
- * @name Controls/_popupTemplate/Dialog#draggable
+ * @name Controls/_popupDialog/Dialog#draggable
  * @cfg {Boolean} Определяет, может ли окно перемещаться с помощью <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/'>d'n'd</a>.
  * @default false
  */

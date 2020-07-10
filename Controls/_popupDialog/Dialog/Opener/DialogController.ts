@@ -2,7 +2,7 @@ import {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/Ba
 import {IPopupItem, IPopupOptions, IPopupSizes, IPopupPosition} from 'Controls/popup';
 import {detection} from 'Env/Env';
 import * as Deferred from 'Core/Deferred';
-import DialogStrategy = require('Controls/_popupTemplate/Dialog/Opener/DialogStrategy');
+import DialogStrategy = require('Controls/_popupDialog/Dialog/Opener/DialogStrategy');
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 
 interface IDialogItem extends IPopupItem {
@@ -29,7 +29,7 @@ const IPAD_MIN_WIDTH = 1024;
 
 /**
  * Dialog Popup Controller
- * @class Controls/_popupTemplate/Dialog/Opener/DialogController
+ * @class Controls/_popupDialog/Dialog/Opener/DialogController
  * @control
  * @private
  * @category Popup
