@@ -5,7 +5,7 @@ import * as tmplNotify from 'Controls/Utils/tmplNotify';
 import ActualApi from 'Controls/_buttons/ActualApi';
 import Controller from 'Controls/_dropdown/_Controller';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {loadItems, isLeftMouseButton} from 'Controls/_dropdown/Util';
+import {loadItems} from 'Controls/_dropdown/Util';
 import BaseDropdown from 'Controls/_dropdown/BaseDropdown';
 import {IGroupedOptions} from 'Controls/dropdown';
 import {IIconOptions, IHeightOptions, IIconSizeOptions, IIconStyleOptions} from 'Controls/interface';
@@ -14,6 +14,7 @@ import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 import {IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {RecordSet} from 'Types/collection';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
+import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
 
 interface IButtonOptions extends IBaseDropdownOptions, IGroupedOptions, IIconOptions, IHeightOptions,
          IIconSizeOptions, IIconStyleOptions, IMenuControlOptions, IMenuPopupOptions {

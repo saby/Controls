@@ -2,7 +2,7 @@ import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
-import {prepareEmpty, loadItems, isLeftMouseButton} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
 import * as tmplNotify from 'Controls/Utils/tmplNotify';
 import Controller from 'Controls/_dropdown/_Controller';
 import BaseDropdown from 'Controls/_dropdown/BaseDropdown';
@@ -12,6 +12,7 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import {RecordSet} from 'Types/collection';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
+import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {
    placeholder?: string;

@@ -30,6 +30,8 @@ import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
+import {DependencyTimer, isLeftMouseButton} from "Controls/Utils/FastOpen";
+import {IoC} from "Env/Env";
 
 type TItem = Record;
 type TItems = RecordSet<TItem>;
@@ -132,6 +134,9 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     protected _actualItems: TItems = null;
 
     protected _template: TemplateFunction = template;
+
+    protected _dependenciesTimer: DependencyTimer = null;
+    private _loadViewPromise: Promise<unknown> = null;
 
     _children: {
         menuTarget: HTMLElement
@@ -377,7 +382,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return getButtonTemplateOptionsByItem(item, this._options);
     }
 
-    protected _showMenu(event: SyntheticEvent<UIEvent>): void {
+    protected _mouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (isLeftMouseButton(event)) {
+            return;
+        }
         if (!this._options.readOnly) {
             if (!this._isLoadMenuItems) {
                 this._setMenuItems();
@@ -386,12 +394,35 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             this._notify('menuOpened', [], {bubbling: true});
             this._openMenu(this._getMenuConfig());
         }
-        /**
-         * Stop bubbling of 'click' after opening the menu.
-         * Nobody should have to catch the 'click'', if toolbar handled it.
-         * For example, list can catch this event and generate 'itemClick'.
-         */
+    }
+    protected _onClickHandler(event: SyntheticEvent): void {
         event.stopPropagation();
+    }
+    protected _mouseEnterHandler() {
+        if (!this._options.readOnly) {
+            if (!this._dependenciesTimer) {
+                this._dependenciesTimer = new DependencyTimer();
+            }
+            this._dependenciesTimer.start(this._loadDependencies);
+        }
+    }
+    protected _mouseLeaveHandler(): void {
+        this._dependenciesTimer?.stop();
+    }
+    private _loadDependencies(): Promise<unknown> {
+        try {
+            if (!this._isLoadMenuItems) {
+                this._setMenuItems();
+                this._isLoadMenuItems = true;
+            }
+
+            if (!this._loadViewPromise) {
+                this._loadViewPromise = import('Controls/menu');
+            }
+            return this._loadViewPromise;
+        } catch (e) {
+            IoC.resolve('ILogger').error('_toolbars:View', e);
+        }
     }
 
     /**

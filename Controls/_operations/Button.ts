@@ -2,6 +2,10 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IExpandableOptions, IExpandable} from 'Controls/interface';
 import ButtonTemplate = require('wml!Controls/_operations/Button/Button');
 import {default as Store} from 'Controls/Store';
+import {DependencyTimer, isLeftMouseButton} from "Controls/Utils/FastOpen";
+import {IoC} from 'Env/Env';
+import {SyntheticEvent} from "Vdom/Vdom";
+
 export interface IOperationsButtonOptions extends IControlOptions, IExpandableOptions {
 }
 
@@ -35,12 +39,15 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
  *
  */
 
-class OperationsButton extends Control<IOperationsButtonOptions> implements IExpandable {
+export default class OperationsButton extends Control<IOperationsButtonOptions> implements IExpandable {
    '[Controls/_toggle/interface/IExpandable]': true;
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = ButtonTemplate;
    protected _expanded: boolean = false;
    protected _expandedCallbackId: string;
+
+   private _dependenciesTimer: DependencyTimer = null;
+   private _loadOperationsPanelPromise: Promise<unknown> = null;
 
    protected _expandedChanged(value): void {
       if (this._expanded !== !!value) {
@@ -59,7 +66,10 @@ class OperationsButton extends Control<IOperationsButtonOptions> implements IExp
          Store.unsubscribe(this._expandedCallbackId);
       }
    }
-   protected _onClick(): void {
+   protected _mouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
+      if (isLeftMouseButton(event)) {
+         return;
+      }
       if (!this._options.readOnly) {
          this._notify('expandedChanged', [!this._options.expanded]);
          if (this._options.useStore) {
@@ -67,6 +77,27 @@ class OperationsButton extends Control<IOperationsButtonOptions> implements IExp
          }
       }
    }
+   protected _mouseEnterHandler(): void {
+      if (!this._options.readOnly) {
+         if (!this._dependenciesTimer) {
+            this._dependenciesTimer = new DependencyTimer();
+         }
+         this._dependenciesTimer.start(this._loadDependencies);
+      }
+   }
+   protected _mouseLeaveHandler(): void {
+      this._dependenciesTimer?.stop();
+   }
+   private _loadDependencies(): Promise<unknown> {
+      try {
+         if (!this._loadOperationsPanelPromise) {
+            this._loadOperationsPanelPromise = import('Controls/operationsPanel');
+         }
+         return this._loadOperationsPanelPromise;
+      } catch (e) {
+         IoC.resolve('ILogger').error('_operations:Button', e);
+      }
+   }
+
    static _theme: string[] = ['Controls/operations'];
 }
-export default OperationsButton;
