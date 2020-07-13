@@ -1,9 +1,7 @@
 import Control = require('Core/Control');
-import template = require('wml!Controls/_scroll/StickyHeader/Controller/Controller');
 import {debounce} from 'Types/function';
 import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
 import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_StickyHeader';
-import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import fastUpdate from './FastUpdate';
 import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
 import {detection} from 'Env/Env';
@@ -19,9 +17,7 @@ interface IHeightEntry {
     value: number;
 }
 
-class Component extends Control {
-    protected _template: Function = template;
-
+class StickyHeaderController {
     // Register of all registered headers. Stores references to instances of headers.
     private _headers: object;
     // Ordered list of headers.
@@ -31,14 +27,17 @@ class Component extends Control {
     // Если созданный заголвок невидим, то мы не можем посчитать его позицию.
     // Учтем эти заголовки после ближайшего события ресайза.
     private _delayedHeaders: TRegisterEventData[] = [];
-    private _stickyControllerMounted: boolean = false;
+    private _initialized: boolean = false;
     private _updateTopBottomInitialized: boolean = false;
     private _stickyHeaderResizeObserver: ResizeObserverUtil;
     private _elementsHeight: IHeightEntry[] = [];
-    private _firstResize: boolean = true;
     private _canScroll: boolean = false;
+    private _resizeHandlerDebounced: Function;
+    private _control: Control;
+    private _container: HTMLElement;
 
-    _beforeMount(options) {
+    constructor(control: Control) {
+        this._control = control;
         this._headersStack = {
             top: [],
             bottom: []
@@ -48,17 +47,19 @@ class Component extends Control {
             bottom: []
         };
         this._headers = {};
-        this._resizeHandlerDebounced = debounce(this._resizeHandler.bind(this), 50);
-        this._stickyHeaderResizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
+        this._resizeHandlerDebounced = debounce(this.resizeHandler.bind(this), 50);
+        this._stickyHeaderResizeObserver = new ResizeObserverUtil(
+            control, this._resizeObserverCallback.bind(this), this.resizeHandler.bind(this));
     }
 
-    _afterMount(options) {
-        this._stickyControllerMounted = true;
+    init(container: HTMLElement): void {
+        this._container = container;
+        this._initialized = true;
         this._stickyHeaderResizeObserver.initialize();
         this._registerDelayed();
     }
 
-    _beforeUnmount(): void {
+    destroy(): void {
         this._stickyHeaderResizeObserver.terminate();
     }
 
@@ -128,14 +129,14 @@ class Component extends Control {
         }
     }
 
-    _stickyRegisterHandler(event, data: TRegisterEventData, register: boolean): void {
+    registerHandler(event, data: TRegisterEventData, register: boolean): void {
         const promise = this._register(data, register, true);
         this._clearOffsetCache();
         event.stopImmediatePropagation();
         return promise;
     }
 
-    _register(data: TRegisterEventData, register: boolean, update: boolean): void {
+    _register(data: TRegisterEventData, register: boolean, update: boolean): Promise<void> {
         if (register) {
             this._headers[data.id] = {
                 ...data,
@@ -152,7 +153,7 @@ class Component extends Control {
             this._delayedHeaders.push(data);
 
             this._observeStickyHeader(data);
-            if (!isHidden(data.container) && this._stickyControllerMounted && this._canScroll) {
+            if (!isHidden(data.container) && this._initialized && this._canScroll) {
                 return Promise.resolve().then(this._registerDelayed.bind(this));
             }
         } else {
@@ -203,7 +204,7 @@ class Component extends Control {
             }
         }
         if (heightChanged) {
-            this._resizeHandler();
+            this.resizeHandler();
         }
     }
 
@@ -220,10 +221,9 @@ class Component extends Control {
      * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} fixedHeaderData
      * @private
      */
-    _fixedHandler(event, fixedHeaderData: IFixedEventData) {
+    fixedHandler(event, fixedHeaderData: IFixedEventData) {
         event.stopImmediatePropagation();
         const isFixationUpdated = this._updateFixationState(fixedHeaderData);
-        this._notify('fixed', [this.getHeadersHeight(POSITION.top, TYPE_FIXED_HEADERS.initialFixed), this.getHeadersHeight(POSITION.bottom, TYPE_FIXED_HEADERS.initialFixed)]);
         if (!isFixationUpdated) {
             return;
         }
@@ -232,10 +232,12 @@ class Component extends Control {
         if (fixedHeaderData.fixedPosition && this._fixedHeadersStack[fixedHeaderData.fixedPosition].length === 1) {
             return;
         }
-        this._children.stickyFixed.start([
-            this._fixedHeadersStack.top[this._fixedHeadersStack.top.length - 1],
-            this._fixedHeadersStack.bottom[this._fixedHeadersStack.bottom.length - 1]
-        ]);
+        for (const id in this._headers) {
+            this._headers[id].inst.updateFixed([
+                this._fixedHeadersStack.top[this._fixedHeadersStack.top.length - 1],
+                this._fixedHeadersStack.bottom[this._fixedHeadersStack.bottom.length - 1]
+            ]);
+        }
     }
 
     _updateTopBottomHandler(event: Event): void {
@@ -248,11 +250,11 @@ class Component extends Control {
         this._stickyHeaderResizeObserver.controlResizeHandler()
     }
 
-    _resizeHandler() {
+    resizeHandler() {
         const isSimpleHeaders = this._headersStack.top.length <= 1 && this._headersStack.bottom.length <= 1;
         // Игнорируем все собятия ресайза до _afterMount.
         // В любом случае в _afterMount мы попробуем рассчитать положение заголовков.
-        if (this._stickyControllerMounted) {
+        if (this._initialized) {
             // Отдельно вызываем пересчет стилей для сафари13, т.к стили "bottom" и "right" не работают
             // в стики элементах на ios 13
             if (detection.safariVersion >= 13) {
@@ -357,8 +359,7 @@ class Component extends Control {
             this._addToHeadersStack(id, 'bottom');
             return;
         }
-        //TODO https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-        const container = (this._container && this._container.get) ? this._container.get(0) : this._container,
+        const container = this._container,
             headersStack = this._headersStack[position],
             newHeaderOffset = this._getHeaderOffset(id, position),
             headerContainerHeight = this._headers[id].container.getBoundingClientRect().height;
@@ -495,4 +496,4 @@ class Component extends Control {
     }
 }
 
-export default Component;
+export default StickyHeaderController;

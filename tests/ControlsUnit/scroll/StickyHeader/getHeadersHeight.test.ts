@@ -16,7 +16,7 @@ describe('Controls/scroll/getStickyHeadersHeight', function() {
                         }
                     }, {
                         control: {
-                            _moduleName: 'Controls/scroll:_stickyHeaderController',
+                            _moduleName: 'Controls/scroll:Container',
                             getHeadersHeight: controllerFn
                         }
                     }, {

@@ -5,7 +5,7 @@ import {
     getViewportSizeByState,
     getContentSizeByState,
     getScrollPositionTypeByState,
-    EDGE_POSITION
+    SCROLL_POSITION
 } from 'Controls/_scroll/Utils/Scroll';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
 
@@ -109,7 +109,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollHeight: 40,
                 clientHeight: 20
             },
-            scrollPositionType: EDGE_POSITION.START
+            scrollPositionType: SCROLL_POSITION.START
         }, {
             direction: SCROLL_DIRECTION.VERTICAL,
             state: {
@@ -117,7 +117,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollHeight: 40,
                 clientHeight: 20
             },
-            scrollPositionType: EDGE_POSITION.MIDDLE
+            scrollPositionType: SCROLL_POSITION.MIDDLE
         }, {
             direction: SCROLL_DIRECTION.VERTICAL,
             state: {
@@ -125,7 +125,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollHeight: 40,
                 clientHeight: 20
             },
-            scrollPositionType: EDGE_POSITION.END
+            scrollPositionType: SCROLL_POSITION.END
         }, {
             direction: SCROLL_DIRECTION.HORIZONTAL,
             state: {
@@ -133,7 +133,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollWidth: 40,
                 clientWidth: 20
             },
-            scrollPositionType: EDGE_POSITION.START
+            scrollPositionType: SCROLL_POSITION.START
         }, {
             direction: SCROLL_DIRECTION.HORIZONTAL,
             state: {
@@ -141,7 +141,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollWidth: 40,
                 clientWidth: 20
             },
-            scrollPositionType: EDGE_POSITION.MIDDLE
+            scrollPositionType: SCROLL_POSITION.MIDDLE
         }, {
             direction: SCROLL_DIRECTION.HORIZONTAL,
             state: {
@@ -149,7 +149,7 @@ describe('Controls/_scroll/Utils/Scroll', () => {
                 scrollWidth: 40,
                 clientWidth: 20
             },
-            scrollPositionType: EDGE_POSITION.END
+            scrollPositionType: SCROLL_POSITION.END
         }].forEach((test, i: number) => {
             it(`test ${i}. direction ${test.direction}`, () => {
                 const container = {};

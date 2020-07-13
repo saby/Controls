@@ -43,26 +43,26 @@ export function getContentSizeByState(state:IScrollState, direction: SCROLL_DIRE
     return contentSize;
 }
 
-export const enum EDGE_POSITION {
+export const enum SCROLL_POSITION {
     START = 'start',
     END = 'end',
     MIDDLE = 'middle',
 }
 
-export function getScrollPositionType(scrollPosition: number, viewportSize: number, contentSize: number): EDGE_POSITION {
-    let curPosition: EDGE_POSITION;
+export function getScrollPositionType(scrollPosition: number, viewportSize: number, contentSize: number): SCROLL_POSITION {
+    let curPosition: SCROLL_POSITION;
     if (scrollPosition <= 0) {
-        curPosition = EDGE_POSITION.START;
+        curPosition = SCROLL_POSITION.START;
     } else if (scrollPosition + viewportSize >= contentSize) {
-        curPosition = EDGE_POSITION.END;
+        curPosition = SCROLL_POSITION.END;
     } else {
-        curPosition = EDGE_POSITION.MIDDLE;
+        curPosition = SCROLL_POSITION.MIDDLE;
     }
     return curPosition;
 }
 
 export function getScrollPositionTypeByState(scrollState: IScrollState,
-                                             direction: SCROLL_DIRECTION = SCROLL_DIRECTION.VERTICAL): EDGE_POSITION {
+                                             direction: SCROLL_DIRECTION = SCROLL_DIRECTION.VERTICAL): SCROLL_POSITION {
     return getScrollPositionType(
         getScrollPositionByState(scrollState, direction),
         getViewportSizeByState(scrollState, direction),

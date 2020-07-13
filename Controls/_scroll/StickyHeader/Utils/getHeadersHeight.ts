@@ -9,8 +9,8 @@ interface ControlHTMLElement extends HTMLElement {
    controlNodes: ControlNode[]
 }
 
-const STICKY_CONTROLLER_SELECTOR: string = '.controls-StickyHeaderController';
-const STICKY_CONTROLLER_MODULE_NAME: string = 'Controls/scroll:_stickyHeaderController';
+const STICKY_CONTROLLER_SELECTOR: string = '.controls-Scroll';
+const STICKY_CONTROLLER_MODULE_NAME: string = 'Controls/scroll:Container';
 
 export function getHeadersHeight(element: HTMLElement, position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
    var controlsElement: ControlHTMLElement = element.closest(STICKY_CONTROLLER_SELECTOR);

@@ -6,6 +6,13 @@ import ScrollWidthUtil = require('Controls/_scroll/Scroll/ScrollWidthUtil');
 import {IScrollState} from '../Utils/ScrollState';
 import {IScrollbarsOptions} from './Interface/IScrollbars';
 
+export interface Offsets {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+}
+
 export default class ScrollbarModel extends mixin<VersionableMixin>(VersionableMixin) implements IVersionable {
     readonly '[Types/_entity/VersionableMixin]': true;
 
@@ -16,6 +23,7 @@ export default class ScrollbarModel extends mixin<VersionableMixin>(VersionableM
     private _canScroll: boolean = false;
     private _position: number = 0;
     private _contentSize: number;
+    private _style: string = '';
 
     constructor(direction: SCROLL_DIRECTION, options: IScrollbarsOptions) {
         super(options);
@@ -52,5 +60,24 @@ export default class ScrollbarModel extends mixin<VersionableMixin>(VersionableM
             changed = true;
         }
         return changed;
+    }
+
+    setOffsets(offsets: Offsets): boolean {
+        let style:string;
+        if (this._direction === SCROLL_DIRECTION.VERTICAL) {
+            style = `top: ${offsets.top || 0}px; bottom: ${offsets.top || 0}ps;`
+        } else {
+            style = `left: ${offsets.left || 0}px; right: ${offsets.right || 0}ps;`
+        }
+        const changed: boolean = style !== this._style
+        if (changed) {
+            this._style = style
+            this._nextVersion();
+        }
+        return changed;
+    }
+
+    get style(): string {
+        return this._style;
     }
 }

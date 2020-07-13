@@ -91,14 +91,6 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         this._index = getNextId();
     }
 
-    protected _afterMount(): void {
-        RegisterUtil(this, 'updateFixed', this._updateFixed.bind(this));
-    }
-
-    protected _beforeUnmount(): void {
-        UnregisterUtil(this, 'updateFixed');
-    }
-
     getOffset(parentElement: HTMLElement, position: POSITION): number {
         let offset: number = getOffset(parentElement, this._container, position);
         if (this._fixed) {
@@ -181,15 +173,21 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
-    protected _updateFixed(ids: number[]): void {
+    protected updateFixed(ids: number[]): void {
         var isFixed = ids.indexOf(this._index) !== -1;
         if (this._isFixed !== isFixed) {
             this._isFixed = isFixed;
             if (isFixed) {
-               this._children.stickyFixed.start(this._stickyHeadersIds.top.concat(this._stickyHeadersIds.bottom));
+               this._updateFixed(this._stickyHeadersIds.top.concat(this._stickyHeadersIds.bottom));
             } else {
-               this._children.stickyFixed.start([]);
+               this._updateFixed([]);
             }
+        }
+    }
+
+    _updateFixed(ids: number[]): void {
+        for (const id in this._headers) {
+            this._headers[id].inst.updateFixed(ids);
         }
     }
 

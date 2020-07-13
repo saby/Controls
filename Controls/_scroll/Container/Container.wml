@@ -32,7 +32,7 @@
                             {{_scrollbars.horizontal.isVisible ? 'controls-VScrollbar_vertical_offset'}}"
                         on:positionChanged="_positionChangedHandler('vertical')"
                         on:draggingChanged="_draggingChangedHandler('vertical')"
-                        attr:style="{{_scrollbarStyles}}"/>
+                        attr:style="{{_scrollbars.vertical.style}}"/>
             </ws:if>
 
             <ws:if data="{{_scrollbars.horizontal.isVisible}}">
@@ -47,7 +47,7 @@
                             {{_scrollbars.vertical.isVisible ? 'controls-VScrollbar_horizontal_offset'}}"
                         on:positionChanged="_positionChangedHandler('horizontal')"
                         on:draggingChanged="_draggingChangedHandler('horizontal')"
-                        attr:style="{{_scrollbarStyles}}"/>
+                        attr:style="{{_scrollbars.horizontal.style}}"/>
             </ws:if>
         </ws:if>
 

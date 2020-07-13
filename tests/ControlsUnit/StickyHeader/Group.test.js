@@ -160,29 +160,27 @@ define([
          });
       });
 
-      describe('_updateFixed', function() {
-         it('should transfer an event if the header identifier is equal to the current one', function() {
+      describe('updateFixed', function() {
+         it('should update children headers if the header identifier is equal to the current one', function() {
             const
                component = createComponent(scroll.Group, options);
 
-            component._children.stickyFixed = {
-               start: sinon.fake()
-            };
+            sinon.stub(component, '_updateFixed');
 
-            component._updateFixed([component._index]);
-            sinon.assert.called(component._children.stickyFixed.start);
+            component.updateFixed([component._index]);
+            sinon.assert.called(component._updateFixed);
+            sinon.restore();
          });
 
-         it('should not transfer an event if the header identifier is not equal to the current one', function() {
+         it('should not update children headers if the header identifier is not equal to the current one', function() {
             const
                component = createComponent(scroll.Group, options);
 
-            component._children.stickyFixed = {
-               start: sinon.fake()
-            };
+            sinon.stub(component, '_updateFixed');
 
-            component._updateFixed([component._index + 1]);
-            sinon.assert.notCalled(component._children.stickyFixed.start);
+            component.updateFixed([component._index + 1]);
+            sinon.assert.notCalled(component._updateFixed);
+            sinon.restore();
          });
       });
 
