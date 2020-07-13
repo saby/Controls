@@ -6,6 +6,7 @@
                   style="{{itemsLayout === 'twoColumns' || !style ? 'default' : style}}"
                   clickable="{{clickable}}"
                   displayProperty="{{displayProperty}}"
+                  theme="{{_options.theme}}"
                   attr:class="controls-SelectedCollection__item__caption-{{itemsLayout}}_theme-{{_options.theme}}"
             />
    </span>
