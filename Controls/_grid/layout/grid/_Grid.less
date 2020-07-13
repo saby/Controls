@@ -300,7 +300,7 @@
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
       background-color: @item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content {
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover > :not(.controls-Grid__row-cell-background-editing_theme-@{themeName}) .controls-Grid__row-cell__content {
       background-color: @item_hover_background-color_list;
    }
 
