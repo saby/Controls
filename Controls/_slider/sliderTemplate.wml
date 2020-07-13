@@ -9,7 +9,8 @@
         on:mouseleave="_mouseLeaveAndTouchEndHandler()"
         on:touchend="_mouseLeaveAndTouchEndHandler()"
         on:mouseup="_onMouseUp()">
-      <div class="controls-Slider__mainSlider{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}" name="area">
+      <div class="controls-Slider__mainSlider{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
+         {{_options.borderVisible ? 'controls-Slider__mainSlider_' + _options.size + '__offset_theme-' + _options.theme : 'controls-Slider__mainSlider_' + _options.size + '__offset_default_theme-' + _options.theme}}" name="area">
          <ws:for data="key, point in _pointData">
             <ws:if data="{{point.name=='tooltip' && (_tooltipValue || _tooltipValue==0) && !_options.readOnly || point.name!='tooltip'}}">
                <div class="controls-Slider__point_theme-{{_options.theme}}

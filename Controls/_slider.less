@@ -13,14 +13,11 @@
 .controls-Slider__mainSlider_small_theme-@{themeName} {
   position: relative;
   height: @marker_s_size_slider;
-  margin: (@scale_offset_slider-line - @marker_s_size_slider / 2 + @track_thickness_slider / 2) 0;
 }
 
 .controls-Slider__mainSlider_big_theme-@{themeName} {
   position: relative;
   height: @marker_l_size_slider;
-  margin: (@scale_offset_slider-line - @marker_l_size_slider / 2 + @track_thickness_slider / 2)  0;
-
 }
 
 .controls-Slider__point_theme-@{themeName} {
@@ -243,4 +240,17 @@
   &_unaccented_theme-@{themeName} {
     background: @unaccented_color;
   }
+}
+
+.controls-Slider__mainSlider_s__offset_default_theme-@{themeName} {
+  margin: (@scale_offset_slider-line - @marker_s_size_slider / 2 + @track_thickness_slider / 2) 0;
+}
+.controls-Slider__mainSlider_s__offset_theme-@{themeName} {
+  margin: @border_offset_s_size_slider-line 0;
+}
+.controls-Slider__mainSlider_m__offset_default_theme-@{themeName} {
+  margin: (@scale_offset_slider-line - @marker_l_size_slider / 2 + @track_thickness_slider / 2)  0;
+}
+.controls-Slider__mainSlider_m__offset_theme-@{themeName} {
+  margin: @border_offset_l_size_slider-line 0;
 }
