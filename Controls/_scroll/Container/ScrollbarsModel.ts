@@ -5,7 +5,7 @@ import {SCROLL_DIRECTION} from '../Utils/Scroll';
 import ScrollHeightFixUtil = require('Controls/_scroll/Scroll/ScrollHeightFixUtil');
 import ScrollWidthUtil = require('Controls/_scroll/Scroll/ScrollWidthUtil');
 import {IScrollbarsOptions} from './Interface/IScrollbars';
-import ScrollbarModel from './ScrollbarModel';
+import ScrollbarModel, {Offsets} from './ScrollbarModel';
 import {IScrollState} from '../Utils/ScrollState';
 
 interface ISerializeState {
@@ -88,6 +88,12 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         }
         if (changed) {
             this._nextVersion();
+        }
+    }
+
+    setOffsets(offsets: Offsets): void {
+        for (let scrollbar of Object.keys(this._models)) {
+            this._models[scrollbar].setOffsets(offsets);
         }
     }
 

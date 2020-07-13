@@ -2,7 +2,7 @@ import {mixin} from 'Types/util';
 import {IVersionable, VersionableMixin} from 'Types/entity';
 import {POSITION} from './Type';
 import {SHADOW_VISIBILITY, IShadowsOptions} from './Interface/IShadows';
-import {canScrollByState, EDGE_POSITION, SCROLL_DIRECTION} from '../Utils/Scroll';
+import {canScrollByState, SCROLL_POSITION, SCROLL_DIRECTION} from '../Utils/Scroll';
 import {IScrollState} from '../Utils/ScrollState';
 
 const SHADOW_ENABLE_MAP = {
@@ -71,7 +71,7 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     }
 
     updateScrollState(scrollState: IScrollState): void {
-        const position: EDGE_POSITION = scrollState[`${this._direction}Position`];
+        const position: SCROLL_POSITION = scrollState[`${this._direction}Position`];
 
         const isEnabled: boolean = this._getShadowEnable(this._canScrollByScrollState(scrollState));
         if (isEnabled !== this._isEnabled) {
@@ -79,8 +79,8 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
             this._nextVersion();
         }
 
-        const isVisible: boolean = isEnabled && ((this._type === SHADOW_TYPE.BEFORE && position !== EDGE_POSITION.START) ||
-            (this._type === SHADOW_TYPE.AFTER && position !== EDGE_POSITION.END));
+        const isVisible: boolean = isEnabled && ((this._type === SHADOW_TYPE.BEFORE && position !== SCROLL_POSITION.START) ||
+            (this._type === SHADOW_TYPE.AFTER && position !== SCROLL_POSITION.END));
 
         if (isVisible !== this._isVisible) {
             this._isVisible = isVisible;

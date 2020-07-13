@@ -78,8 +78,9 @@ define(
             it('should be enable shadows if the contents fit in the container', function () {
                scroll._beforeMount(scrollMod.Container.getDefaultOptions(), {});
                sinon.stub(scroll, '_adjustContentMarginsForBlockRender');
-               scroll._children.stickyController = {
-                  setCanScroll: sinon.fake()
+               scroll._stickyHeaderController = {
+                  setCanScroll: sinon.fake(),
+                  init: sinon.fake()
                };
                scroll._afterMount();
                assert.isTrue(scroll._displayState.shadowEnable.top);
@@ -126,7 +127,7 @@ define(
                      bottom: true
                   };
                   scroll._shadowVisibilityByInnerComponents.top = test.shadowVisibilityByInnerComponents;
-                  scroll._children.stickyController = {
+                  scroll._stickyHeaderController = {
                      hasFixed: function () {
                         return Boolean(test.hasFixed);
                      },
@@ -157,7 +158,7 @@ define(
 
                it('should display top shadow if scrollTop > 0.', function () {
                   scroll._displayState.shadowVisible.top = true;
-                  scroll._children.stickyController = {
+                  scroll._stickyHeaderController = {
                      hasFixed: function () {
                         return false;
                      },
@@ -171,7 +172,7 @@ define(
 
                it('should display left shadow if scrollLeft > 0.', function () {
                   scroll._displayState.shadowVisible.left = true;
-                  scroll._children.stickyController = {
+                  scroll._stickyHeaderController = {
                      hasFixed: function () {
                         return false;
                      },
@@ -186,7 +187,7 @@ define(
                it('should not display top shadow if scrollLeft < 0.', function () {
                   scroll._displayState.shadowVisible.left = true;
                   scroll._children.content.scrollLeft = -10;
-                  scroll._children.stickyController = {
+                  scroll._stickyHeaderController = {
                      hasFixed: function () {
                         return false;
                      },
@@ -271,10 +272,9 @@ define(
                scroll._container = {
                   closest: () => {}
                };
-               scroll._children = {
-                  stickyController: {
-                     setCanScroll: () => undefined
-                  }
+               scroll._stickyHeaderController = {
+                  setCanScroll: () => undefined,
+                  resizeHandler: () => undefined
                };
             });
             it('Content at the top', function() {
@@ -329,10 +329,9 @@ define(
                scroll._container = {
                   closest: () => {}
                };
-               scroll._children = {
-                  stickyController: {
-                     setCanScroll: sinon.stub()
-                  }
+               scroll._stickyHeaderController = {
+                  setCanScroll: sinon.stub(),
+                  resizeHandler: () => undefined
                };
             });
             it('should update _displayState if it changed(vertical scroll).', function() {
@@ -346,7 +345,7 @@ define(
 
                scroll._resizeHandler();
                assert.notStrictEqual(scroll._displayState, oldDisplayState);
-               sinon.assert.calledWith(scroll._children.stickyController.setCanScroll, false);
+               sinon.assert.calledWith(scroll._stickyHeaderController.setCanScroll, false);
 
                oldDisplayState = scroll._displayState;
                scroll._resizeHandler();
@@ -512,7 +511,7 @@ define(
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden controls-StickyHeaderController">' +
+                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-Scroll__content_hidden">' +
                   '<div class="controls-Scroll__userContent">test</div>' +
                   '</span>' +
                   '<div></div>' +
@@ -522,7 +521,7 @@ define(
                result = scroll._template(scroll);
 
                assert.equal(result, '<div class="controls-Scroll ws-flexbox ws-flex-column">' +
-                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar controls-StickyHeaderController" style="margin-right: -15px;">' +
+                  '<span class="controls-Scroll__content controls-BlockLayout__blockGroup controls-BlockLayout__blockGroup_theme-default controls-Scroll__content_hideNativeScrollbar" style="margin-right: -15px;">' +
                   '<div class="controls-Scroll__userContent">test</div>' +
                   '</span>' +
                   '<div></div>' +

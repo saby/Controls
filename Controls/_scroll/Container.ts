@@ -3,7 +3,12 @@ import Deferred = require('Core/Deferred');
 import Env = require('Env/Env');
 import ScrollData = require('Controls/_scroll/Scroll/Context');
 import StickyHeaderContext = require('Controls/_scroll/StickyHeader/Context');
-import {isStickySupport} from 'Controls/_scroll/StickyHeader/Utils';
+import {
+    IFixedEventData,
+    isStickySupport,
+    TRegisterEventData,
+    TYPE_FIXED_HEADERS
+} from 'Controls/_scroll/StickyHeader/Utils';
 import ScrollWidthUtil = require('Controls/_scroll/Scroll/ScrollWidthUtil');
 import ScrollHeightFixUtil = require('Controls/_scroll/Scroll/ScrollHeightFixUtil');
 import template = require('wml!Controls/_scroll/Scroll/Scroll');
@@ -22,6 +27,7 @@ import {constants} from 'Env/Env';
 import {LocalStorageNative} from 'Browser/Storage';
 import Observer from './IntersectionObserver/Observer';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
+import StickyHeaderController from './StickyHeader/Controller';
 
 /**
  * Контейнер с тонким скроллом.
@@ -505,6 +511,8 @@ let
 
       _isMounted: false,
 
+      _stickyHeaderController: null,
+
       constructor: function(cfg) {
          Scroll.superclass.constructor.call(this, cfg);
       },
@@ -550,6 +558,8 @@ let
          } else {
             this._pagingState = {};
          }
+
+         this._stickyHeaderController = new StickyHeaderController(this);
 
          if (receivedState) {
             _private.updateDisplayState(this, receivedState.displayState);
@@ -623,6 +633,8 @@ let
       },
 
       _afterMount: function() {
+          this._stickyHeaderController.init(this._container);
+
          /**
           * Для определения heightFix и styleHideScrollbar может требоваться DOM, поэтому проверим
           * смогли ли мы в beforeMount их определить.
@@ -648,7 +660,7 @@ let
             this._displayState.canScroll = calculatedOptionValue;
             // Сделано не через опции потому что stickyController скоро станет не компонентом
             // а полностью js контроллером. И что бы избежать лишних синхронизаций.
-            this._children.stickyController.setCanScroll(calculatedOptionValue);
+            this._stickyHeaderController.setCanScroll(calculatedOptionValue);
             needUpdate = true;
          }
 
@@ -747,7 +759,7 @@ let
 
          if (!isEqual(this._displayState, displayState)) {
             this._displayState = displayState;
-            this._children.stickyController.setCanScroll(displayState.canScroll);
+            this._stickyHeaderController.setCanScroll(displayState.canScroll);
             if (oldDisplayState.canScroll !== displayState.canScroll) {
                _private._updateScrollbar(this);
             }
@@ -770,10 +782,11 @@ let
              this._observer.destroy();
              this._observer = null;
          }
+         this._stickyHeaderController.destroy();
       },
 
       _shadowVisible(position: POSITION) {
-         const stickyController = this._children.stickyController;
+         const stickyController = this._stickyHeaderController;
          const fixed: boolean = stickyController?.hasFixed(position);
          const shadowVisible: boolean = stickyController?.hasShadowVisible(position);
          // Do not show shadows on the scroll container if there are fixed headers. They display their own shadows.
@@ -868,13 +881,14 @@ let
 
          if (!isEqual(oldDisplayState, displayState)) {
             this._displayState = displayState;
-            this._children.stickyController.setCanScroll(displayState.canScroll);
+            this._stickyHeaderController.setCanScroll(displayState.canScroll);
             if (oldDisplayState.canScroll !== displayState.canScroll) {
                _private._updateScrollbar(this);
             }
          }
 
          _private.calcPagingStateBtn(this);
+         this._stickyHeaderController.resizeHandler()
       },
 
       _scrollHandler: function(ev) {
@@ -1315,6 +1329,25 @@ let
 
        _intersectHandler(items): void {
            this._notify('intersect', [items]);
+       },
+
+       // StickyHeaderController
+
+       _stickyFixedHandler(event: SyntheticEvent<Event>, fixedHeaderData: IFixedEventData): void {
+          this._stickyHeaderController.fixedHandler(event, fixedHeaderData);
+          this._fixedHandler(
+              this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed),
+              this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed)
+          )
+          this._notify('fixed', [this._headersHeight.top, this._headersHeight.bottom]);
+       },
+
+       _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
+          this._stickyHeaderController.registerHandler(event, data, register);
+       },
+
+       getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
+          return this._stickyHeaderController.getHeadersHeight(position, type)
        }
    });
 

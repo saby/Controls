@@ -7,11 +7,16 @@ import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import ShadowsModel from './Container/ShadowsModel';
 import ScrollbarsModel from './Container/ScrollbarsModel';
-import {IScrollbars, IScrollbarsOptions, getDefaultOptions as getScrollbarsDefaultOptions} from './Container/Interface/IScrollbars';
+import {
+    IScrollbars,
+    IScrollbarsOptions,
+    getDefaultOptions as getScrollbarsDefaultOptions
+} from './Container/Interface/IScrollbars';
 import {IShadows, SHADOW_VISIBILITY} from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
-
-
+import StickyHeaderController from './StickyHeader/Controller';
+import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyHeader/Utils';
+import {POSITION} from './Container/Type';
 
 interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadows {
 
@@ -91,11 +96,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _dragging: boolean = false;
 
     protected _intersectionObserverController: Observer;
+    protected _stickyHeaderController: StickyHeaderController;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
         super._beforeMount(...arguments);
         this._shadows = new ShadowsModel(options);
         this._scrollbars = new ScrollbarsModel(options, receivedState);
+        this._stickyHeaderController = new StickyHeaderController(this);
         if (!receivedState) {
             return Promise.resolve(this._scrollbars.serializeState());
         }
@@ -104,6 +111,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _afterMount() {
         super._afterMount();
         this._adjustContentMarginsForBlockRender();
+        this._stickyHeaderController.init(this._container);
     }
 
     _beforeUnmount(): void {
@@ -111,6 +119,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._intersectionObserverController.destroy();
             this._intersectionObserverController = null;
         }
+        this._stickyHeaderController.destroy();
     }
 
     _updateState(...args) {
@@ -118,6 +127,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         if (isUpdated) {
             this._shadows.updateScrollState(this._state);
             this._scrollbars.updateScrollState(this._state);
+            this._stickyHeaderController.setCanScroll(this._state.canVerticalScroll);
         }
         return isUpdated;
     }
@@ -249,6 +259,24 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _intersectHandler(items): void {
         this._notify('intersect', [items]);
+    }
+
+    // StickyHeaderController
+
+    _stickyFixedHandler(event: SyntheticEvent<Event>, fixedHeaderData: IFixedEventData): void {
+        this._stickyHeaderController.fixedHandler(event, fixedHeaderData);
+        const top = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
+        const bottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
+        this._scrollbars.setOffsets({ top: top, bottom: bottom });
+        this._notify('fixed', [top, bottom]);
+    }
+
+    _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
+        this._stickyHeaderController.registerHandler(event, data, register);
+    }
+
+    getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
+        return this._stickyHeaderController.getHeadersHeight(position, type)
     }
 
     static _theme: string[] = ['Controls/scroll'];
