@@ -1,7 +1,10 @@
 import { constants } from 'Env/Env';
-import { Confirmation, Dialog, IConfirmationOptions } from 'Controls/popup';
+import { Confirmation, Dialog, IConfirmationOptions, BaseOpener } from 'Controls/popup';
 import { ViewConfig } from './Handler';
 import { Control } from 'UI/Base';
+// import MinPopup from 'Controls/_error/MinPopup';
+import * as MinPopupTemplate from 'wml!Controls/_error/MinPopup';
+import Controller from 'Controls/_error/_dialog/Controller';
 
 interface IPopupModule {
     Confirmation: typeof Confirmation;
@@ -172,6 +175,20 @@ export default class Popup implements IPopupHelper {
             text += `\n${details}`;
         }
 
-        alert(text);
+        const result = BaseOpener.showDialog(MinPopupTemplate, {
+            template: MinPopupTemplate,
+            templateOptions: {
+                message: 'Произошел разрыв соединения.',
+                details: 'Проверьте подключение к интернету'
+            }
+        }, new Controller() as unknown as Control);
+
+        // Dialog.openPopup({
+        //     template: MinPopupTemplate,
+        //     templateOptions: { message, details },
+        //     opener: null
+        // });
+
+        // alert(text);
     }
 }
