@@ -41,7 +41,6 @@
 </ws:template>
 
 <ws:template name="footerTemplateIf">
-    <ws:partial if="{{ _shouldShowLoadingIndicator('inFooter') }}" template="loadingIndicator"/>
     <ws:if data="{{_options.footerTemplate}}">
         <div class="controls-BaseControl__footer-content_theme-{{_options.theme}}">
             <ws:partial template="{{_options.footerTemplate}}"/>
@@ -180,7 +179,7 @@
 
         <ws:if data="{{_listViewModel}}">
 
-            <ws:partial if="{{ _shouldShowLoadingIndicator('beforeEmptyTemplate') }}" template="loadingIndicator"/>
+            <ws:partial if="{{ _shouldShowLoadingIndicator('beforeList') }}" template="loadingIndicator"/>
 
             <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="up" loadingIndicatorState="up" attr:style="display: none;"/>
 
