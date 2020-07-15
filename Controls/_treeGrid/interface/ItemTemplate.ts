@@ -15,9 +15,7 @@
  * </Controls.treeGrid:View>
  * </pre>
  * @remark
- * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/">руководство разработчика</a>
- *
+ * Дополнительно о работе с шаблоном читайте {@link http://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ здесь}.
  * @public
  */
 
