@@ -84,7 +84,7 @@ export {default as StackOpener} from './_popup/PopupHelper/Stack';
 export {default as StickyOpener} from './_popup/PopupHelper/Sticky';
 export {default as DialogOpener} from './_popup/PopupHelper/Dialog';
 
-export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
+export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo, IPopupController} from './_popup/interface/IPopup';
 export {IBasePopupOptions} from './_popup/interface/IBaseOpener';
 export {IStackPopupOptions} from './_popup/interface/IStack';
 export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset} from './_popup/interface/ISticky';
