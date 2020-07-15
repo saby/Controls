@@ -2247,6 +2247,43 @@ define([
          });
       });
 
+      it('multi call showIndicator. Should be shown only one indicator', () => {
+         const globalIndicatorId = 123;
+         let isShown = false;
+         let isHidden = false;
+         eip._notify = (eName) => {
+            if (eName === 'showIndicator') {
+               isShown = true;
+               return globalIndicatorId;
+            }
+         };
+         let indicatorLocalId_1 = eip._showIndicator();
+
+         eip._notify = (eName) => {
+            if (eName === 'showIndicator') {
+               throw new Error('showIndicator shouldn\'t be notified');
+            } else if (eName === 'hideIndicator') {
+               throw new Error('hideIndicator shouldn\'t be notified');
+            }
+         };
+
+         let indicatorLocalId_2 = eip._showIndicator();
+
+         eip._hideIndicator(indicatorLocalId_1);
+
+         eip._notify = (eName, args) => {
+            if (eName === 'showIndicator') {
+               throw new Error('showIndicator shouldn\'t be notified');
+            } else if (eName === 'hideIndicator') {
+               assert.equal(args[0], globalIndicatorId);
+               isHidden = true;
+            }
+         };
+         eip._hideIndicator(indicatorLocalId_2);
+
+         assert.isTrue(isShown && isHidden);
+      });
+
    });
 
 });

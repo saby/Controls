@@ -55,14 +55,14 @@ const _private = {
             result = Promise.resolve({cancelled: true});
         } else {
             if (eventResult && eventResult.finally) {
-                self._showIndicator();
+                let indicatorId = self._showIndicator();
                 result = eventResult.then((defResult) => {
                     if (defResult === constEditing.CANCEL) {
                         return {cancelled: true};
                     }
                     return defResult;
                 }).catch(() => ({cancelled: true})).finally(() => {
-                    self._hideIndicator();
+                    self._hideIndicator(indicatorId);
                 });
             } else if (
                 (eventResult && eventResult.item instanceof entity.Record) ||
@@ -70,9 +70,9 @@ const _private = {
             ) {
                 result = Promise.resolve(eventResult || options);
             } else if (isAdd) {
-                self._showIndicator();
+                let indicatorId = self._showIndicator();
                 result = _private.createModel(self, eventResult || options).finally(() => {
-                    self._hideIndicator();
+                    self._hideIndicator(indicatorId);
                 });
             }
         }
@@ -95,16 +95,16 @@ const _private = {
             self._isAdd
         ]);
         if (eventResult && eventResult.finally) {
-            self._showIndicator();
+            let indicatorId = self._showIndicator();
             self._endEditDeferred = eventResult;
             return eventResult.catch((error) => {
                 // Отменяем сохранение, оставляем редактирование открытым, если промис сохранения завершился с
                 // ошибкой (провалена валидация на сервере)
                 self._endEditDeferred = null;
-                self._hideIndicator();
+                self._hideIndicator(indicatorId);
                 return constEditing.CANCEL;
             }).then((resultOfDeferred) => {
-                self._hideIndicator();
+                self._hideIndicator(indicatorId);
 
                 if (resultOfDeferred === constEditing.CANCEL) {
                     self._endEditDeferred = null;
@@ -122,9 +122,9 @@ const _private = {
                 return Promise.resolve({cancelled: true});
             }
             // Если обновление данных на БЛ затягивается, должен появиться индикатор загрузки.
-            self._showIndicator();
+            let indicatorId = self._showIndicator();
             return _private.updateModel(self, commit).finally(() => {
-                self._hideIndicator();
+                self._hideIndicator(indicatorId);
             }).then(() => {
                 return _private.afterEndEdit(self, commit);
             }).catch(() => {
@@ -459,7 +459,6 @@ export default class EditInPlace {
     _originalItem: Model;
     _editingItem: Model;
     _endEditDeferred: null;
-    _loadingIndicatorId: null;
     _errorController: any;
     _commitPromise: Promise<any>;
     _options: IEditingOptions;
@@ -470,12 +469,20 @@ export default class EditInPlace {
     _pendingInputRenderState: any;
     _isCommitInProcess: boolean;
     _listViewModel: any;
+    _loadingIndicatorParams: {
+        id: number,
+        _globalId: string;
+    };
 
     constructor(options: IEditingOptions = { } as IEditingOptions) {
         this._updateIndex = this._updateIndex.bind(this);
         this._errorController = options.errorController || new dataSourceError.Controller({});
         this._options = options;
         this._resetValidation = this._resetValidation.bind(this);
+        this._loadingIndicatorParams = {
+            id: 0,
+            _globalId: null
+        }
     }
 
     _notify(name: string, args?: any, params?: any): any {
@@ -889,13 +896,28 @@ export default class EditInPlace {
         e.stopPropagation();
     }
 
-    _showIndicator(): void {
-        this._loadingIndicatorId = this._notify('showIndicator', [{}], {bubbling: true});
+    _showIndicator(): number {
+        // Редактирование по месту использует глобальный индикатор загрузки.
+        // Если какая либо операция вызвала индикатор и до его закрытия произошла еще одна операция
+        // нуждающаяся в индикаторе, не нужно скрывать прошлый и показывать новый, т.к. будет моргание индикатора.
+        // Неправильная схема: +1 => -1 => +2 => -2.
+        // Правильная схема: +1 => +2 (проигнорировано) => -1 (проигнорировано) => -2 (закрыли 1, вместо 2).
+        // Правильным решением будет использовать прошлый. В таком случае, он будет скрыт когда завершится последняя
+        // длительная операция.
+        if (!this._loadingIndicatorParams.id) {
+            this._loadingIndicatorParams._globalId = this._notify('showIndicator', [{}], {bubbling: true});
+        }
+        return ++this._loadingIndicatorParams.id;
     }
 
-    _hideIndicator(): void {
-        this._notify('hideIndicator', [this._loadingIndicatorId], {bubbling: true});
-        this._loadingIndicatorId = null;
+    _hideIndicator(id: number): void {
+        // Скрываем индикатор, если завершилась последняя операция, вызвавшая показ индикатора.
+        // Более подробное описание в методе EditInPlace._showIndicator.
+        if (id === this._loadingIndicatorParams.id) {
+            this._notify('hideIndicator', [this._loadingIndicatorParams._globalId], {bubbling: true});
+            this._loadingIndicatorParams.id = 0;
+            this._loadingIndicatorParams._globalId = null;
+        }
     }
 
     reset(): void {
