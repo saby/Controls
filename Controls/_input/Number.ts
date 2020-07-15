@@ -20,6 +20,8 @@ import ViewModel = require('Controls/_input/Number/ViewModel');
  * @mixes Controls/interface/IInputNumber
  * @mixes Controls/_interface/INumberFormat
  * @mixes Controls/_input/interface/INumberLength
+ * 
+ * @ignoreOption Controls/_input/interface/IValue#valueChanged
  *
  * @public
  * @demo Controls-demo/Input/Number/Base/Index
