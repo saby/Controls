@@ -3772,18 +3772,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
-    _shouldShowLoadingIndicator(position: 'beforeEmptyTemplate' | 'afterList' | 'inFooter'): boolean {
-        // Глобальный индикатор загрузки при пустом списке должен отображаться поверх emptyTemplate.
-        // Если расположить индикатор в подвале, то он будет под emptyTemplate т.к. emptyTemplate выводится до подвала.
-        // В таком случае выводим индикатор над списком.
-        if (position === 'beforeEmptyTemplate') {
-            return this._loadingIndicatorState === 'up' || (
-                this._loadingIndicatorState === 'all' && this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel)
-            );
+    _shouldShowLoadingIndicator(position: 'beforeList' | 'afterList'): boolean {
+        // Глобальный индикатор загрузки не должен распологаться в подвале никогда, т.к.
+        //  + При горизонтальном скролле на подвал вешается transform, который формирует свой контекст.
+        //  Все элементы с position: absolute будут позиционироваться относительно него.
+        //  + Глобальный индикатор загрузки при пустом списке должен отображаться поверх emptyTemplate.
+        //  Если расположить индикатор в подвале, то он будет под emptyTemplate т.к. emptyTemplate выводится до подвала.
+        //  таком случае выводим индикатор над списком.
+        if (position === 'beforeList') {
+            return this._loadingIndicatorState === 'up' || this._loadingIndicatorState === 'all';
         } else if (position === 'afterList') {
             return this._loadingIndicatorState === 'down';
-        } else if (position === 'inFooter') {
-            return this._loadingIndicatorState === 'all' && !this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel);
         }
         return false;
     },

@@ -6002,26 +6002,19 @@ define([
 
          /*[position, _loadingIndicatorState, __needShowEmptyTemplate, expectedResult]*/
          const testCases = [
-            ['beforeEmptyTemplate', 'up', true,    true],
-            ['beforeEmptyTemplate', 'up', false,   true],
-            ['beforeEmptyTemplate', 'down', true,  false],
-            ['beforeEmptyTemplate', 'down', false, false],
-            ['beforeEmptyTemplate', 'all', true,   true],
-            ['beforeEmptyTemplate', 'all', false,  false],
+            ['beforeList', 'up', true,    true],
+            ['beforeList', 'up', false,   true],
+            ['beforeList', 'down', true,  false],
+            ['beforeList', 'down', false, false],
+            ['beforeList', 'all', true,   true],
+            ['beforeList', 'all', false,  true],
 
             ['afterList', 'up', true,     false],
             ['afterList', 'up', false,    false],
             ['afterList', 'down', true,   true],
             ['afterList', 'down', false,  true],
             ['afterList', 'all', true,    false],
-            ['afterList', 'all', false,   false],
-
-            ['inFooter', 'up', true,      false],
-            ['inFooter', 'up', false,     false],
-            ['inFooter', 'down', true,    false],
-            ['inFooter', 'down', false,   false],
-            ['inFooter', 'all', true,     false],
-            ['inFooter', 'all', false,    true]
+            ['afterList', 'all', false,   false]
          ];
 
          const getErrorMsg = (index, caseData) => `Test case ${index} failed. ` +
