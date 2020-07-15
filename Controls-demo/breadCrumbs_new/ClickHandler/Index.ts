@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls-demo/breadCrumbs_new/Clickhandler/ClickHandler';
+import * as template from 'wml!Controls-demo/breadCrumbs_new/ClickHandler/ClickHandler';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
