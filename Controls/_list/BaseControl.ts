@@ -1915,7 +1915,7 @@ const _private = {
       }
 
       // для связи с контроллером ПМО
-      self._notify('listSelectedKeysCountChanged', [result.selectedCount, result.isAllSelected], {bubbling: true});
+      self._notify('listSelectedKeysCountChanged', [result.selectedCount, result.isAllSelected]);
    },
 
     // endregion
