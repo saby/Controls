@@ -329,23 +329,7 @@ var
                 classLists.padding = _private.getPaddingCellClasses(current, theme);
             }
 
-            if (current._isSelected && current.markerVisibility !== 'hidden') {
-                style = current.style || 'default';
-                classLists.base += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
-
-                // при отсутствии поддержки grid (например в IE, Edge) фон выделенной записи оказывается прозрачным,
-                // нужно его принудительно установить как фон таблицы
-                if (!isFullGridSupport && !current.isEditing) {
-                    classLists.base += _private.getBackgroundStyle({backgroundStyle, theme}, true);
-                }
-
-                if (current.columnIndex === 0) {
-                    classLists.base += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
-                }
-                if (current.columnIndex === current.getLastColumnIndex()) {
-                    classLists.base += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
-                }
-            } else if (current.columnIndex === current.getLastColumnIndex()) {
+            if (!current._isSelected && current.columnIndex === current.getLastColumnIndex()) {
                 classLists.base += ` controls-Grid__row-cell__last controls-Grid__row-cell__last-${style}_theme-${theme}`;
             }
 
@@ -1524,9 +1508,11 @@ var
             );
 
             const superShouldDrawMarker = current.shouldDrawMarker;
-            current.shouldDrawMarker = (marker?: boolean, columnIndex: number): boolean => {
+            current.shouldDrawMarker = (marker: boolean, columnIndex: number): boolean => {
                 return columnIndex === 0 && superShouldDrawMarker.apply(this, [marker]);
             };
+            current.shouldHighlightRow = (marker: boolean): boolean => superShouldDrawMarker.apply(this, [marker]);
+
             const style = current.style === 'masterClassic' || !current.style ? 'default' : current.style;
             current.getMarkerClasses = () => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${self._options.theme}
             controls-GridView__itemV_marker-${style}_theme-${self._options.theme}
@@ -1608,6 +1594,33 @@ var
                 }
                 return result;
             };
+
+            current.getSelectedClasses = () => {
+                let result = '';
+
+                const backgroundStyle = current.backgroundStyle || current.style || 'default';
+                const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
+                const theme = self._options.theme;
+                const style = current.style || 'default';
+
+                result += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+
+                // при отсутствии поддержки grid (например в IE, Edge) фон выделенной записи оказывается прозрачным,
+                // нужно его принудительно установить как фон таблицы
+                if (!isFullGridSupport && !current.isEditing) {
+                    result += _private.getBackgroundStyle({backgroundStyle, theme}, true);
+                }
+
+                if (current.columnIndex === 0) {
+                    result += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
+                }
+                if (current.columnIndex === current.getLastColumnIndex()) {
+                    result += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
+                }
+
+                return result;
+            };
+
             current.resetColumnIndex = () => {
                 current.columnIndex = 0;
             };

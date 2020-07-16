@@ -63,6 +63,7 @@
         attr:key="{{ itemData.getCurrentColumnKey() }}{{ keyPostfix ? ('_' + keyPostfix) : '' }}"
         attr:class="js-controls-SwipeControl__actionsContainer
                     {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
+                    {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }}
                     {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
                     {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}
                     {{(marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected && itemData.columnIndex === 0) ? ' controls-Grid__row-cell_selected__first_theme-' + _options.theme}}
@@ -101,7 +102,7 @@
     <!-- Стиль смещения задается в ColumnScroll. Ячейка не должна иметь ширины, чтобы быть идеально прижатой справа. -->
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan)}}">
         <ws:partial template="tableTD" keyPostfix="_actions"
-                    attr:class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}"
+                    attr:class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }} {{currentColumn.classList.columnScroll}}"
                     attr:style="width: 0; min-width: 0; max-width: 0; padding: 0px;">
             <ws:partial template="itemActionsTemplateChooser"/>
         </ws:partial>
