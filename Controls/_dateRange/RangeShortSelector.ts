@@ -12,7 +12,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  * Переменные тем оформления:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">набор переменных dateRange</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less">набор переменных shortDatePicker</a>
- * 
+ *
  * @class Controls/_dateRange/RangeShortSelector
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
@@ -20,6 +20,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeShortSelector/Range
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @control
  * @public
