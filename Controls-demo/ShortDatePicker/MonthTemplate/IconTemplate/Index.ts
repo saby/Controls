@@ -12,6 +12,8 @@ class DemoControl extends Control<IControlOptions> {
         this._state = !this._state;
         return this._state;
     }
+
+    static _theme: string[] = ['Controls/Classes'];
 }
 
 export default DemoControl;

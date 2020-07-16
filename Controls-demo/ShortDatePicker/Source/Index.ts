@@ -7,6 +7,8 @@ class DemoControl extends Control<IControlOptions> {
 
     private _source: Record = new DateLitePopupSource();
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

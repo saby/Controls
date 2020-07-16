@@ -10,6 +10,8 @@ class DemoControl extends Control<IControlOptions> {
         [new Date(2022, 0), null]
     ];
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
