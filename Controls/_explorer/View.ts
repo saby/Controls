@@ -17,6 +17,7 @@ import {
    INavigationPositionSourceConfig as IPositionSourceConfig,
    INavigationOptionValue as INavigation
 }  from '../_interface/INavigation';
+import { SyntheticEvent } from 'Vdom/Vdom';
 
 var
       HOT_KEYS = {
@@ -487,6 +488,8 @@ var
       _itemsResolver: null,
       _markerForRestoredScroll: null,
       _navigation: null,
+      _clickedColumnIndex: null,
+      _mouseDownItemKey: null,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -604,7 +607,15 @@ var
          // but is not called, because the template has no reactive properties.
          this._forceUpdate();
       },
-      _onItemClick(event, item, clickEvent, columnIndex?: number): boolean {
+      _itemMouseDown(event, itemData, clickEvent): void {
+         this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+      },
+      _itemMouseUp(event: SyntheticEvent, item: Model, clickEvent: SyntheticEvent, columnIndex?: number): boolean {
+         if (this._mouseDownItemKey !== item.getKey()) {
+            return false;
+         }
+         this._mouseDownItemKey = null;
+
          const res = this._notify('itemClick', [item, clickEvent, columnIndex]);
          event.stopPropagation();
 
@@ -622,14 +633,14 @@ var
             if (!this._options.editingConfig) {
                changeRoot();
             } else {
-               this.commitEdit().addCallback((res = {}) => {
-                  if (!res.validationFailed) {
+               this.commitEdit().addCallback((result) => {
+                  if (!result.validationFailed) {
                      changeRoot();
                   }
                });
             }
 
-            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
+            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла и установку маркера.
             // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
             return false;
          }

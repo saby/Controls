@@ -13,6 +13,8 @@ import {Map} from 'Types/shim';
 import {error as dataSourceError} from 'Controls/dataSource';
 import {MouseButtons, MouseUp} from './../Utils/MouseEventHelper';
 import { DndTreeController } from '../listDragNDrop';
+import { SyntheticEvent } from 'wasaby-cli/store/_repos/sbis3-ws/Vdom/Vdom';
+import Model from 'File/_attach/Model';
 
 var
     HOT_KEYS = {
@@ -484,6 +486,8 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     _notifyHandler: tmplNotify,
     _errorController: null,
     _errorViewConfig: null,
+    _mouseDownItemKey: null,
+
     constructor: function(cfg) {
         this._nodesSourceControllers = _private.getNodesSourceControllers(this);
         this._onNodeRemovedFn = this._onNodeRemoved.bind(this);
@@ -713,10 +717,26 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
         }
     },
 
-    _onItemClick: function(e, item, originalEvent, columnIndex: number) {
+    _onItemClick(e: SyntheticEvent): void {
+        // Это событие занотифаили на mouseUp
         e.stopPropagation();
-        const eventResult = this._notify('itemClick', [item, originalEvent, columnIndex], { bubbling: true });
-        if (eventResult !== false && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null) {
+    },
+    _itemMouseDown(event: SyntheticEvent, itemData: any, clickEvent: SyntheticEvent): void {
+        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+    },
+    _itemMouseUp(event: SyntheticEvent, item: Model, clickEvent: SyntheticEvent, columnIndex?: number): boolean {
+        if (this._mouseDownItemKey !== item.getKey()) {
+            return false;
+        }
+        this._mouseDownItemKey = null;
+        event.stopPropagation();
+
+        const mouseUpResult = this._notify('itemMouseUp', [item, clickEvent, columnIndex], { bubbling: true });
+        const itemClickResult = this._notify('itemClick', [item, clickEvent, columnIndex], { bubbling: true });
+        if (
+           mouseUpResult !== false && itemClickResult !== false
+           && this._options.expandByItemClick && item.get(this._options.nodeProperty) !== null
+        ) {
             const display = this._children.baseControl.getViewModel().getDisplay();
             const dispItem = display.getItemBySourceItem(item);
 
@@ -727,6 +747,8 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
                 _private.toggleExpanded(this, dispItem);
             }
         }
+
+        return mouseUpResult;
     },
 
     handleKeyDown(event): void {
