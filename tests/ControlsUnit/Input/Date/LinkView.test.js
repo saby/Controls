@@ -31,7 +31,7 @@ define([
                   fontColorStyle: 'link',
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
+               styleClass: ' controls-text-link_theme-default controls-fontsize-l_theme-default controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
                valueEnabledClass: true
             }, {
                options: {
@@ -39,16 +39,17 @@ define([
                   fontColorStyle: 'label',
                   theme: 'default'
                },
-               styleClass: 'controls-text-label_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-text-label_theme-default controls-fontsize-l_theme-default controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
                   fontColorStyle: 'link',
+                  fontSize: 'xl',
                   clickable: false,
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-text-link_theme-default controls-fontsize-xl_theme-default controls-DateLinkView__style-hover_theme-default'
             }, {
                options: {
                   viewMode: 'selector',
@@ -56,7 +57,7 @@ define([
                   clickable: false,
                   theme: 'default'
                },
-               styleClass: 'controls-text-label_theme-default'
+               styleClass: ' controls-text-label_theme-default controls-fontsize-l_theme-default'
             }, {
                options: {
                   viewMode: 'selector',
@@ -64,7 +65,7 @@ define([
                   readOnly: true,
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default'
+               styleClass: ' controls-text-link_theme-default controls-fontsize-l_theme-default'
             }, {
                options: {
                   viewMode: 'selector',
@@ -72,14 +73,14 @@ define([
                   readOnly: true,
                   theme: 'default'
                },
-               styleClass: 'controls-text-label_theme-default'
+               styleClass: ' controls-text-label_theme-default controls-fontsize-l_theme-default'
             }, {
                options: {
                   viewMode: 'link',
                   fontColorStyle: 'link',
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-text-link_theme-default controls-fontsize-m_theme-default controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {
@@ -87,7 +88,7 @@ define([
                   fontColorStyle: 'unaccented',
                   theme: 'default'
                },
-               styleClass: 'controls-text-unaccented_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-text-unaccented_theme-default controls-fontsize-m_theme-default controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {

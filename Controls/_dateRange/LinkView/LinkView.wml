@@ -23,7 +23,7 @@
               <Controls.buttons:Button
                     name="Link" caption="{{ _caption }}"
                     fontColorStyle="{{_fontColorStyle}}"
-                    fontSize="{{_options.fontSize}}"
+                    fontSize="{{_fontSize}}"
                     viewMode="link"
                     tootltip="{{_options.tooltip}}"
                     on:click="_onClick()"/>
