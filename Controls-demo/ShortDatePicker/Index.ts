@@ -4,6 +4,8 @@ import template = require("wml!Controls-demo/ShortDatePicker/ShortDatePicker");
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 

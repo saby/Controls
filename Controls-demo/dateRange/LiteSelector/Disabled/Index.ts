@@ -7,6 +7,8 @@ class DemoControl extends Control<IControlOptions> {
     private _startValue: Date = new Date(2019, 1);
     private _endValue: Date = new Date(2019, 2, 0);
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo', 'Contorls-demo/dateRange/LiteSelector/LiteSelector'];
 }
 

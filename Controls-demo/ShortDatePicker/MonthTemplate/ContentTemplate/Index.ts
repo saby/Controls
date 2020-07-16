@@ -9,6 +9,8 @@ class DemoControl extends Control<IControlOptions> {
         return date ? formatDate(date, formatDate.FULL_MONTH) : '';
     }
 
+    static _theme: string[] = ['Controls/Classes'];
+
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 
