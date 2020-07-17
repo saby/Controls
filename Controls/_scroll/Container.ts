@@ -741,6 +741,10 @@ let
          if (this._isHidden()) {
             return;
          }
+         //IPad Safari. Метод может вызываться, когда котрол уже задестроился.
+          if(!this._children.content) {
+              return;
+          }
 
          const oldDisplayState = this._displayState;
          const displayState = _private.calcDisplayState(this);
