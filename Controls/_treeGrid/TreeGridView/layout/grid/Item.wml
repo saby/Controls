@@ -144,6 +144,7 @@
    </ws:if>
    <ws:if data="{{(colspan === false && !!colspanLength) ? ( (currentColumn.columnIndex <= (itemData.hasMultiSelect ? 1 : 0)) || (currentColumn.columnIndex >= ((itemData.hasMultiSelect ? 1 : 0) + colspanLength))) : true}}">
       <div attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{ cellClassName || '' }}
+                       {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }}
                        {{ currentColumn.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}
                        {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                        {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
@@ -179,6 +180,7 @@
    <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}"
                                  mode="{{stickyMode}}"
                                  attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
+                                   {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }}
                                    {{ currentColumn.columnIndex === 0 && !itemData.hasMultiSelect ? currentColumn.classList.padding.left }}
                                    {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                    {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}

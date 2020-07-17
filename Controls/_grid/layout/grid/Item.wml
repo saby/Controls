@@ -97,15 +97,15 @@
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.gridCellStyles}}"/>
    </ws:if>
    <ws:if data="{{itemData.columnScroll && colspan}}">
-      <div attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
+      <div attr:class="{{currentColumn.classList.base}} {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
            attr:style="{{currentColumn.gridCellStyles}} {{itemData.getCellStyle(itemData, currentColumn, false)}} {{itemData.getColspanForColumnScroll().fixedColumns}}">
          <ws:partial template="columnContentWrapper"/>
       </div>
-      <div attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}} {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
+      <div attr:class="{{currentColumn.classList.base}} {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}} {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
            attr:style="{{currentColumn.gridCellStyles}} {{itemData.getCellStyle(itemData, currentColumn, false)}} {{itemData.getColspanForColumnScroll().scrollableColumns}}"></div>
    </ws:if>
    <ws:else>
-      <div attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
+      <div attr:class="{{currentColumn.classList.base}} {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
            attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan)}}">
          <ws:partial template="columnContentWrapper"/>
       </div>
@@ -126,8 +126,10 @@
    </ws:if>
    <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
    <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}"
-                          mode="{{stickyMode}}"
-                          attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
+                                 mode="{{stickyMode}}"
+                                 attr:class="{{currentColumn.classList.base}}
+                                      {{ itemData.shouldHighlightRow(marker) ? itemData.getSelectedClasses() }}
+                                      {{currentColumn.classList.columnScroll}}
                                       {{itemData.hasMultiSelect && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + _options.theme}}
                                       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}}

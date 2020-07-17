@@ -692,8 +692,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                expected = {
                   withMarker: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default controls-Grid__row-cell-background-hover_theme-default ' +
                       'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                      'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
-                      'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__first-default_theme-default',
+                      'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ',
                   withoutMarker: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default controls-Grid__row-cell-background-hover_theme-default ' +
                       'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
                       'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default '
@@ -814,6 +813,42 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.equal(data.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-ListView__checkbox-onhover controls-GridView__checkbox_theme-default');
          });
 
+         it('shouldHighlightRow', () => {
+            let gridViewModel = new gridMod.GridViewModel(cfg);
+            gridViewModel.setMarkedKey(123);
+            let data = gridViewModel.getItemDataByItem(gridViewModel.getItemById('123', 'id'));
+            assert.isFalse(data.shouldHighlightRow(false));
+            assert.isTrue(data.shouldHighlightRow());
+         });
+
+         it('getSelectedClasses', () => {
+            let gridViewModel = new gridMod.GridViewModel(cfg);
+            gridViewModel.setMarkedKey(123);
+
+            const expected = [
+               'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
+               'controls-Grid__row-cell_selected__first-default_theme-default',
+               'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default',
+               'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default',
+               'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
+               'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-default_theme-default'
+            ];
+
+            const current = gridViewModel.getCurrent();
+
+            cAssert.isClassesEqual(current.getSelectedClasses(), expected[0]);
+            current.goToNextColumn();
+
+            cAssert.isClassesEqual(current.getSelectedClasses(), expected[1]);
+            current.goToNextColumn();
+
+            cAssert.isClassesEqual(current.getSelectedClasses(), expected[2]);
+            current.goToNextColumn();
+
+            cAssert.isClassesEqual(current.getSelectedClasses(), expected[3]);
+            current.goToNextColumn();
+         });
+
          it('getItemColumnCellClasses', function() {
             var
                gridViewModel = new gridMod.GridViewModel(cfg),
@@ -821,24 +856,21 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                expectedResult = [
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__row-cell-background-hover_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                  'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__first-default_theme-default',
+                  'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
-                  'controls-Grid__row-cell_selected-default_theme-default',
+                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__cell_spacingLeft_theme-default ' +
                   'controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default controls-Grid__row-cell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default',
+                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_default ' +
                   'controls-Grid__cell_spacingLastCol_l_theme-default controls-Grid__row-cell_rowSpacingTop_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
-                  'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-default_theme-default',
+                  'controls-Grid__row-cell_rowSpacingBottom_l_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__cell_spacingLeft_theme-default ' +
@@ -960,8 +992,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                item: gridData[0],
                template: null,
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__row-cell-background-hover_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default ' +
-                  'controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses + 'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default ' +
-                  'controls-Grid__row-cell_selected__first-default_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default'
+                  'controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses + 'controls-Grid__row-cell_withRowSeparator_size-s_theme-default'
             });
 
             // check next column
@@ -980,8 +1011,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                template: null,
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                   'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
-                   'controls-Grid__row-cell_selected-default_theme-default'
+                   'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default'
             });
 
             // check next column
@@ -1000,8 +1030,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default ' +
                   'controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
-                  'controls-Grid__row-cell_selected-default_theme-default'
+                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default'
             });
 
             // check last column
@@ -1020,8 +1049,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__cell_fit controls-Grid__row-cell-background-hover_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default ' +
                   'controls-Grid__cell_spacingLeft_theme-default controls-Grid__cell_default controls-Grid__cell_spacingLastCol_l_theme-default ' +
-                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default controls-Grid__row-cell_selected ' +
-                  'controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-default_theme-default'
+                  'controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default'
             });
 
             // check the absence of other columns
@@ -1041,8 +1069,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                item: gridData[0],
                template: null,
                cellClasses: 'controls-Grid__row-cell controls-Grid__row-cell_theme-default  controls-Grid__row-cell-background-hover_theme-default ' +
-                  'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses +
-                   'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__first-default_theme-default'
+                  'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default' + topSpacingClasses
             });
          });
 
