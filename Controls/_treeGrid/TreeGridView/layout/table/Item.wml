@@ -148,8 +148,7 @@
     </ws:if>
 </ws:template>
 
-<tr class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}
-            {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}}">
+<tr class="{{ itemData.getRowClasses(_options) }}">
    <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
        {{itemData.resetColumnIndex();}}
        <ws:if data="{{itemData.hasMultiSelect}}">
@@ -164,3 +163,7 @@
        </ws:for>
    </ws:else>
 </tr>
+
+<ws:if data="{{itemData.nodeFooters.length > 0}}">
+    <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{itemData.nodeFooters}}"/>
+</ws:if>

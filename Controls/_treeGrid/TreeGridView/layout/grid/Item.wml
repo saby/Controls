@@ -199,7 +199,7 @@
 
 <ws:if data="{{itemData.isStickedMasterItem}}">
    <Controls.scroll:Group>
-      <div class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} {{highlightOnHover !== false ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}">
+      <div class="{{ itemData.getRowClasses(_options) }}">
          <!-- The iterator does not restart when the model changes. Instead, the internal partial is redrawn. We do a reboot forcibly. -->
          <!-- Delete after the task is done https://online.sbis.ru/opendoc.html?guid=13786a2a-54c7-4a09-8fbc-11344cf0804d -->
          <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
@@ -230,7 +230,7 @@
    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div attr:class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}">
+   <div class="{{ itemData.getRowClasses(_options) }}">
       <ws:if data="{{colspanNodes && itemData.dispItem.isNode()}}">
          {{itemData.resetColumnIndex();}}
          <ws:if data="{{itemData.hasMultiSelect}}">
@@ -246,3 +246,7 @@
       </ws:else>
    </div>
 </ws:else>
+
+<ws:if data="{{itemData.nodeFooters.length > 0}}">
+   <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{itemData.nodeFooters}}"/>
+</ws:if>

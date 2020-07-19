@@ -110,9 +110,8 @@
 
 </ws:template>
 
-<tr class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}
-           {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}}">
+<tr class="{{ itemData.getRowClasses(_options) }}">
     <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
-        <ws:partial template="colTpl" currentColumn="{{itemData.getCurrentColumn(backgroundColorStyle)}}"/>
+        <ws:partial template="colTpl" currentColumn="{{ itemData.getCurrentColumn(backgroundColorStyle) }}"/>
     </ws:for>
 </tr>

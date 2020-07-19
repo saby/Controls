@@ -4,17 +4,18 @@
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
              template="wml!Controls/_list/resources/For"
-             listModel="{{_listModel}}"
-             itemActionsTemplate="{{_options.itemActionsTemplate}}"
-             itemActionsClass="{{_options.itemActionsClass}}"
-             swipeTemplate="{{_options.swipeTemplate}}"
-             groupTemplate="{{_groupTemplate}}"
-             multiSelectTpl="{{_options.multiSelectTpl}}"
-             editingItemData="{{_options.editingItemData}}"
-             isAdd="{{_options.isAdd}}"
-             itemOutputWrapper="{{_itemOutputWrapper}}"
-             backgroundStyle="{{_options.backgroundStyle || _options.style}}"
-             itemTemplate="{{_itemTemplate}}">
+             listModel="{{ _listModel }}"
+
+             itemTemplate="{{ _itemTemplate }}"
+             groupTemplate="{{ _groupTemplate }}"
+
+             editingItemData="{{ _options.editingItemData }}"
+             isAdd="{{ _options.isAdd }}"
+             itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+             itemActionsClass="{{ _options.itemActionsClass }}"
+             swipeTemplate="{{ _options.swipeTemplate }}"
+             multiSelectTpl="{{ _options.multiSelectTpl }}"
+             backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
          </ws:partial>
          <ws:if data="{{_options._needBottomPadding}}">
             <div  class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}"></div>

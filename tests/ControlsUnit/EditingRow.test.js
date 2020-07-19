@@ -2,7 +2,7 @@ define(['Controls/_list/EditInPlace/EditingRow'], function(EditingRow) {
    describe('Controls.List.EditInPlace.EditingRow', function() {
       it('_onKeyDown', function() {
          var
-            editingRow = new EditingRow({}),
+            editingRow = new EditingRow.default({}),
             testEvents = [
                {
                   isStopped: false,

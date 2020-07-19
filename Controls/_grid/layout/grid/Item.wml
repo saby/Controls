@@ -20,6 +20,7 @@
                   theme="{{_options.theme}}"/>
    </ws:else>
 </ws:template>
+
 <ws:template name="columnContent">
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
@@ -78,11 +79,6 @@
    </ws:if>
 </ws:template>
 
-<ws:template name="stickyLadderByIndex">
-   <ws:if data="{{itemData.stickyProperties[index]}}">
-      <ws:partial template="stickyLadderTpl" currentColumn="{{currentColumn}}" index="{{index}}" stickyProperty="{{itemData.stickyProperties[index]}}"/>
-   </ws:if>
-</ws:template>
 <ws:template name="columnContentWrapper">
    <ws:if data="{{marker !== false && itemData.markerVisibility !== 'hidden' && !itemData.isEditing() && itemData.isMarked() && currentColumn.columnIndex === 0}}">
       <div attr:class="{{itemData.getMarkerClasses()}}"></div>
@@ -91,8 +87,17 @@
                attr:class="{{currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder'}}
                            {{itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}"/>
 </ws:template>
+
 <ws:template name="colTpl">
-   <ws:partial template="stickyLadderByIndex" currentColumn="{{currentColumn}}" index="{{0}}"/>
+
+   <!-- Первый уровень лесенки -->
+   <ws:partial template="stickyLadderTpl"
+               if="{{ itemData.stickyProperties[0] }}"
+               currentColumn="{{currentColumn}}"
+               index="{{0}}"
+               stickyProperty="{{itemData.stickyProperties[0]}}"/>
+
+
    <ws:if data="{{ itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan) && itemData.itemActionsDrawPosition === 'before' }}">
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.gridCellStyles}}"/>
    </ws:if>
@@ -110,7 +115,14 @@
          <ws:partial template="columnContentWrapper"/>
       </div>
    </ws:else>
-   <ws:partial template="stickyLadderByIndex" currentColumn="{{currentColumn}}" index="{{1}}"/>
+
+   <!-- Второй уровень лесенки -->
+   <ws:partial template="stickyLadderTpl"
+               if="{{ itemData.stickyProperties[1] }}"
+               currentColumn="{{currentColumn}}"
+               index="{{1}}"
+               stickyProperty="{{itemData.stickyProperties[1]}}"/>
+
    <ws:if data="{{ itemData.columnScroll && itemData.itemActionsDrawPosition === 'after' }}">
       <ws:if data="{{ itemData.isDrawActions(itemData, currentColumn, colspan) }}">
          <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{currentColumn.itemActionsGridCellStyles}}"/>
@@ -120,6 +132,7 @@
       </ws:else>
    </ws:if>
 </ws:template>
+
 <ws:template name="stickyCell">
    <ws:if data="{{ itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan) && itemData.itemActionsDrawPosition === 'before' }}">
       <ws:partial template="itemActionsTemplateChooser" itemActionsContainerStyles="{{itemData.gridCellStyles}}"/>
@@ -144,9 +157,10 @@
       </ws:else>
    </ws:if>
 </ws:template>
+
 <ws:if data="{{itemData.isStickedMasterItem}}">
    <Controls.scroll:Group>
-      <div attr:class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}">
+      <div class="{{ itemData.getRowClasses(_options) }}">
          <!-- The iterator does not restart when the model changes. Instead, the internal partial is redrawn. We do a reboot forcibly. -->
          <!-- Delete after the task is done https://online.sbis.ru/opendoc.html?guid=13786a2a-54c7-4a09-8fbc-11344cf0804d -->
          {{itemData.resetColumnIndex()}}
@@ -160,7 +174,7 @@
    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div attr:class="controls-Grid__row {{itemData.isLastItem ? 'controls-Grid__row_last'}} {{itemData.calcCursorClasses(clickable, cursor)}} {{highlightOnHover !== false && !itemData.isEditing() ? 'controls-Grid__row_highlightOnHover_' + (itemData.style || 'default') + '_theme-' + _options.theme}} controls-Grid__row_{{itemData.style || 'default'}}_theme-{{_options.theme}}">
+   <div class="{{ itemData.getRowClasses(_options) }}">
       <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
          <ws:partial template="colTpl" attr:key="{{itemData.getCurrentColumnKey()}}" currentColumn="{{itemData.getCurrentColumn(backgroundColorStyle)}}" attr:class="{{className}}"/>
       </ws:for>

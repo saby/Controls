@@ -608,6 +608,30 @@ var
                     classLists.columnContent += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
                 }
             }
+        },
+        setRowClassesGettersOnItemData(self, itemData): void {
+            const style = itemData.style || 'default';
+            const theme = itemData.theme || 'default';
+
+            itemData._staticRowClassses = `controls-Grid__row controls-Grid__row_${style}_theme-${theme} `;
+
+            if (itemData.isLastItem) {
+                itemData._staticRowClassses += 'controls-Grid__row_last ';
+            }
+
+            itemData.getRowClasses = (tmplParams: {
+                highlightOnHover?: boolean;
+                clickable?: boolean;
+                cursor?: 'default' | 'pointer';
+            }) => {
+                let classes = `${itemData.calcCursorClasses(tmplParams.clickable, tmplParams.cursor).trim()} `;
+
+                if (tmplParams.highlightOnHover !== false && !itemData.isEditing()) {
+                    classes += `controls-Grid__row_highlightOnHover_${style}_theme-${theme} `;
+                }
+
+                return `${itemData._staticRowClassses} ${classes.trim()}`;
+            }
         }
     },
 
@@ -1600,6 +1624,31 @@ var
                     (self._options.multiSelectVisibility === 'hidden' ? current.columnIndex : current.columnIndex - 1);
             };
 
+            _private.setRowClassesGettersOnItemData(this, current);
+
+            current.setColspan = (newColspan) => {
+                const hasOld = current.colspanStorage instanceof Array;
+                const hasNew = newColspan instanceof Array;
+
+                // Не было и нет. Не заполняем, не тратим время.
+                if (!hasOld && !hasNew) {
+                    return;
+                }
+
+                // Было и нестало. Просто удаляем.
+                if (!hasNew) {
+                    current.colspanStorage = undefined;
+                    return;
+                }
+
+                // multiSelectVisibility не учитывается.
+                current.colspanStorage = GridLayoutUtil.buildColspanStorage({
+                    currentColspanStorage: current.colspanStorage,
+                    colspan: newColspan,
+                    columnsLength: self._options.columns.length
+                });
+            };
+
             current.getCurrentColumn = function(backgroundColorStyle) {
                 const currentColumn: any = {
                         item: current.item,
@@ -2178,17 +2227,10 @@ var
 
             if (column.compatibleWidth) {
                 resultWidth = column.compatibleWidth;
-            } else if (!column.width) {
-                resultWidth = 'auto';
+            } else if (GridLayoutUtil.isCompatibleWidth(column.width)) {
+                resultWidth = column.width;
             } else {
-                if (
-                    column.width.match(GridLayoutUtil.RegExps.pxValue) ||
-                    column.width.match(GridLayoutUtil.RegExps.percentValue)
-                ) {
-                    resultWidth = column.width;
-                } else {
-                    resultWidth = 'auto';
-                }
+                resultWidth = 'auto';
             }
             return resultWidth;
         },

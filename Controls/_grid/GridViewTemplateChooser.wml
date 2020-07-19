@@ -8,7 +8,6 @@
                 _resultsTemplate="{{_resultsTemplate}}"
                 _baseResultsTemplate="{{_baseResultsTemplate}}"
                 _headerContentTemplate="{{_headerContentTemplate}}"
-                _itemOutputWrapper="{{_itemOutputWrapper}}"
                 _itemTemplate="{{_itemTemplate}}"
                 _groupTemplate="{{_groupTemplate}}"
                 _getFooterClasses="{{_getFooterClasses}}"

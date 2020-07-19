@@ -7,9 +7,7 @@ import {Logger} from 'UI/Utils';
 import ListViewTpl = require('wml!Controls/_list/ListView/ListView');
 import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
-import ItemOutputWrapper = require('wml!Controls/_list/resources/ItemOutputWrapper');
 import {isEqual} from "Types/object";
-import 'wml!Controls/_list/resources/ItemOutput';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -68,7 +66,6 @@ var ListView = BaseControl.extend(
         _template: ListViewTpl,
         _groupTemplate: GroupTemplate,
         _defaultItemTemplate: defaultItemTemplate,
-        _itemOutputWrapper: ItemOutputWrapper,
         _pendingRedraw: false,
         _reloadInProgress: false,
         _callbackAfterReload: null,

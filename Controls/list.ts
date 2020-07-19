@@ -88,8 +88,6 @@ import {default as ListControl} from 'Controls/_list/ListControl';
 import ListView = require('Controls/_list/ListView');
 import SwipeTemplate = require('wml!Controls/_list/Swipe/resources/SwipeTemplate');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
-import ItemOutputWrapper = require('wml!Controls/_list/resources/ItemOutputWrapper');
-import ItemOutput = require('wml!Controls/_list/resources/ItemOutput');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
 import BaseControl = require('Controls/_list/BaseControl');
@@ -133,8 +131,6 @@ export {
     ItemActionsTemplate,
     SwipeTemplate,
     GroupContentResultsTemplate,
-    ItemOutputWrapper,
-    ItemOutput,
     ItemsUtil,
     TreeItemsUtil,
     BaseControl,
