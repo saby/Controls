@@ -516,6 +516,11 @@ var
             }
         },
 
+        _onItemMouseUp(e, dispItem): void {
+            const item = dispItem.getContents();
+            this._notify('itemMouseUp', [item, e, this._getCellIndexByEventTarget(e)], {bubbling: true});
+        },
+
         _onEditArrowClick(e, item): void {
             this._notify('editArrowClick', [item]);
 

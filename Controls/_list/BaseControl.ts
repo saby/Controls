@@ -3329,6 +3329,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             e.stopPropagation();
             return;
         }
+
         if (this._editInPlace) {
             this._editInPlace.beginEditByClick(e, item, originalEvent);
         }
@@ -3480,26 +3481,33 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._notify('itemMouseDown', [itemData.item, domEvent.nativeEvent]);
     },
 
-    _itemMouseUp(e, itemData, domEvent): void {
-        const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
-
+    _itemMouseUp(e: SyntheticEvent, itemData: any, domEvent: SyntheticEvent): void {
         // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
         // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
         // Например, записи в мастере или запись в списке с dragScrolling'ом.
         // При таких сценариях нельзя устанавливать маркер по событию itemClick,
         // т.к. оно не произойдет (itemClick = mouseDown + mouseUp на одном блоке).
         // Также, нельзя устанавливать маркер по mouseDown, блок сменится раньше и клик по записи не выстрелет.
+        const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
+        if (this._mouseDownItemKey !== key) {
+            return;
+        }
+        this._mouseDownItemKey = null;
+        e.stopPropagation();
+
+        // По клику на чекбокс ставится только маркер, поэтому если нажали на чекбокс, то не нотифаем событие
+        const clickOnCheckbox = !!domEvent.target.closest('.js-controls-ListView__checkbox');
+        const item = this._options.useNewModel ? itemData.getContents() : itemData.item;
+        const result = clickOnCheckbox ? undefined : this._notify('itemMouseUp', [item, domEvent.nativeEvent]);
 
         // При редактировании по месту маркер появляется только если в списке больше одной записи.
         // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
-        const canBeMarked = this._mouseDownItemKey === key
+        const canBeMarked = result !== false
            && (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1));
 
         if (canBeMarked) {
             this.setMarkedKey(key);
         }
-        this._mouseDownItemKey = undefined;
-        this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
     },
 
     _startDragNDropCallback(): void {

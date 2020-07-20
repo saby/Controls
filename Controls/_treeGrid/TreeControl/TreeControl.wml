@@ -7,6 +7,8 @@
                            name="baseControl"
                            on:keyDown="_onTreeViewKeyDown()"
                            on:itemClick="_onItemClick()"
+                           on:itemMouseDown="_itemMouseDown()"
+                           on:itemMouseUp="_itemMouseUp()"
                            errorController="{{_errorController}}"
                            beforeReloadCallback="{{_options.parentProperty !== undefined ? _beforeReloadCallback}}"
                            beforeLoadToDirectionCallback="{{_beforeLoadToDirectionCallback}}"

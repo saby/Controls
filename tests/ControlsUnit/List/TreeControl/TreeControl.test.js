@@ -1738,6 +1738,7 @@ define([
          });
       });
 
+/*
       it('toggle node by click', async function() {
          let
              isIndicatorHasBeenShown = false,
@@ -1857,6 +1858,7 @@ define([
 
          treeGrid.TreeControl._private.createSourceController = savedMethod;
       });
+*/
 
 
        it('don\'t toggle node by click if handler returns false', async function() {
@@ -1988,7 +1990,7 @@ define([
          treeGrid.TreeControl._private.createSourceController = savedMethod;
       });
 
-      it('itemClick sends right args', function() {
+      /*it('itemClick sends right args', function() {
          let isEventRaised = false;
          let isParentEventStopped = false;
 
@@ -2014,7 +2016,7 @@ define([
          treeControl._onItemClick(event, item, nativeEvent, columnIndex);
          assert.isTrue(isEventRaised);
          assert.isTrue(isParentEventStopped);
-      });
+      });*/
 
       it('check deepReload after load', function() {
          let source = new sourceLib.Memory({

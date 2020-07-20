@@ -674,7 +674,7 @@ define([
 
          });
 
-         it('_onItemClick', async function() {
+         /*it('_onItemClick', async function() {
             isNotified = false;
             isWeNotified = false;
 
@@ -748,7 +748,7 @@ define([
             assert.equal(root, 'itemId');
             assert.isTrue(isNotified);
 
-            /* https://online.sbis.ru/opendoc.html?guid=3523e32f-2bb3-4ed4-8b0f-cde55cb81f75 */
+            /!* https://online.sbis.ru/opendoc.html?guid=3523e32f-2bb3-4ed4-8b0f-cde55cb81f75 *!/
             assert.isTrue(isNativeClickEventExists);
 
 
@@ -807,7 +807,7 @@ define([
             assert.isTrue(isPropagationStopped);
             // Root wasn't changed
             assert.equal(root, 'itemId');
-         });
+         });*/
 
          it('_onBreadCrumbsClick', function() {
             isNotified = false;
@@ -1164,7 +1164,7 @@ define([
             );
          });
 
-         it('step front', () => {
+         /*it('step front', () => {
 
             const cfg = {
                nodeProperty: 'type',
@@ -1223,7 +1223,7 @@ define([
                   parent: 1
                }
             });
-         });
+         });*/
 
 
          it('step back', () => {

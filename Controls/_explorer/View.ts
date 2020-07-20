@@ -17,6 +17,7 @@ import {
    INavigationPositionSourceConfig as IPositionSourceConfig,
    INavigationOptionValue as INavigation
 }  from '../_interface/INavigation';
+import { SyntheticEvent } from 'Vdom/Vdom';
 
 var
       HOT_KEYS = {
@@ -487,6 +488,8 @@ var
       _itemsResolver: null,
       _markerForRestoredScroll: null,
       _navigation: null,
+      _clickedColumnIndex: null,
+      _mouseDownItemKey: null,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -584,7 +587,8 @@ var
          this._dragOnBreadCrumbs = false;
       },
       _documentDragStart: function(event, dragObject) {
-         //TODO: Sometimes at the end of dnd, the parameter is not reset. Will be fixed by: https://online.sbis.ru/opendoc.html?guid=85cea965-2aa6-4f1b-b2a3-1f0d65477687
+         // TODO: Sometimes at the end of dnd, the parameter is not reset.
+         //  Will be fixed by: https://online.sbis.ru/opendoc.html?guid=85cea965-2aa6-4f1b-b2a3-1f0d65477687
          this._hoveredBreadCrumb = undefined;
 
          if (
@@ -593,7 +597,7 @@ var
             cInstance.instanceOfModule(dragObject.entity, 'Controls/dragnDrop:ItemsEntity') &&
             dragObject.entity.dragControlId === this._dragControlId
          ) {
-            //No need to show breadcrumbs when dragging items from the root, being in the root of the registry.
+            // No need to show breadcrumbs when dragging items from the root, being in the root of the registry.
             this._dragOnBreadCrumbs = _private.getRoot(this, this._options.root) !== _private.getDataRoot(this) || !_private.dragItemsFromRoot(this, dragObject.entity.getItems());
          }
       },
@@ -604,9 +608,17 @@ var
          // but is not called, because the template has no reactive properties.
          this._forceUpdate();
       },
-      _onItemClick(event, item, clickEvent, columnIndex?: number): boolean {
-         const res = this._notify('itemClick', [item, clickEvent, columnIndex]);
+      _itemMouseDown(event: SyntheticEvent, item: Model, clickEvent: SyntheticEvent): void {
+         this._mouseDownItemKey = item.getKey();
+      },
+      _itemMouseUp(event: SyntheticEvent, item: Model, clickEvent: SyntheticEvent, columnIndex?: number): boolean {
+         if (this._mouseDownItemKey !== item.getKey()) {
+            return false;
+         }
          event.stopPropagation();
+         this._mouseDownItemKey = null;
+
+         const res = this._notify('itemClick', [item, clickEvent, columnIndex]);
 
          const changeRoot = () => {
             _private.setRoot(this, item.getId());
@@ -622,14 +634,14 @@ var
             if (!this._options.editingConfig) {
                changeRoot();
             } else {
-               this.commitEdit().addCallback((res = {}) => {
-                  if (!res.validationFailed) {
+               this.commitEdit().addCallback((result) => {
+                  if (!result.validationFailed) {
                      changeRoot();
                   }
                });
             }
 
-            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
+            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла и установку маркера.
             // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
             return false;
          }
