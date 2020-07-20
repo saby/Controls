@@ -29,7 +29,6 @@ import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
-import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
 import {DependencyTimer, isLeftMouseButton} from "Controls/Utils/FastOpen";
 import {IoC} from "Env/Env";
 
@@ -130,8 +129,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     protected _parentProperty: string = null;
     protected _menuOptions: object = null;
     protected _isLoadMenuItems: boolean = false;
+    protected _sourcePrefetchProxy: ICrudPlus;
     protected _buttonTemplate: TemplateFunction = getButtonTemplate();
-    protected _actualItems: TItems = null;
 
     protected _template: TemplateFunction = template;
 
@@ -184,7 +183,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
 
     private _getMenuConfigByItem(item: TItem): IStickyPopupOptions {
         const options = this._options;
-        let source = this._source;
+        if (!this._sourcePrefetchProxy) {
+            this._sourcePrefetchProxy = this._createPrefetchProxy(this._originalSource, this._items);
+        }
+        let source = this._sourcePrefetchProxy;
         const root = item.get(options.keyProperty);
 
         // Если запись для выпадающего списка еще не были загружены, то отдаем оригинальный источник вместо prefetchProxy
@@ -264,21 +266,45 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         });
     }
 
+    private _setDefaultOptions(items: RecordSet<Record>): RecordSet<Record> {
+        items.each((item) => {
+            const iconValue = item.get('icon') || item.get('buttonIcon');
+            const iconStyleValue = item.get('iconStyle') || item.get('buttonIconStyle') || 'secondary';
+            const viewModeValue = item.get('viewMode') || item.get('buttonViewMode');
+            let captionValue = '';
+            const readOnlyValue = item.get('buttonReadOnly') || item.get('readOnly');
+
+            if (viewModeValue && viewModeValue !== 'toolButton') {
+                captionValue = item.get('caption') || item.get('buttonCaption')
+            } else if (item.get('title') && !viewModeValue) {
+                captionValue = item.get('title');
+            }
+
+            item.set('icon', iconValue);
+            item.set('iconStyle', iconStyleValue);
+            item.set('viewMode', viewModeValue || 'link');
+            item.set('caption', captionValue);
+            item.set('readOnly', readOnlyValue);
+
+            if (iconValue && iconValue.split(' ').length === 1) {
+                item.set('iconSize', 'm');
+            }
+        });
+
+        return items;
+    }
+
+
     private _setMenuItems(): void {
-        const menuItems = Toolbar._calcMenuItems(this._actualItems);
+        const menuItems = Toolbar._calcMenuItems(this._items);
         this._menuItems = menuItems;
         this._menuSource = this._createPrefetchProxy(this._originalSource, menuItems);
     }
 
     private _setStateByItems(items: TItems, source: ICrudPlus): void {
         this._fullItemsList = items;
-        /**
-         * TODO: Можно удалить после выполнения https://online.sbis.ru/opendoc.html?guid=fe8e0736-7002-4a5f-b782-ea14e8bfb9be
-         */
-        this._actualItems = ActualAPI.items(items);
-        this._items = this._actualItems;
-        this._source = this._createPrefetchProxy(source, this._actualItems);
-        this._needShowMenu = needShowMenu(this._actualItems);
+        this._items = this._setDefaultOptions(items);
+        this._needShowMenu = needShowMenu(this._items);
     }
 
     private _needChangeState(newOptions: IToolbarOptions): boolean {

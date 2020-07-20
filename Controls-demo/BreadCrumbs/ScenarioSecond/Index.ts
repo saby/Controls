@@ -232,7 +232,7 @@ class ScenarioSecond extends Control<IControlOptions> {
                     title: 'Распечатать',
                     '@parent': false,
                     parent: null,
-                    buttonViewMode: 'iconToolbar'
+                    viewMode: 'iconToolbar'
                 },
                 {
                     id: '2',
@@ -240,7 +240,7 @@ class ScenarioSecond extends Control<IControlOptions> {
                     title: 'Связанные документы',
                     '@parent': false,
                     parent: null,
-                    buttonViewMode: 'iconToolbar'
+                    viewMode: 'iconToolbar'
                 },
                 {
                     id: '3',
@@ -248,7 +248,7 @@ class ScenarioSecond extends Control<IControlOptions> {
                     title: 'Задать вопрос',
                     '@parent': false,
                     parent: null,
-                    buttonViewMode: 'iconToolbar'
+                    viewMode: 'iconToolbar'
                 }
             ]
         });

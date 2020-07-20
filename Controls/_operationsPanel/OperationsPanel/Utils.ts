@@ -91,8 +91,6 @@ import {Record} from 'Types/entity';
             currentWidth,
             visibleItemsKeys = [];
 
-         toolbars.actualItems(items);
-
          items.each(function(item) {
             if (!item.get(parentProperty)) {
                visibleItemsKeys.push(item.get(keyProperty));
