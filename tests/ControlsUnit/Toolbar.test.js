@@ -278,6 +278,7 @@ define(
                         source: '_options.source'
                      },
                      _source: 'items',
+                     _sourcePrefetchProxy: 'items',
                      _items: { getIndexByValue: () => {} }
                   },
                   expectedConfig = {
