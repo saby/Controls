@@ -1622,21 +1622,21 @@ define([
          lists.BaseControl._private.handleSelectionControllerResult(baseControl, result);
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false]).called);
 
          result.selectedKeysDiff.added = [5];
          result.selectedKeysDiff.keys = [5];
          lists.BaseControl._private.handleSelectionControllerResult(baseControl, result);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [result.selectedKeysDiff.keys, result.selectedKeysDiff.added, result.selectedKeysDiff.removed]).called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false]).called);
 
          result.excludedKeysDiff.added = [2];
          result.excludedKeysDiff.keys = [2];
          lists.BaseControl._private.handleSelectionControllerResult(baseControl, result);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [result.selectedKeysDiff.keys, result.selectedKeysDiff.added, result.selectedKeysDiff.removed]).called);
          assert.isTrue(notifySpy.withArgs('excludedKeysChanged', [result.excludedKeysDiff.keys, result.excludedKeysDiff.added, result.excludedKeysDiff.removed]).called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false]).called);
       });
 
       it('_private.updateSelectionController', async function() {
@@ -1764,25 +1764,25 @@ define([
          onSelectedTypeChanged('selectAll', undefined);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [6, true], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [6, true]).called);
 
          notifySpy.resetHistory();
          onSelectedTypeChanged('selectAll', 3);
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [3, true], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [3, true]).called);
 
          notifySpy.resetHistory();
          onSelectedTypeChanged('unselectAll', undefined);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false]).called);
 
          notifySpy.resetHistory();
          onSelectedTypeChanged('toggleAll', undefined);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [6, true], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [6, true]).called);
       });
 
       it('_private.setMarkedKey', () => {
@@ -5649,7 +5649,7 @@ define([
          instance._beforeUpdate(cfgClone);
          assert.isTrue(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isTrue(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [0, false]).called);
       });
 
       it('_beforeUpdate with new selectedKeys', async function() {
@@ -5681,7 +5681,7 @@ define([
          // нам ключи пришли в опциях и мы не должны их нотифаить
          assert.isFalse(notifySpy.withArgs('selectedKeysChanged').called);
          assert.isFalse(notifySpy.withArgs('excludedKeysChanged').called);
-         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [1, false], {bubbling: true}).called);
+         assert.isTrue(notifySpy.withArgs('listSelectedKeysCountChanged', [1, false]).called);
       });
 
       it('_beforeUpdate with new searchValue', async function() {

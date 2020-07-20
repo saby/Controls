@@ -3,6 +3,7 @@
             on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
             on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
             on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
+            on:listSelectedKeysCountChanged="_notifyEventWithBubbling('listSelectedKeysCountChanged')"
             filter="{{_dataOptions.filter}}"
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"
