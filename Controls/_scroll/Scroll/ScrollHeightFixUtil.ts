@@ -18,14 +18,6 @@ import {detection} from 'Env/Env';
                    */
                   return container.scrollHeight === container.offsetHeight && container.scrollHeight < 35;
                }
-            } else if (detection.isIE) {
-               if (window && container) {
-                  /**
-                   * В ie при overflow: scroll, если контент не нуждается в скроллировании, то браузер добавляет
-                   * 1px для скроллирования.
-                   */
-                  return container.scrollHeight - container.offsetHeight === 1;
-               }
             } else {
                return false;
             }

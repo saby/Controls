@@ -34,32 +34,6 @@ define(
                assert.equal(result, false);
                restoreEnv('chrome');
             });
-            it('ie', function() {
-               mockEnv('isIE');
-
-               container = {
-                  scrollHeight: 101,
-                  offsetHeight: 100
-               };
-               result = ScrollHeightFixUtil.calcHeightFix(container);
-               if (window) {
-                  assert.equal(result, true);
-               } else {
-                  assert.equal(result, undefined);
-               }
-
-               container = {
-                  scrollHeight: 200,
-                  offsetHeight: 100
-               };
-               result = ScrollHeightFixUtil.calcHeightFix(container);
-               if (window) {
-                  assert.equal(result, false);
-               } else {
-                  assert.equal(result, undefined);
-               }
-               restoreEnv('isIE');
-            });
             it('firefox', function() {
                mockEnv('firefox');
 
