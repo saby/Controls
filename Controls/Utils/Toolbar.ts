@@ -88,11 +88,11 @@ export function getMenuItems<T extends Record>(items: RecordSet<T> | T[]): Chain
    });
 }
 export function needShowMenu(items: RecordSet): boolean {
-    let isNeedShowToolbar = false;
-    items.forEach( item => {
-       if (item.get('showType') !== this.showType.TOOLBAR) {
-          isNeedShowToolbar = true;
-       }
-    });
-    return isNeedShowToolbar;
+    const arrItems = items.getRawData();
+    for (let i = 0; i < arrItems.length; i++) {
+        if (arrItems[i].showType !== this.showType.TOOLBAR) {
+            return true;
+        }
+    }
+    return false;
 }
