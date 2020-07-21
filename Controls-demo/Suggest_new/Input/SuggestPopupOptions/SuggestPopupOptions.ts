@@ -1,4 +1,4 @@
-import {Control, TemplateFunction, IControlOptions} from "UI/Base";
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as MemorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 import * as SearchMemory from 'Controls-demo/Search/SearchMemory';
 import {Memory} from 'Types/source';
