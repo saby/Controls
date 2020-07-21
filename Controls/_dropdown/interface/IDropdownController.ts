@@ -1,10 +1,8 @@
 import {Control, IControlOptions} from 'UI/Base';
-import {INavigationOptions, IFilterOptions, IMultiSelectableOptions, ISearchOptions} from 'Controls/interface';
+import {ISearchOptions} from 'Controls/interface';
 import {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
-import {IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {IDropdownSourceOptions} from './IDropdownSource';
 import {RecordSet} from 'Types/collection';
-import {Memory} from 'Types/source';
 import {IStickyPosition} from 'Controls/popup';
 export type TKey = string|number|null;
 
@@ -23,12 +21,10 @@ export default interface IDropdownController {
     onSelectorResult(selectedItems: RecordSet): void;
 }
 
-export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions, INavigationOptions,
-    IFilterOptions, IMultiSelectableOptions, IMenuPopupOptions, IMenuControlOptions, ISearchOptions {
-    keyProperty: string;
+export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions,
+    IMenuPopupOptions, ISearchOptions {
     notifyEvent: Function;
     lazyItemsLoading?: boolean;
-    emptyText?: string;
     selectedItemsChangedCallback?: Function;
     dataLoadErrback?: Function;
     historyId?: string;
@@ -40,7 +36,6 @@ export interface IDropdownControllerOptions extends IControlOptions, IDropdownSo
     typeShadow?: string;
     openerControl: Control;
     targetPoint: IStickyPosition;
-    menuPopupOptions?: IMenuPopupOptions;
     additionalProperty?: string;
     hasIconPin?: boolean;
     showHeader?: boolean;
