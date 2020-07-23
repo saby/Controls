@@ -1,3 +1,0 @@
-<!-- Вызывает базовый шаблон строки результатов: table или grid. Используется, только если шаблон -->
-<!-- результатов был переопределен. В остальных случаях напрямую из GridView вызывается нужный шаблон. -->
-<ws:partial template="{{ baseResultsTemplate }}" listModel="{{listModel}}" contentTemplate="{{contentTemplate}}"/>

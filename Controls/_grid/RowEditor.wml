@@ -1,5 +1,5 @@
 <ws:partial
-   template="wml!Controls/_grid/ItemTemplateResolver"
+   template="{{ itemData.resolvers.baseItemTemplate() }}"
    scope="{{_options}}"
    colspanTemplate="{{itemData.isEditing() ? content}}"
    colspan="{{itemData.isEditing()}}"/>

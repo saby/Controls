@@ -1,5 +1,5 @@
 <ws:partial
-   template="{{itemData.resolvers.baseItemTemplate()}}"
+   template="{{ itemData.resolvers.baseItemTemplate() }}"
    scope="{{_options}}"
    colspanTemplate="{{itemData.isEditing() ? content}}"
    colspan="{{itemData.isEditing()}}"/>

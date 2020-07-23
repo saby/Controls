@@ -10,9 +10,7 @@
  */
 
 import {default as View} from 'Controls/_treeGrid/View';
-import ItemTemplate = require('wml!Controls/_grid/ItemTemplateResolver');
 import NodeFooterTemplate = require('wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate');
-
 import ViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
 import TreeControl = require('Controls/_treeGrid/TreeControl');
 import TreeViewModel = require('Controls/_treeGrid/Tree/TreeViewModel');
@@ -21,6 +19,9 @@ import SearchView = require('Controls/_treeGrid/SearchView');
 import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGrid/SearchView/SearchBreadCrumbsItemTemplate';
 import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
 import RowEditor = require('wml!Controls/_treeGrid/TreeGrid/RowEditor');
+
+import {GridLayoutUtil} from 'Controls/grid';
+const ItemTemplate = GridLayoutUtil.isFullGridSupport() ? require('wml!Controls/_grid/layout/grid/Item') : require('wml!Controls/_grid/layout/table/Item');
 
 export {
     View,

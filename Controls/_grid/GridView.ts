@@ -21,7 +21,6 @@ import * as GridResults from 'wml!Controls/_grid/layout/grid/Results';
 import * as TableResults from 'wml!Controls/_grid/layout/table/Results';
 import 'wml!Controls/_grid/layout/common/ResultCellContent';
 
-import * as DefaultItemTpl from 'wml!Controls/_grid/ItemTemplateResolver';
 import * as GridItemTemplate from 'wml!Controls/_grid/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_grid/layout/table/Item';
 
@@ -277,7 +276,7 @@ var
         _resultsTemplate: null,
 
         _groupTemplate: GroupTemplate,
-        _defaultItemTemplate: DefaultItemTpl,
+        _defaultItemTemplate: GridItemTemplate,
         _headerContentTemplate: HeaderContentTpl,
 
         _notifyHandler: tmplNotify,
