@@ -525,9 +525,9 @@
    position: absolute;
    width: @masterClassic-marker_thickness_list;
    background-color: @marker_color_list;
-   height: 100%;
    left: 0;
-   top: 0;
+   top: @masterClassic_item_selected_border-thickness_list;
+   height: calc(100% ~'-' @masterClassic_item_selected_border-thickness_list);
 }
 
 .controls-ListView__groupContent_cursor-default {
