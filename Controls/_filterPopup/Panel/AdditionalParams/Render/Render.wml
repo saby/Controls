@@ -1,0 +1,34 @@
+<ws:template name="forTemplate">
+   <ws:partial template="wml!Controls/_filterPopup/Panel/AdditionalParams/Render/resources/For"
+               isCurrentColumn="{{_isCurrentColumn}}"
+               itemTemplateProperty="{{_options.itemTemplateProperty}}"
+               collection="{{_collection}}"
+               columnProperty="{{_options.columnProperty}}"
+               groupTemplate="{{_groupTemplate}}"
+               itemTemplate="{{_options.itemTemplate.templateName || _itemTemplate}}"
+               column="{{direction}}"/>
+</ws:template>
+<div class="controls-AdditionalParamsRender">
+   <ws:if data="{{_options.headingCaption}}">
+      <div
+         class="controls-AdditionalParamsRender__heading controls-AdditionalParamsRender__heading_theme-{{_options.theme}}">
+         {{_options.headingCaption}}
+      </div>
+   </ws:if>
+   <div class="controls-AdditionalParamsRender__items controls-AdditionalParamsRender__items_theme-{{_options.theme}}
+               {{!_options.arrowExpanded && !_options.groupProperty ? 'controls-AdditionalParamsRender_block-maxHeight controls-AdditionalParamsRender_block-maxHeight_theme-' + _options.theme}}
+               {{_options.groupProperty ? 'controls-AdditionalParamsRender-withGroup'}}">
+      <div class="controls-AdditionalParamsRender__items-column controls-AdditionalParamsRender__items-leftColumn">
+         <ws:partial template="forTemplate" direction="left"/>
+      </div>
+      <div class="controls-AdditionalParamsRender__items-column controls-AdditionalParamsRender__items-rightColumn">
+         <ws:partial template="forTemplate" direction="right"/>
+      </div>
+   </div>
+   <ws:if data="{{_options.arrowVisible}}">
+      <div class="controls-FilterPanel__separator"
+           title="{{_options.arrowExpanded ? rk('Свернуть') : rk('Развернуть')}}">
+         <Controls.toggle:BigSeparator value="{{_options.arrowExpanded }}" on:click="_clickSeparatorHandler()"/>
+      </div>
+   </ws:if>
+</div>

@@ -1,0 +1,2 @@
+<Controls._filterPopup.Panel.Link
+   caption="{{item[_options.displayProperty]}}"/>

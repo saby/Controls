@@ -1,3 +1,6 @@
+import {ICrudPlus} from 'Types/source';
+import {IPopupOptions} from 'Controls/popup';
+import {INavigationOptionValue} from 'Controls/interface';
 /**
  * Интерфейс для поддержки просмотра и редактирования полей фильтра.
  * @interface Controls/_filter/View/interface/IFilterView
@@ -593,3 +596,33 @@
  * </pre>
  * @function Controls/_list/interface/IList#openDetailPanel
  */
+export interface IFilterItem {
+    name: string;
+    id?: string;
+    value: any;
+    resetValue?: any;
+    textValue: string;
+    emptyText?: string;
+    emptyKey: boolean | string | number;
+    doNotSaveToHistory?: boolean;
+    visibility?: boolean;
+    viewMode?: 'basic' | 'frequent' | 'extended';
+    type?: 'dateRange';
+    editorOptions?: {
+        source?: ICrudPlus;
+        keyProperty?: string;
+        displayProperty?: string;
+        multiSelect?: boolean;
+        selectorTemplate?: {
+            templateName: string;
+            templateOptions?: Record<string, any>;
+            popupOptions?: IPopupOptions;
+        }
+        itemTemplate?: string;
+        editorMode?: string;
+        filter: Record<string, any>;
+        navigation: INavigationOptionValue<any>
+        itemTemplateProperty?: string;
+    };
+    [key: string]: any;
+}

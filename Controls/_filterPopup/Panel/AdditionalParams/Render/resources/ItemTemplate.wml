@@ -1,0 +1,11 @@
+<div class="controls-AdditionalParamsRender__item controls-AdditionalParamsRender__item_theme-{{_options.theme}}
+                  controls-AdditionalParamsRender__item_{{_options.column}} controls-AdditionalParamsRender__item_{{direction}}_theme-{{_options.theme}}">
+   <ws:partial template="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}"
+               item="{{item}}"
+               templateOptions="{{_options.itemTemplate.templateOptions}}"
+               on:valueChanged="_valueChangedHandler(item, 'value')"
+               on:visibilityChanged="_propertyChanged(item, 'visibility')"
+               on:textValueChanged="_propertyChanged(item, 'textValue')"
+               on:selectedKeysChanged="_propertyChanged(item, 'value')"
+               on:selectedKeyChanged="_propertyChanged(item, 'value')"/>
+</div>

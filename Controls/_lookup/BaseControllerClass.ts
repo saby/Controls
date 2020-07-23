@@ -62,7 +62,7 @@ export default class LookupBaseControllerClass {
         } else if (sourceIsChanged || keysChanged) {
             if (this._selectedKeys.length) {
                 updateResult = this.loadItems();
-            } else {
+            } else if (keysChanged) {
                 this._clearItems();
                 updateResult = true;
             }

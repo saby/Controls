@@ -1,0 +1,13 @@
+<ws:partial template="{{_options.render}}"
+            source="{{_visibleItems}}"
+            keyProperty="name"
+            itemTemplateProperty="{{_options.itemTemplateProperty}}"
+            itemTemplate="{{_options.itemTemplate}}"
+            columnProperty="{{_options.columnProperty}}"
+            groupProperty="{{_options.groupProperty}}"
+            headingCaption="{[Еще можно отобрать]}"
+            arrowVisible="{{_arrowVisible}}"
+            arrowExpanded="{{_arrowExpanded}}"
+            on:propertyChanged="_updateItem()"
+            on:arrowClick="_arrowClick()"/>
+

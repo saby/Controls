@@ -1,7 +1,11 @@
 <div class="controls-FilterSelect">
    <ws:for data="index, item in _options.items">
             <span if="{{index}}"> / </span>
-      <Controls._filterPopup.Panel.Link caption="{{item[_options.displayProperty]}}"
-                       on:click="_clickHandler(item)"/>
+      <ws:partial
+         template="{{_options.itemTemplate || _itemTemplate}}"
+         displayProperty="{{_options.displayProperty}}"
+         index="{{index}}"
+         item="{{item}}"
+         on:click="_clickHandler(item)"/>
    </ws:for>
 </div>

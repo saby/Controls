@@ -596,6 +596,11 @@ define('Controls/interface/IFilterPanel', [], function() {
     * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
     * @cfg {String} Текст на кнопке применения фильтрации.
 
+    /**
+    * @name Controls/interface/IFilterPanel#groupProperty
+    * @demo Controls-demo/Filter_new/DetailPanel/GroupProperty/Index
+    * @cfg {String} Имя параметра, содержащего название группы элемента. Поддерживается группировка только в "Еще можно отобрать".
+
    /**
     * @name Controls/interface/IFilterPanel#itemTemplateProperty
     * @demo Controls-demo/Filter_new/FilterView/Source/ItemTemplateProperty/Index

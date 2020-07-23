@@ -1,0 +1,8 @@
+<ws:for data="index, item in _options.collection.getViewIterator()">
+   <ws:if data="{{_options.isCurrentColumn(item, _options.collection, _options.columnProperty, _options.column)}}">
+         <ws:partial template="{{item.getItemTemplate(_options.itemTemplate, _options.groupTemplate)}}"
+                     itemTemplateProperty="{{_options.itemTemplateProperty}}"
+                     item="{{item.getContents()}}"
+                     collectionItem="{{item}}"/>
+   </ws:if>
+</ws:for>

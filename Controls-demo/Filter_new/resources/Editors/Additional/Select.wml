@@ -1,7 +1,10 @@
 <Controls.filterPopup:Select
    keyProperty="id"
    textValueProperty="title"
-   bind:textValue="_options.item.textValue"
-   bind:selectedKeys="_options.item.value"
-   items="{{_items}}"
-/>
+   items="{{_items}}">
+   <ws:itemTemplate>
+      <ws:partial template="Controls/filterPopup:SelectItemTemplate"
+                  attr:class="{{_options.item.markFirstItem && itemTemplate.index === 0 ? 'controls-demo-FilterView__markFirstSelectElement'}}"
+                  scope="{{itemTemplate}}"/>
+   </ws:itemTemplate>
+</Controls.filterPopup:Select>
