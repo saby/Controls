@@ -21,12 +21,11 @@
 
 import Constants = require('Controls/_history/Constants');
 import FilterSource = require('Controls/_history/FilterSource');
-import Service = require('Controls/_history/Service');
-import Source = require('Controls/_history/Source');
+
+export {default as Source} from './_history/Source';
+export {default as Service} from './_history/Service';
 
 export {
     Constants,
-    FilterSource,
-    Service,
-    Source
+    FilterSource
 };

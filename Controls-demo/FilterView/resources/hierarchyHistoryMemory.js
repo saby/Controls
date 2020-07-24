@@ -2,11 +2,12 @@ define('Controls-demo/FilterView/resources/hierarchyHistoryMemory', [
       'Core/Deferred',
       'Types/source',
       'Controls/history',
+      'Core/core-extend',
       'Types/entity',
       'Types/collection'
    ],
 
-   function(Deferred, source, history, entity, collection) {
+   function(Deferred, source, history, extend, entity, collection) {
 
       'use strict';
 
@@ -48,7 +49,7 @@ define('Controls-demo/FilterView/resources/hierarchyHistoryMemory', [
          });
       }
 
-      var FilterViewMemory = history.Source.extend({
+      var FilterViewMemory = extend(history.Source, {
 
          constructor: function(options) {
             options.historySource.query = function() {

@@ -1,17 +1,31 @@
-/**
- * Created by am.gerasimov on 21.03.2018.
- */
-import rk = require('i18n!Controls');
-import CoreExtend = require('Core/core-extend');
-import ParallelDeferred = require('Core/ParallelDeferred');
-import Deferred = require('Core/Deferred');
-import Constants = require('Controls/_history/Constants');
-import entity = require('Types/entity');
-import sourceLib = require('Types/source');
-import chain = require('Types/chain');
-import clone = require('Core/core-clone');
+import {SerializableMixin, OptionsToPropertyMixin, Model} from 'Types/entity';
+import {mixin} from 'Types/util';
+import {ICrud, DataSet, Query} from 'Types/source';
+import {RecordSet, factory as RSFactory} from 'Types/collection';
+import {object} from 'Types/util';
+import {factory} from 'Types/chain';
 import cInstance = require('Core/core-instance');
-import {factory, RecordSet} from 'Types/collection';
+import ParallelDeferred = require('Core/ParallelDeferred');
+import rk = require('i18n!Controls');
+import * as Constants from './Constants';
+import {default as Service} from './Service';
+
+export interface IHistorySourceOptions {
+    originSource: ICrud;
+    historySource: Service;
+    parentProperty: string;
+    pinned: Array<string | number>;
+    displayProperty: string;
+    nodeProperty: string;
+}
+
+interface IHistoryData {
+    frequent: RecordSet;
+    recent: RecordSet;
+    pinned: RecordSet;
+}
+
+const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$_addFromData'];
 
 /**
  * Источник, который возвращает из исходного источника отсортированные данные с учётом истории.
@@ -66,620 +80,594 @@ import {factory, RecordSet} from 'Types/collection';
  * @name Controls/_history/Source#originSource
  * @cfg {Source} Источник данных.
  */
-
-/*
- * @name Controls/_history/Source#originSource
- * @cfg {Source} A data source
- */
-
 /**
  * @name Controls/_history/Source#historySource
  * @cfg {Source} Источник, который работает с историей.
  * @see {Controls/_history/Service} Источник работает с сервисом истории ввода.
  */
-
 /*
  * @name Controls/_history/Source#historySource
  * @cfg {Source} A source which work with history
  * @see {Controls/_history/Service} Source working with the service of InputHistory
  */
+export default class HistorySource extends mixin<SerializableMixin, OptionsToPropertyMixin>(
+    SerializableMixin,
+    OptionsToPropertyMixin
+) implements ICrud {
+    readonly '[Types/_source/ICrud]': boolean = true;
+    protected _$history: IHistoryData = null;
+    protected _$oldItems: any = null;
+    protected _$parentProperty: string = null;
+    protected _$nodeProperty: string = null;
+    protected _$displayProperty: string = null;
+    protected _$parents: any = null;
+    protected _$originSource: ICrud = null;
+    protected _$historySource: Service = null;
+    protected _$historyItems: RecordSet = null;
+    protected _$pinned: Array<string | number> = null;
+    protected _$recentCount: number = null;
 
-var historyMetaFields = ['$_favorite', '$_pinned', '$_history', '$_addFromData'];
+    constructor(options: IHistorySourceOptions) {
+        super(options);
+        OptionsToPropertyMixin.call(this, options);
+        SerializableMixin.call(this);
+    }
 
-var _private = {
-   getSourceByMeta: function (self, meta) {
-      for (var i in meta) {
-         if (meta.hasOwnProperty(i)) {
-            if (historyMetaFields.indexOf(i) !== -1) {
-               return self.historySource;
+// region private
+    private _getSourceByMeta(meta: Record<string, string>, historySource: Service, originSource: ICrud): Service | ICrud {
+        const hasHistoryFields = Object.keys(meta).some((field: string): boolean => {
+            return HISTORY_META_FIELDS.includes(field);
+        });
+
+        return hasHistoryFields ? historySource : originSource;
+    }
+
+    private _initHistory(data: DataSet | IHistoryData, sourceItems: RecordSet): void {
+        if (data instanceof DataSet) {
+            const row = data.getRow();
+            const pinned = this._prepareHistoryItems(row.get('pinned'), sourceItems);
+            const recent = this._prepareHistoryItems(row.get('recent'), sourceItems);
+            const frequent = this._prepareHistoryItems(row.get('frequent'), sourceItems);
+            this._$historyItems = null;
+            this._$history = {
+                pinned,
+                recent,
+                frequent
+            };
+            if (this._$pinned instanceof Array) {
+                this._$pinned.forEach((pinId: string): void => {
+                    if (sourceItems.getRecordById(pinId) && !this._$history.pinned.getRecordById(pinId)) {
+                        this._$history.pinned.add(this._getRawHistoryItem(pinId, this._$historySource.getHistoryId()));
+                    }
+                });
             }
-         }
-      }
-      return self.originSource;
-   },
+            this._$recentCount = recent.getCount();
+        } else {
+            this._$history = data;
+        }
+    }
 
-   initHistory: function(self, data, sourceItems) {
-      if (data.getRow) {
-         const row = data.getRow();
-         const pinned = this.prepareHistoryItems(self, row.get('pinned'), sourceItems);
-         const recent = this.prepareHistoryItems(self, row.get('recent'), sourceItems);
-         const frequent = this.prepareHistoryItems(self, row.get('frequent'), sourceItems);
+    /* После изменения оригинального рекордсета, в истории могут остаться записи,
+       которых уже нет в рекордсете, поэтому их надо удалить из истории */
+    private _prepareHistoryItems(historyItems: RecordSet, sourceItems: RecordSet): RecordSet {
+        const hItems = historyItems.clone();
+        if (cInstance.instanceOfModule(this._$originSource, 'Types/source:Memory')) {
+            const toDelete = [];
 
-         self._historyItems = null;
-         self._history = {
-            pinned: pinned,
-            frequent: frequent,
-            recent: recent
-         };
-         if (self._pinned instanceof Array) {
-            self._pinned.forEach(function (pinId) {
-               if (sourceItems.getRecordById(pinId) && !self._history.pinned.getRecordById(pinId)) {
-                  self._history.pinned.add(_private.getRawHistoryItem(self, pinId, self.historySource.getHistoryId()));
-               }
+            factory(hItems).each((rec) => {
+                if (!sourceItems.getRecordById(rec.getKey())) {
+                    toDelete.push(rec);
+                }
             });
-         }
-         self._recentCount = recent.getCount();
-      } else {
-         self._history = data;
-      }
-   },
 
-   /* После изменения оригинального рекордсета, в истории могут остаться записи,
-      которых уже нет в рекордсете, поэтому их надо удалить из истории */
-   prepareHistoryItems: function(self, historyItems: RecordSet, sourceItems: RecordSet) {
-      let hItems = historyItems.clone();
-
-      // TODO: Remove after execution https://online.sbis.ru/opendoc.html?guid=478ab308-2431-4517-9ccc-41e4af4e292a
-      if (cInstance.instanceOfModule(self.originSource, 'Types/source:Memory')) {
-         let toDelete = [];
-
-         chain.factory(hItems).each((rec) => {
-            if (!sourceItems.getRecordById(rec.getKey())) {
-               toDelete.push(rec);
-            }
-         });
-
-         toDelete.forEach((rec) => {
-            hItems.remove(rec);
-         });
-      }
-      return hItems;
-   },
-
-   getFilterHistory: function (self, rawHistoryData) {
-      var pinnedIds = this.getPinnedIds(rawHistoryData.pinned);
-      var frequentIds = this.getFrequentIds(self, rawHistoryData.frequent, pinnedIds);
-      var recentIds = this.getRecentIds(self, rawHistoryData.recent, pinnedIds, frequentIds);
-
-      return {
-         pinned: pinnedIds,
-         frequent: frequentIds,
-         recent: recentIds
-      };
-   },
-
-   getPinnedIds: function (pinned) {
-      var pinnedIds = [];
-
-      pinned.forEach(function (element) {
-         pinnedIds.push(element.getId());
-      });
-
-      return pinnedIds;
-   },
-
-   getFrequentIds: function(self, frequent, filteredPinned) {
-      var frequentIds = [];
-
-      // рассчитываем количество популярных пунктов
-      var maxCountFrequent = (Constants.MAX_HISTORY - filteredPinned.length - Constants.MIN_RECENT);
-      var countFrequent = 0;
-      var item;
-
-      frequent.forEach(function(element) {
-         var id = element.getId();
-         item = self._oldItems.getRecordById(id);
-         if (countFrequent < maxCountFrequent && !filteredPinned.includes(id) && item && !item.get(self._nodeProperty)) {
-            frequentIds.push(id);
-            countFrequent++;
-         }
-      });
-      return frequentIds;
-   },
-
-   getRecentIds: function(self, recent, filteredPinned, filteredFrequent) {
-      var recentIds = [];
-      var countRecent = 0;
-      var maxCountRecent = Constants.MAX_HISTORY - (filteredPinned.length + filteredFrequent.length);
-      var item, id;
-
-      recent.forEach(function (element) {
-         id = element.getId();
-         item = self._oldItems.getRecordById(id);
-         if (countRecent < maxCountRecent && !filteredPinned.includes(id) && !filteredFrequent.includes(id) && item && !item.get(self._nodeProperty)) {
-            recentIds.push(id);
-            countRecent++;
-         }
-      });
-      return recentIds;
-   },
-
-   prepareOriginItems(self, history, oldItems) {
-      var items = oldItems.clone();
-      var filteredHistory, historyIds;
-      filteredHistory = this.getFilterHistory(self, self._history);
-      historyIds = filteredHistory.pinned.concat(filteredHistory.frequent.concat(filteredHistory.recent));
-
-      items.clear();
-
-      // Clear может стереть исходный формат. Поэтому восстанавливаем его из исходного рекордсета.
-      // https://online.sbis.ru/opendoc.html?guid=21e24eb1-8beb-46c8-acc0-43ec7286b2d4
-      if (!oldItems.hasDecalredFormat()) {
-         let format = oldItems.getFormat();
-         chain.factory(format).each(function (field) {
-            _private.addProperty(items, field.getName(), field.getType(), field.getDefaultValue());
-         });
-      }
-
-      this.addProperty(items, 'pinned', 'boolean', false);
-      this.addProperty(items, 'recent', 'boolean', false);
-      this.addProperty(items, 'frequent', 'boolean', false);
-      this.addProperty(items, 'HistoryId', 'string', self.historySource.getHistoryId() || '');
-      this.addProperty(items, 'originalId', 'string', '');
-      this.fillItems(self, filteredHistory, 'pinned', oldItems, items);
-      this.fillFrequentItems(self, filteredHistory, oldItems, items);
-      this.fillItems(self, filteredHistory, 'recent', oldItems, items);
-      oldItems.forEach(function (item) {
-         // id is always string at history. To check whether an item belongs to history, convert id to string.
-         var id = String(item.getId());
-         var historyItem = historyIds.indexOf(id);
-         var newItem;
-         if (historyItem === -1 || item.get(self._parentProperty)) {
-            newItem = new entity.Model({
-               rawData: item.getRawData(),
-               adapter: items.getAdapter(),
-               format: items.getFormat()
+            toDelete.forEach((rec) => {
+                hItems.remove(rec);
             });
-            if (filteredHistory.pinned.indexOf(id) !== -1) {
-               newItem.set('pinned', true);
+        }
+        return hItems;
+    }
+
+    private _getFilterHistory(rawHistoryData: any): any {
+        const pinnedIds = this._getPinnedIds(rawHistoryData.pinned);
+        const frequentIds = this._getFrequentIds(rawHistoryData.frequent, pinnedIds);
+        const recentIds = this._getRecentIds(rawHistoryData.recent, pinnedIds, frequentIds);
+
+        return {
+            pinned: pinnedIds,
+            frequent: frequentIds,
+            recent: recentIds
+        };
+    }
+
+    private _getPinnedIds(pinned: Model[]): string[] {
+        return pinned.map((item: Model): string => {
+            return item.getKey();
+        });
+    }
+
+    private _getFrequentIds(frequent: Model[], filteredPinned: string[]): string[] {
+        const frequentIds = [];
+
+        // рассчитываем количество популярных пунктов
+        const maxCountFrequent = (Constants.MAX_HISTORY - filteredPinned.length - Constants.MIN_RECENT);
+        let countFrequent = 0;
+        let item;
+
+        frequent.forEach((element: Model): void => {
+            const id = element.getKey();
+            item = this._$oldItems.getRecordById(id);
+            if (countFrequent < maxCountFrequent && !filteredPinned.includes(id) && !item?.get(this._$nodeProperty)) {
+                frequentIds.push(id);
+                countFrequent++;
             }
-            if (filteredHistory.pinned.indexOf(id) !== -1 || filteredHistory.recent.indexOf(id) !== -1 || filteredHistory.frequent.indexOf(id) !== -1) {
-               _private.setHistoryFields(newItem, item.getKeyProperty(), id);
+        });
+        return frequentIds;
+    }
+
+    private _getRecentIds(recent: Model[], filteredPinned: string[], filteredFrequent: string[]): string[] {
+        const recentIds = [];
+        let countRecent = 0;
+        const maxCountRecent = Constants.MAX_HISTORY - (filteredPinned.length + filteredFrequent.length);
+        let item;
+        let id;
+
+        recent.forEach((element: Model): void => {
+            id = element.getKey();
+            item = this._$oldItems.getRecordById(id);
+            if (countRecent < maxCountRecent &&
+                !filteredPinned.includes(id) &&
+                !filteredFrequent.includes(id) &&
+                !item?.get(this._$nodeProperty)
+            ) {
+                recentIds.push(id);
+                countRecent++;
             }
-            items.add(newItem);
-         }
-      });
+        });
+        return recentIds;
+    }
 
-      return items;
-   },
+    private _setHistoryFields(item: Model, idProperty: string, id: string): void {
+        item.set(idProperty, id + '_history');
+        item.set('originalId', id);
+    }
 
-   getItemsWithHistory: function (self, history, oldItems) {
-      if (!self._historyItems) {
-         self._historyItems = _private.prepareOriginItems(self, history, oldItems);
-      }
+    private _resetHistoryFields(item: Model, keyProperty: string): Model {
+        const origItem = item.clone();
+        if (item.get && item.get('originalId')) {
+            origItem.set(keyProperty, item.get('originalId'));
+            origItem.removeField('originalId');
+        }
+        return origItem;
+    }
 
-      return self._historyItems;
-   },
+    _prepareHistoryItem(item: Model, historyType: string): void {
+        item.set(historyType, true);
+        return item.has('group') && item.set('group', null);
+    }
 
-   setHistoryFields: function(item, idProperty, id) {
-      item.set(idProperty, id + '_history');
-      item.set('originalId', id);
-   },
+    private _itemNotExist(id: string, historyType: string): void {
+        if (historyType === 'pinned') {
+            // удаляем элемент из pinned, если его нет в оригинальных данных,
+            // иначе он будет занимаеть место в запиненных, хотя на самом деле такой записи нет
+            this._unpinItemById(id);
+        }
+    }
 
-   resetHistoryFields: function(item, keyProperty) {
-      let origItem = item.clone();
-      if (item.get && item.get('originalId')) {
-         origItem.set(keyProperty, item.get('originalId'));
-         origItem.removeField('originalId');
-      }
-      return origItem;
-   },
+    private _getItemsWithHistory(history: Record<string, any>, oldItems: RecordSet): RecordSet {
+        if (!this._$historyItems) {
+            this._$historyItems = this._prepareOriginItems(history, oldItems);
+        }
 
-   fillItems: function (self, history, historyType, oldItems, items) {
-      var item, oldItem, historyId, historyItem;
+        return this._$historyItems;
+    }
 
-      history[historyType].forEach(function (id) {
-         oldItem = oldItems.getRecordById(id);
-         if (oldItem) {
-            historyItem = self._history[historyType].getRecordById(id);
-            historyId = historyItem.get('HistoryId');
+    private _prepareOriginItems(history: Record<string, any>, oldItems: any): RecordSet {
+        const items = oldItems.clone();
+        let filteredHistory;
+        let historyIds;
+        filteredHistory = this._getFilterHistory(this._$history);
+        historyIds = filteredHistory.pinned.concat(filteredHistory.frequent.concat(filteredHistory.recent));
 
-            item = new entity.Model({
-               rawData: oldItem.getRawData(),
-               adapter: items.getAdapter(),
-               format: items.getFormat()
+        items.clear();
+
+        // Clear может стереть исходный формат. Поэтому восстанавливаем его из исходного рекордсета.
+        // https://online.sbis.ru/opendoc.html?guid=21e24eb1-8beb-46c8-acc0-43ec7286b2d4
+        if (!oldItems.hasDecalredFormat()) {
+            const format = oldItems.getFormat();
+            factory(format).each((field: any): void => {
+                this._addProperty(items, field.getName(), field.getType(), field.getDefaultValue());
             });
-            if (self._parentProperty) {
-               item.set(self._parentProperty, null);
+        }
+
+        this._addProperty(items, 'pinned', 'boolean', false);
+        this._addProperty(items, 'recent', 'boolean', false);
+        this._addProperty(items, 'frequent', 'boolean', false);
+        this._addProperty(items, 'HistoryId', 'string', this._$historySource.getHistoryId() || '');
+        this._addProperty(items, 'originalId', 'string', '');
+        this._fillItems(filteredHistory, 'pinned', oldItems, items);
+        this._fillFrequentItems(filteredHistory, oldItems, items);
+        this._fillItems(filteredHistory, 'recent', oldItems, items);
+        oldItems.forEach((item: Model): void => {
+            // id is always string at history. To check whether an item belongs to history, convert id to string.
+            const id = String(item.getKey());
+            const historyItem = historyIds.indexOf(id);
+            let newItem;
+            if (historyItem === -1 || item.get(this._$parentProperty)) {
+                newItem = new Model({
+                    rawData: item.getRawData(),
+                    adapter: items.getAdapter(),
+                    format: items.getFormat()
+                });
+                if (filteredHistory.pinned.indexOf(id) !== -1) {
+                    newItem.set('pinned', true);
+                }
+                if (filteredHistory.pinned.indexOf(id) !== -1 ||
+                    filteredHistory.recent.indexOf(id) !== -1 ||
+                    filteredHistory.frequent.indexOf(id) !== -1
+                ) {
+                    this._setHistoryFields(newItem, item.getKeyProperty(), id);
+                }
+                items.add(newItem);
             }
+        });
 
-            //removing group allows items to be shown in history items
-            _private.prepareHistoryItem(item, historyType);
-            item.set('HistoryId', historyId);
-            items.add(item);
-         } else {
-            _private.itemNotExist(self, id, historyType);
-         }
-      });
-   },
+        return items;
+    }
 
-   prepareHistoryItem(item, historyType) {
-      item.set(historyType, true);
-      item.has('group') && item.set('group', null);
-   },
+    private _fillItems(history: any, historyType: string, oldItems: RecordSet, items: RecordSet): void {
+        let item;
+        let oldItem;
+        let historyId;
+        let historyItem;
 
-   itemNotExist(self, id, historyType) {
-      if (historyType === 'pinned') {
-         // удаляем элемент из pinned, если его нет в оригинальных данных,
-         // иначе он будет занимаеть место в запиненных, хотя на самом деле такой записи нет
-         _private.unpinItemById(self, id);
-      }
-   },
+        history[historyType].forEach((id: string) => {
+            oldItem = oldItems.getRecordById(id);
+            if (oldItem) {
+                historyItem = this._$history[historyType].getRecordById(id);
+                historyId = historyItem.get('HistoryId');
 
-   unpinItemById(self, id) {
-      const meta = {'$_pinned': false};
-      const keyProperty = _private.getKeyProperty(self);
-      const rawData = {};
+                item = new Model({
+                    rawData: oldItem.getRawData(),
+                    adapter: items.getAdapter(),
+                    format: items.getFormat()
+                });
+                if (this._$parentProperty) {
+                    item.set(this._$parentProperty, null);
+                }
 
-      rawData.pinned = true;
-      rawData[keyProperty] = id;
-
-      const item = new entity.Model({
-         rawData: rawData,
-         keyProperty
-      });
-
-      _private.updatePinned(self, item, meta);
-   },
-
-   fillFrequentItems: function (self, history, oldItems, items) {
-      var config = {
-         adapter: items.getAdapter(),
-         keyProperty: items.getKeyProperty(),
-         format: items.getFormat()
-      };
-      var frequentItems = new RecordSet(config);
-      var displayProperty = self._displayProperty || 'title';
-      var firstName, secondName;
-
-      this.fillItems(self, history, 'frequent', oldItems, frequentItems);
-
-      // alphabet sorting
-      frequentItems = chain.factory(frequentItems).sort(function (first, second) {
-         firstName = first.get(displayProperty);
-         secondName = second.get(displayProperty);
-
-         return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
-      }).value(factory.recordSet, config);
-
-      items.append(frequentItems);
-   },
-
-   addProperty: function (record, name, type, defaultValue) {
-      if (record.getFormat().getFieldIndex(name) === -1) {
-         record.addField({
-            name: name,
-            type: type,
-            defaultValue: defaultValue
-         });
-      }
-   },
-
-   updatePinned: function (self, item, meta) {
-      var pinned = self._history.pinned;
-      var id;
-      if (item.get('pinned')) {
-         item.set('pinned', false);
-         pinned.remove(pinned.getRecordById(item.getId()));
-         self._historyItems = null;
-      } else {
-         if (_private.checkPinnedAmount(pinned)) {
-            id = item.getId();
-            item.set('pinned', true);
-            pinned.add(this.getRawHistoryItem(self, id, item.get('HistoryId') || id));
-            self._historyItems = null;
-         } else {
-            _private.showNotification();
-            return false;
-         }
-      }
-      self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
-      return _private.getSourceByMeta(self, meta).update(item, meta);
-   },
-
-   showNotification(): void {
-      import('Controls/popup').then((popup) => {
-         popup.Notification.openPopup({
-            template: 'Controls/popupTemplate:NotificationSimple',
-            templateOptions: {
-               style: 'danger',
-               text: rk('Невозможно закрепить более 10 пунктов'),
-               icon: 'Alert'
-            }
-         });
-      });
-   },
-
-   getKeyProperty: function(self) {
-      let source;
-      if (cInstance.instanceOfModule(self.originSource, 'Types/_source/IDecorator')) {
-         source = self.originSource.getOriginal();
-      } else {
-         source = self.originSource;
-      }
-      return source.getKeyProperty();
-   },
-
-   resolveRecent: function (self, data) {
-      var recent = self._history && self._history.recent;
-      if (recent) {
-         var items = [];
-         chain.factory(data).each(function (item) {
-            if (!(self._nodeProperty && item.get(self._nodeProperty))) {
-               let id = item.get(_private.getKeyProperty(self));
-               var hItem = recent.getRecordById(id);
-               if (hItem) {
-                  recent.remove(hItem);
-               }
-               items.push(_private.getRawHistoryItem(self, id, item.get('HistoryId') || self.historySource.getHistoryId()));
-            }
-         });
-         recent.prepend(items);
-      }
-   },
-
-   updateRecentInItems(self, recent): boolean {
-      let updateResult = false;
-
-      const getFirstRecentItemIndex = () => {
-         let recentItemIndex = -1;
-         self._historyItems.each((item, index) => {
-            if (recentItemIndex === -1 && item.get('recent') && !item.get('pinned')) {
-               recentItemIndex = index;
-            }
-         });
-         return recentItemIndex;
-      };
-
-      const moveRecentItemToTop = (item) => {
-         const firstRecentItemIndex = getFirstRecentItemIndex();
-         const itemIndex = self._historyItems.getIndex(item);
-
-         if (firstRecentItemIndex !== itemIndex) {
-            self._historyItems.move(
-                self._historyItems.getIndex(item),
-                firstRecentItemIndex + 1
-            );
-         }
-      };
-
-      if (recent.length === 1) {
-         const itemId = recent[0].get(_private.getKeyProperty(self));
-         const item = self._historyItems.getRecordById(itemId);
-
-         if (item) {
-            const isRecent = item.get('recent');
-            const isPinned = item.get('pinned');
-            const isFrequent = item.get('frequent');
-
-            if (isFrequent || isRecent && !isPinned) {
-               updateResult = true;
-
-               if (isRecent) {
-                  moveRecentItemToTop(item);
-               }
-            }
-         }
-      }
-
-      return updateResult;
-   },
-
-   updateRecent: function (self, data, meta) {
-      let historyData;
-      let recentData;
-
-      if (data instanceof Array) {
-         historyData = {
-            ids: []
-         };
-         chain.factory(data).each(function(item) {
-            let itemId = item.get(_private.getKeyProperty(self));
-            historyData.ids.push(itemId);
-         });
-         recentData = data;
-      } else {
-         historyData = data;
-         recentData = [data];
-      }
-
-      _private.resolveRecent(self, recentData);
-      if (self._historyItems && !_private.updateRecentInItems(self, recentData)) {
-         self._historyItems = null;
-      }
-
-      self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
-      return _private.getSourceByMeta(self, meta).update(historyData, meta);
-   },
-
-   getRawHistoryItem: function (self, id, hId) {
-      return new entity.Model({
-         rawData: {
-            d: [String(id), hId], // id is always string at history.
-            s: [{
-                  n: 'ObjectId',
-                  t: 'Строка'
-               },
-               {
-                  n: 'HistoryId',
-                  t: 'Строка'
-               }
-            ]
-         },
-         adapter: self._history.recent.getAdapter()
-      });
-   },
-
-   checkPinnedAmount: function (pinned) {
-      return pinned.getCount() !== Constants.MAX_HISTORY;
-   },
-
-   isError(data: unknown): boolean {
-      return data instanceof Error;
-   }
-};
-
-var Source = CoreExtend.extend([sourceLib.ISource, entity.OptionsToPropertyMixin], {
-
-   //for compatibility with Types lib, will removed after rewriting module on typescript
-   '[Types/_source/ICrud]': true,
-   _history: null,
-   _oldItems: null,
-   _parentProperty: null,
-   _nodeProperty: null,
-   _displayProperty: null,
-   _parents: null,
-   _serialize: false,
-
-   constructor: function HistorySource(cfg) {
-      this.originSource = cfg.originSource;
-      this.historySource = cfg.historySource;
-      this._parentProperty = cfg.parentProperty;
-      this._nodeProperty = cfg.nodeProperty;
-      this._displayProperty = cfg.displayProperty;
-      this._pinned = cfg.pinned;
-   },
-
-   create: function (meta) {
-      return _private.getSourceByMeta(this, meta).create(meta);
-   },
-
-   read: function (key, meta) {
-      return _private.getSourceByMeta(this, meta).read(key, meta);
-   },
-
-   update: function (data, meta) {
-      var self = this;
-      if (meta.hasOwnProperty('$_pinned')) {
-         return Deferred.success(_private.updatePinned(self, data, meta));
-      }
-      if (meta.hasOwnProperty('$_history')) {
-         return Deferred.success(_private.updateRecent(self, data, meta));
-      }
-      return _private.getSourceByMeta(this, meta).update(data, meta);
-   },
-
-   destroy: function (keys, meta) {
-      return _private.getSourceByMeta(this, meta).destroy(keys, meta);
-   },
-
-   query: function (query) {
-      var self = this;
-      var pd = new ParallelDeferred({ stopOnFirstError: false });
-      var where = query.getWhere();
-      var newItems;
-
-      let originSourceQuery;
-      let historySourceQuery;
-
-      // For Selector/Suggest load data from history, if there is a historyKeys
-      if (where && (where['$_history'] === true || where['historyKeys'])) {
-         delete query._where['$_history'];
-
-         historySourceQuery = self.historySource.query();
-         pd.push(historySourceQuery);
-
-         if (where['historyKeys']) {
-            where = clone(where);
-            delete where['historyKeys'];
-            query.where(where);
-         }
-
-         originSourceQuery = self.originSource.query(query);
-         pd.push(originSourceQuery);
-
-         return pd.done().getResult().addBoth((data) => {
-            const isCancelled = _private.isError(data) && data.canceled;
-            let result;
-
-            // method returns error
-            if (!isCancelled && data[1] && !_private.isError(data[1])) {
-               self._oldItems = data[1].getAll();
-
-               // history service returns error
-               if (data[0] && !_private.isError(data[0])) {
-                  _private.initHistory(self, data[0], self._oldItems);
-                  newItems = _private.getItemsWithHistory(self, self._history, self._oldItems);
-                  self.historySource.saveHistory(self.historySource.getHistoryId(), self._history);
-               } else {
-                  newItems = self._oldItems;
-               }
-               result = new sourceLib.DataSet({
-                  rawData: newItems.getRawData(true),
-                  keyProperty: newItems.getKeyProperty(),
-                  adapter: newItems.getAdapter(),
-                  model: newItems.getModel()
-               });
-            } else if (isCancelled) {
-               // Необходимо вернуть ошибку из deferred'a, чтобы вся цепочка завершилась ошибкой
-               result = data;
-               historySourceQuery.cancel();
-               originSourceQuery.cancel();
+                //removing group allows items to be shown in history items
+                this._prepareHistoryItem(item, historyType);
+                item.set('HistoryId', historyId);
+                items.add(item);
             } else {
-               result = data[1];
+                this._itemNotExist(id, historyType);
+            }
+        });
+    }
+
+    private _unpinItemById(id: string): void {
+        const meta = {$_pinned: false};
+        const keyProperty = this._getKeyProperty();
+        const rawData: Record<string, any> = {};
+
+        rawData.pinned = true;
+        rawData[keyProperty] = id;
+
+        const item = new Model({
+            rawData,
+            keyProperty
+        });
+
+        this._updatePinned(item, meta);
+    }
+
+    private _fillFrequentItems(history: IHistoryData, oldItems: RecordSet, items: RecordSet): void {
+        const config = {
+            adapter: items.getAdapter(),
+            keyProperty: items.getKeyProperty(),
+            format: items.getFormat()
+        };
+        let frequentItems = new RecordSet(config);
+        const displayProperty = this._$displayProperty || 'title';
+        let firstName;
+        let secondName;
+
+        this._fillItems(history, 'frequent', oldItems, frequentItems);
+
+        // alphabet sorting
+        frequentItems = factory(frequentItems).sort((first, second): number => {
+            firstName = first.get(displayProperty);
+            secondName = second.get(displayProperty);
+
+            return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
+        }).value(RSFactory.recordSet, config);
+
+        items.append(frequentItems);
+    }
+
+    private _addProperty(record: Model, name: string, type: string, defaultValue: any): void {
+        if (record.getFormat().getFieldIndex(name) === -1) {
+            record.addField({name, type, defaultValue});
+        }
+    }
+
+    private _updatePinned(item: Model, meta: Record<string, any>): any {
+        const pinned = this._$history.pinned;
+        let id;
+        if (item.get('pinned')) {
+            item.set('pinned', false);
+            pinned.remove(pinned.getRecordById(item.getKey()));
+            this._$historyItems = null;
+        } else {
+            if (this._checkPinnedAmount(pinned)) {
+                id = item.getKey();
+                item.set('pinned', true);
+                pinned.add(this._getRawHistoryItem(id, item.get('HistoryId') || id));
+                this._$historyItems = null;
+            } else {
+                this._showNotification();
+                return false;
+            }
+        }
+        this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(item, meta);
+    }
+
+    private _showNotification(): void {
+        import('Controls/popup').then((popup) => {
+            popup.Notification.openPopup({
+                template: 'Controls/popupTemplate:NotificationSimple',
+                templateOptions: {
+                    style: 'danger',
+                    text: rk('Невозможно закрепить более 10 пунктов'),
+                    icon: 'Alert'
+                }
+            });
+        });
+    }
+
+    private _getKeyProperty(): string {
+        let source;
+        if (cInstance.instanceOfModule(this._$originSource, 'Types/_source/IDecorator')) {
+            source = this._$originSource.getOriginal();
+        } else {
+            source = this._$originSource;
+        }
+        return source.getKeyProperty();
+    }
+
+    private _resolveRecent(data: any): void {
+        const recent = this._$history?.recent;
+        if (recent) {
+            const items = [];
+            factory(data).each((item: Model): void => {
+                if (!(this._$nodeProperty && item.get(this._$nodeProperty))) {
+                    const id = item.get(this._getKeyProperty());
+                    const hItem = recent.getRecordById(id);
+                    if (hItem) {
+                        recent.remove(hItem);
+                    }
+                    const historyId = this._getRawHistoryItem(id, item.get('HistoryId') ||
+                        this._$historySource.getHistoryId());
+                    items.push(historyId);
+                }
+            });
+            recent.prepend(items);
+        }
+    }
+
+    private _updateRecent(data: any, meta: any): Promise<any> {
+        let historyData;
+        let recentData;
+
+        if (data instanceof Array) {
+            historyData = {
+                ids: []
+            };
+            factory(data).each((item: Model): void => {
+                const itemId = item.get(this._getKeyProperty());
+                historyData.ids.push(itemId);
+            });
+            recentData = data;
+        } else {
+            historyData = data;
+            recentData = [data];
+        }
+
+        this._resolveRecent(recentData);
+        if (this._$historyItems && !this._updateRecentInItems(recentData)) {
+            this._$historyItems = null;
+        }
+
+        this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(historyData, meta);
+    }
+
+    private _updateRecentInItems(recent: Model[]): boolean {
+        let updateResult = false;
+
+        const getFirstRecentItemIndex = () => {
+            let recentItemIndex = -1;
+            this._$historyItems.each((item, index) => {
+                if (recentItemIndex === -1 && item.get('recent') && !item.get('pinned')) {
+                    recentItemIndex = index;
+                }
+            });
+            return recentItemIndex;
+        };
+
+        const moveRecentItemToTop = (item) => {
+            const firstRecentItemIndex = getFirstRecentItemIndex();
+            const itemIndex = this._$historyItems.getIndex(item);
+
+            if (firstRecentItemIndex !== itemIndex) {
+                this._$historyItems.move(
+                    this._$historyItems.getIndex(item),
+                    firstRecentItemIndex + 1
+                );
+            }
+        };
+
+        if (recent.length === 1) {
+            const itemId = recent[0].get(this._getKeyProperty());
+            const item = this._$historyItems.getRecordById(itemId);
+
+            if (item) {
+                const isRecent = item.get('recent');
+                const isPinned = item.get('pinned');
+                const isFrequent = item.get('frequent');
+
+                if (isFrequent || isRecent && !isPinned) {
+                    updateResult = true;
+
+                    if (isRecent) {
+                        moveRecentItemToTop(item);
+                    }
+                }
+            }
+        }
+
+        return updateResult;
+    }
+
+    private _getRawHistoryItem(id: string, hId: string): Model {
+        return new Model({
+            rawData: {
+                d: [String(id), hId], // id is always string at history.
+                s: [{
+                    n: 'ObjectId',
+                    t: 'Строка'
+                },
+                    {
+                        n: 'HistoryId',
+                        t: 'Строка'
+                    }
+                ]
+            },
+            adapter: this._$history.recent.getAdapter()
+        });
+    }
+
+    private _checkPinnedAmount(pinned: RecordSet): boolean {
+        return pinned.getCount() !== Constants.MAX_HISTORY;
+    }
+
+    private _isError(data: unknown): boolean {
+        return data instanceof Error;
+    }
+
+// endregion
+    create(meta: Record<string, any>): Promise<any> {
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).create(meta);
+    }
+
+    read(key: string, meta: any): Promise<any> {
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).read(key, meta);
+    }
+
+    update(data: any, meta: any): Promise<any> {
+        if (meta.hasOwnProperty('$_pinned')) {
+            return Promise.resolve(this._updatePinned(data, meta));
+        }
+        if (meta.hasOwnProperty('$_history')) {
+            return Promise.resolve(this._updateRecent(data, meta));
+        }
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(data, meta);
+    }
+
+    destroy(keys: string[], meta: any): any {
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).destroy(keys, meta);
+    }
+
+    query(query: Query): Promise<DataSet> {
+        const pd = new ParallelDeferred({ stopOnFirstError: false });
+        let where = query.getWhere() as Record<string, any>;
+        let newItems;
+
+        let originSourceQuery;
+        let historySourceQuery;
+
+        // For Selector/Suggest load data from history, if there is a historyKeys
+        if (where && (where.$_history === true || where.historyKeys)) {
+            //@ts-ignore
+            delete query._where.$_history;
+
+            historySourceQuery = this._$historySource.query();
+            pd.push(historySourceQuery);
+
+            if (where.historyKeys) {
+                where = object.clone(where);
+                delete where.historyKeys;
+                query.where(where);
             }
 
-            return result;
-         });
-      }
-      return self.originSource.query(query);
-   },
+            originSourceQuery = this._$originSource.query(query);
+            pd.push(originSourceQuery);
 
-   getItems(withHistory: boolean = true): RecordSet {
-      if (this._history && withHistory) {
-         return _private.getItemsWithHistory(this, this._history, this._oldItems);
-      } else {
-         return this._oldItems;
-      }
-   },
+            return pd.done().getResult().addBoth((data) => {
+                const isCancelled = this._isError(data) && data.canceled;
+                let result;
 
-   prepareItems: function(items) {
-      this._historyItems = null;
-      this._oldItems = items.clone();
-      return this.getItems();
-   },
+                // method returns error
+                if (!isCancelled && data[1] && !this._isError(data[1])) {
+                    this._$oldItems = data[1].getAll();
 
-   resetHistoryFields: function(item, keyProperty) {
-      return _private.resetHistoryFields(item, keyProperty);
-   },
+                    // history service returns error
+                    if (data[0] && !this._isError(data[0])) {
+                        this._initHistory(data[0], this._$oldItems);
+                        newItems = this._getItemsWithHistory(this._$history, this._$oldItems);
+                        this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
+                    } else {
+                        newItems = this._$oldItems;
+                    }
+                    result = new DataSet({
+                        rawData: newItems.getRawData(true),
+                        keyProperty: newItems.getKeyProperty(),
+                        adapter: newItems.getAdapter(),
+                        model: newItems.getModel()
+                    });
+                } else if (isCancelled) {
+                    // Необходимо вернуть ошибку из deferred'a, чтобы вся цепочка завершилась ошибкой
+                    result = data;
+                    historySourceQuery.cancel();
+                    originSourceQuery.cancel();
+                } else {
+                    result = data[1];
+                }
 
-   // <editor-fold desc="Types/_source/OptionsMixin">
+                return result;
+            });
+        }
+        return this._$originSource.query(query);
+    }
 
-   // Support options mixin
-   // proxy getOptions, setOptions, addOptions methods to original source
-   getOptions: function () {
-      return this.originSource.getOptions();
-   },
+    getItems(withHistory: boolean = true): RecordSet {
+        if (this._$history && withHistory) {
+            return this._getItemsWithHistory(this._$history, this._$oldItems);
+        } else {
+            return this._$oldItems;
+        }
+    }
 
-   setOptions: function (options) {
-      return this.originSource.setOptions(options);
-   },
+    prepareItems(items: RecordSet): RecordSet {
+        this._$historyItems = null;
+        this._$oldItems = items.clone();
+        return this.getItems();
+    }
 
-   addOptions: function (options) {
-      return this.originSource.addOptions(options);
-   },
+    resetHistoryFields(item: Model, keyProperty: string): Model {
+        return this._resetHistoryFields(item, keyProperty);
+    }
 
-   getHistory() {
-      return this._history;
-   },
+    getHistory(): IHistoryData {
+        return this._$history;
+    }
 
-   setHistory(history) {
-      this._history = history;
-   }
+    setHistory(history: IHistoryData): void {
+        this._$history = history;
+    }
+}
 
-   // </editor-fold>
+Object.assign(HistorySource.prototype, {
+    _moduleName: 'Controls/history:Source'
 });
-
-Source._private = _private;
-
-export = Source;

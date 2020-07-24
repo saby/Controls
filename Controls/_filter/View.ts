@@ -667,7 +667,6 @@ var Filter = Control.extend({
     _beforeMount: function(options, context, receivedState) {
         this._configs = {};
         this._displayText = {};
-
         let resultDef;
 
         if (receivedState) {

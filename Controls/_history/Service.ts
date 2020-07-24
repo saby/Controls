@@ -1,158 +1,24 @@
-// @ts-ignore
-import {SbisService, DataSet, ICrud} from 'Types/source';
+import {SbisService, DataSet, ICrud, IData} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {OptionsToPropertyMixin} from 'Types/entity';
-import CoreExtend = require('Core/core-extend');
-import Constants = require('Controls/_history/Constants');
+import {OptionsToPropertyMixin, SerializableMixin, Model} from 'Types/entity';
+import * as Constants from './Constants';
 import Deferred = require('Core/Deferred');
-import coreClone = require('Core/core-clone');
+import {object, mixin} from 'Types/util';
 import DataStorage from './DataStorage';
 import LoadPromisesStorage from './LoadPromisesStorage';
 import {Logger} from 'UI/Utils';
 import {detection} from 'Env/Env';
 
-var STORAGES_USAGE = {};
-
-var _private = {
-   getHistoryDataSource: function (self) {
-      if (!self._historyDataSource) {
-         self._historyDataSource = new SbisService({
-            endpoint: {
-               address: '/input-history/service/',
-               contract: 'InputHistory'
-            }
-         });
-      }
-      return self._historyDataSource;
-   },
-
-   callQuery: function(self, method, params) {
-      return _private.getHistoryDataSource(self).call(method, params);
-   },
-
-   load: function(self) {
-      let resultDef;
-      if (self._favorite) {
-         resultDef = _private.callQuery(self, 'ClientAndUserHistoryList', {
-            params: {
-               historyId: self._historyId,
-               client: { count: Constants.MAX_HISTORY_REPORTS },
-               pinned: { count: Constants.MAX_HISTORY_REPORTS },
-               recent: { count: Constants.MAX_HISTORY_REPORTS },
-               getObjectData: true
-            }
-         });
-      } else {
-         if (self._historyId || self._historyIds && self._historyIds.length) {
-            resultDef = _private.callQuery(self, 'UnionMultiHistoryIndexesList', {
-               params: {
-                  historyIds: self._historyId ? [self._historyId] : self._historyIds,
-                  pinned: {count: self._pinned ? Constants.MAX_HISTORY : 0},
-                  frequent: {count: self._frequent ? (Constants.MAX_HISTORY - Constants.MIN_RECENT) : 0},
-                  recent: {count: self._recent || Constants.MAX_HISTORY},
-                  getObjectData: self._dataLoaded
-               }
-            });
-         } else {
-            Logger.error('Controls/history: Не установлен идентификатор истории (опция historyId)', self);
-            resultDef = Promise.reject();
-         }
-      }
-      return resultDef;
-   },
-
-   getMethodNameByIdType: function (stringMethod, intMethod, id) {
-      return typeof id === 'number' ? intMethod : stringMethod;
-   },
-
-   updateFavoriteData: function(self, data, meta) {
-      _private.getHistoryDataSource(self).call('UpdateData', {
-         history_id: self._historyId || data.get('HistoryId'),
-         object_id: data.getId(),
-         data: data.get('ObjectData'),
-         history_type: Number(meta.isClient)
-      });
-   },
-
-    deleteItem: function(self, data, meta) {
-        return _private.callQuery(self, 'Delete', {
-            history_id: self._historyId,
-            object_id: data.getId(),
-            history_type: Number(meta.isClient)
-        });
-    },
-
-    updateHistory: function (self, data, meta) {
-      if (meta.parentKey) {
-         _private.callQuery(self, 'AddHierarchyList', {
-            history_id: self._historyId,
-            parent1: meta.parentKey,
-            ids: data.ids
-         });
-      } else if (data.ids) {
-         _private.callQuery(self, _private.getMethodNameByIdType('AddList', 'AddIntList', data.ids[0]), {
-            history_id: self._historyId,
-            ids: data.ids,
-            history_context: null
-         });
-      } else {
-         var id = data.getId();
-         _private.callQuery(self, _private.getMethodNameByIdType('Add', 'AddInt', id), {
-            history_id: data.get('HistoryId') || self._historyId,
-            id: id,
-            history_context: null
-         });
-      }
-   },
-
-   addFromData: function (self, data) {
-      return _private.getHistoryDataSource(self).call('AddFromData', {
-         history_id: self._historyId,
-         data: data
-      });
-   },
-
-   updatePinned: function (self, data, meta) {
-      const id = data.getId();
-      const historyId = data.get('HistoryId') || self._historyId;
-      if (meta.isClient) {
-         _private.callQuery(self, 'PinForClient', {
-            history_id: historyId,
-            object_id: id,
-            data: data.get('ObjectData')
-         });
-      } else {
-         _private.callQuery(self, _private.getMethodNameByIdType('SetPin', 'SetIntPin', id), {
-            history_id: historyId,
-            id: id,
-            history_context: null,
-            pin: !!meta['$_pinned']
-         });
-      }
-   },
-
-   incrementUsage: function (self) {
-      if (!STORAGES_USAGE[self._historyId]) {
-         STORAGES_USAGE[self._historyId] = 0;
-      }
-      STORAGES_USAGE[self._historyId]++;
-   },
-
-   decrementUsage: function (self) {
-      STORAGES_USAGE[self._historyId]--;
-      if (STORAGES_USAGE[self._historyId] === 0) {
-         DataStorage.delete(self._historyId);
-      }
-   },
-
-   createRecordSet(data: object): RecordSet {
-      return new RecordSet({
-         rawData: data,
-         keyProperty: 'ObjectId',
-         adapter: 'adapter.sbis'
-      });
-   }
-};
+export interface IHistoryServiceOptions {
+    historyId: string;
+    historyIds?: string[];
+    pinned?: Array<string | number>;
+    frequent?: Array<string | number>;
+    recent?: Array<string | number>;
+    favorite?: Array<string | number>;
+    dataLoaded?: boolean;
+}
+const STORAGES_USAGE = {};
 
 /**
  * Источник, который работает с <a href="/doc/platform/developmentapl/middleware/input-history-service/">сервисом истории ввода</a>.
@@ -272,136 +138,274 @@ var _private = {
  * false - BL return items without data
  */
 
-var Service = CoreExtend.extend([ICrud, OptionsToPropertyMixin], {
-   _historyDataSource: null,
-   _historyId: null,
-   _historyIds: null,
-   _pinned: null,
-   _frequent: null,
-   _dataLoaded: false,
+export default class HistroryService extends mixin<SerializableMixin, OptionsToPropertyMixin>(
+    SerializableMixin,
+    OptionsToPropertyMixin
+) implements ICrud {
+    protected _$historyDataSource: SbisService = null;
+    protected _$historyId: string = null;
+    protected _$historyIds: string[] = null;
+    protected _$pinned: Array<string | number> = null;
+    protected _$frequent: Array<string | number> = null;
+    protected _$favorite: Array<string | number> = null;
+    protected _$recent: number = null;
+    protected _$dataLoaded: boolean = null;
 
-   constructor: function Memory(cfg) {
-      if (!cfg.historyId && !cfg.historyIds) {
-         throw new Error('"historyId" not found in options.');
-      }
-      this._historyId = cfg.historyId;
-      this._historyIds = cfg.historyIds;
-      this._pinned = cfg.pinned;
-      this._frequent = cfg.frequent;
-      this._recent = cfg.recent;
-      this._favorite = cfg.favorite;
-      this._dataLoaded = cfg.dataLoaded;
-   },
-
-   update: function (data, meta) {
-      if (meta.hasOwnProperty('$_addFromData')) {
-         return _private.addFromData(this, data);
-      }
-      if (meta.hasOwnProperty('$_pinned')) {
-         _private.updatePinned(this, data, meta);
-      }
-      if (meta.hasOwnProperty('$_history')) {
-         _private.updateHistory(this, data, meta);
-      }
-      if (meta.hasOwnProperty('$_favorite')) {
-         _private.updateFavoriteData(this, data, meta);
-      }
-
-      return {};
-   },
-
-   deleteItem: function(data, meta) {
-      return _private.deleteItem(this, data, meta);
-   },
-
-   query(): Deferred<DataSet> {
-      const self = this;
-      const historyId = self._historyId;
-      const storageDef = LoadPromisesStorage.read(historyId);
-      const storageData = DataStorage.read(historyId);
-      let resultDef;
-
-      function getHistoryDataSet() {
-         return new DataSet({
-            rawData: self.getHistory(historyId)
-         });
-      }
-
-      if (storageDef) {
-         resultDef = new Deferred();
-         // create new deferred, so in the first callback function, the result of the query will be changed
-         storageDef.addBoth(() => {
-            resultDef.callback(getHistoryDataSet());
-         });
-      } else if (!storageDef && !storageData) {
-         /**
-          * В retailOffline нет сервиса истории и его там нельзя вызывать, в таком случае работаем без истории вообще.
-          * FIXME: https://online.sbis.ru/opendoc.html?guid=f0e4521b-873a-4b1a-97fe-2ecbb12409d1
-          */
-         if (detection.retailOffline) {
-            const emptyData = new DataSet({
-               rawData: {
-                  pinned: _private.createRecordSet({}),
-                  frequent: _private.createRecordSet({}),
-                  recent: _private.createRecordSet({})
-               }
+    constructor(options: IHistoryServiceOptions) {
+        super(options);
+        OptionsToPropertyMixin.call(this, options);
+        SerializableMixin.call(this);
+    }
+// region private
+    private _getHistoryDataSource(): SbisService {
+        if (!this._$historyDataSource) {
+            this._$historyDataSource = new SbisService({
+                endpoint: {
+                    address: '/input-history/service/',
+                    contract: 'InputHistory'
+                }
             });
-            resultDef = Deferred.success(emptyData);
-         } else {
-            resultDef = _private.load(this);
-         }
-         LoadPromisesStorage.write(historyId, resultDef);
+        }
+        return this._$historyDataSource;
+    }
 
-         resultDef.addBoth((res) => {
-            LoadPromisesStorage.delete(historyId);
-            return res;
-         });
-      } else {
-         resultDef = Deferred.success(getHistoryDataSet());
-      }
-      _private.incrementUsage(this);
-      return resultDef;
-   },
+    private _callQuery(method: string, params: Record<string, any>): any {
+        return this._getHistoryDataSource().call(method, params);
+    }
 
-   destroy(id: number|string): Deferred<null> {
-      let  result;
+    private _getMethodNameByIdType(stringMethod: string, intMethod: string, id: number | string): string {
+        return typeof id === 'number' ? intMethod : stringMethod;
+    }
 
-      if (id) {
-         result = _private.callQuery(this, 'Delete', {
-               history_id: this._historyId,
-               object_id: id
-         });
-      } else {
-         result = Deferred.success(null);
-      }
+    private _updateFavoriteData(data: any, meta: any): void {
+        this._getHistoryDataSource().call('UpdateData', {
+            history_id: this._$historyId || data.get('HistoryId'),
+            object_id: data.getId(),
+            data: data.get('ObjectData'),
+            history_type: Number(meta.isClient)
+        });
+    }
 
-      _private.decrementUsage(this);
-      return result;
-   },
+    private _load(): Promise<any> {
+        let resultDef;
+        if (this._$favorite) {
+            resultDef = this._callQuery('ClientAndUserHistoryList', {
+                params: {
+                    historyId: this._$historyId,
+                    client: { count: Constants.MAX_HISTORY_REPORTS },
+                    pinned: { count: Constants.MAX_HISTORY_REPORTS },
+                    recent: { count: Constants.MAX_HISTORY_REPORTS },
+                    getObjectData: true
+                }
+            });
+        } else {
+            if (this._$historyId || this._$historyIds?.length) {
+                resultDef = this._callQuery('UnionMultiHistoryIndexesList', {
+                    params: {
+                        historyIds: this._$historyId ? [this._$historyId] : this._$historyIds,
+                        pinned: {count: this._$pinned ? Constants.MAX_HISTORY : 0},
+                        frequent: {count: this._$frequent ? (Constants.MAX_HISTORY - Constants.MIN_RECENT) : 0},
+                        recent: {count: this._$recent || Constants.MAX_HISTORY},
+                        getObjectData: this._$dataLoaded
+                    }
+                });
+            } else {
+                Logger.error('Controls/history: Не установлен идентификатор истории (опция historyId)', this);
+                resultDef = Promise.reject();
+            }
+        }
+        return resultDef;
+    }
 
-   /**
-    * Returns a service history identifier
-    * @returns {String}
-    */
-   getHistoryId: function () {
-      return this._historyId;
-   },
+    private _deleteItem(data: any, meta: any): Promise<any> {
+        return this._callQuery( 'Delete', {
+            history_id: this._$historyId,
+            object_id: data.getId(),
+            history_type: Number(meta.isClient)
+        });
+    }
 
-   /**
-    * Save new history
-    */
-   saveHistory: function (historyId, newHistory) {
-      DataStorage.write(historyId, coreClone(newHistory));
-   },
+    private _updateHistory(data: any, meta: any): any {
+        if (meta.parentKey) {
+            this._callQuery('AddHierarchyList', {
+                history_id: this._$historyId,
+                parent1: meta.parentKey,
+                ids: data.ids
+            });
+        } else if (data.ids) {
+            this._callQuery(this._getMethodNameByIdType('AddList', 'AddIntList', data.ids[0]), {
+                history_id: this._$historyId,
+                ids: data.ids,
+                history_context: null
+            });
+        } else {
+            const id = data.getKey();
+            this._callQuery(this._getMethodNameByIdType('Add', 'AddInt', id), {
+                history_id: data.get('HistoryId') || this._$historyId,
+                id,
+                history_context: null
+            });
+        }
+    }
 
-   /**
-    * Returns a set of history items
-    * @returns {Object}
-    */
-   getHistory: function (historyId) {
-      return DataStorage.read(historyId);
-   }
+    private _addFromData(data: any): any {
+        return this._getHistoryDataSource().call('AddFromData', {
+            history_id: this._$historyId,
+            data
+        });
+    }
+
+    private _updatePinned(data: any, meta: any): any {
+        const id = data.getKey();
+        const historyId = data.get('HistoryId') || this._$historyId;
+        if (meta.isClient) {
+            this._callQuery( 'PinForClient', {
+                history_id: historyId,
+                object_id: id,
+                data: data.get('ObjectData')
+            });
+        } else {
+            this._callQuery(this._getMethodNameByIdType('SetPin', 'SetIntPin', id), {
+                history_id: historyId,
+                id,
+                history_context: null,
+                pin: !!meta.$_pinned
+            });
+        }
+    }
+
+    private _incrementUsage(): void {
+        if (!STORAGES_USAGE[this._$historyId]) {
+            STORAGES_USAGE[this._$historyId] = 0;
+        }
+        STORAGES_USAGE[this._$historyId]++;
+    }
+
+    private _decrementUsage(): void {
+        STORAGES_USAGE[this._$historyId]--;
+        if (STORAGES_USAGE[this._$historyId] === 0) {
+            DataStorage.delete(this._$historyId);
+        }
+    }
+
+    private _createRecordSet(data: object): RecordSet {
+        return new RecordSet({
+            rawData: data,
+            keyProperty: 'ObjectId',
+            adapter: 'adapter.sbis'
+        });
+    }
+// endregion
+
+    update(data: any, meta: any): Promise<any> | object {
+        if (meta.hasOwnProperty('$_addFromData')) {
+            return this._addFromData(data);
+        }
+        if (meta.hasOwnProperty('$_pinned')) {
+            this._updatePinned(data, meta);
+        }
+        if (meta.hasOwnProperty('$_history')) {
+            this._updateHistory(data, meta);
+        }
+        if (meta.hasOwnProperty('$_favorite')) {
+            this._updateFavoriteData(data, meta);
+        }
+
+        return {};
+    }
+
+    deleteItem(data: any, meta: any): any {
+        return this._deleteItem(data, meta);
+    }
+
+    query(): Deferred<DataSet> {
+        const historyId = this._$historyId;
+        const storageDef = LoadPromisesStorage.read(historyId);
+        const storageData = DataStorage.read(historyId);
+        let resultDef;
+
+        const getHistoryDataSet = (): DataSet => {
+            return new DataSet({
+                rawData: this.getHistory(historyId)
+            });
+        };
+
+        if (storageDef) {
+            resultDef = new Deferred();
+            // create new deferred, so in the first callback function, the result of the query will be changed
+            storageDef.addBoth(() => {
+                resultDef.callback(getHistoryDataSet());
+            });
+        } else if (!storageDef && !storageData) {
+            /**
+             * В retailOffline нет сервиса истории и его там нельзя вызывать, в таком случае работаем без истории вообще.
+             * FIXME: https://online.sbis.ru/opendoc.html?guid=f0e4521b-873a-4b1a-97fe-2ecbb12409d1
+             */
+            if (detection.retailOffline) {
+                const emptyData = new DataSet({
+                    rawData: {
+                        pinned: this._createRecordSet({}),
+                        frequent: this._createRecordSet({}),
+                        recent: this._createRecordSet({})
+                    }
+                });
+                resultDef = Deferred.success(emptyData);
+            } else {
+                resultDef = this._load();
+            }
+            LoadPromisesStorage.write(historyId, resultDef);
+
+            resultDef.addBoth((res) => {
+                LoadPromisesStorage.delete(historyId);
+                return res;
+            });
+        } else {
+            resultDef = Deferred.success(getHistoryDataSet());
+        }
+        this._incrementUsage();
+        return resultDef;
+    }
+
+    destroy(id: number|string): Deferred<null> {
+        let  result;
+
+        if (id) {
+            result = this._callQuery('Delete', {
+                history_id: this._$historyId,
+                object_id: id
+            });
+        } else {
+            result = Deferred.success(null);
+        }
+
+        this._decrementUsage();
+        return result;
+    }
+
+    /**
+     * Returns a service history identifier
+     * @returns {String}
+     */
+    getHistoryId(): string {
+        return this._$historyId;
+    }
+
+    /**
+     * Save new history
+     */
+    saveHistory(historyId: string, newHistory: RecordSet): void {
+        DataStorage.write(historyId, object.clone(newHistory));
+    }
+
+    /**
+     * Returns a set of history items
+     * @returns {Object}
+     */
+    getHistory(historyId: string): RecordSet {
+        return DataStorage.read(historyId);
+    }
+}
+
+Object.assign(HistroryService.prototype, {
+    _moduleName: 'Controls/history:Service'
 });
-
-Service._private = _private;
-export = Service;
