@@ -27,6 +27,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IGroupedOptions, IIconOpt
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
+   originalOptions?: boolean;
 }
 
 /**
@@ -101,7 +102,9 @@ export default class Button extends BaseDropdown {
                 context: object,
                 receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
       this._offsetClassName = cssStyleGeneration(options);
-      this._updateState(options);
+      if (!options.originalOptions) {
+         this._updateState(options);
+      }
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
       this._controller = new Controller(this._getControllerOptions(options));
 
