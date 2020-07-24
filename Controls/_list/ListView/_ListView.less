@@ -460,7 +460,7 @@
    z-index: 1;
 
    &:before {
-      content: '\200b';
+      content: '';
       z-index: 2;
       box-sizing: border-box;
       border-width: @masterClassic_item_selected_border-thickness_list 0 @masterClassic_item_selected_border-thickness_list 0;
@@ -469,10 +469,10 @@
       box-shadow: @masterClassic_item_selected_box-shadow_list;
       width: ~'calc(100% + @{masterClassic_separator_thickness_list})';
       position: absolute;
-      bottom: 0;
+      top: 0;
+      bottom: -@masterClassic_item_selected_border-thickness_list;
       left: 0;
       pointer-events: none;
-      height: 100%;
    }
    &:after {
       content: '';
