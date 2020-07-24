@@ -4,7 +4,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 
-const DRAG_MAX_OFFSET = 10,
+const DRAG_MAX_OFFSET = 0.3,
       EXPAND_ON_DRAG_DELAY = 1000;
 
 export interface ITreeModel extends IFlatModel {
@@ -59,9 +59,17 @@ export default class TreeController extends FlatController {
       let dragPosition;
 
       const offset = this._calculateOffset(event);
+      const height = event.target.offsetHeight;
       if (offset) {
-         if (this._draggingItemData && !this.isInsideDragTargetNode(event, offset)) {
-            const position = offset.top < DRAG_MAX_OFFSET ? 'before' : 'after';
+         if (this._draggingItemData) {
+            let position;
+            if (offset.top / height < DRAG_MAX_OFFSET) {
+               position = 'before';
+            } else if (offset.bottom / height < DRAG_MAX_OFFSET) {
+               position = 'after';
+            } else {
+               position = 'on';
+            }
             dragPosition = this.calculateDragPosition(itemData, position);
          }
       }
@@ -72,19 +80,13 @@ export default class TreeController extends FlatController {
    calculateDragPosition(targetItemData: ITreeItemData, position: TPosition): IDragPosition {
       let result;
 
-      if (this._draggingItemData && this._draggingItemData.index === targetItemData.index) {
-         result = this._model.getPrevDragPosition() || null;
-      } else if (targetItemData.dispItem.isNode()) {
-         if (position === 'after' || position === 'before') {
-            result = this._calculateDragTargetPosition(targetItemData, position);
-         } else {
-            result = {
-               index: targetItemData.index,
-               position: 'on',
-               item: targetItemData.item,
-               data: targetItemData
-            };
-         }
+      if (position && this._draggingItemData.index !== targetItemData.index) {
+         result = {
+            index: targetItemData.index,
+            position: position,
+            item: targetItemData.item,
+            data: targetItemData
+         };
       } else {
          result = super.calculateDragPosition(targetItemData);
       }

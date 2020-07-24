@@ -586,11 +586,12 @@ var
                 current.level = current.dispItem.getLevel();
             }
 
-            if (this._dragTargetPosition && this._dragTargetPosition.position === 'on') {
-                if (this._dragTargetPosition.index === current.index) {
+
+            if (this._dragTargetPosition) {
+                if (this._dragTargetPosition.position === 'on' && this._dragTargetPosition.index === current.index) {
                     current.dragTargetNode = true;
                 }
-                if (this._prevDragTargetPosition && this._prevDragTargetPosition.index === current.index) {
+                if (this._dragTargetPosition.position === 'on' && this._prevDragTargetPosition && this._prevDragTargetPosition.index === current.index) {
                     current.dragTargetPosition = this._prevDragTargetPosition.position;
                     current.draggingItemData = this._draggingItemData;
                 }
@@ -669,13 +670,13 @@ var
         setDragTargetPosition: function(targetPosition) {
             if (targetPosition && targetPosition.position === 'on') {
 
-                //When an item is moved to a folder, the fake record should be displayed at the previous position.
-                //If do not display the fake entry, there will be a visual jump of the interface.
+                // When an item is moved to a folder, the fake record should be displayed at the previous position.
+                // If do not display the fake entry, there will be a visual jump of the interface.
                 this._setPrevDragTargetPosition(targetPosition);
             } else {
                 this._prevDragTargetPosition = null;
 
-                //The fake item must be displayed at the correct level.
+                // The fake item must be displayed at the correct level.
                 if (targetPosition) {
                     this._draggingItemData.level = targetPosition.data.level;
                 }

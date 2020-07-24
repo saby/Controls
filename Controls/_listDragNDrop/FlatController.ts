@@ -64,6 +64,14 @@ export default class FlatController {
    }
 
    setDragPosition(position: IDragPosition): void {
+      if (
+         this._dragPosition && position
+         && this._dragPosition.index === position.index
+         && this._dragPosition.position === position.position
+         && this._dragPosition.item === position.item
+      ) {
+         return;
+      }
       this._dragPosition = position;
       this._model.setDragPosition(position);
    }

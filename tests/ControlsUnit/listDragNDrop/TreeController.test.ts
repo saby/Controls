@@ -85,8 +85,7 @@ describe('Controls/_listDragNDrop/TreeController', () => {
          controller.setDragPosition(position);
 
          newPosition = controller.calculateDragPosition({ index: 1 });
-         assert.equal(newPosition.index, 1);
-         assert.equal(newPosition.position, 'after');
+         assert.isNull(newPosition);
       });
 
       describe('hover on node', () => {
@@ -96,7 +95,7 @@ describe('Controls/_listDragNDrop/TreeController', () => {
             const newPosition = controller.calculateDragPosition(nodeItemData);
             assert.deepEqual(newPosition, {
                index: nodeItemData.index,
-               position: 'on',
+               position: 'before',
                item: nodeItemData.item,
                data: nodeItemData
             })
@@ -155,7 +154,8 @@ describe('Controls/_listDragNDrop/TreeController', () => {
                   top: 50,
                   height: 35
                }
-            }
+            },
+            offsetHeight: 35
          },
          nativeEvent: {
             pageY: 60
@@ -166,7 +166,7 @@ describe('Controls/_listDragNDrop/TreeController', () => {
       controller.calculateDragPositionRelativeNode(targetNodeData, event);
 
       // undefined - так как startDrag не был вызван
-      assert.isTrue(calculateDragPositionSpy.withArgs(targetNodeData, 'after').calledOnce,
+      assert.isTrue(calculateDragPositionSpy.withArgs(targetNodeData, 'before').calledOnce,
          'calculateDragPosition не вызвался или вызвался с неверными параметрами');
    });
 
