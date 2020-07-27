@@ -2,10 +2,6 @@
    width: 100%;
 }
 
-.controls-ComboBox__nativeField_theme_@{themeName}_caretEmpty, .controls-ComboBox__nativeField_theme_@{themeName}_caretFilled {
-   cursor: pointer;
-}
-
 .controls-ComboBox__field_theme_@{themeName}_margin-xs {
    margin: 0 @trigger_padding-right_combobox 0 @padding-horizontal_inputText;
 }
@@ -47,4 +43,10 @@
 .controls-ComboBox__iconArrow {
    display: inline-flex;
    align-items: center;
+}
+
+.ws-is-hover {
+   .controls-ComboBox__nativeField_theme_@{themeName}_caretEmpty, .controls-ComboBox__nativeField_theme_@{themeName}_caretFilled {
+      cursor: pointer;
+   }
 }
