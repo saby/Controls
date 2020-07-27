@@ -59,15 +59,14 @@ export type TOverflow = 'ellipsis' | 'none';
  * @description Ширина линии-разделителя колонок.
  * @variant s Размер тонкой линии-разделителя.
  * @variant null Без линии-разделителя.
- * @default null
  */
 type TColumnSeparatorSize = 's' | null;
 
 /**
  * @typedef {Object} TColumnSeparatorSizeConfig
  * @description Ширина линии-разделителя колонок слева и справа.
- * @property {TColumnSeparatorSize} left Ширина линии-разделителя колонок слева.
- * @property {TColumnSeparatorSize} right Ширина линии-разделителя колонок справа.
+ * @property {TColumnSeparatorSize} [left=null] Ширина линии-разделителя колонок слева.
+ * @property {TColumnSeparatorSize} [right=null] Ширина линии-разделителя колонок справа.
  */
 type TColumnSeparatorSizeConfig = {
     left?: TColumnSeparatorSize;
@@ -124,8 +123,34 @@ export interface IColumn {
     /**
      * @name Controls/grid:IColumn#resultTemplate
      * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.
-     * @default Controls/grid:ResultColumnTemplate
-     * @remark Подробнее о работе со строкой итогов читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ руководство разработчика}.
+     * @default undefined
+     * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
+     * @remark
+     * Позволяет установить прикладной шаблон отображения элемента (именно шаблон, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
+     * 
+     * Также шаблон {@link Controls/grid:ResultColumnTemplate} поддерживает параметры, с помощью которых можно изменить отображение ячейки.
+     * 
+     * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию resultTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultColumnTemplate.
+     * 
+     * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/column/ руководстве разработчика}.
+     * @example
+     * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
+     * <Controls.grid:View>
+     *     <ws:columns>
+     *         <ws:Array>
+     *             <ws:Object displayProperty="Name">
+     *                 <ws:resultsTemplate>
+     *                     <ws:partial template="Controls/grid:ResultColumnTemplate">
+     *                         <div title="{{resultsTemplate.results.get('Name')}}">
+     *                             {{resultsTemplate.results.get('Name')}}
+     *                         </div>
+     *                     </ws:partial>
+     *                 </ws:resultsTemplate>
+     *             </ws:Object>
+     *         </ws:Array>
+     *     </ws:columns>
+     * </Controls.grid:View>
+     * </pre>
      */
     resultTemplate?: TemplateFunction;
     /**
@@ -150,35 +175,34 @@ export interface IColumn {
     stickyProperty?: string;
     /**
      * @name Controls/grid:IColumn#textOverflow
-     * @cfg {TOverflow} Поведение текста, если он не умещается в ячейке.
+     * @cfg {TOverflow} Как отображается текст, если он не умещается в ячейке.
      * @default none
      */
     textOverflow?: TOverflow;
     /**
      * @name Controls/grid:IColumn#columnSeparatorSize
-     * @cfg {TColumnSeparatorSizeConfig} Ширина вертикальных разделителей колонок
+     * @cfg {TColumnSeparatorSizeConfig} Ширина вертикальных разделителей колонок.
      * @default none
      * @remark
-     * Ширину линии разделителя между двумя колонками можно задать на любой из них(левую или правую соответственно).
-     * В случае, если одна и таже граница была определена на двух ячейках, приоретет отдается ячейки, для которой эта граница является левой.
-     * Опция {@link https://wi.sbis.ru/docs/js/Controls/grid/IColumn/options/columnSeparatorSize columnSeparatorSize на колонке}
-     * является приорететной по сравнению с опцией {@link https://wi.sbis.ru/docs/js/Controls/grid/View/options/columnSeparatorSize/ columnSeparatorSize на таблице}.
+     * Ширину линии-разделителя между двумя колонками можно задать на любой из них (левую или правую соответственно).
+     * В случае, если одна и та же граница была определена на двух ячейках, приоритет отдается ячейке, для которой эта граница является левой.
+     * Опция {@link Controls/grid:IColumn#columnSeparatorSize columnSeparatorSize} на колонке является приоритетной по сравнению с опцией {@link Controls/grid:View#columnSeparatorSize columnSeparatorSize} на таблице.
      * @example
      * Разделитель только медлу первой и второй колонкой.
-     * <pre class="brush: js">
+     * <pre class="brush: js; highlight: [5,10]">
      * <Controls.grid:View
-     *      keyProperty="id"
-     *      source="{{_viewSource}}"
-     *      columns="{{_columns}}"
-     *      columnSeparatorSize="s">
-     *          <ws:columns>
-     *              <ws:Array>
-     *                  <ws:Object .../>
-     *                  <ws:Object .../>
-     *                  <ws:Object ... columnSeparatorSize="{{ {left: null, right: null} }}" />
-     *                  <ws:Object .../>
-     *             </ws:Array>
-     *         </ws:columns>
+     *     keyProperty="id"
+     *     source="{{_viewSource}}"
+     *     columns="{{_columns}}"
+     *     columnSeparatorSize="s">
+     *     <ws:columns>
+     *         <ws:Array>
+     *             <ws:Object .../>
+     *             <ws:Object .../>
+     *             <ws:Object ... columnSeparatorSize="{{ {left: null, right: null} }}" />
+     *             <ws:Object .../>
+     *         </ws:Array>
+     *     </ws:columns>
      * </Controls.grid:View>
      * </pre>
      */

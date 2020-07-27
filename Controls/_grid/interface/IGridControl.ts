@@ -181,10 +181,8 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#columns
- * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы. Колонки объекты реализующие интерфейс {@link Controls/grid:IColumn IColumn}
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>
- * @remark Перед отрисовкой убедитесь, что {@link Controls/display:Collection Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
+ * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы.
+ * @remark Перед отрисовкой убедитесь, что {@link Controls/display:Collection} содержит необходимые данные при изменении параметра {@link Controls/_grid/interface/IGridControl#columns columns}. При необходимости вызовите асинхронный метод "reload" перед изменением параметра {@link Controls/_grid/interface/IGridControl#columns columns}.
  * @example
  * <pre class="brush: js">
  * _columns: null,
@@ -388,11 +386,12 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsTemplate
- * @cfg {Function} Устанавливает шаблон отображения строки итогов.
- * @default Controls/grid:ResultsTemplate
+ * @cfg {Function} Шаблон отображения строки итогов.
+ * @default undeined
  * @remark
+ * **Важно**: для отображения строки итогов важно задать значение в опции {@link resultsPosition}.
  * Подробнее о параметрах шаблона Controls/grid:ResultsTemplate читайте {@link Controls/grid:ResultsTemplate здесь}.
- * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ здесь}.
+ * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/ здесь}.
  * @see resultsPosition
  * @see resultsVisibility
  */
@@ -407,8 +406,8 @@
 
 /**
  * @typedef {String} ResultsPosition
- * @variant top Строка располагается над списком.
- * @variant bottom Строка располагается под списком.
+ * @variant top Над списком.
+ * @variant bottom Под списком.
  */
 
 /**
@@ -437,7 +436,9 @@
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsVisibility
- * @cfg {ResultsVisibility} Устанавливает режим отображения строки итогов.
+ * @cfg {ResultsVisibility} Режим отображения строки итогов.
+ * @remark
+ * **Важно**: для отображения строки итогов важно задать значение в опции {@link resultsPosition}.
  * @default hasData
  * @see resultsTemplate
  * @see resultsPosition

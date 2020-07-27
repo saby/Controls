@@ -6,9 +6,9 @@
  * @see Controls/grid:View#resultsTemplate
  * @see Controls/grid:View#resultsPosition
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/templates/result/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/ здесь}.
  * @example
- * <pre class="brush: html">
+ * <pre class="brush: html; highlight: [3,4,5,6,7,8,9]">
  * <Controls.grid:View>
  *    <ws:resultsTemplate>
  *       <ws:partial template="Controls/grid:ResultsTemplate">
