@@ -23,6 +23,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
+   isNewOptionsUsed?: boolean;
 }
 
 /**
@@ -116,18 +117,27 @@ export default class Button extends BaseDropdown {
    }
 
    _updateState(options: IButtonOptions): void {
-      const currentButtonClass = ActualApi.styleToViewMode(options.style);
-      const oldViewModeToken = ActualApi.viewMode(currentButtonClass.viewMode, options.viewMode);
+      if (!options.isNewOptionsUsed) {
+         const currentButtonClass = ActualApi.styleToViewMode(options.style);
+         const oldViewModeToken = ActualApi.viewMode(currentButtonClass.viewMode, options.viewMode);
 
-      this._buttonStyleButton = ActualApi.buttonStyle(currentButtonClass.style, options.style, options.buttonStyle, options.readOnly);
-      this._contrastBackgroundButton = ActualApi.contrastBackground(options);
-      this._viewModeButton = oldViewModeToken.viewMode;
-      if (typeof oldViewModeToken.contrast !== 'undefined') {
-         this._contrastBackgroundButton = oldViewModeToken.contrast;
+         this._buttonStyleButton = ActualApi.buttonStyle(currentButtonClass.style, options.style, options.buttonStyle, options.readOnly);
+         this._contrastBackgroundButton = ActualApi.contrastBackground(options);
+         this._viewModeButton = oldViewModeToken.viewMode;
+         if (typeof oldViewModeToken.contrast !== 'undefined') {
+            this._contrastBackgroundButton = oldViewModeToken.contrast;
+         }
+         this._inlineHeightButton = ActualApi.actualHeight(options.size, options.inlineHeight, this._viewModeButton);
+         this._fontColorStyleButton = ActualApi.fontColorStyle(this._buttonStyle, this._viewModeButton, options.fontColorStyle);
+         this._fontSizeButton = ActualApi.fontSize(options);
+      } else {
+         this._fontColorStyleButton = options.fontColorStyle;
+         this._fontSizeButton = options.fontSize;
+         this._inlineHeightButton = options.inlineHeight;
+         this._buttonStyleButton = options.buttonStyle;
+         this._contrastBackgroundButton  = options.contrastBackground;
+         this._viewModeButton   = options.viewMode;
       }
-      this._inlineHeightButton = ActualApi.actualHeight(options.size, options.inlineHeight, this._viewModeButton);
-      this._fontColorStyleButton = ActualApi.fontColorStyle(this._buttonStyle, this._viewModeButton, options.fontColorStyle);
-      this._fontSizeButton = ActualApi.fontSize(options);
    }
 
    _dataLoadCallback(items): void {
