@@ -198,7 +198,8 @@
     height: 100%;
 }
 
-.controls-SelectedCollection__collection_singleLine_theme-@{themeName}::before {
+.controls-SelectedCollection__collection_singleLine_theme-@{themeName}::before,
+.controls-SelectedCollection__item_layout_twoColumns_theme-@{themeName}::before {
     content: '\200b';
     height: 100%;
     display: flex;
@@ -217,10 +218,6 @@
 
 .controls-SelectedCollection__collectionItem_layout_twoColumns_theme-@{themeName} {
     width: 50%;
-}
-
-.controls-SelectedCollection__item_layout_twoColumns {
-    align-items: center;
 }
 
 .controls-SelectedCollection__item__caption-twoColumns_theme-@{themeName} {

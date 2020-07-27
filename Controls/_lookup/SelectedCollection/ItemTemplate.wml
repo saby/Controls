@@ -1,4 +1,7 @@
-<div class="controls-SelectedCollection__item controls-SelectedCollection__item-{{isSingleItem ? 'single' : 'multi'}} controls-SelectedCollection__item_layout_{{_options.itemsLayout}}">
+<div class="controls-SelectedCollection__item
+            controls-SelectedCollection__item-{{isSingleItem ? 'single' : 'multi'}}
+            controls-SelectedCollection__item_layout_{{_options.itemsLayout}}
+            controls-SelectedCollection__item_layout_{{_options.itemsLayout}}_theme-{{_options.theme}}">
    <span class="controls-SelectedCollection__item__caption-wrapper
                 controls-SelectedCollection__item__caption-wrapper-{{itemsLayout}}_theme-{{_options.theme}}">
       <ws:partial template="{{contentTemplate}}"
@@ -13,7 +16,7 @@
             />
    </span>
    <ws:if data="{{!readOnly}}">
-      <ws:partial template="{{crossTemplate}}" itemsLayout="{{itemsLayout}}" theme="{{_options.theme}}"/>
+      <ws:partial template="{{crossTemplate}}" theme="{{_options.theme}}"/>
    </ws:if>
    <ws:if data="{{readOnly && !isLastItem && itemsLayout !== 'twoColumns'}}">,</ws:if>
 </div>
