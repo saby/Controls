@@ -14,6 +14,8 @@ export interface IFlatModel {
    getItemBySourceKey(key: TKey): CollectionItem<Model>;
 
    getIndexByKey(key: TKey): number;
+
+   at(index: number): CollectionItem<Model>;
 }
 
 export interface IFlatItemData {
@@ -64,6 +66,14 @@ export default class FlatController {
    }
 
    setDragPosition(position: IDragPosition): void {
+      if (
+         this._dragPosition && position
+         && this._dragPosition.index === position.index
+         && this._dragPosition.position === position.position
+         && this._dragPosition.item === position.item
+      ) {
+         return;
+      }
       this._dragPosition = position;
       this._model.setDragPosition(position);
    }
