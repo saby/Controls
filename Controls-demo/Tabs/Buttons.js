@@ -88,7 +88,7 @@ define('Controls-demo/Tabs/Buttons', [
                   id: '1',
                   title: 'Задача в разработку №1263182638123681268716831726837182368172631239999',
                   align: 'left',
-                  itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate'
+                  itemTemplate: mainTemplate
                },
                {
                   id: '2',
@@ -119,7 +119,7 @@ define('Controls-demo/Tabs/Buttons', [
                   id: '1',
                   title: 'Meetings',
                   align: 'left',
-                  itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate'
+                  itemTemplate: mainTemplate
                },
                {
                   id: '2',
@@ -194,8 +194,8 @@ define('Controls-demo/Tabs/Buttons', [
                   text: 'Отпуск',
                   icon: 'icon-Vacation',
                   iconStyle: 'success',
-                  itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
-                  leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
+                  itemTemplate: itemTemplate,
+                  leftTemplate: iconTemplate
                },
                {
                   id: '2',
@@ -203,9 +203,9 @@ define('Controls-demo/Tabs/Buttons', [
                   text: 'Отгул',
                   icon: 'icon-SelfVacation',
                   iconStyle: 'warning',
-                  itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
-                  leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate',
-                  rightTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
+                  itemTemplate: itemTemplate,
+                  leftTemplate: iconTemplate,
+                  rightTemplate: iconTemplate
                },
                {
                   id: '3',
@@ -213,8 +213,8 @@ define('Controls-demo/Tabs/Buttons', [
                   text: 'Больничный',
                   icon: 'icon-Sick',
                   iconStyle: 'secondary',
-                  itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
-                  rightTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
+                  itemTemplate: itemTemplate,
+                  rightTemplate: iconTemplate
                }
             ]
          });
@@ -244,7 +244,7 @@ define('Controls-demo/Tabs/Buttons', [
                   id: '1',
                   title: 'Person card',
                   align: 'left',
-                  carambola: 'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
+                  carambola: photoContent,
                   type: 'photo'
                },
                {
@@ -273,7 +273,7 @@ define('Controls-demo/Tabs/Buttons', [
                {
                   id: '7',
                   title: '',
-                  carambola: 'wml!Controls-demo/Tabs/Buttons/resources/photoContent',
+                  carambola: photoContent,
                   type: 'photo'
                }
             ]

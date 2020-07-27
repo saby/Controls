@@ -54,7 +54,7 @@ class TabsButtons extends Control<ITabsButtonsOptions> implements ITabsButtons {
     protected _beforeMount(options: ITabsButtonsOptions,
                            context: object,
                            receivedState: IReceivedState): void | Promise<IReceivedState> {
-        if (receivedState) {
+        if (receivedState && !TabsButtons._checkHasFunction(receivedState, this)) {
             this._prepareState(receivedState);
         } else if (options.source) {
             return this._initItems(options.source).then((result: IReceivedState) => {
@@ -189,6 +189,33 @@ class TabsButtons extends Control<ITabsButtonsOptions> implements ITabsButtons {
         } else {
             return style;
         }
+    }
+
+    static _checkHasFunction(receivedState: IReceivedState, instance: TabsButtons): boolean {
+        /* Функции, передаваемые с сервера на клиент в receivedState, не могут корректно десериализоваться.
+        Поэтому, если есть функции в receivedState, заново делаем запрос за данными. */
+        let hasFunction = false;
+        if (receivedState.items) {
+            factory(receivedState.items).each((item: Model) => {
+                const value = cInstance.instanceOfModule(item, 'Types/entity:Record') ? item.getRawData() : item;
+
+                if (!hasFunction) {
+                    for (const key in value) {
+                        // При рекваере шаблона, он возвращает массив, в 0 индексе которого лежит объект с функцией
+                        if (typeof value[key] === 'function' ||
+                            value[key] instanceof Array && typeof value[key][0].func === 'function') {
+                            hasFunction = true;
+                            Logger.warn(instance._moduleName + `
+                         : Из источника данных вернулся набор записей с функцией в поле ${key}.
+                         В наборе данных должны быть простые типы.
+                         Для задания шаблона - нужно указать имя этого шаблона.`, instance);
+                        }
+                    }
+                }
+            });
+        }
+
+        return hasFunction;
     }
 
     static getDefaultOptions(): ITabsButtonsOptions {
