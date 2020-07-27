@@ -827,10 +827,10 @@ var Base = Control.extend({
         const field = this._getField();
         const model = this._viewModel;
         const data = this._fixBugs.dataForInputProcessing({
-            oldSelection: model.oldSelection,
+            oldSelection: model.selection,
             newPosition: field.selectionEnd,
             newValue: field.value,
-            oldValue: model.oldDisplayValue
+            oldValue: model.displayValue
         });
         const value = data.oldValue;
         const newValue = data.newValue;
