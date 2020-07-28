@@ -150,7 +150,7 @@ define(
             beforeEach(function() {
                opened = false;
                dropdownController = getDropdownController(config);
-               popup.Sticky.openPopup = () => {opened = true;};
+               dropdownController._sticky.open = () => {opened = true;};
 
                updatedItems = clone(items);
                updatedItems.push({
@@ -341,7 +341,7 @@ define(
                let readOnlyConfig = clone(config),
                   isClosed = false;
 
-               popup.Sticky.closePopup = () => {isClosed = true; };
+               dropdownController._sticky.close = () => {isClosed = true; };
                readOnlyConfig.readOnly = true;
                dropdownController.update(readOnlyConfig);
                assert.isTrue(isClosed);
@@ -428,7 +428,7 @@ define(
             dropdownController._items = itemsRecords.clone();
             dropdownController._source = 'testSource';
 
-            sandbox.replace(popup.Sticky, 'openPopup', () => {
+            sandbox.replace(dropdownController._sticky, 'open', () => {
                opened = true;
                return Promise.resolve(true);
             });
@@ -568,8 +568,8 @@ define(
             let dropdownController = getDropdownController(configLazyLoad);
             dropdownController.update(configLazyLoad);
 
-            popup.Sticky.openPopup = setTrue.bind(this, assert);
-            popup.Sticky.closePopup = setTrue.bind(this, assert);
+            dropdownController._sticky.open = setTrue.bind(this, assert);
+            dropdownController._sticky.close = setTrue.bind(this, assert);
             dropdownController._open();
          });
 
@@ -639,7 +639,7 @@ define(
          it('_beforeUnmount', function() {
             let isCanceled = false, opened = true;
             let dropdownController = getDropdownController(configLazyLoad);
-            popup.Sticky.closePopup = () => {opened = false;};
+            dropdownController._sticky.close = () => {opened = false;};
             dropdownController._sourceController = {cancelLoading: () => { isCanceled = true }};
             dropdownController._options.openerControl = {
                _notify: () => {}
@@ -712,7 +712,7 @@ define(
          it('closeMenu', () => {
             let dropdownController = getDropdownController(config);
             let closed = false;
-            popup.Sticky.closePopup = () => {closed = true; };
+            dropdownController._sticky.close = () => {closed = true; };
 
             dropdownController.closeMenu();
             assert.isTrue(closed);
