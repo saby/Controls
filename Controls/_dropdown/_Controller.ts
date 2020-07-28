@@ -1,7 +1,7 @@
 // @ts-ignore
 import * as Control from 'Core/Control';
 // @ts-ignore
-import {Sticky as StickyOpener} from 'Controls/popup';
+import {StickyOpener} from 'Controls/popup';
 import IDropdownController, {IDropdownControllerOptions} from 'Controls/_dropdown/interface/IDropdownController';
 import {factory} from 'Types/chain';
 import {getSourceFilter, isHistorySource, getSource, getMetaHistory} from 'Controls/_dropdown/dropdownHistoryUtils';
@@ -50,6 +50,7 @@ export default class _Controller implements IDropdownController {
 
    constructor(options: IDropdownControllerOptions) {
       this._options = options;
+      this._sticky = new StickyOpener();
    }
 
    loadItems(): Promise<RecordSet> {
@@ -165,6 +166,7 @@ export default class _Controller implements IDropdownController {
       }
       this._setItems(null);
       this._closeDropdownList();
+      this._sticky = null;
    }
 
    handleSelectedItems(data): void {
@@ -213,9 +215,7 @@ export default class _Controller implements IDropdownController {
          this._popupOptions =  popupOptions;
       }
       const openPopup = () => {
-         return StickyOpener.openPopup(this._getPopupOptions(this._popupOptions)).then((popupId) => {
-            return this._popupId = popupId;
-         });
+         return this._sticky.open(this._getPopupOptions(this._popupOptions))
       };
 
       return this.loadDependencies().then(
@@ -423,7 +423,7 @@ export default class _Controller implements IDropdownController {
    }
 
    private _closeDropdownList(): void {
-      StickyOpener.closePopup(this._popupId);
+      this._sticky.close();
       this._isOpened = false;
    }
 
@@ -516,7 +516,6 @@ export default class _Controller implements IDropdownController {
          hasMoreButton: this._sourceController.hasMoreData('down')
       };
       const config = {
-         id: this._popupId,
          templateOptions: Object.assign(baseConfig, templateOptions),
          className: this._options.popupClassName,
          template: 'Controls/menu:Popup',

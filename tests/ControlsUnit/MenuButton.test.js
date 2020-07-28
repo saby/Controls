@@ -240,7 +240,7 @@ define(
             assert.isFalse(menuClosed);
 
             // Тестируем нажатие esc, когда выпадающий список открыт
-            menu._popupId = 'testId';
+            menu._isOpened = true;
 
             menu._handleKeyDown(event);
             assert.isTrue(menuClosed);
@@ -338,7 +338,7 @@ define(
 
             // returned undefined from handler and no hierarchy
             closed = false;
-            menu._popupId = 'test';
+            menu._isOpened = true;
             closeByNodeClick = undefined;
             menu._onResult('itemClick', menu._controller._items.at(4));
             assert.isTrue(closed);

@@ -1,4 +1,4 @@
-<div class="controls-ComboBox {{_popupId ? 'controls-ComboBox__opened'}}">
+<div class="controls-ComboBox {{_isOpened ? 'controls-ComboBox__opened'}}">
    <Controls._dropdown.ComboBox.InputRender
            name="content"
            style="{{_options.style}}"
@@ -21,10 +21,10 @@
            on:mouseleave="_handleMouseLeave()"
            on:keydown="_handleKeyDown()"
            placeholder="{{!_isEmptyItem ? _options.placeholder : _placeholder}}"
-           attr:class="controls-ComboBox-InputRender {{_popupId ? 'controls-Popup__isolatedFocusingContext'}}">
+           attr:class="controls-ComboBox-InputRender {{_isOpened ? 'controls-Popup__isolatedFocusingContext'}}">
       <ws:rightFieldWrapper>
          <span if="{{!_options.readOnly}}" class="controls-ComboBox__arrow-wrapper controls-ComboBox__arrow-wrapper_theme-{{_options.theme}}">
-            <span attr:class="controls-ComboBox__iconArrow controls-ComboBox__iconArrow_theme-{{_options.theme}} icon-{{_popupId ? 'CollapseLight' : 'ExpandLight'}}"></span>
+            <span attr:class="controls-ComboBox__iconArrow controls-ComboBox__iconArrow_theme-{{_options.theme}} icon-{{_isOpened ? 'CollapseLight' : 'ExpandLight'}}"></span>
          </span>
       </ws:rightFieldWrapper>
    </Controls._dropdown.ComboBox.InputRender>

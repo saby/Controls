@@ -347,9 +347,7 @@ export default class Input extends BaseDropdown {
       this._controller.setMenuPopupTarget(this._container);
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
-         if (typeof result === 'string') {
-            this._popupId = result;
-         } else if (result) {
+         if (result) {
             this._selectedItemsChangedHandler(result);
          }
       });
