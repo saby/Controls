@@ -8,15 +8,44 @@
          additionalTemplateProperty="additionalTemplate">
          <ws:footerTemplate>
             <div class="ws-flexbox controls-demo-FilterView__footer">
-               <ws:for data="i in 40">
-                  <div class="controls-demo-FilterView__footerItem ws-flexbox">
-                     <img class="controls-demo-FilterView__footerItem-photo" src="{{_resourceRoot}}Controls-demo/Previewer/image/Andrey.png"/>
-                     <div class="controls-demo-FilterView__description ws-flex-column">
-                        <div>Элемент{{i}}</div>
-                        <div>С описанием{{i}}</div>
-                     </div>
-                  </div>
-               </ws:for>
+               <Controls.list:View
+                  attr:class="controls-demo-FilterView__footerListView"
+                  keyProperty="key"
+                  source="{{_listViewSource1}}">
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <div class="controls-demo-FilterView__footerItem ws-flexbox">
+                              <img class="controls-demo-FilterView__footerItem-photo"
+                                   src="{{_resourceRoot}}Controls-demo/Previewer/image/Andrey.png"/>
+                              <div class="controls-demo-FilterView__description ws-flex-column">
+                                 <div>Элемент{{itemTemplate.itemData.item.key}}</div>
+                                 <div>С описанием{{itemTemplate.itemData.item.key}}</div>
+                              </div>
+                           </div>
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
+               <Controls.list:View
+                  attr:class="controls-demo-FilterView__footerListView"
+                  keyProperty="key"
+                  source="{{_listViewSource2}}">
+                  <ws:itemTemplate>
+                     <ws:partial template="Controls/list:ItemTemplate">
+                        <ws:contentTemplate>
+                           <div class="controls-demo-FilterView__footerItem ws-flexbox">
+                              <img class="controls-demo-FilterView__footerItem-photo"
+                                   src="{{_resourceRoot}}Controls-demo/Previewer/image/Andrey.png"/>
+                              <div class="controls-demo-FilterView__description ws-flex-column">
+                                 <div>Элемент{{itemTemplate.itemData.item.key}}</div>
+                                 <div>С описанием{{itemTemplate.itemData.item.key}}</div>
+                              </div>
+                           </div>
+                        </ws:contentTemplate>
+                     </ws:partial>
+                  </ws:itemTemplate>
+               </Controls.list:View>
             </div>
          </ws:footerTemplate>
       </ws:detailPanelTemplateOptions>

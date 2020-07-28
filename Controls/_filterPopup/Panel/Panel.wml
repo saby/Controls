@@ -8,11 +8,15 @@
                                               attr:class="controls-FilterPanel__PropertyGrid {{(!_hasAdditionalParams && (!_historyId || !_historyItems.getCount() || _options.orientation === 'horizontal')) ? 'controls-FilterPanel_lastBlock'}}"/>
    </Controls.validate:Controller>
    <ws:if data="{{_hasAdditionalParams}}">
-      <Controls._filterPopup.Panel.AdditionalParams
-              items="{{_items}}"
+      <Controls._filterPopup.Panel.AdditionalParams.Control
+              source="{{_items}}"
+              render="{{_options.additionalPanelTemplate}}"
+              columnProperty="column"
+              keyProperty="name"
+              groupProperty="{{_options.groupProperty}}"
               itemTemplate="{{_options.additionalTemplate}}"
               itemTemplateProperty="{{_options.additionalTemplateProperty}}"
-              on:itemsChanged="_itemsChangedHandler()"
+              on:sourceChanged="_itemsChangedHandler()"
               attr:class="controls-FilterPanel__AdditionalParams {{!_historyId || !_historyItems.getCount() || _options.orientation === 'horizontal' ? 'controls-FilterPanel_lastBlock'}}"/>
    </ws:if>
    <ws:if data="{{_options.footerTemplate}}">

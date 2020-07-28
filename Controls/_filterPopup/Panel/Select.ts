@@ -1,19 +1,21 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_filterPopup/Panel/Select/Select');
+import itemTemplate = require('wml!Controls/_filterPopup/Panel/Select/ItemTemplate');
 import {object} from 'Types/util';
    /**
     * Контрол, отображающий заданный набор элементов через разделитель.
-    * 
+    *
     * @remark
     * Для работы с единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
-    * 
+    *
     * Полезные ссылки:
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
-    * 
+    *
     * @class Controls/_filterPopup/Panel/Select
     * @extends Core/Control
     * @mixes Controls/_interface/ITextValue
     * @mixes Controls/_interface/IMultiSelectable
+    * @mixes Controls/_interface/IItemTemplate
     * @control
     * @public
     * @author Герасимов А.М.
@@ -89,6 +91,7 @@ import {object} from 'Types/util';
 
    var FilterSelect = Control.extend({
       _template: template,
+      _itemTemplate: itemTemplate,
 
       _clickHandler: function(event, item) {
          const textValue = object.getPropertyValue(item, this._options.textValueProperty) || object.getPropertyValue(item, this._options.displayProperty);

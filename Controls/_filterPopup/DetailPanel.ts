@@ -365,7 +365,8 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          headingCaption: rk('Отбираются'),
          headingStyle: 'secondary',
          orientation: 'vertical',
-         applyButtonCaption: rk('Отобрать')
+         applyButtonCaption: rk('Отобрать'),
+         additionalPanelTemplate: 'Controls/filterPopup:AdditionalPanelTemplate'
       };
    };
 

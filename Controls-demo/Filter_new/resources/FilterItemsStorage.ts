@@ -377,6 +377,138 @@ export function getItems(): unknown[] {
     return defaultItems.concat(hierarchyFilters);
 }
 
+export function getItemsWithGroup(): any[] {
+    return [{
+            name: 'date',
+            resetValue: null,
+            group: 'firstGroup',
+            value: null,
+            type: 'dateRange',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/DateRange',
+            editorOptions: {
+                emptyCaption: 'Весь период',
+                editorMode: 'Selector',
+                chooseHalfyears: true,
+                chooseYears: true,
+                clearButtonVisibility: true
+            },
+            viewMode: 'basic'
+        },
+        {
+            name: 'payment',
+            value: [],
+            resetValue: [],
+            group: 'firstGroup',
+            column: 'left',
+            markFirstItem: true,
+            textValue: '',
+            viewMode: 'extended',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown',
+            additionalTemplate: 'Controls-demo/Filter_new/resources/Editors/Additional/Select',
+            visibility: false,
+            editorOptions: {
+                source: new Memory({
+                    keyProperty: 'id',
+                    data: [
+                        {id: 1, title: 'Оплачено'},
+                        {id: 2, title: 'Нет'},
+                        {id: 3, title: 'С ошибками'}
+                    ]
+                })
+            }
+        },
+        {
+            name: 'payment2',
+            value: [],
+            resetValue: [],
+            textValue: '',
+            viewMode: 'extended',
+            group: 'firstGroup',
+            column: 'left',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown',
+            additionalTemplate: 'Controls-demo/Filter_new/resources/Editors/Additional/Select',
+            visibility: false,
+            editorOptions: {
+                source: new Memory({
+                    keyProperty: 'id',
+                    data: [
+                        {id: 1, title: 'Оплачено'},
+                        {id: 2, title: 'Нет'},
+                        {id: 3, title: 'С ошибками'}
+                    ]
+                })
+            }
+        },
+        {
+            name: 'NDS',
+            value: [],
+            resetValue: [],
+            textValue: '',
+            viewMode: 'extended',
+            markFirstItem: true,
+            group: 'secondGroup',
+            column: 'left',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown',
+            additionalTemplate: 'Controls-demo/Filter_new/resources/Editors/Additional/Select',
+            visibility: false,
+            editorOptions: {
+                source: new Memory({
+                    keyProperty: 'id',
+                    data: [
+                        {id: 1, title: 'С НДС'},
+                        {id: 3, title: 'БЕЗ НДС'}
+                    ]
+                })
+            }
+        },
+        {
+            name: 'payment3',
+            value: [],
+            resetValue: [],
+            textValue: '',
+            viewMode: 'extended',
+            markFirstItem: true,
+            group: 'group3',
+            column: 'right',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown',
+            additionalTemplate: 'Controls-demo/Filter_new/resources/Editors/Additional/Select',
+            visibility: false,
+            editorOptions: {
+                source: new Memory({
+                    keyProperty: 'id',
+                    data: [
+                        {id: 1, title: 'Оплачено'},
+                        {id: 2, title: 'Не оплачено'},
+                        {id: 3, title: 'С ошибками'}
+                    ]
+                })
+            }
+        },
+        {
+            name: 'payment4',
+            value: [],
+            resetValue: [],
+            textValue: '',
+            viewMode: 'extended',
+            markFirstItem: true,
+            group: 'group4',
+            column: 'right',
+            itemTemplate: 'wml!Controls-demo/Filter_new/resources/Editors/Dropdown',
+            additionalTemplate: 'Controls-demo/Filter_new/resources/Editors/Additional/Select',
+            visibility: false,
+            editorOptions: {
+                source: new Memory({
+                    keyProperty: 'id',
+                    data: [
+                        {id: 1, title: 'Оплачено полностью'},
+                        {id: 2, title: 'Оплачено частично'},
+                        {id: 3, title: 'Не оплачено'}
+                    ]
+                })
+            }
+        }];
+}
+
 export function getItemsWithItemTemplate(): unknown[] {
     return defaultItems.map((item): object => {
         const defaultItem = object.clone(item);
