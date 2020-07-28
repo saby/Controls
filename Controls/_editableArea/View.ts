@@ -67,7 +67,7 @@ var
    };
 
 /**
- * Контроллер для редактирования полей ввода.
+ * Контроллер для редактирования по месту в полях ввода.
  *
  * @class Controls/_editableArea/View
  * @extends Core/Control
@@ -77,7 +77,7 @@ var
  *
  * @remark
  * Если в качестве шаблона редактирования используются поля ввода, то при переключении в режим чтения может наблюдаться скачок текста.
- * Для того, чтобы избежать этого, рекомендуется навесить css класс controls-Input_negativeOffset_theme_{{_options.theme}} на редактируемую область.
+ * Для того чтобы избежать этого, рекомендуется навесить CSS-класс controls-Input_negativeOffset_theme_{{_options.theme}} на редактируемую область.
  *
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">руководство разработчика</a>
