@@ -5,6 +5,7 @@ define([
    'Core/Deferred',
    'Types/source',
    'Controls/list',
+   'Controls/tree',
    'Controls/treeGrid',
    'Controls/Constants'
 ], function(
@@ -14,6 +15,7 @@ define([
    Deferred,
    sourceLib,
    lists,
+   tree,
    treeGrid,
    Constants
 ) {
@@ -114,7 +116,7 @@ define([
             keyProperty: 'id',
             displayProperty: 'title'
          });
-         treeModel = new treeGrid.TreeViewModel({
+         treeModel = new tree.TreeViewModel({
             items: new collection.RecordSet({
                rawData: treeData,
                keyProperty: 'id'

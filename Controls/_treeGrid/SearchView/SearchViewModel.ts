@@ -1,5 +1,5 @@
-import * as TreeViewModel from 'Controls/_treeGrid/Tree/TreeViewModel';
 import {SearchItemsUtil} from 'Controls/list';
+import {TreeViewModel} from 'Controls/tree';
 import {Record} from 'Types/entity';
 
 function isBreadCrumbsItem(item: Record|Record[]): item is Record[] {

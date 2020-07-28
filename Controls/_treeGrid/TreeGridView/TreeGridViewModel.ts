@@ -5,7 +5,7 @@ import {
     getIndexByDisplayIndex, getIndexById, getIndexByItem,
     getResultsIndex, getTopOffset, IBaseTreeGridRowIndexOptions
 } from 'Controls/_treeGrid/utils/TreeGridRowIndexUtil';
-import TreeViewModel = require('Controls/_treeGrid/Tree/TreeViewModel');
+import { TreeViewModel } from 'Controls/tree';
 
 
 function isLastColumn(

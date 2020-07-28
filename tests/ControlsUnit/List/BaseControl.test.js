@@ -6,6 +6,7 @@ define([
    'Types/source',
    'Types/collection',
    'Controls/list',
+   'Controls/tree',
    'Controls/treeGrid',
    'Controls/grid',
    'Controls/Utils/Toolbar',
@@ -20,7 +21,7 @@ define([
    'Controls/listRender',
    'Controls/itemActions',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, popup, listDragNDrop, dragNDrop, listRender, itemActions) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, popup, listDragNDrop, dragNDrop, listRender, itemActions) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
       beforeEach(function() {
@@ -144,7 +145,7 @@ define([
             dataLoadCallback: function() {
                dataLoadFired = true;
             },
-            viewModelConstructor: treeGrid.TreeViewModel,
+            viewModelConstructor: tree.TreeViewModel,
             viewModelConfig: {
                items: [],
                keyProperty: 'id'
@@ -175,11 +176,11 @@ define([
             assert.deepEqual(filter, ctrl._options.filter, 'incorrect filter before updating');
             ctrl.saveOptions(cfg);
             assert.deepEqual(filter2, ctrl._options.filter, 'incorrect filter after updating');
-            assert.equal(ctrl._viewModelConstructor, treeGrid.TreeViewModel);
+            assert.equal(ctrl._viewModelConstructor, tree.TreeViewModel);
             assert.equal(prevModel._display, null);
             assert.isTrue(
-               cInstance.instanceOfModule(ctrl._listViewModel, 'Controls/treeGrid:TreeViewModel') ||
-               cInstance.instanceOfModule(ctrl._listViewModel, 'Controls/_treeGrid/Tree/TreeViewModel')
+               cInstance.instanceOfModule(ctrl._listViewModel, 'Controls/tree:TreeViewModel') ||
+               cInstance.instanceOfModule(ctrl._listViewModel, 'Controls/_tree/Tree/TreeViewModel')
             );
             setTimeout(function() {
                ctrl._afterUpdate({});
@@ -5598,7 +5599,7 @@ define([
                items: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: treeGrid.TreeViewModel,
+            viewModelConstructor: tree.TreeViewModel,
             keyProperty: 'id',
             source: source,
             selectedKeys: [],
@@ -5637,7 +5638,7 @@ define([
                items: [],
                keyProperty: 'id'
             },
-            viewModelConstructor: treeGrid.TreeViewModel,
+            viewModelConstructor: tree.TreeViewModel,
             keyProperty: 'id',
             source: source,
             selectedKeys: [],

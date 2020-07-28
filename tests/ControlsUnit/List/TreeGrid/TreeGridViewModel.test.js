@@ -9,8 +9,8 @@ define(['Controls/treeGrid',
          var
             createdModel = treeGridViewModel._createModel({});
          assert.isTrue(
-            cInstance.instanceOfModule(createdModel, 'Controls/treeGrid:TreeViewModel') ||
-            cInstance.instanceOfModule(createdModel, 'Controls/_treeGrid/Tree/TreeViewModel'),
+            cInstance.instanceOfModule(createdModel, 'Controls/tree:TreeViewModel') ||
+            cInstance.instanceOfModule(createdModel, 'Controls/_tree/Tree/TreeViewModel'),
          'Invalid type of created model.');
       });
       it('toggleExpanded', function() {

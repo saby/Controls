@@ -1,5 +1,5 @@
 import {View as List} from 'Controls/list';
-import {TreeControl} from 'Controls/treeGrid';
+import {TreeControl} from 'Controls/tree';
 import TreeTileViewModel = require('Controls/_tile/TreeTileView/TreeTileViewModel');
 import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
 
@@ -27,7 +27,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_interface/IHierarchy
- * @mixes Controls/_treeGrid/interface/ITreeControl
+ * @mixes Controls/_tree/interface/ITreeControlOptions
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/_tile/interface/ITile
  * @mixes Controls/_list/interface/IClickableView
@@ -57,7 +57,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_interface/IHierarchy
- * @mixes Controls/_treeGrid/interface/ITreeControl
+ * @mixes Controls/_tree/interface/ITreeControlOptions
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/List/interface/ITile
  * @mixes Controls/_list/interface/IClickableView

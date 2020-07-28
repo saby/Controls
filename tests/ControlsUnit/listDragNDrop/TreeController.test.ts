@@ -6,7 +6,7 @@ import { spy } from 'sinon';
 import { DndTreeController} from 'Controls/listDragNDrop';
 import { RecordSet } from 'Types/collection';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import { TreeViewModel } from 'Controls/treeGrid';
+import { TreeViewModel } from 'Controls/tree';
 
 describe('Controls/_listDragNDrop/TreeController', () => {
    let controller, model;

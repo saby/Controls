@@ -20,7 +20,11 @@
       <div on:mousedown="_onExpanderMouseDown(expanderTemplate.itemData.key, expanderTemplate.itemData.dispItem)"
            on:mouseup="_onExpanderMouseUp(expanderTemplate.itemData.key, expanderTemplate.itemData.dispItem)"
            on:click="_onExpanderClick()"
-           class="{{expanderTemplate.itemData.prepareExpanderClasses(expanderTemplate.itemData, expanderTemplate.expanderIcon, expanderTemplate.itemData.getExpanderSize(expanderTemplate.expanderSize), _options.theme)}}"></div>
+           class="{{expanderTemplate.itemData.prepareExpanderClasses(
+                     expanderTemplate.itemData, expanderTemplate.expanderIcon,
+                     expanderTemplate.itemData.getExpanderSize(expanderTemplate.expanderSize),
+                     _options.theme)}}"
+      ></div>
    </ws:expanderTemplate>
    <ws:content>
       <ws:partial template="{{content.viewTemplate}}" on:expanderClick="_onExpanderClick()" on:loadMoreClick="_onLoadMoreClick()"

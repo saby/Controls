@@ -2,7 +2,7 @@ import {View as Grid} from 'Controls/grid';
 import TreeGridViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
 import entity = require('Types/entity');
 import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
-import TreeControl = require('Controls/_treeGrid/TreeControl');
+import { TreeControl } from 'Controls/tree';
 
 
 /**
@@ -20,7 +20,7 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/interface/IHighlighter
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_treeGrid/interface/ITreeControl
+    * @mixes Controls/_tree/interface/ITreeControlOptions
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
     *
@@ -50,7 +50,7 @@ import TreeControl = require('Controls/_treeGrid/TreeControl');
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_interface/ISorting
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_treeGrid/interface/ITreeControl
+    * @mixes Controls/_tree/interface/ITreeControlOptions
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/interface/IDraggable
     *

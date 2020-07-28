@@ -1,5 +1,5 @@
 import TileViewModel = require('Controls/_tile/TileView/TileViewModel');
-import {TreeViewModel} from 'Controls/treeGrid';
+import {TreeViewModel} from 'Controls/tree';
 import cMerge = require('Core/core-merge');
 import InvisibleFor = require('wml!Controls/_tile/TileView/resources/InvisibleFor');
 

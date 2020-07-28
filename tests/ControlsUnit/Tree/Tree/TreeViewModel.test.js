@@ -1,10 +1,12 @@
 define([
+   'Controls/tree',
    'Controls/treeGrid',
    'Core/core-merge',
    'Types/entity',
    'Types/collection',
     'ControlsUnit/CustomAsserts'
 ], function(
+   tree,
    treeGrid,
    cMerge,
    entity,
@@ -113,10 +115,10 @@ define([
          })
       };
 
-   describe('Controls.List.Tree.TreeViewModel', function() {
+   describe('Controls.Tree.Tree.TreeViewModel', function() {
       describe('"_private" block', function() {
          var
-            treeViewModel = new treeGrid.TreeViewModel(cfg);
+            treeViewModel = new tree.TreeViewModel(cfg);
 
          it('removeNodeFromExpanded', function() {
             var removed = false;
@@ -128,7 +130,7 @@ define([
                   removed = true;
                }
             };
-            treeGrid.TreeViewModel._private.removeNodeFromExpanded(self, 'test');
+            tree.TreeViewModel._private.removeNodeFromExpanded(self, 'test');
 
             assert.equal(Object.keys(self._expandedItems).length, 0);
             assert.isTrue(removed);
@@ -150,43 +152,43 @@ define([
             var
                item = treeViewModel.getItemById('123', cfg.keyProperty),
                itemChild;
-            assert.isTrue(treeGrid.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isTrue(tree.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
                item), 'Invalid value "isVisibleItem(123)".');
             treeViewModel.toggleExpanded(item, true);
             itemChild = treeViewModel.getItemById('234', cfg.keyProperty);
-            assert.isTrue(treeGrid.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isTrue(tree.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
                itemChild), 'Invalid value "isVisibleItem(234)".');
             treeViewModel.toggleExpanded(item, false);
-            assert.isFalse(treeGrid.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isFalse(tree.TreeViewModel._private.isVisibleItem.call(treeViewModel.prepareDisplayFilterData(),
                itemChild), 'Invalid value "isVisibleItem(234)".');
          });
          it('displayFilter', function() {
             var
                item = treeViewModel.getItemById('123', cfg.keyProperty),
                itemChild;
-            assert.isTrue(treeGrid.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isTrue(tree.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
                item.getContents(), 0, item), 'Invalid value "displayFilterTree(123)".');
             treeViewModel.toggleExpanded(item, true);
             itemChild = treeViewModel.getItemById('234', cfg.keyProperty);
-            assert.isTrue(treeGrid.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isTrue(tree.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
                itemChild.getContents(), 1, itemChild), 'Invalid value "displayFilterTree(234)".');
             treeViewModel.toggleExpanded(item, false);
-            assert.isFalse(treeGrid.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
+            assert.isFalse(tree.TreeViewModel._private.displayFilterTree.call(treeViewModel.prepareDisplayFilterData(),
                itemChild.getContents(), 1, itemChild), 'Invalid value "displayFilterTree(234)".');
          });
          it('getDisplayFilter', function() {
-            assert.isTrue(treeGrid.TreeViewModel._private.getDisplayFilter(treeViewModel.getExpandedItems(), treeViewModel._options).length === 1,
+            assert.isTrue(tree.TreeViewModel._private.getDisplayFilter(treeViewModel.getExpandedItems(), treeViewModel._options).length === 1,
                'Invalid filters count prepared by "getDisplayFilter".');
-            treeViewModel = new treeGrid.TreeViewModel(cMerge({itemsFilterMethod: function() {return true;}}, cfg));
-            assert.isTrue(treeGrid.TreeViewModel._private.getDisplayFilter(treeViewModel.getExpandedItems(), treeViewModel._options).length === 2,
+            treeViewModel = new tree.TreeViewModel(cMerge({itemsFilterMethod: function() {return true;}}, cfg));
+            assert.isTrue(tree.TreeViewModel._private.getDisplayFilter(treeViewModel.getExpandedItems(), treeViewModel._options).length === 2,
                'Invalid filters count prepared by "getDisplayFilter" with "itemsFilterMethod".');
          });
          it('hasChildItem', function() {
             var
-               model = new treeGrid.TreeViewModel(cfg);
-            assert.isTrue(treeGrid.TreeViewModel._private.hasChildItem(model, 123), 'Invalid detect child item for item with key "123".');
-            assert.isFalse(treeGrid.TreeViewModel._private.hasChildItem(model, 1), 'Invalid detect child item for item with key "1".');
-            assert.isFalse(treeGrid.TreeViewModel._private.hasChildItem(model, 1989), 'Invalid detect child item for unknown item.');
+               model = new tree.TreeViewModel(cfg);
+            assert.isTrue(tree.TreeViewModel._private.hasChildItem(model, 123), 'Invalid detect child item for item with key "123".');
+            assert.isFalse(tree.TreeViewModel._private.hasChildItem(model, 1), 'Invalid detect child item for item with key "1".');
+            assert.isFalse(tree.TreeViewModel._private.hasChildItem(model, 1989), 'Invalid detect child item for unknown item.');
          });
          it('shouldDrawExpander', function() {
             var
@@ -271,14 +273,14 @@ define([
                }],
                testsResultShouldDrawExpander = [false, false, false, true, true, false, true, true, false];
             testsShouldDrawExpander.forEach(function(item, i) {
-               assert.equal(treeGrid.TreeViewModel._private.shouldDrawExpander(testsShouldDrawExpander[i].itemData, testsShouldDrawExpander[i].expanderIcon),
+               assert.equal(tree.TreeViewModel._private.shouldDrawExpander(testsShouldDrawExpander[i].itemData, testsShouldDrawExpander[i].expanderIcon),
                   testsResultShouldDrawExpander[i],
                   'Invalid value "shouldDrawExpander(...)" for step ' + i + '.');
             });
          });
           it('shouldDrawExpanderPadding', function() {
               var
-                  shouldDrawExpanderPadding = treeGrid.TreeViewModel._private.shouldDrawExpanderPadding;
+                  shouldDrawExpanderPadding = tree.TreeViewModel._private.shouldDrawExpanderPadding;
               assert.isTrue(shouldDrawExpanderPadding({
                   expanderVisibility: 'visible',
                   thereIsChildItem: true
@@ -317,7 +319,7 @@ define([
                   ],
                   keyProperty: 'id'
                }),
-               treeViewModel = new treeGrid.TreeViewModel({
+               treeViewModel = new tree.TreeViewModel({
                   items: rs,
                   hasChildrenProperty: 'hasChild',
                   expanderVisibility: 'hasChildren',
@@ -330,7 +332,7 @@ define([
             treeViewModel._nextModelVersion = function() {
                updated = true;
             };
-            treeGrid.TreeViewModel._private.onBeginCollectionChange(treeViewModel);
+             tree.TreeViewModel._private.onBeginCollectionChange(treeViewModel);
             assert.isTrue(updated);
          });
          it('determinePresenceChildItem after setExpanderVisibility', function() {
@@ -352,7 +354,7 @@ define([
                   ],
                   keyProperty: 'key'
                }),
-               treeViewModel = new treeGrid.TreeViewModel({
+               treeViewModel = new tree.TreeViewModel({
                   items: rs,
                   hasChildrenProperty: 'hasChildren',
                   expanderVisibility: 'visibly',
@@ -372,11 +374,11 @@ define([
                 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_l_theme-default',
                 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_xl_theme-default',
             ];
-            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses(undefined, theme), expectation[0]);
-            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('s', theme), expectation[1]);
-            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('m', theme), expectation[2]);
-            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('l', theme), expectation[3]);
-            assert.equal(treeGrid.TreeViewModel._private.getExpanderPaddingClasses('xl', theme), expectation[4]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses(undefined, theme), expectation[0]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses('s', theme), expectation[1]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses('m', theme), expectation[2]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses('l', theme), expectation[3]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses('xl', theme), expectation[4]);
          });
          it('prepareExpanderClasses', function() {
             var
@@ -453,7 +455,7 @@ define([
                ];
             testsPrepareExpanderClasses.forEach(function(item, i) {
                cAssert.isClassesEqual(
-                   treeGrid.TreeViewModel._private.prepareExpanderClasses(testsPrepareExpanderClasses[i].itemData, testsPrepareExpanderClasses[i].expanderIcon, undefined, theme),
+                  tree.TreeViewModel._private.prepareExpanderClasses(testsPrepareExpanderClasses[i].itemData, testsPrepareExpanderClasses[i].expanderIcon, undefined, theme),
                    testsResultPrepareExpanderClasses[i],
                    'Invalid value "prepareExpanderClasses(...)" for step ' + i + '.'
                );
@@ -464,7 +466,7 @@ define([
          it('initialize from options and changing expandedItems', function() {
             var
                baseExpandedItems = [1, 2, 3],
-               treeViewModel = new treeGrid.TreeViewModel({
+               treeViewModel = new tree.TreeViewModel({
                   expandedItems: baseExpandedItems,
                   items: new collection.RecordSet({
                      rawData: [
@@ -489,9 +491,9 @@ define([
       });
       describe('public methods', function() {
          var
-            treeViewModel = new treeGrid.TreeViewModel(cfg);
+            treeViewModel = new tree.TreeViewModel(cfg);
          it('setRoot', function() {
-            let model = new treeGrid.TreeViewModel(cMerge({}, cfg));
+            let model = new tree.TreeViewModel(cMerge({}, cfg));
             model.setRoot('testRoot');
             assert.equal(model._options.root, 'testRoot');
          });
@@ -573,7 +575,7 @@ define([
                   keyProperty: 'id'
                })
             };
-            var SETVM = new treeGrid.TreeViewModel(singleExpangConfig);
+            var SETVM = new tree.TreeViewModel(singleExpangConfig);
             SETVM.toggleExpanded(SETVM.getItemById('1', cfg.keyProperty), true);
             assert.deepEqual(['1'], SETVM.getExpandedItems(), 'singleExpand: Invalid value "_expandedItems" after expand 1.');
             SETVM.toggleExpanded(SETVM.getItemById('2', cfg.keyProperty), true);
@@ -582,7 +584,7 @@ define([
 
 
          it('collapsedItems', function(){
-            var treeViewModel = new treeGrid.TreeViewModel(cMerge({
+            var treeViewModel = new tree.TreeViewModel(cMerge({
                expandedItems: [null]
             }, cfg));
             assert.deepEqual(treeViewModel._collapsedItems, []);
@@ -592,7 +594,7 @@ define([
 
          it('nodeFooterVisibilityCallback', function() {
             var
-               treeViewModel = new treeGrid.TreeViewModel(cMerge({
+               treeViewModel = new tree.TreeViewModel(cMerge({
                   nodeFooterTemplate: 'footer',
                   nodeFooterVisibilityCallback: function(item) {
                      return item.getId() !== '345';
@@ -629,7 +631,7 @@ define([
                   parentProperty: 'parent',
                   nodeProperty: 'type'
                },
-               model = new treeGrid.TreeViewModel(cfg);
+               model = new tree.TreeViewModel(cfg);
             assert.equal(model.getFirstItem(), model.getItems().at(0));
             assert.equal(model.getLastItem(), model.getItems().at(2));
          });
@@ -726,7 +728,7 @@ define([
                   rawData: params.items,
                   keyProperty: 'id'
                }),
-               model = new treeGrid.TreeViewModel({
+               model = new tree.TreeViewModel({
                   items: items,
                   keyProperty: 'id',
                   parentProperty: 'parent',
@@ -764,7 +766,7 @@ define([
          var tvm, dragEntity;
 
          beforeEach(function() {
-            tvm = new treeGrid.TreeViewModel(cfg);
+            tvm = new tree.TreeViewModel(cfg);
             dragEntity = {
                items: ['123'],
                getItems: function() {
@@ -856,14 +858,14 @@ define([
          */
 
          beforeEach(function() {
-            model = new treeGrid.TreeViewModel(cfg);
+            model = new tree.TreeViewModel(cfg);
          });
 
          it('no hierarchy = no has more footers', function() {
             const itemData = model.getItemDataByItem(model.getItemById('567', 'id'));
             itemData.nodeProperty = undefined;
             itemData.parentProperty = undefined;
-            treeGrid.TreeViewModel._private.setNodeFooterIfNeed(model, itemData);
+            tree.TreeViewModel._private.setNodeFooterIfNeed(model, itemData);
             assert.deepEqual(itemData.nodeFooters, []);
          });
 
@@ -872,7 +874,7 @@ define([
             const itemModel = model.getItemById('234', 'id');
             const itemData = model.getItemDataByItem(itemModel);
             model._items.remove(itemModel.getContents());
-            treeGrid.TreeViewModel._private.setNodeFooterIfNeed(model, itemData);
+            tree.TreeViewModel._private.setNodeFooterIfNeed(model, itemData);
          });
       });
    });

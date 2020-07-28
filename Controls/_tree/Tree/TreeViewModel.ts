@@ -1,11 +1,13 @@
 import {ListViewModel, ItemsUtil, TreeItemsUtil} from 'Controls/list';
 import cClone = require('Core/core-clone');
-import _entity = require('Types/entity');
-import collection = require('Types/collection');
-import {isEqual} from 'Types/object';
-import {TemplateFunction} from 'UI/Base';
+import { relation, Model } from 'Types/entity';
+import { RecordSet, IObservable } from 'Types/collection';
+import { isEqual } from 'Types/object';
+import { TemplateFunction } from 'UI/Base';
+
 import { IDragPosition, ITreeItemData } from 'Controls/listDragNDrop';
 import { ItemsEntity } from 'Controls/dragnDrop';
+import { TreeChildren, TreeItem } from 'Controls/display';
 
 var
     _private = {
@@ -98,7 +100,7 @@ var
         },
 
         onBeginCollectionChange: function(self, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
-            if (action === collection.IObservable.ACTION_REMOVE) {
+            if (action === IObservable.ACTION_REMOVE) {
                 _private.checkRemovedNodes(self, removedItems);
             }
             if (_private.getExpanderVisibility(self._options) === 'hasChildren') {
@@ -398,7 +400,7 @@ var
             this._options = cfg;
             this._expandedItems = cfg.expandedItems ? cClone(cfg.expandedItems) : [];
             this._collapsedItems = _private.prepareCollapsedItems(this._expandedItems, cfg.collapsedItems);
-            this._hierarchyRelation = new _entity.relation.Hierarchy({
+            this._hierarchyRelation = new relation.Hierarchy({
                 keyProperty: cfg.keyProperty || 'id',
                 parentProperty: cfg.parentProperty || 'Раздел',
                 nodeProperty: cfg.nodeProperty || 'Раздел@'
@@ -747,16 +749,20 @@ var
         },
         getDisplayChildrenCount(nodeId: number | string | null, items: RecordSet): number {
             const display = this.getDisplay();
-            let curNodeChildren: TreeChildren = display.getChildren(display.getItemBySourceKey(nodeId));
+            const curNodeChildren: TreeChildren<Model> = display.getChildren(display.getItemBySourceKey(nodeId));
             let childrenCount = curNodeChildren.getCount();
 
-            curNodeChildren.forEach((child: TreeItem) => {
+            curNodeChildren.forEach((child: TreeItem<Model>) => {
                 const childId = child.getContents().getId();
 
                 // Заменить на TreeItem.isExpanded(), пока он не работает, возвращает false.
                 const isNodeExpanded = child.isNode() && (
                     this._expandedItems.indexOf(childId) !== -1 ||
-                    (this._expandedItems.length === 1 && this._expandedItems[0] === null && this._collapsedItems.indexOf(childId) === -1)
+                    (
+                        this._expandedItems.length === 1 &&
+                        this._expandedItems[0] === null &&
+                        this._collapsedItems.indexOf(childId) === -1
+                    )
                 );
 
                 if (isNodeExpanded) {

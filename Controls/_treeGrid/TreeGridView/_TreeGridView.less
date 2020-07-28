@@ -8,41 +8,6 @@
 @_hierarchy_offset_l_treeGrid:    @expander_l_padding-left_treeGrid + @expander_l_padding-right_treeGrid + @expander_width_treeGrid;
 @_hierarchy_offset_xl_treeGrid:   @expander_xl_padding-left_treeGrid + @expander_xl_padding-right_treeGrid + @expander_width_treeGrid;
 
-.controls-TreeGrid__row_default-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
-   padding-left: @expander_s_padding-left_treeGrid;
-   padding-right: @expander_s_padding-right_treeGrid;
-}
-.controls-TreeGrid__row_default-expander_size_m_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_m_theme-@{themeName} {
-   padding-left: @expander_m_padding-left_treeGrid;
-   padding-right: @expander_m_padding-right_treeGrid;
-}
-.controls-TreeGrid__row_default-expander_size_l_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_l_theme-@{themeName} {
-   padding-left: @expander_l_padding-left_treeGrid;
-   padding-right: @expander_l_padding-right_treeGrid;
-}
-.controls-TreeGrid__row_default-expander_size_xl_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_xl_theme-@{themeName} {
-   padding-left: @expander_xl_padding-left_treeGrid;
-   padding-right: @expander_xl_padding-right_treeGrid;
-}
-.controls-TreeGrid__row_default-expander_size_default_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_default_theme-@{themeName} {
-   padding-left: @expander_default_padding-left_treeGrid;
-   padding-right: @expander_default_padding-right_treeGrid;
-}
-
-.controls-TreeGrid__row_master-expander_size_default_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_default_theme-@{themeName}, {
-   padding-left: @expander_default_padding-left_treeGrid;
-   padding-right: @expander_default_padding-right_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_theme-@{themeName} {
-   line-height: 1;
-   display: inline-block;
-   position: relative;
-   min-height: @expander_height_treeGrid;
-   min-width: @expander_width_treeGrid;
-}
-
 .controls-TreeGrid__node-footer-expanderPadding_theme-@{themeName} {
    line-height: 1;
    display: inline-block;
@@ -69,68 +34,6 @@
 }
 .controls-TreeGridView__dragTargetNode_last_theme-@{themeName} {
    border-right: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
-}
-.controls-TreeGrid__row-expanderPadding {
-   visibility: hidden;
-}
-
-.controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before {
-   color: @node_expander_icon-color_treeGrid;
-   font-family: @node_expander_icon_font-family_treeGrid;
-   font-size: @node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @node_expander_icon-size_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
-   color: @hidden-node_expander_icon-color_treeGrid;
-   font-family: @hidden-node_expander_icon_font-family_treeGrid;
-   font-size: @hidden-node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before,
-.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
-   position: relative;
-   bottom: -@expander_padding_icon-treeGrid;
-}
-
-.controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before {
-   color: @master_node_expander_icon-color_treeGrid;
-   font-family: @node_expander_icon_font-family_treeGrid;
-   font-size: @master_node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @master_node_expander_icon-size_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
-   color: @master_hidden-node_expander_icon-color_treeGrid;
-   font-family: @hidden-node_expander_icon_font-family_treeGrid;
-   font-size: @master_hidden-node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @master_hidden-node_expander_icon-size_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_theme-@{themeName}:before {
-   user-select: none;
-   flex-shrink: 0;
-   cursor: pointer;
-   overflow: hidden;
-   text-align: center;
-   font-weight: normal; // https://online.sbis.ru/opendoc.html?guid=c9f0873b-3b20-4b73-a084-f67cc2c3071f
-}
-.controls-TreeGrid__row-expander_node_default_collapsed_theme-@{themeName}:before,
-.controls-TreeGrid__row-expander_node_master_collapsed_theme-@{themeName}:before {
-   content: '\e96e';
-}
-.controls-TreeGrid__row-expander_node_default_expanded_theme-@{themeName}:before,
-.controls-TreeGrid__row-expander_node_master_expanded_theme-@{themeName}:before {
-   content: '\e96d';
-}
-.controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-@{themeName}:before,
-.controls-TreeGrid__row-expander_hiddenNode_master_collapsed_theme-@{themeName}:before {
-   content: '\e9c2';
-}
-.controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-@{themeName}:before,
-.controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
-   content: '\e9c1';
 }
 
 .controls-TreeGrid__row {
@@ -303,31 +206,12 @@
    align-items: baseline;
 }
 
-// Master list sets ::before on selected item, witch overflows expander. It has z-index: 2 and pointer-events: none, but
-// Old IE doesn't support pointer-events.
-.ws-is-ie10 .controls-TreeGrid__row-expander {
-   z-index: 2;
-}
-
 .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
    visibility: visible;
    opacity: 1;
 }
 
 .ws-is-hover {
-   .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:hover:before {
-      color: @node_expander_hover_icon-color_treeGrid;
-   }
-   .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:hover:before {
-      color: @hidden-node_expander_hover_icon-color_treeGrid;
-   }
-   .controls-TreeGrid__row-expander_node_master_theme-@{themeName}:hover:before {
-      color: @master_node_expander_hover_icon-color_treeGrid;
-   }
-   .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before {
-      color: @master_hidden-node_expander_hover_icon-color_treeGrid;
-   }
-
    .controls-BaseControl_showActions_visible .controls-Grid__row,
    .controls-BaseControl_showActions_onhover .controls-Grid__row:hover,
    .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
