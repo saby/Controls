@@ -518,9 +518,6 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
             if (this._options.editingConfig) {
                 baseControl.cancelEdit();
             }
-
-            this.setMarkedKey(undefined);
-
             baseControl.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
         }
 
