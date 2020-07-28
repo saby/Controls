@@ -18,6 +18,7 @@
       valueValidators="{{_startValueValidators}}"
       validateByFocusOut="{{_options.validateByFocusOut}}"
       on:input="_inputHandler()"
+      on:keyup="_keyupHandler()"
       on:inputCompleted="_notifyInputCompleted()"
       on:tagClick="_proxyEvent('startTagClick')"
       on:tagHover="_proxyEvent('startTagHover')">

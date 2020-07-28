@@ -10,6 +10,7 @@ import {IDateTimeMask} from 'Controls/input';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_dateRange/Input/Input');
 import getOptions from 'Controls/Utils/datePopupUtils';
+import { detection } from 'Env/Env';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
 }
@@ -130,12 +131,26 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     // ВНИМАНИЕ!!! Переделать по готовности задачи по доработке InputRender - https://online.sbis.ru/opendoc.html?guid=d4bdb7cc-c324-4b4b-bda5-db6f8a46bc60
 
+    protected _keyupHandler(event: SyntheticEvent): void {
+        //В брузерах IE и Edge событие input не присылает инофрмацию о нажатой кнопке. Используем событие keydown.
+        if (!detection.isMobileAndroid) {
+            this._changeFocusIfValidKey(event.nativeEvent.key);
+        }
+    }
+
     protected _inputHandler(event: SyntheticEvent): void {
+        //На Андроиде событие keyup/keydown не присылает информацию о нажатой кнопке. Используем событие input
+        if (detection.isMobileAndroid) {
+            this._changeFocusIfValidKey(event.nativeEvent.data);
+        }
+    }
+
+    private _changeFocusIfValidKey(key: string): void {
         // Move the focus only if the digit was pressed. Without this check, we see a bug in the following scenario.
         // The cursor is in a different input field. Click tab. By pressing the focus goes to this input field.
         // Release tab. Switches the focus in the field at the end of the period.
-        const key = parseInt(event.nativeEvent.data, 10);
-        if (!isNaN(key)) {
+        const data = parseInt(key, 10);
+        if (!isNaN(data)) {
             this._focusChanger();
         }
     }

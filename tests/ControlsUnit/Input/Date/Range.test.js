@@ -156,15 +156,15 @@ define([
          });
       });
 
-      describe('_inputHandler', function() {
+      describe('_changeFocusIfValidKey', function() {
          [{
-            data: '0',
+            key: '0',
             checkHandle: true
          }, {
-            data: '9',
+            key: '9',
             checkHandle: true
          }, {
-            data: 'x',
+            key: 'x',
             checkHandle: false
          }].forEach(function(test) {
             it('should generate events and close opener', function() {
@@ -174,7 +174,7 @@ define([
 
                sandbox.stub(component, '_focusChanger');
 
-               component._inputHandler({ nativeEvent: { data: test.data } });
+               component._changeFocusIfValidKey(test.key);
 
                if (test.checkHandle) {
                   sinon.assert.called(component._focusChanger);
