@@ -84,13 +84,16 @@ class PendingClass {
             const indicatorConfig = {id: this._pendings[root][this._pendingsCounter].loadingIndicatorId};
             this._pendings[root][this._pendingsCounter].loadingIndicatorId = this._notify('showIndicator', [indicatorConfig]);
         }
-
-        def.catch(() => ({
-            //Ставим заглушку для того, чтобы не падали ошибки в консоль
-        })).finally(function(pendingsCounter: number, res) {
+        //Дублируем функцию в then и catch, из-за некорректной работы finally.
+        //Кейс в котором появляется ошибка https://online.sbis.ru/opendoc.html?guid=f19feffb-bec0-4d81-8a97-4c8ea5d4a3bc
+        def.then(function(pendingsCounter: number, res) {
             this.unregisterPending(root, pendingsCounter);
             return res;
-        }.bind(this, this._pendingsCounter));
+        }.bind(this, this._pendingsCounter))
+            .catch(function(pendingsCounter: number, res) {
+                this.unregisterPending(root, pendingsCounter);
+                return res;
+            }.bind(this, this._pendingsCounter));
 
         this._pendingsCounter++;
     }
