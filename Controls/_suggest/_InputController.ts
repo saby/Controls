@@ -421,7 +421,7 @@ var SuggestLayout = Control.extend({
    _beforeUpdate(newOptions): void {
       const valueChanged = this._options.value !== newOptions.value;
       const valueCleared = valueChanged && !newOptions.value && typeof newOptions.value === 'string';
-      const needSearchOnValueChanged = valueChanged && _private.shouldSearch(this, _private.prepareValue(this, newOptions.value));
+      const needSearchOnValueChanged = valueChanged && _private.isValueLengthLongerThenMinSearchLength(_private.prepareValue(this, newOptions.value), this._options);
       const emptyTemplateChanged = !isEqual(this._options.emptyTemplate, newOptions.emptyTemplate);
       const footerTempalteChanged = !isEqual(this._options.footerTemplate, newOptions.footerTemplate);
 
