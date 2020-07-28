@@ -370,6 +370,7 @@ define(
             expectedOptions.headerContentTemplate = null;
             expectedOptions.additionalProperty = null;
             expectedOptions.itemPadding = null;
+            expectedOptions.emptyText = null;
             expectedOptions.searchParam = null;
             expectedOptions.iWantBeWS3 = false;
 

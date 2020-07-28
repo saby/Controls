@@ -756,6 +756,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             searchParam: null,
             itemPadding: null,
             source: this._getSourceSubMenu(root),
+            emptyText: null,
             iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
         };
 
