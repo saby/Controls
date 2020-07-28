@@ -15,9 +15,14 @@
 </ws:template>
 <ws:template name="itemContentTpl">
     <ws:if data="{{itemData.hasMultiSelect}}">
-       <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{_options.theme}}">
-          <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
-       </ws:partial>
+       <ws:if data="{{!itemData.dispItem.isEditing()}}">
+          <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}} controls-ListView__checkbox_theme-{{_options.theme}}">
+             <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{ itemData.isAdd || checkboxReadOnly }}"/>
+          </ws:partial>
+       </ws:if>
+       <ws:else>
+          <div class="{{'controls-ListView__groupContent__leftPadding_' + itemData.itemPadding.left + '_theme-' +_options.theme}}"></div>
+       </ws:else>
     </ws:if>
 
    <ws:if data="{{marker !== false && itemData.markerVisibility !== 'hidden' && !itemData.isEditing() && itemData.isMarked()}}">

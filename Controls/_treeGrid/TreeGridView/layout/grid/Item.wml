@@ -62,12 +62,17 @@
 
    <!-- Колонка с чекбоксами -->
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-      <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
-         <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                             checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
-                             multiSelectStatus="{{itemData.isSelected()}}"
-                             key="{{itemData.key}}" />
-      </ws:partial>
+      <ws:if data="{{!itemData.dispItem.isEditing()}}">
+         <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
+            <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
+                                checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                                multiSelectStatus="{{itemData.isSelected()}}"
+                                key="{{itemData.key}}" />
+         </ws:partial>
+      </ws:if>
+      <ws:else>
+         <div class="{{'controls-Grid__cell_spacingFirstCol_' + itemData.itemPadding.left + '_theme-' + _options.theme + ' controls-TreeGrid__nodeFooterContent_spacingLeft-' + itemData.itemPadding.left + '_theme-' +_options.theme}}"></div>
+      </ws:else>
    </ws:if>
    <!-- Данные колонки -->
    <ws:else>

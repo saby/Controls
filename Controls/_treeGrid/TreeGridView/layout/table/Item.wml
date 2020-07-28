@@ -72,14 +72,19 @@
 
                 <!-- Контент колонки с чекбоксом -->
                 <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-                    <div class="{{ currentColumn.classList.padding.getAll() }} {{ cellClassName || '' }}">
-                        <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
-                            <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                                                checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
-                                                multiSelectStatus="{{itemData.isSelected()}}"
-                                                key="{{itemData.key}}"/>
-                        </ws:partial>
-                    </div>
+                    <ws:if data="{{!itemData.dispItem.isEditing()}}">
+                        <div class="{{ currentColumn.classList.padding.getAll() }} {{ cellClassName || '' }}">
+                            <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
+                                <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
+                                                    checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                                                    multiSelectStatus="{{itemData.isSelected()}}"
+                                                    key="{{itemData.key}}"/>
+                            </ws:partial>
+                        </div>
+                    </ws:if>
+                    <ws:else>
+                        <div class="{{'controls-Grid__cell_spacingFirstCol_' + itemData.itemPadding.left + '_theme-' + _options.theme + ' controls-TreeGrid__nodeFooterContent_spacingLeft-' + itemData.itemPadding.left + '_theme-' +_options.theme}}"></div>
+                    </ws:else>
                 </ws:if>
                 <!-- Контент колонки с данными -->
                 <ws:else>

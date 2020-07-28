@@ -643,9 +643,6 @@ define([
             lvm.setMultiSelectVisibility('visible');
             item = lvm.getItemDataByItem(lvm.getItemById('1', 'id'));
             assert.isTrue(item.hasMultiSelect);
-            lvm.getItemById('1', 'id').setEditing(true);
-            item = lvm.getItemDataByItem(lvm.getItemById('1', 'id'));
-            assert.isFalse(item.hasMultiSelect);
          });
 
          it('getMultiSelectClassList hidden', function() {

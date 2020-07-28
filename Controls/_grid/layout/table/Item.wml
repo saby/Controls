@@ -25,11 +25,16 @@
     </ws:if>
 
     <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-        <div class="{{ currentColumn.classList.padding.getAll() }}">
-            <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
-                <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
-            </ws:partial>
-        </div>
+        <ws:if data="{{!itemData.dispItem.isEditing()}}">
+            <div class="{{ currentColumn.classList.padding.getAll() }}">
+                <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
+                    <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
+                </ws:partial>
+            </div>
+        </ws:if>
+        <ws:else>
+            <div class="{{'controls-Grid__cell_spacingFirstCol_' + itemData.itemPadding.left + '_theme-' +_options.theme}}"></div>
+        </ws:else>
     </ws:if>
     <ws:else>
         <ws:if data="{{colspan}}">
