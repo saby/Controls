@@ -777,6 +777,11 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggestComponent._beforeUpdate({suggestState: false, value: null});
          assert.equal(suggestComponent._searchValue, '');
 
+         suggestComponent._inputActive = false;
+         suggestComponent._beforeUpdate({suggestState: false, emptyTemplate: 'anotherTpl', footerTemplate: 'anotherTpl', value: 'test', searchParam: 'testSearchParam'});
+         assert.deepEqual(suggestComponent._filter, {testSearchParam: 'test'});
+         assert.equal(suggestComponent._searchValue, 'test');
+
          sandbox.restore();
       });
 
