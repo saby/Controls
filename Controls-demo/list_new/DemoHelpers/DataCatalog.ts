@@ -363,6 +363,67 @@ function generateData<
     return items;
 }
 
+const changeSourceData = (): IChangeSource => ({
+    data: [
+        {
+            id: 1,
+            title: 'One'
+        }, {
+            id: 2,
+            title: 'Two'
+
+        }, {
+            id: 3,
+            title: 'three'
+
+        }, {
+            id: 4,
+            title: 'Four'
+
+        }, {
+            id: 5,
+            title: 'Five'
+
+        }, {
+            id: 6,
+            title: 'Six'
+
+        }, {
+            id: 7,
+            title: 'Seven'
+
+        }],
+    data2: [
+        {
+            id: 1,
+            title: 1
+        }, {
+            id: 2,
+            title: 2
+
+        }, {
+            id: 3,
+            title: 2
+
+        }, {
+            id: 4,
+            title: 2
+
+        }, {
+            id: 5,
+            title: 2
+
+        }, {
+            id: 6,
+            title: 2
+
+        }, {
+            id: 7,
+            title: 2
+
+        }]
+});
+
 export {
     getContactsCatalog,
     getContactsCatalogWithActions,
@@ -370,5 +431,6 @@ export {
     getGroupedCatalog,
     getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
-    generateData
+    generateData,
+    changeSourceData
 };

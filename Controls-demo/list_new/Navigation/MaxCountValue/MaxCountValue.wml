@@ -7,8 +7,7 @@
     <Controls.list:View
             keyProperty="id"
             source="{{_viewSource}}"
-            navigation="{{_navigation}}"
-            columns="{{_columns}}">
+            navigation="{{_navigation}}">
 
         <ws:emptyTemplate>
             <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">

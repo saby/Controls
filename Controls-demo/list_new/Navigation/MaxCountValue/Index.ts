@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/grid/SourceChanger/MaxCountValue/MaxCountValue';
+import * as Template from 'wml!Controls-demo/list_new/Navigation/MaxCountValue/MaxCountValue';
 import {Memory} from 'Types/source';
-import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
+import {changeSourceData} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { INavigation } from 'Controls-demo/types';
 
@@ -42,7 +42,6 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
     private _resolve: unknown = null;
     protected _navigation: INavigation;
 
