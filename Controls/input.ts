@@ -78,7 +78,7 @@ import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask'
 import * as ActualAPI from 'Controls/_input/ActualAPI';
 
 import BaseViewModel = require('Controls/_input/Base/ViewModel');
-import TextViewModel = require('Controls/_input/Text/ViewModel');
+export {default as TextViewModel} from 'Controls/_input/Text/ViewModel';
 import MaskInputProcessor = require('Controls/_input/Mask/InputProcessor');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 
@@ -139,7 +139,6 @@ export {
     TimeInterval,
     Money,
     BaseViewModel,
-    TextViewModel,
     MaskInputProcessor,
     MaskFormatterValue,
     StringValueConverter,

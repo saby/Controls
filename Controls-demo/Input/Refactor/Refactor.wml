@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.buttons:Button caption="{{_visible ? 'Уничтожить' : 'Построить'}}" on:click="_toggle()"/>
+      <ws:if data="{{_visible}}">
+         <Controls.input:Area attr:class="controlsDemo__input" placeholder="Enter your name" bind:value="_value"/>
+      </ws:if>
+   </div>
+</div>

@@ -1,44 +1,44 @@
-import BaseViewModel = require('Controls/_input/Base/ViewModel');
-      
+import BaseViewModel from 'Controls/_input/BaseViewModel';
 
-      /**
-       * @class Controls/_input/Text/ViewModel
-       * @extends Controls/_input/Base/ViewModel
-       *
-       * @private
-       *
-       * @author Красильников А.С.
-       */
+interface IOptions {
+    constraint?: string;
+    maxLength?: number;
+}
 
-      var _private = {
-         constraint: function(splitValue, constraint) {
-            var constraintRegExp = new RegExp(constraint, 'g');
-            var match = splitValue.insert.match(constraintRegExp);
+class ViewModel extends BaseViewModel<string | null, IOptions> {
+    private constraint(splitValue, constraint): void {
+        var constraintRegExp = new RegExp(constraint, 'g');
+        var match = splitValue.insert.match(constraintRegExp);
 
-            splitValue.insert = match ? match.join('') : '';
-         },
+        splitValue.insert = match ? match.join('') : '';
+    }
 
-         maxLength: function(splitValue, maxLength) {
-            var maxInsertionLength = maxLength - splitValue.before.length - splitValue.after.length;
+    private maxLength(splitValue, maxLength): void {
+        var maxInsertionLength = maxLength - splitValue.before.length - splitValue.after.length;
 
-            splitValue.insert = splitValue.insert.substring(0, maxInsertionLength);
-         }
-      };
+        splitValue.insert = splitValue.insert.substring(0, maxInsertionLength);
+    }
 
-      var ViewModel = BaseViewModel.extend({
-         handleInput: function(splitValue, inputType) {
-            if (inputType === 'insert') {
-               if (this.options.constraint) {
-                  _private.constraint(splitValue, this.options.constraint);
-               }
-               if (this.options.maxLength) {
-                  _private.maxLength(splitValue, this.options.maxLength);
-               }
+    protected _convertToDisplayValue(value: string | null): string {
+        return value === null ? '' : value;
+    }
+
+    protected _convertToValue(displayValue: string): string | null {
+        return displayValue;
+    }
+
+    handleInput(splitValue, inputType): boolean {
+        if (inputType === 'insert') {
+            if (this.options.constraint) {
+                this.constraint(splitValue, this.options.constraint);
             }
+            if (this.options.maxLength) {
+                this.maxLength(splitValue, this.options.maxLength);
+            }
+        }
 
-            return ViewModel.superclass.handleInput.call(this, splitValue, inputType);
-         }
-      });
+        return super.handleInput(splitValue, inputType);
+    }
+}
 
-      export = ViewModel;
-   
+export default ViewModel;
