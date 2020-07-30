@@ -540,7 +540,8 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         const baseControl = this._children.baseControl;
         const viewModel = baseControl.getViewModel();
 
-        if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
+        if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root &&
+            !(newOptions.root === null && newOptions.searchValue)) {
             this._root = newOptions.root;
             this._updatedRoot = true;
 
