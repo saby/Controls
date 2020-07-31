@@ -194,6 +194,10 @@ var Component = Control.extend([], {
       }
    },
 
+   getSplitValue: function() {
+      return this._children.base.splitValue;
+   },
+
    _beforeUnmount: function() {
       this._model.destroy();
    }

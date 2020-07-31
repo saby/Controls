@@ -134,8 +134,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         // Move the focus only if the digit was pressed. Without this check, we see a bug in the following scenario.
         // The cursor is in a different input field. Click tab. By pressing the focus goes to this input field.
         // Release tab. Switches the focus in the field at the end of the period.
-        const key = parseInt(event.nativeEvent.data, 10);
-        if (!isNaN(key)) {
+
+        // На разных платформах и браузерах нажатая клавиша определяется по разному. Чтобы определить, какая кнопка нажата,
+        // используем специальный метод split у инпута.
+        const key = this._children.startValueField.getSplitValue().insert;
+        const value = parseInt(key, 10);
+        if (!isNaN(value)) {
             this._focusChanger();
         }
     }
