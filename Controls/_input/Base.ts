@@ -566,6 +566,8 @@ var Base = Control.extend({
         return '';
     },
 
+    splitValue: null,
+
     /**
      *
      * @return {HTMLElement}
@@ -834,9 +836,9 @@ var Base = Control.extend({
             this, value, newValue, position,
             selection, event.nativeEvent.inputType
         );
-        const splitValue: ISplitValue = split(value, newValue, position, selection, inputType);
+        this.splitValue = split(value, newValue, position, selection, inputType);
 
-        _private.handleInput(this, splitValue, inputType);
+        _private.handleInput(this, this.splitValue, inputType);
 
         /**
          * Некоторые браузеры предоставляют возможность пользователю выбрать значение из предложенного списка.
