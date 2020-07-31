@@ -163,7 +163,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     protected _setContentActive(event: SyntheticEvent<FocusEvent>, newContentActive: boolean): void {
         this._contentActive = newContentActive;
 
-        this._calcState(this._options);
+        this._setState(this._options);
     }
 
     static _theme: string[] = ['Controls/input', 'Controls/Classes'];
