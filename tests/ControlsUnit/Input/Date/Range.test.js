@@ -158,13 +158,13 @@ define([
 
       describe('_inputHandler', function() {
          [{
-            data: '0',
+            insert: '0',
             checkHandle: true
          }, {
-            data: '9',
+            insert: '9',
             checkHandle: true
          }, {
-            data: 'x',
+            insert: 'x',
             checkHandle: false
          }].forEach(function(test) {
             it('should generate events and close opener', function() {
@@ -174,7 +174,17 @@ define([
 
                sandbox.stub(component, '_focusChanger');
 
-               component._inputHandler({ nativeEvent: { data: test.data } });
+               component._children = {
+                  startValueField: {
+                     getSplitValue: () => {
+                        return {
+                           insert: test.insert
+                        };
+                     }
+                  }
+               };
+
+               component._inputHandler();
 
                if (test.checkHandle) {
                   sinon.assert.called(component._focusChanger);

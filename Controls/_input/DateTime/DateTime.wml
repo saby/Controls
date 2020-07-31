@@ -1,6 +1,7 @@
 <ws:partial template="{{_validationContainer}}" validators="{{_validators}}">
     <ws:content>
         <Controls._input.DateTime.Mask
+                name="base"
                 value="{{_model.clearTextValue}}"
                 replacer="{{_model._replacer}}"
                 mask="{{_options.mask}}"
