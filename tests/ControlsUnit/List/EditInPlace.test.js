@@ -1987,7 +1987,6 @@ define([
             assert.equal(eip._clickItemInfo.item, newItem);
             assert.equal(eip._clickItemInfo.clientX, 10);
             assert.equal(eip._clickItemInfo.clientY, 20);
-            assert.isTrue(clickPropagationStopped);
          });
 
          it('clickItemInfo with editing canceled', function() {
@@ -2018,7 +2017,6 @@ define([
                type: 'click'
             });
             assert.equal(null, eip._clickItemInfo);
-            assert.isTrue(clickPropagationStopped);
          });
 
          it('editOnClick: true, notEditable element', function(done) {
