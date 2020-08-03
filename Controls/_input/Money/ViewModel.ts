@@ -19,6 +19,10 @@ class ViewModel extends BaseViewModel {
     }
 
     protected _convertToDisplayValue(value: string | number): string {
+        if (value === '') {
+            return '';
+        }
+
         const displayValue = toString(value);
 
         return format(parse(displayValue), this._options, displayValue.length).value;

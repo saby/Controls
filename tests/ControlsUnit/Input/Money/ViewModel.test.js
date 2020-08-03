@@ -28,6 +28,12 @@ define(
          });
 
          describe('Change the value.', function() {
+            it('Empty', function() {
+               model.value = '';
+
+               assert.equal(model.value, '');
+               assert.equal(model.displayValue, '');
+            });
             it('0', function() {
                model.value = '0';
 
