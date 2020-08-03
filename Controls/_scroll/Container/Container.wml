@@ -5,18 +5,18 @@
                     _scrollCssClass="{{_scrollCssClass}}"
                     attr:style="{{_scrollbars.scrollContainerStyles}}"
                     attr:class="controls-BlockLayout__blockGroup_theme-{{_options.theme}} controls-BlockLayout__blockGroup_theme-{{_options.theme}}
-                    controls-Scroll__background-Shadow_top-{{_shadows.top.isVisibleShadowOnCSS}}_bottom-{{_shadows.bottom.isVisibleShadowOnCSS}} controls-Scroll__background-Shadow"
+                    {{_options.optimizeShadow ? _getOptimizeShadowClass()}}"
                     on:intersectionObserverRegister="_intersectionObserverRegisterHandler()"
                     on:intersectionObserverUnregister="_intersectionObserverUnregisterHandler()"
                     on:fixed="_stickyFixedHandler()"
                     on:stickyRegister="_stickyRegisterHandler()"
                     on:keydown="_keydownHandler()"/>
-<!--        <ws:if data="{{_shadows.top.isEnabled}}">-->
-<!--            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top {{!_shadows.top.isVisible ? ' ws-invisible'}}"></div>-->
-<!--        </ws:if>-->
-<!--        <ws:if data="{{_shadows.bottom.isEnabled}}">-->
-<!--            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_bottom {{!_shadows.bottom.isVisible ? ' ws-invisible'}}"></div>-->
-<!--        </ws:if>-->
+        <ws:if data="{{_shadows.top.isEnabled && !_options.optimizeShadow}}">
+            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top {{!_shadows.top.isVisible ? ' ws-invisible'}}"></div>
+        </ws:if>
+        <ws:if data="{{_shadows.bottom.isEnabled && !_options.optimizeShadow}}">
+            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_bottom {{!_shadows.bottom.isVisible ? ' ws-invisible'}}"></div>
+        </ws:if>
         <ws:if data="{{_shadows.left.isEnabled}}">
             <div class="controls-Scroll__shadow controls-Scroll__shadow_vertical controls-Scroll__shadow_left {{!_shadows.left.isVisible ? ' ws-invisible'}}"></div>
         </ws:if>

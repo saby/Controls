@@ -82,6 +82,17 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
  * @variant inverted Inverted theme (for dark backgrounds).
  */
 
+/**
+ * @name Controls/_scroll/ContainerNew#optimizeShadow
+ * @cfg {Boolean} Следует ли включать оптимизированные тени.
+ * @default true
+ * @remark
+ * * true - Оптимизированные тени, тени без выполнения JavaScript.
+ * * false - Не оптимизированные тени, тени с выполнением JavaScript.
+ * Используйте оптимизированные тени, если у вас нет картинок и/или непрозрачных фонов, а так же, если контейнер не находится в элементе
+ * с непрозрачным фоном.
+ */
+
 const SCROLL_BY_ARROWS = 40;
 
 export default class Container extends ContainerBase<IContainerOptions> implements IScrollbars {
@@ -132,8 +143,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const isUpdated: boolean = super._updateState(...args);
         if (isUpdated) {
             // Убираем старое поведение теней, новые тени сделаны через CSS, рассчеты производить более не требуется
-            // Старое поведение в будущем понадбится в тех местах, где присутствуют картинки и/или непрозрачный фон.
-            // this._shadows.updateScrollState(this._state);
+            // Старое поведение нужно включать в тех местах, где присутствуют картинки и/или непрозрачный фон.
+            if (!this._options.optimizeShadow) {
+                this._shadows.updateScrollState(this._state);
+            }
             this._scrollbars.updateScrollState(this._state);
             this._stickyHeaderController.setCanScroll(this._state.canVerticalScroll);
             this._scrollCssClass = this._getScrollContainerCssClass(this._options);
@@ -274,6 +287,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._notify('intersect', [items]);
     }
 
+    protected _getOptimizeShadowClass(): string {
+        return `controls-Scroll__background-Shadow controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}`;
+    }
+
     // StickyHeaderController
 
     _stickyFixedHandler(event: SyntheticEvent<Event>, fixedHeaderData: IFixedEventData): void {
@@ -300,7 +317,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             ...getScrollbarsDefaultOptions(),
             topShadowVisibility: SHADOW_VISIBILITY.AUTO,
             bottomShadowVisibility: SHADOW_VISIBILITY.AUTO,
-            scrollMode: 'vertical'
+            scrollMode: 'vertical',
+            optimizeShadow: true
         };
     }
 }
