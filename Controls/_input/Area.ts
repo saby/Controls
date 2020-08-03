@@ -90,6 +90,16 @@ import 'Controls/decorator';
  * @demo Controls-demo/Input/FooterTemplate/Index
  */
 
+/**
+ * @name Controls/_input/Area#optimizeShadow
+ * @cfg {Boolean} Включает режим быстрой отрисовки тени.
+ * @default true
+ * @variant true Оптимизированные тени.
+ * @variant false Не оптимизированные тени.
+ * @remark
+ * Отпимизированные тени подходят для контейнеров, которые находятся на стандратном фоне.
+ */
+
 var _private = {
     calcPositionCursor: function (container, textBeforeCursor) {
         var measuredBlock = document.createElement('div');
@@ -360,6 +370,7 @@ Area.getDefaultOptions = function () {
 
     defaultOptions.minLines = 1;
     defaultOptions.newLineKey = 'enter';
+    defaultOptions.optimizeShadow = true;
 
     return defaultOptions;
 };

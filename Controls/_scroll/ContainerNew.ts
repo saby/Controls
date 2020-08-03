@@ -84,13 +84,12 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
 
 /**
  * @name Controls/_scroll/ContainerNew#optimizeShadow
- * @cfg {Boolean} Следует ли включать оптимизированные тени.
+ * @cfg {Boolean} Включает режим быстрой отрисовки тени.
  * @default true
+ * @variant true Оптимизированные тени.
+ * @variant false Не оптимизированные тени.
  * @remark
- * * true - Оптимизированные тени, тени без выполнения JavaScript.
- * * false - Не оптимизированные тени, тени с выполнением JavaScript.
- * Используйте оптимизированные тени, если у вас нет картинок и/или непрозрачных фонов, а так же, если контейнер не находится в элементе
- * с непрозрачным фоном.
+ * Отпимизированные тени подходят для контейнеров, которые находятся на стандратном фоне и в случае, если внутри нет изображений.
  */
 
 const SCROLL_BY_ARROWS = 40;

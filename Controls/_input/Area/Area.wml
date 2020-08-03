@@ -19,7 +19,8 @@
       <Controls.scroll:_ContainerNew name="scroll"
                                  attr:class="controls-Area__scroll controls-InputBase__field
                                           controls-Area__minHeight_theme_{{_options.theme}}_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
-                                          {{_maxLines ? 'controls-Area__maxHeight_theme_' + _options.theme + '_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}">
+                                          {{_maxLines ? 'controls-Area__maxHeight_theme_' + _options.theme + '_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
+                                  optimizeShadow="{{_options.optimizeShadow}}">
          <ws:if data="{{_options.readOnly}}">
             <ws:partial options="{{_options}}"
                         scope="{{_readOnlyField.scope}}"
