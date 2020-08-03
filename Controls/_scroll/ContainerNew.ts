@@ -82,6 +82,17 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
  * @variant inverted Inverted theme (for dark backgrounds).
  */
 
+/**
+ * @name Controls/_scroll/ContainerNew#optimizeShadow
+ * @cfg {Boolean} Следует ли включать оптимизированные тени.
+ * @default true
+ * @remark
+ * * true - Оптимизированные тени, тени без выполнения JavaScript.
+ * * false - Не оптимизированные тени, тени с выполнением JavaScript.
+ * Используйте оптимизированные тени, если у вас нет картинок и/или непрозрачных фонов, а так же, если контейнер не находится в элементе
+ * с непрозрачным фоном.
+ */
+
 const SCROLL_BY_ARROWS = 40;
 
 export default class Container extends ContainerBase<IContainerOptions> implements IScrollbars {
