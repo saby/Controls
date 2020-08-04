@@ -4,8 +4,10 @@
                     _options="{{_options}}"
                     _scrollCssClass="{{_scrollCssClass}}"
                     attr:style="{{_scrollbars.scrollContainerStyles}}"
-                    attr:class="controls-BlockLayout__blockGroup_theme-{{_options.theme}} controls-BlockLayout__blockGroup_theme-{{_options.theme}}
-                    controls-Scroll__background-Shadow_top-{{_shadows.top.isVisibleShadowOnCSS}}_bottom-{{_shadows.bottom.isVisibleShadowOnCSS}} controls-Scroll__background-Shadow"
+                    attr:class="controls-BlockLayout__blockGroup_theme-{{_options.theme}}
+                                controls-BlockLayout__blockGroup_theme-{{_options.theme}}
+                                controls-Scroll__background-Shadow_top-{{_shadows.top.isVisibleShadowOnCSS}}_bottom-{{_shadows.bottom.isVisibleShadowOnCSS}}_theme-{{_options.theme}}
+                                controls-Scroll__background-Shadow_theme-{{_options.theme}}"
                     on:intersectionObserverRegister="_intersectionObserverRegisterHandler()"
                     on:intersectionObserverUnregister="_intersectionObserverUnregisterHandler()"
                     on:fixed="_stickyFixedHandler()"
