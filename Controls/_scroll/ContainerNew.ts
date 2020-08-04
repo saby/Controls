@@ -292,7 +292,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _getOptimizeShadowClass(): string {
-        return `controls-Scroll__background-Shadow controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}`;
+        return `controls-Scroll__background-Shadow_theme-${this._options.theme} ` +
+            `controls-Scroll__background-Shadow_top-${this._shadows.top.isVisibleShadowOnCSS}_bottom-${this._shadows.bottom.isVisibleShadowOnCSS}_theme-${this._options.theme}`;
     }
 
     // StickyHeaderController
