@@ -6,11 +6,11 @@ define(
    function(filterPopup, Clone) {
       describe('FilterHistory:EditDialog', function() {
          let items = [
-            {id: 'period', value: [2], textValue: 'Today'},
-            {id: 'warehouse', value: [], textValue: ''},
-            {id: 'sender', value: '', textValue: ''},
-            {id: 'author', value: 'Ivanov K.K.', textValue: 'Ivanov K.K.', visibility: true},
-            {id: 'responsible', value: 'Petrov T.T.',  textValue: 'Petrov T.T.', visibility: false}
+            {name: 'period', value: [2], textValue: 'Today'},
+            {name: 'warehouse', value: [], textValue: ''},
+            {name: 'sender', value: '', textValue: ''},
+            {name: 'author', value: 'Ivanov K.K.', textValue: 'Ivanov K.K.', visibility: true},
+            {name: 'responsible', value: 'Petrov T.T.',  textValue: 'Petrov T.T.', visibility: false}
          ];
 
          let defaultConfig = {

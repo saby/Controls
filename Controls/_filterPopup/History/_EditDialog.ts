@@ -4,11 +4,12 @@ import {factory} from 'Types/chain';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {Confirmation} from 'Controls/popup';
+import {IFilterItem} from 'Controls/filter';
 import * as Clone from 'Core/core-clone';
 import DialogTemplate = require('wml!Controls/_filterPopup/History/_Favorite/EditDialog');
 
 interface IEditDialog extends IControlOptions {
-    items: object[];
+    items: IFilterItem[];
     isClient: boolean;
     isFavorite: boolean;
     editedTextValue: string;
@@ -28,26 +29,26 @@ class EditDialog extends Control<IEditDialog> {
     private _textValue: string;
     private _placeholder: string;
     private _isClient: boolean;
-    protected _globalSource = globalConfig;
+    protected _globalSource: Memory = globalConfig;
     private _selectedFilters: string[];
     protected _source: Memory;
 
-    private isDisplayItem(item: object): boolean {
-        return item.hasOwnProperty('value') && item.value && item.value.length !== 0 && item.textValue && item.visibility !== false;
+    private isDisplayItem(item: IFilterItem): boolean {
+        return item.hasOwnProperty('value') && item.value?.length !== 0 && item.textValue && item.visibility !== false;
     }
 
-    private getItemsSource(self: EditDialog, items: object[]): Memory {
+    private getItemsSource(self: EditDialog, items: IFilterItem[]): Memory {
         const data = factory(items).filter((item) => {
 
             if (self.isDisplayItem(item)) {
-                self._selectedFilters.push(item.id);
-                return item;
+                self._selectedFilters.push(item.name);
+                return !!item;
             }
         }).value();
 
         return new Memory({
-            keyProperty: 'id',
-            data: data
+            keyProperty: 'name',
+            data
         });
     }
 
@@ -64,8 +65,10 @@ class EditDialog extends Control<IEditDialog> {
     }
 
     protected _beforeUpdate(newOptions: IEditDialog): void {
-        if (newOptions.items !== this._options.items || newOptions.isClient !== this._options.isClient ||
-            newOptions.isFavorite !== this._options.isFavorite || newOptions.editedTextValue !== this._options.editedTextValue) {
+        if (newOptions.items !== this._options.items ||
+            newOptions.isClient !== this._options.isClient ||
+            newOptions.isFavorite !== this._options.isFavorite ||
+            newOptions.editedTextValue !== this._options.editedTextValue) {
             this.prepareConfig(this, newOptions);
         }
     }
@@ -106,9 +109,9 @@ class EditDialog extends Control<IEditDialog> {
     }
 
     private getItemsToSave(items: object[], selectedFilters: string[]): void {
-        let resultItems = Clone(items);
-        factory(resultItems).each((item) => {
-            if (!selectedFilters.includes(item.id) && this.isDisplayItem(item)) {
+        const resultItems = Clone(items);
+        factory(resultItems).each((item: IFilterItem) => {
+            if (!selectedFilters.includes(item.name) && this.isDisplayItem(item)) {
                 item.textValue = '';
                 item.value = null;
                 item.visibility = item.visibility === true ? false : item.visibility;
