@@ -603,7 +603,7 @@ export interface IFilterItem {
     resetValue?: any;
     textValue: string;
     emptyText?: string;
-    emptyKey: boolean | string | number;
+    emptyKey?: boolean | string | number;
     doNotSaveToHistory?: boolean;
     visibility?: boolean;
     viewMode?: 'basic' | 'frequent' | 'extended';
@@ -620,8 +620,8 @@ export interface IFilterItem {
         }
         itemTemplate?: string;
         editorMode?: string;
-        filter: Record<string, any>;
-        navigation: INavigationOptionValue<any>
+        filter?: Record<string, any>;
+        navigation?: INavigationOptionValue<any>
         itemTemplateProperty?: string;
     };
     [key: string]: any;

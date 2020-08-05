@@ -27,7 +27,7 @@
 
          <ws:if data="{{_options.isFavorite}}">
             <Controls.buttons:Button viewMode="link" fontColorStyle="link"
-                                     icon="icon-Erase" iconStyle="error"
+                                     icon="icon-Erase" iconStyle="danger"
                                      on:click="_delete()"
                                      attr:tabindex="-1"
                                      attr:class="controls-FavoriteEditDialog__deleteButton"/>
@@ -46,6 +46,7 @@
 
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-FavoriteEditDialog__scroll">
                <Controls.toggle:CheckboxGroup bind:selectedKeys="_selectedFilters"
+                                              keyProperty="name"
                                               source="{{_source}}">
                   <ws:itemTemplate>
                      <ws:partial template="checkboxTpl" />

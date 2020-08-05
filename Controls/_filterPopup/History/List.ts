@@ -94,7 +94,7 @@ var MAX_NUMBER_ITEMS = 5;
 
          let captionsObject = _private.mapByField(self._options.filterItems, 'caption');
          items = factory(items).map((historyItem) => {
-            historyItem.caption = captionsObject[historyItem.id];
+            historyItem.caption = captionsObject[_private.getItemId(historyItem)];
             return historyItem;
          }).value();
 
