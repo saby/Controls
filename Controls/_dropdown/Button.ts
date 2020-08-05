@@ -4,6 +4,7 @@ import {cssStyleGeneration} from 'Controls/_dropdown/Button/MenuUtils';
 import * as tmplNotify from 'Controls/Utils/tmplNotify';
 import ActualApi from 'Controls/_buttons/ActualApi';
 import Controller from 'Controls/_dropdown/_Controller';
+import HistoryController from 'Controls/_dropdown/HistoryController';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {loadItems} from 'Controls/_dropdown/Util';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
@@ -100,14 +101,16 @@ export default class Button extends BaseDropdown {
       this._offsetClassName = cssStyleGeneration(options);
       this._updateState(options);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(options));
       this._controller = new Controller(this._getControllerOptions(options));
 
       if (!options.lazyItemsLoading) {
-         return loadItems(this._controller, receivedState, options.source);
+         return loadItems(this._controller, this._historyController, receivedState, options.source);
       }
    }
 
    _beforeUpdate(options: IButtonOptions): void {
+      this._historyController.update(this._getHistoryControllerOptions(options));
       this._controller.update(this._getControllerOptions(options));
       if (this._options.size !== options.size || this._options.icon !== options.icon ||
          this._options.viewMode !== options.viewMode) {
@@ -149,16 +152,21 @@ export default class Button extends BaseDropdown {
    }
 
    _getControllerOptions(options: IButtonOptions): object {
-      const controllerOptions = getDropdownControllerOptions(options);
+      const buttonConfig = {
+         keyProperty: this._historyController.hasHistory(options) ? 'copyOriginalId' : options.keyProperty,
+         allowPin: this._historyController.hasHistory(options),
+         headerTemplate: options.headTemplate || options.headerTemplate,
+         headingCaption: options.caption,
+         headingIcon: options.icon,
+         headingIconSize: options.iconSize,
+         dataLoadCallback: this._dataLoadCallback.bind(this),
+         className: (options.popupClassName || this._offsetClassName) + ' theme_' + options.theme,
+         hasIconPin: this._hasIconPin
+      };
+      const controllerOptions = getDropdownControllerOptions(options, buttonConfig);
       return { ...controllerOptions, ...{
-            headerTemplate: options.headTemplate || options.headerTemplate,
-            headingCaption: options.caption,
-            headingIcon: options.icon,
-            headingIconSize: options.iconSize,
-            dataLoadCallback: this._dataLoadCallback.bind(this),
-            popupClassName: (options.popupClassName || this._offsetClassName) + ' theme_' + options.theme,
-            hasIconPin: this._hasIconPin,
-            allowPin: true,
+            filter: this._historyController.getPreparedFilter(),
+            source: this._historyController.getPreparedSource(),
             openerControl: this
          }
       };
@@ -202,7 +210,7 @@ export default class Button extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._children.content);
-
+      this._controller.setFilter(this._historyController.getPreparedFilter());
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
             this._onItemClickHandler(result);
@@ -213,7 +221,7 @@ export default class Button extends BaseDropdown {
    protected _onResult(action, data, nativeEvent): void {
       switch (action) {
          case 'pinClick':
-            this._controller.pinClick(data);
+            this._pinClick(data);
             break;
          case 'itemClick':
             this._itemClick(data, nativeEvent);
@@ -224,13 +232,22 @@ export default class Button extends BaseDropdown {
    }
 
    protected _itemClick(data, nativeEvent): void {
-      const item = this._controller.getPreparedItem(data);
+      const item = this._historyController.getPreparedItem(data);
       const res = this._onItemClickHandler([item], nativeEvent);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
       if (res !== false) {
-         this._controller.handleSelectedItems(item);
+         this._updateControllerItems(data);
       }
+   }
+
+   protected _pinClick(item): void {
+      const preparedItem = this._historyController.getPreparedItem(item, this._options.keyProperty, this._options.source);
+      this._options.source.update(preparedItem.clone(), {
+         $_pinned: !preparedItem.get('pinned')
+      });
+      this._controller.updateItems(null);
+      this.openMenu();
    }
 
    static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];

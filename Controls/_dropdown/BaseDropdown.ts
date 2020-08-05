@@ -2,6 +2,7 @@ import {Control, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import IDropdownController from 'Controls/_dropdown/interface/IDropdownController';
+import IDropdownHistoryController from 'Controls/_dropdown/interface/IDropdownHistoryController';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {DependencyTimer} from 'Controls/Utils/FastOpen';
 import {RecordSet} from 'Types/collection';
@@ -13,6 +14,7 @@ export abstract class BaseDropdown extends Control<IControlOptions, DropdownRece
     protected _controller: IDropdownController = null;
     protected _isOpened: boolean = false;
     protected _dependenciesTimer: DependencyTimer = null;
+    protected _historyController: IDropdownHistoryController = null;
 
     reload(): void {
         this._controller.reload();
@@ -85,5 +87,26 @@ export abstract class BaseDropdown extends Control<IControlOptions, DropdownRece
     protected _beforeUnmount(): void {
         UnregisterUtil(this, 'scroll');
         this._controller.destroy();
+    }
+
+    protected _getHistoryControllerOptions(options): object {
+        return {
+            source: options.source,
+            filter: options.filter,
+            historyId: options.historyId,
+            historyNew: options.historyNew,
+            keyProperty: options.keyProperty
+        };
+    }
+
+    protected _updateControllerItems(data): void {
+        this._historyController.updateHistory(data);
+        if (this._controller.getSourceController()) {
+            const itemsWithHistory = this._historyController.getItemsWithHistory();
+            if (itemsWithHistory) {
+                this._controller.updateItems(itemsWithHistory);
+            }
+        }
+        this.closeMenu();
     }
 }
