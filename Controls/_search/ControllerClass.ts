@@ -378,7 +378,7 @@ export default class SearchControllerClass {
         const switchedStr = getSwitcherStrFromData(result.data);
         this._setMisspellValue(switchedStr);
         if (this._needChangeSearchValueToSwitchedString(result.data)) {
-            this._setSearchValue(switchedStr);
+            this._setSearchValue(switchedStr, true);
         }
     }
 
@@ -458,10 +458,10 @@ export default class SearchControllerClass {
         }
     }
 
-    private _setSearchValue(searchValue: string): void {
+    private _setSearchValue(searchValue: string, disableNotify?: boolean): void {
         this._searchValue = searchValue;
         if (this._options.searchValueChangedCallback) {
-            this._options.searchValueChangedCallback(searchValue);
+            this._options.searchValueChangedCallback(searchValue, disableNotify);
         }
     }
 
@@ -525,9 +525,11 @@ export default class SearchControllerClass {
             rootChangedCallback: (root) => {
                 self._root = root;
             },
-            searchValueChangedCallback: (searchValue) => {
+            searchValueChangedCallback: (searchValue, disableNotify?) => {
                 self._searchValue = searchValue;
-                self._notify('searchValueChanged', [searchValue]);
+                if (!disableNotify) {
+                    self._notify('searchValueChanged', [searchValue]);
+                }
             },
             itemsChangedCallback: (items) => {
                 if (self._itemsChanged) {
