@@ -68,6 +68,42 @@ describe('Controls/search:ControllerClass', () => {
         assert.isFalse(searchController._isSearchValueChanged('test'));
     });
 
+    it('_searchCallback', () => {
+        let disableNotify;
+        const options = getDefaultOptions();
+        options.searchValueChangedCallback = (firstParam, secParam) => {
+            disableNotify = secParam;
+        };
+        const searchController = new ControllerClass(options, {});
+        const result = {
+            data: {
+                getMetaData: () => {
+                    return {
+                        switchedStr: 'test',
+                        results: 'res'
+                    };
+                }
+            }
+        };
+        searchController._updateSearchParams = () => {};
+        searchController._options.itemsChangedCallback = () => {};
+
+        searchController._searchCallback(result);
+        assert.notEqual(searchController._searchValue, 'test');
+        assert.equal(searchController._misspellValue, 'test');
+
+        result.data.getMetaData = () => {
+            return {
+                switchedStr: 'test',
+                results: 'res',
+                returnSwitched: true
+            };
+        };
+        searchController._searchCallback(result);
+        assert.equal(searchController._searchValue, 'test');
+        assert.isTrue(disableNotify);
+    });
+
     it('isSearchValueShort', () => {
         const searchController = new ControllerClass(getDefaultOptions(), {});
         assert.isFalse(searchController._isSearchValueShort('test', 3));
