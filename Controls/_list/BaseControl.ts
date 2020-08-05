@@ -2692,6 +2692,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 } else {
                     delete viewModelConfig.items;
                 }
+
                 viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
                 self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
             } else if (newOptions.useNewModel && receivedData) {
@@ -2782,6 +2783,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                         if (self._listViewModel) {
                             _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
                         }
+                    }
+                    if (viewModelConfig.collapsedGroups) {
+                        self._listViewModel.setCollapsedGroups(viewModelConfig.collapsedGroups);
                     }
                     self._needBottomPadding = _private.needBottomPadding(newOptions, data, self._listViewModel);
 
