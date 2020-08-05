@@ -97,6 +97,15 @@ describe('Controls/search:ControllerClass', () => {
         assert.isFalse(!!searchController._isSearchValueEmpty('test', ''));
     });
 
+    it('handleItemOpen', async () => {
+        let itemsUpdated = false;
+        const options = getDefaultOptions();
+        options.itemsChangedCallback = () => { itemsUpdated = true; };
+        const searchController = new ControllerClass(options, {dataOptions: {}});
+        searchController.handleItemOpen('testRoot', [], 'testDataRoot');
+        assert.isTrue(itemsUpdated);
+    });
+
     it('filter updated on search errback', async () => {
         const options = getDefaultOptions();
         const searchController = new ControllerClass(options, {dataOptions: {}});

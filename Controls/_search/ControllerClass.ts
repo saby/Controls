@@ -197,6 +197,7 @@ export default class SearchControllerClass {
             }
         } else {
             this._setRoot(root);
+            this._options.itemsChangedCallback(items);
         }
         if (root !== dataRoot) {
             this._getSearchController().abort(true);
