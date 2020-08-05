@@ -79,10 +79,12 @@
 </ws:template>
 <ws:template name="viewTpl">
     <div class="controls-ScrollController">
-        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{!_isMounted ? 'display: none;'}}"></div>
-        <!-- Скрываем topLoadTrigger через display: none, чтобы он не срабатывал сразу после mount. Отступы ему ещё не установлены и он
-        сработает сразу после инициализации, хотя далеко не факт что это нужно. -->
-        <div name="topLoadTrigger" style="{{!_isMounted ? 'display: none'}}"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="up"
+                threshold="{{[0]}}"
+                on:intersect="_intersectHandler()">
+                <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{!_isMounted ? 'display: none;'}}"></div>
+        </Controls.scroll:IntersectionObserverContainer>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: 1px;'}}"
@@ -155,8 +157,13 @@
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>
         </ws:partial>
-        <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
-        <div name="bottomLoadTrigger"></div>
+        <Controls.scroll:IntersectionObserverContainer
+                data="down"
+                threshold="{{[0]}}"
+                on:intersect="_intersectHandler()">
+                
+            <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
+        </Controls.scroll:IntersectionObserverContainer>
         <ws:if data="{{_needScrollCalculation}}">
             <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
         </ws:if>

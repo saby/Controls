@@ -131,13 +131,6 @@ const SCROLLMOVE_DELAY = 150;
 
 const SWIPE_MEASUREMENT_CONTAINER_SELECTOR = 'js-controls-ItemActions__swipeMeasurementContainer';
 
-const SCROLL_TRIGGERS = [
-    "topVirtualScrollTrigger",
-    "bottomVirtualScrollTrigger",
-    "topLoadTrigger",
-    "bottomLoadTrigger",
-    "scrollObserver"
-];
 
 interface IAnimationEvent extends Event {
     animationName: string;
@@ -4205,31 +4198,19 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _registerObserver(): void {
-        let triggers = {};
-        SCROLL_TRIGGERS.forEach(name => {
-            triggers[name] = this._children[name];
-        });
+        let triggers = {"scrollObserver": this._children.scrollObserver};
         if (!this._observerRegistered && triggers['scrollObserver']) {
             // @ts-ignore
             this._children.scrollObserver.startRegister(triggers);
             this._observerRegistered = true;
         }
     },
-
+    _intersectHandler(e: SyntheticEvent, entryData) {
+        this.triggerVisibilityChangedHandler(entryData.data, entryData.nativeEntry.intersectionRatio > 0);
+        e.stopImmediatePropagation();
+    },
     _observeScrollHandler( _: SyntheticEvent<Event>, eventName: string, params: IScrollParams): void {
         switch (eventName) {
-            case 'virtualPageBottomStart':
-                this.triggerVisibilityChangedHandler('down', true);
-                break;
-            case 'virtualPageTopStart':
-                this.triggerVisibilityChangedHandler('up', true);
-                break;
-            case 'virtualPageBottomStop':
-                this.triggerVisibilityChangedHandler('down', false);
-                break;
-            case 'virtualPageTopStop':
-                this.triggerVisibilityChangedHandler('up', false);
-                break;
             case 'scrollMoveSync':
                 this.scrollMoveSyncHandler(params);
                 break;

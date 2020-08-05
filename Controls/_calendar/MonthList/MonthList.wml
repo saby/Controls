@@ -1,58 +1,54 @@
 <Controls.dataSource:error.Container name="errorContainer" viewConfig="{{_errorViewConfig}}">
-   <Controls.scroll:IntersectionObserverController
-         threshold="{{[0, 0.01, 0.99, 1]}}"
-         observerName="monthList"
-         on:intersect="_intersectHandler()">
-      <Controls.scroll:Container
-         name="scroll"
-         attr:class="MonthList-ScrollContainer"
-         scrollbarVisible="{{false}}"
-         topShadowVisibility="{{_options.topShadowVisibility}}"
-         bottomShadowVisibility="{{_options.bottomShadowVisibility}}"
-         on:scroll="_scrollHandler()">
-         <Controls.list:View
-            source="{{_viewSource}}"
-            sourceExt="{{_options.source}}"
-            viewMode="{{_options.viewMode}}"
-            name="months"
-            keyProperty="id"
-            markerVisibility="hidden"
-            on:drawItems="_drawItemsHandler()"
-            >
-            <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
-            <ws:itemPadding left="null" right="null" bottom="null" top="null"/>
-            <ws:navigation source="position" view="infinity">
-               <ws:sourceConfig limit="{{_options._limit}}" position="{{_startPositionId}}" direction="bothways" field="id"></ws:sourceConfig>
-            </ws:navigation>
+   <Controls.scroll:Container
+      name="scroll"
+      attr:class="MonthList-ScrollContainer"
+      scrollbarVisible="{{false}}"
+      topShadowVisibility="{{_options.topShadowVisibility}}"
+      bottomShadowVisibility="{{_options.bottomShadowVisibility}}"
+      on:scroll="_scrollHandler()">
+      <Controls.list:View
+         source="{{_viewSource}}"
+         sourceExt="{{_options.source}}"
+         viewMode="{{_options.viewMode}}"
+         name="months"
+         keyProperty="id"
+         markerVisibility="hidden"
+         on:drawItems="_drawItemsHandler()"
+         >
+         <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
+         <ws:itemPadding left="null" right="null" bottom="null" top="null"/>
+         <ws:navigation source="position" view="infinity">
+            <ws:sourceConfig limit="{{_options._limit}}" position="{{_startPositionId}}" direction="bothways" field="id"></ws:sourceConfig>
+         </ws:navigation>
 
-            <ws:itemTemplate>
-               <ws:partial template="Controls/list:ItemTemplate"
-                           itemData="{{itemTemplate.itemData}}"
-                           highlightOnHover="{{false}}"
-                           attr:class="controls-MonthList__item">
-                  <ws:contentTemplate>
-                     <Controls.scroll:IntersectionObserverContainer
-                           observerName="monthList"
-                           data="{{ itemTemplate.itemData.item.getRawData() }}">
-                        <ws:partial
-                              template="{{_getTemplate(itemTemplate.itemData.item)}}"
-                              date="{{_idToDate(itemTemplate.itemData.item.id)}}"
-                              extData="{{ _extData.getData(itemTemplate.itemData.item.id) }}"
-                              startValue="{{itemTemplate.itemData.item.startValue}}"
-                              endValue="{{itemTemplate.itemData.item.endValue}}"
-                              _extDataVersion="{{_extData._version}}"
-                              monthTemplate="{{_options.monthTemplate}}"
-                              dayTemplate="{{_options.dayTemplate}}"
-                              _formatMonth="{{_formatMonth}}"
-                              _options="{{_options}}"
-                              _getMonth="{{_getMonth}}"
-                              _dateToDataString="{{_dateToDataString}}"
-                           />
-                     </Controls.scroll:IntersectionObserverContainer>
-                  </ws:contentTemplate>
-               </ws:partial>
-            </ws:itemTemplate>
-         </Controls.list:View>
-      </Controls.scroll:Container>
-   </Controls.scroll:IntersectionObserverController>
+         <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate"
+                        itemData="{{itemTemplate.itemData}}"
+                        highlightOnHover="{{false}}"
+                        attr:class="controls-MonthList__item">
+               <ws:contentTemplate>
+                  <Controls.scroll:IntersectionObserverContainer
+                        threshold="{{[0, 0.01, 0.99, 1]}}"
+                        on:intersect="_intersectHandler()"
+                        data="{{ itemTemplate.itemData.item.getRawData() }}">
+                     <ws:partial
+                           template="{{_getTemplate(itemTemplate.itemData.item)}}"
+                           date="{{_idToDate(itemTemplate.itemData.item.id)}}"
+                           extData="{{ _extData.getData(itemTemplate.itemData.item.id) }}"
+                           startValue="{{itemTemplate.itemData.item.startValue}}"
+                           endValue="{{itemTemplate.itemData.item.endValue}}"
+                           _extDataVersion="{{_extData._version}}"
+                           monthTemplate="{{_options.monthTemplate}}"
+                           dayTemplate="{{_options.dayTemplate}}"
+                           _formatMonth="{{_formatMonth}}"
+                           _options="{{_options}}"
+                           _getMonth="{{_getMonth}}"
+                           _dateToDataString="{{_dateToDataString}}"
+                        />
+                  </Controls.scroll:IntersectionObserverContainer>
+               </ws:contentTemplate>
+            </ws:partial>
+         </ws:itemTemplate>
+      </Controls.list:View>
+   </Controls.scroll:Container>
 </Controls.dataSource:error.Container>

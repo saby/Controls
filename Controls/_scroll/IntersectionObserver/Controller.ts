@@ -55,6 +55,9 @@ class IntersectionObserverController extends Control<IIntersectionObserverContro
     private _observer: Observer;
 
     protected _registerHandler(event: SyntheticEvent, intersectionObserverObject: IIntersectionObserverObject): void {
+        if (intersectionObserverObject.observerName !== this._options.observerName) {
+            return;
+        }
         this._initObserver();
         this._observer.register(this._container, intersectionObserverObject);
         event.stopImmediatePropagation();

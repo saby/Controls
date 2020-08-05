@@ -219,76 +219,6 @@ import {SyntheticEvent} from "Vdom/Vdom"
 
          },
 
-         initIntersectionObserver: function(self, elements, component) {
-            if (!self._observers[component.getInstanceId()]) {
-               let eventName;
-               let curObserver: IntersectionObserver;
-
-
-               curObserver = new IntersectionObserver(function (changes) {
-                  /**
-                   * Баг IntersectionObserver на Mac OS: сallback может вызываться после отписки от слежения. Отписка происходит в
-                   * _beforeUnmount. Устанавливаем защиту.
-                   */
-                  if (self._observers === null) {
-                     return;
-                  }
-                  // Изменения необходимо проходить с конца, чтобы сначала нотифицировать о видимости нижнего триггера
-                  // Это необходимо для того, чтобы когда вся высота записей списочного контрола была меньше вьюпорта, то
-                  // сначала список заполнялся бы вниз, а не вверх, при этом сохраняя положение скролла
-                  for (var i = changes.length - 1; i > -1 ; i--) {
-                     switch (changes[i].target) {
-                        case elements.topLoadTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'loadTopStart';
-                           } else {
-                              eventName = 'loadTopStop';
-                           }
-                           break;
-                        case elements.bottomLoadTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'loadBottomStart';
-                           } else {
-                              eventName = 'loadBottomStop';
-                           }
-                           break;
-                         case elements.bottomVirtualScrollTrigger:
-                             if (changes[i].isIntersecting) {
-                                 eventName = 'virtualPageBottomStart';
-                             } else {
-                                 eventName = 'virtualPageBottomStop';
-                             }
-                             break;
-                         case elements.topVirtualScrollTrigger:
-                           if (changes[i].isIntersecting) {
-                              eventName = 'virtualPageTopStart';
-                           } else {
-                               eventName = 'virtualPageTopStop';
-                           }
-                           break;
-                     }
-                     if (eventName) {
-                        const sizes = _private.getSizeCache(self, _private.getDOMContainer(self._container));
-                        self._registrar.startOnceTarget(component, eventName, {
-                           scrollTop: _private.getDOMContainer(self._container).scrollTop,
-                           clientHeight: sizes.clientHeight,
-                           scrollHeight: sizes.scrollHeight
-                        });
-                        self._notify(eventName);
-                        eventName = null;
-                     }
-                  }
-               }, {root: self._container[0] || self._container});//FIXME self._container[0] remove after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-               curObserver.observe(elements.topLoadTrigger);
-               curObserver.observe(elements.bottomLoadTrigger);
-
-               curObserver.observe(elements.topVirtualScrollTrigger);
-               curObserver.observe(elements.bottomVirtualScrollTrigger);
-
-               self._observers[component.getInstanceId()] = curObserver;
-            }
-         },
-
          onRegisterNewComponent: function(self, container, component, withObserver) {
             var sizeCache = _private.getSizeCache(self, container);
             if (!sizeCache.clientHeight) {
@@ -395,11 +325,6 @@ import {SyntheticEvent} from "Vdom/Vdom"
          _registerIt: function(event, registerType, component, callback, triggers) {
             if (registerType === 'listScroll') {
                this._registrar.register(event, component, callback);
-
-               if (global && global.IntersectionObserver && triggers) {
-                  this._canObserver = true;
-                  _private.initIntersectionObserver(this, triggers, component);
-               }
 
                _private.onRegisterNewComponent(this, _private.getDOMContainer(this._container), component, this._canObserver);
             }
