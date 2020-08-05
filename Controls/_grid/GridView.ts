@@ -135,16 +135,19 @@ var
                             self._horizontalScrollWidth = newSizes.scrollWidth;
                             self._containerSize = newSizes.containerSize;
                             self._updateColumnScrollData();
+                            self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
                         }, true);
                         result = 'created';
                     } else {
                         result = 'actual';
                     }
                 } else {
+                    self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
                     _private.destroyColumnScroll(self);
                     result = 'destroyed';
                 }
             } else {
+                self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
                 _private.destroyColumnScroll(self);
                 result = 'destroyed';
             }
@@ -397,7 +400,6 @@ var
 
             if (this._options.columnScroll) {
                 _private.updateColumnScrollByOptions(this, oldOptions, this._options);
-                this._listModel.setColumnScrollVisibility(this._isColumnScrollVisible());
             }
 
             this._columnsHaveBeenChanged = false;
