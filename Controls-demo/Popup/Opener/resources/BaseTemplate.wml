@@ -2,19 +2,19 @@
     <div class="mr-CreateMerge__top">
         <div class="rowWithLabel">
             <div class="rowWithLabel_label">Ветка</div>
-            <input value="{{_branch}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
+            <Controls.input:Text value="{{_branch}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
         </div>
         <div class="rowWithLabel">
             <div class="rowWithLabel_label">Хранилище</div>
-            <input value="{{_storage}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
+            <Controls.input:Text value="{{_storage}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
         </div>
         <div class="rowWithLabel">
             <div class="rowWithLabel_label">Заголовок</div>
-            <input value="{{_heading}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
+            <Controls.input:Text value="{{_heading}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
         </div>
         <div class="rowWithLabel">
             <div class="rowWithLabel_label">Описание</div>
-            <input value="{{_description}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
+            <Controls.input:Text value="{{_description}}" type="text" class="rowWithLabel__row controls-inlineheight-s_theme-{{_options.theme}}"/>
         </div>
     </div>
 </div>
