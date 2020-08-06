@@ -1,0 +1,41 @@
+.controls-TextOverflow {
+   overflow: hidden;
+   position: relative;
+}
+
+.controls-TextOverflow__ellipsisWrapper {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+}
+
+.controls-TextOverflow__ellipsis {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   cursor: pointer;
+}
+
+.controls-TextOverflow__ellipsis_theme-@{themeName} {
+   background-color: @background-color;
+}
+
+& {
+   @sizes: xs, s, m, l, xl, 2xl, 3xl, 4xl, 5xl;
+   @countSupportLines: 10;
+
+   .for(@countSupportLines * length(@sizes), {
+      @lines: mod(@_i - 1, @countSupportLines) + 1;
+      @lineHeight: extract(@sizes, ceil(@_i / @countSupportLines));
+      @lineHeightVariable: "line-height_@{lineHeight}_inputArea";
+      @heightLines: (@lines + 1) * @@lineHeightVariable;
+
+      .controls-TextOverflow_lineHeight-@{lineHeight}_lines-@{lines}_maxHeight_theme-@{themeName} {
+         max-height: @heightLines;
+      }
+      .controls-TextOverflow_lineHeight-@{lineHeight}_lines-@{lines}_height_theme-@{themeName} {
+         height: @heightLines;
+      }
+   });
+}

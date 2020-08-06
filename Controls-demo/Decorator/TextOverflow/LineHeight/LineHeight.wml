@@ -1,0 +1,101 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = xs.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-xs_theme-{{_options.theme}}"
+                                       lineHeight="xs" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = s.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-s_theme-{{_options.theme}}"
+                                       lineHeight="s" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = m.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-m_theme-{{_options.theme}}"
+                                       lineHeight="m" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = l.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-l_theme-{{_options.theme}}"
+                                       lineHeight="l" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = xl.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-xl_theme-{{_options.theme}}"
+                                       lineHeight="xl" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = 2xl.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-2xl_theme-{{_options.theme}}"
+                                       lineHeight="2xl" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = 3xl.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-3xl_theme-{{_options.theme}}"
+                                       lineHeight="3xl" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = 4xl.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-4xl_theme-{{_options.theme}}"
+                                       lineHeight="4xl" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">lineHeight = 5xl.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;"
+                                       attr:class="controls-fontsize-5xl_theme-{{_options.theme}}"
+                                       lineHeight="5xl" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam
+            maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+</div>

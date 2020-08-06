@@ -6,6 +6,8 @@
  * @includes Markup Controls/_decorator/Markup
  * @includes Money Controls/_decorator/Money
  * @includes IMoneyOptions Controls/_decorator/Money/IMoneyOptions
+ * @includes TextOverflow Controls/_decorator/TextOverflow
+ * @includes ITextOverflowOptions Controls/_decorator/TextOverflow/ITextOverflowOptions
  * @includes Number Controls/_decorator/Number
  * @includes INumberOptions Controls/_decorator/Number/INumberOptions
  * @includes Phone Controls/_decorator/Phone
@@ -51,6 +53,7 @@ export {default as Markup} from './_decorator/Markup';
 export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
 export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as Money, IMoneyOptions} from 'Controls/_decorator/Money';
+export {default as TextOverflow, ITextOverflowOptions} from 'Controls/_decorator/TextOverflow';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
 export * from './_decorator/resources/IMask';

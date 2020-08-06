@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Контентом является текст.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Контентом является текст с кнопками.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            <div>
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+               <Controls.buttons:Button caption="Button button button"/>
+            </div>
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            <div>
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+               <Controls.buttons:Button caption="Button button button"/>
+               <Controls.buttons:Button caption="Button button button"/>
+               <Controls.buttons:Button caption="Button button button"/>
+               <Controls.buttons:Button caption="Button button button"/>
+            </div>
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+</div>

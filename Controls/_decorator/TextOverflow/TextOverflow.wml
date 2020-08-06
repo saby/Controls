@@ -1,0 +1,12 @@
+<div class="controls-TextOverflow
+            controls-TextOverflow_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight_theme-{{_options.theme}}">
+   <ws:partial template="{{_options.content}}"/>
+   <ws:if data="{{_lines !== null}}">
+      <div class="controls-TextOverflow__ellipsisWrapper
+               controls-TextOverflow_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_height_theme-{{_options.theme}}">
+         <div class="controls-TextOverflow__ellipsis
+                  controls-TextOverflow__ellipsis_theme-{{_options.theme}}"
+              on:click="_expand()">...</div>
+      </div>
+   </ws:if>
+</div>

@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Контент не превышает трёх строк.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Контент превышает три строки.</div>
+      <Controls.decorator:TextOverflow attr:style="width: 200px;" lines="{{3}}">
+         <ws:content>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam cupiditate delectus, eaque laboriosam maiores mollitia praesentium quo ratione vel. At cum cumque earum ipsam non quis soluta ullam veritatis.
+         </ws:content>
+      </Controls.decorator:TextOverflow>
+   </div>
+</div>
