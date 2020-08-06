@@ -131,10 +131,10 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
       it('opening showSelector', function() {
          const baseController = getBaseController();
          isShowSelector = false;
-         baseController._openingSelector = null;
+         baseController._selectorOpening = null;
          showSelector.default(baseController, {});
          assert.isTrue(isShowSelector);
-         assert.isNotNull(baseController._openingSelector);
+         assert.isNotNull(baseController._selectorOpening);
 
          isShowSelector = false;
          showSelector.default(baseController, {});
@@ -144,7 +144,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
       it('showSelector without selectorTemplate', function() {
          const baseController = getBaseController();
          baseController._options.selectorTemplate = null;
-         baseController._openingSelector = null;
+         baseController._selectorOpening = null;
 
          assert.isNull(showSelector.default(baseController, {}));
       });
@@ -154,29 +154,29 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
          baseController._options.selectorTemplate = null;
          showSelector.default(baseController, {});
 
-         assert.isUndefined(baseController._openingSelector);
+         assert.isUndefined(baseController._selectorOpening);
       });
 
       it('showSelector without selectorTemplate and with popupOptions template', function() {
          const baseController = getBaseController();
-         baseController._openingSelector = null;
+         baseController._selectorOpening = null;
          baseController._options.selectorTemplate = null;
          showSelector.default(baseController, {
             template: 'testTemplate'
          });
-         assert.isNotNull(baseController._openingSelector);
+         assert.isNotNull(baseController._selectorOpening);
          assert.equal(lastPopupOptions.template, 'testTemplate');
       });
 
       it('showSelector with selectorTemplate', function() {
          const baseController = getBaseController();
-         baseController._openingSelector = null;
+         baseController._selectorOpening = null;
          baseController._options.selectorTemplate = {
             templateName: 'selectorTemplate'
          };
          showSelector.default(baseController, {});
          assert.equal(lastPopupOptions.template, 'selectorTemplate');
-         assert.isNotNull(baseController._openingSelector);
+         assert.isNotNull(baseController._selectorOpening);
       });
    });
 });

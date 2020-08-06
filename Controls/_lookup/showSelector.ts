@@ -11,13 +11,13 @@ function getPopupOptions(self): IStackPopupOptions {
         isCompoundTemplate: self._options.isCompoundTemplate,
         eventHandlers: {
             onOpen: () => {
-                self._openingSelector = null;
+                self._selectorOpening = false;
             },
             onResult: (result) => {
                 self._selectCallback(null, result);
             },
             onClose: () => {
-                self._openingSelector = null;
+                self._selectorOpening = false;
                 self._closeHandler();
                 self._notify('selectorClose');
             }
@@ -51,7 +51,7 @@ export default function(self, popupOptions, multiSelect) {
     if (!self._stack) {
         self._stack = new StackOpener();
     }
-    if (!self._openingSelector) {
+    if (!self._selectorOpening) {
         const selectorTemplate = self._options.selectorTemplate;
         const stackPopupOptions = getPopupOptions(self);
 
@@ -70,8 +70,9 @@ export default function(self, popupOptions, multiSelect) {
                 merge(stackPopupOptions, popupOptions);
             }
 
-            self._openingSelector = self._stack.open(stackPopupOptions)
+            self._selectorOpening = true;
+            self._stack.open(stackPopupOptions);
         }
-        return self._openingSelector;
+        return self._selectorOpening;
     }
 }
