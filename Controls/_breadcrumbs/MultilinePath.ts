@@ -48,6 +48,8 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
                 this._calculateBreadCrumbsToDraw(this._options.items, this._width);
                 this._forceUpdate();
             });
+        } else {
+            this._items = [];
         }
     }
 
