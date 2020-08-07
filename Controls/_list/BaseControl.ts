@@ -4000,7 +4000,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _observeScrollHandler( _: SyntheticEvent<Event>, eventName: string, params: any): void {
-        if (this._scrollController) {
+        // Не реагируем на события observer'a, если заказана прокрутка к первому элементу. Таблица ещё не готова к
+        // обработке событий от observer'a и реакция на событие приводит к лишней загрузке.
+        if (this._scrollController && !this._needScrollToFirstItem) {
             this._scrollController.observeScroll(eventName, params);
         }
     },

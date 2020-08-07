@@ -1412,8 +1412,8 @@ var
             this._model.setEditingConfig(editingConfig);
         },
 
-        setItemPadding: function(itemPadding) {
-            this._model.setItemPadding(itemPadding);
+        setItemPadding: function(itemPadding, silent) {
+            this._model.setItemPadding(itemPadding, silent);
         },
 
         getCollapsedGroups(): Grouping.TArrayGroupId {
