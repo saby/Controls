@@ -1,12 +1,12 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}" bind:expanded="_expanded">
-         <div>Контентная область</div>
+      <Controls.spoiler:View captions="{{['Collapse', 'Expand']}}" bind:expanded="_expanded">
+         <div>Content</div>
       </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
-      <Controls.spoiler:View captions="{{['Свернуть', 'Развернуть']}}">
-         <div>Контентная область</div>
+      <Controls.spoiler:View captions="{{['Collapse', 'Expand']}}">
+         <div>Content</div>
       </Controls.spoiler:View>
    </div>
 </div>

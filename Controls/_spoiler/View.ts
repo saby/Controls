@@ -15,12 +15,20 @@ import Util from './Util';
  * @public
  * @author Красильников А.С.
  */
+/**
+ * @name Controls/_spoiler/IViewOptions#headerContentTemplate
+ * @cfg {function|String} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
+ * @demo Controls-demo/Spoiler/View/HeaderContentTemplate/Index
+ */
+
+
 export interface IViewOptions extends IHeadingOptions {
     /**
      * Шаблон скрываемой области.
      * @demo Controls-demo/Spoiler/View/Content/Index
      */
     content: TemplateFunction;
+    headerContentTemplate?: TemplateFunction;
 }
 
 export interface IView extends IHeading {

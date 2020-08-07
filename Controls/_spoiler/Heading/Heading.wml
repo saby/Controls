@@ -1,31 +1,32 @@
 <ws:template name="CollapseLight">
-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-      <polyline points="2 11, 8.5 5, 14 11"/>
-   </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polyline points="2 11, 8.5 5, 14 11"/>
+    </svg>
 </ws:template>
 <ws:template name="ExpandLight">
-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-      <polyline points="2 5, 7.5 11, 14 5"/>
-   </svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <polyline points="2 5, 7.5 11, 14 5"/>
+</svg>
 </ws:template>
-<div class="controls-SpoilerHeading" on:click="_clickHandler()">
-   <div class="controls-SpoilerHeading__wrapper
+<div class="controls-SpoilerHeading" on:click="_clickHandler()" title="{{_options.tooltip}}">
+<div class="controls-SpoilerHeading__wrapper
                controls-SpoilerHeading__wrapper_theme-{{_options.theme}}
                controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">
-      <div class="controls-SpoilerHeading__iconWrapper
+    <div class="controls-SpoilerHeading__iconWrapper
                   controls-SpoilerHeading__iconWrapper_theme-{{_options.theme}}">
-         <!--Базовая линия контрола определяется либо текстом, либо иконкой, в зависимости
-         от расположения в верстке. Иконка должна иметь такую же базовую линию как у
-         текста. Для этого добавляем пустой символ, который задаст базовую линию.-->
-         <div class="controls-SpoilerHeading__icon-baseline">&#65279;</div>
-         <ws:partial template="{{_icon}}"
-                     attr:class="controls-SpoilerHeading__icon
+        <!--Базовая линия контрола определяется либо текстом, либо иконкой, в зависимости
+        от расположения в верстке. Иконка должна иметь такую же базовую линию как у
+        текста. Для этого добавляем пустой символ, который задаст базовую линию.-->
+        <div class="controls-SpoilerHeading__icon-baseline">&#65279;</div>
+        <ws:partial template="{{_icon}}"
+                    attr:class="controls-SpoilerHeading__icon
                                  controls-SpoilerHeading__icon_theme-{{_options.theme}}
                                  controls-SpoilerHeading__icon_{{_view}}_theme-{{_options.theme}}"/>
-      </div>
-      <div class="controls-SpoilerHeading__caption
+    </div>
+    <div class="controls-SpoilerHeading__caption
                   controls-SpoilerHeading__caption_{{_view}}
                   controls-SpoilerHeading__caption_{{_view}}_theme-{{_options.theme}}
-                  controls-SpoilerHeading__caption_captionPosition-{{_options.captionPosition}}">{{_caption}}</div>
-   </div>
+                  controls-SpoilerHeading__caption_captionPosition-{{_options.captionPosition}}">{{_caption}}
+    </div>
+</div>
 </div>

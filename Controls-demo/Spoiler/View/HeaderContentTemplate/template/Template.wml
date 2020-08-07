@@ -1,0 +1,4 @@
+<div class="ws-flexbox ws-align-items-baseline">
+    <Controls.spoiler:Heading captions="{{['Collapse', 'Expand']}}" on:expandedChanged="_notifyHandler('expandedChanged')"/>
+    <div style="padding: 0 15px" class="controls-text-label_theme-{{theme}}">Header content</div>
+</div>

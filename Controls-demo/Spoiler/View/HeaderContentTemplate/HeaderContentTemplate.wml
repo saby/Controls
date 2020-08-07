@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.spoiler:View>
+        <ws:headerContentTemplate>
+            <Controls-demo.Spoiler.View.HeaderContentTemplate.template.Index />
+        </ws:headerContentTemplate>
+        <ws:content>
+            <div>Content</div>
+        </ws:content>
+    </Controls.spoiler:View>
+</div>

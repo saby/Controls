@@ -3,7 +3,7 @@ import {isEqual} from 'Types/object';
 import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {IExpandable, IExpandableOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
+import {ITooltip, ITooltipOptions, IExpandable, IExpandableOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
 import Util from './Util';
 
 // tslint:disable-next-line:ban-ts-ignore
@@ -20,7 +20,7 @@ type TIcon = 'ExpandLight' | 'CollapseLight';
  * @public
  * @author Красильников А.С.
  */
-export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IFontSizeOptions {
+export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IFontSizeOptions, ITooltipOptions {
     /**
      * Заголовок.
      * @type string | string[]
@@ -42,7 +42,7 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
     captionPosition: 'left' | 'right';
 }
 
-export interface IHeading extends IExpandable, IFontSize {
+export interface IHeading extends IExpandable, IFontSize, ITooltip {
     readonly '[Controls/_spoiler/IHeading]': boolean;
 }
 
@@ -55,6 +55,7 @@ export interface IHeading extends IExpandable, IFontSize {
  * @class Controls/_spoiler/Heading
  * @extends UI/Base:Control
  * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:ITooltip
  * @mixes Controls/interface:IExpandable
  * @mixes Controls/spoiler:IHeadingOptions
  *
@@ -63,7 +64,7 @@ export interface IHeading extends IExpandable, IFontSize {
  * @demo Controls-demo/Spoiler/Heading/Index
  */
 class Heading extends Control<IHeadingOptions> implements IHeading {
-    protected _icon: TIcon;
+    protected _icon: TIcon = 'ExpandLight';
     protected _view: TView;
     protected _caption: string;
     protected _expanded: boolean = false;
