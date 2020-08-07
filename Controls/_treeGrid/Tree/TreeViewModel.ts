@@ -189,6 +189,7 @@ var
             }
 
             expanderClasses += expanderIconClass + `_theme-${theme}`;
+            expanderClasses += ' controls-TreeGrid__row-expander' + (itemData.isExpanded ? '_expanded' : '_collapsed') + `_theme-${theme}`;
 
             // добавляем класс свертнутости развернутости для тестов
             expanderClasses += ' controls-TreeGrid__row-expander' + (itemData.isExpanded ? '_expanded' : '_collapsed');

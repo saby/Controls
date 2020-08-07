@@ -89,8 +89,15 @@
 }
 
 .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before,
+.controls-TreeGrid__row-expander_node_master_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
    position: relative;
+}
+
+.controls-TreeGrid__row-expander_node_master_collapsed_theme-@{themeName}:before {
+   bottom: @expander_padding_icon-treeGrid;
+}
+.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
    bottom: -@expander_padding_icon-treeGrid;
 }
 
