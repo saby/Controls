@@ -5,4 +5,7 @@
    <div class="controlsDemo__cell">
       <Controls.spoiler:Heading captions="{{['Свернуть', 'Развернуть']}}"/>
    </div>
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:Heading captions="Много много много много текста" attr:style="width: 150px;"/>
+   </div>
 </div>

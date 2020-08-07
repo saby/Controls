@@ -23,7 +23,7 @@
                                  controls-SpoilerHeading__icon_theme-{{_options.theme}}
                                  controls-SpoilerHeading__icon_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}"/>
       </div>
-      <div class="controls-SpoilerHeading__caption
+      <div class="controls-SpoilerHeading__caption ws-ellipsis
                   controls-fontweight-{{_fontWeight}}{{_fontWeight === 'default' ? '_theme-' + _options.theme}}
                   controls-SpoilerHeading__caption_{{_view}}
                   controls-SpoilerHeading__caption_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}
