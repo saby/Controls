@@ -4,5 +4,6 @@
                placeholder="{{searchPlaceholder}}"
                scope="{{_options}}"
                contrastBackground="{{true}}"
+               theme="{{_options.headerTheme}}"
                name="menuSearch" />
 </ws:partial>
