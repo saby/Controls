@@ -67,6 +67,7 @@
                        dataLoadCallback="{{_dataLoadCallback}}"
                        headingIcon="{{_headingIcon}}"
                        headerTemplate="{{_headerTemplate || _options.headerTemplate}}"
+                       verticalDirection="{{_verticalDirection}}"
                        theme="{{_options.theme}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:applyClick="_sendResult('applyClick')"
