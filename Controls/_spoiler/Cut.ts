@@ -1,15 +1,17 @@
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {IBackgroundStyle, IBackgroundStyleOptions} from 'Controls/interface';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_spoiler/Cut/Cut';
 
 /**
  * @interface Controls/_spoiler/Cut/ICutOptions
+ * @mixes Control/interface:IBackgroundStyle
  * @public
  * @author Красильников А.С.
  */
-export interface ICutOptions extends IControlOptions {
+export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions {
     /**
      * Высота строки.
      * @variant xs
@@ -54,10 +56,12 @@ export interface ICutOptions extends IControlOptions {
  *
  * @author Красильников А.С.
  */
-class Cut extends Control<ICutOptions> {
+class Cut extends Control<ICutOptions> implements IBackgroundStyle {
     private _lines: number | null = null;
 
     protected _template: TemplateFunction = template;
+
+    readonly '[Controls/_interface/IBackgroundStyle]': boolean = true;
 
     private _expand(): void {
         this._lines = null;
@@ -81,13 +85,15 @@ class Cut extends Control<ICutOptions> {
     static getOptionTypes(): object {
         return {
             lineHeight: descriptor(String),
+            backgroundStyle: descriptor(String),
             lines: descriptor(Number, null).required()
         };
     }
 
     static getDefaultOptions(): object {
         return {
-            lineHeight: 'm'
+            lineHeight: 'm',
+            backgroundStyle: 'default'
         };
     }
 }

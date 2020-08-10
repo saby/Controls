@@ -11,13 +11,16 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
        * Прилипание происходит в момент пересечения верхней или нижней части контента и родительского контейнера.
        * @remark
        * Фиксация заголовка в браузере IE версии ниже 16 не поддерживается.
-       * 
+       *
        * Полезные ссылки:
        * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
        *
        * @public
        * @extends Core/Control
        * @class Controls/_scroll/StickyHeader
+       *
+       * @mixes Control/interface:IBackgroundStyle
+       *
        * @author Красильников А.С.
        */
 
@@ -71,18 +74,6 @@ import tmplNotify = require('Controls/Utils/tmplNotify');
        * @variant visible Show.
        * @variant hidden Do not show.
        * @default visible
-       */
-
-      /**
-       * @name Controls/_scroll/StickyHeader#backgroundStyle
-       * @cfg {string} Префикс стиля для настройки фона
-       * @default default (theme background)
-       */
-
-      /*
-       * @name Controls/_scroll/StickyHeader#backgroundStyle
-       * @cfg {string} Style prefix to configure background
-       * @default default (theme background)
        */
 
       /**
