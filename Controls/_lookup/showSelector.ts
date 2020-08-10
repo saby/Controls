@@ -10,14 +10,10 @@ function getPopupOptions(self): IStackPopupOptions {
         closeOnOutsideClick: true,
         isCompoundTemplate: self._options.isCompoundTemplate,
         eventHandlers: {
-            onOpen: () => {
-                self._openingSelector = null;
-            },
             onResult: (result) => {
                 self._selectCallback(null, result);
             },
             onClose: () => {
-                self._openingSelector = null;
                 self._closeHandler();
                 self._notify('selectorClose');
             }
@@ -51,27 +47,26 @@ export default function(self, popupOptions, multiSelect) {
     if (!self._stack) {
         self._stack = new StackOpener();
     }
-    if (!self._openingSelector) {
-        const selectorTemplate = self._options.selectorTemplate;
-        const stackPopupOptions = getPopupOptions(self);
+    const selectorTemplate = self._options.selectorTemplate;
+    const stackPopupOptions = getPopupOptions(self);
 
-        if (selectorTemplate && selectorTemplate.popupOptions) {
-            merge(stackPopupOptions, selectorTemplate.popupOptions);
-        }
-
-        if (popupOptions && popupOptions.template || selectorTemplate) {
-            stackPopupOptions.templateOptions = getTemplateOptions(self, multiSelect);
-
-            if (selectorTemplate && selectorTemplate.templateOptions) {
-                merge(stackPopupOptions.templateOptions, selectorTemplate.templateOptions);
-            }
-
-            if (popupOptions) {
-                merge(stackPopupOptions, popupOptions);
-            }
-
-            self._openingSelector = self._stack.open(stackPopupOptions)
-        }
-        return self._openingSelector;
+    if (selectorTemplate && selectorTemplate.popupOptions) {
+        merge(stackPopupOptions, selectorTemplate.popupOptions);
     }
+
+    if (popupOptions && popupOptions.template || selectorTemplate) {
+        stackPopupOptions.templateOptions = getTemplateOptions(self, multiSelect);
+
+        if (selectorTemplate && selectorTemplate.templateOptions) {
+            merge(stackPopupOptions.templateOptions, selectorTemplate.templateOptions);
+        }
+
+        if (popupOptions) {
+            merge(stackPopupOptions, popupOptions);
+        }
+
+        self._stack.open(stackPopupOptions);
+        return true;
+    }
+    return false;
 }
