@@ -31,6 +31,5 @@ export {default as Selector} from './_suggest/Selector';
 export {
    Input,
    _InputController,
-   SearchInput,
-   InputRender
+   SearchInput
 };

@@ -37,6 +37,7 @@
  * @includes ISelectionObject Controls/_interface/ISelectionObject
  * @includes IItems Controls/_interface/IItems
  * @includes IHref Controls/_interface/IHref
+ * @includes ISuggest Controls/_interface/ISuggest
  * @public
  * @author Крайнов Д.О.
  */
@@ -86,3 +87,4 @@ export {default as IFormOperation} from './_interface/IFormOperation';
 export {default as ISelectorDialog, ISelectorDialogOptions} from './_interface/ISelectorDialog';
 export {default as IItems, IItemsOptions} from './_interface/IItems';
 export {default as IHref, IHrefOptions} from './_interface/IHref';
+export {default as ISuggest, ISuggestOptions, IEmptyTemplateProp, ISuggestFooterTemplate, ISuggestTemplateProp} from './_interface/ISuggest';
