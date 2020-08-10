@@ -1,4 +1,4 @@
-<div class="controls-BreadCrumbsView__crumb {{'controls-fontsize-' + fontSize + '_theme-' + _options.theme}}
+<div class="controls-BreadCrumbsView__crumb {{'controls-fontsize-' + fontSize + '_theme-' + _options.theme}} {{'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}
 {{edge ? ' controls-BreadCrumbsView__max-width__edge' : ' controls-BreadCrumbsView__max-width'}} controls-BreadCrumbsView__crumb_theme-{{_options.theme}}
 {{itemData.withOverflow ? (itemData.hasArrow ? ' controls-BreadCrumbsView__crumb_withOverflow controls-BreadCrumbsView__crumb_withOverflow_theme-' + _options.theme : ' controls-BreadCrumbsView__crumb_withOverflow  controls-BreadCrumbsView__crumb_withOverflow_withoutArrow_theme-' + _options.theme)
  : ' controls-BreadCrumbsView__crumb_withoutOverflow'}}">
@@ -8,8 +8,7 @@
     <span class="controls-BreadCrumbsView__titleWrapper"
          title="{{itemData.getPropValue(itemData.item, displayProperty)}}">
         <span class="controls-BreadCrumbsView__title
-        {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}
-        {{'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}">
+        {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}">
             <ws:if data="{{contentTemplate}}"><ws:partial template="{{contentTemplate}}" displayProperty="{{displayProperty}}" itemData="{{itemData}}"/></ws:if><ws:else>{{ itemData.getPropValue(itemData.item, displayProperty) }}</ws:else></span>
     </span>
 </div>

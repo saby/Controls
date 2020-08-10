@@ -5,6 +5,7 @@
                     template="{{itemTemplate}}"
                     itemData="{{itemData}}"
                     fontSize="{{fontSize}}"
+                    fontColorStyle="{{fontColorStyle}}"
                     displayProperty="{{ displayProperty }}"
             />
         </ws:template>

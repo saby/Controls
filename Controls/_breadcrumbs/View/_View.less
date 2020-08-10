@@ -39,7 +39,6 @@
    .baseline-fix();
 }
 .controls-BreadCrumbsView__crumb_theme-@{themeName} {
-  color: @item_text-color_default_breadcrumbsView;
   height: @height_breadcrumbsView;
   &:before {
     font-size: @line-height_breadcrumbsView;
@@ -86,7 +85,6 @@
 .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
   right: 0;
   height: @height_breadcrumbsView;
-  color: @item_text-color_default_breadcrumbsView;
   &:before {
     font-size: @line-height_breadcrumbsView;
   }
@@ -169,7 +167,6 @@
 }
 .controls-BreadCrumbsView__arrow_theme-@{themeName}{
    .icon(@item_icon-size_default_breadcrumbsView);
-   color: @item_text-color_default_breadcrumbsView;
 }
 
 .controls-BreadCrumbsView__arrow_enabled {
@@ -203,6 +200,9 @@
 .controls-BreadCrumbsView__indentation_theme-@{themeName} {
    .icon(@popup_item_icon-size_breadcrumbsView);
    color: @popup_item_icon-color_breadcrumbsView;
+}
+.controls-text-breadcrumbs_theme-@{themeName} {
+   color: @item_text-color_default_breadcrumbsView;
 }
 
 .ws-is-hover {

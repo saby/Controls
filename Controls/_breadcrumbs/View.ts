@@ -160,7 +160,7 @@ class BreadCrumbsView extends Control<IControlOptions> {
             backgroundStyle: 'default',
             displayMode: 'default',
             fontSize: 'xs',
-            fontColorStyle: 'label'
+            fontColorStyle: 'breadcrumbs'
         };
     }
     static _theme: string[] = ['Controls/crumbs'];
