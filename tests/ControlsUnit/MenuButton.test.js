@@ -292,8 +292,9 @@ define(
             let historySource = new history.Source({
                historyId: 'TEST_HISTORY_ID_DDL_CONTROLLER'
             });
-            menu._source = historySource;
-            menu._source.update = () => {};
+
+            menu._options.source = historySource;
+            menu._options.source.update = () => {};
             menu._onResult('pinClick', item);
             assert.isFalse(closed);
          });
@@ -407,7 +408,8 @@ define(
             let actualTarget;
             menu._controller = {
                openMenu: () => Promise.resolve(),
-               setMenuPopupTarget: (target) => {actualTarget = target;}
+               setMenuPopupTarget: (target) => {actualTarget = target;},
+               setFilter: () => {}
             };
             menu._children = {
                content: 'testTarget'

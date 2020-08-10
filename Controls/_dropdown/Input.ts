@@ -14,6 +14,9 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import HistoryController from 'Controls/_dropdown/HistoryController';
+import {RecordSet} from 'Types/collection';
+import {Model} from 'Types/entity';
 
 interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
@@ -258,31 +261,37 @@ export default class Input extends BaseDropdown {
                 receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
       this._prepareDisplayState = this._prepareDisplayState.bind(this);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(options));
       this._controller = new Controller(this._getControllerOptions(options));
 
-      return loadItems(this._controller, receivedState, options.source);
+      return loadItems(this._controller, this._historyController, receivedState, options.source);
    }
 
    _beforeUpdate(options: IInputOptions): void {
+      this._historyController.update(this._getHistoryControllerOptions(options));
       this._controller.update(this._getControllerOptions(options));
    }
 
    _getControllerOptions(options: IInputOptions): object {
-      const controllerOptions = getDropdownControllerOptions(options);
-      return { ...controllerOptions, ...{
-            dataLoadCallback: this._dataLoadCallback,
-            selectorOpener: this,
-            selectedKeys: options.selectedKeys || [],
-            popupClassName: options.popupClassName || (options.showHeader || options.headerTemplate ?
-                'controls-DropdownList__margin-head' : options.multiSelect ?
-                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
-                ' theme_' + options.theme,
-            caption: options.caption || this._text ,
-            allowPin: false,
-            selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
-            openerControl: this
-         }
+      const inputConfig = {
+         keyProperty: this._historyController.hasHistory(options) ? 'copyOriginalId' : options.keyProperty,
+         dataLoadCallback: this._dataLoadCallback,
+         selectorOpener: this,
+         selectedKeys: options.selectedKeys || [],
+         className: options.popupClassName || (options.showHeader || options.headerTemplate ?
+             'controls-DropdownList__margin-head' : options.multiSelect ?
+                 'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
+             ' theme_' + options.theme,
+         caption: options.caption || this._text ,
+         allowPin: false,
+         selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
       };
+      const controllerOptions = getDropdownControllerOptions(options, inputConfig);
+      return { ...controllerOptions, ...{
+         filter: this._historyController.getPreparedFilter(),
+         source: this._historyController.getPreparedSource(),
+         openerControl: this
+      } };
    }
 
    _getMenuPopupConfig(): IStickyPopupOptions {
@@ -340,7 +349,7 @@ export default class Input extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._container);
-
+      this._controller.setFilter(this._historyController.getPreparedFilter());
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
             this._selectedItemsChangedHandler(result);
@@ -368,28 +377,53 @@ export default class Input extends BaseDropdown {
    }
 
    protected _itemClick(data): void {
-      const item = this._controller.getPreparedItem(data);
+      const item = this._historyController.getPreparedItem(data);
       const res = this._selectedItemsChangedHandler([item]);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
       if (res !== false) {
-         this._controller.handleSelectedItems(item);
+         this._updateControllerItems(data);
       }
    }
 
    protected _applyClick(data): void {
       this._selectedItemsChangedHandler(data);
-      this._controller.handleSelectedItems(data);
+      this._updateControllerItems(data);
    }
 
-   protected _selectorResult(data): void {
-      this._controller.handleSelectorResult(data);
-      this._selectedItemsChangedHandler(data);
+   protected _selectorResult(selectedItems): void {
+      const controllerItems = this._controller.getItems();
+      const newItems = this._getNewItems(controllerItems, selectedItems, this._options.keyProperty);
+      const historyItems = this._historyController.getItemsWithHistory();
+      const hasHistory = this._historyController.hasHistory(this._options);
+      if (hasHistory) {
+         if (newItems.length) {
+            this._controller.resetSourceController();
+         }
+         if(this._controller.getSourceController()) {
+            this._controller.updateItems(historyItems);
+         }
+      } else {
+         controllerItems.prepend(newItems);
+         this._controller.updateItems(controllerItems);
+      }
+      this._selectedItemsChangedHandler(selectedItems);
    }
 
    protected _selectorTemplateResult(event, selectedItems): void {
       let result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
       this._selectorResult(result);
+   }
+
+   private _getNewItems(items: RecordSet, selectedItems: RecordSet, keyProperty: string): Model[] {
+      const newItems = [];
+
+      factory(selectedItems).each((item) => {
+         if (!items.at(items.getIndexByValue(keyProperty, item.get(keyProperty)))) {
+            newItems.push(item);
+         }
+      });
+      return newItems;
    }
 
    private _getSelectedKeys(items, keyProperty) {

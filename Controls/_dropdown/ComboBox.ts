@@ -14,6 +14,7 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
 import {generateStates} from 'Controls/input';
+import HistoryController from 'Controls/_dropdown/HistoryController';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {
    placeholder?: string;
@@ -103,8 +104,9 @@ class ComboBox extends BaseDropdown {
       };
 
       generateStates(this, options);
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(options));
       this._controller = new Controller(this._getControllerOptions(options));
-      return loadItems(this._controller, receivedState, options.source);
+      return loadItems(this._controller, this._historyController, receivedState, options.source);
    }
 
    _beforeUpdate(options: IComboboxOptions): void {
@@ -113,28 +115,33 @@ class ComboBox extends BaseDropdown {
       if (this._width !== containerNode.offsetWidth) {
          this._width = containerNode.offsetWidth;
       }
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(options));
       this._controller.update(this._getControllerOptions(options));
    }
 
    _getControllerOptions(options: IComboboxOptions): object {
-      const controllerOptions = getDropdownControllerOptions(options);
+      const comboBoxConfig = {
+         keyProperty: this._historyController.hasHistory(options) ? 'copyOriginalId' : options.keyProperty,
+         selectedKeys: [options.selectedKey],
+         dataLoadCallback: options.dataLoadCallback,
+         marker: false,
+         className: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
+             + ' controls-ComboBox-popup_theme-' + options.theme,
+         typeShadow: 'suggestionsContainer',
+         close: this._onClose,
+         open: this._onOpen,
+         allowPin: false,
+         selectedItemsChangedCallback: this._setText,
+         targetPoint: this._targetPoint,
+         itemPadding: {
+            right: 'menu-xs',
+            left: 'menu-xs'
+         }
+      };
+      const controllerOptions = getDropdownControllerOptions(options, comboBoxConfig);
       return { ...controllerOptions, ...{
-            selectedKeys: [options.selectedKey],
-            dataLoadCallback: options.dataLoadCallback,
-            marker: false,
-            popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
-                           + ' controls-ComboBox-popup_theme-' + options.theme,
-            typeShadow: 'suggestionsContainer',
-            close: this._onClose,
-            open: this._onOpen,
-            allowPin: false,
-            selectedItemsChangedCallback: this._setText,
-            theme: options.theme,
-            itemPadding: {
-               right: 'menu-xs',
-               left: 'menu-xs'
-            },
-            targetPoint: this._targetPoint,
+            filter: this._historyController.getPreparedFilter(),
+            source: this._historyController.getPreparedSource(),
             openerControl: this
          }
       };
@@ -188,7 +195,7 @@ class ComboBox extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._container);
-
+      this._controller.setFilter(this._historyController.getPreparedFilter());
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
             this._selectedItemsChangedHandler(result);
@@ -198,9 +205,9 @@ class ComboBox extends BaseDropdown {
 
    protected _onResult(action: string, data): void {
       if (action === 'itemClick') {
-         const item = this._controller.getPreparedItem(data);
+         const item = this._historyController.getPreparedItem(data);
          this._selectedItemsChangedHandler([item]);
-         this._controller.handleSelectedItems(item);
+         this._updateControllerItems(data);
       }
    }
 
