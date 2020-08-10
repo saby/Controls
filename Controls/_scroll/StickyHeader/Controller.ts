@@ -130,14 +130,17 @@ class StickyHeaderController {
         return height + replaceableHeight;
     }
 
-    setCanScroll(canScroll: boolean): void {
+    setCanScroll(canScroll: boolean): Promise<void> {
         if (canScroll === this._canScroll) {
-            return;
+            return Promise.resolve();
         }
+
         this._canScroll = canScroll;
         if (this._canScroll) {
-            this._registerDelayed();
+            return this._registerDelayed();
         }
+
+        return Promise.resolve();
     }
 
     registerHandler(event, data: TRegisterEventData, register: boolean): void {
