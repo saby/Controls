@@ -155,7 +155,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._limitHistoryFilter = this._limitHistoryCheck.bind(this);
 
         this._closeButtonVisible = options.itemPadding.right === 'menu-close';
-        this._stack = new StackOpener();
+        this._stack = options.selectorOpener || new StackOpener();
         if (options.source) {
             return this._loadItems(options);
         }
