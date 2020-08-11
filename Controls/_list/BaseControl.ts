@@ -4302,13 +4302,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this.triggerVisibilityChangedHandler('down', true);
                 break;
             case 'topIn':
-                this.triggerVisibilityChangedHandler('up', true);
+                if (!this._needScrollToFirstItem) {
+                    this.triggerVisibilityChangedHandler('up', true);
+                }
                 break;
             case 'bottomOut':
                 this.triggerVisibilityChangedHandler('down', false);
                 break;
             case 'topOut':
-                this.triggerVisibilityChangedHandler('up', false);
+                if (!this._needScrollToFirstItem) {
+                    this.triggerVisibilityChangedHandler('up', false);
+                }
                 break;
         }
     },

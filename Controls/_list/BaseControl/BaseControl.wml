@@ -79,9 +79,7 @@
 </ws:template>
 <ws:template name="viewTpl">
     <div class="controls-ScrollController">
-        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{!_isMounted ? 'display: none;'}}"></div>
-        <!-- Скрываем topLoadTrigger через display: none, чтобы он не срабатывал сразу после mount. Отступы ему ещё не установлены и он
-        сработает сразу после инициализации, хотя далеко не факт что это нужно. -->
+        <div name="topVirtualScrollTrigger" style="position: relative; top: 0;"></div>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: 1px;'}}"
