@@ -2946,6 +2946,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._notify('register', ['documentDragEnd', this, this._documentDragEnd], {bubbling: true});
         if (!this._wasScrollToEnd) {
             _private.checkNeedAttachLoadTopTriggerToNull(this);
+            this._scrollToFirstItemIfNeed();
         }
     },
 
@@ -4061,8 +4062,16 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _observeScrollHandler( _: SyntheticEvent<Event>, eventName: string, params: any): void {
+        const checkingEvens = {
+            virtualPageTopStart: true,
+            virtualPageTopStop: true
+        };
+        // Не реагируем на события observer'a, если заказана прокрутка к первому элементу. Таблица ещё не готова к
+        // обработке событий от observer'a и реакция на событие приводит к лишней загрузке.
         if (this._scrollController) {
-            this._scrollController.observeScroll(eventName, params);
+            if (!this._needScrollToFirstItem || !checkingEvens[eventName]) {
+                this._scrollController.observeScroll(eventName, params);
+            }
         }
     },
 
