@@ -237,7 +237,7 @@ describe('Controls/grid_clean/GridViewModel', () => {
                 assert.isTrue(gridViewModel.getCurrent().isLastRow);
             });
 
-            it('hasMoreData: true with infinity navigation ', () => {
+            it('hasMoreData: false with infinity navigation ', () => {
                 gridViewModel._options.navigation = {
                     view: 'infinity'
                 };
@@ -246,6 +246,16 @@ describe('Controls/grid_clean/GridViewModel', () => {
 
                 gridViewModel.goToNext();
                 assert.isFalse(gridViewModel.getCurrent().isLastRow);
+            });
+            it('hasMoreData: true with infinity navigation ', () => {
+                gridViewModel._options.navigation = {
+                    view: 'infinity'
+                };
+                gridViewModel.goToNext();
+                gridViewModel.setHasMoreData(true);
+                assert.isFalse(gridViewModel.getCurrent().isLastRow);
+                gridViewModel.setHasMoreData(false);
+                assert.isTrue(gridViewModel.getCurrent().isLastRow);
             });
         });
     });

@@ -1153,10 +1153,9 @@ var
         },
 
         setHasMoreData(hasMoreData: boolean, silent: boolean = false): boolean {
-            if (this._model.setHasMoreData(hasMoreData)) {
-                if (!silent) {
-                    this._nextModelVersion(true);
-                }
+            this._model.setHasMoreData(hasMoreData);
+            if (!silent) {
+                this._nextModelVersion(true);
             }
         },
 
