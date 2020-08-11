@@ -3,10 +3,11 @@
  */
 define([
    'Controls/tabs',
+   'UI/Vdom',
    'Types/source',
    'Types/entity',
    'Types/collection'
-], function(tabsMod, sourceLib, entity, collection) {
+], function(tabsMod, Vdom, sourceLib, entity, collection) {
    describe('Controls/_tabs/Buttons', function() {
       const data = [
          {
@@ -74,7 +75,7 @@ define([
          const tabInstance = new tabsMod.Buttons();
          tabInstance._itemsOrder = [2];
          assert.equal(expected, tabInstance._prepareItemOrder(0), 'wrong order cross-brwoser styles');
-         tabInstance.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabInstance, {});
       });
       it('initItems by source', function(done) {
          var
@@ -91,7 +92,7 @@ define([
             assert.equal(5, itemsOrder[11], 'incorrect right order');
             assert.equal(36, itemsOrder[10], 'incorrect right order');
             assert.equal(37, tabInstance._lastRightOrder, 'incorrect last right order');
-            tabInstance.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(tabInstance, {});
             done();
          });
       });
@@ -109,7 +110,7 @@ define([
          assert.equal(5, itemsOrder[11], 'incorrect right order');
          assert.equal(36, itemsOrder[10], 'incorrect right order');
          assert.equal(37, tabInstance._lastRightOrder, 'incorrect last right order');
-         tabInstance.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabInstance, {});
       });
       it('prepareItemClass', function() {
          var
@@ -174,7 +175,7 @@ define([
          assert.equal(expected2, tabInstance._prepareItemClass(item2, 1), 'wrong order cross-brwoser styles');
          assert.equal(expected3, tabInstance._prepareItemClass(item3, 2));
          assert.equal(expected4, tabInstance._prepareItemClass(item4, 3));
-         tabInstance.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabInstance, {});
       });
       it('prepareItemSelected', function() {
          var
@@ -206,7 +207,7 @@ define([
          tabs.saveOptions(options);
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabs._prepareItemSelectedClass(item2), 'wrong order cross-brwoser styles');
-          tabs.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabs, {});
       });
 
       it('_beforeMount with received state', function() {
@@ -221,7 +222,7 @@ define([
          tabs._beforeMount(options, null, receivedState);
          assert.equal(tabs._items, receivedState.items, 'items uncorrect in beforeMount with receivedState');
          assert.equal(tabs._itemsOrder, receivedState.itemsOrder, 'items uncorrect in beforeMount with receivedState');
-         tabs.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabs, {});
       });
       it('_beforeMount without received state', function() {
          var tabs = new tabsMod.Buttons(),
@@ -241,7 +242,7 @@ define([
          tabs._beforeMount(options).addCallback(function() {
             assert.equal(tabs._items.at(0).get('id') === '1', 'incorrect items _beforeMount without received state');
             assert.equal(tabs._items.at(0).get('title') === 'test1', 'incorrect items _beforeMount without received state');
-            tabs.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(tabs, {});
             done();
          });
       });
@@ -266,7 +267,7 @@ define([
              assert.equal(tabs._items.at(0).get('id') === '1', 'incorrect items _beforeUpdate without received state');
              assert.equal(tabs._items.at(0).get('title') === 'test1', 'incorrect items _beforeUpdate without received state');
              assert.equal(forceUpdateCalled, true, 'forceUpdate in _beforeUpdate does not called');
-             tabs.destroy();
+             Vdom.Synchronizer.unMountControlFromDOM(tabs, {});
              done();
          };
          tabs._beforeUpdate(options);
@@ -281,7 +282,7 @@ define([
          };
          tabs._onItemClick(null, 1);
          assert.equal(notifyCorrectCalled, true, 'uncorrect _onItemClick');
-         tabs.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(tabs, {});
       });
    });
 });

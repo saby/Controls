@@ -8,9 +8,10 @@ define(
       'Types/entity',
       'Controls/history',
       'Types/collection',
+      'UI/Vdom',
       'Env/Env'
    ],
-   function(List, Serializer, chain, HistorySourceDemo, filter, entity, history, collection, Env) {
+   function(List, Serializer, chain, HistorySourceDemo, filter, entity, history, collection, Vdom, Env) {
       describe('FilterHistoryList', function() {
          var items2 = [
             {id: 'period', value: [3], resetValue: [1], textValue: 'Past month'},
@@ -65,7 +66,7 @@ define(
          ];
 
          after(() => {
-            list.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(list, {});
          });
 
          filter.HistoryUtils.loadHistoryItems({historyId: 'TEST_HISTORY_ID'}).addCallback(function(items) {

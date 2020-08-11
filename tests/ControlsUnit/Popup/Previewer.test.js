@@ -1,7 +1,7 @@
 define(
    [
       'Controls/popup',
-      'Vdom/Vdom'
+      'UI/Vdom'
    ],
    (popup, Vdom) => {
       'use strict';
@@ -27,7 +27,7 @@ define(
             PWInstance._options.trigger = 'hoverAndClick';
             PWInstance._contentMouseDownHandler(event);
             assert.deepEqual(result, true);
-            PWInstance.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(PWInstance, {});
          });
          it('contentMouseenterHandler', () => {
             let PWInstance = new popup.PreviewerTarget();
@@ -43,7 +43,7 @@ define(
             PWInstance._isOpened = true;
             PWInstance._contentMouseenterHandler(event);
             assert.deepEqual(cancel, true);
-            PWInstance.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(PWInstance, {});
          });
       });
 

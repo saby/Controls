@@ -4,9 +4,10 @@ define(
       'Controls/_popupTemplate/Sticky/StickyController',
       'Controls/popup',
       'UI/Base',
+      'UI/Vdom',
       'Core/core-clone'
    ],
-   (StickyStrategy, StickyController, popupLib, UIBase, cClone) => {
+   (StickyStrategy, StickyController, popupLib, UIBase, Vdom, cClone) => {
       'use strict';
 
       describe('Controls/_popup/Opener/Sticky', () => {
@@ -102,7 +103,8 @@ define(
             cfg.popupOptions.target._container = '123';
             assert.equal(cfg.popupOptions.target._container,
                StickyController._private.getTargetNode(cfg));
-            cfg.popupOptions.target.destroy();
+               
+            Vdom.Synchronizer.unMountControlFromDOM(cfg.popupOptions.target, {});
 
             //Тестируем: передаем в опцию target domNode
             cfg.popupOptions.target = '222';

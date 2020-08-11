@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { ListView, ListViewModel } from 'Controls/list';
+import { Synchronizer } from 'UI/Vdom';
 
 describe('Controls/list_clean/ListView', () => {
     describe('controlResize', () => {
@@ -18,7 +19,7 @@ describe('Controls/list_clean/ListView', () => {
         });
 
         afterEach(() => {
-            listView.destroy();
+            Synchronizer.unMountControlFromDOM(listView, {});
             listView = undefined;
         });
 

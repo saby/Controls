@@ -1,9 +1,10 @@
 define(
    [
       'Controls/Pending',
+      'UI/Vdom',
       'Core/Deferred'
    ],
-   (PendingRegistrator, Deferred) => {
+   (PendingRegistrator, Vdom, Deferred) => {
       'use strict';
 
       describe('Controls/Container/PendingRegistrator', () => {
@@ -39,7 +40,7 @@ define(
             assert.deepEqual(callPendingFail, [1, 3]);
 
             Registrator._beforeUnmount();
-            Registrator.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
          });
          it('register/unregister pending', () => {
             let Registrator = new PendingRegistrator();
@@ -75,7 +76,7 @@ define(
             });
 
             Registrator._beforeUnmount();
-            Registrator.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
          });
 
          it('hasRegisteredPendings', () => {
@@ -97,7 +98,7 @@ define(
             assert.equal(Registrator._hasRegisteredPendings(), true);
 
             Registrator._beforeUnmount();
-            Registrator.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
          });
 
          it('should call unregisterPending1', (done) => {
@@ -115,7 +116,7 @@ define(
                sinon.assert.calledOnce(stub);
                done();
                Registrator._beforeUnmount();
-               Registrator.destroy();
+               Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
                sandbox.restore();
             }).catch(done);
             resolver();
@@ -137,7 +138,7 @@ define(
                   sinon.assert.calledOnce(stub);
                   done();
                   Registrator._beforeUnmount();
-                  Registrator.destroy();
+                  Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
                   sandbox.restore();
                });
             rejector();
@@ -164,7 +165,7 @@ define(
                   sinon.assert.calledWith(stub, null, test.pendingCounter);
                   done();
                   Registrator._beforeUnmount();
-                  Registrator.destroy();
+                  Vdom.Synchronizer.unMountControlFromDOM(Registrator, {});
                   sandbox.restore();
                }).catch(done);
                resolver();

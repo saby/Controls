@@ -1,9 +1,9 @@
-define(['Controls/toggle'], function(toggle) {
+define(['Controls/toggle', 'UI/Vdom'], function(toggle, Vdom) {
    'use strict';
    var separator;
    describe('Controls/Button/Separator', function() {
       function destroySeparator() {
-         separator.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(separator, {});
          separator = undefined;
       }
 

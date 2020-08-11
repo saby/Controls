@@ -1,4 +1,4 @@
-define(['Controls/toggle'], function (toggle) {
+define(['Controls/toggle', 'UI/Vdom'], function (toggle, Vdom) {
    'use strict';
    var SW, changeValue;
    describe('Controls/_toggle/Switch', function () {
@@ -18,7 +18,7 @@ define(['Controls/toggle'], function (toggle) {
       });
 
       afterEach(function () {
-         SW.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(SW, {});
          SW = undefined;
       });
 

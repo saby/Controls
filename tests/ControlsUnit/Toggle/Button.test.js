@@ -1,4 +1,4 @@
-define(['Controls/toggle'], function(toggle) {
+define(['Controls/toggle', 'UI/Vdom'], function(toggle, Vdom) {
    'use strict';
    var Btn, changeValue;
    describe('Controls/_toggle/Button', function() {
@@ -19,7 +19,7 @@ define(['Controls/toggle'], function(toggle) {
       });
 
       afterEach(function() {
-         Btn.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(Btn, {});
          Btn = undefined;
       });
 

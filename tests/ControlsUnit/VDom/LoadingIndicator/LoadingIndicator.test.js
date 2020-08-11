@@ -1,6 +1,7 @@
 define([
-   'Controls/LoadingIndicator'
-], (LoadingIndicator) => {
+   'Controls/LoadingIndicator',
+   'UI/Vdom'
+], (LoadingIndicator, Vdom) => {
    'use strict';
 
    describe('LoadingIndicator-tests', () => {
@@ -17,7 +18,7 @@ define([
          LoadingDelay._beforeMount({});
          assert.equal(LoadingDelay._getDelay({}), 2000);
          assert.equal(LoadingDelay._getDelay({ delay: 3 }), 3);
-         LoadingDelay.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingDelay, {});
       });
 
       it('LoadingIndicator - add', () => {
@@ -86,7 +87,7 @@ define([
          LoadingInd.show(config, waitPromise);
          assert.equal(config.waitPromise, undefined);
 
-         LoadingInd.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingInd, {});
       });
 
       it('LoadingIndicator - isOpened', () => {
@@ -143,7 +144,7 @@ define([
 
          LoadingInd._hide('id');
          assert.equal(isItemRemove, false);
-         LoadingInd.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingInd, {});
       });
 
       it('LoadingIndicator - getOverlay', () => {
@@ -153,8 +154,8 @@ define([
          LoadingInd._isMessageVisible = false;
          assert.equal(LoadingInd._getOverlay(overlay), 'default');
          LoadingInd._isMessageVisible = true;
-         assert.equal(LoadingInd._getOverlay(overlay), overlay)
-         LoadingInd.destroy();
+         assert.equal(LoadingInd._getOverlay(overlay), overlay);
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingInd, {});
       });
 
       it('LoadingIndicator - hide', () => {
@@ -185,7 +186,7 @@ define([
          LoadingInd._updateProperties(cfgEmpty);
          LoadingInd._beforeUpdate({});
          assert.equal(LoadingInd.message, '');
-         LoadingInd.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingInd, {});
       });
 
       it('LoadingIndicator - toggleIndicator', (done) => {
@@ -240,11 +241,11 @@ define([
 
          isMessageVisible = true;
 
-         LoadingInd.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(LoadingInd, {});
 
       });
       after(() => {
-         Loading.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(Loading, {});
       });
    });
 });

@@ -1,8 +1,9 @@
 define([
    'Controls/validate',
+   'UI/Vdom',
    'Core/Deferred',
    'ControlsUnit/resources/ProxyCall',
-], function(validateMod, Deferred, ProxyCall) {
+], function(validateMod, Vdom, Deferred, ProxyCall) {
    'use strict';
 
    function getValidator(validateResult, readOnly) {
@@ -55,7 +56,7 @@ define([
          assert.deepEqual(validCtrl._isOpened, true);
          validCtrl._mouseInfoboxHandler({type: 'close'});
          assert.deepEqual(validCtrl._isOpened, false);
-         validCtrl.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(validCtrl, {});
       });
       it('cleanValid', () => {
          var validCtrl = new validateMod.Container();
@@ -65,7 +66,7 @@ define([
          validCtrl._validationResult = 'Error';
          validCtrl._valueChangedHandler(null, 'test');
          assert.deepEqual(validCtrl._validationResult, 'Error');
-         validCtrl.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(validCtrl, {});
       });
       it('setValidResult', () => {
          var validCtrl = new validateMod.Container();
@@ -85,7 +86,7 @@ define([
          validCtrl._isOpened = false;
          validCtrl.setValidationResult('Error 404', validConfig);
          assert.deepEqual(validCtrl._isOpened, false);
-         validCtrl.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(validCtrl, {});
       });
    });
    describe('Validate/ControllerClass', () => {

@@ -1,13 +1,14 @@
 define(
    [
       'Controls/_popupTemplate/Stack/Opener/StackStrategy',
+      'UI/Vdom',
       'Controls/popup',
       'Controls/popupTemplate',
       'Controls-demo/Popup/TestMaximizedStack',
       'Controls/_popupTemplate/BaseController',
       'Controls/_popupTemplate/Stack/Opener/StackContent'
    ],
-   (StackStrategy, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent) => {
+   (StackStrategy, Vdom, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent) => {
       'use strict';
       BaseController = new BaseController.default();
       StackStrategy._goUpByControlTree = () => [];
@@ -21,7 +22,7 @@ define(
             assert.equal(false, stackC._canResize(null, 2, 3, 4));
             assert.equal(false, stackC._canResize(1, 2, 3, 3));
             assert.equal(true, stackC._canResize(1, 2, 3, 4));
-            stackC.destroy();
+            Vdom.Synchronizer.unMountControlFromDOM(stackC, {});
          });
       });
 

@@ -13,6 +13,7 @@ import {Control} from 'UI/Base';
 
 export default class GroupingLoader extends Control {
     protected _loadedGroups: {} = {};
+    public _isDestroyedFromCore: boolean = true;
 
     loadGroup(collection: IGroupingModel,
               groupId: TGroupId,

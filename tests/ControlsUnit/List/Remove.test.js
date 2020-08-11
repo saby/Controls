@@ -1,10 +1,11 @@
 define([
    'Controls/list',
+   'UI/Vdom',
    'Types/source',
    'Types/collection',
    'Core/Deferred',
    'Core/core-clone'
-], function(lists, sourceLib, collection, Deferred, cClone) {
+], function(lists, Vdom, sourceLib, collection, Deferred, cClone) {
    describe('Controls.List.Remover', function() {
       var remover;
 
@@ -35,7 +36,7 @@ define([
       });
 
       afterEach(function() {
-         remover.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(remover, {});
       });
 
       it('beforeItemsRemove notify event with params', function(done) {

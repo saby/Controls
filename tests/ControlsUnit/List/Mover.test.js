@@ -1,11 +1,12 @@
 define([
    'Controls/list',
+   'UI/Vdom',
    'Types/source',
    'Types/collection',
    'Core/Deferred',
    'Core/core-clone',
    'Controls/_operations/MultiSelector/selectionToRecord'
-], function(lists, source, collection, Deferred, cClone, selectionToRecord) {
+], function(lists, Vdom, source, collection, Deferred, cClone, selectionToRecord) {
    describe('Controls.List.Mover', function() {
       var
          items,
@@ -57,7 +58,7 @@ define([
       });
 
       afterEach(function() {
-         mover.destroy();
+         Vdom.Synchronizer.unMountControlFromDOM(mover, {});
       });
 
       it('_beforeMount', function() {

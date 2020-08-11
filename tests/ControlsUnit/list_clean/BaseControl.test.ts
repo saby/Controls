@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import {BaseControl, ListViewModel} from 'Controls/list';
 import * as Env from 'Env/Env';
 import {RecordSet} from 'Types/collection';
+import {Synchronizer} from 'UI/Vdom';
 
 describe('Controls/list_clean/BaseControl', () => {
     // https://online.sbis.ru/opendoc.html?guid=9a6f0437-ea6d-4d7f-b163-25dc8f244c64
@@ -23,7 +24,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
 
         afterEach(() => {
-            baseControl.destroy();
+            Synchronizer.unMountControlFromDOM(baseControl, {});
             baseControl = undefined;
             if (typeof window === 'undefined') {
                 Env.detection.isMobileIOS = undefined;
@@ -66,7 +67,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
 
         afterEach(() => {
-            baseControl.destroy();
+            Synchronizer.unMountControlFromDOM(baseControl, {});
             baseControl = undefined;
         });
 
