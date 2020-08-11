@@ -25,13 +25,12 @@ define([
          });
 
          describe('Styles', function() {
-            const tests = [{
+            [{
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'link',
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
                valueEnabledClass: true
             }, {
                options: {
@@ -39,47 +38,21 @@ define([
                   fontColorStyle: 'label',
                   theme: 'default'
                },
-               styleClass: 'controls-text-label_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'link',
                   clickable: false,
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-hover_theme-default'
-            }, {
-               options: {
-                  viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  clickable: false,
-                  theme: 'default'
-               },
-               styleClass: 'controls-text-label_theme-default'
-            }, {
-               options: {
-                  viewMode: 'selector',
-                  fontColorStyle: 'link',
-                  readOnly: true,
-                  theme: 'default'
-               },
-               styleClass: 'controls-text-link_theme-default'
-            }, {
-               options: {
-                  viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  readOnly: true,
-                  theme: 'default'
-               },
-               styleClass: 'controls-text-label_theme-default'
+               styleClass: ' controls-DateLinkView__style-hover_theme-default'
             }, {
                options: {
                   viewMode: 'link',
-                  fontColorStyle: 'link',
                   theme: 'default'
                },
-               styleClass: 'controls-text-link_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {
@@ -87,19 +60,16 @@ define([
                   fontColorStyle: 'unaccented',
                   theme: 'default'
                },
-               styleClass: 'controls-text-unaccented_theme-default controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'label',
-                  fontColorStyle: '',
                   theme: 'default'
                },
                styleClass: null,
                valueEnabledClass: true
-            }];
-
-            tests.forEach(function(test, testNumber) {
+            }].forEach(function(test, testNumber) {
                it(`should initialize correct styles ${testNumber}.`, function() {
                   const component = calendarTestUtils.createComponent(
                      dateRange.LinkView,
@@ -110,11 +80,87 @@ define([
                });
             });
 
-            tests.forEach(function(test, testNumber) {
+            [{
+               options: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default'
+               },
+               newOptions: {
+                  viewMode: 'link',
+                  theme: 'default'
+               },
+               valueEnabledClass: true,
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default'
+            }, {
+               options: {
+                  viewMode: 'link',
+                  clickable: true,
+                  theme: 'default',
+               },
+               newOptions: {
+                  viewMode: 'selector',
+                  theme: 'default'
+               },
+               valueEnabledClass: true,
+               styleClass: ' controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default'
+            }, {
+               options: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default'
+               },
+               newOptions: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default'
+               },
+               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+            }, {
+               options: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default',
+                  valueEnabledClass: false
+               },
+               newOptions: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default',
+                  valueEnabledClass: true
+               },
+               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+            }, {
+               options: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default',
+                  valueEnabledClass: false
+               },
+               newOptions: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default',
+                  valueEnabledClass: true
+               },
+               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+            }, {
+               options: {
+                  viewMode: 'selector',
+                  clickable: false,
+                  theme: 'default'
+               },
+               newOptions: {
+                  viewMode: 'label',
+                  clickable: false,
+                  theme: 'default'
+               },
+               styleClass: null
+            }].forEach(function(test, testNumber) {
                it(`should update correct styles ${testNumber}.`, function() {
                   const
-                     component = calendarTestUtils.createComponent(dateRange.LinkView, {}),
-                     options = calendarTestUtils.prepareOptions(dateRange.LinkView, test.options);
+                     component = calendarTestUtils.createComponent(dateRange.LinkView, test.options),
+                     options = calendarTestUtils.prepareOptions(dateRange.LinkView, test.newOptions);
                   component._beforeUpdate(options);
                   assert.equal(component._styleClass, test.styleClass);
                   assert.equal(component._valueEnabledClass, test.valueEnabledClass ? 'controls-DateLinkView__value-clickable' : '');

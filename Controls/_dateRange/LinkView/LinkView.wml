@@ -2,7 +2,8 @@
     <div class="controls-DateLinkView-wrapper">
         <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}} {{ _styleClass }}"
+              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}}
+              {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }} {{ _styleClass }}"
               on:click="shiftBack()">
            </span>
         </ws:if>
@@ -11,6 +12,8 @@
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
+                    {{_fontSize? 'controls-fontsize-' + _fontSize + '_theme-' + _options.theme }}
+                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }}
                     controls-DateLinkView__value_theme-{{_options.theme}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
@@ -23,7 +26,7 @@
               <Controls.buttons:Button
                     name="Link" caption="{{ _caption }}"
                     fontColorStyle="{{_fontColorStyle}}"
-                    fontSize="{{_options.fontSize}}"
+                    fontSize="{{_fontSize}}"
                     viewMode="link"
                     tootltip="{{_options.tooltip}}"
                     on:mousedown="_onClick()"/>
@@ -42,7 +45,8 @@
         </ws:if>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}} {{ _styleClass }}"
+              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}}
+              {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }} {{ _styleClass }}"
               on:click="shiftForward()">
            </span>
         </ws:if>
