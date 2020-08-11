@@ -272,7 +272,7 @@ define(
                   closest: () => {}
                };
                scroll._stickyHeaderController = {
-                  setCanScroll: () => undefined,
+                  setCanScroll: () => { return { then: () => undefined }; },
                   resizeHandler: () => undefined
                };
             });
@@ -329,7 +329,7 @@ define(
                   closest: () => {}
                };
                scroll._stickyHeaderController = {
-                  setCanScroll: sinon.stub(),
+                  setCanScroll: sinon.stub().returns({ then: () => undefined}),
                   resizeHandler: () => undefined
                };
             });
