@@ -69,11 +69,13 @@ define(
             data._beforeMount(dataOptions).then(() => {
                data._dataOptionsContext = new contexts.ContextOptions();
                const prefetchSource = data._dataOptionsContext.prefetchSource;
-               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id'})
+               const newFilter = {test: 'testFilter'};
+               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id', filter: newFilter});
                assert.isTrue(data._loading);
                loadDef.addCallback(function() {
                   try {
                      assert.isTrue(data._dataOptionsContext.prefetchSource !== prefetchSource);
+                     assert.deepEqual(data._filter, newFilter);
                      assert.isFalse(data._loading);
                      done();
                   } catch (e) {
