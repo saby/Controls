@@ -640,7 +640,8 @@ define(
             fastFilter._options.theme = 'default';
             let expectedConfig, isOpened, isLoading = false;
             fastFilter._children = {
-               DropdownOpener: { open: (openerConfig) => {expectedConfig = openerConfig; isOpened = true;} }
+               DropdownOpener: { open: (openerConfig) => {expectedConfig = openerConfig; isOpened = true;} },
+               selectorOpener: {}
             };
             fastFilter._container = {children: []};
             fastFilter._configs = [{_items: new collection.RecordSet({
@@ -663,7 +664,7 @@ define(
             assert.strictEqual(expectedConfig.templateOptions.selectedKeys[0], 'Россия');
             assert.isTrue(isOpened);
             assert.equal(expectedConfig.templateOptions.dropdownClassName, 'controls-FastFilter_width-popup_theme-default');
-            assert.isOk(expectedConfig.templateOptions.selectorOpener)
+            assert.isOk(expectedConfig.templateOptions.selectorOpener);
 
             isOpened = false;
             isLoading = true;
