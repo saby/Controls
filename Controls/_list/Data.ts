@@ -135,6 +135,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
    _beforeUpdate(newOptions: IDataOptions): void|Promise<RecordSet> {
       const isChanged = this._sourceController.update(newOptions);
+      this._filter = newOptions.filter;
       if (this._options.source !== newOptions.source) {
          this._loading = true;
          return this._sourceController.load().then((items) => {
