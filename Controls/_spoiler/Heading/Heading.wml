@@ -8,7 +8,7 @@
       <path d="M8,11.23,2.4,5.58l.81-.81L8,9.52l4.79-4.75.81.85Z"/>
    </svg>
 </ws:template>
-<div class="controls-SpoilerHeading" on:click="_clickHandler()" title="{{_options.tooltip}}">
+<div class="controls-SpoilerHeading" on:click="_clickHandler()" title="{{_options.tooltip || _caption}}">
    <div class="controls-SpoilerHeading__wrapper
                controls-SpoilerHeading__wrapper_theme-{{_options.theme}}
                controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">
