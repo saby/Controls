@@ -4,7 +4,7 @@
          <ws:if data="{{_applyButtonVisible}}">
             <div class="controls-DropdownList__applyButton
                         controls-Menu__applyButton_theme-{{_options.theme}}
-                        controls-Menu_{{_options.headerTemplate ? 'withHeader' : 'withoutHeader'}}__applyButton_theme-{{_options.theme}}
+                        controls-Menu_{{_options.headerTemplate ? 'withHeader' : 'withoutHeader'}}__applyButton-{{_options.verticalDirection || 'bottom'}}_theme-{{_options.theme}}
                         controls-Menu_{{_closeButtonVisible ? 'withClose' : 'withoutClose'}}__applyButton_theme-{{_options.theme}}">
                <Controls.buttons:Button viewMode="functionalButton"
                                         icon="icon-Yes"
