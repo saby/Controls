@@ -48,11 +48,13 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
         // Use listener without template.
         // Some people can add style to the container of validation, and some people can add style to the content.
         RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
+        RegisterUtil(this, 'switchArea', this._switchAreaHandler.bind(this));
         this._notify('validateCreated', [this], {bubbling: true});
     }
 
     protected _beforeUnmount(): void {
         UnregisterUtil(this, 'scroll');
+        UnregisterUtil(this, 'switchArea');
         this._notify('validateDestroyed', [this], {bubbling: true});
         if (this._isOpened) {
             this._forceCloseInfoBox();
@@ -319,6 +321,13 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
     }
 
     private _scrollHandler(): void {
+        if (this._isOpened) {
+            this._forceCloseInfoBox();
+        }
+    }
+
+    private _switchAreaHandler(): void {
+        // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
         if (this._isOpened) {
             this._forceCloseInfoBox();
         }

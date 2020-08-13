@@ -1,4 +1,6 @@
-<div class="controls-SwitchableArea">
+<div class="controls-SwitchableArea"
+     on:register="_registerHandler()"
+     on:unregister="_unregisterHandler()">
     <ws:for data="index, item in _options.items">
         <ws:if data="{{ _viewModel._items[index].loaded }}">
             <ws:partial template="{{ _options.itemTemplate }}"
