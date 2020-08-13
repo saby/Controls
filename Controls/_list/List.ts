@@ -26,7 +26,8 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/interface/IHighlighter
- * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_list/interface/IList.
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IDraggable
@@ -59,6 +60,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/interface/IDraggable
