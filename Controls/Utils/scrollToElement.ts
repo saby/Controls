@@ -2,6 +2,8 @@ import cInstance = require('Core/core-instance');
 import getDimensions = require('Controls/Utils/getDimensions');
 import {POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils';
 
+const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';
+
 function getScrollableParents(element: HTMLElement): HTMLElement[] {
    let
       scrollableParents: HTMLElement[] = [],
@@ -40,13 +42,15 @@ function getOffset(element: HTMLElement): { top: number; bottom: number } {
 }
 
 function getStickyHeaderHeight(scrollableElement: HTMLElement): { top: number; bottom: number } {
-   if (scrollableElement.controlNodes) {
-      for (let component of scrollableElement.controlNodes) {
-         if (cInstance.instanceOfModule(component.control, 'Controls/scroll:_stickyHeaderController')) {
+   const scrollControlNode: HTMLElement = scrollableElement.closest(SCROLL_CONTAINERS_SELECTOR);
+   if (scrollControlNode.controlNodes) {
+      for (let component of scrollControlNode.controlNodes) {
+         if (cInstance.instanceOfModule(component.control, 'Controls/scroll:Container') ||
+             cInstance.instanceOfModule(component.control, 'Controls/scroll:_ContainerNew')) {
             return {
                top: component.control.getHeadersHeight(POSITION.top, TYPE_FIXED_HEADERS.initialFixed),
                bottom: component.control.getHeadersHeight(POSITION.bottom, TYPE_FIXED_HEADERS.initialFixed)
-            }
+            };
          }
       }
    }
