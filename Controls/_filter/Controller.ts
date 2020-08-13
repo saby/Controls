@@ -821,7 +821,7 @@ const Container = Control.extend(/** @lends Controls/_filter/Container.prototype
                 const loadedSources = state && state.loadedSources && state.loadedSources[0];
                 if (loadedSources) {
                     return _private.resolveItems(this, loadedSources.historyId, loadedSources.filterButtonSource, loadedSources.fastFilterSource, loadedSources.historyItems).then((history) => {
-                        _private.itemsReady(this, loadedSources.filter, history);
+                        _private.itemsReady(this, filter, history);
                         if (loadedSources.historyItems && loadedSources.historyItems.length && loadedSources.historyId && loadedSources.prefetchParams) {
                             _private.processHistoryOnItemsChanged(this, loadedSources.historyItems, loadedSources);
                         }
@@ -829,7 +829,7 @@ const Container = Control.extend(/** @lends Controls/_filter/Container.prototype
                     });
                 } else {
                     return _private.resolveItems(this, state.historyId, state.filterSource, [], options.historyItems).then((history) => {
-                        _private.itemsReady(this, state.filter, history);
+                        _private.itemsReady(this, filter, history);
                         return history;
                     });
                 }
