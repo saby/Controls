@@ -12,7 +12,10 @@ define([
                overflowY: 'scroll',
                scrollTop: bodyScrollTop || 0,
                clientHeight: bodyClientHeight || 0,
-               className: ''
+               className: '',
+               parentElement: {
+                  className: ''
+               }
             },
             documentElement: documentElement
          };
@@ -50,7 +53,10 @@ define([
                      };
                   },
                   scrollTop: 0,
-                  className: ''
+                  className: '',
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -78,7 +84,10 @@ define([
                      };
                   },
                   scrollTop: 0,
-                  className: ''
+                  className: '',
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -106,7 +115,10 @@ define([
                      };
                   },
                   scrollTop: 0,
-                  className: ''
+                  className: '',
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -147,7 +159,10 @@ define([
                         };
                      },
                      scrollTop: 0,
-                     className: ''
+                     className: '',
+                     parentElement: {
+                        className: ''
+                     }
                   }
                },
                getBoundingClientRect: function() {
@@ -177,7 +192,10 @@ define([
                      };
                   },
                   scrollTop: 0,
-                  className: ''
+                  className: '',
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -257,7 +275,10 @@ define([
                         height: this.clientHeight
                      };
                   },
-                  scrollTop: 0
+                  scrollTop: 0,
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -285,7 +306,10 @@ define([
                         height: this.clientHeight
                      };
                   },
-                  scrollTop: 0
+                  scrollTop: 0,
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {
@@ -313,7 +337,10 @@ define([
                         height: this.clientHeight
                      };
                   },
-                  scrollTop: 0
+                  scrollTop: 0,
+                  parentElement: {
+                     className: ''
+                  }
                },
                getBoundingClientRect: function() {
                   return {

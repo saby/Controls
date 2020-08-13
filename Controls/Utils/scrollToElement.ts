@@ -40,13 +40,15 @@ function getOffset(element: HTMLElement): { top: number; bottom: number } {
 }
 
 function getStickyHeaderHeight(scrollableElement: HTMLElement): { top: number; bottom: number } {
-   if (scrollableElement.controlNodes) {
-      for (let component of scrollableElement.controlNodes) {
-         if (cInstance.instanceOfModule(component.control, 'Controls/scroll:_stickyHeaderController')) {
+   const scrollControlNode: HTMLElement = scrollableElement.parentElement;
+   if (scrollControlNode.controlNodes) {
+      for (let component of scrollControlNode.controlNodes) {
+         if (cInstance.instanceOfModule(component.control, 'Controls/scroll:Container') ||
+             cInstance.instanceOfModule(component.control, 'Controls/scroll:_ContainerNew')) {
             return {
                top: component.control.getHeadersHeight(POSITION.top, TYPE_FIXED_HEADERS.initialFixed),
                bottom: component.control.getHeadersHeight(POSITION.bottom, TYPE_FIXED_HEADERS.initialFixed)
-            }
+            };
          }
       }
    }
