@@ -4,6 +4,8 @@ import template = require('wml!Controls/_switchableArea/View');
 import defaultItemTemplate from './ItemTpl';
 import {factory} from 'Types/chain';
 import {Logger} from 'UI/Utils';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {RegisterClass} from 'Controls/event';
 
 export interface ISwitchableOptions extends IControlOptions{
     itemTemplate: TemplateFunction;
@@ -54,10 +56,12 @@ class View extends Control<ISwitchableOptions> {
     protected _template: TemplateFunction = template;
     protected _viewModel: any; //TODO: заменить, когда переведем ViewModel на ts
     protected _selectedKey: number | string = null;
+    protected _switchAreaRegister: RegisterClass;
 
     protected _beforeMount(options: ISwitchableOptions): void {
         this._correctSelectedKey(options);
         this._viewModel = new ViewModel(options.items, this._selectedKey);
+        this._switchAreaRegister = new RegisterClass({register: 'switchArea'});
     }
 
     protected _beforeUpdate(newOptions: ISwitchableOptions): void {
@@ -67,11 +71,16 @@ class View extends Control<ISwitchableOptions> {
         }
         if (this._options.selectedKey !== newOptions.selectedKey) {
             this._viewModel.updateSelectedKey(this._selectedKey);
+            this._startSwitchArea();
         }
     }
 
     protected _beforeUnmount(): void {
         this._viewModel = null;
+        if (this._switchAreaRegister) {
+            this._switchAreaRegister.destroy();
+            this._switchAreaRegister = null;
+        }
     }
 
     _correctSelectedKey(options: ISwitchableOptions): void {
@@ -99,6 +108,23 @@ class View extends Control<ISwitchableOptions> {
 
         // Меняю состояние 1 раз, чтобы не вызывать лишних циклов синхронизации
         this._selectedKey = selectedKey;
+    }
+    // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
+    private _startSwitchArea(): void {
+        const eventCfg = {
+            type: 'switchArea',
+            target: this._container,
+            _bubbling: true
+        };
+
+        this._switchAreaRegister.start(new SyntheticEvent(null, eventCfg));
+    }
+
+    private _registerHandler(event: SyntheticEvent, registerType: string, component, callback, config): void {
+        this._switchAreaRegister.register(event, registerType, component, callback, config);
+    }
+    protected _unregisterHandler(event: SyntheticEvent, registerType: string, component, config): void {
+        this._switchAreaRegister.unregister(event, component, config);
     }
 
     static getDefaultOptions(): ISwitchableOptions {

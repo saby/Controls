@@ -32,6 +32,7 @@ define([
             items: testItems,
             selectedKey: '1'
          };
+         SwitchArea._startSwitchArea = () => {};
          SwitchArea.saveOptions(opt);
          SwitchArea._beforeMount(opt);
          SwitchArea._beforeUpdate({
