@@ -95,6 +95,7 @@ export default class Browser extends Control {
 
                 this._loading = false;
                 this._groupHistoryId = newOptions.groupHistoryId;
+                this._filter = newOptions.filter;
                 return items;
             });
         } else if (isChanged) {
