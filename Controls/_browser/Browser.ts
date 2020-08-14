@@ -87,6 +87,7 @@ export default class Browser extends Control {
                 this._dataController.updateContext(this._dataOptionsContext);
                 this._loading = false;
                 this._groupHistoryId = newOptions.groupHistoryId;
+                this._filter = newOptions.filter;
                 return result;
             });
         } else if (isChanged) {

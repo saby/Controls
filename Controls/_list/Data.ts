@@ -41,14 +41,14 @@ import {default as DataController, IDataOptions} from 'Controls/_list/Data/Contr
 
       /**
        * @name Controls/_list/Data#root
-       * @cfg {Number|String} Идентификатор корневого узла. 
+       * @cfg {Number|String} Идентификатор корневого узла.
        * Значение опции root добавляется в фильтре в поле {@link Controls/_interface/IHierarchy#parentProperty parentProperty}.
        * @example
        * <pre class="brush: js; highlight: [5]">
        * <Controls.list:DataContainer
        *     keyProperty="id"
        *     filter="{{_filter}}"
-       *     source="{{_source}}" 
+       *     source="{{_source}}"
        *     root="Сотрудники"/>
        * </pre>
        */
@@ -105,6 +105,7 @@ import {default as DataController, IDataOptions} from 'Controls/_list/Data/Contr
                      this._dataController.updatePrefetchProxy(result);
                   }
                   this._dataController.updateContext(this._dataOptionsContext);
+                  this._filter = newOptions.filter;
                   this._loading = false;
                   return result;
                });
