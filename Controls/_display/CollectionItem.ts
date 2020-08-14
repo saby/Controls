@@ -110,6 +110,8 @@ export default class CollectionItem<T> extends mixin<
 
     readonly '[Types/_entity/IVersionable]': boolean;
 
+    readonly '[Types/_interface/IEditableItem]': boolean = true;
+
     protected _version: number;
 
     protected _counters: ICollectionItemCounters;

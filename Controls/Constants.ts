@@ -1,3 +1,4 @@
+import {CONSTANTS as EDITING_CONSTANTS} from './_editInPlace/EditInPlaceController';
 /**
  * Константы:
  * - view.hiddenGroup — константа для определения элемента hiddenGroup в {@link Controls/interface/IGroupedList#groupProperty groupProperty};
@@ -33,7 +34,7 @@ const
 
 const
     editing = {
-        CANCEL: 'Cancel'
+        CANCEL: EDITING_CONSTANTS.CANCEL
     };
 
 /**

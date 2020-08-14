@@ -14,7 +14,7 @@ import {isEqual} from 'Types/object';
 import {ICrud, Memory} from 'Types/source';
 import {debounce, throttle} from 'Types/function';
 import {create as diCreate} from 'Types/di';
-import {Model, relation} from 'Types/entity';
+import {Model, relation, Record as entityRecord} from 'Types/entity';
 import {IHashMap} from 'Types/declarations';
 
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -59,6 +59,7 @@ import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import {ISwipeEvent} from 'Controls/listRender';
 
 import {IEditingOptions, EditInPlace} from '../editInPlace';
+import {EditInPlaceController as EIPController, CONSTANTS as EDITING_CONSTANTS} from '../_editInPlace/EditInPlaceController';
 
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
@@ -201,6 +202,11 @@ const getData = (crudResult: ICrudResult): Promise<any> => {
         return Promise.resolve(crudResult.data);
     }
     return Promise.reject(crudResult.error);
+};
+
+
+const throwEipError = (reason, msg, native = null) => {
+    throw {reason, msg, native}
 };
 
 const _private = {
@@ -2230,6 +2236,9 @@ const _private = {
                 theme: self._options.theme,
                 readOnly: self._options.readOnly,
                 keyProperty: self._options.keyProperty,
+                onRowDeactivated: (editNextRow) => {
+                    self._chooseEipAction(self._editInPlace.editNextRow(editNextRow));
+                },
                 notify: (name, args, params) => {
                     const eventResult = self._notify(name, args, params);
 
@@ -2262,13 +2271,14 @@ const _private = {
 
     createEditingData(self: typeof BaseControl, options: any): void {
         if (self._editInPlace) {
-            self._editInPlace.createEditingData(
-                options.editingConfig,
-                self._listViewModel,
-                options.useNewModel,
-                self.getSourceController()
-            );
-            self._editingItemData = self._editInPlace.getEditingItemData();
+            self._editInPlace.updateOptions({
+                source: self.getSourceController()
+            });
+
+            if (options.editingConfig && options.editingConfig.item instanceof entityRecord) {
+                self._getEditInPlaceController().edit(options.editingConfig.item);
+                self._editingItemData = self._editInPlace.getEditingItemData();
+            }
 
             if (options.itemActions || self._editInPlace.shouldShowToolbar()) {
                 _private.updateItemActions(self, options);
@@ -3242,10 +3252,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         if (this._editInPlace) {
-            this._editInPlace.updateEditingData(
-                {listViewModel: this._listViewModel, ...newOptions}
-            );
-            this._editingItemData = this._editInPlace.getEditingItemData();
+            this._editingItemData = this._listViewModel.getEditingItemData();
         }
 
         // Синхронный индикатор загрузки для реестров, в которых записи - тяжелые контролы.
@@ -3737,8 +3744,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             return;
         }
 
+        this.beginEdit({ item });
+
         if (this._editInPlace) {
-            this._editInPlace.beginEditByClick(e, item, originalEvent);
+            // this._editInPlace.beginEditByClick(e, item, originalEvent);
         }
 
         // При клике по элементу может случиться 2 события: itemClick и itemActivate.
@@ -3755,19 +3764,229 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     beginEdit(options) {
         _private.closeSwipe(this);
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginEdit(options);
+
+        // TODO: Сделать, чтобы редактирование само закрывалось при установке опции readOnly = true
+        if (this._options.readOnly) {
+            return Promise.reject();
+        }
+
+        this._showEipIndicator();
+        return this._endEdit(true).then(() => {
+            return this._beginEdit(options && options.item,false);
+        }).catch((err) => {
+            // В соответствии с побличным API, отменненная операция редактирования возвращает успешный промис с result = {cancelled: true},
+            // проваленная валидация - { validationFailed: true }
+            if (err === EDITING_CONSTANTS.CANCEL) {
+                return { cancelled: true };
+            } else if (err === EDITING_CONSTANTS.VALIDATION_FAILED) {
+                return { validationFailed: true };
+            } else {
+                throwEipError('error', 'Ошибка при завершении текущего редактирования', err);
+            }
+        }).finally(() => {
+            this._hideEipIndicator();
+        });
     },
 
-    beginAdd(options) {
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginAdd(options);
+    beginAdd(options): Promise<{item: entityRecord} | {cancelled: true} | {validationFailed: true}> {
+        // TODO: Сделать, чтобы редактирование само закрывалось при установке опции readOnly = true
+        if (this._options.readOnly) {
+            return Promise.reject();
+        }
+
+        this._showEipIndicator();
+        return this._endEdit(true).then(() => {
+            return this._beginEdit(options && options.item, true);
+        }).catch((err) => {
+            // В соответствии с побличным API, отменненная операция редактирования возвращает успешный промис с result = {cancelled: true},
+            // проваленная валидация - { validationFailed: true }
+            if (err === EDITING_CONSTANTS.CANCEL) {
+                return { cancelled: true };
+            } else if (err === EDITING_CONSTANTS.VALIDATION_FAILED) {
+                return { validationFailed: true };
+            } else {
+                throwEipError('error', 'Ошибка при завершении текущего редактирования', err);
+            }
+        }).finally(() => {
+            this._hideEipIndicator();
+        });
     },
 
     cancelEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.cancelEdit();
+        // TODO: Сделать, чтобы редактирование само закрывалось при установке опции readOnly = true
+        if (this._options.readOnly) {
+            return Promise.reject();
+        }
+
+        this._showEipIndicator();
+        return this._endEdit(false).finally(() => {
+            this._hideEipIndicator();
+        })
     },
 
     commitEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.commitEdit();
+        // TODO: Сделать, чтобы редактирование само закрывалось при установке опции readOnly = true
+        if (this._options.readOnly) {
+            return Promise.reject();
+        }
+
+        this._showEipIndicator();
+        return this._endEdit(true).catch((err) => {
+            // В соответствии с побличным API, отменненная операция редактирования возвращает успешный промис с result = {cancelled: true},
+            // проваленная валидация - { validationFailed: true }
+            if (err === EDITING_CONSTANTS.CANCEL) {
+                return { cancelled: true };
+            } else if (err === EDITING_CONSTANTS.VALIDATION_FAILED) {
+                return { validationFailed: true };
+            } else {
+                throwEipError('error', 'Ошибка при завершении текущего редактирования', err);
+            }
+        }).finally(() => {
+            this._hideEipIndicator();
+        })
+    },
+
+
+    _beginEdit(optionItem, isAdd: boolean) {
+        const eip = this._getEditInPlaceController();
+        const notifyResult = this._notify('beforeBeginEdit', [{item: optionItem}, isAdd]);
+
+        return this._resolveItemBeforeBegin(notifyResult, optionItem, isAdd).then((item) => {
+            eip.edit(item);
+            this._editInPlace.begin(isAdd);
+            this._notify('afterBeginEdit', [{item}, isAdd]);
+            return {item};
+        });
+    },
+
+    _resolveItemBeforeBegin(eventResult, item, isAdd): Promise<entityRecord> {
+        return Promise.resolve(eventResult).then((result) => {
+            // Начало редактирования остановлено в обработчике события
+            if (result === EDITING_CONSTANTS.CANCEL) {
+                throw result;
+            }
+
+            // Что то вернулось из события. Валидные значения нужно проверить побыстрее, ошибочные сценарии должны проверяться в последнюю очередь
+            else if (result && result.item) {
+                if (result.item instanceof entityRecord) {
+                    return result.item;
+                } else {
+                    throwEipError('error', 'Из события beforeBeginEdit вернулось невалидное значение. Поддерживаемые значения: Types/entity:Record, ' +
+                        'константа Controls/Constants:editing.CANCEL, все виды пустых значений (null, 0, void и т.д).');
+                }
+            }
+
+            // Из события не вернулась запись, но она была передана при запуске
+            else if (item) {
+                if (item instanceof entityRecord) {
+                    return item;
+                } else {
+                    throwEipError('error', 'Переданный в аргументах вызова элемент должен быть типом ' +
+                        'Types/entity:Record. Из события beforeBeginEdit не вернулось значение.');
+                }
+            }
+
+            // Редактирование пытается запуститься без записи, это невозможно
+            else if (!result && !item && !isAdd) {
+                throwEipError('error', 'Для запука редактирования необходимо передать элемент для редактирования в параметрах ' +
+                    'вызова - beginEdit({item: listItem}), либо вернув из события beforeBeginEdit.');
+            }
+
+            // Добавление пытается запуститься без записи, создадим ее сами
+            else {
+                return this._editInPlace.createItem();
+            }
+        }).catch((err) => {
+            if (err === EDITING_CONSTANTS.CANCEL) {
+                throw err;
+            } else {
+                throwEipError('error', 'Ошибка в обработчике события beforeBeginEdit.', err);
+            }
+        });
+    },
+
+    _endEdit(commit: boolean) {
+        const eip = this._getEditInPlaceController();
+
+        if (!eip.isEditing()) {
+            return Promise.resolve();
+        }
+
+        return this._editInPlace.validate().then(() => {
+
+            const isAdd = eip.isAdd();
+            const eventArgs = [this._listViewModel.getEditingItem().getContents(), commit, isAdd];
+            const notifyResult = this._notify('beforeEndEdit', eventArgs);
+            const originalRecord = eip.getOriginalItemContents();
+
+            // Если из события вернулся промис, то источник обновляется на приклажной стороне
+            const shouldUpdateSource = !(notifyResult && notifyResult.finally);
+
+            return this._resolveResultBeforeEnd(notifyResult, commit).then(() => {
+                if (commit && shouldUpdateSource) {
+                    return this._editInPlace.updateSourceItem(this._listViewModel.getEditingItem().getContents()).catch(err => {
+                        throwEipError('error', 'Ошибка при обновлении записи в источнике данных.', err);
+                    });
+                }
+            }).then(() => {
+                this._editInPlace.end();
+                eip.end(commit);
+                this._notify('afterEndEdit', [originalRecord, isAdd])
+            })
+        }).catch((err) => {
+            if (err === EDITING_CONSTANTS.VALIDATION_FAILED || err === EDITING_CONSTANTS.CANCEL) {
+                throw err;
+            } else {
+                throwEipError('error', 'Ошибка при завершении текущего редактирования', err);
+            }
+        }).finally(() => {
+            _private.updateItemActions(this, this._options);
+        });
+    },
+
+    _resolveResultBeforeEnd(eventResult, commit): Promise<unknown> {
+        return Promise.resolve(eventResult).then((result) => {
+            if (result === EDITING_CONSTANTS.CANCEL) {
+                throw result;
+            }
+            return result;
+        }).catch((err) => {
+            if (err === EDITING_CONSTANTS.CANCEL) {
+                throw err;
+            } else {
+                throwEipError('error', 'Ошибка в обработчике события beforeEndEdit.', err);
+            }
+        });
+    },
+
+    _updateItem(item: entityRecord): Promise<entityRecord> {
+        return this._options.source
+    },
+
+    _showEipIndicator(): void {
+        // Редактирование по месту использует глобальный индикатор загрузки.
+        // Если какая либо операция вызвала индикатор и до его закрытия произошла еще одна операция
+        // нуждающаяся в индикаторе, не нужно скрывать прошлый и показывать новый, т.к. будет моргание индикатора.
+        if (!this._eipLoadingIndicatorId) {
+            this._eipLoadingIndicatorId = this._notify('showIndicator', [{}], {bubbling: true});
+        }
+    },
+
+    _hideEipIndicator(): void {
+        if (this._eipLoadingIndicatorId) {
+            this._notify('hideIndicator', [this._eipLoadingIndicatorId], {bubbling: true});
+            this._eipLoadingIndicatorId = null;
+        }
+    },
+
+    _chooseEipAction(result: { action: 'commit' } | { action: 'add' } | { action: 'edit', item: Model }) {
+        if (result.action === 'edit') {
+            this.beginEdit({ item: result.item });
+        } else if (result.action === 'add') {
+            this.beginAdd();
+        } else {
+            this.commitEdit();
+        }
     },
 
     /**
@@ -3776,7 +3995,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
      * @private
      */
     _commitEditActionHandler(): void {
-        this._editInPlace.commitAndMoveNextRow();
+        this._chooseEipAction(this._editInPlace.commitAndMoveNextRow());
     },
 
     /**
@@ -3785,8 +4004,20 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
      * @private
      */
     _cancelEditActionHandler(): void {
-        this._editInPlace.cancelEdit();
+        this.cancelEdit();
     },
+
+    _getEditInPlaceController(): EIPController {
+        if (!this._editInPlaceController) {
+            const editingConfig = this._options.editingConfig || {};
+            this._editInPlaceController = new EIPController({
+                collection: this._listViewModel,
+                addPosition: editingConfig.addPosition
+            });
+        }
+        return this._editInPlaceController;
+    },
+
 
     /**
      * Инициализирует опции при mouseenter в шаблоне контрола
@@ -4237,13 +4468,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             switch (nativeEvent.keyCode) {
                 case 13: // Enter
                     // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
-                    this._editInPlace.editNextRow();
+                    this._chooseEipAction(this._editInPlace.editNextRow());
                     e.stopPropagation();
                     break;
                 case 27: // Esc
                     // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
                     e.stopPropagation();
-                    return this._editInPlace.cancelEdit();
+                    return this.cancelEdit();
                     break;
             }
         }

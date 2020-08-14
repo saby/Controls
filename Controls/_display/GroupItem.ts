@@ -21,6 +21,8 @@ export default class GroupItem<T> extends mixin<
     CollectionItem,
     ExpandableMixin
 ) {
+    readonly '[Types/_interface/IEditableItem]': boolean = false;
+
     constructor(options?: IOptions<T>) {
         super(options);
         ExpandableMixin.call(this);

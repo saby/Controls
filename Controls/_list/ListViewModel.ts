@@ -607,7 +607,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     getEditingItemData(): object | null {
-        return this._editingItemData;
+        if (!this.isEditing()) {
+            return null;
+        }
+        // TODO: Нужно убрать проверку на item. isEditing должно сбрасываться при сворачивании/
+        const editingItem = this.getEditingItem();
+        return !!editingItem ? this.getItemDataByItem(editingItem) : null;
     },
 
     hasItemById: function(id, keyProperty) {
@@ -717,6 +722,16 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
      */
     isEditing(): boolean {
         return this._display ? this._display.isEditing() : false;
+    },
+
+    getEditingItem() {
+        return this._display ? this._display.getEditingItem() : null;
+    },
+
+    setEditingItem(item) {
+        if (this._display) {
+            this._display.setEditingItem(item);
+        }
     },
 
     /**

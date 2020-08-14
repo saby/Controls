@@ -1,11 +1,11 @@
 import entity = require('Types/entity');
 import getWidthUtil = require('Controls/Utils/getWidth');
 import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
-import {editing as constEditing} from 'Controls/Constants';
 import {error as dataSourceError} from 'Controls/dataSource';
 import {Model} from 'Types/entity';
 import {Collection as ViewModel} from '../display';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {CONSTANTS, CONSTANTS as constEditing} from './EditInPlaceController'
 
 let displayLib: typeof import('Controls/display');
 
@@ -84,7 +84,9 @@ const _private = {
                 result = Promise.resolve(eventResult || options);
             } else if (isAdd) {
                 self._showIndicator();
-                result = _private.createModel(self, eventResult || options).finally(() => {
+                result = _private.createModel(self, eventResult || options).then((item) => {
+                    return { item }
+                }).finally(() => {
                     self._hideIndicator();
                 });
             }
@@ -93,104 +95,27 @@ const _private = {
     },
 
     endItemEdit(self: EditInPlace, commit: boolean): Promise<any> {
-        // Чтобы при первом старте редактирования не летели лишние события
-        if (!self._editingItem) {
-            return Promise.resolve();
-        }
-
-        if (self._endEditDeferred) {
-            return self._endEditDeferred;
-        }
-
-        const eventResult = self._notify('beforeEndEdit', [
-            self._editingItem,
-            commit,
-            self._isAdd
-        ]);
-        if (eventResult && eventResult.finally) {
-            self._showIndicator();
-            self._endEditDeferred = eventResult;
-            return eventResult.catch((error) => {
-                // Отменяем сохранение, оставляем редактирование открытым, если промис сохранения завершился с
-                // ошибкой (провалена валидация на сервере)
-                self._endEditDeferred = null;
-                self._hideIndicator();
-                return constEditing.CANCEL;
-            }).then((resultOfDeferred) => {
-                self._hideIndicator();
-
-                if (resultOfDeferred === constEditing.CANCEL) {
-                    self._endEditDeferred = null;
-                    return Promise.resolve({cancelled: true});
-                }
-                const both = (res) => {
-                    self._endEditDeferred = null;
-                    _private.afterEndEdit(self, commit);
-                    return res;
-                };
-                return Promise.resolve(resultOfDeferred).then(both).catch(both);
-            });
-        } else {
-            if (eventResult === constEditing.CANCEL) {
-                return Promise.resolve({cancelled: true});
-            }
-            // Если обновление данных на БЛ затягивается, должен появиться индикатор загрузки.
-            self._showIndicator();
-            return _private.updateModel(self, commit).finally(() => {
-                self._hideIndicator();
-            }).then(() => {
-                return _private.afterEndEdit(self, commit);
-            }).catch(() => {
-                return Promise.resolve({cancelled: true});
-            });
-        }
     },
 
     afterEndEdit(self: EditInPlace, commit: boolean): void {
-        const afterEndEditArgs = [self._isAdd ? self._editingItem : self._originalItem, self._isAdd];
-        if (self._options.useNewModel) {
-            self._options.listViewModel.getCollection().acceptChanges();
-        } else {
-            self._options.listViewModel.acceptChanges();
-        }
-        _private.resetVariables(self);
-        self._setEditingItemData(null);
-        // Нотифицировать о событии "После завершения редактирования" нужно после очистки editingItemData,
-        // т.к. все остальные контролы проверяют наличие запущенного редактирования именно по ней.
-        // Нотификация до очистки приводит к проблемам. Например, в обработчике события afterEndEdit ожидается,
-        // что завершено редактирование и можно позвать перезагрузку списка для обновления результатов каждой строки.
-        // Однако сам список считает что редактирование еще активно и падает при перезагрузке.
-        self._notify('afterEndEdit', afterEndEditArgs);
-        self._options.updateItemActions();
     },
 
-    createModel(self: EditInPlace, options: IEditingConfig): Promise<IEditingConfig> {
+    createModel(self: EditInPlace): Promise<Model> {
         return self.getSource().create().then((item) => {
-            if (item && item instanceof entity.Record) {
-                options.item = item;
-                return options;
+            if (!(item && item instanceof entity.Record)) {
+                throw Error('EditInPlace:createModel() - the item must be Record');
             }
-            throw Error('EditInPlace:createModel() - the item must be Record');
-        }).catch((error: Error) => {
-            return _private.processError(self, error);
-        });
+            return item;
+        })
     },
 
-    updateModel(self: EditInPlace, commit: boolean): Promise<void|Error> {
-        if (commit && (self._isAdd || self._editingItem.isChanged())) {
-            if (self.getSource()) {
-                return self.getSource().update(self._editingItem).then(() => {
-                    _private.acceptChanges(self);
-                }).catch((error: Error) => {
-                    self._isCommitInProcess = false;
-                    return _private.processError(self, error);
-                });
 
-            }
-            _private.acceptChanges(self);
+    updateModel(self: EditInPlace, item): Promise<void|Error> {
+        if (self.getSource()) {
+            return self.getSource().update(item);
+        } else {
+            return Promise.reject('EditInPlace::updateModel(). Не задан источник данных.')
         }
-
-        return Promise.resolve();
     },
 
     processError(self: EditInPlace, error: Error): Promise<Error> {
@@ -249,26 +174,28 @@ const _private = {
         }
     },
 
-    editNextRow(self: EditInPlace, editNextRow: boolean, addAnyway: boolean = false): Promise<any> {
-        const index = _private.getEditingItemIndex(self, self._editingItem, self._options.listViewModel);
+    editNextRow(self: EditInPlace, editNextRow: boolean, addAnyway: boolean = false): { action: 'commit' } | { action: 'add' } | { action: 'edit', item: Model } {
+        const editingItem = self._editingItem;
+        if (!editingItem) {
+            return { action: 'commit'};
+        }
+        const index = _private.getEditingItemIndex(self, editingItem, self._options.listViewModel);
         const editingConfig = self._options.editingConfig || {};
 
         if (editNextRow) {
-            if (!self._isAdd && _private.getNext(self._editingItem, index, self._options.listViewModel)) {
-                return self.beginEdit({
-                    item: _private.getNext(self._editingItem, index, self._options.listViewModel) as Model
-                });
+            const shouldEditNext = !self._isAdd;
+            const next = shouldEditNext && _private.getNext(editingItem, index, self._options.listViewModel);
+            if (next) {
+                return { action: 'edit', item: next as Model}
             } else if (addAnyway || editingConfig.autoAdd) {
-                return self.beginAdd();
+                return { action: 'add'};
             } else {
-                return self.commitEdit();
+                return { action: 'commit'};
             }
-        } else if (_private.getPrevious(self._editingItem, index, self._options.listViewModel)) {
-            return self.beginEdit({
-                item: _private.getPrevious(self._editingItem, index, self._options.listViewModel)
-            });
+        } else if (_private.getPrevious(editingItem, index, self._options.listViewModel)) {
+            return { action: 'edit', item: _private.getPrevious(editingItem, index, self._options.listViewModel) as Model};
         } else {
-            return self.commitEdit();
+            return { action: 'commit'};
         }
     },
 
@@ -464,7 +391,6 @@ export interface IEditingOptions {
 export default class EditInPlace {
     _isAdd: boolean;
     _originalItem: Model;
-    _editingItem: Model;
     _endEditDeferred: null;
     _loadingIndicatorId: null;
     _errorController: any;
@@ -479,10 +405,20 @@ export default class EditInPlace {
     _listViewModel: any;
     _errorContainer: any;
 
+    get _editingItem(): Model {
+        const item = this._options.listViewModel && this._options.listViewModel.getEditingItem();
+        return item ? item.getContents() : null;
+    }
+
+    set _editingItem(item) {
+
+    }
+
     constructor(options: IEditingOptions = { } as IEditingOptions) {
         this._updateIndex = this._updateIndex.bind(this);
         this._errorController = options.errorController || new dataSourceError.Controller({});
         this._options = options;
+        this._options.source = options.source;
         this._resetValidation = this._resetValidation.bind(this);
     }
 
@@ -501,22 +437,6 @@ export default class EditInPlace {
             this._options.editingConfig = editingConfig;
             this._options.useNewModel = useNewModel;
             this._options.source = source;
-            if (editingConfig.item) {
-                this._editingItem = editingConfig.item;
-                this._setEditingItemData(this._editingItem);
-                if (!this._isAdd) {
-                    if (useNewModel) {
-                        this._originalItem = listViewModel.getItemBySourceKey(
-                            this._editingItem.get(listViewModel.getKeyProperty())
-                        ).getContents();
-                    } else {
-                        this._originalItem = listViewModel.getItemById(
-                            this._editingItem.get(listViewModel.getKeyProperty()),
-                            listViewModel.getKeyProperty()
-                        ).getContents();
-                    }
-                }
-            }
         }
         if (useNewModel) {
             displayLib = require('Controls/display');
@@ -551,6 +471,15 @@ export default class EditInPlace {
         }
     }
 
+    begin(isAdd){
+        this._isAdd = isAdd;
+    }
+
+    end() {
+        this._isAdd = false;
+    }
+
+    // -
     beginEdit(options: IEditingConfig): Promise<{ cancelled: true } | IEditingConfig> {
         const self = this;
         if (this._editingItem && !this._editingItem.isChanged()) {
@@ -575,6 +504,7 @@ export default class EditInPlace {
         }
     }
 
+    // -
     beginAdd(options?: IEditingConfig): Promise<any> {
         const self = this;
         return this.commitEdit().then((res) => {
@@ -616,6 +546,16 @@ export default class EditInPlace {
         return self._commitPromise;
     }
 
+    validate(): Promise<typeof CONSTANTS.VALIDATION_FAILED | void> {
+        return _private.validate(this).then((result) => {
+            for (const key in result) {
+                if (result.hasOwnProperty(key) && result[key]) {
+                    throw CONSTANTS.VALIDATION_FAILED
+                }
+            }
+        });
+    }
+
     cancelEdit(): Promise<any> {
         const self = this;
         const both = () => {
@@ -624,17 +564,17 @@ export default class EditInPlace {
         return this._isCommitInProcess ? this._commitPromise.then(both).catch(both) : _private.endItemEdit(this, false);
     }
 
-    editNextRow(): Promise<any> {
+    editNextRow(editNextAnyway = true): { action: 'commit' } | { action: 'add' } | { action: 'edit', item: Model } {
         if (this._isAdd) {
             return _private.editNextRow(
                 this,
-                true,
+                editNextAnyway,
                 !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton
             );
-        } else if (this._options.editingConfig && !this._sequentialEditing) {
-            return this.commitEdit();
+        } else if (this._options.editingConfig && !_private.getSequentialEditing(this._options.editingConfig)) {
+            return { action: 'commit'};
         } else {
-            return _private.editNextRow(this, true);
+            return _private.editNextRow(this, editNextAnyway);
         }
     }
 
@@ -862,19 +802,20 @@ export default class EditInPlace {
         listViewModel.subscribe('onCollectionChange', this._updateIndex);
     }
 
-    commitAndMoveNextRow(): void {
+    commitAndMoveNextRow(): { action: 'commit' } | { action: 'add' } | { action: 'edit', item: Model } {
+
         /*
         * Стандартное поведение. При нажатии "Галки" в операциях над записью, возможно два варианта дальнейшего поведения:
         * 1) если сохраняется уже существующая запись, то она просто сохраняется, курсор остается на строке, редактирование закрывается.
         * 2) если сохраняется только что добавленная запись, то происходит ее сохранение и (при editingConfig.autoAddByApplyButton=true) начинается добавление новой.
         * */
         if (this._isAdd) {
-            _private.editNextRow(this,
+            return _private.editNextRow(this,
                 true,
                 !!this._options.editingConfig && !!this._options.editingConfig.autoAddByApplyButton
             );
         } else {
-            this.commitEdit();
+            return { action: 'commit' };
         }
     }
 
@@ -895,9 +836,17 @@ export default class EditInPlace {
 
     onRowDeactivated(e: SyntheticEvent, eventOptions: any): void {
         if (eventOptions.isTabPressed) {
-            _private.editNextRow(this, !eventOptions.isShiftKey);
+            this._options.onRowDeactivated(!eventOptions.isShiftKey);
         }
         e.stopPropagation();
+    }
+
+    createItem(): Promise<Model> {
+        return _private.createModel(this);
+    }
+
+    updateSourceItem(item) {
+        return _private.updateModel(this, item);
     }
 
     _showIndicator(): void {
@@ -957,6 +906,10 @@ export default class EditInPlace {
                 this._options[name] = options[name];
             }
         });
+    }
+
+    updateOptions(options: IEditingOptions) {
+        this._updateOptions(options);
     }
 
     static _theme: string[];

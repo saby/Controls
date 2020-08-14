@@ -2427,6 +2427,25 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$isEditing = editing;
     }
 
+    setEditingItem(item: T) {
+        let isEditing = false;
+        this.each((collectionItem) => {
+            if (collectionItem['[Types/_interface/IEditableItem]']) {
+                if (item === collectionItem) {
+                    isEditing = true;
+                    collectionItem.setEditing(true, item.getContents());
+                } else {
+                    collectionItem.setEditing(false, null);
+                }
+            }
+        });
+        this.setEditing(isEditing);
+    }
+
+    getEditingItem(): T {
+        return this.find(item => item.isEditing());
+    }
+
     getSwipeConfig(): ISwipeConfig {
         return this._swipeConfig;
     }
@@ -3607,4 +3626,3 @@ Object.assign(Collection.prototype, {
     _userStrategies: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
-

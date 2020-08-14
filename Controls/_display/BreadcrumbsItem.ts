@@ -19,6 +19,8 @@ export default class BreadcrumbsItem<T> extends CollectionItem<T> {
     protected _instancePrefix: 'breadcrumbs-item-';
     protected _$owner: Tree<T>;
 
+    readonly '[Types/_interface/IEditableItem]': boolean = false;
+
     /**
      * Последний элемент хлебной крошки
      */

@@ -70,14 +70,6 @@
 
     <!-- Группа -->
     <ws:if data="{{ listModel.getCurrent().isGroup }}">
-        <!-- Добавление в пустую скрытую группу -->
-        <ws:partial if="{{ editingItemData && isAdd && listModel.getCurrent().index === 0 && editingItemData.index === 0 }}"
-                    template="ITEM"
-                    itemData="{{editingItemData}}"
-                    attr:key="{{editingItemData.key}}"
-                    wrapEditingRow="{{ true }}"/>
-
-        <!-- Шаблон элемента -->
         <ws:partial template="{{groupTemplate}}"
                     itemData="{{listModel.getCurrent()}}"
                     attr:key="{{listModel.getCurrent().key}}"
@@ -93,26 +85,12 @@
                         attr:key="{{ listModel.getCurrent().draggingItemData.key }}__dragged"
                         itemData="{{ listModel.getCurrent().draggingItemData }}"/>
 
-            <!-- Добавление записи перед текущей -->
-            <ws:partial if="{{ editingItemData && isAdd && listModel.getCurrent().index === editingItemData.index && editingItemData.addPosition === 'top' }}"
-                        template="ITEM"
-                        itemData="{{ editingItemData }}"
-                        attr:key="{{ editingItemData.key }}_addingBefore"
-                        wrapEditingRow="{{ true }}"/>
-
             <!-- Текущая запись. Скрыта, если она перетаскивается. -->
             <ws:partial if="{{ listModel.getCurrent().isVisible !== false }}"
                         template="ITEM"
-                        wrapEditingRow="{{ editingItemData && (editingItemData.key === listModel.getCurrent().key) }}"
+                        wrapEditingRow="{{ listModel.getCurrent().isEditing() }}"
                         itemData="{{ listModel.getCurrent() }}"
                         attr:key="{{ listModel.getCurrent().key }}"/>
-
-            <!-- Добавление записи после текущей -->
-            <ws:partial if="{{ editingItemData && isAdd && listModel.getCurrent().index === editingItemData.index - 1 && editingItemData.addPosition !== 'top'}}"
-                        template="ITEM"
-                        itemData="{{ editingItemData }}"
-                        attr:key="{{ editingItemData.key }}_addingAfter"
-                        wrapEditingRow="{{ true }}"/>
 
             <!-- Перетаскивается запись в позицию после текущей -->
             <ws:partial if="{{ listModel.getCurrent().dragTargetPosition === 'after' }}"
@@ -129,10 +107,3 @@
                 itemTemplate="{{ itemTemplate }}"
                 listModel="{{ listModel }}"/>
 </ws:for>
-
-<ws:if data="{{ listModel.getCount() === 0 && editingItemData && isAdd }}">
-    <ws:partial template="ITEM"
-                itemData="{{ editingItemData }}"
-                attr:key="{{ editingItemData.key }}"
-                wrapEditingRow="{{ true }}"/>
-</ws:if>
