@@ -64,10 +64,6 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
         this._observeContentSize();
 
-        // Состояние может быть уже инициализировано по событиям от списков
-        if (isEmpty(this._state)) {
-            this._updateStateAndGenerateEvents(this._getFullStateFromDOM());
-        }
         // this._createEdgeIntersectionObserver();
 
         if (detection.isMobileIOS) {
@@ -265,12 +261,11 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
         this._updateStateAndGenerateEvents(newState);
     }
 
-    _onRegisterNewComponent(component: any): void {
-        // Возможно тут лучше не вычитывать стэйт, а дождаться когда контрол его инициализирует и после этого послать событие.
-        if (Object.keys(this._state).length === 0) {
-            this._updateState(this._getFullStateFromDOM());
+    _onRegisterNewComponent(component: Control): void {
+        // Если состояние еще не инициализировано, то компонент получит его после инициализации.
+        if (Object.keys(this._state).length !== 0) {
+            this._registrars.scrollStateChanged.startOnceTarget(component, {...this._state}, {...this._oldState});
         }
-        this._registrars.scrollStateChanged.startOnceTarget(component, {...this._state},{...this._oldState});
     }
 
     _onResizeContainer(newState: IScrollState): void {
@@ -344,7 +339,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             newState.scrollWidth = this._children.content.scrollWidth;
         }
 
-        this._onResizeContainer(newState);
+        this._updateStateAndGenerateEvents(newState);
     }
 
     _getFullStateFromDOM(): IScrollState {
@@ -481,9 +476,9 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     _onRegisterNewListScrollComponent(component: any): void {
-        // Регистрция списков может произойти до инициализации состояния в _afterMount
-        if (isEmpty(this._state)) {
-            this._updateState(this._getFullStateFromDOM());
+        // Если состояние еще не инициализировано, то компонент получит его после инициализации.
+        if (Object.keys(this._state).length === 0) {
+            return;
         }
         this._sendByListScrollRegistrarToComponent(
             component,

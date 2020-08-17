@@ -189,10 +189,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     private _adjustContentMarginsForBlockRender(): void {
-        let computedStyle = getComputedStyle(this._children.content);
-        let marginTop = parseInt(computedStyle.marginTop, 10);
-        let marginRight = parseInt(computedStyle.marginRight, 10);
-        this._scrollbars.adjustContentMarginsForBlockRender(marginTop, marginRight);
+        this._scrollbars.adjustContentMarginsForBlockRender(this._children.content);
     }
 
     protected _draggingChangedHandler(event, dragging): void {
