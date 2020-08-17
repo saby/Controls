@@ -172,6 +172,13 @@ var
 
             current.isLastColumn = isLastColumn;
 
+            if (!GridLayoutUtil.isFullGridSupport()) {
+                const superClassesGetter = current.getRelativeCellWrapperClasses;
+                current.getRelativeCellWrapperClasses = (colspan, fixVerticalAlignment) => {
+                    return `controls-TreeGridView__row-cell_innerWrapper ${superClassesGetter(colspan, fixVerticalAlignment)}`;
+                }
+            }
+
             if (current.isLastRow) {
                 //Проверяем, что под послдней записью нет nodeFooter'a
                 const itemParent = current.dispItem.getParent && current.dispItem.getParent();

@@ -299,7 +299,7 @@ var
 
         getItemColumnCellClasses: function(current, theme, backgroundColorStyle) {
             const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
-            const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'relativeCellWrapper', 'columnContent');
+            const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'columnContent');
             let style = current.style === 'masterClassic' || !current.style ? 'default' : current.style;
             const backgroundStyle = current.backgroundStyle || current.style || 'default';
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
@@ -359,13 +359,27 @@ var
                 classLists.base += ` controls-Grid__row-cell__last controls-Grid__row-cell__last-${style}_theme-${theme}`;
             }
 
-            if (!isFullGridSupport) {
-                classLists.relativeCellWrapper += 'controls-Grid__table__relative-cell-wrapper';
-                const _rowSeparatorSize = current.rowSeparatorSize && current.rowSeparatorSize.toLowerCase() === 'l' ? 'l' : 's';
-                classLists.relativeCellWrapper += ` controls-Grid__table__relative-cell-wrapper_rowSeparator-${_rowSeparatorSize}_theme-${theme}`;
+            return classLists;
+        },
+
+        getRelativeCellWrapperClasses(itemData, colspan, fixVerticalAlignment): string {
+            let classes = 'controls-Grid__table__relative-cell-wrapper ';
+            const _rowSeparatorSize = (itemData.rowSeparatorSize && itemData.rowSeparatorSize.toLowerCase()) === 'l' ? 'l' : 's';
+            classes += `controls-Grid__table__relative-cell-wrapper_rowSeparator-${_rowSeparatorSize}_theme-${itemData.theme} `;
+
+            // Единственная ячейка с данными сама формирует высоту строки и не нужно применять хак для растягивания контента ячеек по высоте ячеек.
+            // Подробнее искать по #grid_relativeCell_td.
+            if (
+                fixVerticalAlignment && (
+                    colspan || (
+                        itemData.columns.length === (itemData.hasMultiSelect ? 2 : 1)
+                    )
+                )
+            ) {
+                classes += 'controls-Grid__table__relative-cell-wrapper_singleCell ';
             }
 
-            return classLists;
+            return classes.trim();
         },
 
         getSortingDirectionByProp: function(sorting, prop) {
@@ -1649,6 +1663,10 @@ var
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
 
             current.getItemColumnCellClasses = _private.getItemColumnCellClasses;
+
+            if (!GridLayoutUtil.isFullGridSupport()) {
+                current.getRelativeCellWrapperClasses = _private.getRelativeCellWrapperClasses;
+            }
 
             current.getCurrentColumnKey = function() {
                 return self._columnsVersion + '_' +
