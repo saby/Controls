@@ -117,4 +117,29 @@ describe('Controls/scroll:ContainerNew ScrollbarsModel', () => {
             assert.isFalse(model._overflowHidden);
         });
     });
+
+    describe('adjustContentMarginsForBlockRender', () => {
+        it('should`t update margins.', () => {
+            const model: ScrollbarsModel = new ScrollbarsModel({
+                ...getScrollbarsDefaultOptions(),
+                scrollMode: SCROLL_MODE.VERTICAL
+            });
+            sinon.stub(ScrollbarsModel, '_getComputedStyle').returns({ marginRight: 10 });
+            model._overflowHidden = false;
+            model._styleHideScrollbar = 'margin-right: 10px';
+            model.adjustContentMarginsForBlockRender({});
+            assert.strictEqual(model._scrollContainerStyles, 'margin-right: 20px');
+            sinon.restore();
+        });
+        it('should`t update margins if theres no scrollbars.', () => {
+            const model: ScrollbarsModel = new ScrollbarsModel({
+                ...getScrollbarsDefaultOptions(),
+                scrollMode: SCROLL_MODE.VERTICAL
+            });
+            sinon.stub(ScrollbarsModel, '_getComputedStyle');
+            model.adjustContentMarginsForBlockRender({});
+            sinon.assert.notCalled(ScrollbarsModel._getComputedStyle);
+            sinon.restore();
+        });
+    });
 });

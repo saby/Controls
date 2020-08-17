@@ -5,7 +5,6 @@
         attr:class="controls-containerBase_userContent"
         template="{{_options.content}}"
         scope="{{_options}}"
-        on:controlResize="_resizeHandler()"
         on:register="_registerIt()"
         on:unregister="_unRegisterIt()"
 
