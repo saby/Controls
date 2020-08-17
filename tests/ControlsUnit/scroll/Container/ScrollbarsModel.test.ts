@@ -117,4 +117,5 @@ describe('Controls/scroll:ContainerNew ScrollbarsModel', () => {
             assert.isFalse(model._overflowHidden);
         });
     });
+
 });
