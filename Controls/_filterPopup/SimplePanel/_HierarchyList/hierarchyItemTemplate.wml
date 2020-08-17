@@ -3,5 +3,5 @@
             multiSelect="{{itemData.getPropValue(itemData.item, nodeProperty) ? false : multiSelect}}"
             marker="{{itemData.getPropValue(itemData.item, nodeProperty) ? true : !multiSelect}}"
             checkBoxAlign="right"
-            class="{{itemData.getPropValue(itemData.item, nodeProperty) ? 'controls-SimplePanel-folderItem_theme_' + _options.theme}}">
+            class="{{(itemData.getPropValue(itemData.item, nodeProperty) ? 'controls-SimplePanel-folderItem_theme_' : 'controls-SimplePanel-hierarchyItem_theme-') + _options.theme}}">
 </ws:partial>
