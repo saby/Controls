@@ -579,7 +579,7 @@ var
             // его, когда новые записи будут установлены в модель (itemsSetCallback).
             _private.setPendingViewMode(this, cfg.viewMode, cfg);
          } else if (isViewModeChanged && !this._pendingViewMode) {
-            _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
+            _private.setPendingViewMode(this, cfg.viewMode, cfg);
          }
 
          if (cfg.virtualScrollConfig !== this._options.virtualScrollConfig) {
