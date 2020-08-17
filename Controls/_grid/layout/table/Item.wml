@@ -71,9 +71,8 @@
                     {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                     {{ marker !== false ? currentColumn.classList.marked }}
                     controls-Grid__cell_valign_{{currentColumn.column.compatibleValign || 'top'}}
-                    {{ colspan ? 'controls-Grid__row-cell_colspaned'}}
                     {{className || ''}}">
-        <div class="{{ currentColumn.classList.relativeCellWrapper }}">
+        <div class="{{ currentColumn.classList.getRelativeCellWrapperClasses(colspan, true) }}">
             <ws:partial template="{{content}}" />
         </div>
     </td>

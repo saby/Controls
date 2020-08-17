@@ -103,6 +103,9 @@
     // Решение - не панацея, проблемы которые вызывает данный хак, их описание и решение можно найти по хэштегам:
     //  + #grid_relativeCell_colspanCell
 
+    // Ошибки
+    // https://online.sbis.ru/opendoc.html?guid=25c8adb6-a789-44e3-931b-1b8d6bb0b511
+
     // #grid_relativeCell_td
     height: 0;
   }
@@ -136,17 +139,6 @@
     position: relative;
   }
 
-  .controls-Grid__row-cell_colspaned {
-    // Когда в строке всего одна ячейка, height: 0px работает как жесткое ограничение, а не как min-height.
-    // Причина такого поведения не ясна.
-    // Описание хака, вызывающего проблему можно найти по хэштегу #grid_relativeCell_td.
-    // Но при колспане строки мы смело можем давать автовысоту, т.к. нет оснований для
-    // данного хака (высоты контента ячеек нужно выравнивать, когда их больше > 1).
-
-    // #grid_relativeCell_colspanCell
-    height: auto;
-  }
-
   .controls-Grid__row-cell__content_colspaned {
     width: 100%;
   }
@@ -178,6 +170,19 @@
   .controls-Grid__table__relative-cell-wrapper {
     position: relative;
     height: 100%;
+  }
+
+  .controls-Grid__table__relative-cell-wrapper_singleCell {
+    // Когда в строке всего одна ячейка, height: 0px работает как жесткое ограничение, а не как min-height.
+    // Причина такого поведения не ясна.
+    // Описание хака, вызывающего проблему можно найти по хэштегу #grid_relativeCell_td.
+    // Но при колспане строки мы смело можем давать автовысоту, т.к. нет оснований для
+    // данного хака (высоты контента ячеек нужно выравнивать, когда их больше > 1).
+
+    // Важно! При правке этого функционала, необходимо прикрепить ссылку на ошибку в #grid_relativeCell_td!
+
+    // #grid_relativeCell_colspanCell
+    height: auto;
   }
 
   .controls-Grid__table__relative-cell-wrapper_rowSeparator-s_theme-@{themeName} {
