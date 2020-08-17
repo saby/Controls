@@ -4,6 +4,7 @@ import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup
 import getZIndex = require('Controls/Utils/getZIndex');
 import {DefaultOpenerFinder} from 'UI/Focus';
 import {IInfoBoxPopupOptions, IInfoBoxOpener} from 'Controls/_popup/interface/IInfoBoxOpener';
+import {Control} from 'UI/Base';
 
 /**
  * Component that opens a popup that is positioned relative to a specified element. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ see more}.
@@ -24,6 +25,7 @@ const INFOBOX_HIDE_DELAY = 300;
 const INFOBOX_SHOW_DELAY = 300;
 const POPUP_CONTROLLER = 'Controls/popupTemplate:InfoBoxController';
 const Z_INDEX_STEP = 10;
+const MIN_INTERVAL = 10;
 
 // Default popup configuration
 const DEFAULT_CONFIG = {
@@ -48,11 +50,15 @@ interface IInfoBoxOpenerOptions extends IInfoBoxPopupOptions, IBaseOpenerOptions
 class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpener {
     readonly '[Controls/_popup/interface/IInfoBoxOpener]': boolean;
     _style: number = null;
+    private _target: HTMLElement | EventTarget | Control<{}, void>;
+    private _timerId: number;
 
     _beforeUnmount(): void {
         this.close(0);
+        clearInterval(this._timerId);
     }
 
+// TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
     open(cfg: IInfoBoxPopupOptions): void {
         // Only one popup can be opened
         if (this.isOpened()) {
@@ -105,7 +111,7 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
 
         // Высчитывается только на старой странице через утилиту getZIndex, т.к. открывать инфобокс могут со старых окон
         // Аналогично новому механизму, zIndex инфобокса на 1 больше родительского.
-        const zIndex = newCfg.zIndex || ( getZIndex(newCfg.opener || this) - (Z_INDEX_STEP - 1));
+        const zIndex = newCfg.zIndex || (getZIndex(newCfg.opener || this) - (Z_INDEX_STEP - 1));
         return {
             // todo: https://online.sbis.ru/doc/7c921a5b-8882-4fd5-9b06-77950cbe2f79
             target: newCfg.target && newCfg.target[0] || newCfg.target,
@@ -167,6 +173,8 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
 
     private static _close(callback: Function, delay: number = INFOBOX_HIDE_DELAY): void {
         InfoBox._clearTimeout();
+        clearInterval(this._timerId);
+        this._timerId = null;
         if (delay > 0) {
             closeId = setTimeout(callback, delay);
         } else {
@@ -176,7 +184,17 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
 
     private static _open(callback: Function, cfg: IInfoBoxPopupOptions): void {
         InfoBox._clearTimeout();
-
+        this._target = cfg.target;
+        if (!this._timerId) {
+            this._timerId = setInterval(() => {
+                if (this._target.closest('.ws-hidden')) {
+                    InfoBox._close(() => {
+                        BaseOpener.closeDialog(InfoBoxId);
+                    }, 0);
+                    clearInterval(this._timerId);
+                }
+            }, MIN_INTERVAL);
+        }
         const newCfg: IInfoBoxOpenerOptions = InfoBox._getInfoBoxConfig(cfg);
         if (newCfg.showDelay > 0) {
             openId = setTimeout(() => {
