@@ -2,7 +2,6 @@ import Control = require('Core/Control');
 import Deferred = require('Core/Deferred');
 import Env = require('Env/Env');
 import ScrollData = require('Controls/_scroll/Scroll/Context');
-import StickyHeaderContext = require('Controls/_scroll/StickyHeader/Context');
 import {
     IFixedEventData,
     isStickySupport,
@@ -523,12 +522,6 @@ let
 
       _shadowVisibilityByInnerComponents: null,
 
-      /**
-             * @type {Controls/_scroll/Context|null}
-       * @private
-       */
-      _stickyHeaderContext: null,
-
       _headersHeight: null,
       _headersWidth: null,
       _scrollbarStyles: '',
@@ -573,9 +566,6 @@ let
          };
          this.calcStyleOverflow(options.scrollMode);
          this._displayState = {};
-         this._stickyHeaderContext = new StickyHeaderContext({
-            shadowPosition: '',
-         });
          this._headersHeight = {
             top: 0,
             bottom: 0
@@ -755,7 +745,6 @@ let
               needUpdate = true;
           }
 
-         this._updateStickyHeaderContext();
          this._adjustContentMarginsForBlockRender();
 
          // Create a scroll container with a "overflow-scrolling: auto" style and then set
@@ -785,7 +774,6 @@ let
 
       _beforeUpdate: function(options, context) {
          this._pagingState.visible = context.ScrollData && context.ScrollData.pagingVisible && this._displayState.canScroll;
-         this._updateStickyHeaderContext();
       },
 
       _afterUpdate: function() {
@@ -803,7 +791,6 @@ let
             if (oldDisplayState.canScroll !== displayState.canScroll) {
                _private._updateScrollbar(this);
             }
-            this._updateStickyHeaderContext();
          }
 
          this._stickyHeaderController.updateContainer(this._container);
@@ -897,17 +884,11 @@ let
        */
       _adjustContentMarginsForBlockRender: function() {
          let computedStyle = getComputedStyle(this._children.content);
-         let marginTop = parseInt(computedStyle.marginTop, 10);
          let marginRight = parseInt(computedStyle.marginRight, 10);
 
          this._contentStyles = this._styleHideScrollbar.replace(/-?[1-9]\d*/g, function(found) {
             return parseInt(found, 10) + marginRight;
          });
-
-         if (this._stickyHeaderContext.top !== -marginTop) {
-            this._stickyHeaderContext.top = -marginTop;
-            this._stickyHeaderContext.updateConsumers();
-         }
       },
 
       _resizeHandler: function() {
@@ -1137,48 +1118,6 @@ let
                this._scrollLeftAfterDragEnd = undefined;
            }
        },
-
-      /**
-       * Update the context value of sticky header.
-       * TODO: Плохой метод. Дублирование tmpl и вызов должен только в методе изменения видимости тени. Будет поправлено по https://online.sbis.ru/opendoc.html?guid=01c0fb63-9121-4ee4-a652-fe9c329eec8f
-       * @param shadowVisible
-       * @private
-       */
-
-      _updateStickyHeaderContext() {
-          let
-              shadowPosition: string = '',
-              topShadowVisible: boolean = false,
-              bottomShadowVisible: boolean = false;
-
-          if (this._displayState.canScroll) {
-              topShadowVisible = this._displayState.shadowVisible.top;
-              bottomShadowVisible = this._displayState.shadowVisible.bottom;
-          }
-
-          if (topShadowVisible) {
-              shadowPosition += 'top';
-          }
-          if (bottomShadowVisible) {
-              shadowPosition += 'bottom';
-          }
-
-          if (this._stickyHeaderContext.shadowPosition !== shadowPosition) {
-              this._stickyHeaderContext.shadowPosition = shadowPosition;
-              // Контекст для тени постоянно вызывает обновление всех заголовков при смене shadowPosition, это
-              // сильно сказывается на производительности и вызывает дерганья при скролле на ios в случае,
-              // когда доскроллили до низа контейнера.
-              if (!detection.isMobileIOS) {
-                  this._stickyHeaderContext.updateConsumers();
-              }
-          }
-      },
-
-      _getChildContext: function() {
-         return {
-            stickyHeader: this._stickyHeaderContext
-         };
-      },
 
       getDataId: function() {
                return 'Controls/_scroll/Container';
