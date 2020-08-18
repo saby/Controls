@@ -242,30 +242,6 @@ define(
             });
          });
 
-         describe('_updateStickyHeaderContext', function() {
-            [{
-               title: 'should display shadow on headers if shadow is visible',
-               shadowVisible: { top: true, bottom: true },
-               resultShadowPosition: 'topbottom'
-            }, {
-               title: 'shouldn\'t display shadow on headers if shadow is hidden',
-               shadowVisible: { top: false, bottom: false },
-               resultShadowPosition: ''
-            }].forEach(function (test) {
-               it(test.title, function () {
-                  scroll._displayState.shadowPosition = test.shadowPosition || '';
-                  scroll._displayState.canScroll = true;
-                  scroll._displayState.shadowVisible = test.shadowVisible;
-                  scroll._stickyHeaderContext = {
-                     updateConsumers: function() { }
-                  };
-
-                  scroll._updateStickyHeaderContext();
-                  assert.strictEqual(scroll._stickyHeaderContext.shadowPosition, test.resultShadowPosition);
-               });
-            });
-         });
-
          describe('_resizeHandler. Paging buttons.', function() {
             beforeEach(function() {
                scroll._container = {

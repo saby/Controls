@@ -79,6 +79,7 @@ define(
                ctrl = new _StickyHeader({});
                inst._getStyle = ctrl._getStyle;
                inst._isShadowVisible = ctrl._isShadowVisible;
+               inst._isShadowVisibleByScrollState = ctrl._isShadowVisibleByScrollState;
                inst._getObserverStyle = ctrl._getObserverStyle;
                inst._options.shadowVisibility = 'visible';
                inst._reverseOffsetStyle = ctrl._reverseOffsetStyle;
@@ -153,7 +154,7 @@ define(
             });
 
             it('The header is fixed, but there should be no shadow', function() {
-               inst._context.stickyHeader.shadowPosition = 'top';
+               inst._scrollState.verticalPosition = 'end';
                inst._isFixed = true;
                inst._model.fixedPosition = 'top';
                inst._options.fixedZIndex = 1;
@@ -169,7 +170,7 @@ define(
             });
 
             it('The header is fixed, the shadow should be', function() {
-               inst._context.stickyHeader.shadowPosition = 'bottom';
+               inst._scrollState.verticalPosition = 'start';
                inst._isFixed = true;
                inst._model.fixedPosition = 'bottom';
                inst._options.fixedZIndex = 2;
