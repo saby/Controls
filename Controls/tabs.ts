@@ -17,7 +17,9 @@
  */
 
 export {default as Buttons} from 'Controls/_tabs/Buttons';
+export {default as AdaptiveButtons} from 'Controls/_tabs/AdaptiveButtons';
 export {ITabsButtons, ITabsButtonsOptions} from 'Controls/_tabs/interface/ITabsButtons';
+export {IAdaptiveTabs, IAdaptiveTabsOptions} from 'Controls/_tabs/interface/IAdaptiveTabs';
 import buttonsItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
 
 export {

@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__mb2">
+        <div class="controls-text-label_theme-{{_options.theme}}">align=right</div>
+        <div class="demo-TabButtons">
+            <Controls.tabs:AdaptiveButtons
+                    bind:selectedKey='SelectedKey1'
+                    keyProperty="id"
+                    containerWidth="{{_containerWidth}}"
+                    items="{{_items}}"
+                    align="right"
+            />
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">align=left</div>
+        <div class="demo-TabButtons">
+            <Controls.tabs:AdaptiveButtons
+                    bind:selectedKey='SelectedKey1'
+                    keyProperty="id"
+                    containerWidth="{{_containerWidth}}"
+                    items="{{_items2}}"
+                    align="left"
+            />
+        </div>
+    </div>
+</div>
