@@ -1294,6 +1294,7 @@ let
             this._bottomPlaceholderSize = placeholdersSizes.bottom;
             this._children.scrollWatcher.updatePlaceholdersSize(placeholdersSizes);
          }
+         e.stopImmediatePropagation();
       },
 
       _scrollToElement(event: SyntheticEvent<Event>, { itemContainer, toBottom, force }): void {

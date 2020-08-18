@@ -1077,6 +1077,13 @@ define(
                   });
                });
             });
+
+            describe('_updatePlaceholdersSize', function() {
+               it('should stop popagation event', function() {
+                  scroll._updatePlaceholdersSize(event, { top: 0, bottom: 0 });
+                  sinon.assert.called(event.stopImmediatePropagation);
+                  });
+            });
          });
       });
    }
