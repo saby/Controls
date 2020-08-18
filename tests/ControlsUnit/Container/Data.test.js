@@ -254,6 +254,33 @@ define(
             });
          });
 
+         it('filter and source are updated', async function() {
+            const filter1 = {
+               testField: 'testValue'
+            };
+            const filter2 = {
+               testField1: 'testValue1'
+            };
+            const anotherSource = new sourceLib.Memory({
+               keyProperty: 'id'
+            });
+            let options = {
+               source: source,
+               keyProperty: 'id',
+               filter1
+            };
+
+            const data = getDataWithConfig(options);
+            await data._beforeMount(options);
+
+            options = { ...options };
+            options.filter = filter2;
+            options.source = anotherSource;
+            await data._beforeUpdate(options);
+
+            assert.deepStrictEqual(data._filter, filter2, 'filter is not updated on _beforeUpdate');
+         });
+
          it('set source after mount', function(done) {
             const config = {keyProperty: 'id'};
             const data = getDataWithConfig(config);
