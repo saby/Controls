@@ -186,3 +186,28 @@
    right: 0;
    bottom: 0;
 }
+.controls-Tabs__item_shrinkMinWidth {
+   min-width: 26px;
+   flex-shrink: 111;
+}
+.controls-Tabs__wrapper__items {
+   display: inline-flex;
+   flex-grow: 1;
+   overflow: hidden;
+}
+.controls-Tabs__more_theme_@{themeName} {
+   color: @link_text-color;
+   cursor: pointer;
+   font-size: @font-size_m;
+}
+
+.controls-Tabs__more_theme_@{themeName}:hover {
+   color: @link_hover_text-color;
+   text-decoration: underline;
+}
+.controls-Tabs__more_align_left_theme_@{themeName} {
+   padding-left: @offset_xs;
+}
+.controls-Tabs__more_align_right_theme_@{themeName} {
+   padding-right: @offset_xs;
+}
