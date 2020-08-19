@@ -176,5 +176,5 @@ import PendingClass from 'Controls/_popup/Manager/PendingClass';
       }
    });
 
-   export = module;
+   export default module;
 

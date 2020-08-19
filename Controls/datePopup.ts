@@ -503,4 +503,4 @@ Component.getOptionTypes = function () {
     }, IDateRangeSelectable.getOptionTypes());
 };
 
-export = Component;
+export default Component;
