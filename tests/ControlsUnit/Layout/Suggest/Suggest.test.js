@@ -472,14 +472,17 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
                suggestState = val[0];
             }
          };
+         suggestComponent._inputActive = false;
+         suggestComponent._inputActivated(null, { isTabPressed: true });
+         assert.isFalse(suggestComponent._inputActive);
 
-         suggestComponent._inputActivated();
+         suggestComponent._inputActivated(null, {});
          assert.equal(suggestComponent._searchDelay, 300);
          suggestComponent._options.readOnly = false;
 
 
          return new Promise(function(resolve) {
-            suggestComponent._inputActivated();
+            suggestComponent._inputActivated(null, {});
             assert.equal(suggestComponent._searchDelay, 0);
 
             suggestComponent._dependenciesDeferred.addCallback(function() {
