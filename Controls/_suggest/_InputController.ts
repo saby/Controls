@@ -498,10 +498,13 @@ var SuggestLayout = Control.extend({
       _private.setFilter(self, self._options.filter, self._options);
       _private.updateSuggestState(this);
    },
-   _inputActivated(): void {
-      this._inputActive = true;
-      if (!_private.isInvalidValidationStatus(this._options)) {
-         _private.inputActivated(this);
+
+   _inputActivated(e: SyntheticEvent, eventOptions: object): void {
+      if (eventOptions.isTabPressed) {
+         this._inputActive = true;
+         if (!_private.isInvalidValidationStatus(this._options)) {
+            _private.inputActivated(this);
+         }
       }
    },
 
@@ -511,7 +514,7 @@ var SuggestLayout = Control.extend({
 
    _inputClicked: function() {
       this._inputActive = true;
-      if (!this._options.suggestState) {
+      if (!this._options.suggestState && !_private.isInvalidValidationStatus(this._options)) {
          _private.inputActivated(this);
       }
    },
