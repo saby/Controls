@@ -1,0 +1,38 @@
+<span class="controls-addButton__wrapper">
+        <span class="controls-addButton__icon-wrapper">
+                <Controls.dropdown:Button
+                        attr:class="controls-addButton__icon"
+                        on:menuItemActivate="_itemClickHandler()"
+                        source="{{_source}}"
+                        keyProperty="key"
+                        displayProperty="title"
+                        actionOnScroll="close"
+                        viewMode="functionalButton"
+                        icon="icon-RoundPlus"
+                        iconStyle="contrast"
+                        iconSize="s"
+                        inlineHeight="m"
+                        buttonStyle="secondary"
+                >
+                        <ws:headerContentTemplate>
+                                <Controls.Container.Async templateName="Controls/menu:ItemTemplate">
+                                        <ws:partial template="Controls/menu:HeaderTemplate" icon="icon-RoundPlus" scope="{{headerContentTemplate._options}}" caption="{[Создать]}"/>
+                                </Controls.Container.Async>
+                        </ws:headerContentTemplate>
+                        <ws:itemTemplate>
+                                <Controls.Container.Async templateName="Controls/menu:ItemTemplate">
+                                        <ws:partial
+                                                attr:class="controls-addButton__popupItemTemplate"
+                                                template="{{content.resolvedTemplate}}"
+                                                scope="{{itemTemplate._options}}"
+                                                treeItem="{{itemTemplate.itemData.treeItem}}"
+                                                fontSize="s"
+                                        />
+                                </Controls.Container.Async>
+                        </ws:itemTemplate>
+                </Controls.dropdown:Button>
+        </span>
+        <span class="controls-addButton__caption">
+                {{_options.caption}}
+        </span>
+</span>
