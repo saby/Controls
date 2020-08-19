@@ -1,0 +1,3 @@
+<div>
+    <Controls.buttons:Button buttonStyle='danger' viewMode="test" icon="icon-RoundPlus" iconStyle="danger" inlineHeight="xl"  iconSize="s" ></Controls.buttons:Button>
+</div>
