@@ -68,6 +68,7 @@
     <!-- Шаблон пустой таблицы -->
     <ws:if data="{{_options.emptyTemplate}}">
         <ws:partial template="wml!Controls/_grid/EmptyTemplate"
+                    attr:class="controls-GridView__emptyTemplate {{ _isColumnScrollVisible ? 'controls-Grid_columnScroll__fixed' }}"
                     emptyTemplate="{{ _options.emptyTemplate }}"
                     listModel="{{ _listModel }}"
                     isFullGridSupport="{{ _isFullGridSupport }}"
