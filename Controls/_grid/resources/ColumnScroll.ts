@@ -185,9 +185,12 @@ export class ColumnScroll {
         if (position === 'start' && this._shadowState[position]) {
             shadowStyles = 'left: ' + this._fixedColumnsWidth + 'px;';
         }
-        const emptyTemplate = this._scrollContainer.getElementsByClassName('controls-BaseControl__emptyTemplate')[0] as HTMLElement;
-        if (emptyTemplate) {
-            shadowStyles += 'height: ' + emptyTemplate.offsetTop + 'px;';
+        const hasEmptyTemplate = !!this._scrollContainer.getElementsByClassName('controls-BaseControl__emptyTemplate')[0];
+
+        if (hasEmptyTemplate) {
+            // Отступ нужно смотреть на обертке для шаблона пустого списка, т.к. позиционируется именно она, у вложенного контента нет отступа.
+            const emptyTemplateWrapper = this._scrollContainer.getElementsByClassName('controls-GridView__emptyTemplate')[0] as HTMLElement;
+            shadowStyles += 'height: ' + emptyTemplateWrapper.offsetTop + 'px;';
         }
         return shadowStyles;
     }
