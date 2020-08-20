@@ -172,7 +172,7 @@ class CssClassList {
 function getAll(classListCollection: Record<string, string>): string {
     let classes = '';
     for (const classListName in classListCollection) {
-        if (classListName !== 'getAll') {
+        if (classListName !== 'getAll' && classListName !== 'clone') {
             const value = classListCollection[classListName];
             if (typeof value === 'string') {
                 classes += `${classListCollection[classListName].trim()} `;
@@ -184,12 +184,25 @@ function getAll(classListCollection: Record<string, string>): string {
     return classes.trim();
 }
 
+function clone(classListCollection: Record<string, string>) {
+    const classNames = Object.keys(classListCollection).filter((name) => (name !== 'getAll' && name !== 'clone'));
+    const newClassList = createClassListCollection.apply(null, classNames);
+
+    classNames.forEach((className) => {
+        newClassList[className] = classListCollection[className];
+    });
+
+    return newClassList;
+}
+
+
 function createClassListCollection(...classListNames: string[]) {
-    const classListCollection = { getAll: null };
+    const classListCollection = { getAll: null, clone: null };
     classListNames.forEach((classListName) => {
         classListCollection[classListName] = '';
     });
     classListCollection.getAll = getAll.bind(null, classListCollection);
+    classListCollection.clone = clone.bind(null, classListCollection);
     return classListCollection;
 }
 

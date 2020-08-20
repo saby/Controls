@@ -21,9 +21,7 @@
 
 <ws:template name="COLUMN_COLSPAN_CONTENT">
     <div class="controls-Grid__row-cell__content_colspaned {{ cellClassName || '' }}
-       {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).top}}
-       {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).bottom}}
-       {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).right}}">
+       {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).getAll()}}">
         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}"/>
     </div>
 </ws:template>
