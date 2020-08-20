@@ -214,6 +214,11 @@
    max-width: 100%;
 }
 
+.controls-Grid_grid-layout .controls-Grid__row-cell__content_colspaned {
+   position: absolute;
+   right: 0;
+}
+
 // Хак для новой версии хрома (84 dev), заведён issue в поддержке хрома. В IE ломает вёрстку в автотестах
 // https://online.sbis.ru/opendoc.html?guid=2f994b36-59aa-49ba-8c49-d1a6c4e9084f
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1103592
@@ -559,6 +564,33 @@
 .controls-GridView__footer__paddingLeft_xxl_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xxl_theme-@{themeName} {
    padding-left: @item_padding-left_2xl_list;
+}
+
+.controls-Grid_grid-layout {
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_default_theme-@{themeName} {
+      left: @item_padding-left_default_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_null_theme-@{themeName} {
+      left: 0;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_xs_theme-@{themeName} {
+      left: @item_padding-left_xs_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_s_theme-@{themeName} {
+      left: @item_padding-left_s_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_m_theme-@{themeName} {
+      left: @item_padding-left_m_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_l_theme-@{themeName} {
+      left: @item_padding-left_l_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_xl_theme-@{themeName} {
+      left: @item_padding-left_xl_list;
+   }
+   .controls-Grid__row-cell__content_colspaned_spacingLeft_xxl_theme-@{themeName} {
+      left: @item_padding-left_2xl_list;
+   }
 }
 
 .controls-Grid__cell_spacingLastCol_default_theme-@{themeName},
