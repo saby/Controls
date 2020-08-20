@@ -1808,9 +1808,12 @@ const _private = {
             options.useNewModel
             ? EditInPlaceController.isEditing(listViewModel)
             : !!listViewModel.getEditingItemData();
+
+        const display = listViewModel ? (options.useNewModel ? listViewModel : listViewModel.getDisplay()) : null;
+        const hasVisibleItems = !!(display && display.getCount());
+
         return (
-            !!items &&
-            (!!items.getCount() || isEditing) &&
+            (hasVisibleItems || isEditing) &&
             options.itemActionsPosition === 'outside' &&
             !options.footerTemplate &&
             options.resultsPosition !== 'bottom'

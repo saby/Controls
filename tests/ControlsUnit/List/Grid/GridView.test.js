@@ -740,7 +740,16 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             let hasItemsRecordSet;
             let itemsCount;
             let setEditing = (hasEditing) => {
-               gridView._options.editingItemData = hasEditing
+               gridView._options.editingItemData = hasEditing;
+            };
+
+            let setScrollableHeader = (hasScrollableHeader) => {
+               if (hasScrollableHeader) {
+                  gridView._options.headerInEmptyListVisible = true;
+                  gridView._options.header = [{}, {}];
+               } else {
+                  gridView._options.headerInEmptyListVisible = false;
+               }
             };
 
             gridView._columnScrollController = { isVisible: () => needScrollBySize };
@@ -750,32 +759,37 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                } : null
             };
 
-            // hasItemsRecordSet, itemsCount, needScrollBySize, hasEditing,   EXPECTED_VISIBILITY
+            // hasItemsRecordSet, itemsCount, needScrollBySize, hasEditing, hasScrollableHeader,   EXPECTED_VISIBILITY
             [
-               [false, 0, false, false, false],
-               [false, 0, false, true, false],
-               [false, 0, true, false, false],
-               [false, 0, true, true, false],
-               [false, 5, false, false, false],
-               [false, 5, false, true, false],
-               [false, 5, true, false, false],
-               [false, 5, true, true, false],
-               [true, 0, false, false, false],
-               [true, 0, false, true, false],
-               [true, 0, true, false, false],
-               [true, 0, true, true, true],
-               [true, 5, false, false, false],
-               [true, 5, false, true, false],
-               [true, 5, true, false, true],
-               [true, 5, true, true, true]
+               [false, 0, false, false, false, false],
+               [false, 0, false, true, false, false],
+               [false, 0, true, false, false, false],
+               [false, 0, true, true, false, false],
+               [false, 5, false, false, false, false],
+               [false, 5, false, true, false, false],
+               [false, 5, true, false, false, false],
+               [false, 5, true, true, false, false],
+               [true, 0, false, false, false, false],
+               [true, 0, false, true, false, false],
+               [true, 0, true, false, false, false],
+               [true, 0, true, true, false, true],
+               [true, 5, false, false, false, false],
+               [true, 5, false, true, false, false],
+               [true, 5, true, false, false, true],
+               [true, 5, true, true, false, true],
+
+                // По ошибкам
+               [false, 0, true, false, true, true]
             ].forEach((params, index) => {
                hasItemsRecordSet = params[0];
                itemsCount = params[1];
                needScrollBySize = params[2];
                setEditing(params[3]);
+               setScrollableHeader(params[4]);
 
-               assert.equal(params[4], gridView._isColumnScrollVisible(),
-                   `Wrong column scroll visibility with params[${index}]: {hasItemsRecordSet: ${params[0]}, itemsCount: ${params[1]}, needScrollBySize: ${params[2]}, hasEditing: ${params[3]}.}`
+               assert.equal(params[5], gridView._isColumnScrollVisible(),
+                   `Wrong column scroll visibility with params [${index}]: {hasItemsRecordSet: ${params[0]}, ` +
+                   `itemsCount: ${params[1]}, needScrollBySize: ${params[2]}, hasEditing: ${params[3]}, hasScrollableHeader: ${params[4]}.}`
                );
             });
          });
