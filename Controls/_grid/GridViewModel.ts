@@ -1748,8 +1748,10 @@ var
                      * После закрытия можно удалить здесь и из шаблонов.
                      * https://online.sbis.ru/opendoc.html?guid=4230f8f0-7fd1-4018-bd8c-08d703af3899
                      */
-                    columnData.classList.padding.right = `controls-Grid__cell_spacingLastCol_${current.itemPadding.right}_theme-${current.theme}`;
-                    return columnData.classList.padding;
+                    const classList = columnData.classList.padding.clone();
+                    classList.right = `controls-Grid__cell_spacingLastCol_${current.itemPadding.right}_theme-${current.theme}`;
+                    classList.left = `controls-Grid__row-cell__content_colspaned_spacingLeft_${current.itemPadding.left}_theme-${current.theme}`;
+                    return classList;
                 };
                 currentColumn.column = current.columns[current.columnIndex];
                 currentColumn.template = currentColumn.column.template ? currentColumn.column.template : self._columnTemplate;
