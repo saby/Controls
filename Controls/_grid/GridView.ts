@@ -505,7 +505,9 @@ var
                 .add('controls-Grid')
                 .add(`controls-Grid_${this._options.style}_theme-${this._options.theme}`);
 
-            if (!GridLayoutUtil.isFullGridSupport()) {
+            if (GridLayoutUtil.isFullGridSupport()) {
+                classes.add('controls-Grid_grid-layout');
+            } else {
                 const isFixedLayout = this._listModel.isFixedLayout();
                 classes
                     .add('controls-Grid_table-layout')

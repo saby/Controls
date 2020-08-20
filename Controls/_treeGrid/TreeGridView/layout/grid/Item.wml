@@ -21,9 +21,7 @@
 
 <ws:template name="COLUMN_COLSPAN_CONTENT">
     <div class="controls-Grid__row-cell__content_colspaned
-         {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).top}}
-         {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).bottom}}
-         {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).right}}
+         {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).getAll()}}
          {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
          {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}">
         <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}"/>
