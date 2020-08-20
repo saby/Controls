@@ -472,14 +472,17 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
                suggestState = val[0];
             }
          };
+         suggestComponent._inputActive = false;
+         suggestComponent._inputActivated(null, {});
+         assert.isFalse(suggestComponent._inputActive);
 
-         suggestComponent._inputActivated();
+         suggestComponent._inputActivated(null, {isTabPressed: true});
          assert.equal(suggestComponent._searchDelay, 300);
          suggestComponent._options.readOnly = false;
 
 
          return new Promise(function(resolve) {
-            suggestComponent._inputActivated();
+            suggestComponent._inputActivated(null, {isTabPressed: true});
             assert.equal(suggestComponent._searchDelay, 0);
 
             suggestComponent._dependenciesDeferred.addCallback(function() {
@@ -500,7 +503,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
 
                   suggestComponent._close(event);
                   self._options.readOnly = true;
-                  suggestComponent._inputActivated();
+                  suggestComponent._inputActivated(null, {isTabPressed: true});
                   suggestComponent._dependenciesDeferred.addCallback(function() {
                      assert.isFalse(suggestState);
 
@@ -511,7 +514,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
                         suggestComponent._options.historyId = '';
                         suggestComponent._filter = {};
                         suggestComponent._options.readOnly = false;
-                        suggestComponent._inputActivated();
+                        suggestComponent._inputActivated(null, {isTabPressed: true});
 
                         suggestComponent._dependenciesDeferred.addCallback(function() {
                            assert.isTrue(suggestState);
@@ -519,7 +522,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
 
                            suggestComponent._options.suggestState = true;
                            suggestComponent._filter = {};
-                           suggestComponent._inputActivated();
+                           suggestComponent._inputActivated(null, {isTabPressed: true});
 
                            suggestComponent._dependenciesDeferred.addCallback(function() {
                               assert.deepEqual(suggestComponent._filter, {});
@@ -527,7 +530,7 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
                               suggestState = false;
                               suggestComponent._options.suggestState = false;
                               suggestComponent._options.validationStatus = 'invalid';
-                              suggestComponent._inputActivated();
+                              suggestComponent._inputActivated(null, {isTabPressed: true});
 
                               assert.isFalse(suggestState, 'suggest opened on activated with validationStatus: "invalid"');
                               resolve();
