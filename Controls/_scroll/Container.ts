@@ -1018,10 +1018,10 @@ let
       },
 
       _scrollbarTaken() {
-         if (this._showScrollbarOnHover && (this._displayState.canScroll || this._displayState.canHorizontalScroll)) {
+         if (this._children.scrollBar && this._showScrollbarOnHover && (this._displayState.canScroll || this._displayState.canHorizontalScroll)) {
              // Обновляем позицию скроллабара, так как он появляется только при наведении на скролл контейнер
              //TODO: https://online.sbis.ru/opendoc.html?guid=65a30a09-0581-4506-9329-e472ea9630b5
-            this._children.scrollBar?.setScrollPosition(this._scrollTop);
+            this._children.scrollBar.setScrollPosition(this._scrollTop);
             this._notify('scrollbarTaken', [], { bubbling: true });
          }
       },
