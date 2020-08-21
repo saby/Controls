@@ -13,7 +13,9 @@
    />
    <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
       <Controls.buttons:Button viewMode="link"
-                               class="controls-SimplePanel-List__hasMoreButton controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}"
+                               class="controls-SimplePanel-List__hasMoreButton
+                                      controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}
+                                      controls-SimplePanel-List__{{_options.nodeProperty ? 'hierarchy-'}}hasMoreButton_theme-{{_options.theme}}"
                                fontColorStyle="link"
                                caption="{[Еще]}..."
                                on:click="_openSelectorDialog()"

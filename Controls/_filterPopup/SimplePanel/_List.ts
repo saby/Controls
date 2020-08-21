@@ -57,7 +57,9 @@ var List = Control.extend({
             emptyText: options.emptyText,
             emptyKey: options.emptyKey,
             hasApplyButton: options.hasApplyButton,
-            hasClose: true
+            hasClose: true,
+            node: options.nodeProperty,
+            theme: options.theme
         });
 
         this._afterOpenDialogCallback = _private.afterOpenDialogCallback.bind(this);
