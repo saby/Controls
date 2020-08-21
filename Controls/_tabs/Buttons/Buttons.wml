@@ -8,6 +8,7 @@
                 <ws:if data="{{ _getTemplate(_options.itemLeftTemplate, item, _options.leftTemplateProperty) }}">
                     <ws:partial template="{{ _getTemplate(_options.itemLeftTemplate, item, _options.leftTemplateProperty) }}"
                                 selected="{{item[_options.keyProperty] === _options.selectedKey}}"
+                                index="{{index}}"
                                 item="{{item}}" />
                 </ws:if>
                 <ws:partial
@@ -16,10 +17,12 @@
                         selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                         displayProperty="{{_options.displayProperty}}"
                         keyProperty="{{_options.keyProperty}}"
+                        index="{{index}}"
                         item="{{item}}"/>
                 <ws:if data="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}">
                     <ws:partial template="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}"
                                 selected="{{item[_options.keyProperty] === _options.selectedKey}}"
+                                index="{{index}}"
                                 item="{{item}}" />
                 </ws:if>
                 <ws:if data="{{item.get('contentTab')}}">

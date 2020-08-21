@@ -1,6 +1,6 @@
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {SbisService} from 'Types/source';
-import {ISingleSelectableOptions, IItemTemplateOptions, IItemsOptions} from 'Controls/interface';
+import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
 export interface ITabsButtons {
     readonly '[Controls/_tabs/interface/ITabsButtons]': boolean;
 }
@@ -12,15 +12,10 @@ export interface ITabsButtons {
  * @author Красильников А.С.
  */
 
-export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableOptions, IItemTemplateOptions, IItemsOptions<object> {
+export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableOptions, IItemsOptions<object> {
     source?: SbisService;
     style?: string;
     displayProperty?: string;
-    leftTemplateProperty?: string;
-    rightTemplateProperty?: string;
-    tabSpaceTemplate?: TemplateFunction;
-    itemRightTemplate?: TemplateFunction;
-    itemLeftTemplate?: TemplateFunction;
 }
 
 /**

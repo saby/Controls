@@ -179,10 +179,32 @@
    color: @unaccented_text-color;
    font-size: @font-size_m;
 }
+.controls-AdaptiveButtons {
+   width: 100%;
+}
 .controls-Tabs__overlay {
    position: absolute;
    left: 0;
    top: 0;
    right: 0;
    bottom: 0;
+}
+.controls-AdaptiveButtons__more {
+   display: inline-flex;
+   color: @link_text-color;
+   cursor: pointer;
+   align-items: baseline;
+}
+.controls-AdaptiveButtons__more:hover {
+   color: @link_hover_text-color;
+   text-decoration: underline;
+}
+.controls-AdaptiveButtons__item {
+   min-width: 26px;
+}
+.controls-AdaptiveButtons__more_align_right {
+   margin-right: @offset_xs;
+}
+.controls-AdaptiveButtons__more_align_left {
+   margin-left: @offset_xs;
 }
