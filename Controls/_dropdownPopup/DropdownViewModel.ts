@@ -72,7 +72,7 @@ var _private = {
             return result;
          },
 
-         getClassList: function(itemPadding, multiSelect, itemData, hasHierarchy, hasApplyButton?) {
+         getClassList: function(options, itemData, hasHierarchy) {
             const item = itemData.item;
             let classes = 'controls-DropdownList__row_state_' + (item.get('readOnly')  ? 'readOnly' : 'default') ;
 
@@ -80,13 +80,15 @@ var _private = {
                classes += ' controls-DropdownList__row_pinned';
             }
 
-            const paddings = itemPadding || {};
-            if (multiSelect && itemData.emptyText) {
+            const paddings = options.itemPadding || {};
+            if (options.multiSelect && itemData.emptyText) {
                classes += ' controls-DropdownList__emptyItem-leftPadding_multiSelect';
-            } else if (!multiSelect) {
+            } else if (!options.multiSelect && (!options.node || item.get(options.node))) {
                classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
+            } else if (!options.multiSelect) {
+               classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default') + '_theme-' + options.theme;
             }
-            classes += ' controls-DropdownList__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, hasApplyButton);
+            classes += ' controls-DropdownList__item-rightPadding_' + _private.getRightPadding(paddings.right, itemData, hasHierarchy, options.hasApplyButton);
             return classes;
          },
 
@@ -240,7 +242,7 @@ var _private = {
             itemsModelCurrent.nodeProperty = this._options.nodeProperty;
             itemsModelCurrent.hasClose = this._options.hasClose;
             itemsModelCurrent.hasPinned = this._options.hasIconPin && itemsModelCurrent.item.has('pinned');
-            itemsModelCurrent.itemClassList = _private.getClassList(this._options.itemPadding, this._options.multiSelect, itemsModelCurrent, this.hasHierarchy());
+            itemsModelCurrent.itemClassList = _private.getClassList(this._options, itemsModelCurrent, this.hasHierarchy());
             itemsModelCurrent.multiSelectTpl = multiSelectTpl;
 
             // Для совместимости с menu:Control
@@ -323,7 +325,7 @@ var _private = {
                emptyItem.getPropValue = ItemsUtil.getPropertyValue;
                emptyItem.emptyText = this._options.emptyText;
                emptyItem.hasClose = this._options.hasClose;
-               emptyItem.itemClassList = _private.getClassList(this._options.itemPadding, this._options.multiSelect, emptyItem, this.hasHierarchy(), this._options.hasApplyButton);
+               emptyItem.itemClassList = _private.getClassList(this._options, emptyItem, this.hasHierarchy());
 
                // Для совместимости с menu:Control
                emptyItem.treeItem = _private.getNewTreeItem(emptyItem);

@@ -25,7 +25,9 @@ define(
             id: 'text',
             items: defaultItems.clone(),
             selectedKeys: [],
-            multiSelect: true
+            multiSelect: true,
+            theme: 'testTheme',
+            nodeProperty: 'node'
          };
 
          let getList = function (config) {
@@ -45,8 +47,10 @@ define(
                emptyKey: defaultConfig.emptyKey,
                hasApplyButton: defaultConfig.hasApplyButton,
                hasClose: true,
-               iconSize: defaultConfig.iconSize
-            });
+               theme: defaultConfig.theme,
+               node: defaultConfig.nodeProperty,
+              iconSize: defaultConfig.iconSize
+         });
             let list = getList(defaultConfig);
             list._beforeMount(defaultConfig);
             assert.deepStrictEqual(list._listModel._options, expectedListModel._options);
