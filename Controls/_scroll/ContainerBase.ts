@@ -11,7 +11,7 @@ import {IScrollState} from './Utils/ScrollState';
 import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import * as scrollToElement from 'Controls/Utils/scrollToElement';
+import scrollToElement from 'Controls/Utils/scrollToElement';
 
 export interface IContainerBaseOptions extends IControlOptions {
     scrollMode?: SCROLL_MODE;

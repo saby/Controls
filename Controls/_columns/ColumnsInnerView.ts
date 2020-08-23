@@ -6,7 +6,7 @@ import {
     ColumnsCollection as Collection,
     ColumnsCollectionItem as CollectionItem,
 } from 'Controls/display';
-import scrollToElement = require('Controls/Utils/scrollToElement');
+import scrollToElement from 'Controls/Utils/scrollToElement';
 
 import {IList} from 'Controls/list';
 

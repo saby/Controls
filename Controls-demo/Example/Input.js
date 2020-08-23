@@ -32,7 +32,7 @@ define('Controls-demo/Example/Input',
                var activeElement = window.location.hash.replace(/.*#/, '');
 
                if (this._children[activeElement]) {
-                  scrollToElement(this._children[activeElement]._container);
+                  scrollToElement.default(this._children[activeElement]._container);
                }
             }
          },
