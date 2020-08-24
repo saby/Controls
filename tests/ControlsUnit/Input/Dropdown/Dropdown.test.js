@@ -362,14 +362,36 @@ define(
             assert.isOk(ddl._controller._menuSource);
          });
 
-         it('controller options', function() {
+         describe('controller options', function() {
             const ddl = getDropdown(config);
-            const result = ddl._getControllerOptions({
-               nodeFooterTemplate: 'testNodeFooterTemplate'
+
+            it('check options', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate'
+               });
+
+               assert.equal(result.nodeFooterTemplate, 'testNodeFooterTemplate');
+               assert.isOk(result.selectorOpener);
+               assert.include(result.popupClassName, 'controls-DropdownList__margin');
             });
 
-            assert.equal(result.nodeFooterTemplate, 'testNodeFooterTemplate');
-            assert.isOk(result.selectorOpener);
+            it('popupClassName with header', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate',
+                  headerContentTemplate: 'template'
+               });
+
+               assert.include(result.popupClassName, 'controls-DropdownList__margin-head');
+            });
+
+            it('popupClassName with multiSelect', () => {
+               const result = ddl._getControllerOptions({
+                  nodeFooterTemplate: 'testNodeFooterTemplate',
+                  multiSelect: true
+               });
+
+               assert.include(result.popupClassName, 'controls-DropdownList_multiSelect__margin');
+            });
          });
 
          it('_deactivated', function() {

@@ -278,7 +278,8 @@ export default class Input extends BaseDropdown {
             dataLoadCallback: this._dataLoadCallback,
             selectorOpener: this,
             selectedKeys: options.selectedKeys || [],
-            popupClassName: options.popupClassName || (options.showHeader || options.headerTemplate ?
+            popupClassName: options.popupClassName || (options.showHeader ||
+                options.headerTemplate || options.headerContentTemplate ?
                 'controls-DropdownList__margin-head' : options.multiSelect ?
                     'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
                 ' theme_' + options.theme,
