@@ -68,6 +68,12 @@
    position: sticky;
 }
 
+/* Этот костыль выпилен в 6000 по https://online.sbis.ru/opendoc.html?guid=f5e830c3-7be2-4272-9c38-594c241401cc */
+.ws-is-desktop-safari .controls-Grid__columnScroll_will-transform,
+.ws-is-mobile-safari .controls-Grid__columnScroll_will-transform {
+   will-change: transform;
+}
+
 .controls-Grid__cell_spacing_money:after,
 /* deprecated, remove by https://online.sbis.ru/opendoc.html?guid=eff529b3-eb2a-4171-882d-4ff8e1e7e421 */
 .controls-Grid__header-cell_spacing_money:after {
