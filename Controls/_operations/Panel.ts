@@ -1,5 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_operations/Panel/Panel');
+import {error as loadDataError} from 'Controls/dataSource';
 
 /**
  * Контрол, предназначенный для операций над множеством записей списка.
@@ -206,7 +207,15 @@ import template = require('wml!Controls/_operations/Panel/Panel');
 
 
 var Panel = Control.extend({
-   _template: template
+   _template: template,
+
+   _beforeMount(): void {
+      this._errorCallback = this._errorCallback.bind(this);
+   },
+
+   _errorCallback(viewConfig: object, error): void {
+      loadDataError.process({error});
+   }
 });
 
 export = Panel;

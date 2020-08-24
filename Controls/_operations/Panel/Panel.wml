@@ -1,1 +1,1 @@
-<Controls.Container.Async templateName="Controls/operationsPanel:OperationsPanel" templateOptions="{{_options}}"/>
+<Controls.Container.Async templateName="Controls/operationsPanel:OperationsPanel" templateOptions="{{_options}}" errorCallback="{{_errorCallback}}"/>
