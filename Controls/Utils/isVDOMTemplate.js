@@ -77,11 +77,16 @@ define('Controls/Utils/isVDOMTemplate', [], function() {
    /* eslint-enable */
 
    return function isVDOMTemplate(templateClass) {
-      // на VDOM классах есть св-во _template.
-      // Если его нет, но есть stable или isDataArray, значит это функция от tmpl файла
-      var isVDOM = templateClass && (
-         (templateClass.prototype && templateClass.prototype._template) ||
-                              templateClass.stable || templateClass.isDataArray);
-      return !!isVDOM;
+      // Сюда попадает:
+      // 1) Функция-конструктор контрола
+      // 2) Функция-шаблон
+      // Нужно вернуть true,
+      // для функции-конструктора Wasaby (на прототипе есть _template)
+      // или функции-шаблона Wasaby (выставлен флаг isWasabyTemplate).
+      var wasabyConstructor = templateClass &&
+         templateClass.prototype &&
+         templateClass.prototype._template;
+      var wasabyTemplate = templateClass && templateClass.isWasabyTemplate;
+      return !!(wasabyConstructor || wasabyTemplate);
    };
 });
