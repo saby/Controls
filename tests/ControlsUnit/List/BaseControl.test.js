@@ -7561,7 +7561,7 @@ define([
             assert.isTrue(notifySpy.withArgs('dragEnd').called);
          });
 
-         describe('_private.onListChange', () => {
+         describe('_private.onItemsChanged', () => {
             let baseControl;
 
             beforeEach(async () => {
@@ -7606,6 +7606,13 @@ define([
                lists.BaseControl._private.onItemsChanged(baseControl, 'rp', [item.getContents()], 0);
                item = baseControl.getViewModel().getItemBySourceKey(1);
                assert.isTrue(item.isMarked());
+            });
+
+            it('set marker on added item', () => {
+               let item = baseControl.getViewModel().getItemBySourceKey(1).getContents();
+               lists.BaseControl._private.onItemsChanged(baseControl, 'a', [], undefined, [item]);
+               const dispItem = baseControl.getViewModel().getItemBySourceKey(1);
+               assert.isTrue(dispItem.isMarked());
             });
          });
       });
