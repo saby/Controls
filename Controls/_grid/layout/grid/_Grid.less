@@ -6,6 +6,22 @@
    width: 100%;
    position: relative;
 }
+
+.controls-GridView__emptyTemplate {
+   display: contents;
+}
+
+.controls-GridView__emptyTemplate__cell {
+   display: flex;
+   align-items: baseline;
+   color: @label_text-color;
+   cursor: pointer;
+}
+
+.controls-GridView__emptyTemplate__checkBoxCell {
+   min-width: @click-area_width_checkbox;
+}
+
 .controls-Grid_dragging_process {
    .controls-Grid__row-ladder-cell {
       display: none;

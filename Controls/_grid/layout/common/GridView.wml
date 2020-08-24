@@ -67,13 +67,24 @@
 
     <!-- Шаблон пустой таблицы -->
     <ws:if data="{{_options.emptyTemplate}}">
-        <ws:partial template="wml!Controls/_grid/EmptyTemplate"
-                    emptyTemplate="{{ _options.emptyTemplate }}"
-                    listModel="{{ _listModel }}"
-                    isFullGridSupport="{{ _isFullGridSupport }}"
-                    containerSize="{{ _containerSize }}"
-                    hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
-                    hasColumnScroll="{{ _isColumnScrollVisible }}"/>
+        <ws:if data="{{ _options.useNewEmptyTemplate }}">
+            <ws:partial template="{{ _options.emptyTemplate }}"
+                        attr:class="controls-GridView__emptyTemplate controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}"
+                        listModel="{{ _listModel }}"
+                        isFullGridSupport="{{ _isFullGridSupport }}"
+                        containerSize="{{ _containerSize }}"
+                        hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
+                        hasColumnScroll="{{ _isColumnScrollVisible }}"/>
+        </ws:if>
+        <ws:else>
+            <ws:partial template="wml!Controls/_grid/EmptyTemplate"
+                        emptyTemplate="{{ _options.emptyTemplate }}"
+                        listModel="{{ _listModel }}"
+                        isFullGridSupport="{{ _isFullGridSupport }}"
+                        containerSize="{{ _containerSize }}"
+                        hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
+                        hasColumnScroll="{{ _isColumnScrollVisible }}"/>
+        </ws:else>
     </ws:if>
 
     <!-- Результаты снизу -->

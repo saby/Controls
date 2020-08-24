@@ -2367,11 +2367,115 @@ var
 
         goToNextColgroupColumn(): void {
             this._curColgroupColumnIndex++;
-        }
+        },
 
         // endregion Colgroup columns
 
         // endregion Table Layout
+
+        prepareColumnsForEmptyTemplate(columns: Array<{ template?: Function, startIndex?: number, endIndex?: number }>, topSpacing, bottomSpacing) {
+            const result = [];
+            const multiSelectOffset = this._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
+            const gridColumnsCount = this._options.columns.length;
+
+            let shouldInsertColumnBefore = false;
+            let shouldInsertColumnAfter = false;
+
+
+            columns.forEach((c, index) => {
+                const newColumn = { template: c.template, startIndex: undefined, endIndex: undefined, classes: '' };
+
+                if (typeof c.startIndex === "number") {
+                    newColumn.startIndex = c.startIndex;
+                    if (index === 0 && c.startIndex !== 1) {
+                        shouldInsertColumnBefore = true;
+                    }
+                } else if (index === 0) {
+                    newColumn.startIndex = 1;
+                } else {
+                    newColumn.startIndex = result[index - 1].endIndex;
+                }
+
+                if (typeof c.endIndex === "number") {
+                    newColumn.endIndex = c.endIndex;
+                    if (index === columns.length - 1 && newColumn.endIndex !== gridColumnsCount + 1) {
+                        shouldInsertColumnAfter = true;
+                    }
+                } else {
+                    if (index === columns.length - 1) {
+                        newColumn.endIndex = gridColumnsCount + 1;
+                    } else {
+                        newColumn.endIndex = newColumn.startIndex + 1;
+                    }
+                }
+
+                result.push(newColumn);
+            });
+
+            if (shouldInsertColumnBefore) {
+                result.unshift({
+                    startIndex: 1,
+                    endIndex: result[0].startIndex
+                })
+            }
+
+            if (shouldInsertColumnAfter) {
+                result.push({
+                    startIndex: result[result.length - 1].endIndex,
+                    endIndex: gridColumnsCount + 1
+                })
+            }
+
+            result.forEach((resultColumn, index) => {
+                this.prepareEmptyColumnClasses(resultColumn, index, result.length, topSpacing, bottomSpacing);
+                resultColumn.startIndex += multiSelectOffset;
+                resultColumn.endIndex += multiSelectOffset;
+            });
+
+            return result;
+        },
+        prepareEmptyColumnClasses(resultColumn, emptyColumnIndex, emptyColumnsLength, topSpacing, bottomSpacing): string {
+            const hasMultiSelect = this._options.multiSelectVisibility !== 'hidden';
+            const isFirst = emptyColumnIndex === 0 && !hasMultiSelect;
+            const isLast = emptyColumnIndex === emptyColumnsLength - 1;
+            const cellPadding = this._options.columns[resultColumn.startIndex].cellPadding;
+            const getCellPadding = (side) => cellPadding && cellPadding[side] ? `_${cellPadding[side].toLowerCase()}` : '';
+            const itemPadding = this._model.getItemPadding();
+            const theme = this._options.theme;
+
+            let classes = 'controls-GridView__emptyTemplate__cell ';
+            classes += `controls-Grid__row-cell-background-editing_theme-${theme} `;
+
+            if (GridLayoutUtil.isFullGridSupport()) {
+                classes += `controls-Grid__row-cell__content_baseline_default_theme-${theme} `;
+            }
+
+            // Вертикальные отступы шаблона путого списка
+            classes +=  `controls-ListView__empty_topSpacing_${topSpacing || 'default'}_theme-${theme} `;
+            classes += `controls-ListView__empty_bottomSpacing_${bottomSpacing || 'default'}_theme-${theme} `;
+
+            // Вертикальные отступы внутри ячеек
+            classes += `controls-Grid__row-cell_rowSpacingTop_${itemPadding.top}_theme-${theme} `;
+            classes += `controls-Grid__row-cell_rowSpacingBottom_${itemPadding.bottom}_theme-${theme} `;
+
+            // Левый отступ ячейки
+            if (!(emptyColumnIndex === 0 && hasMultiSelect)) {
+                if (isFirst) {
+                    classes += `controls-Grid__cell_spacingFirstCol_${itemPadding.left}_theme-${theme} `;
+                } else {
+                    classes += `controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme} `;
+                }
+            }
+
+            // Правый отступ ячейки
+            if (isLast) {
+                classes += `controls-Grid__cell_spacingLastCol_${itemPadding.right}_theme-${theme}`;
+            } else {
+                classes += `controls-Grid__cell_spacingRight${getCellPadding('right')}_theme-${theme}`;
+            }
+
+            resultColumn.classes = classes;
+        }
 
     });
 
