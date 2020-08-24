@@ -2122,7 +2122,7 @@ const _private = {
             _private.doAfterUpdate(self, () => { _private.scrollToItem(self, result.activeElement, false, true); });
         }
     },
-    onItemsChanged(self: any, action: string, removedItems: [], removedItemsIndex: number): void {
+    onItemsChanged(self: any, action: string, removedItems: Model[], removedItemsIndex: number, newItems: Model[]): void {
         // подписываемся на рекордсет, чтобы следить какие элементы будут удалены
         // при подписке на модель событие remove летит еще и при скрытии элементов
 
@@ -2143,6 +2143,15 @@ const _private = {
                    _private.getMarkerController(self).restoreMarker();
                }
                break;
+           case IObservable.ACTION_ADD:
+               if (self._options.markerVisibility !== 'hidden') {
+                   // Маркер нужно устанавливать на только что добавленный элемент
+                   if (!_private.hasMarkerController(self)) {
+                       _private.createMarkerController(self, self._options);
+                   }
+                   const newKey = newItems[0].getKey();
+                   _private.handleMarkerControllerResult(self, newKey);
+               }
        }
        _private.handleSelectionControllerResult(self, selectionControllerResult);
    },
@@ -3903,7 +3912,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _onItemsChanged(event, action, newItems, newItemsIndex, removedItems, removedItemsIndex): void {
-        _private.onItemsChanged(this, action, removedItems, removedItemsIndex);
+        _private.onItemsChanged(this, action, removedItems, removedItemsIndex, newItems);
     },
 
     _itemMouseDown(event, itemData, domEvent) {
