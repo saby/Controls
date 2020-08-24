@@ -9,7 +9,7 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-
+import {error as loadDataError} from 'Controls/dataSource';
 
 var _private = {
    recalculateToolbarItems: function(self, items, toolbarWidth) {
@@ -48,14 +48,18 @@ var _private = {
    loadData: function(self, source) {
       var result;
       if (source) {
-         result = source.query().addCallback(function(dataSet) {
-            self._items = dataSet.getAll();
+         result = source.query()
+             .addCallback(function(dataSet) {
+               self._items = dataSet.getAll();
 
-            // TODO: убрать когда полностью откажемся от поддержки задавания цвета в опции иконки. icon: icon-error, icon-done и т.д.
-            // TODO: https://online.sbis.ru/opendoc.html?guid=05bbeb41-d353-4675-9f73-6bfc654a5f00
-            buttons.ActualApi.itemsSetOldIconStyle(self._items);
-            return self._items;
-         });
+               // TODO: убрать когда полностью откажемся от поддержки задавания цвета в опции иконки. icon: icon-error, icon-done и т.д.
+               // TODO: https://online.sbis.ru/opendoc.html?guid=05bbeb41-d353-4675-9f73-6bfc654a5f00
+               buttons.ActualApi.itemsSetOldIconStyle(self._items);
+               return self._items;
+            })
+             .addErrback((error) => {
+                loadDataError.process({error});
+             });
       }
       return result;
    },
