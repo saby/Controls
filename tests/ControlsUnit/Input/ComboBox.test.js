@@ -90,7 +90,7 @@ define(
                let combobox = getCombobox(config);
                combobox._beforeMount(config);
                assert.equal(combobox._value, 'New text');
-               assert.equal(combobox._placeholder, 'This is placeholder'); 
+               assert.equal(combobox._placeholder, 'This is placeholder');
             });
 
             it('beforeMount without source', () => {
@@ -107,6 +107,7 @@ define(
             combobox._controller = {
                update: () => {isUpdated = true}
             };
+            combobox._container = ['testContainer'];
             combobox._beforeUpdate({});
             assert.isTrue(isUpdated);
          });
@@ -114,9 +115,10 @@ define(
 
          it('dataLoadCallback option', function() {
             let combobox = getCombobox(config);
+            combobox._beforeMount(config);
             const result = combobox._getControllerOptions({ dataLoadCallback: 'testDataLoadCallback' });
 
-            assert.equal(result.dataLoadCallback, 'testDataLoadCallback');
+            assert.equal(result.menuOptions.dataLoadCallback, 'testDataLoadCallback');
          });
 
          it('_getMenuPopupConfig', () => {
