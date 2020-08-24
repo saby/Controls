@@ -13,6 +13,7 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import { IoC } from 'Env/Env';
 
 interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -118,6 +119,17 @@ export default class Button extends BaseDropdown {
 
    _updateState(options: IButtonOptions): void {
       if (!options.isNewOptionsUsed) {
+         if (options.style) {
+            IoC.resolve('ILogger').warn('Опция style является устаревшей. Вместо нее используйте опции buttonStyle и fontColorStyle');
+         }
+
+         if (options.transparent) {
+            IoC.resolve('ILogger').warn('Опция transparent является устаревшей. Вместо нее используйте опцию contrastBackground');
+         }
+
+         if (options.size) {
+            IoC.resolve('ILogger').warn('Опция size является устаревшей. Вместо нее используйте опции fontSize и inlineHeight');
+         }
          const currentButtonClass = ActualApi.styleToViewMode(options.style);
          const oldViewModeToken = ActualApi.viewMode(currentButtonClass.viewMode, options.viewMode);
 
