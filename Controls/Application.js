@@ -12,6 +12,7 @@ define('Controls/Application',
       'Core/helpers/getResourceUrl',
       'Controls/Application/SettingsController',
       'Controls/Utils/DOMUtil',
+      'Controls/event',
       'css!theme?Controls/Application/oldCss'
    ],
 
@@ -56,7 +57,8 @@ define('Controls/Application',
       scroll,
       getResourceUrl,
       SettingsController,
-      DOMUtils) {
+      DOMUtils,
+      ControlsEvent) {
       'use strict';
 
       var _private;
@@ -99,6 +101,8 @@ define('Controls/Application',
 
          _dragClass: 'ws-is-no-drag',
 
+         _registers: {},
+
          _getChildContext: function() {
             return {
                ScrollData: this._scrollData
@@ -106,7 +110,7 @@ define('Controls/Application',
          },
 
          _scrollPage: function(ev) {
-            this._children.scrollDetect.start(ev);
+            this._registers.scroll.start(ev);
          },
 
          _resizeBody: function(ev) {
@@ -120,22 +124,22 @@ define('Controls/Application',
          },
 
          _resizePage: function(ev) {
-            this._children.resizeDetect.start(ev);
+            this._registers.controlResize.start(ev);
          },
          _mousedownPage: function(ev) {
-            this._children.mousedownDetect.start(ev);
+            this._registers.mousedown.start(ev);
          },
          _mousemovePage: function(ev) {
-            this._children.mousemoveDetect.start(ev);
+            this._registers.mousemove.start(ev);
          },
          _mouseupPage: function(ev) {
-            this._children.mouseupDetect.start(ev);
+            this._registers.mouseup.start(ev);
          },
          _touchmovePage: function(ev) {
-            this._children.touchmoveDetect.start(ev);
+            this._registers.touchmove.start(ev);
          },
          _touchendPage: function(ev) {
-            this._children.touchendDetect.start(ev);
+            this._registers.touchend.start(ev);
          },
          _mouseleavePage: function(ev) {
             /* eslint-disable */
@@ -260,6 +264,8 @@ define('Controls/Application',
             this._updateThemeClass(cfg);
 
             SettingsController.setController(cfg.settingsController);
+
+            this._createRegisters();
          },
 
          _afterMount: function() {
@@ -269,6 +275,12 @@ define('Controls/Application',
             // везде, где есть visualViewport
             if (this._isIOS13()) {
                window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
+            }
+         },
+
+         _beforeUnmount: function () {
+            for (var register in this._registers) {
+               this._registers[register].destroy();
             }
          },
 
@@ -293,6 +305,26 @@ define('Controls/Application',
                   elements[0].textContent = '';
                }
                elements[0].textContent = this._options.title;
+            }
+         },
+
+         _createRegisters: function () {
+            var registers = ['scroll', 'controlResize', 'mousemove', 'mouseup', 'touchmove', 'touchend', 'mousedown'];
+            var _this = this;
+            registers.forEach(function(register) {
+               _this._registers[register] = new ControlsEvent.RegisterClass({ register: register });
+            });
+         },
+
+         _registerHandler: function (event, registerType, component, callback, config) {
+            if (this._registers[registerType]) {
+               this._registers[registerType].register(event, registerType, component, callback, config);
+            }
+         },
+
+         _unregisterHandler: function (event, registerType, component, config) {
+            if (this._registers[registerType]) {
+               this._registers[registerType].unregister(event, registerType, component, config);
             }
          },
 
