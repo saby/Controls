@@ -1706,9 +1706,12 @@ var
             current.shouldAddActionsCell = self._shouldAddActionsCell();
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
 
-            if (!GridLayoutUtil.isFullGridSupport()) {
-                current.getRelativeCellWrapperClasses = _private.getRelativeCellWrapperClasses.bind(null, current);
-            }
+            current.getRelativeCellWrapperClasses = !GridLayoutUtil.isFullGridSupport() ?
+                _private.getRelativeCellWrapperClasses.bind(null, current) :
+                () => {
+                    Logger.warn('Used table markup when full grid support. View may be displayed incorrectly!', this);
+                    return '';
+                };
 
             current.getCurrentColumnKey = function() {
                 return self._columnsVersion + '_' +
