@@ -1706,9 +1706,10 @@ var
             current.shouldAddActionsCell = self._shouldAddActionsCell();
             current.getCellStyle = (itemData, currentColumn, colspan) => _private.getCellStyle(self, itemData, currentColumn, colspan);
 
-            if (!GridLayoutUtil.isFullGridSupport()) {
-                current.getRelativeCellWrapperClasses = _private.getRelativeCellWrapperClasses.bind(null, current);
-            }
+            // Удалено в версии 7000
+            current.getRelativeCellWrapperClasses = !GridLayoutUtil.isFullGridSupport() ?
+                _private.getRelativeCellWrapperClasses.bind(null, current) :
+                () => '';
 
             current.getCurrentColumnKey = function() {
                 return self._columnsVersion + '_' +
