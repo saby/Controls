@@ -341,6 +341,7 @@ define('Controls/interface/IFormController', [
    /**
     * @event Происходит перед сохранением записи.
     * @name Controls/interface/IFormController#requestCustomUpdate
+    * @cfg {Types/entity:Model} record Сохранённая запись.
     * @remark
     * В обработчике события можно отменить  базовую логику сохранения (вернуть true) или отложить ее для выполнения пользовательских действий перед сохранением (вернуть Promise<boolean>).
     * Используется, например, для асинхронной валидации или пользовательского сохранения записи.

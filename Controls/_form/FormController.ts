@@ -647,7 +647,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
 
         // maybe anybody want to do custom update. check it.
-        const result = this._notify('requestCustomUpdate', [], {bubbling: true});
+        const result = this._notify('requestCustomUpdate', [this._record], {bubbling: true});
 
          // pending waiting while update process finished
          this._updatePromise = new Deferred();
