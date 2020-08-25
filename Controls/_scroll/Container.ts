@@ -863,9 +863,7 @@ let
        },
 
        _stickyHeaderFixedCallback(position: POSITION): void {
-          if (!detection.isMobileIOS) {
-              this._forceUpdate();
-          }
+          this._forceUpdate();
        },
 
       _updateShadowMode(event, shadowVisibleObject): void {
