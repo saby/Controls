@@ -78,13 +78,13 @@ define([
                return;
             });
             ml._extData = {
-               enrichItems: function() {
+               enrichItemsOnMount: function() {
                   return;
                }
             };
-            sandBox.stub(ml._extData, 'enrichItems');
+            sandBox.stub(ml._extData, 'enrichItemsOnMount');
             ml._beforeMount({});
-            sinon.assert.calledOnce(ml._extData.enrichItems);
+            sinon.assert.calledOnce(ml._extData.enrichItemsOnMount);
             sandBox.restore();
          });
          it('with receivedState', function() {
