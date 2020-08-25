@@ -8,6 +8,12 @@ export const enum POSITION {
     bottom = 'bottom'
 }
 
+export const enum SHADOW_VISIBILITY {
+    visible = 'visible',
+    hidden = 'hidden',
+    lastVisible = 'lastVisible'
+}
+
 /**
  * @typedef {String} TYPE_FIXED_HEADERS
  * @variant initialFixed учитываются высоты заголовков которые были зафиксированы изначально
@@ -31,6 +37,7 @@ export type TRegisterEventData = {
    container: HTMLElement;
    position?: string;
    mode?: string;
+   shadowVisibility: SHADOW_VISIBILITY;
 };
 
 export type IFixedEventData = {

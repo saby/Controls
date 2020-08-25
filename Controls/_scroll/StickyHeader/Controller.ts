@@ -1,10 +1,9 @@
 import Control = require('Core/Control');
 import {debounce} from 'Types/function';
-import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
-import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_StickyHeader';
+import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
+import StickyHeader from 'Controls/_scroll/StickyHeader/_StickyHeader';
 import fastUpdate from './FastUpdate';
 import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
-import {detection} from 'Env/Env';
 
 // @ts-ignore
 
@@ -250,6 +249,22 @@ class StickyHeaderController {
             this._fixedHeadersStack[fixedHeaderData.fixedPosition].length === 1;
 
         if (!isSingleHeader) {
+            for (const id in this._headers) {
+                this._headers[id].inst.updateFixed([
+                    this._fixedHeadersStack.top[this._fixedHeadersStack.top.length - 1],
+                    this._fixedHeadersStack.bottom[this._fixedHeadersStack.bottom.length - 1]
+                ]);
+            }
+            for (const position of [POSITION.top, POSITION.bottom]) {
+                const headersStack: [] = this._fixedHeadersStack[position];
+                const lastHeaderId = headersStack[headersStack.length - 1];
+                for (const headerId of headersStack) {
+                    const header: TRegisterEventData = this._headers[headerId];
+                    if (header.shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
+                        header.inst.updateShadowVisibility(headerId === lastHeaderId);
+                    }
+                }
+            }
             for (const id in this._headers) {
                 this._headers[id].inst.updateFixed([
                     this._fixedHeadersStack.top[this._fixedHeadersStack.top.length - 1],
