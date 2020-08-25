@@ -63,6 +63,16 @@
   }
 }
 
+.controls-Grid__row_last {
+    .controls-itemActionsV__rowSeparator_size-s_theme-@{themeName}.controls-itemActionsV_outside_theme-@{themeName} {
+        bottom: -@height_outside_itemActions + @item-separator_s_thickness_list;
+    }
+
+    .controls-itemActionsV__rowSeparator_size-l_theme-@{themeName}.controls-itemActionsV_outside_theme-@{themeName} {
+        bottom: -@height_outside_itemActions + @item-separator_l_thickness_list;
+    }
+}
+
 .controls-itemActionsV_outside-spacing_theme-@{themeName} {
   height: @height_outside_itemActions;
 }
