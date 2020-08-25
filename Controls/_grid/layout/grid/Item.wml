@@ -29,7 +29,7 @@
 
    <!-- Ячейка с чекбоксом -->
    <ws:if data="{{itemData.hasMultiSelect && currentColumn.columnIndex === 0}}">
-      <ws:if data="{{!itemData.dispItem.isEditing()}}">
+      <ws:if data="{{!itemData.isAdd}}">
          <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
             <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
          </ws:partial>
