@@ -7,6 +7,7 @@
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
         {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
+        {{itemData.rowSeparatorSize ? 'controls-itemActionsV__rowSeparator_size-' + itemData.rowSeparatorSize + '_theme-' + theme}}
         {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
         <div attr:class="controls-itemActionsV__wrapper">
             <ws:partial
