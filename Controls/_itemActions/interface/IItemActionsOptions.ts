@@ -73,9 +73,9 @@ export interface IItemActionsOptions {
      * @name Controls/_itemActions/interface/IItemActionsOptions#itemActions
      * @cfg {Array.<Controls/itemActions:IItemAction>} Конфигурация опций записи.
      * @remark
-     * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemActionsPG">демо-пример</a>.
-     * Для корректной работы опций записи для контрола нужно задать значение в опции {@link Controls/list:View keyProperty}.
+     * Для корректной работы опций записи для контрола нужно задать значение в опции {@link /docs/js/Controls/list/View/options/keyProperty/ keyProperty}.
      * Подробнее о работе с опциями записи читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ здесь}.
+     * @demo Controls-demo/list_new/ItemActions/ItemActionsPosition/Inside/Index
      * @see itemActionsPosition
      * @see itemActionVisibilityCallback
      * @see itemActionsProperty
