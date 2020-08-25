@@ -43,8 +43,12 @@ var _private = {
         const style = cfg.style === 'masterClassic' || !cfg.style ? 'default' : cfg.style;
 
         classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${cfg.theme}`;
-        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${cfg.theme}`;
-        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${cfg.theme}`;
+        if (itemPadding.top === 'null' && itemPadding.bottom === 'null') {
+            classList += ` controls-ListView_default-padding_theme-${cfg.theme}`;
+        } else {
+            classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${cfg.theme}`;
+            classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${cfg.theme}`;
+        }
         classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${cfg.theme}`;
 
         if (cfg.multiSelectVisibility !== 'hidden') {
