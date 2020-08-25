@@ -40,6 +40,13 @@ export default class ExtDataModel extends mixin<VersionableMixin>(VersionableMix
         }
     }
 
+    enrichItemsOnMount(dates: number[]): Promise<TItems> {
+        // Если source не загрузился, в _beforeMount все равно должен прийти resolved Promise без данных, а не ошибка.
+        return new Promise((resolve) => {
+            this.enrichItems(dates).then((result) => resolve(result)).catch(() => resolve(null));
+        });
+    }
+
     enrichItems(dates: number[]): Promise<TItems> {
         if (!this._source) {
             return Promise.resolve(null);
