@@ -1,4 +1,4 @@
-import {Control, TemplateFunction} from "UI/Base";
+import {Control, TemplateFunction} from 'UI/Base';
 import * as SearchMemory from 'Controls-demo/Search/SearchMemory';
 import controlTemplate = require('wml!Controls-demo/LookupNew/Input/SuggestPopupOptions/Index');
 import suggestTemplate = require('wml!Controls-demo/LookupNew/Input/SuggestPopupOptions/resources/SuggestTemplate');
