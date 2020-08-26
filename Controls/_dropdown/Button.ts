@@ -13,6 +13,7 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {RegisterUtil} from 'Controls/event';
 
 interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -202,6 +203,7 @@ export default class Button extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._children.content);
+      RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {

@@ -14,6 +14,7 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {RegisterUtil} from 'Controls/event';
 
 interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
@@ -347,6 +348,7 @@ export default class Input extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._container);
+      RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
