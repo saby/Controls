@@ -16,7 +16,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import {view as constView} from 'Controls/Constants';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
@@ -119,8 +118,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     protected _listModel: Collection<Model>;
     protected _moreButtonVisible: boolean = false;
     protected _expandButtonVisible: boolean = false;
-    protected _applyButtonVisible: boolean = false;
-    protected _closeButtonVisible: boolean = false;
     protected _expander: boolean;
     private _sourceController: typeof SourceController = null;
     private _subDropdownItem: CollectionItem<Model>|null;
@@ -154,7 +151,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._additionalFilter = MenuControl._additionalFilterCheck.bind(this, options);
         this._limitHistoryFilter = this._limitHistoryCheck.bind(this);
 
-        this._closeButtonVisible = options.itemPadding.right === 'menu-close';
         this._stack = new StackOpener();
         if (options.source) {
             return this._loadItems(options);
@@ -178,6 +174,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
         if (this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this._setSelectedItems(this._listModel, newOptions.selectedKeys);
+            this._notify('selectedItemsChanged', [this._getSelectedItems()]);
         }
 
         return result;
@@ -289,9 +286,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             if (this._options.multiSelect && this._selectionChanged &&
                 !this._isEmptyItem(treeItem.getContents()) && !MenuControl._isFixedItem(item)) {
                 this._changeSelection(key, treeItem);
-                this._updateApplyButton();
 
                 this._notify('selectedKeysChanged', [this._getSelectedKeys()]);
+                this._notify('selectedItemsChanged', [this._getSelectedItems()]);
             } else {
                 if (this._isTouch() && item.get(this._options.nodeProperty) && this._subDropdownItem !== treeItem) {
                     this._handleCurrentItem(treeItem, sourceEvent.currentTarget, sourceEvent.nativeEvent);
@@ -312,10 +309,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     protected _checkBoxClick(event: SyntheticEvent<MouseEvent>): void {
         this._selectionChanged = true;
-    }
-
-    protected _applySelection(): void {
-        this._notify('applyClick', [this._getSelectedItems()]);
     }
 
     protected _toggleExpanded(event: SyntheticEvent<MouseEvent>, value: boolean): void {
@@ -588,21 +581,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _isSelectedKeysChanged(newKeys: TSelectedKeys, oldKeys: TSelectedKeys): boolean {
         const diffKeys: TSelectedKeys = factory(newKeys).filter((key) => !oldKeys.includes(key)).value();
         return newKeys.length !== oldKeys.length || !!diffKeys.length;
-    }
-
-    private _updateApplyButton(): void {
-        const isApplyButtonVisible: boolean = this._applyButtonVisible;
-        const newSelectedKeys: TSelectedKeys = factory(this._listModel.getSelectedItems()).map(
-            (item: CollectionItem<Model>) =>
-                item.getContents().get(this._options.keyProperty)
-            ).value();
-        this._applyButtonVisible = this._isSelectedKeysChanged(newSelectedKeys, this._options.selectedKeys);
-
-        if (this._applyButtonVisible !== isApplyButtonVisible) {
-            scheduleCallbackAfterRedraw(this, (): void => {
-                this._notify('controlResize', [], {bubbling: true});
-            });
-        }
     }
 
     private _updateSwipeItem(newSwipedItem: CollectionItem<Model>, isSwipeLeft: boolean): void {

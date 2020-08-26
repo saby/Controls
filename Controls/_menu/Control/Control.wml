@@ -1,21 +1,6 @@
 <Controls.dataSource:error.Container viewConfig="{{_errorConfig}}">
    <div class="controls-menu" attr:ws-no-focus="true">
       <ws:if data="{{_listModel}}">
-         <ws:if data="{{_applyButtonVisible}}">
-            <div class="controls-DropdownList__applyButton
-                        controls-Menu__applyButton_theme-{{_options.theme}}
-                        controls-Menu_{{_options.headerTemplate ? 'withHeader' : 'withoutHeader'}}__applyButton_theme-{{_options.theme}}
-                        controls-Menu_{{_closeButtonVisible ? 'withClose' : 'withoutClose'}}__applyButton_theme-{{_options.theme}}">
-               <Controls.buttons:Button viewMode="functionalButton"
-                                        icon="icon-Yes"
-                                        iconSize="s"
-                                        iconStyle="contrast"
-                                        buttonStyle="success"
-                                        attr:class="controls-Menu__applyButton"
-                                        inlineHeight="menuapply"
-                                        on:click="_applySelection()"/>
-            </div>
-         </ws:if>
          <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                                 controls-Menu__scroll
                                                 controls-DropdownList__scroll
