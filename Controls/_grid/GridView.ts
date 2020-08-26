@@ -703,8 +703,11 @@ var
                 if (startBy === 'mouse') {
                     isGrabbing = this._dragScrollController.onViewMouseDown(e);
                 } else {
+                    // clientX - координата относительно документа, чтобы получить координату
+                    // относиттельно начала списка, нужно учесть отступ самого списка
                     const touchClientX = e.nativeEvent.touches[0].clientX;
-                    if (!isInLeftSwipeRange(this._fixedColumnsWidth, this._scrollableColumnsWidth, touchClientX)) {
+                    const containerLeft = this._children.columnScrollContainer.getBoundingClientRect().left;
+                    if (!isInLeftSwipeRange(this._fixedColumnsWidth, this._scrollableColumnsWidth, touchClientX - containerLeft)) {
                         isGrabbing = this._dragScrollController.onViewTouchStart(e);
                     } else {
                         this._leftSwipeCanBeStarted = true;
