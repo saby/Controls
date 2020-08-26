@@ -27,6 +27,10 @@ define('Controls/Application/TouchDetector', [
       },
 
       _beforeMount: function() {
+         this._createContext();
+      },
+
+      _createContext: function() {
          this._touchObjectContext = new context.TouchContextField(this.state);
       },
 
