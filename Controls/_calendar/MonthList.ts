@@ -129,7 +129,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
                 this._extData.updateData(receivedState);
             } else {
                 const displayedDates = this._getDisplayedRanges(normalizedPosition, options.virtualPageSize, options.viewMode);
-                return this._extData.enrichItems(displayedDates);
+                return this._extData.enrichItemsOnMount(displayedDates);
             }
         }
     }
