@@ -18,7 +18,10 @@ export class Controller {
       this._markerVisibility = options.markerVisibility;
       const markedKey = this.calculateMarkedKey(options.markedKey);
 
-      if (markedKey !== null) {
+      if (
+          this._markerVisibility === Visibility.Visible
+          || this._markerVisibility === Visibility.OnActivated && markedKey
+      ) {
          this.setMarkedKey(markedKey);
       }
    }

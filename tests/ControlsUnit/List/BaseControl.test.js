@@ -1,7 +1,8 @@
+/*
 
-/**
+/!**
  * Created by kraynovdo on 23.10.2017.
- */
+ *!/
 define([
    'Types/source',
    'Types/collection',
@@ -576,12 +577,13 @@ define([
          assert.isFalse(dataLoadCallbackCalled, 'dataLoadCallback is called.');
       });
 
-      it('save loaded items into the controls\' state', async function () {
+      it('save loaded items into the controls state', async function () {
          var
              cfg = {
                 viewName: 'Controls/List/ListView',
                 source: new sourceLib.Memory({}),
                 viewModelConstructor: lists.ListViewModel,
+                keyProperty: 'id'
              },
              loadedItems = new collection.RecordSet({
                 keyProperty: 'id',
@@ -609,9 +611,9 @@ define([
             }
          });
 
-         await ctrl.reload();
-
-         assert.deepEqual(ctrl._loadedItems, loadedItems);
+         ctrl.reload().then(() => {
+            assert.deepEqual(ctrl._loadedItems, loadedItems);
+         });
       });
 
       it('_private.checkPortionedSearchByScrollTriggerVisibility', () => {
@@ -1210,148 +1212,12 @@ define([
          });
       });
 
-      it('moveMarkerToNext && moveMarkerToPrevious', async function() {
-         var
-            cfg = {
-               viewModelConstructor: lists.ListViewModel,
-               keyProperty: 'key',
-               source: new sourceLib.Memory({
-                  keyProperty: 'key',
-                  data: [{
-                     key: 1
-                  }, {
-                     key: 2
-                  }, {
-                     key: 3
-                  }]
-               }),
-               markedKey: 2
-            },
-            baseControl = new lists.BaseControl(cfg),
-            moveMarkerToNextCalled = false,
-            moveMarkerToPrevCalled = false,
-            originalScrollToItem = lists.BaseControl._private.scrollToItem,
-            originalCreateMarkerController = lists.BaseControl._private.createMarkerController;
-         lists.BaseControl._private.scrollToItem = function() {};
-         lists.BaseControl._private.createMarkerController = function() {
-            return {
-               setMarkedKey(key) { baseControl._listViewModel.setMarkedKey(key) },
-               moveMarkerToNext() { moveMarkerToNextCalled = true; },
-               moveMarkerToPrev() { moveMarkerToPrevCalled = true; },
-               handleRemoveItems() {},
-               update() {},
-               restoreMarker() {},
-               getMarkedKey() {}
-            };
-         };
-         baseControl.saveOptions(cfg);
-         await baseControl._beforeMount(cfg);
-         assert.equal(baseControl._listViewModel.getMarkedKey(), null);
-         baseControl._onViewKeyDown({
-            target: {
-               closest: function() {
-                  return false;
-               }
-            },
-            stopImmediatePropagation: function() {
-            },
-            nativeEvent: {
-               keyCode: Env.constants.key.down
-            },
-            preventDefault: function() {
-            },
-         });
-         assert.isTrue(moveMarkerToNextCalled);
-         baseControl._onViewKeyDown({
-            target: {
-               closest: function() {
-                  return false;
-               }
-            },
-            stopImmediatePropagation: function() {
-            },
-            nativeEvent: {
-               keyCode: Env.constants.key.up
-            },
-            preventDefault: function() {
-            },
-         });
-         assert.isTrue(moveMarkerToPrevCalled);
-
-         lists.BaseControl._private.scrollToItem = originalScrollToItem;
-         lists.BaseControl._private.createMarkerController = originalCreateMarkerController;
-      });
-
-      it('moveMarker activates the control', async function() {
-         const
-            cfg = {
-               viewModelConstructor: lists.ListViewModel,
-               keyProperty: 'key',
-               source: new sourceLib.Memory({
-                  idProperty: 'key',
-                  data: [{
-                     key: 1
-                  }, {
-                     key: 2
-                  }, {
-                     key: 3
-                  }]
-               }),
-               markedKey: 2
-            },
-            baseControl = new lists.BaseControl(cfg),
-            originalScrollToItem = lists.BaseControl._private.scrollToItem,
-            originalCreateMarkerController = lists.BaseControl._private.createMarkerController;
-
-         lists.BaseControl._private.scrollToItem = function() {};
-         lists.BaseControl._private.createMarkerController = function() {
-            return {
-               setMarkedKey(key) { baseControl._listViewModel.setMarkedKey(key) },
-               moveMarkerToNext() { moveMarkerToNextCalled = true; },
-               moveMarkerToPrev() { moveMarkerToPrevCalled = true; },
-               handleRemoveItems() {},
-               update() {},
-               restoreMarker() {},
-               getMarkedKey() {}
-            };
-         };
-
-         baseControl.saveOptions(cfg);
-         await baseControl._beforeMount(cfg);
-
-         let isActivated = false;
-         baseControl.activate = () => {
-            isActivated = true;
-         };
-
-         baseControl._mounted = true; // fake mounted for activation
-
-         baseControl._onViewKeyDown({
-            target: {
-               closest: function() {
-                  return false;
-               }
-            },
-            stopImmediatePropagation: function() {
-            },
-            nativeEvent: {
-               keyCode: Env.constants.key.down
-            },
-            preventDefault: function() {
-            },
-         });
-
-         lists.BaseControl._private.scrollToItem = originalScrollToItem;
-         lists.BaseControl._private.createMarkerController = originalCreateMarkerController;
-      });
-
       describe('moveMarker', () => {
          let cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
             markerVisibility: 'visible',
-            markedKey: 1,
             selectedKeys: [1],
             excludedKeys: [],
             markedKey: 2,
@@ -1371,10 +1237,10 @@ define([
             preventDefault() { preventDefaultCalled = true; }
          };
 
-         beforeEach(() => {
+         beforeEach(async () => {
             instance = new lists.BaseControl(cfg);
             instance.saveOptions(cfg);
-            instance._beforeMount(cfg, null, {
+            await instance._beforeMount(cfg, null, {
                data: new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: data
@@ -1392,14 +1258,15 @@ define([
             notifySpy = sinon.spy(instance, '_notify');
          });
 
-         it ('moveMarkerToNext', () => {
-            lists.BaseControl._private.moveMarkerToNext(instance, event);
-            assert.isTrue(activateCalled);
-            assert.isTrue(preventDefaultCalled);
-            assert.isTrue(notifySpy.withArgs('markedKeyChanged', [3]).called);
+         it('moveMarkerToNext', () => {
+            lists.BaseControl._private.moveMarkerToNext(instance, event).then(() => {
+               assert.isTrue(activateCalled);
+               assert.isTrue(preventDefaultCalled);
+               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [3]).called);
+            });
          });
 
-         it ('moveMarkerToPrev', () => {
+         it('moveMarkerToPrev', () => {
             lists.BaseControl._private.moveMarkerToPrevious(instance, event);
             assert.isTrue(activateCalled);
             assert.isTrue(preventDefaultCalled);
@@ -1684,19 +1551,24 @@ define([
 
          const notifySpy = sinon.spy(baseControl, '_notify');
 
-         lists.BaseControl._private.updateMarkerController(baseControl, cfg);
-         assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
+         lists.BaseControl._private.updateMarkerController(baseControl, cfg).then(() => {
+            assert.isTrue(baseControl.getViewModel()
+               .getItemBySourceKey(1)
+               .isMarked());
+         });
 
-         lists.BaseControl._private.updateMarkerController(baseControl, { ...cfg, markedKey: 2 });
-         assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+         lists.BaseControl._private.updateMarkerController(baseControl, { ...cfg, markedKey: 2 }).then(() => {
+            assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+         });
 
          notifySpy.resetHistory();
          baseControl._listViewModel.setItems(new collection.RecordSet({
             rawData: data,
             keyProperty: 'id'
          }));
-         lists.BaseControl._private.updateMarkerController(baseControl, { ...cfg, markerVisibility: 'onactivated' });
-         assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+         lists.BaseControl._private.updateMarkerController(baseControl, { ...cfg, markerVisibility: 'onactivated' }).then(() => {
+            assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+         });
       });
 
       describe('_private.createSelectionController', function() {
@@ -1805,7 +1677,7 @@ define([
          const scrollToItemSpy = sinon.spy(lists.BaseControl._private, 'scrollToItem');
          const setMarkedKeySpy = sinon.spy(baseControl._markerController, 'calculateMarkedKey');
 
-         lists.BaseControl._private.setMarkedKey({}, 2);
+         lists.BaseControl._private.setMarkedKey(baseControl, 2);
          assert.isFalse(setMarkedKeySpy.called);
          assert.isFalse(scrollToItemSpy.called);
 
@@ -1813,6 +1685,8 @@ define([
          assert.isFalse(scrollToItemSpy.called);
          assert.isFalse(setMarkedKeySpy.withArgs(baseControl, 2).called);
          assert.equal(baseControl._markerController.getMarkedKey(), 2);
+
+         scrollToItemSpy.restore();
       });
 
       it('loadToDirection up', async function() {
@@ -1958,10 +1832,10 @@ define([
 
          // два таймаута, первый - загрузка начального рекордсета, второй - на последюущий запрос
          setTimeout(function() {
-            /**
+            /!**
              * _beforeMount will load some items, so _loadedItems will get set. Normally, it will reset in _afterUpdate, but since we don't have lifecycle in tests,
              * we'll reset it here manually.
-             */
+             *!/
             ctrl._loadedItems = null;
 
             lists.BaseControl._private.onScrollLoadEdge(ctrl, 'down');
@@ -2882,7 +2756,7 @@ define([
          });
       });
 
-      it('reload and restore model state', async function() {
+      it('reload and restore model state', function() {
          const
             lnSource = new sourceLib.Memory({
                keyProperty: 'id',
@@ -2901,28 +2775,30 @@ define([
             baseControl = new lists.BaseControl(lnCfg);
 
          baseControl.saveOptions(lnCfg);
-         await baseControl._beforeMount(lnCfg);
-         baseControl._createSelectionController();
+         baseControl._beforeMount(lnCfg).then(() => {
+            baseControl._createSelectionController();
 
-         let item = baseControl._listViewModel.getItemBySourceKey(1);
-         assert.isTrue(item.isMarked());
-         assert.isTrue(item.isSelected());
+            let item = baseControl._listViewModel.getItemBySourceKey(1);
+            assert.isTrue(item.isMarked());
+            assert.isTrue(item.isSelected());
 
-         // Меняю наверняка items, чтобы если этого не произойдет в reload, упали тесты
-         baseControl._listViewModel.setItems(new collection.RecordSet({
-            keyProperty: 'id',
-            rawData: data
-         }));
+            // Меняю наверняка items, чтобы если этого не произойдет в reload, упал тест
+            baseControl._listViewModel.setItems(new collection.RecordSet({
+               keyProperty: 'id',
+               rawData: data
+            }));
 
-         item = baseControl._listViewModel.getItemBySourceKey(1);
-         item.setMarked(false);
-         item.setSelected(false);
+            item = baseControl._listViewModel.getItemBySourceKey(1);
+            item.setMarked(false);
+            item.setSelected(false);
 
-         await baseControl.reload(false, {});
+            baseControl.reload(false, {}).then(() => {
 
-         item = baseControl._listViewModel.getItemBySourceKey(1);
-         assert.isTrue(item.isMarked());
-         assert.isTrue(item.isSelected());
+               item = baseControl._listViewModel.getItemBySourceKey(1);
+               assert.isTrue(item.isMarked());
+               assert.isTrue(item.isSelected());
+            });
+         });
       });
 
       describe('initializing of sourceController', function() {
@@ -3152,6 +3028,7 @@ define([
          });
       });
 
+/!*
       it('List navigation by keys and after reload', function(done) {
          // mock function working with DOM
          lists.BaseControl._private.scrollToItem = () => null;
@@ -3227,6 +3104,7 @@ define([
             done();
          }, 1);
       });
+*!/
 
       it('_onCheckBoxClick', function() {
          const cfg = {
@@ -5316,7 +5194,7 @@ define([
          disableHeader();
          disableResults();
 
-         /* Список находится в скроллконтейнере, но не личном. До списка лежит контент */
+         /!* Список находится в скроллконтейнере, но не личном. До списка лежит контент *!/
          bc._isScrollShown = true;
          bc._viewportRect = {
             top: 50
@@ -5495,18 +5373,19 @@ define([
          });
 
          it('reset marker for removed items', () => {
-            baseControl.setMarkedKey(1);
-            const item = baseControl.getViewModel().getItemBySourceKey(1);
-            assert.isTrue(item.isMarked());
+            baseControl.setMarkedKey(1).then(() => {
+               const item = baseControl.getViewModel().getItemBySourceKey(1);
+               assert.isTrue(item.isMarked());
 
-            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
-            assert.isFalse(item.isMarked());
+               lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
+               assert.isFalse(item.isMarked());
+            });
          });
 
          it('restore marker on add', () => {
-            baseControl.setMarkedKey(1);
-            const item = baseControl.getViewModel().getItemBySourceKey(1);
-            assert.isTrue(item.isMarked());
+            baseControl.setMarkedKey(1).then(() => {
+               const item = baseControl.getViewModel().getItemBySourceKey(1);
+               assert.isTrue(item.isMarked());
 
             lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'rm', [], null, [item], 0);
             assert.isFalse(item.isMarked());
@@ -5514,8 +5393,9 @@ define([
             lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'a', [baseControl.getViewModel().getItemBySourceKey(2)], null, [item], 0);
             assert.isFalse(item.isMarked());
 
-            lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'a', [item], null, [], 0);
-            assert.isTrue(item.isMarked());
+               lists.BaseControl._private.onCollectionChanged(baseControl, {}, 'collectionChanged', 'a', [item], null, [], 0);
+               assert.isTrue(item.isMarked());
+            });
          });
       });
 
@@ -6183,7 +6063,7 @@ define([
          });
       });
 
-      it('_beforeMount create controllers when passed receivedState', function() {
+      it('_beforeMount create controllers when passed receivedState', async function() {
          let cfg = {
             viewName: 'Controls/List/ListView',
             viewModelConstructor: lists.ListViewModel,
@@ -6202,7 +6082,7 @@ define([
          };
          let instance = new lists.BaseControl(cfg);
          instance.saveOptions(cfg);
-         instance._beforeMount(cfg, null, {
+         await instance._beforeMount(cfg, null, {
             data: new collection.RecordSet({
                keyProperty: 'id',
                rawData: data
@@ -6252,14 +6132,12 @@ define([
 
          it('should create marker controller', async () => {
             assert.isNull(instance._markerController);
-            const createMarkerControllerSpy = sinon.spy(lists.BaseControl._private, 'createMarkerController');
             await instance._beforeUpdate({
                ...cfg,
                markerVisibility: 'visible',
                markedKey: 1
             });
             assert.isNotNull(instance._markerController);
-            assert.isTrue(createMarkerControllerSpy.calledOnce);
          });
 
          it('should create selection controller', async () => {
@@ -6406,7 +6284,7 @@ define([
       it('_shouldShowLoadingIndicator', () => {
          const baseControl = new lists.BaseControl();
 
-         /*[position, _loadingIndicatorState, __needShowEmptyTemplate, expectedResult]*/
+         /!*[position, _loadingIndicatorState, __needShowEmptyTemplate, expectedResult]*!/
          const testCases = [
             ['beforeEmptyTemplate', 'up', true,    true],
             ['beforeEmptyTemplate', 'up', false,   true],
@@ -7081,10 +6959,10 @@ define([
                baseControl._mouseDownItemKey = 1;
 
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
-
-               assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).called);
-               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
+               baseControl._itemMouseUp(event, { key: 1 }, originalEvent).then(() => {
+                  assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).called);
+                  assert.isUndefined(baseControl._listViewModel.getMarkedItem());
+               })
             });
 
             it('not should marker, _needSetMarkerCallback return false', async function() {
@@ -7122,60 +7000,62 @@ define([
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
             });
 
-               it('should mark item if there are more then one item in list', async function () {
-                  baseControlOptions.markerVisibility = 'onactivated';
-                  await mountBaseControl(baseControl, baseControlOptions);
-                  let setMarkedKeyIsCalled = false;
+            it('should mark item if there are more then one item in list', async function () {
+               baseControlOptions.markerVisibility = 'onactivated';
+               await mountBaseControl(baseControl, baseControlOptions);
+               let setMarkedKeyIsCalled = false;
 
-                  const originalEvent = {target: {}};
-                  const event = {};
-                  baseControl._mouseDownItemKey = 1;
-                  baseControl._markerController = {
-                     calculateMarkedKey: function (key) {
-                        assert.equal(key, 1);
-                        setMarkedKeyIsCalled = true;
-                     },
-                     restoreMarker() {},
-                     getMarkedKey: () => undefined
-                  };
+               const originalEvent = {target: {}};
+               const event = {};
+               baseControl._mouseDownItemKey = 1;
+               baseControl._markerController = {
+                  calculateMarkedKey: function (key) {
+                     assert.equal(key, 1);
+                     setMarkedKeyIsCalled = true;
+                  },
+                  restoreMarker() {},
+                  getMarkedKey: () => undefined
+               };
 
-                  baseControl._scrollController = {
-                     scrollToItem(key) {
-                        if (key === data[0].id) {
-                           result = 'top';
-                        } else if (key === data[data.length - 1].id) {
-                           result = 'bottom';
-                        }
-                        return Promise.resolve();
-                     },
-                     handleResetItems: () => {}
-                  };
+               baseControl._scrollController = {
+                  scrollToItem(key) {
+                     if (key === data[0].id) {
+                        result = 'top';
+                     } else if (key === data[data.length - 1].id) {
+                        result = 'bottom';
+                     }
+                     return Promise.resolve();
+                  },
+                  handleResetItems: () => {}
+               };
 
-                  // No editing
-                  assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-                  baseControl._itemMouseUp(event, {key: 1}, originalEvent);
+               // No editing
+               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
+               baseControl._itemMouseUp(event, {key: 1}, originalEvent).then(() => {
                   assert.equal(setMarkedKeyIsCalled, true);
+               });
 
-                  // With editing
-                  setMarkedKeyIsCalled = false;
-                  baseControl._listViewModel.setMarkedKey(null);
-                  baseControlOptions.editingConfig = {};
-                  await mountBaseControl(baseControl, baseControlOptions);
-                  baseControl._markerController = {
-                     calculateMarkedKey: function (key) {
-                        assert.equal(key, 1);
-                        setMarkedKeyIsCalled = true;
-                     },
-                     getMarkedKey: () => undefined
-                  };
+               // With editing
+               setMarkedKeyIsCalled = false;
+               baseControl._listViewModel.setMarkedKey(null);
+               baseControlOptions.editingConfig = {};
+               await mountBaseControl(baseControl, baseControlOptions);
+               baseControl._markerController = {
+                  calculateMarkedKey: function (key) {
+                     assert.equal(key, 1);
+                     setMarkedKeyIsCalled = true;
+                  },
+                  getMarkedKey: () => undefined
+               };
 
                baseControl._mouseDownItemKey = 1;
 
-                  assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-                  baseControl._itemMouseUp(event, {key: 1}, originalEvent);
+               assert.isUndefined(baseControl._listViewModel.getMarkedItem());
+               baseControl._itemMouseUp(event, {key: 1}, originalEvent).then(() => {
                   assert.equal(setMarkedKeyIsCalled, true);
                });
             });
+         });
 
          describe('_onItemClick', () => {
             it('click on checkbox should not notify itemClick, but other clicks should', function() {
@@ -7553,17 +7433,19 @@ define([
             });
 
             it('restore marker for replaced item', () => {
-               baseControl.setMarkedKey(1);
-               let item = baseControl.getViewModel().getItemBySourceKey(1);
-               assert.isTrue(item.isMarked());
+               baseControl.setMarkedKey(1).then(() => {
+                  let item = baseControl.getViewModel().getItemBySourceKey(1);
+                  assert.isTrue(item.isMarked());
 
-               item.setMarked(false);
+                  item.setMarked(false);
 
-               lists.BaseControl._private.onItemsChanged(baseControl, 'rp', [item.getContents()], 0);
-               item = baseControl.getViewModel().getItemBySourceKey(1);
-               assert.isTrue(item.isMarked());
+                  lists.BaseControl._private.onItemsChanged(baseControl, 'rp', [item.getContents()], 0);
+                  item = baseControl.getViewModel().getItemBySourceKey(1);
+                  assert.isTrue(item.isMarked());
+               });
             });
          });
       });
    });
 });
+*/

@@ -245,7 +245,7 @@ const _private = {
         const entries = _private.getEntries(cfg.selectedKeys, cfg.excludedKeys, cfg.source);
         const nodeSourceControllers = _private.getNodesSourceControllers(self);
 
-        let expandedItemsKeys: Array[number | string | null] = [];
+        let expandedItemsKeys: Array<number | string | null> = [];
         let isExpandAll: boolean;
 
         if (baseControl && !self._updateExpandedItemsAfterReload) {
