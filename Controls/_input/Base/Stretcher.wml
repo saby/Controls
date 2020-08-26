@@ -1,9 +1,9 @@
 <ws:if data="{{use}}">
    <div class="controls-InputBase__stretcher">
-      <ws:partial attr:class="controls-InputBase__stretcher-content" template="{{content}}" value="{{value}}"/>
-      <div class="controls-InputBase__stretcher-block">{{value || emptySymbol}}</div>
+      <ws:partial attr:class="controls-InputBase__stretcher-content" template="{{content}}" displayValue="{{displayValue}}"/>
+      <div class="controls-InputBase__stretcher-block">{{displayValue || emptySymbol}}</div>
    </div>
 </ws:if>
 <ws:else>
-   <ws:partial template="{{content}}" value="{{value}}"/>
+   <ws:partial template="{{content}}" displayValue="{{displayValue}}"/>
 </ws:else>
