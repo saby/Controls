@@ -14,6 +14,7 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
 import {generateStates} from 'Controls/input';
+import {RegisterUtil} from 'Controls/event';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {
    placeholder?: string;
@@ -180,6 +181,7 @@ class ComboBox extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._container);
+      RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {

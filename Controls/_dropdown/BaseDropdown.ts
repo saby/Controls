@@ -2,7 +2,7 @@ import {Control, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import IDropdownController from 'Controls/_dropdown/interface/IDropdownController';
-import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {UnregisterUtil} from 'Controls/event';
 import {DependencyTimer} from 'Controls/Utils/FastOpen';
 import {RecordSet} from 'Types/collection';
 import {IStickyPopupOptions} from 'Controls/popup';
@@ -23,10 +23,6 @@ export abstract class BaseDropdown extends Control<IControlOptions, DropdownRece
     }
 
     abstract openMenu(popupOptions?: IStickyPopupOptions): void;
-
-    protected _afterMount(options?: IControlOptions, contexts?: object): void {
-        RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
-    }
 
     protected _handleKeyDown(event): void {
         if (event.nativeEvent.keyCode === constants.key.esc && this._isOpened) {
