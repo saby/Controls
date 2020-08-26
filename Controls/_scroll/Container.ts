@@ -863,9 +863,8 @@ let
        },
 
        _stickyHeaderFixedCallback(position: POSITION): void {
-          if (!detection.isMobileIOS) {
-              this._forceUpdate();
-          }
+           // После того, как заголовки зафиксировались нужно пересчитать отображение скроллбара и теней.
+          this._forceUpdate();
        },
 
       _updateShadowMode(event, shadowVisibleObject): void {
