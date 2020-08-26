@@ -77,14 +77,18 @@ define([
             sinon.replace(ml, '_updateSource', () => {
                return;
             });
+            let result = false;
             ml._extData = {
                enrichItems: function() {
-                  return;
+                  return {
+                     catch: function () {
+                        result = true;
+                     }
+                  };
                }
             };
-            sandBox.stub(ml._extData, 'enrichItems');
             ml._beforeMount({});
-            sinon.assert.calledOnce(ml._extData.enrichItems);
+            assert.isTrue(result);
             sandBox.restore();
          });
          it('with receivedState', function() {
