@@ -96,7 +96,6 @@ export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Contr
 export {default as MobileFocusController} from 'Controls/_input/Base/MobileFocusController';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 export {default as isMaskFormatValid} from 'Controls/_input/Mask/isFormatValid';
-export {Formatter as MaskFormatter, FormatBuilder as MaskFormatBuilder} from 'Controls/decorator';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility, getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';
 export {IPadding, IPaddingOptions, TPadding, getDefaultPaddingOptions, getOptionPaddingTypes} from './_input/interface/IBorderVisibility';
 export * from './_input/ActualAPI';
