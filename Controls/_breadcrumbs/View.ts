@@ -3,7 +3,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Memory} from 'Types/source';
 import {StickyOpener} from 'Controls/popup';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
-import applyHighlighter = require('Controls/Utils/applyHighlighter');
+import {applyHighlighter} from 'Controls/_breadcrumbs/resources/applyHighlighter';
 import template = require('wml!Controls/_breadcrumbs/View/View');
 import itemTemplate = require('wml!Controls/_breadcrumbs/View/resources/itemTemplate');
 import itemsTemplate = require('wml!Controls/_breadcrumbs/View/resources/itemsTemplate');
@@ -163,7 +163,7 @@ class BreadCrumbsView extends Control<IControlOptions> {
         };
     }
     static _theme: string[] = ['Controls/crumbs'];
-    static _styles: string[] = ['Controls/Utils/FontLoadUtil'];
+    static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 
 export default BreadCrumbsView;

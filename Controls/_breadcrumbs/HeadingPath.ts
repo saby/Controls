@@ -2,11 +2,10 @@ import Control = require('Core/Control');
 import BreadCrumbsUtil from './Utils';
 import {ItemsUtil} from 'Controls/list';
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import applyHighlighter = require('Controls/Utils/applyHighlighter');
+import {applyHighlighter} from 'Controls/_breadcrumbs/resources/applyHighlighter';
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/HeadingPath');
 import Common from './HeadingPath/Common';
 import 'Controls/heading';
-import 'Controls/Utils/FontLoadUtil';
 import 'wml!Controls/_breadcrumbs/HeadingPath/Back';
 
 var _private = {
@@ -189,7 +188,7 @@ BreadCrumbsPath.getDefaultOptions = function () {
 };
 
 BreadCrumbsPath._theme = ['Controls/crumbs', 'Controls/heading'];
-BreadCrumbsPath._styles = ['Controls/Utils/FontLoadUtil'];
+BreadCrumbsPath._styles = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 BreadCrumbsPath._private = _private;
 
 export default BreadCrumbsPath;

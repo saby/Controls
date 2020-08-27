@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import FontLoadUtil = require('Controls/Utils/FontLoadUtil');
+import {waitForFontLoad} from './resources/FontLoadUtil';
 import getWidthUtil = require('Controls/Utils/getWidth');
 import {ItemsUtil} from 'Controls/list';
 import BreadCrumbsUtil from './Utils';
@@ -43,7 +43,7 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
         if (this._options.items && this._options.items.length > 0) {
             this._items = this._options.items;
             this._width = this._container.clientWidth;
-            FontLoadUtil.waitForFontLoad('controls-BreadCrumbsView__crumbMeasurer').then(() => {
+            waitForFontLoad('controls-BreadCrumbsView__crumbMeasurer').then(() => {
                 this._initializeConstants(options.theme, options.fontSize);
                 this._calculateBreadCrumbsToDraw(this._options.items, this._width);
                 this._forceUpdate();
@@ -200,7 +200,7 @@ class MultilinePath extends Control<IBreadCrumbsOptions> implements IFontSize {
         };
     }
 
-    static _styles: string[] = ['Controls/Utils/FontLoadUtil'];
+    static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 
 export default MultilinePath;
