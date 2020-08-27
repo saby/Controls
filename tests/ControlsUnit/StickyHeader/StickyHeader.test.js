@@ -448,11 +448,36 @@ define([
       });
 
       describe('_isShadowVisible', function() {
+         it('should show shadow', function() {
+            const component = createComponent(StickyHeader, {});
+            component._context = {};
+            component._model = { fixedPosition: 'top' };
+            component._isFixed = true;
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            assert.isTrue(component._isShadowVisible('bottom'));
+         });
+
+         it('should not show shadow if it disabled by controller', function() {
+            const component = createComponent(StickyHeader, {});
+            component._context = {};
+            component._model = { fixedPosition: 'top' };
+            component._isFixed = true;
+            component._scrollState = {
+               verticalPosition: 'middle'
+            };
+            component.updateShadowVisibility(false);
+            assert.isFalse(component._isShadowVisible('bottom'));
+         });
+
          it('should not show shadow displayed outside scroll container', function() {
             const component = createComponent(StickyHeader, {});
             component._context = {};
             assert.isFalse(component._isShadowVisible('top'));
          });
+
+
       });
    });
 
