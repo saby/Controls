@@ -1,27 +1,27 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import {detection, constants} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
-import Context = require('Controls/_scroll/StickyHeader/Context');
 import {
+    getGapFixSize,
     getNextId,
     getOffset,
-    POSITION,
-    MODE,
-    IOffset,
-    validateIntersectionEntries,
-    isHidden,
     IFixedEventData,
-    getGapFixSize
+    IOffset,
+    isHidden,
+    MODE,
+    POSITION,
+    validateIntersectionEntries
 } from 'Controls/_scroll/StickyHeader/Utils';
-import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
 import fastUpdate from './FastUpdate';
-import Model = require('Controls/_scroll/StickyHeader/_StickyHeader/Model');
-import template = require('wml!Controls/_scroll/StickyHeader/_StickyHeader/StickyHeader');
-import tmplNotify = require('Controls/Utils/tmplNotify');
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
 import {getScrollPositionTypeByState, SCROLL_DIRECTION, SCROLL_POSITION} from '../Utils/Scroll';
+import Context = require('Controls/_scroll/StickyHeader/Context');
+import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
+import Model = require('Controls/_scroll/StickyHeader/_StickyHeader/Model');
+import template = require('wml!Controls/_scroll/StickyHeader/_StickyHeader/StickyHeader');
+import tmplNotify = require('Controls/Utils/tmplNotify');
 
 export const enum SHADOW_VISIBILITY {
     visible = 'visible',
@@ -113,7 +113,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         verticalPosition: detection.isMobileIOS ? SCROLL_POSITION.START : null
     };
     private _negativeScrollTop: boolean = false;
-    private _lastFixedPosition: string = '';
 
     protected _notifyHandler: Function = tmplNotify;
 
@@ -122,8 +121,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     // Префикс для корректной установки background
     protected _backgroundStyle: string;
 
-   _bottomShadowStyle: string = '';
-   _topShadowStyle: string = '';
+    protected _style: string = '';
+
+    protected _isBottomShadowVisible: boolean = false;
+    protected _isTopShadowVisible: boolean = false;
+
+    protected _topObserverStyle: string = '';
+    protected _bottomObserverStyle: string = '';
 
     private _stickyDestroy: boolean = false;
     private _scroll: HTMLElement;
@@ -135,6 +139,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._observeHandler = this._observeHandler.bind(this);
         this._index = getNextId();
         this._backgroundStyle = this._options.backgroundVisible !== false ? this._options.backgroundStyle : BACKGROUND_STYLE.TRANSPARENT;
+        this._updateStyles();
     }
 
     protected _beforePaintOnMount(): void {
@@ -241,7 +246,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             fastUpdate.mutate(() => {
                 this._container.style.top = `${topValue}px`;
             });
-            this._forceUpdateIfCanScroll();
+            this._updateStylesIfCanScroll();
         }
     }
 
@@ -257,7 +262,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             const bottomValue = value - offset;
             // ОБновляем сразу же dom дерево что бы не было скачков в интерфейсе
             this._container.style.bottom = `${bottomValue}px`;
-            this._forceUpdateIfCanScroll();
+            this._updateStylesIfCanScroll();
         }
     }
 
@@ -272,9 +277,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
         if (eventType === 'canScroll') {
             this._canScroll = true;
-            if (this._model.fixedPosition !== this._lastFixedPosition) {
-                changed = true;
-            }
+            changed = true;
         } else if (eventType === 'cantScroll') {
             this._canScroll = false;
         } else if (eventType === 'scrollMoveSync') {
@@ -299,7 +302,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
 
         if (changed) {
-            this._forceUpdate();
+            this._updateStyles();
         }
     }
 
@@ -312,8 +315,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             return;
         }
 
-        if (scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll &&
-                this._model.fixedPosition !== this._lastFixedPosition) {
+        if (scrollState.canVerticalScroll !== this._scrollState.canVerticalScroll) {
             changed = true;
         }
         this._canScroll = scrollState.canVerticalScroll;
@@ -326,7 +328,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._scrollState = scrollState;
 
         if (changed) {
-            this._forceUpdate();
+            this._updateStyles();
         }
     }
 
@@ -415,8 +417,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (this._model.fixedPosition !== fixedPosition) {
             this._fixationStateChangeHandler(this._model.fixedPosition, fixedPosition);
             if (this._canScroll) {
-                this._lastFixedPosition = this._model.fixedPosition;
-                this._forceUpdate();
+                this._updateStyles();
             }
         }
     }
@@ -447,6 +448,19 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         };
 
         this._notify('fixed', [information], {bubbling: true});
+    }
+
+    private _updateStyles(): void {
+        this._updateStyle();
+        this._updateShadowStyles();
+        this._updateObserversStyles();
+    }
+
+    private _updateStyle(): void {
+        const style = this._getStyle();
+        if (this._style !== style) {
+            this._style = style;
+        }
     }
 
     protected _getStyle(): string {
@@ -532,11 +546,16 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
 
         //убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274
-        if (this._options.task1177692247 && this._options.fixedZIndex) {
+        if (this._options.task1177692247 && this._options.fixedZIndex && !fixedPosition) {
             style += 'z-index: ' + this._options.fixedZIndex + ';';
         }
 
         return style;
+    }
+
+    private _updateObserversStyles(): void {
+        this._topObserverStyle = this._getObserverStyle(POSITION.top);
+        this._bottomObserverStyle = this._getObserverStyle(POSITION.bottom);
     }
 
     protected _getObserverStyle(position: POSITION): string {
@@ -587,8 +606,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 }
             }
             this._isFixed = isFixed;
-            this._forceUpdateIfCanScroll();
+            this._updateStylesIfCanScroll();
         }
+    }
+
+    private _updateShadowStyles() {
+        this._isTopShadowVisible = this._isShadowVisible(POSITION.top);
+        this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom);
     }
 
     protected _isShadowVisible(shadowPosition: POSITION): boolean {
@@ -610,8 +634,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             (shadowPosition === POSITION.bottom && this._scrollState.verticalPosition !== SCROLL_POSITION.START ||
             shadowPosition === POSITION.top && this._scrollState.verticalPosition !== SCROLL_POSITION.END));
 
-        const oldShadowVisible: boolean = this._context.stickyHeader?.shadowPosition &&
-            this._context.stickyHeader?.shadowPosition?.indexOf(fixedPosition) !== -1;
+        const oldShadowVisible: boolean = this._context?.stickyHeader?.shadowPosition &&
+            this._context?.stickyHeader?.shadowPosition?.indexOf(fixedPosition) !== -1;
 
         return shadowVisible || oldShadowVisible;
     }
@@ -634,9 +658,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._container.get ? this._container.get(0) : this._container;
     }
 
-    private _forceUpdateIfCanScroll(): void {
+    private _updateStylesIfCanScroll(): void {
         if (this._canScroll) {
-            this._forceUpdate();
+            this._updateStyles();
         }
     }
 
@@ -685,5 +709,17 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     static _theme: string[] = ['Controls/scroll'];
+
+
+
+    protected _beforeUpdate(options?: IStickyHeaderOptions, contexts?: any) {
+        console.log('_beforeUpdate');
+    }
+
+
+
+    protected _afterUpdate(options?: IStickyHeaderOptions, contexts?: any) {
+        console.log('_afterUpdate');
+    }
 
 }
