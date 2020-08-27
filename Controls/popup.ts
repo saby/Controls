@@ -63,6 +63,7 @@ export {default as Manager} from './_popup/Manager';
 export {default as Container} from './_popup/Manager/Container';
 export {default as Controller} from './_popup/Manager/ManagerController';
 export {default as Global} from './_popup/Global';
+export {default as GlobalController} from './_popup/GlobalController';
 
 export {default as BaseOpener} from 'Controls/_popup/Opener/BaseOpener';
 export {default as Stack} from './_popup/Opener/Stack';
