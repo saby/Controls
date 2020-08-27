@@ -1,0 +1,35 @@
+<div class="controlsDemo__wrapper">
+   <Controls.scroll:Container  attr:class="controlsDemo_fixedWidth300 controlsDemo__height300">
+      <div>
+         <p class="controlsDemo__wrapper">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+         </p>
+         <Controls.scroll:StickyHeader mode="stackable" fixedZIndex="50" shadowVisibility="lastVisible">
+            <div class="controlsDemo_bordered controlsDemo__wrapper">First Header</div>
+         </Controls.scroll:StickyHeader>
+         <p class="controlsDemo__wrapper">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+         </p>
+
+         <Controls.scroll:StickyHeader mode="stackable" fixedZIndex="49" shadowVisibility="lastVisible">
+            <div class="controlsDemo_bordered controlsDemo__wrapper">Second Header</div>
+         </Controls.scroll:StickyHeader>
+         <p class="controlsDemo__wrapper">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+         </p>
+
+         <Controls.scroll:StickyHeader fixedZIndex="48" shadowVisibility="lastVisible">
+            <div class="controlsDemo_bordered controlsDemo__wrapper">Other header. Lorem ipsum dolor sit amet..</div>
+         </Controls.scroll:StickyHeader>
+         <p class="controlsDemo__wrapper">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+         </p>
+         <Controls.scroll:StickyHeader fixedZIndex="47" shadowVisibility="lastVisible">
+            <div class="controlsDemo_bordered controlsDemo__wrapper">Next header</div>
+         </Controls.scroll:StickyHeader>
+         <p class="controlsDemo__wrapper">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.
+         </p>
+      </div>
+   </Controls.scroll:Container>
+</div>
