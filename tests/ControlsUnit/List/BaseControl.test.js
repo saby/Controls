@@ -1484,7 +1484,12 @@ define([
          assert.isFalse(notified);
 
          var myMarkedItem = { qwe: 123 };
-         var mockedEvent = { target: 'myTestTarget' };
+          var mockedEvent = {
+              target: 'myTestTarget',
+              isStopped: function() {
+                  return true;
+              }
+          };
          // With marker
          lists.BaseControl._private.enterHandler({
             _options: {

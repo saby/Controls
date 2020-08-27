@@ -577,6 +577,9 @@ const _private = {
         }
         if (markedItem) {
             self._notify('itemClick', [markedItem.getContents(), event], { bubbling: true });
+            if (event && !event.isStopped()) {
+                self._notify('itemActivate', [markedItem.getContents(), event], {bubbling: true});
+            }
         }
     },
     spaceHandler(self, event) {
@@ -1255,7 +1258,9 @@ const _private = {
             searchStopCallback: () => {
                 self._portionedSearchInProgress = false;
                 self._showContinueSearchButton = true;
-                self._sourceController.cancelLoading();
+                if (typeof self._sourceController.cancelLoading !== 'undefined') {
+                    self._sourceController.cancelLoading();
+                }
                 _private.hideIndicator(self);
 
                 if (self._isScrollShown) {
@@ -1275,7 +1280,9 @@ const _private = {
             },
             searchAbortCallback: () => {
                 self._portionedSearchInProgress = false;
-                self._sourceController.cancelLoading();
+                if (typeof self._sourceController.cancelLoading !== 'undefined') {
+                    self._sourceController.cancelLoading();
+                }
                 _private.hideIndicator(self);
 
                 _private.disablePagingNextButtons(self);

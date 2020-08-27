@@ -1,8 +1,10 @@
 import {assert} from 'chai';
 import {BaseControl, ListViewModel} from 'Controls/list';
+import * as Env from 'Env/Env';
 import {RecordSet} from 'Types/collection';
 
 describe('Controls/list_clean/BaseControl', () => {
+    // https://online.sbis.ru/opendoc.html?guid=9a6f0437-ea6d-4d7f-b163-25dc8f244c64
     describe('BaseControl watcher groupHistoryId', () => {
 
         const GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
@@ -286,4 +288,61 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.equal(baseControl._scrollPagingCtr._options.scrollParams.scrollTop,400);
         });
     });
+    describe('BaseControl enterHandler', ()=>{
+        it('is enterHandler', function() {
+            let notified = false;
+            let notifiedCount = 0;// Количество событий
+            BaseControl._private.enterHandler({
+                _options: {
+                    useNewModel: false
+                },
+                getViewModel: function() {
+                    return {
+                        getMarkedItem: function() {
+                            return null;
+                        }
+                    };
+                },
+                _notify: function(e, item, options) {
+                    notified = true;
+                }
+            });
+            assert.isFalse(notified);
+            assert.isFalse(!!notifiedCount);
+
+            const myMarkedItem = { qwe: 123 };
+            const mockedEvent = {
+                target: 'myTestTarget',
+                isStopped: function() {
+                    return false;
+                }
+            };
+
+            BaseControl._private.enterHandler({
+                _options: {
+                    useNewModel: false
+                },
+                getViewModel: function() {
+                    return {
+                        getMarkedItem: function() {
+                            return {
+                                getContents: function() {
+                                    return myMarkedItem;
+                                }
+                            };
+                        }
+                    };
+                },
+                _notify: function(e, args, options) {
+                    notified = true;
+                    notifiedCount++;
+                    assert.isTrue(e === 'itemClick' || e === 'itemActivate');
+                    assert.deepEqual(args, [myMarkedItem, mockedEvent]);
+                    assert.deepEqual(options, { bubbling: true });
+                }
+            }, mockedEvent);
+            assert.isTrue(notified);
+            assert.isTrue(notifiedCount === 2);
+        });
+    })
 });
