@@ -3,12 +3,18 @@ import {ColumnsCollection} from '../display';
 
 export interface IOptions<T> extends IBaseOptions<T> {
     columnProperty: number;
+    column: number;
 }
 
 export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
     protected _$columnProperty: string;
     protected _$column: number = 0;
     protected _$owner: ColumnsCollection<T>;
+
+    constructor(options?: IOptions<T>) {
+        super(options);
+        this._$column = options?.column || 0;
+    }
 
     getColumn(): number {
         return this._$column;
@@ -45,4 +51,3 @@ Object.assign(ColumnsCollectionItem.prototype, {
     _instancePrefix: 'columns-item-',
     _$column: 1
 });
-
