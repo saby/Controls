@@ -1,12 +1,12 @@
 define(
    [
-      'Controls/_scroll/StickyHeader/_StickyHeader/Model'
+      'Controls/_scroll/StickyHeader/Model'
    ],
    function(Model) {
 
       'use strict';
 
-      describe('Controls/_scroll/StickyHeader/_StickyHeader/Model', function() {
+      describe('Controls/_scroll/StickyHeader/Model', function() {
          var topTarget = {};
          var bottomTarget = {};
          var result, model;

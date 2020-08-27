@@ -1,6 +1,5 @@
 import {Logger} from 'UI/Utils';
 import simpleExtend = require('Core/core-simpleExtend');
-import {POSITION} from '../Utils';
 
 /**
  * @extends Core/core-simpleExtend
@@ -110,4 +109,3 @@ export = simpleExtend.extend({
       return result;
    }
 });
-

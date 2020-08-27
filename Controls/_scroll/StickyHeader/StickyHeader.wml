@@ -1,5 +1,32 @@
 <ws:if data="{{_isStickySupport}}">
-   <Controls._scroll.StickyHeader._StickyHeader scope="{{_options}}"/>
+   <!--Styles specified with attr are not merged, so as a temporary solution, we use the option.-->
+   <!--https://online.sbis.ru/opendoc.html?guid=e692216c-8a18-4b42-8523-5434d436a502-->
+   <div class="controls-StickyHeader
+   controls-background-{{_backgroundStyle || 'default'}}_theme-{{_options.theme}}
+   {{_options.backgroundVisible ? 'controls-StickyHeader__background'}}
+   controls-StickyHeader_position" style="{{_style + (_options.style || '')}}"
+        name="content">
+      <!--We use visibility style instead of "if" statement to prevent jumps when scrolling on iPad-->
+      <ws:if data="{{_isTopShadowVisible || _isMobileIOS}}">
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
+                  {{ !_isTopShadowVisible && _isMobileIOS ? ' ws-invisible' }}"
+         ></div>
+      </ws:if>
+      <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{_getObserverStyle('top')}}"></div>
+      <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
+      <ws:partial template="{{_options.content}}"
+                  attr:class="controls-StickyHeader__content"
+                  scope="{{_options}}"
+                  on:arrowClick="_notifyHandler('arrowClick')"
+                  on:controlResize="_selfResizeHandler()"/>
+      <div name="observationTargetBottom" class="controls-StickyHeader__observationTargetBottom" style="{{_getObserverStyle('bottom')}}"></div>
+      <!--We use visibility style insted of "if" statement to prevent jumps when scrolling on iPad-->
+      <ws:if data="{{_isBottomShadowVisible || _isMobileIOS}}">
+         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
+                  {{ !_isBottomShadowVisible && _isMobileIOS ? ' ws-invisible' }}"
+              name="shadowBottom"></div>
+      </ws:if>
+   </div>
 </ws:if>
 <ws:else>
    <!-- В случае, когда sticky в Controls.list:View не поддерживается, например, в IE выделенный пункт становится прозрачным. -->

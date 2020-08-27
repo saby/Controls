@@ -1,7 +1,7 @@
 import Control = require('Core/Control');
 import {debounce} from 'Types/function';
 import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
-import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_StickyHeader';
+import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
 import {detection} from 'Env/Env';
