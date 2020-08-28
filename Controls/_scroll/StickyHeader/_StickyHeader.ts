@@ -565,6 +565,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             style += 'z-index: ' + opts.fixedZIndex + ';';
         }
 
+        // Прилипающий заголовок дергается при скролле в больших списках.
+        // Устанавливаем свойство will-change для оптимизации.
+        if (detection.isMacOSDesktop) {
+            style += 'will-change: transform;';
+        }
+
         return style;
     }
 
