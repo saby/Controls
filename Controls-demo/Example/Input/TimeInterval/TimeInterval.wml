@@ -1,5 +1,5 @@
 <div class="example-TimeInterval">
-   <Controls-demo.Example.resource.BaseDemoInput title="Time interval input field" blocker="{{true}}" autoWidth>
+   <Controls-demo.Example.resource.BaseDemoInput title="Time interval input field" blocker="{{true}}">
       <ws:contents>
          <ws:Array>
             <ws:Object autoWidth="{{true}}">
