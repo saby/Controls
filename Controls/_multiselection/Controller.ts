@@ -88,7 +88,7 @@ export class Controller {
     * Проставляет выбранные элементы в модели
     * @remark Не уведомляет о изменениях в модели
     */
-   restoreSelection(): void {
+   initializeModel(): void {
       // На этот момент еще может не сработать update, поэтому нужно обновить items в стратегии
       this._strategy.setItems(this._model.getCollection());
       this._updateModel(this._selection, true);
@@ -182,13 +182,14 @@ export class Controller {
    }
 
    /**
-    * Обработать удаление элементов из списка
+    * Обработать удаление элементов из RecordSet
     * @param removedItems Удаленные элементы из списка
     * @return {ISelectionControllerResult}
     */
-   handleRemoveItems(removedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
+   handleRemoveItems(removedItems: Model[]): ISelectionControllerResult {
       const oldSelection = clone(this._selection);
-      this._remove(this._getItemsKeys(removedItems));
+      const keys = removedItems.map((item) => item.getKey());
+      this._remove(keys);
       return this._getResult(oldSelection, this._selection);
    }
 
@@ -271,10 +272,6 @@ export class Controller {
 
    private _getCount(selection?: ISelection): number | null {
       return this._strategy.getCount(selection || this._selection, this._model.getHasMoreData(), this._limit);
-   }
-
-   private _getItemsKeys(items: Array<CollectionItem<Model>|Model>): TKeys {
-      return items.map((item) => item instanceof CollectionItem ? item.getContents().getKey() : item.getKey());
    }
 
    private _getResult(oldSelection: ISelection, newSelection: ISelection): ISelectionControllerResult {

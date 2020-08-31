@@ -1240,7 +1240,7 @@ define([
                moveMarkerToPrev() { moveMarkerToPrevCalled = true; },
                handleRemoveItems() {},
                update() {},
-               restoreMarker() {},
+               initializeModel() {},
                getMarkedKey() {}
             };
          };
@@ -1311,7 +1311,7 @@ define([
                moveMarkerToPrev() { moveMarkerToPrevCalled = true; },
                handleRemoveItems() {},
                update() {},
-               restoreMarker() {},
+               initializeModel() {},
                getMarkedKey() {}
             };
          };
@@ -1810,7 +1810,7 @@ define([
          const scrollToItemSpy = sinon.spy(lists.BaseControl._private, 'scrollToItem');
          const setMarkedKeySpy = sinon.spy(baseControl._markerController, 'calculateMarkedKey');
 
-         lists.BaseControl._private.setMarkedKey({}, 2);
+         lists.BaseControl._private.setMarkedKey({_options: {markerVisibility: 'hidden'}}, 2);
          assert.isFalse(setMarkedKeySpy.called);
          assert.isFalse(scrollToItemSpy.called);
 
@@ -3253,7 +3253,7 @@ define([
             setSelectedKeys: () => null,
             handleAddItems: () => null,
             handleResetItems: () => null,
-            restoreSelection: () => null
+            initializeModel: () => null
          };
          ctrl.saveOptions(cfg);
          ctrl._beforeMount(cfg);
@@ -7286,7 +7286,7 @@ define([
                         assert.equal(key, 1);
                         setMarkedKeyIsCalled = true;
                      },
-                     restoreMarker() {},
+                     initializeModel() {},
                      getMarkedKey: () => undefined
                   };
 
@@ -7710,7 +7710,7 @@ define([
 
                item.setMarked(false);
 
-               lists.BaseControl._private.onItemsChanged(baseControl, 'rp', [item.getContents()], 0);
+               lists.BaseControl._private.onItemsChanged(baseControl, 'rp', [], 0, [item.getContents()]);
                item = baseControl.getViewModel().getItemBySourceKey(1);
                assert.isTrue(item.isMarked());
             });

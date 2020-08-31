@@ -371,7 +371,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true, 'markedKeyChanged', '', changedItems);
     },
 
-    setMarkerVisibility: function(markerVisibility) {
+    setMarkerVisibility(markerVisibility: string): void {
         this._options.markerVisibility = markerVisibility;
         this._nextModelVersion();
     },

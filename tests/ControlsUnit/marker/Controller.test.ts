@@ -198,7 +198,7 @@ describe('Controls/marker/Controller', () => {
       });
    });
 
-   it('restoreMarker', () => {
+   it('initializeModel', () => {
       controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
       assert.isTrue(model.getItemBySourceKey(1).isMarked());
       model.setItems(new RecordSet({
@@ -211,7 +211,7 @@ describe('Controls/marker/Controller', () => {
       }));
 
       assert.isFalse(model.getItemBySourceKey(1).isMarked());
-      controller.restoreMarker();
+      controller.initializeModel();
       assert.isTrue(model.getItemBySourceKey(1).isMarked());
    });
 

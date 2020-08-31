@@ -31,7 +31,7 @@ export class Controller {
    update(options: IOptions): TKey {
       if (this._model !== options.model) {
          this._model = options.model;
-         this.restoreMarker();
+         this.initializeModel();
       }
       this._markerVisibility = options.markerVisibility;
 
@@ -100,7 +100,7 @@ export class Controller {
    /**
     * Проставляет заново маркер в модели
     */
-   restoreMarker(): void {
+   initializeModel(): void {
       const item = this._model.getItemBySourceKey(this._markedKey);
       if (item) {
          item.setMarked(true);
@@ -193,12 +193,22 @@ export class Controller {
    }
 
    /**
-    * Обработать добавление элементов
+    * Обработать добавление элементов в модель
     * @param newItems список новый элементов
     */
    handleAddItems(newItems: Array<CollectionItem<Model>>): void {
       if (newItems.some((item) => this._getKey(item) === this._markedKey)) {
-         this.restoreMarker();
+         this.initializeModel();
+      }
+   }
+
+   /**
+    * Обработать замену элементов в RecordSet
+    * @param items список новых элементов
+    */
+   handleReplaceItems(items: Model[]): void {
+      if (items.some((item) => item.getKey() === this._markedKey)) {
+         this.initializeModel();
       }
    }
 

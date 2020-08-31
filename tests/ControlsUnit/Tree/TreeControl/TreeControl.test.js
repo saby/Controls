@@ -969,6 +969,7 @@ define([
                   parentProperty: 'parent',
                   nodeProperty: 'type',
                   markedKey: 1,
+                  markerVisibility: 'visible',
                   columns: [],
                   viewModelConstructor: treeGrid.ViewModel
                },
