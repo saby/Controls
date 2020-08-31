@@ -567,21 +567,23 @@ var SuggestLayout = Control.extend({
       }
    },
    _searchEnd: function(result) {
-      if (this._options.suggestState && this._loading) {
-         this._loading = false;
+      if (!this._destroyed) {
+         if (this._options.suggestState && this._loading) {
+            this._loading = false;
 
-         // _searchEnd may be called synchronously, for example, if local source is used,
-         // then we must check, that indicator was created
-         if (this._children.indicator) {
-            this._children.indicator.hide();
+            // _searchEnd may be called synchronously, for example, if local source is used,
+            // then we must check, that indicator was created
+            if (this._children.indicator) {
+               this._children.indicator.hide();
+            }
          }
+         this._searchDelay = this._options.searchDelay;
+         _private.processResultData(this, result);
+         if (this._options.searchEndCallback) {
+            this._options.searchEndCallback();
+         }
+         this._forceUpdate();
       }
-      this._searchDelay = this._options.searchDelay;
-      _private.processResultData(this, result);
-      if (this._options.searchEndCallback) {
-         this._options.searchEndCallback();
-      }
-      this._forceUpdate();
    },
    _searchErrback: function(error) {
       _private.searchErrback(this, error);
