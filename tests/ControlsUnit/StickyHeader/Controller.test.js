@@ -28,7 +28,8 @@ define([
                },
                height: 10,
                resetSticky: sinon.fake(),
-               restoreSticky: sinon.fake()
+               restoreSticky: sinon.fake(),
+               updateShadowVisibility: sinon.fake()
             }
          };
       },
@@ -44,7 +45,8 @@ define([
                },
                height: 10,
                resetSticky: sinon.fake(),
-               restoreSticky: sinon.fake()
+               restoreSticky: sinon.fake(),
+               updateShadowVisibility: sinon.fake()
             },
             container: {
                getBoundingClientRect() {
@@ -289,7 +291,8 @@ define([
                         return offset;
                      },
                      resetSticky: sinon.fake(),
-                     restoreSticky: sinon.fake()
+                     restoreSticky: sinon.fake(),
+                     updateShadowVisibility: sinon.fake()
                   }
                };
                component.registerHandler(event, header, true);
@@ -538,7 +541,8 @@ define([
                   },
                   height: 10,
                   resetSticky: sinon.fake(),
-                  restoreSticky: sinon.fake()
+                  restoreSticky: sinon.fake(),
+                  updateShadowVisibility: sinon.fake()
                },
                container: {
                   getBoundingClientRect() {
@@ -553,7 +557,10 @@ define([
                   fixedPosition: 'top',
                   prevPosition: '',
                   height: 10,
-                  shadowVisible: true
+                  shadowVisible: true,
+                  inst: {
+                     updateShadowVisibility: sinon.fake()
+                  }
                });
                assert.equal(component.getHeadersHeight('top'), 0);
                assert.equal(component.getHeadersHeight('bottom'), 0);

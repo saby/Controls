@@ -100,8 +100,12 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     setOffsets(offsets: Offsets): void {
+        let changed: boolean = false;
         for (let scrollbar of Object.keys(this._models)) {
-            this._models[scrollbar].setOffsets(offsets);
+            changed = this._models[scrollbar].setOffsets(offsets) || changed;
+        }
+        if (changed) {
+            this._nextVersion();
         }
     }
 
@@ -152,7 +156,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     get isVisible(): boolean {
-        return !this._useNativeScrollbar;
+        return !this._useNativeScrollbar && this._showScrollbarOnHover;
     }
 
     get horizontal(): ScrollbarModel {

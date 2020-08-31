@@ -1,3 +1,12 @@
+.controls-Scroll-ContainerBase {
+   display: flex;
+   flex-direction: column;
+}
+
+.controls-Scroll-containerBase_userContent {
+   flex-shrink: 0;
+}
+
 .controls-Scroll-ContainerBase__scroll_vertical {
    overflow-y: scroll;
    overflow-x: hidden;
@@ -5,4 +14,15 @@
 
 .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
    overflow: scroll;
+}
+
+// Chrome после обновления с 83 до 84 версии по умолчанию стал overflow-anchor: visible, из-за этого происходит
+// браузерный подскролл к низу вновь добавляемого контента.
+// https://online.sbis.ru/opendoc.html?guid=8673c14b-da6e-444b-86d1-d1a997555bfe
+// https://bugs.chromium.org/p/chromium/issues/detail?id=1105785
+.ws-is-chrome {
+   .controls-Scroll-ContainerBase__scroll_vertical,
+   .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
+      overflow-anchor: none;
+   }
 }

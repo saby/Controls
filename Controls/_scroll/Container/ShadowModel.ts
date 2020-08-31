@@ -90,38 +90,49 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
         this._options = options;
     }
 
-    updateScrollState(scrollState: IScrollState): void {
+    updateScrollState(scrollState: IScrollState): boolean {
         const position: SCROLL_POSITION = scrollState[`${this._direction}Position`];
+        let isChanged = false;
 
         this._scrollState = scrollState;
-        this._updateEnabled();
+        isChanged = this._updateEnabled();
 
         const isVisible: boolean = this._isEnabled && ((this._type === SHADOW_TYPE.BEFORE && position !== SCROLL_POSITION.START) ||
             (this._type === SHADOW_TYPE.AFTER && position !== SCROLL_POSITION.END));
 
         if (isVisible !== this._isVisible) {
             this._isVisible = isVisible;
-            this._nextVersion();
+            isChanged = true;
         }
+        return isChanged;
     }
 
-    _updateEnabled() {
+    _updateEnabled(): boolean {
         const isEnabled: boolean = this._getShadowEnable();
+        let isChanged = false;
         if (isEnabled !== this._isEnabled) {
             this._isEnabled = isEnabled;
-            this._nextVersion();
+            isChanged = true;
         }
+        return isChanged;
     }
 
     setStickyFixed(isFixed: boolean) {
+        let isChanged = false;
         if (this._isStickyFixed !== isFixed) {
             this._isStickyFixed = isFixed;
-            this._updateEnabled();
+            isChanged = this._updateEnabled();
         }
+        return isChanged;
+    }
+
+    isStickyHeadersShadowsEnabled(): boolean {
+        return (this._options[`${this._position}ShadowVisibility`] === SHADOW_VISIBILITY.VISIBLE ||
+            (this._isShadowEnable() && this._canScrollByScrollState()));
     }
 
     private _canScrollByScrollState(): boolean {
-        return this._scrollState[`can${upperDirection[this._direction]}Scroll`]
+        return this._scrollState[`can${upperDirection[this._direction]}Scroll`];
     }
 
     private _getShadowEnable(): boolean {

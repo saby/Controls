@@ -24,8 +24,12 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     protected _container: HTMLElement = null;
     protected _options: IContainerBaseOptions;
 
-    protected _state: IScrollState = {};
+    protected _state: IScrollState = {
+        scrollTop: 0,
+        scrollLeft: 0
+    };
     protected _oldState: IScrollState = {};
+    protected _isStateInitialized: boolean = false;
 
     private _registrars: any = [];
 
@@ -148,7 +152,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             this._onRegisterNewListScrollComponent(component);
         }
 
-        this._registrars.scroll.register(event, registerType, component, callback);
+        this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
     }
 
     _unRegisterIt(e: SyntheticEvent, registerType: string, component: any): void {
@@ -244,7 +248,8 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
      * @function Controls/_scroll/Container#scrollToBottom
      */
     scrollToBottom() {
-        this.setScrollTop(this._state.scrollHeight - this._state.clientHeight + this._topPlaceholderSize);
+        this.setScrollTop(
+            this._children.content.scrollHeight - this._children.content.clientHeight + this._topPlaceholderSize);
     }
 
     /**
@@ -266,7 +271,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     _onRegisterNewComponent(component: Control): void {
         // Если состояние еще не инициализировано, то компонент получит его после инициализации.
-        if (Object.keys(this._state).length !== 0) {
+        if (this._isStateInitialized) {
             this._registrars.scrollStateChanged.startOnceTarget(component, {...this._state}, {...this._oldState});
         }
     }
@@ -378,9 +383,12 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
                 isStateUpdated = true;
             }
         }, newState);
+
         if (isStateUpdated) {
             this._updateCalculatedState();
         }
+
+        this._isStateInitialized = true;
         return isStateUpdated;
     }
 
@@ -400,6 +408,11 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
         setTimeout(() => {
             this._scrollLockedPosition = null;
         }, KEYBOARD_SHOWING_DURATION);
+    }
+
+    protected _doScrollHandler(e: SyntheticEvent<null>, scrollParam: number): void {
+        this._doScroll(scrollParam);
+        e.stopPropagation();
     }
 
     protected _doScroll(scrollParam) {
@@ -494,7 +507,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     _onRegisterNewListScrollComponent(component: any): void {
         // Если состояние еще не инициализировано, то компонент получит его после инициализации.
-        if (Object.keys(this._state).length === 0) {
+        if (!this._isStateInitialized) {
             return;
         }
         this._sendByListScrollRegistrarToComponent(
@@ -621,6 +634,27 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     private _setOverflowScrolling(value: string): void {
         this._children.content.style.overflow = value;
+    }
+
+    // TODO: система событий неправильно прокидывает аргументы из шаблонов, будет исправлено тут:
+    // https://online.sbis.ru/opendoc.html?guid=19d6ff31-3912-4d11-976f-40f7e205e90a
+    protected _selectedKeysChanged(event): void {
+        this._proxyEvent(event, 'selectedKeysChanged', Array.prototype.slice.call(arguments, 1));
+    }
+
+    protected _excludedKeysChanged(event): void {
+        this._proxyEvent(event, 'excludedKeysChanged', Array.prototype.slice.call(arguments, 1));
+    }
+
+    protected _itemClick(event): void {
+        return this._proxyEvent(event, 'itemClick', Array.prototype.slice.call(arguments, 1));
+    }
+
+    protected _proxyEvent(event, eventName, args): void {
+        // Forwarding bubbling events makes no sense.
+        if (!event.propagating()) {
+            return this._notify(eventName, args) || event.result;
+        }
     }
 
     static _theme: string[] = ['Controls/scroll'];

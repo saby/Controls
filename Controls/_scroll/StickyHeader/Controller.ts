@@ -1,10 +1,9 @@
 import Control = require('Core/Control');
 import {debounce} from 'Types/function';
-import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
-import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader';
+import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
+import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
-import {detection} from 'Env/Env';
 
 // @ts-ignore
 
@@ -39,6 +38,8 @@ class StickyHeaderController {
     private _resizeHandlerDebounced: Function;
     private _container: HTMLElement;
     private _options: IStickyHeaderController = {};
+    private _isTopShadowVisible: boolean = false;
+    private _isBottomShadowVisible: boolean = false;
 
     // TODO: Избавиться от передачи контрола доработав логику ResizeObserverUtil
     // https://online.sbis.ru/opendoc.html?guid=4091b62e-cca4-45d8-834b-324f3b441892
@@ -142,6 +143,17 @@ class StickyHeaderController {
         return Promise.resolve();
     }
 
+    setShadowVisibility(isTopShadowVisible: boolean, isBottomShadowVisible: boolean): void {
+        this._isTopShadowVisible = isTopShadowVisible;
+        this._isBottomShadowVisible = isBottomShadowVisible;
+        for (const headerId of this._fixedHeadersStack[POSITION.top]) {
+            this._headers[headerId].inst.updateShadowVisibility(isTopShadowVisible);
+        }
+        for (const headerId of this._fixedHeadersStack[POSITION.bottom]) {
+            this._headers[headerId].inst.updateShadowVisibility(isBottomShadowVisible);
+        }
+    }
+
     registerHandler(event, data: TRegisterEventData, register: boolean): void {
         const promise = this._register(data, register, true);
         this._clearOffsetCache();
@@ -164,6 +176,9 @@ class StickyHeaderController {
             // то положение заголовков рассчитается по событию ресайза или в хуке _afterMount.
             // Невидимые заголовки нельзя обсчитать, потому что нельзя узнать их размеры и положение.
             this._delayedHeaders.push(data);
+
+            data.inst.updateShadowVisibility(data.position === POSITION.top ?
+                this._isTopShadowVisible : this._isBottomShadowVisible);
 
             this._observeStickyHeader(data);
             if (!isHidden(data.container) && this._initialized && this._canScroll) {
@@ -255,7 +270,24 @@ class StickyHeaderController {
                     this._fixedHeadersStack.bottom[this._fixedHeadersStack.bottom.length - 1]
                 ]);
             }
+            for (const position of [POSITION.top, POSITION.bottom]) {
+                const headersStack: [] = this._fixedHeadersStack[position];
+                const lastHeaderId = headersStack[headersStack.length - 1];
+                for (const headerId of headersStack) {
+                    const header: TRegisterEventData = this._headers[headerId];
+                    if (header.shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
+                        header.inst.updateShadowVisibility(headerId === lastHeaderId);
+                    }
+                }
+            }
+            for (const id in this._headers) {
+                this._headers[id].inst.updateFixed([
+                    this._fixedHeadersStack.top[this._fixedHeadersStack.top.length - 1],
+                    this._fixedHeadersStack.bottom[this._fixedHeadersStack.bottom.length - 1]
+                ]);
+            }
         }
+        // Спилить после того ак удалим старый скролл контейнер. Используется только там.
         this._callFixedCallback(position);
     }
 

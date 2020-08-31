@@ -1,19 +1,5 @@
 @import "_contentEnvironmentZIndex";
 
-.controls-Scroll {
-   position: relative;
-   // Таким образом мы скрываем нативный скролл.
-   overflow: hidden;
-   display: flex;
-   flex-direction: column;
-}
-
-.ws-is-hover .controls-Scroll:hover {
-   > .controls-Scroll__scrollbar {
-      visibility: visible;
-   }
-}
-
 // Use "regular" scrolling, where the content immediately ceases to scroll when you remove your finger from the touchscreen.
 .controls-Scroll_webkitOverflowScrollingAuto .controls-Scroll__content-overflowScrolling {
    -webkit-overflow-scrolling: auto;
@@ -49,17 +35,6 @@
 
 .controls-Scroll__scrollbar_hidden {
    visibility: hidden;
-}
-
-.controls-Scroll__content {
-   height: 100%;
-   flex-grow: 1;
-   display: flex;
-   max-height: inherit;
-   flex-direction: column;
-
-   //We enable the contents of the scrollContainer to be displayed on top of the scrollbar and shadows by specifying a z-index greater than them.
-   z-index: auto;
 }
 
 .controls-Scroll__userContent {

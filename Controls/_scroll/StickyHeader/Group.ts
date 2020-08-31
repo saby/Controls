@@ -1,4 +1,4 @@
-import {SyntheticEvent} from "Vdom/Vdom";
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
     isStickySupport,
@@ -11,8 +11,7 @@ import {
     getGapFixSize
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
-import {SHADOW_VISIBILITY} from '../StickyHeader';
-import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {SHADOW_VISIBILITY} from './Utils';
 import fastUpdate from './FastUpdate';
 
 /**
@@ -80,6 +79,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         bottom: 0
     };
     protected _isFixed: boolean = false;
+    protected _isShadowVisibleByController: boolean = true;
 
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
@@ -184,6 +184,16 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             this._headers[id].inst.updateFixed(ids);
         }
     }
+
+    protected updateShadowVisibility(isVisible: boolean): void {
+        if (this._isShadowVisibleByController !== isVisible) {
+            this._isShadowVisibleByController = isVisible;
+            for (const id in this._headers) {
+                this._headers[id].inst.updateShadowVisibility(isVisible);
+            }
+        }
+    }
+
 
     protected _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
         event.stopImmediatePropagation();
