@@ -46,3 +46,11 @@
       @shadow_start-color_scroll, @shadow_end-color_scroll
    );
 }
+
+// Прилипающий заголовок дергается при скролле в больших списках.
+// Устанавливаем свойство will-change для оптимизации.
+.ws-is-mac.ws-is-desktop-platform {
+   .controls-StickyHeader {
+      will-change: transform;
+   }
+}
