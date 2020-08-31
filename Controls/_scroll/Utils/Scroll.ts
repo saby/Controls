@@ -16,9 +16,9 @@ export function scrollTo(container: HTMLElement, position: number, direction: SC
 export function getScrollPositionByState(state:IScrollState, direction: SCROLL_DIRECTION = SCROLL_DIRECTION.VERTICAL) {
     let position: number;
     if (direction === SCROLL_DIRECTION.VERTICAL) {
-        position = state.scrollTop;
+        position = state.scrollTop || 0;
     } else if (direction === SCROLL_DIRECTION.HORIZONTAL) {
-        position = state.scrollLeft;
+        position = state.scrollLeft || 0;
     }
     return position;
 }

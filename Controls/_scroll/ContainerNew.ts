@@ -118,6 +118,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _isOptimizeShadowEnabled: boolean;
     protected _optimizeShadowClass: string;
+    protected _needUpdateContentSize: boolean = false;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
         this._shadows = new ShadowsModel(options);
@@ -137,6 +138,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
         if (context.ScrollData?.pagingVisible) {
             this._paging = new PagingModel();
+            this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
 
         super._afterMount();
@@ -153,12 +155,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._optimizeShadowClass = this._getOptimizeShadowClass();
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
-        this._scrollCssClass = this._getScrollContainerCssClass(options);
+        this._updateScrollContainerPaigingSccClass(options);
+        this._scrollbars.updateOptions(options);
+        this._shadows.updateOptions(options);
     }
 
     protected _afterUpdate() {
         super._afterUpdate(...arguments);
         this._stickyHeaderController.updateContainer(this._container);
+        if (this._needUpdateContentSize) {
+            this._needUpdateContentSize = false;
+            this._updateStateAndGenerateEvents({ scrollHeight: this._children.content.scrollHeight });
+        }
     }
 
     _beforeUnmount(): void {
@@ -170,7 +178,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     _updateState(...args) {
-        const isInitializing = Object.keys(this._oldState).length === 0;
         const isUpdated: boolean = super._updateState(...args);
         if (isUpdated) {
             // Убираем старое поведение теней, новые тени сделаны через CSS, рассчеты производить более не требуется
@@ -179,21 +186,39 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 this._shadows.updateScrollState(this._state);
             }
             // При инициализации не обновляем скрол бары. Инициализируем их по напедению мышкой.
-            if (!isInitializing) {
+            if (this._isStateInitialized) {
                 this._scrollbars.updateScrollState(this._state, this._container);
             }
+
             this._paging?.update(this._state);
+
             this._stickyHeaderController.setCanScroll(this._state.canVerticalScroll);
-            this._scrollCssClass = this._getScrollContainerCssClass(this._options);
+            this._stickyHeaderController.setShadowVisibility(
+                this._shadows.top.isStickyHeadersShadowsEnabled(),
+                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+
+            this._updateScrollContainerPaigingSccClass(this._options);
         }
         return isUpdated;
     }
 
-    protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
-        return this._scrollbars.getScrollContainerClasses();
+    protected _updateScrollContainerPaigingSccClass(options: IContainerOptions) {
+        const scrollCssClass = this._getScrollContainerCssClass(this._options);
+        if (this._scrollCssClass !== scrollCssClass) {
+            this._scrollCssClass = scrollCssClass;
+            this._needUpdateContentSize = true;
+        }
     }
 
-    protected _draggingChangedHandler(event, dragging): void {
+    protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
+        let cssClass: string = this._scrollbars.getScrollContainerClasses();
+        if (this._paging?.isVisible) {
+            cssClass += ' controls-Scroll__content_paging';
+        }
+        return cssClass;
+    }
+
+    protected _draggingChangedHandler(event: SyntheticEvent, scrollbarOrientation: string, dragging: boolean): void {
         this._dragging = dragging;
 
         // if (!dragging && typeof this._scrollTopAfterDragEnd !== 'undefined') {
@@ -338,7 +363,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const top = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const bottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
         this._scrollbars.setOffsets({ top: top, bottom: bottom });
-        this._shadows.setStickyFixed(!!top, !!bottom);
+        this._shadows.setStickyFixed(
+            this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
+            this._stickyHeaderController.hasFixed(POSITION.BOTTOM) && this._stickyHeaderController.hasShadowVisible(POSITION.BOTTOM));
         this._notify('fixed', [top, bottom]);
     }
 
