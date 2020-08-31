@@ -49,7 +49,7 @@
 </ws:template>
 <ws:template name="stickyLadderTpl">
    <ws:if data="{{itemData.styleLadderHeading && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
+      <div attr:class="controls-Grid__row-ladder-cell {{currentColumn.classList.base}} {{!!itemData.isActive ? ' controls-GridView__item_active_theme-' + _options.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + _options.theme}} js-controls-SwipeControl__actionsContainer"
            attr:key="{{itemData.key + '_sticky_ladder'}}"
            attr:style="{{itemData.styleLadderHeading}}">
          <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{backgroundStyle}}"
