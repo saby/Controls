@@ -2,7 +2,7 @@
 // tslint:disable:no-magic-numbers
 
 import { assert } from 'chai';
-import { FlatSelectionStrategy, SelectionController } from 'Controls/multiselection';
+import { FlatSelectionStrategy, SelectionController, ISelectionItem } from 'Controls/multiselection';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
 import { SearchGridViewModel} from 'Controls/treeGrid';
@@ -335,5 +335,28 @@ describe('Controls/_multiselection/Controller', () => {
 
       assert.isTrue(model.getItemBySourceKey(1).isSelected());
       assert.deepEqual(result, expectedResult);
+   });
+
+   // При вызове startItemAnimation нужно устанавливать в коллекцию анимацию right-swiped и isSwiped
+   it('should right-swipe item on startItemAnimation() method', () => {
+      controller.startItemAnimation(1);
+      const item1 = model.getItemBySourceKey(1);
+      assert.isTrue(item1.isAnimatedForSelection());
+   });
+
+   it('method getAnimatedItem() should return right swiped item', () => {
+      // @ts-ignore
+      const item: CollectionItem<Record> = model.getItemBySourceKey(1);
+      let swipedItem: ISelectionItem;
+
+      controller.startItemAnimation(1);
+      // @ts-ignore
+      swipedItem = controller.getAnimatedItem() as CollectionItem<Record>;
+      assert.equal(swipedItem, item, 'right-swiped item has not been found by getAnimatedItem() method');
+      controller.stopItemAnimation();
+
+      // @ts-ignore
+      swipedItem = controller.getAnimatedItem() as CollectionItem<Record>;
+      assert.equal(swipedItem, null, 'Current right-swiped item has not been un-swiped');
    });
 });

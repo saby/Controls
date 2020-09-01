@@ -3,33 +3,14 @@
         <div>
             <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="linkButton"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
-                <div>
-                    <Controls.list:Mover
-                            name="listMover"
+                <Controls.list:Container>
+                    <Controls.treeGrid:View
+                            name="treeGrid"
+                            multiSelectVisibility="visible"
                             parentProperty="parent"
-                            on:afterItemsMove="_afterItemsMove()">
-                        <ws:moveDialogTemplate templateName="Controls/moverDialog:Template">
-                            <ws:templateOptions
-                                    root="{{null}}"
-                                    showRoot="{{true}}"
-                                    keyProperty="id"
-                                    parentProperty="parent"
-                                    searchParam="title"
-                                    filter="{{_filter}}"
-                                    nodeProperty="type"
-                                    source="{{_viewSource}}"
-                                    columns="{{_columns}}"/>
-                        </ws:moveDialogTemplate>
-                    </Controls.list:Mover>
-                    <Controls.list:Container>
-                        <Controls.treeGrid:View
-                                name="treeGrid"
-                                multiSelectVisibility="visible"
-                                parentProperty="parent"
-                                nodeProperty="type"
-                                columns="{{_columns}}"/>
-                    </Controls.list:Container>
-                </div>
+                            nodeProperty="type"
+                            columns="{{_columns}}"/>
+                </Controls.list:Container>
             </Controls.operations:Controller>
         </div>
     </Controls.list:DataContainer>

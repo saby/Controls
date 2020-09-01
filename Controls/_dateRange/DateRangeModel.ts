@@ -1,8 +1,7 @@
 import cExtend = require('Core/core-simpleExtend');
 import {ObservableMixin, VersionableMixin, DateTime} from 'Types/entity';
 import getPeriodType = require('Core/helpers/Date/getPeriodType');
-import dateRangeUtil = require('Controls/Utils/DateRangeUtil');
-import DateUtil = require('Controls/Utils/Date');
+import {Range, Base} from 'Controls/dateUtils';
 import CalendarUtils from './Utils';
 
 /**
@@ -19,8 +18,8 @@ import CalendarUtils from './Utils';
  */
 var _private = {
    setStartValue: function(self, value) {
-      const startValueResetTime = DateUtil.normalizeDate(self._startValue);
-      if (DateUtil.isDatesEqual(startValueResetTime, value)) {
+      const startValueResetTime = Base.normalizeDate(self._startValue);
+      if (Base.isDatesEqual(startValueResetTime, value)) {
          return false;
       }
       self._startValue = value;
@@ -28,8 +27,8 @@ var _private = {
       return true;
    },
    setEndValue: function(self, value) {
-      const endValueResetTime = DateUtil.normalizeDate(self._endValue);
-      if (DateUtil.isDatesEqual(endValueResetTime, value)) {
+      const endValueResetTime = Base.normalizeDate(self._endValue);
+      if (Base.isDatesEqual(endValueResetTime, value)) {
          return false;
       }
       self._endValue = value;
@@ -60,11 +59,11 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    update: function(options) {
       this._options = options;
       var changed = false;
-      if (options.hasOwnProperty('startValue') && !DateUtil.isDatesEqual(options.startValue, this._startValue)) {
+      if (options.hasOwnProperty('startValue') && !Base.isDatesEqual(options.startValue, this._startValue)) {
          this._startValue = options.startValue;
          changed = true;
       }
-      if (options.hasOwnProperty('endValue') && !DateUtil.isDatesEqual(options.endValue, this._endValue)) {
+      if (options.hasOwnProperty('endValue') && !Base.isDatesEqual(options.endValue, this._endValue)) {
          this._endValue = options.endValue;
          changed = true;
       }
@@ -116,7 +115,7 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    },
 
    _getDisplayedRange(range, direction): [Date, Date] {
-      const nextRange = dateRangeUtil.shiftPeriod(range[0], range[1], direction);
+      const nextRange = Range.shiftPeriod(range[0], range[1], direction);
       if (!this._options.displayedRanges) {
          return nextRange;
       }
@@ -186,7 +185,7 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
    },
 
    shiftForward: function() {
-      this._shiftRange(dateRangeUtil.SHIFT_DIRECTION.FORWARD);
+      this._shiftRange(Range.SHIFT_DIRECTION.FORWARD);
    },
 
    /**
@@ -194,7 +193,7 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
     * it shifts it for the same period back.
     */
    shiftBack: function() {
-      this._shiftRange(dateRangeUtil.SHIFT_DIRECTION.BACK);
+      this._shiftRange(Range.SHIFT_DIRECTION.BACK);
    },
 
    _prepareRange(): Date[] {

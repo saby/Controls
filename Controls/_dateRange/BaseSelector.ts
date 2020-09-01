@@ -1,6 +1,6 @@
 import {Control, IControlOptions} from 'UI/Base';
 import DateRangeModel from './DateRangeModel';
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {proxyModelEvents} from 'Controls/eventUtils';
 import {DependencyTimer} from 'Controls/Utils/FastOpen';
 import {Logger} from 'UI/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';

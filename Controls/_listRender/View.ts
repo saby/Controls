@@ -8,8 +8,7 @@ import { Sticky } from 'Controls/popup';
 
 import {
     Collection,
-    CollectionItem,
-    ANIMATION_STATE
+    CollectionItem
 } from 'Controls/display';
 import {
     Controller as ItemActionsController,
@@ -185,7 +184,7 @@ export default class View extends Control<IViewOptions> {
             this._itemActionsController.activateSwipe(item.getContents().getKey(), swipeContainerWidth, swipeContainerHeight);
         }
         if (swipeEvent.nativeEvent.direction === 'right' && item.isSwiped()) {
-            this._itemActionsController.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+            this._itemActionsController.startSwipeCloseAnimation();
             this._collection.nextVersion();
         }
     }

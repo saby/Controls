@@ -1,9 +1,33 @@
-import { CollectionItem, IBaseCollection } from 'Controls/display';
+import { CollectionItem, IBaseCollection, ICollectionItem } from 'Controls/display';
 import { Model, relation } from 'Types/entity';
-import { TKeysSelection as TKeys, TSelectedKey as TKey, TSelectionType} from 'Controls/interface';
+import { TKeysSelection as TKeys, TSelectedKey as TKey} from 'Controls/interface';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
 import { Controller as SourceController } from 'Controls/source';
+
+/**
+ * Интерфейс описывающий элемент модели, используемой в контроллере множественного выбора
+ *
+ * @interface Controls/multiselection/ISelectionItem
+ * @public
+ * @author Аверкиев П.А.
+ */
+export interface ISelectionItem extends ICollectionItem {
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @method
+    * @public
+    * @return {Boolean} состояние правого свайпа
+    */
+   isAnimatedForSelection(): boolean;
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @param {Boolean} swiped состояние правого свайпа
+    * @method
+    * @public
+    */
+   setAnimatedForSelection(swiped: boolean): boolean;
+}
 
 /**
  * Интерфейс описывающий модель, используемую в контроллере множественного выбора
@@ -12,7 +36,7 @@ import { Controller as SourceController } from 'Controls/source';
  * @public
  * @author Панихин К.А.
  */
-export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> {
+export interface ISelectionModel extends IBaseCollection<ISelectionItem> {
    /**
     * Проверить, можно ли загрузить еще данные
     *

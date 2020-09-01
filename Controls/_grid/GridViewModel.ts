@@ -23,7 +23,6 @@ import { Model } from 'Types/entity';
 import {
     IEditingConfig,
     ISwipeConfig,
-    ANIMATION_STATE,
     CollectionItem
 } from 'Controls/display';
 import {Logger} from 'UI/Utils';
@@ -324,7 +323,12 @@ var
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
             // Стиль колонки
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
+            if (current.itemPadding.top === 'null' && current.itemPadding.bottom === 'null') {
+                classLists.base += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            } else {
+                classLists.base += `controls-Grid__row-cell_default_min_height-theme-${theme} `;
+            }
+            classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
             _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (backgroundColorStyle) {
@@ -2026,16 +2030,6 @@ var
         // New Model compatibility
         setSwipeConfig(config: ISwipeConfig): void {
             this._model.setSwipeConfig(config);
-        },
-
-        // New Model compatibility
-        getSwipeAnimation(): ANIMATION_STATE {
-            return this._model.getSwipeAnimation();
-        },
-
-        // New Model compatibility
-        setSwipeAnimation(animation: ANIMATION_STATE): void {
-            this._model.setSwipeAnimation(animation);
         },
 
         // New Model compatibility

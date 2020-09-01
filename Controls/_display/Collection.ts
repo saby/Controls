@@ -33,7 +33,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { IDragPosition } from 'Controls/listDragNDrop';
 import DragStrategy from './itemsStrategy/Drag';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ICollection, ISourceCollection} from './interface/ICollection';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -710,11 +710,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * ссылка на текущий активный Item
      */
     protected _$activeItem: T;
-
-    /**
-     * Анимация свайпа: открытие или закрытие меню опций
-     */
-    protected _swipeAnimation: ANIMATION_STATE;
 
     protected _$isEditing: boolean;
 
@@ -2436,22 +2431,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this._swipeConfig = config;
             this._nextVersion();
         }
-    }
-
-    /**
-     * Устанавливает текущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    setSwipeAnimation(animation: ANIMATION_STATE): void {
-        this._swipeAnimation = animation;
-    }
-
-    /**
-     * Получает еткущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    getSwipeAnimation(): ANIMATION_STATE {
-        return this._swipeAnimation;
     }
 
     appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {

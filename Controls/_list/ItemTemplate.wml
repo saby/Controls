@@ -30,15 +30,17 @@
    </ws:if>
 
     <ws:if data="{{contentTemplate}}">
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}}">
-            <ws:partial template="{{contentTemplate}}"
-                        itemData="{{itemData}}"
-                        itemActionsTemplate="{{itemActionsTemplate}}"
-            />
+        <div attr:class="{{itemData.spacingClassList}}{{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}">
+            <div class="controls-ListView_content-template">
+                <ws:partial template="{{contentTemplate}}"
+                            itemData="{{itemData}}"
+                            itemActionsTemplate="{{itemActionsTemplate}}"
+                />
+            </div>
         </div>
     </ws:if>
     <ws:else>
-        <div attr:class="{{itemData.spacingClassList}}{{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}}">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div>
+        <div attr:class="{{itemData.spacingClassList}}{{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}"><div class="controls-ListView_content-template">{{itemData.getPropValue(itemData.item, displayProperty || 'title')}}</div></div>
     </ws:else>
 
     <ws:if data="{{itemData.hasVisibleActions() || itemData.isEditing()}}">

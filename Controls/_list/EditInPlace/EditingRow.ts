@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base.js';
 import * as template from 'wml!Controls/_list/EditInPlace/EditingRow';
-import * as scrollToElement from 'Controls/Utils/scrollToElement';
+import {scrollToElement} from 'Controls/scrollUtils';
 import { constants } from 'Env/Env';
 
 export interface IEditingRowOptions extends IControlOptions {

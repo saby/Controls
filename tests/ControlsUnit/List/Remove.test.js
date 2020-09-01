@@ -3,7 +3,7 @@ define([
    'Types/source',
    'Types/collection',
    'Core/Deferred',
-   'Core/core-clone'
+   'Core/core-clone',
 ], function(lists, sourceLib, collection, Deferred, cClone) {
    describe('Controls.List.Remover', function() {
       var remover;
@@ -30,8 +30,12 @@ define([
             });
 
          remover = new lists.Remover();
-         remover._source = source;
-         remover._items = rs;
+         const cfg = {
+            source: source,
+            items: rs,
+            filter: {}
+         };
+         remover._beforeMount(cfg, {dataOptions: cfg});
       });
 
       afterEach(function() {
@@ -52,16 +56,13 @@ define([
       it('afterItemsRemove notify event with params', function(done) {
          var
             items = [2, 3],
-            result = 'custom_result',
             unselectAllNotified = false;
-         remover._source.destroy = function() {
-            return Deferred.success(result);
+         remover._controller._source.destroy = function() {
+            return Promise.resolve();
          };
          remover._notify = function(event, args) {
             if (event === 'afterItemsRemove') {
                assert.equal(args[0], items);
-               assert.equal(args[1], result);
-               done();
             }
             if (event === 'selectedTypeChanged') {
                assert.equal(args[0], 'unselectAll');
@@ -69,57 +70,71 @@ define([
             }
          };
 
-         remover.removeItems(items);
-         assert.isTrue(unselectAllNotified);
+         remover.removeItems(items).then(() => {
+            assert.isTrue(unselectAllNotified);
+            done();
+         });
       });
 
-      it('beforeItemsRemove return false', function() {
+      it('beforeItemsRemove return false', function(done) {
          remover._notify = function(event) {
             if (event === 'beforeItemsRemove') {
                return false;
             }
          };
 
-         remover.removeItems([2, 3]);
-         assert.equal(remover._items.getCount(), 3);
+         remover.removeItems([2, 3]).then(() => {
+            assert.equal(remover._controller._items.getCount(), 3);
+            done();
+         });
       });
 
-      it('beforeItemsRemove return Deferred', function() {
+      it('beforeItemsRemove return Deferred', function(done) {
          remover._notify = function(event) {
             if (event === 'beforeItemsRemove') {
                return Deferred.success();
             }
          };
 
-         remover.removeItems([1, 2, 3]);
-         assert.equal(remover._items.getCount(), 0);
-      });
-
-      it('removeItems from source', function(done) {
-         remover.removeItems([1, 2]);
-         remover._source.query().addCallback(function(dataSet) {
-            assert.equal(dataSet.getAll().getCount(), 1);
+         remover.removeItems([1, 2, 3]).then(() => {
+            assert.equal(remover._controller._items.getCount(), 0);
             done();
          });
       });
 
-      it('removeItems from items', function() {
-         remover.removeItems([1, 2]);
-         assert.equal(remover._items.getCount(), 1);
+      it('removeItems from source', function(done) {
+         let destroyItemsInSourceCalled = false;
+         remover._controller._source.destroy = () => {
+            destroyItemsInSourceCalled = true;
+            return Promise.resolve();
+         };
+         remover.removeItems([1, 2]).then(() => {
+            assert.isTrue(destroyItemsInSourceCalled);
+            done();
+         });
       });
 
-      it('remove by selection', function() {
-         remover.removeItems({
+      it('removeItems from items', function(done) {
+         remover.removeItems([1, 2]).then(() => {
+            assert.equal(remover._controller._items.getCount(), 1);
+            done();
+         });
+      });
+
+      it('remove by selection', async function() {
+         await remover.removeItems({
             selected: [1, 2],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._controller._items.getCount(), 1);
          });
-         assert.equal(remover._items.getCount(), 1);
 
-         remover.removeItems({
+         await remover.removeItems({
             selected: [3],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._controller._items.getCount(), 0);
          });
-         assert.equal(remover._items.getCount(), 0);
       });
    });
 });

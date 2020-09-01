@@ -48,7 +48,5 @@ export interface ICollection<S, T> extends IBaseCollection<T> {
     getLeftSpacing(): string;
     getItemUid(item: T): string;
     getMarkerVisibility(): string;
-    getSwipeAnimation(): ANIMATION_STATE;
-    setSwipeAnimation(animation: ANIMATION_STATE): void;
     notifyItemChange(item: T, properties?: object): void;
 }

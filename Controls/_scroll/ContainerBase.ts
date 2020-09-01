@@ -4,14 +4,13 @@ import {Bus} from 'Env/Event';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, Registrar} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
+import {ResizeObserver as ResizeObserverUtil, scrollToElement} from 'Controls/scrollUtils';
 import {canScrollByState, getContentSizeByState, getScrollPositionTypeByState, SCROLL_DIRECTION} from './Utils/Scroll';
 import {scrollTo} from './Utils/Scroll';
 import {IScrollState} from './Utils/ScrollState';
 import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import tmplNotify = require('Controls/Utils/tmplNotify');
-import * as scrollToElement from 'Controls/Utils/scrollToElement';
 
 export interface IContainerBaseOptions extends IControlOptions {
     scrollMode?: SCROLL_MODE;

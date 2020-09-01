@@ -4,7 +4,7 @@ import StringValueConverter = require('Controls/_input/DateTime/StringValueConve
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_input/Date/Picker/Picker');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
 
    /**
     * Поле ввода даты. Поддерживает как ввод с клавиатуры, так и выбор даты из всплывающего календаря с помощью мыши. Не поддерживает ввод времени.
@@ -65,12 +65,12 @@ import getOptions from 'Controls/Utils/datePopupUtils';
 
       openPopup: function(event) {
           var cfg = {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
             className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
             templateOptions: {
-               ...getOptions.getTemplateOptions(this),
+               ...PopupUtil.getTemplateOptions(this),
                selectionType: 'single',
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,

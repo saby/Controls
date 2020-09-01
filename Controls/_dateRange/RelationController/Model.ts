@@ -1,8 +1,7 @@
-import dateUtils = require('Controls/Utils/Date');
 import getPeriodType = require('Core/helpers/Date/getPeriodType');
 import getPeriodLengthInMonthByType = require('Core/helpers/Date/getPeriodLengthInMonthByType');
 import periodTypes = require('Core/helpers/Date/periodTypes');
-import dateRangeUtil = require('Controls/Utils/DateRangeUtil');
+import {Range, Base as dateUtils} from 'Controls/dateUtils';
 
 const enum SLIDE_DATE_TYPE {
     days,
@@ -81,7 +80,7 @@ class ModuleClass {
 
     private _shift(delta) {
         this.ranges = this.ranges.map(function (range) {
-            return dateRangeUtil.shiftPeriod(range[0], range[1], delta);
+            return Range.shiftPeriod(range[0], range[1], delta);
         });
     }
 
@@ -234,9 +233,9 @@ class ModuleClass {
         oldPeriodType = (oldStart && oldEnd) ? getPeriodType(oldStart, oldEnd) : null;
 
         if (this._periodTypeIsDay(oldPeriodType)) {
-            oldPeriodLength = dateRangeUtil.gePeriodLengthInDays(oldStart, oldEnd);
+            oldPeriodLength = Range.getPeriodLengthInDays(oldStart, oldEnd);
         } else {
-            oldPeriodLength = oldPeriodType ? dateRangeUtil.getPeriodLengthInMonths(oldStart, oldEnd) : null;
+            oldPeriodLength = oldPeriodType ? Range.getPeriodLengthInMonths(oldStart, oldEnd) : null;
         }
 
         if (this._periodTypeIsDay(periodType)) {
@@ -245,13 +244,13 @@ class ModuleClass {
             } else {
                 selectionType = SLIDE_DATE_TYPE.days;
             }
-            periodLength = dateRangeUtil.gePeriodLengthInDays(start, end);
+            periodLength = Range.getPeriodLengthInDays(start, end);
         } else {
-            periodLength = periodType ? dateRangeUtil.getPeriodLengthInMonths(start, end) : null;
+            periodLength = periodType ? Range.getPeriodLengthInMonths(start, end) : null;
         }
 
         if (this._periodTypeIsDay(periodType) && this._periodTypeIsDay(oldPeriodType)) {
-            capacityChanged = periodLength !== dateRangeUtil.gePeriodLengthInDays(oldStart, oldEnd);
+            capacityChanged = periodLength !== Range.getPeriodLengthInDays(oldStart, oldEnd);
         } else {
             capacityChanged = periodType !== oldPeriodType;
         }

@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Button/Button');
 import {cssStyleGeneration} from 'Controls/_dropdown/Button/MenuUtils';
 import * as tmplNotify from 'Controls/Utils/tmplNotify';
-import ActualApi from 'Controls/_buttons/ActualApi';
 import Controller from 'Controls/_dropdown/_Controller';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {loadItems} from 'Controls/_dropdown/Util';
@@ -13,7 +12,6 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
-import {Logger} from 'UI/Utils';
 
 interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -98,7 +96,6 @@ export default class Button extends BaseDropdown {
                 context: object,
                 receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
       this._offsetClassName = cssStyleGeneration(options);
-      this._updateState(options);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
       this._controller = new Controller(this._getControllerOptions(options));
 
@@ -112,21 +109,6 @@ export default class Button extends BaseDropdown {
       if (this._options.size !== options.size || this._options.icon !== options.icon ||
          this._options.viewMode !== options.viewMode) {
          this._offsetClassName = cssStyleGeneration(options);
-      }
-      this._updateState(options);
-   }
-
-   _updateState(options: IButtonOptions): void {
-      if (options.style) {
-         Logger.error('Опция style является устаревшей. Вместо нее используйте опции buttonStyle и fontColorStyle');
-      }
-
-      if (options.transparent) {
-         Logger.error('Опция transparent является устаревшей. Вместо нее используйте опцию contrastBackground');
-      }
-
-      if (options.size) {
-         Logger.error('Опция size является устаревшей. Вместо нее используйте опции fontSize и inlineHeight');
       }
    }
 

@@ -1,16 +1,12 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {isValidDateRange} from 'Controls/validate';
 import {IDateRangeValidators, IDateRangeValidatorsOptions} from 'Controls/interface';
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {proxyModelEvents} from 'Controls/eventUtils';
 import DateRangeModel from './DateRangeModel';
-import {getRangeValueValidators} from 'Controls/Utils/DateControlsUtils';
-import {StringValueConverter} from 'Controls/input';
-import {IDateTimeMask} from 'Controls/input';
+import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
+import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
 import tmplNotify = require('Controls/Utils/tmplNotify');
 import template = require('wml!Controls/_dateRange/Input/Input');
-import getOptions from 'Controls/Utils/datePopupUtils';
-import {ISelection} from 'Controls/input';
 import {DependencyTimer} from 'Controls/Utils/FastOpen';
 import {Logger} from 'UI/Utils';
 
@@ -106,12 +102,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     openPopup(event: SyntheticEvent): void {
         var cfg = {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
             className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
             templateOptions: {
-                ...getOptions.getDateRangeTemplateOptions(this),
+                ...PopupUtil.getDateRangeTemplateOptions(this),
                 selectionType: this._options.selectionType,
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
@@ -198,12 +194,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     private _updateStartValueValidators(validators?: Function[]): void {
         const startValueValidators: Function[] = validators || this._options.startValueValidators;
-        this._startValueValidators = getRangeValueValidators(startValueValidators, this._rangeModel, this._rangeModel.startValue);
+        this._startValueValidators = Range.getRangeValueValidators(startValueValidators, this._rangeModel, this._rangeModel.startValue);
     }
 
     private _updateEndValueValidators(validators?: Function[]): void {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
-        this._endValueValidators = getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
+        this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
 
     static _theme: string[] = ['Controls/dateRange', 'Controls/Classes'];

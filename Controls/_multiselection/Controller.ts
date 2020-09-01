@@ -1,12 +1,12 @@
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
-import { CollectionItem } from 'Controls/display';
+import { CollectionItem, TItemKey } from 'Controls/display';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import {
    ISelectionControllerOptions,
    ISelectionControllerResult,
-   ISelectionDifference,
+   ISelectionDifference, ISelectionItem,
    ISelectionModel
 } from './interface';
 import clone = require('Core/core-clone');
@@ -211,6 +211,49 @@ export class Controller {
       this._updateModel(this._selection, false, records);
       return this._getResult(this._selection, this._selection);
    }
+
+   // region rightSwipe
+
+   /**
+    * Устанавливает текущее состояние анимации записи в false
+    */
+   stopItemAnimation(): void {
+      this._setAnimatedItem(null);
+   }
+
+   /**
+    * Получает текущий анимированный элемент.
+    */
+   getAnimatedItem(): ISelectionItem {
+      return this._model.find((item) => !!item.isAnimatedForSelection && item.isAnimatedForSelection());
+   }
+
+   /**
+    * Устанавливает текущее состояние анимации записи по её ключу
+    * @param key
+    * @private
+    */
+   private _setAnimatedItem(key: TItemKey): void {
+      const oldSwipeItem = this.getAnimatedItem();
+      const newSwipeItem = this._model.getItemBySourceKey(key);
+
+      if (oldSwipeItem) {
+         oldSwipeItem.setAnimatedForSelection(false);
+      }
+      if (newSwipeItem) {
+         newSwipeItem.setAnimatedForSelection(true);
+      }
+   }
+
+   /**
+    * Активирует анимацию записи
+    * @param itemKey
+    */
+   startItemAnimation(itemKey: TItemKey): void {
+      this._setAnimatedItem(itemKey);
+   }
+
+   // endregion
 
    private _clearSelection(): void {
       this._selectedKeys = [];

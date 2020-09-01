@@ -4,7 +4,7 @@ import {ICrud, Query, DataSet, QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {mixin} from 'Types/util';
 import {IVersionable, VersionableMixin} from 'Types/entity';
-import dateRangeUtil = require('Controls/Utils/DateRangeUtil');
+import {Range} from 'Controls/dateUtils';
 import monthListUtils from './Utils';
 import {IDateConstructorOptions} from 'Controls/interface';
 
@@ -67,12 +67,12 @@ export default class ExtDataModel extends mixin<VersionableMixin>(VersionableMix
 
     private _getQuery(start: Date, end: Date): Query {
         let
-            length: number = dateRangeUtil.getPeriodLengthInMonths(start, end),
+            length: number = Range.getPeriodLengthInMonths(start, end),
             query: Query = new Query();
 
         if (this._viewMode === 'year') {
             end.setMonth(11);
-            length = dateRangeUtil.getPeriodLengthInMonths(start, end);
+            length = Range.getPeriodLengthInMonths(start, end);
         }
         start.setMonth(start.getMonth() - 1);
 

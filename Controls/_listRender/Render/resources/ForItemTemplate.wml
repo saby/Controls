@@ -34,7 +34,6 @@
          template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/list:SwipeTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          swipeConfig="{{ collection.getSwipeConfig() }}"
-         animationState="{{ collection.getSwipeAnimation() }}"
          itemData="{{ item }}" />
    </ws:swipeTemplate>
 </ws:partial>

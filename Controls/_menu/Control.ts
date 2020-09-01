@@ -586,7 +586,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _updateSwipeItem(newSwipedItem: CollectionItem<Model>, isSwipeLeft: boolean): void {
         const oldSwipedItem: CollectionItem<Model> = this._listModel.find(
-            (item: CollectionItem<Model>): boolean => item.isSwiped() || item.isRightSwiped());
+            (item: CollectionItem<Model>): boolean => item.isSwiped() || item.isAnimatedForSelection());
         if (isSwipeLeft && oldSwipedItem) {
             oldSwipedItem.setSwiped(false);
         }

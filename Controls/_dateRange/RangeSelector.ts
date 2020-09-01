@@ -5,7 +5,7 @@ import {IDateRangeOptions} from "./interfaces/IDateRange";
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
 import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelector');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 
@@ -96,12 +96,12 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
             className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn_theme-' + this._options.theme;
         }
         return {
-            ...getOptions.getCommonOptions(this),
+            ...PopupUtil.getCommonOptions(this),
             target: container,
             template: 'Controls/datePopup',
             className,
             templateOptions: {
-                ...getOptions.getDateRangeTemplateOptions(this),
+                ...PopupUtil.getDateRangeTemplateOptions(this),
                 headerType: 'link',
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,

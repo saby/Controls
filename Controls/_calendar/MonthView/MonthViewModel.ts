@@ -3,7 +3,7 @@ import {VersionableMixin, Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import cExtend = require('Core/core-simpleExtend');
 import coreMerge = require('Core/core-merge');
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 
 /**
  * Модель для представления месяца.

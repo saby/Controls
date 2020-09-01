@@ -1,8 +1,8 @@
 import cExtend = require('Core/core-simpleExtend');
 import entity = require('Types/entity');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
-import dateUtils = require('Controls/Utils/Date');
-   
+import {Base as dateUtils} from 'Controls/dateUtils';
+
 
    /**
     * Модель для контрола 'Controls/input:Date'.

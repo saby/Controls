@@ -1,0 +1,13 @@
+<div class="wasabyControl">
+    <div>
+        WasabyEnv
+    </div>
+    <Controls.input:Date
+            bind:value="_date"
+            mask="DD.MM.YYYY"
+            class="wasabyControl__br"/>
+    <Controls.input:Date
+            bind:value="_date"
+            mask="DD.MM.YYYY"
+            class="wasabyControl__br"/>
+</div>

@@ -2,7 +2,7 @@ import coreMerge = require('Core/core-merge');
 import RangeSelectionController from './RangeSelectionController';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
 import CalendarUtils from './../Utils';
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 
 /**
  * Контроллер, реализующий выделение элементов от одного до другого. В качестве элементов используются даты.

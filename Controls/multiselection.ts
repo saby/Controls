@@ -3,6 +3,7 @@ import { FlatSelectionStrategy } from 'Controls/_multiselection/SelectionStrateg
 import { TreeSelectionStrategy } from 'Controls/_multiselection/SelectionStrategy/Tree';
 import { default as ISelectionStrategy } from 'Controls/_multiselection/SelectionStrategy/ISelectionStrategy';
 import {
+   ISelectionItem,
    ISelectionModel,
    ISelectionControllerResult,
    ISelectionControllerOptions,
@@ -11,6 +12,7 @@ import {
 } from 'Controls/_multiselection/interface';
 
 export {
+   ISelectionItem,
    SelectionController,
    ISelectionControllerOptions,
    ISelectionControllerResult,

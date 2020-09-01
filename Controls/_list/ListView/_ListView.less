@@ -38,6 +38,29 @@
    padding-left: @item_padding-left_m_list;
 }
 
+/**
+Пробовал сделать минимальную щирину через padding, но из-за этого некоторые элементы(календарь и тд),
+перестали отображаться корректно. А именно у них появиляются лишние отступы.
+ */
+.controls-ListView_default-padding_theme-@{themeName} {
+   min-height: @item_min-height_list;
+   align-items: baseline;
+   display: inline-flex;
+   width: 100%;
+   flex-shrink: 1;
+   box-sizing: border-box;
+   &:before{
+      content: '\200b';
+      font-size: @item_max-font-size_list;
+   }
+   // Нужен для вложенного div, без этого будет ломаться верстка некоторых блоков.
+   // Ломается из-за display: inline-flex, поэтому возвращаем display block
+   & > .controls-ListView_content-template {
+      display: block;
+      width: inherit;
+   }
+}
+
 .controls-ListView__item_default-topPadding_null_theme-@{themeName},
 .controls-ListView__item_master-topPadding_null_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-null_theme-@{themeName} {

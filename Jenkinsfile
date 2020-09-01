@@ -1,6 +1,6 @@
 @Library('pipeline') _
 
-def version = '20.6000'
+def version = '20.7000'
 
 
 node ('controls') {

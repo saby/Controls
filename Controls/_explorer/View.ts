@@ -1,8 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_explorer/View/View');
-import tmplNotify = require('Controls/Utils/tmplNotify');
 import cInstance = require('Core/core-instance');
-import keysHandler = require('Controls/Utils/keysHandler');
+import {tmplNotify, keysHandler} from 'Controls/eventUtils';
 import randomId = require('Core/helpers/Number/randomId');
 import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridViewModel} from 'Controls/treeGrid';
 import {factory} from 'Types/chain';

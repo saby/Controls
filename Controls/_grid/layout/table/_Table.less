@@ -115,9 +115,13 @@
     height: 0;
   }
 
-  .controls-Grid__row-cell
-  .controls-Grid__row-cell_theme-@{themeName} {
-    height: @cell_min-height_grid;
+  .controls-Grid__row-cell {
+    .controls-Grid__row-cell_default_min_height-theme-@{themeName} {
+      height: @cell_min-height_grid;
+    }
+    .controls-Grid__row-cell_small_min_height-theme-@{themeName} {
+      height: @cell_small-min-height_grid;
+    }
   }
 
   // default
