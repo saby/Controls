@@ -34,18 +34,6 @@ export default interface IMenuControl {
 }
 
 /**
- * @name Controls/_menu/interface/IMenuControl#displayProperty
- * @cfg {String} Устанавливает имя поля элемента, значение которого будет отображено.
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#emptyText
- * @cfg {String} Добавляет пустой элемент в список с заданным текстом.
- * Ключ пустого элемента по умолчанию null, для изменения значения ключа используйте {@link emptyKey}.
- * @demo Controls-demo/Menu/Control/EmptyText/Index
- */
-
-/**
  * @name Controls/_menu/interface/IMenuControl#emptyKey
  * @cfg {String} Первичный ключ для пункта выпадающего списка, который создаётся при установке опции emptyText.
  * @demo Controls-demo/Menu/Control/EmptyText/EmptyKey/Index
@@ -99,12 +87,6 @@ export default interface IMenuControl {
  */
 
 /**
- * @name Controls/_menu/interface/IMenuControl#root
- * @cfg {Number|String|null} Идентификатор корневого узла.
- * @demo Controls-demo/Menu/Control/Root/Index
- */
-
-/**
  * @typedef {Object} ItemAction
  * @property {String} id Идентификатор опции записи.
  * @property {String} title Название опции записи.
@@ -137,123 +119,4 @@ export default interface IMenuControl {
  * @name Controls/_menu/interface/IMenuControl#nodeProperty
  * @cfg {String} Имя свойства, содержащего информацию о типе элемента (лист, узел).
  * @demo Controls-demo/Menu/Control/ParentProperty/Index
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#navigation
- * @cfg {Controls/_interface/INavigation} Конфигурация навигации по списку.
- * @demo Controls-demo/Menu/Control/Navigation/Index
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#selectedKeys
- * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
- * @demo Controls-demo/Menu/Control/SelectedKeys/Index
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#itemTemplate
- * @cfg {Function} Устанавливает шаблон отображения элемента в выпадающем списке. Подробнее про найстройку шаблона {@link Controls/menu:ItemTemplate здесь}.
- * Для контролов из библиотеки dropdown используйте в качестве шаблона Controls/dropdown:ItemTemplate для ленивой загрузки библиотеки menu.
- * @default Controls/menu:ItemTemplate
- * @see itemTemplateProperty
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#itemTemplateProperty
- * @cfg {String} Устанавливает имя поля, которое содержит имя шаблона отображения элемента. Подробнее про найстройку шаблона {@link Controls/menu:ItemTemplate здесь}.
- * Для контролов из библиотеки dropdown используйте в качестве шаблона Controls/dropdown:ItemTemplate для ленивой загрузки библиотеки menu.
- * @example
- *  <pre class="brush: html">
- *    <Controls.menu:Control
- *          keyProperty="id"
- *          displayProperty="title"
- *          source="{{_source)}}"
- *          itemTemplateProperty="myTemplate"/>
- * </pre>
- * myItemTemplate.wml
- * <pre class="brush: html">
- *    <ws:partial template="Controls/menu:ItemTemplate"
- *                scope="{{_options}}">
- *       <ws:contentTemplate>
- *          <div class="demo-item">
- *             <div class="demo-title">{{itemTemplate.itemData.item.get('title')}}</div>
- *             <div class="demo-comment">{{itemTemplate.itemData.item.get('comment')}}</div>
- *          </div>
- *       </ws:contentTemplate>
- *    </ws:partial>
- * </pre>
- * <pre class="brush: js">
- *    this._source = new Memory ({
- *       data: [
- *           { id: 1,
- *             title: 'Discussion' },
- *           { id: 2,
- *             title: 'Idea/suggestion',
- *             comment: 'Offer your idea, which others can not only discuss, but also evaluate.
- *             The best ideas will not go unnoticed and will be realized',
- *            myItemTemplate='myItemTemplate.wml' },
- *           { id: 3,
- *             title: 'Problem' }
- *       ],
- *       keyProperty: 'id'
- *    });
- * </pre>
- * @see itemTemplate
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#dataLoadCallback
- * @cfg {Function}  Функция обратного вызова, которая будет вызываться, когда данные загружены источником.
- * @example
- * WML:
- * <pre>
- * <Controls.menu:Control
- *          keyProperty="id"
- *          displayProperty="title"
- *          dataLoadCallback="{{_callbackHandler}}"
- *          source="{{_source)}}" />
- * </pre>
- * JS:
- * <pre>
- * this._source = new Memory({
- *    keyProperty: 'id',
- *    data: [
- *       {id: 1, title: 'Yaroslavl'},
- *       {id: 2, title: 'Moscow'},
- *       {id: 3, title: 'St-Petersburg'}
- *    ]
- * });
- * this._callbackHandler = function(items) {
- *   // do something
- * };
- * </pre>
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#dataLoadErrback
- * @cfg {Function}  Функция обратного вызова, которая будет вызываться, когда при загрузке данных произошла ошибка.
- * @example
- * WML:
- * <pre>
- * <Controls.menu:Control
- *          keyProperty="id"
- *          displayProperty="title"
- *          dataLoadErrback="{{_errbackHandler}}"
- *          source="{{_source)}}" />
- * </pre>
- * JS:
- * <pre>
- * this._source = new Memory({
- *    keyProperty: 'id',
- *    data: [
- *       {id: 1, title: 'Yaroslavl'},
- *       {id: 2, title: 'Moscow'},
- *       {id: 3, title: 'St-Petersburg'}
- *    ]
- * });
- * this._errbackHandler = function(items) {
- *   // do something
- * };
- * </pre>
  */

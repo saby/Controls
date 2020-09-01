@@ -41,6 +41,8 @@ let getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
  * @mixes Controls/_menu/interface/IMenuControl
+ * @mixes Controls/_menu/interface/IMenuBase
+ * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_dropdown/interface/IDropdownSource
  * @mixes Controls/interface/IDropdown
  * @mixes Controls/_interface/IFilterChanged

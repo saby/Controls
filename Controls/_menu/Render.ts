@@ -13,6 +13,7 @@ import {ItemsUtil} from 'Controls/list';
 import {create as DiCreate} from 'Types/di';
 
 interface IMenuRenderOptions extends IMenuBaseOptions, IRenderOptions {
+    emptyTemplate: TemplateFunction;
 }
 
 /**
@@ -183,6 +184,9 @@ class MenuRender extends Control<IMenuRenderOptions> {
 
         if (options.parentProperty) {
             data[options.parentProperty] = options.root;
+        }
+        if (options.nodeProperty) {
+            data[options.nodeProperty] = false;
         }
         emptyItem.set(data);
         collection.prepend([emptyItem]);

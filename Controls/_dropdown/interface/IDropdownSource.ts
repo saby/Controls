@@ -41,11 +41,6 @@ export default interface IDropdownSource {
  * @name Controls/_dropdown/interface/IDropdownSource#source
  * @cfg {SourceCfg} Объект, который реализует интерфейс {@link Types/source:ICrud ICrud}, необходимый для работы с источником данных.
  * @default undefined
- * @remark
- * Может иметь свойства 'title' и 'showType':
- * * 'icon' определяет иконку элемента.
- * * 'iconStyle' определяет стиль иконки.
- * * 'readOnly' указывает на элемент в режиме чтения.
  * @example
  * Записи будут отображены из источника _source.
  * <pre>

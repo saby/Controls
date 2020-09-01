@@ -4,6 +4,7 @@
  * @library Controls/menu
  * @includes Control Controls/menu:Control
  * @includes Popup Controls/menu:Popup
+ * @includes IMenuBaseOptions Controls/_menu/interface/IMenuBase
  * @includes IMenuControlOptions Controls/_menu/interface/IMenuControl
  * @includes IMenuPopupOptions Controls/_menu/interface/IMenuPopup
  * @includes ItemTemplate Controls/menu:ItemTemplate
