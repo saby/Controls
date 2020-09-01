@@ -29,14 +29,20 @@ var Component = BaseControl.extend({
     _template: monthTmpl,
     _monthViewModel: MonthViewModel,
 
+    _selectionProcessing: null,
+    _selectionBaseValue: null,
+    _selectionHoveredValue: null,
+
     // constructor: function() {
     //    this._dayFormatter = this._dayFormatter.bind(this);
     //    Component.superclass.constructor.apply(this, arguments);
     // },
 
-    // _beforeMount: function(options) {
-    //    this._view = options.view || 'Controls/Date/MonthView';
-    // },
+    _beforeMount: function(options) {
+       this._selectionProcessing = options.selectionProcessing;
+       this._selectionBaseValue = options.selectionBaseValue;
+       this._selectionHoveredValue = options.selectionHoveredValue;
+    },
 
     _onRangeChangedHandler: function (event, startValue, endValue) {
         this._notify('startValueChanged', [startValue]);
