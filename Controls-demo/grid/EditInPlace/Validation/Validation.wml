@@ -1,5 +1,7 @@
 <div class="controlsDemo__cell">
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" attr:class="controlsDemo__inline-flex">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id"
+                                 attr:class="controlsDemo__inline-flex"
+                                 attr:style="max-width: 356px">
         <ws:content>
             <div>
                 <Controls.list:Container>

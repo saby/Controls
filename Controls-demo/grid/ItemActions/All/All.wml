@@ -5,7 +5,8 @@
                 keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
-                itemActions="{{_itemActions}}">
+                itemActions="{{_itemActions}}"
+                attr:style="max-width: 930px">
 
         </Controls.grid:View>
     </div>
@@ -16,7 +17,8 @@
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
                 itemActions="{{_itemActions}}"
-                itemActionsPosition="outside">
+                itemActionsPosition="outside"
+                attr:style="max-width: 930px">
         </Controls.grid:View>
     </div>
 </div>
