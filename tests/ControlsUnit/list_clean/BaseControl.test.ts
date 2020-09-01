@@ -290,6 +290,45 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.equal(baseControl._scrollPagingCtr._options.scrollParams.scrollTop,400);
         });
     });
+    describe('beforeUnmount', () => {
+        let baseControl;
+        const baseControlCfg = {
+            viewName: 'Controls/List/ListView',
+            keyProperty: 'id',
+            viewModelConstructor: ListViewModel,
+            items: new RecordSet({
+                keyProperty: 'id',
+                rawData: []
+            })
+        };
+        beforeEach(() => {
+            baseControl = new BaseControl(baseControlCfg);
+        });
+        afterEach(() => {
+            baseControl.destroy();
+            baseControl = undefined;
+        });
+        it('reset editInPlace before model', async () => {
+            let eipReset = false;
+            let modelDestroyed = false;
+
+            baseControl.saveOptions(baseControlCfg);
+            await baseControl._beforeMount(baseControlCfg);
+            baseControl._editInPlace = {
+                reset: () => {
+                    assert.isFalse(modelDestroyed, 'model is destroyed before editInPlace');
+                    eipReset = true;
+                }
+            };
+            baseControl._listViewModel.destroy = () => {
+                    modelDestroyed = true;
+                }
+            baseControl._beforeUnmount();
+            assert.isTrue(eipReset, 'editInPlace is not reset');
+            assert.isTrue(modelDestroyed, 'model is not destroyed');
+
+        });
+    });
     describe('BaseControl enterHandler', ()=>{
         it('is enterHandler', function() {
             let notified = false;
