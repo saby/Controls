@@ -6,7 +6,7 @@ import {
     ColumnsCollection as Collection,
     ColumnsCollectionItem as CollectionItem,
 } from 'Controls/display';
-import scrollToElement = require('Controls/Utils/scrollToElement');
+import {scrollToElement} from 'Controls/scrollUtils';
 
 import {IList} from 'Controls/list';
 
@@ -119,7 +119,7 @@ export default class ColumnsInnerView extends Control {
             this._columnsIndexes[i] = [];
         }
         this._model.each( (item, index) => {
-            this._columnsIndexes[item.getColumn()].push(index as number);         
+            this._columnsIndexes[item.getColumn()].push(index as number);
         });
     }
     private updateColumns(): void {
@@ -132,9 +132,9 @@ export default class ColumnsInnerView extends Control {
         if (item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._columnsCount) {
-                
+
                 if (this._columnsIndexes[item.column + 1].length > 0) {
-                    
+
                     if (this._columnsIndexes[item.column + 1].length > 1) {
                         done = true;
                     }
@@ -160,7 +160,7 @@ export default class ColumnsInnerView extends Control {
         });
         this.updateColumnIndexesByModel();
         let needLoadMore = removedItemsIndexes.some(this.processRemovingItem.bind(this));
-        
+
         if (needLoadMore) {
             this._notify('loadMore', ['down']);
         }

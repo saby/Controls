@@ -1,6 +1,5 @@
 import rk = require('i18n!Controls');
-import BaseControl = require('Core/Control');
-import proxyModelEvents from 'Controls/Utils/proxyModelEvents';
+import {proxyModelEvents} from 'Controls/eventUtils';
 import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');

@@ -1,7 +1,7 @@
 import BaseSelector from 'Controls/_dateRange/BaseSelector';
 import ILinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
-import getOptions from 'Controls/Utils/datePopupUtils';
+import {Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
@@ -51,12 +51,12 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    protected _getPopupOptions(): IStickyPopupOptions {
       const container = this._children.linkView.getPopupTarget();
       return {
-         ...getOptions.getCommonOptions(this),
+         ...PopupUtil.getCommonOptions(this),
          target: container,
          template: 'Controls/datePopup',
          className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
          templateOptions: {
-            ...getOptions.getTemplateOptions(this),
+            ...PopupUtil.getTemplateOptions(this),
             headerType: 'link',
             calendarSource: this._options.calendarSource,
             dayTemplate: this._options.dayTemplate,

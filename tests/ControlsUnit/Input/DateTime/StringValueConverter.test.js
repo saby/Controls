@@ -3,7 +3,7 @@ define([
    'Env/Env',
    'Types/entity',
    'Types/formatter',
-   'Controls/Utils/DateControlsUtils',
+   'Controls/dateUtils',
    'Controls/input',
    'Controls/Utils/Date'
 ], function(
@@ -24,7 +24,7 @@ define([
          replacer: '_',
       },
       now = new Date(),
-      masks = DateControlsUtils.dateMaskConstants;
+      masks = DateControlsUtils.Range.dateMaskConstants;
 
    describe('Controls/_input/DateTime/StringValueConverter', function() {
 

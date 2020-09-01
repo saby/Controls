@@ -3,14 +3,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import BaseControl = require('Core/Control');
 import coreMerge = require('Core/core-merge');
 import {descriptor, Date as WSDate} from 'Types/entity';
-import {dateMaskConstants} from 'Controls/Utils/DateControlsUtils';
 import {IRangeSelectable} from 'Controls/dateRange';
 import {DateRangeModel, IDateRangeSelectable} from 'Controls/dateRange';
-import {getRangeValueValidators} from 'Controls/Utils/DateControlsUtils';
+import {Range, Base as dateUtils} from 'Controls/dateUtils';
 import EventProxyMixin from './_datePopup/Mixin/EventProxy';
 import periodDialogUtils from './_datePopup/Utils';
-import dateUtils = require('Controls/Utils/Date');
-import dateRangeUtil = require('Controls/Utils/DateRangeUtil');
 import componentTmpl = require('wml!Controls/_datePopup/DatePopup');
 import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
@@ -89,7 +86,7 @@ var _private = {
                 if (yearStateEnabled) {
                     if (((dateUtils.isValidDate(options.startValue) && dateUtils.isValidDate(options.endValue)) &&
                         (!dateUtils.isStartOfMonth(options.startValue) || !dateUtils.isEndOfMonth(options.endValue)) &&
-                        dateRangeUtil.gePeriodLengthInDays(options.startValue, options.endValue) <= MONTH_STATE_SELECTION_DAYS)) {
+                        Range.getPeriodLengthInDays(options.startValue, options.endValue) <= MONTH_STATE_SELECTION_DAYS)) {
                         return STATES.month;
                     }
                 } else {
@@ -124,13 +121,12 @@ var _private = {
 
         updateStartValueValidators(self, validators?: Function[]): void {
             const startValueValidators: Function[] = validators || self._options.startValueValidators;
-            self._startValueValidators = getRangeValueValidators(startValueValidators, self._rangeModel, self._rangeModel.startValue);
-            ;
+            self._startValueValidators = Range.getRangeValueValidators(startValueValidators, self._rangeModel, self._rangeModel.startValue);
         },
 
         updateEndValueValidators(self, validators?: Function[]): void {
             const endValueValidators: Function[] = validators || self._options.endValueValidators;
-            self._endValueValidators = getRangeValueValidators(endValueValidators, self._rangeModel, self._rangeModel.endValue);
+            self._endValueValidators = Range.getRangeValueValidators(endValueValidators, self._rangeModel, self._rangeModel.endValue);
         }
     },
     HEADER_TYPES = {
@@ -142,7 +138,7 @@ var _private = {
         month: 'month'
     },
     MONTH_STATE_SELECTION_DAYS = 30,
-    popupMask = coreMerge({auto: 'auto'}, dateMaskConstants);
+    popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
 
 var Component = BaseControl.extend([EventProxyMixin], {
     _template: componentTmpl,

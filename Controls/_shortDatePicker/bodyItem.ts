@@ -1,6 +1,6 @@
 import BaseControl = require('Core/Control');
 import {date as formatDate} from 'Types/formatter';
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 import itemMonthsTmpl = require('wml!Controls/_shortDatePicker/ItemMonths');
 import MonthCaption = require('wml!Controls/_shortDatePicker/MonthCaption');
 import itemFullTmpl = require('wml!Controls/_shortDatePicker/ItemFull');

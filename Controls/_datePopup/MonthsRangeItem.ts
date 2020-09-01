@@ -6,7 +6,7 @@ import isEmpty = require('Core/helpers/Object/isEmpty');
 import EventProxyMixin from './Mixin/EventProxy';
 import {MonthModel as modelViewModel} from 'Controls/calendar';
 import {IDateRangeSelectable, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRangeItem');
 
 /**

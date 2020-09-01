@@ -30,8 +30,7 @@ import {editing as constEditing} from 'Controls/Constants';
 
 // Utils imports
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
-import tmplNotify = require('Controls/Utils/tmplNotify');
-import keysHandler = require('Controls/Utils/keysHandler');
+import {tmplNotify, keysHandler} from 'Controls/eventUtils';
 import uDimension = require('Controls/Utils/getDimensions');
 import { getItemsHeightsData } from 'Controls/_list/ScrollContainer/GetHeights';
 import {

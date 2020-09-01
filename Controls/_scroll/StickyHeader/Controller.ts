@@ -3,7 +3,7 @@ import {debounce} from 'Types/function';
 import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
-import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
+import {ResizeObserver as ResizeObserverUtil} from 'Controls/scrollUtils';
 
 // @ts-ignore
 
@@ -136,7 +136,7 @@ class StickyHeaderController {
         }
 
         this._canScroll = canScroll;
-        if (this._canScroll && this._initialized) {
+        if (this._canScroll) {
             return this._registerDelayed();
         }
 

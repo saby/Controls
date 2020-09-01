@@ -4,7 +4,7 @@ import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import getCurrentPeriod = require('Core/helpers/Date/getCurrentPeriod');
 import IPeriodSimpleDialog from './IDateLitePopup';
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 import componentTmpl = require('wml!Controls/_shortDatePicker/DateLitePopup');
 import listTmpl = require('wml!Controls/_shortDatePicker/List');
 import ItemWrapper = require('wml!Controls/_shortDatePicker/ItemWrapper');

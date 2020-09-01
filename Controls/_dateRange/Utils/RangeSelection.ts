@@ -1,4 +1,4 @@
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 
 const DEFAULT_CSS_CLASS_BASE = 'controls-RangeSelection';
 const PERIOD_TYPE = {

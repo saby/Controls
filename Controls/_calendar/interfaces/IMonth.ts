@@ -1,6 +1,6 @@
 import {date as dateFormat} from 'Types/formatter';
 import {descriptor} from 'Types/entity';
-import dateUtil = require('Controls/Utils/Date');
+import {Base as dateUtil} from 'Controls/dateUtils';
 
 /**
  * Интерфейс для контролов, которые отображают месяц.

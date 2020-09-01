@@ -1,7 +1,7 @@
 import {Logger} from 'UI/Utils';
 import {default as ValidateContainer, IValidateConfig} from 'Controls/_validate/Container';
 import IValidateResult from 'Controls/_validate/interfaces/IValidateResult';
-import * as scrollToElement from 'Controls/Utils/scrollToElement';
+import {scrollToElement} from 'Controls/scrollUtils';
 import {delay as runDelayed} from 'Types/function';
 
 /**

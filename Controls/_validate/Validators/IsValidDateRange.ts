@@ -1,5 +1,4 @@
 import rk = require('i18n!Controls');
-import dateUtils = require('Controls/Utils/Date');
 /**
  * Функция, позволяющая проверить период на валидность.
  * @class Controls/_validate/Validators/IsValidDateRange
@@ -7,7 +6,7 @@ import dateUtils = require('Controls/Utils/Date');
  * @author Красильников А.С.
  * @remark
  * Подробнее о работе с валидацией читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
- * 
+ *
  * Аргументы функции:
  *
  * * startValue — начало периода.
@@ -33,6 +32,12 @@ import dateUtils = require('Controls/Utils/Date');
  *
  */
 
+//todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=9aea41a1-bac1-47b9-a2b5-fa81a3a2e979
+function isValidDateDefault(date: Date): boolean {
+   // If date is Invalid Date, "instanceof Date" will return true, so check getTime
+   return date instanceof Date && !isNaN(date.getTime());
+}
+
 function isValidDate(startValue: Date, endValue: Date): boolean {
    const start = new Date(startValue.getTime());
    const end = new Date(endValue.getTime());
@@ -43,7 +48,7 @@ function isValidDate(startValue: Date, endValue: Date): boolean {
 
 export default function isValidDateRange(args): boolean {
    if (args.doNotValidate || !args.startValue || !args.endValue ||
-       !dateUtils.isValidDate(args.startValue) || !dateUtils.isValidDate(args.endValue) ||
+       !isValidDateDefault(args.startValue) || !isValidDateDefault(args.endValue) ||
        isValidDate(args.startValue, args.endValue)) {
       return true;
    }

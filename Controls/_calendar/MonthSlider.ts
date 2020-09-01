@@ -5,7 +5,7 @@ import {date as formatDate} from 'Types/formatter';
 import IMonth from './interfaces/IMonth';
 import Slider from './MonthSlider/Slider';
 import {Utils as calendarUtils} from 'Controls/dateRange';
-import DateUtil = require('Controls/Utils/Date');
+import {Base as DateUtil} from 'Controls/dateUtils';
 import monthTmpl = require('wml!Controls/_calendar/MonthSlider/MonthSlider');
 
 var _private = {
