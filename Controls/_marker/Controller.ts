@@ -1,4 +1,4 @@
-import uDimension = require('Controls/Utils/getDimensions');
+import {getDimensions as uDimension} from 'Controls/sizeUtils';
 import { IMarkerModel, IOptions, TKey, TVisibility, Visibility } from './interface';
 import { CollectionItem } from 'Controls/display';
 import { Model } from 'Types/entity';

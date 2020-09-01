@@ -17,7 +17,7 @@ import {IDateConstructor, IDateConstructorOptions} from 'Controls/interface';
 import {IDayTemplate, IDayTemplateOptions} from 'Controls/interface';
 import {IntersectionObserverSyntheticEntry} from 'Controls/scroll';
 import {Base as dateUtils} from 'Controls/dateUtils';
-import getDimensions = require("Controls/Utils/getDimensions");
+import {getDimensions} from 'Controls/sizeUtils';
 import {scrollToElement} from 'Controls/scrollUtils';
 import template = require('wml!Controls/_calendar/MonthList/MonthList');
 import monthTemplate = require('wml!Controls/_calendar/MonthList/MonthTemplate');

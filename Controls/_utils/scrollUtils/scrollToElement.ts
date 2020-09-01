@@ -1,5 +1,5 @@
 import cInstance = require('Core/core-instance');
-import getDimensions = require('Controls/Utils/getDimensions');
+import {getDimensions} from 'Controls/sizeUtils';
 import {POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils';
 
 const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';

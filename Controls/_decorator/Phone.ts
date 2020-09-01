@@ -6,7 +6,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_decorator/Phone/Phone';
 
-import toString from 'Controls/Utils/Formatting/toString';
+import {toString} from 'Controls/inputUtils';
 
 /**
  * @interface Controls/_decorator/Phone/IPhoneOptions

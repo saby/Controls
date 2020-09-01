@@ -1,7 +1,6 @@
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import toString from 'Controls/Utils/Formatting/toString';
-import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
+import {toString, splitIntoTriads} from 'Controls/inputUtils';
 // @ts-ignore
 import * as template from 'wml!Controls/_decorator/Number/Number';
 

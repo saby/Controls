@@ -1,5 +1,5 @@
-import rk = require('i18n!Controls');;
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import rk = require('i18n!Controls');
+import {DOMUtil} from 'Controls/sizeUtils';
 
 import { IMeasurer } from '../interface/IMeasurer';
 import {

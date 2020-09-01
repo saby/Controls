@@ -1,11 +1,9 @@
 import {Logger} from 'UI/Utils';
 import {descriptor} from 'Types/entity';
-import {escapeSpecialChars} from 'Controls/Utils/RegExp';
+import {escapeSpecialChars, addWordCheck} from 'Controls/inputUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
-
-import {addWordCheck} from 'Controls/Utils/RegExp';
 
 /**
  * @typedef HighlightMode

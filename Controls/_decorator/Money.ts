@@ -13,8 +13,8 @@ import {
 } from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
-import numberToString from 'Controls/Utils/Formatting/numberToString';
-import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
+import {numberToString, splitIntoTriads} from 'Controls/inputUtils';
+
 // tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';

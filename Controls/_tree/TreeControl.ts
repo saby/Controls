@@ -8,7 +8,7 @@ import {RecordSet} from 'Types/collection';
 
 import { saveConfig } from 'Controls/Application/SettingsController';
 import {tmplNotify, keysHandler} from 'Controls/eventUtils';
-import { MouseButtons, MouseUp } from 'Controls/Utils/MouseEventHelper';
+import { MouseButtons, MouseUp } from 'Controls/fastOpenUtils';
 import { DndTreeController } from 'Controls/listDragNDrop';
 import { Controller as SourceController } from 'Controls/source';
 import { error as dataSourceError } from 'Controls/dataSource';

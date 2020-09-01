@@ -14,7 +14,7 @@
  * <h2>Возвращает</h2>
  * {Boolean}
  *
- * @class Controls/Utils/HasScrollbar
+ * @class Controls/_utils/sizeUtils/HasScrollbar
  * @public
  * @author Крайнов Д.О.
  */

@@ -1,4 +1,4 @@
-import * as getDimensions from 'Controls/Utils/getDimensions';
+import {getDimensions} from 'Controls/sizeUtils';
 
 export function getItemsHeightsData(itemsContainer: HTMLElement): {itemsHeights: number[], itemsOffsets: number[]} {
     let sum = 0;

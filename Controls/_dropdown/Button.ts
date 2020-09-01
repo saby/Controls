@@ -12,7 +12,7 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {Logger} from 'UI/Utils';
 
 interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {

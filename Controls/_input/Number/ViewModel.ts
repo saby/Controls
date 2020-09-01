@@ -1,7 +1,6 @@
 import BaseViewModel from '../BaseViewModel';
-import {concatTriads} from 'Controls/Utils/splitIntoTriads';
 import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant';
-import toString from 'Controls/Utils/Formatting/toString';
+import {toString, concatTriads} from 'Controls/inputUtils';
 import {format} from 'Controls/_input/Number/format';
 import {parse, IParsedNumber} from 'Controls/_input/Number/parse';
 import {IInputType, ISplitValue} from '../resources/Types';

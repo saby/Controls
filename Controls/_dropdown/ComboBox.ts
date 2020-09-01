@@ -12,7 +12,7 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/Utils/FastOpen';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {generateStates} from 'Controls/input';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {

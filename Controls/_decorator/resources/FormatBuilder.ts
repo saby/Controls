@@ -1,5 +1,5 @@
 import {IFormatMaskChars} from './IMask';
-import {escapeSpecialChars} from 'Controls/Utils/RegExp';
+import {escapeSpecialChars} from 'Controls/inputUtils';
 
 /**
  * Парные разделители открывающего и закрывающего типа.

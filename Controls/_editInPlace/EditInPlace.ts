@@ -1,8 +1,7 @@
 import entity = require('Types/entity');
-import getWidthUtil = require('Controls/Utils/getWidth');
-import hasHorizontalScrollUtil = require('Controls/Utils/hasHorizontalScroll');
 import {editing as constEditing} from 'Controls/Constants';
 import {error as dataSourceError} from 'Controls/dataSource';
+import {hasHorizontalScroll as hasHorizontalScrollUtil, getWidth} from 'Controls/sizeUtils';
 import {Model} from 'Types/entity';
 import {Collection as ViewModel} from '../display';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -747,7 +746,7 @@ export default class EditInPlace {
                 });
                 let i = 0;
                 for (; i < target.value.length; i++) {
-                    currentWidth = getWidthUtil.getWidth(fakeElement);
+                    currentWidth = getWidth(fakeElement);
                     if (currentWidth > offset) {
                         break;
                     }

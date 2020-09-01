@@ -1,7 +1,7 @@
-import numberToString from 'Controls/Utils/Formatting/numberToString';
+import numberToString from 'Controls/_utils/inputUtils/numberToString';
 import {Logger} from 'UI/Utils';
 
-export default function toString(original: string | number | null) {
+export default function toString(original: string | number | null): string {
     if (original === null) {
         return '';
     }

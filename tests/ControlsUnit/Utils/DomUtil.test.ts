@@ -1,6 +1,6 @@
 import {stub} from 'sinon';
 import {assert} from 'chai';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 
 function ClassList(): void {};
 ClassList.prototype = [];

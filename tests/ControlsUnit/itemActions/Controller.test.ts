@@ -17,7 +17,7 @@ import {
 } from 'Controls/_itemActions/interface/IItemAction';
 import {IItemActionsItem} from 'Controls/_itemActions/interface/IItemActionsItem';
 import {IItemActionsCollection} from 'Controls/_itemActions/interface/IItemActionsCollection';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 
 // 3 опции будут показаны в тулбаре, 6 в контекстном меню
 const itemActions: IItemAction[] = [

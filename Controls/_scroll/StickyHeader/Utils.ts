@@ -1,5 +1,5 @@
 import {detection} from 'Env/Env';
-import getDimensions = require('Controls/Utils/getDimensions');
+import {getDimensions} from 'Controls/sizeUtils';
 
 let lastId = 0;
 

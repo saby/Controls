@@ -12,7 +12,7 @@ define('Controls/Application',
       'Controls/scroll',
       'Core/helpers/getResourceUrl',
       'Controls/Application/SettingsController',
-      'Controls/Utils/DOMUtil',
+      'Controls/sizeUtils',
       'Controls/event',
       'Controls/popup',
       'UI/HotKeys',
@@ -62,7 +62,7 @@ define('Controls/Application',
       scroll,
       getResourceUrl,
       SettingsController,
-      DOMUtils,
+      sizeUtils,
       ControlsEvent,
       popup,
       HotKeys,
@@ -206,7 +206,7 @@ define('Controls/Application',
             // На Ipad необходимо вызывать reflow в момент открытия окон для решения проблем с z-index-ами
             // https://online.sbis.ru/opendoc.html?guid=3f84a4bc-2973-497c-91ad-0165b5046bbc
             if (Env.detection.isMobileIOS) {
-               DOMUtils.reflow();
+               sizeUtils.DOMUtil.reflow();
             }
 
             this._changeOverflowClass();

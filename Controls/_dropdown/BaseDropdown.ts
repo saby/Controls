@@ -3,7 +3,7 @@ import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import IDropdownController from 'Controls/_dropdown/interface/IDropdownController';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
-import {DependencyTimer} from 'Controls/Utils/FastOpen';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {RecordSet} from 'Types/collection';
 import {IStickyPopupOptions} from 'Controls/popup';
 

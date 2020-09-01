@@ -5,7 +5,7 @@ import * as rk from 'i18n!ControlsUnit';
 
 import { IItemAction, IShownItemAction } from 'Controls/_itemActions/interface/IItemAction';
 import { horizontalMeasurer } from 'Controls/_itemActions/measurers/HorizontalMeasurer';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 
 describe('Controls/_itemActions/measurers/HorizontalMeasurer', () => {
     it('needIcon', () => {

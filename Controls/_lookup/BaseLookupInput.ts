@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_lookup/BaseLookupInput/BaseLookupInput'
 import * as clearRecordsTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/clearRecordsTemplate';
 import * as showSelectorTemplate from 'wml!Controls/_lookup/BaseLookupView/resources/showSelectorTemplate';
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
-import * as DOMUtil from 'Controls/Utils/DOMUtil';
+import {DOMUtil} from 'Controls/sizeUtils';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';

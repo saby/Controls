@@ -9,7 +9,7 @@ import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS, ColumnScroll} from './resour
 import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS, DragScroll} from './resources/DragScroll';
 import {shouldAddActionsCell, shouldDrawColumnScroll, getAllowedSwipeType, isInLeftSwipeRange} from 'Controls/_grid/utils/GridColumnScrollUtil';
 
-import getDimensions = require("Controls/Utils/getDimensions");
+import {getDimensions} from 'Controls/sizeUtils';
 
 import * as GridViewTemplateChooser from 'wml!Controls/_grid/GridViewTemplateChooser';
 import * as GridTemplate from 'wml!Controls/_grid/layout/grid/GridView';
