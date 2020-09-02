@@ -471,7 +471,13 @@ const _private = {
 
     restoreModelState(self: any, options: any): void {
         if (_private.hasMarkerController(self)) {
-            _private.getMarkerController(self).restoreMarker();
+            const curMarkedKey = _private.getMarkerController(self).getMarkedKey();
+            const newMarkedKey = _private.getMarkerController(self).calculateMarkedKey(curMarkedKey);
+            if (curMarkedKey !== newMarkedKey) {
+                _private.getMarkerController(self).setMarkedKey(newMarkedKey);
+            } else {
+                _private.getMarkerController(self).restoreMarker();
+            }
         } else {
             if (options.markerVisibility !== 'hidden') {
                 self._markerController = _private.createMarkerController(self, options);
@@ -2207,13 +2213,15 @@ const _private = {
     },
 
     updateMarkerController(self: any, options: any): void {
-        const newMarkedKey = _private.getMarkerController(self).update({
-            model: self._listViewModel,
-            markerVisibility: options.markerVisibility,
-            markedKey: _private.hasOption(options,'markedKey') ? options.markedKey : self._markerController.getMarkedKey()
-        });
-        if (newMarkedKey !== options.markedKey) {
-            self._notify('markedKeyChanged', [newMarkedKey]);
+        if (self._options.markedKey !== options.markedKey) {
+            const newMarkedKey = _private.getMarkerController(self).update({
+                model: self._listViewModel,
+                markerVisibility: options.markerVisibility,
+                markedKey: _private.hasOption(options,'markedKey') ? options.markedKey : self._markerController.getMarkedKey()
+            });
+            if (newMarkedKey !== options.markedKey) {
+                self._notify('markedKeyChanged', [newMarkedKey]);
+            }
         }
     },
 
