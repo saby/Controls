@@ -81,13 +81,7 @@ define('Controls-demo/Explorer/Search', [
                   {
                      id: 1113, 'parent': 111, 'parent@': null, code: 'ST2300CD001', price: 6500,
                      title: 'Жесткий диск Seagate Original SATA-III 2Tb ST2000NC001 Constellation СS (7200rpm) 64Mb 3.5'
-                  },/*
-                  {
-                     id: 1, 'parent': null, 'parent@': true, code: null, price: null, title: 'Комплектующие'
                   },
-                  {
-                     id: 11, 'parent': 1, 'parent@': true, code: null, price: null, title: 'Жесткие диски'
-                  },*/
                   {
                      id: 112, 'parent': 11, 'parent@': true, code: null, price: null, title: 'SAS'
                   },
