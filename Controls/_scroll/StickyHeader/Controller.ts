@@ -172,6 +172,12 @@ class StickyHeaderController {
             }
         } else {
             // При 'отрегистриации' удаляем заголовок из всех возможных стэков
+            const elementToDelete = this._getStickyHeaderElements(this._headers[data.id]);
+            this._elementsHeight.forEach((item, index) => {
+                if (item.key === elementToDelete[0]) {
+                    this._elementsHeight.splice(index, 1);
+                }
+            });
             this._unobserveStickyHeader(this._headers[data.id]);
             delete this._headers[data.id];
             this._removeFromStack(data.id, this._headersStack);
