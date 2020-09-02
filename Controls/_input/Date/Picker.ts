@@ -2,7 +2,7 @@ import Control = require('Core/Control');
 import coreMerge = require('Core/core-merge');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_input/Date/Picker/Picker');
 import {Popup as PopupUtil} from 'Controls/dateUtils';
 

@@ -1,5 +1,5 @@
 import Control = require('Core/Control');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_explorer/PathController/PathWrapper');
 import GridIsEqualUtil = require('Controls/_grid/utils/GridIsEqualUtil');
 

@@ -5,7 +5,7 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_suggestPopup/List/List');
 import clone = require('Core/core-clone');
 import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import { constants } from 'Env/Env';
 import {RecordSet} from 'Types/collection';
 
@@ -79,11 +79,11 @@ var _private = {
 
 /**
  * Контейнер для списка в выпадающем блоке автодополнения.
- * 
+ *
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/suggest/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggestPopup.less">переменные тем оформления</a>
- * 
+ *
  *
  * @class Controls/_suggestPopup/List
  * @extends Core/Control

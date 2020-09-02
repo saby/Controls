@@ -2,11 +2,10 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as InputMask from 'Controls/_input/Mask';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 import * as template from 'wml!Controls/_input/Adapter/Mask/Mask';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
-
+import {tmplNotify} from 'Controls/eventUtils';
 /**
  * Контрол обертка над полем ввода маски. Обеспечивает работу со значением с разделителями.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>

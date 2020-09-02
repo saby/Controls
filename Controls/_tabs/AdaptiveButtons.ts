@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_tabs/AdaptiveButtons/AdaptiveButtons';
 import {RecordSet} from 'Types/collection';
-import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
+import {loadFontWidthConstants, getFontWidth} from 'Controls/fontUtils';
 import {SbisService, Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {CrudWrapper} from 'Controls/dataSource';

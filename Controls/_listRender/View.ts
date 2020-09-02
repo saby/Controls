@@ -19,7 +19,7 @@ import {
     IShownItemAction,
     IItemActionsOptions
 } from 'Controls/itemActions';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 
 import { load as libraryLoad } from 'Core/library';
 import { SyntheticEvent } from 'Vdom/Vdom';

@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import BreadCrumbsUtil from './Utils';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_breadcrumbs/Path/Path');
 
 /**

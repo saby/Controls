@@ -1,7 +1,7 @@
 import Control = require('Core/Control');
 import Env = require('Env/Env');
 import entity = require('Types/entity');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import {isEqual} from 'Types/object';
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';

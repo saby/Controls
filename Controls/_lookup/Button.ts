@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_lookup/Button/SelectorButton';
 import {default as BaseLookup, ILookupOptions} from 'Controls/_lookup/BaseLookup';
 import showSelector from 'Controls/_lookup/showSelector';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import {List} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';

@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_search/Input/ExpandableInput/Search');
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import {ITextOptions, IBaseOptions} from 'Controls/input';
 import {IRenderOptions, IPaddingOptions, ITagOptions} from 'Controls/interface';
 
