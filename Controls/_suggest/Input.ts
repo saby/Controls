@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_suggest/Input/Input');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {generateStates} from 'Controls/input';
 

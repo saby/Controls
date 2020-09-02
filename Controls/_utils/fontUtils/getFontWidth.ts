@@ -1,6 +1,6 @@
 import {detection} from 'Env/Env';
 
-const constants = 'Controls/Utils/FontWidthConstants/';
+const constants = 'Controls/_utils/fontUtils/FontWidthConstants/';
 const fontSizes = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl', '4xl', '5xl'];
 
 export const getFontWidth = (text, size, fonts) => {

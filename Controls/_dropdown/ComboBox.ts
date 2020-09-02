@@ -3,7 +3,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
 import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';

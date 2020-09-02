@@ -1,4 +1,4 @@
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 
 import {Control, TemplateFunction} from 'UI/Base';
 import {IHeading, IHeadingOptions, default as Heading} from 'Controls/_spoiler/Heading';

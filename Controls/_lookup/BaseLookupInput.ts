@@ -12,7 +12,7 @@ import {constants} from 'Env/Env';
 import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
 import {IFontSizeOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
-import * as tmplNotify from 'Controls/Utils/tmplNotify';
+import {tmplNotify} from 'Controls/eventUtils';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
 

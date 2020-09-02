@@ -5,7 +5,7 @@ import {proxyModelEvents} from 'Controls/eventUtils';
 import DateRangeModel from './DateRangeModel';
 import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
 import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_dateRange/Input/Input');
 import {DependencyTimer} from 'Controls/Utils/FastOpen';
 import {Logger} from 'UI/Utils';

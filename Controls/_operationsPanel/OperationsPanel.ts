@@ -4,7 +4,7 @@ import toolbars = require('Controls/toolbars');
 import sourceLib = require('Types/source');
 import WidthUtils = require('Controls/_operationsPanel/OperationsPanel/Utils');
 import buttons = require('Controls/buttons');
-import notifyHandler = require('Controls/Utils/tmplNotify');
+import {tmplNotify as notifyHandler} from 'Controls/eventUtils';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';

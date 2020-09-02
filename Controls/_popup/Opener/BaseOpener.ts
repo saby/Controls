@@ -6,7 +6,7 @@ import * as CoreMerge from 'Core/core-merge';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
-import * as isVDOMTemplate from 'Controls/Utils/isVDOMTemplate';
+import {isVDOMTemplate} from 'Controls/_popup/utils/isVdomTemplate';
 import {Logger} from 'UI/Utils';
 import {DefaultOpenerFinder} from 'UI/Focus';
 import Template = require('wml!Controls/_popup/Opener/BaseOpener');

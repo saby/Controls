@@ -12,7 +12,7 @@ import {
 import ScrollWidthUtil = require('Controls/_scroll/Scroll/ScrollWidthUtil');
 import ScrollHeightFixUtil = require('Controls/_scroll/Scroll/ScrollHeightFixUtil');
 import template = require('wml!Controls/_scroll/Scroll/Scroll');
-import tmplNotify = require('Controls/Utils/tmplNotify');
+import {tmplNotify} from 'Controls/eventUtils';
 import {Bus} from 'Env/Event';
 import {isEqual} from 'Types/object';
 import 'Controls/_scroll/Scroll/Watcher';

@@ -95,6 +95,8 @@ export {INotificationPopupOptions} from './_popup/interface/INotification';
 export {IPreviewerOptions} from './_popup/interface/IPreviewer';
 export {IInfoBoxOptions} from './_popup/interface/IInfoBox';
 
+export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
+
 // TODO Compatible
 import GlobalTemplate = require('wml!Controls/_popup/Global/Global');
 export {
