@@ -85,8 +85,7 @@ class StaticCssClassList {
  *
  * </pre>
  *
- * @class CssClassList
- * @public
+ * @private
  * @author Авраменко А.С.
  */
 class CssClassList {

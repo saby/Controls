@@ -7,6 +7,7 @@
                     <Controls.list:Container>
                         <Controls.grid:View
                                 name="list"
+                                attr:class="controlsDemo__inline-flex"
                                 bind:markedKey="_markedKey"
                                 dataLoadCallback="{{_dataLoadCallback}}"
                                 resultsPosition="top"
