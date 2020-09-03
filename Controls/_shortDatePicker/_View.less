@@ -430,27 +430,13 @@
    }
 }
 
+.ws-is-touch,
 .ws-is-hover {
-   .controls-PeriodLiteDialog__fullYear-listElement-hovered_theme-@{themeName}:hover {
+   .controls-PeriodLiteDialog__fullYear-listElement-hovered_theme-@{themeName} {
       border: solid @item_border-thickness_shortDatePicker @item_hover_border-color_shortDatePicker;
    }
 
-   .controls-PeriodLiteDialog__fullYear-listElement-hovered:hover {
-      cursor: pointer;
-      border-bottom: none;
-
-      &::after {
-         border: none;
-      }
-   }
-}
-
-.ws-is-touch {
-   .controls-PeriodLiteDialog__fullYear-listElement-hovered_theme-@{themeName}:active {
-      border: solid @item_border-thickness_shortDatePicker @item_hover_border-color_shortDatePicker;
-   }
-
-   .controls-PeriodLiteDialog__fullYear-listElement-hovered:active {
+   .controls-PeriodLiteDialog__fullYear-listElement-hovered {
       cursor: pointer;
       border-bottom: none;
 
