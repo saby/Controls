@@ -1,3 +1,8 @@
 <div class="controls-Suggest__empty">
-    {[Справочник недоступен]}
+    <ws:if data={{errorMessage}}>
+        {{errorMessage}}
+    </ws:if>
+    <ws:else>
+        {[Справочник недоступен]}
+    </ws:else>
 </div>

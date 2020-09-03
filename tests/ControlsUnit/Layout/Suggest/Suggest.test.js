@@ -340,8 +340,9 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
 
          return new Promise(function(resolve) {
             self._loading = true;
-            suggestMod._InputController._private.searchErrback(self, {canceled: false}).then(function() {
+            suggestMod._InputController._private.searchErrback(self, {canceled: false, message: 'testMessage'}).then(function() {
                assert.equal(self._emptyTemplate(), '<div class="controls-Suggest__empty"> Справочник недоступен </div>');
+               assert.equal(self._errorMessage, 'testMessage');
                assert.isFalse(isIndicatorVisible);
                assert.isFalse(self._loading);
                resolve();
