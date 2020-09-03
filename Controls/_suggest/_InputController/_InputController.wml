@@ -8,7 +8,6 @@
                     searchEndCallback="{{_searchEnd}}"
                     searchStartCallback="{{_searchStart}}"
                     searchErrback="{{_searchErrback}}"
-                    emptyTemplate="{{_emptyTemplate}}"
                     source="{{_options.source}}"
                     minSearchLength="{{_options.autoDropDown ? 0 : _options.minSearchLength}}"
                     navigation="{{_options.navigation}}"
@@ -19,8 +18,11 @@
                     searchDelay="{{_searchDelay}}"
                     tabsSelectedKeyChangedCallback="{{_tabsSelectedKeyChanged}}"
                     name="suggestListWrapper"
-                    searchValue="{{_searchValue}}"
-        />
+                    searchValue="{{_searchValue}}">
+            <ws:emptyTemplate>
+                <ws:partial template="{{_emptyTemplate}}" errorMessage="{{_errorMessage}}"/>
+            </ws:emptyTemplate>
+        </ws:partial>
     </ws:template>
 
     <ws:template name="suggestWrapperTpl">

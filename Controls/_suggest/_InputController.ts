@@ -141,6 +141,7 @@ var _private = {
       if (!error || !error.canceled) {
           return new Promise(function(resolve) {
               require(['Controls/suggestPopup'], function(result) {
+                 self._errorMessage = error.message;
                   self._emptyTemplate = result.EmptyErrorTemplate;
                   if (self._children.indicator) {
                      self._children.indicator.hide();
@@ -393,6 +394,7 @@ var SuggestLayout = Control.extend({
    _showContent: false,
    _inputActive: false,
    _suggestMarkedKey: null,
+   _errorMessage: null,
 
    /**
     * three state flag
