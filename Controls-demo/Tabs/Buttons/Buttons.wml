@@ -21,7 +21,7 @@
                       bind:selectedKey='SelectedKey2'
                       keyProperty="id"
                       itemTemplateProperty="itemTemplate"
-                      source="{{_source2}}"
+                      items="{{_items2}}"
         />
      </div>
     <div class="separator">Главная вкладка вместе с другими вкладками</div>
@@ -30,7 +30,7 @@
                 bind:selectedKey='SelectedKey9'
                 keyProperty="id"
                 itemTemplateProperty="itemTemplate"
-                source="{{_source9}}"
+                items="{{_items3}}"
         />
     </div>
     <div class="separator">Вкладки с кастомным содержимым</div>
@@ -40,7 +40,7 @@
                 keyProperty="id"
                 itemTemplateProperty="itemTemplate"
                 leftTemplateProperty="leftTemplate"
-                source="{{_source5}}"
+                items="{{_items4}}"
         >
             <ws:itemRightTemplate>
                 <ws:if data="{{itemRightTemplate.item.get('rightTemplate')}}">
@@ -122,7 +122,7 @@
                       keyProperty="id"
                       style="secondary"
                       itemTemplateProperty="carambola"
-                      source = "{{_source7}}"
+                      items = "{{_items5}}"
         />
     </div>
 </div>
