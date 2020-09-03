@@ -23,15 +23,15 @@ export default class TabButtonsDemo extends Control {
     protected SelectedKey9: string =  '2';
     protected SelectedKeyNull: string | null = null;
     protected _items: RecordSet | null = null;
+    protected _items2: RecordSet | null = null;
+    protected _items3: RecordSet | null = null;
+    protected _items4: RecordSet | null = null;
+    protected _items5: RecordSet | null = null;
     protected _sourceLeft: Memory | null = null;
-    protected _source2: Memory | null = null;
     protected _source3: Memory | null = null;
     protected _source4: Memory | null = null;
-    protected _source5: Memory | null = null;
     protected _source6: Memory | null = null;
-    protected _source7: Memory | null = null;
     protected _source8: Memory | null = null;
-    protected _source9: Memory | null = null;
 
     protected _beforeMount(): void {
         this._items = new RecordSet({
@@ -73,9 +73,9 @@ export default class TabButtonsDemo extends Control {
                 }
             ]
         });
-        this._source2 = new Memory({
+        this._items2 = new RecordSet({
             keyProperty: 'id',
-            data: [
+            rawData: [
                 {
                     id: '1',
                     title: 'Задача в разработку №1263182638123681268716831726837182368172631239999',
@@ -104,9 +104,9 @@ export default class TabButtonsDemo extends Control {
                 }
             ]
         });
-        this._source9 = new Memory({
+        this._items3 = new RecordSet({
             keyProperty: 'id',
-            data: [
+            rawData: [
                 {
                     id: '1',
                     title: 'Meetings',
@@ -177,9 +177,9 @@ export default class TabButtonsDemo extends Control {
                 }
             ]
         });
-        this._source5 = new Memory({
+        this._items4 = new RecordSet({
             keyProperty: 'id',
-            data: [
+            rawData: [
                 {
                     id: '1',
                     align: 'left',
@@ -229,9 +229,9 @@ export default class TabButtonsDemo extends Control {
                 }
             ]
         });
-        this._source7 = new Memory({
+        this._items5 = new RecordSet({
             keyProperty: 'id',
-            data: [
+            rawData: [
                 {
                     id: '1',
                     title: 'Person card',
