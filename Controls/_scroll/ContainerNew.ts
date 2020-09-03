@@ -392,7 +392,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             bottomShadowVisibility: SHADOW_VISIBILITY.AUTO,
             shadowStyle: 'default',
             scrollMode: 'vertical',
-            optimizeShadow: true
+            optimizeShadow: false
         };
     }
 }

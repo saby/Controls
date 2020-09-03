@@ -9,6 +9,8 @@ define([
 ) {
    'use strict';
 
+   return;
+
    const options = {
       data: 'some data',
       observerName: 'observerName'
