@@ -1,12 +1,14 @@
-<ws:partial template="{{_options.content}}"
-            source="{{_source}}"
-            filter="{{_filter}}"
-            navigation="{{_navigation}}"
-            emptyTemplate="{{_options.emptyTemplate}}"
-            footerTemplate="{{_options.footerTemplate}}"
-            searchMode="{{_searchMode}}"
-            markedKey="{{_options.markedKey}}"
-            markerVisibility="{{_options.markerVisibility}}"
-            searchValue="{{_currentSearchValue}}"
-            searchBreadCrumbsItemTemplate="{{_options.searchBreadCrumbsItemTemplate}}"
-            itemsReadyCallback="{{_options.itemsReadyCallback}}"/>
+<Controls.dataSource:error.Container viewConfig="{{_errorConfig}}">
+    <ws:partial template="{{_options.content}}"
+                source="{{_source}}"
+                filter="{{_filter}}"
+                navigation="{{_navigation}}"
+                emptyTemplate="{{_options.emptyTemplate}}"
+                footerTemplate="{{_options.footerTemplate}}"
+                searchMode="{{_searchMode}}"
+                markedKey="{{_options.markedKey}}"
+                markerVisibility="{{_options.markerVisibility}}"
+                searchValue="{{_currentSearchValue}}"
+                searchBreadCrumbsItemTemplate="{{_options.searchBreadCrumbsItemTemplate}}"
+                itemsReadyCallback="{{_options.itemsReadyCallback}}"/>
+</Controls.dataSource:error.Container>

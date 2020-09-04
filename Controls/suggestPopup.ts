@@ -14,13 +14,12 @@
  * @includes FooterTemplate Controls/suggestPopup:FooterTemplate
  * @public
  * @author Крайнов Д.О.
- */ 
+ */
 
 import ListContainer = require('Controls/_suggestPopup/List');
 import FooterTemplate = require('wml!Controls/_suggestPopup/footer');
 import SuggestTemplate = require('wml!Controls/_suggestPopup/suggestTemplate');
 import EmptyTemplate = require('wml!Controls/_suggestPopup/resource/empty');
-import EmptyErrorTemplate = require('tmpl!Controls/_suggestPopup/resource/emptyError');
 
 import _ListWrapper = require('Controls/_suggestPopup/_ListWrapper');
 import Dialog = require('Controls/_suggestPopup/Dialog');
