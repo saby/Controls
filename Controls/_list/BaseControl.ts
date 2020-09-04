@@ -2207,13 +2207,18 @@ const _private = {
     },
 
     updateMarkerController(self: any, options: any): void {
-        const newMarkedKey = _private.getMarkerController(self).update({
+        _private.getMarkerController(self).update({
             model: self._listViewModel,
-            markerVisibility: options.markerVisibility,
-            markedKey: _private.hasOption(options,'markedKey') ? options.markedKey : self._markerController.getMarkedKey()
+            markerVisibility: options.markerVisibility
         });
-        if (newMarkedKey !== options.markedKey) {
-            self._notify('markedKeyChanged', [newMarkedKey]);
+
+        if (self._options.markedKey !== options.markedKey || self._options.markerVisibility !== options.markerVisibility) {
+            const markedKey = _private.getMarkerController(self).calculateMarkedKey(options.markedKey);
+            _private.getMarkerController(self).setMarkedKey(markedKey);
+
+            if (markedKey !== options.markedKey) {
+                self._notify('markedKeyChanged', [markedKey]);
+            }
         }
     },
 
