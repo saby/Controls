@@ -11,6 +11,7 @@ import {FilterContextField, SearchContextField} from 'Controls/context';
 import {Source} from 'Controls/history';
 import {RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
+import { error as dataSourceError } from 'Controls/dataSource';
 
 var SEARCH_CONTEXT_FIELD = 'searchLayoutField';
 var SEARCH_VALUE_FIELD = 'searchValue';
@@ -122,8 +123,15 @@ var _private = {
       self._forceUpdate();
    },
 
-   searchErrback: function(self, error) {
-      var source = _private.getOriginSource(self._options.source);
+   getErrorController(self: Control): dataSourceError.Controller {
+      if (!self._errorController) {
+         self._errorController = new dataSourceError.Controller({});
+      }
+      return self._errorController;
+   },
+
+   searchErrback(self: Control, error: Error): void {
+      const source = _private.getOriginSource(self._options.source);
       if (self._options.searchErrback) {
          self._options.searchErrback(error);
       }
@@ -135,6 +143,14 @@ var _private = {
          self._source = new Memory({
             model: source.getModel(),
             keyProperty: source.getKeyProperty()
+         });
+
+         _private.getErrorController(self).process({
+            error,
+            theme: self._options.theme,
+            mode: dataSourceError.Mode.include
+         }).then((errorConfig: dataSourceError.ViewConfig|void): dataSourceError.ViewConfig|void => {
+            self._errorConfig = errorConfig;
          });
       }
    },
@@ -275,6 +291,7 @@ var List = Control.extend({
    _searchDeferred: null,
    _searchMode: false,
    _data: null,
+   _errorConfig: null,
 
    _beforeMount: function(options, context) {
       this._source = options.source;
