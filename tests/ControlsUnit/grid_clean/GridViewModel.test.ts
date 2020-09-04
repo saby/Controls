@@ -119,6 +119,26 @@ describe('Controls/grid_clean/GridViewModel', () => {
 
                 assert.isTrue(typeof gridViewModel.getHeaderModel() === 'object');
             });
+
+            it('constructor with header, empty list, setItems(items)', () => {
+                const gridViewModel = new GridViewModel({
+                    items: new RecordSet({
+                        rawData: generateFlatData(0, false),
+                        keyProperty: 'key'
+                    }),
+                    keyProperty: 'key',
+                    columns: generateFlatSimpleColumns(),
+                    multiSelectVisibility: 'hidden',
+                    header: generateFlatSimpleHeader()
+                });
+
+                assert.strictEqual(gridViewModel.getHeaderModel(), null);
+                gridViewModel.setItems(new RecordSet({
+                    rawData: generateFlatData(itemsCount, false),
+                    keyProperty: 'key'
+                }));
+                assert.isTrue(typeof gridViewModel.getHeaderModel() === 'object');
+            });
         });
 
         describe('headerModel version', () => {
