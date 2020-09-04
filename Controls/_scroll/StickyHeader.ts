@@ -681,6 +681,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             }
 
             style += 'z-index: ' + opts.fixedZIndex + ';';
+        } else {
+            // При плохой оптимизации, при построении, прилипающий заголовок может рассчитывать стили вплоть до 150мс,
+            // на это время он прозрачный, т.к. не имеет z-index. Ставим z-index меньше на 1, чем дефолтный fixedZIndex,
+            // иначе, заголовки которые не должны застикаться, находящиеся ниже в DOM, будут перекрывать собой
+            // застиканные заголовки.
+            const zIndex = opts.fixedZIndex - 1;
+            style += 'z-index: ' + zIndex + ';';
         }
 
         //убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274

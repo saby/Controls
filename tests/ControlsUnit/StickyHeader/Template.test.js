@@ -131,7 +131,7 @@ define(
 
                inst._updateStyles();
 
-               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 0px;">' +
+               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 0px;z-index: 1;">' +
                   '<div class="controls-StickyHeader__observationTargetTop" style="top: -3px;"></div>' +
                   '<div class="controls-StickyHeader__observationTargetBottom" style="bottom: -3px;"></div>' +
                   '</div>');
@@ -147,7 +147,7 @@ define(
 
                inst._updateStyles();
 
-               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="bottom: 0px;">' +
+               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="bottom: 0px;z-index: 1;">' +
                   '<div class="controls-StickyHeader__observationTargetTop" style="top: -3px;"></div>' +
                   '<div class="controls-StickyHeader__observationTargetBottom" style="bottom: -3px;"></div>' +
                   '</div>');
@@ -160,7 +160,7 @@ define(
 
                inst._updateStyles();
 
-               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 0px;">' +
+               assert.equal(template(inst), '<div class="controls-StickyHeader controls-background-default_theme-default controls-StickyHeader_position" style="top: 0px;z-index: 1;">' +
                   '<div class="controls-StickyHeader__observationTargetTop" style="top: -3px;"></div>' +
                   '<div class="controls-StickyHeader__content">testing the template</div>' +
                   '<div class="controls-StickyHeader__observationTargetBottom" style="bottom: -3px;"></div>' +
