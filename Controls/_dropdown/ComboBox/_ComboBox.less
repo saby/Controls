@@ -1,4 +1,82 @@
+.controls-ComboBox__field {
+   width: 100%;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
 .controls-ComboBox-InputRender {
+   cursor: pointer;
+   display: inline-flex;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+}
+
+.controls-ComboBox_theme-@{themeName} {
+   height: @height_combobox;
+   border-width: @border-width_combobox;
+   border-style: solid;
+   box-sizing: border-box;
+}
+
+.controls-ComboBox_textAlign-left {
+   text-align: left;
+}
+
+.controls-ComboBox_textAlign-right {
+   text-align: right;
+}
+
+.controls-ComboBox-state-valid_theme-@{themeName} {
+   background-color: @background-color_combobox;
+   border-color: @border-color_combobox;
+}
+
+.controls-ComboBox-state-invalidAccent_theme-@{themeName} {
+   border-color: @invalid_border-color_combobox;
+   background-color: @invalid_focus_background-color;
+}
+
+.controls-ComboBox-state-invalid_theme-@{themeName} {
+   border-color: @invalid_border-color_combobox;
+   background-color: @background-color_combobox;
+}
+
+.controls-ComboBox-state-valid_theme-@{themeName}:hover {
+   border-color: @border-color_hover_combobox;
+}
+
+.controls-ComboBox-state-invalidAccent_theme-@{themeName}:hover {
+   border-color: @invalid_hover_border-color_combobox;
+}
+
+.controls-ComboBox-state-invalid_theme-@{themeName}:hover {
+   border-color: @invalid_hover_border-color_combobox;
+}
+
+.controls-ComboBox-state-valid_theme-@{themeName}:focus-within {
+   border-color: @border-color_hover_combobox;
+}
+
+.controls-ComboBox-state-invalidAccent_theme-@{themeName}:focus-within {
+   border-color: @invalid_hover_border-color_combobox;
+   background-color: @invalid_focus_background-color;
+}
+
+.controls-ComboBox-state-invalid_theme-@{themeName}:focus-within {
+   border-color: @invalid_hover_border-color_combobox;
+   background-color: @background-color_combobox;
+}
+
+.controls-ComboBox-readOnly_theme-@{themeName} {
+   border-color: @readonly_border-color_combobox;
+   background-color: @readonly_background-color_combobox;
+   cursor: default;
+}
+
+.controls-ComboBox__placeholder_theme-@{themeName} {
+   color: @placeholder-color_combobox;
    width: 100%;
 }
 

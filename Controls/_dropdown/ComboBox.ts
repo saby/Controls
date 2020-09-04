@@ -89,6 +89,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 class ComboBox extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = tmplNotify;
+   protected _state: string = '';
 
    _beforeMount(options: IComboboxOptions,
                 context: object,
@@ -102,11 +103,13 @@ class ComboBox extends BaseDropdown {
 
       generateStates(this, options);
       this._controller = new Controller(this._getControllerOptions(options));
+      this._setState(options);
       return loadItems(this._controller, receivedState, options.source);
    }
 
    protected _beforeUpdate(newOptions: IComboboxOptions): void {
       this._controller.update(this._getControllerOptions(newOptions));
+      this._setState(newOptions);
    }
 
    _getControllerOptions(options: IComboboxOptions): object {
@@ -194,20 +197,29 @@ class ComboBox extends BaseDropdown {
       }
    }
 
+   protected _deactivated(): void {
+      this.closeMenu();
+   }
+
    //FIXME delete after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
    private _getContainerNode(container:[HTMLElement]|HTMLElement): HTMLElement {
       return container[0] || container;
    }
 
-   protected _deactivated(): void {
-      this.closeMenu();
+   private _setState(options: IComboboxOptions): void {
+      if (options.borderStyle && options.validationStatus === 'valid') {
+         this._state = options.borderStyle;
+      } else {
+         this._state = options.validationStatus;
+      }
    }
-
-   static _theme: string[] = ['Controls/dropdown'];
+   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
 
    static getDefaultOptions(): object {
       return {
-         placeholder: rk('Выберите') + '...'
+         placeholder: rk('Выберите') + '...',
+         validationStatus: 'valid',
+         textAlign: 'left'
       };
    }
 }
