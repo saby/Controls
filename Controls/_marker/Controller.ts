@@ -16,11 +16,7 @@ export class Controller {
    constructor(options: IOptions) {
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-
-      if (markedKey !== null) {
-         this.setMarkedKey(markedKey);
-      }
+      this._markedKey = options.markedKey;
    }
 
    /**
@@ -28,16 +24,12 @@ export class Controller {
     * @param options
     * @return {number|string} Ключ маркера
     */
-   update(options: IOptions): TKey {
+   update(options: IOptions): void {
       if (this._model !== options.model) {
          this._model = options.model;
          this.restoreMarker();
       }
       this._markerVisibility = options.markerVisibility;
-
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-      this.setMarkedKey(markedKey);
-      return markedKey;
    }
 
    /**
@@ -101,6 +93,7 @@ export class Controller {
     * Проставляет заново маркер в модели
     */
    restoreMarker(): void {
+      this._markedKey = this.calculateMarkedKey(this._markedKey);
       const item = this._model.getItemBySourceKey(this._markedKey);
       if (item) {
          item.setMarked(true);
