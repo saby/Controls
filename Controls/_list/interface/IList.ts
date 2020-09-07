@@ -1,5 +1,6 @@
 import { TemplateFunction } from 'UI/Base';
 import { IItemActionsOptions } from 'Controls/itemActions';
+import { IMarkerListOptions } from 'Controls/marker';
 
 /**
  * Интерфейс для списков.
@@ -25,14 +26,12 @@ export interface IItemPadding {
 
 type TPagingMode = 'basic' | 'compact' | 'numbers';
 
-export interface IList extends IItemActionsOptions {
+export interface IList extends IItemActionsOptions, IMarkerListOptions {
     attachLoadTopTriggerToNull?: boolean;
     emptyTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     multiSelectVisibility?: TMultiSelectVisibility;
-    markedKey?: string|number;
     stickyMarkedItem?: boolean;
-    markerVisibility?: TMarkerVisibility;
     uniqueKeys?: boolean;
     itemsReadyCallback?: (items) => void;
     dataLoadCallback?: (items) => void;
@@ -436,7 +435,7 @@ export interface IList extends IItemActionsOptions {
  * @param {Object} nativeEvent Объект нативного события браузера.
  * @remark
  * От события {@link Controls/_list/interface/IClickableView#itemClick itemClick} данное событие отличается следующим:
- * 
+ *
  * 1. Происходит при нажатии на любую кнопку мыши (левую, правую, среднюю);
  * 2. Происходит в момент нажатия кнопки (itemClick срабатывает уже после её отпускания).
  */
@@ -528,7 +527,7 @@ export interface IList extends IItemActionsOptions {
  * @remark
  * Активация происходит при клике по элементу.
  * Событие не происходит, если:
- * 
+ *
  * * элемент нельзя отметить маркером.
  * * при клике начинается <a href="/doc/platform/developmentapl/interface-development/controls/list/list/edit/">редактирование по месту</a>.
  */
@@ -600,7 +599,7 @@ export interface IList extends IItemActionsOptions {
  * @variant masterClassic
  * @variant detailContrast
  * @variant listItem
- * @variant stackHeader 
+ * @variant stackHeader
  */
 
 /**

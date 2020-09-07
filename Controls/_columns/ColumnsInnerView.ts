@@ -12,7 +12,7 @@ import {IList} from 'Controls/list';
 
 import ColumnsController from './controllers/ColumnsController';
 import * as template from 'wml!Controls/_columns/ColumnsInnerView';
-import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
+import { MarkerController, MarkerVisibility } from 'Controls/marker';
 
 export interface IColumnsInnerViewOptions extends IList {
     columnMinWidth: number;

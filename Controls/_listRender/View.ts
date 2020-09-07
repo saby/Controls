@@ -26,7 +26,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 
 import {constants, detection} from 'Env/Env';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
-import { MarkerController, TVisibility, Visibility } from 'Controls/marker';
+import { MarkerController, TVisibility, MarkerVisibility } from 'Controls/marker';
 import { ISwipeEvent } from './Render';
 
 import template = require('wml!Controls/_listRender/View/View');
@@ -66,7 +66,7 @@ export default class View extends Control<IViewOptions> {
             this._updateItemActions(options);
         }
 
-        if (options.markerVisibility !== Visibility.Hidden) {
+        if (options.markerVisibility !== MarkerVisibility.Hidden) {
             this._markerController = new MarkerController({
                 model: this._collection,
                 markerVisibility: options.markerVisibility,

@@ -14,13 +14,7 @@ export class Controller {
    private _markedKey: TKey = null;
 
    constructor(options: IOptions) {
-      this._model = options.model;
-      this._markerVisibility = options.markerVisibility;
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-
-      if (markedKey !== null) {
-         this.setMarkedKey(markedKey);
-      }
+      this.update(options);
    }
 
    /**
@@ -28,27 +22,18 @@ export class Controller {
     * @param options
     * @return {number|string} Ключ маркера
     */
-   update(options: IOptions): TKey {
-      if (this._model !== options.model) {
-         this._model = options.model;
-         this.restoreMarker();
-      }
+   update(options: IOptions): void {
+      this._model = options.model;
       this._markerVisibility = options.markerVisibility;
-
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-      this.setMarkedKey(markedKey);
-      return markedKey;
+      this._markedKey = options.markedKey;
    }
 
-   /**
-    * Проставить маркер в модели
-    */
-   setMarkedKey(markedKey: TKey): void {
-      if (this._markedKey !== markedKey) {
+   applyMarkedKey(newMarkedKey?: TKey): void {
+      if (newMarkedKey !== undefined) {
          this._model.setMarkedKey(this._markedKey, false);
-         this._model.setMarkedKey(markedKey, true);
-         this._markedKey = markedKey;
+         this._markedKey = newMarkedKey;
       }
+      this._model.setMarkedKey(this._markedKey, true);
    }
 
    /**
@@ -56,55 +41,6 @@ export class Controller {
     */
    getMarkedKey(): TKey {
       return this._markedKey;
-   }
-
-   /**
-    * Если по переданному ключу не найден элемент, то возвращается ключ первого элемента или null
-    * @param key ключ элемента, на который ставится маркер
-    * @return {string|number} новый ключ маркера
-    */
-   calculateMarkedKey(key: TKey): TKey {
-      if ((key === undefined || key === null) && this._markerVisibility !== Visibility.Visible) {
-         return key;
-      }
-
-      const item = this._model.getItemBySourceKey(key);
-      if (this._markedKey === key && item) {
-         return key;
-      }
-
-      let resultKey = this._markedKey;
-      if (item) {
-         resultKey = key;
-      } else {
-         switch (this._markerVisibility) {
-            case Visibility.OnActivated:
-               // Маркер сбросим только если список не пустой и элемента с текущим маркером не найдено
-               if (this._model.getCount() > 0) {
-                  if (this._markedKey) {
-                     resultKey = this.getFirstItemKey();
-                  } else {
-                     resultKey = null;
-                  }
-               }
-               break;
-            case Visibility.Visible:
-               resultKey = this.getFirstItemKey();
-               break;
-         }
-      }
-
-      return resultKey;
-   }
-
-   /**
-    * Проставляет заново маркер в модели
-    */
-   restoreMarker(): void {
-      const item = this._model.getItemBySourceKey(this._markedKey);
-      if (item) {
-         item.setMarked(true);
-      }
    }
 
    /**
@@ -152,11 +88,11 @@ export class Controller {
 
       let newMarkedKey;
       if (nextItem) {
-         newMarkedKey = this.calculateMarkedKey(this._getKey(nextItem));
+         newMarkedKey = this._getKey(nextItem);
       } else if (prevItem) {
-         newMarkedKey = this.calculateMarkedKey(this._getKey(prevItem));
+         newMarkedKey = this._getKey(prevItem);
       } else {
-         newMarkedKey = this.calculateMarkedKey(null);
+         newMarkedKey = null;
       }
 
       return newMarkedKey;
@@ -183,10 +119,9 @@ export class Controller {
       let newMarkedKey;
       const item = this._model.getValidItemForMarker(firstItemIndex);
       if (item) {
-         const itemKey = this._getKey(item);
-         newMarkedKey = this.calculateMarkedKey(itemKey);
+         newMarkedKey = this._getKey(item);
       } else {
-         newMarkedKey = this.calculateMarkedKey(null);
+         newMarkedKey = null;
       }
 
       return newMarkedKey;
@@ -198,7 +133,7 @@ export class Controller {
     */
    handleAddItems(newItems: Array<CollectionItem<Model>>): void {
       if (newItems.some((item) => this._getKey(item) === this._markedKey)) {
-         this.restoreMarker();
+         this.applyMarkedKey();
       }
    }
 

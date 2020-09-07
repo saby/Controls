@@ -25,8 +25,11 @@ export interface IMarkerModel extends IBaseCollection<CollectionItem<Model>> {
    getIndexBySourceIndex(sourceIndex: number): number;
 }
 
-export interface IOptions {
+export interface IOptions extends IListOptions {
    model: IMarkerModel;
+}
+
+export interface IListOptions {
    markerVisibility: TVisibility;
    markedKey: TKey;
 }
