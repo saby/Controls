@@ -1,24 +1,24 @@
 .controls-Scroll-Container {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+   position: relative;
+   overflow: hidden;
+   display: flex;
+   flex-direction: column;
+   min-height: 0;
 }
 
 .controls-Scroll-Container__base {
    height: 100%;
    flex-shrink: 1;
-   min-height: 0px;
+   min-height: 0;
    max-height: inherit;
 }
 
 .ws-is-hover {
-    .controls-Scroll-Container:hover {
-        > .controls-Scroll__scrollbar {
-            visibility: visible;
-        }
-    }
+   .controls-Scroll-Container:hover {
+       > .controls-Scroll__scrollbar {
+         visibility: visible;
+      }
+   }
 }
 
 .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
@@ -28,38 +28,44 @@
 }
 
 .controls-Scroll__background-Shadow_top-hidden_bottom-visible_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% 0, 100% @shadow_thickness_scroll;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% 0, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-hidden_bottom-hidden_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% 0;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% 0;
 }
 
 .controls-Scroll__background-Shadow_top-hidden_bottom-auto_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% @shadow_thickness_scroll;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-visible_bottom-hidden_style-default_theme-@{themeName} {
-  background-size: 100% 0, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% 0;
+   background-size: 100% 0, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% 0;
 }
 
 .controls-Scroll__background-Shadow_top-visible_bottom-visible_style-default_theme-@{themeName} {
-  background-size: 100% 0, 100% 0, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
+   background-size: 100% 0, 100% 0, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-visible_bottom-auto_style-default_theme-@{themeName} {
-  background-size: 100% 0, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
+   background-size: 100% 0, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-auto_bottom-visible_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% 0, 100% @shadow_thickness_scroll, 100% @shadow_thickness_scroll;
 }
 
 .controls-Scroll__background-Shadow_top-auto_bottom-hidden_style-default_theme-@{themeName} {
-  background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% 0;
+   background-size: 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness-hider_height_scroll, 100% @shadow_thickness_scroll, 100% 0;
 }
 
+.controls-Scroll__content_hideNativeScrollbar::-webkit-scrollbar {
+   width: 0;
+   // Следующие свойства нужны для того, чтобы убрать скроллбар с айпада
+   -webkit-appearance: none;
+   display: none;
+}

@@ -117,6 +117,9 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         let css = '';
         if (this._useNativeScrollbar) {
             css += ' controls-Scroll__content_auto';
+            if (!this._options.scrollbarVisible) {
+                css += ' controls-Scroll__content_hideNativeScrollbar';
+            }
         } else {
             css += ' controls-Scroll__content_hideNativeScrollbar';
             if (this._overflowHidden) {
