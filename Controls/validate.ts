@@ -17,12 +17,12 @@
  * @author Красильников А.С.
  */
 
-import isEmail = require('Controls/_validate/Validators/IsEmail');
 import isRequired = require('Controls/_validate/Validators/IsRequired');
 import isValidDate = require('Controls/_validate/Validators/IsValidDate');
 import isValidDateRange from 'Controls/_validate/Validators/IsValidDateRange';
 import Highlighter = require('wml!Controls/_validate/Highlighter');
 
+export {default as isEmail} from 'Controls/_validate/Validators/IsEmail';
 export {default as Controller} from 'Controls/_validate/Controller';
 export {default as ControllerClass} from 'Controls/_validate/ControllerClass';
 export {default as Container} from 'Controls/_validate/Container';
@@ -32,9 +32,8 @@ export {default as SelectionContainer} from 'Controls/_validate/SelectionContain
 export {default as IValidateResult} from 'Controls/_validate/interfaces/IValidateResult';
 
 export {
-    isEmail,
     isRequired,
     isValidDate,
     isValidDateRange,
     Highlighter
-}
+};
