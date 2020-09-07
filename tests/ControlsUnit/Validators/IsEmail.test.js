@@ -25,28 +25,29 @@ define(
             '',
             'NotCaseSensitive@test.com',
             'info@почта.рф',
-            'e.lebedeva@sapiens.solutions'
-         ],
-         invalidEmails = [
-            'plainaddress',
-            '#@%^%#$@#$@#.com',
-            '@example.com',
-            'Joe Smith <email@example.com>',
-            'email.example.com',
+            'e.lebedeva@sapiens.solutions',
+            'petrov@certo.technology',
             'email@example@example.com',
             '.email@example.com',
             'email.@example.com',
             'email..email@example.com',
             'あいうえお@example.com',
             'email@example.com (Joe Smith)',
-            'email@example',
             'email@111.222.333.44444',
             'email@example..com',
             'Abc..123@example.com',
             'тест@example.com',
             'example@тест.com',
             'uuuu@uд.ru',
-            'email@example.toomanysymbols'
+            'email@example.toomanysymbols',
+            'Joe Smith <email@example.com>',
+            '#@%^%#$@#$@#.com'
+         ],
+         invalidEmails = [
+            'plainaddress',
+            '@example.com',
+            'email@example',
+            'email.example.com'
          ];
 
       describe('Controls.Validators', function () {
