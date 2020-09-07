@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require("wml!Controls/_buttons/ArrowButton/ArrowButton");
-import IArrowButton from 'Controls/_buttons/interfaces/IArrowButton';
+import IArrowButton from 'Controls/_buttons/interface/IArrowButton';
 /**
  * Графический контрол в виде стрелки, который предоставляет пользователю возможность простого запуска события при
  * нажатии на него.

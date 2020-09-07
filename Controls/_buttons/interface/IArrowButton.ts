@@ -1,4 +1,4 @@
-type TDirection = 'right' | 'left';
+type TDirection = 'right' | 'left' | 'up' | 'down';
 
 export interface IArrowButtonOptions {
     readOnly?: boolean;

@@ -47,8 +47,10 @@
       </div>
    </ws:if>
    <ws:if data="{{!_options.chooseMonths && !_options.chooseQuarters && !_options.chooseHalfyears}}">
-      <div class="controls-PeriodLiteDialog__years-next controls-PeriodLiteDialog__years-next_theme-{{_options.theme}}"
-           on:click="_changeYear (1)"></div>
+      <div class="controls-PeriodLiteDialog__years-next controls-PeriodLiteDialog__years-next_theme-{{_options.theme}}">
+         <Controls.buttons:ArrowButton direction="up"
+                                       on:click="_changeYear (1)"/>
+      </div>
       <Controls.calendar:MonthList
               order="desc"
               virtualPageSize="{{24}}"
@@ -75,7 +77,9 @@
             </ws:partial>
          </ws:yearTemplate>
       </Controls.calendar:MonthList>
-      <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}"
-           on:click="_changeYear (-1)"></div>
+      <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}">
+         <Controls.buttons:ArrowButton direction="down"
+                                       on:click="_changeYear (-1)"/>
+      </div>
    </ws:if>
 </div>
