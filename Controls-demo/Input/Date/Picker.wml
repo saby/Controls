@@ -29,11 +29,11 @@
 
       <h3>Demo with tagStyle</h3>
       <div>
-         <Controls.input:Date
+         <Controls.input:Date attr:class="controlsDemo__inline-block"
                  value="{{_date}}"
                  mask="{{mask}}"
                  tagStyle="{{'primary'}}"/>
-         <Controls.input:Date
+         <Controls.input:Date attr:class="controlsDemo__inline-block"
                  value="{{_date}}"
                  mask="{{mask}}"
                  tagStyle="{{'info'}}"/>
