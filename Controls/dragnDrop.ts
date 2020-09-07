@@ -26,6 +26,7 @@
  */
 
 import Controller = require('Controls/_dragnDrop/Controller');
+import ControllerClass from 'Controls/_dragnDrop/ControllerClass';
 import DraggingTemplate = require('Controls/_dragnDrop/DraggingTemplate');
 import Entity = require('Controls/_dragnDrop/Entity');
 import ItemsEntity = require('Controls/_dragnDrop/Entity/Items');
@@ -39,6 +40,7 @@ export {default as Container, IDragObject} from 'Controls/_dragnDrop/Container';
 
 export {
    Controller,
+   ControllerClass,
    DraggingTemplate,
    Entity,
    ItemsEntity,

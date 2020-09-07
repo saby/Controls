@@ -17,6 +17,7 @@ define('Controls/Application',
       'Controls/popup',
       'UI/HotKeys',
       'Controls/Application/TouchDetectorController',
+      'Controls/dragnDrop',
       'css!theme?Controls/Application/oldCss'
    ],
 
@@ -66,7 +67,8 @@ define('Controls/Application',
       ControlsEvent,
       popup,
       HotKeys,
-      TouchDetector) {
+      TouchDetector,
+      dragnDrop) {
       'use strict';
 
       var _private;
@@ -110,6 +112,10 @@ define('Controls/Application',
          _dragClass: 'ws-is-no-drag',
 
          _registers: {},
+
+         _draggingTemplateOptions: undefined,
+
+         _draggingTemplate: undefined,
 
          _getChildContext: function() {
             return {
@@ -278,6 +284,7 @@ define('Controls/Application',
 
             SettingsController.setController(cfg.settingsController);
 
+            this._createDragnDropController();
             this._createGlobalPopup();
             this._createPopupManager();
             this._createRegisters();
@@ -312,6 +319,10 @@ define('Controls/Application',
 
             this._globalpopup.registerGlobalPopupEmpty();
             this._popupManager.destroy();
+            this._dragnDropController.destroy();
+
+            this._draggingTemplate = null;
+            this._draggingTemplateOptions = null;
          },
 
          _beforeUpdate: function(cfg) {
@@ -358,19 +369,44 @@ define('Controls/Application',
          _registerHandler: function(event, registerType, component, callback, config) {
             if (this._registers[registerType]) {
                this._registers[registerType].register(event, registerType, component, callback, config);
+               return;
             }
+            this._dragnDropController.registerHandler(event, registerType, component, callback, config);
          },
 
          _unregisterHandler: function(event, registerType, component, config) {
             if (this._registers[registerType]) {
                this._registers[registerType].unregister(event, registerType, component, config);
+               return;
             }
+            this._dragnDropController.unregisterHandler(event, registerType, component, config);
          },
 
          _createTouchDetector: function() {
             this._touchDetector = new TouchDetector();
             this._touchObjectContext = this._touchDetector.createContext();
          },
+
+         _createDragnDropController: function() {
+            this._dragnDropController = new dragnDrop.ControllerClass();
+         },
+
+         _documentDragStart: function(event, dragObject) {
+            this._dragnDropController.documentDragStart(dragObject);
+            this._dragStartHandler();
+         },
+
+         _documentDragEnd: function(event, dragObject) {
+            this._dragnDropController.documentDragEnd(dragObject);
+            this._draggingTemplate = null;
+            this._draggingTemplateOptions = null;
+            this._dragEndHandler();
+         },
+
+         _updateDraggingTemplate: function(event, draggingTemplateOptions, draggingTemplate) {
+            this._draggingTemplate = draggingTemplate;
+            this._draggingTemplateOptions = draggingTemplateOptions;
+        },
 
          _getResourceUrl: function(str) {
             return getResourceUrl(str);
@@ -443,6 +479,7 @@ define('Controls/Application',
       };
 
       Page._theme = ['Controls/application'];
+      Page._styles = ['Controls/dragnDrop'];
 
       return Page;
    });
