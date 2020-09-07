@@ -16,38 +16,35 @@ export class Controller {
    constructor(options: IOptions) {
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-
-      if (markedKey !== null) {
-         this.setMarkedKey(markedKey);
-      }
+      this._markedKey = this.calculateMarkedKey(options.markedKey);
    }
 
    /**
     * Обновить состояние контроллера
-    * @param options
-    * @return {number|string} Ключ маркера
+    * @param model
+    * @param markerVisibility
     */
-   update(options: IOptions): TKey {
-      if (this._model !== options.model) {
-         this._model = options.model;
-         this.restoreMarker();
-      }
-      this._markerVisibility = options.markerVisibility;
-
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-      this.setMarkedKey(markedKey);
-      return markedKey;
+   update(model: IMarkerModel, markerVisibility: TVisibility): void {
+      this._model = model;
+      this._markerVisibility = markerVisibility;
    }
 
    /**
-    * Проставить маркер в модели
+    * Проставляет текущий маркер в модели
     */
-   setMarkedKey(markedKey: TKey): void {
-      if (this._markedKey !== markedKey) {
+   applyMarkedKey(newMarkedKey?: TKey): void {
+      if (newMarkedKey) {
          this._model.setMarkedKey(this._markedKey, false);
-         this._model.setMarkedKey(markedKey, true);
-         this._markedKey = markedKey;
+         this._markedKey = newMarkedKey;
+      }
+
+      // нужно вызвать для старой модели, т.к. markedKey хранится в ее состоянии
+      // TODO https://online.sbis.ru/opendoc.html?guid=f38ec819-4916-46e4-9ff8-f05759202f9f
+      this._model.setMarkedKey(this._markedKey, true);
+
+      const item = this._model.getItemBySourceKey(this._markedKey);
+      if (item) {
+         item.setMarked(true);
       }
    }
 
@@ -95,16 +92,6 @@ export class Controller {
       }
 
       return resultKey;
-   }
-
-   /**
-    * Проставляет заново маркер в модели
-    */
-   restoreMarker(): void {
-      const item = this._model.getItemBySourceKey(this._markedKey);
-      if (item) {
-         item.setMarked(true);
-      }
    }
 
    /**
@@ -198,7 +185,7 @@ export class Controller {
     */
    handleAddItems(newItems: Array<CollectionItem<Model>>): void {
       if (newItems.some((item) => this._getKey(item) === this._markedKey)) {
-         this.restoreMarker();
+         this.applyMarkedKey();
       }
    }
 

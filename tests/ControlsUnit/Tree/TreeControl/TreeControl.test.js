@@ -969,6 +969,7 @@ define([
                   parentProperty: 'parent',
                   nodeProperty: 'type',
                   markedKey: 1,
+                  markerVisibility: 'visible',
                   columns: [],
                   viewModelConstructor: treeGrid.ViewModel
                },
@@ -1003,8 +1004,8 @@ define([
 
                   assert.isTrue(stopImmediateCalled, 'Invalid value "stopImmediateCalled"');
                   done();
-               }, 1);
-            }, 1);
+               }, 10);
+            }, 10);
          });
       });
       it('TreeControl._beforeUpdate name of property', function() {
