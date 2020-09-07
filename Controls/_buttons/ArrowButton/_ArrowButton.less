@@ -33,16 +33,26 @@
    border-color: @readonly_border-color_ArrowButton;
 }
 
-.controls-ArrowButton_prev {
-
-   &:before {
+.controls-ArrowButton_left {
+   &::before {
       content: "\e008";
    }
 }
 
-.controls-ArrowButton_next {
-
-   &:before {
+.controls-ArrowButton_right {
+   &::before {
       content: "\e007";
+   }
+}
+
+.controls-ArrowButton_up {
+   &::before {
+      content: "\e012";
+   }
+}
+
+.controls-ArrowButton_down {
+   &::before {
+      content: "\e011";
    }
 }
