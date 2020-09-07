@@ -85,19 +85,27 @@ define(
             });
          });
 
-         it('filter and navigation changed', async () => {
+         it('filter, navigation, sorting changed', async () => {
             const dataOptions = {source: source, keyProperty: 'id'};
             const data = getDataWithConfig(dataOptions);
             data._dataOptionsContext = new contexts.ContextOptions();
 
             const newNavigation = {view: 'page', source: 'page', sourceConfig: {pageSize: 2, page: 0, hasMore: false}};
             const newFilter = {title: 'Ivan'};
+            const newSorting = [{ amount: 'ASC' }];
             await data._beforeMount(dataOptions);
             data.saveOptions(dataOptions);
-            data._beforeUpdate({source: source, idProperty: 'id', filter: newFilter, navigation: newNavigation});
+            data._beforeUpdate({
+               source: source,
+               idProperty: 'id',
+               filter: newFilter,
+               navigation: newNavigation,
+               sorting: newSorting
+            });
 
             assert.deepEqual(data._dataOptionsContext.navigation, newNavigation);
             assert.deepEqual(data._dataOptionsContext.filter, newFilter);
+            assert.deepEqual(data._dataOptionsContext.sorting, newSorting);
             assert.deepEqual(data._filter, newFilter);
          });
 

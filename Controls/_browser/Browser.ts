@@ -112,6 +112,7 @@ export default class Browser extends Control {
             this._filter = controllerState.filter;
             this._dataOptionsContext.navigation = controllerState.navigation;
             this._dataOptionsContext.filter = controllerState.filter;
+            this._dataOptionsContext.sorting = controllerState.sorting;
             this._dataOptionsContext.updateConsumers();
             this._groupHistoryId = newOptions.groupHistoryId;
         }
