@@ -5,4 +5,11 @@
             nextArrowVisibility="{{true}}"
             bind:startValue="_startValue"
             bind:endValue="_endValue"/>
+    <div>
+        <Controls.dateRange:RangeShortSelector
+                chooseHalfyears="{{false}}"
+                chooseMonths="{{false}}"
+                displayedRanges="{{_displayedRanges1}}"
+        />
+    </div>
 </div>
