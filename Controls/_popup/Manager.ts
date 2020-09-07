@@ -38,10 +38,15 @@ class Manager {
     _contextIsTouch: boolean = false;
     _popupItems: List<IPopupItem> = new List();
 
+    constructor(options = {}) {
+        this.initTheme(options);
+    }
 
+    protected initTheme(options): void {
+        ManagerController.setPopupHeaderTheme(options.popupHeaderTheme);
+    }
 
     protected init(options: IManagerOptions, context: IManagerTouchContext): void {
-        ManagerController.setPopupHeaderTheme(options.popupHeaderTheme);
         this._updateContext(context);
         ManagerController.setManager(this);
         EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));

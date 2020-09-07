@@ -279,7 +279,7 @@ define('Controls/Application',
             SettingsController.setController(cfg.settingsController);
 
             this._createGlobalPopup();
-            this._createPopupManager();
+            this._createPopupManager(cfg);
             this._createRegisters();
             this._createTouchDetector();
          },
@@ -351,8 +351,8 @@ define('Controls/Application',
             this._globalpopup = new popup.GlobalController();
          },
 
-         _createPopupManager: function() {
-            this._popupManager = new popup.ManagerClass();
+         _createPopupManager: function(cfg) {
+            this._popupManager = new popup.ManagerClass(cfg);
          },
 
          _registerHandler: function(event, registerType, component, callback, config) {
