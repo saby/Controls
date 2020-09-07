@@ -5,7 +5,7 @@
                     _scrollCssClass="{{_scrollCssClass}}"
                     attr:style="{{_scrollbars.scrollContainerStyles}}"
                     attr:class="controls-Scroll-Container__base controls-BlockLayout__blockGroup_theme-{{_options.theme}} controls-BlockLayout__blockGroup_theme-{{_options.theme}}
-                    {{ _optimizeShadowClass }}"
+                    {{ _optimizeShadowClass }}{{ _scrollbars.scrollContainerStyles === undefined ? ' controls-Scroll-Container__content_hidden' }}"
                     on:intersectionObserverRegister="_intersectionObserverRegisterHandler()"
                     on:intersectionObserverUnregister="_intersectionObserverUnregisterHandler()"
                     on:fixed="_stickyFixedHandler()"
