@@ -6,6 +6,7 @@
          source="{{ _viewSource }}"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"
+         attr:class="controlsDemo_line-height18"
          name="listView2"
          itemsDragNDrop="{{true}}"
          on:dragStart="_dragStart()">
