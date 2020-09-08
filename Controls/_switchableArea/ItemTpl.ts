@@ -76,11 +76,6 @@ class SwitchableAreaItem extends Control<IControlOptions> {
          _bubbling: true
       };
 
-      //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=2775b943-3936-4107-955a-02ecb296a38e
-      if (!this._container) {
-         return;
-      }
-
       // TODO https://online.sbis.ru/doc/a88a5697-5ba7-4ee0-a93a-221cce572430
       // Не запускаем ресайз, если контрол скрыт
       if (this._container.closest('.ws-hidden')) {
