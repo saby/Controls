@@ -580,7 +580,10 @@ var
         _isColumnScrollVisible(): boolean {
             if (this._columnScrollController && this._columnScrollController.isVisible()) {
                 const items = this._options.listModel.getItems();
-                return !!items && (!!items.getCount() || !!this._options.editingItemData);
+                const hasData = !!items && (!!items.getCount() || !!this._options.editingItemData);
+                const hasScrollableHeader = this._options.headerInEmptyListVisible && this._options.header && this._options.header.length > 0;
+
+                return hasData || hasScrollableHeader;
             } else {
                 return false;
             }

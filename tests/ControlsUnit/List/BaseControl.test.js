@@ -3383,13 +3383,16 @@ define([
          let ctrl = new lists.BaseControl(cfg);
          let setHasMoreDataCalled = false;
          let origSHMD = lists.BaseControl._private.setHasMoreData;
+         let origNBP = lists.BaseControl._private.needBottomPadding;
          lists.BaseControl._private.setHasMoreData = () => {
             setHasMoreDataCalled = true;
-         }
+         };
+         lists.BaseControl._private.needBottomPadding = () => false;
+
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
          assert.isTrue(setHasMoreDataCalled);
-
+         lists.BaseControl._private.needBottomPadding = origNBP;
       });
 
       it('getUpdatedMetaData: set full metaData.more on load to direction with position navigation', () => {
@@ -3419,14 +3422,20 @@ define([
             }
          };
          const model = {
-            getEditingItemData: function() {
+            getEditingItemData: function () {
                return null;
-            }
+            },
+            getDisplay: () => ({
+               getCount: () => count
+            })
          };
          const editingModel = {
             getEditingItemData: function() {
                return {};
-            }
+            },
+             getDisplay: () => ({
+                 getCount: () => count
+             })
          };
 
          assert.isTrue(lists.BaseControl._private.needBottomPadding(cfg, items, model), "itemActionsPosinon is outside, padding is needed");
