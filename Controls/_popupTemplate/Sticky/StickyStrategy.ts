@@ -125,7 +125,11 @@ interface IPosition {
                // }
             }
          }
-         const viewportOffset: number = _private.getVisualViewport()[isHorizontal ? 'offsetLeft' : 'offsetTop'];
+
+         // Во время зума значение offsetLeft показывает величину контента, не уместившегося на данный момент на экране
+         // Менять размеры окна и двигать его в видимую область при этом не требуется
+         // Реагируем только на открытую клавиатуру
+         const viewportOffset: number = isHorizontal ? 0 : _private.getVisualViewport().offsetTop;
          // const viewportPage: number = _private.getVisualViewport()[isHorizontal ? 'pageLeft' : 'pageTop'];
 
          // viewportOffset и viewportPage показали одинаковое значение при показе клавиатуры, соответсвтенно по сути
