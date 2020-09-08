@@ -6,6 +6,7 @@
          source="{{ _viewSource }}"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"
+         attr:class="controlsDemo_line-height18"
          name="listView2">
          <ws:navigation source="page" view="infinity">
             <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
