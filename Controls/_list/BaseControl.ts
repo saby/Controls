@@ -823,11 +823,8 @@ const _private = {
                 scrollTop: self._scrollTop
             };
 
-            // Состояние триггеров не всегда соответствует действительности, приходится считать самим
-            triggerVisibilityUp = self._loadTriggerVisibility.up ||
-                _private.calcTriggerVisibility(self, scrollParams, self._loadTriggerOffset.top, 'up');
-            triggerVisibilityDown = self._loadTriggerVisibility.down ||
-                _private.calcTriggerVisibility(self, scrollParams, self._loadTriggerOffset.bottom, 'down');
+            triggerVisibilityUp = self._loadTriggerVisibility.up;
+            triggerVisibilityDown = self._loadTriggerVisibility.down;
 
             // TODO Когда список становится пустым (например после поиска или смены фильтра),
             // если он находится вверху страницы, нижний загрузочный триггер может "вылететь"
@@ -1017,20 +1014,6 @@ const _private = {
         }
     },
 
-    calcTriggerVisibility(self, scrollParams, triggerOffset, direction: 'up' | 'down'): boolean {
-        if (self._container && self._container.closest && self._container.closest('.ws-hidden')) {
-            return false;
-        }
-        if (direction === 'up') {
-            return scrollParams.scrollTop < triggerOffset;
-        } else {
-            let bottomScroll = scrollParams.scrollHeight - scrollParams.clientHeight - scrollParams.scrollTop;
-            if (self._pagingVisible) {
-                bottomScroll -= PAGING_PADDING;
-            }
-            return bottomScroll <= triggerOffset;
-        }
-    },
     calcViewSize(viewSize: number, pagingVisible: boolean): number {
         return viewSize - (pagingVisible ? PAGING_PADDING : 0);
     },
@@ -1072,17 +1055,6 @@ const _private = {
             // след. запрос не вернет данные, а скажет ЕстьЕще: false тогда решать будет условие ниже, по высоте
             let visbilityTriggerUp = self._loadTriggerVisibility.up;
             let visbilityTriggerDown = self._loadTriggerVisibility.down;
-
-            // TODO оказалось что нельзя доверять состоянию триггеров
-            // https://online.sbis.ru/opendoc.html?guid=e0927a79-c520-4864-8d39-d99d36767b31
-            // поэтому приходится вычислять видны ли они на экране
-            if (!visbilityTriggerUp) {
-                visbilityTriggerUp = _private.calcTriggerVisibility(self, scrollParams, self._loadTriggerOffset.top, 'up');
-            }
-
-            if (!visbilityTriggerDown && self._viewSize && self._viewportSize) {
-                visbilityTriggerDown = _private.calcTriggerVisibility(self, scrollParams, self._loadTriggerOffset.bottom, 'down');
-            }
 
             if ((hasMoreData.up && !visbilityTriggerUp) || (hasMoreData.down && !visbilityTriggerDown)) {
                 result = true;
@@ -3669,8 +3641,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             scrollHeight: this._viewSize,
             scrollTop: this._scrollTop
         };
-        const triggerDown = _private.calcTriggerVisibility(this, scrollParams, this._loadTriggerOffset.bottom, 'down');
-        const triggerUp = _private.calcTriggerVisibility(this, scrollParams, this._loadTriggerOffset.top, 'up');
+        const triggerDown = this._loadTriggerVisibility.down;
+        const triggerUp = this._loadTriggerVisibility.up;
         this._scrollController.setTriggerVisibility('down', triggerDown);
         this._scrollController.setTriggerVisibility('up', triggerUp);
         if (triggerDown) {
