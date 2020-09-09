@@ -7,7 +7,7 @@ import {tmplNotify} from 'Controls/eventUtils';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {ISingleSelectableOptions} from 'Controls/interface';
+import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
@@ -15,7 +15,8 @@ import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {generateStates} from 'Controls/input';
 
-interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions {
+interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
+    IValidationStatusOptions {
    placeholder?: string;
    value?: string;
 }
@@ -89,6 +90,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 class ComboBox extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = tmplNotify;
+   protected _borderStyle: string = '';
 
    _beforeMount(options: IComboboxOptions,
                 context: object,
@@ -102,11 +104,13 @@ class ComboBox extends BaseDropdown {
 
       generateStates(this, options);
       this._controller = new Controller(this._getControllerOptions(options));
+      this._borderStyle = this._getBorderStyle(options.borderStyle, options.validationStatus);
       return loadItems(this._controller, receivedState, options.source);
    }
 
    protected _beforeUpdate(newOptions: IComboboxOptions): void {
       this._controller.update(this._getControllerOptions(newOptions));
+      this._borderStyle = this._getBorderStyle(newOptions.borderStyle, newOptions.validationStatus);
    }
 
    _getControllerOptions(options: IComboboxOptions): object {
@@ -194,20 +198,33 @@ class ComboBox extends BaseDropdown {
       }
    }
 
+   protected _deactivated(): void {
+      this.closeMenu();
+   }
+
    //FIXME delete after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
    private _getContainerNode(container:[HTMLElement]|HTMLElement): HTMLElement {
       return container[0] || container;
    }
 
-   protected _deactivated(): void {
-      this.closeMenu();
+   private _getBorderStyle(borderStyle: string, validationStatus: string): string {
+      if (borderStyle && validationStatus === 'valid') {
+         return  borderStyle;
+      }
+      return validationStatus;
    }
 
-   static _theme: string[] = ['Controls/dropdown'];
+   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
 
    static getDefaultOptions(): object {
       return {
-         placeholder: rk('Выберите') + '...'
+         placeholder: rk('Выберите') + '...',
+         validationStatus: 'valid',
+         textAlign: 'left',
+         inlineHeight: 'default',
+         fontSize: 'm',
+         fontColorStyle: 'default',
+         tooltip: ''
       };
    }
 }
