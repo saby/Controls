@@ -31,7 +31,7 @@
                     listModel="{{_listModel}}"
                     itemTemplate="{{_itemTemplate}}"
                     multiSelectTpl="{{_options.multiSelectTpl}}"
-                    editingItemData="{{_options.editingItemData}}"
+                    editingItemData="{{_listModel.getEditingItemData ? _listModel.getEditingItemData() : undefined}}"
                     isAdd="{{_options.isAdd}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
                     itemActionsClass="{{_options.itemActionsClass}}"

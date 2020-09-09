@@ -1,11 +1,10 @@
-import CollectionItem from '../CollectionItem';
-import Collection from '../Collection';
+import {Collection, CollectionItem} from 'Controls/display';
 import { mixin } from 'Types/util';
 import { DestroyableMixin } from 'Types/entity';
-import IItemsStrategy, { IOptions as IItemsStrategyOptions } from '../IItemsStrategy';
+import { itemsStrategy } from 'Controls/display';
 
-interface IOptions<S, T extends CollectionItem<S>> extends IItemsStrategyOptions<S, T> {
-    source: IItemsStrategy<S, T>;
+interface IOptions<S, T extends CollectionItem<S>> extends itemsStrategy.IItemsStrategyOptions<S, T> {
+    source: itemsStrategy.IItemsStrategyOptions<S, T>;
     display: Collection<S, T>;
 
     contents: S;
@@ -20,7 +19,7 @@ export default class AddInPlace<S, T extends CollectionItem<S> = CollectionItem<
     DestroyableMixin
 >(
     DestroyableMixin
-) implements IItemsStrategy<S, T> {
+) implements itemsStrategy.IItemsStrategy<S, T> {
     readonly '[Controls/_display/IItemsStrategy]': boolean = true;
 
     protected _options: IOptions<S, T>;
@@ -37,11 +36,11 @@ export default class AddInPlace<S, T extends CollectionItem<S> = CollectionItem<
         this._options = options;
     }
 
-    get options(): IItemsStrategyOptions<S, T> {
+    get options(): itemsStrategy.IItemsStrategyOptions<S, T> {
         return this._options;
     }
 
-    get source(): IItemsStrategy<S, T> {
+    get source(): itemsStrategy.IItemsStrategy<S, T> {
         return this._options.source;
     }
 
