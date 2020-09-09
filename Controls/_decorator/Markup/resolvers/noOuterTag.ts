@@ -8,7 +8,10 @@
     *
     * Модуль с функцией получения html без внешнего тега.
     * Распознаватель тегов для jsonToHtml в {@link Controls/decorator:Converter}.
-    * @remark Подробнее о формате JsonML читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/logic/json-markup-language/ здесь}.
+    * 
+    * @remark 
+    * <a href="/doc/platform/developmentapl/service-development/service-contract/logic/json-markup-language/">руководство разработчика</a>
+    * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
     * 
     * @class Controls/_decorator/Markup/resolvers/noOuterTag
     * @public

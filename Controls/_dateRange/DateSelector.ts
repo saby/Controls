@@ -3,6 +3,28 @@ import ILinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
 import getOptions from 'Controls/Utils/datePopupUtils';
 /**
+ * Контролы, которые позволяют пользователю выбирать значение даты в календаре.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">переменные тем оформления</a>
+ *
+ * @class Controls/_dateRange/DateSelector
+ * @extends Core/Control
+ * @mixes Controls/interface/IDateRange
+ * @mixes Controls/interface/ILinkView
+ * @mixes Controls/_interface/IOpenPopup
+ * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @mixes Controls/_interface/IFontColorStyle
+ * @control
+ * @public
+ * @category Input
+ * @author Красильников А.С.
+ * @demo Controls-demo/Input/Date/Link
+ *
+ */
+
+/*
  * Controls that allows user to select date value in calendar.
  *
  * @class Controls/_dateRange/DateSelector
