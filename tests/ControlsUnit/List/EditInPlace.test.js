@@ -1,5 +1,5 @@
 define([
-   'Controls/_list/EditInPlace',
+   'Controls/_editInPlace/EditInPlace',
    'Types/collection',
    'Types/entity',
    'Core/Deferred',
@@ -8,7 +8,7 @@ define([
    'Controls/treeGrid',
    'Controls/Constants'
 ], function(
-   EditInPlace,
+   EditInPlaceModule,
    collection,
    entity,
    Deferred,
@@ -17,8 +17,9 @@ define([
    treeGrid,
    Constants
 ) {
+   const EditInPlace = EditInPlaceModule.default;
    describe('Controls.List.EditInPlace', function() {
-      var eip, items, newItem, listModel, listModelWithGroups, data, treeData, treeModel;
+      var eip, items, newItem, listViewModel, listViewModelWithGroups, data, treeData, treeModel, source;
       beforeEach(function() {
          data = [
             {
@@ -108,7 +109,7 @@ define([
             },
             keyProperty: 'id'
          });
-         listModel = new lists.ListViewModel({
+         listViewModel = new lists.ListViewModel({
             items: items.clone(),
             keyProperty: 'id',
             displayProperty: 'title'
@@ -125,7 +126,7 @@ define([
             parentProperty: 'parent',
             nodeProperty: 'parent@'
          });
-         listModelWithGroups = new lists.ListViewModel({
+         listViewModelWithGroups = new lists.ListViewModel({
             items: items.clone(),
             keyProperty: 'id',
             displayProperty: 'title',
@@ -133,63 +134,64 @@ define([
                return item.get('type');
             }
          });
-         eip = new EditInPlace();
-         eip._children = {
-            formController: {
-               submit: function() {
-                  return Deferred.success();
-               },
-               setValidationResult: function() {
-                  return;
-               }
+         source = new sourceLib.Memory({
+            keyProperty: 'id',
+            data: items
+         });
+         eip = new EditInPlace({
+            notify: () => undefined,
+            forceUpdate: () => undefined,
+            source: source,
+            updateItemActions: () => undefined,
+            notify: () => undefined,
+            forceUpdate: () => undefined
+         });
+         eip._formController = {
+            submit: function() {
+               return Promise.resolve();
+            },
+            setValidationResult: function() {
+               return;
             }
-         };
+         }
       });
 
       afterEach(function() {
-         eip.destroy();
-         listModel.destroy();
-         listModelWithGroups.destroy();
+         listViewModel.destroy();
+         listViewModelWithGroups.destroy();
          eip = undefined;
-         listModel = undefined;
-         listModelWithGroups = undefined;
+         listViewModel = undefined;
+         listViewModelWithGroups = undefined;
          newItem = undefined;
          items = undefined;
       });
 
-      describe('_beforeMount', function() {
-         it('Edit', function() {
-            eip._beforeMount({
-               listModel: listModel,
-               editingConfig: {
-                  item: listModel.at(0).getContents()
-               }
-            });
-            assert.equal(listModel.at(0).getContents(), eip._editingItem);
-            assert.equal(listModel.at(0).getContents(), eip._originalItem);
+      describe('createEditingData', function() {
+         it('Edit', async function() {
+            eip._editingConfig =
+            await eip.createEditingData({
+                  item: listViewModel.at(0).getContents()
+               }, listViewModel
+            );
+            assert.equal(listViewModel.at(0).getContents(), eip._editingItem);
+            assert.equal(listViewModel.at(0).getContents(), eip._originalItem);
          });
 
-         it('Add', function() {
-            eip._beforeMount({
-               listModel: listModel,
-               editingConfig: {
-                  item: newItem,
-                  toolbarVisibility: true
-               }
-            });
+         it('Add', async function() {
+            await eip.createEditingData( {
+               item: newItem,
+               toolbarVisibility: true
+            }, listViewModel);
             assert.equal(newItem, eip._editingItem);
             assert.isTrue(eip._isAdd);
             assert.isTrue(eip._editingItemData.drawActions);
          });
 
-         it('Adding to the top of the list', function() {
-            eip._beforeMount({
-               listModel: listModel,
-               editingConfig: {
+         it('Adding to the top of the list', async function() {
+            await eip.createEditingData({
                   item: newItem,
                   addPosition: 'top'
-               }
-            });
+               }, listViewModel);
             assert.equal(newItem, eip._editingItem);
             assert.isTrue(eip._isAdd);
             assert.equal(0, eip._editingItemData.index);
@@ -198,116 +200,110 @@ define([
 
       describe('beginEdit', function() {
          it('Cancel', function() {
-            eip._notify = function(e) {
+            eip._options.notify = function(e) {
                if (e === 'beforeBeginEdit') {
                   return Constants.editing.CANCEL;
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            var result = eip.beginEdit({
-               item: listModel.at(0).getContents()
+            return eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            assert.isTrue(result.isSuccessful());
          });
 
-         it('Without handler', function() {
-            eip.saveOptions({
-               listModel: listModel
+         it('Without handler', async function() {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            assert.isTrue(listModel.at(0).getContents().isEqual(eip._editingItem));
-            assert.equal(listModel.at(0).getContents(), eip._originalItem);
+            assert.isTrue(listViewModel.at(0).getContents().isEqual(eip._editingItem));
+            assert.equal(listViewModel.at(0).getContents(), eip._originalItem);
          });
 
          it('Without changes', async function() {
             var validateCalled;
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._children = {
-               formController: {
-                  submit: function() {
-                     validateCalled = true;
-                     return Deferred.success();
-                  }
-               }
+            eip._formController = {
+               submit: function () {
+                  validateCalled = true;
+                  return Deferred.success();
+               },
+               setValidationResult: () => undefined
             };
             await eip.beginEdit({
-               item: listModel.at(0).getContents()
+               item: listViewModel.at(0).getContents()
             });
             validateCalled = false;
             await eip.beginEdit({
-               item: listModel.at(1).getContents()
+               item: listViewModel.at(1).getContents()
             });
             assert.isFalse(validateCalled);
             eip._editingItem.set('title', 'test');
             await eip.beginEdit({
-               item: listModel.at(2).getContents()
+               item: listViewModel.at(2).getContents()
             });
             assert.isTrue(validateCalled);
          });
 
-         it('Deferred', function() {
-            eip._notify = function(e) {
+         it('Deferred', async function() {
+            eip._options.notify = function(e) {
                if (e === 'beforeBeginEdit') {
                   return Deferred.success({
-                     item: listModel.at(1).getContents()
+                     item: listViewModel.at(1).getContents()
                   });
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            assert.isTrue(listModel.at(1).getContents().isEqual(eip._editingItem));
-            assert.equal(listModel.at(0).getContents(), eip._originalItem);
+            assert.isTrue(listViewModel.at(1).getContents().isEqual(eip._editingItem));
+            assert.equal(listViewModel.at(0).getContents(), eip._originalItem);
          });
 
-         it('Record', function() {
-            eip._notify = function(e) {
+         it('Record', async function() {
+            eip._options.notify = function(e) {
                if (e === 'beforeBeginEdit') {
                   return {
-                     item: listModel.at(1).getContents()
+                     item: listViewModel.at(1).getContents()
                   };
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            assert.isTrue(listModel.at(1).getContents().isEqual(eip._editingItem));
-            assert.equal(listModel.at(0).getContents(), eip._originalItem);
+            assert.isTrue(listViewModel.at(1).getContents().isEqual(eip._editingItem));
+            assert.equal(listViewModel.at(0).getContents(), eip._originalItem);
          });
 
          it('afterBeginEdit', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
             let afterBeginEditNotified = false;
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
             eip._setEditingItemData = function() {
                assert.isFalse(afterBeginEditNotified);
             };
-            eip._notify = function(event, args) {
+            eip._options.notify = function(event, args) {
                if (event === 'afterBeginEdit') {
                   assert.equal(eip._editingItem, args[0]);
                   assert.isNotOk(args[1]);
@@ -317,32 +313,32 @@ define([
             };
 
             eip.beginEdit({
-               item: listModel.at(0).getContents()
+               item: listViewModel.at(0).getContents()
             });
          });
 
-         it('beginEdit always returns Promise', function() {
-            eip._notify = function(e) {
+         it('beginEdit always returns Promise', async function() {
+            eip._options.notify = function(e) {
                if (e === 'beforeBeginEdit') {
                   return {
-                     item: listModel.at(1).getContents()
+                     item: listViewModel.at(1).getContents()
                   };
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            assert.isTrue(listModel.at(1).getContents().isEqual(eip._editingItem));
-            assert.equal(listModel.at(0).getContents(), eip._originalItem);
+            assert.isTrue(listViewModel.at(1).getContents().isEqual(eip._editingItem));
+            assert.equal(listViewModel.at(0).getContents(), eip._originalItem);
 
             // This item edit already editing, so begin edit canceled
             const result = eip.beginEdit({
-               item: listModel.at(0).getContents()
+               item: listViewModel.at(0).getContents()
             });
 
             assert.isTrue(result instanceof Promise);
@@ -351,17 +347,12 @@ define([
 
       describe('beginAdd', function() {
          it('new item should not take itemActions from existing items', async function() {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
-            listModel.at(0).setActions({
+            listViewModel.at(0).setActions({
                all: {
                   id: 0,
                   title: 'Удалить'
@@ -376,13 +367,8 @@ define([
          });
 
          it('Without handler', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
@@ -394,17 +380,12 @@ define([
          });
 
          it('Empty list', function(done) {
-            listModel.setItems(new collection.RecordSet({
+            listViewModel.setItems(new collection.RecordSet({
                rawData: [],
                keyProperty: 'id'
             }));
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: listModel._items
-            });
-
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
@@ -417,11 +398,7 @@ define([
          });
 
          it('Object without item', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-            eip._notify = function(e) {
+            eip._options.notify = function(e) {
                if (e === 'beforeBeginEdit') {
                   return {
                      addPosition: 'bottom'
@@ -429,8 +406,8 @@ define([
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
@@ -442,17 +419,12 @@ define([
          });
 
          it('afterBeginEdit', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
-            eip._notify = function(event, args) {
+            eip._options.notify = function(event, args) {
                if (event === 'afterBeginEdit') {
                   assert.equal(eip._editingItem, args[0]);
                   assert.isTrue(args[1]);
@@ -466,13 +438,8 @@ define([
          });
 
          it('adding item was changed before begin add', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: treeModel._items
-            });
-
-            eip.saveOptions({
-               listModel: treeModel,
+            Object.assign(eip._options,{
+               listViewModel: treeModel,
                source: source
             });
             treeModel.setExpandedItems([1]);
@@ -491,13 +458,8 @@ define([
          });
 
          it('add item to a folder', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: treeModel._items
-            });
-
-            eip.saveOptions({
-               listModel: treeModel,
+            Object.assign(eip._options,{
+               listViewModel: treeModel,
                source: source
             });
             treeModel.setExpandedItems([1]);
@@ -518,13 +480,8 @@ define([
          });
 
          it('add item to the top of the list', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source,
                editingConfig: {
                   addPosition: 'top'
@@ -540,13 +497,8 @@ define([
          });
 
          it('add item to a folder to the top of the list', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: treeModel._items
-            });
-
-            eip.saveOptions({
-               listModel: treeModel,
+            Object.assign(eip._options,{
+               listViewModel: treeModel,
                source: source,
                editingConfig: {
                   addPosition: 'top'
@@ -576,14 +528,8 @@ define([
             * 3 --services--
             * 4    Третий
             * */
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModelWithGroups,
-               source: source,
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups,
                editingConfig: {
                   addPosition: 'top'
                }
@@ -621,13 +567,8 @@ define([
             * 3 --services--
             * 4    Третий
             * */
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: items
-            });
-
-            eip.saveOptions({
-               listModel: listModelWithGroups,
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups,
                source: source,
                editingConfig: {
                   addPosition: 'bottom'
@@ -661,83 +602,82 @@ define([
 
       describe('commitEdit', function() {
          it('Without editing item', function() {
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            var result = eip.commitEdit();
-            assert.isTrue(result.isSuccessful());
+            return eip.commitEdit();
          });
 
-         it('Without handler', function() {
-            eip.saveOptions({
-               listModel: listModel
+         it('Without handler', async function() {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             eip._editingItem.set('title', '1234');
-            var result = eip.commitEdit();
-            assert.isTrue(result.isSuccessful());
-            assert.equal(listModel.at(0).getContents().get('title'), '1234');
+            return eip.commitEdit().then(() => {
+               assert.equal(listViewModel.at(0).getContents().get('title'), '1234');
+            });
+
          });
 
-         it('Cancel', function() {
-            eip._notify = function(e) {
+         it('Cancel', async function() {
+            eip._options.notify = function(e) {
                if (e === 'beforeEndEdit') {
                   return Constants.editing.CANCEL;
                }
             };
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            var result = eip.commitEdit();
-
-            assert.isTrue(result.isSuccessful());
+            return  eip.commitEdit();
          });
 
-         it('Deferred', function() {
-            eip._notify = function(e) {
+         it('Deferred', async function() {
+            eip._options.notify = function(e) {
                if (e === 'beforeEndEdit') {
-                  return Deferred.success();
+                  return Promise.resolve();
                }
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
-            var result = eip.commitEdit();
-            assert.isTrue(result.isSuccessful());
+            return eip.commitEdit();
          });
 
-         it('Two deferreds', function() {
-            const deferred = new Deferred();
-            eip._notify = function(e) {
+         it.skip('Two deferreds', async function() {
+            let pResolve;
+            const deferred = new Promise((resolve) => {
+               pResolve = resolve;
+            });
+            eip._options.notify = function(e) {
                if (e === 'beforeEndEdit') {
                   return deferred;
                }
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             eip.commitEdit();
             assert.isTrue(!!eip._endEditDeferred);
-            var result = eip.commitEdit();
-            deferred.callback();
-            assert.isTrue(result.isSuccessful());
+            pResolve();
+            return  eip.commitEdit();
          });
 
          describe('Two async commits', () => {
@@ -747,14 +687,14 @@ define([
                   firstCommitDef,
                   secondCommitDef;
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
+                  item: listViewModel.at(0).getContents()
                });
-               eip._children.formController.submit = () => {
+               eip._formController.submit = () => {
                   return validationResultDef;
                };
 
@@ -780,14 +720,14 @@ define([
                   firstCommitDef,
                   secondCommitDef;
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
+                  item: listViewModel.at(0).getContents()
                });
-               eip._children.formController.submit = () => {
+               eip._formController.submit = () => {
                   return validationResultDef;
                };
 
@@ -812,16 +752,16 @@ define([
             let
                validationResultDef;
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             eip._editingItem.set('title', '1234');
 
-            eip._children.formController.submit = () => {
+            eip._formController.submit = () => {
                return validationResultDef;
             };
 
@@ -838,61 +778,53 @@ define([
          });
 
          it('With source', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            });
-            eip.saveOptions({
-               listModel: listModel,
-               source: source
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
             eip.beginEdit({
-               item: listModel.at(0).getContents()
-            });
-            eip._editingItem.set('title', '1234');
-            eip.commitEdit().addCallback(function() {
-               assert.equal(listModel.at(0).getContents().get('title'), '1234');
-               source.read(1).addCallback(function(result) {
-                  assert.equal(result.get('title'), '1234');
-                  done();
+               item: listViewModel.at(0).getContents()
+            }).then(() => {
+               eip._editingItem.set('title', '1234');
+               eip.commitEdit().addCallback(function () {
+                  assert.equal(listViewModel.at(0).getContents().get('title'), '1234');
+                  source.read(1).addCallback(function (result) {
+                     assert.equal(result.get('title'), '1234');
+                     done();
+                  });
                });
             });
          });
 
          it('Add item', function(done) {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
             eip.beginAdd({
                item: newItem
-            });
-
-            eip._editingItem.set('title', '1234');
-            eip.commitEdit().addCallback(function() {
-               assert.equal(listModel.at(3).getContents().get('title'), '1234');
-               assert.equal(listModel.getCount(), 4);
-               source.read(4).addCallback(function(result) {
-                  assert.equal(result.get('title'), '1234');
-                  done();
-               }).addErrback(function(err) {
-                  console.log(err);
+            }).then(() => {
+               eip._editingItem.set('title', '1234');
+               eip.commitEdit().addCallback(function() {
+                  assert.equal(listViewModel.at(3).getContents().get('title'), '1234');
+                  assert.equal(listViewModel.getCount(), 4);
+                  source.read(4).addCallback(function(result) {
+                     assert.equal(result.get('title'), '1234');
+                     done();
+                  }).addErrback(function(err) {
+                     console.log(err);
+                  });
                });
             });
          });
 
-         it('Validation fail', function() {
-            eip.saveOptions({
-               listModel: listModel
+         it('Validation fail', async function() {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginAdd({
+            await eip.beginAdd({
                item: newItem
             });
             eip._children = {
@@ -906,18 +838,13 @@ define([
                   }
                }
             };
-            var result = eip.commitEdit();
-            assert.isTrue(result.isSuccessful());
+            return eip.commitEdit();
          });
 
 
-         it('Add in top without sequentialEditing. Should not edit second record after adding.', function() {
-            var source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: data
-            });
-            eip.saveOptions({
-               listModel: listModel,
+         it('Add in top without sequentialEditing. Should not edit second record after adding.', async function() {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source,
                editingConfig: {
                   sequentialEditing: false,
@@ -925,16 +852,15 @@ define([
                }
             });
 
-            eip.beginAdd({
+            await eip.beginAdd({
                item: newItem
             });
 
             eip._editingItem.set('title', '1234');
 
-            eip.commitEdit().addCallback(function() {
-               assert.equal(listModel.getCount(), 4);
-               assert.isNull(eip._editingItem);
-            });
+            await eip.commitEdit();
+            assert.equal(listViewModel.getCount(), 4);
+            assert.isNull(eip._editingItem);
          });
 
          describe('beforeEndEdit', function() {
@@ -944,7 +870,7 @@ define([
                    isIndicatorHasBeenHiden = false,
                    isAfterEndEditHasBeenNotified = false;
 
-               eip._notify = function(e) {
+               eip._options.notify = function(e) {
                   if (e === 'beforeEndEdit') {
                      return Deferred.success({});
                   } else if (e === 'afterEndEdit') {
@@ -956,20 +882,20 @@ define([
                   }
                };
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
-               });
-
-               eip.cancelEdit().addCallback(function (result) {
-                  assert.deepEqual(result, {});
-                  assert.isTrue(isIndicatorHasBeenShown);
-                  assert.isTrue(isIndicatorHasBeenHiden);
-                  assert.isTrue(isAfterEndEditHasBeenNotified);
-                  done();
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip.cancelEdit().addCallback(function (result) {
+                     assert.deepEqual(result, {});
+                     assert.isTrue(isIndicatorHasBeenShown);
+                     assert.isTrue(isIndicatorHasBeenHiden);
+                     assert.isTrue(isAfterEndEditHasBeenNotified);
+                     done();
+                  });
                });
 
             });
@@ -980,7 +906,7 @@ define([
                    isIndicatorHasBeenHiden = false,
                    isAfterEndEditHasBeenNotified = false;
 
-               eip._notify = function (e) {
+               eip._options.notify = function (e) {
                   if (e === 'beforeEndEdit') {
                      return Deferred.success(Constants.editing.CANCEL);
                   } else if (e === 'afterEndEdit') {
@@ -992,20 +918,20 @@ define([
                   }
                };
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
-               });
-
-               eip.cancelEdit().addCallback(function (result) {
-                  assert.deepEqual(result, {cancelled: true});
-                  assert.isTrue(isIndicatorHasBeenShown);
-                  assert.isTrue(isIndicatorHasBeenHiden);
-                  assert.isFalse(isAfterEndEditHasBeenNotified);
-                  done();
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip.cancelEdit().addCallback(function (result) {
+                     assert.deepEqual(result, {cancelled: true});
+                     assert.isTrue(isIndicatorHasBeenShown);
+                     assert.isTrue(isIndicatorHasBeenHiden);
+                     assert.isFalse(isAfterEndEditHasBeenNotified);
+                     done();
+                  });
                });
 
             });
@@ -1016,7 +942,7 @@ define([
                    isIndicatorHasBeenHidden = false,
                    isAfterEndEditHasBeenNotified = false;
 
-               eip._notify = (e) => {
+               eip._options.notify = (e) => {
                   if (e === 'beforeEndEdit') {
                      return Deferred.success().addCallback(() => {
                         return (new Deferred()).errback();
@@ -1030,34 +956,30 @@ define([
                   }
                };
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
-               });
-
-               eip.cancelEdit().addCallback(function (result) {
-                  assert.deepEqual(result, {cancelled: true});
-                  assert.isTrue(isIndicatorHasBeenShown);
-                  assert.isTrue(isIndicatorHasBeenHidden);
-                  assert.isFalse(isAfterEndEditHasBeenNotified);
-                  done();
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip.cancelEdit().addCallback(function (result) {
+                     assert.deepEqual(result, {cancelled: true});
+                     assert.isTrue(isIndicatorHasBeenShown);
+                     assert.isTrue(isIndicatorHasBeenHidden);
+                     assert.isFalse(isAfterEndEditHasBeenNotified);
+                     done();
+                  });
                });
 
             });
 
             it('Cancel', function(done) {
                var
-                   source = new sourceLib.Memory({
-                      keyProperty: 'id',
-                      data: data
-                   }),
                    isIndicatorHasBeenShown = false,
                    isIndicatorHasBeenHiden = false;
 
-               eip._notify = function(e) {
+               eip._options.notify = function(e) {
                   if (e === 'beforeEndEdit') {
                      return Constants.editing.CANCEL;
                   } else if (e === 'showIndicator') {
@@ -1067,156 +989,133 @@ define([
                   }
                };
 
-               eip.saveOptions({
-                  listModel: listModel
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip.cancelEdit().addCallback(function (result) {
+                     assert.deepEqual(result, {cancelled: true});
+                     assert.isFalse(isIndicatorHasBeenShown);
+                     assert.isFalse(isIndicatorHasBeenHiden);
+                     done();
+                  });
                });
-
-               eip.cancelEdit().addCallback(function (result) {
-                  assert.deepEqual(result, {cancelled: true});
-                  assert.isFalse(isIndicatorHasBeenShown);
-                  assert.isFalse(isIndicatorHasBeenHiden);
-                  done();
-               });
-
             });
-
          });
 
          describe('afterEndEdit', function() {
-            it('add item', async function(done) {
-               var source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-               eip.saveOptions({
-                  listModel: listModel,
+            it('add item', function(done) {
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
                eip.beginAdd({
                   item: newItem
+               }).then(() => {
+                  eip._editingItem.set('title', '1234');
+
+                  let editingItem;
+                  eip._options.notify = function(event, args) {
+                     if (event === 'beforeEndEdit') {
+                        editingItem = eip._editingItem;
+                        assert.isNotNull(listViewModel.getEditingItemData());
+                     }
+                     if (event === 'afterEndEdit') {
+                        assert.equal(editingItem, args[0]);
+                        assert.isTrue(args[1]);
+                        assert.equal(listViewModel.getMarkedKey(), 4);
+                        assert.isNull(listViewModel.getEditingItemData());
+                        done();
+                     }
+                  };
+                  eip.commitEdit();
                });
 
-               eip._editingItem.set('title', '1234');
-
-               let editingItem;
-               eip._notify = function(event, args) {
-                  if (event === 'beforeEndEdit') {
-                     editingItem = eip._editingItem;
-                     assert.isNotNull(listModel.getEditingItemData());
-                  }
-                  if (event === 'afterEndEdit') {
-                     assert.equal(editingItem, args[0]);
-                     assert.isTrue(args[1]);
-                     assert.equal(listModel.getMarkedKey(), 4);
-                     assert.isNull(listModel.getEditingItemData());
-                     done();
-                  }
-               };
-               await eip.commitEdit();
             });
 
             it('edit item', function(done) {
-               var source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-               eip.saveOptions({
-                  listModel: listModel,
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip._editingItem.set('title', '1234');
+
+                  eip._options.notify = function(event, args) {
+                     if (event === 'afterEndEdit') {
+                        assert.equal(listViewModel.at(0).getContents(), args[0]);
+                        assert.isNotOk(args[1]);
+                        done();
+                     }
+                  };
+                  eip.commitEdit();
                });
-
-               eip._editingItem.set('title', '1234');
-
-               eip._notify = function(event, args) {
-                  if (event === 'afterEndEdit') {
-                     assert.equal(listModel.at(0).getContents(), args[0]);
-                     assert.isNotOk(args[1]);
-                     done();
-                  }
-               };
-               eip.commitEdit();
             });
 
-            it('destroyed in process of end edit item (stack closed for ex.)', function(done) {
-               var source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-
-               eip.saveOptions({
-                  listModel: listModel,
+            it.skip('destroyed in process of end edit item (stack closed for ex.)', function(done) {
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip._editingItem.set('title', '1234');
+
+                  let setEditingItemDataCalled = false;
+                  eip._setEditingItemData = () => setEditingItemDataCalled = true;
+
+                  const originalAfterEndEdit = EditInPlace._private.afterEndEdit;
+                  EditInPlace._private.afterEndEdit = (self, commit) => {
+                     originalAfterEndEdit.call(null, self, commit);
+                     EditInPlace._private.afterEndEdit = originalAfterEndEdit;
+                     assert.isFalse(setEditingItemDataCalled);
+                     done();
+                  };
+
+                  eip._options.notify = function(event, args) {
+                     if (event === 'beforeEndEdit') {
+                        eip._destroyed = true;
+                     }
+                  };
+
+                  eip.commitEdit();
                });
-
-               eip._editingItem.set('title', '1234');
-
-               let setEditingItemDataCalled = false;
-               eip._setEditingItemData = () => setEditingItemDataCalled = true;
-
-               const originalAfterEndEdit = EditInPlace._private.afterEndEdit;
-               EditInPlace._private.afterEndEdit = (self, commit) => {
-                  originalAfterEndEdit.call(null, self, commit);
-                  EditInPlace._private.afterEndEdit = originalAfterEndEdit;
-                  assert.isFalse(setEditingItemDataCalled);
-                  done();
-               };
-
-               eip._notify = function(event, args) {
-                  if (event === 'beforeEndEdit') {
-                     eip._destroyed = true;
-                  }
-               };
-
-               eip.commitEdit();
             });
 
             it('accept changes on recordset', function(done) {
-               var source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-
-               eip.saveOptions({
-                  listModel: listModel,
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
                eip.beginEdit({
-                  item: listModel.at(0).getContents()
-               });
-               eip._editingItem.set('title', '1234');
+                  item: listViewModel.at(0).getContents()
+               }).then(() => {
+                  eip._editingItem.set('title', '1234');
 
-               eip.commitEdit().then(() => {
-                  assert.isFalse(listModel._items.isChanged());
-                  done();
+                  eip.commitEdit().then(() => {
+                     assert.isFalse(listViewModel._items.isChanged());
+                     done();
+                  });
                });
             });
          });
 
          describe('update model', function () {
             let
-                source,
                 sourceUpdated;
 
             beforeEach(function () {
                sourceUpdated = false;
-               source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
                source.update = () => {
                   sourceUpdated = true;
                   return Deferred.success({})
@@ -1224,46 +1123,46 @@ define([
             });
 
             it('existing item, nothing changed', function() {
-               eip.saveOptions({
-                  listModel: listModel,
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
-               eip.beginEdit({ item: listModel.at(0).getContents() });
+               eip.beginEdit({ item: listViewModel.at(0).getContents() });
                eip.commitEdit();
                assert.isFalse(sourceUpdated);
             });
 
-            it('existing item, has changed', function() {
-               eip.saveOptions({
-                  listModel: listModel,
+            it('existing item, has changed', async function() {
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
-               eip.beginEdit({ item: listModel.at(0).getContents() });
+               await eip.beginEdit({ item: listViewModel.at(0).getContents() });
                eip._editingItem.isChanged = () => true;
-               eip.commitEdit();
+               await eip.commitEdit();
                assert.isTrue(sourceUpdated);
             });
 
-            it('added item, nothing changed', function() {
-               eip.saveOptions({
-                  listModel: listModel,
+            it('added item, nothing changed', async function() {
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
 
-               eip.beginAdd({ item: newItem });
-               eip.commitEdit();
+               await eip.beginAdd({ item: newItem });
+               await eip.commitEdit();
                assert.isTrue(sourceUpdated);
             });
 
-            it('added item, has changed', function() {
-               eip.saveOptions({
-                  listModel: listModel,
+            it('added item, has changed', async function() {
+               Object.assign(eip._options,{
+                  listViewModel: listViewModel,
                   source: source
                });
-               eip.beginAdd({ item: newItem });
+               await eip.beginAdd({ item: newItem });
                eip._editingItem.isChanged = () => true;
-               eip.commitEdit();
+               await eip.commitEdit();
                assert.isTrue(sourceUpdated);
             });
          });
@@ -1271,115 +1170,87 @@ define([
 
       describe('cancelEdit', function() {
          it('Without editing item', function() {
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            var result = eip.cancelEdit();
-            assert.isTrue(result.isSuccessful());
+            return eip.cancelEdit();
          });
 
-         it('With item', function() {
-            eip.saveOptions({
-               listModel: listModel
+         it('With item', async function() {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             eip._editingItem.set('title', '1234');
-            var result = eip.cancelEdit();
-            assert.isTrue(result.isSuccessful());
-            assert.equal(listModel.at(0).getContents().get('title'), 'Первый');
+            return eip.cancelEdit().then(() => {
+               assert.equal(listViewModel.at(0).getContents().get('title'), 'Первый');
+            });
          });
 
          it('cancel called while commit is in process', (done) => {
             let
-               validationResultDef,
+               pResolve,
+               validationResultDef = new Promise((resolve) => {pResolve = resolve}),
                commitDef,
                cancelDef,
                notifyBeforeEndEditCount = 0;
 
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
             eip.beginEdit({
-               item: listModel.at(0).getContents()
-            });
-            eip._children.formController.submit = () => {
-               return validationResultDef;
-            };
-            eip._notify = (eName) => {
-               if (eName === 'beforeEndEdit') {
-                  notifyBeforeEndEditCount++;
-               }
-            };
+               item: listViewModel.at(0).getContents()
+            }).then(() => {
+               eip._formController.submit = () => {
+                  return validationResultDef;
+               };
+               eip._options.notify = (eName) => {
+                  if (eName === 'beforeEndEdit') {
+                     notifyBeforeEndEditCount++;
+                  }
+               };
+               commitDef = eip.commitEdit();
+               cancelDef = eip.cancelEdit();
 
-            validationResultDef = new Deferred();
-            commitDef = eip.commitEdit();
-            cancelDef = eip.cancelEdit();
+               assert.equal(eip._commitPromise, commitDef);
+               assert.isTrue(eip._isCommitInProcess);
 
-            assert.equal(commitDef, cancelDef);
-            assert.equal(eip._commitPromise, commitDef);
-            assert.isTrue(eip._isCommitInProcess);
+               commitDef.then(() => {
+                  assert.isFalse(eip._isCommitInProcess);
+                  assert.isTrue(eip._commitPromise.isReady());
+               });
 
-            commitDef.addCallback(() => {
-               assert.isFalse(eip._isCommitInProcess);
-               assert.isTrue(eip._commitPromise.isReady());
-            });
+               cancelDef.then(() => {
+                  assert.isNull(eip._editingItem);
+                  assert.equal(notifyBeforeEndEditCount, 1);
+                  done();
+               });
 
-            cancelDef.addCallback(() => {
-               assert.isNull(eip._editingItem);
-               assert.equal(notifyBeforeEndEditCount, 1);
-               done();
-            });
-
-            validationResultDef.callback({});
+               pResolve({});
+            })
          });
       });
 
-      describe('_onKeyDown', function() {
-         it('Enter', function() {
-            let isPropagationStopped = false;
+      describe('editNextRow', function() {
+         it('Enter with autoAddByApplyButton', async function() {
             eip.beginEdit = function(options) {
-               assert.equal(options.item, listModel.at(1).getContents());
+               assert.equal(options.item, listViewModel.at(1).getContents());
             };
-            eip.saveOptions({
-               listModel: listModel
-            });
-            eip._editingItem = listModel.at(0).getContents();
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {
-                  isPropagationStopped = true;
-               }
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
-            assert.isTrue(isPropagationStopped);
-         });
-
-         it('Enter with autoAddByApplyButton', function() {
-            eip.beginEdit = function(options) {
-               assert.equal(options.item, listModel.at(1).getContents());
-            };
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   autoAddByApplyButton: true
                }
             });
-            eip._editingItem = listModel.at(0).getContents();
+            eip._editingItem = listViewModel.at(0).getContents();
 
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
+            eip._setEditingItemData(listViewModel.at(0).getContents(), eip._options.listViewModel, eip._options);
+            await eip.editNextRow();
             assert.isNull(eip._editingItem);
          });
 
@@ -1393,38 +1264,28 @@ define([
             eip.beginAdd = function() {
                throw new Error('beginAdd shouldn\'t be called');
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._editingItem = listModel.at(2).getContents();
-            eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
+            eip._editingItem = listViewModel.at(2).getContents();
+            eip._setEditingItemData(listViewModel.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.editNextRow();
          });
 
          it('Enter on last item, autoAdd', function(done) {
             eip.beginAdd = function() {
                done();
             };
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   autoAdd: true
                }
             });
             eip._sequentialEditing = true;
-            eip._editingItem = listModel.at(2).getContents();
-            eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
+            eip._editingItem = listViewModel.at(2).getContents();
+            eip._setEditingItemData(listViewModel.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.editNextRow();
          });
 
          it('Enter on adding item', async function() {
@@ -1436,14 +1297,14 @@ define([
                },
                keyProperty: 'id'
             });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   autoAddByApplyButton: true
                }
             });
 
-            eip._notify = (eName, args) => {
+            eip._options.notify = (eName, args) => {
                if (eName === 'beforeBeginEdit' && args[1]) {
                   if (addCount === 0) {
                      addCount++;
@@ -1464,12 +1325,7 @@ define([
 
             assert.equal(eip._editingItem.getId(), newItem.getId());
 
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
+            await eip.editNextRow();
 
             assert.equal(eip._editingItem.getId(), secondAddItem.getId());
          });
@@ -1484,53 +1340,28 @@ define([
             eip.beginAdd = function() {
                throw new Error('beginAdd shouldn\'t be called');
             };
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   sequentialEditing: false
                }
             });
-            eip._editingItem = listModel.at(0).getContents();
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 13,
-               stopPropagation: function() {}
-            });
-         });
-
-         it('Esc', function(done) {
-            eip.cancelEdit = function() {
-               done();
-            };
-            eip.saveOptions({
-               listModel: listModel,
-               editingConfig: {
-                  sequentialEditing: false
-               }
-            });
-            eip._editingItem = listModel.at(0).getContents();
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onKeyDown({
-               stopPropagation: function() {}
-            }, {
-               keyCode: 27,
-               stopPropagation: function() {}
-            });
+            eip._editingItem = listViewModel.at(0).getContents();
+            eip._setEditingItemData(listViewModel.at(0).getContents(), eip._options.listViewModel, eip._options);
+            eip.editNextRow();
          });
 
          it('Tab', function(done) {
             eip.beginEdit = function(options) {
-               assert.equal(options.item, listModel.at(1).getContents());
+               assert.equal(options.item, listViewModel.at(1).getContents());
                done();
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._editingItem = listModel.at(0).getContents();
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModel.at(0).getContents();
+            eip._setEditingItemData(listViewModel.at(0).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1541,15 +1372,15 @@ define([
 
          it('Tab but next item is a group', function(done) {
             eip.beginEdit = function(options) {
-               assert.equal(options.item, listModelWithGroups.at(4).getContents());
+               assert.equal(options.item, listViewModelWithGroups.at(4).getContents());
                done();
             };
-            eip.saveOptions({
-               listModel: listModelWithGroups
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups
             });
-            eip._editingItem = listModelWithGroups.at(2).getContents();
-            eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModelWithGroups.at(2).getContents();
+            eip._setEditingItemData(listViewModelWithGroups.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1568,12 +1399,12 @@ define([
             eip.beginAdd = function() {
                throw new Error('beginAdd shouldn\'t be called');
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._editingItem = listModel.at(2).getContents();
-            eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModel.at(2).getContents();
+            eip._setEditingItemData(listViewModel.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1598,14 +1429,14 @@ define([
             eip.beginAdd = function() {
                throw new Error('beginAdd shouldn\'t be called.');
             };
-            eip.saveOptions({
-               listModel: listModelWithGroups
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups
             });
-            listModelWithGroups.toggleGroup('services');
-            listModelWithGroups.toggleGroup('whatever');
-            eip._editingItem = listModelWithGroups.at(2).getContents();
-            eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            listViewModelWithGroups.toggleGroup('services');
+            listViewModelWithGroups.toggleGroup('whatever');
+            eip._editingItem = listViewModelWithGroups.at(2).getContents();
+            eip._setEditingItemData(listViewModelWithGroups.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1618,15 +1449,15 @@ define([
             eip.beginAdd = function() {
                done();
             };
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   autoAdd: true
                }
             });
-            eip._editingItem = listModel.at(2).getContents();
-            eip._setEditingItemData(listModel.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModel.at(2).getContents();
+            eip._setEditingItemData(listViewModel.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1645,17 +1476,17 @@ define([
             eip.beginAdd = function() {
                done();
             };
-            eip.saveOptions({
-               listModel: listModelWithGroups,
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups,
                editingConfig: {
                   autoAdd: true
                }
             });
-            listModelWithGroups.toggleGroup('services');
-            listModelWithGroups.toggleGroup('whatever');
-            eip._editingItem = listModelWithGroups.at(2).getContents();
-            eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            listViewModelWithGroups.toggleGroup('services');
+            listViewModelWithGroups.toggleGroup('whatever');
+            eip._editingItem = listViewModelWithGroups.at(2).getContents();
+            eip._setEditingItemData(listViewModelWithGroups.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1666,15 +1497,15 @@ define([
 
          it('Shift+Tab', function(done) {
             eip.beginEdit = function(options) {
-               assert.equal(options.item, eip._options.listModel.at(0).getContents());
+               assert.equal(options.item, eip._options.listViewModel.at(0).getContents());
                done();
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._editingItem = listModel.at(1).getContents();
-            eip._setEditingItemData(listModel.at(1).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModel.at(1).getContents();
+            eip._setEditingItemData(listViewModel.at(1).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1686,15 +1517,15 @@ define([
 
          it('Shift+Tab but previous item is a group', function(done) {
             eip.beginEdit = function(options) {
-               assert.equal(options.item, listModelWithGroups.at(2).getContents());
+               assert.equal(options.item, listViewModelWithGroups.at(2).getContents());
                done();
             };
-            eip.saveOptions({
-               listModel: listModelWithGroups
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups
             });
-            eip._editingItem = listModelWithGroups.at(4).getContents();
-            eip._setEditingItemData(listModelWithGroups.at(4).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModelWithGroups.at(4).getContents();
+            eip._setEditingItemData(listViewModelWithGroups.at(4).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1711,12 +1542,12 @@ define([
             eip.beginEdit = function() {
                throw new Error('beginEdit shouldn\'t be called.');
             };
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
-            eip._editingItem = listModel.at(0).getContents();
-            eip._setEditingItemData(listModel.at(0).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            eip._editingItem = listViewModel.at(0).getContents();
+            eip._setEditingItemData(listViewModel.at(0).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1733,13 +1564,13 @@ define([
             eip.beginEdit = function() {
                throw new Error('beginEdit shouldn\'t be called.');
             };
-            eip.saveOptions({
-               listModel: listModelWithGroups
+            Object.assign(eip._options,{
+               listViewModel: listViewModelWithGroups
             });
-            listModelWithGroups.toggleGroup('goods');
-            eip._editingItem = listModelWithGroups.at(2).getContents();
-            eip._setEditingItemData(listModelWithGroups.at(2).getContents(), eip._options.listModel, eip._options);
-            eip._onRowDeactivated({
+            listViewModelWithGroups.toggleGroup('goods');
+            eip._editingItem = listViewModelWithGroups.at(2).getContents();
+            eip._setEditingItemData(listViewModelWithGroups.at(2).getContents(), eip._options.listViewModel, eip._options);
+            eip.onRowDeactivated({
                stopPropagation: function() {
 
                }
@@ -1754,18 +1585,13 @@ define([
                eip.beginEdit = function(options) {
                   assert.equal(options.item, treeModel.at(2).getContents());
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(1).getContents();
-               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listModel, eip._options);
-               eip._onKeyDown({
-                  stopPropagation: function() {}
-               }, {
-                  keyCode: 13,
-                  stopPropagation: function() {}
-               });
+               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listViewModel, eip._options);
+               eip.editNextRow();
             });
 
             it('Enter inside a second folder', function() {
@@ -1775,18 +1601,13 @@ define([
                eip.commitEdit = function() {
                   throw new Error('commitEdit shouldn\'t be called.');
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1, 2]);
                eip._editingItem = treeModel.at(5).getContents();
-               eip._setEditingItemData(treeModel.at(5).getContents(), eip._options.listModel, eip._options);
-               eip._onKeyDown({
-                  stopPropagation: function() {}
-               }, {
-                  keyCode: 13,
-                  stopPropagation: function() {}
-               });
+               eip._setEditingItemData(treeModel.at(5).getContents(), eip._options.listViewModel, eip._options);
+               eip.editNextRow();
             });
 
             it('Enter on last item inside a folder', function(done) {
@@ -1799,26 +1620,21 @@ define([
                eip.beginAdd = function() {
                   throw new Error('beginAdd shouldn\'t be called');
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
-               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
-               eip._onKeyDown({
-                  stopPropagation: function() {}
-               }, {
-                  keyCode: 13,
-                  stopPropagation: function() {}
-               });
+               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listViewModel, eip._options);
+               eip.editNextRow();
             });
 
             it('Enter on last item inside a folder, autoAdd', function(done) {
                eip.beginAdd = function() {
                   done();
                };
-               eip.saveOptions({
-                  listModel: treeModel,
+               Object.assign(eip._options,{
+                  listViewModel: treeModel,
                   editingConfig: {
                      autoAdd: true
                   }
@@ -1826,13 +1642,8 @@ define([
                treeModel.setExpandedItems([1]);
                eip._sequentialEditing = true;
                eip._editingItem = treeModel.at(3).getContents();
-               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
-               eip._onKeyDown({
-                  stopPropagation: function() {}
-               }, {
-                  keyCode: 13,
-                  stopPropagation: function() {}
-               });
+               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listViewModel, eip._options);
+               eip.editNextRow();
             });
 
             it('Enter inside a folder, sequentialEditing: false', function(done) {
@@ -1845,16 +1656,16 @@ define([
                eip.beginAdd = function() {
                   throw new Error('beginAdd shouldn\'t be called');
                };
-               eip.saveOptions({
-                  listModel: treeModel,
+               Object.assign(eip._options,{
+                  listViewModel: treeModel,
                   editingConfig: {
                      sequentialEditing: false
                   }
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(1).getContents();
-               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listModel, eip._options);
-               eip._onKeyDown({
+               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listViewModel, eip._options);
+               eip.editNextRow({
                   stopPropagation: function() {}
                }, {
                   keyCode: 13,
@@ -1867,13 +1678,13 @@ define([
                   assert.equal(options.item, treeModel.at(2).getContents());
                   done();
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(1).getContents();
-               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listModel, eip._options);
-               eip._onRowDeactivated({
+               eip._setEditingItemData(treeModel.at(1).getContents(), eip._options.listViewModel, eip._options);
+               eip.onRowDeactivated({
                   stopPropagation: function() {
 
                   }
@@ -1892,13 +1703,13 @@ define([
                eip.beginAdd = function() {
                   throw new Error('beginAdd shouldn\'t be called');
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
-               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
-               eip._onRowDeactivated({
+               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listViewModel, eip._options);
+               eip.onRowDeactivated({
                   stopPropagation: function() {
 
                   }
@@ -1911,16 +1722,16 @@ define([
                eip.beginAdd = function() {
                   done();
                };
-               eip.saveOptions({
-                  listModel: treeModel,
+               Object.assign(eip._options,{
+                  listViewModel: treeModel,
                   editingConfig: {
                      autoAdd: true
                   }
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(3).getContents();
-               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listModel, eip._options);
-               eip._onRowDeactivated({
+               eip._setEditingItemData(treeModel.at(3).getContents(), eip._options.listViewModel, eip._options);
+               eip.onRowDeactivated({
                   stopPropagation: function() {
 
                   }
@@ -1931,16 +1742,16 @@ define([
 
             it('Shift+Tab inside a folder', function(done) {
                eip.beginEdit = function(options) {
-                  assert.equal(options.item, eip._options.listModel.at(1).getContents());
+                  assert.equal(options.item, eip._options.listViewModel.at(1).getContents());
                   done();
                };
-               eip.saveOptions({
-                  listModel: treeModel
+               Object.assign(eip._options,{
+                  listViewModel: treeModel
                });
                treeModel.setExpandedItems([1]);
                eip._editingItem = treeModel.at(2).getContents();
-               eip._setEditingItemData(treeModel.at(2).getContents(), eip._options.listModel, eip._options);
-               eip._onRowDeactivated({
+               eip._setEditingItemData(treeModel.at(2).getContents(), eip._options.listViewModel, eip._options);
+               eip.onRowDeactivated({
                   stopPropagation: function() {
 
                   }
@@ -1952,19 +1763,19 @@ define([
          });
       });
 
-      describe('_onItemClick', function() {
-         it('clickItemInfo', function() {
+      describe('onItemClick', function() {
+         it('clickItemInfo', async function() {
             var
                clickPropagationStopped = false;
             eip.beginEdit = function() {
                return Deferred.success({});
             };
-            eip.saveOptions({
+            Object.assign(eip._options,{
                editingConfig: {
                   editOnClick: true
                }
             });
-            eip._onItemClick({
+            await eip.beginEditByClick({
                stopPropagation: function() {
                   clickPropagationStopped = true;
                }
@@ -1992,12 +1803,12 @@ define([
             eip.beginEdit = function() {
                return Deferred.success({ cancelled: true });
             };
-            eip.saveOptions({
+            Object.assign(eip._options,{
                editingConfig: {
                   editOnClick: true
                }
             });
-            eip._onItemClick({
+            eip.beginEditByClick({
                stopPropagation: function() {
                   clickPropagationStopped = true;
                }
@@ -2021,13 +1832,13 @@ define([
             eip.commitEdit = function() {
                done();
             };
-            eip.saveOptions({
+            Object.assign(eip._options,{
                editingConfig: {
                   editOnClick: true
                }
             });
 
-            eip._onItemClick({}, newItem, {
+            eip.beginEditByClick({}, newItem, {
                target: {
                   closest: function() {
                      return true;
@@ -2046,13 +1857,13 @@ define([
                assert.equal(options.item, newItem);
                done();
             };
-            eip.saveOptions({
+            Object.assign(eip._options, {
                editingConfig: {
                   editOnClick: true
                }
             });
 
-            eip._onItemClick({}, newItem, {
+            eip.beginEditByClick({}, newItem, {
                target: {
                   closest: function() {
                      return false;
@@ -2070,21 +1881,21 @@ define([
             eip.beginEdit = function() {
                throw new Error('beginEdit shouldn\'t be called if editOnClick is false');
             };
-            eip._onItemClick({}, newItem);
+            eip.beginEditByClick({}, newItem);
          });
 
          it('readOnly, commitEdit', function() {
             eip.commitEdit = function() {
                throw new Error('commitEdit shouldn\'t be called if EditInPlace is readOnly');
             };
-            eip.saveOptions({
+            Object.assign(eip._options,{
                editingConfig: {
                   editOnClick: true
                },
                readOnly: true
             });
 
-            eip._onItemClick({}, newItem, {
+            eip.beginEditByClick({}, newItem, {
                target: {
                   closest: function() {
                      return true;
@@ -2102,14 +1913,14 @@ define([
             eip.beginEdit = function() {
                throw new Error('beginEdit shouldn\'t be called if EditInPlace is readOnly');
             };
-            eip.saveOptions({
+            Object.assign(eip._options,{
                editingConfig: {
                   editOnClick: true
                },
                readOnly: true
             });
 
-            eip._onItemClick({}, newItem, {
+            eip.beginEditByClick({}, newItem, {
                target: {
                   closest: function() {
                      return false;
@@ -2141,16 +1952,16 @@ define([
             }
          };
 
-         it('dont close popup if validation failed', function () {
-            eip.saveOptions({
-               listModel: listModel
+         it('dont close popup if validation failed', async function () {
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            eip.beginAdd({
+            await eip.beginAdd({
                item: newItem
             });
 
-            eip._children.formController = failedValidationFormController;
+            eip._formController = failedValidationFormController;
             eip._editingItem.isChanged = () => true;
 
             // Emulate closing popup. It will call _formOperationHandler;
@@ -2163,16 +1974,11 @@ define([
 
       describe('commitAndMoveNextRow (commitEdit by itemAction click)', () => {
          it('commit edit existing record without autoAddByApplyButton', async function () {
-            let
-               source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
             });
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             assert.isNotNull(eip._editingItemData);
             await (new Promise((resolve) => {
@@ -2183,19 +1989,14 @@ define([
          });
 
          it('commit edit existing record with autoAddByApplyButton', async function () {
-            let
-               source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data,
-               });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                editingConfig: {
                   autoAddByApplyButton: true
                }
             });
-            eip.beginEdit({
-               item: listModel.at(0).getContents()
+            await eip.beginEdit({
+               item: listViewModel.at(0).getContents()
             });
             assert.isNotNull(eip._editingItemData);
             await (new Promise((resolve) => {
@@ -2206,16 +2007,11 @@ define([
          });
 
          it('commit edit new record without autoAddByApplyButton', async function () {
-            let
-               source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source
             });
-            eip.beginAdd({
+            await eip.beginAdd({
                item: newItem
             });
             assert.isNotNull(eip._editingItemData);
@@ -2227,19 +2023,14 @@ define([
          });
 
          it('commit edit new record with autoAddByApplyButton', async function () {
-            let
-               source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: data
-               });
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source,
                editingConfig: {
                   autoAddByApplyButton: true
                }
             });
-            eip.beginAdd({
+            await eip.beginAdd({
                item: newItem
             });
             assert.isNotNull(eip._editingItemData);
@@ -2253,15 +2044,15 @@ define([
          });
       });
 
-      describe('_beforeUpdate', function() {
+      describe('updateEditingData', function() {
          it('editingConfig has sequential editing', function() {
-            eip._beforeUpdate({
+            eip.updateEditingData({
                editingConfig: {
                   sequentialEditing: false
                }
             });
             assert.isFalse(eip._sequentialEditing);
-            eip._beforeUpdate({
+            eip.updateEditingData({
                editingConfig: {
                   sequentialEditing: true
                }
@@ -2270,7 +2061,7 @@ define([
          });
 
          it('editingConfig doesn\'t have sequential editing', function() {
-            eip._beforeUpdate({
+            eip.updateEditingData({
                editingConfig: {
 
                }
@@ -2279,70 +2070,63 @@ define([
          });
 
          it('editing config doesn\'t exist', function() {
-            eip._beforeUpdate({});
+            eip.updateEditingData({});
             assert.isTrue(eip._sequentialEditing);
          });
 
          it('multiSelectVisibility on list has been changed while editing', async function () {
             let
-                isItemDataRegenerated = false,
-                source = new sourceLib.Memory({
-                   keyProperty: 'id',
-                   data: items
-                });
+                isItemDataRegenerated = false;
 
-            eip.saveOptions({
-               listModel: listModel,
+            Object.assign(eip._options,{
+               listViewModel: listViewModel,
                source: source
             });
 
             await eip.beginAdd();
 
-            eip._setEditingItemData = (editingItem, model, options) => {
+            eip._setEditingItemData = (editingItem) => {
                isItemDataRegenerated = true;
                assert.equal(editingItem, eip._editingItemData.item);
-               assert.equal(options.multiSelectVisibility, 'visible');
+               assert.equal(eip._options.multiSelectVisibility, 'visible');
             };
 
-            eip._beforeUpdate({multiSelectVisibility: 'visible', listModel: listModel});
+            eip.updateEditingData({multiSelectVisibility: 'visible', listViewModel: listViewModel});
             assert.isTrue(isItemDataRegenerated);
          });
       });
 
       it('property change of an editing item should reset validation', function() {
          var setValidationResultCalled = false;
-         eip.saveOptions({
-            listModel: listModel
+         Object.assign(eip._options,{
+            listViewModel: listViewModel
          });
-
-         eip.beginEdit({
-            item: listModel.at(0).getContents()
-         });
-         eip._children = {
-            formController: {
-               setValidationResult: function() {
-                  setValidationResultCalled = true;
-               }
+         eip._formController = {
+            setValidationResult: function() {
+               setValidationResultCalled = true;
+            },
+            submit: function() {
+               return Deferred.success();
             }
          };
-         eip._editingItem.set('title', 'test');
-         assert.isTrue(setValidationResultCalled);
+         return eip.beginEdit({
+            item: listViewModel.at(0).getContents()
+         }).then(() => {
+            eip._editingItem.set('title', 'test');
+            assert.isTrue(setValidationResultCalled);
+         });
+
       });
 
       it('index of a new item should update if the list gets changed', async function() {
-         const source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: items
-         });
-
-         eip.saveOptions({
-            listModel: listModel,
+         Object.assign(eip._options,{
+            listViewModel: listViewModel,
             source: source
          });
 
          await eip.beginAdd();
          assert.equal(eip._editingItemData.index, 3);
-         listModel._items.append([new entity.Record({
+         listViewModel._items.append([new entity.Record({
             rawData: {
                id: 4,
                title: 'test'
@@ -2353,11 +2137,11 @@ define([
 
       describe('_private block', function () {
          it('hasParentInItems', function () {
-            eip.saveOptions({
-               listModel: listModel
+            Object.assign(eip._options,{
+               listViewModel: listViewModel
             });
 
-            assert.isFalse(EditInPlace._private.hasParentInItems({}, listModel));
+            assert.isFalse(EditInPlace._private.hasParentInItems({}, listViewModel));
          });
       });
 

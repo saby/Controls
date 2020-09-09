@@ -42,6 +42,8 @@ import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import {ISwipeEvent} from 'Controls/listRender';
 
+import {IEditingOptions, EditInPlace} from '../editInPlace';
+
 import {groupUtil} from 'Controls/dataSource';
 import {IDirection} from './interface/IVirtualScroll';
 import InertialScrolling from './resources/utils/InertialScrolling';
@@ -1660,11 +1662,11 @@ const _private = {
         const oldSourceCfg = oldNavigation && oldNavigation.sourceConfig ? oldNavigation.sourceConfig : {};
         const newSourceCfg = newNavigation && newNavigation.sourceConfig ? newNavigation.sourceConfig : {};
         if (oldSourceCfg.page !== newSourceCfg.page) {
-            const isEditing = !!self._children.editInPlace && !!self._listViewModel && (
+            const isEditing = !!self._editInPlace && !!self._listViewModel && (
                 self._options.useNewModel ? EditInPlaceController.isEditing(self._listViewModel) : !!self._listViewModel.getEditingItemData()
             );
             if (isEditing) {
-                self._children.editInPlace.cancelEdit();
+                self._editInPlace.cancelEdit();
             }
         }
     },
@@ -1872,7 +1874,50 @@ const _private = {
             markerVisibility: options.markerVisibility,
             markedKey: options.hasOwnProperty('markedKey') ? options.markedKey : self._markedKey
         });
+    },
+
+    createEditInPlace(self: typeof BaseControl, options: any): void {
+        if (options.editingConfig) {
+            self._editInPlace = new EditInPlace(<IEditingOptions> {
+                editingConfig: options.editingConfig,
+                listViewModel: self._listViewModel,
+                multiSelectVisibility: options.multiSelectVisibility,
+                errorController: self.__errorController,
+                source: self.getSourceController(),
+                useNewModel: options.useNewModel,
+                theme: self._options.theme,
+                notify: (name, args, params) => {
+                    return self._notify(name, args, params);
+                },
+                forceUpdate: () => {
+                    self._forceUpdate();
+                },
+                updateItemActions: () => {
+                    /*
+                    * TODO: KINGO
+                    * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
+                    * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
+                    * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
+                    * _canUpdateItemsActions приведет к показу неактуальных операций.
+                    */
+                    self._updateItemActions(self._options);
+                }
+            });
+        }
+    },
+
+    createEditingData(self: typeof BaseControl, options: any): void {
+        if (self._editInPlace) {
+            self._editInPlace.createEditingData(
+                options.editingConfig,
+                self._listViewModel,
+                options.useNewModel,
+                self.getSourceController()
+            );
+            self._editingItemData = self._editInPlace.getEditingItemData();
+        }
     }
+
 };
 
 /**
@@ -2030,6 +2075,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         this._loadTriggerVisibility = {};
 
+        if (newOptions.editingConfig) {
+            _private.createEditInPlace(self, newOptions);
+        }
+
         return _private.prepareCollapsedGroups(newOptions).addCallback(function(collapsedGroups) {
             let viewModelConfig = cClone(newOptions);
             if (collapsedGroups) {
@@ -2059,6 +2108,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                     newOptions.itemsReadyCallback(self._listViewModel.getCollection());
                 }
             }
+
             if (self._listViewModel) {
                 _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
             }
@@ -2090,6 +2140,9 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                     if (newOptions.dataLoadCallback instanceof Function) {
                         newOptions.dataLoadCallback(self._items);
                     }
+
+                    _private.createEditingData(self, newOptions);
+
                     _private.prepareFooter(self, newOptions.navigation, self._sourceController);
                     return;
                 }
@@ -2125,6 +2178,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                         }
                     }
                     self._needBottomPadding = _private.needBottomPadding(newOptions, data, self._listViewModel);
+
+                    _private.createEditingData(self, newOptions);
 
                     // TODO Kingo.
                     // В случае, когда в опцию источника передают PrefetchProxy
@@ -2263,6 +2318,18 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             });
         }
 
+        if (this._editInPlace) {
+            this._editInPlace.registerFormOperation(
+                this._listViewModel,
+                this._children.formController,
+                () => this.isDestroyed()
+            );
+
+            if (this._options.itemActions && this._editInPlace.shouldShowToolbar()) {
+                this._updateItemActions(this._options);
+            }
+        }
+
         // для связи с контроллером ПМО
         this._notify('register', ['selectedTypeChanged', this, _private.onSelectedTypeChanged], {bubbling: true});
         this._notifyOnDrawItems();
@@ -2300,8 +2367,8 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
                 newOptions.viewModelConstructor !== this._viewModelConstructor
             )
         ) {
-            if (this._children.editInPlace && this._listViewModel.getEditingItemData()) {
-                this._children.editInPlace.cancelEdit();
+            if (this._editInPlace && this._listViewModel.getEditingItemData()) {
+                this._editInPlace.cancelEdit();
             }
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._listViewModel.getItems();
@@ -2364,6 +2431,11 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
         if (this._markerController) {
             _private.updateMarkerController(this, newOptions);
+        }
+
+        if (this._editInPlace) {
+            this._editInPlace.updateEditingData(newOptions);
+            this._editingItemData = this._editInPlace.getEditingItemData();
         }
 
         if (filterChanged || recreateSource || sortingChanged) {
@@ -2505,6 +2577,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
         }
         this._loadTriggerVisibility = null;
 
+        if (this._editInPlace) {
+            this._editInPlace.reset();
+        }
+
         // для связи с контроллером ПМО
         this._notify('unregister', ['selectedTypeChanged', this], {bubbling: true});
 
@@ -2597,6 +2673,10 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             });
             this._callbackAfterUpdate = null;
         }
+
+        if (this._editInPlace) {
+            this._editInPlace.prepareHtmlInput();
+        }
     },
 
     __onPagingArrowClick: function(e, arrow) {
@@ -2682,23 +2762,28 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
              can use it for their own reasons (e.g. something like TouchDetector can use it).
              */
             e.stopPropagation();
+            return;
         }
+        if (this._editInPlace) {
+            this._editInPlace.beginEditByClick(e, item, originalEvent);
+        }
+
     },
 
     beginEdit: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.beginEdit(options);
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginEdit(options);
     },
 
     beginAdd: function(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.beginAdd(options);
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginAdd(options);
     },
 
     cancelEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.cancelEdit();
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.cancelEdit();
     },
 
     commitEdit: function() {
-        return this._options.readOnly ? Deferred.fail() : this._children.editInPlace.commitEdit();
+        return this._options.readOnly ? Deferred.fail() : this._editInPlace.commitEdit();
     },
 
     /**
@@ -2707,7 +2792,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      * @private
      */
     _commitEditActionHandler(): void {
-        this._children.editInPlace.commitAndMoveNextRow();
+        this._editInPlace.commitAndMoveNextRow();
     },
 
     /**
@@ -2716,7 +2801,7 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
      * @private
      */
     _cancelEditActionHandler(): void {
-        this._children.editInPlace.cancelEdit();
+        this._editInPlace.cancelEdit();
     },
     /**
      * Выполняется из шаблона при mouseenter
@@ -2780,31 +2865,6 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
             });
             this._listViewModel.nextModelVersion(!isActionsAssigned, 'itemActionsUpdated');
         }
-    },
-
-    _onAfterEndEdit(event: SyntheticEvent, item: Model, isAdd: boolean) {
-        this._notify('afterEndEdit', [item, isAdd]);
-        this._updateItemActions(this._options);
-    },
-
-    /**
-     * Обработчик создания/редактирования записи
-     * @param event
-     * @param item
-     * @param isAdd
-     * @private
-     */
-    _onAfterBeginEdit(event: SyntheticEvent, item: Model, isAdd: boolean) {
-        const result = this._notify('afterBeginEdit', [item, isAdd]);
-        /*
-        * TODO: KINGO
-        * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
-        * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
-        * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
-        * _canUpdateItemsActions приведет к показу неактуальных операций.
-        */
-        this._updateItemActions(this._options);
-        return result;
     },
 
     /**
@@ -3260,6 +3320,29 @@ var BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototype
 
     handleSelectionControllerResult(result: ISelectionControllerResult): void {
        _private.handleSelectionControllerResult(this, result);
+    },
+
+    _onEditingRowKeyDown(e: SyntheticEvent<KeyboardEvent>, nativeEvent: KeyboardEvent): void {
+        if (this._editInPlace) {
+            switch (nativeEvent.keyCode) {
+                case 13: // Enter
+                    // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
+                    this._editInPlace.editNextRow();
+                    e.stopPropagation();
+                    break;
+                case 27: // Esc
+                    // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
+                    e.stopPropagation();
+                    return this._editInPlace.cancelEdit();
+                    break;
+            }
+        }
+    },
+
+    _onRowDeactivated(e: SyntheticEvent, eventOptions: any): void {
+        if (this._editInPlace) {
+            this._editInPlace.onRowDeactivated(e, eventOptions);
+        }
     }
 });
 

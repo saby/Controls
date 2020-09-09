@@ -11,7 +11,6 @@
     <ws:if data="{{ _listModel.getResultsPosition() === 'top' }}">
         <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
     </ws:if>
-
     <!-- Скроллбар горизонтального скролла -->
     <ws:if data="{{isDisplayColumnScroll}}">
         <Controls._grid.ScrollWrapper
