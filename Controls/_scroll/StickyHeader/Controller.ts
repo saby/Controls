@@ -5,7 +5,7 @@ import {IFixedEventData, isHidden, POSITION, TRegisterEventData, TYPE_FIXED_HEAD
 import StickyHeader, {SHADOW_VISIBILITY} from 'Controls/_scroll/StickyHeader/_StickyHeader';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import fastUpdate from './FastUpdate';
-import StickyHeaderResizeObserver from './Utils/StickyHeaderResizeObserver';
+import ResizeObserverUtil from 'Controls/Utils/ResizeObserverUtil';
 import {detection} from 'Env/Env';
 
 // @ts-ignore
@@ -28,7 +28,9 @@ class Component extends Control {
     private _delayedHeaders: TRegisterEventData[] = [];
     private _stickyControllerMounted: boolean = false;
     private _updateTopBottomInitialized: boolean = false;
-    private _stickyHeaderObserver: StickyHeaderResizeObserver;
+    private _stickyHeaderObserver: ResizeObserverUtil;
+    private _elementsHeight: object[] = [];
+    private _firstResize: boolean = true;
 
     _beforeMount(options) {
         this._headersStack = {
@@ -41,7 +43,7 @@ class Component extends Control {
         };
         this._headers = {};
         this._resizeHandlerDebounced = debounce(this._resizeHandler.bind(this), 50);
-        this._stickyHeaderObserver = new StickyHeaderResizeObserver(this);
+        this._stickyHeaderObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
     }
 
     _afterMount(options) {
@@ -136,14 +138,55 @@ class Component extends Control {
             if (!isHidden(data.container) && this._stickyControllerMounted) {
                 return Promise.resolve().then(this._registerDelayed.bind(this));
             }
-            this._stickyHeaderObserver.observe(data.container);
+            this._observeStickyHeader(data.container);
         } else {
-            this._stickyHeaderObserver.unobserve(this._headers[data.id].container);
+            this._unobserveStickyHeader(this._headers[data.id].container);
             delete this._headers[data.id];
             this._removeFromHeadersStack(data.id, data.position);
             this._removeFromDelayedStack(data.id);
         }
         return Promise.resolve();
+    }
+
+    private _observeStickyHeader(container: HTMLElement): void {
+        const stickyHeaders = this._getStickyHeaderElements(container);
+        stickyHeaders.forEach((elem: HTMLElement) => {
+            this._stickyHeaderObserver.observe(elem);
+            this._elementsHeight.push({key: elem, value: elem.getBoundingClientRect().height});
+        });
+    }
+
+    private _unobserveStickyHeader(container: HTMLElement): void {
+        const stickyHeaders = this._getStickyHeaderElements(container);
+        stickyHeaders.forEach((elem: HTMLElement) => {
+            this._stickyHeaderObserver.unobserve(elem);
+        });
+    }
+
+    private _resizeObserverCallback(entries: any): void {
+        let heightChanged = false;
+        for (const entry of entries) {
+            heightChanged = this._elementsHeight.some((elemHeight) => {
+                if (elemHeight.key === entry.target && elemHeight.value !== entry.contentRect.height) {
+                    elemHeight.value = entry.contentRect.height;
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
+        if (heightChanged || this._firstResize) {
+            this._firstResize = false;
+            this._resizeHandler();
+        }
+    }
+
+    private _getStickyHeaderElements(container: HTMLElement): NodeListOf<HTMLElement> {
+        if (getComputedStyle(container, null).display === 'contents') {
+            return container.querySelectorAll('.controls-StickyHeader');
+        } else {
+            return [container];
+        }
     }
 
     /**
