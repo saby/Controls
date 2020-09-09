@@ -21,6 +21,8 @@ const upperDirection = {
     horizontal: 'Horizontal'
 }
 
+const AUTO = 'auto';
+
 export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixin) implements IVersionable {
     readonly '[Types/_entity/VersionableMixin]': true;
 
@@ -69,6 +71,19 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
         }
 
         return this._isVisible;
+    }
+
+    get isVisibleShadowOnCSS() {
+        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
+            return this._visibilityByInnerComponents;
+        }
+
+        const visibility = this._options[`${this._position}ShadowVisibility`];
+        if (visibility !== SHADOW_VISIBILITY.AUTO) {
+            return visibility;
+        }
+
+        return AUTO;
     }
 
     updateOptions(options: IShadowsOptions): void {
