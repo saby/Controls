@@ -362,9 +362,6 @@ var
             if (this._options.rowSeparatorVisibility !== newCfg.rowSeparatorVisibility) {
                 this._listModel.setRowSeparatorVisibility(newCfg.rowSeparatorVisibility);
             }
-            if (this._options.rowSeparatorSize !== newCfg.rowSeparatorSize) {
-                this._listModel.setRowSeparatorSize(newCfg.rowSeparatorSize);
-            }
             if (this._options.columnSeparatorSize !== newCfg.columnSeparatorSize) {
                 this._listModel.setColumnSeparatorSize(newCfg.columnSeparatorSize);
             }

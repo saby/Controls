@@ -2839,6 +2839,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }
         }
 
+        if (this._options.rowSeparatorSize !== newOptions.rowSeparatorSize) {
+            this._listViewModel.setRowSeparatorSize(newOptions.rowSeparatorSize);
+        }
+
         if (!newOptions.useNewModel && newOptions.viewModelConstructor !== this._viewModelConstructor) {
             if (this._editInPlace && this._listViewModel.getEditingItemData()) {
                 this._editInPlace.cancelEdit();

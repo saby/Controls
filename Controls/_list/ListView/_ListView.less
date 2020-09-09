@@ -48,16 +48,34 @@
 .controls-ListView__item_master-topPadding_s_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-s_theme-@{themeName} {
    padding-top: @item_padding-top_s_list + @item-separator_s_thickness_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_s_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_s_list + @item-separator_s_thickness_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_default-topPadding_l_theme-@{themeName},
 .controls-ListView__item_master-topPadding_l_theme-@{themeName},
 .controls-ListView__itemV_marker_master_topPadding-l_theme-@{themeName} {
    padding-top: @item_padding-top_l_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_l_list - @item-separator_s_thickness_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_l_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_default-topPadding_default_theme-@{themeName} {
    padding-top: @item_padding-top_default_list;
+   &.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      padding-top: @item_padding-top_default_list - @item-separator_s_thickness_list;
+   }
+   &.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      padding-top: @item_padding-top_default_list - @item-separator_l_thickness_list;
+   }
 }
 
 .controls-ListView__item_master-topPadding_default_theme-@{themeName},
@@ -627,4 +645,27 @@
 
 .controls-ListView__item_background_readonly_theme-@{themeName} {
    background-color: @readonly_color;
+}
+
+.controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_s_thickness_list;
+   border-top-color: @item_separator_s_color_list;
+}
+
+.controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+   border: 0 solid transparent;
+   border-top-width: @item-separator_l_thickness_list;
+   border-top-color: @item_separator_l_color_list;
+}
+
+// Последняя граница списка, самая нижняя
+.controls-ListView__itemV:last-child {
+   .controls-ListView__rowSeparator_size-s_theme-@{themeName} {
+      border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
+   }
+
+   .controls-ListView__rowSeparator_size-l_theme-@{themeName} {
+      border-bottom: @item-separator_l_thickness_list solid @item_edge_separator_l_color_list;
+   }
 }

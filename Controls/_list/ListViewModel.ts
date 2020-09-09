@@ -15,13 +15,16 @@ import {Logger} from 'UI/Utils';
 import {IItemAction} from 'Controls/itemActions';
 import { IDragPosition, IFlatItemData } from 'Controls/listDragNDrop';
 
+interface IListSeparatorOptions {
+   rowSeparatorSize?: null | 's' | 'l';
+}
 /**
  *
  * @author Авраменко А.С.
  * @private
  */
 
-var _private = {
+const _private = {
     updateIndexes: function(self, startIndex, stopIndex) {
         self._startIndex = startIndex;
         self._stopIndex = stopIndex;
@@ -50,6 +53,10 @@ var _private = {
             classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${cfg.theme}`;
         } else {
             classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${cfg.theme}`;
+        }
+
+        if (cfg.rowSeparatorSize) {
+            classList += ` controls-ListView__rowSeparator_size-${cfg.rowSeparatorSize}_theme-${cfg.theme}`;
         }
 
         return classList;
@@ -141,7 +148,10 @@ var _private = {
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?
                 itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme, useNewModel) : ''
         );
-    }
+    },
+   getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
+      return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
+   }
 };
 
 const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
@@ -163,6 +173,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         _private.updateIndexes(self, 0, self.getCount());
 
         this._reloadedKeys = {};
+        this.options = cfg;
+        this.options.rowSeparatorSize = _private.getSeparatorSizes(this.options);
     },
     setItemPadding: function(itemPadding, silent = false) {
         this._options.itemPadding = itemPadding;
@@ -480,12 +492,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     setSwipeItem: function(itemData) {
         if (!this._swipeItem || !itemData || itemData.item !== this._swipeItem.item) {
-           this._swipeItem = itemData;
-           this._nextModelVersion(true);
+            this._swipeItem = itemData;
+            this._nextModelVersion(true);
         }
     },
 
-    setHoveredItem: function(item){
+    setHoveredItem: function(item) {
         const changedItems = [];
         if (this._hoveredItem && typeof this._hoveredItem.getId === 'function') {
             changedItems.push(this.getItemById(this._hoveredItem.getId()));
@@ -767,6 +779,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
     markItemReloaded: function(key) {
         this._reloadedKeys[key] = ++this._singleItemReloadCount;
+    },
+    setRowSeparatorSize(rowSeparatorSize: IListSeparatorOptions['rowSeparatorSize']): void {
+        this._options.rowSeparatorSize = _private.getSeparatorSizes({rowSeparatorSize});
+        this._nextModelVersion();
     }
 });
 
