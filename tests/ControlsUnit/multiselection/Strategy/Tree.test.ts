@@ -355,7 +355,7 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const selection = { selected: [null], excluded: [null, 2] };
          const count = strategy.getCount(selection, false);
          const countWithDescAndAnc = strategyWithDescendantsAndAncestors.getCount(selection, false);
-         assert.equal(count, 3);
+         assert.equal(count, 4);
          assert.equal(countWithDescAndAnc, 4);
       });
 
