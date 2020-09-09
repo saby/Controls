@@ -18,18 +18,26 @@
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Compact/Base/Index' }}">
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Edge/Base/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по скролу. Компактное отображение, отображается 1 кнопка.</a>
         </Router.router:Reference>
-        <Controls-demo.list_new.Navigation.Paging.Compact.Base.Index/>
+        <Controls-demo.list_new.Navigation.Paging.Edge.Base.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Compact/ContentTemplate/Index' }}">
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Edge/ContentTemplate/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по скролу. Компактное отображение, отображается шаблон и кнопка.</a>
         </Router.router:Reference>
-        <Controls-demo.list_new.Navigation.Paging.Compact.ContentTemplate.Index/>
+        <Controls-demo.list_new.Navigation.Paging.Edge.ContentTemplate.Index/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/End/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу. Компактное отображение, отображается шаблон и кнопка в конец.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.End.Index/>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"

@@ -1,10 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import pagingTemplate = require('wml!Controls/_paging/Paging/Paging');
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {TNavigationPagingMode} from '../_interface/INavigation';
 
 type TButtonState = 'normal' | 'disabled';
 type TArrowStateVisibility = 'visible' | 'hidden' | 'readonly';
-type TPagingMode = 'basic' | 'compact' | 'numbers';
 
 interface IArrowState {
     begin: TArrowStateVisibility;
@@ -23,7 +23,7 @@ export interface IPagingOptions extends IControlOptions {
     contentTemplate?: TemplateFunction;
     elementsCount?: number;
     arrowState: IArrowState;
-    pagingMode: TPagingMode;
+    pagingMode: TNavigationPagingMode;
 }
 
 /**

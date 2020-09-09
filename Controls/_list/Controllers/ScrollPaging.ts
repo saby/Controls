@@ -1,6 +1,8 @@
 /**
  * Created by kraynovdo on 13.11.2017.
  */
+import {TNavigationPagingMode} from '../../_interface/INavigation';
+
 /**
  *
  * @author Авраменко А.С.
@@ -8,7 +10,6 @@
  */
 
 type IScrollpagingState = 'top' | 'bottom' | 'middle';
-type TPagingMode = 'basic' | 'compact' | 'numbers';
 
 interface IScrollParams {
     clientHeight: number;
@@ -36,7 +37,7 @@ interface IPagingCfg {
 }
 
 interface IScrollPagingOptions {
-    pagingMode: TPagingMode;
+    pagingMode: TNavigationPagingMode;
     scrollParams: IScrollParams;
     elementsCount: number;
 
@@ -69,7 +70,7 @@ export default class ScrollPagingController {
         switch (this._options.pagingMode) {
             case 'basic':
                 break;
-            case 'compact':
+            case 'edge':
                 arrowState.prev = 'hidden';
                 arrowState.next = 'hidden';
                 if (arrowState.end === 'visible') {
@@ -78,6 +79,17 @@ export default class ScrollPagingController {
                     pagingCfg.showEndButton = true;
                 } else if (arrowState.begin === 'visible') {
                     arrowState.begin = 'visible';
+                    arrowState.end = 'hidden';
+                }
+                break;
+            case 'end':
+                arrowState.prev = 'hidden';
+                arrowState.next = 'hidden';
+                arrowState.begin = 'hidden';
+
+                if (arrowState.end === 'visible') {
+                    pagingCfg.showEndButton = true;
+                } else {
                     arrowState.end = 'hidden';
                 }
                 break;

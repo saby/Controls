@@ -11,7 +11,7 @@
             <span class="controls-Paging__btn controls-Paging__btn-Begin controls-Paging__btn_theme-{{_options.theme}}
                         controls-Paging__btn_first controls-Paging__btn_first_theme-{{_options.theme}}
                         controls-Paging__arrow controls-Paging__arrow__state-normal">
-            <p class="controls-Paging__info_theme-{{_options.theme}}">{[Всего]} {{_options.elementsCount}}</p>
+            <span class="controls-Paging__info_theme-{{_options.theme}}">{[Всего]} {{_options.elementsCount}}</span>
          </span>
         </ws:if>
         <ws:if data="{{!_options.showDigits && (_getArrowStateVisibility('begin') !== 'hidden')}}">

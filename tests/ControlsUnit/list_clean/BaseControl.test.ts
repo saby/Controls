@@ -232,9 +232,9 @@ describe('Controls/list_clean/BaseControl', () => {
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
         });
-        it('paging mode is compact', async () => {
+        it('paging mode is edge', async () => {
             const cfgClone = {...baseControlCfg};
-            cfgClone.navigation.viewConfig.pagingMode = 'compact';
+            cfgClone.navigation.viewConfig.pagingMode = 'edge';
             baseControl.saveOptions(cfgClone);
             await baseControl._beforeMount(cfgClone);
             baseControl._container = {
@@ -266,6 +266,37 @@ describe('Controls/list_clean/BaseControl', () => {
                     end: 'hidden',
                     next: 'hidden',
                     prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+        });
+        it('paging mode is end', async () => {
+            const cfgClone = {...baseControlCfg};
+            cfgClone.navigation.viewConfig.pagingMode = 'end';
+            baseControl.saveOptions(cfgClone);
+            await baseControl._beforeMount(cfgClone);
+            baseControl._viewSize = 1000;
+            baseControl._viewportSize = 400;
+            baseControl._mouseEnter(null);
+
+            // эмулируем появление скролла
+            await BaseControl._private.onScrollShow(baseControl, heightParams);
+            baseControl.updateShadowModeHandler({}, {top: 0, bottom: 0});
+
+            assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
+
+            BaseControl._private.handleListScrollSync(baseControl, 200);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'visible',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+
+            BaseControl._private.handleListScrollSync(baseControl, 800);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'hidden',
+                next: 'hidden',
+                prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
         });
         it('paging mode is numbers', async () => {
