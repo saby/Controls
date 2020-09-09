@@ -106,6 +106,7 @@ export * from './_input/ActualAPI';
  * НЕ ИСПОЛЬЗОВАТЬ НА ПРИКЛАДНОЙ СТРОНЕ!!!
  */
 export {FixBugs as __FixBugs} from 'Controls/_input/FixBugs';
+export {InputHistory as __InputHistory} from 'Controls/_input/FixBugs/InputHistory';
 export {ValueInField as __ValueInField} from 'Controls/_input/FixBugs/ValueInField';
 export {InsertFromDrop as __InsertFromDrop} from 'Controls/_input/FixBugs/InsertFromDrop';
 export {MinusProcessing as __MinusProcessing} from 'Controls/_input/FixBugs/MinusProcessing';

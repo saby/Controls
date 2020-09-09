@@ -3,7 +3,7 @@ import {IInputData} from '../Base/InputUtil';
 export interface IConfigForDetectValue {
     // TODO: Добавить тип как интерфейс базовой модели.
     model: object;
-    field?: HTMLInputElement
+    field?: HTMLInputElement;
 }
 
 /**

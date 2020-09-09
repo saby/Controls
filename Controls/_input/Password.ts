@@ -1,6 +1,7 @@
 import Base = require('Controls/_input/Base');
 import entity = require('Types/entity');
 import ViewModel = require('Controls/_input/Password/ViewModel');
+import {InputHistory} from 'Controls/_input/FixBugs/InputHistory';
 import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/PasswordVisibilityButton');
 /**
  * Поле ввода пароля.
@@ -79,6 +80,49 @@ var _private = {
 var Password = Base.extend({
     _passwordVisible: false,
     _defaultValue: '',
+    _inputHistory: null,
+
+    _inputHandler: function() {
+        /**
+         * Браузерное автодополнение отключается с помощью <input type="text"/> и замены введенного значения
+         * на *. Из-за этого нарушается нативное поведение по ctrl + [shift] + z. Эмулируем сами историю ввода
+         * и переход по ней.
+         */
+        if (!this._inputHistory && !_private.isAutoComplete(this._autoComplete)) {
+            this._inputHistory = new InputHistory({
+                value: this._viewModel.displayValue,
+                carriagePosition: this._viewModel.selection.end
+            });
+        }
+
+        Password.superclass._inputHandler.apply(this, arguments);
+
+        if (this._inputHistory) {
+            this._inputHistory.add({
+                value: this._viewModel.value,
+                carriagePosition: this._viewModel.selection.end
+            });
+        }
+    },
+
+    _keyDownHandler: function(event) {
+        Password.superclass._keyDownHandler.apply(this, arguments);
+
+        if (this._inputHistory) {
+            const keyCodeZ: number = 90;
+            if (event.nativeEvent.keyCode === keyCodeZ && event.nativeEvent.ctrlKey) {
+                const result = event.nativeEvent.shiftKey ?
+                    this._inputHistory.forward() :
+                    this._inputHistory.back();
+                if (result !== false) {
+                    this._viewModel.value = result.value;
+                    this._viewModel.selection = result.carriagePosition;
+                    this._notifyValueChanged();
+                }
+                event.preventDefault();
+            }
+        }
+    },
 
     _getViewModelOptions: function (options) {
         return {
