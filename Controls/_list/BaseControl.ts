@@ -128,6 +128,10 @@ const DRAG_SHIFT_LIMIT = 4;
 const IE_MOUSEMOVE_FIX_DELAY = 50;
 const DRAGGING_OFFSET = 10;
 const SCROLLMOVE_DELAY = 150;
+/**
+ * Минимальное количество элементов, при которых должен отобразиться пэйджинг
+ */
+const PAGING_MIN_ELEMENTS_COUNT = 5;
 
 const SWIPE_MEASUREMENT_CONTAINER_SELECTOR = 'js-controls-ItemActions__swipeMeasurementContainer';
 
@@ -1850,12 +1854,17 @@ const _private = {
         return navigation && navigation.view === 'pages';
     },
 
-    isPagingNavigationVisible(hasMoreData, knownPagesCount) {
-        return knownPagesCount > 0 || hasMoreData > 0;
+    isPagingNavigationVisible(hasMoreData) {
+        /**
+         * Не получится получать количество элементов через _private.getItemsCount,
+         * так как функция возвращает количество отображаемых элементов
+         */
+        return hasMoreData > PAGING_MIN_ELEMENTS_COUNT || hasMoreData === true;
     },
+
     updatePagingData(self, hasMoreData) {
         self._knownPagesCount = _private.calcPaging(self, hasMoreData, self._currentPageSize);
-        self._pagingNavigationVisible = _private.isPagingNavigationVisible(hasMoreData, self._knownPagesCount);
+        self._pagingNavigationVisible = _private.isPagingNavigationVisible(hasMoreData);
         self._pagingLabelData = _private.getPagingLabelData(hasMoreData, self._currentPageSize, self._currentPage);
         self._selectedPageSizeKey = PAGE_SIZE_ARRAY.find((item) => item.pageSize === self._currentPageSize);
         self._selectedPageSizeKey = self._selectedPageSizeKey ? [self._selectedPageSizeKey.id] : [1];
