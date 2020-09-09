@@ -1439,6 +1439,14 @@ const _private = {
         }
     },
 
+    onAfterCollectionChanged(self: typeof BaseControl): void {
+        self._doAfterCollectionChange.forEach((func) => {
+            func();
+        });
+
+        self._doAfterCollectionChange = [];
+    },
+
     onCollectionChanged(
         self: any,
         event: SyntheticEvent,
@@ -1458,65 +1466,69 @@ const _private = {
                 _private.updatePagingDataByItemsChanged(self, newItems, removedItems);
             }
         }
+
         if (changesType === 'collectionChanged' || newModelChanged) {
-            // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
-            if (self._options.navigation && self._options.navigation.source) {
-                const stateChanged = self._sourceController.setState(self._listViewModel, self._options.root);
+            // При изменении коллекции с ней нужно работать после события onAfterCollectionChange, т.к.
+            // до этого события изменения в коллекции еще могут быть не применены
+            self._doAfterCollectionChange.push(() => {
+                // TODO костыль https://online.sbis.ru/opendoc.html?guid=b56324ff-b11f-47f7-a2dc-90fe8e371835
+                if (self._options.navigation && self._options.navigation.source) {
+                    const stateChanged = self._sourceController.setState(self._listViewModel, self._options.root);
 
-                if (stateChanged) {
-                    _private.prepareFooter(self, self._options.navigation, self._sourceController);
+                    if (stateChanged) {
+                        _private.prepareFooter(self, self._options.navigation, self._sourceController);
+                    }
                 }
-            }
 
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
-                self._itemActionsMenuId) {
-                _private.closeItemActionsMenuForActiveItem(self, removedItems);
-            }
-            if (self._scrollController) {
-                if (action) {
-                    let result = null;
-                    if (action === IObservable.ACTION_ADD || action === IObservable.ACTION_MOVE) {
+                if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+                    self._itemActionsMenuId) {
+                    _private.closeItemActionsMenuForActiveItem(self, removedItems);
+                }
+                if (self._scrollController) {
+                    if (action) {
+                        let result = null;
+                        if (action === IObservable.ACTION_ADD || action === IObservable.ACTION_MOVE) {
 
-                        // TODO: this._batcher.addItems(newItemsIndex, newItems)
-                        if (self._addItemsDirection) {
-                            self._addItems.push(...newItems);
-                            self._addItemsIndex = newItemsIndex;
-                        } else {
-                            const collectionStartIndex = self._listViewModel.getStartIndex();
-                            result = self._scrollController.handleAddItems(newItemsIndex, newItems,
-                                newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up' : 'down');
+                            // TODO: this._batcher.addItems(newItemsIndex, newItems)
+                            if (self._addItemsDirection) {
+                                self._addItems.push(...newItems);
+                                self._addItemsIndex = newItemsIndex;
+                            } else {
+                                const collectionStartIndex = self._listViewModel.getStartIndex();
+                                result = self._scrollController.handleAddItems(newItemsIndex, newItems,
+                                    newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up' : 'down');
+                            }
+
                         }
-
-                    }
-                    if (action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_MOVE) {
-                        // When move items call removeHandler with "forceShift" param.
-                        // https://online.sbis.ru/opendoc.html?guid=4e6981f5-27e1-44e5-832e-2a080a89d6a7
-                        result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems, action === IObservable.ACTION_MOVE);
-                    }
-                    if (action === IObservable.ACTION_RESET) {
-                        result = self._scrollController.handleResetItems();
-                    }
-                    if (result) {
-                        _private.handleScrollControllerResult(self, result);
+                        if (action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_MOVE) {
+                            // When move items call removeHandler with "forceShift" param.
+                            // https://online.sbis.ru/opendoc.html?guid=4e6981f5-27e1-44e5-832e-2a080a89d6a7
+                            result = self._scrollController.handleRemoveItems(removedItemsIndex, removedItems, action === IObservable.ACTION_MOVE);
+                        }
+                        if (action === IObservable.ACTION_RESET) {
+                            result = self._scrollController.handleResetItems();
+                        }
+                        if (result) {
+                            _private.handleScrollControllerResult(self, result);
+                        }
                     }
                 }
-            }
 
-            if (self._selectionController) {
-                let result;
+                if (self._selectionController) {
+                    let result;
 
-                if (self._listViewModel.getCount() === 0 && _private.getSelectionController(self).isAllSelected()) {
-                    result = _private.getSelectionController(self).clearSelection();
-                } else if (action === IObservable.ACTION_ADD) {
-                    result = _private.getSelectionController(self).handleAddItems(newItems);
-                } else if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_REPLACE) {
-                    result = _private.getSelectionController(self).handleResetItems();
+                    if (self._listViewModel.getCount() === 0 && _private.getSelectionController(self).isAllSelected()) {
+                        result = _private.getSelectionController(self).clearSelection();
+                    } else if (action === IObservable.ACTION_ADD) {
+                        result = _private.getSelectionController(self).handleAddItems(newItems);
+                    } else if (action === IObservable.ACTION_RESET || action === IObservable.ACTION_REPLACE) {
+                        result = _private.getSelectionController(self).handleResetItems();
+                    }
+
+                    _private.handleSelectionControllerResult(self, result);
                 }
 
-                _private.handleSelectionControllerResult(self, result);
-            }
-
-            if (_private.hasMarkerController(self)) {
+                if (_private.hasMarkerController(self)) {
                 // Когда action=remove значит были скрыты или удалены элементы
                 // Если элементы скрылись, то для них нужно сбросить состояние marked,
                 // чтобы при их показе не было лишнего маркера
@@ -1530,6 +1542,7 @@ const _private = {
                     _private.getMarkerController(self).handleAddItems(newItems);
                 }
             }
+            });
         }
         // VirtualScroll controller can be created and after that virtual scrolling can be turned off,
         // for example if Controls.explorer:View is switched from list to tile mode. The controller
@@ -1580,6 +1593,7 @@ const _private = {
             model.subscribe('onListChange', _private.onCollectionChanged.bind(null, self));
         }
 
+        model.subscribe('onAfterCollectionChange', _private.onAfterCollectionChanged.bind(null, self));
         model.subscribe('onGroupsExpandChange', function(event, changes) {
             _private.groupsExpandChangeHandler(self, changes);
         });
@@ -2900,6 +2914,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     // Контроллер для перемещения элементов списка
     _moveController: null,
 
+    _doAfterCollectionChange: [],
+
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
@@ -2907,6 +2923,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._startDragNDropCallback = this._startDragNDropCallback.bind(this);
         this._loadTriggerOffset = { top: LOAD_TRIGGER_OFFSET, bottom: LOAD_TRIGGER_OFFSET };
+        this._doAfterCollectionChange = [];
     },
 
     /**

@@ -753,6 +753,7 @@ var
             this._model.subscribe('onListChange', this._onListChangeFn);
             this._model.subscribe('onGroupsExpandChange', this._onGroupsExpandChangeFn);
             this._model.subscribe('onCollectionChange', this._onCollectionChangeFn);
+            this._model.subscribe('onAfterCollectionChange', () => this._notify('onAfterCollectionChange'));
             const separatorSizes = _private.getSeparatorSizes(this._options);
             this._options.rowSeparatorSize = separatorSizes.row;
             this._options.columnSeparatorSize = separatorSizes.column;
