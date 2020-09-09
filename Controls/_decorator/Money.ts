@@ -52,7 +52,11 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
 /**
  * Графический контрол, декорирующий число таким образом, что оно приводится к денежному формату.
  * Денежным форматом является число с неограниченной целой частью, и двумя знаками в дробной части.
- *
+ * 
+ * @remark 
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
+ * 
  * @class Controls/_decorator/Money
  * @extends UI/Base:Control
  *

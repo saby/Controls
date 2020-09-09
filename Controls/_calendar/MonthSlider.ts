@@ -25,6 +25,10 @@ var _private = {
 /**
  * Календарь, который отображает 1 месяц и позволяет переключаться на следующий и предыдущий месяцы с помощью кнопок.
  * Предназначен для выбора даты или периода в пределах нескольких месяцев или лет.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
  *
  * @class Controls/_calendar/MonthSlider
  * @extends Core/Control

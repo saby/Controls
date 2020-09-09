@@ -29,6 +29,10 @@ export interface IPhoneOptions extends IControlOptions {
  * * Российские мобильные номера в зависимости от кода города, например +7(XXXX) XX-XX-XX[ доб. {остальные цифры}] или +7(XXXXX) X-XX-XX[ доб. {остальные цифры}];
  * * Иностранные номера, например +{иностранный код} {остальные цифры};
  * * Остальные номера отображаются как есть без формата.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
  *
  * @class Controls/_decorator/Phone
  * @extends UI/Base:Control

@@ -6,7 +6,13 @@ import 'Controls/_dragnDrop/DraggingTemplate';
        * Он отслеживает события контейнеров и оповещает о них другие контейнеры.
        * Контроллер отвечает за отображение и позиционирование шаблона, указанного в опции draggingTemplate в контейнерах.
        * Перетаскивание элементов работает только внутри Controls/dragnDrop:Container.
-       * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">здесь</a>.
+       * 
+       * @remark
+       * @remark
+       * Полезные ссылки:
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+       * 
        * @class Controls/_dragnDrop/Controller
        * @extends Core/Control
        * @control

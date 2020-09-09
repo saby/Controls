@@ -5,6 +5,10 @@ import template = require('wml!Controls/_dateRange/RelationButton/RelationButton
 /**
  * Кнопка для связывания периодов. Контрол, который может использоваться с {@link Controls/_dateRange/RelationController RelationController}.
  *
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">переменные тем оформления</a> 
+ *
  * @class Controls/_dateRange/RelationButton
  * @extends Core/Control
  * @control

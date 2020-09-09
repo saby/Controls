@@ -11,7 +11,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * Контрол, позволяющий визуально отображать процесс изменения других контролов при помощи перемещения мышью
  * @remark
  * Родительские DOM элементы не должны иметь overflow: hidden. В противном случае корректная работа не гарантируется.
- * Одним из признаком этого является отсутствие области, которая отображает процесс изменения размеров.
+ *
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+ * 
  * @class Controls/_dragnDrop/ResizingLine
  * @extends Core/Control
  * @control

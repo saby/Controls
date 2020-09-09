@@ -7,6 +7,10 @@ import MonthViewModel from 'Controls/_calendar/Month/Model';
 /**
  * Календарь, отображающий 1 месяц.
  * Предназначен для задания даты или диапазона дат в рамках одного месяца путём выбора периода с помощью мыши.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
  *
  * @class Controls/_calendar/Month
  * @extends Core/Control
