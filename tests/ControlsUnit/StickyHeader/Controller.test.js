@@ -108,7 +108,7 @@ define([
             };
             component.init(container);
             sinon.stub(component, '_updateTopBottom');
-            
+
             return component.registerHandler(event, data, true).then(function() {
                sinon.assert.calledOnce(event.stopImmediatePropagation);
             });
@@ -591,5 +591,68 @@ define([
          });
       });
 
+      describe('_register', function () {
+         it('should delete _elementsHeight after unregister', function () {
+            const result = [
+               { key: 'test1' },
+               { key: 'test3' }
+            ];
+            const data = {
+               id: 0
+            };
+
+            component._elementsHeight = [
+               { key: 'test1' },
+               { key: 'test2' },
+               { key: 'test3' }
+            ];
+            component._headers = {
+               0: {
+                  container: 'test2',
+                  inst: {
+
+                  }
+               }
+            };
+
+            component._register(data, false);
+
+            assert.equal(component._elementsHeight.length, result.length);
+         });
+
+         it('should delete _elementsHeight after group unregister', function () {
+            const groupHeadersData = {
+               id: 0,
+               headers: [
+                  { container: 'test1' },
+                  { container: 'test2' },
+                  { container: 'test3' }
+               ]
+            }
+            component.setGroupHeaders(groupHeadersData);
+
+            const data = {
+               id: 0
+            };
+
+            component._elementsHeight = [
+               { key: 'test1' },
+               { key: 'test2' },
+               { key: 'test3' }
+            ];
+            component._headers = {
+               0: {
+                  id: 0,
+                  inst: {
+
+                  }
+               }
+            };
+
+            component._register(data, false);
+
+            assert.equal(component._elementsHeight.length, 0);
+         });
+      });
    });
 });
