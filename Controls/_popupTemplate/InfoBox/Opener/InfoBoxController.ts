@@ -77,6 +77,13 @@ class InfoBoxController extends StickyController.constructor {
         }
         this._openedPopupId = item.id;
 
+        // Not calculate the coordinates of target, when it is located on the hidden popup.
+        const popupContainer = item.popupOptions.target?.closest && item.popupOptions.target.closest('.controls-Popup');
+        if (popupContainer?.classList.contains('ws-hidden')) {
+            require('Controls/popup').Controller.remove(item.id);
+            return false;
+        }
+
         // Remove the width and height obtained in getDefaultOptions
         item.position.maxWidth = undefined;
         item.position.maxHeight = undefined;
