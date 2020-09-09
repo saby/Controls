@@ -29,6 +29,7 @@ import {mixin, object} from 'Types/util';
 import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
+import DragStrategy from "./itemsStrategy/Drag";
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -2111,6 +2112,45 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     // endregion
 
+    // region Drag-N-Drop
+
+    /**
+     *
+     * @param avatarItem "призрачный" элемент
+     * @param draggedKeys список ключей перетаскиваемых элементов
+     */
+    setDraggedItems(avatarItem: object, draggedKeys: Array<number|string>): void {
+        const avatarStartIndex = this.getIndexByKey(avatarItem.key);
+
+        this.appendStrategy(DragStrategy, {
+            draggedItemsKeys: draggedKeys,
+            avatarItemKey: avatarItem.key,
+            avatarIndex: avatarStartIndex
+        });
+    }
+
+    setAvatarPosition(position: object): void {
+        const strategy = this.getStrategyInstance(DragStrategy) as DragStrategy<unknown>;
+        if (strategy) {
+            // TODO dnd по идее нужно указывать еще куда вставлять относительно данного индекса, но может в новой модели это не нужно
+            strategy.avatarIndex = position.index;
+            this.nextVersion();
+        }
+    }
+
+    /**
+     * Сбросить перетаскиваемые элементы
+     */
+    resetDraggedItems(): void {
+        this.removeStrategy(DragStrategy);
+    }
+
+    getAvatarPosition(): object {
+        // TODO dnd создать и вернуть текущую позицию перетаскиваемого элемента
+    }
+
+    // endregion
+
     getDisplayProperty(): string {
         return this._$displayProperty;
     }
@@ -2398,6 +2438,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     getMarkerVisibility(): string {
         return this._$markerVisibility;
     }
+
+
 
     // region SerializableMixin
 

@@ -4,6 +4,7 @@ import _entity = require('Types/entity');
 import collection = require('Types/collection');
 import {isEqual} from 'Types/object';
 import {TemplateFunction} from 'UI/Base';
+import { IDragPosition, IFlatItem } from '../../_listDragNDrop/interface';
 
 var
     _private = {
@@ -630,6 +631,21 @@ var
             }
 
             return version;
+        },
+
+        setDraggedItems(draggedItem: IFlatItem, dragEntity: any): void {
+            this.setDragItemData(draggedItem);
+            this.setDragEntity(dragEntity);
+        },
+        setDragPosition(position: IDragPosition): void {
+            this.setDragTargetPosition(position);
+        },
+        resetDraggedItems(): void {
+            this._dragEntity = null;
+            this._draggingItemData = null;
+            this._dragTargetPosition = null;
+            this._prevDragTargetPosition = null;
+            this._nextModelVersion(true);
         },
 
         setDragEntity: function(entity) {

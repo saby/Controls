@@ -13,6 +13,7 @@ import { CollectionItem, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfi
 import { CssClassList } from "../Utils/CssClassList";
 import {Logger} from 'UI/Utils';
 import {IItemAction} from 'Controls/itemActions';
+import { IDragPosition, IFlatItem } from '../_listDragNDrop/interface';
 
 const ITEMACTIONS_POSITION_CLASSES = {
     bottomRight: 'controls-itemActionsV_position_bottomRight',
@@ -251,6 +252,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         if (this._dragEntity) {
             dragItems = this._dragEntity.getItems();
+            // TODO dnd теперь он не первый в списке. Добавить в dragEntity ключ который перетаскивается
             if (dragItems[0] === itemsModelCurrent.key) {
                 itemsModelCurrent.isDragging = true;
             }
@@ -456,13 +458,26 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true, 'activeItemChanged');
     },
 
+    setDraggedItems(draggedItem: IFlatItem, dragEntity: any): void {
+        this.setDragItemData(draggedItem);
+        this.setDragEntity(dragEntity);
+    },
+    setDragPosition(position: IDragPosition): void {
+        this.setDragTargetPosition(position);
+    },
+    resetDraggedItems(): void {
+        this._dragEntity = null;
+        this._draggingItemData = null;
+        this._dragTargetPosition = null;
+        this._nextModelVersion(true);
+    },
+
     setDragEntity: function(entity) {
         if (this._dragEntity !== entity) {
             this._dragEntity = entity;
             this._nextModelVersion(true);
         }
     },
-
     getDragEntity: function() {
         return this._dragEntity;
     },
@@ -470,50 +485,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     setDragItemData: function(itemData) {
         this._draggingItemData = itemData;
     },
-
     getDragItemData: function() {
         return this._draggingItemData;
-    },
-
-    calculateDragTargetPosition: function(targetData) {
-        var
-            position,
-            prevIndex = -1;
-
-        //If you hover on a record that is being dragged, then the position should not change.
-        if (this._draggingItemData && this._draggingItemData.index === targetData.index) {
-            return null;
-        }
-
-        if (this._dragTargetPosition) {
-            prevIndex = this._dragTargetPosition.index;
-        } else if (this._draggingItemData) {
-            prevIndex = this._draggingItemData.index;
-        }
-
-        if (prevIndex === -1) {
-            position = 'before';
-        } else if (targetData.index > prevIndex) {
-            position = 'after';
-        } else if (targetData.index < prevIndex) {
-            position = 'before';
-        } else if (targetData.index === prevIndex) {
-            position = this._dragTargetPosition.position === 'after' ? 'before' : 'after';
-        }
-
-        return {
-            index: targetData.index,
-            item: targetData.item,
-            data: targetData,
-            position: position
-        };
     },
 
     setDragTargetPosition: function(position) {
         this._dragTargetPosition = position;
         this._nextModelVersion(true);
     },
-
     getDragTargetPosition: function() {
         return this._dragTargetPosition;
     },

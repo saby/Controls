@@ -88,20 +88,24 @@ var _private = {
 
     reorderMove: function (self, items, target, position) {
         var
-            itemIndex,
-            movedItem,
-            parentProperty = self._options.parentProperty,
-            targetId = _private.getIdByItem(self, target),
-            targetItem = _private.getModelByItem(self, targetId),
-            targetIndex = self._items.getIndex(targetItem);
+           movedIndex,
+           movedItem,
+           parentProperty = self._options.parentProperty,
+           targetId = _private.getIdByItem(self, target),
+           targetItem = _private.getModelByItem(self, targetId),
+           targetIndex = self._items.getIndex(targetItem);
 
         items.forEach(function (item) {
             movedItem = _private.getModelByItem(self, item);
             if (movedItem) {
-                itemIndex = self._items.getIndex(movedItem);
-                if (itemIndex === -1) {
+                if (position === MOVE_POSITION.before) {
+                    targetIndex = self._items.getIndex(targetItem);
+                }
+
+                movedIndex = self._items.getIndex(movedItem);
+                if (movedIndex === -1) {
                     self._items.add(movedItem);
-                    itemIndex = self._items.getCount() - 1;
+                    movedIndex = self._items.getCount() - 1;
                 }
 
                 if (parentProperty && targetItem.get(parentProperty) !== movedItem.get(parentProperty)) {
@@ -109,12 +113,12 @@ var _private = {
                     movedItem.set(parentProperty, targetItem.get(parentProperty));
                 }
 
-                if (position === MOVE_POSITION.after && targetIndex < itemIndex) {
+                if (position === MOVE_POSITION.after && targetIndex < movedIndex) {
                     targetIndex = (targetIndex + 1) < self._items.getCount() ? targetIndex + 1 : self._items.getCount();
-                } else if (position === MOVE_POSITION.before && targetIndex > itemIndex) {
+                } else if (position === MOVE_POSITION.before && targetIndex > movedIndex) {
                     targetIndex = targetIndex !== 0 ? targetIndex - 1 : 0;
                 }
-                self._items.move(itemIndex, targetIndex);
+                self._items.move(movedIndex, targetIndex);
             }
         });
     },
