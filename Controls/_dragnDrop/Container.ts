@@ -909,15 +909,17 @@ import entity = require('Types/entity');
 
       var DragNDropController = Control.extend({
          _template: template,
-         _dragEntity: undefined,
+         _dragEntity: undefined, // хранит список перетаскиваемых элементов и ключ элемента, за который потащили (draggedKey)
          _startEvent: undefined,
          _startImmediately: null,
          _documentDragging: false,
          _insideDragging: false,
          _endDragNDropTimer: null,
+         _draggedKey: null,
 
-         startDragNDrop: function(entity, mouseDownEvent, options: IStartDragOptions = {immediately: false}) {
+         startDragNDrop: function(entity, mouseDownEvent, options: IStartDragOptions = {immediately: false}, draggedKey) {
             this._dragEntity = entity;
+            this._draggedKey = draggedKey;
             this._startEvent = mouseDownEvent.nativeEvent;
             this._startImmediately = options.immediately;
             if (this._options.resetTextSelection) {
@@ -995,7 +997,7 @@ import entity = require('Types/entity');
 
          _documentDragStart: function(dragObject) {
             if (this._insideDragging) {
-               this._notify('dragStart', [dragObject]);
+               this._notify('dragStart', [dragObject, this._draggedKey]);
             } else {
                this._dragEntity = dragObject.entity;
             }

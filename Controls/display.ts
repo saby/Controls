@@ -72,6 +72,3 @@ export { VirtualScrollController };
 
 import * as VirtualScrollHideController from './_display/controllers/VirtualScrollHide';
 export { VirtualScrollHideController };
-
-import * as DragCommands from './_display/commands/Drag';
-export { DragCommands };

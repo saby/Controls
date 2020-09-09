@@ -87,7 +87,7 @@
         on:dragEnter="_dragEnter()"
         on:documentDragEnd="_documentDragEnd()"
         draggingTemplate="{{_options.draggingTemplate}}"
-        name="dragNDropController"
+        name="dragNDropContainer"
     >
         <ws:content>
             <ws:partial template="{{viewContent}}" />
@@ -131,7 +131,7 @@
                     template="{{ _options.content }}"
                     scope="{{_options}}"
                     loadingState="{{_showLoadingIndicatorImage ? _loadingIndicatorState}}"
-                    dragNDropControl="{{_children.dragNDropController}}"
+                    dragNDropControl="{{_children.dragNDropContainer}}"
                     _needBottomPadding="{{_needBottomPadding}}"
                     listModel="{{_listViewModel}}"
                     startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"

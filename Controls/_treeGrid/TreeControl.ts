@@ -12,6 +12,7 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 import {Map} from 'Types/shim';
 import {error as dataSourceError} from 'Controls/dataSource';
 import {MouseButtons, MouseUp} from './../Utils/MouseEventHelper';
+import { DndTreeController } from '../listDragNDrop';
 
 var
     HOT_KEYS = {
@@ -493,6 +494,7 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     constructor: function(cfg) {
         this._nodesSourceControllers = _private.getNodesSourceControllers(this);
         this._onNodeRemovedFn = this._onNodeRemoved.bind(this);
+        this._expandNodeOnDrag = this._expandNodeOnDrag.bind(this);
         if (typeof cfg.root !== 'undefined') {
             this._root = cfg.root;
         }
@@ -676,19 +678,14 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     },
 
     _draggingItemMouseLeave: function() {
-        this._clearTimeoutForExpandOnDrag(this);
-        this._expandOnDragData = null;
+        const dndListController = this._children.baseControl.getDndListController();
+        dndListController.stopCountDownForExpandNode();
     },
     _dragEnd: function() {
-        this._clearTimeoutForExpandOnDrag(this);
-    },
-
-    _clearTimeoutForExpandOnDrag: function() {
-        if (this._timeoutForExpandOnDrag) {
-            clearTimeout(this._timeoutForExpandOnDrag);
-            this._timeoutForExpandOnDrag = null;
+        const dndListController = this._children.baseControl.getDndListController();
+        if (dndListController instanceof DndTreeController) {
+            dndListController.stopCountDownForExpandNode();
         }
-        this._expandOnDragData = null;
     },
 
     _expandNodeOnDrag: function(itemData) {
@@ -696,42 +693,27 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
             _private.toggleExpanded(this, itemData.dispItem);
         }
     },
-    _setTimeoutForExpandOnDrag: function (itemData) {
-        this._timeoutForExpandOnDrag = setTimeout(() => {
-                this._expandNodeOnDrag(itemData);
-            },
-            EXPAND_ON_DRAG_DELAY);
-    },
     _nodeMouseMove: function(itemData, event) {
-        var
-            position,
-            topOffset,
-            bottomOffset,
-            dragTargetRect,
-            dragTargetPosition,
-            model = this._children.baseControl.getViewModel(),
-            dragTarget = event.target.closest('.js-controls-TreeView__dragTargetNode');
+        const dndListController = this._children.baseControl.getDndListController();
 
-        if (dragTarget) {
-            dragTargetRect = dragTarget.getBoundingClientRect();
-            topOffset = event.nativeEvent.pageY - dragTargetRect.top;
-            bottomOffset = dragTargetRect.top + dragTargetRect.height - event.nativeEvent.pageY;
+        const dragTargetPosition = dndListController.calculateDragPositionRelativeNode(itemData, event);
 
-            if (topOffset < DRAG_MAX_OFFSET || bottomOffset < DRAG_MAX_OFFSET) {
-                if (model.getDragItemData()) {
-                    position = topOffset < DRAG_MAX_OFFSET ? 'before' : 'after';
-                    dragTargetPosition = model.calculateDragTargetPosition(itemData, position);
-
-                    if (dragTargetPosition && this._notify('changeDragTarget', [model.getDragEntity(), dragTargetPosition.item, dragTargetPosition.position]) !== false) {
-                        model.setDragTargetPosition(dragTargetPosition);
-                    }
-                }
-                if (itemData.item.get(itemData.nodeProperty) !== null && (!this._expandOnDragData || this._expandOnDragData !== itemData) && !itemData.isExpanded) {
-                    this._clearTimeoutForExpandOnDrag(this);
-                    this._expandOnDragData = itemData;
-                    this._setTimeoutForExpandOnDrag(this._expandOnDragData);
-                }
+        if (dragTargetPosition) {
+            if (this._notify('changeDragTarget', [dndListController.getDragEntity(), dragTargetPosition.item, dragTargetPosition.position]) !== false) {
+                dndListController.setDragPosition(dragTargetPosition);
             }
+
+            /*
+                Если мы сверху меняем позицию на before, то есть перед этим узлом вставляем элемент,
+                то почему-то не срабатывает mouseLeave
+             */
+            if (dragTargetPosition.position === 'before') {
+                dndListController.stopCountDownForExpandNode();
+            }
+        }
+
+        if (dndListController.isInsideDragTargetNode(event)) {
+            dndListController.startCountDownForExpandNode(itemData, this._expandNodeOnDrag);
         }
     },
 
@@ -765,7 +747,6 @@ var TreeControl = Control.extend(/** @lends Controls/_treeGrid/TreeControl.proto
     _beforeUnmount: function() {
         _private.clearNodesSourceControllers(this);
         TreeControl.superclass._beforeUnmount.apply(this, arguments);
-        this._clearTimeoutForExpandOnDrag();
     }
 });
 TreeControl._theme = ['Controls/treeGrid'];

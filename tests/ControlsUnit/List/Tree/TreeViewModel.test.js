@@ -796,19 +796,21 @@ define([
          describe('setDragTargetPosition', function() {
             var itemData, dragTargetPosition;
 
-            it('on node without prev state', function() {
-               //move item 567
-               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-               tvm.setDragEntity(dragEntity);
+               it('on node without prev state', function() {
+                  //move item 567
+                  tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
+                  tvm.setDragEntity(dragEntity);
 
-               //move on 123
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               tvm.setDragTargetPosition(dragTargetPosition);
+                  //move on 123
+                  itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
+                  tvm.setDragTargetPosition({
+                     index: 0,
+                     position: 'on'
+                  });
 
-               assert.equal(tvm._prevDragTargetPosition.data.key, '567');
-               assert.equal(tvm._prevDragTargetPosition.position, 'after');
-            });
+                  assert.equal(tvm._prevDragTargetPosition.data.key, '567');
+                  assert.equal(tvm._prevDragTargetPosition.position, 'after');
+               });
 
             it('on node', function() {
                //move item 567
@@ -817,162 +819,24 @@ define([
 
                //move before 456
                itemData = tvm.getItemDataByItem(tvm.getItemById('456', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               tvm.setDragTargetPosition(dragTargetPosition);
+               tvm.setDragTargetPosition({
+                  index: 1,
+                  position: 'before',
+                  data: {
+                     level: 1,
+                     key: 456
+                  }
+               });
 
                //move on 123
                itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               tvm.setDragTargetPosition(dragTargetPosition);
+               tvm.setDragTargetPosition({
+                  index: 0,
+                  position: 'on'
+               });
 
                assert.equal(tvm._prevDragTargetPosition.data.key, '456');
                assert.equal(tvm._prevDragTargetPosition.position, 'before');
-            });
-         });
-
-         describe('calculateDragTargetPosition', function() {
-            var itemData, dragTargetPosition;
-
-            it('not node', function() {
-               itemData = tvm.getItemDataByItem(tvm.getItemById('567', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'before');
-            });
-
-            it('on node', function() {
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'on');
-            });
-
-            it('before node', function() {
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'before');
-            });
-
-            it('after node', function() {
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'after');
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'after');
-            });
-
-            it('before expanded node', function() {
-               tvm.toggleExpanded(tvm.getItemById('123', 'id'), true);
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'before');
-            });
-
-            it('after expanded node', function() {
-               tvm.toggleExpanded(tvm.getItemById('123', 'id'), true);
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'after');
-               assert.equal(dragTargetPosition, undefined);
-            });
-
-            it('move down node', function() {
-               //move item 567
-               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-               tvm.setDragEntity(dragEntity);
-
-               //move after 123
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               tvm.setDragTargetPosition(tvm.calculateDragTargetPosition(itemData, 'after'));
-
-               //move on 345
-               itemData = tvm.getItemDataByItem(tvm.getItemById('345', 'id'));
-               tvm.setDragTargetPosition(tvm.calculateDragTargetPosition(itemData));
-
-               //move before 345
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               assert.equal(dragTargetPosition, undefined);
-
-               //move after 345
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'after');
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'after');
-            });
-
-            it('move up item', function() {
-               //move item 567
-               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-               tvm.setDragEntity(dragEntity);
-
-               //move before 456
-               itemData = tvm.getItemDataByItem(tvm.getItemById('456', 'id'));
-               tvm.setDragTargetPosition(tvm.calculateDragTargetPosition(itemData, 'before'));
-
-               //move on 345
-               itemData = tvm.getItemDataByItem(tvm.getItemById('345', 'id'));
-               tvm.setDragTargetPosition(tvm.calculateDragTargetPosition(itemData));
-
-               //move after 345
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'after');
-               assert.equal(dragTargetPosition, undefined);
-
-               //move before 345
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'before');
-            });
-
-            it('move to draggableItem', function() {
-               var
-                  prevDragTargetPosition,
-                  item = tvm.getItemDataByItem(tvm.getItemById('567', 'id'));
-
-               //start move item 567
-               tvm.setDragEntity(dragEntity);
-               tvm.setDragItemData(item);
-
-               //move item 567 on item 567
-               dragTargetPosition = tvm.calculateDragTargetPosition(item);
-               assert.isNull(dragTargetPosition);
-
-               //move item 567 after folder 345
-               itemData = tvm.getItemDataByItem(tvm.getItemById('345', 'id'));
-               prevDragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'after');
-               tvm.setDragTargetPosition(prevDragTargetPosition);
-               assert.equal(prevDragTargetPosition.index, itemData.index);
-               assert.equal(prevDragTargetPosition.position, 'after');
-
-               //move item 567 on folder 345
-               itemData = tvm.getItemDataByItem(tvm.getItemById('345', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               tvm.setDragTargetPosition(dragTargetPosition);
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'on');
-
-               //move item 567 on item 567
-               dragTargetPosition = tvm.calculateDragTargetPosition(item);
-               assert.equal(prevDragTargetPosition.index, dragTargetPosition.index);
-               assert.equal(prevDragTargetPosition.position, dragTargetPosition.position);
-            });
-
-            it('move to draggableFolder', function() {
-               var item = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-
-               //start move folder 123
-               tvm.setDragEntity(dragEntity);
-               tvm.setDragItemData(item);
-
-               //move folder 123 before folder 345
-               itemData = tvm.getItemDataByItem(tvm.getItemById('345', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData, 'before');
-               tvm.setDragTargetPosition(dragTargetPosition);
-               assert.equal(dragTargetPosition.index, itemData.index);
-               assert.equal(dragTargetPosition.position, 'before');
-
-               //move folder 123 on folder 123
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               dragTargetPosition = tvm.calculateDragTargetPosition(itemData);
-               assert.isNull(dragTargetPosition);
             });
          });
       });
