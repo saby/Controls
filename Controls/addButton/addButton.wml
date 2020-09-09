@@ -1,0 +1,37 @@
+<span class="extControls-addButton__wrapper extControls-addButton__wrapper_theme-{{_options.theme}} extControls-addButton__wrapper_{{_options.inlineHeight}}_theme-{{_options.theme}}">
+        <span class="extControls-addButton__icon-wrapper">
+                <Controls.dropdown:Button
+                        attr:class="extControls-addButton__icon"
+                        on:menuItemActivate="_itemClickHandler()"
+                        on:dropDownOpen="_proxyEvent()"
+                        on:dropDownClose="_proxyEvent()"
+                        on:filterChanged="_proxyEvent()"
+                        source="{{_source}}"
+                        keyProperty="key"
+                        displayProperty="title"
+                        actionOnScroll="close"
+                        viewMode="functionalButton"
+                        scope="{{_options}}"
+                >
+                        <ws:headerContentTemplate>
+                                <Controls.Container.Async templateName="Controls/menu:ItemTemplate">
+                                        <ws:partial template="Controls/menu:HeaderTemplate" icon="icon-RoundPlus" scope="{{headerContentTemplate._options}}" caption="{[Создать]}"/>
+                                </Controls.Container.Async>
+                        </ws:headerContentTemplate>
+                        <ws:itemTemplate>
+                                <Controls.Container.Async templateName="Controls/menu:ItemTemplate">
+                                        <ws:partial
+                                                attr:class="extControls-addButton__popupItemTemplate extControls-addButton__popupItemTemplate_theme-{{_options.theme}}"
+                                                template="{{content.resolvedTemplate}}"
+                                                scope="{{itemTemplate._options}}"
+                                                treeItem="{{itemTemplate.itemData.treeItem}}"
+                                        />
+                                </Controls.Container.Async>
+                        </ws:itemTemplate>
+                </Controls.dropdown:Button>
+        </span>
+        <span class="controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} extControls-addButton__caption extControls-addButton__caption_theme-{{_options.theme}}"
+              on:click="_itemClickHandler(_captionItem)">
+                {{_caption}}
+        </span>
+</span>
