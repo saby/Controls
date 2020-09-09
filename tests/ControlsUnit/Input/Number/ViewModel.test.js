@@ -59,6 +59,20 @@ define(
                assert.equal(model.displayValue, '1');
                assert.deepEqual(model.selection, getSelection(1));
             });
+            it('Enter "1.1". No fractional part.', function() {
+               model.options = cMerge(model.options, {
+                  precision: 0
+               });
+               model.handleInput({
+                  after: '',
+                  before: '',
+                  insert: '1.1',
+                  delete: ''
+               }, 'insert');
+
+               assert.equal(model.displayValue, '1');
+               assert.deepEqual(model.selection, getSelection(1));
+            });
             it('Enter "-1".', function() {
                model.handleInput({
                   after: '',

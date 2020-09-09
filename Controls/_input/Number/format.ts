@@ -40,6 +40,7 @@ type NumberOptions = INumberLength & INumberDisplay & INumberSign;
  */
 export function format(original: IParsedNumber, options: NumberOptions, carriagePosition: number): IText {
     let position: number = correctSign(original, options, carriagePosition);
+    position = correctSplitter(original, options, position);
     position = correctIntegerPart(original, options, position);
     if (shouldBeFractional(original.fractional, options)) {
         position = correctFractionalPart(original, options, position);
@@ -225,6 +226,15 @@ function correctFractionalPart(original: IParsedNumber, options: INumberLength, 
     original.fractional = handleVoid(options, limitedValue.value);
 
     return limitedValue.position;
+}
+
+function correctSplitter(original: IParsedNumber, options: INumberLength, carriagePosition: number): number {
+    if (options.precision === 0 && original.hasSplitter) {
+        original.hasSplitter = false;
+        return Math.min(carriagePosition, original.integer.length);
+    }
+
+    return carriagePosition;
 }
 
 /**
