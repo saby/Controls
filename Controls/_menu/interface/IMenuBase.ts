@@ -42,6 +42,13 @@ export default interface IMenuBase {
  */
 
 /**
+ * @name Controls/_menu/interface/IMenuBase#emptyKey
+ * @cfg {String} Первичный ключ для пункта выпадающего списка, который создаётся при установке опции {@link emptyText}.
+ * @default null
+ * @demo Controls-demo/Menu/Control/EmptyText/EmptyKey/Index
+ */
+
+/**
  * @name Controls/_menu/interface/IMenuBase#navigation
  * @cfg {Controls/_interface/INavigation} Конфигурация навигации по списку.
  * @demo Controls-demo/Menu/Control/Navigation/Index
