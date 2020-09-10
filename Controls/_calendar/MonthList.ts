@@ -485,7 +485,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
     }
 
     private isVisible(): boolean {
-        return this._getNormalizedContainer().offsetParent !== null;
+        // Старая форма AreaAbstract.compatible может позвать метод до того, как контрол появился в DOM
+        if (this._container) {
+            return this._getNormalizedContainer().offsetParent !== null;
+        }
     }
 
     private _getElementByDate(selector: string, dateId: string): HTMLElement {
