@@ -377,7 +377,7 @@ define(
             assert.isFalse(itemData.isFixedItem);
          });
 
-         it('getIconPadding', function() {
+         describe('getIconPadding', function() {
             let menuRender = getRender();
             let iconItems = [
                { key: 0, title: 'все страны' },
@@ -389,24 +389,41 @@ define(
                listModel: getListModel(iconItems),
                iconSize: 'm'
             };
-            let iconPadding = menuRender.getIconPadding(renderOptions);
-            assert.equal(iconPadding, 'm');
 
-            iconItems = [
-               { key: 0, title: 'все страны', node: true },
-               { key: 1, title: 'Россия', icon: 'icon-add', parent: 0 },
-               { key: 2, title: 'США' },
-               { key: 3, title: 'Великобритания' }
-            ];
-            renderOptions.listModel = getListModel(iconItems);
-            renderOptions.parentProperty = 'parent';
-            renderOptions.nodeProperty = 'node';
-            iconPadding = menuRender.getIconPadding(renderOptions);
-            assert.equal(iconPadding, '');
+            it('simple', () => {
+               const iconPadding = menuRender.getIconPadding(renderOptions);
+               assert.equal(iconPadding, 'm');
+            });
 
-            renderOptions.headingIcon = 'icon-Add';
-            iconPadding = menuRender.getIconPadding(renderOptions);
-            assert.equal(iconPadding, '');
+            it('with headingIcon', () => {
+               delete iconItems[1].icon;
+               renderOptions.listModel = getListModel(iconItems);
+               renderOptions.headingIcon = 'icon-Add';
+               const iconPadding = menuRender.getIconPadding(renderOptions);
+               assert.equal(iconPadding, '');
+            });
+
+            it('hierarchy collection', () => {
+               iconItems = [
+                  { key: 0, title: 'все страны', node: true },
+                  { key: 1, title: 'Россия', icon: 'icon-add', parent: 0 },
+                  { key: 2, title: 'США' },
+                  { key: 3, title: 'Великобритания' }
+               ];
+               renderOptions.listModel = getListModel(iconItems);
+               renderOptions.listModel.setFilter((item) => {
+                  return item.get('parent') === undefined;
+               });
+               let iconPadding = menuRender.getIconPadding(renderOptions);
+               assert.equal(iconPadding, '');
+
+
+               renderOptions.listModel.setFilter((item) => {
+                  return item.get('parent') === 0;
+               });
+               iconPadding = menuRender.getIconPadding(renderOptions);
+               assert.equal(iconPadding, 'm');
+            });
          });
 
          describe('_beforeUnmount', () => {

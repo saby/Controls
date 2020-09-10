@@ -34,12 +34,6 @@ export default interface IMenuControl {
 }
 
 /**
- * @name Controls/_menu/interface/IMenuControl#emptyKey
- * @cfg {String} Первичный ключ для пункта выпадающего списка, который создаётся при установке опции emptyText.
- * @demo Controls-demo/Menu/Control/EmptyText/EmptyKey/Index
- */
-
-/**
  * @name Controls/_menu/interface/IMenuControl#nodeFooterTemplate
  * @cfg {Function | String} Шаблон подвала, отображающийся для всех подменю.
  * В шаблон передается объект itemData со следующими полями:

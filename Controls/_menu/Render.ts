@@ -240,14 +240,12 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 
     private getIconPadding(options: IMenuRenderOptions): string {
-        const items = options.listModel.getCollection();
-        const parentProperty = options.parentProperty;
         let iconPadding = '';
         let icon;
 
-        factory(items).each((item) => {
-            icon = item.get('icon');
-            if (icon && (!parentProperty || item.get(parentProperty) === options.root)) {
+        options.listModel.each((item) => {
+            icon = item.getContents().get('icon');
+            if (icon) {
                 iconPadding = this.getIconSize(options.iconSize, icon);
             }
         });

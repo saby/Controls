@@ -178,10 +178,6 @@ export default class SearchControllerClass {
             this._previousViewMode = null;
             this._setMisspellValue('');
         }
-
-        if (this._options.dataLoadCallback) {
-            this._options.dataLoadCallback(data);
-        }
     }
 
     handleItemOpen(root: Key, items: RecordSet, dataRoot: Key = null): void {
