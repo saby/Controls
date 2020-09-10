@@ -499,4 +499,5 @@ Component.getOptionTypes = function () {
     }, IDateRangeSelectable.getOptionTypes());
 };
 
+Component.default = Component;
 export = Component;
