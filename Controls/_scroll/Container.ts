@@ -1426,6 +1426,10 @@ let
           this._stickyHeaderController.registerHandler(event, data, register);
        },
 
+       _groupStickyHeadersHandler(event: SyntheticEvent<Event>, data): void {
+          this._stickyHeaderController.setGroupHeaders(data);
+       },
+
        getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
           return this._stickyHeaderController.getHeadersHeight(position, type)
        }

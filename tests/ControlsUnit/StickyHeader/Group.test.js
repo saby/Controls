@@ -335,6 +335,7 @@ define([
             component._stickyRegisterHandler(event, data, true);
             component._stickyRegisterHandler(event, {id: 3, inst: data.inst}, true);
             sinon.stub(component, '_notify');
+            component._shouldSendHeaders = false;
             component._stickyRegisterHandler(event, {id: 3, inst: data.inst}, false);
 
             sinon.assert.notCalled(component._notify);

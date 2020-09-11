@@ -85,6 +85,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
+    private _shouldSendHeaders: boolean = true;
 
     private _delayedHeaders: number[] = [];
 
@@ -240,12 +241,17 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 this._isRegistry = true;
             }
         } else {
+            if (this._shouldSendHeaders) {
+                this._notify('groupStickyHeaders', [{id: this._index, headers: this.getChildrenHeaders()}], {bubbling: true});
+                this._shouldSendHeaders = false;
+            }
             delete this._headers[data.id];
 
             // Unregister group after last header is unregistered
             if (!Object.keys(this._headers).length) {
                 this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
                 this._isRegistry = false;
+                this._shouldSendHeaders = true;
             }
         }
     }

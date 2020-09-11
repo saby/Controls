@@ -23,6 +23,8 @@ interface IStickyHeaderController {
 class StickyHeaderController {
     // Register of all registered headers. Stores references to instances of headers.
     private _headers: object;
+    // Прилипающие заголовки обернутые в scroll:Group
+    private _groupHeaders: object;
     // Ordered list of headers.
     private _headersStack: object;
     // The list of headers that are stuck at the moment.
@@ -34,6 +36,7 @@ class StickyHeaderController {
     private _updateTopBottomInitialized: boolean = false;
     private _stickyHeaderResizeObserver: ResizeObserverUtil;
     private _elementsHeight: IHeightEntry[] = [];
+    private _resizeAfterUnregister: boolean = false;
     private _canScroll: boolean = false;
     private _resizeHandlerDebounced: Function;
     private _container: HTMLElement;
@@ -54,6 +57,7 @@ class StickyHeaderController {
         };
         this._options.fixedCallback = options.fixedCallback;
         this._headers = {};
+        this._groupHeaders = {};
         this._resizeHandlerDebounced = debounce(this.resizeHandler.bind(this), 50);
         this._stickyHeaderResizeObserver = new ResizeObserverUtil(
             control, this._resizeObserverCallback.bind(this), this.resizeHandler.bind(this));
@@ -161,7 +165,12 @@ class StickyHeaderController {
         return promise;
     }
 
+    setGroupHeaders(data): void {
+        this._groupHeaders[data.id] = data.headers.map((header) => header.container);
+    }
+
     _register(data: TRegisterEventData, register: boolean, update: boolean): Promise<void> {
+        this._resizeAfterUnregister = false;
         if (register) {
             this._headers[data.id] = {
                 ...data,
@@ -186,6 +195,25 @@ class StickyHeaderController {
             }
         } else {
             // При 'отрегистриации' удаляем заголовок из всех возможных стэков
+
+            const elementsToDelete = this._getStickyHeaderElements(this._headers[data.id]);
+            // После того как произайдет анрегистер, сработает _resizeObserverCallback, который попытается найти
+            // удаленные высоты в _elementsHeight и запушит их заново. Не будем пушить новые высоты после анрегистра.
+            this._resizeAfterUnregister = true;
+            const elementsHeight = [...this._elementsHeight];
+            let indexesCount = 0;
+            this._elementsHeight.forEach((item, index) => {
+                elementsToDelete.forEach((element) => {
+                    if (item.key === element) {
+                        elementsHeight.splice(index - indexesCount, 1);
+                        indexesCount++;
+                    }
+                });
+            });
+            this._elementsHeight = elementsHeight;
+            if (this._groupHeaders) {
+                delete this._groupHeaders[data.id];
+            }
             this._unobserveStickyHeader(this._headers[data.id]);
             delete this._headers[data.id];
             this._removeFromStack(data.id, this._headersStack);
@@ -224,7 +252,7 @@ class StickyHeaderController {
                     heightEntry.value = entry.contentRect.height;
                     heightChanged = true;
                 }
-            } else {
+            } else if (!this._resizeAfterUnregister) {
                 // ResizeObserver всегда кидает событие сразу после добавления элемента. Не будем генрировать
                 // событие, а просто сохраним текущую высоту если это первое событие для элемента и высоту
                 // этого элемента мы еще не сохранили.
@@ -237,11 +265,12 @@ class StickyHeaderController {
     }
 
     private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {
-        if (header.inst.getChildrenHeaders) {
+        if (this._groupHeaders && this._groupHeaders[header.id]) {
+            return this._groupHeaders[header.id];
+        } else if (header.inst.getChildrenHeaders) {
             return header.inst.getChildrenHeaders().map(h => h.container);
-        } else {
-            return [header.container];
         }
+        return [header.container];
     }
 
     /**
