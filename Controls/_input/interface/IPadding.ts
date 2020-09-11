@@ -1,6 +1,6 @@
 import {descriptor} from 'Types/entity';
 
-export type THorizontalPadding = 'xs' | 'null';
+export type THorizontalPadding = 'xs' | 'm' | 'null';
 
 export interface IPaddingOptions {
     horizontalPadding: THorizontalPadding;
@@ -15,7 +15,7 @@ export function getDefaultPaddingOptions(): Partial<IPaddingOptions> {
 export function getOptionPaddingTypes(): object {
     return {
         horizontalPadding: descriptor<string>(String).oneOf([
-            'xs', 'null'
+            'xs', 'm', 'null'
         ])
     };
 }
@@ -34,6 +34,7 @@ export interface IPadding {
 /**
  * @typedef {String} THorizontalPadding
  * @variant xs
+ * @variant m
  * @variant null
  */
 /**
