@@ -102,17 +102,6 @@ export default {
              * @cfg {String} Text that is used if the period is not selected.
              */
             emptyCaption: EMPTY_CAPTIONS.NOT_SPECIFIED,
-
-            /**
-             * @name Controls/_dateRange/interfaces/ILinkView#captionFormatter
-             * @cfg {Function} Функция форматирования заголовка.
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#captionFormatter
-             * @cfg {Function} Caption formatting function.
-             */
-            captionFormatter: dateControlsUtils.formatDateRangeCaption
         };
     },
 
@@ -128,8 +117,7 @@ export default {
             nextArrowVisibility: descriptor(Boolean),
             prevArrowVisibility: descriptor(Boolean),
             showDeleteButton: descriptor(Boolean),
-            emptyCaption: descriptor(String),
-            captionFormatter: descriptor(Function)
+            emptyCaption: descriptor(String)
         };
     }
 };

@@ -5,6 +5,8 @@ import {Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
+import dateControlsUtils from "./Utils";
+import {descriptor} from "Types/entity";
 
 /**
  * Контрол позволяющий пользователю выбирать дату из календаря.
@@ -17,6 +19,7 @@ import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/ICaptionFormatter
  * @control
  * @public
  * @category Input
@@ -94,11 +97,17 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
    static getDefaultOptions(): object {
-      return ILinkView.getDefaultOptions();
+      return {
+         ...ILinkView.getDefaultOptions(),
+         captionFormatter: dateControlsUtils.formatDateRangeCaption
+      };
    }
 
    static getOptionTypes(): object {
-      return ILinkView.getOptionTypes();
+      return {
+         ...ILinkView.getOptionTypes(),
+         captionFormatter: descriptor(Function)
+      };
    }
 
    static _theme: string[] = ['Controls/dateRange'];

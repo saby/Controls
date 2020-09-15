@@ -179,9 +179,9 @@ export default {
              * @cfg {Function} Устанавливает функцию, которая будет вызвана во время перерисовки компонента.
              * @remark
              * Аргументы функции:
-             * 
+             *
              * * periods — Массив, содержащий массивы начала и окончания периода.</li>
-             * 
+             *
              * Функция должна возвращать массив логических элементов или объект, содержащий информацию об отображаемой иконке или Deffered'е, который запускает такой объект.
              * Если функция возвращает true, будет отображена иконка, соответствующая параметрам {@link checkedIconCssClass} и {@link checkedIconTitle}.
              * Если функция возвращает false, икноки будут отображены в соответствии с параметрами {@link uncheckedIconCssClass} и {@link uncheckedIconTitle}.
@@ -264,35 +264,6 @@ export default {
             /* That not to drag dependence on a template in all, the default value we set only in the PeriodLiteDialog
              * itemTemplate: undefined,
              */
-
-            /*
-             * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#captionFormatter
-             * @cfg {Function} Функция форматирования заголовка.
-             * Аргументы функции:
-             * <ol>
-             *    <li>startValue — Начальное значение периода.</li>
-             *    <li>endValue — Конечное значение периода.</li>
-             *    <li>emptyCaption — Отображаемый текст, когда в контроле не выбран период.</li>
-             * </ol>
-             * @returns {String}
-             * @example
-             * WML:
-             * <pre>
-             * <Controls.dateRange:RangeSelector captionFormatter="{{_captionFormatter}}" />
-             * </pre>
-             * JS:
-             * <pre>
-             * _captionFormatter: function(startValue, endValue, emptyCaption) {
-             *    return 'Custom range format';
-             * }
-             * </pre>
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/IPeriodLiteDialog#captionFormatter
-             * @cfg {Function} Caption formatting function.
-             */
-            captionFormatter: dateControlsUtils.formatDateRangeCaption
         };
     },
 
@@ -303,9 +274,7 @@ export default {
             chooseMonths: descriptor(Boolean),
             chooseQuarters: descriptor(Boolean),
             chooseHalfyears: descriptor(Boolean),
-            chooseYears: descriptor(Boolean),
-            emptyCaption: descriptor(String),
-            captionFormatter: descriptor(Function)
+            chooseYears: descriptor(Boolean)
         };
     }
 };

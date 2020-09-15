@@ -11,6 +11,8 @@ import {
 } from 'Controls/interface';
 import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {descriptor} from "Types/entity";
+import dateControlsUtils from "./Utils";
 
 /**
  * A link button that displays the period. Supports the change of periods to adjacent.
@@ -20,6 +22,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * @mixes Controls/interface/ILinkView
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/ICaptionFormatter
  * @control
  * @private
  * @category Input
@@ -172,8 +175,18 @@ LinkView._theme = ['Controls/dateRange', 'Controls/Classes'];
 
 LinkView.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
 
-LinkView.getDefaultOptions = IDateLinkView.getDefaultOptions;
+LinkView.getDefaultOptions = () => {
+   return {
+      ...IDateLinkView.getDefaultOptions(),
+      captionFormatter: dateControlsUtils.formatDateRangeCaption
+   };
+};
 
-LinkView.getOptionTypes = IDateLinkView.getOptionTypes;
+LinkView.getOptionTypes = () => {
+   return {
+      ...IDateLinkView.getOptionTypes(),
+      captionFormatter: descriptor(Function)
+   }
+}
 
 export default LinkView;
