@@ -1,6 +1,5 @@
 import rk = require('i18n!Controls');
 import {descriptor} from 'Types/entity';
-import {Utils as dateControlsUtils} from 'Controls/dateRange';
 
    var EMPTY_CAPTIONS = {
       NOT_SPECIFIED: rk('Не указан'),
@@ -213,17 +212,6 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
              *    }
              * </pre>
              */
-
-            /**
-             * @name Controls/shortDatePicker/IDateLitePopup#captionFormatter
-             * @cfg {Function} Функция форматирования заголовка.
-             */
-
-            /*
-             * @name Controls/shortDatePicker/IDateLitePopup#captionFormatter
-             * @cfg {Function} Caption formatting function.
-             */
-            captionFormatter: dateControlsUtils.formatDateRangeCaption
          };
       },
 
@@ -235,8 +223,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
             chooseQuarters: descriptor(Boolean),
             chooseHalfyears: descriptor(Boolean),
             chooseYears: descriptor(Boolean),
-            emptyCaption: descriptor(String),
-            captionFormatter: descriptor(Function)
+            emptyCaption: descriptor(String)
          };
       }
    };

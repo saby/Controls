@@ -1,7 +1,6 @@
 import rk = require('i18n!Controls');
 import BaseControl = require('Core/Control');
-import coreMerge = require('Core/core-merge');
-import {Date as WSDate} from 'Types/entity';
+import {Date as WSDate, descriptor} from 'Types/entity';
 import getCurrentPeriod = require('Core/helpers/Date/getCurrentPeriod');
 import IPeriodSimpleDialog from './IDateLitePopup';
 import {Base as dateUtils} from 'Controls/dateUtils';
@@ -11,6 +10,7 @@ import ItemWrapper = require('wml!Controls/_shortDatePicker/ItemWrapper');
 import {date as formatDate} from 'Types/formatter';
 import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
+import {Utils as dateControlsUtils} from 'Controls/dateRange';
 
 /**
  * Контрол выбора даты или периода.
@@ -319,6 +319,7 @@ Component.EMPTY_CAPTIONS = IPeriodSimpleDialog.EMPTY_CAPTIONS;
 Component.getDefaultOptions = function () {
     return {
         ...IPeriodSimpleDialog.getDefaultOptions(),
+        captionFormatter: dateControlsUtils.formatDateRangeCaption,
         itemTemplate: ItemWrapper,
         dateConstructor: WSDate
     };
@@ -326,7 +327,10 @@ Component.getDefaultOptions = function () {
 Component._theme = ['Controls/shortDatePicker'];
 
 Component.getOptionTypes = function () {
-    return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
+    return {
+        ...IPeriodSimpleDialog.getOptionTypes(),
+        captionFormatter: descriptor(Function)
+    };
 };
 
 export default Component;

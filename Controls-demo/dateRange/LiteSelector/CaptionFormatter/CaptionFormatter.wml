@@ -1,0 +1,10 @@
+<div class="controlsDemo__flexColumn">
+    <div class="controlsDemo__wrapper controlsDemo__flex controlsDemo__flex-jc-sa"  style="align-items: flex-start">
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">captionFormatter</div>
+            <Controls.dateRange:RangeShortSelector
+                    captionFormatter="{{_captionFormatter}}"
+            />
+        </div>
+    </div>
+</div>

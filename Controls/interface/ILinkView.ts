@@ -51,16 +51,6 @@ interface ILinkView {
      * @cfg {String} Text that is used if the period is not selected.
      */
     emptyCaption: string;
-
-    /**
-     * @name Controls/interface/ILinkView#captionFormatter
-     * @cfg {Function} Функция форматирования заголовка.
-     */
-    /*
-     * @name Controls/interface/ILinkView#captionFormatter
-     * @cfg {Function} Caption formatting function.
-     */
-    captionFormatter: Function;
 }
 
 const EMPTY_CAPTIONS = {
@@ -77,8 +67,7 @@ function getDefaultOptions(): ILinkView {
         showNextArrow: false,
         showPrevArrow: false,
         showDeleteButton: true,
-        emptyCaption: EMPTY_CAPTIONS.NOT_SPECIFIED,
-        captionFormatter: dateControlsUtils.formatDateRangeCaption
+        emptyCaption: EMPTY_CAPTIONS.NOT_SPECIFIED
     };
 }
 
