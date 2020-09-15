@@ -180,12 +180,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _updateState(...args) {
         const isUpdated: boolean = super._updateState(...args);
         if (isUpdated) {
-            // Убираем старое поведение теней, новые тени сделаны через CSS, рассчеты производить более не требуется
-            // Старое поведение нужно включать в тех местах, где присутствуют картинки и/или непрозрачный фон.
-            if (!this._isOptimizeShadowEnabled) {
-                this._shadows.updateScrollState(this._state);
-            }
-            // При инициализации не обновляем скрол бары. Инициализируем их по напедению мышкой.
+
+            // Всегда обновляем состояние скролируемой оласти для теней. Если включены тени через стили,
+            // то нам все равно надо посчитать состояние теней для фиксированных заголовков.
+            this._shadows.updateScrollState(this._state);
+
+            // При инициализации не обновляем скрол бары. Инициализируем их по наведению мышкой.
             if (this._isStateInitialized) {
                 this._scrollbars.updateScrollState(this._state, this._container);
             }

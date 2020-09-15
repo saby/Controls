@@ -48,24 +48,6 @@ define(
                scroll._updateState({scrollTop: 555});
                assert.isTrue(updateScrollStateCalled);
             });
-
-            it('should not call updateScrollState on shadows if _isOptimizeShadowEnabled = true', function() {
-               scroll._isOptimizeShadowEnabled = true;
-               let updateScrollStateCalled = false;
-               scroll._shadows = {
-                  updateScrollState() {
-                     updateScrollStateCalled = true;
-                  },
-                  top: {
-                     isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
-                  },
-                  bottom: {
-                     isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
-                  }
-               };
-               scroll._updateState({scrollTop: 555});
-               assert.isFalse(updateScrollStateCalled);
-            });
          });
       });
    }

@@ -63,6 +63,24 @@ describe('Controls/scroll:_ContainerNew', () => {
             component._updateState(state);
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_verticalHorizontal');
         });
+
+        describe('shadows', () => {
+            it('should update shadows models if optimized shadows is enabled', () => {
+                const component = createComponent(_ContainerNew, {scrollMode: 'vertical'});
+                component._isOptimizeShadowEnabled = true;
+                component._children = {
+                    content: {
+                        getBoundingClientRect: () => undefined
+                    }
+                };
+                assert.isFalse(component._shadows.top.isStickyHeadersShadowsEnabled());
+                component._updateState({
+                    ...state,
+                    scrollTop: 10
+                });
+                assert.isTrue(component._shadows.top.isStickyHeadersShadowsEnabled());
+            });
+        });
     });
 
     describe('_keydownHandler', () => {
