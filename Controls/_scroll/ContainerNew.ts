@@ -99,6 +99,13 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
  * </ul>
  */
 
+/**
+ * @name Controls/_scroll/ContainerNew#shadowStyle
+ * @cfg {String} Определяет префикс стиля для настройки тени контрола.
+ * @default default
+ * @demo Controls-demo/Scroll/ShadowStyle/Index
+ */
+
 const SCROLL_BY_ARROWS = 40;
 
 export default class Container extends ContainerBase<IContainerOptions> implements IScrollbars {
