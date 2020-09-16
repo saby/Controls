@@ -6,7 +6,8 @@ import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 
 export default class TabButtonsDemo extends Control {
     protected _template: TemplateFunction = template;
-    protected SelectedKey1: string = '1';
+    protected SelectedKey1: string = '6';
+    protected SelectedKey2: string = '1';
     protected _items: RecordSet | null = null;
     protected _items2: RecordSet | null = null;
     protected _containerWidth: number = 500;
@@ -42,30 +43,6 @@ export default class TabButtonsDemo extends Control {
                     id: '7',
                     title: 'Лучший продавец'
                 }
-                // {
-                //     id: '8',
-                //     title: 'Fi4444les'
-                // },
-                // {
-                //     id: '9',
-                //     title: 'Fi4444les  44444'
-                // },
-                // {
-                //     id: '10',
-                //     title: 'Fi222les'
-                // },
-                // {
-                //     id: '11',
-                //     title: 'Files'
-                // },
-                // {
-                //     id: '12',
-                //     title: 'Fi4444444444les'
-                // },
-                // {
-                //     id: '13',
-                //     title: 'F 44444444iles'
-                // }
             ]
         });
         this._items2 = new RecordSet({

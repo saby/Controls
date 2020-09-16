@@ -141,10 +141,19 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             this._items = items;
         });
     }
+
     private _menuItemClickHandler(event: SyntheticEvent<Event>, item: Model): void {
         item.set('isMainTab', true);
+        /*Выбрав один из пунктов меню пользователь активирует соответствующую вкладку.
+        Выбранная в меню вкладка заменяет собой прежнюю крайнюю на экране вкладку*/
+        this._selectedKeyHandler(event, item.get(this._options.keyProperty));
         this._visibleItems.replace(item, this._position);
         this._updateFilter(this._options);
+    }
+
+    //при нажатии на кнопку еще останавливаем событие для того, чтобы вкладка не выбралась.
+    private _onMouseDownHandler(event: SyntheticEvent<Event>): void {
+        event.stopPropagation();
     }
 
     private _prepareItems(options: ITabsAdaptiveButtonsOptions): void {
