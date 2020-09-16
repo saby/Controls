@@ -29,7 +29,7 @@ define('Controls-demo/Input/Date/Picker', [
       },
 
    });
-   ModuleClass._styles = ['Controls-demo/Input/Date/Picker'];
+   ModuleClass._styles = ['Controls-demo/Input/Date/Picker', 'Controls-demo/Controls-demo'];
 
    return ModuleClass;
 });
