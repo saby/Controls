@@ -171,7 +171,8 @@ var _private = {
        * 1) loaded list is empty and empty template option is doesn't set
        * 2) loaded list is empty and list loaded from history, expect that the list is loaded from history, becouse input field is empty and historyId options is set  */
       return hasItems ||
-             (!self._options.historyId || self._searchValue || isSuggestHasTabs) && self._options.emptyTemplate;
+             (!self._options.historyId || self._searchValue || isSuggestHasTabs) &&
+             self._options.emptyTemplate && searchResult !== null;
    },
    processResultData: function(self, resultData) {
       self._searchResult = resultData;
