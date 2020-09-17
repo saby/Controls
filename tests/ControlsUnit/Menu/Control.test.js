@@ -22,6 +22,7 @@ define(
             displayProperty: 'title',
             keyProperty: 'key',
             selectedKeys: [],
+            excludedKeys: [],
             root: null,
             source: new source.Memory({
                keyProperty: 'key',
@@ -277,10 +278,10 @@ define(
             });
 
             it('select empty item', function() {
-               let emptyMenuControl = getMenu({...defaultOptions, emptyKey: null, emptyText: 'Not selected', multiSelect: true});
+               let emptyMenuControl = getMenu({...defaultOptions, emptyKey: 'Not selected', emptyText: 'Not selected', multiSelect: true});
                let emptyItems = Clone(defaultItems);
                emptyItems.push({
-                  key: null,
+                  key: 'Not selected',
                   title: 'Not selected'
                });
                emptyMenuControl._listModel = getListModel(emptyItems);
@@ -295,7 +296,7 @@ define(
                assert.equal(selectedKeys[0], 1);
 
                emptyMenuControl._itemClick('itemClick', item, {});
-               assert.equal(selectedKeys[0], null);
+               assert.equal(selectedKeys[0], 'Not selected');
 
                emptyMenuControl._itemClick('itemClick', item, {});
                assert.equal(selectedKeys[0], 1);
@@ -549,18 +550,6 @@ define(
             isClosed = false;
             menuControl._footerMouseEnter(event);
             assert.isFalse(isClosed);
-         });
-
-         it('getSelectedItemsByKeys', function() {
-            let listModel = getListModel();
-            let menuControl = getMenu();
-            let selectedKeys = [2, 3];
-            let selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 2);
-
-            selectedKeys = [];
-            selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 0);
          });
 
          it('_openSelectorDialog', function() {
