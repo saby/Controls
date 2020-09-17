@@ -3,6 +3,10 @@ import template = require('wml!Controls/_dragnDrop/Controller/Controller');
 import ControllerClass from './ControllerClass';
 import 'Controls/_dragnDrop/DraggingTemplate';
 import {IDragObject} from './Container';
+// Из-за добавления библиотеки в бандл, в оффлайн рознице возникла проблема загрузки 2 css библиотеки.
+// Т.к. темизируемых стилей нет, делаем загрузку css через import.
+import 'css!Controls/dragnDrop';
+
 /**
  * Контроллер обеспечивает взаимосвязь между контейнерами перемещения Controls/dragnDrop:Container.
  * Он отслеживает события контейнеров и оповещает о них другие контейнеры.
@@ -69,7 +73,6 @@ class Controller extends Control<IControlOptions> {
         this._controllerClass.unregisterHandler(event, registerType, component, config);
     }
 
-    static _styles: string[] = ['Controls/dragnDrop'];
 }
 
 export default Controller;
