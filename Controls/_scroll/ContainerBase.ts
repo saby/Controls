@@ -312,17 +312,17 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
                     clientHeight: this._state.clientHeight,
                     scrollHeight: this._state.scrollHeight
                 }]);
-                this._sendByRegistrar(
-                    'scroll',
-                    [
-                        new SyntheticEvent(null, {
-                            type: 'scroll',
-                            target: this._children.content,
-                            currentTarget: this._children.content,
-                            _bubbling: false
-                        }),
-                        this._state.scrollTop
-                    ]);
+                // Событие scroll обрабатываем отдельно от _sendByRegistrar, т.к. используются разные параметры
+                this._registrars.scroll.start([
+                    new SyntheticEvent(null, {
+                        type: 'scroll',
+                        target: this._children.content,
+                        currentTarget: this._children.content,
+                        _bubbling: false
+                    }),
+                    this._state.scrollTop
+                ]);
+                this._notify('scroll', [this._state.scrollTop]);
             }
 
             this._generateCompatibleEvents();

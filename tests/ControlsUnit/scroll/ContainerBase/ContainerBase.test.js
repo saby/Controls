@@ -30,6 +30,12 @@ define([
             sinon.stub(control, '_sendByRegistrar');
             sinon.stub(control, '_sendByListScrollRegistrar');
             sinon.stub(control, '_sendScrollMoveAsync');
+            sinon.stub(control, '_notify');
+            control._registrars = {
+               scroll: {
+                  start: () => 0
+               }
+            };
          });
 
          afterEach(() => {
