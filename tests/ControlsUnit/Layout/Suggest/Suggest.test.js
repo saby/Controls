@@ -317,6 +317,11 @@ define(['Controls/suggest', 'Types/collection', 'Types/entity', 'Env/Env', 'Cont
          suggest._searchDelay = 'testDelay';
          suggest._searchEnd();
          assert.notEqual(options.searchDelay, suggest._searchDelay);
+
+         suggest._destroyed = false;
+         suggest._showContent = true;
+         suggest._searchEnd(null);
+         assert.isFalse(suggest._showContent);
       });
 
       it('Suggest::_private.searchErrback', function() {
