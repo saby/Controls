@@ -18,6 +18,22 @@ import {Base as DateUtil} from 'Controls/dateUtils';
  * @author Красильников А.С.
  * @public
  */
+
+/**
+ * @name Controls/_dateRange/Controllers/DateRangeSelectionController#selectionProcessing
+ * @cfg {Boolean} Состояние, которое определяет, происходит ли выбор периода в данный момент
+ */
+
+/**
+ * @name Controls/_dateRange/Controllers/DateRangeSelectionController#selectionBaseValue
+ * @cfg {Date} Начальная точка при выборе периода
+ */
+
+/**
+ * @name Controls/_dateRange/Controllers/DateRangeSelectionController#selectionHoveredValue
+ * @cfg {Date} День, на который наводят в данный момент
+ */
+
 var Component = RangeSelectionController.extend({
    _beforeMount: function(options) {
       var quantum = options.quantum || [];
