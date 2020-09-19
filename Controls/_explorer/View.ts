@@ -655,19 +655,28 @@ var
             return hasEditOnClick && !clickEvent.target.closest(`.${EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE}`);
          };
 
+         const editingItem = this._children.treeControl.getEditingItem();
+         const closeEditing = (eItem: Model) => {
+            return eItem.isChanged() ? this.commitEdit() : this.cancelEdit();
+         };
+
+         // Не проваливаеся в папку, если ее можно редактировать.
          if (res !== false && item.get(this._options.nodeProperty) === ITEM_TYPES.node && !isNodeEditable()) {
             // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
             // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
             // новые и маркер запомнится не для того root'а. Ошибка:
             // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
             _private.setRestoredKeyObject(this, item);
-            if (!this._options.editingConfig) {
+
+            // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
+            if (!editingItem) {
                changeRoot();
             } else {
-               this.commitEdit().addCallback((res = {}) => {
-                  if (!res.validationFailed) {
+               closeEditing(editingItem).then((result) => {
+                  if (!(result && result.canceled)) {
                      changeRoot();
                   }
+                  return result;
                });
             }
 

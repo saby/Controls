@@ -56,7 +56,15 @@ import GroupingLoader from 'Controls/_list/Controllers/GroupingLoader';
 import * as GroupingController from 'Controls/_list/Controllers/Grouping';
 import {ISwipeEvent} from 'Controls/listRender';
 
-import {IEditingOptions, EditInPlace} from '../editInPlace';
+import {
+    CONSTANTS,
+    EditInPlace,
+    Controller as NewEditInPlaceController,
+    InputHelper as EditInPlaceInputHelper,
+    JS_SELECTORS
+} from '../editInPlace';
+
+import {IEditableListOption} from './interface/IEditableList';
 
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
@@ -1940,11 +1948,12 @@ const _private = {
         const oldSourceCfg = oldNavigation && oldNavigation.sourceConfig ? oldNavigation.sourceConfig : {};
         const newSourceCfg = newNavigation && newNavigation.sourceConfig ? newNavigation.sourceConfig : {};
         if (oldSourceCfg.page !== newSourceCfg.page) {
-            const isEditing = !!self._editInPlace && !!self._listViewModel && (
-                self._options.useNewModel ? EditInPlaceController.isEditing(self._listViewModel) : !!self._listViewModel.getEditingItemData()
+            const isEditing = !!self._editInPlaceController && !!self._listViewModel && (
+                self._options.useNewModel ? EditInPlaceController.isEditing(self._listViewModel) :
+                    self._editInPlaceController.getEditingKey() !== undefined
             );
             if (isEditing) {
-                self._editInPlace.cancelEdit();
+                self.cancelEdit();
             }
         }
     },
@@ -2353,23 +2362,7 @@ const _private = {
                     _private.updateItemActions(self, self._options);
                 },
                 isDestroyed: () => self._destroyed
-            } as IEditingOptions);
-        }
-    },
-
-    createEditingData(self: typeof BaseControl, options: any): void {
-        if (self._editInPlace) {
-            self._editInPlace.createEditingData(
-                options.editingConfig,
-                self._listViewModel,
-                options.useNewModel,
-                self.getSourceController()
-            );
-            self._editingItemData = self._editInPlace.getEditingItemData();
-
-            if (options.itemActions || self._editInPlace.shouldShowToolbar()) {
-                _private.updateItemActions(self, options);
-            }
+            });
         }
     },
 
@@ -2631,65 +2624,6 @@ const _private = {
         return result;
     },
 
-    /*
-    * Считается, что запись активировалась при клике по ней, если в результате этого клика не запустилось редактирование по месту.
-    * Начинаем запуск редактирования мы, но реально ли оно начнется сейчас знает только прикладник и редактирование по месту, но
-    * оно не дает нам никакой точки входа в этот момент.
-    * Обработчик события начала редактирования может вернуть несколько вариантов ответа. Надо прочекать все.
-    *
-    * В новой схеме этот момент будет учтен и код станет вида
-    * editingController.beginEdit(key).then((startResult) => {
-    *     if (startResult === 'aborted') {
-    *         this._notify('itemActivated');
-    *     }
-    * })
-    * */
-    onBeforeBeginEdit(self, eventResult) {
-        if (self._savedItemClickArgs) {
-
-            // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
-            // обязательно должен случиться после события beforeBeginEdit.
-            self._notify('itemClick', self._savedItemClickArgs, {bubbling: true});
-
-            // Запись становится активной по клику, если не началось редактирование.
-            // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-            if (eventResult === constEditing.CANCEL) {
-                self._notify('itemActivate', self._savedItemClickArgs, {bubbling: true});
-                self._savedItemClickArgs = null;
-            } else if (eventResult && eventResult.finally) {
-                eventResult.then((res) => {
-                    if (res === constEditing.CANCEL) {
-                        self._notify('itemActivate', self._savedItemClickArgs, {bubbling: true});
-                    }
-                    return res;
-                }).finally(() => {
-                    self._savedItemClickArgs = null;
-                });
-            } else {
-                self._savedItemClickArgs = null;
-            }
-        }
-    },
-    activateEditingRow(self) {
-        // После запуска редактирования нужно активировать определенное поле ввода.
-        // Если не получилось активировать поле ввода, под точкой клика (клик мимо поля ввода),
-        // то активируем первое в строке
-        if (self._editInPlace.hasPendingActivation()) {
-            // Совместимость с ListRender, он не использует EditingRow. Удалить при полном переходе.
-            if (self._options.useNewModel) {
-                self._editInPlace.activated();
-            } else {
-                const wasActivatedByClick = self._editInPlace.prepareHtmlInput();
-                let wasActivatedByEditingRow;
-                if (!wasActivatedByClick) {
-                    wasActivatedByEditingRow = self._children.listView.activateEditingRow();
-                }
-                if (wasActivatedByEditingRow || wasActivatedByClick) {
-                    self._editInPlace.activated();
-                }
-            }
-        }
-    },
     getMoveController(self): MoveController {
         const options = self._options;
         const controllerOptions: IMoveControllerOptions = {
@@ -2731,6 +2665,24 @@ const _private = {
             self._removeController = new RemoveController(self._options.source);
         }
         return self._removeController;
+    },
+
+    registerFormOperation(self): void {
+        const formOperationHandler = (shouldSave) => {
+            if (shouldSave) {
+                const editingItem = self._editInPlaceController.getEditingItem();
+                if (editingItem?.isChanged()) {
+                    return self.commitEdit();
+                }
+            }
+            return self.cancelEdit();
+        };
+
+        self._notify('registerFormOperation', [{
+            save: formOperationHandler.bind(self, true),
+            cancel: formOperationHandler.bind(self, false),
+            isDestroyed: () => self._destroyed
+        }], {bubbling: true});
     }
 };
 
@@ -2907,36 +2859,32 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         this._loadTriggerVisibility = {};
 
-        if (newOptions.editingConfig) {
-            _private.createEditInPlace(self, newOptions);
-        }
+        return Promise.resolve(this._prepareGroups(newOptions, (collapsedGroups) => {
+            return this._prepareItemsOnMount(self, newOptions, receivedState, collapsedGroups);
+        })).then((res) => {
+            const editingConfig = self._getEditingConfig(newOptions);
+            return editingConfig.item ? self._startInitialEditing(editingConfig) : res;
+        }).then((res) => {
+            if (newOptions.markerVisibility === 'visible'
+                || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined) {
+                const markerController = _private.createMarkerController(
+                    this,
+                    newOptions.markerVisibility,
+                    newOptions.markedKey
+                );
 
-        return this._prepareGroups(newOptions, (collapsedGroups) => {
-            return this._prepareItemsOnMount(self, newOptions, receivedState, collapsedGroups).then(
-                (result) => {
-                    if (newOptions.markerVisibility === 'visible'
-                        || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined) {
-                        const markerController = _private.createMarkerController(
-                            this,
-                            newOptions.markerVisibility,
-                            newOptions.markedKey
-                        );
+                const markedKey = markerController.calculateMarkedKeyForVisible();
+                markerController.setMarkedKey(markedKey);
+            }
 
-                        const markedKey = markerController.calculateMarkedKeyForVisible();
-                        markerController.setMarkedKey(markedKey);
-                    }
-
-                    if (self._selectionController) {
-                        _private.getSelectionController(self).restoreSelection();
-                    } else {
-                        if (newOptions.selectedKeys && newOptions.selectedKeys.length > 0) {
-                            self._selectionController = _private.createSelectionController(self, newOptions);
-                        }
-                    }
-
-                    return result;
+            if (self._selectionController) {
+                _private.getSelectionController(self).restoreSelection();
+            } else {
+                if (newOptions.selectedKeys && newOptions.selectedKeys.length > 0) {
+                    self._selectionController = _private.createSelectionController(self, newOptions);
                 }
-            );
+            }
+            return res
         });
     },
 
@@ -3001,9 +2949,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     newOptions.dataLoadCallback(self._items);
                 }
 
-                _private.createEditingData(self, newOptions);
-
-                _private.createScrollController(self, newOptions);
+                    _private.createScrollController(self, newOptions);
 
                 _private.prepareFooter(self, newOptions.navigation, self._sourceController);
 
@@ -3051,8 +2997,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 }
                 self._needBottomPadding = _private.needBottomPadding(newOptions, data, self._listViewModel);
 
-                _private.createEditingData(self, newOptions);
-                _private.createScrollController(self, newOptions);
+                    _private.createScrollController(self, newOptions);
 
                 _private.initVisibleItemActions(self, newOptions);
 
@@ -3243,7 +3188,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._editInPlace.registerFormOperation(this._validateController);
             this._editInPlace.updateViewModel(this._listViewModel);
             this._editInPlace.setErrorContainer(this._children.errorContainer);
-            _private.activateEditingRow(this);
+        }
+
+        if (this._editInPlaceController) {
+            _private.registerFormOperation(this);
         }
 
         // для связи с контроллером ПМО
@@ -3317,8 +3265,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         if (!newOptions.useNewModel && newOptions.viewModelConstructor !== this._viewModelConstructor) {
-            if (this._editInPlace && this._listViewModel.getEditingItemData()) {
-                this._editInPlace.cancelEdit();
+            if (this._editInPlaceController && this._editInPlaceController.getEditingKey() !== undefined) {
+                this.cancelEdit();
             }
             this._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._listViewModel.getItems();
@@ -3371,7 +3319,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         if (newOptions.editingConfig !== this._options.editingConfig) {
-            this._listViewModel.setEditingConfig(newOptions.editingConfig);
+            this._listViewModel.setEditingConfig(this._getEditingConfig(newOptions));
         }
         if (recreateSource) {
             this.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
@@ -3447,11 +3395,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }
         }
 
-        if (this._editInPlace) {
-            this._editInPlace.updateEditingData(
-                {listViewModel: this._listViewModel, ...newOptions}
-            );
-            this._editingItemData = this._editInPlace.getEditingItemData();
+        if (this._editInPlaceController) {
+            this._editInPlaceController.updateOptions({
+                collection: newOptions.useNewModel ? this._listViewModel : this._listViewModel.getDisplay()
+            });
         }
 
         // Синхронный индикатор загрузки для реестров, в которых записи - тяжелые контролы.
@@ -3635,8 +3582,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._scrollPagingCtr.destroy();
         }
 
-        if (this._editInPlace) {
-            this._editInPlace.reset();
+        if (this._editInPlaceController) {
+            this._editInPlaceController.destroy();
+            this._editInPlaceInputHelper = null;
         }
 
         if (this._listViewModel) {
@@ -3886,8 +3834,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (this._editInPlace) {
             this._editInPlace.registerFormOperation(this._validateController);
-            _private.activateEditingRow(this);
             this._validateController.resolveSubmit();
+        }
+
+        if (this._editInPlaceController) {
+            this._editInPlaceInputHelper.activateInput(this._children.listView.activateEditingRow);
         }
 
     },
@@ -4000,8 +3951,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             return;
         }
 
-        if (this._editInPlace) {
-            this._editInPlace.beginEditByClick(e, item, originalEvent);
+        const canEditByClick = this._getEditingConfig().editOnClick && !originalEvent.target.closest(`.${JS_SELECTORS.NOT_EDITABLE}`);
+        if (canEditByClick) {
+            e.stopPropagation();
+            this.beginEdit({ item }).then((result) => {
+                if (!(result && result.canceled)) {
+                    this._editInPlaceInputHelper.setClickInfo(originalEvent.nativeEvent, item);
+                }
+                return result;
+            });
+        } else if (this._editInPlaceController) {
+            this.commitEdit();
         }
         // При клике по элементу может случиться 2 события: itemClick и itemActivate.
         // itemClick происходит в любом случае, но если список поддерживает редактирование по месту, то
@@ -4018,57 +3978,326 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
-    beginEdit(options) {
-        _private.closeSwipe(this);
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.beginEdit(options);
+    // region EditInPlace
+
+    _editInPlaceController: null,
+    _editInPlaceInputHelper: null,
+
+    _getEditInPlaceController(): NewEditInPlaceController {
+        if (!this._editInPlaceController) {
+            this._editInPlaceController = this._createEditInPlaceController();
+        }
+        return this._editInPlaceController;
     },
 
-    beginAdd(options) {
-        if (this._options.readOnly) {
-            return Deferred.fail();
-        } else {
-            return this._editInPlace.beginAdd(options).then((addResult) => {
+    _createEditInPlaceController(): NewEditInPlaceController {
+        let resetValidation = () => {
+            this._validateController.setValidationResult(null);
+        };
+        resetValidation = resetValidation.bind(this);
 
-                // TODO: https://online.sbis.ru/opendoc.html?guid=b8a501c1-6148-4b6a-aba8-2b2e4365ec3a
-                const addingPosition = this._options.editingConfig.addPosition === 'top' ? 0 : (this.getViewModel().getCount() - 1);
-                const isPositionInRange = addingPosition >= this.getViewModel().getStartIndex() && addingPosition < this.getViewModel().getStopIndex();
-                const targetDispItem = this.getViewModel().at(addingPosition);
-                const targetItem = targetDispItem && targetDispItem.getContents();
-                const targetItemKey = targetItem && targetItem.getKey ? targetItem.getKey() : null;
-                if (!isPositionInRange && targetItemKey !== null) {
-                    return _private.scrollToItem(this, targetItemKey, false, true).then(() => Promise.resolve(addResult));
+        const notifyIfMount = (eName, args: unknown[], params?: {bubbling: true}) => {
+            return this._isMounted ? this._notify(eName, args, params) : undefined;
+        };
+
+        const beforeBeginCallback = (options: { item?: Model}, isAdd: boolean) => {
+
+            return new Promise((resolve) => {
+                const eventResult = notifyIfMount('beforeBeginEdit', [options, isAdd]);
+
+                if (this._savedItemClickArgs) {
+                    // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
+                    // обязательно должен случиться после события beforeBeginEdit.
+                    notifyIfMount('itemClick', this._savedItemClickArgs, {bubbling: true});
+                }
+
+                resolve(eventResult);
+            }).then((result) => {
+
+                if (result === CONSTANTS.CANCEL) {
+                    if (this._savedItemClickArgs) {
+                        // Запись становится активной по клику, если не началось редактирование.
+                        // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
+                        notifyIfMount('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                    }
+                    return result;
+                }
+
+                if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
+                    return this.getSourceController().create().then((item) => {
+                        if (item instanceof Model) {
+                            return {item};
+                        }
+                        throw Error('BaseControl::create before add error! Source returned non Model.');
+                    }).catch((error: Error) => {
+                        return this._processEditInPlaceError(error);
+                    });
+                }
+
+                return result;
+            }).finally(() => {
+                this._savedItemClickArgs = null;
+            });
+        };
+
+        const afterBeginCallback = (item: Model, isAdd: boolean) => {
+            notifyIfMount('afterBeginEdit', [item, isAdd]);
+            if (this._listViewModel.getCount() > 1) {
+                this.setMarkedKey(item.getKey());
+            }
+
+            item.subscribe('onPropertyChange', resetValidation);
+            /*
+             * TODO: KINGO
+             * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
+             * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
+             * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
+             * _canUpdateItemsActions приведет к показу неактуальных операций.
+             */
+            _private.updateItemActions(this, this._options);
+        };
+
+        const beforeEndCallback = (item: Model, willSave: boolean, isAdd: boolean) => {
+            return new Promise((resolve) => {
+                const eventResult = this._notify('beforeEndEdit', [item, willSave, isAdd]);
+
+                // Если пользователь не сохранил добавляемый элемент, используется платформенное сохранение.
+                // Пользовательское сохранение потенциально может начаться только если вернули Promise
+                const shouldUseDefaultSaving = willSave && (isAdd || item.isChanged()) && (
+                    !eventResult || (
+                        eventResult !== CONSTANTS.CANCEL && !(eventResult instanceof Promise)
+                    )
+                );
+                if (shouldUseDefaultSaving) {
+                    resolve(this._saveEditingInSource(item));
                 } else {
-                    return Promise.resolve(addResult);
+                    resolve(eventResult);
                 }
             });
+        };
+
+        const afterEndCallback = (item: Model, isAdd: boolean) => {
+            this._notify('afterEndEdit', [item, isAdd]);
+            item.unsubscribe('onPropertyChange', resetValidation);
+        };
+
+        this._editInPlaceInputHelper = new EditInPlaceInputHelper();
+
+        return new NewEditInPlaceController({
+            collection: this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay(),
+            onBeforeBeginEdit: beforeBeginCallback.bind(this),
+            onAfterBeginEdit: afterBeginCallback.bind(this),
+            onBeforeEndEdit: beforeEndCallback.bind(this),
+            onAfterEndEdit: afterEndCallback.bind(this)
+        });
+    },
+
+    getEditingItem(): Model {
+        return this._editInPlaceController?.getEditingItem();
+    },
+
+    _startInitialEditing(editingConfig: Required<IEditableListOption['editingConfig']>) {
+        const isAdd = !this._items.getRecordById(editingConfig.item.getKey());
+        if (isAdd) {
+            return this._beginAdd({ item: editingConfig.item }, editingConfig.addPosition );
+        } else {
+            return this.beginEdit({ item: editingConfig.item });
         }
     },
 
+    beginEdit(options) {
+        if (this._options.readOnly) {
+            return Promise.reject('Control is in readOnly mode.');
+        }
+        _private.closeSwipe(this);
+        this.showIndicator();
+        return this._getEditInPlaceController().edit(options && options.item).then((result) => {
+            if (!(result && result.canceled)) {
+                this._editInPlaceInputHelper.shouldActivate();
+            }
+            return result;
+        }).finally(() => {
+            this.hideIndicator();
+        });
+    },
+
+    beginAdd(options) {
+        return this._beginAdd(options, this._getEditingConfig().addPosition);
+    },
+
+    _beginAdd(options, addPosition) {
+        if (this._options.readOnly) {
+            return Promise.reject('Control is in readOnly mode.');
+        }
+        _private.closeSwipe(this);
+        this.showIndicator();
+        return this._getEditInPlaceController().add(options && options.item, addPosition).then((addResult) => {
+            if (addResult && addResult.canceled) {
+                return addResult;
+            }
+            this._editInPlaceInputHelper.shouldActivate();
+            if (!this._isMounted) {
+                return addResult;
+            }
+            // TODO: https://online.sbis.ru/opendoc.html?guid=b8a501c1-6148-4b6a-aba8-2b2e4365ec3a
+            const addingPosition = addPosition === 'top' ? 0 : (this.getViewModel().getCount() - 1);
+            const isPositionInRange = addingPosition >= this.getViewModel().getStartIndex() && addingPosition < this.getViewModel().getStopIndex();
+            const targetDispItem = this.getViewModel().at(addingPosition);
+            const targetItem = targetDispItem && targetDispItem.getContents();
+            const targetItemKey = targetItem && targetItem.getKey ? targetItem.getKey() : null;
+            if (!isPositionInRange && targetItemKey !== null) {
+                return _private.scrollToItem(this, targetItemKey, false, true).then(() => addResult);
+            } else {
+                return addResult;
+            }
+        }).finally(() => {
+            this.hideIndicator();
+        });
+    },
+
     cancelEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.cancelEdit();
+        if (this._options.readOnly) {
+            Promise.reject('Control is in readOnly mode.');
+        }
+        this.showIndicator();
+        return this._getEditInPlaceController().cancel().finally(() => {
+            this.hideIndicator();
+        });
     },
 
     commitEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._editInPlace.commitEdit();
+        if (this._options.readOnly) {
+            Promise.reject('Control is in readOnly mode.');
+        }
+        this.showIndicator();
+        return this._validateController.submit().then((validationResult) => {
+            for (const key in validationResult) {
+                if (validationResult.hasOwnProperty(key) && validationResult[key]) {
+                    return Promise.resolve({ canceled: true });
+                }
+            }
+            return this._getEditInPlaceController().commit();
+        }).finally(() => {
+            this.hideIndicator();
+        });
     },
 
-    /**
-     * Обработка нажатия на кнопку "сохранить"
-     * TODO вроде делает то же самое, что commitEdit
-     * @private
-     */
-    _commitEditActionHandler(): void {
-        this._editInPlace.commitAndMoveNextRow();
+    _commitEditActionHandler(e, collectionItem) {
+        return this.commitEdit().then((result) => {
+            if (result && result.canceled) {
+                return result;
+            }
+            const editingConfig = this._getEditingConfig();
+            if (editingConfig.autoAddByApplyButton && collectionItem.isAdd) {
+                return this._beginAdd({}, editingConfig.addPosition);
+            } else {
+                return result;
+            }
+        });
     },
 
-    /**
-     * Обработка нажатия на кнопку "отмена"
-     * TODO вроде делает то же самое, что cancelEdit
-     * @private
-     */
-    _cancelEditActionHandler(): void {
-        this._editInPlace.cancelEdit();
+    _cancelEditActionHandler(e, collectionItem) {
+        return this.cancelEdit();
     },
+
+    _onEditingRowKeyDown(e: SyntheticEvent<KeyboardEvent>, nativeEvent: KeyboardEvent) {
+        switch (nativeEvent.keyCode) {
+            case 13: // Enter
+                return this._editingRowEnterHandler(e);
+            case 27: // Esc
+                // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
+                e.stopPropagation();
+                return this.cancelEdit();
+                break;
+        }
+    },
+
+    _editingRowEnterHandler(e: SyntheticEvent<KeyboardEvent>) {
+        const editingConfig = this._getEditingConfig();
+        const next = this._getEditInPlaceController().getNextEditableItem();
+        const shouldEdit = editingConfig.sequentialEditing && !!next;
+        const shouldAdd = !next && !shouldEdit && !!editingConfig.autoAdd && editingConfig.addPosition === 'bottom';
+        return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents);
+    },
+
+    _onRowDeactivated(e: SyntheticEvent, eventOptions: any): void {
+        e.stopPropagation();
+
+        if (eventOptions.isTabPressed) {
+            const editingConfig = this._getEditingConfig();
+            let next;
+            let shouldEdit;
+            let shouldAdd;
+
+            if (eventOptions.isShiftKey) {
+                next = this._getEditInPlaceController().getPrevEditableItem();
+                shouldEdit = !!next;
+                shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'top';
+            } else {
+                next = this._getEditInPlaceController().getNextEditableItem();
+                shouldEdit = !!next;
+                shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'bottom';
+            }
+            return this._tryContinueEditing(shouldEdit, shouldAdd, next && next.contents);
+        }
+    },
+
+    _tryContinueEditing(shouldEdit, shouldAdd, item?: Model) {
+        return this.commitEdit().then((result) => {
+            if (result && result.canceled) {
+                return result;
+            }
+            if (shouldEdit) {
+                return this.beginEdit({ item });
+            } else if (shouldAdd) {
+                return this._beginAdd({}, this._getEditingConfig().addPosition);
+            }
+        });
+    },
+
+    _saveEditingInSource(item: Model): Promise<void> {
+        return this.getSourceController().update(item).then(() => {
+            this._items.append([item]);
+        }).catch((error: Error) => {
+            return this._processEditInPlaceError(error);
+        });
+    },
+
+    _getEditingConfig(options = this._options): Required<IEditableListOption['editingConfig']> {
+        const editingConfig = options.editingConfig || {};
+        const addPosition = editingConfig.addPosition === 'top' ? 'top' : 'bottom';
+
+        return {
+            editOnClick: !!editingConfig.editOnClick,
+            sequentialEditing: editingConfig.sequentialEditing !== false,
+            addPosition,
+            item: editingConfig.item,
+            autoAdd: !!editingConfig.autoAdd,
+            autoAddByApplyButton: !!editingConfig.autoAddByApplyButton,
+            toolbarVisibility: !!editingConfig.toolbarVisibility
+        };
+    },
+
+    _processEditInPlaceError(error) {
+        /*
+         * в detail сейчас в многих местах редактирования по месту приходит текст из запроса
+         * Не будем его отображать
+         * TODO Убрать после закрытия задачи по написанию документа по правильному формированию текстов ошибок
+         *  https://online.sbis.ru/doc/c8ff58ac-e6f7-4f0e-877a-e9cbbe661139
+         */
+        delete error.details;
+
+        return this.__errorController.process({
+            error,
+            theme: this._options.theme,
+            mode: dataSourceError.Mode.dialog
+        }).then((errorConfig: dataSourceError.ViewConfig) => {
+            this.__errorContainer.show(errorConfig);
+            return Promise.reject(error);
+        });
+    },
+
+    // endregion
 
     /**
      * Инициализирует опции при mouseenter в шаблоне контрола
@@ -4581,29 +4810,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
         }
         return diCreate(modelName, {...modelConfig, collection: items});
-    },
-
-    _onEditingRowKeyDown(e: SyntheticEvent<KeyboardEvent>, nativeEvent: KeyboardEvent): void {
-        if (this._editInPlace) {
-            switch (nativeEvent.keyCode) {
-                case 13: // Enter
-                    // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
-                    this._editInPlace.editNextRow();
-                    e.stopPropagation();
-                    break;
-                case 27: // Esc
-                    // Если таблица находится в другой таблице, событие из внутренней таблицы не должно всплывать до внешней
-                    e.stopPropagation();
-                    return this._editInPlace.cancelEdit();
-                    break;
-            }
-        }
-    },
-
-    _onRowDeactivated(e: SyntheticEvent, eventOptions: any): void {
-        if (this._editInPlace) {
-            this._editInPlace.onRowDeactivated(e, eventOptions);
-        }
     },
 
     _stopBubblingEvent(event: SyntheticEvent<Event>): void {

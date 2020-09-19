@@ -1,12 +1,6 @@
 import {Model} from 'Types/entity';
-
 import {Collection, CollectionItem} from 'Controls/display';
-import {
-    TOperationPromise,
-    TKey,
-    TBeforeBeginEditCallback,
-    TBeforeEndEditCallback
-} from './Types';
+import {TKey, CONSTANTS, TAddPosition} from '../Types';
 
 /**
  * Интерфейс опций контроллера редактирования по месту.
@@ -20,10 +14,10 @@ import {
  * @public
  * @author Родионов Е.А.
  */
-export interface IEditInPlaceOptions {
+interface IEditInPlaceOptions {
     /**
      * @name Controls/_editInPlace/interface/IEditInPlaceOptions#collection
-     * @cfg {Collection.<Model>} Коллекция элементов.
+     * @cfg {Collection.<Types/entity:Model>} Коллекция элементов.
      */
     collection: Collection<Model>;
 
@@ -59,15 +53,34 @@ export interface IEditInPlaceOptions {
 }
 
 /**
- * @typedef {String} TAddPosition
- * @description Позиция в коллекции добавляемого элемента. Позиция определяется относительно определенного набора данных.
- * Если элемент добавляется в группу, то набором будут все элементы группы.
- * Если элемент добавляется в родителя, то набором будут все дочерние элементы родителя.
- * Если элемент добавляется в корень, то набором будут все элементы коллекции.
- * @variant top Добавить элемент в начало набора данных.
- * @variant bottom  Добавить элемент в конец набора данных.
+ * @typedef {Promise.<void | { canceled: true }>} TOperationPromise
+ * @description Тип возвращаемого значения из операций редактирования по месту.
  */
-type TAddPosition = 'top' | 'bottom';
+type TOperationPromise = Promise<void | { canceled: true }>;
+
+/**
+ * @typedef {void|CONSTANTS.CANCEL|Promise.<void|{CONSTANTS.CANCEL}>} TBeforeCallbackBaseResult
+ * @description Базовый тип, который можно вернуть из любой функций обратного вызова до начала операции редактирования по месту.
+ */
+type TBeforeCallbackBaseResult = void | CONSTANTS.CANCEL | Promise<void | CONSTANTS.CANCEL>;
+
+/**
+ * @typedef {Function} TBeforeBeginEditCallback
+ * @description Функция обратного вызова перед запуском редактирования.
+ * @param {Object} options Набор опций для запуска редактирования. Доступные свойства: item {Types/entity:Model} - запись для которой запускается редактирование.
+ * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется
+ */
+type TBeforeBeginEditCallback = (options: { item?: Model }, isAdd: boolean) =>
+    TBeforeCallbackBaseResult | { item?: Model } | Promise<{ item?: Model }>;
+
+/**
+ * @typedef {Function} TBeforeEndEditCallback
+ * @description Функция обратного вызова перед завершением редактирования
+ * @param {Types/entity:Model} item Редактируемая запись для которой запускается завершение редактирования.
+ * @param willSave Флаг, принимает значение true, если ожидается, что запись будет сохранена.
+ * @param isAdd Флаг, принимает значение true, если запись добавляется
+ */
+type TBeforeEndEditCallback = (item: Model, willSave: boolean, isAdd: boolean) => TBeforeCallbackBaseResult;
 
 /**
  * Интерфейс контроллера редактирования по месту.
@@ -81,7 +94,7 @@ type TAddPosition = 'top' | 'bottom';
  * @public
  * @author Родионов Е.А.
  */
-export interface IEditInPlace {
+interface IEditInPlace {
     /**
      * Обновить опции контроллера.
      * @method
@@ -162,9 +175,17 @@ export interface IEditInPlace {
     getEditingKey(): TKey;
 
     /**
+     * Получить редактируемый элемент
+     * @method
+     * @return {Types/entity:Model|undefined}
+     * @public
+     */
+    getEditingItem(): Model | undefined;
+
+    /**
      * Получить следующий элемент коллекции, для которого доступно редактирование.
      * @method
-     * @return {CollectionItem.<Model>|undefined}
+     * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
     getNextEditableItem(): CollectionItem<Model> | undefined;
@@ -172,8 +193,14 @@ export interface IEditInPlace {
     /**
      * Получить предыдущий элемент коллекции, для которого доступно редактирование.
      * @method
-     * @return {CollectionItem.<Model>|undefined}
+     * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
     getPrevEditableItem(): CollectionItem<Model> | undefined;
 }
+
+export {
+    IEditInPlace,
+    IEditInPlaceOptions,
+    TOperationPromise as TAsyncOperationResult
+};

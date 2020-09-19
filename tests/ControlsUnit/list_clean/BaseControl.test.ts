@@ -362,29 +362,29 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl.destroy();
             baseControl = undefined;
         });
-        it('reset editInPlace before model', async () => {
-            let eipReset = false;
-            let modelDestroyed = false;
-
-            baseControl.saveOptions(baseControlCfg);
-            await baseControl._beforeMount(baseControlCfg);
-            baseControl._editInPlace = {
-                reset: () => {
-                    assert.isFalse(modelDestroyed, 'model is destroyed before editInPlace');
-                    eipReset = true;
-                }
-            };
-            baseControl._listViewModel.destroy = () => {
-                modelDestroyed = true;
-            };
-            baseControl._items = {
-                unsubscribe: () => true
-            };
-            baseControl._beforeUnmount();
-            assert.isTrue(eipReset, 'editInPlace is not reset');
-            assert.isTrue(modelDestroyed, 'model is not destroyed');
-
-        });
+        // it('reset editInPlace before model', async () => {
+        //     let eipReset = false;
+        //     let modelDestroyed = false;
+        //
+        //     baseControl.saveOptions(baseControlCfg);
+        //     await baseControl._beforeMount(baseControlCfg);
+        //     baseControl._editInPlace = {
+        //         reset: () => {
+        //             assert.isFalse(modelDestroyed, 'model is destroyed before editInPlace');
+        //             eipReset = true;
+        //         }
+        //     };
+        //     baseControl._listViewModel.destroy = () => {
+        //         modelDestroyed = true;
+        //     };
+        //     baseControl._items = {
+        //         unsubscribe: () => true
+        //     };
+        //     baseControl._beforeUnmount();
+        //     assert.isTrue(eipReset, 'editInPlace is not reset');
+        //     assert.isTrue(modelDestroyed, 'model is not destroyed');
+        //
+        // });
     });
     describe('BaseControl enterHandler', () => {
         it('is enterHandler', function() {

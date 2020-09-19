@@ -712,8 +712,8 @@ define([
             explorer._children = {
                treeControl: {
                   _children: {
-
                   },
+                  getEditingItem: () => {},
                   commitEdit: () => commitEditResult
                }
             };
@@ -1187,6 +1187,9 @@ define([
                null: {
                   markedKey: null
                }
+            };
+            explorer._children.treeControl = {
+               getEditingItem: () => {}
             };
 
             const mockEvent = { stopPropagation: () => {} };

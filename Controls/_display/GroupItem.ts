@@ -21,6 +21,8 @@ export default class GroupItem<T> extends mixin<
     CollectionItem,
     ExpandableMixin
 ) {
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
+
     readonly MarkableItem: boolean = false;
 
     constructor(options?: IOptions<T>) {

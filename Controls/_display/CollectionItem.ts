@@ -6,7 +6,8 @@ import {
     IVersionable,
     ObservableMixin,
     OptionsToPropertyMixin,
-    SerializableMixin
+    SerializableMixin,
+    Model
 } from 'Types/entity';
 import {IList} from 'Types/collection';
 import {mixin} from 'Types/util';
@@ -14,6 +15,7 @@ import {TemplateFunction} from 'UI/Base';
 import {ICollectionItemStyled} from './interface/ICollectionItemStyled';
 import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
 import {ICollectionItem} from './interface/ICollectionItem';
+import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 
 export interface IOptions<T> {
     contents?: T;
@@ -61,7 +63,7 @@ export default class CollectionItem<T> extends mixin<
     OptionsToPropertyMixin,
     InstantiableMixin,
     SerializableMixin
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IEditableCollectionItem {
 
     // region IInstantiable
 
@@ -123,11 +125,18 @@ export default class CollectionItem<T> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
+
+    isAdd: boolean;
+
+    addPosition?: 'top' | 'bottom';
+
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
+        this.isAdd = false;
     }
 
     // endregion
@@ -315,6 +324,17 @@ export default class CollectionItem<T> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('editing');
         }
+    }
+
+    acceptChanges(): void {
+        (this._$contents as unknown as Model).acceptChanges();
+
+        if (!this._$editing) {
+            return;
+        }
+        // Применяем изменения на обоих моделях, т.к. редактирование записи может продолжитсься.
+        (this._$contents as unknown as Model).merge(this._$editingContents as unknown as Model);
+        (this._$editingContents as unknown as Model).acceptChanges();
     }
 
     setActions(actions: any, silent?: boolean): void {
