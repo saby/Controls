@@ -13,6 +13,7 @@ import {mixin} from 'Types/util';
 import {TemplateFunction} from 'UI/Base';
 import {ICollectionItemStyled} from './interface/ICollectionItemStyled';
 import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 
 export interface IOptions<T> {
     contents?: T;
@@ -60,7 +61,7 @@ export default class CollectionItem<T> extends mixin<
     OptionsToPropertyMixin,
     InstantiableMixin,
     SerializableMixin
-) implements IInstantiable, IVersionable, ICollectionItemStyled {
+) implements IInstantiable, IVersionable, ICollectionItemStyled, IEditableCollectionItem {
 
     // region IInstantiable
 
@@ -116,11 +117,18 @@ export default class CollectionItem<T> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
+
+    isAdd: boolean;
+
+    addPosition?: 'top' | 'bottom';
+
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
+        this.isAdd = false;
     }
 
     // endregion
@@ -308,6 +316,19 @@ export default class CollectionItem<T> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('editing');
         }
+    }
+
+    acceptEditing(): void {
+        if (!this._$editing) {
+            return;
+        }
+        // Тут большие сомнения, что мержатся левые поля! Нало проверить, то так было всегда.
+        this._$contents.merge(this._$editingContents);
+        this._$editingContents.acceptChanges();
+    }
+
+    getEditingContents(): T | undefined {
+        return this._$editingContents;
     }
 
     setActions(actions: any, silent?: boolean): void {

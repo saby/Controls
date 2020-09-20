@@ -38,8 +38,8 @@ export default class extends Control {
             model.set('id', ++this._fakeItemId);
             model.set('title', '');
             model.set('brand', this._activeGroup || 'asd');
-            return {item: model};
-        }) as unknown as Promise<{item: Model}>;
+            return model;
+        }) as unknown as Promise<Model>;
     }
 
     protected _beginAdd(): void {

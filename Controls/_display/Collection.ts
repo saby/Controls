@@ -32,6 +32,7 @@ import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
 import { IDragPosition } from 'Controls/listDragNDrop';
 import DragStrategy from './itemsStrategy/Drag';
+import AddStrategy from './itemsStrategy/Add';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
 
@@ -2266,11 +2267,15 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$searchValue;
     }
 
-    getItemBySourceKey(key: string|number): CollectionItem<S> {
+    getItemBySourceKey(key: string|number): T {
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
-                return this.getItemBySourceItem(record as unknown as S);
+                if (!record && this._$isEditing) {
+                    return this.find((item) => item.isEditing() && item.contents.getKey() === key);
+                } else {
+                    return this.getItemBySourceItem(record as unknown as S);
+                }
             } else {
                 return null;
             }
@@ -2425,6 +2430,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      */
     setEditing(editing: boolean): void {
         this._$isEditing = editing;
+    }
+
+    setAddingItem(item: T): void {
+        this.appendStrategy(AddStrategy, {
+            item,
+            addPosition: item.addPosition,
+            groupMethod: this.getGroup()
+        });
+    }
+
+    resetAddingItem(): void {
+        this.removeStrategy(AddStrategy);
     }
 
     getSwipeConfig(): ISwipeConfig {

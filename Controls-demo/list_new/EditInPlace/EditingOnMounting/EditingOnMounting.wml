@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
             name="list"
-            keyProperty="Document"
+            keyProperty="id"
             editingConfig="{{_editingConfig}}"
             itemActions="{{_itemActions}}"
             source="{{_viewSource}}">
