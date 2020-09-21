@@ -111,7 +111,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
     _unobserveDeleted(): void {
         const contentElements: HTMLElement[] = [...this._children.content.children];
-        this._observedElements.filter((element: HTMLElement) => {
+        this._observedElements = this._observedElements.filter((element: HTMLElement) => {
             if (!contentElements.includes(element)) {
                 this._resizeObserver.unobserve(element);
                 return false;
@@ -156,6 +156,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     _unRegisterIt(e: SyntheticEvent, registerType: string, component: any): void {
         this._registrars.scrollStateChanged.unregister(e, registerType, component);
+        this._registrars.listScroll.unregister(e, registerType, component);
         this._registrars.scroll.unregister(e, registerType, component);
     }
 
@@ -261,7 +262,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
      * @function Controls/_scroll/Container#scrollToBottom
      */
     scrollToRight() {
-        this.scrollTo(this._state.scrollWidth - this._state.clientWidth);
+        this.scrollTo(this._state.scrollWidth - this._state.clientWidth, SCROLL_DIRECTION.HORIZONTAL);
     }
 
     onScrollContainer(newState: IScrollState): void {
