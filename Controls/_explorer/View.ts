@@ -649,34 +649,50 @@ var
             this._isGoingFront = true;
          };
 
-         // Не нужно проваливаться в папку, если должно начаться ее редактирование
+         // Не нужно проваливаться в папку, если должно начаться ее редактирование.
+         // TODO: После перехода на новую схему редактирования это должен решать baseControl или treeControl.
+         //    в данной реализации получается, что в дереве с возможностью редактирования не получится
+         //    развернуть узел кликом по нему (expandByItemClick).
+         //    https://online.sbis.ru/opendoc.html?guid=f91b2f96-d6e7-45d0-b929-a0030f0a2788
          const isNodeEditable = () => {
             const hasEditOnClick = !!this._options.editingConfig && !!this._options.editingConfig.editOnClick;
             return hasEditOnClick && !clickEvent.target.closest(`.${EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE}`);
          };
 
-         if (res !== false && item.get(this._options.nodeProperty) === ITEM_TYPES.node && !isNodeEditable()) {
-            // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
-            // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
-            // новые и маркер запомнится не для того root'а. Ошибка:
-            // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
-            _private.setRestoredKeyObject(this, item);
-            if (!this._options.editingConfig) {
-               changeRoot();
-            } else {
-               this.commitEdit().addCallback((res = {}) => {
-                  if (!res.validationFailed) {
-                     changeRoot();
-                  }
-               });
-            }
+         const shouldHandleClick = res !== false && !isNodeEditable();
 
-            // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
-            // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
-            return false;
-         }
+         if (shouldHandleClick) {
+              const nodeType = item.get(this._options.nodeProperty);
 
-         return res;
+              // Проваливание возможно только в узел (ITEM_TYPES.node).
+              // Проваливание невозможно, если по клику следует развернуть узел/скрытый узел.
+              if ((this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) || (nodeType !== ITEM_TYPES.node)) {
+                  return res;
+              }
+
+              // При проваливании ОБЯЗАТЕЛЬНО дополняем restoredKeyObject узлом, в который проваливаемся.
+              // Дополнять restoredKeyObject нужно СИНХРОННО, иначе на момент вызова restoredKeyObject опции уже будут
+              // новые и маркер запомнится не для того root'а. Ошибка:
+              // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
+              _private.setRestoredKeyObject(this, item);
+              if (!this._options.editingConfig) {
+                  changeRoot();
+              } else {
+                  // TODO: После перехода на новую схему редактирования поправить на canceled.
+                  //    https://online.sbis.ru/opendoc.html?guid=f91b2f96-d6e7-45d0-b929-a0030f0a2788
+                  this.commitEdit().addCallback((res = {}) => {
+                      if (!res.validationFailed) {
+                          changeRoot();
+                      }
+                  });
+              }
+
+              // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
+              // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
+              return false;
+          }
+
+          return res;
       },
       _onBreadCrumbsClick: function(event, item) {
           _private.cleanRestoredKeyObject(this, item.getId());
