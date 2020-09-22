@@ -10,8 +10,6 @@ import * as template from 'wml!Controls/_popup/Manager/Popup';
 import * as PopupContent from 'wml!Controls/_popup/Manager/PopupContent';
 
 const RESIZE_DELAY = 10;
-// on ios increase delay for scroll handler, because popup on frequent repositioning loop the scroll.
-const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
 
 interface IPopupControlOptions extends IPopupOptions, IControlOptions {}
 
@@ -73,7 +71,6 @@ class Popup extends Control<IPopupControlOptions> {
         this._resizeRegister = new RegisterClass({register: 'controlResize'});
 
         this._controlResizeHandler = debounce(this._controlResizeHandler.bind(this), RESIZE_DELAY, true);
-        this._scrollHandler = debounce(this._scrollHandler.bind(this), SCROLL_DELAY);
     }
 
     //TODO: https://online.sbis.ru/opendoc.html?guid=728a9f94-c360-40b1-848c-e2a0f8fd6d17
@@ -87,7 +84,6 @@ class Popup extends Control<IPopupControlOptions> {
 
     protected _afterMount(): void {
         RegisterUtil(this, 'controlResize', this._controlResizeOuterHandler.bind(this));
-        RegisterUtil(this, 'scroll', this._scrollHandler.bind(this));
         this._isPopupMounted = true;
 
         /* TODO: COMPATIBLE. You can't just count on afterMount position and zooming on creation
@@ -236,13 +232,7 @@ class Popup extends Control<IPopupControlOptions> {
         return Array.prototype.slice.call(args, 1);
     }
 
-    protected _scrollHandler(): void {
-        this._notify('pageScrolled', [this._options.id], {bubbling: true});
-    }
-
     protected _controlResizeOuterHandler(): void {
-        ManagerController.notifyToManager('popupResizeOuter', [this._options.id]);
-
         // After updating popup position we will updating the position of the popups open with it.
         runDelayed(this._callOpenersUpdate.bind(this));
     }

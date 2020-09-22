@@ -122,6 +122,7 @@ define('Controls/Application',
 
          _scrollPage: function(ev) {
             this._registers.scroll.start(ev);
+            this._popupManager.eventHandler('pageScrolled', []);
          },
 
          _resizeBody: function(ev) {
@@ -136,6 +137,7 @@ define('Controls/Application',
 
          _resizePage: function(ev) {
             this._registers.controlResize.start(ev);
+            this._popupManager.eventHandler('popupResizeOuter', []);
          },
          _mousedownPage: function(ev) {
             this._registers.mousedown.start(ev);
