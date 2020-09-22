@@ -1,11 +1,11 @@
 <div>
     <h2>Много крошек</h2>
-    <Controls.breadcrumbs:Path attr:id="aLotOfCrumbs" items="{{items}}" keyProperty="id"
+    <Controls.breadcrumbs:Path attr:id="aLotOfCrumbs" items="{{items}}" keyProperty="id" containerWidth = "{{_containerWidth}}"
                                     on:itemClick="_onItemClick()" />
     <h2>Одна крошка</h2>
-    <Controls.breadcrumbs:Path attr:id="oneCrumb" items="{{items1}}" on:itemClick="_onItemClick()" keyProperty="id" />
+    <Controls.breadcrumbs:Path attr:id="oneCrumb" items="{{items1}}" containerWidth = "{{_containerWidth}}" on:itemClick="_onItemClick()" keyProperty="id" />
     <h2>Две крошки</h2>
-    <Controls.breadcrumbs:Path attr:id="twoCrumbs" items="{{items2}}" on:itemClick="_onItemClick()" keyProperty="id" />
+    <Controls.breadcrumbs:Path attr:id="twoCrumbs" items="{{items2}}" containerWidth = "{{_containerWidth}}" on:itemClick="_onItemClick()" keyProperty="id" />
     <h2>Path</h2>
     <Controls.breadcrumbs:HeadingPath attr:id="path"
                                items="{{items}}"
