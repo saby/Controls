@@ -276,8 +276,10 @@ var
             }
         },
         setGrabbing(self, isGrabbing: boolean): void {
-            self._isGrabbing = isGrabbing;
-            self._viewGrabbingClasses = isGrabbing ? DRAG_SCROLL_JS_SELECTORS.CONTENT_GRABBING : '';
+            if (self._isGrabbing !== isGrabbing) {
+                self._isGrabbing = isGrabbing;
+                self._viewGrabbingClasses = isGrabbing ? DRAG_SCROLL_JS_SELECTORS.CONTENT_GRABBING : '';
+            }
         },
         applyNewOptionsAfterReload(self, oldOptions, newOptions): void {
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
@@ -634,17 +636,26 @@ var
             return this._isColumnScrollVisible() && this._isDragScrollingEnabled(options);
         },
 
+        _setHorizontalScrollPosition(value: number): void {
+            if (this._horizontalScrollPosition !== value) {
+                this._horizontalScrollPosition = value;
+                this._children.horizontalScrollWrapper?.setPosition(value);
+            }
+        },
+
         // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
         _updateColumnScrollShadowClasses(): void {
             const newStart = this._columnScrollController.getShadowClasses('start');
             const newEnd = this._columnScrollController.getShadowClasses('end');
 
-            if (this._columnScrollShadowClasses.start !== newStart) {
-                this._columnScrollShadowClasses.start = newStart;
-            }
-
-            if (this._columnScrollShadowClasses.end !== newEnd) {
-                this._columnScrollShadowClasses.end = newEnd;
+            if (
+                this._columnScrollShadowClasses.start !== newStart ||
+                this._columnScrollShadowClasses.end !== newEnd
+            ) {
+                this._columnScrollShadowClasses = {
+                    start: newStart,
+                    end: newEnd
+                };
             }
         },
 
@@ -653,33 +664,32 @@ var
             const newStart = this._columnScrollController.getShadowStyles('start');
             const newEnd = this._columnScrollController.getShadowStyles('end');
 
-            if (this._columnScrollShadowStyles.start !== newStart) {
-                this._columnScrollShadowStyles.start = newStart;
-            }
-
-            if (this._columnScrollShadowStyles.end !== newEnd) {
-                this._columnScrollShadowStyles.end = newEnd;
+            if (
+                this._columnScrollShadowStyles.start !== newStart ||
+                this._columnScrollShadowStyles.end !== newEnd
+            ) {
+                this._columnScrollShadowStyles = {
+                    start: newStart,
+                    end: newEnd
+                };
             }
         },
         _horizontalPositionChangedHandler(e, newScrollPosition: number): void {
             this._columnScrollController.setScrollPosition(newScrollPosition);
-            this._horizontalScrollPosition = this._columnScrollController.getScrollPosition();
+            this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
             this._updateColumnScrollData();
         },
         _columnScrollWheelHandler(e): void {
             if (this._isColumnScrollVisible()) {
                 this._columnScrollController.scrollByWheel(e);
-                this._horizontalScrollPosition = this._columnScrollController.getScrollPosition();
+                this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
                 this._updateColumnScrollData();
             }
         },
         _updateColumnScrollData(): void {
             this._updateColumnScrollShadowClasses();
             this._updateColumnScrollShadowStyles();
-            const newScrollPosition = this._columnScrollController.getScrollPosition();
-            if (this._horizontalScrollPosition !== newScrollPosition) {
-                this._horizontalScrollPosition = newScrollPosition;
-            }
+            this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
             this._dragScrollController?.updateScrollData({
                 scrollLength: this._columnScrollController.getScrollLength(),
                 scrollPosition: this._horizontalScrollPosition
@@ -767,7 +777,7 @@ var
                         this._notify('closeSwipe', []);
                     }
                     this._columnScrollController.setScrollPosition(newPosition);
-                    this._horizontalScrollPosition = this._columnScrollController.getScrollPosition();
+                    this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
                     this._updateColumnScrollData();
                 }
             }

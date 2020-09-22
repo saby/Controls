@@ -14,7 +14,6 @@
     <ws:if data="{{ _isColumnScrollVisible }}">
         <Controls._grid.ScrollWrapper
                 name="horizontalScrollWrapper"
-                position="{{ _horizontalScrollPosition }}"
                 contentSize="{{ _contentSizeForHScroll }}"
                 gridSupport="full"
                 scrollWidth="{{ _horizontalScrollWidth }}"

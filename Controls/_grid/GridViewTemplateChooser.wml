@@ -16,7 +16,6 @@
                 _trackVisible="{{ __trackVisible }}"
                 _isColumnScrollVisible="{{ __isColumnScrollVisible }}"
                 _contentSizeForHScroll="{{ _contentSizeForHScroll }}"
-                _horizontalScrollPosition="{{ _horizontalScrollPosition }}"
                 _horizontalPositionChangedHandler="{{ _horizontalPositionChangedHandler }}"
                 _prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
                 _horizontalScrollWidth="{{ _horizontalScrollWidth }}"
@@ -50,7 +49,6 @@
         <ws:if data="{{ _isColumnScrollVisible() && !_listModel.isFullGridSupport() }}">
             <Controls._grid.ScrollWrapper
                     name="horizontalScrollWrapper"
-                    position="{{ _horizontalScrollPosition }}"
                     contentSize="{{ _contentSizeForHScroll }}"
                     gridSupport="no"
                     scrollWidth="{{ _horizontalScrollWidth }}"
@@ -65,7 +63,6 @@
                     on:focusIn="_onFocusInEditingCell()"
                     __trackVisible="{{ true }}"
                     _horizontalPositionChangedHandler="{{ _horizontalPositionChangedHandler }}"
-                    _horizontalScrollPosition="{{ _horizontalScrollPosition }}"
                     _containerSize="{{ _containerSize }}"
                     _contentSizeForHScroll="{{ _contentSizeForHScroll }}"
                     _horizontalScrollWidth="{{ _horizontalScrollWidth }}"

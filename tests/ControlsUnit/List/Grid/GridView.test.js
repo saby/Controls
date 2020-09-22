@@ -957,7 +957,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             assert.equal(oldClasses, newClasses);
          });*/
 
-         it('update column scroll shadow styles should not leads to forceUpdate (const styles object)', () => {
+         it('update column scroll shadow styles should leads to forceUpdate', () => {
             gridView.saveOptions(cfg);
             gridView._afterMount();
 
@@ -973,7 +973,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             assert.equal('left: 0px;', newStyles.start);
             assert.equal('', newStyles.end);
 
-            assert.equal(oldStyles, newStyles);
+            assert.notEqual(oldStyles, newStyles);
          });
 
          it('should call drag scroll methods only if column scroll enabled', () => {
