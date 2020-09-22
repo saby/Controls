@@ -4483,33 +4483,4 @@ describe('Controls/_display/Collection', () => {
             assert.equal(display.getActiveItem(), testingItem);
         });
     });
-
-    describe('getValidItemForMarker', () => {
-        let display: CollectionDisplay<Model>;
-
-        beforeEach(() => {
-            const items = [
-                { id: 1 },
-                { id: 2 },
-                { id: 3 }
-            ];
-            const rs = new RecordSet({
-                rawData: items,
-                keyProperty: 'id'
-            });
-            display = new CollectionDisplay({
-                collection: rs
-            });
-        });
-
-        it('next item', () => {
-            const validItem = display.getValidItemForMarker(0);
-            assert.equal(validItem.getContents().getKey(), 2);
-        });
-
-        it('prev item', () => {
-            const validItem = display.getValidItemForMarker(2);
-            assert.equal(validItem.getContents().getKey(), 2);
-        });
-    });
 });

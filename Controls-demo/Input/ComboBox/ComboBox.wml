@@ -25,8 +25,7 @@
           <h4>Events</h4>
           <Controls.scroll:Container
                   attr:style="height: 60px; border-width:thin"
-                  scrollbarVisible="{{true}}"
-                  shadowVisible="{{true}}">
+                  scrollbarVisible="{{true}}">
               <pre>{{ _events }}</pre>
           </Controls.scroll:Container>
       </ws:componentClass>

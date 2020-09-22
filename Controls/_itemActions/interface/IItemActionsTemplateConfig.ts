@@ -36,14 +36,14 @@ export interface IItemActionsTemplateConfig {
 
     /**
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#style
-     * @cfg {String} Стиль отображения панели с опциями записи.
-     * @description Принимает значения 'master' | 'default' | 'transparent'
+     * @cfg {String} Опция, позволяющая настраивать фон панели операций над записью.
+     * @description Предустановленные варианты 'default' | 'transparent'
      */
     /*
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#style
-     * @cfg {String} Style of actions panel
+     * @cfg {String} Style postfix of actions panel
      */
-    style?: 'master'|'default'|'transparent';
+    style?: string;
 
     /**
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#size

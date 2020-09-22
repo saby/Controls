@@ -783,13 +783,6 @@ describe('Controls/_itemActions/Controller', () => {
             assert.equal(item.getActions().showed[0].id, 'view', 'First action should be \'editArrow\'');
         })
 
-        // T2.11 При вызове activateRightSwipe нужно устанавливать в коллекцию анимацию right-swiped и isSwiped
-        it('should right-swipe item on activateRightSwipe() method', () => {
-            itemActionsController.activateRightSwipe(1);
-            const item1 = collection.getItemBySourceKey(1);
-            assert.isTrue(item1.isRightSwiped());
-        });
-
         // T2.12 При вызове getSwipeItem() контроллер должен возвращать true
         // вне зависимости оттипа анимации и направления свайпа.
         it('method getSwipeItem() should return swoped item despite of current animation type and direction', () => {
@@ -813,22 +806,6 @@ describe('Controls/_itemActions/Controller', () => {
             swipedItem = itemActionsController.getSwipeItem() as CollectionItem<Record>;
             assert.equal(swipedItem, null, 'Current swiped item has not been un-swiped');
             assert.equal(collection.getVersion(), collectionVersion, 'Version changed.');
-        });
-
-        it('method getRightSwipeItem() should return right swiped item', () => {
-            // @ts-ignore
-            const item: CollectionItem<Record> = collection.getItemBySourceKey(1);
-            let swipedItem: CollectionItem<Record>;
-
-            itemActionsController.activateRightSwipe(1);
-            // @ts-ignore
-            swipedItem = itemActionsController.getRightSwipeItem() as CollectionItem<Record>;
-            assert.equal(swipedItem, item, 'right-swiped item has not been found by getRightSwipeItem() method');
-            itemActionsController.deactivateRightSwipe();
-
-            // @ts-ignore
-            swipedItem = itemActionsController.getRightSwipeItem() as CollectionItem<Record>;
-            assert.equal(swipedItem, null, 'Current right-swiped item has not been un-swiped');
         });
 
         // T2.13 При обновлении опций записи надо также обновлять конфиг свайпа
@@ -1705,13 +1682,13 @@ describe('Controls/_itemActions/Controller', () => {
         });
     });
 
-    describe('setSwipeAnimation(), getSwipeAnimation()', () => {
+    describe('startSwipeCloseAnimation()', () => {
         it('should correctly set animation state', () => {
-            itemActionsController.setSwipeAnimation(ANIMATION_STATE.CLOSE);
-            assert.equal(itemActionsController.getSwipeAnimation(), ANIMATION_STATE.CLOSE, 'Incorrect animation state !== close');
-
-            itemActionsController.setSwipeAnimation(ANIMATION_STATE.OPEN);
-            assert.equal(itemActionsController.getSwipeAnimation(), ANIMATION_STATE.OPEN, 'Incorrect animation state !== open');
+            const testingItem = collection.getItemBySourceKey(1);
+            testingItem.setSwipeAnimation(ANIMATION_STATE.OPEN);
+            testingItem.setSwiped(true, true);
+            itemActionsController.startSwipeCloseAnimation();
+            assert.equal(testingItem.getSwipeAnimation(), ANIMATION_STATE.CLOSE, 'Incorrect animation state !== close');
         });
     });
 });

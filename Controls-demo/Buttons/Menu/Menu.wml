@@ -380,7 +380,7 @@
          <Controls.dropdown:Button
                  keyProperty="id"
                  buttonStyle="secondary"
-                 fontColorStyle="link"
+                 fontColorStyle="default"
                  viewMode="link"
                  caption="Add"
                  source="{{_createMemory([])}}"

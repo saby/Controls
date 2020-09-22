@@ -1,0 +1,97 @@
+<div class="compatibleDemo__column">
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Два wasaby окна</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=aeff3716-5f92-4aaf-9717-07c5a68bf444" target='_blank'>Ссылка на ошибку</a>
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <Controls.buttons:Button href="{{'/Controls-demo/app/Controls-demo%2FCompatibleDemo%2FWasabyEnv%2FEvents%2FCase1%2FIndex'}}" fontSize="s" inlineHeight="l" caption="Два wasaby окна"/>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Нативный click срабатывает дважды</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=34e624f9-faa1-4d8f-a19d-799a9d444308" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=dca50bd2-cafa-4aac-b20a-967e952d19bf" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=d8185e7d-8135-4c50-bd79-06bc7c1dbbe5" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=c48fad8f-d89b-4be2-b47d-85c5161983d7" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=cdc052c3-c99f-4371-90d0-c9ca83c3bb83" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=7436f48f-bdc1-4a69-b1b4-b92a8b63a690" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=a5b1f400-5c12-48db-8702-7e8d299e1ade" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=e91df7ef-b182-47f3-8fb9-46f1ffd97fe4" target='_blank'>Ссылка на ошибку</a>
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <Controls.buttons:Button href="{{'/Controls-demo/app/Controls-demo%2FCompatibleDemo%2FWasabyEnv%2FEvents%2FCase2%2FIndex'}}" fontSize="s" inlineHeight="l" caption="Нативный click срабатывает дважды"/>
+        </div>
+    </div>
+    <hr/>
+    <div class="compatibleDemo__column">
+        <div class="compatibleDemo__row">
+            <b>Не работает поиск</b>
+        </div>
+        <div class="compatibleDemo__row">
+            <div class="compatibleDemo__column">
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=0098102e-58d4-4a29-8097-fb78ec01a2c3" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=93427e3f-8545-4339-b9aa-3d28799a27a7" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=aa22357c-7f14-4ccb-9b55-306e148f8e39" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=e0884a2c-a185-4d18-bb9e-09f80a8937b6" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=a8c0e695-ef8f-4304-b214-23b1baab2d62" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=c09ced96-e8c1-4931-b322-37b8f26423ba" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=29286f22-dedf-43b1-82fb-f5fbb01d5fb6" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=dc78f456-6bac-450b-96e4-8a887fa53a73" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=a273a3ec-1a5c-4b9e-a54e-385178ebc321" target='_blank'>Ссылка на ошибку</a>
+                </div>
+                <div class="compatibleDemo__row">
+                    <a href="https://online.sbis.ru/opendoc.html?guid=af78fe9e-19ba-4dc6-b5c5-efd443017470" target='_blank'>Ссылка на ошибку</a>
+                </div>
+            </div>
+        </div>
+        <div class="compatibleDemo__row">
+            <Controls.buttons:Button href="{{'/Controls-demo/app/Controls-demo%2FCompatibleDemo%2FWasabyEnv%2FEvents%2FCase3%2FIndex'}}" fontSize="s" inlineHeight="l" caption="Не работает поиск"/>
+        </div>
+    </div>
+</div>

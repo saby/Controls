@@ -4,21 +4,22 @@ import {Memory} from 'Types/source';
 import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
+import {Model} from 'Types/entity';
 
 export default class extends Control {
    protected _template: TemplateFunction = template;
-   protected _panelSource = null;
-   protected _nodeProperty = 'Раздел@';
-   protected _parentProperty = 'Раздел';
-   protected _keyProperty = 'id';
-   protected _viewSource = null;
-   protected _gridColumns = null;
-   protected _selectedKeys = null;
-   protected _excludedKeys = null;
+   protected _panelSource: Memory = null;
+   protected _nodeProperty: string = 'Раздел@';
+   protected _parentProperty: string = 'Раздел';
+   protected _keyProperty: string = 'id';
+   protected _viewSource: TreeMemory = null;
+   protected _gridColumns: object[] = null;
+   protected _selectedKeys: string[] = null;
+   protected _excludedKeys: string[] = null;
    protected _expandedOperationsPanel: boolean;
    protected _navigation: object = null;
 
-   _beforeMount() {
+   _beforeMount(): void {
       this._selectedKeys = [];
       this._excludedKeys = [];
       this._panelSource = new Memory({
@@ -34,7 +35,7 @@ export default class extends Control {
       });
    }
 
-   _expandedChangedHandler(e, expanded) {
+   _expandedChangedHandler(e: Event, expanded: boolean): void {
       this._expandedOperationsPanel = expanded;
 
       if (!expanded) {
@@ -42,10 +43,10 @@ export default class extends Control {
       }
    }
 
-   _panelItemClick(event, item, nativeEvent, selection) {
-      let itemId = item.get('id');
-
-      if (!['sum', 'merge', 'print', 'PDF', 'Excel'].includes(itemId) || this._children.baseAction.validate(selection)) {
+   _panelItemClick(event: Event, item: Model, nativeEvent: Event, selection: unknown[]): void {
+      const itemId = item.get('id');
+      if (!['sum', 'merge', 'print', 'PDF', 'Excel'].includes(itemId) ||
+          this._children.baseAction.validate(selection)) {
          switch (itemId) {
             case 'PDF':
             case 'Excel':
@@ -67,7 +68,7 @@ export default class extends Control {
       }
    }
 
-   _showPopup(text) {
+   _showPopup(text: string): void {
       this._children.popupOpener.open({
          message: text,
          type: 'ok'

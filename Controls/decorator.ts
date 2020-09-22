@@ -45,7 +45,6 @@
 
 import * as Formatter from './_decorator/resources/Formatter';
 import * as FormatBuilder from './_decorator/resources/FormatBuilder';
-import PhoneNumber = require('Controls/_decorator/PhoneNumber');
 
 export {default as Markup} from './_decorator/Markup';
 export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
@@ -59,19 +58,17 @@ export * from './_decorator/Phone/phoneMask';
 export {Formatter, FormatBuilder};
 
 import * as Converter from './_decorator/Markup/Converter';
-import {default as InnerText}  from './_decorator/Markup/resolvers/innerText';
+import {default as InnerText} from './_decorator/Markup/resolvers/innerText';
 import {default as _highlightResolver} from './_decorator/Markup/resolvers/highlight';
 import {default as noOuterTag} from './_decorator/Markup/resolvers/noOuterTag';
-import {default as linkDecorate}  from './_decorator/Markup/resolvers/linkDecorate';
-import {default as linkWrapResolver}  from './_decorator/Markup/resolvers/linkWrap';
+import {default as linkDecorate} from './_decorator/Markup/resolvers/linkDecorate';
+import {default as linkWrapResolver} from './_decorator/Markup/resolvers/linkWrap';
 
 export {
-    PhoneNumber,
     Converter,
     InnerText,
     noOuterTag,
     linkDecorate,
     linkWrapResolver,
-
-   _highlightResolver,
-}
+   _highlightResolver
+};

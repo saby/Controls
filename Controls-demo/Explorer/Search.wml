@@ -38,6 +38,7 @@
                         multiSelectVisibility="{{_multiselectVisibility}}"
                         displayProperty="title"
                         bind:markedKey="_markedKey"
+                        markerVisibility="visible"
                         parentProperty="parent"
                         nodeProperty="parent@"
                         columns="{{_viewColumns}}">

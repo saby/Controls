@@ -968,15 +968,16 @@ define([
                   keyProperty: 'id',
                   parentProperty: 'parent',
                   nodeProperty: 'type',
-                  markedKey: 1,
                   columns: [],
                   viewModelConstructor: treeGrid.ViewModel
                },
                lnTreeControl = correctCreateTreeControl(lnCfg),
                treeGridViewModel = lnTreeControl._children.baseControl.getViewModel();
 
-            setTimeout(function () {
+            setTimeout(function() {
                assert.deepEqual([], treeGridViewModel._model._expandedItems);
+
+               lnTreeControl._children.baseControl.setMarkedKey(1);
 
                lnTreeControl._onTreeViewKeyDown({
                   stopImmediatePropagation: function() {
@@ -1003,8 +1004,8 @@ define([
 
                   assert.isTrue(stopImmediateCalled, 'Invalid value "stopImmediateCalled"');
                   done();
-               }, 1);
-            }, 1);
+               }, 10);
+            }, 10);
          });
       });
       it('TreeControl._beforeUpdate name of property', function() {

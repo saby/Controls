@@ -124,8 +124,6 @@ define([
          lv.saveOptions(cfg);
          lv._beforeMount(cfg);
 
-         lv._listModel.setMarkedKey(1);
-         assert.equal(lv._listModel.getMarkedKey(), 1);
          lv._beforeUpdate(cfg);
 
          model = new lists.ListViewModel({

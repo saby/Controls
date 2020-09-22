@@ -1,5 +1,5 @@
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
-import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface';
+import { ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
 import { CollectionItem } from 'Controls/display';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
@@ -7,14 +7,18 @@ import {
    ISelectionControllerOptions,
    ISelectionControllerResult,
    ISelectionDifference,
-   ISelectionModel
+   ISelectionItem,
+   ISelectionModel,
+   TKeys
 } from './interface';
 import clone = require('Core/core-clone');
+import { CrudEntityKey } from 'Types/source';
 
 /**
+ * Контроллер множественного выбора
  * @class Controls/_multiselection/Controller
  * @author Панихин К.А.
- * @private
+ * @public
  */
 export class Controller {
    private _model: ISelectionModel;
@@ -46,8 +50,8 @@ export class Controller {
    }
 
    /**
-    * Обновить состояние контроллера
-    * @param options
+    * Обновляет состояние контроллера
+    * @param {ISelectionControllerOptions} options Новые опции
     * @void
     */
    update(options: ISelectionControllerOptions): void {
@@ -59,8 +63,10 @@ export class Controller {
    }
 
    /**
-    * Установить ограничение на количество выбранных записей с помощью selectAll
-    * @param limit
+    * Установливает ограничение на количество единоразово выбранных записей
+    * @param {number} limit Ограничение
+    * @void
+    * @public
     */
    setLimit(limit: number|undefined): void {
       this._limit = limit;
@@ -68,15 +74,15 @@ export class Controller {
 
    /**
     * Возвращает результат работы после конструктора
-    * @return {ISelectionControllerResult}
+    * @return {ISelectionControllerResult} Результат
     */
    getResultAfterConstructor(): ISelectionControllerResult {
       return this._getResult(this._selection, this._selection);
    }
 
    /**
-    * Очистить список выбранных элементов
-    * @return {ISelectionControllerResult}
+    * Очищает список выбранных элементов
+    * @return {ISelectionControllerResult} Результат
     */
    clearSelection(): ISelectionControllerResult {
       const oldSelection = clone(this._selection);
@@ -87,6 +93,7 @@ export class Controller {
    /**
     * Проставляет выбранные элементы в модели
     * @remark Не уведомляет о изменениях в модели
+    * @void
     */
    restoreSelection(): void {
       // На этот момент еще может не сработать update, поэтому нужно обновить items в стратегии
@@ -98,7 +105,7 @@ export class Controller {
     * Проставляет выбранные элементы в модели
     * @return {ISelectionControllerResult}
     */
-   setSelectedKeys(selectedKeys: TKey[], excludedKeys: TKey[]): ISelectionControllerResult {
+   setSelectedKeys(selectedKeys: CrudEntityKey[], excludedKeys: CrudEntityKey[]): ISelectionControllerResult {
       const selection = {
          selected: selectedKeys,
          excluded: excludedKeys
@@ -108,9 +115,9 @@ export class Controller {
    }
 
    /**
-    * Проверяет, что было выбраны все записи.
-    * @param byEveryItem true - проверять выбранность каждого элемента по отдельности.
-    *  Иначе проверка происходит по наличию единого признака выбранности всех элементов.
+    * Проверяет, что были выбраны все записи.
+    * @param {boolean} [byEveryItem = true] true - проверять выбранность каждого элемента по отдельности.
+    *  false - проверка происходит по наличию единого признака выбранности всех элементов.
     * @return {ISelectionControllerResult}
     */
    isAllSelected(byEveryItem: boolean = true): boolean {
@@ -123,11 +130,11 @@ export class Controller {
    }
 
    /**
-    * Изменить состояние выбранноси элемента
-    * @param key Ключ элемента
+    * Переключает состояние выбранности элемента
+    * @param {CrudEntityKey} key Ключ элемента
     * @return {ISelectionControllerResult}
     */
-   toggleItem(key: TKey): ISelectionControllerResult {
+   toggleItem(key: CrudEntityKey): ISelectionControllerResult {
       const status = this._getItemStatus(key);
       let newSelection;
 
@@ -147,7 +154,7 @@ export class Controller {
    }
 
    /**
-    * Выбрать все элементы
+    * Выбирает все элементы
     * @return {ISelectionControllerResult}
     */
    selectAll(): ISelectionControllerResult {
@@ -158,7 +165,7 @@ export class Controller {
    }
 
    /**
-    * Переключить состояние выбранности у всех элементов
+    * Переключает состояние выбранности у всех элементов
     * @return {ISelectionControllerResult}
     */
    toggleAll(): ISelectionControllerResult {
@@ -170,7 +177,7 @@ export class Controller {
    }
 
    /**
-    * Снять выбор со всех элементов
+    * Снимает выбор со всех элементов
     * @return {ISelectionControllerResult}
     */
    unselectAll(): ISelectionControllerResult {
@@ -182,8 +189,8 @@ export class Controller {
    }
 
    /**
-    * Обработать удаление элементов из списка
-    * @param removedItems Удаленные элементы из списка
+    * Обрабатываем удаление элементов из коллекции
+    * @param {Array<CollectionItem<Model>>} removedItems Удаленные элементы
     * @return {ISelectionControllerResult}
     */
    handleRemoveItems(removedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
@@ -193,7 +200,7 @@ export class Controller {
    }
 
    /**
-    * Обработать сброс элементов в список
+    * Обрабатывает сброс элементов в список
     * @return {ISelectionControllerResult}
     */
    handleResetItems(): ISelectionControllerResult {
@@ -202,8 +209,8 @@ export class Controller {
    }
 
    /**
-    * Обработать добавление новых элементов в список
-    * @param addedItems Новые элементы списка
+    * Обрабатывает добавление новых элементов в коллекцию
+    * @param {Array<CollectionItem<Model>>} addedItems Новые элементы
     * @return {ISelectionControllerResult}
     */
    handleAddItems(addedItems: Array<CollectionItem<Model>>): ISelectionControllerResult {
@@ -219,6 +226,52 @@ export class Controller {
       return this._getResult(this._selection, this._selection);
    }
 
+   // region rightSwipe
+
+   /**
+    * Устанавливает текущее состояние анимации записи в false
+    * @void
+    */
+   stopItemAnimation(): void {
+      this._setAnimatedItem(null);
+   }
+
+   /**
+    * Получает текущий анимированный элемент.
+    * @void
+    */
+   getAnimatedItem(): ISelectionItem {
+      return this._model.find((item) => !!item.isAnimatedForSelection && item.isAnimatedForSelection());
+   }
+
+   /**
+    * Активирует анимацию записи
+    * @param itemKey
+    * @void
+    */
+   startItemAnimation(itemKey: CrudEntityKey): void {
+      this._setAnimatedItem(itemKey);
+   }
+
+   /**
+    * Устанавливает текущее состояние анимации записи по её ключу
+    * @param key
+    * @private
+    */
+   private _setAnimatedItem(key: CrudEntityKey): void {
+      const oldSwipeItem = this.getAnimatedItem();
+      const newSwipeItem = this._model.getItemBySourceKey(key);
+
+      if (oldSwipeItem) {
+         oldSwipeItem.setAnimatedForSelection(false);
+      }
+      if (newSwipeItem) {
+         newSwipeItem.setAnimatedForSelection(true);
+      }
+   }
+
+   // endregion
+
    private _clearSelection(): void {
       this._selectedKeys = [];
       this._excludedKeys = [];
@@ -229,7 +282,7 @@ export class Controller {
       this._selectedKeys = ArraySimpleValuesUtil.removeSubArray(this._selectedKeys.slice(), keys);
    }
 
-   private _getItemStatus(key: TKey): boolean {
+   private _getItemStatus(key: CrudEntityKey): boolean {
       return this._model.getItemBySourceKey(key).isSelected();
    }
 
@@ -283,7 +336,7 @@ export class Controller {
       const limit: number = this._limit ? this._limit - this._excludedKeys.length : 0;
 
       this._model.getCollection().forEach((item) => {
-         const key: TKey = item.getKey();
+         const key: CrudEntityKey = item.getKey();
 
          const selectionForModel = this._strategy.getSelectionForModel(this._selection, this._limit);
 

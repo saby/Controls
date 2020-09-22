@@ -1,7 +1,9 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+// @ts-ignore
 import Template = require('wml!Controls-demo/BreadCrumbs/Multiline/MultilinePath');
 import {Model} from 'Types/entity';
-import {SyntheticEvent} from "Vdom/Vdom";
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 
 class Multiline extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
@@ -9,6 +11,8 @@ class Multiline extends Control<IControlOptions> {
     protected _items2: object;
     protected _item: object;
     protected _info: string = '';
+    protected _containerWidth: number = 500;
+    protected _containerWidth2: number = 350;
 
     protected _beforeMount(): void {
         this._items  = [
@@ -125,6 +129,18 @@ class Multiline extends Control<IControlOptions> {
 
     private _onItemClick(e: SyntheticEvent<MouseEvent>, item: Model): void {
         this._info = '' + item.getId();
+    }
+    protected _afterMount(): void {
+        RegisterUtil(this, 'controlResize', this._onResize.bind(this));
+    }
+    protected _beforeUnmount(): void {
+        UnregisterUtil(this, 'controlResize');
+    }
+
+    private _onResize(): void {
+        if (this._container.clientWidth !== this._containerWidth) {
+            this._containerWidth = this._container.clientWidth;
+        }
     }
 
     static _theme: string[] = ['Controls/Classes'];

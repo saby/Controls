@@ -1,0 +1,42 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Basic/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу. Стандартное отображение с 3 кнопками.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.Basic.Index/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/BasicFull/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу. Стандартное отображение с 4 кнопками.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.BasicFull.Index/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Compact/Base/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу. Компактное отображение, отображается 1 кнопка.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.Compact.Base.Index/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Compact/ContentTemplate/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу. Компактное отображение, отображается шаблон и кнопка.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.Compact.ContentTemplate.Index/>
+    </div>
+    <div class="controlsDemo__cell controlsDemo__mr4">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Navigation/Paging/Numbers/Index' }}">
+            <a href="{{content.href}}">Подгрузка данных по скролу, с постраничной навигацией.</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Navigation.Paging.Numbers.Index/>
+    </div>
+</div>

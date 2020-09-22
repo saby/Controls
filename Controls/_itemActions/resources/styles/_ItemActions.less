@@ -13,7 +13,7 @@
 }
 
 .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
-  margin-left: @item_offset_itemActions;
+  padding-left: @item_padding_itemActions;
 }
 
 .controls-itemActionsV_visible {
@@ -57,9 +57,10 @@
     border-left: @corner_width_outside_itemActions solid transparent;
     left: -@corner_width_outside_itemActions;
   }
-  & .controls-itemActionsV__action-click_size{
-    width: @item_clickableArea-size_outside_itemActions;
-    height: @item_clickableArea-size_outside_itemActions;
+
+  & .controls-itemActionsV__action-area_size {
+    width: @item_area-size_outside_itemActions + (@item_padding_itemActions * 2);
+    height: @item_area-size_outside_itemActions;
   }
 }
 
@@ -134,8 +135,9 @@
   position: relative;
   white-space: nowrap;
 }
+
 .controls-itemActionsV__action_padding_theme-@{themeName} {
-  margin: 0 @item_offset_itemActions;
+  padding: 0 @item_padding_itemActions;
 }
 
 .controls-action_iconStyle_secondary_theme-@{themeName} {

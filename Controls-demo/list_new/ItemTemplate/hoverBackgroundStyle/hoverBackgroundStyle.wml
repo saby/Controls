@@ -1,3 +1,18 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth200 controlDemo_list-new_base">
-    <Controls.list:View keyProperty="id" source="{{_viewSource}}" hoverBackgroundStyle="primary"/>
+    <Controls.list:View
+            keyProperty="id"
+            itemActions="{{_itemActions}}"
+            source="{{_viewSource}}"
+            hoverBackgroundStyle="primary">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <div class="Controls-demo_itemTemplate_hoverBackGroundStyle-content">
+                        <div>{{itemTemplate.itemData.getContents().get('title')}}</div>
+                        <div>{{itemTemplate.itemData.getContents().get('description')}}</div>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
 </div>

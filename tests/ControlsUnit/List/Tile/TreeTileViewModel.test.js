@@ -12,6 +12,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             parentProperty: 'parent',
             nodeProperty: 'parent@',
             displayProperty: 'title',
+            theme: 'default',
             imageWidthProperty: 'imageWidth',
             imageHeightProperty: 'imageHeight',
             imageFit: 'cover',
@@ -56,6 +57,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          parentProperty: 'parent',
          nodeProperty: 'parent@',
          groupProperty: 'group',
+         theme: 'default',
          items: new collection.RecordSet({
             rawData: [{
                'id': 1,
@@ -215,6 +217,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             defaultItemWidth: 250,
             imageProperty: 'image',
             itemCompressionCoefficient: 0.7,
+            itemClasses: 'controls-TileView__item_spacingLeft_default_theme-default controls-TileView__item_spacingRight_default_theme-default controls-TileView__item_spacingTop_default_theme-default controls-TileView__item_spacingBottom_default_theme-default',
             itemsHeight: 200,
             defaultShadowVisibility: 'visible',
             tileMode: 'dynamic',

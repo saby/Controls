@@ -124,8 +124,8 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
    _prepareClass: function(scope, theme, fontColorStyle, backgroundStyle) {
 
-      let textColorClass = 'controls-MonthViewVDOM__textColor',
-         backgroundColorClass = 'controls-MonthViewVDOM__backgroundColor',
+      let textColorClass = 'controls-MonthView__textColor',
+         backgroundColorClass = 'controls-MonthView__backgroundColor',
          backgroundColorClassRangeHovered,
          css = [];
 
@@ -186,9 +186,9 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
          if (!scope.selected) {
             let borderStyle;
             if (scope.selectionEnabled && this._singleDayHover) {
-               borderStyle = 'controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-' + theme;
+               borderStyle = 'controls-MonthView__border-currentMonthDay-unselected_theme-' + theme;
             } else if (scope.hovered) {
-               borderStyle = 'controls-MonthViewVDOM__border-hover_theme-' + theme;
+               borderStyle = 'controls-MonthView__border-hover_theme-' + theme;
             }
             if (borderStyle) {
               borderStyle += backgroundStyle ? '_style-' + backgroundStyle : '';

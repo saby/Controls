@@ -1,20 +1,21 @@
 import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
 import { RecordSet } from 'Types/collection';
-import { TKeySelection as TKey, TKeysSelection as TKeys, ISelectionObject as ISelection } from 'Controls/interface';
+import { ISelectionObject as ISelection } from 'Controls/interface';
 import { Model } from 'Types/entity';
-import { IFlatSelectionStrategyOptions} from '../interface';
+import { IFlatSelectionStrategyOptions, TKeys} from '../interface';
 import ISelectionStrategy from './ISelectionStrategy';
 import clone = require('Core/core-clone');
+import { CrudEntityKey } from 'Types/source';
 
 const ALL_SELECTION_VALUE = null;
 
 /**
  * Базовая стратегия выбора в плоском списке.
- * @class Controls/_operations/MultiSelector/SelectionStrategy/Flat
+ * @class Controls/_multiselection/SelectionStrategy/Flat
  * @control
- * @private
- * @author Герасимов А.М.
+ * @public
+ * @author Панихин К.А.
  */
 export class FlatSelectionStrategy implements ISelectionStrategy {
    private _items: RecordSet;
@@ -112,7 +113,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
       const processingItems = items ? items : this._items;
       processingItems.forEach((item) => {
-         const itemId: TKey = item.getKey();
+         const itemId: CrudEntityKey = item.getKey();
          const selected = (!limit || selectedItemsCount < limit)
             && (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
 

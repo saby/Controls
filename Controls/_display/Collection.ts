@@ -1,4 +1,3 @@
-import { TemplateFunction } from 'UI/Base';
 import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
@@ -32,14 +31,13 @@ import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
 import { IDragPosition } from 'Controls/listDragNDrop';
 import DragStrategy from './itemsStrategy/Drag';
-import { ItemsEntity } from 'Controls/dragnDrop';
-import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ICollection, ISourceCollection} from './interface/ICollection';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
 const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
-const VERSION_UPDATE_ITEM_PROPERTIES = ['editingContents', 'animated', 'canShowActions', 'expanded'];
+const VERSION_UPDATE_ITEM_PROPERTIES = ['editingContents', 'animated', 'canShowActions', 'expanded', 'marked'];
 
 export interface ISplicedArray<T> extends Array<T> {
     start?: number;
@@ -711,14 +709,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      */
     protected _$activeItem: T;
 
-    /**
-     * Анимация свайпа: открытие или закрытие меню опций
-     */
-    protected _swipeAnimation: ANIMATION_STATE;
-
     protected _$isEditing: boolean;
 
     protected _userStrategies: Array<IUserStrategy<S, T>>;
+
+    protected _dragStrategy: Function = DragStrategy;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -2136,30 +2131,26 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     // region Drag-N-Drop
 
-    setDraggedItems(draggedItem: T, dragEntity: ItemsEntity): void {
-        // TODO dnd когда будет выполнен полный переход на новую модель,
-        // то можно будет передать только нужные параметры(ключ аватара и список перетаскиваемых ключей)
-        const avatarKey = draggedItem.getContents().getKey();
-        const avatarStartIndex = this.getIndexByKey(avatarKey);
+    setDraggedItems(avatarItemKey: number|string, draggedItemsKeys: Array<number|string>): void {
+        const avatarStartIndex = this.getIndexByKey(avatarItemKey);
 
-        this.appendStrategy(DragStrategy, {
-            draggedItemsKeys: dragEntity.getItems(),
-            avatarItemKey: avatarKey,
+        this.appendStrategy(this._dragStrategy, {
+            draggedItemsKeys,
+            avatarItemKey,
             avatarIndex: avatarStartIndex
         });
     }
 
-    setDragPosition(position: IDragPosition): void {
-        const strategy = this.getStrategyInstance(DragStrategy) as DragStrategy<unknown>;
+    setDragPosition(position: IDragPosition<T>): void {
+        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
         if (strategy && position) {
-            // TODO dnd в старой модели передается куда вставлять относительно этого индекса
-            strategy.avatarIndex = position.index;
+            strategy.setAvatarPosition(position.index, position.position);
             this.nextVersion();
         }
     }
 
     resetDraggedItems(): void {
-        this.removeStrategy(DragStrategy);
+        this.removeStrategy(this._dragStrategy);
     }
 
     // endregion
@@ -2203,21 +2194,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const item = this.getItemBySourceKey(key);
         if (item) {
             item.setMarked(status);
-            this.nextVersion();
-        }
-    }
-
-    getValidItemForMarker(index: number): T {
-        const item = this.getItemBySourceIndex(index);
-
-        const nextValidItem = this.getNext(item);
-        const prevValidItem = this.getPrevious(item);
-        if (nextValidItem) {
-            return nextValidItem;
-        } else if (prevValidItem) {
-            return prevValidItem;
-        } else {
-            return null;
         }
     }
 
@@ -2436,22 +2412,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this._swipeConfig = config;
             this._nextVersion();
         }
-    }
-
-    /**
-     * Устанавливает текущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    setSwipeAnimation(animation: ANIMATION_STATE): void {
-        this._swipeAnimation = animation;
-    }
-
-    /**
-     * Получает еткущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    getSwipeAnimation(): ANIMATION_STATE {
-        return this._swipeAnimation;
     }
 
     appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {

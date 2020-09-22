@@ -7,4 +7,4 @@
  */
 
 export {default as BaseTemplate} from './_moverDialog/BaseTemplate';
-export {default as Template} from './_moverDialog/Template';
+export {default as Template, IMoverDialogTemplateOptions} from './_moverDialog/Template';

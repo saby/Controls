@@ -3,6 +3,7 @@
             {{_border.right ? 'controls-Render_border-right_theme-' + _options.theme : 'controls-Render_border-right-empty'}}
             {{_border.bottom ? 'controls-Render_border-bottom_theme-' + _options.theme : 'controls-Render_border-bottom-empty'}}
             {{_border.left ? 'controls-Render_border-left_theme-' + _options.theme : 'controls-Render_border-left-empty'}}
+            controls-Render_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}_theme-{{ _options.theme }}
             controls-Render-fontsize-{{_options.fontSize}}
             controls-Render_textAlign-{{_options.textAlign}}
             controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}_theme-{{_options.theme}}

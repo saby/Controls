@@ -8,6 +8,7 @@ import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
 import {detection} from 'Env/Env';
+import {debounce} from 'Types/function';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
 import * as cClone from 'Core/core-clone';
@@ -34,12 +35,22 @@ interface IManagerTouchContext {
     };
 }
 
+const RESIZE_DELAY = 10;
+// on ios increase delay for scroll handler, because popup on frequent repositioning loop the scroll.
+const SCROLL_DELAY = detection.isMobileIOS ? 100 : 10;
+
 class Manager {
     _contextIsTouch: boolean = false;
+    _dataLoaderModule: string;
     _popupItems: List<IPopupItem> = new List();
+    private _pageScrolled: Function;
+    private _popupResizeOuter: Function;
 
     constructor(options = {}) {
         this.initTheme(options);
+        this._dataLoaderModule = options.dataLoaderModule;
+        this._pageScrolled = debounce(this._pageScrolledBase, SCROLL_DELAY);
+        this._popupResizeOuter = debounce(this._popupResizeOuterBase, RESIZE_DELAY);
     }
 
     protected initTheme(options): void {
@@ -85,6 +96,15 @@ class Manager {
             EventBus.globalChannel().unsubscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
             EventBus.globalChannel().unsubscribe('MobileInputFocusOut', this._controllerVisibilityChangeHandler);
         }
+    }
+
+    loadData(dataLoaders): Promise<unknown> {
+        return new Promise((resolve) => {
+           import(this._dataLoaderModule).then((DataLoader) => {
+               const Loader = DataLoader.default || DataLoader;
+               resolve(Loader.load(dataLoaders));
+           });
+        });
     }
 
     /**
@@ -312,14 +332,6 @@ class Manager {
         }
     }
 
-    protected _pageScrolled(id: string): boolean {
-        const item = this.find(id);
-        if (item) {
-            return item.controller.pageScrolled(item, this._getItemContainer(id));
-        }
-        return false;
-    }
-
     protected _popupBeforePaintOnMount(id: string): void {
         const item = this.find(id);
         if (item) {
@@ -500,21 +512,50 @@ class Manager {
         return false;
     }
 
-    protected _popupResizeOuter(id: string): boolean {
-        const item = this.find(id);
-        if (item) {
-            return item.controller.resizeOuter(item, this._getItemContainer(id));
+    protected _popupResizeOuterBase(): void {
+        const result = this._updatePopupPosition('resizeOuter');
+        // Обработчик обернут в debounce, обновление нужно звать самому, после выполнения функции.
+        if (result) {
+            this._redrawItems();
         }
-        return false;
     }
 
-    _workspaceResize(): boolean {
-        // todo https://online.sbis.ru/opendoc.html?guid=3d0ce839-6e49-4afe-a1c5-f08e5f0fa17c
-        if (requirejs.defined('Controls/popupTemplate')) {
-            const StackController = requirejs('Controls/popupTemplate').StackController;
-            return StackController.workspaceResize();
+    protected _workspaceResize(): boolean {
+        return this._updatePopupPosition('workspaceResize');
+    }
+
+    protected _pageScrolledBase(): boolean {
+        const result = this._updatePopupPosition('pageScrolled');
+        // Обработчик обернут в debounce, обновление нужно звать самому, после выполнения функции.
+        if (result) {
+            this._redrawItems();
         }
-        return false;
+    }
+
+    private _updatePopupPosition(callbackName: string): boolean {
+        let needUpdatePopups = false;
+        // Изменились размеры контентной области. Сбросим кэш и пересчитаем позиции окон.
+        this._resetRestrictiveContainerCache();
+        this._popupItems.each((item: IPopupItem) => {
+            const needUpdate = item.controller[callbackName](item, this._getItemContainer(item.id));
+            if (needUpdate) {
+                needUpdatePopups = true;
+            }
+        });
+        return needUpdatePopups;
+    }
+
+    private _resetRestrictiveContainerCache(): void {
+        const BaseController = this._getBaseController();
+        BaseController?.resetRootContainerCoords();
+    }
+
+    private _getBaseController(): unknown {
+        const controllerLibName = 'Controls/popupTemplate';
+        if (requirejs.defined(controllerLibName)) {
+            const {BaseController} = requirejs(controllerLibName);
+            return BaseController;
+        }
     }
 
     protected _popupDragEnd(id: string, offset: number): boolean {
@@ -774,7 +815,7 @@ class Manager {
         }
     }
 
-    protected eventHandler(actionName: string, args: any[]): void {
+    eventHandler(actionName: string, args: any[]): void {
         const actionResult = this[`_${actionName}`].apply(this, args);
         if (actionResult === true) {
             this._redrawItems();

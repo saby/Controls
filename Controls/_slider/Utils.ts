@@ -21,7 +21,7 @@ export interface IPointData {
 
 export interface IPositionedInterval {
     color: string;
-    left: number;
+    start: number;
     width: number;
 }
 
@@ -74,6 +74,18 @@ export default {
         return targetX;
     },
 
+    getNativeEventPageY(event: SyntheticEvent<MouseEvent | TouchEvent>): number {
+        let targetY = 0;
+        if (event.type === 'mousedown' || event.type === 'mousemove') {
+            targetY = event.nativeEvent.pageY;
+        } else if (event.type === 'touchstart' || event.type === 'touchmove') {
+            targetY = event.nativeEvent.touches[0].pageY;
+        } else {
+            Logger.error('Slider: Event type must be mousedown of touchstart.');
+        }
+        return targetY;
+    },
+
     convertIntervals(intervals: IInterval[] = [], startValue: number, endValue: number): IPositionedInterval[] {
         const ratio = maxPercentValue / (endValue - startValue);
         return intervals.map((interval) => {
@@ -83,14 +95,14 @@ export default {
 
             return {
                 color: interval.color,
-                left: start,
+                start,
                 width: intervalWidth
             };
         }).sort((intervalFirst, intervalSecond) => {
-            if (intervalFirst.left < intervalSecond.left) {
+            if (intervalFirst.start < intervalSecond.start) {
                 return -1;
             }
-            if (intervalFirst.left > intervalSecond.left) {
+            if (intervalFirst.start > intervalSecond.start) {
                 return 1;
             }
 

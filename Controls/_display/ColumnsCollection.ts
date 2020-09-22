@@ -2,12 +2,16 @@ import Collection, {ItemsFactory} from './Collection';
 import ColumnsCollectionItem from './ColumnsCollectionItem';
 
 import {IOptions as ICollectionItemOptions} from './ColumnsCollectionItem';
+import { IDragPosition } from 'Controls/listDragNDrop';
+import ColumnsDragStrategy from './itemsStrategy/ColumnsDrag';
 
 export default class ColumnsCollection<
     S,
     T extends ColumnsCollectionItem<S> = ColumnsCollectionItem<S>
 > extends Collection<S, T> {
     protected _$columnProperty: string;
+    protected _dragStrategy: Function = ColumnsDragStrategy;
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: ICollectionItemOptions<S>): T {
@@ -19,6 +23,17 @@ export default class ColumnsCollection<
     getColumnProperty(): string {
         return this._$columnProperty;
     }
+
+    setDragPosition(position: IDragPosition<T>): void {
+        if (position) {
+            const strategy = this.getStrategyInstance(this._dragStrategy) as ColumnsDrag<unknown>;
+            const avatarItem = strategy.avatarItem;
+            if (avatarItem.getColumn() !== position.dispItem.getColumn()) {
+                strategy.avatarItem.setColumn(position.dispItem.getColumn());
+            }
+        }
+        super.setDragPosition(position);
+    }
 }
 
 Object.assign(ColumnsCollection.prototype, {
@@ -26,4 +41,3 @@ Object.assign(ColumnsCollection.prototype, {
     _moduleName: 'Controls/display:ColumnsCollection',
     _itemModule: 'Controls/display:ColumnsCollectionItem'
 });
-

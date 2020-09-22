@@ -11,7 +11,7 @@
             shadowVisibility="hidden">
         <Controls._scroll.Scroll.Scrollbar
                 name="columnScrollbar"
-                position="{{_options.position}}"
+                position="{{_position}}"
                 direction="horizontal"
                 contentSize="{{_options.contentSize}}"
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"
@@ -24,7 +24,7 @@
 <ws:else>
         <Controls._scroll.Scroll.Scrollbar
                 name="columnScrollbar"
-                position="{{_options.position}}"
+                position="{{_position}}"
                 direction="horizontal"
                 contentSize="{{_options.contentSize}}"
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"

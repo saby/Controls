@@ -120,9 +120,19 @@
     height: 0;
   }
 
-  .controls-Grid__row-cell
-  .controls-Grid__row-cell_theme-@{themeName} {
-    height: @cell_min-height_grid;
+  .controls-Grid__row-cell {
+    .controls-Grid__row-cell_default_min_height-theme-@{themeName} {
+      height: @cell_min-height_grid;
+    }
+    .controls-Grid__row-cell_small_min_height-theme-@{themeName} {
+      height: @cell_small-min-height_grid;
+    }
+  }
+
+  // Все сценарии автовысоты в IE предусмотреть невозможно, для тонкой, принудительной настройки отдаем управление пользователю.
+  // #grid_relativeCell_autoHeight_td
+  .controls-Grid__row-cell__autoHeight {
+    height: auto;
   }
 
   // Все сценарии автовысоты в IE предусмотреть невозможно, для тонкой, принудительной настройки отдаем управление пользователю.

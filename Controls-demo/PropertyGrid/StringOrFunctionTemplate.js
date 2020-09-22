@@ -1,17 +1,10 @@
 define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
    [
       'Core/Control',
-      'wml!Controls-demo/PropertyGrid/StringOrFunctionTemplate',
-      'UI/Builder',
-      'UI/Executor',
-      'i18n!userTemplate'
+      'wml!Controls-demo/PropertyGrid/StringOrFunctionTemplate'
    ],
-   function(Control, template, Builder, Executor) {
+   function(Control, template) {
       'use strict';
-
-      var tClosure = Executor.TClosure;
-      var tmpl = Builder.Tmpl;
-      var config = Builder.Config;
 
       var stringTmpl = Control.extend({
          _template: template,
@@ -26,11 +19,7 @@ define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
             this._valueChangedNotify();
          },
          _valueChangedNotify: function() {
-            // FIXME: Выполнять компиляцию шаблона руками - запрещено.
-            //  Сейчас для шаблонов выполняется предзагрузка модуля локализации,
-            //  чего не предусмотрено было здесь. Необходимо избавиться от такого вида
-            //  использований функций шаблонизатор.
-            this._notify('valueChanged', [tmpl.getFunction(this._value, config, tClosure)]);
+            this._notify('valueChanged', [this._value]);
          },
          _checkBoxValueChanged: function() {
             this._valueChangedNotify();

@@ -23,7 +23,6 @@ import { Model } from 'Types/entity';
 import {
     IEditingConfig,
     ISwipeConfig,
-    ANIMATION_STATE,
     CollectionItem
 } from 'Controls/display';
 import {Logger} from 'UI/Utils';
@@ -33,8 +32,7 @@ import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS} from './resources/ColumnScro
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 import { stickyLadderCellsCount, prepareLadder,  isSupportLadder, getStickyColumn} from 'Controls/_grid/utils/GridLadderUtil';
 import {IHeaderCell} from './interface/IHeaderCell';
-import { ItemsEntity } from 'Controls/dragnDrop';
-import { IDragPosition, IFlatItemData } from 'Controls/listDragNDrop';
+import { IDragPosition } from 'Controls/listDragNDrop';
 
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
@@ -324,7 +322,12 @@ var
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
             // Стиль колонки
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
+            if (current.itemPadding.top === 'null' && current.itemPadding.bottom === 'null') {
+                classLists.base += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            } else {
+                classLists.base += `controls-Grid__row-cell_default_min_height-theme-${theme} `;
+            }
+            classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
             _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (backgroundColorStyle) {
@@ -878,8 +881,8 @@ var
             }
         },
 
-        setHeaderInEmptyListVisible(newVisibility) {
-            this.headerInEmptyListVisible = newVisibility;
+        setHeaderVisibility(newVisibility) {
+            this.headerVisibility = newVisibility;
             this.setHeader(this._header, true);
         },
 
@@ -970,7 +973,7 @@ var
          * Метод проверяет, рисовать ли header при отсутствии записей.
          */
         isDrawHeaderWithEmptyList(): boolean {
-            return this.headerInEmptyListVisible || this.isGridListNotEmpty();
+            return (this.headerVisibility === 'visible') || this.isGridListNotEmpty();
         },
 
         isGridListNotEmpty(): boolean {
@@ -1466,9 +1469,6 @@ var
 
         getNextItemKey: function() {
             return this._model.getNextItemKey.apply(this._model, arguments);
-        },
-        getValidItemForMarker: function(index) {
-            return this._model.getValidItemForMarker(index);
         },
         setIndexes: function(startIndex, stopIndex) {
             return this._model.setIndexes(startIndex, stopIndex);
@@ -2038,16 +2038,6 @@ var
         },
 
         // New Model compatibility
-        getSwipeAnimation(): ANIMATION_STATE {
-            return this._model.getSwipeAnimation();
-        },
-
-        // New Model compatibility
-        setSwipeAnimation(animation: ANIMATION_STATE): void {
-            this._model.setSwipeAnimation(animation);
-        },
-
-        // New Model compatibility
         each(callback: collection.EnumeratorCallback<Model>, context?: object): void {
             this._model.each(callback, context);
         },
@@ -2135,10 +2125,10 @@ var
             this._model.setSelectedItems(items, selected);
         },
 
-        setDraggedItems(draggedItem: IFlatItemData, dragEntity: ItemsEntity): void {
-            this._model.setDraggedItems(draggedItem, dragEntity);
+        setDraggedItems(avatarItemKey: number|string, draggedItemsKeys: Array<number|string>): void {
+            this._model.setDraggedItems(avatarItemKey, draggedItemsKeys);
         },
-        setDragPosition(position: IDragPosition): void {
+        setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
             this._model.setDragPosition(position);
         },
         resetDraggedItems(): void {
@@ -2149,16 +2139,8 @@ var
             this._model.setDragTargetPosition(position);
         },
 
-        getDragTargetPosition: function() {
-            return this._model.getDragTargetPosition();
-        },
-
         setDragEntity: function(entity) {
             this._model.setDragEntity(entity);
-        },
-
-        getDragEntity: function() {
-            return this._model.getDragEntity();
         },
 
         setDragItemData: function(itemData) {
@@ -2173,7 +2155,7 @@ var
             return this._model.getDragItemData();
         },
 
-        getPrevDragPosition(): IDragPosition {
+        getPrevDragPosition(): IDragPosition<CollectionItem<Model>> {
             return this._model.getPrevDragPosition();
         },
 

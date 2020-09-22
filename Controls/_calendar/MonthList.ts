@@ -102,15 +102,11 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
                            Promise<TItems> | void {
 
         const now = new WSDate();
-        let position = options.startPosition || options.position;
+        let position = options.position;
 
         if (!position) {
             position = options.viewMode === VIEW_MODE.year ?
                 dateUtils.getStartOfYear(now) : dateUtils.getStartOfMonth(now);
-        }
-
-        if (options.startPosition) {
-            Logger.error('MonthList: Используется устаревшая опция startPosition, используйте опцию position', this);
         }
 
         const normalizedPosition = this._normalizeDate(position, options.viewMode);
@@ -556,7 +552,7 @@ export default ModuleComponent;
  * @example
  * Обновляем заголовок в зависимости от отображаемого года.
  * <pre>
- *    <Controls.calendar:MonthList startPosition="_date" on:positionChanged="_positionChangedHandler()"/>
+ *    <Controls.calendar:MonthList position="_date" on:positionChanged="_positionChangedHandler()"/>
  * </pre>
  * <pre>
  *    class  ModuleComponent extends Control {

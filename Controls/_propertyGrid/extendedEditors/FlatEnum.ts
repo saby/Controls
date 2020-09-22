@@ -9,6 +9,27 @@ interface IOptions extends IEditorOptions {
     buttons: IPropertyGridButton[];
 }
 
+/**
+ * Редактор для перечисляемого типа данных в виде списка push-кнопок.
+ *
+ * @class Controls/_propertyGrid/extendedEditors/FlatEnum
+ * @extends Core/Control
+ * @mixes Controls/_propertyGrid/IEditor
+ * @control
+ * @public
+ * @author Борисов А.Н.
+ */
+
+/*
+ * Editor for the enum type as a list of push buttons.
+ * @class Controls/_propertyGrid/extendedEditors/FlatEnum
+ * @extends Core/Control
+ * @mixes Controls/_propertyGrid/IEditor
+ * @control
+ * @public
+ * @author Борисов А.Н.
+ */
+
 export default class FlatEnumEditor extends Control implements IEditor {
     protected _template: TemplateFunction = template;
     protected _options: IEditorOptions;

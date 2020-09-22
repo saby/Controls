@@ -4,6 +4,7 @@ import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
+import { ISelectionObject } from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -11,7 +12,6 @@ export default class extends Control {
     protected _columns: IColumn[];
     private _selectedKeys: [];
     private _excludedKeys: TExpandOrColapsItems;
-    private _filter: object;
 
     protected _beforeMount(): void {
         this._columns = [{
@@ -39,16 +39,14 @@ export default class extends Control {
 
     protected _moveButtonClick(): void {
         if (this._selectedKeys.length) {
-            this._children.listMover.moveItemsWithDialog({
-                selectedKeys: this._selectedKeys,
-                excludedKeys: this._excludedKeys,
-                filter: this._filter
+            const selection: ISelectionObject = {
+                selected: this._selectedKeys,
+                excluded: this._excludedKeys
+            };
+            this._children.treeGrid.moveItemsWithDialog(selection).then(() => {
+                this._children.treeGrid.reload();
             });
         }
-    }
-
-    protected _afterItemsMove(): void {
-        this._children.treeGrid.reload();
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

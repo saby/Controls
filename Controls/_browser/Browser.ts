@@ -3,6 +3,7 @@ import * as template from 'wml!Controls/_browser/resources/BrowserTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ControllerClass as OperationsController} from 'Controls/operations';
 import {ControllerClass as SearchController} from 'Controls/search';
+import {ControllerClass as FilterController, IFilterItem} from 'Controls/filter';
 import {tmplNotify} from 'Controls/eventUtils';
 import {RecordSet} from 'Types/collection';
 
@@ -28,6 +29,7 @@ export default class Browser extends Control {
     private _isAllSelected: boolean = false;
     private _operationsController: OperationsController = null;
     private _searchController: SearchController = null;
+    private _filterController: FilterController = null;
     private _listMarkedKey: Key = null;
     private _dataOptions: object = null;
     private _previousViewMode: string = null;
@@ -43,15 +45,20 @@ export default class Browser extends Control {
     private _loading: boolean = false;
     private _items: RecordSet;
     private _filter: object;
+    private _filterButtonItems: IFilterItem[];
+    private _fastFilterItems: IFilterItem[];
     private _groupHistoryId: string;
     private _dataOptionsContext: ContextOptions;
     private _errorRegister: RegisterClass;
 
-    protected _beforeMount(options, context, receivedState): void|Promise<RecordSet> {
+    protected _beforeMount(options,
+                           context,
+                           receivedState): Promise<{ items: RecordSet, filterItems: IFilterItem[] }> {
         this._itemOpenHandler = this._itemOpenHandler.bind(this);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._afterSetItemsOnReloadCallback = this._afterSetItemsOnReloadCallback.bind(this);
         this._operationsController = this._createOperationsController(options);
+        this._filterController = new FilterController(options);
 
         this._filter = options.filter;
         this._groupHistoryId = options.groupHistoryId;
@@ -62,16 +69,21 @@ export default class Browser extends Control {
         const controllerState = this._sourceController.getState();
         this._dataOptionsContext = this._createContext(controllerState);
 
-        if (receivedState && isNewEnvironment()) {
-            this._setItemsAndCreateSearchController(receivedState, options);
-        } else if (options.source) {
-            return this._sourceController.load().then((items) => {
-                this._setItemsAndCreateSearchController(items, options);
-                return items;
-            });
+        if (receivedState) {
+            this._setFilterItems(receivedState.filterItems);
+            if (isNewEnvironment()) {
+                this._setItemsAndCreateSearchController(receivedState.items, options);
+            }
         } else {
-            this._updateContext(controllerState);
-            this._createSearchControllerWithContext(options, this._dataOptionsContext);
+            return this._filterController.loadFilterItemsFromHistory(options, receivedState).then((filterItems) => {
+                this._setFilterItems(filterItems);
+                return this._loadItems({...options, filter: this._filter}, controllerState).then((items) => {
+                    return {
+                        filterItems,
+                        items
+                    };
+                });
+            });
         }
     }
 
@@ -82,6 +94,13 @@ export default class Browser extends Control {
         this._operationsController.update(newOptions);
         if (newOptions.hasOwnProperty('markedKey') && newOptions.markedKey !== undefined) {
             this._listMarkedKey = this._getOperationsController().setListMarkedKey(newOptions.markedKey);
+        }
+
+        const isFilterOptionsChanged = this._filterController.update({...newOptions, searchValue: this._searchValue});
+
+        if (isFilterOptionsChanged) {
+            this._updateFilterAndFilterItems();
+            this._sourceController.setFilter(this._filter);
         }
 
         if (this._options.source !== newOptions.source) {
@@ -140,6 +159,29 @@ export default class Browser extends Control {
             this._errorRegister.destroy();
             this._errorRegister = null;
         }
+
+        this._filterController.destroy();
+        this._filterController = null;
+    }
+
+    private _setFilterItems(filterItems): void {
+        this._filterController.setFilterItems(filterItems);
+        this._updateFilterAndFilterItems();
+    }
+
+    private _loadItems(options, controllerState): Promise<void|RecordSet> {
+        return new Promise((resolve) => {
+            if (options.source) {
+                this._sourceController.load().then((items) => {
+                    this._setItemsAndCreateSearchController(items, options);
+                    resolve(items);
+                });
+            } else {
+                this._updateContext(controllerState);
+                this._createSearchControllerWithContext(options, this._dataOptionsContext);
+                resolve();
+            }
+        });
     }
 
     private _setItemsAndCreateSearchController(items: RecordSet, options): void {
@@ -169,7 +211,10 @@ export default class Browser extends Control {
     }
 
     _filterChanged(event: SyntheticEvent, filter: object): void {
-        this._sourceController.setFilter(filter);
+        event && event.stopPropagation();
+        this._filterController.setFilter(filter);
+
+        this._sourceController.setFilter(this._filterController.getFilter());
 
         const controllerState = this._sourceController.getState();
 
@@ -181,6 +226,8 @@ export default class Browser extends Control {
            will be changed by task https://online.sbis.ru/opendoc.html?guid=861459e2-a229-441d-9d5d-14fdcbc6676a */
         this._dataOptionsContext.prefetchSource = this._options.source;
         this._dataOptionsContext.updateConsumers();
+
+        this._notify('filterChanged', [this._filter]);
     }
 
     protected _rootChanged(event: SyntheticEvent, root: Key): void {
@@ -208,10 +255,29 @@ export default class Browser extends Control {
         this._updateContext(controllerState);
     }
 
+    protected _filterItemsChanged(event: SyntheticEvent, items: IFilterItem[]): void {
+        this._filterController.updateFilterItems(items);
+        this._updateFilterAndFilterItems();
+        this._sourceController.setFilter(this._filter);
+        this._dataOptionsContext.filter = this._filter;
+        this._notify('filterChanged', [this._filter]);
+    }
+
+    protected _filterHistoryApply(event: SyntheticEvent, history): void {
+        // Здесь ничего не обновляем, после стреляет filterItemsChanged
+        this._filterController.updateHistory(history);
+    }
+
     protected _getChildContext(): IDataChildContext {
         return {
             dataOptions: this._dataOptionsContext
         };
+    }
+
+    private _updateFilterAndFilterItems(): void {
+        this._filter = this._filterController.getFilter();
+        this._filterButtonItems = this._filterController.getFilterButtonItems();
+        this._fastFilterItems = this._filterController.getFastFilterItems();
     }
 
     private _createContext(options?: IControlerState): typeof ContextOptions {
@@ -265,7 +331,7 @@ export default class Browser extends Control {
 
     protected _listMarkedKeyChangedHandler(event: SyntheticEvent<null>, markedKey: Key): void {
         this._listMarkedKey = this._getOperationsController().setListMarkedKey(markedKey);
-        this._notify('markedKeyChanged', [markedKey]);
+        return this._notify('markedKeyChanged', [markedKey]);
     }
 
     protected _markedKeyChangedHandler(event: SyntheticEvent<null>): void {
@@ -324,7 +390,20 @@ export default class Browser extends Control {
     }
 
     _dataLoadCallback(data: RecordSet): void {
+        this._filterController.handleDataLoad(data);
         this._getSearchController().handleDataLoad(data);
+
+        if (this._options.dataLoadCallback) {
+            this._options.dataLoadCallback(data);
+        }
+    }
+
+    _dataLoadErrback(error: Error): void {
+        this._filterController.handleDataError();
+
+        if (this._options.dataLoadErrback) {
+            this._options.dataLoadErrback(error);
+        }
     }
 
     _afterSetItemsOnReloadCallback(): void {
@@ -333,6 +412,12 @@ export default class Browser extends Control {
 
     _misspellCaptionClick(): void {
         this._getSearchController().handleMisspellClick();
+    }
+
+    resetPrefetch(): void {
+        this._filterController.resetPrefetch();
+        this._filter = this._filterController.getFilter();
+        this._notify('filterChanged', [this._filter]);
     }
 
     static contextTypes(): object {

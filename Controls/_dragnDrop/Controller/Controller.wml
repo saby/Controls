@@ -1,14 +1,12 @@
-<Controls.event:Register name="dragEndDetect" register="documentDragEnd" attr:fixCompatible="1">
-   <Controls.event:Register name="dragStartDetect" register="documentDragStart" attr:fixCompatible="1">
-      <ws:partial
-              template="{{_options.content}}"
-              scope="{{_options}}"
-              attr:class="controls-DragNDrop"
-              draggingTemplateOptions="{{_draggingTemplateOptions}}"
-              draggingTemplate="{{_draggingTemplate}}"
-              on:_updateDraggingTemplate="_updateDraggingTemplate()"
-              on:_documentDragStart="_documentDragStart()"
-              on:_documentDragEnd="_documentDragEnd()">
-      </ws:partial>
-   </Controls.event:Register>
-</Controls.event:Register>
+<ws:partial
+      template="{{_options.content}}"
+      scope="{{_options}}"
+      attr:class="controls-DragNDrop"
+      draggingTemplateOptions="{{_draggingTemplateOptions}}"
+      draggingTemplate="{{_draggingTemplate}}"
+      on:_updateDraggingTemplate="_updateDraggingTemplate()"
+      on:_documentDragStart="_documentDragStart()"
+      on:_documentDragEnd="_documentDragEnd()"
+      on:register="_registerHandler()"
+      on:unregister="_unregisterHandler()">
+</ws:partial>

@@ -4,7 +4,16 @@ import template = require('wml!Controls/_propertyGrid/defaultEditors/Number');
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
 import IEditor from 'Controls/_propertyGrid/IEditor';
 
-interface INumberEditorOptions extends IEditorOptions {
+/**
+ * Интерфейс опций для числового редактора.
+ *
+ * @interface Controls/_propertyGrid/defaultEditors/Number/INumberEditorOptions
+ * @extends IEditorOptions
+ * @public
+ * @author Борисов А.Н.
+ */
+
+export interface INumberEditorOptions extends IEditorOptions {
     inputConfig: {
         useGrouping: boolean;
         showEmptyDecimals: boolean;
@@ -13,6 +22,32 @@ interface INumberEditorOptions extends IEditorOptions {
         onlyPositive: boolean;
     };
 }
+
+/**
+ * @name Controls/_propertyGrid/defaultEditors/Number/INumberEditorOptions#inputConfig
+ * @cfg Конфигурация числового поля ввода.
+ */
+
+/**
+ * Редактор численного типа данных.
+ *
+ * @class Controls/_propertyGrid/defaultEditors/Number
+ * @extends Core/Control
+ * @mixes Controls/_propertyGrid/IEditor
+ * @control
+ * @public
+ * @author Борисов А.Н.
+ */
+
+/*
+ * Editor for the number type.
+ * @class Controls/_propertyGrid/defaultEditors/Number
+ * @extends Core/Control
+ * @mixes Controls/_propertyGrid/IEditor
+ * @control
+ * @public
+ * @author Борисов А.Н.
+ */
 
 class NumberEditor extends Control implements IEditor {
     protected _template: Function = template;

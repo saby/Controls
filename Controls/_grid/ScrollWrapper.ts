@@ -25,8 +25,10 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
     private _needNotifyResize: boolean = false;
     private _shouldSetMarginTop: boolean = false;
+    private _position: number = 0;
 
     protected _beforeMount(options: IHorizontalScrollWrapperOptions): void {
+        this._position = options.position || 0;
         this._localPositionHandler = options.positionChangeHandler;
         this._gridStyle = this._getGridStyles(options);
         const listModel = options.listModel;
@@ -34,6 +36,15 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         this._shouldSetMarginTop = !!(options.gridSupport === 'full' && hasHeaderOrTopResults);
         if (!hasHeaderOrTopResults) {
             Logger.warn("ScrollWrapper: Don't use columnScroll without header or results rows");
+        }
+    }
+
+    setPosition(position: number): void {
+        if (this._position !== position) {
+            this._position = position;
+            if (this._localPositionHandler) {
+                this._localPositionHandler(null, this._position);
+            }
         }
     }
 

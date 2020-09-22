@@ -6,6 +6,7 @@ import {warehouseData, responsibleData, hierarchyOperationData} from './DataStor
 import {merge, isEqual} from 'Types/object';
 import {object} from 'Types/util';
 
+const STATE_VALUE = 4;
 const historyItemsValues = {
     Category: {
         value: [2],
@@ -20,7 +21,7 @@ const historyItemsValues = {
         textValue: 'Удаленные'
     },
     state: {
-        value: [4],
+        value: [STATE_VALUE],
         textValue: 'Завершенные положительно'
     },
     passed: {
@@ -33,7 +34,7 @@ const historyItemsValues = {
     }
 };
 
-const hierarchyFilters: any[] = [{
+const hierarchyFilters: Array<Record<string, any>> = [{
     name: 'hierarchyOperations',
     value: {},
     resetValue: {},

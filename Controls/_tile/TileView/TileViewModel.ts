@@ -156,7 +156,8 @@ var TileViewModel = ListViewModel.extend({
             imageHeightProperty: this._options.imageHeightProperty,
             imageWidthProperty: this._options.imageWidthProperty,
             imageFit: this._options.imageFit,
-            imageUrlResolver: this._options.imageUrlResolver
+            imageUrlResolver: this._options.imageUrlResolver,
+            itemClasses: this.getItemPaddingClasses()
         };
         if (this._options.tileSize) {
             resultData.getTileSizes = this.getTileSizes;
@@ -246,14 +247,26 @@ var TileViewModel = ListViewModel.extend({
     },
 
     getItemPaddingClasses(): string {
-        const leftSpacing = this._options.itemPadding && this._options.itemPadding.left || 'default';
-        const rightSpacing = this._options.itemPadding && this._options.itemPadding.right || 'default';
+        return this.getPaddingClasses('item');
+    },
+
+    getItemsPaddingContainerClasses(): string {
+        return this.getPaddingClasses('itemPaddingContainer');
+    },
+
+    getPaddingClasses(classPrefix: string = 'item'): string {
+        const leftSpacing = this._options.itemPadding?.left || 'default';
+        const rightSpacing = this._options.itemPadding?.right || 'default';
+        const bottomSpacing = this._options.itemPadding?.bottom || 'default';
+        const topSpacing = this._options.itemPadding?.top || 'default';
         const theme = `_theme-${this._options.theme}`;
 
-        const leftSpacingClass = `controls-TileView__itemPaddingContainer_spacingLeft_${leftSpacing}${theme}`;
-        const rightSpacingClass = `controls-TileView__itemPaddingContainer_spacingRight_${rightSpacing}${theme}`;
+        const leftSpacingClass = `controls-TileView__${classPrefix}_spacingLeft_${leftSpacing}${theme}`;
+        const rightSpacingClass = `controls-TileView__${classPrefix}_spacingRight_${rightSpacing}${theme}`;
+        const topSpacingClass = `controls-TileView__${classPrefix}_spacingTop_${topSpacing}${theme}`;
+        const bottomSpacingClass = `controls-TileView__${classPrefix}_spacingBottom_${bottomSpacing}${theme}`;
 
-        return `${leftSpacingClass} ${rightSpacingClass}`;
+        return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
     }
 });
 

@@ -185,7 +185,7 @@
  * @remark
  * Если при отрисовске контрола данные не отображаются или выводится только их часть, то следует проверить {@link Controls/collection:RecordSet}, полученный от источника данных.
  * Такой RecordSet должен содержать набор полей, которые заданы в конфигурации контрола в опции columns, а также сами данные для каждого поля.
- * 
+ *
  * @example
  * <pre class="brush: js">
  * _columns: null,
@@ -396,9 +396,9 @@
  * Позволяет установить прикладной шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
  *
  * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
- * 
+ *
  * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
- * 
+ *
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
  * <pre class="brush: html;">
@@ -451,7 +451,13 @@
 
 /**
  * @typedef {String} ResultsVisibility
- * @variant hasData Отображается при наличии более 1 записи в списке.
+ * @variant hasdata Отображается при наличии более 1 записи в списке.
+ * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
+ */
+
+/**
+ * @typedef {String} HeaderVisibility
+ * @variant hasdata Отображается при наличии данных в списке.
  * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
  */
 
@@ -461,10 +467,17 @@
  * @demo Controls-demo/grid/Results/FromMeta/Index
  * @remark
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
- * @default hasData
+ * @default hasdata
  * @see resultsTemplate
  * @see resultsPosition
  */
+/**
+ * @name Controls/_grid/interface/IGridControl#headerVisibility
+ * @cfg {HeaderVisibility} Режим отображения заголовков колонки.
+ * @demo Controls-demo/grid/Header/HeaderVisibility/Index
+ * @default hasdata
+ */
+
 
 /**
  * @name Controls/_grid/interface/IGridControl#editArrowVisibilityCallback
@@ -497,7 +510,8 @@
  */
 
 /**
- * @event Controls/_list/interface/IGridControl#hoveredCellChanged Происходит при наведении курсора мыши на ячейку таблицы.
+ * @event Происходит при наведении курсора мыши на ячейку таблицы.
+ * @name Controls/_grid/interface/IGridControl#hoveredCellChanged
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
  * @param {Types/entity:Record} item Элемент, на который навели курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента, на который навели курсор.

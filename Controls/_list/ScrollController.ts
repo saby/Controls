@@ -1,7 +1,7 @@
 import {IControlOptions} from 'UI/Base';
 import {Collection} from 'Controls/display';
 import VirtualScroll from './ScrollContainer/VirtualScroll';
-import {Record} from 'Types/entity';
+import {Record, Model} from 'Types/entity';
 import {IObservable} from 'Types/collection';
 import {
     IItemsHeights,
@@ -16,7 +16,8 @@ import {
 import InertialScrolling from './resources/utils/InertialScrolling';
 import {detection} from 'Env/Env';
 import {VirtualScrollHideController, VirtualScrollController} from 'Controls/display';
-
+import { getDimensions as uDimension } from '../sizeUtils';
+import { getStickyHeadersHeight } from '../scroll';
 
 export interface IScrollParams {
     clientHeight: number;
@@ -187,6 +188,52 @@ export default class ScrollController {
         }
         return result;
     }
+
+    /**
+     * Возвращает первый полностью видимый элемент
+     * @param listViewContainer
+     * @param baseContainer
+     * @param scrollTop
+     * @return {Model}
+     */
+    getFirstVisibleRecord(listViewContainer: any, baseContainer: any, scrollTop: number): Model {
+        const topOffset = this._getTopOffsetForItemsContainer(listViewContainer, baseContainer);
+        const verticalOffset = scrollTop - topOffset + (getStickyHeadersHeight(baseContainer, 'top', 'allFixed') || 0);
+
+        let firstItemIndex = this._options.collection.getStartIndex();
+        firstItemIndex += this._getFirstVisibleItemIndex(listViewContainer.children, verticalOffset);
+        firstItemIndex = Math.min(firstItemIndex, this._options.collection.getStopIndex());
+        const item = this._options.collection.at(firstItemIndex);
+        return item.getContents();
+    }
+
+    /**
+     * Возращает индекс первого полностью видимого элемента
+     * @param {HTMLElement[]} items
+     * @param {number} verticalOffset
+     * @private
+     */
+    private _getFirstVisibleItemIndex(items: HTMLElement[], verticalOffset: number): number {
+        const itemsCount = items.length;
+        let itemsHeight = 0;
+        let i = 0;
+        if (verticalOffset <= 0) {
+            return 0;
+        }
+        while (itemsHeight < verticalOffset && i < itemsCount) {
+            itemsHeight += uDimension(items[i]).height;
+            i++;
+        }
+        return i;
+    }
+
+    private _getTopOffsetForItemsContainer(listViewContainer: any, baseControlContainer: any): number {
+        let offsetTop = uDimension(listViewContainer.children[0], true).top;
+        const container = baseControlContainer[0] || baseControlContainer;
+        offsetTop += container.offsetTop - uDimension(container).top;
+        return offsetTop;
+    }
+
     /**
      * Функция подскролла к элементу
      * @param {string | number} key

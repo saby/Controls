@@ -171,14 +171,19 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends mixi
 
         function getNearestNode(item: T): T {
             if (!item || !item.isNode) {
-                return;
+                return item;
             }
 
             if (item.isNode()) {
                 return item;
             }
 
-            return getNearestNode(item.getParent() as T);
+            const parent = item.getParent() as T;
+            if (!parent) {
+                return item;
+            }
+
+            return getNearestNode(parent);
         }
 
         function getBreadCrumbsReference(item: T): IBreadCrumbsReference {

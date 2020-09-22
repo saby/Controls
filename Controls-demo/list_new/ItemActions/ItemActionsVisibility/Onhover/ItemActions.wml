@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo__itemActions_list_delayed">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo__itemActions_list_onhover">
     <Controls.list:View
             keyProperty="id"
             source="{{_viewSource}}"

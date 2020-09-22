@@ -2,7 +2,7 @@
             controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
             {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
             ('controls-icon_style-' + action.iconStyle) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
-            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-click_size') : '')}}"
+            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}"
       attr:title="{{action.tooltip}}"
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">

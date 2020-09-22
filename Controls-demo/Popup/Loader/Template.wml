@@ -1,0 +1,17 @@
+<Controls.popupTemplate:Stack headingCaption="Демо пример с загрузкой данных">
+    <ws:bodyContentTemplate>
+        <div style="height: 100%; overflow: auto">
+            <div>country: {{_record.country || 'Не заполнено'}}</div>
+            <div>city: {{_record.city || 'Не заполнено'}} </div>
+            <div>founded: {{_record.founded || 'Не заполнено'}}</div>
+
+            <br/><br/>
+            <Controls.heading:Title caption="Вложения" />
+            <ws:for data="item in _attachments">
+                <Controls.spoiler:View captions="{{item.title}}">
+                    <img src="{{item.url}}"/>
+                </Controls.spoiler:View>
+            </ws:for>
+        </div>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Stack>

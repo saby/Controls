@@ -18,12 +18,6 @@ import ViewModel = require('Controls/_input/Phone/ViewModel');
        *
        * @public
        * @demo Controls-demo/Input/Phone/Index
-       * @demo Controls-demo/Input/SizesAndHeights/Index
-       * @demo Controls-demo/Input/FontStyles/Index
-       * @demo Controls-demo/Input/TextAlignments/Index
-       * @demo Controls-demo/Input/TagStyles/Index
-       * @demo Controls-demo/Input/ValidationStatuses/Index
-       * @demo Controls-demo/Input/SelectOnClick/Index
        *
        * @author Красильников А.С.
        */

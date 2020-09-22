@@ -8,7 +8,7 @@ define(
 
       describe('Controls/Container/PendingRegistrator', () => {
          it('finishPendingOperations', () => {
-            let Registrator = new PendingRegistrator();
+            let Registrator = new PendingRegistrator.default();
             let def1 = new Deferred();
             let def2 = new Deferred();
             let def3 = new Deferred();
@@ -42,7 +42,7 @@ define(
             Registrator.destroy();
          });
          it('register/unregister pending', () => {
-            let Registrator = new PendingRegistrator();
+            let Registrator = new PendingRegistrator.default();
             let def1 = new Deferred();
             let def2 = new Deferred();
             let def3 = new Deferred();
@@ -79,7 +79,7 @@ define(
          });
 
          it('hasRegisteredPendings', () => {
-            let Registrator = new PendingRegistrator();
+            let Registrator = new PendingRegistrator.default();
             Registrator._beforeMount();
             let pendingCfg1 = {
                validate: () => false
@@ -104,7 +104,7 @@ define(
          it('should call unregisterPending1', (done) => {
             let sandbox = sinon.sandbox.create();
             let resolver;
-            const Registrator = new PendingRegistrator();
+            const Registrator = new PendingRegistrator.default();
             Registrator._beforeMount();
             const promise = new Promise((resolve) => {
                resolver = resolve;
@@ -125,7 +125,7 @@ define(
          it('should call unregisterPending2', (done) => {
             let sandbox = sinon.sandbox.create();
             let rejector;
-            const Registrator = new PendingRegistrator();
+            const Registrator = new PendingRegistrator.default();
             Registrator._beforeMount();
             const promise = new Promise((resolve, reject) => {
                rejector = reject;
@@ -151,7 +151,7 @@ define(
             it('should use correct _pendingsCounter ' + testNumber, (done) => {
                let sandbox = sinon.sandbox.create();
                let resolver;
-               const Registrator = new PendingRegistrator();
+               const Registrator = new PendingRegistrator.default();
                Registrator._beforeMount();
                const promise = new Promise((resolve) => {
                   resolver = resolve;

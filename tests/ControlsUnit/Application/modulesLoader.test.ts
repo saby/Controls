@@ -57,7 +57,7 @@ describe('Controls/Application/modulesLoader', () => {
             return loadAsync('ControlsUnit/Async/TestModuleAsync:NotFound').then((res) => {
                 assert.notEqual(res, null, 'Старое поведение, когда возвращался модуль, если е найдено свойство из библиотеки');
             }, (err) => {
-                assert.equal(
+                assert.include(
                     err.message,
                     'Cannot find module "NotFound" in library "ControlsUnit/Async/TestModuleAsync"',
                     'Error message is wrong'

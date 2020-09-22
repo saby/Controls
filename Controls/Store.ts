@@ -1,8 +1,8 @@
 interface IStore {
-    getState: Record<string, any>;
-    onPropertyChanged: (propertyName: string, callback: (propertyName: string, data: any) => void) => string;
+    getState: Record<string, unknown>;
+    onPropertyChanged: (propertyName: string, callback: (data: unknown) => void) => string;
     unsubscribe: (id: string) => void;
-    dispatch: (propertyName: string, data: any) => void;
+    dispatch: (propertyName: string, data: unknown) => void;
 }
 
 interface IStateCallback {
@@ -12,9 +12,9 @@ interface IStateCallback {
 
 interface ICtxState {
     [propetyName: string]: {
-        value: any,
+        value: unknown,
         callbacks: IStateCallback[]
-    }
+    };
 }
 
 interface IState {
@@ -45,7 +45,7 @@ class Store implements IStore {
      * @param propertyName название поля в стейте
      * @param data данные
      */
-    dispatch(propertyName: string, data: any): void {
+    dispatch(propertyName: string, data: unknown): void {
         this._setValue(propertyName, data);
         this._notifySubscribers(propertyName);
     }
@@ -56,7 +56,7 @@ class Store implements IStore {
      * @param callback
      * @return {string} id колбэка, чтоб отписаться при уничтожении контрола
      */
-    onPropertyChanged(propertyName: string, callback: (propertyName: string, data: any) => void): string {
+    onPropertyChanged(propertyName: string, callback: (data: unknown) => void): string {
         return this._addCallback(propertyName, callback);
     }
 
@@ -69,7 +69,7 @@ class Store implements IStore {
     }
 
     // обновляем название актуального контекста в зависимости от урла (сейчас это делает OnlineSbisRu/_router/Router)
-    updateStoreContext(contextName): void {
+    updateStoreContext(contextName: string): void {
         this.state.activeContext = contextName;
         if (!this.state[this.state.activeContext]) {
             this.state[this.state.activeContext] = {};
@@ -80,7 +80,7 @@ class Store implements IStore {
         return this.state[this.state.activeContext].hasOwnProperty(propertyName);
     }
 
-    private _setValue(propertyName: string, value: any): void {
+    private _setValue(propertyName: string, value: unknown): void {
         if (!this._hasValue(propertyName)) {
             this._defineProperty(propertyName);
         }

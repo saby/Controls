@@ -1,18 +1,44 @@
-import { CollectionItem, IBaseCollection } from 'Controls/display';
+import { IBaseCollection, ICollectionItem } from 'Controls/display';
 import { Model, relation } from 'Types/entity';
-import { TKeysSelection as TKeys, TSelectedKey as TKey, TSelectionType} from 'Controls/interface';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
 import { Controller as SourceController } from 'Controls/source';
+import { CrudEntityKey } from 'Types/source';
+
+export type TKeys = CrudEntityKey[];
 
 /**
- * Интерфейс описывающий модель, используемую в контроллере множественного выбора
+ * Интерфейс описывающий элемент модели, используемой в контроллере множественного выбора
+ *
+ * @interface Controls/multiselection/ISelectionItem
+ * @public
+ * @author Аверкиев П.А.
+ */
+export interface ISelectionItem extends ICollectionItem {
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @method
+    * @public
+    * @return {Boolean} состояние правого свайпа
+    */
+   isAnimatedForSelection(): boolean;
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @param {Boolean} swiped состояние правого свайпа
+    * @method
+    * @public
+    */
+   setAnimatedForSelection(swiped: boolean): boolean;
+}
+
+/**
+ * Интерфейс модели, используемой в контроллере множественного выбора
  *
  * @interface Controls/multiselection/ISelectionModel
  * @public
  * @author Панихин К.А.
  */
-export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> {
+export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> {
    /**
     * Проверить, можно ли загрузить еще данные
     *
@@ -21,17 +47,6 @@ export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> 
     * @return {boolean}
     */
    getHasMoreData(): boolean;
-
-   /**
-    * Получить текущий корневой элемент
-    * @remark
-    * Верхним корневым элементом является null
-    * В плоской стратегии корневой элемент всегда null
-    * @method
-    * @public
-    * @return {CollectionItem<Model>} Данные корнего элемента
-    */
-   getRoot(): CollectionItem<Model>;
 
    /**
     * Получить список элементов
@@ -82,13 +97,12 @@ export interface ISelectionControllerOptions {
  * @public
  * @author Панихин К.А.
  */
-export interface ITreeSelectionStrategyOptions {
+export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
    nodesSourceControllers?: Map<string, SourceController>;
    hierarchyRelation: relation.Hierarchy;
-   rootId: TKey;
-   items: RecordSet;
+   rootId: CrudEntityKey;
 }
 
 /**
@@ -104,20 +118,55 @@ export interface IFlatSelectionStrategyOptions {
 
 /**
  * Изменения в состоянии выбранных ключей
+ * @public
  */
 export interface ISelectionDifference {
+   /**
+    * Список ключей
+    * @typedef {TKeys}
+    */
    keys: TKeys;
+
+   /**
+    * Список добавленных ключей
+    * @typedef {TKeys}
+    */
    added: TKeys;
+
+   /**
+    * Список удаленных ключей
+    * @typedef {TKeys}
+    */
    removed: TKeys;
 }
 
 /**
- * Результат метода SelectionController-а
+ * Результат метода контроллера множественного выбора
+ * @public
  */
 export interface ISelectionControllerResult {
+   /**
+    * Изменения в состоянии выбранных ключей
+    * @typedef {ISelectionDifference}
+    */
    selectedKeysDiff: ISelectionDifference;
+
+   /**
+    * Изменения в состоянии исключенных ключей
+    * @typedef {ISelectionDifference}
+    */
    excludedKeysDiff: ISelectionDifference;
+
+   /**
+    * Кол-во выбранных элементов
+    * @typedef {number}
+    */
    selectedCount: number;
+
+   /**
+    * Выбраны все записи
+    * @typedef {boolean}
+    */
    isAllSelected: boolean;
 }
 
@@ -126,6 +175,6 @@ export interface ISelectionControllerResult {
  * Используется чтобы определить состояние узла с незагруженными детьми
  */
 export interface IEntryPath {
-   id: TKey;
-   parent: TKey;
+   id: CrudEntityKey;
+   parent: CrudEntityKey;
 }

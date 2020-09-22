@@ -1,8 +1,10 @@
 import IItemsStrategy from './IItemsStrategy';
+import {ICollectionItem} from "./interface/ICollectionItem";
 
 export type TItemKey = string | number;
 
-export interface IBaseCollection<T> {
+export interface IBaseCollection<S, T extends ICollectionItem> {
+    at(index: number): T;
     each(cb: (item: T) => void): void;
     getItemBySourceKey(key: TItemKey): T;
     find(predicate: (item: T) => boolean): T;
@@ -11,6 +13,7 @@ export interface IBaseCollection<T> {
     getCount?(): number;
     getNext?(item: T): T;
     getPrevious?(item: T): T;
+    getItemBySourceItem?(item: S): T;
 }
 
 export interface IStrategyCollection<T> {

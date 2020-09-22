@@ -28,13 +28,6 @@ abstract class BaseController {
     POPUP_STATE_DESTROYING: string = 'destroying'; // Окно в процессе удаления (используется где есть операции перед удалением, например анимация)
     POPUP_STATE_DESTROYED: string = 'destroyed'; // Окно удалено из верстки
 
-    constructor(): void {
-        if (document) {
-            window.addEventListener('resize', this._resetRootContainerCoords, true);
-            window.addEventListener('scroll', this._resetRootContainerCoords, true);
-        }
-    }
-
     abstract elementCreated(item: IPopupItem, container: HTMLDivElement): boolean;
 
     abstract elementUpdated(item: IPopupItem, container: HTMLDivElement): boolean;
@@ -158,12 +151,10 @@ abstract class BaseController {
     }
 
     protected resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
-        this._resetRootContainerCoords();
         return this._elementUpdated(item, container);
     }
 
     protected workspaceResize(): boolean {
-        this._resetRootContainerCoords();
         return false;
     }
 
@@ -237,10 +228,6 @@ abstract class BaseController {
         return goUpByControlTree(container);
     }
 
-    protected _resetRootContainerCoords(): void {
-        BaseController.rootContainers = {};
-    }
-
     private static rootContainers = {};
 
     static getRootContainerCoords(item: IPopupItem, baseRootSelector: string): IPopupPosition | void {
@@ -266,6 +253,10 @@ abstract class BaseController {
                 }
             }
         }
+    }
+
+    static resetRootContainerCoords(): void {
+        BaseController.rootContainers = {};
     }
 
     static getCoordsByContainer(restrictiveContainer: any): IPopupPosition | void {

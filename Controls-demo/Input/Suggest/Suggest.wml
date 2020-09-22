@@ -40,7 +40,6 @@
         <Controls.scroll:Container
                 attr:style="height: 60px; z-index: 1"
                 scrollbarVisible="{{true}}"
-                shadowVisible="{{true}}"
         >
             <pre>{{ _events }}</pre>
         </Controls.scroll:Container>

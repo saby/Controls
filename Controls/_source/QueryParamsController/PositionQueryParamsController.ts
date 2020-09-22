@@ -8,7 +8,6 @@ import {CursorDirection} from 'Controls/Constants';
 
 import { Collection } from 'Controls/display';
 import { IBasePositionSourceConfig } from 'Controls/interface';
-import {TNavigationPagingMode} from '../../_interface/INavigation';
 
 interface IPositionHasMore {
     backward: boolean;
@@ -333,15 +332,13 @@ class PositionQueryParamsController implements IQueryParamsController {
         return this._getMoreMeta()[navDirection];
     }
 
-    setEdgeState(direction: Direction, pagingMode: TNavigationPagingMode): void {
+    setEdgeState(direction: Direction): void {
         if (direction === 'up') {
             // Не нужно ничего делать. При загрузке без указания direction
             // параметры direction и position будут взяты из переданных
             // опций, то есть из конфигурации navigation, что и приведет к
             // загрузке исходной страницы.
-            if (pagingMode === 'edge' || pagingMode === 'end') {
-                this._options.position = -2;
-            }
+            this._options.position = -2;
         } else if (direction === 'down') {
             this._shouldLoadLastPage = true;
         } else {

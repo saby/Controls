@@ -2,8 +2,11 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/ItemTemplate/hoverBackgroundStyle/hoverBackgroundStyle';
 import {Memory} from 'Types/source';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
+import {getActionsForContacts as getItemActions} from '../../DemoHelpers/ItemActionsCatalog';
+import {IItemAction} from 'Controls/itemActions';
 
 export default class extends Control {
+    protected _itemActions: IItemAction[] = [getItemActions().pop()];
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
 

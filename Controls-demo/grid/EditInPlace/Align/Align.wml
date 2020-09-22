@@ -1,0 +1,12 @@
+<div class="controlsDemo__cell">
+    <Controls.grid:View
+            name="list"
+            keyProperty="id"
+            attr:class="controlsDemo__inline-flex controlsDemo__maxWidth800"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:editingConfig>
+            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
+        </ws:editingConfig>
+    </Controls.grid:View>
+</div>
