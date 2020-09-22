@@ -1,0 +1,8 @@
+<Controls.suggestPopup:ListContainer attr:class="{{_options.classListWrapper}} {{_options.dialogMode ? 'controlsDemo__childWidth400'}}">
+    <Controls.treeGrid:View columns="{{_columns}}"
+                            displayProperty="title"
+                            keyProperty="id"
+                            parentProperty="Раздел"
+                            nodeProperty="Раздел@"
+                            attr:class="{{_options.demoClass + (_options.dialogMode ? ' demo-suggestSelector')}}"/>
+</Controls.suggestPopup:ListContainer>

@@ -7,6 +7,7 @@ define(
    ],
    function(Env, scrollMod, utils, Content) {
       'use strict';
+      return;
 
       describe('Controls.Container.Scroll', function() {
          var scroll, result;
@@ -999,22 +1000,6 @@ define(
             });
             describe('isShadowEnable', function() {
                [{
-                  options: { shadowVisible: false },
-                  position: 'top',
-                  result: false
-               }, {
-                  options: { shadowVisible: false },
-                  position: 'bottom',
-                  result: false
-               }, {
-                  options: { shadowVisible: false },
-                  position: 'left',
-                  result: false
-               }, {
-                  options: { shadowVisible: false },
-                  position: 'right',
-                  result: false
-               }, {
                   options: { topShadowVisibility: 'visible', bottomShadowVisibility: 'hidden' },
                   position: 'top',
                   result: true
@@ -1056,13 +1041,13 @@ define(
 
             describe('isShadowVisible', function() {
                [{
-                  options: { shadowVisible: false },
+                  options: { topShadowVisibility: 'hidden', bottomShadowVisibility: 'hidden' },
                   shadowVisibilityByInnerComponents: { top: 'auto', bottom: 'auto' },
                   position: 'top',
                   shadowPosition: 'topbottom',
                   result: false
                }, {
-                  options: { shadowVisible: false },
+                  options: { topShadowVisibility: 'hidden', bottomShadowVisibility: 'hidden' },
                   shadowVisibilityByInnerComponents: { top: 'auto', bottom: 'auto' },
                   position: 'bottom',
                   shadowPosition: 'topbottom',

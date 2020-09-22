@@ -36,7 +36,7 @@ export interface IMonthListSource {
  * @example
  * <pre class="brush: html">
  *  <Controls.calendar:MonthList
- *      startPosition="_month"
+ *      position="_month"
  *      source="{{_source}}">
  *     <ws:yearTemplate>
  *         <ws:partial template="Controls/calendar:MonthListYearTemplate">

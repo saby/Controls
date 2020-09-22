@@ -65,7 +65,7 @@
                        emptyKey="{{_options.emptyKey}}"
                        searchParam="{{_options.searchParam}}"
                        multiSelect="{{_options.multiSelect}}"
-                       marker="{{_options.marker}}"
+                       markerVisibility="{{_options.markerVisibility}}"
                        emptyTemplate="{{_options.emptyTemplate}}"
                        source="{{_options.source}}"
                        navigation="{{_options.navigation}}"

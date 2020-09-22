@@ -1,5 +1,6 @@
 import {IItemActionsContainer} from './IItemActionsContainer';
 import {Model} from 'Types/entity';
+import {ANIMATION_STATE, ICollectionItem} from 'Controls/display';
 
 /**
  * Интерфейс элемента коллекции, который обладает опциями записи
@@ -14,7 +15,7 @@ import {Model} from 'Types/entity';
  * @public
  * @author Аверкиев П.А.
  */
-export interface IItemActionsItem {
+export interface IItemActionsItem extends ICollectionItem {
     // '[Controls/_itemActions/interface/IItemActionsItem]': true;
 
     /**
@@ -33,14 +34,6 @@ export interface IItemActionsItem {
      * @public
      */
     setActions(actions: IItemActionsContainer, silent?: boolean): void;
-
-    /**
-     * Получить пердставление текущего элемента
-     * @method
-     * @public
-     * @return {Types/entity:Model} Опции записи
-     */
-    getContents(): Model;
 
     /**
      * Получить состояние активности текущего элемента
@@ -84,7 +77,19 @@ export interface IItemActionsItem {
      */
     isEditing(): boolean;
 
-    // TODO уберётся отсюда по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
-    isRightSwiped?(): boolean;
-    setRightSwiped?(swiped: boolean, silent?: boolean): boolean;
+    /**
+     * Установить в модель текущее состояние анимации
+     * @param {Controls/display:ANIMATION_STATE} state Текущее состояние анимации
+     * @method
+     * @public
+     */
+    setSwipeAnimation?(state: ANIMATION_STATE): void;
+
+    /**
+     * Получить текущее состояние анимации
+     * @method
+     * @public
+     * @return {Controls/display:ANIMATION_STATE} Текущее состояние анимации
+     */
+    getSwipeAnimation?(): ANIMATION_STATE;
 }

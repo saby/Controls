@@ -21,7 +21,7 @@
               mode="stackable"
               shadowVisibility="{{_options.needShadow ? 'lastVisible' : 'hidden'}}"
               fixedZIndex="{{5}}"
-              backgroundStyle="{{_options.backgroundStyle || _options.style}}"
+              backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
               attr:class="controls-Explorer__HeadingPath-{{_options.style}}_theme-{{_options.theme}}">
          <ws:partial template="headingPath" />
       </Controls.scroll:StickyHeader>

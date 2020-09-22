@@ -12,8 +12,7 @@ import {Memory} from 'Types/source';
 import {ControllerClass, Container as ValidateContainer, IValidateResult} from 'Controls/validate';
 import {IFormOperation} from 'Controls/interface';
 import {Confirmation} from 'Controls/popup';
-import CrudController from 'Controls/_form/CrudController';
-import {CRUD_EVENTS} from './Crud';
+import {default as CrudController, CRUD_EVENTS} from 'Controls/_form/CrudController';
 
 interface IFormController extends IControlOptions {
     readMetaData?: object;
@@ -28,10 +27,6 @@ interface IFormController extends IControlOptions {
     source?: Memory;
     confirmationShowingCallback?: Function;
     initializingWay?: string;
-
-    //удалить при переходе на новые опции
-    dataSource?: Memory;
-    initValues?: unknown;
 }
 
 interface IReceivedState {
@@ -170,7 +165,6 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _createMetaDataOnUpdate: unknown = null;
     private _errorContainer: IContainerConstructor = dataSourceError.Container;
     private __errorController: dataSourceError.Controller;
-    private _source: Memory;
     private _createdInMounting: IConfigInMounting;
     private _isMount: boolean;
     private _readInMounting: IConfigInMounting;
@@ -186,15 +180,8 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
         this.__errorController = options.errorController || new dataSourceError.Controller({});
-        this._source = options.source || options.dataSource;
-        this._crudController = new CrudController(this._source, this._notifyHandler.bind(this),
+        this._crudController = new CrudController(options.source, this._notifyHandler.bind(this),
             this.registerPendingNotifier.bind(this), this.indicatorNotifier.bind(this));
-        if (options.dataSource) {
-            Logger.error('FormController: Use option "source" instead of "dataSource"', this);
-        }
-        if (options.initValues) {
-            Logger.error('FormController: Use option "createMetaData" instead of "initValues"', this);
-        }
         const receivedError = receivedState.errorConfig;
         const receivedData = receivedState.data;
 
@@ -242,16 +229,15 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions: IFormController): void {
-        this._crudController.setDataSource(newOptions.dataSource || newOptions.source);
-        if (newOptions.dataSource || newOptions.source) {
-            this._source = newOptions.source || newOptions.dataSource;
+        this._crudController.setDataSource(newOptions.source);
+        if (newOptions.source) {
             // Сбрасываем состояние, только если данные поменялись, иначе будет зацикливаться
             // создание записи -> ошибка -> beforeUpdate
-            if (this._source !== this._options.source && this._source !== this._options.dataSource) {
+            if (newOptions.source !== this._options.source) {
                 this._createMetaDataOnUpdate = null;
             }
         }
-        const createMetaData = newOptions.initValues || newOptions.createMetaData;
+        const createMetaData = newOptions.createMetaData;
         const needRead: boolean = newOptions.key !== undefined && this._options.key !== newOptions.key;
         const needCreate: boolean = newOptions.key === undefined &&
             !newOptions.record && this._createMetaDataOnUpdate !== createMetaData;
@@ -283,7 +269,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             // вызов метода создать повторяется бесконечно. Нельзя чтобы контрол ддосил БЛ.
             this._confirmRecordChangeHandler(() => {
                 this._createMetaDataOnUpdate = createMetaData;
-                this.create(newOptions.initValues || newOptions.createMetaData).then(() => {
+                this.create(newOptions.createMetaData).then(() => {
                     if (newOptions.hasOwnProperty('isNewRecord')) {
                         this._isNewRecord = newOptions.isNewRecord;
                     }
@@ -392,7 +378,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         // если ни рекорда, ни ключа, создаем новый рекорд и используем его.
         // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
         // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
-        return this._source.create(cfg.initValues || cfg.createMetaData).then((record: Model) => {
+        return cfg.source.create(cfg.createMetaData).then((record: Model) => {
             const initializingWay = this._calcInitializingWay(cfg);
             // Если initializingWay === Create, то нужно установить запись на состояние, чтобы на момент маунта
             // Верстка была готова. Если этого не сделать, то опция record обновится только после маунта, т.к.
@@ -418,7 +404,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать.
         // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
         // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
-        return readWithAdditionalFields(this._source, cfg.key, cfg.readMetaData).then((record: Model) => {
+        return readWithAdditionalFields(cfg.source, cfg.key, cfg.readMetaData).then((record: Model) => {
             this._setRecord(record);
             this._readInMounting = {isError: false, result: record};
 
@@ -490,7 +476,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _tryDeleteNewRecord(): Promise<undefined> {
         if (this._needDestroyRecord()) {
-            return this._source.destroy(this._getRecordId(), this._options.destroyMetaData);
+            return this._options.source.destroy(this._getRecordId(), this._options.destroyMetaData);
         }
         return Promise.resolve();
     }
@@ -596,7 +582,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     }
 
     create(createMetaData: unknown): Promise<undefined | Model> {
-        createMetaData = createMetaData || this._options.initValues || this._options.createMetaData;
+        createMetaData = createMetaData || this._options.createMetaData;
         return this._crudController.create(createMetaData).then(
             this._createHandler.bind(this),
             this._crudErrback.bind(this)

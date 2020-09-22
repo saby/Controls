@@ -10,24 +10,24 @@ define([
 
       beforeEach(function() {
          var
-            data = [{
-               id: 1,
-               title: 'Первый'
-            }, {
-               id: 2,
-               title: 'Второй'
-            }, {
-               id: 3,
-               title: 'Третий'
-            }],
-            rs = new collection.RecordSet({
-               keyProperty: 'id',
-               rawData: cClone(data)
-            }),
-            source = new sourceLib.Memory({
-               keyProperty: 'id',
-               data: cClone(data)
-            });
+             data = [{
+                id: 1,
+                title: 'Первый'
+             }, {
+                id: 2,
+                title: 'Второй'
+             }, {
+                id: 3,
+                title: 'Третий'
+             }],
+             rs = new collection.RecordSet({
+                keyProperty: 'id',
+                rawData: cClone(data)
+             }),
+             source = new sourceLib.Memory({
+                keyProperty: 'id',
+                data: cClone(data)
+             });
 
          remover = new lists.Remover();
          remover._source = source;
@@ -51,9 +51,9 @@ define([
 
       it('afterItemsRemove notify event with params', function(done) {
          var
-            items = [2, 3],
-            result = 'custom_result',
-            unselectAllNotified = false;
+             items = [2, 3],
+             result = 'custom_result',
+             unselectAllNotified = false;
          remover._source.destroy = function() {
             return Deferred.success(result);
          };
@@ -69,8 +69,9 @@ define([
             }
          };
 
-         remover.removeItems(items);
-         assert.isTrue(unselectAllNotified);
+         remover.removeItems(items).then(() => {
+            assert.isTrue(unselectAllNotified);
+         });
       });
 
       it('beforeItemsRemove return false', function() {
@@ -91,35 +92,40 @@ define([
             }
          };
 
-         remover.removeItems([1, 2, 3]);
-         assert.equal(remover._items.getCount(), 0);
+         remover.removeItems([1, 2, 3]).then(() => {
+            assert.equal(remover._items.getCount(), 0);
+         });
       });
 
       it('removeItems from source', function(done) {
-         remover.removeItems([1, 2]);
-         remover._source.query().addCallback(function(dataSet) {
-            assert.equal(dataSet.getAll().getCount(), 1);
-            done();
+         remover.removeItems([1, 2]).then(() => {
+            remover._source.query().addCallback(function(dataSet) {
+               assert.equal(dataSet.getAll().getCount(), 1);
+               done();
+            });
          });
       });
 
       it('removeItems from items', function() {
-         remover.removeItems([1, 2]);
-         assert.equal(remover._items.getCount(), 1);
+         remover.removeItems([1, 2]).then(() => {
+            assert.equal(remover._items.getCount(), 1);
+         });
       });
 
       it('remove by selection', function() {
          remover.removeItems({
             selected: [1, 2],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._items.getCount(), 1);
          });
-         assert.equal(remover._items.getCount(), 1);
 
          remover.removeItems({
             selected: [3],
             excluded: []
+         }).then(() => {
+            assert.equal(remover._items.getCount(), 0);
          });
-         assert.equal(remover._items.getCount(), 0);
       });
    });
 });

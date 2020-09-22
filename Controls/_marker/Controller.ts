@@ -1,212 +1,192 @@
 import {getDimensions as uDimension} from 'Controls/sizeUtils';
-import { IMarkerModel, IOptions, TKey, TVisibility, Visibility } from './interface';
-import { CollectionItem } from 'Controls/display';
+import { IOptions, TVisibility, Visibility } from './interface';
+import { Collection, CollectionItem } from 'Controls/display';
 import { Model } from 'Types/entity';
+import {CrudEntityKey} from 'Types/source';
 
 /**
+ * Контроллер управляющий маркером в списке
  * @class Controls/_marker/Controller
  * @author Панихин К.А.
- * @private
+ * @public
  */
 export class Controller {
-   private _model: IMarkerModel;
+   private _model: Collection<Model, CollectionItem<Model>>;
    private _markerVisibility: TVisibility;
-   private _markedKey: TKey = null;
+   private _markedKey: CrudEntityKey;
 
    constructor(options: IOptions) {
       this._model = options.model;
       this._markerVisibility = options.markerVisibility;
-      const markedKey = this.calculateMarkedKey(options.markedKey);
+      this._markedKey = options.markedKey;
+   }
 
-      if (markedKey !== null) {
+   /**
+    * Обновляет состояние контроллера
+    * @param {IOptions} options Новые опции
+    * @void
+    */
+   updateOptions(options: IOptions): void {
+      const modelChanged = this._model !== options.model;
+      if (modelChanged) {
+         this._model = options.model;
+
+         // Когда модель пересоздается, то возможен такой вариант:
+         // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
+         // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
+         // поэтому нужно пересчитать markedKey
+         const markedKey = this.calculateMarkedKeyForVisible();
          this.setMarkedKey(markedKey);
       }
-   }
-
-   /**
-    * Обновить состояние контроллера
-    * @param options
-    * @return {number|string} Ключ маркера
-    */
-   update(options: IOptions): TKey {
-      if (this._model !== options.model) {
-         this._model = options.model;
-         this.restoreMarker();
-      }
       this._markerVisibility = options.markerVisibility;
-
-      const markedKey = this.calculateMarkedKey(options.markedKey);
-      this.setMarkedKey(markedKey);
-      return markedKey;
    }
 
    /**
-    * Проставить маркер в модели
+    * Применяет переданный ключ
+    * @param {CrudEntityKey} key Новый ключ
+    * @void
     */
-   setMarkedKey(markedKey: TKey): void {
-      if (this._markedKey !== markedKey) {
+   setMarkedKey(key: CrudEntityKey): void {
+      // TODO после перехода на новую модель, удалить _model.setMarkedKey и работать с CollectionItem
+      if (this._markedKey !== key) {
          this._model.setMarkedKey(this._markedKey, false);
-         this._model.setMarkedKey(markedKey, true);
-         this._markedKey = markedKey;
       }
+      this._model.setMarkedKey(key, true);
+      this._markedKey = key;
    }
 
    /**
-    * Получить текущий ключ маркера
+    * Высчитывает новый ключ маркера
+    * @return {CrudEntityKey} Новый ключ
     */
-   getMarkedKey(): TKey {
+   calculateMarkedKeyForVisible(): CrudEntityKey {
+      // TODO удалить этот метод, когда избавимся от onactivated
+      const existsMarkedItem = !!this._model.getItemBySourceKey(this._markedKey);
+
+      let newMarkedKey;
+
+      if (existsMarkedItem) {
+         newMarkedKey = this._markedKey;
+      } else {
+         if (this._markerVisibility === Visibility.Visible) {
+            if (this._model.getCount()) {
+               newMarkedKey = this._getFirstItemKey();
+            } else {
+               newMarkedKey = this._markedKey;
+            }
+         } else {
+            if (this._model.getCount()) {
+               newMarkedKey = null;
+            } else {
+               newMarkedKey = this._markedKey;
+            }
+         }
+      }
+
+      return newMarkedKey;
+   }
+
+   /**
+    * Возвращает текущий ключ маркера
+    * @return {CrudEntityKey} Текущий ключ
+    */
+   getMarkedKey(): CrudEntityKey {
       return this._markedKey;
    }
 
    /**
-    * Если по переданному ключу не найден элемент, то возвращается ключ первого элемента или null
-    * @param key ключ элемента, на который ставится маркер
-    * @return {string|number} новый ключ маркера
+    * Высчитывает ключ следующего элемента
+    * @return {CrudEntityKey} Ключ следующего элемента
     */
-   calculateMarkedKey(key: TKey): TKey {
-      if ((key === undefined || key === null) && this._markerVisibility !== Visibility.Visible) {
-         return key;
-      }
-
-      const item = this._model.getItemBySourceKey(key);
-      if (this._markedKey === key && item) {
-         return key;
-      }
-
-      let resultKey = this._markedKey;
-      if (item) {
-         resultKey = key;
-      } else {
-         switch (this._markerVisibility) {
-            case Visibility.OnActivated:
-               // Маркер сбросим только если список не пустой и элемента с текущим маркером не найдено
-               if (this._model.getCount() > 0) {
-                  if (this._markedKey) {
-                     resultKey = this.getFirstItemKey();
-                  } else {
-                     resultKey = null;
-                  }
-               }
-               break;
-            case Visibility.Visible:
-               resultKey = this.getFirstItemKey();
-               break;
-         }
-      }
-
-      return resultKey;
+   getNextMarkedKey(): CrudEntityKey {
+      const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
+      const nextMarkedKey = this._calculateNearbyByDirectionItemKey(index + 1, true);
+      return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
    }
 
    /**
-    * Проставляет заново маркер в модели
+    * Высчитывает ключ предыдущего элемента
+    * @return {CrudEntityKey} Ключ предыдущего элемента
     */
-   restoreMarker(): void {
-      const item = this._model.getItemBySourceKey(this._markedKey);
-      if (item) {
-         item.setMarked(true);
+   getPrevMarkedKey(): CrudEntityKey {
+      const index = this._model.getIndex(this._model.getItemBySourceKey(this._markedKey));
+      const prevMarkedKey = this._calculateNearbyByDirectionItemKey(index - 1, false);
+      return prevMarkedKey === null ? this._markedKey : prevMarkedKey;
+   }
+
+   /**
+    * Обрабатывает удаления элементов из коллекции
+    * @remark Возвращает ключ следующего элемента, при его отустствии предыдущего, иначе null
+    * @param {number} removedItemsIndex Индекс удаленной записи в коллекции
+    * @param {Array<CollectionItem<Model>>} removedItems Удаленные элементы коллекции
+    * @return {CrudEntityKey} Новый ключ маркера
+    */
+   onCollectionRemove(removedItemsIndex: number, removedItems: Array<CollectionItem<Model>>): CrudEntityKey {
+      // Событие remove срабатывает также при скрытии элементов.
+      // Когда элементы скрываются, например при сворачивании группы, у них сохраняется свое состояние.
+      // После скрытия элементов маркер переставляется или сбрасывается,
+      // поэтому на скрытых элементах нужно сбросить состояние marked
+      removedItems.forEach((item) => item.setMarked(false, true));
+
+      return this._getMarkedKeyAfterRemove(removedItemsIndex);
+   }
+
+   /**
+    * Обрабатывает добавление элементов в коллекцию
+    * @param {Array<CollectionItem<Model>>} items Список добавленных элементов
+    * @void
+    */
+   onCollectionAdd(items: Array<CollectionItem<Model>>): void {
+      // Если элемент был скрыт, то сработает remove и с элемента уберется выделение,
+      // а при показе элемента сработает add и для элемента нужно восстановить выделение,
+      // если текущий markedKey указывает на него
+      if (this._containsMarkedItem(items)) {
+         this.setMarkedKey(this._markedKey);
       }
    }
 
    /**
-    * Переместить маркер на следующий элемент
-    * @return ключ, на который поставлен маркер
+    * Обрабатывает замену элементов в коллекции
+    * @param {Array<CollectionItem<Model>>} items Список добавленных элементов
+    * @void
     */
-   moveMarkerToNext(): TKey {
-      const nextItem = this._model.getNextByKey(this._markedKey);
-      if (!nextItem) {
-         return this._markedKey;
+   onCollectionReplace(items: Array<CollectionItem<Model>>): void {
+      // Если Record заменили, например, через метод RecordSet.replace, то в таком случае создается новый
+      // CollectionItem без состояния и для него нужно восстановить маркер
+      // https://online.sbis.ru/doc/03a1208c-96ef-4641-bda8-fa7c72f6ebfb
+      if (this._containsMarkedItem(items)) {
+         this.setMarkedKey(this._markedKey);
       }
-
-      return this._getKey(nextItem);
    }
 
    /**
-    * Переместить маркер на предыдущий элемент
-    * @return ключ, на который поставлен маркер
+    * Обрабатывает замену элементов в коллекции
+    * @return {CrudEntityKey} Новый ключ маркера
     */
-   moveMarkerToPrev(): TKey {
-      const prevItem = this._model.getPrevByKey(this._markedKey);
-      if (!prevItem) {
-         return this._markedKey;
+   onCollectionReset(): CrudEntityKey {
+      const newMarkedKey = this.calculateMarkedKeyForVisible();
+      if (newMarkedKey === this._markedKey) {
+         this.setMarkedKey(newMarkedKey);
       }
-
-      return this._getKey(prevItem);
-   }
-
-   /**
-    * Обработчк удаления элементов
-    * Ставит маркер на следующий элемент, при его отустствии на предыдущий, иначе сбрасывает маркер
-    * @param removedItemsIndex Индекс удаленной записи в исходной коллекции (RecordSet)
-    */
-   handleRemoveItems(removedItemsIndex: number): TKey {
-      // Если элемент с текущем маркером не удален, то маркер не нужно менять
-      const item = this._model.getItemBySourceKey(this._markedKey);
-      if (item) {
-         return this._markedKey;
-      }
-
-      // Нам приходит индекс в исходной коллекции и его нужно перевести в индекс проекции
-      const indexInProjection = this._model.getIndexBySourceIndex(removedItemsIndex);
-      const nextItem = this._model.getNextByIndex(indexInProjection);
-      const prevItem = this._model.getPrevByIndex(indexInProjection);
-
-      let newMarkedKey;
-      if (nextItem) {
-         newMarkedKey = this.calculateMarkedKey(this._getKey(nextItem));
-      } else if (prevItem) {
-         newMarkedKey = this.calculateMarkedKey(this._getKey(prevItem));
-      } else {
-         newMarkedKey = this.calculateMarkedKey(null);
-      }
-
       return newMarkedKey;
    }
 
    /**
-    * Сбросить состояние marked для переданных элементов
-    * @param items Список элементов коллекции
+    * Зануляет все ссылки внутри контроллера
+    * @void
     */
-   resetMarkedState(items: Array<CollectionItem<Model>>): void {
-      items.forEach((item) => item.setMarked(false, true));
+   destroy(): void {
+      this._markedKey = null;
+      this._markerVisibility = null;
+      this._model = null;
    }
 
    /**
-    * Устанавливает маркер на первый элемент, который полностью виден на странице
-    * @param items список HTMLElement-ов на странице
-    * @param verticalOffset вертикальное смещение скролла
+    * @private
+    * TODO нужно выпилить этот метод при переписывании моделей. item.getContents() должен возвращать Record
+    *  https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
     */
-   setMarkerOnFirstVisibleItem(items: HTMLElement[], verticalOffset: number): TKey {
-      let firstItemIndex = this._model.getStartIndex();
-      firstItemIndex += this._getFirstVisibleItemIndex(items, verticalOffset);
-      firstItemIndex = Math.min(firstItemIndex, this._model.getStopIndex());
-
-      let newMarkedKey;
-      const item = this._model.getValidItemForMarker(firstItemIndex);
-      if (item) {
-         const itemKey = this._getKey(item);
-         newMarkedKey = this.calculateMarkedKey(itemKey);
-      } else {
-         newMarkedKey = this.calculateMarkedKey(null);
-      }
-
-      return newMarkedKey;
-   }
-
-   /**
-    * Обработать добавление элементов
-    * @param newItems список новый элементов
-    */
-   handleAddItems(newItems: Array<CollectionItem<Model>>): void {
-      if (newItems.some((item) => this._getKey(item) === this._markedKey)) {
-         this.restoreMarker();
-      }
-   }
-
-   /*
-      TODO нужно выпилить этот метод при переписывании моделей. item.getContents() должен возвращать Record
-       https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
-   */
-   private _getKey(item: CollectionItem<Model>): TKey {
+   private _getKey(item: CollectionItem<Model>): CrudEntityKey {
       let contents = item.getContents();
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          contents = contents[(contents as any).length - 1];
@@ -221,10 +201,47 @@ export class Controller {
    }
 
    /**
+    * Возвращает ключ ближайшего следующего элемента, если нет следующего, то предыдущего, а иначе null
+    * @param index Индекс элемента, к которому искать ближайший элемент
+    * @private
+    */
+   private _calculateNearbyItemKey(index: number): CrudEntityKey {
+      // Считаем ключ следующего элемента
+      let newMarkedKey = this._calculateNearbyByDirectionItemKey(index, true);
+
+      // Считаем ключ предыдущего элемента, если следующего нет
+      if (newMarkedKey === null) {
+         newMarkedKey = this._calculateNearbyByDirectionItemKey(index, false);
+      }
+
+      return newMarkedKey;
+   }
+
+   /**
+    * Возвращает ключ ближайшего элемента в направлении next
+    * @param index Индекс элемента, к которому искать ближайший элемент
+    * @param next Следующий или предыдущий
+    * @private
+    */
+   private _calculateNearbyByDirectionItemKey(index: number, next: boolean): CrudEntityKey {
+      const count = this._model.getCount();
+      let item;
+
+      const indexInBounds = (i) => next ? i < count : i >= 0;
+      while (indexInBounds(index)) {
+         item = this._model.at(index);
+         if (item && item.MarkableItem) { break; }
+         index += next ? 1 : -1;
+      }
+
+      return item ? this._getKey(item) : null;
+   }
+
+   /**
     * Возвращает ключ первого элемента модели
     * @private
     */
-   private getFirstItemKey(): TKey {
+   private _getFirstItemKey(): CrudEntityKey {
       if (!this._model.getCount()) {
          return null;
       }
@@ -237,17 +254,16 @@ export class Controller {
       return firstItem.getKey();
    }
 
-   private _getFirstVisibleItemIndex(items: HTMLElement[], verticalOffset: number): number {
-      const itemsCount = items.length;
-      let itemsHeight = 0;
-      let i = 0;
-      if (verticalOffset <= 0) {
-         return 0;
+   private _getMarkedKeyAfterRemove(removedIndex: number): CrudEntityKey {
+      // Если элемент с текущем маркером не удален или маркер не проставлен, то маркер не нужно менять
+      const item = this._model.getItemBySourceKey(this._markedKey);
+      if (item || this._markedKey === null || this._markedKey === undefined) {
+         return this._markedKey;
       }
-      while (itemsHeight < verticalOffset && i < itemsCount) {
-         itemsHeight += uDimension(items[i]).height;
-         i++;
-      }
-      return i;
+      return this._calculateNearbyItemKey(removedIndex);
+   }
+
+   private _containsMarkedItem(items: Array<CollectionItem<Model>>): boolean {
+      return items.some((item) => this._getKey(item) === this._markedKey);
    }
 }

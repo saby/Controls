@@ -13,6 +13,7 @@ import {mixin} from 'Types/util';
 import {TemplateFunction} from 'UI/Base';
 import {ICollectionItemStyled} from './interface/ICollectionItemStyled';
 import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ICollectionItem} from './interface/ICollectionItem';
 
 export interface IOptions<T> {
     contents?: T;
@@ -60,11 +61,12 @@ export default class CollectionItem<T> extends mixin<
     OptionsToPropertyMixin,
     InstantiableMixin,
     SerializableMixin
-) implements IInstantiable, IVersionable, ICollectionItemStyled {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled {
 
     // region IInstantiable
 
     readonly '[Types/_entity/IInstantiable]': boolean;
+    readonly MarkableItem: boolean = true;
 
     getInstanceId: () => string;
 
@@ -91,7 +93,12 @@ export default class CollectionItem<T> extends mixin<
 
     protected _$swiped: boolean;
 
-    protected _$rightSwiped: boolean;
+    /**
+     * Анимация свайпа: открытие или закрытие меню опций
+     */
+    protected _$swipeAnimation: ANIMATION_STATE;
+
+    protected _$animatedForSelection: boolean;
 
     protected _$editingContents: T;
 
@@ -353,30 +360,40 @@ export default class CollectionItem<T> extends mixin<
     }
 
     /**
-     * Элемент коллеекции свайпнут вправо (состояние анимации right-swipe)
+     * Флаг, определяющий состояние анимации записи при отметке её чекбоксом.
+     * Используется для анимации при свайпе вправо для multiSelect
      */
-    isRightSwiped(): boolean {
-        return this._$rightSwiped;
-    }
-
-    setRightSwiped(swiped: boolean, silent?: boolean): void {
-        if (this._$rightSwiped === swiped) {
-            return;
-        }
-        this._$rightSwiped = swiped;
-        this._nextVersion();
-        if (!silent) {
-            this._notifyItemChangeToOwner('rightSwiped');
-        }
+    isAnimatedForSelection(): boolean {
+        return this._$animatedForSelection;
     }
 
     /**
-     * Элемент коллекции свайпнут влево (состояние анимации open или close)
+     * Устанавливает состояние  анимации записи при отметке её чекбоксом.
+     * Используется при свайпе вправо для multiSelect
+     */
+    setAnimatedForSelection(animated: boolean): void {
+        if (this._$animatedForSelection === animated) {
+            return;
+        }
+        this._$animatedForSelection = animated;
+        this._nextVersion();
+        this._notifyItemChangeToOwner('animatedForSelection');
+    }
+
+    /**
+     * Флаг, определяющий состояние свайпа влево по записи.
+     * Используется при свайпе по записи для
+     * отображения или скрытия панели опций записи
      */
     isSwiped(): boolean {
         return this._$swiped;
     }
 
+    /**
+     * Флаг, определяющий состояние свайпа влево по записи.
+     * Используется при свайпе по записи для
+     * отображения или скрытия панели опций записи
+     */
     setSwiped(swiped: boolean, silent?: boolean): void {
         if (this._$swiped === swiped) {
             return;
@@ -386,6 +403,24 @@ export default class CollectionItem<T> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('swiped');
         }
+    }
+
+    /**
+     * Устанавливает текущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    setSwipeAnimation(animation: ANIMATION_STATE): void {
+        this._$swipeAnimation = animation;
+        this._nextVersion();
+        this._notifyItemChangeToOwner('swipeAnimation');
+    }
+
+    /**
+     * Получает еткущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    getSwipeAnimation(): ANIMATION_STATE {
+        return this._$swipeAnimation;
     }
 
     isActive(): boolean {

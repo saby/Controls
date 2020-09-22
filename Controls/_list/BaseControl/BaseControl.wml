@@ -143,8 +143,7 @@
                 <ws:partial
                         template="{{ _swipeTemplate }}"
                         scope="{{ _listViewModel.getActionsTemplateConfig() }}"
-                        swipeConfig="{{ _listViewModel.getSwipeConfig() }}"
-                        animationState="{{ _listViewModel.getSwipeAnimation() }}"/>
+                        swipeConfig="{{ _listViewModel.getSwipeConfig() }}"/>
             </ws:swipeTemplate>
             <ws:tagTemplate>
                 <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"

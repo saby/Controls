@@ -47,6 +47,9 @@ var
             if (cfg.stickyColumn !== undefined) {
                 Logger.warn('IGridControl: Option "stickyColumn" is deprecated and removed in 19.200. Use "stickyProperty" option in the column configuration when setting up the columns.', self);
             }
+            if (cfg.headerInEmptyListVisible !== undefined) {
+                Logger.warn('IGridControl: Option "headerInEmptyListVisible" is deprecated and removed in 20.7000. Use "headerVisibility={ hasdata | visible }".', self);
+            }
         },
 
         getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
@@ -326,7 +329,12 @@ var
             this._listModel.setBaseItemTemplateResolver(this._resolveBaseItemTemplate.bind(this));
             this._listModel.setColumnTemplate(ColumnTpl);
             this._setResultsTemplate(cfg);
-            this._listModel.setHeaderInEmptyListVisible(cfg.headerInEmptyListVisible);
+            if (cfg.headerInEmptyListVisible !== undefined) {
+                this._listModel.setHeaderVisibility(cfg.headerInEmptyListVisible);
+            }
+            if (cfg.headerVisibility !== undefined) {
+                this._listModel.setHeaderVisibility(cfg.headerVisibility);
+            }
 
             // Коротко: если изменить опцию модели пока gridView не построена, то они и не применятся.
             // Подробнее: GridView управляет почти всеми состояниями модели. GridControl создает модель и отдает ее
@@ -360,9 +368,15 @@ var
             GridView.superclass._beforeUpdate.apply(this, arguments);
             const self = this;
             const isColumnsScrollChanged = this._options.columnScroll !== newCfg.columnScroll;
+
             if (this._options.headerInEmptyListVisible !== newCfg.headerInEmptyListVisible) {
                 if (this._listModel) {
-                    this._listModel.setHeaderInEmptyListVisible(newCfg.headerInEmptyListVisible);
+                    this._listModel.setHeaderVisibility(newCfg.headerInEmptyListVisible);
+                }
+            }
+            if (this._options.headerVisibility !== newCfg.headerVisibility) {
+                if (this._listModel) {
+                    this._listModel.setHeaderVisibility(newCfg.headerVisibility);
                 }
             }
             if (this._options.resultsPosition !== newCfg.resultsPosition) {

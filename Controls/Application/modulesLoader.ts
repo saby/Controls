@@ -1,6 +1,7 @@
 /**
  * A modules loader on application level
  */
+import ModulesManager from 'RequireJsLoader/ModulesManager';
 import {Library as library} from 'UI/Utils';
 
 interface IParsedName {
@@ -10,74 +11,41 @@ interface IParsedName {
 
 let cache: Record<string, Promise<unknown>> = {};
 
-/**
- * requirejs.defined работает не корректно. Возвращает true, хотя callback в defined(name, callback) ещё не был вызван.
- */
-const asyncLoadedModules: Record<string, boolean | void> = {};
+let modulesManager: ModulesManager;
 
-function getFromLib<T, K>(lib: T, parsedName: IParsedName): K {
-    let mod: unknown = lib;
+function getModulesManager(): ModulesManager {
+    if (!modulesManager) {
+        modulesManager = new ModulesManager(requirejs);
+    }
+    return modulesManager;
+}
 
-    const processed = [];
-    parsedName.path.forEach((property) => {
-        processed.push(property);
-        if (mod && typeof mod === 'object' && property in mod) {
-            mod = mod[property];
-        } else {
-            throw new Error(`Cannot find module "${processed.join('.')}" in library "${parsedName.name}"`);
-        }
-    });
-
-    return mod as K;
+function getFromLib<T>(lib: T, parsedName: IParsedName): T {
+    const mod = library.extract<T>(lib, parsedName);
+    if (mod instanceof Error) {
+        throw new Error(mod.message);
+    }
+    return mod as T;
 }
 
 function isCached(name: string): boolean {
     return !!cache[name];
 }
 
-function requireSync<T>(name: string): T {
-    return requirejs(name);
-}
-
-function requireAsync<T>(name: string): Promise<T> {
-    return new Promise((resolve, reject) => {
-        requirejs([name], resolve, reject);
-    });
-}
-
 /**
  * Возвращает признак, что модуль загружен
  * @param name Имя модуля в обычном (Foo/bar) или библиотечном (Foo/bar:baz) синтаксисе
+ * @protected
  */
 export function isLoaded(name: string): boolean {
-    /*
-     Делаю проверку, что загруженный модуль имеет тип функции, т.к. может быть require уже реально загрузил.
-     Текущее решение, нужно для случая, когда модуль реально возвращает пустой объект, и нужно вернуть ответ,
-     что модуль загружен.
-    */
-
-     const parsedInfo: IParsedName = library.parse(name);
-    if (asyncLoadedModules[parsedInfo.name]) {
-        return true;
-    }
-
-    // Проверяем наличие, что бы не было сообщения в лог
-    if (!requirejs.defined(parsedInfo.name)) {
-        return false;
-    }
-
-    const module = requirejs(parsedInfo.name);
-    if (typeof module !== 'undefined' && (module instanceof Function || Object.keys(module).length > 0)) {
-        asyncLoadedModules[parsedInfo.name] = true;
-        return true;
-    }
-
-    return false;
+    const parsedInfo: IParsedName = library.parse(name);
+    return getModulesManager().isLoaded(parsedInfo.name);
 }
 
 /**
  * Асинхронно загружает модуль
  * @param name Имя модуля в обычном (Foo/bar) или библиотечном (Foo/bar:baz) синтаксисе
+ * @protected
  */
 export function loadAsync<T>(name: string): Promise<T> {
     if (isLoaded(name)) {
@@ -93,10 +61,12 @@ export function loadAsync<T>(name: string): Promise<T> {
         return cache[parsedInfo.name].then(loadFromModule) as Promise<T>;
     }
 
-    let promiseResult = requireAsync(parsedInfo.name);
+    let promiseResult = getModulesManager()
+        .load<[T]>([parsedInfo.name])
+        .then(([moduleBody]) => moduleBody);
+
     cache[parsedInfo.name] = promiseResult = promiseResult.then((res) => {
         delete cache[parsedInfo.name];
-        asyncLoadedModules[parsedInfo.name] = true;
         return res;
     }, (error) => {
         delete cache[parsedInfo.name];
@@ -109,10 +79,11 @@ export function loadAsync<T>(name: string): Promise<T> {
 /**
  * Возвращает загруженный модуль
  * @param name Имя модуля в обычном (Foo/bar) или библиотечном (Foo/bar:baz) синтаксисе
+ * @protected
  */
 export function loadSync<T>(name: string): T {
     const parsedInfo = library.parse(name);
-    const module = requireSync(parsedInfo.name);
+    const module = getModulesManager().loadSync<T>(parsedInfo.name);
     return getFromLib(module, parsedInfo);
 
 }

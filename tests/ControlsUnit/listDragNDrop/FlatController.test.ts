@@ -43,11 +43,10 @@ describe('Controls/_listDragNDrop/FlatController', () => {
    describe('setDraggedItems', () => {
       it ('not pass draggedItem', () => {
          const modelSetDraggedItemsSpy = spy(model, 'setDraggedItems');
-
-         controller.setDraggedItems({});
+         controller.setDraggedItems(new ItemsEntity({items: [1]}));
 
          // undefined - так как startDrag не был вызван
-         assert.isTrue(modelSetDraggedItemsSpy.withArgs(undefined, {}).calledOnce,
+         assert.isTrue(modelSetDraggedItemsSpy.withArgs(null, [1]).calledOnce,
             'setDraggedItems не вызвался или вызвался с неверными параметрами');
       });
 
@@ -56,9 +55,9 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          const entity = new ItemsEntity( { items: [1] } );
 
          let modelSetDraggedItemsCalled = false;
-         model.setDraggedItems = (draggedItemData, e) => {
-            assert.equal(draggedItemData.key, 1);
-            assert.equal(e, entity);
+         model.setDraggedItems = (draggedItemKey, e) => {
+            assert.equal(draggedItemKey, 1);
+            assert.deepEqual(e, [1]);
             modelSetDraggedItemsCalled = true;
          };
 
@@ -66,10 +65,6 @@ describe('Controls/_listDragNDrop/FlatController', () => {
 
          assert.isTrue(modelSetDraggedItemsCalled);
          assert.equal(controller.getDragEntity(), entity);
-
-         // Это нужно обязательно проверить, так как если не проставить isDragging,
-         // то на перетаскиваемый элемент не повесится нужный css класс
-         assert.isTrue(controller._draggingItemData.isDragging);
       });
 
       it('new model', () => {
@@ -82,9 +77,9 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          const entity = new ItemsEntity( { items: [1] } );
 
          let modelSetDraggedItemsCalled = false;
-         model.setDraggedItems = (draggedItem, e) => {
-            assert.equal(draggedItem.getContents().getKey(), 1);
-            assert.equal(e, entity);
+         model.setDraggedItems = (draggedItemKey, draggedItemsKeys) => {
+            assert.equal(draggedItemKey, 1);
+            assert.deepEqual(draggedItemsKeys, [1]);
             modelSetDraggedItemsCalled = true;
          };
 
@@ -117,7 +112,7 @@ describe('Controls/_listDragNDrop/FlatController', () => {
       assert.isTrue(modelResetDraggedItemsCalled.calledOnce);
       assert.isNull(controller.getDragPosition());
       assert.isNull(controller.getDragEntity());
-      assert.isNull(controller._draggingItemData);
+      assert.isNull(controller._draggableItem);
    });
 
    describe('calculateDragPosition', () => {
@@ -127,16 +122,16 @@ describe('Controls/_listDragNDrop/FlatController', () => {
       });
 
       it('hover on dragged item', () => {
-         const dragPosition = controller.calculateDragPosition({ index: 0 });
-         assert.isNull(dragPosition);
+         const dragPosition = controller.calculateDragPosition(model.getItemBySourceKey(1));
+         assert.isUndefined(dragPosition);
       });
 
       it ('first calculate position', () => {
-         let newPosition = controller.calculateDragPosition({ index: 2});
+         let newPosition = controller.calculateDragPosition(model.getItemBySourceKey(3));
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition({ index: 1});
+         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(2));
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'after');
       });
@@ -149,34 +144,32 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          controller.setDragPosition(setPosition);
          assert.equal(controller.getDragPosition(), setPosition);
 
-         let newPosition = controller.calculateDragPosition({ index: 2});
+         let newPosition = controller.calculateDragPosition(model.getItemBySourceKey(3));
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition({ index: 1});
+         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(2));
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'before');
 
-         newPosition = controller.calculateDragPosition({ index: 0});
-         assert.isNull(newPosition);
+         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(1));
+         assert.deepEqual(newPosition, { index: 1, position: 'after' });
       });
    });
 
    it('canStartDragNDrop', () => {
-      const canStartDragNDrop = function () {
-         return true;
-      },
-         event = {
-            nativeEvent: {
-               button: undefined
-            },
-            target: {
-               closest(cssClass) {
-                  assert.equal(cssClass, '.controls-DragNDrop__notDraggable');
-                  return false;
+      const canStartDragNDrop = () => true,
+            event = {
+               nativeEvent: {
+                  button: undefined
+               },
+               target: {
+                  closest(cssClass) {
+                     assert.equal(cssClass, '.controls-DragNDrop__notDraggable');
+                     return false;
+                  }
                }
-            }
-         };
+            };
 
       assert.isTrue(DndFlatController.canStartDragNDrop(canStartDragNDrop, event, false));
       assert.isTrue(DndFlatController.canStartDragNDrop(false, event, false));

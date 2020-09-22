@@ -8,6 +8,12 @@ import Deferred = require('Core/Deferred');
 import {tmplNotify} from 'Controls/eventUtils';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
+import {ISelectionObject} from 'Controls/interface';
+import { CrudEntityKey } from 'Types/source';
+import { TMovePosition } from './Controllers/MoveController';
+import {IMovableList} from './interface/IMovableList';
+import {IRemovableList} from './interface/IRemovableList';
+import { RecordSet } from 'Types/collection';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
@@ -34,6 +40,8 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_list/interface/IClickableView
  * @mixes Controls/_list/interface/IReloadableList
+ * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/_list/interface/IRemovableList
  *
  *
  * @mixes Controls/_list/interface/IVirtualScroll
@@ -69,6 +77,8 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_list/interface/IClickableView
  * @mixes Controls/_list/interface/IReloadableList
+ * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/_list/interface/IRemovableList
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  *
@@ -79,7 +89,7 @@ import {default as ListControl} from 'Controls/_list/ListControl';
  * @demo Controls-demo/List/List/BasePG
  */
 
-export default class List extends Control/** @lends Controls/_list/List.prototype */{
+export default class List extends Control/** @lends Controls/_list/List.prototype */ implements IMovableList, IRemovableList {
     protected _template: TemplateFunction = ListControlTpl;
     protected _viewName = viewName;
     protected _viewTemplate: unknown = ListControl;
@@ -114,6 +124,10 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
         return listControl.reloadItem.apply(listControl, arguments);
     }
 
+    getItems(): RecordSet {
+        return this._children.listControl.getItems();
+    }
+
     scrollToItem(key: string|number, toBottom: boolean, force: boolean): Promise<void> {
         return this._children.listControl.scrollToItem(key, toBottom, force);
     }
@@ -133,6 +147,38 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
     commitEdit() {
         return this._options.readOnly ? Deferred.fail() : this._children.listControl.commitEdit();
     }
+
+    // region mover
+
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: TMovePosition): Promise<void> {
+        return this._children.listControl.moveItems(selection, targetKey, position);
+    }
+
+    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+        return this._children.listControl.moveItemUp(selectedKey);
+    }
+
+    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+        return this._children.listControl.moveItemDown(selectedKey);
+    }
+
+    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+        return this._children.listControl.moveItemsWithDialog(selection);
+    }
+
+    // endregion mover
+
+    // region remover
+
+    removeItems(selection: ISelectionObject): Promise<void> {
+        return this._children.listControl.removeItems(selection);
+    }
+
+    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
+        return this._children.listControl.removeItemsWithConfirmation(selection);
+    }
+
+    // endregion remover
 
     _notifyHandler = tmplNotify;
 

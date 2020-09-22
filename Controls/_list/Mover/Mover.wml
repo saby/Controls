@@ -1,4 +1,1 @@
-<Controls.popup:Dialog name="dialogOpener"
-                              closeOnOutsideClick="{{true}}"
-                              template="{{_moveDialogTemplate}}">
-</Controls.popup:Dialog>
+<div></div>

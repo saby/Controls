@@ -28,7 +28,7 @@ export default class extends Control {
       });
    }
 
-   protected _selectedTypeChangedHandler(event, type: string) {
+   protected _selectedTypeChangedHandler(event: Event, type: string): void {
       switch (type) {
          case 'selectAll':
             this._isAllSelected = true;

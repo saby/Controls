@@ -37,7 +37,7 @@
                 itemActionsTemplate="{{itemActionsTemplate}}"
                 attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
-                            {{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}} {{ cellClassName || '' }}"
+                            {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}} {{ cellClassName || '' }}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
                 expanderTemplate="{{itemData.expanderTemplate}}"
                 itemData="{{currentColumn}}"

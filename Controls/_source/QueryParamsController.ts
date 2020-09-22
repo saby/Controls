@@ -6,7 +6,6 @@ import {Collection} from 'Controls/display';
 import {Record} from 'Types/entity';
 import {INavigationSourceConfig, IBaseSourceConfig} from 'Controls/interface';
 import {Direction, IQueryParams} from 'Controls/_interface/IQueryParams';
-import {TNavigationPagingMode} from '../_interface/INavigation';
 
 type Key = string|number|null;
 type NavigationRecord = Record<{
@@ -74,8 +73,8 @@ export default class QueryParamsController implements IQueryParamsController {
         this.getController(root).setConfig(config);
     }
 
-    setEdgeState(direction: 'up' | 'down', root?: Key, pagingMode: TNavigationPagingMode): void {
-        this.getController(root).setEdgeState(direction, pagingMode);
+    setEdgeState(direction: 'up' | 'down', root?: Key): void {
+        this.getController(root).setEdgeState(direction);
     }
 
     setState(model: Collection<Record>, root?: Key): boolean {

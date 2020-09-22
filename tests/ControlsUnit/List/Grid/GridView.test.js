@@ -434,7 +434,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          gridView.saveOptions(cfg);
          gridView._listModel = {
             setBaseItemTemplateResolver: () => {},
-            setHeaderInEmptyListVisible: () => {},
+            setHeaderVisibility: () => {},
             setColumnTemplate: () => {},
             setColumnScroll: (opts, silent) => {calledMethods.push(['setColumnScroll', silent])},
             setColumns: (opts, silent) => {calledMethods.push(['setColumns', silent])},

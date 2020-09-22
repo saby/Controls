@@ -14,8 +14,9 @@
 
    <ws:else>
       <div class="controls-Menu__content_baseline">
-         <ws:if data="{{marker !== false && treeItem.isSelected() &&
-                  (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
+         <!--Проверка isSelected будет удалена после: https://online.sbis.ru/opendoc.html?guid=dbaef61b-7b5e-4f78-9ab8-04188f3cc94e-->
+         <ws:if data="{{marker !== false && (treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected())
+               && (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
             <div class="controls-Menu__row_selected controls-Menu__row_selected_theme-{{_options.theme}}
                         {{_options.multiLine ? 'controls-Menu__row_selected-multiLine_theme-' + _options.theme}}
                         controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"></div>

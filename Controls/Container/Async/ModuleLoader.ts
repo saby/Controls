@@ -8,9 +8,7 @@ class ModuleLoader {
         name: string,
         errorCallback?: (viewConfig: void | ViewConfig, error: unknown) => void
     ): Promise<T> {
-        return loadAsync<T>(name).then((res) => {
-            return res;
-        }).catch((error) => {
+        return loadAsync<T>(name).catch((error) => {
             IoC.resolve('ILogger').error(`Couldn't load module "${name}"`, error);
 
             return new ParkingController(

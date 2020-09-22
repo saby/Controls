@@ -6,7 +6,7 @@
                 imageProperty="image"
                 keyProperty="id"
                 source="{{_viewSource}}">
-            <ws:itemPadding left="l" right="l"/>
+            <ws:itemPadding left="l" right="l" bottom="l" top="l"/>
         </Controls.tile:View>
     </div>
 </div>

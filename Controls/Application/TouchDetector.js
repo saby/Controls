@@ -12,7 +12,7 @@ define('Controls/Application/TouchDetector', [
 
       _beforeMount: function() {
          this._touchController = new Controller();
-         this._touchController.createContext();
+         this._touchObjectContext = this._touchController.createContext();
       },
 
       touchHandler: function() {

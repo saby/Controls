@@ -383,6 +383,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const top = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const bottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
         this._scrollbars.setOffsets({ top: top, bottom: bottom });
+        this._stickyHeaderController.setShadowVisibility(
+            this._shadows.top.isStickyHeadersShadowsEnabled(),
+            this._shadows.bottom.isStickyHeadersShadowsEnabled());
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
             this._stickyHeaderController.hasFixed(POSITION.BOTTOM) && this._stickyHeaderController.hasShadowVisible(POSITION.BOTTOM));
@@ -413,7 +416,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             shadowStyle: 'default',
             backgroundStyle: DEFAULT_BACKGROUND_STYLE,
             scrollMode: 'vertical',
-            optimizeShadow: true
+            optimizeShadow: false
         };
     }
 }

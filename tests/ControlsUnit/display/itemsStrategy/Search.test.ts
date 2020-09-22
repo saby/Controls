@@ -178,6 +178,39 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             assert.deepEqual(result, ['#A,AA,AAA']);
         });
 
+        it('should put children of hidden node after the breadcrumbs', () => {
+            const items = [];
+            items[0] = new TreeItem({
+                contents: 'a',
+                node: false
+            });
+            items[1] = new TreeItem({
+                parent: items[0],
+                contents: 'B',
+                node: true
+            });
+            items[2] = new TreeItem({
+                parent: items[0],
+                contents: 'c',
+                node: null
+            });
+            items[3] = new TreeItem({
+                parent: items[0],
+                contents: 'D',
+                node: true
+            });
+
+            const source = getSource(items);
+            const strategy = new Search({source});
+
+            const result = strategy.items.map((item) => {
+                const contents = item.getContents();
+                return item instanceof BreadcrumbsItem ? `#${contents.join(',')}` : contents;
+            });
+
+            assert.deepEqual(result, ['a', '#a,B', '#a', 'c', '#a,D']);
+        });
+
         it('should add breadcrumbs before a leaf which has different parent than previous leaf', () => {
             const items = [];
             items[0] = new TreeItem({

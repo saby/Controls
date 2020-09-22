@@ -1,5 +1,6 @@
 import {IBasePopupOptions} from 'Controls/_popup/interface/IBaseOpener';
 import BaseOpener from 'Controls/_popup/Opener/BaseOpener';
+import * as randomId from 'Core/helpers/Number/randomId';
 
 interface IOpenerStaticMethods {
     openPopup: (popupOptions: IBasePopupOptions) => Promise<string>;
@@ -21,12 +22,18 @@ export default class Base {
     open(popupOptions: IBasePopupOptions): void {
         const config: IBasePopupOptions = {...popupOptions};
         config.isHelper = true;
-        if (this.isOpened()) {
-            config.id = this._popupId;
+
+        // Защита от множ. вызова. Хэлпер сам генерирует id
+        if (!this._popupId) {
+            this._popupId = randomId('popup-');
         }
-        this._opener.openPopup(config).then((id: string) => {
-            this._popupId = id;
-        });
+        config.id = this._popupId;
+        config._events = {
+            onClose: () => {
+                this._popupId = null;
+            }
+        };
+        this._opener.openPopup(config);
     }
 
     close(): void {

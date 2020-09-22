@@ -1143,4 +1143,3 @@ Base.getOptionTypes = function () {
 };
 
 export = Base;
-

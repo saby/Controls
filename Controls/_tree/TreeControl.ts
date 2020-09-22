@@ -5,6 +5,7 @@ import Deferred = require('Core/Deferred');
 import { isEqual } from 'Types/object';
 import { Map } from 'Types/shim';
 import {RecordSet} from 'Types/collection';
+import { Model } from 'Types/entity';
 
 import { saveConfig } from 'Controls/Application/SettingsController';
 import {tmplNotify, keysHandler} from 'Controls/eventUtils';
@@ -13,8 +14,12 @@ import { DndTreeController } from 'Controls/listDragNDrop';
 import { Controller as SourceController } from 'Controls/source';
 import { error as dataSourceError } from 'Controls/dataSource';
 import selectionToRecord = require('Controls/_operations/MultiSelector/selectionToRecord');
+import { TreeItem } from 'Controls/display';
 
 import TreeControlTpl = require('wml!Controls/_tree/TreeControl/TreeControl');
+import {ISelectionObject} from "../_interface/ISelectionType";
+import {CrudEntityKey} from "Types/source";
+import {TMovePosition} from "../_list/Controllers/MoveController";
 
 const HOT_KEYS = {
     expandMarkedItem: Env.constants.key.right,
@@ -398,6 +403,10 @@ const _private = {
         });
     },
 
+    getItems(): RecordSet {
+        return this._children.baseControl.getItems();
+    },
+
     getReloadableNodes: function(viewModel, nodeKey, keyProp, nodeProp) {
         var nodes = [];
         _private.nodeChildsIterator(viewModel, nodeKey, nodeProp, function(elem) {
@@ -497,6 +506,7 @@ const _private = {
  *
  * @class Controls/_tree/TreeControl
  * @mixes Controls/interface/IEditableList
+ * @mixes Controls/_list/interface/IMovableList
  * @extends Controls/_list/ListControl
  * @control
  * @private
@@ -696,8 +706,40 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.commitEdit();
     },
 
+    // region mover
+
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: TMovePosition): Promise<void> {
+        return this._children.baseControl.moveItems(selection, targetKey, position);
+    },
+
+    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+        return this._children.baseControl.moveItemUp(selectedKey);
+    },
+
+    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+        return this._children.baseControl.moveItemDown(selectedKey);
+    },
+
+    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+        return this._children.baseControl.moveItemsWithDialog(selection);
+    },
+
+    // endregion mover
+
+    // region remover
+
+    removeItems(selection: ISelectionObject): Promise<void> {
+        return this._children.baseControl.removeItems(selection);
+    },
+
+    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
+        return this._children.baseControl.removeItemsWithConfirmation(selection);
+    },
+
+    // endregion remover
+
     _markedKeyChangedHandler: function(event, key) {
-        this._notify('markedKeyChanged', [key]);
+        return this._notify('markedKeyChanged', [key]);
     },
 
     _draggingItemMouseMove(e, itemData, nativeEvent){
@@ -718,16 +760,15 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
     },
 
-    _expandNodeOnDrag: function(itemData) {
-        if (!itemData.isExpanded) {
-            _private.toggleExpanded(this, itemData.dispItem);
-        }
+    _expandNodeOnDrag(dispItem: TreeItem<Model>): void {
+        _private.toggleExpanded(this, dispItem);
     },
+
     _nodeMouseMove: function(itemData, event) {
         const dndListController = this._children.baseControl.getDndListController();
-
+        const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
         const targetElement = _private.getTargetRow(event);
-        const dragTargetPosition = dndListController.calculateDragPositionRelativeNode(itemData, event, targetElement);
+        const dragTargetPosition = dndListController.calculateDragPositionRelativeNode(dispItem, event, targetElement);
 
         if (dragTargetPosition) {
             if (this._notify('changeDragTarget', [dndListController.getDragEntity(), dragTargetPosition.item, dragTargetPosition.position]) !== false) {
@@ -743,8 +784,8 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             }
         }
 
-        if (dndListController.isInsideDragTargetNode(event, targetElement)) {
-            dndListController.startCountDownForExpandNode(itemData, this._expandNodeOnDrag);
+        if (!itemData.isExpanded && dndListController.isInsideDragTargetNode(event, targetElement)) {
+            dndListController.startCountDownForExpandNode(dispItem, this._expandNodeOnDrag);
         }
     },
 

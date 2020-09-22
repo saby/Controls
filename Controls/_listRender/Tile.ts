@@ -88,7 +88,7 @@ export default class TileRender extends BaseRender {
     }
 
     protected _onItemMouseMove(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem<unknown>): void {
-        if (!item.isFixed() && this._shouldProcessHover() /* && !this._listModel.getDragEntity() */) {
+        if (!item.isFixed() && this._shouldProcessHover() /* && !this._listModel.getDragItemData() */) {
             // TODO Might be inefficient, can get called multiple times per hover. Should
             // be called immediately before or after the hovered item is set in the model,
             // but then we can't get the hover target element.

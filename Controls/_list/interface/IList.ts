@@ -1,5 +1,6 @@
 import { TemplateFunction } from 'UI/Base';
 import { IItemActionsOptions } from 'Controls/itemActions';
+import { IMarkerListOptions } from 'Controls/marker';
 
 /**
  * Интерфейс для списков.
@@ -11,7 +12,6 @@ import { IItemActionsOptions } from 'Controls/itemActions';
 
 type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 
-type TMarkerVisibility = 'visible'|'onactivated'|'hidden';
 type TListStyle = 'master'|'default';
 type TVerticalItemPadding = 'S'|'null';
 type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null';
@@ -23,14 +23,12 @@ export interface IItemPadding {
     right?: THorizontalItemPadding;
 }
 
-export interface IList extends IItemActionsOptions {
+export interface IList extends IItemActionsOptions, IMarkerListOptions {
     attachLoadTopTriggerToNull?: boolean;
     emptyTemplate?: TemplateFunction|string;
     footerTemplate?: TemplateFunction|string;
     multiSelectVisibility?: TMultiSelectVisibility;
-    markedKey?: string|number;
     stickyMarkedItem?: boolean;
-    markerVisibility?: TMarkerVisibility;
     uniqueKeys?: boolean;
     itemsReadyCallback?: (items) => void;
     dataLoadCallback?: (items) => void;
@@ -218,21 +216,6 @@ export interface IList extends IItemActionsOptions {
  * @param {Vdom/Vdom:SyntheticEvent} nativeEvent Descriptor of the mouse event
  */
 
-
-/**
- * @name Controls/_list/interface/IList#markedKey
- * @cfg {Number} Идентификатор элемента, который выделен маркером.
- * @demo Controls-demo/List/List/BasePG
- * @see markerVisibility
- */
-
-/*ENG
- * @name Controls/_list/interface/IList#markedKey
- * @cfg {Number} Identifier of the marked collection item.
- * @remark
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
- */
-
 /**
  * @name Controls/_list/interface/IList#stickyMarkedItem
  * @cfg {Boolean} Позволяет включать/отключать прилипание выбранного элемента.
@@ -240,33 +223,6 @@ export interface IList extends IItemActionsOptions {
  * Опция актуальна только для стиля "Мастер".
  * @see style
  * @default true
- */
-
-/**
- * @typedef {String} MarkerVisibility
- * @variant visible Маркер отображается всегда, даже если не задан идентификатор элемента в опции {@link markedKey}.
- * @variant hidden Маркер всегда скрыт.
- * @variant onactivated Макер отображается при активации списка, например при клике по элементу.
- */
-
-/**
- * @name Controls/_list/interface/IList#markerVisibility
- * @cfg {MarkerVisibility} Режим отображения маркера активного элемента.
- * @remark
- * В следующем примере маркер появляется только при активации списка.
- * @demo Controls-demo/list_new/Marker/OnActivated/Index
- * @default onactivated
- * @see markedKey
- */
-
-/*ENG
- * @name Controls/_list/interface/IList#markerVisibility
- * @cfg {String} Determines when marker is visible.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
- * @variant visible The marker is always displayed, even if the marked key entry is not specified.
- * @variant hidden The marker is always hidden.
- * @variant onactivated - The marker is displayed on List activating. For example, when user mark a record.
- * @default onactivated
  */
 
 /**
@@ -381,6 +337,19 @@ export interface IList extends IItemActionsOptions {
  */
 
 /**
+ * Возвращает список элементов.
+ * @function Controls/_list/interface/IList#getItems
+ * @return {RecordSet} Список элементов.
+ * @example
+ * <pre class="brush: js">
+ * _getItems(): RecordSet {
+ *    var list = this._children.myList;
+ *    return list.getItems();
+ * }
+ * </pre>
+ */
+
+/**
  * Прокручивает список к указанному элементу.
  * @function Controls/_list/interface/IList#scrollToItem
  * @param {String|Number} key Идентификатор элемента коллекции, к которому осуществляется прокручивание.
@@ -487,6 +456,17 @@ export interface IList extends IItemActionsOptions {
  * See also <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
  * @param {Number} key Key of the selected item.
+ */
+
+/**
+ * @event Происходит до изменения ключа маркера.
+ * @name Controls/_list/interface/IList#beforeMarkedKeyChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Number} key Новый ключ маркера.
+ * @demo Controls-demo/List/List/BasePG
+ * @remark
+ * Из обработчика события нужно вернуть полученный ключ или новый ключ.
+ * Либо можно вернуть промис с нужным ключом.
  */
 
 /**

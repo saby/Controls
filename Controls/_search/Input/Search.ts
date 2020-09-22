@@ -278,7 +278,7 @@ Search.getOptionTypes = function getOptionsTypes() {
 
 Search.getDefaultOptions = function getDefaultOptions() {
    var defaultOptions = Base.getDefaultOptions();
-
+   defaultOptions.contrastBackground = false;
    defaultOptions.trim = false;
    defaultOptions.placeholder = rk('Найти') + '...';
    defaultOptions.searchButtonVisible = true;

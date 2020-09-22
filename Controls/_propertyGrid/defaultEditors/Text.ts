@@ -2,7 +2,7 @@ import template = require('wml!Controls/_propertyGrid/defaultEditors/Text');
 import StringEditor = require('Controls/_propertyGrid/defaultEditors/String');
 
 /**
- * Редактор для многотрочного типа данных.
+ * Редактор для многострочного типа данных.
  * 
  * @remark
  * Полезные ссылки:

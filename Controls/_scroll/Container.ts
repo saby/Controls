@@ -89,18 +89,6 @@ import {debounce} from 'Types/function';
  */
 
 /**
- * @name Controls/_scroll/Container#shadowVisible
- * @cfg {Boolean} Следует ли показывать тень (когда содержимое не подходит).
- * @deprecated Используйте {@link topShadowVisibility} и {@link bottomShadowVisibility}
- */
-
-/*
- * @name Controls/_scroll/Container#shadowVisible
- * @cfg {Boolean} Whether shadow should be shown (when content doesn't fit).
- * @deprecated Use {@link topShadowVisibility} and {@link bottomShadowVisibility} instead.
- */
-
-/**
  * @typedef {String} shadowVisibility
  * @variant auto Видимость зависит от состояния скролируемой области. Тень отображается только с той стороны
  * в которую можно скролить.
@@ -266,9 +254,6 @@ let
        * @param position Позиция тени.
        */
       isShadowEnable: function(options, position: POSITION): boolean {
-         if (options.shadowVisible === false) {
-            return false;
-         }
          return SHADOW_ENABLE_MAP[options[`${position}ShadowVisibility`]];
       },
       /**
@@ -283,9 +268,6 @@ let
              visibleOptionValue = position === POSITION.LEFT || position === POSITION.RIGHT ?
                  'auto' :
                  self._options[`${position}ShadowVisibility`];
-         if (self._options.shadowVisible === false) {
-            return false;
-         }
 
          if (visibleFromInnerComponents !== SHADOW_VISIBILITY.AUTO) {
             return SHADOW_ENABLE_MAP[visibleFromInnerComponents];
@@ -559,10 +541,6 @@ let
          var
             self = this,
             def;
-
-         if ('shadowVisible' in options) {
-            Logger.warn('Controls/scroll:Container: Опция shadowVisible устарела, используйте topShadowVisibility и bottomShadowVisibility.', self);
-         }
 
          // TODO Compatibility на старых страницах нет Register, который скажет controlResize
          this._resizeHandler = this._resizeHandler.bind(this);

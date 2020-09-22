@@ -217,7 +217,7 @@ var List = Control.extend({
 
    _markedKeyChanged: function(event, key) {
       this._markedKey = key;
-      this._notify('markedKeyChanged', [key]);
+      return this._notify('markedKeyChanged', [key]);
    }
 });
 

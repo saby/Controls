@@ -15,6 +15,7 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -25,9 +26,13 @@
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IListNavigation Controls/_list/interface/IListNavigation
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IMovableList Controls/_list/interface/IMovableList
  * @public
  * @author Крайнов Д.О.
  */
@@ -48,6 +53,7 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -57,8 +63,12 @@
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IListNavigation Controls/_list/interface/IListNavigation
+ * @includes IMovableList Controls/_list/interface/IMovableList
  * @public
  * @author Крайнов Д.О.
  */
@@ -71,8 +81,6 @@ import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/LoadingIndicatorTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
-import Mover = require('Controls/_list/Mover');
-import Remover = require('Controls/_list/Remover');
 import {default as DataContainer} from 'Controls/_list/Data';
 import _forTemplate = require('wml!Controls/_list/resources/For');
 import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
@@ -102,6 +110,8 @@ import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
 
+import Remover = require('Controls/_list/Remover');
+
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
 // @deprecated
@@ -109,6 +119,13 @@ import _itemActionsForTemplate = require('wml!Controls/_list/ItemActions/resourc
 import ItemActionsTemplate = require('wml!Controls/_list/ItemActions/resources/ItemActionsTemplate');
 import _swipeActionTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeAction');
 import SwipeTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeTemplate');
+
+export {MoveController, TMovePosition, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
+export {IMovableList} from 'Controls/_list/interface/IMovableList';
+import * as Mover from 'Controls/_list/Mover';
+
+export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 
 export {
     AddButton,

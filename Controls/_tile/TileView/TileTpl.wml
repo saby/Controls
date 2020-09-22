@@ -1,5 +1,5 @@
 <ws:template name="itemTpl">
-   <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
+   <div attr:class="controls-TileView__item {{itemData.itemClasses}} controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
                      {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}">
       <ws:partial template="{{content}}"/>
    </div>
@@ -92,7 +92,7 @@
 </ws:template>
 
 <ws:if data="{{invisible}}">
-   <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
+   <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}} controls-TileView__item_invisible" attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.defaultItemWidth) + 'px;'}}"></div>
 </ws:if>
 <ws:else>
    <ws:if data="{{itemData.tileMode === 'dynamic'}}">
