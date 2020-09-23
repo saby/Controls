@@ -88,7 +88,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          let count = 0;
          let listModel = {
             getCount: () => count,
-            getEditingItemData: () => null
+            isEditing: () => false
          }
          var
              cfg = {
@@ -120,11 +120,11 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
       });
       it('Footer with itemActionsPosition outside', function() {
          let count = 0;
-         let editingItemData = {};
+         let isEditing = true;
          let listModel = {
             getCount: () => count,
-            getEditingItemData: () => editingItemData
-         }
+            isEditing: () => isEditing
+         };
          var
              cfg = {
                 columns: [
@@ -142,7 +142,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
 
          assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default controls-GridView__footer__itemActionsV_outside_theme-default');
 
-         editingItemData = null;
+         isEditing = false;
          assert.equal(gridView._getFooterClasses(), 'controls-GridView__footer controls-GridView__footer__paddingLeft_withCheckboxes_theme-default');
 
          count = 10;
@@ -648,14 +648,16 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                });
             });
 
-            it('should update columnScrollVisibilty in model after editingItemData has changed', () => {
+            it('should update columnScrollVisibilty in model after editing started/stopped', () => {
                const items = new collection.RecordSet({
                   rawData: [],
                   keyProperty: 'id'
                });
                const listModel = new gridMod.GridViewModel({ ...tempCfg, items });
+               const newListModel = new gridMod.GridViewModel({ ...tempCfg, items });
+               newListModel.isEditing = () => true;
                const oldOptions = { ...cfg, listModel };
-               const newOptions = {...cfg, listModel, editingItemData: {id: 1}};
+               const newOptions = { ...cfg, newListModel };
 
                gridView._beforeMount(oldOptions);
                gridView.saveOptions(oldOptions);
@@ -870,14 +872,15 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             let hasItemsRecordSet;
             let itemsCount;
             let setEditing = (hasEditing) => {
-               gridView._options.editingItemData = hasEditing
+               gridView._options.listModel.isEditing = () => hasEditing
             };
 
             gridView._columnScrollController = { isVisible: () => needScrollBySize };
             gridView._options.listModel = {
                getItems: () => hasItemsRecordSet ? {
                   getCount: () => itemsCount
-               } : null
+               } : null,
+               isEditing: () => false
             };
 
             // hasItemsRecordSet, itemsCount, needScrollBySize, hasEditing, headerInEmptyListVisible,  EXPECTED_VISIBILITY

@@ -3394,7 +3394,8 @@ describe('Controls/_display/Collection', () => {
 
         it('should fire "onCollectionChange" with valid item contents when work in events queue', () => {
             const getModel = (data) => new Model({
-                    rawData: data
+                keyProperty: 'id',
+                rawData: data
             });
             const list = new ObservableList({
                 items: [

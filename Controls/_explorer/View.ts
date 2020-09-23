@@ -659,6 +659,11 @@ var
             return hasEditOnClick && !clickEvent.target.closest(`.${EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE}`);
          };
 
+          const editingItem = this._children.treeControl.getEditingItem();
+          const closeEditing = (eItem: Model) => {
+              return eItem.isChanged() ? this.commitEdit() : this.cancelEdit();
+          };
+
          const shouldHandleClick = res !== false && !isNodeEditable();
 
          if (shouldHandleClick) {
@@ -675,16 +680,17 @@ var
               // новые и маркер запомнится не для того root'а. Ошибка:
               // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
               _private.setRestoredKeyObject(this, item);
-              if (!this._options.editingConfig) {
+
+             // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
+             if (!editingItem) {
                   changeRoot();
               } else {
-                  // TODO: После перехода на новую схему редактирования поправить на canceled.
-                  //    https://online.sbis.ru/opendoc.html?guid=f91b2f96-d6e7-45d0-b929-a0030f0a2788
-                  this.commitEdit().addCallback((res = {}) => {
-                      if (!res.validationFailed) {
-                          changeRoot();
-                      }
-                  });
+                 closeEditing(editingItem).then((result) => {
+                     if (!(result && result.canceled)) {
+                         changeRoot();
+                     }
+                     return result;
+                 });
               }
 
               // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.

@@ -11,6 +11,12 @@ export default class extends Control {
     private _viewSource: Memory;
     private _fakeItemId: number;
     private _activeGroup: string;
+    private _editingConfig = {
+        editOnClick: true,
+        sequentialEditing: true,
+        addPosition: 'top'
+    };
+    private _addPosition = 'top';
 
     protected _beforeMount(): void {
         const data = getData();
@@ -19,6 +25,11 @@ export default class extends Control {
             data
         });
         this._fakeItemId = data.length;
+    }
+
+    protected _setPosition(e, position: 'top' | 'bottom'): void {
+        this._addPosition = position;
+        this._editingConfig.addPosition = position;
     }
 
     private _groupingKeyCallback(item: Model): string {
@@ -38,8 +49,8 @@ export default class extends Control {
             model.set('id', ++this._fakeItemId);
             model.set('title', '');
             model.set('brand', this._activeGroup || 'asd');
-            return {item: model};
-        }) as unknown as Promise<{item: Model}>;
+            return model;
+        }) as unknown as Promise<Model>;
     }
 
     protected _beginAdd(): void {

@@ -7,6 +7,8 @@ import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
 import UserItemsStrategy from './itemsStrategy/User';
 import GroupItemsStrategy from './itemsStrategy/Group';
+import DragStrategy from './itemsStrategy/Drag';
+import AddStrategy from './itemsStrategy/Add';
 import {
     DestroyableMixin,
     ObservableMixin,
@@ -30,14 +32,13 @@ import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
 import { IDragPosition } from 'Controls/listDragNDrop';
-import DragStrategy from './itemsStrategy/Drag';
 import {ICollection, ISourceCollection} from './interface/ICollection';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
 const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
-const VERSION_UPDATE_ITEM_PROPERTIES = ['editingContents', 'animated', 'canShowActions', 'expanded', 'marked'];
+const VERSION_UPDATE_ITEM_PROPERTIES = ['editing', 'editingContents', 'animated', 'canShowActions', 'expanded', 'marked'];
 
 export interface ISplicedArray<T> extends Array<T> {
     start?: number;
@@ -1330,6 +1331,17 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
         if (collection && collection['[Types/_collection/IList]']) {
             sourceIndex = (collection as any as IList<S>).getIndex(item);
+
+            // Если записи нет в наборе данных, то, возможно запрашивается индекс добавляемой в данный момент записи.
+            // Такой записи еще нет в наборе данных.
+            if (sourceIndex === -1 && this._$isEditing) {
+                this.each((el, index: number) => {
+                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.contents.getKey()) {
+                        sourceIndex = index;
+                    }
+                });
+                return sourceIndex;
+            }
         } else {
             let index = 0;
             (collection as IEnumerable<S>).each((value) => {
@@ -2242,11 +2254,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$searchValue;
     }
 
-    getItemBySourceKey(key: string|number): CollectionItem<S> {
+    getItemBySourceKey(key: string|number): T {
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
-                return this.getItemBySourceItem(record as unknown as S);
+
+                // Если записи нет в наборе данных, то, возможно запрашивается добавляемая в данный момент запись.
+                // Такой записи еще нет в наборе данных.
+                if (!record && this._$isEditing) {
+                    return this.find((item) => item.isEditing() && item.isAdd && item.contents.getKey() === key);
+                } else {
+                    return this.getItemBySourceItem(record as unknown as S);
+                }
             } else {
                 return null;
             }
@@ -2403,6 +2422,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$isEditing = editing;
     }
 
+    setAddingItem(item: T): void {
+        this._prependStrategy(AddStrategy, {
+            item,
+            addPosition: item.addPosition,
+            groupMethod: this.getGroup()
+        }, GroupItemsStrategy);
+    }
+
+    resetAddingItem(): void {
+        this.removeStrategy(AddStrategy);
+    }
+
     getSwipeConfig(): ISwipeConfig {
         return this._swipeConfig;
     }
@@ -2412,6 +2443,31 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             this._swipeConfig = config;
             this._nextVersion();
         }
+    }
+
+    private _prependStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object, before?: Function): void {
+        const strategyOptions = { ...options, display: this };
+        let index = 0;
+
+        if (typeof before === 'function') {
+            this._userStrategies.forEach((strObject, strIndex) => {
+                if (strObject.strategy === before) {
+                    index = strIndex;
+                }
+            });
+        }
+
+        this._userStrategies.splice(index, 0, {
+            strategy,
+            options: strategyOptions
+        });
+
+        if (this._composer) {
+            this._composer.prepend(strategy, strategyOptions, before);
+            this._reBuild(true);
+        }
+
+        this.nextVersion();
     }
 
     appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {

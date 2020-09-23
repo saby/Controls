@@ -710,14 +710,14 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             current = gridViewModel.getCurrent();
             current.isNotFullGridSupport = true;
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(),
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(),
                 expected.withMarker,
                'Incorrect value "GridViewModel._private.getPaddingCellClasses(params)".');
 
             current.markerVisibility = 'hidden';
             current.resetColumnIndex();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(),
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(),
                 expected.withoutMarker,
                'Incorrect value "GridViewModel._private.getPaddingCellClasses(params)".');
          });
@@ -857,19 +857,19 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             current = gridViewModel.getCurrent();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[0]);
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[0]);
             current.goToNextColumn();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[1]);
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[1]);
             current.goToNextColumn();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[2]);
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[2]);
             current.goToNextColumn();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[3]);
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[3]);
 
             current.dispItem.setMarked(false);
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[4]);
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll(), expectedResult[4]);
          });
 
          it('should add backgroundStyle when columnScroll is true and row is not in editing state', () => {
@@ -881,7 +881,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          it('should not add backgroundStyle when columnScroll is true and row is in editing state', () => {
             const gridViewModel = new gridMod.GridViewModel({ ...cfg, columnScroll: true});
             const current = gridViewModel.getCurrent();
-            gridViewModel._setEditingItemData(current);
+            current.isEditing = () => true;
             assert.isTrue(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme).getAll().indexOf(`controls-background-default_theme-${theme}`) === -1);
          });
 
@@ -895,7 +895,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             current = gridViewModel.getCurrent();
 
-            cAssert.isClassesEqual(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme, 'danger').getAll(),
+            cAssert.CssClassesAssert.include(gridMod.GridViewModel._private.getItemColumnCellClasses(gridViewModel, current, theme, 'danger').getAll(),
                expectedResult + ' controls-Grid__row-cell_background_danger_theme-default');
          });
       });
@@ -946,7 +946,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                assert.equal(expectedData.item[expectedData.keyProperty], checkedColumn.key, 'Incorrect value "getPropValue(item, displayProperty)" when checking columns.');
                assert.equal(expectedData.template, checkedColumn.template, 'Incorrect value "template" when checking columns.');
                assert.equal(expectedData.needSearchHighlight, checkedColumn.needSearchHighlight, 'Incorrect value "needSearchHighlight" when checking columns.');
-               cAssert.isClassesEqual(checkedColumn.classList.getAll(), expectedData.cellClasses, 'Incorrect value "cellClasses" when checking columns.');
+               cAssert.CssClassesAssert.include(checkedColumn.classList.getAll(), expectedData.cellClasses, 'Incorrect value "cellClasses" when checking columns.');
             }
 
             var gridColumn;
@@ -1084,8 +1084,8 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                callMethods = ['getItemById', 'setMarkedKey', 'reset', 'isEnd', 'goToNext', 'getNext', 'isLast',
                   'updateIndexes', 'setActiveItem', 'appendItems', 'prependItems',
                   'getIndexBySourceItem', 'at', 'getCount', 'setSwipeItem', 'setSelectedItems', 'getCurrentIndex',
-                  '_prepareDisplayItemForAdd', 'mergeItems', 'toggleGroup', '_setEditingItemData', 'getMarkedKey',
-                  'getChildren','getStartIndex', 'getActiveItem', 'destroy', 'nextModelVersion', 'getEditingItemData'],
+                  '_prepareDisplayItemForAdd', 'mergeItems', 'toggleGroup', 'getMarkedKey',
+                  'getChildren','getStartIndex', 'getActiveItem', 'destroy', 'nextModelVersion', 'isEditing'],
                callStackMethods = [];
 
             gridViewModel._model = {
@@ -1989,7 +1989,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             function assertColumn(actual, expected) {
                assert.deepEqual(actual.column, expected.column);
                assert.equal(actual.index, expected.index);
-               cAssert.isClassesEqual(actual.cellClasses, expected.cellClasses);
+               cAssert.CssClassesAssert.include(actual.cellClasses, expected.cellClasses);
             }
 
             assertColumn(gridViewModel.getCurrentResultsColumn(), {
@@ -2523,29 +2523,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.equal(gridModel.getCurrent().stickyLadder.prop.headingStyle, '123');
          });
-
-         it('has no bottom border between last row and adding row', () => {
-            const model = new gridMod.GridViewModel({
-               ...cfg,
-               items: new collection.RecordSet({
-                  rawData: [{id: 1}, {id: 2}],
-                  keyProperty: 'id'
-               }),
-               editingConfig: {}
-            });
-
-            model.goToNext();
-            model.setHasMoreData(true);
-            assert.isTrue(model.getCurrent().isLastRow);
-
-            model.resetCachedItemData();
-            model.getEditingItemData = () => ({
-               index: 2
-            });
-            model.reset();
-            model.goToNext();
-            assert.isFalse(model.getCurrent().isLastRow);
-         });
       });
 
       describe('no grid support', () => {
@@ -2591,7 +2568,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                ];
                model._maxEndRow = 3;
 
-               cAssert.isClassesEqual(model.getCurrentHeaderColumn(0, 1).cellClasses, 'controls-Grid__header-cell_align_items_top');
+               cAssert.CssClassesAssert.include(model.getCurrentHeaderColumn(0, 1).cellClasses, 'controls-Grid__header-cell_align_items_top');
             });
             it('separator column in header with multiselect', function () {
                model._headerRows = [
@@ -2619,12 +2596,12 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   }
                ];
 
-               cAssert.hasNoClasses(
+               cAssert.CssClassesAssert.notInclude(
                    model.getCurrentHeaderColumn(0, 1).cellClasses,
                    'controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-s_theme-default'
                );
 
-               cAssert.isClassesEqual(
+               cAssert.CssClassesAssert.include(
                    model.getCurrentHeaderColumn(0, 2).cellClasses,
                    'controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-s_theme-default'
                );
@@ -2749,7 +2726,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   columnIndex: 0
                };
                gridMod.GridViewModel._private.prepareSeparatorClasses(current, classList, theme);
-               cAssert.isClassesEqual(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-null');
+               cAssert.CssClassesAssert.include(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-null');
             });
 
             it('with row separators s', () => {
@@ -2760,7 +2737,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   columnIndex: 0
                };
                gridMod.GridViewModel._private.prepareSeparatorClasses(current, classList, theme);
-               cAssert.isClassesEqual(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default');
+               cAssert.CssClassesAssert.include(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default');
             });
 
             it('with row separators l', () => {
@@ -2771,7 +2748,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   columnIndex: 0
                };
                gridMod.GridViewModel._private.prepareSeparatorClasses(current, classList, theme);
-               cAssert.isClassesEqual(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-l_theme-default controls-Grid__rowSeparator_size-l_theme-default');
+               cAssert.CssClassesAssert.include(classList.base, 'controls-Grid__row-cell_withRowSeparator_size-l_theme-default controls-Grid__rowSeparator_size-l_theme-default');
             });
 
          });

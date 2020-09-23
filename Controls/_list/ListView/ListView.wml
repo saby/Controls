@@ -9,8 +9,6 @@
              itemTemplate="{{ _itemTemplate }}"
              groupTemplate="{{ _groupTemplate }}"
 
-             editingItemData="{{ _options.editingItemData }}"
-             isAdd="{{ _options.isAdd }}"
              itemActionsTemplate="{{ _options.itemActionsTemplate }}"
              itemActionsClass="{{ _options.itemActionsClass }}"
              swipeTemplate="{{ _options.swipeTemplate }}"

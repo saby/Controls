@@ -695,6 +695,7 @@ define([
             const clickEvent = {
                target: {closest: () => {}}
             };
+            explorer._children.treeControl = { getEditingItem: () => {} };
             assert.doesNotThrow(() => { explorer._onItemClick(event, { get: () => true  }, clickEvent) });
             assert.equal(rootBefore, explorer._root);
             assert.doesNotThrow(() => { explorer._onItemClick(event, { get: () => false }, clickEvent) });
@@ -736,8 +737,8 @@ define([
             explorer._children = {
                treeControl: {
                   _children: {
-
                   },
+                  getEditingItem: () => {},
                   commitEdit: () => commitEditResult
                }
             };
@@ -1211,6 +1212,9 @@ define([
                null: {
                   markedKey: null
                }
+            };
+            explorer._children.treeControl = {
+               getEditingItem: () => {}
             };
 
             const mockEvent = { stopPropagation: () => {} };

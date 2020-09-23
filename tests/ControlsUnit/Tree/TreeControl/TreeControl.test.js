@@ -23,6 +23,7 @@ define([
    SettingsController,
    cSource
 ) {
+
    function correctCreateTreeControl(cfg) {
       var
          treeControl,
@@ -1346,95 +1347,6 @@ define([
          assert.equal(loadMoreDirection, 'down');
       });
       describe('EditInPlace', function() {
-         it('beginEdit', function() {
-            var opt = {
-               test: '123'
-            };
-            var
-               treeControl = correctCreateTreeControl({});
-            treeControl._children.baseControl.beginEdit = function(options) {
-               assert.equal(opt, options);
-               return Deferred.success();
-            };
-            var result = treeControl.beginEdit(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('beginEdit, readOnly: true', function() {
-            var opt = {
-               test: '123'
-            };
-            var
-               treeControl = correctCreateTreeControl({ readOnly: true });
-            var result = treeControl.beginEdit(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-
-         it('beginAdd', function() {
-            var opt = {
-               test: '123'
-            };
-            var
-               treeControl = correctCreateTreeControl({});
-            treeControl._children.baseControl.beginAdd = function(options) {
-               assert.equal(opt, options);
-               return Deferred.success();
-            };
-            var result = treeControl.beginAdd(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('beginAdd, readOnly: true', function() {
-            var opt = {
-               test: '123'
-            };
-            var
-               treeControl = correctCreateTreeControl({ readOnly: true });
-            var result = treeControl.beginAdd(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-         it('cancelEdit', function() {
-            var
-               treeControl = correctCreateTreeControl({});
-            treeControl._children.baseControl.cancelEdit = function() {
-               return Deferred.success();
-            };
-            var result = treeControl.cancelEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('cancelEdit, readOnly: true', function() {
-            var
-               treeControl = correctCreateTreeControl({ readOnly: true });
-            var result = treeControl.cancelEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-
-         it('commitEdit', function() {
-            var
-               treeControl = correctCreateTreeControl({});
-            treeControl._children.baseControl.commitEdit = function() {
-               return Deferred.success();
-            };
-            var result = treeControl.commitEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('commitEdit, readOnly: true', function() {
-            var
-               treeControl = correctCreateTreeControl({ readOnly: true }),
-               result = treeControl.commitEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-
          it('cancelEdit on change root', function() {
             var
                 cfg = {

@@ -1,4 +1,3 @@
-
 /**
  * Created by kraynovdo on 23.10.2017.
  */
@@ -24,6 +23,7 @@ define([
 ], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, popup, listDragNDrop, dragNDrop, listRender, itemActions) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
+
       beforeEach(function() {
          data = [
             {
@@ -2646,6 +2646,14 @@ define([
 
          await baseControl._beforeMount(baseControlOptions);
 
+         let editingItem;
+
+         baseControl._editInPlaceController = {
+            getEditingItem: () => {
+               return editingItem;
+            }
+         };
+
          assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
 
          baseControl._listViewModel.getCount = function() {
@@ -2666,14 +2674,10 @@ define([
          baseControl._noDataBeforeReload = true;
          assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
 
-         baseControl._listViewModel.getEditingItemData = function() {
-            return {};
-         };
+         editingItem = {};
          assert.isFalse(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
 
-         baseControl._listViewModel.getEditingItemData = function() {
-            return null;
-         };
+         editingItem = null;
          baseControl._sourceController = null;
          assert.isTrue(!!baseControl.__needShowEmptyTemplate(baseControl._options.emptyTemplate, baseControl._listViewModel));
 
@@ -2799,7 +2803,7 @@ define([
             }),
             cfg = {
                editingConfig: {
-                  item: new entity.Model({rawData: {id: 1}})
+                  item: new entity.Model({keyProperty: 'id', rawData: {id: 1}})
                },
                viewName: 'Controls/List/ListView',
                source: source,
@@ -2862,7 +2866,7 @@ define([
             });
             cfg = {
                editingConfig: {
-                  item: new entity.Model({rawData: { id: 1 }})
+                  item: new entity.Model({keyProperty: 'id', rawData: { id: 1 }})
                },
                viewName: 'Controls/List/ListView',
                source: source,
@@ -3313,16 +3317,16 @@ define([
             }
          };
          const model = {
-            getEditingItemData: function() {
-               return null;
+            isEditing: function() {
+               return false;
             },
             getDisplay: () => ({
                getCount: () => count
             })
          };
          const editingModel = {
-            getEditingItemData: function() {
-               return {};
+            isEditing: function() {
+               return true;
             },
             getDisplay: () => ({
                getCount: () => count
@@ -3394,46 +3398,32 @@ define([
                   isCloseSwipeCalled = true;
                });
                ctrl = new lists.BaseControl(cfg);
+               ctrl._editInPlaceController = {
+                  edit: () => Promise.resolve(),
+                  add: () => Promise.resolve(),
+                  commit: () => Promise.resolve(),
+                  cancel: () => Promise.resolve()
+               };
+               ctrl._editInPlaceInputHelper = {
+                  shouldActivate: () => {}
+               };
             });
 
             afterEach(() => {
                sandbox.restore();
             });
 
-            it('beginEdit', function() {
-               ctrl._editInPlace = {
-                  beginEdit: function(options) {
-                     assert.equal(options, opt);
-                     return cDeferred.success();
-                  }
-               };
-               let result = ctrl.beginEdit(opt);
-               assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-               assert.isTrue(result.isSuccessful());
+            it('should close swipe on beginEdit', async() => {
+               await ctrl.beginEdit(opt).then((beginRes) => {
+                  assert.isUndefined(beginRes);
+                  assert.isTrue(isCloseSwipeCalled);
+               });
             });
 
-            // Надо при beginEdit закрывать свайп.
-            it('should close swipe on beginEdit', () => {
-               ctrl._editInPlace = {
-                  beginEdit: function(options) {
-                     assert.equal(options, opt);
-                     return cDeferred.success();
-                  }
-               };
-               let result = ctrl.beginEdit(opt);
-               assert.isTrue(isCloseSwipeCalled);
-            });
-
-            it('beginAdd', function() {
-               ctrl._editInPlace = {
-                  beginAdd: function(options) {
-                     assert.equal(options, opt);
-                     return cDeferred.success();
-                  }
-               };
-               var result = ctrl.beginAdd(opt);
-               assert.isTrue(result instanceof Promise);
-               assert.isTrue(result.isReady());
+            it('beginAdd', async() => {
+               await ctrl.beginAdd(opt).then((beginRes) => {
+                  assert.isUndefined(beginRes);
+               });
             });
          });
 
@@ -3476,12 +3466,23 @@ define([
                   scrollToItemCalled = true;
                   return Promise.resolve();
                });
+               sandbox.replace(lists.BaseControl._private, 'showIndicator', () => {
+               });
+               sandbox.replace(lists.BaseControl._private, 'hideIndicator', () => {
+               });
                ctrl = new lists.BaseControl(cfg);
                ctrl.saveOptions(cfg);
                ctrl._container = {
                   clientHeight: 100
                };
-
+               ctrl._editInPlaceInputHelper = {
+                  shouldActivate: () => {}
+               };
+               ctrl._editInPlaceController = {
+                  add: function() {
+                     return Promise.resolve();
+                  }
+               };
             });
 
             afterEach(() => {
@@ -3489,302 +3490,177 @@ define([
             });
             it('scrollToItem called on beginAdd if adding item is out of range', async () => {
                await ctrl._beforeMount(cfg);
+               ctrl._isMounted = true;
                ctrl._listViewModel._startIndex = 2;
-               ctrl._editInPlace = {
-                  beginAdd: function() {
-                     return Promise.resolve();
-                  }
-               };
                await ctrl.beginAdd({}).then(() => {
                   assert.isTrue(scrollToItemCalled);
                });
             });
             it('scrollToItem not called on beginAdd if adding item is in range', async () => {
                await ctrl._beforeMount(cfg);
+               ctrl._isMounted = true;
                ctrl._listViewModel._startIndex = 0;
-               ctrl._editInPlace = {
-                  beginAdd: function() {
-                     return Promise.resolve();
-                  }
-               };
                await ctrl.beginAdd({}).then(() => {
                   assert.isFalse(scrollToItemCalled);
                });
             });
          });
 
-         it('cancelEdit', function() {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
+         describe('api', () => {
+            let cfg, ctrl, sandbox;
+
+            beforeEach(() => {
+               cfg = {
+                  viewName: 'Controls/List/ListView',
+                  source: source,
                   viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               }
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl._editInPlace = {
-               cancelEdit: function() {
-                  return cDeferred.success();
-               }
-            };
-            var result = ctrl.cancelEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('cancelEdit, readOnly: true', function() {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
+                     keyProperty: 'id'
                   },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               readOnly: true
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            var result = ctrl.cancelEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-
-         it('commitEdit', function() {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
+                  viewModelConfig: {
+                     items: rs,
+                     keyProperty: 'id',
+                     selectedKeys: [1, 3]
                   },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
+                  viewModelConstructor: lists.ListViewModel,
+                  navigation: {
+                     source: 'page',
+                     sourceConfig: {
+                        pageSize: 6,
+                        page: 0,
+                        hasMore: false
+                     },
+                     view: 'infinity',
+                     viewConfig: {
+                        pagingMode: 'direct'
+                     }
                   }
-               }
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl._editInPlace = {
-               commitEdit: function() {
-                  return cDeferred.success();
-               }
-            };
-            var result = ctrl.commitEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isTrue(result.isSuccessful());
-         });
-
-         it('commitEditActionHandler', function () {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               }
-            };
-            let commitAndMoveDef = cDeferred.success();
-            let result;
-
-            const ctrl = new lists.BaseControl(cfg);
-            ctrl._editInPlace = {
-               commitAndMoveNextRow: function () {
-                  result = commitAndMoveDef;
-               }
-            };
-            ctrl._commitEditActionHandler();
-            assert.equal(commitAndMoveDef, result);
-         });
-
-         it('commitEdit, readOnly: true', function() {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               readOnly: true
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            var result = ctrl.commitEdit();
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-         });
-
-         it('readOnly, beginEdit', function() {
-            const sandbox = sinon.createSandbox();
-            sandbox.replace(lists.BaseControl._private, 'closeSwipe', (self) => {
-               isCloseSwipeCalled = true;
+               };
+               ctrl = new lists.BaseControl(cfg);
+               ctrl._editInPlaceController = {
+                  cancel: () => Promise.resolve(),
+                  commit: () => Promise.resolve(),
+                  add: () => Promise.resolve(),
+                  edit: () => Promise.resolve(),
+                  destroy: () => {}
+               };
+               sandbox = sinon.createSandbox();
+               sandbox.replace(lists.BaseControl._private, 'closeSwipe', (self) => {
+                  isCloseSwipeCalled = true;
+               });
+               ctrl._editInPlaceInputHelper = {
+                  shouldActivate: () => {}
+               };
             });
-            var opt = {
-               test: 'test'
-            };
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               readOnly: true
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            var result = ctrl.beginEdit(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
-            sandbox.restore();
-         });
+            afterEach(() => {
+               ctrl._beforeUnmount();
+               sandbox.restore();
+            });
 
-         it('readOnly, beginAdd', function() {
-            var opt = {
-               test: 'test'
-            };
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               readOnly: true
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            var result = ctrl.beginAdd(opt);
-            assert.isTrue(cInstance.instanceOfModule(result, 'Core/Deferred'));
-            assert.isFalse(result.isSuccessful());
+            it('cancelEdit', function(done) {
+               let isRejected = false;
+               const result = ctrl.cancelEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isFalse(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('cancelEdit, readOnly: true', function(done) {
+               ctrl.saveOptions({...cfg, readOnly: true});
+               let isRejected = false;
+               const result = ctrl.cancelEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isTrue(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('commitEdit', function(done) {
+               let isRejected = false;
+               const result = ctrl.commitEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isFalse(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('commitEdit, readOnly: true', function(done) {
+               ctrl.saveOptions({...cfg, readOnly: true});
+               let isRejected = false;
+               const result = ctrl.commitEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isTrue(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('beginEdit', function(done) {
+               let isRejected = false;
+               const result = ctrl.beginEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isFalse(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('beginEdit, readOnly: true', function(done) {
+               ctrl.saveOptions({...cfg, readOnly: true});
+               let isRejected = false;
+               const result = ctrl.beginEdit().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isTrue(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('beginAdd', function(done) {
+               let isRejected = false;
+               const result = ctrl.beginAdd().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isFalse(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
+
+            it('beginAdd, readOnly: true', function(done) {
+               ctrl.saveOptions({...cfg, readOnly: true});
+               let isRejected = false;
+               const result = ctrl.beginAdd().catch(() => {
+                  isRejected = true;
+               }).finally(() => {
+                  assert.isTrue(isRejected);
+                  done();
+               });
+               assert.isTrue(result instanceof Promise);
+            });
          });
 
          it('close editing if page has been changed', function() {
             let isCanceled = false;
             const fakeCtrl = {
                _listViewModel: {
-                  getEditingItemData: () => ({})
                },
                _options: {},
-               _editInPlace: {
-                  cancelEdit: function() {
-                     isCanceled = true;
-                  }
-               }
+               _editInPlaceController: {
+                  getEditingItem: () => ({})
+               },
+               cancelEdit: function() {
+                  isCanceled = true;
+               },
             };
 
             lists.BaseControl._private.closeEditingIfPageChanged(fakeCtrl, null, null);
@@ -3807,185 +3683,6 @@ define([
 
             lists.BaseControl._private.closeEditingIfPageChanged(fakeCtrl, {sourceConfig: {page: 1}}, {sourceConfig: {page: 2}});
             assert.isTrue(isCanceled);
-         });
-
-         it ('should create editinplace with readonly property', async () => {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               keyProperty: 'id',
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               editingConfig: {
-                  item: new entity.Model({rawData: { id: 1 }})
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-               readOnly: true
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            await ctrl._beforeMount(cfg);
-            assert.isTrue(ctrl._editInPlace._options.readOnly);
-         });
-
-         it('should update readonly property for editinplace', async () => {
-            var cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               keyProperty: 'id',
-               viewConfig: {
-                  keyProperty: 'id'
-               },
-               editingConfig: {
-                  item: new entity.Model({rawData: { id: 1 }})
-               },
-               viewModelConfig: {
-                  items: rs,
-                  keyProperty: 'id',
-                  selectedKeys: [1, 3]
-               },
-               viewModelConstructor: lists.ListViewModel,
-               navigation: {
-                  source: 'page',
-                  sourceConfig: {
-                     pageSize: 6,
-                     page: 0,
-                     hasMore: false
-                  },
-                  view: 'infinity',
-                  viewConfig: {
-                     pagingMode: 'direct'
-                  }
-               },
-            };
-            var ctrl = new lists.BaseControl(cfg);
-            ctrl.saveOptions(cfg);
-            await ctrl._beforeMount(cfg);
-            cfg.readOnly = true;
-            ctrl._beforeUpdate(cfg);
-            assert.isTrue(ctrl._editInPlace._options.readOnly);
-         });
-
-         describe('activate editing row', function () {
-
-            let baseControl;
-            let cfg;
-
-            beforeEach(async () => {
-               cfg = {
-                  viewName: 'Controls/List/ListView',
-                  source: source,
-                  keyProperty: 'id',
-                  viewConfig: {
-                     keyProperty: 'id'
-                  },
-                  editingConfig: {
-                     item: new entity.Model({rawData: { id: 1 }})
-                  },
-                  viewModelConfig: {
-                     items: rs,
-                     keyProperty: 'id',
-                     selectedKeys: [1, 3]
-                  },
-                  viewModelConstructor: lists.ListViewModel,
-                  navigation: {
-                     source: 'page',
-                     sourceConfig: {
-                        pageSize: 6,
-                        page: 0,
-                        hasMore: false
-                     },
-                     view: 'infinity',
-                     viewConfig: {
-                        pagingMode: 'direct'
-                     }
-                  },
-               };
-               baseControl = new lists.BaseControl(cfg);
-               baseControl.saveOptions(cfg);
-               await baseControl._beforeMount(cfg);
-               baseControl._editInPlace.hasPendingActivation = () => true;
-            });
-
-            it('after mount with started editing', () => {
-               let wasActivatedFirstInput = false;
-
-               baseControl._editInPlace.prepareHtmlInput = () => false;
-               baseControl._children.listView = {
-                  activateEditingRow: () => {
-                     wasActivatedFirstInput = true;
-                     return true;
-                  }
-               };
-               baseControl._container = {};
-               baseControl._scrollController = null;
-               baseControl._afterMount(cfg);
-               assert.isTrue(wasActivatedFirstInput);
-               assert.isFalse(baseControl._editInPlace._shouldActivateRow);
-            });
-
-            it('activate row bu click in input', () => {
-               let wasActivatedFirstInput = false;
-
-               baseControl._editInPlace.prepareHtmlInput = () => true;
-               baseControl._children.listView = {
-                  activateEditingRow: () => {
-                     wasActivatedFirstInput = true;
-                  }
-               };
-               baseControl._afterUpdate(cfg);
-               assert.isFalse(wasActivatedFirstInput);
-            });
-
-            it('activate row by click in row', () => {
-               let wasActivatedFirstInput = false;
-
-               baseControl._editInPlace.prepareHtmlInput = () => false;
-               baseControl._children.listView = {
-                  activateEditingRow: () => {
-                     wasActivatedFirstInput = true;
-                  }
-               };
-               baseControl._afterUpdate(cfg);
-               assert.isTrue(wasActivatedFirstInput);
-            });
-
-            it('do nothing new in listRender', () => {
-               let wasActivatedFirstInput = false;
-               let hasNoPendingActivation = false;
-
-               baseControl._editInPlace.prepareHtmlInput = () => false;
-               baseControl._children.listView = {
-                  activateEditingRow: () => {
-                     wasActivatedFirstInput = true;
-                  }
-               };
-               baseControl._editInPlace.activated = () => {
-                  hasNoPendingActivation = true;
-               };
-                baseControl._options.useNewModel = true;
-               baseControl._afterUpdate(cfg);
-               assert.isFalse(wasActivatedFirstInput);
-               assert.isTrue(hasNoPendingActivation);
-            });
          });
       });
 
@@ -5386,14 +5083,13 @@ define([
          let cancelClosed = false;
          instance.saveOptions(cfg);
          await instance._beforeMount(cfg);
-         instance._listViewModel.getEditingItemData = () => ({});
          instance._viewModelConstructor = {};
-         instance._editInPlace = {
-            cancelEdit: () => {
-               cancelClosed = true;
-            },
-            updateEditingData: () => undefined,
-            getEditingItemData: () => {}
+         instance.cancelEdit = () => {
+            cancelClosed = true;
+         };
+         instance._editInPlaceController = {
+            getEditingItem: () => ({}),
+            updateOptions: () => {}
          };
          instance._beforeUpdate(cfg);
          assert.isTrue(cancelClosed);
@@ -7375,17 +7071,17 @@ define([
                assert.isTrue(isStopped);
             });
 
-            it('in list wit EIP itemClick should fire after beforeBeginEdit', (done) => {
+            it('in list wit EIP itemClick should fire after beforeBeginEdit', () => {
                let isItemClickStopped = false;
                let firedEvents = [];
-               lists.BaseControl._private.createEditInPlace(baseControl, {
-                  ...baseControl._options,
-                  editingConfig: { editOnClick: true }
-               });
 
-               baseControl._editInPlace._formController = {
-                  deferSubmit: () => Promise.resolve()
-               };
+               baseControl.saveOptions({
+                  ...baseControlOptions,
+                  editingConfig: {
+                     ...baseControlOptions.editingConfig,
+                     editOnClick: true
+                  }
+               });
 
                const e = {
                   isStopped: () => isItemClickStopped,
@@ -7395,7 +7091,7 @@ define([
                      assert.deepEqual(firedEvents, []);
                   }
                };
-               const item = {};
+               const item = baseControl.getViewModel().getItemBySourceKey(1).contents;
                const originalEvent = {
                   target: {
                      closest: () => null
@@ -7549,39 +7245,6 @@ define([
             baseControl.__error = {};
             baseControl._afterMount(cfg);
             assert.isFalse(registered);
-         });
-      });
-      describe('_private.createEditingData()', () => {
-         let stubUpdateItemActions;
-         let baseControl;
-
-         beforeEach(async () => {
-            stubUpdateItemActions = sinon.stub(lists.BaseControl._private, 'updateItemActions');
-            let  cfg = {
-               viewName: 'Controls/List/ListView',
-               keyProperty: 'id',
-               viewModelConstructor: lists.ListViewModel,
-               items: new collection.RecordSet({
-                  keyProperty: 'id',
-                  rawData: data
-               }),
-               editingConfig: {
-                  item: new entity.Model({rawData: { id: 1 }})
-               },
-            };
-            baseControl = new lists.BaseControl(cfg);
-            await baseControl._beforeMount(cfg);
-         });
-         afterEach(() => {
-            stubUpdateItemActions.restore();
-         });
-         it('should update item actions if edit in place sholdShowToolbar:true ', (done) => {
-            let stub = stubUpdateItemActions.callsFake(() => {
-               done();
-            });
-            baseControl._editInPlace._options.editingConfig.toolbarVisibility = true;
-            lists.BaseControl._private.createEditingData(baseControl, {});
-            stub.restore();
          });
       });
 
@@ -7873,7 +7536,8 @@ define([
                getCount: () => data.length,
                getCollapsedGroups: () => {},
                unsubscribe: () => {},
-               destroy: () => {}
+               destroy: () => {},
+               getItemBySourceKey: () => collectionItem
             };
             spyMove = sinon.spy(moveController, 'move');
             spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');

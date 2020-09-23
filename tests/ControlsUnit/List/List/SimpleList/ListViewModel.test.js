@@ -130,15 +130,6 @@ define([
          // assert.include(version, 'ITEM_ACTION_2');
 
          assert.include(version, 'WITHOUT_EDITING');
-
-         const editingItemData = { key: 21, item: {}, setEditing: () => {}, getVersion: () => '' };
-         model._setEditingItemData(editingItemData);
-         version = model._calcItemVersion(item, key);
-         assert.include(version, 'WITH_EDITING');
-
-         model._options.multiSelectVisibility = 'visible';
-         version = model._calcItemVersion(editingItemData, 21);
-         assert.equal(version, 'MULTISELECT-visible_EDITING_WITH_EDITING_1');
       });
 
       it('isShouldBeDrawnItem', function() {
@@ -298,8 +289,7 @@ define([
          };
 
          assert.deepEqual(cfg.items.at(0), lists.ListViewModel._private.getItemByMarkedKey(iv, 1).getContents());
-         iv._setEditingItemData(edditingItem);
-         assert.deepEqual(cfg.items.at(0), lists.ListViewModel._private.getItemByMarkedKey(iv, 1).getContents());
+         iv.isEditing = () => true;
          assert.isUndefined(lists.ListViewModel._private.getItemByMarkedKey(iv, 21));
          edditingItem.isAdd = true;
          iv._markedKey = 21;

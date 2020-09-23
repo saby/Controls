@@ -481,7 +481,7 @@ var
 
             // Для предотвращения скролла одной записи в таблице с экшнами.
             // _options._needBottomPadding почему-то иногда не работает.
-            if ((this._listModel.getCount() || this._listModel.getEditingItemData()) &&
+            if ((this._listModel.getCount() || this._listModel.isEditing()) &&
                 this._options.itemActionsPosition === 'outside' &&
                 !this._options._needBottomPadding &&
                 this._options.resultsPosition !== 'bottom') {
@@ -618,7 +618,7 @@ var
         _isColumnScrollVisible(): boolean {
             if (this._columnScrollController && this._columnScrollController.isVisible()) {
                 const items = this._options.listModel.getItems();
-                return this._options.headerInEmptyListVisible || (!!items && (!!items.getCount() || !!this._options.editingItemData));
+                return this._options.headerInEmptyListVisible || (!!items && (!!items.getCount() || !!this._options.listModel.isEditing()));
             } else {
                 return false;
             }
@@ -739,7 +739,7 @@ var
             }
         },
         _onFocusInEditingCell(e: SyntheticEvent<FocusEvent>): void {
-            if (!this._isColumnScrollVisible() || e.target.tagName !== 'INPUT' || !this._options.listModel.getEditingItemData()) {
+            if (!this._isColumnScrollVisible() || e.target.tagName !== 'INPUT' || !this._options.listModel.isEditing()) {
                 return;
             }
             this._columnScrollController.scrollToElementIfHidden(e.target as HTMLElement);
