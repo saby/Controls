@@ -16,8 +16,7 @@ define('Controls/Application',
       'Controls/event',
       'Controls/popup',
       'UI/HotKeys',
-      'Controls/Application/TouchDetectorController',
-      'css!theme?Controls/Application/oldCss'
+      'Controls/Application/TouchDetectorController'
    ],
 
    /**
@@ -442,7 +441,7 @@ define('Controls/Application',
          };
       };
 
-      Page._theme = ['Controls/application'];
+      Page._theme = ['Controls/application', 'Controls/Application/oldCss'];
 
       return Page;
    });
