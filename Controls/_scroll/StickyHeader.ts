@@ -690,6 +690,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             // из-за чего визуально видно, как скачет содержимое. Задаем z-index сразу, значение берем относительно
             // опции fixedZIndex, но меньше на 1, чтобы зафиксированные заголовки были выше.
             const zIndex = opts.fixedZIndex - 1;
+
             style += 'z-index: ' + zIndex + ';';
         }
 
