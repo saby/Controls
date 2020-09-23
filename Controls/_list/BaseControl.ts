@@ -1051,6 +1051,9 @@ const _private = {
 
         const scrollHeight = Math.max(_private.calcViewSize(viewSize, result, self._pagingPadding || PAGING_PADDING),
                                       self._scrollController?.calculateVirtualScrollHeight() || 0);
+        if (!viewportSize) {
+            viewportSize = viewSize;
+        }
         const proportion = (scrollHeight / viewportSize);
 
         // начиличе пэйджинга зависит от того превышают данные два вьюпорта или нет
