@@ -1514,6 +1514,112 @@ define([
          sandbox.restore();
       });
 
+      describe('_private.keyDownDel', () => {
+         let cfg;
+         let instance;
+         let event;
+         let isHandlerCalled;
+
+         function initTest(options) {
+            const source = new sourceLib.Memory({
+               keyProperty: 'key',
+               data: [
+                  {
+                     key: 1
+                  },
+                  {
+                     key: 2
+                  },
+                  {
+                     key: 3
+                  }
+               ]
+            });
+            cfg = {
+               viewName: 'Controls/List/ListView',
+               viewModelConfig: {
+                  items: [],
+                  keyProperty: 'key'
+               },
+               viewModelConstructor: lists.ListViewModel,
+               keyProperty: 'key',
+               source,
+               ...options
+            };
+            instance = new lists.BaseControl();
+            instance.saveOptions(cfg);
+            instance._container = {
+               querySelector: (selector) => ({
+                  parentNode: {
+                     children: [{
+                        className: 'controls-ListView__itemV'
+                     }]
+                  }
+               })
+            };
+            return instance._beforeMount(cfg);
+         }
+
+         beforeEach(() => {
+            isHandlerCalled = false;
+            event = {
+               preventDefault: () => {}
+            };
+         });
+
+         it('should work when itemActions are not initialized', async () => {
+            await initTest({ itemActions: [{ id: 'delete', handler: () => {isHandlerCalled = true} }, { id: 1 }, { id: 2 }] });
+
+            lists.BaseControl._private.getMarkerController(instance).setMarkedKey(1);
+            const spyUpdateItemActions = sinon.spy(lists.BaseControl._private, 'updateItemActions');
+            lists.BaseControl._private.keyDownDel(instance, event);
+            sinon.assert.called(spyUpdateItemActions);
+            assert.isTrue(isHandlerCalled);
+            spyUpdateItemActions.restore();
+         });
+
+         it('should work when itemActions are initialized', async () => {
+            await initTest({ itemActions: [{ id: 'delete', handler: () => {isHandlerCalled = true} }, { id: 1 }, { id: 2 }] });
+            lists.BaseControl._private.updateItemActions(instance, cfg);
+            lists.BaseControl._private.getMarkerController(instance).setMarkedKey(1);
+            const spyUpdateItemActions = sinon.spy(lists.BaseControl._private, 'updateItemActions');
+            lists.BaseControl._private.keyDownDel(instance, event);
+            sinon.assert.notCalled(spyUpdateItemActions);
+            assert.isTrue(isHandlerCalled);
+            spyUpdateItemActions.restore();
+         });
+
+         it('should not work when no itemActions passed', async () => {
+            await initTest();
+            lists.BaseControl._private.getMarkerController(instance).setMarkedKey(1);
+            lists.BaseControl._private.keyDownDel(instance, event);
+            assert.isFalse(isHandlerCalled);
+         });
+
+         it('should not work when itemAction "delete" is not passed', async () => {
+            await initTest({ itemActions: [{ id: 1 }, { id: 2 }] });
+            lists.BaseControl._private.getMarkerController(instance).setMarkedKey(1);
+            lists.BaseControl._private.keyDownDel(instance, event);
+            assert.isFalse(isHandlerCalled);
+         });
+
+         it('should not work when itemAction "delete" is not visible', async () => {
+            await initTest({
+               itemActions: [{ id: 'delete', handler: () => {isHandlerCalled = true} }, { id: 1 }, { id: 2 }],
+               itemActionVisibilityCallback: (action, item) => action.id !== 'delete',
+            });
+            lists.BaseControl._private.getMarkerController(instance).setMarkedKey(1);
+            lists.BaseControl._private.keyDownDel(instance, event);
+            assert.isFalse(isHandlerCalled);
+         });
+
+         it('should not work when no item is marked', () => {
+            initTest({ itemActions: [{ id: 'delete', handler: () => {isHandlerCalled = true} }, { id: 1 }, { id: 2 }] });
+            lists.BaseControl._private.keyDownDel(instance, event);
+            assert.isFalse(isHandlerCalled);
+         });
+      });
+
       it('_private.handleSelectionControllerResult', () => {
          const baseControl = {
             _notify: function(eventName, args) {}

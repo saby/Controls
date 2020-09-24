@@ -118,7 +118,8 @@ const
         keyDownHome: constants.key.home,
         keyDownEnd: constants.key.end,
         keyDownPageUp: constants.key.pageUp,
-        keyDownPageDown: constants.key.pageDown
+        keyDownPageDown: constants.key.pageDown,
+        keyDownDel: constants.key.del
     };
 
 const LOAD_TRIGGER_OFFSET = 100;
@@ -567,6 +568,9 @@ const _private = {
                 }
             }) : Promise.resolve();
     },
+
+    // region key handlers
+
     keyDownHome(self, event) {
         _private.setMarkerAfterScroll(self, event);
     },
@@ -619,6 +623,40 @@ const _private = {
             _private.moveMarkerToNext(self, event);
         }
     },
+
+    /**
+     * Метод обработки нажатия клавиши del.
+     * Работает по принципу "Если в itemActions есть кнопка удаления, то имитируем её нажатие"
+     * @param self
+     * @param event
+     */
+    keyDownDel(self, event): void {
+        const model = self.getViewModel();
+        let toggledItemId = model.getMarkedKey();
+        let toggledItem: CollectionItem<Model> = model.getItemBySourceKey(toggledItemId);
+        if (!toggledItem) {
+            return;
+        }
+        let itemActions = toggledItem.getActions();
+
+        // Если itemActions были не проинициализированы, то пытаемся их проинициализировать
+        if (!itemActions) {
+            if (self._options.itemActionsVisibility !== 'visible') {
+                _private.updateItemActions(self, self._options);
+            }
+            itemActions = toggledItem.getActions();
+        }
+
+        if (itemActions) {
+            const deleteAction = itemActions.all.find((itemAction: IItemAction) => itemAction.id === 'delete');
+            if (deleteAction) {
+                _private.handleItemActionClick(self, deleteAction, event, toggledItem, false);
+            }
+        }
+    },
+
+    // endregion key handlers
+
     prepareFooter(self, navigation, sourceController) {
         let
             loadedDataCount, allDataCount;
@@ -2178,7 +2216,7 @@ const _private = {
                 self._notify('activeElementChanged', [result.activeElement]);
             }
             if (result.scrollToActiveElement) {
-                
+
                 // Если после перезагрузки списка нам нужно скроллить к записи, то нам не нужно сбрасывать скролл к нулю.
                 self._keepScrollAfterReload = true;
 

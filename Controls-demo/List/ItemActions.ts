@@ -82,7 +82,7 @@ const itemActions: IItemAction[] = [
       }
    },
    {
-      id: 4,
+      id: 'delete',
       icon: 'icon-Erase',
       iconStyle: 'danger',
       title: 'delete pls',
