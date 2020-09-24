@@ -5,6 +5,7 @@ import * as Utils from 'Types/util';
 import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
 import {tmplNotify} from 'Controls/eventUtils';
 import Controller from 'Controls/_dropdown/_Controller';
+import {Controller as HistoryController} from 'Controls/history';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions} from 'Controls/interface';
@@ -103,36 +104,48 @@ class ComboBox extends BaseDropdown {
       };
 
       generateStates(this, options);
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(options));
       this._controller = new Controller(this._getControllerOptions(options));
       this._borderStyle = this._getBorderStyle(options.borderStyle, options.validationStatus);
-      return loadItems(this._controller, receivedState, options.source);
+      return loadItems(this._controller, this._historyController, receivedState, options.source);
    }
 
-   protected _beforeUpdate(newOptions: IComboboxOptions): void {
+   _beforeUpdate(newOptions: IComboboxOptions): void {
+      const containerNode = this._getContainerNode(this._container);
+
+      if (this._width !== containerNode.offsetWidth) {
+         this._width = containerNode.offsetWidth;
+      }
+      this._historyController = new HistoryController(this._getHistoryControllerOptions(newOptions));
       this._controller.update(this._getControllerOptions(newOptions));
       this._borderStyle = this._getBorderStyle(newOptions.borderStyle, newOptions.validationStatus);
    }
 
    _getControllerOptions(options: IComboboxOptions): object {
-      const controllerOptions = getDropdownControllerOptions(options);
+      const comboBoxConfig = {
+         keyProperty: this._historyController.hasHistory(options) ? 'copyOriginalId' : options.keyProperty,
+         marker: false,
+         className: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
+             + ' controls-ComboBox-popup_theme-' + options.theme,
+         typeShadow: 'suggestionsContainer',
+         close: this._onClose,
+         open: this._onOpen,
+         allowPin: false,
+         targetPoint: this._targetPoint,
+         itemPadding: {
+            right: 'menu-xs',
+            left: 'menu-xs'
+         },
+         markerVisibility: 'hidden'
+      };
+      const controllerOptions = getDropdownControllerOptions(options, comboBoxConfig);
       return { ...controllerOptions, ...{
-            selectedKeys: [options.selectedKey],
-            markerVisibility: 'hidden',
+            filter: this._historyController.getPreparedFilter(),
+            source: this._historyController.getPreparedSource(),
+            openerControl: this,
             dataLoadCallback: options.dataLoadCallback,
-            popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
-                           + ' controls-ComboBox-popup_theme-' + options.theme,
-            typeShadow: 'suggestionsContainer',
-            close: this._onClose,
-            open: this._onOpen,
-            allowPin: false,
             selectedItemsChangedCallback: this._setText,
-            theme: options.theme,
-            itemPadding: {
-               right: 'menu-xs',
-               left: 'menu-xs'
-            },
-            targetPoint: this._targetPoint,
-            openerControl: this
+            selectedKeys: [options.selectedKey]
          }
       };
    }
@@ -182,7 +195,7 @@ class ComboBox extends BaseDropdown {
    openMenu(popupOptions?: IStickyPopupOptions): void {
       const config = this._getMenuPopupConfig();
       this._controller.setMenuPopupTarget(this._container);
-
+      this._controller.setFilter(this._historyController.getPreparedFilter());
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
             this._selectedItemsChangedHandler(result);
@@ -192,9 +205,9 @@ class ComboBox extends BaseDropdown {
 
    protected _onResult(action: string, data): void {
       if (action === 'itemClick') {
-         const item = this._controller.getPreparedItem(data);
+         const item = this._historyController.getPreparedItem(data);
          this._selectedItemsChangedHandler([item]);
-         this._controller.handleSelectedItems(item);
+         this._updateControllerItems(data);
       }
    }
 

@@ -1,24 +1,11 @@
 import {IDropdownControllerOptions} from 'Controls/_dropdown/interface/IDropdownController';
 
-export default function getDropdownControllerOptions(options: IDropdownControllerOptions): IDropdownControllerOptions {
-    const dropdownOptions: IDropdownControllerOptions = {
-        source: options.source,
-        filter: options.filter,
-        selectedKeys: options.selectedKeys,
-        navigation: options.navigation,
-        keyProperty: options.keyProperty,
-        notifyEvent: options.notifyEvent,
-        lazyItemsLoading: options.lazyItemsLoading,
+export default function getDropdownControllerOptions(options: IDropdownControllerOptions, controlConfig): IDropdownControllerOptions {
+    const menuOptions = { ...{
         emptyText: options.emptyText,
         itemActions: options.itemActions,
         itemActionVisibilityCallback: options.itemActionVisibilityCallback,
-        selectedItemsChangedCallback: options.selectedItemsChangedCallback,
-        dataLoadErrback: options.dataLoadErrback,
-        historyId: options.historyId,
-        historyNew: options.historyNew,
-        allowPin: options.allowPin,
         width: options.width,
-        popupClassName: options.popupClassName,
         dropdownClassName: options.dropdownClassName,
         markerVisibility: options.markerVisibility,
         displayProperty: options.displayProperty,
@@ -31,11 +18,8 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         itemTemplate: options.itemTemplate,
         nodeFooterTemplate: options.nodeFooterTemplate,
         closeButtonVisibility: options.closeButtonVisibility,
-        openerControl: options.openerControl,
-        readOnly: options.readOnly,
-        theme: options.theme,
         headTemplate: options.headTemplate,
-        headerTemplate: options.headerTemplate,
+        headerTemplate: options.headerTemplate || options.headTemplate,
         targetPoint: options.targetPoint,
         menuPopupOptions: options.menuPopupOptions,
         additionalProperty: options.additionalProperty,
@@ -55,6 +39,15 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         minSearchLength: options.minSearchLength,
         searchDelay: options.searchDelay,
         searchValueTrim: options.searchValueTrim
+    }, ...controlConfig};
+    return  {
+        lazyItemsLoading: options.lazyItemsLoading,
+        navigation: options.navigation,
+        menuOptions,
+        readOnly: options.readOnly,
+        selectedKeys: options.selectedKeys,
+        selectedItemsChangedCallback: options.selectedItemsChangedCallback,
+        dataLoadErrback: options.dataLoadErrback,
+        theme: options.theme
     };
-    return dropdownOptions;
 }

@@ -5,9 +5,10 @@ define(
       'Types/source',
       'Types/collection',
       'Types/entity',
-      'Controls/popup'
+      'Controls/popup',
+      'Controls/history'
    ],
-   (dropdown, Clone, sourceLib, collection, entity, popup) => {
+   (dropdown, Clone, sourceLib, collection, entity, popup, history) => {
       describe('Input/Dropdown', () => {
          let items = [
             {
@@ -113,6 +114,38 @@ define(
             assert.isFalse(isKeysChanged);
          });
 
+         it('_private::getNewItems', function() {
+            let ddl = getDropdown(config);
+            let curItems = new collection.RecordSet({
+                  rawData: [{
+                     id: '1',
+                     title: 'Запись 1'
+                  }, {
+                     id: '2',
+                     title: 'Запись 2'
+                  }, {
+                     id: '3',
+                     title: 'Запись 3'
+                  }]
+               }),
+               selectedItems = new collection.RecordSet({
+                  rawData: [{
+                     id: '1',
+                     title: 'Запись 1'
+                  }, {
+                     id: '9',
+                     title: 'Запись 9'
+                  }, {
+                     id: '10',
+                     title: 'Запись 10'
+                  }]
+               });
+            let newItems = [selectedItems.at(1), selectedItems.at(2)];
+            let result = ddl._getNewItems(curItems, selectedItems, 'id');
+
+            assert.deepEqual(newItems, result);
+         });
+
          it('_handleMouseDown', () => {
             let isOpened = false;
             let ddl = getDropdown(config);
@@ -133,7 +166,13 @@ define(
             let ddl = getDropdown(config);
             ddl._controller = {
                setMenuPopupTarget: () => { target = 'test'; },
-               openMenu: (popupConfig) => { actualOptions = popupConfig; return Promise.resolve(); }
+               openMenu: (popupConfig) => { actualOptions = popupConfig; return Promise.resolve(); },
+               setFilter: () => {}
+            };
+
+            ddl._historyController = {
+               getPreparedFilter: ()=> {},
+               getPreparedSource: ()=> {}
             };
 
             ddl.openMenu();
@@ -208,21 +247,17 @@ define(
                selectedItems = new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: [{
-                     id: '1',
-                     title: 'Запись 1'
-                  },
-                  {
-                     id: '9',
-                     title: 'Запись 9'
-                  },
-                  {
-                     id: '10',
-                     title: 'Запись 10'
-                  }]
+                        id: '9',
+                        title: 'Запись 9'
+                     },
+                     {
+                        id: '10',
+                        title: 'Запись 10'
+                     }]
                });
             ddl._controller._items = curItems;
             ddl._controller._source = config.source;
-            let newItems = [ {
+            let newItems = [{
                id: '9',
                title: 'Запись 9'
             },
@@ -241,8 +276,7 @@ define(
             {
                id: '3',
                title: 'Запись 3'
-            }
-            ];
+            }];
 
             ddl._selectorTemplateResult('selectorResult', selectedItems);
             assert.deepEqual(newItems, ddl._controller._items.getRawData());
@@ -343,7 +377,7 @@ define(
                   selectedKeys = data[0];
                }
             };
-            let newItems = [ {
+            let newItems = [{
                id: '9',
                title: 'Запись 9'
             },
@@ -369,15 +403,33 @@ define(
 
          describe('controller options', function() {
             const ddl = getDropdown(config);
+            ddl._beforeMount(config);
 
             it('check options', () => {
                const result = ddl._getControllerOptions({
                   nodeFooterTemplate: 'testNodeFooterTemplate'
                });
 
-               assert.equal(result.nodeFooterTemplate, 'testNodeFooterTemplate');
-               assert.isOk(result.selectorOpener);
-               assert.include(result.popupClassName, 'controls-DropdownList__margin');
+               assert.equal(result.menuOptions.nodeFooterTemplate, 'testNodeFooterTemplate');
+               assert.isOk(result.menuOptions.selectorOpener);
+               assert.include(result.menuOptions.className, 'controls-DropdownList__margin');
+            });
+
+            it('check keyProperty option', () => {
+               let result = ddl._getControllerOptions({
+                  keyProperty: 'key',
+                  source: new history.Source({})
+               });
+
+               assert.equal(result.menuOptions.keyProperty, 'copyOriginalId');
+
+               ddl._options.source = 'originalSource';
+               result = ddl._getControllerOptions({
+                  keyProperty: 'key',
+                  source: 'originalSource'
+               });
+
+               assert.equal(result.menuOptions.keyProperty, 'key');
             });
 
             it('popupClassName with header', () => {
@@ -386,7 +438,7 @@ define(
                   headerContentTemplate: 'template'
                });
 
-               assert.include(result.popupClassName, 'controls-DropdownList__margin-head');
+               assert.include(result.menuOptions.className, 'controls-DropdownList__margin-head');
             });
 
             it('popupClassName with multiSelect', () => {
@@ -395,7 +447,7 @@ define(
                   multiSelect: true
                });
 
-               assert.include(result.popupClassName, 'controls-DropdownList_multiSelect__margin');
+               assert.include(result.menuOptions.className, 'controls-DropdownList_multiSelect__margin');
             });
          });
 

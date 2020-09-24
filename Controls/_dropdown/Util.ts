@@ -1,6 +1,6 @@
-import rk = require('i18n!Controls');
 import Controller from 'Controls/_dropdown/_Controller';
-import {ICrudPlus} from 'Types/source';
+import {Controller as HistoryController} from 'Controls/history';
+import rk = require('i18n!Controls');
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {error as dataSourceError} from 'Controls/dataSource';
 
@@ -12,12 +12,14 @@ export function prepareEmpty(emptyText) {
 
 export function loadItems(
     controller: Controller,
+    historyController: HistoryController,
     receivedState: DropdownReceivedState,
-    source: ICrudPlus
+    source: unknown
 ): Promise<void | DropdownReceivedState> {
    if (receivedState) {
-      return controller.setItems(receivedState.items).then(() => {
-         controller.setHistoryItems(receivedState.history);
+      const preparedItems = historyController.getPreparedItems(receivedState.items, receivedState.history);
+      return controller.setItems(preparedItems).then(() => {
+          historyController.setHistory(receivedState.history);
       });
    } else if (source) {
       return controller.loadItems().catch((error) => {
