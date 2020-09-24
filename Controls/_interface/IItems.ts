@@ -4,6 +4,8 @@ export interface IItemsOptions<T> {
     items?: RecordSet<T>;
 }
 
+export type TKey = string|number|null;
+
 /**
  * Набор записей.
  *

@@ -72,27 +72,6 @@ class PositionNavigationStore implements INavigationStore {
         this._more = PositionNavigationStore._getDefaultMoreMeta();
     }
 
-    private static _getDefaultMoreMeta(): IPositionHasMore {
-        return {
-            backward: false,
-            forward: false
-        };
-    }
-
-    /**
-     * Конвертор старых и новых названий направления.
-     * TODO Необходимо убрать этот метод, когда своместимость более не понадобится
-     * @param position
-     */
-    private static _convertDirection(position: CursorDirection | 'before' | 'after' | 'both'): CursorDirection {
-        const map = {
-            before: CursorDirection.backward,
-            after: CursorDirection.forward,
-            both: CursorDirection.bothways
-        };
-        return map[position] ? map[position] : position;
-    }
-
     getState(): IPositionNavigationState {
         return {
             field: this._field,
@@ -110,6 +89,10 @@ class PositionNavigationStore implements INavigationStore {
 
     setBackwardPosition(value: TPosition): void {
         this._backwardPosition = value;
+    }
+
+    setPosition(value: TPositionValue): void {
+        this._position = value;
     }
 
     setMetaMore(more: IPositionHasMoreCompatible): void {
@@ -144,6 +127,27 @@ class PositionNavigationStore implements INavigationStore {
         this._backwardPosition = null;
         this._forwardPosition = null;
         this._more = null;
+    }
+
+    private static _getDefaultMoreMeta(): IPositionHasMore {
+        return {
+            backward: false,
+            forward: false
+        };
+    }
+
+    /**
+     * Конвертор старых и новых названий направления.
+     * TODO Необходимо убрать этот метод, когда своместимость более не понадобится
+     * @param position
+     */
+    private static _convertDirection(position: CursorDirection | 'before' | 'after' | 'both'): CursorDirection {
+        const map = {
+            before: CursorDirection.backward,
+            after: CursorDirection.forward,
+            both: CursorDirection.bothways
+        };
+        return map[position] ? map[position] : position;
     }
 }
 

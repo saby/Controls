@@ -7,6 +7,6 @@
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"
             keyProperty="{{_dataOptions.keyProperty}}"
-            items="{{_dataOptions.items}}"
             scope="{{_options}}"
-            source="{{_dataOptions.prefetchSource}}"/>
+            source="{{_dataOptions.source}}"
+            sourceController="{{_dataOptions.sourceController}}"/>

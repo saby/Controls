@@ -23,7 +23,7 @@ define([
    SettingsController,
    cSource
 ) {
-   function correctCreateTreeControl(cfg) {
+   function correctCreateTreeControl(cfg, returnCreatePromise) {
       var
          treeControl,
          baseControl,
@@ -31,7 +31,8 @@ define([
          cfgBaseControl,
          cfgTreeControl = cMerge(cfg, {
             viewModelConstructor: treeGrid.ViewModel
-         });
+         }),
+         createPromise;
       cfgTreeControl = Object.assign(tree.TreeControl.getDefaultOptions(), cfgTreeControl);
       treeControl = new tree.TreeControl(cfgTreeControl);
       treeControl.saveOptions(cfgTreeControl);
@@ -43,7 +44,7 @@ define([
       baseControl = new listMod.BaseControl(cfgBaseControl);
       baseControl.saveOptions(cfgBaseControl);
       baseControl.cancelEdit = function() {};
-      baseControl._beforeMount(cfgBaseControl);
+      createPromise = baseControl._beforeMount(cfgBaseControl);
       treeControl._children = {
          baseControl: baseControl
       };
@@ -53,7 +54,14 @@ define([
          baseControl._beforeUpdate(treeControl._options);
       };
 
-      return treeControl;
+      if (returnCreatePromise) {
+         return {
+            treeControl,
+            createPromise
+         };
+      } else {
+         return treeControl;
+      }
    }
 
    function getHierarchyData() {
@@ -674,7 +682,7 @@ define([
                assert.equal(treeControl._nodesSourceControllers.size, 1, 'Invalid value "_nodesSourceControllers" after call "treeControl.reload()".');
                assert.isFalse(isSourceControllerNode1Destroyed, 'Invalid value "isSourceControllerNode1Destroyed" after call "treeControl.reload()".');
                assert.isTrue(isSourceControllerNode2Destroyed, 'Invalid value "isSourceControllerNode2Destroyed" after call "treeControl.reload()".');
-               assert.deepEqual({}, vmHasMoreStorage);
+               assert.deepEqual({1: false}, vmHasMoreStorage);
                done();
             }, 10);
          }, 10);
@@ -759,7 +767,6 @@ define([
                   assert.equal(12, treeControl._root);
                   assert.isTrue(isNeedForceUpdate);
                   assert.isTrue(sourceControllersCleared);
-                  assert.deepEqual(reloadFilter, {testParentProperty: 12});
                   treeControl._beforeUpdate({root: treeControl._root});
                   assert.isTrue(resetExpandedItemsCalled);
                   tree.TreeControl._private.clearNodesSourceControllers = clearNodesSourceControllersOriginal;
@@ -1173,26 +1180,22 @@ define([
                treeControl._beforeReloadCallback(filter, null, null, treeControl._options);
                filterOnOptionChange = filter;
             };
-            treeControl._children.baseControl._sourceController._loader.addCallback(function(result) {
+            treeControl._children.baseControl._sourceController._loadPromise.addCallback(function(result) {
                treeControl._children.baseControl.reload().addCallback(function(res) {
-                  const newFilter = {
-                     parent: null
-                  };
                   const configClone = {...config};
                   configClone.root = 'testRoot';
                   treeControl._beforeUpdate(configClone);
                   treeControl._options.root = 'testRoot';
                   try {
                      assert.deepEqual(treeGridViewModel.getExpandedItems(), []);
-                     assert.deepEqual(filterOnOptionChange, newFilter);
                      assert.isTrue(isSourceControllerDestroyed);
                   } catch (e) {
                      reject(e);
                   }
 
-                  treeControl._afterUpdate({root: null, filter: {}, source: source});
+                  let afterUpdatePromise = treeControl._afterUpdate({root: null, filter: {}, source: source});
                   treeControl._children.baseControl._afterUpdate({});
-                  treeControl._children.baseControl._sourceController._loader.addCallback(function() {
+                  afterUpdatePromise.then(function() {
                      try {
                         assert.isTrue(reloadCalled, 'Invalid call "reload" after call "_beforeUpdate" and apply new "root".');
                         assert.isTrue(setRootCalled, 'Invalid call "setRoot" after call "_beforeUpdate" and apply new "root".');
@@ -1236,24 +1239,7 @@ define([
          assert.deepEqual(hasMoreResult, tree.TreeControl._private.prepareHasMoreStorage(sourceControllers),
             'Invalid value returned from "prepareHasMoreStorage(sourceControllers)".');
       });
-      it('TreeControl._private.beforeLoadToDirectionCallback', function() {
-         var filter = {
-            field1: 'value 1'
-         };
-         tree.TreeControl._private.beforeLoadToDirectionCallback({ _root: 'myCurrentRoot' }, filter, { parentProperty: 'parent' });
-         assert.deepEqual(filter, {
-            field1: 'value 1',
-            parent: 'myCurrentRoot'
-         });
 
-         tree.TreeControl._private.beforeLoadToDirectionCallback({ _root: 'myCurrentRoot' }, filter, { parentProperty: 'parent', selectedKeys: [1], source: new sourceLib.Memory() });
-         assert.deepEqual(filter.entries.get('marked'), ['1']);
-      });
-      it('TreeControl._private.beforeLoadToDirectionCallback', function() {
-         let filter = {};
-         tree.TreeControl._private.beforeLoadToDirectionCallback({ _root: 'myCurrentRoot' }, filter, { source: new sourceLib.Memory() });
-         assert.deepEqual(filter, {}, 'Incorrect value of filter for control without parentProperty.');
-      });
       it('TreeControl._private.loadMore', function () {
          var
              setHasMoreCalled = false,
@@ -1517,39 +1503,34 @@ define([
       });
 
       it('expandedItems bindind 1', function(done){
+         var _cfg = {
+            source: new sourceLib.Memory({
+               data: [
+                  { id: 1, type: true, parent: null },
+                  { id: 2, type: true, parent: null },
+                  { id: 11, type: null, parent: 1 }
+               ],
+               keyProperty: 'id'
+            }),
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            expandedItems: [1]
+         };
+         var createObject = correctCreateTreeControl(_cfg, true);
+         var treeControl1 = createObject.treeControl;
 
-         //expandedItems задана, и после обновления контрола, должна соответствовать начальной опции
-         setTimeout(()=>{
-            var _cfg = {
-               source: new sourceLib.Memory({
-                  data: [
-                     { id: 1, type: true, parent: null },
-                     { id: 2, type: true, parent: null },
-                     { id: 11, type: null, parent: 1 }
-                  ],
-                  keyProperty: 'id'
-               }),
-               columns: [],
-               keyProperty: 'id',
-               parentProperty: 'parent',
-               nodeProperty: 'type',
-               expandedItems: [1]
-            };
-            var treeControl1 = correctCreateTreeControl(_cfg);
-
+         createObject.createPromise.then(() => {
+            var treeGridViewModel1 = treeControl1._children.baseControl.getViewModel();
+            assert.deepEqual([1], treeGridViewModel1._model._expandedItems,'wrong expandedItems');
+            treeControl1.toggleExpanded(1);
+            treeControl1._beforeUpdate(_cfg);
             setTimeout(()=>{
-               var treeGridViewModel1 = treeControl1._children.baseControl.getViewModel();
-               assert.deepEqual([1], treeGridViewModel1._model._expandedItems,'wrong expandedItems');
-               treeControl1.toggleExpanded(1);
-               setTimeout(()=>{
-                  treeControl1._beforeUpdate(_cfg);
-                  setTimeout(()=>{
-                     assert.deepEqual([], treeControl1._children.baseControl.getViewModel()._model._expandedItems,'wrong expandedItems after _breforeUpdate');
-                     done();
-                  }, 10);
-               }, 10);
+               assert.deepEqual([], treeControl1._children.baseControl.getViewModel()._model._expandedItems,'wrong expandedItems after _breforeUpdate');
+               done();
             }, 10);
-         }, 10);
+         });
       });
       it('expandedItems binding 2', function(done){
 
@@ -2088,32 +2069,6 @@ define([
          assert.isTrue(isParentEventStopped);
       });
 
-      it('check deepReload after load', function() {
-         let source = new sourceLib.Memory({
-            data: [{ id: 0, 'Раздел@': false, "Раздел": null }],
-            keyProperty: 'id'
-         });
-         let cfg = {
-            source: source,
-            columns: [],
-            keyProperty: 'id',
-            parentProperty: 'Раздел',
-            nodeProperty: 'Раздел@',
-            expandedItems: [0],
-            filter: {}
-         };
-
-         let treeControl = correctCreateTreeControl(cfg);
-
-         return new Promise(function(resolve) {
-            treeControl._children.baseControl._beforeMount(cfg).addCallback(function(res) {
-               assert.isFalse(treeControl._deepReload);
-               resolve();
-               return res;
-            });
-         });
-      });
-
       it('_private.getReloadableNodes', function() {
          var source = new sourceLib.Memory({
             rawData: getHierarchyData(),
@@ -2202,29 +2157,18 @@ define([
          treeGridViewModel.setExpandedItems([null]);
 
          var filter = {};
-         tree.TreeControl._private.beforeReloadCallback(self, filter, null, null, cfg);
-         assert.equal(filter['Раздел'], self._root);
-         assert.deepEqual(filter.entries.get('marked'), ['1']);
-         assert.deepEqual(filter.entries.get('excluded'), ['2']);
 
          filter = {};
          cfg.selectedKeys = [];
          selfWithBaseControl._nodesSourceControllers = getNodesSourceControllers();
          tree.TreeControl._private.beforeReloadCallback(selfWithBaseControl, filter, null, null, cfg);
-         assert.equal(filter['Раздел'], self._root);
          assert.isFalse(!!selfWithBaseControl._nodesSourceControllers[1]);
-         assert.equal(filter.entries, undefined);
 
          treeGridViewModel.setExpandedItems([1, 2]);
          filter = {};
          selfWithBaseControl._nodesSourceControllers = getNodesSourceControllers();
          tree.TreeControl._private.beforeReloadCallback(selfWithBaseControl, filter, null, null, cfg);
-         assert.deepEqual(filter['Раздел'], ['root', 1, 2]);
          assert.isTrue(selfWithBaseControl._nodesSourceControllers.has(1));
-
-         filter = {};
-         tree.TreeControl._private.beforeReloadCallback(selfWithBaseControlAndEmptyModel, filter, null, null, emptyCfg);
-         assert.deepEqual(filter['Раздел'], ['root', '1', '2']);
       });
 
       it('_private.applyReloadedNodes', function() {

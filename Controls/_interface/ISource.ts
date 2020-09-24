@@ -1,6 +1,6 @@
-import {ICrudPlus} from 'Types/source';
+import {ICrud, ICrudPlus, IData} from 'Types/source';
 export interface ISourceOptions {
-   source?: ICrudPlus;
+   source?: ICrud & ICrudPlus & IData;
    keyProperty: string;
 }
 

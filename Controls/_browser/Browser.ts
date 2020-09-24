@@ -106,14 +106,9 @@ export default class Browser extends Control {
         } else if (isChanged) {
             const controllerState = this._sourceController.getState();
 
-            // TODO 1) filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-            // TODO 2) getState у SourceController пересоздаёт prefetchProxy,
-            // TODO поэтому весь state на контекст перекладывать нельзя, иначе список перезагрузится с теми же данными
+            // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
             this._filter = controllerState.filter;
-            this._dataOptionsContext.navigation = controllerState.navigation;
-            this._dataOptionsContext.filter = controllerState.filter;
-            this._dataOptionsContext.sorting = controllerState.sorting;
-            this._dataOptionsContext.updateConsumers();
+            this._updateContext(controllerState);
             this._groupHistoryId = newOptions.groupHistoryId;
         }
 
@@ -175,11 +170,8 @@ export default class Browser extends Control {
 
         // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
         this._filter = controllerState.filter;
-        this._updateContext(controllerState);
 
-        /* If filter changed, prefetchSource should return data not from cache,
-           will be changed by task https://online.sbis.ru/opendoc.html?guid=861459e2-a229-441d-9d5d-14fdcbc6676a */
-        this._dataOptionsContext.prefetchSource = this._options.source;
+        this._updateContext(controllerState);
         this._dataOptionsContext.updateConsumers();
     }
 
