@@ -1,7 +1,7 @@
 import { IDragPosition, TKey, TPosition } from './interface';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import { CollectionItem } from 'Controls/display';
+import { CollectionItem, Collection } from 'Controls/display';
 import { Model } from 'Types/entity';
 import { ISelectionObject } from 'Controls/interface';
 
@@ -87,7 +87,8 @@ export default class FlatController {
       return this._entity;
    }
 
-   calculateDragPosition(targetItemData: IFlatItemData, position?: TPosition): IDragPosition {
+   // This is incompatible with new model
+   calculateDragPosition(targetItemData: IFlatItemData|CollectionItem<Model>, position?: TPosition): IDragPosition {
       let prevIndex = -1;
 
       // If you hover on a record that is being dragged, then the position should not change.
