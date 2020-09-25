@@ -4,5 +4,6 @@
             on:mouseenter="_hoverHandler()"
             on:focusIn="_focusInHandler()"
             on:focusOut="_focusOutHandler()"
+            on:rangeChanged="_valueChangedHandler()"
             on:valueChanged="_valueChangedHandler()"
             on:mouseleave="_mouseLeaveHandler()"/>
