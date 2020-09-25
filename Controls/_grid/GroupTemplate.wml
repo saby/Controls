@@ -65,7 +65,7 @@
 
 
 <ws:if data="{{itemData.isFullGridSupport()}}">
-   <div class="controls-ListView__itemV {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}"
+   <div class="controls-ListView__itemV {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden ws-hidden' : 'controls-Grid__row controls-ListView__group'}}"
         key="group-{{itemData.item}}">
       <ws:if data="{{itemData.isStickyHeader}}">
          <Controls.scroll:Group>
@@ -93,7 +93,7 @@
    </div>
 </ws:if>
 <ws:else>
-   <tr key="group-{{itemData.item}}" class="controls-ListView__itemV {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}">
+   <tr key="group-{{itemData.item}}" class="controls-ListView__itemV {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden ws-hidden' : 'controls-Grid__row controls-ListView__group'}}">
       <td class="controls-ListView__groupCellContent {{itemData.groupPaddingClasses.left}} {{ !rightTemplate && columnAlignGroup === undefined ? itemData.groupPaddingClasses.right }}" colspan="{{columnAlignGroup ? columnAlignGroup : itemData.columns.length}}">
          <ws:partial template="groupContentWrapper"/>
       </td>
