@@ -17,5 +17,6 @@ export default interface IItems {
 /**
  * @name Controls/_interface/IItems#items
  * @cfg {RecordSet} Определяет набор записей по которым строится контрол.
+ * @param {Controls/_toolbars/IToolbarSource/Item.typedef} RecordSet
  * @demo Controls-demo/Toolbar/Items/Index
  */
