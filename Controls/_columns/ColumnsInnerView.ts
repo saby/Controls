@@ -6,7 +6,7 @@ import {
     ColumnsCollection as Collection,
     ColumnsCollectionItem as CollectionItem,
 } from 'Controls/display';
-import {scrollToElement} from 'Controls/scrollUtils';
+import {scrollToElement} from 'Controls/scroll';
 
 import {IList} from 'Controls/list';
 

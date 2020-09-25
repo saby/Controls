@@ -21,7 +21,7 @@ import 'Controls/_scroll/Scroll/Scrollbar';
 import * as newEnv from 'Core/helpers/isNewEnvironment';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
-import {scrollToElement} from 'Controls/scrollUtils';
+import {scrollToElement} from './Utils/scrollToElement';
 import {descriptor} from 'Types/entity';
 import {detection, constants} from 'Env/Env';
 import {LocalStorageNative} from 'Browser/Storage';

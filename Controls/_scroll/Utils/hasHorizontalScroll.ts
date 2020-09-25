@@ -1,7 +1,7 @@
 import {getTextWidth} from 'Controls/_utils/sizeUtils/getTextWidth';
 import {detection} from 'Env/Env';
 
-export default function hasHorizontalScroll(target: HTMLElement): boolean {
+export function hasHorizontalScroll(target: HTMLElement): boolean {
     const targetStyles = getComputedStyle(target);
 
     /**

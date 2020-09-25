@@ -6,7 +6,7 @@ import {isEqual} from 'Types/object';
 import ViewModel = require('Controls/_input/Base/ViewModel');
 import {delay as runDelayed} from 'Types/function';
 import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
-import {hasHorizontalScroll} from 'Controls/sizeUtils';
+import {hasHorizontalScroll} from 'Controls/scroll';
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
