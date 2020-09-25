@@ -66,53 +66,6 @@ define([
          };
          bc._onHoveredItemChanged({}, hoveredItem);
       });
-      it('_addWithOverflow', function() {
-         //две крошки
-         let View = new crumbs.View();
-         View._items = [{
-            id: 1,
-            item: {
-               get: () => {
-                  return 'title';
-               }
-            },
-            withOverflow: false
-         }, {
-            id: 2,
-            item: {
-               get: () => {
-                  return '1';
-               }
-            },
-            withOverflow: false
-         }];
-         View._addWithOverflow();
-         assert.isTrue(View._items[0].withOverflow);
-         assert.isFalse(View._items[1].withOverflow);
-
-         //крошка и точки
-         View._items = [{
-            id: 1,
-            item: {
-               get: () => {
-                  return '...';
-               }
-            },
-            withOverflow: false,
-            isDots: true
-         }, {
-            id: 2,
-            item: {
-               get: () => {
-                  return 'title';
-               }
-            },
-            withOverflow: false
-         }];
-         View._addWithOverflow();
-         assert.isFalse(View._items[0].withOverflow);
-         assert.isTrue(View._items[1].withOverflow);
-      });
       describe('_onItemClick', function() {
          const mockEvent = (e) => ({...e, stopPropagation() {}});
          it('item', function() {

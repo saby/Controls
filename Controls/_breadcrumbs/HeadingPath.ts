@@ -9,7 +9,7 @@ import 'Controls/heading';
 import 'wml!Controls/_breadcrumbs/HeadingPath/Back';
 
 var _private = {
-   drawItems: function (self, options) {
+    drawItems: function (self, options) {
         self._backButtonCaption = ItemsUtil.getPropertyValue(options.items[options.items.length - 1], options.displayProperty);
 
         //containerWidth is equal to 0, if path is inside hidden node. (for example switchableArea)
@@ -164,16 +164,16 @@ var BreadCrumbsPath = Control.extend({
         Common.onBackButtonClick.call(this, e);
     },
     _onHomeClick: function () {
-       /**
-        * TODO: _options.root is actually current root, so it's wrong to use it. For now, we can take root from the first item. Revert this commit after:
-        * https://online.sbis.ru/opendoc.html?guid=93986788-48e1-48df-9595-be9d8fb99e81
-        */
-       this._notify('itemClick', [this._getRootModel(this._options.items[0].get(this._options.parentProperty), this._options.keyProperty)]);
+        /**
+         * TODO: _options.root is actually current root, so it's wrong to use it. For now, we can take root from the first item. Revert this commit after:
+         * https://online.sbis.ru/opendoc.html?guid=93986788-48e1-48df-9595-be9d8fb99e81
+         */
+        this._notify('itemClick', [this._getRootModel(this._options.items[0].get(this._options.parentProperty), this._options.keyProperty)]);
     },
 
-   _getCounterCaption: function(items) {
-      return items[items.length - 1].get('counterCaption');
-   }
+    _getCounterCaption: function(items) {
+        return items[items.length - 1].get('counterCaption');
+    }
 });
 
 BreadCrumbsPath.getDefaultOptions = function () {
