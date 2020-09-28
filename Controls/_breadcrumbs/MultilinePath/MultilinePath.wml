@@ -3,7 +3,7 @@
         <ws:if data="{{_visibleItemsFirst}}">
             <Controls._breadcrumbs.View
                     visibleItems="{{_visibleItemsFirst}}"
-                    displayMode="multiline"
+                    displayMode="newDisplay"
                     fontSize="{{_options.fontSize}}"
                     keyProperty="{{_options.keyProperty}}"
                     displayProperty="{{_options.displayProperty}}"
@@ -13,7 +13,7 @@
             <Controls._breadcrumbs.View
                     visibleItems="{{_visibleItemsSecond}}"
                     keyProperty="{{_options.keyProperty}}"
-                    displayMode="multiline"
+                    displayMode="newDisplay"
                     fontSize="{{_options.fontSize}}"
                     items="{{_options.items}}"
                     displayProperty="{{_options.displayProperty}}"

@@ -11,6 +11,7 @@ import itemsMultilineTemplate = require('wml!Controls/_breadcrumbs/View/resource
 import menuItemTemplate = require('wml!Controls/_breadcrumbs/resources/menuItemTemplate');
 import 'wml!Controls/_breadcrumbs/resources/menuContentTemplate';
 import {Record} from 'Types/entity';
+
 const CRUMBS_COUNT = 2;
 const MIN_COUNT_OF_LETTER = 3;
 
@@ -48,11 +49,9 @@ class BreadCrumbsView extends Control<IControlOptions> {
             this._addWithOverflow(newOptions.displayProperty);
         }
     }
-
     private _addWithOverflow(displayProperty: string): void {
         if (this._items.length <= CRUMBS_COUNT) {
             this._items.forEach((item) => {
-                //TODO remove after https://online.sbis.ru/opendoc.html?guid=d42bb751-1845-40b2-9d19-4e19dbf588a5
                 if (!item.isDots && item.item.get(displayProperty).length > MIN_COUNT_OF_LETTER) {
                     item.withOverflow = true;
                 }
