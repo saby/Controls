@@ -19,7 +19,8 @@
 .controls-Menu__row {
    position: relative;
    display: flex;
-   align-items: center;
+   box-sizing: border-box;
+   align-items: baseline;
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -47,38 +48,36 @@
    position: absolute;
    display: inline-flex;
    align-items: baseline;
+   padding-top: @item_padding-top_menu;
    left: 0;
+   top: initial;
+   height: 100%;
    &::before {
       content: '\200b';
-      font-size: inherit;
+      font-size: @font-size_xl;
    }
    &::after {
       content: '';
-      display: block;
+      display: inline-block;
       background: @marker_color_menu;
       width: @marker_width_menu;
       height: @marker_height_menu;
    }
 }
 
-// Будет удалено после: https://online.sbis.ru/opendoc.html?guid=8b5f2552-e249-4783-b551-3e37b285aad5
 .ws-is-ie11 .controls-Menu__row_selected_theme-@{themeName} {
    top: 0;
    bottom: 0;
-   line-height: @item_height_menu + 1;
-}
-
-.ws-is-ie11 .controls-Menu__row_selected-multiLine_theme-@{themeName} {
-   line-height: inherit;
+   height: auto;
 }
 
 .controls-Menu__row_pinned {
    font-weight: bold;
 }
 
-//не удалять, высота необходима, чтобы корректно работал align-items:center в IE
 .controls-Menu__row_singleLine_theme-@{themeName} {
    height: @item_height_menu;
+   line-height: normal;
 }
 
 .controls-Menu__row_multiLine_theme-@{themeName} {
@@ -103,6 +102,10 @@
    visibility: hidden;
 }
 
+.controls-Menu__icon_theme-@{themeName} {
+   //padding-top: @item_padding-top_menu;
+}
+
 .controls-Menu__icon {
    .flex-shrink(0);
 }
@@ -122,7 +125,14 @@
 .controls-Menu__content {
    max-width: 100%;
    min-width: 0;
+   display: inline-flex;
+   align-items: baseline;
+   box-sizing: border-box;
    flex-shrink: 1;
+   &::before {
+      content: '\200b';
+      font-size: @font-size_xl;
+   }
 }
 
 .controls-Menu__defaultItem_theme-@{themeName},
@@ -139,18 +149,18 @@
 }
 
 .controls-Menu__content_singleLine_theme-@{themeName} {
-   display: flex;
-   align-items: center;
-   align-self: center;
+   height: @item_height_menu;
 }
 
 .controls-Menu__content_padding_theme-@{themeName} {
-   display: flex;
    padding-top: @item_padding-top_menu;
    padding-bottom: @item_padding-bottom_menu;
 }
 
 .controls-Menu__content-wrapper {
+   padding-top: @item_padding-top_menu;
+   height: @item_height_menu;
+   box-sizing: border-box;
    .text-overflow();
 }
 
