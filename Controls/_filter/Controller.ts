@@ -798,10 +798,6 @@ const Container = Control.extend(/** @lends Controls/_filter/Container.prototype
                 filter = Prefetch.prepareFilter(filter, options.prefetchParams);
             }
 
-            if (options.useStore) {
-                this._observeStore(options);
-            }
-
             if (receivedState) {
                 if (options.useStore) {
                     const state = Store.getState();
@@ -880,6 +876,12 @@ const Container = Control.extend(/** @lends Controls/_filter/Container.prototype
                 }
             }
          },
+
+        _afterMount(options): void {
+            if (options.useStore) {
+                this._observeStore(options);
+            }
+        },
 
         _beforeUnmount(): void {
              if (this._options.useStore) {
