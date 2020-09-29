@@ -7,7 +7,7 @@ export default class extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
     protected _dataLoadCallback: Function;
     protected _source: Memory;
-    protected _selectedKeys: number[] = [1];
+    protected _selectedKeys: string[] = ['1'];
     private _pinnedItems: RecordSet = new RecordSet({
         rawData: [{
             id: '-2',

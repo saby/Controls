@@ -551,18 +551,6 @@ define(
             assert.isFalse(isClosed);
          });
 
-         it('getSelectedItemsByKeys', function() {
-            let listModel = getListModel();
-            let menuControl = getMenu();
-            let selectedKeys = [2, 3];
-            let selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 2);
-
-            selectedKeys = [];
-            selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 0);
-         });
-
          it('_openSelectorDialog', function() {
             let menuOptions = Clone(defaultOptions);
             menuOptions.selectorTemplate = {
