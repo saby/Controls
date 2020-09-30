@@ -3,7 +3,7 @@ define('Controls-demo/Popup/InfoboxTemplate',
       'Core/Control',
       'wml!Controls-demo/Popup/InfoboxTemplate',
       'Types/source',
-      'Controls-demo/Popup/TestDialog',
+      'Controls-demo/PopupTemplate/InfoBox/Index',
    ],
    function(Control, template, source) {
       'use strict';
