@@ -1,21 +1,31 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <Controls.spoiler:Heading captions="{{_captions}}"/>
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" fontColorStyle="secondary"/>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="secondary">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" fontColorStyle="label"/>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="label">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary && expanded=true, fontColorStyle=label && expanded=false</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" fontColorStyle="{{_expanded1 ? 'secondary' : 'label'}}" bind:expanded="_expanded1"/>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="{{_expanded1 ? 'secondary' : 'label'}}" bind:expanded="_expanded1">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label && expanded=true, fontColorStyle=secondary && expanded=false</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" fontColorStyle="{{_expanded2 ? 'label' : 'secondary'}}" bind:expanded="_expanded2"/>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="{{_expanded2 ? 'label' : 'secondary'}}" bind:expanded="_expanded2">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
 </div>

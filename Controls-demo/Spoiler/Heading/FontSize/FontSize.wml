@@ -1,12 +1,14 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" bind:expanded="_expandedM"
-                                fontSize="m"/>
+      <Controls.spoiler:View captions="{{_captions}}" bind:expanded="_expandedM" fontSize="m">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
-      <Controls.spoiler:Heading captions="{{_captions}}" bind:expanded="_expandedL"
-                                fontSize="l"/>
+      <Controls.spoiler:View captions="{{_captions}}" bind:expanded="_expandedL" fontSize="l">
+         <div>Content</div>
+      </Controls.spoiler:View>
    </div>
 </div>
