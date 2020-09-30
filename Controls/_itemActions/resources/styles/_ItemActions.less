@@ -42,9 +42,7 @@
   right: 0;
   height: @height_outside_itemActions;
   background-color: @background-color_outside_itemActions;
-   padding-top: @offset-top_outside_itemActions;
    padding-right: @offset-right_outside_itemActions;
-   padding-bottom: @offset-bottom_outside_itemActions;
    padding-left: 0;
   box-sizing: border-box;
   &:before {
@@ -90,19 +88,6 @@
   right: 0;
 }
 
-.controls-itemActionsV_padding-bottom_default_theme-@{themeName} {
-  padding-bottom: @offset-bottom_itemActions;
-}
-
-.controls-itemActionsV_padding-bottom_null_theme-@{themeName} {
-  padding-bottom: 0;
-}
-.controls-itemActionsV_padding-top_default_theme-@{themeName} {
-  padding-top: @offset-top_itemActions;
-}
-.controls-itemActionsV_padding-top_null_theme-@{themeName} {
-  padding-top: 0;
-}
 .controls-itemActionsV_editing_theme-@{themeName} {
    background-color: @background-color_editing_itemActions;
 
@@ -140,6 +125,49 @@
 .controls-itemActionsV__action_padding_theme-@{themeName} {
   padding: 0 @item_padding_itemActions;
   height: 100%;
+}
+
+.controls-itemActionsV_outside_theme-@{themeName} {
+  .controls-itemActionsV__action_padding_theme-@{themeName}, .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
+    padding-top: @offset-top_outside_itemActions;
+    padding-bottom: @offset-bottom_outside_itemActions;
+  }
+}
+
+.controls-itemActionsV_padding-bottom_default_theme-@{themeName} {
+  .controls-itemActionsV__action_padding_theme-@{themeName}, .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
+    padding-bottom: @offset-bottom_itemActions;
+  }
+
+  &.controls-itemActionsV_inside_theme-@{themeName} {
+    height: @height_itemActions + @offset-bottom_itemActions;
+  }
+}
+
+.controls-itemActionsV_padding-bottom_null_theme-@{themeName} {
+  .controls-itemActionsV__action_padding_theme-@{themeName}, .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
+    padding-bottom: 0;
+  }
+}
+
+.controls-itemActionsV_padding-top_default_theme-@{themeName} {
+  .controls-itemActionsV__action_padding_theme-@{themeName}, .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
+    padding-top: @offset-top_itemActions;
+  }
+
+  &.controls-itemActionsV_inside_theme-@{themeName} {
+    height: @height_itemActions + @offset-top_itemActions;
+
+    &.controls-itemActionsV_padding-bottom_default_theme-@{themeName} {
+      height: @height_itemActions + @offset-bottom_itemActions + @offset-top_itemActions;
+    }
+  }
+}
+
+.controls-itemActionsV_padding-top_null_theme-@{themeName} {
+  .controls-itemActionsV__action_padding_theme-@{themeName}, .controls-itemActionsV__wrapper-isEditing_theme-@{themeName} {
+    padding-top: 0;
+  }
 }
 
 .controls-action_iconStyle_secondary_theme-@{themeName} {
