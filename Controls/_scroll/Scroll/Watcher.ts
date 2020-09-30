@@ -8,8 +8,7 @@ import template = require('wml!Controls/_scroll/Scroll/Watcher/Watcher');
 import {RegisterClass, Registrar} from 'Controls/event';
 import isEmpty = require('Core/helpers/Object/isEmpty');
 import {SyntheticEvent} from "Vdom/Vdom"
-
-
+import * as newEnv from 'Core/helpers/isNewEnvironment';
 
       var SCROLL_LOAD_OFFSET = 100;
       var global = (function() {
@@ -314,6 +313,11 @@ import {SyntheticEvent} from "Vdom/Vdom"
                    container.getBoundingClientRect());
             }
             this._notify('register', ['controlResize', this, this._resizeHandler], {bubbling: true});
+
+            // Поддержка старых страниц, которые не стреляют событием controlResize
+            if (!newEnv() && window) {
+                window.addEventListener('resize', this._resizeHandler.bind(this));
+            }
          },
 
          _scrollHandler: function(e) {
@@ -402,6 +406,9 @@ import {SyntheticEvent} from "Vdom/Vdom"
          },
 
          _beforeUnmount: function() {
+            if (!newEnv() && window) {
+                window.removeEventListener('resize', this._resizeHandler);
+            }
             if (this._observers) {
                for (let i in this._observers) {
                   if (this._observers.hasOwnProperty(i)) {
