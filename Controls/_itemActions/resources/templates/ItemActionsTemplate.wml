@@ -30,9 +30,9 @@
 <!-- TODO moved to Grid/Item.wml after complete task: https://online.sbis.ru/opendoc.html?guid=d473668a-3c9a-43b9-a59c-b994cbf873bd -->
 <ws:if data="{{!!itemActionsContainerStyles}}">
     <div class="controls-itemActionsV__container" style="{{itemActionsContainerStyles}}">
-        <ws:partial template="localItemActionsTemplate"/>
+        <ws:partial template="localItemActionsTemplate" itemData="{{item || itemData}}"/>
     </div>
 </ws:if>
 <ws:else>
-    <ws:partial template="localItemActionsTemplate"/>
+    <ws:partial template="localItemActionsTemplate" itemData="{{item || itemData}}"/>
 </ws:else>
