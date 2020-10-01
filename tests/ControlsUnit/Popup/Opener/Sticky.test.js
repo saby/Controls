@@ -587,6 +587,14 @@ define(
                fittingMode: {}
             };
             let position = {};
+            const PAGE_TOP = 40;
+            const getViewPort = StickyStrategy._private.getVisualViewport;
+            StickyStrategy._private.getVisualViewport = () => {
+               return {
+                  width: 1000,
+                  height: 1000,
+                  pageTop: PAGE_TOP
+               }};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
             assert.equal(position.maxWidth, popupCfg.config.maxWidth);
             assert.equal(position.width, popupCfg.config.width);
@@ -603,7 +611,7 @@ define(
 
             position = {top: 20};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT - 20);
+            assert.equal(position.maxHeight, BODY_HEIGHT - 20 + PAGE_TOP);
 
             position = {bottom: 50};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
@@ -630,7 +638,7 @@ define(
 
             position = {top: 20};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT - 20);
+            assert.equal(position.maxHeight, BODY_HEIGHT - 20 + PAGE_TOP);
 
             position = {bottom: 50};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
@@ -648,6 +656,7 @@ define(
             position = {right: 200};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
             assert.equal(position.maxWidth, 1720);
+            StickyStrategy._private.getVisualViewport = getViewPort;
          });
 
          it('Centered targetPoint sticky', () => {
