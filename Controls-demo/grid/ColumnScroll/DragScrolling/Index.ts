@@ -5,7 +5,6 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as Dnd from 'Controls/dragnDrop';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { IHeader } from 'Controls-demo/types';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
@@ -15,7 +14,7 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _itemsReadyCallback: (items: RecordSet) => void = this._itemsReady.bind(this);
     protected _header: IHeader[] = getCountriesStats().getMultiHeaderForDragScrolling();
-    protected _columns: IColumn[] = getCountriesStats().getColumnsForDragScrolling();
+    protected _columns = getCountriesStats().getColumnsForDragScrolling();
     protected _selectedKeys: number[] = [];
     protected _itemsDragNDrop: boolean = true;
     protected _dragScrolling: boolean = true;

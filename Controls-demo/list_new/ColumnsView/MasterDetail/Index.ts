@@ -11,12 +11,11 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { INavigation } from 'Controls-demo/types';
 
 export default class RenderDemo extends Control {
     protected _template: TemplateFunction = template;
-    protected gridColumns: IColumn[] = [{
+    protected gridColumns = [{
         displayProperty: 'name',
         width: '1fr',
         template: columnTemplate

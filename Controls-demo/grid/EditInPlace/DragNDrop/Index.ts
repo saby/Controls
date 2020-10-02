@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/grid/EditInPlace/DragNDrop/DragNDro
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/DragNDrop/_rowEditor';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';
@@ -14,7 +13,7 @@ import {TItemsReadyCallback} from '../../../types';
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = getPorts().getColumnsDND();
+    protected _columns = getPorts().getColumnsDND();
     protected _documentSignMemory: Memory;
     private data: object[] = getPorts().getData().map((cur) => this.getData(cur));
     protected selectedKey: number = 1;

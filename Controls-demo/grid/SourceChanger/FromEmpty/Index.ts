@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/SourceChanger/FromEmpty/FromEmpty';
 import {Memory} from 'Types/source';
 import {getCountriesStats, changeSourceData} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { INavigation } from 'Controls-demo/types';
 
 const { data2: data } = changeSourceData();
@@ -30,7 +29,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     private _viewSource2: Memory;
-    protected _columns: IColumn[] = getCountriesStats().getColumnsForLoad();
+    protected _columns = getCountriesStats().getColumnsForLoad();
     private _resolve: unknown = null;
     protected _navigation: INavigation;
 

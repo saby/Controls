@@ -2,14 +2,13 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/Configuration/Configuration';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
+    protected _columns = Gadgets.getGridColumnsForFlat();
     protected _hoveredCellIndex: number = -1;
 
     private _expandedItems1 = [];

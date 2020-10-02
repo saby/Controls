@@ -5,12 +5,11 @@ import * as editingCellText from 'wml!Controls-demo/grid/EditInPlace/FastEdit/ed
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[];
+    protected _columns;
     private _fakeId: number = 100;
 
     protected _beforeMount(): void {

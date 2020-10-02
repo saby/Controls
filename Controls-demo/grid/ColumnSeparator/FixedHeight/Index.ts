@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/ColumnSeparator/FixedHeight/FixedHeight';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { IHeader } from 'Controls-demo/types';
 
 const LASTITEM = 5;
@@ -14,7 +13,7 @@ export default class extends Control {
 
     protected _header: IHeader[] = getCountriesStats().getDefaultHeader().slice(FIRSTITEM, LASTITEM);
 
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths().slice(FIRSTITEM, LASTITEM);
+    protected _columns = getCountriesStats().getColumnsWithFixedWidths().slice(FIRSTITEM, LASTITEM);
 
     protected _rowSeparator1: boolean = false;
     protected _columnSeparator1: boolean = false;

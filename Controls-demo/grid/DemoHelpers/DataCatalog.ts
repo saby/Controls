@@ -18,7 +18,6 @@ import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScro
 import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 import * as dragScrollPopulationCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/populationCell';
 
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { IHeader } from 'Controls-demo/types';
 
 export interface IData {
@@ -47,7 +46,7 @@ export interface IData {
     shipper?: null | string;
 }
 
-export interface IColumnRes extends IColumn {
+export interface IColumnRes {
     result?: number;
     results?: number;
 }
@@ -242,7 +241,7 @@ const getCountriesStats = () => {
                 populationDensity: 21.73
             }
         ],
-        getColumnsForVirtual: (): IColumn[] => [
+        getColumnsForVirtual: () => [
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -257,7 +256,7 @@ const getCountriesStats = () => {
             }
         ],
 
-        getColumnsWithoutWidths: (): IColumn[] => [
+        getColumnsWithoutWidths: () => [
             {
                 displayProperty: 'number',
                 width: ''
@@ -283,7 +282,7 @@ const getCountriesStats = () => {
                 width: ''
             }
         ],
-        getColumnsForLoad: (): IColumn[] => [
+        getColumnsForLoad: () => [
             {
                 displayProperty: 'id',
                 width: '50px'
@@ -294,7 +293,7 @@ const getCountriesStats = () => {
             }
 
         ],
-        getColumnsWithFixedWidths: (): IColumn[] => [
+        getColumnsWithFixedWidths: () => [
             {
                 displayProperty: 'number',
                 width: '30px'
@@ -385,7 +384,7 @@ const getCountriesStats = () => {
                 compatibleWidth: '175px'
             }
         ],
-        getColumnsForDragScrolling: (): IColumn[] => ([
+        getColumnsForDragScrolling: () => ([
             {
                 displayProperty: 'number',
                 width: '40px'
@@ -442,7 +441,7 @@ const getCountriesStats = () => {
             // tslint:disable-next-line
             partial: [12345678910, 23456789101, 34567891012]
         }),
-        getColumnsWithAlign: (): IColumn[] => [
+        getColumnsWithAlign: () => [
             {
                 displayProperty: 'number',
                 width: '40px',
@@ -779,7 +778,7 @@ const getCountriesStats = () => {
                 align: 'right'
             }
         ],
-        getColumnsWithTemplate: (): IColumn[] => [
+        getColumnsWithTemplate: () => [
             {
                 displayProperty: 'number',
                 width: 'max-content',
@@ -1036,7 +1035,7 @@ const getTasks = () => {
                 width: '200px'
             }
         ],
-        getDefaultColumns: (): IColumn[] => [
+        getDefaultColumns: () => [
             {
                 displayProperty: 'id',
                 width: '30px'
@@ -1050,7 +1049,7 @@ const getTasks = () => {
                 width: '100px'
             }
         ],
-        getDefaultWithEditingColumns: (): IColumn[] => [
+        getDefaultWithEditingColumns: () => [
             {
                 displayProperty: 'id',
                 width: '30px'
@@ -1122,7 +1121,7 @@ const getPorts = () => {
                 shipper: null
             }
         ],
-        getColumns: (): IColumn[] => [
+        getColumns: () => [
             {
                 width: '100px',
                 displayProperty: 'invoice'
@@ -1144,7 +1143,7 @@ const getPorts = () => {
                 displayProperty: 'taxBase'
             }
         ],
-        getColumnsDND: (): IColumn[] => [
+        getColumnsDND: () => [
             {
                 width: '100px',
                 displayProperty: 'invoice'
@@ -1270,7 +1269,7 @@ const getEditing = () => {
                 title: 'title'
             }
         ],
-        getEditingColumns: (): IColumn[] => [
+        getEditingColumns: () => [
             {
                 displayProperty: 'title',
                 width: '180px',
@@ -1310,7 +1309,7 @@ const getEditing = () => {
                 results: 6
             }
         ],
-        getEditingAlignColumns: (): IColumn[] => [
+        getEditingAlignColumns: () => [
             {
                 displayProperty: 'title',
                 width: '180px',
@@ -1389,7 +1388,7 @@ const getEditing = () => {
             { title: 'Номер накладной' },
             { title: 'Код накладной' }
         ],
-        getDecoratedEditingColumns: (): IColumn[] => [
+        getDecoratedEditingColumns: () => [
             {
                 displayProperty: 'title',
                 width: '300px',
@@ -1427,7 +1426,7 @@ interface IDataForShow {
 function forShowWidths(): {
     getData(): IDataForShow[];
     getHeader(): IHeader[];
-    getColumns1(): IColumn[];
+    getColumns1();
 } {
     return {
         getData(): IDataForShow[] {
@@ -1474,7 +1473,7 @@ function forShowWidths(): {
                 }
             ];
         },
-        getColumns1(): IColumn[] {
+        getColumns1() {
             return [
                 {
                     displayProperty: 'px',
@@ -1617,7 +1616,7 @@ interface IDndData {
 
 interface IForDnD {
   data: IDndData[];
-  columns: IColumn[];
+  columns;
 }
 
 const DragNDrop = (): IForDnD => ({

@@ -3,7 +3,6 @@ import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 export interface IData {
    id: number;
@@ -409,7 +408,7 @@ export const Gadgets = {
         };
     },
 
-    getColumnsForFlat(): IColumn[] {
+    getColumnsForFlat() {
         return [
             {
                 displayProperty: 'title',
@@ -417,7 +416,7 @@ export const Gadgets = {
             }
         ];
     },
-    getColumnsForColumnScroll(): IColumn[] {
+    getColumnsForColumnScroll() {
         return [
             {
                 displayProperty: 'id',
@@ -474,7 +473,7 @@ export const Gadgets = {
             }
         ];
     },
-    getGridColumnsForFlat(): IColumn[] {
+    getGridColumnsForFlat() {
         return [
             {
                 displayProperty: 'title',
@@ -490,7 +489,7 @@ export const Gadgets = {
             }
         ];
     },
-    getGridColumnsWithPhoto(): IColumn[] {
+    getGridColumnsWithPhoto() {
         return [
             {
                 displayProperty: 'title',
@@ -507,7 +506,7 @@ export const Gadgets = {
             }
         ];
     },
-    getGridTwoLevelColumnsWithPhoto(): IColumn[] {
+    getGridTwoLevelColumnsWithPhoto() {
         return [
             {
                 displayProperty: 'title',
@@ -539,7 +538,7 @@ export const Gadgets = {
         ];
     },
 
-    getGridColumnsWithCellPadding(): IColumn[] {
+    getGridColumnsWithCellPadding() {
         return [
             {
                 displayProperty: 'title',
@@ -562,7 +561,7 @@ export const Gadgets = {
             }
         ];
     },
-    getColumnsWithFixedWidth(): IColumn[] {
+    getColumnsWithFixedWidth() {
         return [
             {
                 displayProperty: 'title',
@@ -679,7 +678,7 @@ export const VirtualScrollHasMore = {
 
         return result.sort((a, b) => a.id > b.id ? 1 : -1);
     },
-    getColumns: (): IColumn[] => ([{
+    getColumns: () => ([{
         displayProperty: 'title',
         width: ''
     }]),
@@ -1407,7 +1406,7 @@ export const VirtualScrollHasMore = {
 };
 
 export const DeepInside = {
-    getColumns: (): IColumn[] => ([{
+    getColumns: () => ([{
         displayProperty: 'title',
         width: ''
     }]),

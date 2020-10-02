@@ -3,13 +3,12 @@ import * as Template from 'wml!Controls-demo/treeGrid/DeepTree/DeepTree';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 import * as elipsisTpl from 'wml!Controls-demo/treeGrid/DeepTree/elipsisTpl';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = Gadgets.getColumnsWithFixedWidth().map((cur) => ({
+    protected _columns = Gadgets.getColumnsWithFixedWidth().map((cur) => ({
         ...cur, template: elipsisTpl
     }));
     // tslint:disable-next-line

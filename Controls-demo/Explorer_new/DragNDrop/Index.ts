@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/Explorer_new/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -13,7 +12,7 @@ import {Model} from 'Types/entity';
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: MemorySource;
-    protected _columns: IColumn[] = Gadgets.getColumns();
+    protected _columns = Gadgets.getColumns();
     protected _viewMode: string = 'table';
     protected _root: TRoot = null;
     protected _selectedKeys: Number[] = [];

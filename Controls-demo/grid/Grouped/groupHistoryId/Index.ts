@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Grouped/groupHistoryId/groupHistoryId';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
 import * as Config from 'Env/Config';
 
 interface IItem {
@@ -12,7 +11,7 @@ interface IItem {
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = [
+    protected _columns = [
         {
             displayProperty: 'id',
             width: '30px'

@@ -2,12 +2,11 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Grouping/Grouping';
 import {HierarchicalMemory} from 'Types/source';
 import {createGroupingSource} from 'Controls-demo/treeGrid/Grouping/Source';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[];
+    protected _columns;
     protected _navigation: object;
 
     protected _beforeMount(): void {

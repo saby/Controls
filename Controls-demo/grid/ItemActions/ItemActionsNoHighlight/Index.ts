@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/grid/ItemActions/ItemActionsNoHighl
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { IItemAction } from 'Controls/itemActions';
 
 const MAXINDEX = 4;
@@ -11,7 +10,7 @@ const MAXINDEX = 4;
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
+    protected _columns = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
     // tslint:disable-next-line
     if (i === 5) {
         return {

@@ -2,14 +2,13 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Mover/Base/Base';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
 import {TExpandOrColapsItems} from 'Controls-demo/types';
 import {ISelectionObject} from 'Controls/interface';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory;
-    protected _columns: IColumn[];
+    protected _columns;
     private _selectedKeys: [];
     private _excludedKeys: TExpandOrColapsItems;
 

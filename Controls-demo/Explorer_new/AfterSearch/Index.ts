@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/AfterSearch/AfterSearc
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+
 
 interface IFilter {
    demo: number;
@@ -12,7 +12,7 @@ interface IFilter {
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
-   protected _columns: IColumn[] = Gadgets.getSearchColumns();
+   protected _columns = Gadgets.getSearchColumns();
    protected _root: string | null = null;
    protected _searchStartingWith: string = 'root';
    protected _searchStartingWithSource: Memory = null;

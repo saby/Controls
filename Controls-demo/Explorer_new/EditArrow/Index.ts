@@ -2,7 +2,6 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Explorer_new/EditArrow/EditArrow';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { TRoot } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
@@ -15,7 +14,7 @@ const TIMEOUT = 2000;
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: MemorySource;
-   protected _columns: IColumn[] = Gadgets.getColumns();
+   protected _columns = Gadgets.getColumns();
    protected _viewMode: string = 'table';
    protected _root: TRoot = null;
    private _isBoxOpen: boolean = false;

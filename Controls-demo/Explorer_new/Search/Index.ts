@@ -3,14 +3,13 @@ import * as Template from "wml!Controls-demo/Explorer_new/Search/Search";
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
 import {TRoot} from 'Controls-demo/types';
 import {IItemAction} from '../../../Controls/_itemActions/interface/IItemAction';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: MemorySource;
-    protected _columns: IColumn[] = Gadgets.getSearchColumns();
+    protected _columns = Gadgets.getSearchColumns();
     protected _root: TRoot = 1;
     protected _startingWith: 'root' | 'current' = 'root';
     protected _startingWithBtnCaption: 'root' | 'current' = 'current';

@@ -4,7 +4,6 @@ import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getCountriesStats, IData} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
@@ -13,7 +12,7 @@ const MAXITEM = 7;
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[];
+    protected _columns;
 
     // Название свойства, из которого следует брать стильдля тега
     protected _tagStyleProperty: string;
@@ -77,7 +76,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * Получаем список колонок с необходимыми настройками
      * @private
      */
-    private _getModifiedColumns(): IColumn[] {
+    private _getModifiedColumns() {
         const result = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
         // tslint:disable-next-line
             if (i === 3) {

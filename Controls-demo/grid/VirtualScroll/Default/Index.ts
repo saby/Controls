@@ -3,7 +3,6 @@ import * as Template from 'wml!Controls-demo/grid/VirtualScroll/Default/Default'
 import {Memory} from 'Types/source';
 import {generateData} from '../../../list_new/DemoHelpers/DataCatalog';
 import {getCountriesStats, countries} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 
 interface IItem {
    capital: string;
@@ -14,7 +13,7 @@ interface IItem {
 export default class extends Control {
    protected _template: TemplateFunction = Template;
    protected _viewSource: Memory;
-   protected _columns: IColumn[] = getCountriesStats().getColumnsForVirtual();
+   protected _columns = getCountriesStats().getColumnsForVirtual();
    private count: number = 0;
 
    private dataArray: IItem[] = generateData({

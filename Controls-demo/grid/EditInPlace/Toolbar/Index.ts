@@ -7,7 +7,6 @@ import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {showType} from 'Controls/Utils/Toolbar';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
 import {IItemAction} from 'Controls/itemActions';
 
 export default class extends Control {
@@ -15,7 +14,7 @@ export default class extends Control {
 
     protected _viewSource: Memory;
     protected _fakeItemId: number;
-    protected _columns: IColumn[];
+    protected _columns;
     protected _itemActions: IItemAction[] = [
         {
             id: 1,
