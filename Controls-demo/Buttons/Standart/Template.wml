@@ -224,6 +224,17 @@
                 </div>
             </div>
         </div>
+        <h3>Functional unaccented button-icon</h3>
+                <div attr:class="demo-Button_margin-10 ControlsDemo__functionalIconM">
+                    <div style="display: flex; align-items: baseline">
+                        <div>
+                            <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconSize="s" inlineHeight="l" buttonStyle="unaccented" iconStyle="contrast"></Controls.buttons:Button>
+                        </div>
+                        <div style="margin-left: 20px">
+                            <Controls.buttons:Button viewMode="functionalButton" icon="icon-AddButtonNew" iconSize="s" inlineHeight="m" buttonStyle="lowunaccented" iconStyle="lowunaccented"></Controls.buttons:Button>
+                        </div>
+                    </div>
+                </div>
         <h3>Sticky button</h3>
         <div attr:class="demo-Button_margin-10 ControlsDemo__stickyButton">
             <div>
