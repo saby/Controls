@@ -50,11 +50,11 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
  *
  */
 
-var _private = {
+const _private = {
 
-    _getYearListPosition: function (options, dateConstructor) {
+    _getYearListPosition(options, dateConstructor) {
 
-        let start = options.startValue,
+        const start = options.startValue,
             currentDate = new dateConstructor(),
             startValueYear = start ? start.getFullYear() : null;
 
@@ -71,11 +71,11 @@ var _private = {
         }
     }
 };
-//В режиме 'Только года' одновременно отобржается 5 элементов.
-//Таким образом последний отображаемый элемент имеет индекс 4.
+// В режиме 'Только года' одновременно отобржается 5 элементов.
+// Таким образом последний отображаемый элемент имеет индекс 4.
 const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 4;
 
-var Component = BaseControl.extend({
+const Component = BaseControl.extend({
     _template: componentTmpl,
     _defaultListTemplate: listTmpl,
     monthTemplate: null,
@@ -97,7 +97,7 @@ var Component = BaseControl.extend({
     //    Component.superclass.constructor.apply(this, arguments);
     // },
 
-    _beforeMount: function (options) {
+    _beforeMount(options) {
         this._isFullPicker = options.chooseMonths && options.chooseQuarters && options.chooseHalfyears;
         this._emptyCaption = options.emptyCaption;
         if (!this._emptyCaption) {
@@ -129,7 +129,7 @@ var Component = BaseControl.extend({
         this.monthTemplate = options.monthTemplate || monthTmpl;
     },
 
-    _beforeUpdate: function (options) {
+    _beforeUpdate(options) {
         // this._caption = _private._getCaption(options);
         this._updateIsExpandButtonVisible(options);
     },
@@ -138,7 +138,7 @@ var Component = BaseControl.extend({
      * Sets the current year
      * @param year
      */
-    setYear: function (year) {
+    setYear(year) {
         this._position = new this._options.dateConstructor(year, 0, 1);
         this._notify('yearChanged', [year]);
     },
@@ -157,26 +157,26 @@ var Component = BaseControl.extend({
         return formatDate(date, 'YYYY-MM-DD');
     },
 
-    _onYearMouseEnter: function (event, year) {
+    _onYearMouseEnter(event, year) {
         if (this._options.chooseYears) {
             this._yearHovered = year;
         }
     },
 
-    _hitsDiplayedRange: function (year, index) {
+    _hitsDiplayedRange(year, index) {
         const date = new Date(year, 0);
-        //Проверяем второй элемент массива на null. Если задан null в опции displayedRanges
-        //то лента будет отображаться бесконечно.
+        // Проверяем второй элемент массива на null. Если задан null в опции displayedRanges
+        // то лента будет отображаться бесконечно.
         return this._displayedRanges[index][0] <= date &&
             (this._displayedRanges[index][1] === null || this._displayedRanges[index][1] >= date);
     },
 
-    _getDisplayedYear: function (year, delta) {
+    _getDisplayedYear(year, delta) {
         if (!this._displayedRanges) {
             return year + delta;
         }
         let index;
-        //Ищем массив в котором находится year.
+        // Ищем массив в котором находится year.
         for (let i = 0; i < this._displayedRanges.length; i++) {
             if (this._hitsDiplayedRange(year, i)) {
                 index = i;
@@ -196,8 +196,8 @@ var Component = BaseControl.extend({
                 return year;
             }
         }
-        //Проверяем год, на который переходим. Если оне не попадает в тот же массив что и year - ищем ближайших год на
-        //который можно перейти в следующем массиве
+        // Проверяем год, на который переходим. Если оне не попадает в тот же массив что и year - ищем ближайших год на
+        // который можно перейти в следующем массиве
         if (this._hitsDiplayedRange(year + delta, index)) {
             return year + delta;
         } else {
@@ -212,17 +212,17 @@ var Component = BaseControl.extend({
         return year;
     },
 
-    _changeYear : function(event, delta) {
-        let year = this._position.getFullYear();
-        //_position определяется первым отображаемым годом в списке. Всего у нас отображается
-        //5 записей. Для перехода на предыдущий элемент, нужно проверить, возможно ли это.
-        //Для этого проверям самый нижний элемент списка.
+    _changeYear(event, delta) {
+        const year = this._position.getFullYear();
+        // _position определяется первым отображаемым годом в списке. Всего у нас отображается
+        // 5 записей. Для перехода на предыдущий элемент, нужно проверить, возможно ли это.
+        // Для этого проверям самый нижний элемент списка.
         if (delta === -1 && !this._options.chooseMonths &&
             !this._options.chooseHalfyears && !this._options.chooseQuarters) {
-            //Нижний отображаемый год в списке из 5 элементов.
+            // Нижний отображаемый год в списке из 5 элементов.
             const yearToCheck = year - ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
-            //_getDisplayedYear вернет нижний отображаемый год. Нам нужен первый отображаемый год в списке,
-            //для того чтобы установить _position
+            // _getDisplayedYear вернет нижний отображаемый год. Нам нужен первый отображаемый год в списке,
+            // для того чтобы установить _position
             const yearToSet = this._getDisplayedYear(yearToCheck, delta) + ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
             this.setYear(yearToSet);
         } else {
@@ -230,16 +230,17 @@ var Component = BaseControl.extend({
         }
     },
 
-    _onYearMouseLeave: function () {
+    _onYearMouseLeave() {
         this._yearHovered = null;
     },
 
     _expandPopup(): void {
-        this._isExpandedPopup = !this._isExpandedPopup;
         let fittingMode;
         if (!this._isExpandButtonVisible || !this._options.stickyPosition) {
             return;
         }
+
+        this._isExpandedPopup = !this._isExpandedPopup;
 
         if (this._isExpandedPopup) {
             // const maxHeightPopup = this._options.stickyPosition.position.maxHeight;
@@ -253,8 +254,8 @@ var Component = BaseControl.extend({
         this._notify('sendResult', [fittingMode]);
     },
 
-    _onHomeClick: function () {
-        var periodType = 'year', period;
+    _onHomeClick() {
+        let periodType = 'year', period;
         if (this._options.chooseMonths) {
             periodType = 'month';
         } else if (this._options.chooseQuarters) {
@@ -270,11 +271,11 @@ var Component = BaseControl.extend({
             {bubbling: true});
     },
 
-    _onHeaderClick: function () {
+    _onHeaderClick() {
         this._notify('close', [], {bubbling: true});
     },
 
-    _onYearClick: function (event, year) {
+    _onYearClick(event, year) {
         if (this._options.chooseYears) {
             this._notify(
                 'sendResult',
@@ -283,7 +284,7 @@ var Component = BaseControl.extend({
         }
     },
 
-    _getWidthCssClass: function () {
+    _getWidthCssClass() {
         if (this._options.chooseHalfyears) {
             return 'controls-PeriodLiteDialog__width-big_theme-' + this._options.theme;
         }
@@ -293,7 +294,7 @@ var Component = BaseControl.extend({
         return 'controls-PeriodLiteDialog__width-small_theme-' + this._options.theme;
     },
 
-    _getListCssClasses: function () {
+    _getListCssClasses() {
         if (this._options.chooseHalfyears) {
             return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list_theme-' + this._options.theme;
         }
@@ -308,7 +309,7 @@ var Component = BaseControl.extend({
         return '';
     },
 
-    _getYearWrapperCssClasses: function () {
+    _getYearWrapperCssClasses() {
         if (this._options.chooseHalfyears) {
             return 'controls-PeriodLiteDialog__yearWrapper__fullYear';
         }
@@ -318,8 +319,8 @@ var Component = BaseControl.extend({
         return '';
     },
 
-    _getYearCssClasses: function () {
-        var css = [];
+    _getYearCssClasses() {
+        const css = [];
         if (this._options.chooseYears) {
             css.push('controls-PeriodLiteDialog__year-clickable');
         }
@@ -331,8 +332,8 @@ var Component = BaseControl.extend({
         return css.join(' ');
     },
 
-    _getYearItemCssClasses: function (year) {
-        var css = [],
+    _getYearItemCssClasses(year) {
+        const css = [],
             date = this._options.startValue;
         if (!dateUtils.isValidDate(date) || (year !== date.getFullYear())) {
             css.push('controls-PeriodLiteDialog__vLayoutItem-clickable_theme-' + this._options.theme);
@@ -350,7 +351,7 @@ Component._private = _private;
 
 Component.EMPTY_CAPTIONS = IPeriodSimpleDialog.EMPTY_CAPTIONS;
 
-Component.getDefaultOptions = function () {
+Component.getDefaultOptions = function() {
     return {
         ...IPeriodSimpleDialog.getDefaultOptions(),
         captionFormatter: dateControlsUtils.formatDateRangeCaption,
@@ -360,7 +361,7 @@ Component.getDefaultOptions = function () {
 };
 Component._theme = ['Controls/shortDatePicker'];
 
-Component.getOptionTypes = function () {
+Component.getOptionTypes = function() {
     return {
         ...IPeriodSimpleDialog.getOptionTypes(),
         captionFormatter: descriptor(Function)
