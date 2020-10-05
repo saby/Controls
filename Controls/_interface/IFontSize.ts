@@ -19,8 +19,7 @@ export default interface IFontSize {
    readonly '[Controls/_interface/IFontSize]': boolean;
 }
 /**
- * @name Controls/_interface/IFontSize#fontSize
- * @cfg {Enum} Размер шрифта.
+ * @typedef {String} FontSize
  * @variant inherit
  * @variant xs
  * @variant s
@@ -33,6 +32,11 @@ export default interface IFontSize {
  * @variant 5xl
  * @variant 6xl
  * @variant 7xl
+ */
+
+/**
+ * @name Controls/_interface/IFontSize#fontSize
+ * @cfg {FontSize} Размер шрифта.
  * @demo Controls-demo/Buttons/SizesAndHeights/Index
  * @demo Controls-demo/Input/SizesAndHeights/Index
  * @demo Controls-demo/Decorator/Money/FontSize/Index

@@ -39,7 +39,7 @@ export interface IView extends IHeading {
 }
 
 /**
- * Графический контрол, отображаемый в виде загловка с контентной областью.
+ * Графический контрол, отображаемый в виде заголовка с контентной областью.
  * Предоставляет пользователю возможность управления видимостью области при нажатии на заголовок.
  * @remark
  * Полезные ссылки:
@@ -98,16 +98,22 @@ export default View;
 
 /**
  * @name Controls/_spoiler/View#headingFontSize
- * @cfg {Enum} Размер шрифта заголовка.
- * @see Controls/spoiler:Heading#fontSize
+ * @cfg {Controls/_interface/IFontSize/FontSize.typedef} Размер шрифта заголовка.
+ * @demo Controls-demo/Spoiler/View/FontSize/Index
+ * @see headingFontWeight
+ * @see headingFontColorStyle
  */
 /**
  * @name Controls/_spoiler/View#headingFontWeight
- * @cfg {Enum} Начертание шрифта заголовка.
- * @see Controls/spoiler:Heading#fontWeight
+ * @cfg {Controls/_interface/IFontWeightOptions/TFontWeight.typedef} Начертание шрифта заголовка.
+ * @demo Controls-demo/Spoiler/View/FontWeight/Index
+ * @see headingFontSize
+ * @see headingFontColorStyle
  */
 /**
  * @name Controls/_spoiler/View#headingFontColorStyle
- * @cfg {Enum} Стиль цвета текста и иконки заголовка.
- * @see Controls/spoiler:Heading#fontColorStyle
+ * @cfg {Controls/_spoiler/Heading/FontColorStyle.typedef} Стиль цвета текста и иконки заголовка.
+ * @demo Controls-demo/Spoiler/View/FontColorStyle/Index
+ * @see headingFontSize
+ * @see headingFontWeight
  */

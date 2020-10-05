@@ -38,8 +38,7 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
      * @type string | string[]
      * @default
      * @remark
-     * Изменяемый заголовок в зависимости от {@link Controls/_spoiler/Heading#expanded состояния развернутости}
-     * настраивается через массив с парой заголовков.
+     * Изменяемый заголовок в зависимости от {@link Controls/_spoiler/Heading#expanded состояния развернутости} настраивается через массив с парой заголовков.
      * Первый элемент соответствует expanded = true.
      * Второй элемент соответствует expanded = false.
      * Для изменения пары заголовков нужно передать новый массив.
@@ -48,12 +47,14 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
      * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_spoiler.less">переменные тем оформления</a>
      *
      * @demo Controls-demo/Spoiler/Heading/Captions/Index
+     * @see captionPosition
      */
     captions: TCaptions;
     /**
      * Позиция заголовка относительно контейнера.
      * @default right
      * @demo Controls-demo/Spoiler/Heading/CaptionPosition/Index
+     * @see captions
      */
     captionPosition: 'left' | 'right';
 }
@@ -63,7 +64,7 @@ export interface IHeading extends IExpandable, IFontSize, ITooltip, IFontWeight,
 }
 
 /**
- * Графический контрол, отображаемый в виде загловка с состоянием развернутости.
+ * Графический контрол, отображаемый в виде заголовка с состоянием развернутости.
  * Предоставляет пользователю возможность запуска события смены состояния развернутости при нажатии на него.
  *
  * @remark
@@ -227,11 +228,16 @@ export default Heading;
  * @demo Controls-demo/Spoiler/Heading/FontWeight/Index
  * @see expanded
  */
+
 /**
- * @name Controls/_spoiler/Heading#fontColorStyle
- * @cfg {Enum} Стиль цвета текста и иконки контрола.
+ * @typedef {String} FontColorStyle
  * @variant label
  * @variant secondary
+ */
+
+/**
+ * @name Controls/_spoiler/Heading#fontColorStyle
+ * @cfg {FontColorStyle} Стиль цвета текста и иконки контрола.
  *
  * @remark
  * Когда опция не задана, то её значение определяется контролом в зависимости от состояния развернутости.
