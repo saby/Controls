@@ -234,7 +234,7 @@ function onCollectionChange<T>(
             // Как минимум пока мы поддерживаем совместимость с BaseControl, такая возможность нужна,
             // потому что там пересоздание модели вызывает лишние перерисовки, подскроллы, баги
             // виртуального скролла.
-            this._reBuild(this._$compatibleReset || newItems.length === 0);
+            this._reBuild(this._$compatibleReset || newItems.length === 0 || !this.isEditing());
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
             this._notifyCollectionChange(

@@ -728,6 +728,10 @@ var
                 this._notify('onListChange', changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
                 if (changesType === 'collectionChanged' || changesType === 'indexesChanged') {
                     this._ladder = _private.prepareLadder(this);
+
+                    if (action === 'rs') {
+                        this._setHeader(this._options.header);
+                    }
                 }
                 if (changesType !== 'markedKeyChanged' && action !== 'ch') {
                     this._nextHeaderVersion();

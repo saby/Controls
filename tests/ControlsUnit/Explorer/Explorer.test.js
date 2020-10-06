@@ -202,12 +202,12 @@ define([
             explorer = new explorerMod.View(cfg);
 
          explorer.saveOptions(cfg);
-         assert.equal(explorerMod.View._private.getDataRoot(explorer), 'rootFromOptions');
+         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromOptions');
 
          delete cfg.root;
          explorer.saveOptions(cfg);
          explorer._root = 'rootFromState';
-         assert.equal(explorerMod.View._private.getDataRoot(explorer), 'rootFromState');
+         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromState');
 
          explorer._breadCrumbsItems = [new entityLib.Model({
             rawData: {
@@ -215,11 +215,11 @@ define([
             },
             keyProperty: 'id'
          })];
-         assert.equal(explorerMod.View._private.getDataRoot(explorer), 'rootFromBreadCrumbs');
+         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromBreadCrumbs');
 
          cfg.root = 'rootFromOptions';
          explorer.saveOptions(cfg);
-         assert.equal(explorerMod.View._private.getDataRoot(explorer), 'rootFromBreadCrumbs');
+         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromBreadCrumbs');
       });
 
       it('itemsReadyCallback', function() {
@@ -462,17 +462,13 @@ define([
             instance._viewMode = cfg.viewMode;
 
             instance._beforeUpdate(cfg2);
-            assert.equal(instance._pendingViewMode, 'search');
-            assert.isFalse(resetExpandedItemsCalled);
-
-            explorerMod.View._private.itemsSetCallback(instance);
             assert.isTrue(resetExpandedItemsCalled);
 
             resetExpandedItemsCalled = false;
             instance._viewMode = cfg2.viewMode;
 
             instance._beforeUpdate(cfg2);
-            assert.isFalse(resetExpandedItemsCalled);
+            assert.isTrue(resetExpandedItemsCalled);
 
             instance._isGoingFront = true;
             instance.saveOptions(cfg);
@@ -495,7 +491,7 @@ define([
 
             instance._beforeUpdate(cfg2);
             instance.saveOptions(cfg2);
-            assert.strictEqual(instance._pendingViewMode, 'search');
+            assert.strictEqual(instance._viewMode, 'search');
 
          });
 

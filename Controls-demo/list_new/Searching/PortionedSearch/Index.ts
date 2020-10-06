@@ -33,9 +33,14 @@ export default class extends Control {
 
     protected _startSearch(): void {
         this._searchValue = 'lorem';
-        this._filter = {
-           title: this._searchValue
-        };
+    }
+
+    protected _afterUpdate(): void {
+        if (this._searchValue && !this._filter.title) {
+            this._filter = {
+                title: this._searchValue
+            };
+        }
     }
 
     protected _resetSearch(): void {
