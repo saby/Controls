@@ -23,17 +23,6 @@ export default class extends Control {
          keyProperty: 'id',
          data: Gadgets.getSearchData()
       });
-      this._searchStartingWithSource = new Memory({
-         keyProperty: 'id',
-         data: [
-            {
-               id: 'root', title: 'root'
-            },
-            {
-               id: 'current', title: 'current'
-            }
-         ]
-      });
    }
 
    static _styles: string[] = ['Controls-demo/Controls-demo'];

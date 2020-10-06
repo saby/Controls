@@ -1,6 +1,20 @@
 import {assert} from 'chai';
 import {BaseControl, ListViewModel} from 'Controls/list';
 import {RecordSet} from 'Types/collection';
+import {Memory} from 'Types/source';
+
+const getData = (dataCount: number = 0) => {
+    const data = [];
+
+    for (let i = 0; i < dataCount; i++) {
+        data.push({
+            key: i,
+            title: 'title' + i
+        });
+    }
+
+    return data;
+};
 
 describe('Controls/list_clean/BaseControl', () => {
     describe('BaseControl watcher groupHistoryId', () => {
@@ -255,15 +269,26 @@ describe('Controls/list_clean/BaseControl', () => {
         it('paging mode is numbers', async () => {
             const cfgClone = {...baseControlCfg};
             cfgClone.navigation.viewConfig.pagingMode = 'numbers';
-            baseControl.saveOptions(cfgClone);
+            cfgClone.navigation.sourceConfig = {
+                pageSize: 100,
+                page: 0,
+                hasMore: false
+            };
+            cfgClone.source = new Memory({
+                keyProperty: 'id',
+                data: getData(100)
+            });
+
             await baseControl._beforeMount(cfgClone);
+            baseControl.saveOptions(cfgClone);
+
             baseControl._container = {
                 clientHeight: 1000
             };
             baseControl._sourceController = {
                 getAllDataCount: () => 100,
                 hasMoreData: () => false
-            }
+            };
             baseControl._listViewModel._startIndex = 0;
             baseControl._listViewModel._stopIndex = 100;
             baseControl._viewportSize = 400;

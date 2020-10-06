@@ -198,7 +198,8 @@ export default class ErrorController {
         return !(
             (error instanceof fetch.Errors.Abort) ||
             error.processed ||
-            error.canceled
+            error.canceled ||
+            error.isCanceled // PromiseCanceledError
         );
     }
 

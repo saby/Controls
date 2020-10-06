@@ -102,6 +102,24 @@ class PageParamsCalculator implements IParamsCalculator {
         return result;
     }
 
+    shiftToEdge(store: PageNavigationStore, direction: TNavigationDirection): void {
+        if (direction === 'backward') {
+            store.setCurrentPage(0);
+        } else if (direction === 'forward') {
+            const metaMore = store.getMetaMore();
+
+            if (typeof metaMore === 'number') {
+                store.setCurrentPage(metaMore / store.getState().pageSize - 1);
+            } else {
+                store.setCurrentPage(-1);
+            }
+        }
+    }
+
+    updateQueryRange(store: PageNavigationStore): void {
+        // do not need to update
+    }
+
     destroy(): void {
         return;
     }
