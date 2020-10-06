@@ -11,6 +11,7 @@ interface IOptions {
 export default class PortionedSearchSource {
     private source: Memory = null;
     protected _mixins: number[] = [];
+    private _delayTimer: NodeJS.Timeout;
 
     constructor(opts: IOptions) {
         this['[Types/_source/ICrud]'] = true;
@@ -24,7 +25,10 @@ export default class PortionedSearchSource {
         const loadDef = new Deferred();
         const delayTimer = isSearch ? SEARCH_DELAY : SOURCE_DEFAULT_DELAY;
 
-        setTimeout(() => {
+        if (this._delayTimer) {
+            clearTimeout(this._delayTimer);
+        }
+        this._delayTimer = setTimeout(() => {
             if (!loadDef.isReady()) {
                 loadDef.callback();
             }

@@ -1,7 +1,7 @@
-import {QueryOrderSelector, QueryWhereExpression} from 'Types/source';
 import {RecordSet, List} from 'Types/collection';
 import {Logger} from 'UI/Utils';
 
+// @ts-ignore
 import * as cClone from 'Core/core-clone';
 
 import INavigationStore from './NavigationController/interface/INavigationStore';
@@ -12,7 +12,7 @@ import {default as PositionNavigationStore, IPositionNavigationState} from './Na
 import PositionParamsCalculator from './NavigationController/PositionParamsCalculator';
 
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
-import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection} from 'Controls/_interface/INavigation';
+import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
 import {IHashMap} from 'Types/declarations';
 import {applied, Record} from 'Types/entity';
 import {isEqual} from 'Types/object';
@@ -217,6 +217,18 @@ export class NavigationController {
         return updateResult;
     }
 
+    updateQueryRange(list: RecordSet, id: TKey = null): void {
+        const calculator = this._getCalculator();
+        const store = this._getStore(id);
+        calculator.updateQueryRange(store, list);
+    }
+
+    shiftToEdge(direction: TNavigationDirection, id: TKey = null, shiftMode: TNavigationPagingMode): void {
+        const calculator = this._getCalculator();
+        const store = this._getStore(id);
+        calculator.shiftToEdge(store, direction, shiftMode);
+    }
+
     hasMoreData(direction?: TNavigationDirection, id: TKey = null): boolean {
         // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
         const store = this._getStore(id);
@@ -296,7 +308,7 @@ export class NavigationController {
             // we can't modify original filter
             resultParams.filter = cClone(resultParams.filter);
             const navFilter = additional.filter;
-            for (let i in navFilter) {
+            for (const i in navFilter) {
                 if (navFilter.hasOwnProperty(i)) {
                     resultParams.filter[i] = navFilter[i];
                 }
@@ -323,6 +335,7 @@ export class NavigationController {
             // Добавляем в фильтр раздел и помечаем это поле, как первичный ключ
             // Оно используется для формирования множественной навигации,
             // Само поле будет удалено из фильтра перед запросом.
+            // @ts-ignore
             resultParams.filter.__root = new applied.PrimaryKey(addItem.id);
 
             resultParamsArray.push(resultParams);

@@ -1,34 +1,51 @@
-import Control = require('Core/Control');
-import template = require('wml!Controls/_suggestPopup/_ListWrapper');
+import * as template from 'wml!Controls/_suggestPopup/_ListWrapper';
 import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
 import 'Controls/Container/Async';
+import {IControlOptions, Control, TemplateFunction} from 'UI/Base';
+import {SyntheticEvent} from 'UI/Vdom';
 
+/**
+ * Proxy container for suggest options.
+ *
+ * @class Controls/_suggestPopup/_ListWrapper
+ * @extends Core/Control
+ * @control
+ * @private
+ */
 
+export default class ListWrapper extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
 
-      /**
-       * Proxy container for suggest options.
-       *
-       * @class Controls/_suggestPopup/_ListWrapper
-       * @extends Core/Control
-       * @control
-       * @private
-       */
+   private _suggestOptionsContext: typeof _SuggestOptionsField;
 
-      const _ListWrapper = Control.extend({
+   protected _getChildContext(): object {
+      return {
+         suggestOptionsField: this._suggestOptionsContext
+      };
+   }
 
-         _template: template,
+   private _updateContext(options: object): void {
+      const curContext = this._suggestOptionsContext;
 
-         _getChildContext: function() {
-            return {
-               suggestOptionsField: new _SuggestOptionsField(this._options)
-            };
-         },
+      curContext.options = {
+         ...curContext.options,
+         ...options
+      };
 
-         _tabsSelectedKeyChanged: function(event, key) {
-            this._notify('tabsSelectedKeyChanged', [key]);
-         }
-      });
+      curContext.updateConsumers();
+   }
 
+   protected _beforeMount(options?: IControlOptions): void {
+      this._suggestOptionsContext = new _SuggestOptionsField(options);
+   }
 
-      _ListWrapper._theme = ['Controls/suggest', 'Controls/suggestPopup'];
-      export = _ListWrapper;
+   protected _beforeUpdate(options?: IControlOptions, contexts?: any): void {
+      this._updateContext(options);
+   }
+
+   protected _tabsSelectedKeyChanged(event: SyntheticEvent, key: string | number | null): void {
+      this._notify('tabsSelectedKeyChanged', [key]);
+   }
+
+   static _theme: string[] = ['Controls/suggest', 'Controls/suggestPopup'];
+}

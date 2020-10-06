@@ -23,7 +23,7 @@
  */
 
 import Input = require('Controls/_suggest/Input');
-import _InputController = require('Controls/_suggest/_InputController');
+import {default as _InputController} from 'Controls/_suggest/_InputController';
 import SearchInput from 'Controls/_suggest/Input/Search/Suggest';
 
 export {default as Selector} from './_suggest/Selector';

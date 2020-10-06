@@ -124,7 +124,7 @@ var
                resolver(result);
                self._firstLoad = false;
                _private.fillRestoredMarkedKeysByBreadCrumbs(
-                   _private.getDataRoot(self),
+                   _private.getDataRoot(self, self._options),
                    self._breadCrumbsItems,
                    self._restoredMarkedKeys,
                    self._options.parentProperty,
@@ -227,13 +227,13 @@ var
                _private.setRoot(self, self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
             }
          },
-         getDataRoot: function(self) {
+         getDataRoot: function(self, options) {
             var result;
 
             if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
                result = self._breadCrumbsItems[0].get(self._options.parentProperty);
             } else {
-               result = _private.getRoot(self, self._options.root);
+               result = _private.getRoot(self, options.root);
             }
 
             return result;
@@ -242,7 +242,7 @@ var
             var
                item,
                itemFromRoot = true,
-               root = _private.getDataRoot(self);
+               root = _private.getDataRoot(self, self._options);
 
             for (var i = 0; i < dragItems.length; i++) {
                item = self._items.getRecordById(dragItems[i]);
@@ -342,7 +342,7 @@ var
          updateRootOnViewModeChanged(self, viewMode: string, options): void {
             if (viewMode === 'search' && options.searchStartingWith === 'root') {
                const currentRoot = _private.getRoot(self, options.root);
-               const dataRoot = _private.getDataRoot(self);
+               const dataRoot = _private.getDataRoot(self, options);
 
                if (dataRoot !== currentRoot) {
                   _private.setRoot(self, dataRoot, dataRoot);
@@ -568,8 +568,7 @@ var
             this._navigation = cfg.navigation;
          }
 
-         if ((isViewModeChanged && (isSearchViewMode || isRootChanged)) ||
-             this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
+         if ((isViewModeChanged && isRootChanged && !isSearchViewMode) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
             // Если меняется и root и viewMode, не меняем режим отображения сразу,
             // потому что тогда мы перерисуем explorer в новом режиме отображения
             // со старыми записями, а после загрузки новых получим еще одну перерисовку.
@@ -583,7 +582,7 @@ var
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
             const recreateSource = cfg.source !== this._options.source;
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
-            if (filterChanged || recreateSource || sortingChanged || navigationChanged) {
+            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !isSearchViewMode) {
                _private.setPendingViewMode(this, cfg.viewMode, cfg);
             } else {
                _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
@@ -620,7 +619,7 @@ var
             dragObject.entity.dragControlId === this._dragControlId
          ) {
             //No need to show breadcrumbs when dragging items from the root, being in the root of the registry.
-            this._dragOnBreadCrumbs = _private.getRoot(this, this._options.root) !== _private.getDataRoot(this) || !_private.dragItemsFromRoot(this, dragObject.entity.getItems());
+            this._dragOnBreadCrumbs = _private.getRoot(this, this._options.root) !== _private.getDataRoot(this, this._options) || !_private.dragItemsFromRoot(this, dragObject.entity.getItems());
          }
       },
       _hoveredCrumbChanged: function(event, item) {
