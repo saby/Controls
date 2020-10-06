@@ -61,7 +61,7 @@
                              style="left: {{_options.direction === 'horizontal' ? interval.start + '%' : 'auto' }};
                                     width: {{_options.direction === 'horizontal' ? interval.width + '%' : 'auto' }};
                                     top: {{_options.direction === 'vertical' ? interval.start + '%' : 'auto' }};
-                                    height: {{_options.direction === 'vertical' ? interval.width + '%' : 'auto' }};">
+                                    height: {{_options.direction === 'vertical' ? interval.width + '%'}};">
                      </div>
                   </ws:for>
                </ws:if>
