@@ -182,7 +182,7 @@ class FormController extends Control<IFormController, IReceivedState> {
     private _crudController: CrudController = null;
     private _validateController: ControllerClass = new ControllerClass();
 
-    protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): Promise<ICrudResult> | void {
+    protected _beforeMount(options?: IFormController, context?: object, receivedState: IReceivedState = {}): void | Promise<void> | Promise<IReceivedState> {
         this.__errorController = options.errorController || new dataSourceError.Controller({});
         this._source = options.source || options.dataSource;
         this._crudController = new CrudController(this._source, this._notifyHandler.bind(this),
@@ -378,7 +378,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         return cInstance.instanceOfModule(record, 'Types/entity:Record');
     }
 
-    private _createRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
+    private _createRecordBeforeMount(cfg: IFormController): Promise<IReceivedState> {
         // если ни рекорда, ни ключа, создаем новый рекорд и используем его.
         // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
         // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
@@ -398,7 +398,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         });
     }
 
-    private _readRecordBeforeMount(cfg: IFormController): Promise<ICrudResult> {
+    private _readRecordBeforeMount(cfg: IFormController): Promise<IReceivedState> {
         // если в опции не пришел рекорд, смотрим на ключ key, который попробуем прочитать.
         // до монитрования в DOM не можем сделать notify событий (которые генерируются в CrudController,
         // а стреляются с помощью FormController'а, в данном случае), поэтому будем создавать рекорд напрямую.
