@@ -8,8 +8,8 @@
 /**
  * Перезагружает данные дерева.
  * @function Controls/_treeGrid/interface/IReloadableTreeGrid#reload
- * @param {boolean} keepScroll Сохранить ли позицию скролла после перезагрузки.
- * @param {object} sourceConfig {@link Controls/_interface/INavigation/IBaseSourceConfig.typedef Конфигурация источника данных } для перезагрузки.
+ * @param {Boolean} keepScroll Сохранить ли позицию скролла после перезагрузки.
+ * @param {Controls/_interface/INavigation/IBaseSourceConfig.typedef} sourceConfig Конфигурация {@link Controls/treeGrid:View#source источника данных} для перезагрузки.
  * @remark
  * Перезагрузка выполняется с сохранением раскрытых узлов.
  * При этом в поле фильтра, указанное в parentProperty будет отправлен массив раскрытых узлов.
@@ -18,7 +18,7 @@
  * Обратите внимание! При смене фильтра/навигации/source список раскрытых узлов сбрасывается.
  * @example
  * Пример списочного метода БЛ
- * <pre>
+ * <pre class="brush: python">
  * def Test.MultiRoot(ДопПоля, Фильтр, Сортировка, Навигация):
  *      rs = RecordSet(CurrentMethodResultFormat())
  *      if Навигация.Type() == NavigationType.ntMULTI_ROOT:
