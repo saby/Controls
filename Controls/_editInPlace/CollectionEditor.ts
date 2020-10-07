@@ -32,7 +32,7 @@ interface ICollectionEditorOptions {
  */
 export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) {
     private _options: ICollectionEditorOptions;
-    private _editingKey: TKey;
+    private _editingItem: IEditableCollectionItem = null;
 
     constructor(options: ICollectionEditorOptions) {
         super();
@@ -48,7 +48,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @public
      */
     isEditing(): boolean {
-        return !!this.getEditingItem();
+        return !!this._editingItem;
     }
 
     /**
@@ -57,11 +57,8 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @return {IEditableCollectionItem}
      * @public
      */
-    getEditingItem(): IEditableCollectionItem | undefined {
-        if (this._editingKey === undefined) {
-            return undefined;
-        }
-        return this._options.collection.getItemBySourceKey(this._editingKey);
+    getEditingItem(): IEditableCollectionItem | null {
+        return this._editingItem;
     }
 
     private _validateOptions(options: Partial<ICollectionEditorOptions>): true | never {
@@ -98,17 +95,16 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @public
      */
     edit(item: Model): void {
-        if (typeof this._editingKey !== 'undefined') {
+        if (this._editingItem) {
             throw Error(ERROR_MSG.EDITING_IS_ALREADY_RUNNING);
         }
 
-        const collectionItem = this._options.collection.getItemBySourceKey(item.getKey());
-        if (!collectionItem) {
+        this._editingItem = this._options.collection.getItemBySourceKey(item.getKey());
+        if (!this._editingItem) {
             throw Error(ERROR_MSG.ITEM_FOR_EDITING_MISSED_IN_COLLECTION);
         }
 
-        this._editingKey = item.getKey();
-        collectionItem.setEditing(true, item);
+        this._editingItem.setEditing(true, item);
         this._options.collection.setEditing(true);
     }
 
@@ -121,29 +117,18 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @public
      */
     add(item: Model, addPosition?: TAddPosition): void {
-        if (typeof this._editingKey !== 'undefined') {
+        if (this._editingItem) {
             throw Error(ERROR_MSG.EDITING_IS_ALREADY_RUNNING);
         }
 
-        // Попытка сохранить добавляемую запись, которой не был установлен настоящий ключ приведет к ошибке.
-        // При добавлении записи без ключа, ей выдается временный ключ для корректной работы коллекции.
-        // Это необходимо, т.к. допускается запуск добавления записи без кдюча, однако сохранить, ее невозможно,
-        // пока не установлен настоящий ключ.
-        if (item.getKey() === undefined || item.getKey() === null) {
-            this._setTemporaryKey(item);
-        }
-
-        this._validateAddingItem(item);
-        this._editingKey = item.getKey();
-
-        const collectionItem = this._options.collection.createItem({
+        this._editingItem = this._options.collection.createItem({
             contents: item,
             isAdd: true,
             addPosition: addPosition === 'top' ? 'top' : 'bottom'
         });
 
-        collectionItem.setEditing(true, item);
-        this._options.collection.setAddingItem(collectionItem);
+        this._editingItem.setEditing(true, item);
+        this._options.collection.setAddingItem(this._editingItem);
         this._options.collection.setEditing(true);
     }
 
@@ -154,7 +139,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @public
      */
     commit(): void {
-        if (this._editingKey === undefined) {
+        if (!this._editingItem) {
             throw Error(ERROR_MSG.HAS_NO_EDITING);
         }
 
@@ -162,13 +147,12 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
         // При сохранении, добавляемая запись должна иметь настоящий и уникальный ключ, а не временный.
         // Временный ключ выдается добавляемой записи с отсутствующим ключом, т.к.
         // допустимо запускать добавление такой записи, в отличае от сохранения.
-        const collectionItem = this._options.collection.getItemBySourceKey(this._editingKey);
-        collectionItem.acceptChanges();
-        this._editingKey = undefined;
+        this._editingItem.acceptChanges();
 
         this._options.collection.resetAddingItem();
-        collectionItem.setEditing(false, null);
+        this._editingItem.setEditing(false, null);
         this._options.collection.setEditing(false);
+        this._editingItem = null;
     }
 
     /**
@@ -178,16 +162,14 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @public
      */
     cancel(): void {
-        if (this._editingKey === undefined) {
+        if (!this._editingItem) {
             throw Error(ERROR_MSG.HAS_NO_EDITING);
         }
 
-        const collectionItem = this._options.collection.getItemBySourceKey(this._editingKey);
-        this._editingKey = undefined;
-
         this._options.collection.resetAddingItem();
-        collectionItem.setEditing(false, null);
+        this._editingItem.setEditing(false, null);
         this._options.collection.setEditing(false);
+        this._editingItem = null;
     }
 
     /**
@@ -214,11 +196,11 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
         let next: IEditableCollectionItem;
         const collection = this._options.collection;
 
-        if (this._editingKey === undefined) {
+        if (!this._editingItem) {
             next = collection.getFirst();
         } else {
-            next = direction === 'after' ? collection.getNextByKey(this._editingKey) :
-                collection.getPrevByKey(this._editingKey);
+            next = direction === 'after' ? collection.getNext(this._editingItem) :
+                collection.getPrevious(this._editingItem);
         }
 
         while (next && !next['[Controls/_display/IEditableCollectionItem]']) {
@@ -228,47 +210,9 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
         return next;
     }
 
-    private _validateAddingItem(item: Model): void | never {
-        const addingKey = item.getKey();
-        const collectionItem = this._options.collection.getItemBySourceKey(addingKey);
-        if (collectionItem) {
-            if (addingKey === ADDING_ITEM_EMPTY_STRING_KEY || addingKey === ADDING_ITEM_EMPTY_INT_KEY) {
-                throw Error(ERROR_MSG.ADDING_ITEM_KEY_WAS_NOT_SET);
-            } else {
-                throw Error(`${ERROR_MSG.ADD_ITEM_KEY_DUPLICATED} Duplicated key: ${addingKey}.`);
-            }
-        }
-    }
-
-    private _setTemporaryKey(item: Model): void {
-        const keyProperty = item.getKeyProperty();
-        const format = item.getFormat();
-        const fieldFormatIndex = format.getFieldIndex(keyProperty);
-        let keyValue;
-
-        if (fieldFormatIndex === -1) {
-            keyValue = ADDING_ITEM_EMPTY_STRING_KEY;
-        } else {
-            const keyType = format.at(fieldFormatIndex).getTypeName();
-
-            // Если тип ключевого поля не является строковым или числовым, то временный ключ не выдается.
-            if (keyType === 'String') {
-                keyValue = ADDING_ITEM_EMPTY_STRING_KEY;
-            } else if (keyType === 'Integer') {
-                keyValue = ADDING_ITEM_EMPTY_INT_KEY;
-            }
-        }
-
-        if (!keyValue || this._options.collection.getItemBySourceKey(keyValue)) {
-            throw Error(ERROR_MSG.ADDING_ITEM_KEY_WAS_NOT_SET);
-        } else {
-            item.set(keyProperty, keyValue);
-        }
-    }
-
     destroy(): void {
         super.destroy();
         this._options = null;
-        this._editingKey = undefined;
+        this._editingItem = null;
     }
 }

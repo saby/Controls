@@ -270,7 +270,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     private _endPreviousAndBeginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
         const editingItem = this._getEditingItem()?.contents;
 
-        if (editingItem && item && editingItem.getKey() === item.getKey()) {
+        if (editingItem && item && editingItem.isEqual(item)) {
             return Promise.resolve();
         } else if (editingItem) {
             return this._endEdit(editingItem.isChanged()).then((result) => {
@@ -346,7 +346,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.end;
         }
 
-        const editingItem = editingCollectionItem && editingCollectionItem.contents;
+        const editingItem = editingCollectionItem.contents;
         const isAdd = editingCollectionItem.isAdd;
 
         if (commit && commitStrategy === 'hasChanges' && !editingItem.isChanged()) {
