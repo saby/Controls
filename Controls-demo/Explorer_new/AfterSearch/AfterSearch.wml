@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root">
         <Controls.search:Controller searchParam="title" minSearchLength="{{3}}"
                                     searchStartingWith="{{_searchStartingWith}}">
             <div class="ws-fragment">
@@ -8,7 +8,6 @@
                 </Controls.search:InputContainer>
                 <Controls.list:Container>
                     <Controls.explorer:View
-                        source="{{_viewSource}}"
                         bind:root="_root"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
                         keyProperty="id"

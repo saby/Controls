@@ -70,12 +70,12 @@
             <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
                <Controls.masterDetail:List bind:markedKey="_markedKey2" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
                   <Controls.list:View
-                     style="master"
-                     backgroundStyle="master"
-                     keyProperty="id"
-                     markerVisibility="visible"
-                     itemActions="{{_itemActions}}"
-                     source="{{_masterSource}}">
+                          style="master"
+                          backgroundStyle="master"
+                          keyProperty="id"
+                          markerVisibility="visible"
+                          itemActions="{{_itemActions}}"
+                          source="{{_masterSource}}">
                      <ws:itemTemplate>
                         <ws:partial template="Controls/list:ItemTemplate">
                            <ws:contentTemplate>
@@ -95,9 +95,9 @@
             </div>
             <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
                <Controls.list:View
-                  keyProperty="id"
-                  source="{{_detailSource}}"
-                  backgroundStyle="detail">
+                       keyProperty="id"
+                       source="{{_detailSource}}"
+                       backgroundStyle="detail">
                   <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
                   </ws:filter>
                   <ws:itemTemplate>
@@ -132,15 +132,15 @@
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master">
                   <Controls.masterDetail:List bind:markedKey="_markedKey3" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
                      <Controls.treeGrid:View
-                        source="{{_masterSource}}"
-                        keyProperty="id"
-                        parentProperty="Раздел"
-                        style="master"
-                        backgroundStyle="master"
-                        nodeProperty="Раздел@"
-                        markerVisibility="visible"
-                        itemActions="{{_itemActions}}"
-                        columns="{{gridColumns}}"
+                             source="{{_masterSource}}"
+                             keyProperty="id"
+                             parentProperty="Раздел"
+                             style="master"
+                             backgroundStyle="master"
+                             nodeProperty="Раздел@"
+                             markerVisibility="visible"
+                             itemActions="{{_itemActions}}"
+                             columns="{{gridColumns}}"
                      >
                      </Controls.treeGrid:View>
                   </Controls.masterDetail:List>
@@ -154,9 +154,9 @@
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_detail">
                   <Controls.list:View
-                     keyProperty="id"
-                     source="{{_detailSource}}"
-                     backgroundStyle="detail">
+                          keyProperty="id"
+                          source="{{_detailSource}}"
+                          backgroundStyle="detail">
                      <ws:filter myOpt="{{detail.selectedMasterValue || '0'}}">
                      </ws:filter>
                      <ws:itemTemplate>

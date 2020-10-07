@@ -25,8 +25,6 @@ const HOT_KEYS = {
     collapseMarkedItem: Env.constants.key.left
 };
 
-const DRAG_MAX_OFFSET = 15;
-const EXPAND_ON_DRAG_DELAY = 1000;
 const DEFAULT_COLUMNS_VALUE = [];
 
 type TNodeSourceControllers = Map<string, SourceController>;
@@ -139,7 +137,7 @@ const _private = {
         ) {
             self._children.baseControl.showIndicator();
             filter[options.parentProperty] = nodeKey;
-            _private.createSourceControllerForNode(self, nodeKey, options.source, options.navigation)
+            return _private.createSourceControllerForNode(self, nodeKey, options.source, options.navigation)
                 .load(filter, options.sorting, null, null, nodeKey)
                 .addCallbacks((list) => {
                     listViewModel.setHasMoreStorage(_private.prepareHasMoreStorage(nodeSourceControllers));
@@ -243,9 +241,7 @@ const _private = {
         return  deepReload || deepReloadState;
     },
     beforeReloadCallback: function(self, filter, sorting, navigation, cfg) {
-        const parentProperty = cfg.parentProperty;
         const baseControl = self._children.baseControl;
-        const entries = _private.getEntries(cfg.selectedKeys, cfg.excludedKeys, cfg.source);
         const nodeSourceControllers = _private.getNodesSourceControllers(self);
 
         let expandedItemsKeys: Array[number | string | null] = [];
@@ -269,17 +265,11 @@ const _private = {
             isExpandAll = _private.isExpandAll(expandedItemsKeys);
         }
 
-        if (_private.isDeepReload(cfg, self._deepReload) && expandedItemsKeys.length && !isExpandAll) {
-            filter[parentProperty] = filter[parentProperty] instanceof Array ? filter[parentProperty] : [];
-            filter[parentProperty].push(self._root);
-            filter[parentProperty] = filter[parentProperty].concat(expandedItemsKeys);
-        } else {
-            filter[parentProperty] = self._root;
+        if (!(_private.isDeepReload(cfg, self._deepReload) && expandedItemsKeys.length && !isExpandAll)) {
+            if (baseControl) {
+                baseControl.getSourceController().setExpandedItems([]);
+            }
             _private.clearNodesSourceControllers(self);
-        }
-
-        if (entries) {
-            filter.entries = entries;
         }
     },
 
@@ -359,17 +349,6 @@ const _private = {
         }
         // reset deepReload after loading data (see reload method or constructor)
         self._deepReload = false;
-    },
-
-    beforeLoadToDirectionCallback: function(self, filter, cfg) {
-        const entries = _private.getEntries(cfg.selectedKeys, cfg.excludedKeys, cfg.source);
-
-        if (entries) {
-            filter.entries = entries;
-        }
-        if (cfg.parentProperty !== undefined) {
-            filter[cfg.parentProperty] = self._root;
-        }
     },
 
     getHasMoreData(self, sourceController, direction, key) {
@@ -517,12 +496,10 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _template: TreeControlTpl,
     _root: null,
     _updatedRoot: false,
-    _deepReload: false,
     _nodesSourceControllers: null,
     _needResetExpandedItems: false,
     _beforeReloadCallback: null,
     _afterReloadCallback: null,
-    _beforeLoadToDirectionCallback: null,
     _getHasMoreData: null,
     _expandOnDragData: null,
     _updateExpandedItemsAfterReload: false,
@@ -541,11 +518,21 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
         this._beforeReloadCallback = _private.beforeReloadCallback.bind(null, this);
         this._afterReloadCallback = _private.afterReloadCallback.bind(null, this);
-        this._beforeLoadToDirectionCallback = _private.beforeLoadToDirectionCallback.bind(null, this);
         this._getHasMoreData = _private.getHasMoreData.bind(null, this);
         this._errorController = cfg.errorController || new dataSourceError.Controller({});
         return TreeControl.superclass.constructor.apply(this, arguments);
     },
+
+    _beforeMount(options): void {
+        if (options.sourceController) {
+            // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
+            //  и на списке и на Browser'e
+            if (options.parentProperty || options.root !== undefined) {
+                options.sourceController.updateOptions(options);
+            }
+        }
+    },
+
     _afterMount: function() {
         _private.initListViewModelHandler(this, this._children.baseControl.getViewModel());
     },
@@ -555,15 +542,26 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _beforeUpdate: function(newOptions) {
         const baseControl = this._children.baseControl;
         const viewModel = baseControl.getViewModel();
+        const sourceController = baseControl.getSourceController();
+        let updateSourceController = false;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
+            const sourceControllerRoot = sourceController.getState().root;
+
             this._root = newOptions.root;
             this._updatedRoot = true;
+
+            if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
+                updateSourceController = true;
+            }
 
             if (this._options.editingConfig) {
                 baseControl.cancelEdit();
             }
-            baseControl.recreateSourceController(newOptions.source, newOptions.navigation, newOptions.keyProperty);
+        }
+
+        if (this._options.deepReload !== newOptions.deepReload) {
+            updateSourceController = true;
         }
 
         if (newOptions.expandedItems && !isEqual(newOptions.expandedItems, viewModel.getExpandedItems())) {
@@ -577,6 +575,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             } else {
                 this._updateExpandedItemsAfterReload = true;
             }
+            updateSourceController = true;
         }
         if (newOptions.collapsedItems && !isEqual(newOptions.collapsedItems, viewModel.getCollapsedItems())) {
             viewModel.setCollapsedItems(newOptions.collapsedItems);
@@ -600,12 +599,19 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
         if (newOptions.parentProperty !== this._options.parentProperty) {
             viewModel.setParentProperty(newOptions.parentProperty);
+            updateSourceController = true;
         }
         if (newOptions.hasChildrenProperty !== this._options.hasChildrenProperty) {
             viewModel.setHasChildrenProperty(newOptions.hasChildrenProperty);
         }
+
+        if (sourceController && updateSourceController) {
+            sourceController.updateOptions(newOptions);
+        }
     },
     _afterUpdate: function(oldOptions) {
+        let afterUpdateResult;
+
         if (this._updatedRoot) {
             this._updatedRoot = false;
             _private.clearNodesSourceControllers(this);
@@ -614,20 +620,21 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             this._needResetExpandedItems = true;
             // If filter or source was changed, do not need to reload again, baseControl reload list in beforeUpdate
             if (isEqual(this._options.filter, oldOptions.filter) && this._options.source === oldOptions.source) {
-                this._children.baseControl.reload();
+                afterUpdateResult = this._children.baseControl.reload();
             }
         }
         if (oldOptions.viewModelConstructor !== this._options.viewModelConstructor) {
             _private.initListViewModelHandler(this, this._children.baseControl.getViewModel());
         }
+
+        return afterUpdateResult;
     },
     resetExpandedItems(): void {
         this._children.baseControl.getViewModel().resetExpandedItems();
     },
     toggleExpanded: function(key) {
-        var
-            item = this._children.baseControl.getViewModel().getItemById(key, this._options.keyProperty);
-        _private.toggleExpanded(this, item);
+        const item = this._children.baseControl.getViewModel().getItemById(key, this._options.keyProperty);
+        return _private.toggleExpanded(this, item);
     },
     _onExpanderMouseDown(e, key, dispItem) {
         if (MouseUp.isButton(e.nativeEvent, MouseButtons.Left)) {
@@ -652,9 +659,14 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _onLoadMoreClick: function(e, dispItem) {
         _private.loadMore(this, dispItem);
     },
-    _onExpandedItemsChanged(e, expandedItems) {
+    _onExpandedItemsChanged(e, expandedItems): void {
         this._notify('expandedItemsChanged', [expandedItems]);
-        //вызываем обновление, так как, если нет биндинга опции, то контрол не обновится. А обновление нужно, чтобы отдать в модель нужные expandedItems
+
+        if (!this._options.hasOwnProperty('expandedItems')) {
+            this._children.baseControl.getSourceController().setExpandedItems(expandedItems);
+        }
+        // вызываем обновление, так как, если нет биндинга опции, то контрол не обновится.
+        // А обновление нужно, чтобы отдать в модель нужные expandedItems
         this._forceUpdate();
     },
     _onCollapsedItemsChanged(e, collapsedItems) {
