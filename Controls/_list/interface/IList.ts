@@ -622,3 +622,16 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {ButtonName} buttonName.
  */
+
+/**
+ * Прокручивает список к началу или концу.
+ * @function Controls/_list/interface/IList#scrollToEdge
+ * @param {'up'|'down'} direction.
+ * @example
+ * <pre class="brush: js">
+ * _buttonClick: function() {
+ *    var list = this._children.myList;
+ *    list.scrollToItem('down');
+ * }
+ * </pre>
+ */

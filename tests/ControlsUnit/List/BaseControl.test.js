@@ -1898,7 +1898,7 @@ define([
 
          // два таймаута, первый - загрузка начального рекордсета, второй - на последюущий запрос
          setTimeout(function() {
-            lists.BaseControl._private.scrollToEdge(ctrl, 'down');
+            ctrl.scrollToEdge('down');
             setTimeout(function() {
                assert.equal(3, ctrl._listViewModel.getCount(), 'Items wasn\'t load');
                done();
@@ -2329,10 +2329,10 @@ define([
             };
 
             // прокручиваем к низу, проверяем состояние пэйджинга
-            lists.BaseControl._private.scrollToEdge(ctrl, 'down');
+            ctrl.scrollToEdge('down');
             assert.equal(result, 'bottom', 'List wasn\'t scrolled to bottom');
 
-            lists.BaseControl._private.scrollToEdge(ctrl, 'up');
+            ctrl.scrollToEdge('up');
             assert.equal(result, 'top', 'List wasn\'t scrolled to top');
 
             done();
