@@ -2,8 +2,9 @@ import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {QueryNavigationType} from 'Types/source';
 import {default as PositionNavigationStore, IPositionNavigationState} from './PositionNavigationStore';
 import {IBasePositionSourceConfig, INavigationPositionSourceConfig} from 'Controls/interface';
-import {TNavigationDirection} from 'Controls/_interface/INavigation';
+import {TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
 import {RecordSet} from 'Types/collection';
+import {Record} from 'Types/entity';
 import {CursorDirection} from 'Controls/Constants';
 import {Logger} from 'UI/Utils';
 import IParamsCalculator from './interface/IParamsCalculator';
@@ -17,6 +18,9 @@ type TPosition = any;
 type TPositionValue = any[];
 type TField = string | string[];
 type TFieldValue = string[];
+
+const EDGE_FORWARD_POSITION = -1;
+const EDGE_BACKWARD_POSITION = -2;
 
 class PositionParamsCalculator implements IParamsCalculator {
     getQueryParams(
@@ -153,6 +157,35 @@ class PositionParamsCalculator implements IParamsCalculator {
         }
 
         return result;
+    }
+
+    shiftToEdge(
+        store: PositionNavigationStore,
+        direction: TNavigationDirection,
+        shiftMode: TNavigationPagingMode
+    ): void {
+        if (direction === 'backward') {
+            if (shiftMode === 'edge' || shiftMode === 'end') {
+                store.setPosition([EDGE_BACKWARD_POSITION]);
+            }
+        } else if (direction === 'forward') {
+            store.setPosition([EDGE_FORWARD_POSITION]);
+        }
+    }
+
+    updateQueryRange(store: PositionNavigationStore, list: RecordSet): void {
+        const metaNextPosition = list.getMetaData().nextPosition;
+        const queryField = PositionParamsCalculator._resolveField(store.getState().field);
+        const listCount = list.getCount();
+
+        if (!metaNextPosition && listCount) {
+            store.setBackwardPosition(
+                PositionParamsCalculator._resolvePosition(list.at(0), queryField)
+            );
+            store.setForwardPosition(
+                PositionParamsCalculator._resolvePosition(list.at(listCount - 1), queryField)
+            );
+        }
     }
 
     destroy(): void {

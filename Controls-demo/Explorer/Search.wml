@@ -4,7 +4,7 @@
       <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
-            <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_searchStartingWith}}">
+            <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" startingWith="{{_searchStartingWith}}" parentProperty="parent">
                <div class="ws-fragment">
                   <div class="controlsDemo-Explorer-Search__header">
                      <Controls.search:InputContainer>
@@ -41,7 +41,8 @@
                         markerVisibility="visible"
                         parentProperty="parent"
                         nodeProperty="parent@"
-                        columns="{{_viewColumns}}">
+                        columns="{{_viewColumns}}"
+                        searchStartingWith="{{_searchStartingWith}}">
                            <ws:emptyTemplate>
                               <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
                                  <ws:contentTemplate>Не найдено</ws:contentTemplate>

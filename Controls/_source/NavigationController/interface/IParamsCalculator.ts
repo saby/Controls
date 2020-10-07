@@ -1,4 +1,4 @@
-import {IBaseSourceConfig, TNavigationDirection} from 'Controls/_interface/INavigation';
+import {IBaseSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
 import INavigationStore from './INavigationStore';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {RecordSet} from 'Types/collection';
@@ -15,5 +15,7 @@ export default interface IParamsCalculator {
          navigationQueryConfig: IBaseSourceConfig,
          direction: TNavigationDirection
      ): any;
+     shiftToEdge(store: INavigationStore, direction: TNavigationDirection, shiftMode: TNavigationPagingMode): void;
+     updateQueryRange(store: INavigationStore, list: RecordSet): void;
      destroy(): void;
 }
