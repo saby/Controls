@@ -128,8 +128,16 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _optimizeShadowClass: string;
     protected _needUpdateContentSize: boolean = false;
 
+    private _getShadowOptions(options: IContainerOptions): any {
+        const shadowsModelOptions = {...options};
+        if (options.hasMoreDataToUp) {
+            shadowsModelOptions.topShadowVisibility = 'visible';
+        }
+        return shadowsModelOptions;
+    }
+
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        this._shadows = new ShadowsModel(options);
+        this._shadows = new ShadowsModel(this._getShadowOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController();
         this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
@@ -165,7 +173,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
         this._scrollbars.updateOptions(options);
-        this._shadows.updateOptions(options);
+        this._shadows.updateOptions(this._getShadowOptions(options));
     }
 
     protected _afterUpdate() {
