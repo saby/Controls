@@ -336,7 +336,11 @@ class Container extends Control<IContainerOptions> {
         entity: object, mouseDownEvent: SyntheticEvent<MouseEvent>,
         options: IStartDragOptions = {immediately: false}, draggedKey?: string
     ): void {
-        if ((mouseDownEvent.target as HTMLElement).closest('.controls-DragNDrop__notDraggable')) {
+        const target: Element = mouseDownEvent.target as Element;
+        const insideDraggable: Element = target.closest('.controls-DragNDrop__draggable');
+        const insideNotDraggable: Element = target.closest('.controls-DragNDrop__notDraggable');
+
+        if (insideNotDraggable && !insideNotDraggable.contains(insideDraggable)) {
             return;
         }
 
@@ -349,7 +353,6 @@ class Container extends Control<IContainerOptions> {
             Container._clearSelection(this._startEvent);
         }
 
-        const target: Element = this._startEvent.target as Element;
         if (this._startEvent && target) {
             target.classList.add('controls-DragNDrop__dragTarget');
         }

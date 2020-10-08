@@ -10,7 +10,7 @@ define([
 
    function createNativeEvent(type, pageX, pageY) {
       //mock dom event
-      var result =  {
+      var result = {
          preventDefault: function() {
             // Check don't call preventDefault (preventDefault "mousedown" event stops closing popup windows).
             if (type === 'mousedown') {
@@ -68,15 +68,37 @@ define([
          assert.isTrue(dragnDrop.Container._isDragStarted(startEvent, createNativeEvent('mousemove', 16, 10), true));
          assert.isTrue(dragnDrop.Container._isDragStarted(startEvent, createNativeEvent('mousemove', 20, 6), true));
       });
-      it('class controls-DragNDrop__notDraggable does`t start drag', function() {
+      it('class controls-DragNDrop__notDraggable and controls-DragNDrop__draggable does`t start drag', function() {
          var controller = new dragnDrop.Container();
          var event = createSyntheticEvent('mousedown', 20, 10);
          var sandbox = sinon.createSandbox();
          sandbox.stub(controller, '_registerMouseMove');
-         event.target.closest = (value) => value === '.controls-DragNDrop__notDraggable';
+         event.target.closest = (value) => {
+            if (value === '.controls-DragNDrop__notDraggable') {
+               return {
+                  contains: () => false
+               }
+            }
+         };
          controller.startDragNDrop({}, event);
 
          sinon.assert.notCalled(controller._registerMouseMove);
+      });
+      it('class controls-DragNDrop__notDraggable and controls-DragNDrop__draggable does start drag', function() {
+         var controller = new dragnDrop.Container();
+         var event = createSyntheticEvent('mousedown', 20, 10);
+         var sandbox = sinon.createSandbox();
+         sandbox.stub(controller, '_registerMouseMove');
+         event.target.closest = (value) => {
+            if (value === '.controls-DragNDrop__notDraggable') {
+               return {
+                  contains: () => true
+               }
+            }
+         };
+         controller.startDragNDrop({}, event);
+
+         sinon.assert.called(controller._registerMouseMove);
       });
       it('_beforeUnmount', function() {
          var controller = new dragnDrop.Container();
@@ -90,9 +112,18 @@ define([
          sinon.assert.called(controller._onMouseUp);
       });
       it('getDragOffset', function() {
-         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', 40, 20)), {x: -20, y: -10});
-         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', 0, 0)), {x: 20, y: 10});
-         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', -10, -10)), {x: 30, y: 20});
+         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', 40, 20)), {
+            x: -20,
+            y: -10
+         });
+         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', 0, 0)), {
+            x: 20,
+            y: 10
+         });
+         assert.deepEqual(dragnDrop.Container._getDragOffset(startEvent, createNativeEvent('mousemove', -10, -10)), {
+            x: 30,
+            y: 20
+         });
       });
       describe('getPageXY', function() {
          it('touchstart and touchmove', function() {
