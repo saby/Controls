@@ -76,9 +76,7 @@ export default class Browser extends Control {
         if (receivedState) {
             this._setFilterItems(receivedState.filterItems);
 
-            if (receivedState.items) {
-                this._hasMoreDataToUp = !!receivedState.items.getMetaData().more?.before;
-            }
+            this._defineHasMoreDataToUp(receivedState.items);
             if (isNewEnvironment()) {
                 this._setItemsAndCreateSearchController(receivedState.items, options);
             }
@@ -86,9 +84,7 @@ export default class Browser extends Control {
             return this._filterController.loadFilterItemsFromHistory().then((filterItems) => {
                 this._setFilterItems(filterItems);
                 return this._loadItems(options, controllerState).then((items) => {
-                    if (items) {
-                        this._hasMoreDataToUp = !!items.getMetaData().more?.before;
-                    }
+                    this._defineHasMoreDataToUp(items);
                     return {
                         filterItems,
                         items
@@ -144,6 +140,9 @@ export default class Browser extends Control {
 
                 this._loading = false;
                 this._groupHistoryId = newOptions.groupHistoryId;
+
+                this._defineHasMoreDataToUp(items);
+
                 return items;
             });
         } else if (isChanged) {
@@ -383,6 +382,12 @@ export default class Browser extends Control {
         }
 
         return this._operationsController;
+    }
+
+    private _defineHasMoreDataToUp(items: RecordSet): void {
+        if (items) {
+            this._hasMoreDataToUp = !!items.getMetaData().more?.before;
+        }
     }
 
     _createSearchController(options, context): SearchController {

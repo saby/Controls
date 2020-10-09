@@ -129,11 +129,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _needUpdateContentSize: boolean = false;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        const shadowsModelOptions = {...options};
-        if (options.hasMoreDataToUp) {
-            shadowsModelOptions.topShadowVisibility = true;
-        }
-        this._shadows = new ShadowsModel(shadowsModelOptions);
+        this._shadows = new ShadowsModel(this._getShadowOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController();
         this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
@@ -169,7 +165,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
         this._scrollbars.updateOptions(options);
-        this._shadows.updateOptions(options);
+        this._shadows.updateOptions(this._getShadowOptions(options));
     }
 
     protected _afterUpdate() {
@@ -411,6 +407,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
         return this._stickyHeaderController.getHeadersHeight(position, type);
+    }
+
+    private _getShadowOptions(options: IContainerOptions): any {
+        const shadowsModelOptions = {...options};
+        if (options.hasMoreDataToUp) {
+            shadowsModelOptions.topShadowVisibility = 'visible';
+        }
+        return shadowsModelOptions;
     }
 
     static contextTypes() {
