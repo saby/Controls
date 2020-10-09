@@ -17,4 +17,5 @@ export default interface IBackgroundStyle {
  * @cfg {String} Определяет префикс стиля для настройки фона внутренних элементов контрола.
  * @default default (фон цвета темы)
  * @demo Controls-demo/Spoiler/Cut/BackgroundStyle/Index
+ * @demo Controls-demo/EditableArea/BackgroundStyle/Index
  */

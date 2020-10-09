@@ -1,5 +1,5 @@
 import Env = require('Env/Env');
-import {getScrollbarWidth} from 'Controls/sizeUtils';
+import {getScrollbarWidth} from '../Utils/getScrollbarWidth';
 
 
 var _private = {

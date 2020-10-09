@@ -129,7 +129,11 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _needUpdateContentSize: boolean = false;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        this._shadows = new ShadowsModel(options);
+        const shadowsModelOptions = {...options};
+        if (options.hasMoreDataToUp) {
+            shadowsModelOptions.topShadowVisibility = true;
+        }
+        this._shadows = new ShadowsModel(shadowsModelOptions);
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController();
         this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
@@ -392,6 +396,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const top = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const bottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
         this._scrollbars.setOffsets({ top: top, bottom: bottom });
+        this._stickyHeaderController.setShadowVisibility(
+            this._shadows.top.isStickyHeadersShadowsEnabled(),
+            this._shadows.bottom.isStickyHeadersShadowsEnabled());
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
             this._stickyHeaderController.hasFixed(POSITION.BOTTOM) && this._stickyHeaderController.hasShadowVisible(POSITION.BOTTOM));
@@ -422,7 +429,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             shadowStyle: 'default',
             backgroundStyle: DEFAULT_BACKGROUND_STYLE,
             scrollMode: 'vertical',
-            optimizeShadow: true
+            optimizeShadow: false
         };
     }
 }

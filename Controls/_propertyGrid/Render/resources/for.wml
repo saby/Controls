@@ -1,6 +1,6 @@
 <ws:for data="index, item in itemsViewModel.getViewIterator()">
     <ws:partial
-            template="{{item.getItemTemplate(itemTemplate, groupTemplate)}}"
+            template="{{item.getItemTemplate(itemTemplateProperty, itemTemplate, groupTemplate)}}"
             theme="{{theme}}"
             collectionItem="{{item}}"
             item="{{item.getContents()}}"

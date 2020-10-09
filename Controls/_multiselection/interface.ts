@@ -1,18 +1,56 @@
-import { CollectionItem, IBaseCollection } from 'Controls/display';
+import { CollectionItem, IBaseCollection, ICollectionItem, TreeItem } from 'Controls/display';
 import { Model, relation } from 'Types/entity';
-import { TKeysSelection as TKeys, TSelectedKey as TKey, TSelectionType} from 'Controls/interface';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
 import { Controller as SourceController } from 'Controls/source';
+import { CrudEntityKey } from 'Types/source';
+
+export type TKeys = CrudEntityKey[];
 
 /**
- * Интерфейс описывающий модель, используемую в контроллере множественного выбора
+ * Интерфейс описывающий элемент модели, используемой в контроллере множественного выбора
+ *
+ * @interface Controls/multiselection/ISelectionItem
+ * @public
+ * @author Аверкиев П.А.
+ */
+export interface ISelectionItem extends ICollectionItem {
+   /**
+    * Определяет, можно ли выбрать данный элемент
+    */
+   SelectableItem: boolean;
+
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @method
+    * @public
+    * @return {Boolean} состояние правого свайпа
+    */
+   isAnimatedForSelection(): boolean;
+
+   /**
+    * Флаг, определяющий состояние правого свайпа по записи.
+    * @param {Boolean} swiped состояние правого свайпа
+    * @method
+    * @public
+    */
+   setAnimatedForSelection(swiped: boolean): boolean;
+
+   /**
+    * Определяет состояние выбранности элемента
+    * @return {boolean|null} состояние выбранности элемента
+    */
+   isSelected(): boolean|null;
+}
+
+/**
+ * Интерфейс модели, используемой в контроллере множественного выбора
  *
  * @interface Controls/multiselection/ISelectionModel
  * @public
  * @author Панихин К.А.
  */
-export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> {
+export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> {
    /**
     * Проверить, можно ли загрузить еще данные
     *
@@ -21,17 +59,6 @@ export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> 
     * @return {boolean}
     */
    getHasMoreData(): boolean;
-
-   /**
-    * Получить текущий корневой элемент
-    * @remark
-    * Верхним корневым элементом является null
-    * В плоской стратегии корневой элемент всегда null
-    * @method
-    * @public
-    * @return {CollectionItem<Model>} Данные корнего элемента
-    */
-   getRoot(): CollectionItem<Model>;
 
    /**
     * Получить список элементов
@@ -50,13 +77,19 @@ export interface ISelectionModel extends IBaseCollection<CollectionItem<Model>> 
     * @param {Boolean} silent Не уведомлять о изменении
     * @void
     */
-   setSelectedItems(items: Model[], selected: boolean, silent: boolean): void;
+   setSelectedItems(items: Array<CollectionItem<Model>>, selected: boolean, silent: boolean): void;
 
    /**
     * Возвращает кол-во элементов в проекции
     * @return {number} кол-во элементов
     */
    getCount(): number;
+
+   /**
+    * Возвращает список элементов
+    * @return {ISelectionItem[]} список элементов
+    */
+   getItems(): ISelectionItem[];
 }
 
 /**
@@ -87,8 +120,9 @@ export interface ITreeSelectionStrategyOptions {
    selectDescendants: boolean;
    nodesSourceControllers?: Map<string, SourceController>;
    hierarchyRelation: relation.Hierarchy;
-   rootId: TKey;
-   items: RecordSet;
+   rootId: CrudEntityKey;
+   entryPath: IEntryPathItem[];
+   items: Array<TreeItem<Model>>;
 }
 
 /**
@@ -98,34 +132,46 @@ export interface ITreeSelectionStrategyOptions {
  * @public
  * @author Панихин К.А.
  */
-export interface IFlatSelectionStrategyOptions {
-   items: RecordSet;
-}
+export interface IFlatSelectionStrategyOptions {}
 
 /**
- * Изменения в состоянии выбранных ключей
+ * Изменения в списке ключей
+ * @public
  */
-export interface ISelectionDifference {
+export interface IKeysDifference {
+   /**
+    * Список ключей
+    * @typedef {TKeys}
+    */
    keys: TKeys;
+
+   /**
+    * Список добавленных ключей
+    * @typedef {TKeys}
+    */
    added: TKeys;
+
+   /**
+    * Список удаленных ключей
+    * @typedef {TKeys}
+    */
    removed: TKeys;
 }
 
 /**
- * Результат метода SelectionController-а
+ * Изменения в выбранных элементах
+ * @public
  */
-export interface ISelectionControllerResult {
-   selectedKeysDiff: ISelectionDifference;
-   excludedKeysDiff: ISelectionDifference;
-   selectedCount: number;
-   isAllSelected: boolean;
+export interface ISelectionDifference {
+   selectedKeysDifference: IKeysDifference;
+   excludedKeysDifference: IKeysDifference;
 }
 
 /**
  * Данные в рекорде
  * Используется чтобы определить состояние узла с незагруженными детьми
  */
-export interface IEntryPath {
-   id: TKey;
-   parent: TKey;
+export interface IEntryPathItem {
+   id: CrudEntityKey;
+   parent: CrudEntityKey;
 }

@@ -3,6 +3,7 @@ import {TemplateFunction} from 'UI/Base';
  * Интерфейс свойств PropertyGrid.
  * @interface Controls/_propertyGrid/IProperty
  * @author Герасимов А.М.
+ * @public
  */
 
 /*
@@ -15,69 +16,71 @@ import {TemplateFunction} from 'UI/Base';
  * @name Controls/_propertyGrid/IProperty#name
  * @cfg {String} Имя свойства.
  * @required
- * @remark Значения из редакторов свойст попадают в editingObject по имени свойства.
+ * @remark Значения из редакторов свойств попадают в editingObject по имени свойства.
  * @example
- * Задаём конфигурацию
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *             showBackgroundImage: true,
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true,
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text'
- *            },
- *            {
- *               name: "showBackgroundImage",
- *               caption: "Показывать изображение",
- *               group: "boolean"
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text'
+ *       },
+ *       {
+ *          name: "showBackgroundImage",
+ *          caption: "Показывать изображение",
+ *          group: "boolean"
+ *       }
+ *    ]
+ * }
  * </pre>
- * Передаём конфигурацию в PropertyGrid
+ * 
  * <pre class="brush: html">
- *     <Controls.propertyGrid:PropertyGrid
- *              bind:editingObject="_editingObject"
- *              source="{{_source}}"/>
+ * <!-- WML -->
+ * <Controls.propertyGrid:PropertyGrid
+ *     bind:editingObject="_editingObject"
+ *     source="{{_source}}"/>
  * </pre>
  */
 
 /**
  * @name Controls/_propertyGrid/IProperty#caption
- * @cfg {String} Текст метки редактора свойста.
+ * @cfg {String} Текст метки редактора свойства.
  * @example
- * Задаём конфигурацию
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *             showBackgroundImage: true,
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true,
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text'
- *            },
- *            {
- *               name: "showBackgroundImage",
- *               caption: "Показывать изображение",
- *               group: "boolean"
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text'
+ *       },
+ *       {
+ *          name: "showBackgroundImage",
+ *          caption: "Показывать изображение",
+ *          group: "boolean"
+ *       }
+ *    ]
+ * }
  * </pre>
- * Передаём конфигурацию в PropertyGrid
+ * 
  * <pre class="brush: html">
- *     <Controls.propertyGrid:PropertyGrid
- *              bind:editingObject="_editingObject"
- *              source="{{_source}}"/>
+ * <!-- WML -->
+ * <Controls.propertyGrid:PropertyGrid
+ *     bind:editingObject="_editingObject"
+ *     source="{{_source}}"/>
  * </pre>
  */
 
@@ -85,11 +88,11 @@ import {TemplateFunction} from 'UI/Base';
  * @name Controls/_propertyGrid/IProperty#captionTemplate
  * @cfg {Function} Шаблон для метки редактора свойства.
  * @example
- * Пример captionTemplate
  * <pre class="brush: html">
- *     <div class='myBlueLabel'>
- *         label
- *     </div>
+ * <!-- WML -->
+ * <div class='myBlueLabel'>
+ *    label
+ * </div>
  * </pre>
  */
 
@@ -103,23 +106,24 @@ import {TemplateFunction} from 'UI/Base';
  * @cfg {Object} Опции редактора свойства.
  * @example
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text',
- *               editorOptions: {
- *                   fontSize: 'm',
- *                   fontColorStyle: 'danger'
- *               }
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text',
+ *          editorOptions: {
+ *             fontSize: 'm',
+ *             fontColorStyle: 'danger'
+ *          }
+ *       }
+ *    ]
+ * }
  * </pre>
  */
 
@@ -139,19 +143,20 @@ import {TemplateFunction} from 'UI/Base';
  * @remark Если параметр не задан, тип будет определен по значению {@link propertyValue свойства}.
  * @example
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com'
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com'
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text'
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text'
+ *       }
+ *    ]
+ * }
  * </pre>
  */
 
@@ -160,26 +165,26 @@ import {TemplateFunction} from 'UI/Base';
  * @cfg {String} Поле, по которому будут сгруппированы редакторы.
  * @example
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *             showBackgroundImage: true
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text',
- *               group: 'siteDescription'
- *            },
- *             {
- *               name: 'showBackgroundImage',
- *               caption: 'Показывать изображение',
- *               group: 'siteDescription'
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text',
+ *          group: 'siteDescription'
+ *       }, {
+ *          name: 'showBackgroundImage',
+ *          caption: 'Показывать изображение',
+ *          group: 'siteDescription'
+ *       }
+ *    ]
+ * }
  * </pre>
  */
 

@@ -1,9 +1,9 @@
 import BaseViewModel from '../BaseViewModel';
-import {IInputType, ISplitValue} from '../resources/Types';
+import {InputType, ISplitValue} from '../resources/Types';
 import {textBySplitValue} from '../resources/Util';
 import {IText} from 'Controls/decorator';
 
-interface IViewModelOptions {
+export interface IViewModelOptions {
     maxLength?: number;
     constraint?: string;
     punycodeToUnicode?: (punycode: string) => string;
@@ -35,7 +35,7 @@ class ViewModel extends BaseViewModel<string, IViewModelOptions> {
         return displayValue;
     }
 
-    protected _createText(splitValue: ISplitValue, inputType: IInputType): IText {
+    protected _createText(splitValue: ISplitValue, inputType: InputType): IText {
         if (inputType === 'insert') {
             if (this._options.punycodeToUnicode) {
                 splitValue.insert = this._punycodeToUnicode(splitValue.insert);

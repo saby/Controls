@@ -26,12 +26,15 @@ describe('Controls/_lookup/MultipleInput/LookupView', () => {
       const originGetWidth = getWidthUtil.getWidth;
       const placeholder = 'testPlaceholder';
       // Избавимся от работы с версткой
+      delete getWidthUtil.getWidth;
       getWidthUtil.getWidth = function() {
          return placeholderWidth;
       };
+      delete lookupView._getFieldWrapperWidth;
       lookupView._getFieldWrapperWidth = function() {
          return  fieldWrapperWidth;
       };
+      delete lookupView._initializeConstants;
       lookupView._initializeConstants = () => {};
 
       lookupView._items =  getItems(3);

@@ -17,7 +17,7 @@
             <ws:Array>
                 <ws:Object displayProperty="title" width="200px"/>
                 <ws:Object displayProperty="rating" width="150px"/>
-                <ws:Object displayProperty="country" width="150px">
+                <ws:Object displayProperty="country" width="150px" align="right">
                     <ws:template>
                         <ws:partial template="Controls/grid:ColumnTemplate" clickable="{{false}}"
                                     tagStyle="{{template.itemData.item.get('tagStyle')}}"/>

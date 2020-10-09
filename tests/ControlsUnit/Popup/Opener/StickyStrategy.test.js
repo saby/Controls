@@ -13,7 +13,9 @@ define(
             StickyStrategy._private.getVisualViewport = () => ({
                width: 1000,
                offsetLeft: 0,
-               pageLeft: 80
+               pageLeft: 80,
+               offsetTop: 0,
+               pageTop: 699
             });
             StickyStrategy._private.getWindowSizes = () => ({
                width: 1024,
@@ -25,16 +27,21 @@ define(
             };
             let popupCfg = {
                sizes: {
-                  width: 120
+                  width: 120,
+                  height: 120
                }
             };
             let position = {
-               left: 989
+               left: 989,
+               top: 1400
             };
 
             //окно открывается вправо, но не умещается из-за своих размеров
             let overflow = StickyStrategy._private.checkOverflow(popupCfg, targetCoords, position, 'horizontal');
             assert.strictEqual(overflow, 85);
+
+            overflow = StickyStrategy._private.checkOverflow(popupCfg, targetCoords, position, 'vertical');
+            assert.strictEqual(overflow, -219);
 
             //страница зазумлена, но это влиять на ширину не должно
             StickyStrategy._private.getVisualViewport = () => ({
@@ -47,6 +54,7 @@ define(
             assert.strictEqual(overflow, 85);
 
             StickyStrategy._private.getVisualViewport = getVisualViewPort;
+            StickyStrategy._private.getWindowSizes = getWindowSizes;
          });
       });
    }

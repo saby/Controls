@@ -3,7 +3,7 @@ define('Controls-demo/Buttons/Menu/Menu', [
    'wml!Controls-demo/Buttons/Menu/Menu',
    'Types/source',
    'Controls/Constants',
-   'Controls-demo/Buttons/Menu/historySourceMenu',
+   'Controls-demo/dropdown_new/Button/HistoryId/historySourceMenu',
 
    'wml!Controls-demo/Buttons/Menu/itemTemplateSub',
    'wml!Controls-demo/Buttons/Menu/itemTemplateComment'
@@ -37,6 +37,7 @@ define('Controls-demo/Buttons/Menu/Menu', [
          _additionalItems: null,
          _multilevelHierarchyItems: null,
          _bigItems: null,
+         _historySource: null,
 
          _beforeMount: function() {
             this._oneItem = [
@@ -298,6 +299,7 @@ define('Controls-demo/Buttons/Menu/Menu', [
                { id: 20, title: 'It is last level 3', parent: 16}
             ];
             this._bigItems = this._createBigItems();
+            this._historySource = new HistorySourceMenu.default();
          },
 
          _createBigItems: function() {
@@ -315,9 +317,6 @@ define('Controls-demo/Buttons/Menu/Menu', [
             });
          },
 
-         _createHistoryMemory: function() {
-            return HistorySourceMenu.createMemory();
-         },
          _groupingKeyCallback: function(item) {
             if (item.get('group') === 'hidden' || !item.get('group')) {
                return ControlsConstants.view.hiddenGroup;

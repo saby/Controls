@@ -35,7 +35,7 @@ export interface IDropdownControllerOptions extends IControlOptions, IDropdownSo
     allowPin?: boolean;
     width?: number;
     popupClassName?: string;
-    marker?: boolean;
+    markerVisibility?: string;
     typeShadow?: string;
     openerControl: Control;
     targetPoint: IStickyPosition;

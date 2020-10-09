@@ -21,6 +21,7 @@ define('Controls/interface/IDropdown', [], function() {
     * @name Controls/interface/IDropdown#historyId
     * @cfg {String} Уникальный идентификатор для сохранения истории выбора записей.
     * Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#history">здесь</a>.
+    * @demo Controls-demo/dropdown_new/Button/HistoryId/Index
     * @example
     * <pre>
     *    <Controls.dropdown:Input historyId="myHistoryId"/>
@@ -30,13 +31,15 @@ define('Controls/interface/IDropdown', [], function() {
    /**
     * @name Controls/interface/IDropdown#dropdownClassName
     * @cfg {String} Класс, который навешивается на выпадающий список.
+    * @demo Controls-demo/dropdown_new/Button/DropdownClassName/Index
     * @example
     * Меню со скроллом.
     * TMPL:
     * <pre>
     *    <Controls.dropdown:Button
     *        keyProperty="id"
-    *        icon="icon-small icon-Check"
+    *        icon="icon-Check"
+    *        iconSize="s"
     *        dropdownClassName="demo_menu"
     *        source="{{_source}}"/>
     * </pre>

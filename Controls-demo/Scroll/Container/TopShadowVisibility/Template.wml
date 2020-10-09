@@ -1,7 +1,7 @@
 <div class="ControlsDemo-Wrap">
     <div class="controlsDemo__wrapper">
         <div class="options-value">topShadowVisibility = auto</div>
-        <Controls.scroll:_ContainerNew attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
                                    topShadowVisibility="auto">
             <div class="controlsDemo__wrapper">
                 <ws:for data="i in 3">
@@ -12,11 +12,11 @@
                 non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </ws:for>
             </div>
-        </Controls.scroll:_ContainerNew>
+        </Controls.scroll:Container>
     </div>
     <div class="controlsDemo__wrapper">
         <div class="options-value">topShadowVisibility = visible</div>
-        <Controls.scroll:_ContainerNew attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
                                    topShadowVisibility="visible">
             <div class="controlsDemo__wrapper">
                 <ws:for data="i in 3">
@@ -27,11 +27,11 @@
                 non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </ws:for>
             </div>
-        </Controls.scroll:_ContainerNew>
+        </Controls.scroll:Container>
     </div>
     <div class="controlsDemo__wrapper">
         <div class="options-value">topShadowVisibility = hidden</div>
-        <Controls.scroll:_ContainerNew attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
                                    topShadowVisibility="hidden">
             <div class="controlsDemo__wrapper">
                 <ws:for data="i in 3">
@@ -42,6 +42,6 @@
                 non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </ws:for>
             </div>
-        </Controls.scroll:_ContainerNew>
+        </Controls.scroll:Container>
     </div>
 </div>

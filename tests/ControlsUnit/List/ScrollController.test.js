@@ -79,5 +79,6 @@ define([
             assert.isDefined(scrollController._virtualScroll);
          });
       });
+
    });
 });

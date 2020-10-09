@@ -75,7 +75,7 @@ define('Controls/interface/IGroupedList', [
     * @event Controls/interface/IGroupedList#groupExpanded Происходит при развертывании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {String} changes Идентификатор группы.
-    * @demo Controls-demo/List/List/GroupPG
+    * @demo Controls-demo/list_new/Grouped/OnGroupCollapsed/Index
     * @see groupCollapsed
     */
 
@@ -83,7 +83,7 @@ define('Controls/interface/IGroupedList', [
     * @event Controls/interface/IGroupedList#groupCollapsed Происходит при сворачивании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {String} changes Идентификатор группы.
-    * @demo Controls-demo/List/List/GroupPG
+    * @demo Controls-demo/list_new/Grouped/OnGroupCollapsed/Index
     * @see groupExpanded
     */
 

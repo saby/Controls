@@ -110,6 +110,7 @@ var _private = {
  * @extends Core/Control
  * @mixes Controls/_dateRange/interfaces/IRangeSelectable
  * @author Красильников А.С.
+ * @public
  */
 var Component = BaseControl.extend({
    _template: RangeSelectrionControllerTmpl,

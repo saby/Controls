@@ -2,17 +2,26 @@ import Control = require('Core/Control');
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_moverDialog/Template/Template');
 import {Record} from 'Types/entity';
+import {ICrudPlus} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TColumns} from 'Controls/grid';
 import rk = require('i18n!Controls');
+import {TKeysSelection} from 'Controls/interface';
+import {IHashMap} from 'Types/declarations';
 
-interface IMoverDialogTemplate extends IControlOptions {
+export interface IMoverDialogTemplateOptions extends IControlOptions {
     displayProperty: string;
     root?: string|number;
     searchParam: string;
     showRoot?: boolean;
     columns: TColumns;
     expandedItems: [];
+    movedItems: TKeysSelection;
+    source: ICrudPlus;
+    keyProperty: string;
+    nodeProperty: string;
+    parentProperty: string;
+    filter?: IHashMap<any>
 }
 
 /**
@@ -97,7 +106,7 @@ export default class extends Control {
     protected _expandedItems: any[];
     private _columns: TColumns;
 
-    protected _beforeMount(options: IMoverDialogTemplate): void {
+    protected _beforeMount(options: IMoverDialogTemplateOptions): void {
         this._itemActions = [{
             id: 1,
             title: rk('Выбрать'),
@@ -138,7 +147,7 @@ export default class extends Control {
     }
 
     protected _onMarkedKeyChanged(event: SyntheticEvent<null>, newKey: string | number | null): void {
-        this._notify('markedKeyChanged', [newKey]);
+        return this._notify('markedKeyChanged', [newKey]);
     }
 
     protected _onItemActionsClick(event: SyntheticEvent<MouseEvent>, action: object, item: Record): void {

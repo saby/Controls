@@ -6,7 +6,7 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

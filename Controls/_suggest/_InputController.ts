@@ -1,16 +1,34 @@
-import Control = require('Core/Control');
-import template = require('wml!Controls/_suggest/_InputController/_InputController');
-import mStubs = require('Core/moduleStubs');
-import clone = require('Core/core-clone');
-import Deferred = require('Core/Deferred');
-import Env = require('Env/Env');
-import {descriptor} from 'Types/entity';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_suggest/_InputController/_InputController';
+import {descriptor, Model} from 'Types/entity';
 import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {Stack as StackOpener, IStackPopupOptions} from 'Controls/popup';
+import {IStackPopupOptions, Stack as StackOpener} from 'Controls/popup';
+import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/searchNew';
+import {NewSourceController as SourceController} from 'Controls/dataSource';
+import {RecordSet} from 'Types/collection';
+import {__ContentLayer, __PopupLayer} from 'Controls/suggestPopup';
+import {
+   IFilterOptions,
+   INavigationOptions,
+   INavigationSourceConfig,
+   ISearchOptions,
+   ISortingOptions,
+   ISourceOptions,
+   IValidationStatusOptions
+} from 'Controls/interface';
+import {QueryWhereExpression} from 'Types/source';
+import ISuggest, {IEmptyTemplateProp, ISuggestFooterTemplate, ISuggestTemplateProp} from 'Controls/interface/ISuggest';
+import {IValueOptions} from 'Controls/input';
 import ModuleLoader = require('Controls/Container/Async/ModuleLoader');
-import * as isEmpty from 'Core/helpers/Object/isEmpty';
+import { error as dataSourceError } from 'Controls/dataSource';
+
+import Env = require('Env/Env');
+import mStubs = require('Core/moduleStubs');
+import clone = require('Core/core-clone');
+import Deferred = require('Core/Deferred');
+import {TVisibility} from 'Controls/marker';
 
 const CURRENT_TAB_META_FIELD = 'tabsSelectedKey';
 const HISTORY_KEYS_FIELD = 'historyKeys';
@@ -26,334 +44,40 @@ const PROCESSED_KEYDOWN_KEYS = {
    /* hot keys that should processed on input */
    INPUT: [Env.constants.key.esc],
 
-   /* hot keys, that list (suggestList) will process, do not respond to the press of these keys when suggest is opened */
+   /* hot keys, that list (suggestList) will process,
+   do not respond to the press of these keys when suggest is opened */
    SUGGESTIONS_LIST: [Env.constants.key.down, Env.constants.key.up, ENTER_KEY]
 };
 
-const DEPS = ['Controls/suggestPopup:_ListWrapper', 'Controls/scroll:Container', 'Controls/search:Misspell', 'Controls/LoadingIndicator'];
+const DEPS = [
+   'Controls/suggestPopup:_ListWrapper',
+   'Controls/scroll:Container',
+   'Controls/search:Misspell',
+   'Controls/LoadingIndicator'
+];
 
-var _private = {
-   hasMore: function(searchResult) {
-      return searchResult && searchResult.hasMore;
-   },
-   isEmptyData: function(searchResult) {
-      return !(searchResult && searchResult.data.getCount());
-   },
-   suggestStateNotify: function(self, state, options = self._options) {
-      if (options.suggestState !== state) {
-         self._notify('suggestStateChanged', [state]);
-      } else {
-         self._forceUpdate();
-      }
-   },
-   setCloseState: function(self) {
-      self._showContent = false;
-      self._loading = null;
+type Key = string | number | null;
+type TState = boolean | null;
+type HistoryKeys = string[] | number[] | null;
+type CancelableError = Error & { canceled?: boolean };
 
-      // when closing popup we reset the cache with recent keys
-      self._historyLoad = null;
-      self._historyKeys = null;
-   },
+interface IInputControllerOptions extends IControlOptions, IFilterOptions, ISearchOptions,
+   IValidationStatusOptions, ISuggest, ISourceOptions, INavigationOptions<INavigationSourceConfig>,
+   IFilterOptions, ISortingOptions, IValueOptions<string> {
+   suggestState: boolean;
+   autoDropDown?: boolean;
+   searchErrorCallback?: Function;
+   searchEndCallback?: Function;
+   searchStartCallback?: Function;
+   emptyTemplate?: IEmptyTemplateProp;
+   historyId?: string | null;
+   layerName: string;
+   suggestTemplate: ISuggestTemplateProp | null;
+   footerTemplate: ISuggestFooterTemplate;
+   trim: boolean; // TODO: searchValueTrim ???
+}
 
-   setSuggestMarkedKey: function(self, key) {
-      var currentMarkedKey = self._suggestMarkedKey;
-      self._suggestMarkedKey = key;
-
-      if (currentMarkedKey !== self._suggestMarkedKey) {
-         self._notify('suggestMarkedKeyChanged', [key]);
-      }
-   },
-
-   close: function(self, options) {
-      this.setCloseState(self);
-      this.suggestStateNotify(self, false, options);
-
-      if (self._dependenciesDeferred && !self._dependenciesDeferred.isReady()) {
-         self._dependenciesDeferred.cancel();
-         self._dependenciesDeferred = null;
-      }
-   },
-   open: function(self) {
-      _private.loadDependencies(self, self._options).addCallback(function() {
-         //focus can be moved out while dependencies loading
-         if (self._inputActive) {
-            _private.suggestStateNotify(self, true);
-         }
-      });
-   },
-
-   closePopup: function(self) {
-      let layerOpener = self._children.layerOpener;
-      layerOpener && layerOpener.close();
-   },
-
-   openWithHistory: function(self) {
-      let filter;
-
-      function openSuggestIfNeeded(): void {
-         if (self._historyKeys.length || self._options.autoDropDown) {
-            _private.open(self);
-         }
-      }
-
-      if (!self._historyKeys) {
-         _private.getRecentKeys(self).addCallback((keys) => {
-            self._historyKeys = keys || [];
-            filter = clone(self._options.filter || {});
-
-            if (self._historyKeys.length) {
-               filter[HISTORY_KEYS_FIELD] = self._historyKeys;
-            }
-
-            _private.setFilter(self, filter, self._options);
-
-            openSuggestIfNeeded();
-            return self._historyKeys;
-         });
-      } else {
-         _private.setFilter(self, self._options.filter, self._options);
-         openSuggestIfNeeded();
-      }
-   },
-
-   setSearchValue: function(self, value) {
-      self._searchValue = value;
-   },
-
-   inputActivated: function(self) {
-      const options = self._options;
-      // toDO Временный костыль, в .320 убрать, должно исправиться с этой ошибкой https://online.sbis.ru/opendoc.html?guid=d0f7513f-7fc8-47f8-8147-8535d69b99d6
-      if ((options.autoDropDown || options.historyId) &&
-          !options.readOnly &&
-          !_private.getActiveElement().classList.contains('controls-Lookup__icon')) {
-         // The delay is needed when searching, when receiving the focus of the input field, open without delay
-         self._searchDelay = 0;
-
-         if (!options.suggestState) {
-            _private.updateSuggestState(self);
-         }
-      }
-   },
-
-   getActiveElement: function() {
-      return document.activeElement;
-   },
-
-   hideIndicator(self: Control): void {
-      if (self._children.indicator) {
-         self._children.indicator.hide();
-      }
-   },
-
-   searchErrback(self: Control, error: Error) {
-      //aborting of the search may be caused before the search start, because of the delay before searching
-      if (self._loading !== null) {
-         self._loading = false;
-         self._forceUpdate();
-      }
-      if (!error?.canceled) {
-         _private.hideIndicator(self);
-      }
-   },
-   shouldSearch(self, value): boolean {
-      return self._inputActive && _private.isValueLengthLongerThenMinSearchLength(value, self._options);
-   },
-
-   isValueLengthLongerThenMinSearchLength(value, options): boolean {
-     return value && value.length >= options.minSearchLength;
-   },
-
-   prepareValue: function(self, value) {
-      return self._options.trim && value ? value.trim() : value;
-   },
-
-   shouldShowSuggest: function(self, searchResult) {
-      const hasItems = searchResult && searchResult.data.getCount();
-      const isSuggestHasTabs = self._tabsSelectedKey !== null;
-
-      /* do not suggest if:
-       * 1) loaded list is empty and empty template option is doesn't set
-       * 2) loaded list is empty and list loaded from history, expect that the list is loaded from history, becouse input field is empty and historyId options is set  */
-      return hasItems ||
-             (!self._options.historyId || self._searchValue || isSuggestHasTabs) &&
-             self._options.emptyTemplate && searchResult !== null;
-   },
-   processResultData: function(self, resultData) {
-      self._searchResult = resultData;
-      if (resultData) {
-         var data = resultData.data;
-         var metaData = data && data.getMetaData();
-         var result = metaData.results;
-
-         _private.setMissSpellingCaption(self, getSwitcherStrFromData(data));
-
-         if (!data.getCount()) {
-            _private.setSuggestMarkedKey(self, null);
-         }
-
-         if (result && result.get(CURRENT_TAB_META_FIELD)) {
-            self._tabsSelectedKey = result.get(CURRENT_TAB_META_FIELD);
-         }
-
-         if (self._searchValue && resultData.hasMore && typeof metaData.more === 'number') {
-            resultData.more = metaData.more - data.getCount();
-         }
-      }
-      if (!_private.shouldShowSuggest(self, resultData)) {
-         _private.close(self);
-      }
-   },
-   prepareFilter: function(filter, searchParam, searchValue, minSearchLength, tabId, historyKeys) {
-      var preparedFilter = clone(filter) || {};
-      if (tabId) {
-         preparedFilter.currentTab = tabId;
-      }
-      if (searchValue.length < minSearchLength && historyKeys && historyKeys.length) {
-         preparedFilter[HISTORY_KEYS_FIELD] = historyKeys;
-      }
-      preparedFilter[searchParam] = searchValue;
-      return preparedFilter;
-   },
-   setFilter: function(self, filter, options) {
-      self._filter = this.prepareFilter(filter, options.searchParam, self._searchValue, options.minSearchLength, self._tabsSelectedKey, self._historyKeys);
-   },
-   getEmptyTemplate: function(emptyTemplate) {
-      return emptyTemplate && emptyTemplate.templateName ? emptyTemplate.templateName : emptyTemplate;
-   },
-   updateSuggestState: function(self) {
-      const shouldSearch = _private.shouldSearch(self, self._searchValue);
-
-      if (self._options.historyId && !shouldSearch && !self._options.suggestState) {
-         _private.openWithHistory(self);
-      } else if (shouldSearch || self._options.autoDropDown && !self._options.suggestState) {
-         _private.setFilter(self, self._options.filter, self._options);
-         _private.open(self);
-      } else if (!self._options.autoDropDown) {
-         //autoDropDown - close only on Esc key or deactivate
-         _private.close(self);
-      }
-   },
-
-   getTemplatesToLoad: function(self, options) {
-      var templatesToCheck = ['footerTemplate', 'suggestTemplate', 'emptyTemplate'];
-      var templatesToLoad = [];
-      templatesToCheck.forEach(function(tpl) {
-         if (options[tpl] && options[tpl].templateName && !moduleLoader.isLoaded(options[tpl].templateName)) {
-            templatesToLoad.push(options[tpl].templateName);
-         }
-      });
-      return templatesToLoad;
-   },
-   loadDependencies: function(self, options) {
-      const templatesToLoad = _private.getTemplatesToLoad(self, options);
-      if (!self._dependenciesDeferred || templatesToLoad.length) {
-         self._dependenciesDeferred = mStubs.require(DEPS.concat(templatesToLoad.concat([options.layerName])));
-      }
-      return self._dependenciesDeferred;
-   },
-   setMissSpellingCaption: function(self, value) {
-      self._misspellingCaption = value;
-   },
-   getHistoryService: function(self) {
-      if (!self._historyServiceLoad) {
-         self._historyServiceLoad = new Deferred();
-         require(['Controls/suggestPopup'], function(result) {
-            result.LoadService({
-               historyId: self._options.historyId
-            }).addCallback((result) => {
-               self._historyServiceLoad.callback(result);
-               return result;
-            });
-         });
-      }
-      return self._historyServiceLoad;
-   },
-   getRecentKeys: function(self) {
-      if (self._historyLoad) {
-         return self._historyLoad;
-      }
-
-      self._historyLoad = new Deferred();
-
-      //toDO Пока что делаем лишний вызов на бл, ждем доработки хелпера от Шубина
-      _private.getHistoryService(self).addCallback(function(historyService) {
-         historyService.query().addCallback(function(dataSet) {
-            if (self._historyLoad) {
-               var keys = [];
-               dataSet.getRow().get('recent').each(function(item) {
-                  keys.push(item.get('ObjectId'));
-               });
-               self._historyLoad.callback(keys);
-            }
-         }).addErrback(function() {
-            if (self._historyLoad) {
-               self._historyLoad.callback([]);
-            }
-         });
-
-         return historyService;
-      });
-
-      return self._historyLoad;
-   },
-
-   openSelector: function(self, templateOptions) {
-      if (!self._notify('showSelector', [templateOptions])) {
-         //loading showAll templates
-         requirejs(['Controls/suggestPopup'], function () {
-            StackOpener.openPopup(_private.getSelectorOptions(self, templateOptions));
-         });
-      }
-   },
-
-   isInvalidValidationStatus(options): boolean {
-      return options.validationStatus === 'invalid' ||
-             options.validationStatus === 'invalidAccent';
-   },
-
-   getSelectorOptions(self, templateOptions): IStackPopupOptions {
-      return { ...{
-            opener: self,
-            template: 'Controls/suggestPopup:Dialog',
-            closeOnOutsideClick: true,
-            eventHandlers: {
-               onResult: self._select.bind(self)
-            }
-         }, ...templateOptions};
-   },
-
-   getTemplateOptions(self, filter): IStackPopupOptions {
-      delete filter[HISTORY_KEYS_FIELD];
-      return {
-         templateOptions: {
-            filter: filter,
-            searchValue: self._searchValue,
-            template: 'Controls/suggestPopup:_ListWrapper',
-            templateOptions: {
-               templateName: self._options.suggestTemplate.templateName,
-               templateOptions: self._options.suggestTemplate.templateOptions,
-               searchEndCallback: self._searchEnd,
-               searchStartCallback: self._searchStart,
-               searchErrback: self._searchErrback,
-               emptyTemplate: self._emptyTemplate,
-               source: self._options.source,
-               minSearchLength: self._options.autoDropDown ? 0 : self._options.minSearchLength,
-               navigation: self._options.navigation,
-               sorting: self._options.sorting,
-               searchParam: self._options.searchParam,
-               tabsSelectedKey: self._tabsSelectedKey,
-               layerName: self._options.layerName,
-               searchDelay: self._searchDelay,
-               tabsSelectedKeyChangedCallback: self._tabsSelectedKeyChanged,
-               searchValue: self._searchValue,
-               eventHandlers: {
-                  onResult: self._select.bind(self)
-               }
-            }
-         }
-      };
-   }
-};
+type TSuggestDirection = 'up' | 'down';
 
 /**
  * Контейнер для поля ввода с автодополнением.
@@ -382,23 +106,31 @@ var _private = {
  * @control
  * @private
  */
-var SuggestLayout = Control.extend({
-   _template: template,
+export default class InputContainer extends Control<IInputControllerOptions> {
+   protected _template: TemplateFunction = template;
 
-   //context value
-   _searchValue: '',
-   _inputValue: '',
-   _isFooterShown: false,
-   _filter: null,
-   _tabsSelectedKey: null,
-   _historyKeys: null,
-   _searchResult: null,
-   _searchDelay: null,
-   _dependenciesDeferred: null,
-   _historyLoad: null,
-   _showContent: false,
-   _inputActive: false,
-   _suggestMarkedKey: null,
+   private _searchValue: string = '';
+   private _filter: QueryWhereExpression<unknown> = null;
+   private _tabsSelectedKey: Key = null;
+   private _historyKeys: HistoryKeys = null;
+   private _searchResult: RecordSet = null;
+   private _dependenciesDeferred: Deferred = null;
+   private _historyLoad: Deferred = null;
+   private _historyServiceLoad: Deferred = null;
+   private _showContent: boolean = false;
+   private _inputActive: boolean = false;
+   private _suggestMarkedKey: Key = null;
+   private _misspellingCaption: string = null;
+   private _suggestDirection: TSuggestDirection = null;
+   private _markerVisibility: TVisibility = 'onactivated';
+
+   private _errorController: dataSourceError.Controller = null;
+   private _errorConfig: dataSourceError.ViewConfig | void = null;
+   private _pendingErrorConfig: dataSourceError.ViewConfig | void = null;
+
+   private _searchResolverController: SearchResolverController = null;
+   private _sourceController: SourceController = null;
+   private _searchController: SearchController = null;
 
    /**
     * three state flag
@@ -406,40 +138,439 @@ var SuggestLayout = Control.extend({
     * true - loading data now
     * false - data loading ended
     */
-   _loading: null,
+   private _loading: TState = null;
 
-   // <editor-fold desc="LifeCycle">
-   _beforeMount: function(options) {
-      this._searchStart = this._searchStart.bind(this);
-      this._searchEnd = this._searchEnd.bind(this);
-      this._searchErrback = this._searchErrback.bind(this);
-      this._searchDelay = options.searchDelay;
-      this._emptyTemplate = _private.getEmptyTemplate(options.emptyTemplate);
-      this._tabsSelectedKeyChanged = this._tabsSelectedKeyChanged.bind(this);
-      if (_private.isValueLengthLongerThenMinSearchLength(options.value, options)) {
-         _private.setSearchValue(this, options.value);
+   private _moreCount: number;
+   private _input: Control;
+   private _emptyTemplate: IEmptyTemplateProp | string;
+
+   protected _children: {
+      layerOpener: typeof __ContentLayer | typeof __PopupLayer;
+      indicator: any;
+      inputKeydown: any;
+   };
+
+   private _suggestStateNotify(state: boolean, options: IInputControllerOptions = this._options): void {
+      if (options.suggestState !== state) {
+         this._notify('suggestStateChanged', [state]);
+      } else {
+         this._forceUpdate();
       }
-      _private.setFilter(this, options.filter, options);
-   },
-   _beforeUnmount: function() {
+   }
+
+   private _setCloseState(): void {
+      this._showContent = false;
+      this._loading = null;
+      this._errorConfig = null;
+      this._pendingErrorConfig = null;
+
+      // when closing popup we reset the cache with recent keys
+      this._historyLoad = null;
+      this._historyKeys = null;
+      this._suggestDirection = null;
+      this._setMisspellingCaption(null);
+      this._markerVisibility = 'onactivated';
+   }
+
+   private _setSuggestMarkedKey(key: Key): void {
+      const currentMarkedKey = this._suggestMarkedKey;
+      this._suggestMarkedKey = key;
+
+      if (currentMarkedKey !== this._suggestMarkedKey) {
+         this._notify('suggestMarkedKeyChanged', [key]);
+      }
+   }
+
+   private _close(options?: IInputControllerOptions): void {
+      this._setCloseState();
+      this._suggestStateNotify(false, options);
+
+      if (this._dependenciesDeferred && !this._dependenciesDeferred.isReady()) {
+         this._dependenciesDeferred.cancel();
+         this._dependenciesDeferred = null;
+      }
+   }
+
+   private _open(): void {
+      this._loadDependencies(this._options).addCallback(() => {
+         // focus can be moved out while dependencies loading
+         if (this._inputActive) {
+            this._suggestStateNotify(true);
+         }
+      });
+   }
+
+   private _closePopup(): void {
+      const layerOpener = this._children.layerOpener;
+      if (layerOpener) { layerOpener.close(); }
+   }
+
+   private _openWithHistory(): void {
+      let filter: QueryWhereExpression<unknown>;
+
+      const openSuggestIfNeeded = (): void => {
+         if (this._historyKeys.length || this._options.autoDropDown) {
+            this._open();
+         }
+      };
+
+      if (!this._historyKeys) {
+         this._getRecentKeys().addCallback((keys: string[]) => {
+            this._historyKeys = keys || [];
+            filter = clone(this._options.filter || {});
+
+            if (this._historyKeys.length) {
+               filter[HISTORY_KEYS_FIELD] = this._historyKeys;
+            }
+
+            this._setFilter(filter, this._options);
+
+            openSuggestIfNeeded();
+            return this._historyKeys;
+         });
+      } else {
+         this._setFilter(this._options.filter, this._options);
+         openSuggestIfNeeded();
+      }
+   }
+
+   private _suggestDirectionChangedCallback(direction: TSuggestDirection): void {
+      this._suggestDirection = direction;
+      if (direction === 'up') {
+         this._setItems(this._sourceController.getItems());
+      }
+   }
+
+   private _inputActivated(): Promise<void> {
+
+      // toDO Временный костыль, в .320 убрать, должно исправиться с этой ошибкой
+      // https://online.sbis.ru/opendoc.html?guid=d0f7513f-7fc8-47f8-8147-8535d69b99d6
+      if ((this._options.autoDropDown || this._options.historyId) && !this._options.readOnly
+         && !this._getActiveElement().classList.contains('controls-Lookup__icon')) {
+         if (!this._options.suggestState) {
+            return this._getSourceController().load().then((recordSet) => {
+               if (recordSet instanceof RecordSet) {
+                  this._setItems(recordSet);
+                  this._updateSuggestState();
+               }
+            });
+         }
+      }
+      return Promise.resolve();
+   }
+
+   private _setItems(recordSet: RecordSet): void {
+      if (this._suggestDirection === 'up') {
+         this._sourceController.setItems(this._reverseData(recordSet));
+      } else {
+         this._sourceController.setItems(recordSet);
+      }
+   }
+
+   private _getActiveElement(): Element {
+      return document.activeElement;
+   }
+
+   private _hideIndicator(): void {
+      if (this._children.indicator) {
+         this._children.indicator.hide();
+      }
+   }
+   private _searchErrback(error: CancelableError): void {
+      // aborting of the search may be caused before the search start, because of the delay before searching
+      if (this._loading !== null) {
+         this._loading = false;
+         this._forceUpdate();
+      }
+      if (!error?.canceled) {
+         this._hideIndicator();
+
+         this.getErrorController().process({
+            error,
+            theme: this._options.theme,
+            mode: dataSourceError.Mode.include
+         }).then((errorConfig: dataSourceError.ViewConfig|void): dataSourceError.ViewConfig|void => {
+            this._pendingErrorConfig = errorConfig;
+            this._open();
+         });
+      }
+   }
+
+   // TODO remove?
+   private _isValueLengthLongerThenMinSearchLength(value: string, options: IInputControllerOptions): boolean {
+     return value && value.length >= options.minSearchLength;
+   }
+
+   private _shouldShowSuggest(searchResult: RecordSet): boolean {
+      const hasItems = searchResult && searchResult.getCount();
+      const isSuggestHasTabs = this._tabsSelectedKey !== null;
+
+      /* do not suggest if:
+       * 1) loaded list is empty and empty template option is doesn't set
+       * 2) loaded list is empty and list loaded from history, expect that the list is loaded from history, because input field is empty and historyId options is set  */
+      return !!(hasItems ||
+         (!this._options.historyId || this._searchValue || isSuggestHasTabs) &&
+         this._options.emptyTemplate && searchResult !== null);
+   }
+
+   private _processResultData(data: RecordSet): void {
+      this._searchResult = data;
+
+      if (data) {
+         const metaData = data && data.getMetaData();
+         const result = metaData.results;
+
+         this._setMisspellingCaption(getSwitcherStrFromData(data));
+
+         if (!data.getCount()) {
+            this._setSuggestMarkedKey(null);
+         }
+
+         if (result && result.get(CURRENT_TAB_META_FIELD)) {
+            this._tabsSelectedKey = result.get(CURRENT_TAB_META_FIELD);
+         }
+
+         if (this._searchValue && this._getSourceController().hasMoreData('down')
+            && typeof metaData.more === 'number') {
+            this._moreCount = metaData.more - data.getCount();
+         } else {
+            this._moreCount = undefined;
+         }
+      }
+      if (!this._shouldShowSuggest(data)) {
+         this._close();
+      }
+   }
+
+   private _prepareFilter(filter: QueryWhereExpression<unknown>,
+                          searchParam: string,
+                          searchValue: string,
+                          minSearchLength: number,
+                          tabId: Key,
+                          historyKeys: Key[]): QueryWhereExpression<unknown> {
+      const preparedFilter = clone(filter) || {};
+      if (tabId) {
+         preparedFilter.currentTab = tabId;
+      }
+      if (searchValue.length < minSearchLength && historyKeys && historyKeys.length) {
+         preparedFilter[HISTORY_KEYS_FIELD] = historyKeys;
+      }
+      preparedFilter[searchParam] = searchValue;
+
+      return preparedFilter;
+   }
+
+   private _setFilter(filter: QueryWhereExpression<unknown>, options: IInputControllerOptions): void {
+      this._filter = this._prepareFilter(filter,
+         options.searchParam ?? this._options.searchParam,
+         this._searchValue,
+         options.minSearchLength,
+         this._tabsSelectedKey,
+         this._historyKeys
+      );
+      this._getSourceController(options).setFilter(this._filter);
+   }
+
+   private _getEmptyTemplate(emptyTemplate: IEmptyTemplateProp): IEmptyTemplateProp | string {
+      return emptyTemplate && emptyTemplate.templateName ? emptyTemplate.templateName : emptyTemplate;
+   }
+
+   private _reverseData(rs?: RecordSet): RecordSet {
+      const sourceController: SourceController = this._sourceController;
+      const recordSet: RecordSet = rs ?? sourceController.getItems();
+
+      if (recordSet) {
+         for (let i = 0; i < recordSet.getCount(); i++) {
+            recordSet.move(0, recordSet.getCount() - 1 - i);
+         }
+      }
+
+      return recordSet;
+   }
+
+   private _shouldSearch(value: string): boolean {
+      return this._inputActive && this._isValueLengthLongerThenMinSearchLength(value, this._options);
+   }
+
+   private _updateSuggestState(): void {
+      const shouldSearch = this._shouldSearch(this._searchValue);
+
+      if (this._options.historyId && !shouldSearch && !this._options.suggestState) {
+         this._openWithHistory();
+      } else if (shouldSearch || this._options.autoDropDown && !this._options.suggestState) {
+         this._setFilter(this._options.filter, this._options);
+         this._open();
+      } else if (!this._options.autoDropDown) {
+         // autoDropDown - close only on Esc key or deactivate
+         this._close();
+      }
+   }
+
+   private _getTemplatesToLoad(options: IInputControllerOptions): string[] {
+      const templatesToCheck = ['footerTemplate', 'suggestTemplate', 'emptyTemplate'];
+      const templatesToLoad = [];
+      templatesToCheck.forEach((tpl) => {
+         if (options[tpl] && options[tpl].templateName && !moduleLoader.isLoaded(options[tpl].templateName)) {
+            templatesToLoad.push(options[tpl].templateName);
+         }
+      });
+      return templatesToLoad;
+   }
+
+   private _loadDependencies(options: IInputControllerOptions): Deferred {
+      const templatesToLoad = this._getTemplatesToLoad(options);
+      if (!this._dependenciesDeferred || templatesToLoad.length) {
+         this._dependenciesDeferred = mStubs.require(DEPS.concat(templatesToLoad.concat([options.layerName])));
+      }
+      return this._dependenciesDeferred;
+   }
+
+   private _setMisspellingCaption(value: string): void {
+      this._misspellingCaption = value;
+   }
+
+   private _getHistoryService(): Deferred {
+      if (!this._historyServiceLoad) {
+         this._historyServiceLoad = new Deferred();
+         import('Controls/suggestPopup').then(({LoadService}) => {
+            LoadService({
+               historyId: this._options.historyId
+            }).addCallback((result) => {
+               this._historyServiceLoad.callback(result);
+               return result;
+            });
+         });
+      }
+      return this._historyServiceLoad;
+   }
+
+   private _getRecentKeys(): Deffered {
+      if (this._historyLoad) {
+         return this._historyLoad;
+      }
+
+      this._historyLoad = new Deferred();
+
+      // toDO Пока что делаем лишний вызов на бл, ждем доработки хелпера от Шубина
+      this._getHistoryService().addCallback((historyService) => {
+         historyService.query().addCallback((dataSet) => {
+            if (this._historyLoad) {
+               const keys = [];
+               dataSet.getRow().get('recent').each((item) => {
+                  keys.push(item.get('ObjectId'));
+               });
+               this._historyLoad.callback(keys);
+            }
+         }).addErrback(() => {
+            if (this._historyLoad) {
+               this._historyLoad.callback([]);
+            }
+         });
+
+         return historyService;
+      });
+
+      return this._historyLoad;
+   }
+
+   private _openSelector(templateOptions: object): void {
+      if (!this._notify('showSelector', [templateOptions])) {
+         // loading showAll templates_historyLoad
+         import('Controls/suggestPopup').then(() => {
+            StackOpener.openPopup(this._getSelectorOptions(templateOptions));
+         });
+      }
+   }
+
+   private _isInvalidValidationStatus(options: IInputControllerOptions): boolean {
+      return options.validationStatus === 'invalid' ||
+         options.validationStatus === 'invalidAccent';
+   }
+
+   private _getSelectorOptions(templateOptions: object): IStackPopupOptions {
+      return { ...{
+            opener: this,
+            template: 'Controls/suggestPopup:Dialog',
+            closeOnOutsideClick: true,
+            eventHandlers: {
+               onResult: this._select.bind(this)
+            }
+         }, ...templateOptions};
+   }
+
+   private _getTemplateOptions(filter: QueryWhereExpression<unknown>, searchValue: string): IStackPopupOptions {
+      delete filter[HISTORY_KEYS_FIELD];
+      return {
+         templateOptions: {
+            filter,
+            searchValue,
+            template: 'Controls/suggestPopup:_ListWrapper',
+            templateOptions: {
+               filter,
+               templateName: this._options.suggestTemplate.templateName,
+               templateOptions: this._options.suggestTemplate.templateOptions,
+               searchEndCallback: this._loadEnd,
+               searchStartCallback: this._loadStart,
+               searchErrback: this._searchErrback,
+               emptyTemplate: this._emptyTemplate,
+               source: this._options.source,
+               minSearchLength: this._options.autoDropDown ? 0 : this._options.minSearchLength,
+               sorting: this._options.sorting,
+               searchParam: this._options.searchParam,
+               navigation: this._options.navigation,
+               tabsSelectedKey: this._tabsSelectedKey,
+               layerName: this._options.layerName,
+               tabsSelectedKeyChangedCallback: this._tabsSelectedKeyChanged,
+               searchValue,
+               eventHandlers: {
+                  onResult: this._select.bind(this)
+               }
+            }
+         }
+      };
+   }
+
+   protected _beforeMount(options: IInputControllerOptions): void {
+      this._loadStart = this._loadStart.bind(this);
+      this._loadEnd = this._loadEnd.bind(this);
+      this._searchErrback = this._searchErrback.bind(this);
+      this._tabsSelectedKeyChanged = this._tabsSelectedKeyChanged.bind(this);
+      this._suggestDirectionChangedCallback = this._suggestDirectionChangedCallback.bind(this);
+      this._emptyTemplate = this._getEmptyTemplate(options.emptyTemplate);
+      this._searchValue = options.value || '';
+      this._setFilter(options.filter, options);
+
+      if (this._searchValue) {
+         this._resolveSearch(this._searchValue, options);
+      }
+   }
+
+   protected _beforeUnmount(): void {
+      if (this._searchResolverController) {
+         this._searchResolverController.clearTimer();
+      }
       this._searchResult = null;
-      this._searchStart = null;
-      this._searchEnd = null;
+      this._loadStart = null;
+      this._loadEnd = null;
       this._searchErrback = null;
-   },
-   _beforeUpdate(newOptions): void {
+   }
+
+   protected _beforeUpdate(newOptions: IInputControllerOptions): void {
       const valueChanged = this._options.value !== newOptions.value;
       const valueCleared = valueChanged && !newOptions.value && typeof newOptions.value === 'string';
-      const needSearchOnValueChanged = valueChanged && _private.isValueLengthLongerThenMinSearchLength(_private.prepareValue(this, newOptions.value), this._options);
+      const needSearchOnValueChanged = valueChanged &&
+         this._isValueLengthLongerThenMinSearchLength(newOptions.value, newOptions);
       const emptyTemplateChanged = !isEqual(this._options.emptyTemplate, newOptions.emptyTemplate);
-      const footerTempalteChanged = !isEqual(this._options.footerTemplate, newOptions.footerTemplate);
+      const footerTemplateChanged = !isEqual(this._options.footerTemplate, newOptions.footerTemplate);
 
       if (newOptions.suggestState !== this._options.suggestState) {
          if (newOptions.suggestState) {
-            _private.open(this);
+            if (!this._searchResult) {
+               this._resolveLoad(this._searchValue);
+            }
          } else {
-            _private.setCloseState(this);
-            _private.setSuggestMarkedKey(this, null);
+            this._setCloseState();
+            this._setSuggestMarkedKey(null);
          }
       }
 
@@ -447,91 +578,177 @@ var SuggestLayout = Control.extend({
          this._searchValue = newOptions.value;
 
          if (this._options.suggestState && newOptions.suggestState) {
-            _private.updateSuggestState(this);
+            this._updateSuggestState();
+
+            if (this._showContent) {
+               this._setFilter(newOptions.filter, newOptions);
+               this._resolveLoad();
+            }
          }
       }
 
       if (needSearchOnValueChanged || valueCleared || !isEqual(this._options.filter, newOptions.filter)) {
-         _private.setFilter(this, newOptions.filter, newOptions);
+         this._setFilter(newOptions.filter, newOptions);
       }
 
       if (emptyTemplateChanged) {
-         this._emptyTemplate = _private.getEmptyTemplate(newOptions.emptyTemplate);
-
+         this._emptyTemplate = this._getEmptyTemplate(newOptions.emptyTemplate);
       }
 
-      if ((emptyTemplateChanged || footerTempalteChanged) && newOptions.suggestState ) {
-         _private.loadDependencies(this, newOptions);
+      if ((emptyTemplateChanged || footerTemplateChanged) && newOptions.suggestState ) {
+         this._loadDependencies(newOptions);
       }
 
-      if (this._options.searchDelay !== newOptions.searchDelay) {
-         this._searchDelay = newOptions.searchDelay;
+      if (this._options.searchDelay !== newOptions.searchDelay && this._searchResolverController) {
+         this._searchResolverController.updateOptions(
+             this._getSearchResolverOptions(newOptions)
+         );
       }
 
       if (this._options.validationStatus !== newOptions.validationStatus &&
-          _private.isInvalidValidationStatus(newOptions) && !_private.isInvalidValidationStatus(this._options)) {
-         _private.close(this, newOptions);
+         this._isInvalidValidationStatus(newOptions) && !this._isInvalidValidationStatus(this._options)) {
+         this._close(newOptions);
       }
-   },
-   _afterUpdate: function() {
-      if (this._options.suggestState && this._loading === false && !this._showContent) {
+   }
+
+   protected _afterUpdate(): void {
+      if (this._showContent && this._pendingErrorConfig) {
+         this._errorConfig = this._pendingErrorConfig;
+         this._pendingErrorConfig = null;
+      }
+      if (this._options.suggestState && !this._loading && !this._showContent) {
          this._showContent = true;
-         this._forceUpdate();
       }
-   },
+   }
 
    // TODO Нужно удалить после https://online.sbis.ru/opendoc.html?guid=403837db-4075-4080-8317-5a37fa71b64a
    inputReadyHandler(_: Event, input: Control): void {
       this._input = input;
-   },
+   }
 
-   // </editor-fold>
-   // <editor-fold desc="handlers">
-
-   _close(event: SyntheticEvent<'close'>): void {
+   protected _closeHandler(event: SyntheticEvent): void {
       event.stopPropagation();
-      _private.close(this);
-   },
-   _changeValueHandler: function(event, value) {
-      var self = this;
-      var shouldSearch;
+      this._close();
+   }
 
-      value = _private.prepareValue(self, value);
-      shouldSearch = _private.shouldSearch(this, value);
-
+   protected _changeValueHandler(event: SyntheticEvent, value: string): Promise<void> {
       /* preload suggest dependencies on value changed */
-      _private.loadDependencies(this, this._options);
-      this._searchDelay = this._options.searchDelay;
+      this._loadDependencies(this._options);
 
-      _private.setSearchValue(self, shouldSearch ? value : '');
-      _private.setFilter(self, self._options.filter, self._options);
-      _private.updateSuggestState(this);
-   },
-   _inputActivated(): void {
-      this._inputActive = true;
-      if (!_private.isInvalidValidationStatus(this._options)) {
-         _private.inputActivated(this);
+      return this._resolveSearch(value);
+   }
+
+   protected async _resolveSearch(value: string, options?: IInputControllerOptions): Promise<void> {
+      if (!this._searchResolverController) {
+         const result = await import('Controls/searchNew');
+         this._searchResolverController = new result.SearchResolver(
+            this._getSearchResolverOptions(options ?? this._options)
+         );
       }
-   },
+      this._searchResolverController.resolve(value);
+   }
 
-   _inputDeactivated: function() {
+   private async _resolveLoad(value?: string): Promise<RecordSet> {
+      this._loadStart();
+      if (value) {
+         this._searchValue = value;
+         return (await this._getSearchController()).search(value).then((recordSet) => {
+            this._loadEnd(recordSet);
+
+            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+               this._setItems(recordSet);
+               this._setFilter(this._options.filter, this._options);
+               this._open();
+               this._markerVisibility = 'visible';
+            }
+
+            return recordSet;
+         });
+      } else {
+         return this._getSourceController().load().then((recordSet) => {
+            if (recordSet instanceof RecordSet) {
+               this._setItems(recordSet);
+               this._loadEnd(recordSet);
+               return recordSet as RecordSet;
+            }
+         });
+      }
+   }
+
+   private _getSearchResolverOptions(options: IInputControllerOptions): ISearchResolverOptions {
+      return {
+         delayTime: options.searchDelay,
+         minSearchLength: options.minSearchLength,
+         searchCallback: (validatedValue: string) => this._resolveLoad(validatedValue),
+         searchResetCallback: async () => (await this._getSearchController()).reset()
+      };
+   }
+
+   protected async _getSearchController(): Promise<SearchController> {
+      if (!this._searchController) {
+         return import('Controls/searchNew').then((result) => {
+            this._searchController = new result.Controller({
+               sourceController: this._getSourceController(),
+               minSearchLength: this._options.minSearchLength,
+               searchDelay: this._options.searchDelay as number,
+               searchParam: this._options.searchParam,
+               searchValueTrim: this._options.trim
+            });
+            return this._searchController;
+         });
+      }
+      return this._searchController;
+   }
+
+   protected _getSourceController(options?: IInputControllerOptions): SourceController {
+      if (!this._sourceController) {
+         this._sourceController = new SourceController({
+            dataLoadErrback: (error) => this._searchErrback(error),
+            filter: this._filter,
+            keyProperty: this._options.keyProperty,
+            navigation: this._options.navigation,
+            sorting: this._options.sorting,
+            source: this._options.source,
+            parentProperty: undefined,
+            root: undefined,
+            ...options
+         });
+      }
+      return this._sourceController;
+   }
+
+   protected _inputActivatedHandler(event: SyntheticEvent): Promise<void> {
+      this._inputActive = true;
+      if (!this._isInvalidValidationStatus(this._options)) {
+         return this._inputActivated();
+      }
+      return Promise.resolve();
+   }
+
+   protected _inputDeactivated(): void {
       this._inputActive = false;
-   },
+   }
 
-   _inputClicked: function() {
+   protected _inputClicked(): Promise<void> {
       this._inputActive = true;
       if (!this._options.suggestState) {
-         _private.inputActivated(this);
+         return this._inputActivated();
       }
-   },
-   _tabsSelectedKeyChanged: function(key) {
-      this._searchDelay = 0;
-      _private.setSuggestMarkedKey(this, null);
+      return Promise.resolve();
+   }
+
+   protected async _tabsSelectedKeyChanged(key: Key): Promise<void> {
+      this._setSuggestMarkedKey(null);
 
       // change only filter for query, tabSelectedKey will be changed after processing query result,
       // otherwise interface will blink
       if (this._tabsSelectedKey !== key) {
-         this._filter = _private.prepareFilter(this._options.filter, this._options.searchParam, this._searchValue, this._options.minSearchLength, key, this._historyKeys);
+         this._filter = this._prepareFilter(this._options.filter,
+            this._options.searchParam,
+            this._searchValue, this._options.minSearchLength, key, this._historyKeys);
+         const sourceController = this._getSourceController();
+         sourceController.setFilter(this._filter);
+         await this._resolveLoad();
       }
 
       // move focus from tabs to input, after change tab
@@ -540,31 +757,28 @@ var SuggestLayout = Control.extend({
       /* because activate() does not call _forceUpdate and _tabsSelectedKeyChanged is callback function,
          we should call _forceUpdate, otherwise child controls (like suggestionsList) does not get new filter */
       this._forceUpdate();
-   },
+   }
 
-   // <editor-fold desc="List handlers">
+   protected _select(event: SyntheticEvent, item: Model): void {
+      const newItem = item || event;
 
-   _select: function(event, item) {
-      item = item || event;
-      _private.close(this);
-      _private.closePopup(this);
-      this._notify('choose', [item]);
+      this._close();
+      this._closePopup();
+      this._notify('choose', [newItem]);
 
       if (this._options.historyId) {
-         _private.getHistoryService(this).addCallback(function(historyService) {
-            historyService.update(item, {$_history: true});
+         this._getHistoryService().addCallback((historyService) => {
+            historyService.update(newItem, {$_history: true});
             return historyService;
          });
       }
-   },
+   }
 
-   _markedKeyChangedHandler: function(event, key) {
-      _private.setSuggestMarkedKey(this, key);
-   },
+   protected _markedKeyChangedHandler(event: SyntheticEvent, key: string): void {
+      this._setSuggestMarkedKey(key);
+   }
 
-   // </editor-fold>
-
-   _searchStart: function() {
+   protected _loadStart(): void {
       this._loading = true;
       // Обновим таймер, т.к. могут прерывать поиск новыми запросами
       if (this._children.indicator) {
@@ -574,57 +788,65 @@ var SuggestLayout = Control.extend({
       if (this._options.searchStartCallback) {
          this._options.searchStartCallback();
       }
-   },
-   _searchEnd: function(result) {
-      if (!this._destroyed) {
-         if (this._options.suggestState && this._loading) {
-            this._loading = false;
+   }
 
-            // _searchEnd may be called synchronously, for example, if local source is used,
-            // then we must check, that indicator was created
-            if (this._children.indicator) {
-               this._children.indicator.hide();
-            }
-         }
-         this._searchDelay = this._options.searchDelay;
-         _private.processResultData(this, result);
-         if (this._options.searchEndCallback) {
-            this._options.searchEndCallback();
+   protected _loadEnd(result: RecordSet): void {
+      if (this._loading) {
+         this._loading = false;
+
+         // _searchEnd may be called synchronously, for example, if local source is used,
+         // then we must check, that indicator was created
+         if (this._children.indicator) {
+            this._children.indicator.hide();
          }
       }
-   },
+      this._processResultData(result);
+      if (this._options.searchEndCallback) {
+         this._options.searchEndCallback();
+      }
+   }
 
-   _searchErrback: function(error) {
-      _private.searchErrback(this, error);
+   _searchErrbackHandler(error: CancelableError): void {
+      this._searchErrback(error);
       if (this._options.searchErrorCallback) {
          this._options.searchErrorCallback();
       }
-   },
-   _showAllClick: function() {
-      var filter = clone(this._filter) || {};
+   }
+
+   getErrorController(): dataSourceError.Controller {
+      if (!this._errorController) {
+         this._errorController = new dataSourceError.Controller({});
+      }
+      return this._errorController;
+   }
+
+   protected _showAllClick(): void {
+      const filter = clone(this._filter) || {};
 
       filter[this._options.searchParam] = '';
-      _private.openSelector(this, _private.getTemplateOptions(this, filter));
-      _private.close(this);
-   },
+      this._openSelector(this._getTemplateOptions(filter, ''));
+      this._close();
+   }
 
-   _moreClick: function() {
-      _private.openSelector(this, _private.getTemplateOptions(this, this._filter));
-      _private.close(this);
-   },
+   protected _moreClick(): void {
+      this._openSelector(this._getTemplateOptions(this._filter, this._searchValue));
+      this._close();
+   }
 
-   _missSpellClick: function() {
+   protected _misspellClick(): Promise<void> {
       // Return focus to the input field by changing the keyboard layout
       this.activate();
-      this._notify('valueChanged', [this._misspellingCaption])
-      this._changeValueHandler(null, this._misspellingCaption);
-      _private.setMissSpellingCaption(this, '');
-   },
+      this._notify('valueChanged', [this._misspellingCaption]);
+      return this._changeValueHandler(null, this._misspellingCaption).then(() => {
+         this._setMisspellingCaption('');
+      });
+   }
 
-   _keydown: function(event) {
-      var eventKeyCode = event.nativeEvent.keyCode;
-      var isInputKey = PROCESSED_KEYDOWN_KEYS.INPUT.indexOf(eventKeyCode) !== -1;
-      var isListKey = eventKeyCode === ENTER_KEY ? this._suggestMarkedKey !== null : PROCESSED_KEYDOWN_KEYS.SUGGESTIONS_LIST.indexOf(eventKeyCode) !== -1;
+   protected _keydown(event: SyntheticEvent<KeyboardEvent>): void {
+      const eventKeyCode = event.nativeEvent.keyCode;
+      const isInputKey = PROCESSED_KEYDOWN_KEYS.INPUT.indexOf(eventKeyCode) !== -1;
+      const isListKey = eventKeyCode === ENTER_KEY ? this._suggestMarkedKey !== null :
+         PROCESSED_KEYDOWN_KEYS.SUGGESTIONS_LIST.indexOf(eventKeyCode) !== -1;
 
       if (this._options.suggestState) {
          if (isListKey || isInputKey) {
@@ -646,36 +868,32 @@ var SuggestLayout = Control.extend({
             }
          } else if (isInputKey) {
             if (eventKeyCode === Env.constants.key.esc) {
-               _private.close(this);
+               this._close();
             }
          }
       }
    }
 
-   // </editor-fold>
-});
+   static _theme: string[] = ['Controls/suggest'];
 
-// <editor-fold desc="OptionsDesc">
-SuggestLayout.getOptionTypes = function() {
-   return {
-      searchParam: descriptor(String).required()
-   };
-};
-SuggestLayout.getDefaultOptions = function() {
-   return {
-      emptyTemplate: {
-         templateName: 'Controls/suggestPopup:EmptyTemplate'
-      },
-      footerTemplate: {
-         templateName: 'Controls/suggestPopup:FooterTemplate'
-      },
-      suggestStyle: 'default',
-      suggestState: false,
-      minSearchLength: 3
-   };
-};
+   static getOptionTypes(): object {
+      return {
+         searchParam: descriptor(String).required()
+      };
+   }
 
-// </editor-fold>
-SuggestLayout._theme = ['Controls/suggest'];
-SuggestLayout._private = _private;
-export = SuggestLayout;
+   static getDefaultOptions(): object {
+      return {
+         emptyTemplate: {
+            templateName: 'Controls/suggestPopup:EmptyTemplate'
+         },
+         footerTemplate: {
+            templateName: 'Controls/suggestPopup:FooterTemplate'
+         },
+         suggestStyle: 'default',
+         suggestState: false,
+         minSearchLength: 3,
+         searchDelay: 500
+      };
+   }
+}

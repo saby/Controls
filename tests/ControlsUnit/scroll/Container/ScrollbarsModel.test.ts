@@ -3,7 +3,7 @@ import {getDefaultOptions as getScrollbarsDefaultOptions} from 'Controls/_scroll
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
 import {SCROLL_DIRECTION} from 'Controls/_scroll/Utils/Scroll';
 
-describe('Controls/scroll:ContainerNew ScrollbarsModel', () => {
+describe('Controls/scroll:Container ScrollbarsModel', () => {
 
     describe('constructor', () => {
         [{

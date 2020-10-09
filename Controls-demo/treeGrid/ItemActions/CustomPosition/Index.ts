@@ -9,7 +9,7 @@ import * as Template from 'wml!Controls-demo/treeGrid/ItemActions/CustomPosition
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _itemActions: IItemAction[] = getItemActions();
+    protected _itemActions: IItemAction[] = getItemActions().slice(1);
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/Header/LongHeader/LongHeader';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

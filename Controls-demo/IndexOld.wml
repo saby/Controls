@@ -570,9 +570,26 @@
          </div>
 
          <h1>PropertyGrid</h1>
-         <a href="Controls-demo%252FPropertyGridNew%252FPropertyGrid?withoutLayout=true">
-            PropertyGrid
-         </a>
+         <div>
+            <a href="Controls-demo%252FPropertyGridNew%252FPropertyGrid?withoutLayout=true">
+               PropertyGrid
+            </a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FPropertyGridNew%252FEditors%252FFlatEnum%252FDemo">
+               FlatEnumEditor
+            </a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FPropertyGridNew%252FEditors%252FBooleanGroup%252FDemo">
+               BooleanGroupEditor
+            </a>
+         </div>
+         <div>
+            <a href="Controls-demo%252FPropertyGridNew%252FEditors%252FNumber%252FDemo">
+               NumberEditor
+            </a>
+         </div>
 
          <h1>CompoundContainer</h1>
          <div>

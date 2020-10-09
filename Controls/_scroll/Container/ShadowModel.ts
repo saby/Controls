@@ -30,7 +30,7 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     private _position: POSITION;
     private _direction: SCROLL_DIRECTION;
     private _type: SHADOW_TYPE;
-    private _isEnabled: boolean = true;
+    private _isEnabled: boolean = false;
     private _isVisible: boolean = false;
     private _isStickyFixed: boolean = false;
     private _scrollState: IScrollState = {

@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import { IOpener, IBaseOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
+import {loadModule, getModuleByName} from 'Controls/_popup/utils/moduleHelper';
 import * as CoreMerge from 'Core/core-merge';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
@@ -42,15 +43,8 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     private _openerUnmounted: boolean = false;
     private _indicatorId: string = '';
     private _loadModulesPromise: Promise<ILoadDependencies|Error>;
-    private _openerUpdateCallback: Function;
-
-    protected _afterMount(): void {
-        this._openerUpdateCallback = this._updatePopup.bind(this);
-        this._notify('registerOpenerUpdateCallback', [this._openerUpdateCallback], {bubbling: true});
-    }
 
     protected _beforeUnmount(): void {
-        this._notify('unregisterOpenerUpdateCallback', [this._openerUpdateCallback], {bubbling: true});
         this._toggleIndicator(false);
         this._openerUnmounted = true;
         if (this._options.closePopupBeforeUnmount) {
@@ -139,8 +133,8 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     }
 
     private _getModulesSync(config: TBaseOpenerOptions, controller: string): ILoadDependencies|null {
-        const templateModule = BaseOpenerUtil.getModule(config.template);
-        const controllerModule = BaseOpenerUtil.getModule(controller);
+        const templateModule = getModuleByName(config.template);
+        const controllerModule = getModuleByName(controller);
         if (templateModule && controllerModule) {
             return {
                 template: templateModule,
@@ -221,7 +215,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
         }
     }
 
-    private _toggleIndicator(visible: boolean, cfg: TBaseOpenerOptions): void {
+    private _toggleIndicator(visible: boolean, cfg?: TBaseOpenerOptions): void {
         if (!this._options.showIndicator) {
             return;
         }
@@ -237,14 +231,6 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
             this._notify('hideIndicator', [this._indicatorId], {bubbling: true});
             this._indicatorId = null;
         }
-    }
-
-    protected _updatePopup(): void {
-        ManagerController.popupUpdated(this._getCurrentPopupId());
-    }
-
-    private _closeOnTargetScroll(): void {
-        this.close();
     }
 
     protected _getCurrentPopupId(): string {
@@ -384,7 +370,7 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
      * @private
      */
     static requireModule(module: string|Control): Promise<Control> {
-        return BaseOpenerUtil.requireModule(module);
+        return loadModule(module);
     }
 
     static getConfig(options: IBaseOpenerOptions, popupOptions: IBaseOpenerOptions): IBaseOpenerOptions {

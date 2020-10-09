@@ -3,7 +3,7 @@ import Template = require('wml!Controls-demo/toggle/Switch/CaptionPosition/Templ
 
 class CaptionPosition extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
-    protected _value: boolean = false;
+    protected _value: boolean = true;
     protected _value2: boolean = false;
 
     static _theme: string[] = ['Controls/Classes'];

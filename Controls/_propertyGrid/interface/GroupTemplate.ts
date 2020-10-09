@@ -9,8 +9,8 @@
  *
  *
  * @example
- * WML:
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/propertyGrid:GroupTemplate"

@@ -17,9 +17,12 @@ class SliderBase extends Control<ISliderBaseOptions> {
     protected _isDrag: boolean = false;
 
     _getValue(event: SyntheticEvent<MouseEvent | TouchEvent>): number {
-        const targetX = Utils.getNativeEventPageX(event);
+        const target = this._options.direction === 'vertical' ? Utils.getNativeEventPageY(event) :
+            Utils.getNativeEventPageX(event);
         const box = this._children.area.getBoundingClientRect();
-        const ratio = Utils.getRatio(targetX, box.left + window.pageXOffset, box.width);
+        const ratio = this._options.direction === 'vertical' ?
+            Utils.getRatio(target, box.top + window.pageYOffset, box.height) :
+            Utils.getRatio(target, box.left + window.pageXOffset, box.width);
         return Utils.calcValue(this._options.minValue, this._options.maxValue, ratio, this._options.precision);
     }
 
@@ -29,7 +32,7 @@ class SliderBase extends Control<ISliderBaseOptions> {
             this._tooltipValue = this._options.tooltipFormatter ? this._options.tooltipFormatter(this._tooltipPosition)
                 : this._tooltipPosition;
 
-            // На мобилках события ухода мыши не стряляют (если не ткнуть пальцем в какую-то область)
+            // На мобилках события ухода мыши не стреляют (если не ткнуть пальцем в какую-то область)
             // В этом случае, по стандарту, скрываю тултип через 3 секунды.
             if (constants.browser.isMobileIOS || constants.browser.isMobileAndroid) {
                 if (this._hideTooltipTimerId) {
@@ -66,6 +69,7 @@ class SliderBase extends Control<ISliderBaseOptions> {
     static getDefaultOptions() {
         return {
             size: 'm',
+            direction: 'horizontal',
             borderVisible: false,
             tooltipVisible: true,
             minValue: undefined,
@@ -81,6 +85,10 @@ class SliderBase extends Control<ISliderBaseOptions> {
             size: EntityDescriptor(String).oneOf([
                 's',
                 'm'
+            ]),
+            direction: EntityDescriptor(String).oneOf([
+                'horizontal',
+                'vertical'
             ]),
             borderVisible: EntityDescriptor(Boolean),
             tooltipVisible: EntityDescriptor(Boolean),

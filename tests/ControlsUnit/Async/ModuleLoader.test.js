@@ -18,10 +18,6 @@ define("ControlsUnit/Async/ModuleLoader.test", ["require", "exports", "chai", "C
         afterEach(function () {
             IoC.bind('ILogger', originalLogger);
         });
-        /* Хак. Потому что сломан require в юнит тестах
-            @link https://online.sbis.ru/opendoc.html?guid=b2f93ecc-5b43-4bf1-a2c0-684cc621c314
-        */
-        requirejs(['ControlsUnit/Async/Fail/TestModule'], function () { return undefined; }, function () { return undefined; });
         it('loadAsync failed', function () {
             var ml = new ModuleLoader();
             return ml.loadAsync('ControlsUnit/Async/Fail/TestModule').then(function () {

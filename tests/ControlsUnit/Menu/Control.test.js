@@ -11,23 +11,30 @@ define(
    ],
    function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
       describe('Menu:Control', function() {
-         let defaultItems = [
-            { key: 0, title: 'все страны' },
-            { key: 1, title: 'Россия' },
-            { key: 2, title: 'США' },
-            { key: 3, title: 'Великобритания' }
-         ];
+         function getDefaultItems() {
+            return [
+               { key: 0, title: 'все страны' },
+               { key: 1, title: 'Россия' },
+               { key: 2, title: 'США' },
+               { key: 3, title: 'Великобритания' }
+            ];
+         }
 
-         let defaultOptions = {
-            displayProperty: 'title',
-            keyProperty: 'key',
-            selectedKeys: [],
-            root: null,
-            source: new source.Memory({
+         function getDefaultOptions() {
+            return {
+               displayProperty: 'title',
                keyProperty: 'key',
-               data: defaultItems
-            })
-         };
+               selectedKeys: [],
+               root: null,
+               source: new source.Memory({
+                  keyProperty: 'key',
+                  data: getDefaultItems()
+               })
+            };
+         }
+
+         let defaultItems = getDefaultItems();
+         let defaultOptions = getDefaultOptions();
 
          let getListModel = function(items) {
             return new display.Collection({
@@ -47,14 +54,10 @@ define(
          };
 
          describe('loadItems', () => {
-            it('loadItems returns items', () => {
-               let menuControl = getMenu();
-               return new Promise((resolve) => {
-                  menuControl._loadItems(defaultOptions).addCallback((items) => {
-                     assert.deepEqual(items.getRawData(), defaultItems);
-                     resolve();
-                  });
-               });
+            it('loadItems returns items', async() => {
+               const menuControl = getMenu();
+               const items = await menuControl._loadItems(defaultOptions);
+               assert.deepEqual(items.getRawData().length, defaultItems.length);
             });
 
             it('with navigation', () => {
@@ -192,6 +195,22 @@ define(
                const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
                assert.isFalse(result, 'level is not first');
                assert.equal(menuControl._visibleIds.length, 0);
+            });
+
+            it('expandButton hidden, history menu, with parent', () => {
+               let records = [];
+               for (let i = 0; i < 20; i++) {
+                  records.push({ parent: i < 15 });
+               }
+               items = new collection.RecordSet({
+                  rawData: records,
+                  keyProperty: 'key'
+               });
+               const newMenuOptions = { allowPin: true, root: null, parentProperty: 'parent' };
+
+               const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
+               assert.isFalse(result);
+               assert.equal(menuControl._visibleIds.length, 5);
             });
          });
 
@@ -551,18 +570,6 @@ define(
             assert.isFalse(isClosed);
          });
 
-         it('getSelectedItemsByKeys', function() {
-            let listModel = getListModel();
-            let menuControl = getMenu();
-            let selectedKeys = [2, 3];
-            let selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 2);
-
-            selectedKeys = [];
-            selectedItems = menuControl._getSelectedItemsByKeys(listModel, selectedKeys);
-            assert.equal(selectedItems.length, 0);
-         });
-
          it('_openSelectorDialog', function() {
             let menuOptions = Clone(defaultOptions);
             menuOptions.selectorTemplate = {
@@ -808,6 +815,21 @@ define(
                assert.equal(nativeEvent, 'testEvent');
                assert.deepEqual(eventResult, { item: 'item2' });
                assert.isTrue(stubClose.notCalled);
+            });
+         });
+
+         describe('multiSelect: true', () => {
+            it('_beforeUpdate hook', async() => {
+               const options = {
+                  ...getDefaultOptions(),
+                  selectedKeys: [null]
+               };
+               const menuControl = new menu.Control(options);
+               await menuControl._beforeMount(options);
+               menuControl.saveOptions(options);
+
+               menuControl._beforeUpdate(options);
+               assert.equal(menuControl._markerController.getMarkedKey(), null);
             });
          });
 

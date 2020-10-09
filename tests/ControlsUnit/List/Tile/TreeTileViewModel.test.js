@@ -12,6 +12,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             parentProperty: 'parent',
             nodeProperty: 'parent@',
             displayProperty: 'title',
+            theme: 'default',
             imageWidthProperty: 'imageWidth',
             imageHeightProperty: 'imageHeight',
             imageFit: 'cover',
@@ -56,6 +57,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          parentProperty: 'parent',
          nodeProperty: 'parent@',
          groupProperty: 'group',
+         theme: 'default',
          items: new collection.RecordSet({
             rawData: [{
                'id': 1,
@@ -165,7 +167,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
 
       it('getMultiSelectClassList onhover selected', function() {
          treeTileViewModel.setMultiSelectVisibility('onhover');
-         treeTileViewModel.setSelectedItems([treeTileViewModel.getItemById(2, 'id').getContents(), treeTileViewModel.getItemById(3, 'id').getContents()], true);
+         treeTileViewModel.setSelectedItems([treeTileViewModel.getItemById(2, 'id'), treeTileViewModel.getItemById(3, 'id')], true);
          var item = treeTileViewModel.getItemDataByItem(treeTileViewModel.getItemById(2, 'id'));
          assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox js-controls-TileView__withoutZoom');
          item = treeTileViewModel.getItemDataByItem(treeTileViewModel.getItemById(3, 'id'));
@@ -215,6 +217,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             defaultItemWidth: 250,
             imageProperty: 'image',
             itemCompressionCoefficient: 0.7,
+            itemClasses: 'controls-TileView__item_spacingLeft_default_theme-default controls-TileView__item_spacingRight_default_theme-default controls-TileView__item_spacingTop_default_theme-default controls-TileView__item_spacingBottom_default_theme-default',
             itemsHeight: 200,
             defaultShadowVisibility: 'visible',
             tileMode: 'dynamic',

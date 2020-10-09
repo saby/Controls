@@ -2,12 +2,12 @@ import CollectionItem from '../CollectionItem';
 import GroupItem from '../GroupItem';
 import Collection from '../Collection';
 import { mixin } from 'Types/util';
-import { DestroyableMixin } from 'Types/entity';
+import { DestroyableMixin, Model } from 'Types/entity';
 import IItemsStrategy, { IOptions as IItemsStrategyOptions } from '../IItemsStrategy';
 
 type TKey = string|number;
 
-interface IOptions<S, T extends CollectionItem<S>> extends IItemsStrategyOptions<S, T> {
+interface IOptions<S extends Model, T extends CollectionItem<S>> extends IItemsStrategyOptions<S, T> {
     source: IItemsStrategy<S, T>;
     display: Collection<S, T>;
 
@@ -20,7 +20,7 @@ interface ISortOptions {
     avatarIndex: number;
 }
 
-export default class Drag<S, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
+export default class Drag<S extends Model, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
     DestroyableMixin
 >(
     DestroyableMixin
@@ -49,7 +49,17 @@ export default class Drag<S, T extends CollectionItem<S> = CollectionItem<S>> ex
         return this._options;
     }
 
-    set avatarIndex(avatarIndex: number) {
+    setAvatarPosition(avatarIndex: number, position: string): void {
+        // TODO dnd нужно переписать сортировку, чтобы она работала аналогично Mover::move
+        if (this._options.avatarIndex === avatarIndex) {
+            const offset = position === 'before' ? -1 : 1;
+            if (avatarIndex > 0) {
+                avatarIndex += offset;
+            } else {
+                avatarIndex++;
+            }
+        }
+
         this._options.avatarIndex = avatarIndex;
         this.invalidate();
     }
@@ -85,24 +95,11 @@ export default class Drag<S, T extends CollectionItem<S> = CollectionItem<S>> ex
     }
 
     getDisplayIndex(index: number): number {
-        const itemsOrder = this._getItemsOrder();
-        const sourceIndex = this.source.getDisplayIndex(index);
-        const overallIndex = sourceIndex + 1;
-        const itemIndex = itemsOrder.indexOf(overallIndex);
-
-        return itemIndex === -1 ? itemsOrder.length : itemIndex;
+        return this.source.getDisplayIndex(index);
     }
 
     getCollectionIndex(index: number): number {
-        const itemsOrder = this._getItemsOrder();
-        const itemIndex = itemsOrder[index];
-
-        let sourceIndex = itemIndex - 1;
-        if (sourceIndex >= 0) {
-            sourceIndex = this.source.getCollectionIndex(sourceIndex);
-        }
-
-        return sourceIndex;
+        return this.source.getCollectionIndex(index);
     }
 
     splice(start: number, deleteCount: number, added?: S[]): T[] {
@@ -159,24 +156,36 @@ export default class Drag<S, T extends CollectionItem<S> = CollectionItem<S>> ex
             const key = item.getContents().getKey();
             return !this._options.draggedItemsKeys.includes(key);
         });
+
+        this.source.items.filter((item) => {
+            const key = item.getContents().getKey();
+            return this._options.draggedItemsKeys.includes(key);
+        }).forEach((it) => it.setMarked(false, true));
+
         if (!this._avatarItem) {
             this._avatarItem = this._createAvatarItem();
         }
         return [this._avatarItem].concat(filteredItems);
     }
 
-    protected _createAvatarItem(): T {
-        const protoItem = this.source.items.find((item) =>
+    protected _getProtoItem(): T {
+        return this.source.items.find((item) =>
             !(item instanceof GroupItem) && item.getContents().getKey() === this._options.avatarItemKey
         );
-        return this._createItem(protoItem?.getContents());
     }
 
-    protected _createItem(contents: S): T {
+    protected _createAvatarItem(): T {
+        const protoItem = this._getProtoItem();
+        return this._createItem(protoItem);
+    }
+
+    protected _createItem(protoItem: T): T {
         const item = this.options.display.createItem({
-            contents
-        }) as unknown as T;
+            contents: protoItem?.getContents()
+        });
         item.setDragged(true, true);
+        item.setMarked(protoItem.isMarked(), true);
+        item.setSelected(protoItem.isSelected(), true);
         return item;
     }
 
@@ -187,7 +196,7 @@ export default class Drag<S, T extends CollectionItem<S> = CollectionItem<S>> ex
         const itemsCount = items.length;
 
         const itemsOrder = new Array(itemsCount - 1);
-        for (let i = 1; i <= itemsCount - 1; i++) {
+        for (let i = 1; i < itemsCount; i++) {
             itemsOrder[i - 1] = i;
         }
 

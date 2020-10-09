@@ -40,7 +40,7 @@
                 itemActionsTemplate="{{itemActionsTemplate}}"
                 attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
-                            {{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}}
+                            {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}
                             {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
                             {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"

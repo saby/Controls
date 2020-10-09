@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=default</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontWeight="default">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=bold</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontWeight="bold">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=default && expanded=true, fontWeight=bold && expanded=false</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontWeight="{{_expanded1 ? 'default' : 'bold'}}" bind:expanded="_expanded1">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=bold && expanded=true, fontWeight=default && expanded=false</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontWeight="{{_expanded2 ? 'bold' : 'default'}}" bind:expanded="_expanded2">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+</div>

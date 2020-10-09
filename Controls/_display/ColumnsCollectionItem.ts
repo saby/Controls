@@ -3,12 +3,18 @@ import {ColumnsCollection} from '../display';
 
 export interface IOptions<T> extends IBaseOptions<T> {
     columnProperty: number;
+    column: number;
 }
 
 export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
     protected _$columnProperty: string;
     protected _$column: number = 0;
     protected _$owner: ColumnsCollection<T>;
+
+    constructor(options?: IOptions<T>) {
+        super(options);
+        this._$column = options?.column || 0;
+    }
 
     getColumn(): number {
         return this._$column;
@@ -20,6 +26,11 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         this._$column = column;
         this._nextVersion();
     }
+
+    get index(): number {
+        return this.getOwner().getIndex(this);
+    }
+
     getWrapperClasses(templateHighlightOnHover: boolean = true, theme?: 'string', cursor: string|boolean = 'pointer'): string {
         let result: string = super.getWrapperClasses.apply(this, arguments);
         result += ' controls-ColumnsView__itemV';
@@ -28,8 +39,8 @@ export default class ColumnsCollectionItem<T> extends CollectionItem<T> {
         }
         return result;
     }
-    getContentClasses(): string {
 
+    getContentClasses(): string {
         // Тут должен быть вызов метода суперкласса, НО нам не нужны почти все классы, которые он предлагает
         return ' controls-ColumnsView__itemContent';
     }
@@ -45,4 +56,3 @@ Object.assign(ColumnsCollectionItem.prototype, {
     _instancePrefix: 'columns-item-',
     _$column: 1
 });
-

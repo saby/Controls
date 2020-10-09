@@ -27,6 +27,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/_grid/interface/IPropStorage
+    * @mixes Controls/_marker/interface/IMarkerListOptions
     *
     * @control
     * @public
@@ -58,6 +59,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/interface/IDraggable
     * @mixes Controls/_grid/interface/IPropStorage
+    * @mixes Controls/_marker/interface/IMarkerListOptions
     *
     * @control
     * @public
@@ -69,6 +71,7 @@ import viewName = require('Controls/_grid/GridView');
 export default class Grid extends List /** @lends Controls/grid:View */ {
     _viewName = viewName;
     _viewTemplate = viewTemplate;
+    protected _supportNewModel: boolean = false;
 
     _getModelConstructor() {
         return GridViewModel;

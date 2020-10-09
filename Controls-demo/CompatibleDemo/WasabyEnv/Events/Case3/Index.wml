@@ -1,0 +1,7 @@
+<div class="wasabyEnv">
+    <div>
+        WasabyEnv
+    </div>
+    <Core.CompoundContainer component="Controls-demo/CompatibleDemo/WasabyEnv/Events/Case3/WS3Control">
+    </Core.CompoundContainer>
+</div>

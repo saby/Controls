@@ -49,25 +49,26 @@
  * @default undefined
  * @remark В процессе перемещения рядом с курсором отображается эскиз перемещаемого объекта.
  * @example
- * В следующем примере показано, как использовать базовый шаблон перемещения элементов Controls/dragnDrop:DraggingTemplate.
- * <pre class="brush: html; highlight: [4,6,7,8,9,10,11,12,13]">
+ * В следующем примере показано, как использовать базовый шаблон перемещения элементов {@link Controls/dragnDrop:DraggingTemplate}.
+ * <pre class="brush: html; highlight: [5,7,8,9,10,11,12,13]">
+ * <!-- WML -->
  * <Controls.list:View
  *     source="{{_viewSource}}"
  *     keyProperty="id"
  *     on:dragStart="_onDragStart()"
  *     itemsDragNDrop="{{true}}">
  *     <ws:draggingTemplate>
- *         <ws:partial
- *             template="Controls/dragnDrop:DraggingTemplate"
- *             mainText="{{draggingTemplate.entity._options.mainText}}"
- *             image="{{draggingTemplate.entity._options.image}}"
- *             additionalText="{{draggingTemplate.entity._options.additionalText}}">
+ *         <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+ *             mainText="{{draggingTemplate.entity.getOptions().mainText}}"
+ *             image="{{draggingTemplate.entity.getOptions().image}}"
+ *             additionalText="{{draggingTemplate.entity.getOptions().additionalText}}">
  *          </ws:partial>
  *     </ws:draggingTemplate>
  * </Controls.list:View>
  * </pre>
  *
  * <pre class="brush: js;">
+ * // JavaScript
  * _viewSource: null,
  * _onDragStart: function(event, items) {
  *    var mainItem = this._items.getRecordById(items[0]);
@@ -98,9 +99,9 @@
  *                   itemsDragNDrop="{{true}}">
  *       <ws:draggingTemplate>
  *          <ws:partial template="Controls/dragnDrop:DraggingTemplate"
- *                      mainText="{{draggingTemplate.entity._options.mainText}}"
- *                      image="{{draggingTemplate.entity._options.image}}"
- *                      additionalText="{{draggingTemplate.entity._options.additionalText}}">
+ *                      mainText="{{draggingTemplate.entity.getOptions().mainText}}"
+ *                      image="{{draggingTemplate.entity.getOptions().image}}"
+ *                      additionalText="{{draggingTemplate.entity.getOptions().additionalText}}">
  *          </ws:partial>
  *       </ws:draggingTemplate>
  *    </Controls.list:View>

@@ -6,12 +6,12 @@
  * @private
  */
 
-import DataContext = require('Core/DataContext');
-import {IControlerState} from 'Controls/_dataSource/Controller';
+import * as DataContext from 'Core/DataContext';
+import {IControllerState} from 'Controls/_dataSource/Controller';
 
 const Context =  DataContext.extend({
-   constructor: function(options: IControlerState) {
-      for (let i in options) {
+   constructor(options: IControllerState): void {
+      for (const i in options) {
          if (options.hasOwnProperty(i)) {
             this[i] = options[i];
          }

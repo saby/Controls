@@ -3,7 +3,7 @@ define(
       'Env/Env',
       'Env/Event',
       'ControlsUnit/resources/ProxyCall',
-      'Controls/_input/Base/MobileFocusController'
+      'Controls/_input/resources/MobileFocusController'
    ],
    function(Env, EnvEvent, ProxyCall, MobileFocusController) {
       describe('Controls.input:MobileFocusController', function() {

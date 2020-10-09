@@ -32,6 +32,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/_tile/interface/ITile
  * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/_marker/interface/IMarkerListOptions
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  *
@@ -63,6 +64,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
  * @mixes Controls/interface/IDraggable
  * @mixes Controls/List/interface/ITile
  * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/_marker/interface/IMarkerListOptions
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  *
@@ -75,6 +77,7 @@ import TreeTileView = require('Controls/_tile/TreeTileView/TreeTileView');
 export default class View extends List {
    protected _viewName = TreeTileView;
    protected _viewTemplate = TreeControl;
+   protected _supportNewModel: boolean = false;
    protected _beforeMount(): void {
       this._viewModelConstructor = this._getModelConstructor();
    }

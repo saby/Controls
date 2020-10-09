@@ -18,7 +18,7 @@ import * as notScrollableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScro
 import * as notDraggableCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/notDraggableCell';
 import * as dragScrollPopulationCell from 'wml!Controls-demo/grid/ColumnScroll/DragScrolling/populationCell';
 
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { IHeader } from 'Controls-demo/types';
 
 export interface IData {
@@ -1144,6 +1144,28 @@ const getPorts = () => {
                 displayProperty: 'taxBase'
             }
         ],
+        getColumnsDND: (): IColumn[] => [
+            {
+                width: '100px',
+                displayProperty: 'invoice'
+            },
+            {
+                width: '200px',
+                displayProperty: 'documentNum'
+            },
+            {
+                width: '200px',
+                displayProperty: 'taxBase'
+            },
+            {
+                width: '1fr',
+                displayProperty: 'description'
+            },
+            {
+                width: '200px',
+                displayProperty: 'document'
+            }
+        ],
         getDocumentSigns: (): Array<{ id: number, title: string }> => [
             {
                 id: 1,
@@ -1208,24 +1230,44 @@ const getEditing = () => {
                 costPrice: '3'
             }
         ],
+        getEditingAlignData: (): IEditingData[] => [
+            {
+                id: 1,
+                title: 'Очень длинный текст, с выравниванием по правому краю.',
+                description: 'Текст 1'
+            },
+            {
+                id: 2,
+                title: 'Длинный текст',
+                description: 'Текст 2'
+            },
+            {
+                id: 3,
+                title: 'Текст',
+                description: 'Текст 3'
+            }
+        ],
         getEditingValidationData: (): IEditingData[] => [
             {
                 id: '1',
                 email: 'semen@gmail.com',
                 required: '89069953970',
-                length: '1234'
+                length: '1234',
+                title: 'title'
             },
             {
                 id: '2',
                 email: 'artem@gmail.com',
                 required: '89069953970',
-                length: '123'
+                length: '123',
+                title: 'title'
             },
             {
                 id: '3',
                 email: 'oleg@gmail.com',
                 required: '89069953970',
-                length: 'hello'
+                length: 'hello',
+                title: 'title'
             }
         ],
         getEditingColumns: (): IColumn[] => [
@@ -1268,6 +1310,20 @@ const getEditing = () => {
                 results: 6
             }
         ],
+        getEditingAlignColumns: (): IColumn[] => [
+            {
+                displayProperty: 'title',
+                width: '180px',
+                template: 'wml!Controls-demo/grid/EditInPlace/Align/_cellEditor',
+                align: 'right'
+            },
+            {
+                displayProperty: 'description',
+                width: '100px',
+                template: 'wml!Controls-demo/grid/EditInPlace/Align/_cellEditor',
+                align: 'right'
+            }
+        ],
         getEditingColumnsValidation: () => [
             {
                 displayProperty: 'email',
@@ -1283,6 +1339,11 @@ const getEditing = () => {
                 displayProperty: 'length',
                 width: 'max-content',
                 template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate'
+            },
+            {
+                displayProperty: 'title',
+                width: 'max-content',
+                template: 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorTitle'
             }
         ],
         getEditingHeaderValidations: (): IHeader[] => [
@@ -1294,6 +1355,9 @@ const getEditing = () => {
             },
             {
                 title: 'Length'
+            },
+            {
+                title: 'Title'
             }
         ],
         getDecoratedEditingData: (): IEditingData[] => [

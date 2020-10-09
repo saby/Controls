@@ -1,4 +1,3 @@
-import { TemplateFunction } from 'UI/Base';
 import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
@@ -8,6 +7,8 @@ import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
 import UserItemsStrategy from './itemsStrategy/User';
 import GroupItemsStrategy from './itemsStrategy/Group';
+import DragStrategy from './itemsStrategy/Drag';
+import AddStrategy from './itemsStrategy/Add';
 import {
     DestroyableMixin,
     ObservableMixin,
@@ -30,16 +31,14 @@ import {mixin, object} from 'Types/util';
 import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
-import { IDragPosition } from 'Controls/listDragNDrop';
-import DragStrategy from './itemsStrategy/Drag';
-import { ItemsEntity } from 'Controls/dragnDrop';
-import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ICollection, ISourceCollection} from './interface/ICollection';
+import { IDragPosition } from './interface/IDragPosition';
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
 const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
-const VERSION_UPDATE_ITEM_PROPERTIES = ['editingContents', 'animated', 'canShowActions', 'expanded'];
+const VERSION_UPDATE_ITEM_PROPERTIES = ['editing', 'editingContents', 'animated', 'canShowActions', 'expanded', 'marked', 'selected'];
 
 export interface ISplicedArray<T> extends Array<T> {
     start?: number;
@@ -87,10 +86,11 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     sort?: SortFunction<S, T> | Array<SortFunction<S, T>>;
     keyProperty?: string;
     displayProperty?: string;
+    itemTemplateProperty?: string;
     multiSelectVisibility?: string;
-    leftSpacing?: string;
-    rightSpacing?: string;
-    rowSpacing?: string;
+    itemPadding?: IItemPadding;
+    rowSeparatorSize?: string;
+    stickyMarkedItem?: boolean;
     theme?: string;
     collapsedGroups?: TArrayGroupKey;
     groupProperty?: string;
@@ -114,6 +114,12 @@ export interface IViewIterator {
 
 export type TGroupKey = string|number;
 export type TArrayGroupKey = TGroupKey[];
+export interface IItemPadding {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+}
 
 export interface IItemActionsTemplateConfig {
     toolbarVisibility?: boolean;
@@ -228,7 +234,7 @@ function onCollectionChange<T>(
             // Как минимум пока мы поддерживаем совместимость с BaseControl, такая возможность нужна,
             // потому что там пересоздание модели вызывает лишние перерисовки, подскроллы, баги
             // виртуального скролла.
-            this._reBuild(this._$compatibleReset || newItems.length === 0);
+            this._reBuild(this._$compatibleReset || newItems.length === 0 || !this.isEditing());
             projectionNewItems = toArray(this);
             this._notifyBeforeCollectionChange();
             this._notifyCollectionChange(
@@ -438,10 +444,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _$collection: ISourceCollection<S>;
 
     /**
-     * @cfg {
-     * Array.<Function(*, Number, Controls/_display/CollectionItem, Number): Boolean>|
-     * Function(*, Number, Controls/_display/CollectionItem, Number): Boolean
-     * } Пользовательские методы фильтрации элементов проекциию. Аргументы: элемент коллекции, позиция в коллекции,
+     * @cfg Пользовательские методы фильтрации элементов проекциию. Аргументы: элемент коллекции, позиция в коллекции,
      * элемент проекции, позиция в проекции. Должен вернуть Boolean - признак, что элемент удовлетворяет условиям
      * фильтрации.
      * @name Controls/_display/Collection#filter
@@ -482,9 +485,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _$filter: Array<FilterFunction<S>>;
 
     /**
-     * @cfg {
-     * Function(*, Number, Controls/_display/CollectionItem): String|null
-     * } Метод группировки элементов проекции. Аргументы: элемент коллекции, позиция в коллекции, элемент проекции.
+     * @cfg Метод группировки элементов проекции. Аргументы: элемент коллекции, позиция в коллекции, элемент проекции.
      * Должен вернуть идентификатор группы.
      * @name Controls/_display/Collection#group
      * @example
@@ -526,14 +527,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      * @see getGroup
      * @see setGroup
      */
-    protected _$
-        : GroupFunction<S, T>;
+    protected _$group: GroupFunction<S, T>;
 
     /**
-     * @cfg {
-     * Array.<Function(UserSortItem, UserSortItem): Number>|
-     * Function(UserSortItem, UserSortItem): Number
-     * } Пользовательские методы сортировки элементов. Аргументы: 2 объекта типа {@link UserSortItem},
+     * @cfg Пользовательские методы сортировки элементов. Аргументы: 2 объекта типа {@link UserSortItem},
      * должен вернуть -1|0|1 (см. Array.prototype.sort())
      * @name Controls/_display/Collection#sort
      * @example
@@ -576,17 +573,25 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _$displayProperty: string;
 
+    protected _$itemTemplateProperty: string;
+
     protected _$multiSelectVisibility: string;
 
-    protected _$leftSpacing: string;
+    protected _$leftPadding: string;
 
-    protected _$rightSpacing: string;
+    protected _$rightPadding: string;
+
+    protected _$topPadding: string;
+
+    protected _$bottomPadding: string;
 
     protected _$theme: string;
 
-    protected _$rowSpacing: string;
-
     protected _$searchValue: string;
+
+    protected _$rowSeparatorSize: string;
+
+    protected _$stickyMarkedItem: boolean;
 
     protected _$editingConfig: IEditingConfig;
 
@@ -711,14 +716,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      */
     protected _$activeItem: T;
 
-    /**
-     * Анимация свайпа: открытие или закрытие меню опций
-     */
-    protected _swipeAnimation: ANIMATION_STATE;
-
-    protected _$isEditing: boolean;
+    protected _$isEditing: boolean = false;
 
     protected _userStrategies: Array<IUserStrategy<S, T>>;
+
+    protected _dragStrategy: Function = DragStrategy;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -734,16 +736,33 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
              this._$keyProperty = (options as any).idProperty;
         }
 
+        if (options.groupProperty) {
+            this._$groupProperty = options.groupProperty;
+            this._$group = (item) => {
+                return item.get(this._$groupProperty);
+            };
+        }
+
         // Support of 'groupingKeyCallback' option
         if (!this._$group && (options as any).groupingKeyCallback) {
             this._$group = (options as any).groupingKeyCallback;
+        }
+
+        if (options.itemTemplateProperty) {
+            this._$itemTemplateProperty = options.itemTemplateProperty;
         }
 
         this._$theme = options.theme;
 
         this._$collapsedGroups = options.collapsedGroups;
 
-        this._$groupProperty = options.groupProperty;
+        if (options.rowSeparatorSize) {
+            this._$rowSeparatorSize = options.rowSeparatorSize;
+        }
+
+        if (options.stickyMarkedItem !== undefined) {
+            this._$stickyMarkedItem = options.stickyMarkedItem;
+        }
 
         if (!this._$collection) {
             throw new Error(`${this._moduleName}: source collection is empty`);
@@ -780,7 +799,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         }
 
         if (options.itemPadding) {
-            this.setItemsSpacings(options.itemPadding);
+            this._setItemPadding(options.itemPadding);
         }
 
         this._viewIterator = {
@@ -1036,7 +1055,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Возвращает элементы проекции (без учета сортировки, фильтрации и группировки).
-     * @return {Array.<Controls/_display/CollectionItem>}
+     * @return {Array<Controls/_display/CollectionItem>}
      */
     getItems(): T[] {
         return this._getItems().slice();
@@ -1335,6 +1354,17 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
         if (collection && collection['[Types/_collection/IList]']) {
             sourceIndex = (collection as any as IList<S>).getIndex(item);
+
+            // Если записи нет в наборе данных, то, возможно запрашивается индекс добавляемой в данный момент записи.
+            // Такой записи еще нет в наборе данных.
+            if (sourceIndex === -1 && this._$isEditing) {
+                this.each((el, index: number) => {
+                    if (el.isEditing() && el.isAdd && el.contents.getKey() === item.contents.getKey()) {
+                        sourceIndex = index;
+                    }
+                });
+                return sourceIndex;
+            }
         } else {
             let index = 0;
             (collection as IEnumerable<S>).each((value) => {
@@ -1373,7 +1403,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Возвращает пользовательские методы фильтрации элементов проекции
-     * @return {Array.<Function(*, Number, Controls/_display/CollectionItem, Number): Boolean>}
      * @see filter
      * @see setFilter
      * @see addFilter
@@ -1386,7 +1415,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     /**
      * Устанавливает пользовательские методы фильтрации элементов проекции. Вызов метода без аргументов приведет к
      * удалению всех пользовательских фильтров.
-     * @param {...Function(*, Number, Controls/_display/CollectionItem, Number): Boolean} [filter] Методы фильтрации
+     * @param [...filter] Методы фильтрации
      * элементов: аргументами приходят элемент коллекции, позиция в коллекции, элемент проекции, позиция в проекции.
      * Должен вернуть Boolean - признак, что элемент удовлетворяет условиям фильтрации.
      * @see filter
@@ -1456,10 +1485,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Добавляет пользовательский метод фильтрации элементов проекции, если такой еще не был задан.
-     * @param {Function(*, Number, Controls/_display/CollectionItem, Number): Boolean} filter Метод фильтрации элементов:
+     * @param filter Метод фильтрации элементов:
      * аргументами приходят элемент коллекции, позиция в коллекции, элемент проекции, позиция в проекции. Должен вернуть
      * Boolean - признак, что элемент удовлетворяет условиям фильтрации.
-     * @param {Number} [at] Порядковый номер метода (если не передан, добавляется в конец)
+     * @param [at] Порядковый номер метода (если не передан, добавляется в конец)
      * @see filter
      * @see getFilter
      * @see setFilter
@@ -1513,10 +1542,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Удаляет пользовательский метод фильтрации элементов проекции.
-     * @param {Function(*, Number, Controls/_display/CollectionItem, Number): Boolean} filter Метод фильтрации элементов:
+     * @param filter Метод фильтрации элементов:
      * аргументами приходят элемент коллекции, позиция в коллекции, элемент проекции, позиция в проекции. Должен вернуть
      * Boolean - признак, что элемент удовлетворяет условиям фильтрации.
-     * @return {Boolean} Был ли установлен такой метод фильтрации
+     * @return Был ли установлен такой метод фильтрации
      * @see filter
      * @see getFilter
      * @see setFilter
@@ -1585,7 +1614,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Возвращает метод группировки элементов проекции
-     * @return {Function}
      * @see group
      * @see setGroup
      */
@@ -1596,7 +1624,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     /**
      * Устанавливает метод группировки элементов проекции. Для сброса ранее установленной группировки следует вызвать
      * этот метод без параметров.
-     * @param {Function(*, Number, Controls/_display/CollectionItem): String|null} group Метод группировки элементов:
+     * @param group Метод группировки элементов:
      * аргументами приходят элемент коллекции, его позиция, элемент проекции. Должен вернуть String|Number - группу,
      * в которую входит элемент.
      * @see group
@@ -1750,7 +1778,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Возвращает пользовательские методы сортировки элементов проекции
-     * @return {Array.<Function>}
      * @see sort
      * @see setSort
      * @see addSort
@@ -1762,7 +1789,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     /**
      * Устанавливает пользовательские методы сортировки элементов проекции. Вызов метода без аргументов приведет к
      * удалению всех пользовательских сортировок.
-     * @param {...Function(UserSortItem, UserSortItem): Number} [sort] Методы сортировки элементов: аргументами
+     * @param [...sort] Методы сортировки элементов: аргументами
      * приходят 2 объекта типа {@link UserSortItem}, должен вернуть -1|0|1 (см. Array.prototype.sort())
      * @see sort
      * @see getSort
@@ -1858,9 +1885,9 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Добавляет пользовательский метод сортировки элементов проекции, если такой еще не был задан.
-     * @param {Function(UserSortItem, UserSortItem): Number} [sort] Метод сортировки элементов:
+     * @param sort Метод сортировки элементов:
      * аргументами приходят 2 объекта типа {@link UserSortItem}, должен вернуть -1|0|1 (см. Array.prototype.sort())
-     * @param {Number} [at] Порядковый номер метода (если не передан, добавляется в конец)
+     * @param [at] Порядковый номер метода (если не передан, добавляется в конец)
      * @see sort
      * @see getSort
      * @see setSort
@@ -1914,9 +1941,9 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     /**
      * Удаляет пользовательский метод сортировки элементов проекции.
-     * @param {Function(UserSortItem, UserSortItem): Number} [sort] Метод сортировки элементов:
+     * @param sort Метод сортировки элементов:
      * аргументами приходят 2 объекта типа {@link UserSortItem}, должен вернуть -1|0|1 (см. Array.prototype.sort())
-     * @return {Boolean} Был ли установлен такой метод сортировки
+     * @return Был ли установлен такой метод сортировки
      * @see sort
      * @see getSort
      * @see setSort
@@ -2091,15 +2118,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
      *     display.setSelectedItems([list.at(0), list.at(1)], true) //установит признак двум элементам;
      * </pre>
      */
-    setSelectedItems(items: S[], selected: boolean|null, silent: boolean = false): void {
-        const sourceItems = [];
-        for (let i = 0, count = items.length; i < count; i++) {
-            const item = this.getItemBySourceItem(items[i]);
-            if (item) {
-                sourceItems.push(item);
-            }
-        }
-        this._setSelectedItems(sourceItems, selected, silent);
+    setSelectedItems(items: T[], selected: boolean|null, silent: boolean = false): void {
+        this._setSelectedItems(items, selected, silent);
     }
 
     /**
@@ -2136,34 +2156,34 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     // region Drag-N-Drop
 
-    setDraggedItems(draggedItem: T, dragEntity: ItemsEntity): void {
-        // TODO dnd когда будет выполнен полный переход на новую модель,
-        // то можно будет передать только нужные параметры(ключ аватара и список перетаскиваемых ключей)
-        const avatarKey = draggedItem.getContents().getKey();
-        const avatarStartIndex = this.getIndexByKey(avatarKey);
+    setDraggedItems(avatarItemKey: number|string, draggedItemsKeys: Array<number|string>): void {
+        const avatarStartIndex = this.getIndexByKey(avatarItemKey);
 
-        this.appendStrategy(DragStrategy, {
-            draggedItemsKeys: dragEntity.getItems(),
-            avatarItemKey: avatarKey,
+        this.appendStrategy(this._dragStrategy, {
+            draggedItemsKeys,
+            avatarItemKey,
             avatarIndex: avatarStartIndex
         });
     }
 
-    setDragPosition(position: IDragPosition): void {
-        const strategy = this.getStrategyInstance(DragStrategy) as DragStrategy<unknown>;
+    setDragPosition(position: IDragPosition<T>): void {
+        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
         if (strategy && position) {
-            // TODO dnd в старой модели передается куда вставлять относительно этого индекса
-            strategy.avatarIndex = position.index;
+            strategy.setAvatarPosition(position.index, position.position);
             this.nextVersion();
         }
     }
 
     resetDraggedItems(): void {
-        this.removeStrategy(DragStrategy);
+        // TODO нужно у стратегии вызвать метод reset, чтобы задестроить avatarItem и обнулить все ссылки
+        this.removeStrategy(this._dragStrategy);
     }
 
     // endregion
 
+    getItemTemplateProperty(): string {
+        return this._$itemTemplateProperty;
+    }
 
     getDisplayProperty(): string {
         return this._$displayProperty;
@@ -2181,6 +2201,19 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return result;
     }
 
+    isStickyMarkedItem(): boolean {
+        return this._$stickyMarkedItem;
+    }
+
+    getRowSeparatorSize(): string {
+        return this._$rowSeparatorSize;
+    }
+
+    setRowSeparatorSize(rowSeparatorSize: string): void {
+        this._$rowSeparatorSize = rowSeparatorSize;
+        this._nextVersion();
+    }
+
     getMultiSelectVisibility(): string {
         return this._$multiSelectVisibility;
     }
@@ -2193,31 +2226,22 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._nextVersion();
     }
 
-    setItemsSpacings(itemPadding: {top: string, left: string, right: string}): void {
-        this._$rowSpacing = itemPadding.top;
-        this._$leftSpacing = itemPadding.left;
-        this._$rightSpacing = itemPadding.right;
+    protected _setItemPadding(itemPadding: IItemPadding): void {
+        this._$topPadding = itemPadding.top || 'default';
+        this._$bottomPadding = itemPadding.bottom || 'default';
+        this._$leftPadding = itemPadding.left || 'default';
+        this._$rightPadding = itemPadding.right || 'default';
+    }
+
+    setItemPadding(itemPadding: IItemPadding): void {
+        this._setItemPadding(itemPadding);
+        this._nextVersion();
     }
 
     setMarkedKey(key: string|number, status: boolean): void {
         const item = this.getItemBySourceKey(key);
         if (item) {
             item.setMarked(status);
-            this.nextVersion();
-        }
-    }
-
-    getValidItemForMarker(index: number): T {
-        const item = this.getItemBySourceIndex(index);
-
-        const nextValidItem = this.getNext(item);
-        const prevValidItem = this.getPrevious(item);
-        if (nextValidItem) {
-            return nextValidItem;
-        } else if (prevValidItem) {
-            return prevValidItem;
-        } else {
-            return null;
         }
     }
 
@@ -2234,16 +2258,20 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return false;
     }
 
-    getRowSpacing(): string {
-        return this._$rowSpacing;
+    getTopPadding(): string {
+        return this._$topPadding;
     }
 
-    getLeftSpacing(): string {
-        return this._$leftSpacing;
+    getBottomPadding(): string {
+        return this._$bottomPadding;
     }
 
-    getRightSpacing(): string {
-        return this._$rightSpacing;
+    getLeftPadding(): string {
+        return this._$leftPadding;
+    }
+
+    getRightPadding(): string {
+        return this._$rightPadding;
     }
 
     setEditingConfig(config: IEditingConfig): void {
@@ -2266,11 +2294,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$searchValue;
     }
 
-    getItemBySourceKey(key: string|number): CollectionItem<S> {
+    getItemBySourceKey(key: string|number): T {
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
-                return this.getItemBySourceItem(record as unknown as S);
+
+                // Если записи нет в наборе данных, то, возможно запрашивается добавляемая в данный момент запись.
+                // Такой записи еще нет в наборе данных.
+                if (!record && this._$isEditing) {
+                    return this.find((item) => item.isEditing() && item.isAdd && item.contents.getKey() === key);
+                } else {
+                    return this.getItemBySourceItem(record as unknown as S);
+                }
             } else {
                 return null;
             }
@@ -2308,6 +2343,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     getMetaResults(): {} {
         return this._$metaResults;
+    }
+
+    getMetaData(): {} {
+        return this._$collection ? this._$collection.getMetaData() : {};
     }
 
     getCollapsedGroups(): TArrayGroupKey {
@@ -2427,6 +2466,40 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$isEditing = editing;
     }
 
+    setAddingItem(item: T): void {
+        this._prependStrategy(AddStrategy, {
+            item,
+            addPosition: item.addPosition,
+            groupMethod: this.getGroup()
+        }, GroupItemsStrategy);
+
+        const addingIndex: number = this.getStrategyInstance(AddStrategy).getAddingItemIndex();
+
+        this._notifyCollectionChange(
+            IObservable.ACTION_ADD,
+            [item],
+            addingIndex,
+            [],
+            0
+        );
+    }
+
+    resetAddingItem(): void {
+        const addStrategy = this.getStrategyInstance(AddStrategy);
+
+        if (addStrategy) {
+            this.removeStrategy(AddStrategy);
+
+            this._notifyCollectionChange(
+                IObservable.ACTION_REMOVE,
+                [],
+                0,
+                [addStrategy.getAddingItem()],
+                addStrategy.getAddingItemIndex()
+            );
+        }
+    }
+
     getSwipeConfig(): ISwipeConfig {
         return this._swipeConfig;
     }
@@ -2438,20 +2511,29 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         }
     }
 
-    /**
-     * Устанавливает текущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    setSwipeAnimation(animation: ANIMATION_STATE): void {
-        this._swipeAnimation = animation;
-    }
+    private _prependStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object, before?: Function): void {
+        const strategyOptions = { ...options, display: this };
+        let index = 0;
 
-    /**
-     * Получает еткущую анимацию для свайпа.
-     * Может быть, стоит объединить с _swipeConfig
-     */
-    getSwipeAnimation(): ANIMATION_STATE {
-        return this._swipeAnimation;
+        if (typeof before === 'function') {
+            this._userStrategies.forEach((strObject, strIndex) => {
+                if (strObject.strategy === before) {
+                    index = strIndex;
+                }
+            });
+        }
+
+        this._userStrategies.splice(index, 0, {
+            strategy,
+            options: strategyOptions
+        });
+
+        if (this._composer) {
+            this._composer.prepend(strategy, strategyOptions, before);
+            this._reBuild(true);
+        }
+
+        this.nextVersion();
     }
 
     appendStrategy(strategy: new() => IItemsStrategy<S, T>, options?: object): void {
@@ -2676,7 +2758,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         const items = [];
         for (let i = selecItems.length - 1; i >= 0; i--) {
             if (selecItems[i].isSelected() !== selected) {
-                selecItems[i].setSelected(selected, true);
+                selecItems[i].setSelected(selected, silent);
                 items.push(selecItems[i]);
             }
         }
@@ -3575,10 +3657,13 @@ Object.assign(Collection.prototype, {
     _$sort: null,
     _$keyProperty: '',
     _$displayProperty: '',
+    _$itemTemplateProperty: '',
     _$multiSelectVisibility: 'hidden',
-    _$leftSpacing: 'default',
-    _$rightSpacing: 'default',
-    _$rowSpacing: 'default',
+    _$leftPadding: 'default',
+    _$rightPadding: 'default',
+    _$topPadding: 'default',
+    _$bottomPadding: 'default',
+    _$stickyMarkedItem: true,
     _$searchValue: '',
     _$editingConfig: null,
     _$unique: false,

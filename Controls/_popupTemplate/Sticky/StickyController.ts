@@ -7,7 +7,7 @@ import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import StickyContent = require('wml!Controls/_popupTemplate/Sticky/StickyContent');
 import * as cInstance from 'Core/core-instance';
 import {Logger} from 'UI/Utils';
-import {getScrollbarWidthByMeasuredBlock} from 'Controls/sizeUtils';
+import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';

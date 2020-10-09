@@ -1,21 +1,3 @@
-.controls-TreeTileView__item_theme-@{themeName} {
-   height: @node_height_tile;
-   box-sizing: border-box;
-   display: flex;
-   align-items: center;
-   //flex bug fix
-   min-width: 0;
-}
-
-.controls-TreeTileView__dragTargetNode_theme-@{themeName} {
-   border: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
-   position: absolute;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-}
-
 .controls-TreeTileView__checkbox {
    left: 0;
 }
@@ -26,26 +8,6 @@
       top: 50%;
       transform: translateY(-50%);
    }
-}
-
-.controls-TreeTileView__item_theme-@{themeName}:hover, .controls-TreeTileView__item_active_theme-@{themeName} {
-   background-color: @node_hover_background-color_tile;
-   box-shadow: @node_shadow-size_tile @node_shadow-color_tile;
-}
-
-.controls-TreeTileView__title_theme-@{themeName} {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   width: 100%;
-   font-size: @node_font-size_tile;
-   margin: 0 @node_caption_padding-right_tile 0 @node_icon_offset_tile;
-   flex-shrink: 1;
-}
-
-.controls-TreeTileView__nodeIcon_theme-@{themeName} {
-   margin-left: @node_caption_padding-left_tile;
-   flex-shrink: 0;
 }
 
 //TODO: Можно убрать после решения задачи: https://online.sbis.ru/opendoc.html?guid=38c5aa2c-f30c-42e9-a654-5358bc7691fd

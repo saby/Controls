@@ -2,6 +2,7 @@
  * Интерфейс редакторов propertyGrid.
  * @interface Controls/_propertyGrid/IEditor
  * @author Герасимов А.М.
+ * @public
  */
 
 /*
@@ -12,13 +13,15 @@
 
 export default interface IEditor {
     /**
-     * @event propertyValueChanged Происходит после изменения значения свойства.
+     * @event Происходит после изменения значения свойства.
+     * @name Controls/_propertyGrid/IEditor#propertyValueChanged
      * @param {Event} event Дескриптор события.
      * @param {*} value Новое значение свойства.
      */
 
     /*
-     * @event propertyValueChanged After property value changed.
+     * @event After property value changed.
+     * @name Controls/_propertyGrid/IEditor#propertyValueChanged
      * @param {Event} event Event description.
      * @param {*} value New value of property.
      */
@@ -27,15 +30,14 @@ export default interface IEditor {
 /**
  * @name Controls/_propertyGrid/IEditor#propertyValue
  * @cfg {*} Текущее значение свойства.
- * 
  * @example
- * WML:
- * <pre>
+ * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.dropdown:Input on:selectedKeysChanged="_selectedKeysChanged()" selectedKeys="{{_options.propertyValue}}"/>
  * </pre>
  * 
- * TS:
- * <pre>
+ * <pre class="brush: js">
+ * // TypeScript
  * import { Control, TemplateFunction } from 'UI/Base';
  * import template = require('wml!MyEditor');
  *

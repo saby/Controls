@@ -1,0 +1,55 @@
+<ws:if data="{{invisible}}">
+   <div
+      attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}} controls-TileView__item_invisible"
+      attr:style="{{'-ms-flex-preferred-size: ' + (type === 'leaf' ? (itemWidth || itemData.defaultItemWidth) : (folderWidth || itemData.defaultFolderWidth)) + 'px; ' +
+                     'flex-basis: ' + (type === 'leaf' ? (itemWidth || itemData.defaultItemWidth) : (folderWidth || itemData.defaultFolderWidth)) + 'px;'}}"></div>
+</ws:if>
+<ws:else>
+   <div attr:class="controls-TileView__item controls-TileView__smallTemplate_item_theme-{{theme}} controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}}  js-controls-TileView__withoutZoom controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}} js-controls-ItemActions__swipeMeasurementContainer
+         {{'controls-TileView__smallTemplate_' + (itemData.dispItem.isNode() ? 'node': 'list') + 'Item_theme-' + theme}}
+         {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
+         controls-ListView__item_showActions
+         {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle +'_theme-' + theme}}
+         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
+            ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme
+            : ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
+         {{!!itemData.isActive() ? ' controls-TileView__smallTemplate_item_active_them' + theme}}
+         {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
+         {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme' + theme}}"
+        attr:style="{{'-ms-flex-preferred-size: ' + (width || itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth) + 'px; flex-basis: ' + (width || itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth)+ 'px;'}}">
+      <ws:partial if="{{itemData.hasMultiSelect}}"
+                  template="{{multiSelectTpl}}"
+                  attr:class="{{itemData.multiSelectClassList}}">
+         <ws:templateOptions triState="{{true}}"
+                             checkboxReadOnly="{{checkboxReadOnly}}"
+                             multiSelectStatus="{{itemData.isSelected()}}"
+                             key="{{itemData.key}}"/>
+      </ws:partial>
+      <div class="controls-TileView__smallTemplate_imageWrapper">
+         <ws:if data="{{itemData.dispItem.isNode()}}">
+            <span attr:class="controls-TileView__smallTemplate_nodeIcon_theme-{{theme}} icon-large icon-Folder icon-disabled"></span>
+         </ws:if>
+         <ws:else>
+            <img class="controls-TileView__smallTemplate_image  controls-TileView__smallTemplate_image_size_{{_options.imageSize}}_theme-{{_options.theme}}"
+                 src="{{itemData.item[itemData.imageProperty]}}"/>
+         </ws:else>
+      </div>
+      <ws:if data="{{!!itemData.dragTargetNode}}">
+         <div attr:class="controls-TileView__smallTemplate_dragTargetNode_theme-{{theme}}"></div>
+      </ws:if>
+      <div attr:class="controls-TileView__smallTemplate_title_theme-{{_options.theme}}"
+           title="{{itemData.item.title}}">{{itemData.item[itemData.displayProperty]}}
+      </div>
+      <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+                  highlightOnHover="{{highlightOnHover}}"
+                  template="{{swipeTemplate}}"
+                  itemData="{{itemData}}"
+                  itemActionsTemplate="{{itemActionsTemplate}}"/>
+      <ws:partial
+         if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing()) && itemData.itemActionsPosition !== 'custom'}}"
+         template="{{itemActionsTemplate}}"
+         highlightOnHover="{{highlightOnHover}}"
+         itemData="{{itemData}}"
+         itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions_theme-' + theme + ' controls-TreeTileView__itemActions_center'}}"/>
+   </div>
+</ws:else>

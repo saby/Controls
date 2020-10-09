@@ -5,7 +5,7 @@ import {
 } from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
 
-describe('Controls/scroll:ContainerNew ShadowsModel', () => {
+describe('Controls/scroll:Container ShadowsModel', () => {
     const positions = ['top', 'bottom'];
 
     describe('constructor', () => {
@@ -23,7 +23,7 @@ describe('Controls/scroll:ContainerNew ShadowsModel', () => {
                 });
                 assert.hasAllKeys(component._models, test.positions);
                 for (let position of test.positions) {
-                    assert.isTrue(component._models[position].isEnabled);
+                    assert.isFalse(component._models[position].isEnabled);
                     assert.isFalse(component._models[position].isVisible);
                 }
             });

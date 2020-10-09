@@ -5,7 +5,7 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FstandartDemoButton">демо-пример</a>
+    * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">демо-пример</a>
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
     *
     * @class Controls/_popupTemplate/CloseButton

@@ -1,6 +1,20 @@
 import {assert} from 'chai';
 import {BaseControl, ListViewModel} from 'Controls/list';
 import {RecordSet} from 'Types/collection';
+import {Memory} from 'Types/source';
+
+const getData = (dataCount: number = 0) => {
+    const data = [];
+
+    for (let i = 0; i < dataCount; i++) {
+        data.push({
+            key: i,
+            title: 'title' + i
+        });
+    }
+
+    return data;
+};
 
 describe('Controls/list_clean/BaseControl', () => {
     describe('BaseControl watcher groupHistoryId', () => {
@@ -55,81 +69,14 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(!!baseControl._listViewModel.getCollapsedGroups());
         });
     });
-    describe('BaseControl watcher selected', () => {
-        const baseControlCfg = {
-            viewName: 'Controls/List/ListView',
-            keyProperty: 'id',
-            viewModelConstructor: ListViewModel,
-            items: new RecordSet({
-                keyProperty: 'id',
-                rawData: []
-            }),
-            viewModelConfig: {
-                items: new RecordSet({
-                    keyProperty: 'id',
-                    rawData: [
-                        {
-                            id: 1,
-                            title: 'Первый',
-                            type: 1
-                        },
-                        {
-                            id: 2,
-                            title: 'Второй',
-                            type: 2
-                        }
-                    ]
-                }),
-                keyProperty: 'id'
-            },
-            selectedKeys: [],
-            excludedKeys: []
-        };
-        let baseControl;
-
-        beforeEach(() => {
-            baseControl = new BaseControl(baseControlCfg);
-            baseControl._listViewModel = new ListViewModel(baseControlCfg.viewModelConfig);
-        });
-
-        afterEach(() => {
-            baseControl.destroy();
-            baseControl = undefined;
-        });
-        it('should create selection controller', async () => {
-            const cfgClone = {...baseControlCfg};
-            cfgClone.selectedKeys = [1];
-            cfgClone.multiSelectVisibility = 'hidden';
-            await baseControl._beforeMount(baseControlCfg);
-            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
-            baseControl._afterMount();
-            assert.isNull(baseControl._selectionController);
-            await baseControl._beforeUpdate(cfgClone);
-            assert.isNull(baseControl._selectionController);
-        });
-        it('should create selection controller', async () => {
-            const cfgClone = {...baseControlCfg};
-            cfgClone.selectedKeys = [1];
-            cfgClone.multiSelectVisibility = 'hidden';
-            cfgClone.selectedKeysCount = null;
-            baseControl.saveOptions(cfgClone);
-            await baseControl._beforeMount(cfgClone);
-            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
-            baseControl._afterMount();
-            baseControl._listViewModel = new ListViewModel(baseControlCfg.viewModelConfig);
-            baseControl._createSelectionController();
-            assert.isFalse(!baseControl._listViewModel || !baseControl._listViewModel.getCollection());
-            assert.isNotNull(baseControl._selectionController);
-        });
-    });
     describe('BaseControl watcher paging', () => {
         const baseControlCfg = {
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
-            items: new RecordSet({
+            source: new Memory({
                 keyProperty: 'id',
-                rawData: []
+                data: []
             }),
             navigation: {
                 view: 'infinity',
@@ -175,6 +122,26 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._viewportSize = 0;
             baseControl._viewSize = 800;
             baseControl._mouseEnter(null);
+            assert.isFalse(baseControl._pagingVisible);
+        });
+
+        it('update navigation', async () => {
+            baseControl.saveOptions(baseControlCfg);
+            await baseControl._beforeMount(baseControlCfg);
+            baseControl._beforeUpdate(baseControlCfg);
+            baseControl._afterUpdate(baseControlCfg);
+            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
+            assert.isFalse(baseControl._pagingVisible);
+            baseControl._viewportSize = 200;
+            baseControl._viewSize = 800;
+            baseControl._mouseEnter(null);
+            assert.isTrue(baseControl._pagingVisible);
+            const cloneBaseControlCfg = {...baseControlCfg};
+            cloneBaseControlCfg.navigation = {
+                view: 'infinity',
+                viewConfig: null
+            };
+            baseControl._beforeUpdate(cloneBaseControlCfg);
             assert.isFalse(baseControl._pagingVisible);
         });
     });
@@ -319,13 +286,13 @@ describe('Controls/list_clean/BaseControl', () => {
             }, baseControl._pagingCfg.arrowState);
         });
 
-        it('paging mode is numbers', async () => {
+        it('paging mode is end scroll to end', async () => {
             const cfgClone = {...baseControlCfg};
-            cfgClone.navigation.viewConfig.pagingMode = 'numbers';
+            cfgClone.navigation.viewConfig.pagingMode = 'end';
             baseControl.saveOptions(cfgClone);
             await baseControl._beforeMount(cfgClone);
             baseControl._container = {
-                clientHeight: 1000
+                clientHeight: 1040
             };
             baseControl._viewportSize = 400;
             baseControl._getItemsContainer = () => {
@@ -339,12 +306,96 @@ describe('Controls/list_clean/BaseControl', () => {
 
             assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
 
+            BaseControl._private.handleListScrollSync(baseControl, 200);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'visible',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+
+            BaseControl._private.handleListScrollSync(baseControl, 600);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'visible',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+            BaseControl._private.handleListScrollSync(baseControl, 640);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'hidden',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+
+            cfgClone.navigation.viewConfig.pagingMode = 'edge';
+            baseControl._pagingVisible = false;
+            baseControl._mouseEnter(null);
+            BaseControl._private.handleListScrollSync(baseControl, 200);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'visible',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+
+            BaseControl._private.handleListScrollSync(baseControl, 600);
+            assert.deepEqual({
+                begin: 'hidden',
+                end: 'visible',
+                next: 'hidden',
+                prev: 'hidden'
+            }, baseControl._pagingCfg.arrowState);
+        });
+
+        it('paging mode is numbers', async () => {
+            const cfgClone = {...baseControlCfg};
+            cfgClone.navigation.viewConfig.pagingMode = 'numbers';
+            cfgClone.navigation.sourceConfig = {
+                pageSize: 100,
+                page: 0,
+                hasMore: false
+            };
+            cfgClone.source = new Memory({
+                keyProperty: 'id',
+                data: getData(100)
+            });
+
+            await baseControl._beforeMount(cfgClone);
+            baseControl.saveOptions(cfgClone);
+
+            baseControl._container = {
+                clientHeight: 1000
+            };
+            baseControl._sourceController = {
+                getAllDataCount: () => 100,
+                hasMoreData: () => false
+            };
+            baseControl._listViewModel._startIndex = 0;
+            baseControl._listViewModel._stopIndex = 100;
+            baseControl._viewportSize = 400;
+            baseControl._getItemsContainer = () => {
+                return {children: []};
+            };
+            baseControl._mouseEnter(null);
+            baseControl._notify = (event, args) => {
+                assert.equal(event, 'doScroll');
+                assert.equal(args[0], 400);
+            };
+
+            // эмулируем появление скролла
+            await BaseControl._private.onScrollShow(baseControl, heightParams);
+            baseControl._updateShadowModeHandler({}, {top: 0, bottom: 0});
+
+            assert.isTrue(!!baseControl._scrollPagingCtr, 'ScrollPagingController wasn\'t created');
+
             assert.equal(baseControl._pagingCfg.pagesCount, 3);
 
             BaseControl._private.handleListScrollSync(baseControl, 100);
             assert.deepEqual({
                 begin: 'visible',
-                end: 'hidden',
+                end: 'visible',
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
@@ -353,7 +404,6 @@ describe('Controls/list_clean/BaseControl', () => {
 
             await baseControl.__selectedPageChanged(null, 2);
             assert.equal(baseControl._currentPage, 2);
-            assert.equal(baseControl._scrollPagingCtr._options.scrollParams.scrollTop, 400);
         });
 
         it('visible paging padding', async () => {
@@ -372,6 +422,45 @@ describe('Controls/list_clean/BaseControl', () => {
             cfgClone.navigation.viewConfig.pagingMode = 'base';
             await baseControl._beforeUpdate(cfgClone);
             assert.isTrue(baseControl._isPagingPadding());
+        });
+
+        it('paging mode is edge + eip', async () => {
+            const cfgClone = {...baseControlCfg};
+            cfgClone.navigation.viewConfig.pagingMode = 'edge';
+            baseControl.saveOptions(cfgClone);
+            await baseControl._beforeMount(cfgClone);
+            baseControl._container = {
+                clientHeight: 1000
+            };
+            baseControl._viewportSize = 400;
+            baseControl._getItemsContainer = () => {
+                return {children: []};
+            };
+            baseControl._mouseEnter(null);
+            assert.isTrue(baseControl._pagingVisible);
+            const item = {
+                contents: {
+                    unsubscribe: () => {
+                        return '';
+                    },
+                    subscribe: () => {
+                        return '';
+                    }
+                }
+            };
+            // Эмулируем начало редактирования
+            await baseControl._afterBeginEditCallback(item, false);
+            baseControl._editInPlaceController = {isEditing: () => true};
+            assert.isFalse(baseControl._pagingVisible);
+            baseControl._mouseEnter(null);
+            assert.isFalse(baseControl._pagingVisible);
+
+            baseControl._afterEndEditCallback(item, false);
+            baseControl._editInPlaceController.isEditing = () => {
+                return false;
+            };
+            baseControl._mouseEnter(null);
+            assert.isTrue(baseControl._pagingVisible);
         });
     });
     describe('beforeUnmount', () => {
@@ -398,8 +487,8 @@ describe('Controls/list_clean/BaseControl', () => {
 
             baseControl.saveOptions(baseControlCfg);
             await baseControl._beforeMount(baseControlCfg);
-            baseControl._editInPlace = {
-                reset: () => {
+            baseControl._editInPlaceController = {
+                destroy: () => {
                     assert.isFalse(modelDestroyed, 'model is destroyed before editInPlace');
                     eipReset = true;
                 }
@@ -413,64 +502,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUnmount();
             assert.isTrue(eipReset, 'editInPlace is not reset');
             assert.isTrue(modelDestroyed, 'model is not destroyed');
-
-        });
-    });
-    describe('BaseControl enterHandler', () => {
-        it('is enterHandler', function() {
-            let notified = false;
-            let notifiedCount = 0;// Количество событий
-            BaseControl._private.enterHandler({
-                _options: {
-                    useNewModel: false
-                },
-                getViewModel: function() {
-                    return {
-                        getMarkedItem: function() {
-                            return null;
-                        }
-                    };
-                },
-                _notify: function(e, item, options) {
-                    notified = true;
-                }
-            });
-            assert.isFalse(notified);
-            assert.isFalse(!!notifiedCount);
-
-            const myMarkedItem = {qwe: 123};
-            const mockedEvent = {
-                target: 'myTestTarget',
-                isStopped: function() {
-                    return false;
-                }
-            };
-
-            BaseControl._private.enterHandler({
-                _options: {
-                    useNewModel: false
-                },
-                getViewModel: function() {
-                    return {
-                        getMarkedItem: function() {
-                            return {
-                                getContents: function() {
-                                    return myMarkedItem;
-                                }
-                            };
-                        }
-                    };
-                },
-                _notify: function(e, args, options) {
-                    notified = true;
-                    notifiedCount++;
-                    assert.isTrue(e === 'itemClick' || e === 'itemActivate');
-                    assert.deepEqual(args, [myMarkedItem, mockedEvent]);
-                    assert.deepEqual(options, {bubbling: true});
-                }
-            }, mockedEvent);
-            assert.isTrue(notified);
-            assert.isTrue(notifiedCount === 2);
         });
     });
 });

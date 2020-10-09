@@ -62,12 +62,12 @@ class TimeInterval extends Base {
         return ViewModel;
     }
 
-    protected _changeHandler() {
+    protected _notifyInputCompleted() {
         if (this._viewModel.autoComplete()) {
             this._notifyValueChanged();
         }
 
-        super._changeHandler();
+        super._notifyInputCompleted();
     }
 
     protected _focusInHandler(...args) {

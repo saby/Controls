@@ -200,12 +200,12 @@ var NumberInput = Base.extend({
         return ViewModel;
     },
 
-    _changeHandler: function () {
+    _notifyInputCompleted: function () {
         if (this._viewModel.trimTrailingZeros(true)) {
             this._notifyValueChanged();
         }
 
-        NumberInput.superclass._changeHandler.apply(this, arguments);
+        NumberInput.superclass._notifyInputCompleted.apply(this, arguments);
     },
 
     _focusOutHandler: function () {

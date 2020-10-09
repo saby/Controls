@@ -11,6 +11,15 @@
     <div class="controlsDemo__cell">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Sorting/SortingSelector/Icons/Index' }}">
+            <a href="{{content.href}}">Сортировка с иконками</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Sorting.SortingSelector.Icons.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index' }}">
             <a href="{{content.href}}">Сортировка по кнопке со сбросом</a>
         </Router.router:Reference>

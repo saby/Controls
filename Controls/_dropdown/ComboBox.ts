@@ -40,12 +40,18 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
  * @implements Controls/interface/IInputPlaceholder
+ * @implements Controls/_input/interface/ITag
+ * @implements Controls/_interface/IValidationStatus
+ * @implements Controls/_interface/IFontSize
+ * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/ITooltip
+ * @implements Controls/_interface/IHeight
  * @implements Controls/interface/IDropdown
  * @control
  * @public
  * @category Input
  * @author Золотова Э.Е.
- * @demo Controls-demo/Input/ComboBox/ComboBoxPG
+ * @demo Controls-demo/dropdown_new/Combobox/Source/Index
  */
 
 /*
@@ -117,8 +123,8 @@ class ComboBox extends BaseDropdown {
       const controllerOptions = getDropdownControllerOptions(options);
       return { ...controllerOptions, ...{
             selectedKeys: [options.selectedKey],
+            markerVisibility: 'hidden',
             dataLoadCallback: options.dataLoadCallback,
-            marker: false,
             popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
                            + ' controls-ComboBox-popup_theme-' + options.theme,
             typeShadow: 'suggestionsContainer',

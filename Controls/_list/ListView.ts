@@ -7,7 +7,8 @@ import {Logger} from 'UI/Utils';
 import ListViewTpl = require('wml!Controls/_list/ListView/ListView');
 import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
-import {isEqual} from "Types/object";
+import * as forTemplate from 'wml!Controls/_list/Render/For';
+import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -39,24 +40,6 @@ var _private = {
             self._notify('hoveredItemChanged', [item, container]);
         }
     },
-
-    /**
-     * Проверяет, что markedKey был изменён в модели ListViewModel, например,
-     * в случае, когда заданный в опциях ключ не был найден в пришедших с сервера данных
-     * @param self
-     */
-    checkMarkedKeyHasChangedInModel: function(self) {
-        return self._options.markedKey !== undefined && self._options.markedKey !== null &&
-            self._options.markedKey !== self._listModel.getMarkedKey();
-    },
-
-    /**
-     * Проверяет, нужно ли показывать markedKey
-     * @param self
-     */
-    checkMarkerShouldBeVisible: function(self) {
-        return self._options.markerVisibility === 'always' || self._options.markerVisibility === 'visible';
-    }
 };
 
 var ListView = BaseControl.extend(
@@ -69,6 +52,7 @@ var ListView = BaseControl.extend(
         _pendingRedraw: false,
         _reloadInProgress: false,
         _callbackAfterReload: null,
+        _forTemplate: null,
 
         constructor: function() {
             ListView.superclass.constructor.apply(this, arguments);
@@ -122,10 +106,19 @@ var ListView = BaseControl.extend(
             }
             if (newOptions.listModel) {
                 this._listModel = newOptions.listModel;
-                this._listModel.subscribe('onListChange', this._onListChangeFnc);
 
-                // Если изменить опцию модели пока ListView не построена, то они и не применятся.
-                this._listModel.setItemPadding(newOptions.itemPadding, true);
+                if (newOptions.useNewModel) {
+                    this._listModel.subscribe('onCollectionChange', this._onListChangeFnc);
+                } else {
+                    this._listModel.subscribe('onListChange', this._onListChangeFnc);
+                    // Если изменить опцию модели пока ListView не построена, то они и не применятся.
+                    this._listModel.setItemPadding(newOptions.itemPadding, true);
+                }
+            }
+            if (newOptions.useNewModel) {
+                this._forTemplate = forTemplate;
+            } else {
+                this._forTemplate = oldForTemplate;
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
         },
@@ -141,14 +134,8 @@ var ListView = BaseControl.extend(
                 this._listModel = newOptions.listModel;
                 this._listModel.subscribe('onListChange', this._onListChangeFnc);
             }
-            if (this._options.itemTemplateProperty !== newOptions.itemTemplateProperty) {
-                this._listModel.setItemTemplateProperty(newOptions.itemTemplateProperty);
-            }
             if (this._options.groupTemplate !== newOptions.groupTemplate) {
                 this._groupTemplate = newOptions.groupTemplate;
-            }
-            if (!isEqual(this._options.itemPadding, newOptions.itemPadding)) {
-                this._listModel.setItemPadding(newOptions.itemPadding);
             }
             this._itemTemplate = this._resolveItemTemplate(newOptions);
         },
@@ -164,14 +151,6 @@ var ListView = BaseControl.extend(
 
         _afterMount: function() {
             this._notify('itemsContainerReady', [this.getItemsContainer.bind(this)]);
-            // корректное значение _listModel.markedKey устанавливается в BaseControl после получения данных
-            // методом BaseControl.reload() и событие 'onMarkedKeyChanged' модели ListViewModel
-            // вызывается до того, как в ListView._beforeMount() на него делается подписка
-            // может, задействовать Env/Event:Bus?
-            if ((this._options.markedKey === undefined || _private.checkMarkedKeyHasChangedInModel(this)) &&
-                _private.checkMarkerShouldBeVisible(this)) {
-                this._notify('markedKeyChanged', [this._listModel.getMarkedKey()]);
-            }
             // todo костыль до тех пор, пока не перейдем на отслеживание ресайза через нативное событие в двух основныых
             // местах - в окнах и в scrollContainer'e.
             // https://online.sbis.ru/opendoc.html?guid=4409ca19-6e5d-41af-b080-5431dbd8887c
@@ -198,6 +177,13 @@ var ListView = BaseControl.extend(
             // TODO: Убрать, preventItemEvent когда это больше не понадобится
             // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
             if (!e.preventItemEvent) {
+                if (this._options.useNewModel) {
+                    if (dispItem['[Controls/_display/GroupItem]']) {
+                        const groupItem = dispItem.getContents();
+                        this._notify('groupClick', [groupItem, e, dispItem], {bubbling: true});
+                        return;
+                    }
+                }
                 var item = dispItem.getContents();
                 this._notify('itemClick', [item, e]);
             }
@@ -209,9 +195,19 @@ var ListView = BaseControl.extend(
         },
 
         _onItemContextMenu: function(event, itemData) {
-           if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.getEditingItemData()) {
+           if (this._options.contextMenuEnabled !== false && this._options.contextMenuVisibility !== false && !this._options.listModel.isEditing()) {
                 this._notify('itemContextMenu', [itemData, event, false]);
             }
+        },
+
+        /**
+         * Обработчик долгого тапа
+         * @param event
+         * @param itemData
+         * @private
+         */
+        _onItemLongTap(event, itemData): void {
+            this._onItemContextMenu(event, itemData);
         },
 
         _onItemSwipe: function(event, itemData) {
@@ -224,6 +220,12 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
+            if (this._options.useNewModel) {
+                if (itemData['[Controls/_display/GroupItem]']) {
+                    event.stopPropagation();
+                    return;
+                }
+            }
             if (itemData && itemData.isSwiped()) {
                // TODO: Сейчас на itemMouseDown список переводит фокус на fakeFocusElement и срабатывает событие listDeactivated.
                // Из-за этого события закрывается свайп, это неправильно, т.к. из-за этого становится невозможным открытие меню.
@@ -239,6 +241,12 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseUp(e, itemData) {
+            if (this._options.useNewModel) {
+                if (itemData['[Controls/_display/GroupItem]']) {
+                    e.stopPropagation();
+                    return;
+                }
+            }
             this._notify('itemMouseUp', [itemData, e]);
         },
 
@@ -292,8 +300,7 @@ var ListView = BaseControl.extend(
 ListView.getDefaultOptions = function() {
     return {
         contextMenuVisibility: true,
-        markerVisibility: 'onactivated',
-        headerInEmptyListVisible: true
+        markerVisibility: 'onactivated'
     };
 };
 ListView._theme = ['Controls/list'];

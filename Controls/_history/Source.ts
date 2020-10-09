@@ -509,7 +509,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                     recentItemIndex = index;
                 }
             });
-            return recentItemIndex;
+            return recentItemIndex === -1 ? 0 : recentItemIndex;
         };
 
         const moveRecentItemToTop = (item) => {
@@ -519,7 +519,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
             if (firstRecentItemIndex !== itemIndex) {
                 this._$historyItems.move(
                     this._$historyItems.getIndex(item),
-                    firstRecentItemIndex + 1
+                    firstRecentItemIndex
                 );
             }
         };

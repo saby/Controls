@@ -49,7 +49,7 @@ var Text = Base.extend({
         return ViewModel;
     },
 
-    _changeHandler: function () {
+    _notifyInputCompleted: function () {
         if (this._options.trim) {
             var trimmedValue = this._viewModel.displayValue.trim();
 
@@ -59,7 +59,7 @@ var Text = Base.extend({
             }
         }
 
-        Text.superclass._changeHandler.apply(this, arguments);
+        Text.superclass._notifyInputCompleted.apply(this, arguments);
     },
 
     _syncBeforeMount: function(options): void {

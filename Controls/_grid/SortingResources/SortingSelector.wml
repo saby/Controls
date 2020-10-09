@@ -1,33 +1,43 @@
-<div class="controls-SortingSelector">
-    <Controls.dropdown:Input
-            name="dropdown"
-            selectedKeys="{{_selectedKeys}}"
-            on:selectedKeysChanged="_selectedKeysChangedHandler()"
-            keyProperty="id"
-            displayProperty="title"
-            source="{{_source}}"
-            fontSize="{{_options.fontSize}}"
-            dropdownClassName="{{_options.dropdownClassName}}"
-            popupClassName="{{_options.popupClassName}}"
-            menuPopupOptions="{{_options.menuPopupOptions}}"
-            emptyKey="{{_options.emptyKey}}"
-            emptyText="{{_options.emptyText}}"
-            footerContentTemplate="{{_options.footerContentTemplate}}"
-            fontColorStyle="{{_options.fontColorStyle}}"
-            emptyTemplate="{{_options.emptyTemplate}}">
-        <ws:headerTemplate>
-            <ws:if data="{{_options.header}}">
-                <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
-                    <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" iconSize="{{_options.iconSize}}" icon="{{_options.icon}}" caption="{{_options.header}}"/>
-                </Controls.Container.Async>
-            </ws:if>
-        </ws:headerTemplate>
-        <ws:itemTemplate>
-            <ws:partial template="wml!Controls/_grid/SortingResources/SortingSelectorItemTemplate" scope="{{itemTemplate}}"></ws:partial>
-        </ws:itemTemplate>
-    </Controls.dropdown:Input>
-    <ws:if data="{{_currentParamName}}">
-        <ws:partial on:click="_switchValue()" attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}}" value="{{_currentOrder}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
-    </ws:if>
+<ws:template name="sortingSelector">
+    <div class="controls-SortingSelector">
+        <Controls.dropdown:Input
+                name="dropdown"
+                selectedKeys="{{_selectedKeys}}"
+                keyProperty="paramName"
+                displayProperty="title"
+                source="{{_source}}"
+                fontSize="{{_options.fontSize}}"
+                iconSize="{{_iconSize}}"
+                dropdownClassName="{{_options.dropdownClassName}}"
+                popupClassName="{{_options.popupClassName}}"
+                menuPopupOptions="{{_options.menuPopupOptions}}"
+                emptyKey="{{_options.emptyKey}}"
+                emptyText="{{_options.emptyText}}"
+                footerContentTemplate="{{_options.footerContentTemplate}}"
+                fontColorStyle="{{_options.fontColorStyle}}"
+                emptyTemplate="{{_options.emptyTemplate}}"
+                headerTemplate="{{headerTemplate}}">
+            <ws:itemTemplate>
+                <ws:partial template="wml!Controls/_grid/SortingResources/SortingSelectorItemTemplate" scope="{{itemTemplate}}"></ws:partial>
+            </ws:itemTemplate>
+        </Controls.dropdown:Input>
+        <ws:if data="{{_currentParamName}}">
+            <ws:partial on:click="_switchValue()"
+                        attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}} controls-SortingSelector_arrow{{_nocaption ? '_nocaption' : '_caption'}}_theme-{{_options.theme}}"
+                        value="{{_orders[_currentParamName]}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
+        </ws:if>
+    </div>
+</ws:template>
 
-</div>
+<ws:if data="{{_options.header}}">
+    <ws:partial template="sortingSelector">
+        <ws:headerTemplate>
+            <Controls.Container.Async templateName="Controls/dropdown:HeaderTemplate">
+                <ws:partial template="{{ content.resolvedTemplate }}" scope="{{ headTemplate }}" iconSize="{{_options.iconSize}}" icon="{{_options.icon}}" caption="{{_options.header}}"/>
+            </Controls.Container.Async>
+        </ws:headerTemplate>
+    </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="sortingSelector"/>
+</ws:else>

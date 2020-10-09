@@ -43,11 +43,11 @@ export = {
 
             let dif;
             // check overflowX
-            dif = (item.position.left + containerSizes.width) - windowData.width;
+            dif = (item.position.left + containerSizes.width) - (windowData.width + windowData.left);
             left -= Math.max(0, dif);
 
             // check overflowY
-            dif = (item.position.top + containerSizes.height) - windowData.height;
+            dif = (item.position.top + containerSizes.height) - (windowData.height + windowData.top);
             top -= Math.max(0, dif);
         } else {
             width = this._calculateValue(popupOptions, containerSizes.width, windowData.width, parseInt(popupOptions.width, 10), popupOptions.maxWidth, popupOptions.minWidth);

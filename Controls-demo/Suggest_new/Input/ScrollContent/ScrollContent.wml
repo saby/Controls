@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <Controls.scroll:Container scrollbarVisible="{{true}}" shadowVisible="{{false}}" attr:class="ControlsDemo-Suggest__scroll controlsDemo_fixedWidth500">
+   <Controls.scroll:Container scrollbarVisible="{{true}}" topShadowVisibility="hidden" bottomShadowVisibility="hidden" attr:class="ControlsDemo-Suggest__scroll controlsDemo_fixedWidth500">
        <div class="controlsDemo__wrapper__horizontal controlsDemo__cell ControlsDemo-Suggest__content">
             <div class="controls-text-label_theme-{{_options.theme}}">Автодополнение с scroll:Container</div>
             <Controls.suggest:Input

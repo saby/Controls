@@ -6,13 +6,14 @@ import {
     ColumnsCollection as Collection,
     ColumnsCollectionItem as CollectionItem,
 } from 'Controls/display';
-import {scrollToElement} from 'Controls/scrollUtils';
+import {scrollToElement} from 'Controls/scroll';
 
 import {IList} from 'Controls/list';
 
 import ColumnsController from './controllers/ColumnsController';
 import * as template from 'wml!Controls/_columns/ColumnsInnerView';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
+import { CrudEntityKey } from 'Types/source';
 
 export interface IColumnsInnerViewOptions extends IList {
     columnMinWidth: number;
@@ -46,7 +47,7 @@ export default class ColumnsInnerView extends Control {
         this._resizeHandler = this._resizeHandler.bind(this);
         this._model = options.listModel;
 
-        if (options.markerVisibility !== MarkerVisibility.Visible) {
+        if (options.markerVisibility !== MarkerVisibility.Hidden) {
             this._markerController = new MarkerController({
                 markerVisibility: options.markerVisibility,
                 markedKey: options.markedKey,
@@ -79,11 +80,15 @@ export default class ColumnsInnerView extends Control {
         }
 
         if (this._markerController) {
-            this._markerController.update({
+            this._markerController.updateOptions({
                 markerVisibility: options.markerVisibility,
                 markedKey: options.markedKey,
                 model: options.listModel
             });
+
+            if (this._options.markedKey !== options.markedKey) {
+                this._markerController.setMarkedKey(options.markedKey);
+            }
         }
     }
 
@@ -286,7 +291,7 @@ export default class ColumnsInnerView extends Control {
             let newMarkedItem: CollectionItem<Model>;
             newMarkedItem = this[`getItemTo${direction}`](model, curMarkedItem);
             if (newMarkedItem && curMarkedItem !== newMarkedItem) {
-                this._markerController.setMarkedKey(newMarkedItem.getContents().getKey());
+                this._changeMarkedKey(newMarkedItem.getContents().getKey());
                 const column = newMarkedItem.getColumn();
                 const curIndex = model.getIndex(newMarkedItem);
                 const columnIndex = this._columnsIndexes[column].indexOf(curIndex);
@@ -295,6 +300,33 @@ export default class ColumnsInnerView extends Control {
                 scrollToElement(elem, direction === 'Down');
             }
         }
+    }
+
+    private _changeMarkedKey(newMarkedKey: CrudEntityKey): Promise<CrudEntityKey>|CrudEntityKey {
+        // Пока выполнялся асинхронный запрос, контрол мог быть уничтожен. Например, всплывающие окна.
+        if (this._destroyed) {
+            return undefined;
+        }
+
+        const eventResult = this._notify('beforeMarkedKeyChanged', [newMarkedKey], { bubbling: true }) as Promise<CrudEntityKey>|CrudEntityKey;
+
+        let result = eventResult;
+        if (eventResult instanceof Promise) {
+            eventResult.then((key) => {
+                this._markerController.setMarkedKey(key);
+                this._notify('markedKeyChanged', [key]);
+                return key;
+            });
+        } else if (eventResult !== undefined) {
+            this._markerController.setMarkedKey(eventResult);
+            this._notify('markedKeyChanged', [eventResult]);
+        } else {
+            result = newMarkedKey;
+            this._markerController.setMarkedKey(newMarkedKey);
+            this._notify('markedKeyChanged', [newMarkedKey]);
+        }
+
+        return result;
     }
 
     keyDownHandler(e: SyntheticEvent<KeyboardEvent>): boolean {

@@ -1,0 +1,60 @@
+<ws:template name="previewContentTemplate">
+   <div
+      class="controls-TileView__previewTemplate_content controls-TileView__previewTemplate_content_theme-{{_options.theme}}">
+      <ws:partial template="wml!Controls/_tile/TileView/TileImageTemplate"
+                  attr:class="controls-TileView__previewTemplate_image controls-TileView__previewTemplate_image_theme-{{_options.theme}}">
+         <ws:imageWrapperTemplate>
+            <ws:if data="{{topTemplate}}">
+               <ws:partial template="{{topTemplate}}"
+                           itemData="{{itemData}}"
+                           attr:class="controls-TileView__previewTemplate_topTemplate"/>
+            </ws:if>
+            <div class="controls-TileView__previewTemplate_title
+                        {{itemData.dispItem.isNode() ? 'controls-fontweight-bold' : ''}}
+                        controls-TileView__previewTemplate_title_{{titleLines === '1' || titleLines === undefined ? 'single' : 'multi'}}Line_theme-{{_options.theme}}
+                        controls-TileView__previewTemplate_title_gradient_{{gradientType || 'dark' }}_theme-{{_options.theme}}
+                        controls-TileView__previewTemplate_title_text_{{titleStyle || 'light'}}_theme-{{_options.theme}}
+                        controls-fontsize-{{itemData.dispItem.isNode() ? 'l' : 'm'}}_theme-{{_options.theme}}"
+                 title="{{itemData.item[itemData.displayProperty]}}">
+               <div class="controls-TileView__previewTemplate_gradient
+                        controls-TileView__previewTemplate_gradient_{{gradientType || 'dark'}}_theme-{{_options.theme}}"
+                    style="{{gradientType === 'custom' ? 'background: linear-gradient(to top, ' + gradientColor +  ' 0%, ' + gradientColor + ' calc(100% - 4px), rgba(255, 255, 255, 0) 100%);' : ''}}"></div>
+               <div class="controls-TileView__previewTemplate_title_text"
+                    title="{{itemData.item[itemData.displayProperty]}}">
+                  <div class="controls-TileView__text_ellipsis_multiLine"
+                       style="-webkit-line-clamp: {{titleLines || 1}};">
+                     {{itemData.item[itemData.displayProperty]}}</div>
+                  <ws:partial if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+                              template="{{itemActionsTemplate}}"
+                              highlightOnHover="{{false}}"
+                              itemData="{{itemData}}"
+                              itemActionsClass="controls-TileView__previewTemplate_itemActions"/>
+                  <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+                              template="{{swipeTemplate}}"
+                              itemData="{{itemData}}"
+                              itemActionsTemplate="{{itemActionsTemplate}}"/>
+                  <ws:if data="{{bottomRightTemplate && !itemData.isHovered}}">
+                     <ws:partial template="{{bottomRightTemplate}}"
+                                 attr:class="controls-TileView__previewTemplate_bottomRightTemplate_theme-{{_options.theme}}"
+                                 itemData="{{itemData}}"/>
+                  </ws:if>
+               </div>
+            </div>
+         </ws:imageWrapperTemplate>
+      </ws:partial>
+   </div>
+</ws:template>
+
+
+<ws:partial template="wml!Controls/_tile/TreeTileView/DefaultItemTpl"
+            itemActionsClass="controls-TileView__previewTemplate_itemActions"
+            itemActionsPosition="custom"
+            highlightOnHover="{{false}}"
+            scope="{{_options}}">
+   <ws:contentTemplate>
+      <ws:partial template="previewContentTemplate"/>
+   </ws:contentTemplate>
+   <ws:nodeContentTemplate>
+      <ws:partial template="previewContentTemplate"/>
+   </ws:nodeContentTemplate>
+</ws:partial>

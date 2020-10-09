@@ -8,8 +8,7 @@ import { Sticky } from 'Controls/popup';
 
 import {
     Collection,
-    CollectionItem,
-    ANIMATION_STATE
+    CollectionItem
 } from 'Controls/display';
 import {
     Controller as ItemActionsController,
@@ -31,6 +30,7 @@ import { MarkerController, TVisibility, Visibility } from 'Controls/marker';
 import { ISwipeEvent } from './Render';
 
 import template = require('wml!Controls/_listRender/View/View');
+import { CrudEntityKey } from 'Types/source';
 
 export interface IViewOptions extends IItemActionsOptions, IControlOptions {
     items: RecordSet;
@@ -96,11 +96,13 @@ export default class View extends Control<IViewOptions> {
            || options.markerVisibility !== this._options.markerVisibility
            || collectionRecreated) {
             if (this._markerController) {
-                this._markerController.update({
+                this._markerController.updateOptions({
                     model: this._collection,
                     markerVisibility: options.markerVisibility,
                     markedKey: options.markedKey
                 });
+
+                this._markerController.setMarkedKey(options.markedKey);
             }
         }
 
@@ -159,11 +161,10 @@ export default class View extends Control<IViewOptions> {
         item: Model,
         clickEvent: SyntheticEvent<MouseEvent>
     ): void {
-        if (this._markerController) {
-            this._markerController.setMarkedKey(item.getKey());
+        if (this._options.markerVisibility !== 'hidden') {
+            this._changeMarkedKey(item.getKey());
         }
         this._notify('itemClick', [item, clickEvent]);
-        // TODO fire 'markedKeyChanged' event
     }
 
     /**
@@ -186,7 +187,7 @@ export default class View extends Control<IViewOptions> {
             this._itemActionsController.activateSwipe(item.getContents().getKey(), swipeContainerWidth, swipeContainerHeight);
         }
         if (swipeEvent.nativeEvent.direction === 'right' && item.isSwiped()) {
-            this._itemActionsController.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+            this._itemActionsController.startSwipeCloseAnimation();
             this._collection.nextVersion();
         }
     }
@@ -214,10 +215,9 @@ export default class View extends Control<IViewOptions> {
         action: IShownItemAction,
         clickEvent: SyntheticEvent<MouseEvent>
     ): void {
-        if (this._markerController) {
-            this._markerController.setMarkedKey(item.getContents().getKey());
+        if (this._options.markerVisibility !== 'hidden') {
+            this._changeMarkedKey(item.getContents().getKey());
         }
-        // TODO fire 'markedKeyChanged' event
 
         if (action && !action.isMenu && !action['parent@']) {
             this._handleItemActionClick(action, clickEvent, item, false);
@@ -254,18 +254,19 @@ export default class View extends Control<IViewOptions> {
         keyDownEvent: SyntheticEvent<KeyboardEvent>
     ): void {
         switch (keyDownEvent.nativeEvent.keyCode) {
-        case constants.key.down:
-            if (this._markerController) {
-                this._markerController.moveMarkerToNext();
-            }
-            break;
-        case constants.key.up:
-            if (this._markerController) {
-                this._markerController.moveMarkerToPrev();
-            }
-            break;
+            case constants.key.down:
+                if (this._options.markerVisibility !== 'hidden') {
+                    const nextKey = this._markerController.getNextMarkedKey();
+                    this._changeMarkedKey(nextKey);
+                }
+                break;
+            case constants.key.up:
+                if (this._options.markerVisibility !== 'hidden') {
+                    const prevKey = this._markerController.getPrevMarkedKey();
+                    this._changeMarkedKey(prevKey);
+                }
+                break;
         }
-        // TODO fire 'markedKeyChanged' event if needed
     }
 
     /**
@@ -448,6 +449,33 @@ export default class View extends Control<IViewOptions> {
             return;
         }
         this._closePopup();
+    }
+
+    private _changeMarkedKey(newMarkedKey: CrudEntityKey): Promise<CrudEntityKey>|CrudEntityKey {
+        // Пока выполнялся асинхронный запрос, контрол мог быть уничтожен. Например, всплывающие окна.
+        if (this._destroyed) {
+            return undefined;
+        }
+
+        const eventResult = this._notify('beforeMarkedKeyChanged', [newMarkedKey], { bubbling: true }) as Promise<CrudEntityKey>|CrudEntityKey;
+
+        let result = eventResult;
+        if (eventResult instanceof Promise) {
+            eventResult.then((key) => {
+                this._markerController.setMarkedKey(key);
+                this._notify('markedKeyChanged', [key]);
+                return key;
+            });
+        } else if (eventResult !== undefined) {
+            this._markerController.setMarkedKey(eventResult);
+            this._notify('markedKeyChanged', [eventResult]);
+        } else {
+            result = newMarkedKey;
+            this._markerController.setMarkedKey(newMarkedKey);
+            this._notify('markedKeyChanged', [newMarkedKey]);
+        }
+
+        return result;
     }
 
     /**

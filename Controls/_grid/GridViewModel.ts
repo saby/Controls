@@ -23,7 +23,6 @@ import { Model } from 'Types/entity';
 import {
     IEditingConfig,
     ISwipeConfig,
-    ANIMATION_STATE,
     CollectionItem
 } from 'Controls/display';
 import {Logger} from 'UI/Utils';
@@ -33,8 +32,7 @@ import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS} from './resources/ColumnScro
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 import { stickyLadderCellsCount, prepareLadder,  isSupportLadder, getStickyColumn} from 'Controls/_grid/utils/GridLadderUtil';
 import {IHeaderCell} from './interface/IHeaderCell';
-import { ItemsEntity } from 'Controls/dragnDrop';
-import { IDragPosition, IFlatItemData } from 'Controls/listDragNDrop';
+import { IDragPosition } from 'Controls/display';
 
 const FIXED_HEADER_ZINDEX = 4;
 const STICKY_HEADER_ZINDEX = 3;
@@ -324,7 +322,12 @@ var
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
             // Стиль колонки
-            classLists.base += `controls-Grid__row-cell controls-Grid__row-cell_theme-${theme} controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
+            if (current.itemPadding.top === 'null' && current.itemPadding.bottom === 'null') {
+                classLists.base += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            } else {
+                classLists.base += `controls-Grid__row-cell_default_min_height-theme-${theme} `;
+            }
+            classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
             _private.prepareSeparatorClasses(current, classLists, theme);
 
             if (backgroundColorStyle) {
@@ -367,7 +370,7 @@ var
 
                 // при отсутствии поддержки grid (например в IE, Edge) фон выделенной записи оказывается прозрачным,
                 // нужно его принудительно установить как фон таблицы
-                if (!isFullGridSupport && !current.isEditing) {
+                if (!isFullGridSupport && !current.isEditing()) {
                     classLists.marked += _private.getBackgroundStyle({backgroundStyle, theme}, true);
                 }
 
@@ -457,14 +460,14 @@ var
          * @param isActionsCellExists выводится ли в строке дополнительная ячейка под операции над записью
          * @private
          */
-        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, isActionsCellExists: boolean): {
+        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, isActionsCellExists: boolean, stickyLadderCellsCount: number = 0): {
             left: string
             right: string
         } {
             const additionalTerm = (itemData.hasMultiSelect ? 1 : 0);
             const result = {left: '', right: ''};
             const start = 1;
-            const end = itemData.columns.length + 1 + (isActionsCellExists ? 1 : 0);
+            const end = itemData.columns.length + 1 + (isActionsCellExists ? 1 : 0) + stickyLadderCellsCount;
 
             if (leftSideItemsCount > 0) {
                 const center = leftSideItemsCount + additionalTerm + 1;
@@ -715,15 +718,20 @@ var
 
             // Резолверы шаблонов. Передается объект, чтобы всегда иметь актуальные резолверы. Передача по ссылке
             // требуется например для построения таблицы с запущенным редактированием по месту. Редактирование строится
-            // до GridView и устанавливает editingItemData в которую передаются резолверы. На момент взятия itemData
+            // до GridView и устанавливает редактируемую запись в которую передаются резолверы. На момент взятия itemData
             // резолверов еще нет, поэтому передаем объект, позже Gridview запишет в него резолверы. С таким подходом
             // порядок маунтов не важен, главное, что все произойдет до маунта.
+            // TODO: Проверить, возможно стало неактуальным в 20.7000
             this._resolvers = {};
             this._model = this._createModel(cfg);
             this._onListChangeFn = function(event, changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
                 this._notify('onListChange', changesType, action, newItems, newItemsIndex, removedItems, removedItemsIndex);
                 if (changesType === 'collectionChanged' || changesType === 'indexesChanged') {
                     this._ladder = _private.prepareLadder(this);
+
+                    if (action === 'rs') {
+                        this._setHeader(this._options.header);
+                    }
                 }
                 if (changesType !== 'markedKeyChanged' && action !== 'ch') {
                     this._nextHeaderVersion();
@@ -870,8 +878,8 @@ var
             }
         },
 
-        setHeaderInEmptyListVisible(newVisibility) {
-            this.headerInEmptyListVisible = newVisibility;
+        setHeaderVisibility(newVisibility) {
+            this.headerVisibility = newVisibility;
             this.setHeader(this._header, true);
         },
 
@@ -962,7 +970,7 @@ var
          * Метод проверяет, рисовать ли header при отсутствии записей.
          */
         isDrawHeaderWithEmptyList(): boolean {
-            return this.headerInEmptyListVisible || this.isGridListNotEmpty();
+            return (this.headerVisibility === 'visible') || this.isGridListNotEmpty();
         },
 
         isGridListNotEmpty(): boolean {
@@ -1459,9 +1467,6 @@ var
         getNextItemKey: function() {
             return this._model.getNextItemKey.apply(this._model, arguments);
         },
-        getValidItemForMarker: function(index) {
-            return this._model.getValidItemForMarker(index);
-        },
         setIndexes: function(startIndex, stopIndex) {
             return this._model.setIndexes(startIndex, stopIndex);
         },
@@ -1534,10 +1539,6 @@ var
                 },
                 hasEmptyTemplate = !!this._options.emptyTemplate;
 
-            if (this.getEditingItemData()) {
-                cfg.editingRowIndex = this.getEditingItemData().index;
-            }
-
             return {
                 getIndexByItem: (item) => getIndexByItem({item, ...cfg}),
                 getIndexById: (id) => getIndexById({id, ...cfg}),
@@ -1600,20 +1601,8 @@ var
             current.isLastRow = (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
                                  (this.getCount() - 1 === current.index);
 
-            // Если после последней записи идет добавление новой, не нужно рисовать широкую линию-разделитель между ними.
-            const editingItemData = this.getEditingItemData();
-            if (editingItemData) {
-                let index;
-                if (this._options.editingConfig.addPosition === 'top') {
-                    index = editingItemData.index - 1;
-                } else {
-                    index = editingItemData.index;
-                }
-                current.isLastRow = current.isLastRow  && (index - 1 < current.index);
-            }
-
             current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
-                _private.getColumnAlignGroupStyles(current, columnAlignGroup, self._shouldAddActionsCell())
+                _private.getColumnAlignGroupStyles(current, columnAlignGroup, self._shouldAddActionsCell(), self.stickyLadderCellsCount())
             );
 
             const style = !current.style ? 'default' : current.style;
@@ -1649,9 +1638,6 @@ var
             // TODO: Разобраться, зачем это. По задаче https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
             if (current.columnScroll) {
                 current.rowIndex = this._calcRowIndex(current);
-                if (this.getEditingItemData() && (current.rowIndex >= this.getEditingItemData().rowIndex)) {
-                    current.rowIndex++;
-                }
             }
 
             if (current.isGroup) {
@@ -1927,25 +1913,6 @@ var
             this._model.nextModelVersion.apply(this._model, arguments);
         },
 
-        _setEditingItemData: function (itemData) {
-            this._model._setEditingItemData(itemData);
-
-            /*
-            * https://online.sbis.ru/opendoc.html?guid=8a8dcd32-104c-4564-8748-2748af03b4f1
-            * Нужно пересчитать и перерисовать записи после начала и завершения редактирования.
-            * При старте редактирования индексы пересчитываются, и, в случе если началось добавление, индексы записей после добавляемой увеличиваются на 1.
-            * При отмене добавления индексы нужно вернуть в изначальное состояние.
-            * */
-            // TODO: Разобраться, нужно ли. https://online.sbis.ru/doc/5d2c482e-2b2f-417b-98d2-8364c454e635
-            if (this._options.columnScroll) {
-                this._nextModelVersion();
-            }
-        },
-
-        getEditingItemData(): object | null {
-            return this._model.getEditingItemData();
-        },
-
         setItemActionVisibilityCallback: function(callback) {
             this._model.setItemActionVisibilityCallback(callback);
         },
@@ -2030,16 +1997,6 @@ var
         },
 
         // New Model compatibility
-        getSwipeAnimation(): ANIMATION_STATE {
-            return this._model.getSwipeAnimation();
-        },
-
-        // New Model compatibility
-        setSwipeAnimation(animation: ANIMATION_STATE): void {
-            this._model.setSwipeAnimation(animation);
-        },
-
-        // New Model compatibility
         each(callback: collection.EnumeratorCallback<Model>, context?: object): void {
             this._model.each(callback, context);
         },
@@ -2062,6 +2019,11 @@ var
         // New Model compatibility
         getIndexBySourceItem(item: Model): number | string {
             return this._model ? this._model.getIndexBySourceItem(item) : undefined;
+        },
+
+        // New Model compatibility
+        isEventRaising(): boolean {
+            return this._model.isEventRaising();
         },
 
         // New Model compatibility
@@ -2127,10 +2089,10 @@ var
             this._model.setSelectedItems(items, selected);
         },
 
-        setDraggedItems(draggedItem: IFlatItemData, dragEntity: ItemsEntity): void {
-            this._model.setDraggedItems(draggedItem, dragEntity);
+        setDraggedItems(avatarItemKey: number|string, draggedItemsKeys: Array<number|string>): void {
+            this._model.setDraggedItems(avatarItemKey, draggedItemsKeys);
         },
-        setDragPosition(position: IDragPosition): void {
+        setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
             this._model.setDragPosition(position);
         },
         resetDraggedItems(): void {
@@ -2141,16 +2103,8 @@ var
             this._model.setDragTargetPosition(position);
         },
 
-        getDragTargetPosition: function() {
-            return this._model.getDragTargetPosition();
-        },
-
         setDragEntity: function(entity) {
             this._model.setDragEntity(entity);
-        },
-
-        getDragEntity: function() {
-            return this._model.getDragEntity();
         },
 
         setDragItemData: function(itemData) {
@@ -2165,7 +2119,7 @@ var
             return this._model.getDragItemData();
         },
 
-        getPrevDragPosition(): IDragPosition {
+        getPrevDragPosition(): IDragPosition<CollectionItem<Model>> {
             return this._model.getPrevDragPosition();
         },
 

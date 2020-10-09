@@ -1,1 +1,0 @@
-<ws:partial template="{{_options.content}}" on:search="_changeValueHandler()"/>

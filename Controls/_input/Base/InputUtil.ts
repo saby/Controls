@@ -8,28 +8,6 @@ export interface IInputData {
 }
 
 /**
- * @type {String} InputType
- * @variant insert Enter value.
- * @variant delete Delete with help key backspace [ + ctrl] or delete [ + ctrl] with value selection.
- * @variant deleteBackward Delete with help key backspace [ + ctrl] without value selection.
- * @variant deleteForward Delete with help key delete [ + ctrl] without value selection.
- */
-export type IInputType = 'insert' | 'delete' | 'deleteBackward' | 'deleteForward';
-
-/**
- * @type {String} NativeInputType
- * @variant insertText Character input.
- * @variant insertFromPaste Pasting from the clipboard.
- * @variant insertFromDrop Insert through drop.
- * @variant deleteContentBackward Delete with help key backspace.
- * @variant deleteContentForward Delete with help key delete.
- * @variant deleteWordBackward Delete with help key backspace + ctrl.
- * @variant deleteWordForward Delete with help key delete + ctrl.
- */
-export type INativeInputType = 'insertText' | 'insertFromPaste' | 'insertFromDrop' | 'deleteContentBackward' |
-    'deleteContentForward' | 'deleteWordBackward' | 'deleteWordForward';
-
-/**
  * Get split by entered string.
  * @param {String} oldValue Values in the field before changing it.
  * @param {String} newValue Values in the field after changing it.
@@ -38,7 +16,7 @@ export type INativeInputType = 'insertText' | 'insertFromPaste' | 'insertFromDro
  * @param {Controls/_input/Base/Types/InputType.typedef} inputType Type of changing value in the field.
  * @return {Controls/_input/Base/Types/SplitValue.typedef}
  */
-export function split(oldValue: string, newValue: string, caretPosition: number, selection, inputType: IInputType): ISplitValue {
+export function split(oldValue: string, newValue: string, caretPosition: number, selection, inputType: InputType): ISplitValue {
    const selectionLength = selection.end - selection.start;
 
    const afterInsertedValue: string = newValue.substring(caretPosition);
@@ -75,46 +53,4 @@ function getSplitForAutoComplete(oldValue: string, newValue: string): ISplitValu
       delete: oldValue,
       after: ''
    };
-}
-
-/**
- * @param {String} oldValue Values in the field before changing it.
- * @param {String} newValue Values in the field after changing it.
- * @param {Number} caretPosition Carriage position in the field after changing value.
- * @param {Controls/_input/Base/Types/Selection.typedef} selection Selection in the field before changing value.
- * @returns {Controls/_input/Base/Types/InputType.typedef}
- */
-export function getInputType(oldValue: string, newValue: string, caretPosition: number, selection): IInputType {
-   const selectionLength: number = selection.end - selection.start;
-   const isDelete: boolean = oldValue.length - selectionLength >= newValue.length;
-   const isSelection: boolean = !!selectionLength;
-   const isOffsetCaret: boolean = caretPosition === (selection.selectionEnd ?
-       selection.selectionEnd :
-       selection.end);
-
-   const bitView: string = [isDelete, isSelection, isOffsetCaret].map((item) => +item).join('');
-
-   switch (parseInt(bitView, 2)) {
-      case 4:
-         return 'deleteBackward';
-      case 5:
-         return 'deleteForward';
-      case 6:
-      case 7:
-         return 'delete';
-      default:
-         return 'insert';
-   }
-}
-
-/**
- * @param {Controls/_input/Base/Types/InputType.typedef} nativeInputType Type of changing value in the field.
- * @param {Controls/_input/Base/Types/Selection.typedef} selection Selection in the field before changing value.
- * @returns {Controls/_input/Base/Types/InputType.typedef}
- */
-export function getAdaptiveInputType(nativeInputType: INativeInputType, selection): IInputType {
-   const selectionLength: number = selection.end - selection.start;
-   const execType: string[] = /^(insert|delete|).*?(Backward|Forward|)$/.exec(nativeInputType);
-
-   return <IInputType>(selectionLength ? execType[1] : execType[1] + execType[2]);
 }

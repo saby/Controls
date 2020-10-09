@@ -1,4 +1,4 @@
-<div class="controls-TileView__itemPaddingContainer {{_listModel.getItemPaddingClasses()}}">
+<div class="controls-TileView__itemPaddingContainer {{_listModel.getItemsPaddingContainerClasses()}}">
     <div class="controls-ListView controls-TileView" name="tileContainer" on:keyDown="_onTileViewKeyDown()">
         <ws:if data="{{_listModel}}">
             <ws:partial
@@ -9,8 +9,6 @@
                     swipeTemplate="{{_options.swipeTemplate}}"
                     groupTemplate="{{_groupTemplate}}"
                     multiSelectTpl="{{_options.multiSelectTpl}}"
-                    editingItemData="{{_listModel.getEditingItemData ? _listModel.getEditingItemData() : undefined}}"
-                    isAdd="{{_options.isAdd}}"
                     itemOutputWrapper="{{_itemOutputWrapper}}"
                     itemTemplate="{{_itemTemplate}}"/>
             <ws:if data="{{_options.tileMode === 'static' && !!_listModel.getCount()}}">

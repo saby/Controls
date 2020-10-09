@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/DragNDrop/DragNDrop';
 import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';

@@ -21,7 +21,6 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">демо-пример</a>
     * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3">руководство разработчика</a>
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
@@ -29,7 +28,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     * @class Controls/_filterPopup/DetailPanel
     * @extends Core/Control
     * @mixes Controls/interface/IFilterPanel
-    * @demo Controls-demo/Filter/Button/panelOptions/panelPG
+    * @demo Controls-demo/Filter/Button/PanelVDom
     * @control
     * @public
     * @author Золотова Э.Е.
@@ -69,30 +68,33 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     */
 
    /**
-    * @typedef {String} historySaveMode
-    * @variant pinned - по ховеру на элемент появляется команда закрепления записи.
-    * @variant favorite - по ховеру на элемент появляется команда добавления записи в избранное.
+    * @typedef {String} HistorySaveMode
+    * @variant pinned По ховеру на элемент появляется команда закрепления записи.
+    * @variant favorite По ховеру на элемент появляется команда добавления записи в избранное.
     */
 
    /**
     * @name Controls/_filterPopup/DetailPanel#historySaveMode
-    * @cfg {historySaveMode} режим работы с историей фильтров.
+    * @cfg {HistorySaveMode} Режим работы с историей фильтров.
     */
 
    /**
-    * @event Controls/_filterPopup/DetailPanel#sendResult Происходит при клике по кнопке "Отобрать".
+    * @event Происходит при клике по кнопке "Отобрать".
+    * @name Controls/_filterPopup/DetailPanel#sendResult
     * @param {Object} filter Объект фильтра {'filter_id': 'filter_value'}.
     * @param {Object} items Набор элементов.
     */
 
    /*
-    * @event Controls/_filterPopup/DetailPanel#sendResult Happens when clicking the button "Select".
+    * @event Happens when clicking the button "Select".
+    * @name Controls/_filterPopup/DetailPanel#sendResult
     * @param {Object} filter Filter object view {'filter_id': 'filter_value'}
     * @param {Object} items items
     */
 
    /**
-    * @event Controls/_filterPopup/DetailPanel#historyApply Происходит при применении фильтра из истории фильтров.
+    * @event Происходит при применении фильтра из истории фильтров.
+    * @name Controls/_filterPopup/DetailPanel#historyApply
     * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
     * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
     */

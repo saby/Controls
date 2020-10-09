@@ -101,10 +101,12 @@ define([
          });
 
          it('if EditableArea has toolbar then changes should not commit on deactivated', function() {
-            instance.saveOptions({
+            cfg = {
                readOnly: false,
-               toolbarVisibility: true
-            });
+               toolbarVisible: true,
+               ...cfg
+            };
+            instance.saveOptions(cfg);
             instance._beforeMount(cfg);
             instance._onDeactivatedHandler();
             assert.isNotOk(result);

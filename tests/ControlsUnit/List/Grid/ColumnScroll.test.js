@@ -24,7 +24,7 @@ define(['Controls/_grid/ColumnScroll', 'Types/entity', 'Core/core-clone'], funct
                getItems: () => ({
                   getCount: () => 3
                }),
-               getEditingItemData: () => true,
+               isEditing: () => true,
             }
          },
          columnScroll = new ColumnScroll(cfg);

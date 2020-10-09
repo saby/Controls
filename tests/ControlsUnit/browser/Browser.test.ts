@@ -53,7 +53,7 @@ describe('Controls/browser:Browser', () => {
                     });
                 });
 
-                it('filter in context without source on _beforeMount', () => {
+                it('filter in context without source on _beforeMount', async () => {
                     const options = getBrowserOptions();
                     const filter = {
                         testField: 'testValue'
@@ -62,9 +62,9 @@ describe('Controls/browser:Browser', () => {
                     options.filter = filter;
 
                     const browser = getBrowser(options);
-                    browser._beforeMount(options, {});
-                    equal(browser._dataOptionsContext.filter, filter);
-                    equal(browser._filter, filter);
+                    await browser._beforeMount(options, {});
+                    deepStrictEqual(browser._dataOptionsContext.filter, filter);
+                    deepStrictEqual(browser._filter, filter);
                     deepStrictEqual(browser._searchController._dataOptions.filter, filter);
                 });
 

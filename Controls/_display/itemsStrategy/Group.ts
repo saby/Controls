@@ -247,12 +247,12 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
             return items.map((item, index) => index);
         }
 
-        let groupsId; //{Array}: Group index -> group ID
+        let groupsId; // {Array}: Group index -> group ID
         // Fill groupsId by groups
         groupsId = groups.map((item) => item.getContents());
 
-        const groupsOrder = []; //{Array.<Number>}: Group position -> Group index
-        const groupsItems = []; //{Array.<Number>}: Group index -> Item index
+        const groupsOrder = []; // {Array.<Number>}: Group position -> Group index
+        const groupsItems = []; // {Array.<Number>}: Group index -> Item index
         // Check group ID and group instance for every item and join them all together
         for (let position = 0; position < items.length; position++) {
             const item = items[position];

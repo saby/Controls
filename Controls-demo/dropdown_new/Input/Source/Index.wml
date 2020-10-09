@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__mr4">
+        <Controls.dropdown:Input bind:selectedKeys="_selectedKeys"
+                                 keyProperty="key"
+                                 displayProperty="title"
+                                 iconSize="s"
+                                 source="{{_source}}">
+        </Controls.dropdown:Input>
+    </div>
+</div>

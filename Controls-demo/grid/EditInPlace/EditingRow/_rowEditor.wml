@@ -2,6 +2,12 @@
     <div style="padding-left: 6px;">
         <div class="demo-EditableGrid__editor-flexWrapper" style="width: 100%;">
             <div class="demo-EditableGrid__editor-flexWrapper">
+                <Controls.input:Text value="{{itemData.item.get('documentNum')}}" on:valueChanged="onChange1('documentNum', itemData.item)" placeholder="Номер"/>
+            </div>
+            <div class="demo-EditableGrid__editor-flexWrapper">
+                <Controls.input:Number value="{{itemData.item.get('taxBase')}}" on:valueChanged="onChange1('taxBase', itemData.item)"  placeholder="Сумма"/>
+            </div>
+            <div class="demo-EditableGrid__editor-flexWrapper">
                 <span class="demo-EditableGrid__editor-description">Признак ТД</span>
                 <Controls.dropdown:Combobox
                         selectedKey="{{selectedKey}}"
@@ -10,14 +16,7 @@
                         displayProperty="title"
                         source="{{documentSignMemory}}"/>
             </div>
-            <div class="demo-EditableGrid__editor-flexWrapper">
-                <Controls.input:Text value="{{itemData.item.get('documentNum')}}" on:valueChanged="onChange1('documentNum', itemData.item)" placeholder="Номер"/>
-            </div>
-            <div class="demo-EditableGrid__editor-flexWrapper">
-                <Controls.input:Number value="{{itemData.item.get('taxBase')}}" on:valueChanged="onChange1('taxBase', itemData.item)"  placeholder="Сумма"/>
-            </div>
         </div>
-
         <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
             <div>
 
@@ -28,7 +27,6 @@
                 <Controls.input:Text value="{{itemData.item.get('serviceContract')}}" on:valueChanged="onChange1('serviceContract', itemData.item)" placeholder="Номер"/>
             </div>
         </div>
-
 
         <div class="demo-EditableGrid__editor-flexWrapper demo-EditableGrid__editor-rowTopSpacing" style="width: 100%;">
             <Controls.input:Text value="{{itemData.item.get('description')}}" on:valueChanged="onChange1('description', itemData.item)" placeholder="примечание" attr:style="width: 100%;"/>

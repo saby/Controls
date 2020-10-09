@@ -3,7 +3,7 @@ import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant
 import {toString, concatTriads} from 'Controls/inputUtils';
 import {format} from 'Controls/_input/Number/format';
 import {parse, IParsedNumber} from 'Controls/_input/Number/parse';
-import {IInputType, ISplitValue} from '../resources/Types';
+import {InputType, ISplitValue} from '../resources/Types';
 import {IText, paste, replaceWithRepositioning} from 'Controls/decorator';
 
 interface IViewModelOptions {
@@ -52,7 +52,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         }
     }
 
-    protected _createText(splitValue: ISplitValue, inputType: IInputType): IText {
+    protected _createText(splitValue: ISplitValue, inputType: InputType): IText {
         if (ViewModel._isEnteredSplitter(splitValue)) {
             const text: IText = {
                 value: splitValue.before + splitValue.after,
@@ -143,7 +143,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         return decimalSplitters.includes(splitValue.insert) && splitValue.delete === '';
     }
 
-    private static _handleRemovalLiteral(splitValue: ISplitValue, inputType: IInputType): void {
+    private static _handleRemovalLiteral(splitValue: ISplitValue, inputType: InputType): void {
         if (ViewModel._isLiteral(splitValue.delete)) {
             if (inputType === 'deleteBackward') {
                 splitValue.before = splitValue.before.slice(0, -1);

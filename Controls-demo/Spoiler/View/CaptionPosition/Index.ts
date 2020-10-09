@@ -1,0 +1,14 @@
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import controlTemplate = require('wml!Controls-demo/Spoiler/View/CaptionPosition/CaptionPosition');
+
+class CaptionPosition extends Control<IControlOptions> {
+    protected _expandedLeft: boolean = true;
+    protected _expandedRight: boolean = true;
+    protected _captions: string = 'Заголовок';
+
+    protected _template: TemplateFunction = controlTemplate;
+    static _theme: string[] = ['Controls/Classes'];
+
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
+}
+export default CaptionPosition;

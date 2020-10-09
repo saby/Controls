@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
-import {TSelectedKeys} from 'Controls/interface';
+import {TSelectedKeys, IOptions} from 'Controls/interface';
 import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Sticky as StickyOpener} from 'Controls/popup';
 import {Controller as SourceController} from 'Controls/source';
@@ -24,6 +24,8 @@ import {error as dataSourceError} from 'Controls/dataSource';
 import {ISelectorTemplate} from 'Controls/_interface/ISelectorDialog';
 import {StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
+import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
+import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
 
 /**
  * Контрол меню.
@@ -155,6 +157,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _errorController: dataSourceError.Controller;
     private _errorConfig: dataSourceError.ViewConfig|void;
     private _stack: StackOpener;
+    private _markerController: MarkerController;
+    private _selectionController: SelectionController = null;
 
     protected _beforeMount(options: IMenuControlOptions,
                            context?: object,
@@ -164,8 +168,19 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._limitHistoryFilter = this._limitHistoryCheck.bind(this);
 
         this._stack = new StackOpener();
+
         if (options.source) {
-            return this._loadItems(options);
+            return this._loadItems(options).then(() => {
+                if (options.markerVisibility !== MarkerVisibility.Hidden) {
+                    this._markerController = this._getMarkerController(options);
+                    const markedKey = this._markerController.calculateMarkedKeyForVisible();
+                    this._markerController.setMarkedKey(markedKey);
+                }
+                if (options.selectedKeys && options.selectedKeys.length && options.multiSelect) {
+                    this._selectionController = this._createSelectionController(options);
+                    this._selectionController.setSelection(this._selectionController.getSelection());
+                }
+            });
         }
     }
 
@@ -186,8 +201,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         }
         if (this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
-            this._setSelectedItems(this._listModel, newOptions.selectedKeys);
+            this._updateSelectionController(newOptions);
             this._notify('selectedItemsChanged', [this._getSelectedItems()]);
+        }
+
+        if (this._markerController) {
+            this._markerController.updateOptions(this._getMarkerControllerConfig(newOptions));
+            const markedKey = this._getMarkedKey(this._getSelectedKeys(), newOptions.emptyKey, newOptions.multiSelect);
+            this._markerController.setMarkedKey(markedKey);
         }
 
         return result;
@@ -299,7 +320,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         } else {
             if (this._options.multiSelect && this._selectionChanged &&
                 !this._isEmptyItem(treeItem.getContents()) && !MenuControl._isFixedItem(item)) {
-                this._changeSelection(key, treeItem);
+                this._changeSelection(key);
 
                 this._notify('selectedKeysChanged', [this._getSelectedKeys()]);
                 this._notify('selectedItemsChanged', [this._getSelectedItems()]);
@@ -308,9 +329,52 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                     this._handleCurrentItem(treeItem, sourceEvent.currentTarget, sourceEvent.nativeEvent);
                 } else {
                     this._notify('itemClick', [item, sourceEvent]);
+                    this._getMarkerController(this._options).setMarkedKey(key);
                 }
             }
         }
+    }
+
+    private _getSelectionController(): SelectionController {
+        if (!this._selectionController) {
+            this._selectionController = this._createSelectionController(this._options);
+        }
+        return this._selectionController;
+    }
+
+    private _createSelectionController(options: IMenuControlOptions): SelectionController {
+        return new SelectionController({
+            model: this._listModel,
+            selectedKeys: this._getKeysForSelectionController(options),
+            excludedKeys: [],
+            searchValue: options.searchValue,
+            strategy: new FlatSelectionStrategy(this._getSelectionStrategyOptions())
+        });
+    }
+
+    private _updateSelectionController(newOptions: IMenuControlOptions): void {
+        this._getSelectionController().updateOptions({
+            model: this._listModel,
+            selectedKeys: this._getKeysForSelectionController(newOptions),
+            excludedKeys: [],
+            searchValue: newOptions.searchValue,
+            strategyOptions: this._getSelectionStrategyOptions()
+        });
+    }
+
+    private _getSelectionStrategyOptions(): IFlatSelectionStrategyOptions {
+        return {
+            items: this._listModel.getItems()
+        };
+    }
+
+    private _getKeysForSelectionController(options: IMenuControlOptions): TSelectedKeys {
+        return options.selectedKeys.map((key) => {
+            const item = this._listModel.getItemBySourceKey(key)?.getContents();
+            if (item) {
+                return MenuControl._isHistoryItem(item) ? String(key) : key;
+            }
+        });
     }
 
     private _pinClick(event: SyntheticEvent<MouseEvent>, item: Model): void {
@@ -325,12 +389,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._selectionChanged = true;
     }
 
-    protected _toggleExpanded(event: SyntheticEvent<MouseEvent>, value: boolean): void {
+    protected _toggleExpanded(): void {
+        this._expander = !this._expander;
         let toggleFilter = this._additionalFilter;
         if (!this._options.additionalProperty) {
             toggleFilter = this._limitHistoryFilter;
         }
-        if (value) {
+        if (this._expander) {
             this._listModel.removeFilter(toggleFilter);
         } else {
             this._listModel.addFilter(toggleFilter);
@@ -513,7 +578,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             Math.sign(firstSegment) === Math.sign(thirdSegment);
     }
 
-    private _getSelectorDialogOptions(opener: StackOpener, options: IMenuControlOptions, selectedItems: List<Model>): object {
+    private _getSelectorDialogOptions(opener: StackOpener,
+                                      options: IMenuControlOptions,
+                                      selectedItems: List<Model>): object {
         const selectorTemplate: ISelectorTemplate = options.selectorTemplate;
         const selectorDialogResult: Function = options.selectorDialogResult;
 
@@ -545,22 +612,57 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }, selectorTemplate.popupOptions || {});
     }
 
-    private _changeSelection(key: string|number|null, treeItem: CollectionItem<Model>): void {
+    private _changeSelection(key: string|number|null): void {
+        const selectionController = this._getSelectionController();
         const selectedItems = this._listModel.getSelectedItems();
         if (selectedItems.length === 1 && MenuControl._isFixedItem(selectedItems[0].getContents())) {
-            MenuControl._selectItem(this._listModel, selectedItems[0].getContents().getKey(), false);
+            selectionController.setSelection(selectionController.toggleItem(selectedItems[0].getContents().getKey()));
         }
-        MenuControl._selectItem(this._listModel, key, !treeItem.isSelected());
+        const selection = selectionController.toggleItem(key);
+        selectionController.setSelection(selection);
+        this._listModel.nextVersion();
 
-        const isEmptySelected: boolean = this._options.emptyText && !this._listModel.getSelectedItems().length;
-        MenuControl._selectItem(this._listModel, this._options.emptyKey, !!isEmptySelected );
+        const isEmptySelected = this._options.emptyText && !selection.selected.length;
+        if (isEmptySelected) {
+            this._getMarkerController(this._options).setMarkedKey(this._options.emptyKey);
+        }
+    }
+
+    private _getMarkerControllerConfig(options: IMenuControlOptions, markedKey?: string|number): IOptions {
+        return {
+            markerVisibility: options.markerVisibility,
+            markedKey,
+            model: this._listModel
+        };
+    }
+
+    private _getMarkerController(options: IMenuControlOptions): MarkerController {
+        if (!this._markerController) {
+            const markedKey = this._getMarkedKey(options.selectedKeys, options.emptyKey, options.multiSelect);
+            this._markerController = new MarkerController(this._getMarkerControllerConfig(options, markedKey));
+        }
+        return this._markerController;
+    }
+
+    private _getMarkedKey(selectedKeys: TSelectedKeys, emptyKey?: string|number, multiSelect?: boolean): string|number|undefined {
+        if (multiSelect && (!selectedKeys.length || selectedKeys.includes(emptyKey))) {
+            return emptyKey;
+        }
+        if (!multiSelect) {
+            const selectedKey = selectedKeys[0];
+            return selectedKey === undefined && emptyKey !== undefined ? emptyKey : selectedKey;
+        }
     }
 
     private _getSelectedKeys(): TSelectedKeys {
-        const selectedKeys: TSelectedKeys = [];
-        factory(this._listModel.getSelectedItems()).each((treeItem): void => {
-            selectedKeys.push(treeItem.getContents().get(this._options.keyProperty));
-        });
+        let selectedKeys = [];
+
+        if (this._options.multiSelect) {
+            selectedKeys = this._getSelectionController().getSelection().selected;
+        } else {
+            selectedKeys = this._options.selectedKeys;
+        }
+
         return selectedKeys;
     }
 
@@ -568,16 +670,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return factory(this._listModel.getSelectedItems()).map(
             (item: CollectionItem<Model>): Model => item.getContents()
         ).reverse().value();
-    }
-
-    private _getSelectedItemsByKeys(listModel: Collection<Model>, selectedKeys: TSelectedKeys): Model[] {
-        const items = [];
-        factory(selectedKeys).each((key) => {
-            if (listModel.getItemBySourceKey(key)) {
-                items.push(listModel.getItemBySourceKey(key).getContents());
-            }
-        });
-        return items;
     }
 
     private _expandedItemsFilterCheck(item: CollectionItem<Model>, index: number): boolean {
@@ -599,7 +691,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _updateSwipeItem(newSwipedItem: CollectionItem<Model>, isSwipeLeft: boolean): void {
         const oldSwipedItem: CollectionItem<Model> = this._listModel.find(
-            (item: CollectionItem<Model>): boolean => item.isSwiped() || item.isRightSwiped());
+            (item: CollectionItem<Model>): boolean => item.isSwiped() || item.isAnimatedForSelection());
         if (isSwipeLeft && oldSwipedItem) {
             oldSwipedItem.setSwiped(false);
         }
@@ -610,7 +702,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _createViewModel(items: RecordSet, options: IMenuControlOptions): void {
         this._listModel = this._getCollection(items, options);
-        this._setSelectedItems(this._listModel, options.selectedKeys);
     }
 
     private _getCollection(items: RecordSet<Model>, options: IMenuControlOptions): Collection<Model> {
@@ -656,10 +747,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         const groupId: string = item.get(options.groupProperty);
         const isHistoryItem: boolean = MenuControl._isHistoryItem(item) && this._options.root === null;
         return groupId !== undefined && !isHistoryItem ? groupId : constView.hiddenGroup;
-    }
-
-    private _setSelectedItems(listModel: Collection<Model>, keys: TSelectedKeys): void {
-        listModel.setSelectedItems(this._getSelectedItemsByKeys(listModel, keys), true);
     }
 
     private _getSourceController(
@@ -720,14 +807,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         } else if (options.allowPin && options.root === null) {
             this._visibleIds = [];
-            const itemsCount = factory(items).count((item) => {
+            factory(items).each((item) => {
                 const hasParent = item.get(options.parentProperty);
                 if (!hasParent)  {
                     this._visibleIds.push(item.getKey());
                 }
-                return !hasParent;
-            }).value()[0];
-            hasAdditional = itemsCount > MAX_HISTORY_VISIBLE_ITEMS_COUNT + 1;
+            });
+            hasAdditional = this._visibleIds.length > MAX_HISTORY_VISIBLE_ITEMS_COUNT + 1;
             if (hasAdditional) {
                 this._visibleIds.splice(MAX_HISTORY_VISIBLE_ITEMS_COUNT);
             }
@@ -903,14 +989,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return isVisible;
     }
 
-    private static _selectItem(collection: Collection<Model>, key: number|string, state: boolean): void {
-        const item: CollectionItem<Model> = collection.getItemBySourceKey(key);
-        if (item) {
-            item.setSelected(state, true);
-            collection.nextVersion();
-        }
-    }
-
     static getDefaultOptions(): object {
         return {
             selectedKeys: [],
@@ -918,7 +996,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             emptyKey: null,
             moreButtonCaption: rk('Еще') + '...',
             groupTemplate,
-            itemPadding: {}
+            itemPadding: {},
+            markerVisibility: 'onactivated'
         };
     }
 

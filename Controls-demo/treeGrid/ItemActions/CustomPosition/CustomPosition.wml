@@ -14,7 +14,6 @@
         <ws:columns>
             <ws:Array>
                 <ws:Object displayProperty="title" width="200px"/>
-                <ws:Object displayProperty="rating" width="150px"/>
                 <ws:Object displayProperty="country" width="150px">
                     <ws:template>
                         <ws:partial template="Controls/grid:ColumnTemplate">
@@ -24,6 +23,7 @@
                         </ws:partial>
                     </ws:template>
                 </ws:Object>
+                <ws:Object displayProperty="rating" width="150px"/>
             </ws:Array>
         </ws:columns>
     </Controls.treeGrid:View>

@@ -1,8 +1,7 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
-            itemData="{{itemData}}">
-    <ws:contentTemplate>
-        <div class="controls-SortingSelector_itemWrapper">
-            <div class="controls-SortingSelector_itemTitle" on:click="_itemClick(itemData.item)">{{itemData.item.get(_options.displayProperty)}}</div>
+            itemData="{{itemData}}" on:click="_dropdownItemClick(itemData.item.getKey())">
+    <ws:rightTemplate>
+        <div class="controls-SortingSelector_arrowWrapper">
             <ws:if data="{{itemData.item.get('paramName') !== null}}">
                 <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
                     <div class="controls-SortingSelector_arrow_separator_theme-{{_options.theme}}"></div>
@@ -13,6 +12,6 @@
                 </div>
             </ws:if>
         </div>
-    </ws:contentTemplate>
+    </ws:rightTemplate>
 </ws:partial>
 

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGrid/Mover/Extended/Extended';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {TColumns} from 'Controls/grid';
-import { TExpandOrColapsItems } from 'Controls-demo/types';
+import {TExpandOrColapsItems} from 'Controls-demo/types';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -12,6 +12,7 @@ export default class extends Control {
     private _excludedKeys: TExpandOrColapsItems = [];
     private _filter: object = {};
     protected _columns: TColumns;
+    protected _beforeItemsMoveText: string = '';
 
     protected _beforeMount(): void {
         this._columns = [{
@@ -46,6 +47,10 @@ export default class extends Control {
                 filter: this._filter
             });
         }
+    }
+
+    protected _beforeItemsMove(e, movedItems, target, position) {
+        this._beforeItemsMoveText = `Перемещены элементы с id: ${movedItems.selectedKeys.toString()}`;
     }
 
     protected _afterItemsMove(): void {

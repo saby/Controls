@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/ItemActions/ItemActionsNoHighl
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { IItemAction } from 'Controls/itemActions';
 
 const MAXINDEX = 4;

@@ -65,6 +65,9 @@ define(
                   inst._hasHorizontalScroll = function() {
                      return !valueFits;
                   };
+                  inst._children[inst._fieldName].hasHorizontalScroll = function() {
+                     return !valueFits;
+                  };
                   inst._beforeUpdate({
                      value: 'test value'
                   });

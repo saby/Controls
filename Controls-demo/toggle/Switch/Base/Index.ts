@@ -5,7 +5,7 @@ import captionTemplate = require('wml!Controls-demo/toggle/Switch/Base/resources
 class Base extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;
     protected _caption: TemplateFunction = captionTemplate;
-    protected _value: boolean = false;
+    protected _value: boolean = true;
     protected _value2: boolean = false;
     protected _value3: boolean = false;
 

@@ -100,9 +100,7 @@
                 _needBottomPadding="{{_needBottomPadding}}"
                 needShowEmptyTemplate="{{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel) }}"
                 listModel="{{_listViewModel}}"
-                editingItemData="{{_editingItemData}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
-                isAdd="{{_editingItemData ? _editingItemData.isAdd : undefined}}"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"
@@ -143,8 +141,7 @@
                 <ws:partial
                         template="{{ _swipeTemplate }}"
                         scope="{{ _listViewModel.getActionsTemplateConfig() }}"
-                        swipeConfig="{{ _listViewModel.getSwipeConfig() }}"
-                        animationState="{{ _listViewModel.getSwipeAnimation() }}"/>
+                        swipeConfig="{{ _listViewModel.getSwipeConfig() }}"/>
             </ws:swipeTemplate>
             <ws:tagTemplate>
                 <ws:partial template="wml!Controls/Application/TagTemplate/TagTemplate"
@@ -213,18 +210,18 @@
             Вместо этого, задаем пэйджингу высоту как у разделителя.
             https://online.sbis.ru/opendoc.html?guid=aafcd848-43e0-4ac3-a4b8-cffff9f04be0 -->
             <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
-                 class="controls-BaseControl_paging-Padding_theme-{{_options.theme}} {{_options.task1179362156 ? 'controls-BaseControl-hide-paging'}}">
+                 class="controls-BaseControl_paging-Padding_theme-{{_options.theme}} {{(_options.task1179362156) ? 'controls-BaseControl-hide-paging'}}">
             </div>
             <div class="controls-BaseControl__pagingContainer {{_options.task1179362156 ? 'controls-BaseControl-hide-paging'}}">
                 <Controls.paging:Paging
-                    attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
-                    contrastBackground="{{true}}"
-                    scope="{{_pagingCfg}}"
-                    pagingMode="{{_options.navigation.viewConfig.pagingMode}}"
-                    showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
-                    contentTemplate="{{_options.pagingContentTemplate}}"
-                    on:onArrowClick="__onPagingArrowClick()"
-                    on:selectedPageChanged="__selectedPageChanged()"/>
+                        attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
+                        contrastBackground="{{true}}"
+                        pagingMode="{{_options.navigation.viewConfig.pagingMode}}"
+                        showEndButton="{{_pagingCfg.showEndButton}}"
+                        scope="{{_pagingCfg}}"
+                        contentTemplate="{{_options.pagingContentTemplate}}"
+                        on:onArrowClick="__onPagingArrowClick()"
+                        on:selectedPageChanged="__selectedPageChanged()"/>
             </div>
         </ws:if>
         <Controls.event:Listener

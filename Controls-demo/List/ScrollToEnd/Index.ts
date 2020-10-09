@@ -113,7 +113,6 @@ export default class ScrollToEnd extends Control {
                         after: nextKey < ITEMS_COUNT ? [nextKey] : []
                     };
                 }
-
                 return result;
             });
         };

@@ -220,7 +220,7 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
     protected _hasIcon: boolean;
     protected _viewMode: string;
     protected _height: string;
-    private _caption: string | TemplateFunction;
+    private _caption: string | String | TemplateFunction;
     protected _stringCaption: boolean;
     private _icon: string;
     protected _iconSize: string;
@@ -235,7 +235,7 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
 
         this._caption = (newOptions.captions ? (!newOptions.value && newOptions.captions[1] ? newOptions.captions[1]
                                                                                         : newOptions.captions[0]) : '');
-        this._stringCaption = typeof this._caption === 'string';
+        this._stringCaption = typeof this._caption === 'string' || this._caption instanceof String;
 
         const clonedOptions = {...newOptions};
         clonedOptions.icon = this._icon;

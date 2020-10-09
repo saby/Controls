@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Navigation/MaxCountValue/MaxCountValue';
 import {Memory} from 'Types/source';
 import {changeSourceData} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { INavigation } from 'Controls-demo/types';
 
 const { data, data2 } = changeSourceData();

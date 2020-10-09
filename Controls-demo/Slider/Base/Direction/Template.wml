@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+    <div class="controlsDemo__cell controlsDemo__margin-top">
+        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">direction='horizontal'</div>
+        <Controls.slider:Base
+                maxValue="{{100}}"
+                minValue="{{0}}"
+                bind:value="_value"
+                borderVisible="{{true}}"
+        />
+    </div>
+    <div class="controlsDemo__cell controlsDemo__margin-top">
+        <div class="controlsDemo__margin-top controls-text-label_theme-{{_options.theme}}">direction='vertical'</div>
+        <Controls.slider:Base
+                maxValue="{{100}}"
+                minValue="{{0}}"
+                bind:value="_value"
+                borderVisible="{{true}}"
+                direction="vertical"
+                attr:class="controlsDemo__height200"
+        />
+    </div>
+</div>

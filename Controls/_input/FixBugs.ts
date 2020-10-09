@@ -34,7 +34,7 @@ export class FixBugs {
     }
 
     beforeMount(options: IControlOptions): void {
-        this._valueInFieldBug.beforeMount(this._inst._viewModel.displayValue);
+        this._valueInFieldBug.beforeMount(this._inst._model.displayValue);
     }
 
     afterMount(): void {
@@ -46,7 +46,7 @@ export class FixBugs {
             this._carriagePositionBug.editingModeWasChanged(oldOptions.readOnly, newOptions.readOnly);
             this._valueInFieldBug.beforeUpdate(
                 oldOptions.readOnly, newOptions.readOnly,
-                this._inst._viewModel.displayValue
+                this._inst._model.displayValue
             );
         }
     }
@@ -80,7 +80,7 @@ export class FixBugs {
 
     getFieldValue(): string {
         return this._valueInFieldBug.detectFieldValue({
-            model: this._inst._viewModel,
+            model: this._inst._model,
             field: this._inst._getField()
         });
     }

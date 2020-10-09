@@ -12,7 +12,6 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/fastOpenUtils';
-import {Logger} from 'UI/Utils';
 
 interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -34,7 +33,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
- * @demo Controls-demo/Buttons/Menu/Menu
+ * @demo Controls-demo/dropdown_new/Button/Source/Index
  * @class Controls/_dropdown/Button
  * @extends Core/Control
  * @mixes Controls/_menu/interface/IMenuPopup
@@ -100,7 +99,6 @@ export default class Button extends BaseDropdown {
                 context: object,
                 receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
       this._offsetClassName = cssStyleGeneration(options);
-      this._updateState(options);
       this._dataLoadCallback = this._dataLoadCallback.bind(this);
       this._controller = new Controller(this._getControllerOptions(options));
 
@@ -114,21 +112,6 @@ export default class Button extends BaseDropdown {
       if (this._options.size !== options.size || this._options.icon !== options.icon ||
          this._options.viewMode !== options.viewMode) {
          this._offsetClassName = cssStyleGeneration(options);
-      }
-      this._updateState(options);
-   }
-
-   _updateState(options: IButtonOptions): void {
-      if (options.style) {
-         Logger.error('Опция style является устаревшей. Вместо нее используйте опции buttonStyle и fontColorStyle');
-      }
-
-      if (options.transparent) {
-         Logger.error('Опция transparent является устаревшей. Вместо нее используйте опцию contrastBackground');
-      }
-
-      if (options.size) {
-         Logger.error('Опция size является устаревшей. Вместо нее используйте опции fontSize и inlineHeight');
       }
    }
 

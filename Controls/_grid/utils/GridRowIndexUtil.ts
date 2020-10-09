@@ -20,7 +20,6 @@ interface IBaseGridRowIndexOptions {
     hasBottomPadding: boolean;
     resultsPosition?: 'top' | 'bottom';
     multiHeaderOffset?: number;
-    editingRowIndex?: number;
     hasColumnScroll?: boolean;
 }
 
@@ -109,10 +108,8 @@ function getResultsIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
     let index = cfg.hasHeader ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
 
-    if (cfg.resultsPosition === "bottom") {
-        let
-            itemsCount = cfg.display.getCount(),
-            hasEditingItem = typeof cfg.editingRowIndex === "number";
+    if (cfg.resultsPosition === 'bottom') {
+        const itemsCount = cfg.display.getCount();
 
         if (itemsCount) {
             index += itemsCount;
@@ -120,7 +117,6 @@ function getResultsIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
             index += cfg.hasEmptyTemplate ? 1 : 0;
         }
 
-        index += hasEditingItem ? 1 : 0;
         index += cfg.hasBottomPadding ? 1 : 0;
     }
 
@@ -136,16 +132,13 @@ function getResultsIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
  * @return {Number} Номер строки в списке для строки-отступа.
  */
 function getBottomPaddingRowIndex(cfg: GridRowIndexOptions): number {
-    let
-        index = 0,
-        isResultsInTop = cfg.resultsPosition === "top",
-        itemsCount = cfg.display.getCount(),
-        hasEditingItem = typeof cfg.editingRowIndex === "number";
+    let index = 0;
+    const isResultsInTop = cfg.resultsPosition === 'top';
+    const itemsCount = cfg.display.getCount();
 
     index += cfg.hasHeader ? 1 : 0;
     index += isResultsInTop ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
-    index += hasEditingItem ? 1 : 0;
     index += itemsCount;
     index += cfg.hasColumnScroll ? 1 : 0;
 
@@ -161,16 +154,14 @@ function getBottomPaddingRowIndex(cfg: GridRowIndexOptions): number {
  */
 //offset
 function getFooterIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
-    let
-        hasResults = !!cfg.resultsPosition,
-        itemsCount = cfg.display.getCount(), index = 0,
-        hasEditingItem = typeof cfg.editingRowIndex === "number";
+    const hasResults = !!cfg.resultsPosition;
+    const itemsCount = cfg.display.getCount();
+    let index = 0;
 
     index += cfg.hasHeader ? 1 : 0;
     index += hasResults ? 1 : 0;
     index += cfg.hasBottomPadding ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
-    index += hasEditingItem ? 1 : 0;
     index += cfg.hasColumnScroll ? 1 : 0;
 
     if (itemsCount) {

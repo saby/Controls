@@ -16,6 +16,9 @@ import {
    INavigationOptionValue as INavigation
 }  from '../_interface/INavigation';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
+import {ISelectionObject} from 'Controls/interface';
+import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import { RecordSet } from 'Types/collection';
 
 var
       HOT_KEYS = {
@@ -121,7 +124,7 @@ var
                resolver(result);
                self._firstLoad = false;
                _private.fillRestoredMarkedKeysByBreadCrumbs(
-                   _private.getDataRoot(self),
+                   _private.getDataRoot(self, self._options),
                    self._breadCrumbsItems,
                    self._restoredMarkedKeys,
                    self._options.parentProperty,
@@ -224,13 +227,13 @@ var
                _private.setRoot(self, self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
             }
          },
-         getDataRoot: function(self) {
+         getDataRoot: function(self, options) {
             var result;
 
             if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
                result = self._breadCrumbsItems[0].get(self._options.parentProperty);
             } else {
-               result = _private.getRoot(self, self._options.root);
+               result = _private.getRoot(self, options.root);
             }
 
             return result;
@@ -239,7 +242,7 @@ var
             var
                item,
                itemFromRoot = true,
-               root = _private.getDataRoot(self);
+               root = _private.getDataRoot(self, self._options);
 
             for (var i = 0; i < dragItems.length; i++) {
                item = self._items.getRecordById(dragItems[i]);
@@ -339,7 +342,7 @@ var
          updateRootOnViewModeChanged(self, viewMode: string, options): void {
             if (viewMode === 'search' && options.searchStartingWith === 'root') {
                const currentRoot = _private.getRoot(self, options.root);
-               const dataRoot = _private.getDataRoot(self);
+               const dataRoot = _private.getDataRoot(self, options);
 
                if (dataRoot !== currentRoot) {
                   _private.setRoot(self, dataRoot, dataRoot);
@@ -390,6 +393,9 @@ var
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IGridControl
     * @mixes Controls/_list/interface/IClickableView
+    * @mixes Controls/_list/interface/IMovableList
+    * @mixes Controls/_list/interface/IRemovableList
+    * @mixes Controls/_marker/interface/IMarkerListOptions
     * @control
     * @public
     * @category List
@@ -425,6 +431,9 @@ var
     * @mixes Controls/_list/interface/IVirtualScroll
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IGridControl
+    * @mixes Controls/_list/interface/IMovableList
+    * @mixes Controls/_list/interface/IRemovableList
+    * @mixes Controls/_marker/interface/IMarkerListOptions
     * @control
     * @public
     * @category List
@@ -458,7 +467,7 @@ var
 
    /**
     * @name Controls/_explorer/View#breadcrumbsDisplayMode
-    * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#breadcrumbsDisplayMode}
+    * @cfg {Boolean} Отображение крошек в несколько строк {@link Controls/breadcrumbs:HeadingPath#displayMode}
     */
 
    /**
@@ -466,11 +475,11 @@ var
     * @cfg {String|Function} Шаблон отображения элемента в режиме "Плитка".
     * @default undefined
     * @remark
-    * Позволяет установить прикладной шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
+    * Позволяет установить пользовательский шаблон отображения элемента (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/tile:ItemTemplate}.
     *
     * Также шаблон Controls/tile:ItemTemplate поддерживает {@link Controls/tile:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
     *
-    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
+    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
     *
     * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
     * @example
@@ -501,6 +510,7 @@ var
       _itemsResolver: null,
       _markerForRestoredScroll: null,
       _navigation: null,
+      _resetScrollAfterViewModeChange: false,
 
       _resolveItemsPromise() {
          this._itemsResolver();
@@ -543,6 +553,7 @@ var
          const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
          const isSearchViewMode = cfg.viewMode === 'search';
          const isRootChanged = cfg.root !== this._options.root;
+         this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
 
          /*
          * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
@@ -552,17 +563,16 @@ var
          * Если в момент возвращения из папки был изменен тип навигации, не нужно восстанавливать, иначе будут смешаны опции
          * курсорной и постраничной навигаций.
          * */
-         const isNavigationHasBeenChanged = !isEqual(this._options.navigation, cfg.navigation);
+         const navigationChanged = !isEqual(cfg.navigation, this._options.navigation);
 
-         if (this._isGoingBack && _private.isCursorNavigation(this._options.navigation) && !isNavigationHasBeenChanged) {
+         if (this._isGoingBack && _private.isCursorNavigation(this._options.navigation) && !navigationChanged) {
             const newRootId = _private.getRoot(this, this._options.root);
             _private.restorePositionNavigation(this, newRootId);
-         } else if (isNavigationHasBeenChanged) {
+         } else if (navigationChanged) {
             this._navigation = cfg.navigation;
          }
 
-         if ((isViewModeChanged && (isSearchViewMode || isRootChanged)) ||
-             this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
+         if ((isViewModeChanged && isRootChanged && !isSearchViewMode) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
             // Если меняется и root и viewMode, не меняем режим отображения сразу,
             // потому что тогда мы перерисуем explorer в новом режиме отображения
             // со старыми записями, а после загрузки новых получим еще одну перерисовку.
@@ -570,8 +580,27 @@ var
             // его, когда новые записи будут установлены в модель (itemsSetCallback).
             _private.setPendingViewMode(this, cfg.viewMode, cfg);
          } else if (isViewModeChanged && !this._pendingViewMode) {
-            _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
+            // Также отложенно необходимо устанавливать viewMode, если при переходе с viewMode === "search" на "table"
+            // или "tile" будет перезагрузка. Этот код нужен до тех пор, пока не будут спускаться данные сверху-вниз.
+            // https://online.sbis.ru/opendoc.html?guid=f90c96e6-032c-404c-94df-cc1b515133d6
+            const filterChanged = !isEqual(cfg.filter, this._options.filter);
+            const recreateSource = cfg.source !== this._options.source;
+            const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
+            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !isSearchViewMode) {
+               _private.setPendingViewMode(this, cfg.viewMode, cfg);
+            } else {
+               _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
+            }
          }
+      },
+      _beforeRender(): void {
+          // Сбрасываем скролл при режима отображения
+          // https://online.sbis.ru/opendoc.html?guid=d4099117-ef37-4cd6-9742-a7a921c4aca3
+         if (this._resetScrollAfterViewModeChange) {
+            this._notify('doScroll', ['top'], {bubbling: true});
+            this._resetScrollAfterViewModeChange = false;
+         }
+
       },
       _beforePaint: function() {
          if (this._markerForRestoredScroll !== null) {
@@ -603,7 +632,7 @@ var
             dragObject.entity.dragControlId === this._dragControlId
          ) {
             //No need to show breadcrumbs when dragging items from the root, being in the root of the registry.
-            this._dragOnBreadCrumbs = _private.getRoot(this, this._options.root) !== _private.getDataRoot(this) || !_private.dragItemsFromRoot(this, dragObject.entity.getItems());
+            this._dragOnBreadCrumbs = _private.getRoot(this, this._options.root) !== _private.getDataRoot(this, this._options) || !_private.dragItemsFromRoot(this, dragObject.entity.getItems());
          }
       },
       _hoveredCrumbChanged: function(event, item) {
@@ -619,7 +648,10 @@ var
 
          const changeRoot = () => {
             _private.setRoot(this, item.getId());
-            this._isGoingFront = true;
+            // При search не должны сбрасывать маркер, так как он встанет на папку
+            if (this._options.searchNavigationMode !== 'expand') {
+               this._isGoingFront = true;
+            }
          };
 
          // Не нужно проваливаться в папку, если должно начаться ее редактирование.
@@ -649,16 +681,17 @@ var
               // новые и маркер запомнится не для того root'а. Ошибка:
               // https://online.sbis.ru/opendoc.html?guid=38d9ca66-7088-4ad4-ae50-95a63ae81ab6
               _private.setRestoredKeyObject(this, item);
-              if (!this._options.editingConfig) {
+
+             // Если в списке запущено редактирование, то проваливаемся только после успешного завершения.
+             if (!this._children.treeControl.isEditing()) {
                   changeRoot();
               } else {
-                  // TODO: После перехода на новую схему редактирования поправить на canceled.
-                  //    https://online.sbis.ru/opendoc.html?guid=f91b2f96-d6e7-45d0-b929-a0030f0a2788
-                  this.commitEdit().addCallback((res = {}) => {
-                      if (!res.validationFailed) {
-                          changeRoot();
-                      }
-                  });
+                 this.commitEdit().then((result) => {
+                     if (!(result && result.canceled)) {
+                         changeRoot();
+                     }
+                     return result;
+                 });
               }
 
               // Проваливание в папку и попытка проваливания в папку не должны вызывать разворот узла.
@@ -707,11 +740,48 @@ var
       reload: function(keepScroll, sourceConfig) {
          return this._children.treeControl.reload(keepScroll, sourceConfig);
       },
+      getItems(): RecordSet {
+         return this._children.treeControl.getItems();
+      },
+
       // todo removed or documented by task:
       // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
       toggleExpanded: function(id) {
          this._children.treeControl.toggleExpanded(id);
       },
+
+      // region mover
+
+      moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+         return this._children.treeControl.moveItems(selection, targetKey, position);
+      },
+
+      moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+         return this._children.treeControl.moveItemUp(selectedKey);
+      },
+
+      moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+         return this._children.treeControl.moveItemDown(selectedKey);
+      },
+
+      moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+         return this._children.treeControl.moveItemsWithDialog(selection);
+      },
+
+      // endregion mover
+
+      // region remover
+
+      removeItems(selection: ISelectionObject): Promise<void> {
+         return this._children.treeControl.removeItems(selection);
+      },
+
+      removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
+         return this._children.treeControl.removeItemsWithConfirmation(selection);
+      },
+
+      // endregion remover
+
       _onArrowClick: function(e) {
          let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
          this._notifyHandler(e, 'arrowClick', item);

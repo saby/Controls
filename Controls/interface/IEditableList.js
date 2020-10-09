@@ -171,6 +171,11 @@ define('Controls/interface/IEditableList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {ItemEditOptions} options Параметры редактирования.
     * @param {Boolean} isAdd Параметр принимает значение true, когда элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
+    * Добавление элемента происходит в следующих случаях:
+    * 1. вызов метода {@link beginAdd}.
+    * 2. после окончания редактирования:
+    *     * последнего (уже существующего) элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAdd});
+    *     * только что добавленного элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAddByApplyButton}).
     * @returns {ItemEditResult}
     * @demo Controls-demo/list_new/EditInPlace/BeginEdit/Index
     * @example
@@ -179,7 +184,7 @@ define('Controls/interface/IEditableList', [
     * <!-- WML -->
     * <Controls.list:View on:beforeBeginEdit="beforeBeginEditHandler()" />
     * </pre>
-    * <pre class="brush: js">
+    * <pre class="brush: js; highlight: [4,5,6,7,8]">
     * // JavaScript
     * define('ModuleName', ['Controls/Constants'], function(constants) {
     *    ...
@@ -304,12 +309,17 @@ define('Controls/interface/IEditableList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Types/entity:Model} item Редактируемый элемент.
     * @param {Boolean} isAdd Параметр принимает значение true, когда элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
+    * Добавление элемента происходит в следующих случаях:
+    * 1. вызов метода {@link beginAdd}.
+    * 2. после окончания редактирования:
+    *    * последнего (уже существующего) элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAdd}).
+    *    * только что добавленного элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAddByApplyButton}).
     * @remark
     * Подпишитесь на событие, если необходимо что-либо сделать после начала редактирования (например, скрыть кнопку "Добавить").
     * Событие запускается, когда подготовка данных успешно завершена и возможно безопасно обновить пользовательский интерфейс.
     * @example
     * В следующем примере показано, как скрыть кнопку "Добавить" после начала редактирования или добавления.
-    * <pre class="brush: html">
+    * <pre class="brush: html; highlight: [2]">
     * <!-- WML -->
     * <Controls.list:View on:afterBeginEdit="afterBeginEditHandler()" />
     * <ws:if data="{{ showAddButton }}">
@@ -360,12 +370,17 @@ define('Controls/interface/IEditableList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Types/entity:Model} item Редактируемый элемент.
     * @param {Boolean} willSave Параметр принимает значение true, когда отредактированный элемент сохраняется.
-    * Такое происходит в двух случаях:
+    * Такое происходит в следующих случаях:
     * 1. был вызыван метод {@link commitEdit}.
     * 2. пользователь выполнил действие, которое приводит к сохранению:
-	*     * закрыл диалог, на котором находится список с редактируемым элементом;
-	*     * начал редактирование другого элемента по клику.
+    *     * закрыл диалог, на котором находится список с редактируемым элементом;
+    *     * начал редактирование другого элемента по клику.
     * @param {Boolean} isAdd Параметр принимает значение true, когда элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
+    * Добавление элемента происходит в следующих случаях:
+    * 1. вызов метода {@link beginAdd}.
+    * 2. после окончания редактирования:
+    *     * последнего (уже существующего) элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAdd});
+    *     * только что добавленного элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAddByApplyButton}).
     * @returns {EndEditResult}
     * @demo Controls-demo/list_new/EditInPlace/EndEdit/Index
     * @remark
@@ -373,7 +388,7 @@ define('Controls/interface/IEditableList', [
     * Не обновляйте пользовательский интерфейс в обработчике этого события, потому что если во время подготовки данных произойдет ошибка, вам придется откатить изменения.
     * @example
     * В следующем примере показано завершение редактирования элемента, если выполнено условие.
-    * <pre class="brush:html;">
+    * <pre class="brush: html;">
     * <!-- WML -->
     * <Controls.list:View on:beforeEndEdit="beforeEndEditHandler()" />
     * </pre>
@@ -430,13 +445,18 @@ define('Controls/interface/IEditableList', [
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {Types/entity:Model} item Редактируемый элемент.
     * @param {Boolean} isAdd Параметр принимает значение true, когда элемент {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/add/ добавляется по месту}.
+    * Добавление элемента происходит в следующих случаях:
+    * 1. вызов метода {@link beginAdd}.
+    * 2. после окончания редактирования:
+    *     * последнего (уже существующего) элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAdd});
+    *     * после окончания редактирования только что добавленного элемента списка (см. свойство {@link Controls/interface/IEditableList/EditingConfig.typedef autoAddByApplyButton}).
     * @remark
     * Подпишитесь на событие, если необходимо что-либо сделать после завершения редактирования (например, показать кнопку "Добавить").
     * Событие запускается, когда редактирование успешно завершено и возможно безопасно обновить пользовательский интерфейс.
     * @demo Controls-demo/list_new/EditInPlace/SlowAdding/Index
     * @example
     * В следующем примере показано, как отобразить кнопку "Добавить" после окончания редактирования или добавления.
-    * <pre class="brush: html">
+    * <pre class="brush: html; highlight: [2]">
     * <!-- WML -->
     * <Controls.list:View on:afterEndEdit="afterEndEditHandler()" />
     * <ws:if data="{{ showAddButton }}">

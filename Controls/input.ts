@@ -77,9 +77,11 @@ import TimeInterval from 'Controls/_input/TimeInterval';
 import Money from 'Controls/_input/Money';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import * as ActualAPI from 'Controls/_input/ActualAPI';
+import * as __Util from 'Controls/_input/resources/Util';
 
+// TODO: Устаревшая модель, вместо неё нужно использовать NewBaseViewModel.
 import BaseViewModel = require('Controls/_input/Base/ViewModel');
-export {default as TextViewModel} from 'Controls/_input/Text/ViewModel';
+export {default as TextViewModel, IViewModelOptions as ITextViewModelOptions} from 'Controls/_input/Text/ViewModel';
 import MaskInputProcessor = require('Controls/_input/Mask/InputProcessor');
 import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
 
@@ -94,13 +96,15 @@ export {IBase, IBaseOptions, TextAlign, AutoComplete} from 'Controls/_input/inte
 export {ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/ITag';
 export {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
-export {default as MobileFocusController} from 'Controls/_input/Base/MobileFocusController';
+export {default as MobileFocusController} from 'Controls/_input/resources/MobileFocusController';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
 export {default as isMaskFormatValid} from 'Controls/_input/Mask/isFormatValid';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility, getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';
 export {IPadding, IPaddingOptions, THorizontalPadding, getDefaultPaddingOptions, getOptionPaddingTypes} from './_input/interface/IPadding';
 export * from './_input/ActualAPI';
-export {ISelection} from './_input/resources/Types';
+export * from './_input/resources/Types';
+export {default as Field} from './_input/resources/Field';
+export {default as NewBaseViewModel} from './_input/BaseViewModel';
 
 /**
  * ПРИВАТНЫЕ МОДУЛИ.
@@ -112,6 +116,8 @@ export {ValueInField as __ValueInField} from 'Controls/_input/FixBugs/ValueInFie
 export {InsertFromDrop as __InsertFromDrop} from 'Controls/_input/FixBugs/InsertFromDrop';
 export {MinusProcessing as __MinusProcessing} from 'Controls/_input/FixBugs/MinusProcessing';
 export {CarriagePositionWhenFocus as __CarriagePositionWhenFocus} from 'Controls/_input/FixBugs/CarriagePositionWhenFocus';
+export {default as __ChangeEventController} from 'Controls/_input/resources/Field/ChangeEventController';
+export {__Util};
 
 /**
  * Объект с набором методов для опции {@link Controls/_input/interface/IValue#inputCallback}

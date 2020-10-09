@@ -1,7 +1,7 @@
-import {QueryOrderSelector, QueryWhereExpression} from 'Types/source';
 import {RecordSet, List} from 'Types/collection';
 import {Logger} from 'UI/Utils';
 
+// @ts-ignore
 import * as cClone from 'Core/core-clone';
 
 import INavigationStore from './NavigationController/interface/INavigationStore';
@@ -12,13 +12,13 @@ import {default as PositionNavigationStore, IPositionNavigationState} from './Na
 import PositionParamsCalculator from './NavigationController/PositionParamsCalculator';
 
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
-import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection} from 'Controls/_interface/INavigation';
+import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
 import {IHashMap} from 'Types/declarations';
 import {applied, Record} from 'Types/entity';
 import {isEqual} from 'Types/object';
 
 /**
- * Вспомогательный интерфейс для определения типа typeof object
+ * Вспомогательный интерфейс для определения типа typeof object.
  * @interface IType
  * @private
  * @author Аверкиев П.А.
@@ -42,7 +42,7 @@ type TStoreNavigationState = IPositionNavigationState | IPageNavigationState;
 /**
  * Фабрика для создания экземпляра контроллера запроса навигации.
  * @remark
- * Поддерживает два варианта - 'page' и 'position'
+ * Поддерживает два варианта - 'page' и 'position'.
  * @class Controls/_source/NavigationControllerFactory
  * @example
  * const cName:INavigationOptionValue<INavigationPageSourceConfig> = {source: 'page'};
@@ -80,7 +80,7 @@ class NavigationStoreFactory {
 export interface INavigationControllerOptions {
     /**
      * @name Controls/_source/NavigationController#navigation
-     * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации
+     * @cfg {Types/source:INavigationOptionValue<INavigationSourceConfig>} Опции навигации.
      */
     /*
      * @name Controls/_source/NavigationController#navigation
@@ -97,9 +97,9 @@ type NavigationRecord = Record<{
 }>;
 
 /**
- * Контроллер постраничной навигации
+ * Контроллер постраничной навигации.
  * @remark
- * Хранит состояние навигации INavigationOptionValue<INavigationSourceConfig> и вычисляет на его основании параметры для построения запроса Query
+ * Хранит состояние навигации INavigationOptionValue<INavigationSourceConfig> и вычисляет на его основании параметры для построения запроса Query.
  *
  * @class Controls/source/NavigationController
  *
@@ -138,12 +138,12 @@ export class NavigationController {
     }
 
     /**
-     * Строит запрос данных на основе переданных параметров filter и sorting
-     * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настрйоки пейджинации
+     * Строит запрос данных на основе переданных параметров filter и sorting.
+     * Если в опцию navigation был передан объект INavigationOptionValue<INavigationSourceConfig>, его filter, sorting и настройки пейджинации
      * также одбавляются в запрос.
-     * @param userQueryParams {IQueryParams} Настройки фильтрации, сортировки
-     * @param navigationConfig {INavigationSourceConfig} Настройки навигации
-     * @param id {} Идентификатор запрашиваемого узла. По-умолчанию корневой узел.
+     * @param userQueryParams {IQueryParams} Настройки фильтрации, сортировки.
+     * @param navigationConfig {INavigationSourceConfig} Настройки навигации.
+     * @param id {} Идентификатор запрашиваемого узла. По-умолчанию - корневой узел.
      * @param direction {TNavigationDirection} Направление навигации.
      */
 
@@ -180,9 +180,9 @@ export class NavigationController {
     }
 
     /**
-     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу, или позицию
-     * @param list {Types/collection:RecordSet} объект, содержащий метаданные текущего запроса
-     * @param direction {TNavigationDirection} направление навигации ('up' или 'down')
+     * Вычисляет следующее состояние контроллера параметров запроса: следующую страницу или позицию.
+     * @param list {Types/collection:RecordSet} Объект, содержащий метаданные текущего запроса.
+     * @param direction {TNavigationDirection} Направление навигации ('up' или 'down').
      */
     /*
      * Calculates next query params controller state: next page, or position
@@ -215,6 +215,18 @@ export class NavigationController {
             updateResult = [calculator.updateQueryProperties(store, list, metaMore, navigationConfig, direction)];
         }
         return updateResult;
+    }
+
+    updateQueryRange(list: RecordSet, id: TKey = null): void {
+        const calculator = this._getCalculator();
+        const store = this._getStore(id);
+        calculator.updateQueryRange(store, list);
+    }
+
+    shiftToEdge(direction: TNavigationDirection, id: TKey = null, shiftMode: TNavigationPagingMode): void {
+        const calculator = this._getCalculator();
+        const store = this._getStore(id);
+        calculator.shiftToEdge(store, direction, shiftMode);
     }
 
     hasMoreData(direction?: TNavigationDirection, id: TKey = null): boolean {
@@ -296,7 +308,7 @@ export class NavigationController {
             // we can't modify original filter
             resultParams.filter = cClone(resultParams.filter);
             const navFilter = additional.filter;
-            for (let i in navFilter) {
+            for (const i in navFilter) {
                 if (navFilter.hasOwnProperty(i)) {
                     resultParams.filter[i] = navFilter[i];
                 }
@@ -323,6 +335,7 @@ export class NavigationController {
             // Добавляем в фильтр раздел и помечаем это поле, как первичный ключ
             // Оно используется для формирования множественной навигации,
             // Само поле будет удалено из фильтра перед запросом.
+            // @ts-ignore
             resultParams.filter.__root = new applied.PrimaryKey(addItem.id);
 
             resultParamsArray.push(resultParams);

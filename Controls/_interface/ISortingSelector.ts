@@ -1,12 +1,12 @@
 
 /**
  * Контрол в виде кнопки с выпадающим меню, используемый для изменения сортировки. Рекомендуется, если в реестре нет заголовков.
- * 
+ *
  * @class Controls/grid:SortingSelector
  * @extends Core/Control
  * @public
  * @implements Controls/_interface/IFontColorStyle
- * @demo Controls-demo/grid/Sorting/SortingSelector/Index
+ * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @author Авраменко А.С.
  */
 
@@ -21,12 +21,18 @@ import {IControlOptions} from 'UI/Base';
 export interface ISortingParam {
    paramName: string | null;
    title: string;
+   value: 'ASC' | 'DESC';
+   icon: string;
+   iconSize: 's' | 'm' | 'l';
 }
 export interface ISortingSelectorOptions extends IControlOptions {
-   
+
    /**
     * @name Controls/grid:SortingSelector#sortingParams
     * @cfg {Array.<SortingParam>} Параметры сортировки.
+    * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
+    * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index
+    * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
     * @example
     * В опцию передается массив вида
     * <pre class="brush: js;">
@@ -46,7 +52,8 @@ export interface ISortingSelectorOptions extends IControlOptions {
     * </pre>
     *
     * Чтобы дать возможность сброса сортировки, нужно добавить пункт со значением paramName = null.
-    * 
+    *
+    *
     * <pre class="brush: js; highlight: [5]">
     * _sortingParam: null,
     * _beforeMount: function(options) {
@@ -58,6 +65,29 @@ export interface ISortingSelectorOptions extends IControlOptions {
     *       {
     *          paramName: 'Name',
     *          title: 'По имени'
+    *       }
+    *    ]
+    * }
+    * </pre>
+    *
+    * Чтобы отобразить иконки в выпадающем списке, нужно задать поля icon и iconSize. Выпадающий элемент так же отобразится в виде иконки
+    *
+    *
+    * <pre class="brush: js; highlight: [5]">
+    * _sortingParam: null,
+    * _beforeMount: function(options) {
+    *    this._sortingParam = [
+    *       {
+    *          paramName: null,
+    *          title: 'По умолчанию',
+    *          icon: 'icon-Attach',
+    *          iconSize: 's'
+    *       },
+    *       {
+    *          paramName: 'Name',
+    *          title: 'По имени',
+    *          icon: 'icon-1c',
+    *          iconSize: 's'
     *       }
     *    ]
     * }
@@ -90,20 +120,21 @@ export interface ISortingSelectorOptions extends IControlOptions {
     *    ];
     * }
     * </pre>
-    * 
+    *
     * Следует использовать директиву bind для опции value.
-    * 
+    *
     * <pre class="brush: html; highlight: [2,4]">
     * <Controls.grid:SortingSelector
-    *   bind:value="_sortingValue" 
+    *   bind:value="_sortingValue"
     *   sortingParams="{{_sortingParam}}" />
     * </pre>
     */
    value: [object];
    /**
     * @name Controls/grid:SortingSelector#header
-    * @cfg {String} Заголовок для меню сортировки.
-    * @remark Если заголовок не требуется, можно не указывать.
+    * @cfg {String} Заголовок для выпадающего списка сортировки.
+    * @remark Если заголовок не требуется, опцию можно не указывать.
+    * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index
     */
    header: string;
 }

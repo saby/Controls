@@ -105,3 +105,12 @@ export interface IBase {
  * Метод используется, когда выделенное значение не известно, а вам требуется заменить его на другое.
  * @demo Controls-demo/Input/Paste/Index
  */
+
+/**
+ * @name Controls/_input/interface/IBase#contrastBackground
+ * @cfg {Boolean} Определяет контрастность фона контрола по отношению к ее окружению.
+ * @default true
+ * @variant true Контрастный фон.
+ * @variant false Фон, гармонично сочетающийся с окружением.
+ * @demo Controls-demo/Input/ContrastBackground/Index
+ */

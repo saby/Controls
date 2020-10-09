@@ -3,19 +3,19 @@ import * as Control from 'Core/Control';
 // @ts-ignore
 import {StickyOpener} from 'Controls/popup';
 import IDropdownController, {IDropdownControllerOptions} from 'Controls/_dropdown/interface/IDropdownController';
-import {factory} from 'Types/chain';
 import {getSourceFilter, isHistorySource, getSource, getMetaHistory} from 'Controls/_dropdown/dropdownHistoryUtils';
+import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {prepareEmpty} from 'Controls/_dropdown/Util';
+import {error as dataSourceError} from 'Controls/dataSource';
 import {Controller as SourceController} from 'Controls/source';
+import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import * as mStubs from 'Core/moduleStubs';
 import {descriptor, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
+import {PrefetchProxy, ICrudPlus} from 'Types/source';
+import * as mStubs from 'Core/moduleStubs';
 import * as cInstance from 'Core/core-instance';
-import {PrefetchProxy} from 'Types/source';
 import * as Merge from 'Core/core-merge';
-import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {error as dataSourceError} from 'Controls/dataSource';
 
 /**
  * Контроллер для выпадающих списков.
@@ -49,6 +49,7 @@ export default class _Controller implements IDropdownController {
    protected _items: RecordSet = null;
    protected _loadItemsTempPromise: Promise<any> = null;
    protected _options: IDropdownControllerOptions = null;
+   protected _source: ICrudPlus = null;
 
    constructor(options: IDropdownControllerOptions) {
       this._options = options;
@@ -206,7 +207,7 @@ export default class _Controller implements IDropdownController {
 
    pinClick(item): void {
       const preparedItem = this._prepareItem(item, this._options.keyProperty, this._source);
-      this._options.source.update(preparedItem.clone(), {
+      this._source.update(preparedItem.clone(), {
          $_pinned: !preparedItem.get('pinned')
       });
       this._setItems(null);
@@ -327,7 +328,7 @@ export default class _Controller implements IDropdownController {
       let sourcePromise;
 
       if (this._hasHistory(options) && this._isLocalSource(options.source) && !options.historyNew) {
-         sourcePromise = getSource(options.source, options.historyId);
+         sourcePromise = getSource(this._source ||options.source, options.historyId);
       } else {
          sourcePromise = Promise.resolve(options.source);
       }

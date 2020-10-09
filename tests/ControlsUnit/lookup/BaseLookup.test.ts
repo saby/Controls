@@ -90,6 +90,25 @@ describe('Controls/lookup:Input', () => {
             assert.deepStrictEqual(lookup._items.getCount(), data.length);
         });
 
+        it('with source and items', async () => {
+            const data = [
+                {id: 1},
+                {id: 2},
+                {id: 3}
+            ];
+            const options = {
+                source: getSource(),
+                selectedKeys: [],
+                items: new RecordSet({
+                    rawData: data,
+                    keyProperty: 'id'
+                })
+            };
+
+            const lookup = await getBaseLookup(options as unknown as ILookupOptions);
+            assert.deepStrictEqual(lookup._items.getCount(), data.length);
+        });
+
     });
 
     describe('handlers', () => {

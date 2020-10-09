@@ -56,7 +56,7 @@ export interface ISourceConfig {
    filter?: FilterObject;
    sorting?: SortingObject;
    historyItems?: HistoryItems;
-   propStorageId: string;
+   propStorageId?: string;
 }
 
 const HISTORY_FILTER_TIMEOUT = 1000;

@@ -63,6 +63,9 @@ import {default as TreeItem} from './_display/TreeItem';
 export {TreeItem};
 
 export {ANIMATION_STATE} from './_display/interface/ICollection';
+export {IEditableCollection} from './_display/interface/IEditableCollection';
+export {IEditableCollectionItem} from './_display/interface/IEditableCollectionItem';
+export {ICollectionItem} from './_display/interface/ICollectionItem';
 export {IBaseCollection, TItemKey} from './_display/interface';
 
 import {default as TileCollection} from './_display/TileCollection';
@@ -90,6 +93,9 @@ export { VirtualScrollController };
 
 import * as VirtualScrollHideController from './_display/controllers/VirtualScrollHide';
 export { VirtualScrollHideController };
+
+import {IDragPosition} from './_display/interface/IDragPosition';
+export {IDragPosition};
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});

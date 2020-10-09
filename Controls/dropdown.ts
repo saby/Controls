@@ -3,7 +3,6 @@
  * @library Controls/dropdown
  * @includes Button Controls/_dropdown/Button
  * @includes Input Controls/_dropdown/Input
- * @includes _Controller Controls/_dropdown/_Controller
  * @includes Combobox Controls/_dropdown/ComboBox
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
@@ -12,7 +11,7 @@
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
  * @includes IGrouped Controls/_dropdown/interface/IGrouped
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
- * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Input/resources/defaultContentTemplate
+ * @includes inputDefaultContentTemplate Controls/dropdown:inputDefaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
  * @public
  * @author Крайнов Д.О.
@@ -23,7 +22,6 @@
  * @library Controls/dropdown
  * @includes Button Controls/_dropdown/Button
  * @includes Input Controls/_dropdown/Input
- * @includes _Controller Controls/_dropdown/_Controller
  * @includes Combobox Controls/_dropdown/ComboBox
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate

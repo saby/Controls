@@ -7,13 +7,15 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected checkboxReadOnly: Boolean;
+    protected _selectedKeys: [] = [];
+    protected _excludedKeys: [] = [];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getData()
         });
-        this.checkboxReadOnly = false;
+        this.checkboxReadOnly = true;
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

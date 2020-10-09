@@ -1,4 +1,5 @@
-<div name="fieldWrapper" class="controls-Area__fieldWrapper controls-Area__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}">
+<div name="fieldWrapper"
+     class="controls-Area__fieldWrapper controls-Area__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}">
    <div name="fakeField"
         class="controls-Area__fakeField
                controls-Area__minHeight_theme_{{options.theme}}_countLines_{{minLines}}_size_{{heightLine}}">
@@ -8,22 +9,21 @@
       </ws:else>
       <ws:else>{{emptySymbol}}</ws:else>
    </div>
-   <ws:partial template="wml!Controls/_input/Base/FixValueAttr" isBrowserPlatform="{{isBrowserPlatform}}"
-               inputKey="{{ inputKey }}" 
-               value="{{calculateValueForTemplate()}}">
-      <ws:partial template="wml!Controls/_input/Base/Event">
-         <textarea
-            wrap="hard"
-            spellcheck="{{options.spellCheck}}"
-            name="{{fieldName}}"
-            class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
+   <ws:partial template="wml!Controls/_input/Base/Event">
+      <Controls._input.resources.Field
+         tag="textarea"
+         name="{{fieldName}}"
+         model="{{model}}"
+         inputCallback="{{inputCallback}}"
+         recalculateLocationVisibleArea="{{recalculateLocationVisibleArea}}"
+         attr:wrap="hard"
+         attr:spellcheck="{{options.spellCheck}}"
+         attr:class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
                    controls-InputBase__nativeField_caret{{wasActionUser ? 'Filled' : 'Empty'}}_theme_{{options.theme}}
                    {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}
                    {{fixTextPosition ? 'controls-Area__realField_fixTextPosition'}}"
-            placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
-            on:keypress="_keyPressHandler()"
-         >{{!isBrowserPlatform ? calculateValueForTemplate()}}</textarea>
-      </ws:partial>
+         attr:placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
+         on:keypress="_keyPressHandler()"/>
    </ws:partial>
    <ws:if data="{{!value}}">
       <div class="controls-InputBase__placeholder">

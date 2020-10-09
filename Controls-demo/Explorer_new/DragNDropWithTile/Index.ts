@@ -5,7 +5,7 @@ import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';

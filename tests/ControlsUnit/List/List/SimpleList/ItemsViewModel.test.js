@@ -509,6 +509,20 @@ define([
          assert.isFalse(!!itemData.isGroup);
       });
 
+      it('_isGroup', function() {
+         const model = new list.ItemsViewModel({
+            items: data,
+            keyProperty: 'id'
+         });
+
+         assert.isFalse(model._isGroup({ get: () => {}}));
+         assert.isTrue(model._isGroup({}));
+         assert.isTrue(model._isGroup(null));
+         assert.isTrue(model._isGroup(undefined));
+         assert.isTrue(model._isGroup(0));
+         assert.isTrue(model._isGroup(""));
+      });
+
       it('getItemDataByItem caches results', function() {
          const
             cfg = {

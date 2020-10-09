@@ -1,5 +1,5 @@
 define('Controls/Utils/tmplNotify', [
-   'Controls/eventUtils'
-], function(eventUtils) {
-   return eventUtils.tmplNotify;
+   'UI/Events'
+], function(Events) {
+   return Events.EventUtils.tmplNotify;
 });

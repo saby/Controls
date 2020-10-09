@@ -1,7 +1,7 @@
 <div attr:class="{{ item.getWrapperClasses(highlightOnHover, theme) }}">
    <ws:if data="{{ multiSelectVisibility !== 'hidden' }}">
       <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ item.getMultiSelectClasses(theme) }}">
-         <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getId() }}"/>
+         <ws:templateOptions multiSelectStatus="{{ item.isSelected() }}" key="{{ item.getContents().getId() }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
       </ws:partial>
    </ws:if>
    <ws:if data="{{ item.shouldDisplayMarker(marker) }}">
@@ -9,18 +9,22 @@
    </ws:if>
    <ws:if data="{{ contentTemplate }}">
       <div attr:class="{{ item.getContentClasses(theme, style) }}">
-         <ws:partial
-            template="{{ contentTemplate }}"
-            item="{{ item }}"
-            useNewModel="{{ true }}"
-            searchValue="{{ searchValue }}"
-            itemActionsTemplate="{{ itemActionsTemplate }}"
-            swipeTemplate="{{ swipeTemplate }}" />
+         <div class="controls-ListView_content-template">
+             <ws:partial
+                template="{{ contentTemplate }}"
+                item="{{ item }}"
+                useNewModel="{{ true }}"
+                searchValue="{{ searchValue }}"
+                itemActionsTemplate="{{ itemActionsTemplate }}"
+                swipeTemplate="{{ swipeTemplate }}" />
+         </div>
       </div>
    </ws:if>
    <ws:else>
       <div attr:class="{{ item.getContentClasses(theme, style) }}">
-         {{ item.getContents()[item.getDisplayProperty() || 'title'] }}
+         <div class="controls-ListView_content-template">
+            {{ item.getContents()[item.getDisplayProperty() || 'title'] }}
+         </div>
       </div>
    </ws:else>
    <ws:if data="{{ item.hasVisibleActions() || item.isEditing() }}">

@@ -121,6 +121,10 @@ var __ContentLayer = BaseLayer.extend({
    _maxHeight: 'none',
    _showContent: false,
 
+   _afterMount(): void {
+      _private.updateHeight(this);
+   },
+
    _afterUpdate(): void {
       /* 1) checking suggestionsContainer in children, because suggest initializing asynchronously
        2) do not change orientation of suggest, if suggest already showed or data loading now */

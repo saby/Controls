@@ -14,7 +14,7 @@ define('Controls/interface/IGroupedGrid', [
     * @name Controls/interface/IGroupedGrid#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * Примечание: Для отображения элементов вне группы необходимо передавать в качестве значений поля, по которому производится группировка CONTROLS_HIDDEN_GROUP
-    * @demo Controls-demo/List/List/GroupPG
+    * @demo Controls-demo/grid/Grouped/Custom/Index
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -29,7 +29,7 @@ define('Controls/interface/IGroupedGrid', [
     * @remark
     * Подробнее о параметрах шаблона Controls/grid:GroupTemplate читайте {@link Controls/grid:GroupTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/grouping/basic/#header-group здесь}.
-    * @demo Controls-demo/List/Grid/GroupPG
+    * @demo Controls-demo/grid/Grouped/Custom/Index
     * @see groupHistoryId
     * @see collapsedGroups
     * @see groupExpanded
@@ -40,7 +40,6 @@ define('Controls/interface/IGroupedGrid', [
    /**
     * @name Controls/interface/IGroupedGrid#collapsedGroups
     * @cfg {Array.<String>} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
-    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see groupHistoryId
     * @see groupExpanded
@@ -62,7 +61,6 @@ define('Controls/interface/IGroupedGrid', [
     * @event Controls/interface/IGroupedGrid#groupExpanded Происходит при развертывании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {String} changes Идентификатор группы.
-    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -74,7 +72,6 @@ define('Controls/interface/IGroupedGrid', [
     * @event Controls/interface/IGroupedGrid#groupCollapsed Происходит при сворачивании группы.
     * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
     * @param {String} changes Идентификатор группы.
-    * @demo Controls-demo/List/Grid/GroupPG
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId

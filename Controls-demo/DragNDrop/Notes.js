@@ -21,14 +21,14 @@ define('Controls-demo/DragNDrop/Notes', [
       },
 
       _onMouseDownTriangle: function(event, itemData) {
-         this._children.dragNDrop.startDragNDrop(new EntityTriangle({
+         this._children.dragNDrop.startDragNDrop(new EntityTriangle.default({
             item: itemData.item
          }), event);
          event.stopPropagation();
       },
 
       _onMouseDownNote: function(event, itemData) {
-         this._children.dragNDrop.startDragNDrop(new EntityNote({
+         this._children.dragNDrop.startDragNDrop(new EntityNote.default({
             item: itemData.item
          }), event);
       },

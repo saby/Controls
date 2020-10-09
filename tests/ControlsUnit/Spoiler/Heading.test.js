@@ -109,6 +109,38 @@ define(
                assert.equal(spoiler.Heading._calcFontWeight(true, 'default'), 'default');
                assert.equal(spoiler.Heading._calcFontWeight(false, 'default'), 'default');
             });
+
+            it('tooltip', () => {
+               const heading = new spoiler.Heading();
+               let textWidth = 20;
+               let captionContainer = 40;
+
+               heading._getTextWidth = () => textWidth;
+               heading._children = {
+                  captionContainer: {
+                     clientWidth: captionContainer
+                  }
+               };
+               heading.saveOptions({
+                  tooltip: 'myTooltipOpt'
+               });
+
+               heading._mouseenterHandler();
+               assert.equal(heading._tooltip, 'myTooltipOpt');
+
+               heading.saveOptions({
+                  tooltip: null
+               });
+               heading._tooltip = '';
+               heading._mouseenterHandler();
+               assert.equal(heading._tooltip, '');
+
+               textWidth = 60;
+               heading._mouseenterHandler(null, 'myCaption');
+               assert.equal(heading._tooltip, 'myCaption');
+
+               heading.destroy();
+            });
          });
       });
    }

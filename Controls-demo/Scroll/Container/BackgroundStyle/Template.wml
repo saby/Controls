@@ -1,9 +1,9 @@
 <div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth300">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">
-        Controls.scroll:_ContainerNew с опцией backgroundStyle
+        Controls.scroll:Container с опцией backgroundStyle
     </div>
     <div class="controls-ControlsDemo__background">
-        <Controls.scroll:_ContainerNew
+        <Controls.scroll:Container
               attr:class="controlsDemo__height300 controlsDemo_fixedWidth300"
               backgroundStyle="myStyle">
             <div>
@@ -22,6 +22,6 @@
                 cupidatat non proident, sunt in culpa qui officia deserunt mollit
                 anim id est laborum.
             </div>
-        </Controls.scroll:_ContainerNew>
+        </Controls.scroll:Container>
     </div>
 </div>

@@ -1,66 +1,75 @@
-import Control = require('Core/Control');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dragnDrop/Controller/Controller');
+import ControllerClass from './ControllerClass';
 import 'Controls/_dragnDrop/DraggingTemplate';
-      /**
-       * Контроллер обеспечивает взаимосвязь между контейнерами перемещения Controls/dragnDrop:Container.
-       * Он отслеживает события контейнеров и оповещает о них другие контейнеры.
-       * Контроллер отвечает за отображение и позиционирование шаблона, указанного в опции draggingTemplate в контейнерах.
-       * Перетаскивание элементов работает только внутри Controls/dragnDrop:Container.
-       * 
-       * @remark
-       * @remark
-       * Полезные ссылки:
-       * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
-       * 
-       * @class Controls/_dragnDrop/Controller
-       * @extends Core/Control
-       * @control
-       * @public
-       * @author Авраменко А.С.
-       * @category DragNDrop
-       */
+import {IDragObject} from './Container';
+/**
+ * Контроллер обеспечивает взаимосвязь между контейнерами перемещения Controls/dragnDrop:Container.
+ * Он отслеживает события контейнеров и оповещает о них другие контейнеры.
+ * Контроллер отвечает за отображение и позиционирование шаблона, указанного в опции draggingTemplate в контейнерах.
+ * Перетаскивание элементов работает только внутри Controls/dragnDrop:Container.
+ *
+ * @remark
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+ *
+ * @class Controls/_dragnDrop/Controller
+ * @extends Core/Control
+ * @control
+ * @public
+ * @author Авраменко А.С.
+ * @category DragNDrop
+ */
 
-      /*
-       * The drag'n'drop Controller provides a relationship between different Controls/dragnDrop:Container.
-       * It tracks Container events and notifies other Containers about them.
-       * The Controller is responsible for displaying and positioning the template specified in the draggingTemplate option at the Containers.
-       * Drag and drop the entity only works inside Controls/dragnDrop:Container.
-       * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
-       * @class Controls/_dragnDrop/Controller
-       * @extends Core/Control
-       * @control
-       * @public
-       * @author Авраменко А.С.
-       * @category DragNDrop
-       */
+/*
+ * The drag'n'drop Controller provides a relationship between different Controls/dragnDrop:Container.
+ * It tracks Container events and notifies other Containers about them.
+ * The Controller is responsible for displaying and positioning the template specified in the draggingTemplate option at the Containers.
+ * Drag and drop the entity only works inside Controls/dragnDrop:Container.
+ * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
+ * @class Controls/_dragnDrop/Controller
+ * @extends Core/Control
+ * @control
+ * @public
+ * @author Авраменко А.С.
+ * @category DragNDrop
+ */
 
-       var Controller =  Control.extend({
-         _template: template,
-         _draggingTemplateOptions: undefined,
-         _draggingTemplate: undefined,
+class Controller extends Control<IControlOptions> {
+    _template: TemplateFunction = template;
+    _controllerClass: ControllerClass;
 
-         _documentDragStart: function(event, dragObject) {
-            this._children.dragStartDetect.start(dragObject);
-            this._notify('dragStart');
-         },
+    _documentDragStart(event: Event, dragObject: IDragObject): void {
+        this._controllerClass.documentDragStart(dragObject);
+    }
 
-         _documentDragEnd: function(event, dragObject) {
-            this._children.dragEndDetect.start(dragObject);
-            this._draggingTemplate = null;
-            this._draggingTemplateOptions = null;
-             this._notify('dragEnd');
-         },
+    _documentDragEnd(event: Event, dragObject: IDragObject): void {
+        this._controllerClass.documentDragEnd(dragObject);
+    }
 
-         _updateDraggingTemplate: function(event, draggingTemplateOptions, draggingTemplate) {
-            this._draggingTemplateOptions = draggingTemplateOptions;
-            this._draggingTemplate = draggingTemplate;
-         },
+    _updateDraggingTemplate(event: Event, draggingTemplateOptions: IDragObject, draggingTpl: TemplateFunction): void {
+        this._controllerClass.updateDraggingTemplate(draggingTemplateOptions, draggingTpl);
+    }
 
-         _beforeUnmount: function() {
-             this._draggingTemplateOptions = null;
-             this._draggingTemplate = null;
-         }
-      });
-      Controller._styles = ['Controls/dragnDrop'];
-      export = Controller;
+    _beforeMount() {
+        this._controllerClass = new ControllerClass();
+    }
+
+    _beforeUnmount(): void {
+        this._controllerClass.destroy();
+    }
+
+    _registerHandler(event: Event, registerType: string, component, callback, config): void {
+        this._controllerClass.registerHandler(event, registerType, component, callback, config);
+    }
+
+    _unregisterHandler(event: Event, registerType: string, component, config): void {
+        this._controllerClass.unregisterHandler(event, registerType, component, config);
+    }
+
+    static _styles: string[] = ['Controls/dragnDrop'];
+}
+
+export default Controller;

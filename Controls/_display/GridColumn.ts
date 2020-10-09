@@ -46,7 +46,14 @@ export default class GridColumn<T> extends mixin<
 
     getCellClasses(templateHighlightOnHover: boolean): string {
         // GridViewModel -> getItemColumnCellClasses
-        let classes = 'controls-Grid__row-cell controls-Grid__row-cell_theme-default js-controls-ItemActions__swipeMeasurementContainer';
+        const itemSpacing = this._$owner.getItemSpacing();
+        let classes = 'controls-Grid__row-cell js-controls-ItemActions__swipeMeasurementContainer';
+
+        if (itemSpacing.row === 'null') {
+            classes += 'controls-Grid__row-cell_small_min_height-theme-default';
+        } else {
+            classes += 'controls-Grid__row-cell_default_min_height-theme-default';
+        }
 
         // if !checkBoxCell
         classes += ' controls-Grid__cell_fit';

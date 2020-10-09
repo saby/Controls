@@ -1,5 +1,3 @@
-import buttonLib = require('Controls/buttons');
-
    function getIconSize(options) {
       const sizes = ['small', 'medium', 'large'];
       let iconSize;

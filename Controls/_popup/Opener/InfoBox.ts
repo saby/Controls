@@ -77,10 +77,6 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
         }, delay);
     }
 
-    _closeOnTargetScroll(): void {
-        this.close(0);
-    }
-
     private static _getInfoBoxConfig(cfg: IInfoBoxPopupOptions): IInfoBoxOpenerOptions {
         // smart merge of two objects. Standart "core-merge util" will rewrite field value of first object even
         // if value of second object will be undefined

@@ -33,33 +33,34 @@ export interface IPropertyGrid {
  * @name Controls/_propertyGrid/IPropertyGrid#editingObject
  * @cfg {Object} Данные, которые будут отображаться в виде редакторов со значениями в PropertyGrid.
  * @example
- * Задаём конфигурацию
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *             showBackgroundImage: true,
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true,
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text'
- *            },
- *            {
- *               name: "showBackgroundImage",
- *               caption: "Показывать изображение",
- *               group: "boolean"
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text'
+ *       },
+ *       {
+ *          name: "showBackgroundImage",
+ *          caption: "Показывать изображение",
+ *          group: "boolean"
+ *       }
+ *    ]
+ * }
  * </pre>
- * Передаём конфигурацию в PropertyGrid
+ * 
  * <pre class="brush: html">
- *     <Controls.propertyGrid:PropertyGrid
- *              bind:editingObject="_editingObject"
- *              source="{{_source}}"/>
+ * <!-- WML -->
+ * <Controls.propertyGrid:PropertyGrid
+ *     bind:editingObject="_editingObject"
+ *     source="{{_source}}"/>
  * </pre>
  */
 
@@ -76,31 +77,32 @@ export interface IPropertyGrid {
  * @example
  * Задаём конфигурацию
  * <pre class="brush: js">
- *     _beforeMount() {
- *         this._editingObject = {
- *             description: 'This is http://mysite.com',
- *             showBackgroundImage: true,
- *         };
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true,
+ *    };
  *
- *         this._source = [
- *            {
- *               name: 'description',
- *               caption: 'Описание',
- *               type: 'text'
- *            },
- *            {
- *               name: "showBackgroundImage",
- *               caption: "Показывать изображение",
- *               group: "boolean"
- *            }
- *         ]
- *     }
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text'
+ *       }, {
+ *          name: "showBackgroundImage",
+ *          caption: "Показывать изображение",
+ *          group: "boolean"
+ *       }
+ *    ]
+ * }
  * </pre>
- * Передаём конфигурацию в PropertyGrid
+ * 
  * <pre class="brush: html">
- *     <Controls.propertyGrid:PropertyGrid
- *              bind:editingObject="_editingObject"
- *              source="{{_source}}"/>
+ * <!-- WML -->
+ * <Controls.propertyGrid:PropertyGrid
+ *    bind:editingObject="_editingObject"
+ *    source="{{_source}}"/>
  * </pre>
  */
 
@@ -123,6 +125,7 @@ export interface IPropertyGrid {
  * @example
  * Далее показано как изменить параметры шаблона.
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid>
  *    <ws:groupTemplate>
  *       <ws:partial template="Controls/propertyGrid:GroupTemplate"

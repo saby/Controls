@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
             name="list"
-            keyProperty="Document"
+            keyProperty="id"
             source="{{_viewSource}}">
         <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>

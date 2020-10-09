@@ -6,10 +6,12 @@
          source="{{ _viewSource }}"
          itemActions="{{_itemActions}}"
          markerVisibility="visible"
-         name="listView2">
+         name="listView2"
+         itemsDragNDrop="{{true}}"
+         on:dragStart="_dragStart()">
          <ws:navigation source="page" view="infinity">
-            <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
-            <ws:viewConfig pagingMode="direct" ></ws:viewConfig>
+            <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
+            <ws:viewConfig pagingMode="direct"/>
          </ws:navigation>
          <ws:itemTemplate>
             <ws:partial template="Controls/listRender:ColumnsItemTemplate" attr:class="controlsDemo__height18_item"></ws:partial>

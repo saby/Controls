@@ -75,6 +75,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             imageProperty: 'image',
             defaultItemWidth: 250,
             defaultShadowVisibility: 'visible',
+            itemClasses: 'controls-TileView__item_spacingLeft_default_theme-default controls-TileView__item_spacingRight_default_theme-default controls-TileView__item_spacingTop_default_theme-default controls-TileView__item_spacingBottom_default_theme-default',
             itemCompressionCoefficient: 0.7,
             displayProperty: 'title',
             imageWidthProperty: 'imageWidth',
@@ -106,15 +107,15 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
 
       it('getMultiSelectClassList onhover selected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
-         tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2).getContents()], true);
+         tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2)], true);
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
          assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
-      it('getItemPaddingClasses', () => {
-         assert.equal(tileViewModel.getItemPaddingClasses(), 'controls-TileView__itemPaddingContainer_spacingLeft_default_theme-default controls-TileView__itemPaddingContainer_spacingRight_default_theme-default');
+      it('getPaddingClasses', () => {
+         assert.equal(tileViewModel.getPaddingClasses('itemPaddingContainer'), 'controls-TileView__itemPaddingContainer_spacingLeft_default_theme-default controls-TileView__itemPaddingContainer_spacingRight_default_theme-default controls-TileView__itemPaddingContainer_spacingTop_default_theme-default controls-TileView__itemPaddingContainer_spacingBottom_default_theme-default');
          tileViewModel.setItemPadding({left: 's', right: 'null'});
-         assert.equal(tileViewModel.getItemPaddingClasses(), 'controls-TileView__itemPaddingContainer_spacingLeft_s_theme-default controls-TileView__itemPaddingContainer_spacingRight_null_theme-default');
+         assert.equal(tileViewModel.getPaddingClasses('itemPaddingContainer'), 'controls-TileView__itemPaddingContainer_spacingLeft_s_theme-default controls-TileView__itemPaddingContainer_spacingRight_null_theme-default controls-TileView__itemPaddingContainer_spacingTop_default_theme-default controls-TileView__itemPaddingContainer_spacingBottom_default_theme-default');
       });
 
       describe('getItemWidth', () => {

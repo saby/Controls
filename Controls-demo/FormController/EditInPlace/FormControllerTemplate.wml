@@ -6,7 +6,7 @@
    </ws:headerContentTemplate>
    <ws:bodyContentTemplate>
       <div>
-         <Controls.form:Controller name="formControllerInst" dataSource="{{ _dataSource }}"
+         <Controls.form:Controller name="formControllerInst" source="{{ _dataSource }}"
                                    record="{{ _record }}" key="{{ _options.key }}"
                                    on:updateFailed="_errorHandler()"
                                    on:createFailed="_errorHandler()"

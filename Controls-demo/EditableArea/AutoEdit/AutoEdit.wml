@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">autoEdit = false</div>
+      <Controls.editableArea:View
+         autoEdit="{{false}}"
+         editObject="{{_editObject}}">
+         <Controls.editableArea:Base bind:value="content.editObject.text">
+            <ws:editorTemplate>
+               <Controls.input:Text attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+            </ws:editorTemplate>
+         </Controls.editableArea:Base>
+      </Controls.editableArea:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">autoEdit = true</div>
+      <Controls.editableArea:View
+         autoEdit="{{true}}"
+         editObject="{{_editObject}}">
+         <Controls.editableArea:Base bind:value="content.editObject.text">
+            <ws:editorTemplate>
+               <Controls.input:Text attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+            </ws:editorTemplate>
+         </Controls.editableArea:Base>
+      </Controls.editableArea:View>
+   </div>
+</div>

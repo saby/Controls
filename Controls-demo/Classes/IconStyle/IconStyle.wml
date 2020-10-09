@@ -5,6 +5,10 @@
             <span class="icon-Author controls-icon controls-icon_style-info_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
         </div>
         <div>
+            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-unaccented_theme-{{_options.theme}}</div>
+            <span class="icon-Author controls-icon controls-icon_style-unaccented_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+        </div>
+        <div>
             <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-label_theme-{{_options.theme}}</div>
             <span class="icon-Author controls-icon controls-icon_style-label_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
         </div>

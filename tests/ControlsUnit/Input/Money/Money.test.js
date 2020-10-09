@@ -74,25 +74,6 @@ define(
                assert.equal(Money.fractionPart(value, precision), '');
             });
          });
-
-         describe('User input.', function() {
-            it('Enter "0" in the empty field.', function() {
-               ctrl._beforeMount({
-                  value: '',
-                  precision: 2
-               });
-               InputUtility.init(ctrl);
-               InputUtility.insert(ctrl, '0');
-               InputUtility.triggerInput(ctrl);
-
-               assert.equal(ctrl._viewModel.displayValue, '0.00');
-               assert.equal(ctrl._viewModel.value, '0.00');
-               assert.deepEqual(ctrl._viewModel.selection, {
-                  start: 1,
-                  end: 1
-               });
-            });
-         });
       });
    }
 );

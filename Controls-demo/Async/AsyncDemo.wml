@@ -23,16 +23,35 @@
         <Controls.heading:Title caption="5. Тест: скрыть/показать Controls.Container.Async, который грузит модуль с шаблоном <invisible-node/>" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l"/>
         <div class="asyncDemo__row">
             Скрытие/показ модуля Async, который загружает компонент с {{'<invisible-node/>'}} в разметке.&nbsp;
-            <Controls.buttons:Button 
-                href="{{'https://online.sbis.ru/opendoc.html?guid=689bb38b-770e-421f-8619-1d6e5518faac'}}" 
-                readOnly="{{false}}" 
-                fontSize="s" 
-                inlineHeight="s" 
-                caption="Пример ошибки" 
-                attr:class="ControlsDemo-AsyncDemo__navigationButton demo-AsyncDemo__example" 
-                viewMode="linkButton" 
+            <Controls.buttons:Button
+                href="{{'https://online.sbis.ru/opendoc.html?guid=689bb38b-770e-421f-8619-1d6e5518faac'}}"
+                readOnly="{{false}}"
+                fontSize="s"
+                inlineHeight="s"
+                caption="Пример ошибки"
+                attr:class="ControlsDemo-AsyncDemo__navigationButton demo-AsyncDemo__example"
+                viewMode="linkButton"
                 fontColorStyle="link"/>
         </div>
         <Controls-demo.Async._asyncDemo.ShowHide/>
+    </div>
+
+    <div class="ControlsDemo-AsyncDemo__column demo-AsyncDemo__showHideColumn">
+        <Controls.heading:Title caption="6. Асинхронная загрузка шаблона после восстановления сети" readOnly="{{true}}" fontColorStyle="secondary" fontSize="l"/>
+        <div class="asyncDemo__row">
+            Демонстрация асинхронной загрузки модуля/библиотеки после первой неудачной попытки загрузить их.<br/>
+            Тут необходимо после загрузки страницы (по умолчанию открыта вкладка "Tab 0"):<br/>
+            1) отключить сеть: Chrome devtools -> Network -> Offline<br/>
+            2) переключиться на вкладку "Tab 1" - в консоли появится ошибка загрузки модуля "Controls-demo/Async/_asyncDemo/TabsBlock/Tab1", а во вкладке текст ошибки "Произошел разрыв соединения"<br/>
+            3) переключиться на вкладку "Tab 2" - в консоли появится ошибка загрузки библиотеки "Controls-demo/Async/testLibAsync", а во вкладке текст ошибки "Произошел разрыв соединения"<br/>
+            4) восстановить сеть: Chrome devtools -> Network -> Online<br/>
+            5) переключиться на вкладку "Tab 1" - модуль загрузился<br/>
+            6) переключиться на вкладку "Tab 2" - модуль загрузился<br/>
+        </div>
+        <div class="asyncDemo__row">
+            <Router.router:Route mask="selectedTab/:selectedTab">
+                <Controls-demo.Async._asyncDemo.TabsBlock.TabsBlock/>
+            </Router.router:Route>
+        </div>
     </div>
 </div>

@@ -19,7 +19,6 @@ import dateControlsUtils from "./Utils";
  * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FLinkView">Demo examples.</a>.
  * @class Controls/_dateRange/LinkView
  * @extends Core/Control
- * @mixes Controls/interface/ILinkView
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/ICaptionFormatter

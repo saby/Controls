@@ -22,8 +22,6 @@
             on:maximized="_maximized()"
             on:register="_registerHandler()"
             on:unregister="_unregisterHandler()"
-            on:registerOpenerUpdateCallback="_registerOpenerUpdateCallback()"
-            on:unregisterOpenerUpdateCallback="_unregisterOpenerUpdateCallback()"
             on:controlResize="_controlResizeHandler()"
             on:showIndicator="_showIndicatorHandler()"
             on:registerPending="_registerPendingHandler()"

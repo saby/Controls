@@ -25,6 +25,7 @@
                                     canStartDragNDrop="{{ _canStartDragNDrop }}"
                                     markerVisibility="{{ _options.markerVisibility }}"
                                     navigation="{{ _navigation }}"
+                                    useNewModel="{{_options.viewMode === 'list' ? false : _options.useNewModel}}"
                                     on:itemClick="_onItemClick()"
                                     on:itemMouseDown="_notifyHandler('itemMouseDown')"
                                     on:checkboxClick="_notifyHandler('checkboxClick')"

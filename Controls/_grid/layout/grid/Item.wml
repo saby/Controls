@@ -58,7 +58,7 @@
                                  {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder  controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
                                  {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}
                                  {{itemData.stickyLadder && itemData.stickyProperties[1] && !itemData.stickyLadder[itemData.stickyProperties[1]].ladderLength ? 'controls-Grid__row-cell__content_ladder-empty'}}
-                                 {{itemData.isRightSwiped() ? ' controls-ListView__item_rightSwipeAnimation'}}
+                                 {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}
                                  {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}"
                      itemData="{{currentColumn}}"
                      tagTemplate="{{tagTemplate}}"/>

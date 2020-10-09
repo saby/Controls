@@ -73,6 +73,16 @@ export interface IRenderOptions extends IControlOptions, IHeightOptions, IBorder
     state: string;
     border: IBorder;
     wasActionByUser: boolean;
+
+    /**
+     * @name Controls/_input/Render#contrastBackground
+     * @cfg {Boolean} Определяет контрастность фона контрола по отношению к ее окружению.
+     * @default true
+     * @variant true Контрастный фон.
+     * @variant false Фон, гармонично сочетающийся с окружением.
+     * @demo Controls-demo/Input/ContrastBackground/Index
+     */
+    contrastBackground: boolean;
 }
 
 /**
@@ -205,13 +215,15 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
             rightFieldWrapper: descriptor(Function),
             leftFieldWrapper: descriptor(Function),
             multiline: descriptor(Boolean).required(),
-            roundBorder: descriptor(Boolean).required()
+            roundBorder: descriptor(Boolean).required(),
+            contrastBackground: descriptor(Boolean)
         };
     }
 
     static getDefaultOptions(): Partial<IRenderOptions> {
         return {
             ...getDefaultBorderVisibilityOptions(),
+            contrastBackground: true,
             state: '',
             validationStatus: 'valid'
         };

@@ -1,4 +1,4 @@
-<Controls.operations:FilterController scope="{{_options}}" selectedKeys="{{_selectedKeys}}" excludedKeys="{{_excludedKeys}}">
+<Controls.filter:Controller scope="{{_options}}" selectedKeys="{{_selectedKeys}}" excludedKeys="{{_excludedKeys}}">
     <Controls.list:DataContainer>
         <Controls.operations:Controller
                 bind:selectedKeys="_selectedKeys"
@@ -14,4 +14,4 @@
             </div>
         </Controls.operations:Controller>
     </Controls.list:DataContainer>
-</Controls.operations:FilterController>
+</Controls.filter:Controller>

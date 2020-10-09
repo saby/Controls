@@ -1,2 +1,2 @@
-import {ResizeObserver} from 'Controls/scrollUtils';
-export default ResizeObserver;
+import {ResizeObserverUtil} from 'Controls/sizeUtils';
+export default ResizeObserverUtil;

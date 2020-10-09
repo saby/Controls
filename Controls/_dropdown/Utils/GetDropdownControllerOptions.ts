@@ -20,7 +20,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         width: options.width,
         popupClassName: options.popupClassName,
         dropdownClassName: options.dropdownClassName,
-        marker: options.marker,
+        markerVisibility: options.markerVisibility,
         displayProperty: options.displayProperty,
         multiSelect: options.multiSelect,
         typeShadow: options.typeShadow,

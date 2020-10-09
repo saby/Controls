@@ -272,7 +272,7 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
             _clickHandler: function() {
                 if (this._firstClick) {
-                    this._viewModel.setCarriageDefaultPosition(this._getField().selectionStart);
+                    this._viewModel.setCarriageDefaultPosition(this._getField().getFieldData('selectionStart'));
                     // We need a more convenient way to control the selection.
                     // https://online.sbis.ru/opendoc.html?guid=d4bdb7cc-c324-4b4b-bda5-db6f8a46bc60
                     // In the base class, the selection in the field is set asynchronously and after a click,

@@ -70,31 +70,35 @@ export default interface IMultiSelectable {
 /**
  * @event Controls/_interface/IMultiSelectable#selectedKeysChanged Происходит при изменении выбранных элементов.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {Array.<Number|String>} keys Массив ключей выбранных элементов.
- * @param {Array.<Number|String>} added Массив ключей элементов, добавленных к выборке.
- * @param {Array.<Number|String>} deleted Массив ключей элементов, удаленных из выборки.
+ * @param {Array.<Number|String>} keys Набор ключей выбранных элементов.
+ * Для плоских списков (см. {@link Controls/list:View Плоский список} и {@link Controls/grid:View таблица}) параметр содержит значение [null], когда выбраны все элементы .
+ * Для иерархических списков (см. {@link Controls/treeGrid:View Дерево}, {@link Controls/tile:View Плитка} и {@link Controls/explorer:View Иерархический проводник}) параметр содержит массив с единственным элементом - идентификатором узла, когда для узла выбраны все элементы, или [null], когда корнем дерева иерархии является null.
+ * @param {Array.<Number|String>} added Набор ключей элементов, добавленных к выборке.
+ * @param {Array.<Number|String>} deleted Набор ключей элементов, удаленных из выборки.
  * @remark
  * Важно помнить, что мы не мутируем массив selectedKeys из опций (или любой другой опции). Таким образом, ключи в аргументах события и selectedKeys в параметрах контрола не являются одним и тем же массивом.
  * @example
  * В следующем примере создается список и устанавливается опция selectedKeys со значением [1, 2, 3], а также показано, как изменить сообщение, выведенное пользователю на основе выбора.
- * TMPL:
- * <pre>
- *    <Controls.list:View on:selectedKeysChanged="onSelectedKeysChanged()" selectedKeys="{{ _selectedKeys }}" />
- *    <h1>{{ _message }}</h1>
+ * <pre class="brush: html; highlight: [3,4]">
+ * <!-- WML -->
+ * <Controls.list:View
+ *     on:selectedKeysChanged="onSelectedKeysChanged()"
+ *     selectedKeys="{{ _selectedKeys }}" />
+ * <h1>{{ _message }}</h1>
  * </pre>
- * JS:
- * <pre>
- *     _beforeMount: function() {
- *       this._selectedKeys = [1, 2, 3];
- *    },
- *    onSelectedKeysChanged: function(e, keys, added, deleted) {
- *       this._selectedKeys = keys; //We don't use binding in this example so we have to update state manually.
- *       if (keys.length > 0) {
- *          this._message = 'Selected ' + keys.length + ' items.';
- *       } else {
- *          this._message = 'You have not selected any items.';
- *       }
+ * <pre class="brush: js;">
+ * // JavaScript
+ * _beforeMount: function() {
+ *    this._selectedKeys = [1, 2, 3];
+ * },
+ * onSelectedKeysChanged: function(e, keys, added, deleted) {
+ *    this._selectedKeys = keys; //We don't use binding in this example so we have to update state manually.
+ *    if (keys.length > 0) {
+ *       this._message = 'Selected ' + keys.length + ' items.';
+ *    } else {
+ *       this._message = 'You have not selected any items.';
  *    }
+ * }
  * </pre>
  * @see Controls/_interface/ISource#keyProperty
  * @see selectedKeys

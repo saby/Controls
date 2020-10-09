@@ -6,7 +6,6 @@ define('Controls-demo/Filter/Container', [
    'wml!Controls-demo/Filter/Container',
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
-   'Controls/deprecatedList',
    'Controls/search',
    'Controls/filter'
 ], function(Control, template, sourceLib, memorySourceData) {

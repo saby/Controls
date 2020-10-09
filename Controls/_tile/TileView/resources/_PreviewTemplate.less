@@ -1,0 +1,69 @@
+.controls-TileView__previewTemplate_title {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   box-sizing: border-box;
+   display: flex;
+   align-items: center;
+}
+
+.controls-TileView__previewTemplate_title_singleLine_theme-@{themeName} {
+   min-height: @title_single_line_height_preview_tile;
+}
+
+.controls-TileView__previewTemplate_title_multiLine_theme-@{themeName} {
+   min-height: @title_multi_line_height_preview_tile;
+}
+
+.controls-TileView__previewTemplate_gradient {
+   position: absolute;
+   right: 0;
+   top: 0;
+   height: 100%;
+   width: 100%;
+}
+
+.controls-TileView__previewTemplate_gradient_light_theme-@{themeName} {
+   background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) calc(100% - @gradient_light_height_preview_tile), transparent 100%);
+}
+
+.controls-TileView__previewTemplate_gradient_dark_theme-@{themeName} {
+   background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) calc(100% - @gradient_dark_height_preview_tile), transparent 100%);
+}
+
+.ws-is-hover .controls-TileView__previewTemplate_content:hover .controls-TileView__previewTemplate_gradient_dark_theme-@{themeName} {
+   background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) calc(100% - @gradient_dark_height_preview_tile), transparent 100%);
+}
+
+.controls-TileView__previewTemplate_title_text {
+   position: absolute;
+   padding: 0 @offset_m;
+   left: 0;
+   right: 0;
+   display: flex;
+   justify-content: space-between;
+   box-sizing: border-box;
+}
+
+.controls-TileView__previewTemplate_title_text_light_theme-@{themeName} {
+   color: @background-color;
+}
+
+.controls-TileView__previewTemplate_topTemplate {
+   position: absolute;
+   top: @top_template_offset_top_preview_tile;
+   right: @top_template_offset_right_preview_tile;
+}
+
+.controls-TileView__previewTemplate_bottomRightTemplate_theme-@{themeName} {
+   padding-left: @offset_m;
+}
+
+.controls-TileView__previewTemplate_itemActions {
+   right: 0;
+}
+
+.ws-is-hover .controls-TileView__item:hover .controls-TileView__previewTemplate_itemActions {
+   visibility: visible;
+   opacity: 1;
+}

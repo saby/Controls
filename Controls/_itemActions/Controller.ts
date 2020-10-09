@@ -75,10 +75,10 @@ export interface IControllerOptions {
      */
     itemActionsPosition?: TItemActionsPosition;
     /**
-     * Стиль отображения контейнера controls-itemActionsV.
-     * Варианты: 'master' | 'default' | 'transparent'
+     * Опция, позволяющая настраивать фон панели операций над записью.
+     * Предустановленные варианты 'default' | 'transparent'
      */
-    style?: 'master' | 'default' | 'transparent';
+    style?: string;
     /**
      * Класс для установки контейнеру controls-itemActionsV.
      * По умолчанию 'controls-itemActionsV_position_bottomRight'
@@ -186,7 +186,7 @@ export class Controller {
      */
     activateSwipe(itemKey: TItemKey, actionsContainerWidth: number, actionsContainerHeight: number): void {
         const item = this._collection.getItemBySourceKey(itemKey);
-        this.setSwipeAnimation(ANIMATION_STATE.OPEN);
+        item.setSwipeAnimation(ANIMATION_STATE.OPEN);
         this._setSwipeItem(itemKey);
         this._collection.setActiveItem(item);
         if (this._itemActionsPosition !== 'outside') {
@@ -204,10 +204,10 @@ export class Controller {
     deactivateSwipe(): void {
         const currentSwipedItem = this.getSwipeItem();
         if (currentSwipedItem) {
+            currentSwipedItem.setSwipeAnimation(null);
             this._setSwipeItem(null);
             this._collection.setActiveItem(null);
             this._collection.setSwipeConfig(null);
-            this._collection.setSwipeAnimation(null);
             this._collection.nextVersion();
         }
     }
@@ -218,48 +218,6 @@ export class Controller {
     getSwipeItem(): IItemActionsItem {
         return this._collection.find((item) => item.isSwiped());
     }
-
-    // region rightSwipe
-
-    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
-    deactivateRightSwipe(): void {
-        this._collection.setSwipeAnimation(null);
-        const currentSwipedItem = this.getRightSwipeItem();
-        if (currentSwipedItem) {
-            this._setRightSwipeItem(null);
-            this._collection.nextVersion(); // Это надо тут ?
-        }
-    }
-
-    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
-    getRightSwipeItem(): IItemActionsItem {
-        return this._collection.find((item) => !!item.isRightSwiped && item.isRightSwiped());
-    }
-
-    // TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
-    private _setRightSwipeItem(key: TItemKey, silent?: boolean): void {
-        const oldSwipeItem = this.getRightSwipeItem();
-        const newSwipeItem = this._collection.getItemBySourceKey(key);
-
-        if (oldSwipeItem) {
-            oldSwipeItem.setRightSwiped(false, silent);
-        }
-        if (newSwipeItem) {
-            newSwipeItem.setRightSwiped(true, silent);
-        }
-    }
-
-    /**
-     * Устанавливает состояние элемента rightSwiped
-     * TODO убрать по https://online.sbis.ru/opendoc.html?guid=183d60a3-fc2e-499c-8c50-aca0462c6f3d
-     * @param itemKey
-     */
-    activateRightSwipe(itemKey: TItemKey): void {
-        this.setSwipeAnimation(ANIMATION_STATE.RIGHT_SWIPE);
-        this._setRightSwipeItem(itemKey);
-    }
-
-    // endregion
 
     /**
      * Собирает конфиг выпадающего меню операций
@@ -390,17 +348,10 @@ export class Controller {
 
     /**
      * Устанавливает текущее сосяние анимации в модель
-     * @param animation
      */
-    setSwipeAnimation(animation: ANIMATION_STATE): void {
-        this._collection.setSwipeAnimation(animation);
-    }
-
-    /**
-     * Возвраащет текущее состояние анимации из модели
-     */
-    getSwipeAnimation(): ANIMATION_STATE {
-        return this._collection.getSwipeAnimation();
+    startSwipeCloseAnimation(): void {
+        const swipeItem = this.getSwipeItem();
+        swipeItem.setSwipeAnimation(ANIMATION_STATE.CLOSE);
     }
 
     /**
@@ -424,12 +375,16 @@ export class Controller {
                 }
             }
         };
-        this._collection.setEventRaising(false, true);
+        if (this._collection.isEventRaising()) {
+            this._collection.setEventRaising(false, true);
+        }
         this._collection.each(assignActionsOnItem);
         if (editingItem) {
             assignActionsOnItem(editingItem);
         }
-        this._collection.setEventRaising(true, true);
+        if (!this._collection.isEventRaising()) {
+            this._collection.setEventRaising(true, true);
+        }
         this._collection.setActionsAssigned(true);
 
         if (hasChanges) {

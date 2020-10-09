@@ -15,6 +15,7 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -25,9 +26,14 @@
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IListNavigation Controls/_list/interface/IListNavigation
  * @includes IReloadableList Controls/_list/interface/IReloadableList
+ * @includes IMovableList Controls/_list/interface/IMovableList
+ * @includes IMarkerListOptions Controls/_marker/interface/IMarkerListOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -48,6 +54,7 @@
  * @includes BaseAction Controls/_list/BaseAction
  * @includes Mover Controls/_list/Mover
  * @includes Remover Controls/_list/Remover
+ * @includes IRemovableList Controls/_list/interface/IRemovableList
  * @includes DataContainer Controls/_list/Data
  * @includes IHierarchy Controls/_interface/IHierarchy
  * @includes IList Controls/_list/interface/IList
@@ -57,8 +64,12 @@
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
+ * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
  * @includes IListNavigation Controls/_list/interface/IListNavigation
+ * @includes IMovableList Controls/_list/interface/IMovableList
  * @public
  * @author Крайнов Д.О.
  */
@@ -71,8 +82,6 @@ import {default as View} from 'Controls/_list/List';
 import BaseAction from 'Controls/_list/BaseAction';
 import LoadingIndicatorTemplate = require('wml!Controls/_list/LoadingIndicatorTemplate');
 import ContinueSearchTemplate = require('wml!Controls/_list/resources/ContinueSearchTemplate');
-import Mover = require('Controls/_list/Mover');
-import Remover = require('Controls/_list/Remover');
 import {default as DataContainer} from 'Controls/_list/Data';
 import _forTemplate = require('wml!Controls/_list/resources/For');
 import EditingTemplate = require('wml!Controls/_list/EditingTemplateChooser');
@@ -104,11 +113,29 @@ import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySele
 
 import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
-// @deprecated
+// region @deprecated
+
 import _itemActionsForTemplate = require('wml!Controls/_list/ItemActions/resources/ItemActionsFor');
 import ItemActionsTemplate = require('wml!Controls/_list/ItemActions/resources/ItemActionsTemplate');
 import _swipeActionTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeAction');
 import SwipeTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeTemplate');
+import Remover = require('Controls/_list/Remover');
+import * as Mover from 'Controls/_list/Mover';
+export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Controls/_list/interface/IMoverAndRemover';
+export {
+    _itemActionsForTemplate,
+    ItemActionsTemplate,
+    _swipeActionTemplate,
+    SwipeTemplate
+}
+
+// endregion @deprecated
+
+export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
+export {IMovableList} from 'Controls/_list/interface/IMovableList';
+
+export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
+export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
 
 export {
     AddButton,
@@ -151,11 +178,5 @@ export {
     IList,
     VirtualScroll,
     ScrollController,
-    IListNavigation,
-
-    // @deprecated
-    _itemActionsForTemplate,
-    ItemActionsTemplate,
-    _swipeActionTemplate,
-    SwipeTemplate
+    IListNavigation
 };

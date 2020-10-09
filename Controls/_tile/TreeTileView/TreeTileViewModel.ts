@@ -192,8 +192,8 @@ var TreeTileViewModel = TreeViewModel.extend({
         return this._tileModel.getItemPaddingClasses();
     },
 
-    setSelectedItems(): void {
-        TreeTileViewModel.superclass.setSelectedItems.apply(this, arguments);
+    getItemsPaddingContainerClasses(): string {
+        return this._tileModel.getItemsPaddingContainerClasses();
     }
 });
 

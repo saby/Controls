@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGrid/NodeFooter/Configuration/Configuration';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
@@ -129,5 +129,8 @@ export default class extends Control {
         this._hoveredCellIndex = cell === null ? -1 : cell;
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = [
+        'Controls-demo/Controls-demo',
+        'Controls-demo/treeGrid/NodeFooter/Configuration/Configuration'
+    ];
 }

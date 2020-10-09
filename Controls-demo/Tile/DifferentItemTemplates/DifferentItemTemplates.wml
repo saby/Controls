@@ -1,0 +1,42 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/DifferentItemTemplates/CustomTemplate/Index' }}">
+         <a href="{{content.href}}">CustomTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.DifferentItemTemplates.CustomTemplate.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index' }}">
+         <a href="{{content.href}}">PreviewTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.DifferentItemTemplates.PreviewTemplate.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/DifferentItemTemplates/SmallTemplate/Index' }}">
+         <a href="{{content.href}}">SmallTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.DifferentItemTemplates.SmallTemplate.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/DifferentItemTemplates/MediumTemplate/Index' }}">
+         <a href="{{content.href}}">MediumTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.DifferentItemTemplates.MediumTemplate.Index/>
+   </div>
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/DifferentItemTemplates/RichTemplate/Index' }}">
+         <a href="{{content.href}}">RichTemplate</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.DifferentItemTemplates.RichTemplate.Index/>
+   </div>
+</div>

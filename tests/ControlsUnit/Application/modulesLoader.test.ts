@@ -48,7 +48,7 @@ describe('Controls/Application/modulesLoader', () => {
         });
 
         it('should throw an error of module does not exist', () => {
-            return loadAsync('ControlsUnit/Async/TestModuleSyncFail').catch((err) => {
+            return loadAsync('ControlsUnit/Async/TestModuleAsyncFail').catch((err) => {
                 assert.include(err.message, 'Cannot find module');
             });
         });
@@ -57,7 +57,7 @@ describe('Controls/Application/modulesLoader', () => {
             return loadAsync('ControlsUnit/Async/TestModuleAsync:NotFound').then((res) => {
                 assert.notEqual(res, null, 'Старое поведение, когда возвращался модуль, если е найдено свойство из библиотеки');
             }, (err) => {
-                assert.equal(
+                assert.include(
                     err.message,
                     'Cannot find module "NotFound" in library "ControlsUnit/Async/TestModuleAsync"',
                     'Error message is wrong'
@@ -77,8 +77,18 @@ describe('Controls/Application/modulesLoader', () => {
             assert.equal(syncFunction('test'), 'test', 'Import from module is broken');
         });
 
-        it('should return undefined of module does not exist', () => {
-            assert.isUndefined(loadSync('ControlsUnit/Async/TestModuleSyncFail'));
+        it('should return throw an Error if module does not exist', () => {
+            assert.throws(() => {
+                loadSync('ControlsUnit/Async/TestModuleSyncFail');
+            }, 'Cannot find module');
+        });
+
+        it('should return undefined on second require of not exists module', () => {
+            assert.throws(() => {
+                loadSync('ControlsUnit/Async/TestModuleSyncFailTwice');
+            }, 'Cannot find module');
+
+            assert.isUndefined(loadSync('ControlsUnit/Async/TestModuleSyncFailTwice'));
         });
     });
 });

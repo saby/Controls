@@ -334,6 +334,8 @@ define(
             let windowData = {
                width: 800,
                height: 600,
+               left: 0,
+               top: 0,
                topScroll: 0
             };
             let position = DialogStrategy.getPosition(windowData, sizes, {
@@ -359,7 +361,9 @@ define(
             windowData = {
                width: 800,
                height: 600,
-               topScroll: 0
+               topScroll: 0,
+               left: 10,
+               top: 20,
             };
             position = DialogStrategy.getPosition(windowData, sizes, {
                position: itemPosition,
@@ -371,8 +375,8 @@ define(
                   minHeight: 10
                }
             });
-            assert.equal(position.left, 600);
-            assert.equal(position.top, 300);
+            assert.equal(position.left, 610);
+            assert.equal(position.top, 320);
             assert.equal(position.width, sizes.width); // размеры не изменились
             assert.equal(position.height, sizes.height);
             assert.equal(position.maxWidth, 100);

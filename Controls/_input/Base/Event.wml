@@ -10,4 +10,9 @@
             on:blur="_focusOutHandler()"
             on:mousedown="_mouseDownHandler()"
             on:touchstart="_touchStartHandler()"
+            on:inputControl="_notifyHandler('inputControl')"
+            on:selectionStartChanged="_notifyHandler('selectionStartChanged')"
+            on:selectionEndChanged="_notifyHandler('selectionEndChanged')"
+            on:valueChanged="_notifyValueChanged('valueChanged')"
+            on:inputCompleted="_notifyInputCompleted('inputCompleted')"
             on:DOMAutoComplete="_domAutoCompleteHandler()"/>

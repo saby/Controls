@@ -1,0 +1,159 @@
+.controls-TileView__richTemplate_imagePosition_right {
+   flex-direction: row-reverse;
+}
+
+.controls-TileView__richTemplate_imagePosition_top {
+   flex-direction: column;
+}
+
+.controls-TileView__richTemplate_itemContent {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   height: 100%;
+   box-sizing: border-box;
+   white-space: normal;
+}
+
+.controls-TileView__richTemplate_itemContent_theme-@{themeName} {
+   padding: @offset_m;
+}
+
+.controls-TileView__richTemplate {
+   display: flex;
+   height: 100%;
+}
+
+.controls-TileView__richTemplate_image_viewMode_circle {
+   border-radius: 50%;
+}
+
+.controls-TileView__richTemplate_image_effect_gradient {
+   position: absolute;
+   pointer-events: none;
+   height: @gradient_height_rich_tile;
+   width: 100%;
+   bottom: 0;
+   left: 0;
+}
+// FIXME: Костыль, до выполнения задачи https://online.sbis.ru/opendoc.html?guid=7251d305-2779-4142-8683-cdadec29d917
+
+.controls-TileView__richTemplate_image_viewMode_ellipse {
+   clip-path: url("#NavigationPanels-Accordion__image_ellipse");
+}
+
+/* ie не поддерживает clip-path на html элементах
+   Согласованное исключение https://online.sbis.ru/doc/1adda6e0-2c93-465b-b5d4-e1be21788ff2
+ */
+.ws-is-ie .controls-TileView__richTemplate_image_viewMode_ellipse {
+   border-radius: 60px;
+}
+
+.controls-TileView__richTemplate_image {
+   width: 100%;
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+}
+
+.controls-TileView__richTemplate_imageWrapper {
+   overflow: hidden;
+   display: flex;
+   flex-shrink: 0;
+   max-width: 100%;
+   box-sizing: border-box;
+   justify-content: center;
+   position: relative;
+}
+
+.controls-TileView_richTemplate_image_spacing_viewMode_circle_theme-@{themeName},
+.controls-TileView_richTemplate_image_spacing_viewMode_ellipse_theme-@{themeName} {
+   padding: @offset_m;
+}
+
+.controls-TileView__richTemplate_title_theme-@{themeName} {
+   margin-bottom: @offset_m;
+}
+
+.controls-TileView__richTemplate_image_size_s_position_top_theme-@{themeName} {
+   height: @image_height_s_position_top_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_m_position_top_theme-@{themeName} {
+   height: @image_height_m_position_top_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_l_position_top_theme-@{themeName} {
+   height: @image_height_l_position_top_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_s_position_vertical_theme-@{themeName} {
+   height: @image_height_s_position_vertical_rich_tile;
+   width: @image_width_s_position_vertical_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_m_position_vertical_theme-@{themeName} {
+   height: @image_height_m_position_vertical_rich_tile;
+   width: @image_width_m_position_vertical_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_l_position_vertical_theme-@{themeName} {
+   height: @image_height_l_position_vertical_rich_tile;
+   width: @image_width_l_position_vertical_rich_tile;
+}
+
+controls-TileView__richTemplate_image_size_s_scale_s_theme-@{themeName} {
+   height: @image_height_s_position_top_rich_tile * 0.3;
+}
+
+.controls-TileView__richTemplate_image_size_s_scale_m_theme-@{themeName} {
+   height: @image_height_s_position_top_rich_tile * 0.5;
+}
+
+.controls-TileView__richTemplate_image_size_s_scale_l_theme-@{themeName} {
+   height: @image_height_s_position_top_rich_tile * 1;
+}
+
+controls-TileView__richTemplate_image_size_m_scale_s_theme-@{themeName} {
+   height: @image_height_m_position_top_rich_tile * 0.3;
+}
+
+.controls-TileView__richTemplate_image_size_m_scale_m_theme-@{themeName} {
+   height: @image_height_m_position_top_rich_tile * 0.5;
+}
+
+.controls-TileView__richTemplate_image_size_m_scale_l_theme-@{themeName} {
+   height: @image_height_m_position_top_rich_tile * 1;
+}
+
+.controls-TileView__richTemplate_image_size_l_scale_s_theme-@{themeName} {
+   height: @image_height_l_position_top_rich_tile * 0.3;
+}
+
+.controls-TileView__richTemplate_image_size_l_scale_m_theme-@{themeName} {
+   height: @image_height_l_position_top_rich_tile * 0.5;
+}
+
+.controls-TileView__richTemplate_image_size_l_scale_l_theme-@{themeName} {
+   height: @image_height_l_position_top_rich_tile * 1;
+}
+
+.controls-TileView__richTemplate_image_size_s_position_top_viewMode_circle_theme-@{themeName},
+.controls-TileView__richTemplate_image_size_s_position_top_viewMode_ellipse_theme-@{themeName} {
+   width: @image_width_s_position_vertical_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_m_position_top_viewMode_circle,
+.controls-TileView__richTemplate_image_size_m_position_top_viewMode_ellipse {
+   width: @image_height_m_position_top_rich_tile;
+}
+
+.controls-TileView__richTemplate_image_size_l_position_top_viewMode_circle,
+.controls-TileView__richTemplate_image_size_l_position_top_viewMode_ellipse {
+   width: @image_height_l_position_top_rich_tile;
+}
+
+.controls-TileView__richTemplate {
+   display: flex;
+   height: 100%;
+}

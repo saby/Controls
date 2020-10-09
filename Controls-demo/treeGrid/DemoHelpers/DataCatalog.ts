@@ -3,7 +3,7 @@ import * as CntTwoLvlTpl from 'wml!Controls-demo/treeGrid/ItemTemplate/WithPhoto
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 
 export interface IData {
    id: number;
@@ -23,6 +23,7 @@ export interface IData {
    year?: string;
    note?: string;
    nodeType?: boolean | null;
+   subtask?: boolean;
 }
 
 interface IResults {
@@ -210,7 +211,8 @@ export const Gadgets = {
                         year: '2019',
                         note: '2 порта Thunderbolt 3',
                         parent: 16,
-                        type: null
+                        type: null,
+                        photo: explorerImages[3]
                     },
                     {
                         id: 162,
@@ -221,7 +223,8 @@ export const Gadgets = {
                         year: '2019',
                         note: '',
                         parent: 16,
-                        type: null
+                        type: null,
+                        photo: explorerImages[3]
                     },
                     {
                         id: 163,
@@ -232,7 +235,8 @@ export const Gadgets = {
                         year: '2019',
                         note: '4 порта Thunderbolt 3',
                         parent: 16,
-                        type: null
+                        type: null,
+                        photo: explorerImages[3]
                     },
                     {
                         id: 164,
@@ -243,7 +247,8 @@ export const Gadgets = {
                         year: '2017',
                         note: '',
                         parent: 16,
-                        type: null
+                        type: null,
+                        photo: explorerImages[3]
                     },
                     {
                         id: 165,
@@ -254,7 +259,8 @@ export const Gadgets = {
                         year: '2017',
                         note: '4 порта Thunderbolt 3',
                         parent: 16,
-                        type: null
+                        type: null,
+                        photo: explorerImages[3]
                     },
                 {
                     id: 17,

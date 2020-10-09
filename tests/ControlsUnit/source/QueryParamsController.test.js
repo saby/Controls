@@ -262,7 +262,7 @@ define(
 
                   assert.deepEqual(
                      {
-                        filter : {'field~' : 3},
+                        filter : {'field~' : -2},
                         limit: 100,
                         meta: {
                            navigationType: sourceLib.SbisService.NAVIGATION_TYPE.POSITION

@@ -6,13 +6,17 @@ import {
     IVersionable,
     ObservableMixin,
     OptionsToPropertyMixin,
-    SerializableMixin
+    SerializableMixin,
+    Model
 } from 'Types/entity';
 import {IList} from 'Types/collection';
 import {mixin} from 'Types/util';
 import {TemplateFunction} from 'UI/Base';
 import {ICollectionItemStyled} from './interface/ICollectionItemStyled';
 import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ICollectionItem} from './interface/ICollectionItem';
+import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from './ItemCompatibilityListViewModel';
+import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 
 export interface IOptions<T> {
     contents?: T;
@@ -23,6 +27,8 @@ export interface IOptions<T> {
     swiped?: boolean;
     editingContents?: T;
     owner?: ICollection<T, CollectionItem<T>>;
+    isAdd?: boolean;
+    addPosition?: 'top' | 'bottom';
 }
 
 export interface ISerializableState<T> extends IDefaultSerializableState {
@@ -54,17 +60,21 @@ export default class CollectionItem<T> extends mixin<
     DestroyableMixin,
     OptionsToPropertyMixin,
     InstantiableMixin,
-    SerializableMixin
+    SerializableMixin,
+    ItemCompatibilityListViewModel
 >(
     DestroyableMixin,
     OptionsToPropertyMixin,
     InstantiableMixin,
-    SerializableMixin
-) implements IInstantiable, IVersionable, ICollectionItemStyled {
+    SerializableMixin,
+    ItemCompatibilityListViewModel
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem {
 
     // region IInstantiable
 
     readonly '[Types/_entity/IInstantiable]': boolean;
+    readonly MarkableItem: boolean = true;
+    readonly SelectableItem: boolean = true;
 
     getInstanceId: () => string;
 
@@ -91,7 +101,12 @@ export default class CollectionItem<T> extends mixin<
 
     protected _$swiped: boolean;
 
-    protected _$rightSwiped: boolean;
+    /**
+     * Анимация свайпа: открытие или закрытие меню опций
+     */
+    protected _$swipeAnimation: ANIMATION_STATE;
+
+    protected _$animatedForSelection: boolean;
 
     protected _$editingContents: T;
 
@@ -116,11 +131,19 @@ export default class CollectionItem<T> extends mixin<
 
     protected _counters: ICollectionItemCounters;
 
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
+
+    readonly isAdd: boolean;
+
+    readonly addPosition: 'top' | 'bottom';
+
     constructor(options?: IOptions<T>) {
         super();
         OptionsToPropertyMixin.call(this, options);
         SerializableMixin.call(this);
         this._counters = {};
+        this.isAdd = (options && options.isAdd) || false;
+        this.addPosition = (options && options.addPosition) || 'bottom';
     }
 
     // endregion
@@ -271,7 +294,8 @@ export default class CollectionItem<T> extends mixin<
         return (
             templateMarker &&
             this._$owner.getMarkerVisibility() !== 'hidden' &&
-            this.isMarked()
+            this.isMarked() &&
+            !this.isEditing()
         );
     }
 
@@ -287,7 +311,7 @@ export default class CollectionItem<T> extends mixin<
     }
 
     getMultiSelectClasses(theme): string {
-        let classes = `controls-ListView__checkbox controls-ListView__notEditable_theme-${theme}`;
+        let classes = `js-controls-ListView__notEditable controls-ListView__checkbox_theme-${theme}`;
         if (this.getOwner().getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             classes += ' controls-ListView__checkbox-onhover';
         }
@@ -308,6 +332,17 @@ export default class CollectionItem<T> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('editing');
         }
+    }
+
+    acceptChanges(): void {
+        (this._$contents as unknown as Model).acceptChanges();
+
+        if (!this._$editing) {
+            return;
+        }
+        // Применяем изменения на обоих моделях, т.к. редактирование записи может продолжитсься.
+        (this._$contents as unknown as Model).merge(this._$editingContents as unknown as Model);
+        (this._$editingContents as unknown as Model).acceptChanges();
     }
 
     setActions(actions: any, silent?: boolean): void {
@@ -353,30 +388,40 @@ export default class CollectionItem<T> extends mixin<
     }
 
     /**
-     * Элемент коллеекции свайпнут вправо (состояние анимации right-swipe)
+     * Флаг, определяющий состояние анимации записи при отметке её чекбоксом.
+     * Используется для анимации при свайпе вправо для multiSelect
      */
-    isRightSwiped(): boolean {
-        return this._$rightSwiped;
-    }
-
-    setRightSwiped(swiped: boolean, silent?: boolean): void {
-        if (this._$rightSwiped === swiped) {
-            return;
-        }
-        this._$rightSwiped = swiped;
-        this._nextVersion();
-        if (!silent) {
-            this._notifyItemChangeToOwner('rightSwiped');
-        }
+    isAnimatedForSelection(): boolean {
+        return this._$animatedForSelection;
     }
 
     /**
-     * Элемент коллекции свайпнут влево (состояние анимации open или close)
+     * Устанавливает состояние  анимации записи при отметке её чекбоксом.
+     * Используется при свайпе вправо для multiSelect
+     */
+    setAnimatedForSelection(animated: boolean): void {
+        if (this._$animatedForSelection === animated) {
+            return;
+        }
+        this._$animatedForSelection = animated;
+        this._nextVersion();
+        this._notifyItemChangeToOwner('animatedForSelection');
+    }
+
+    /**
+     * Флаг, определяющий состояние свайпа влево по записи.
+     * Используется при свайпе по записи для
+     * отображения или скрытия панели опций записи
      */
     isSwiped(): boolean {
         return this._$swiped;
     }
 
+    /**
+     * Флаг, определяющий состояние свайпа влево по записи.
+     * Используется при свайпе по записи для
+     * отображения или скрытия панели опций записи
+     */
     setSwiped(swiped: boolean, silent?: boolean): void {
         if (this._$swiped === swiped) {
             return;
@@ -386,6 +431,24 @@ export default class CollectionItem<T> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('swiped');
         }
+    }
+
+    /**
+     * Устанавливает текущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    setSwipeAnimation(animation: ANIMATION_STATE): void {
+        this._$swipeAnimation = animation;
+        this._nextVersion();
+        this._notifyItemChangeToOwner('swipeAnimation');
+    }
+
+    /**
+     * Получает еткущую анимацию для свайпа.
+     * Может быть, стоит объединить с _swipeConfig
+     */
+    getSwipeAnimation(): ANIMATION_STATE {
+        return this._$swipeAnimation;
     }
 
     isActive(): boolean {
@@ -415,6 +478,15 @@ export default class CollectionItem<T> extends mixin<
         return this._$dragged;
     }
 
+    isSticked(style: string = 'default'): boolean {
+        return this.isMarked() && this._isSupportSticky(style);
+    }
+
+    protected _isSupportSticky(style: string = 'default'): boolean {
+        return this.getOwner().isStickyMarkedItem() !== false &&
+            (style === 'master' || style === 'masterClassic');
+    }
+
     setDragged(dragged: boolean, silent?: boolean): void {
         if (this._$dragged === dragged) {
             return;
@@ -426,14 +498,32 @@ export default class CollectionItem<T> extends mixin<
         }
     }
 
-    getWrapperClasses(templateHighlightOnHover: boolean = true, theme?: string): string {
+    /**
+     * Возвращает строку с классами, устанавливаемыми в шаблоне элемента для корневого div'а.
+     * @param templateHighlightOnHover - подсвечивать или нет запись по ховеру
+     * @param theme - используемая тема
+     * @param cursor - курсор мыши
+     * @param backgroundColorStyle - стиль background
+     * @param style - режим отображения списка (master/masterClassic/default)
+     * @remark
+     * Метод должен уйти в render-модель при её разработке.
+     */
+    getWrapperClasses(templateHighlightOnHover: boolean = true,
+                      theme?: string,
+                      cursor: string = 'pointer',
+                      backgroundColorStyle?: string,
+                      style: string = 'default'): string {
         return `controls-ListView__itemV
             controls-ListView__item_default
             controls-ListView__item_showActions
             js-controls-ItemActions__swipeMeasurementContainer
-            ${templateHighlightOnHover ? 'controls-ListView__item_highlightOnHover_default_theme_default' : ''}
+            controls-ListView__itemV controls-ListView__itemV_cursor-${cursor}
+            controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}
+            ${templateHighlightOnHover && !this.isEditing() ? 'controls-ListView__item_highlightOnHover_default_theme_default' : ''}
             ${this.isEditing() ? ` controls-ListView__item_editing_theme-${theme}` : ''}
-            ${this.isDragged() ? ` controls-ListView__item_dragging_theme-${theme}` : ''}`;
+            ${this.isDragged() ? ` controls-ListView__item_dragging_theme-${theme}` : ''}
+            ${backgroundColorStyle ? ` controls-ListView__item_background_${backgroundColorStyle}_theme-${theme}` : ''}
+            ${templateHighlightOnHover && this.isActive() ? ` controls-ListView__item_active_theme-${theme}` : ''}`;
     }
 
     getItemActionClasses(itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string {
@@ -453,8 +543,18 @@ export default class CollectionItem<T> extends mixin<
         return itemActionClasses;
     }
 
+    /**
+     * Возвращает строку с классами, устанавливаемыми в шаблоне элемента div'а, расположенного внутри корневого div'a -
+     * так называемого контентного div'a.
+     * @param theme - используемая тема
+     * @param style - режим отображения списка (master/masterClassic/default)
+     * @remark
+     * Метод должен уйти в render-модель при её разработке.
+     */
     getContentClasses(theme: string, style: string = 'default'): string {
-        return `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
+        const rowSeparatorSize = this.getOwner().getRowSeparatorSize();
+        return `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}
+        ${rowSeparatorSize ? ` controls-ListView__rowSeparator_size-${rowSeparatorSize}_theme-${theme}` : ''}`;
     }
 
     /**
@@ -477,37 +577,43 @@ export default class CollectionItem<T> extends mixin<
         if (itemActionsPosition !== 'outside') {
             result.push(classes);
         }
-        if (!useNewModel) {
-            const themedPositionClassCompile = (position) => (
-                `controls-itemActionsV_padding-${position}_${(itemPadding && itemPadding[position] === 'null' ? 'null' : 'default')}_theme-${theme}`
-            );
-            if (classes.indexOf(ITEMACTIONS_POSITION_CLASSES.topRight) !== -1) {
-                result.push(themedPositionClassCompile('top'));
-            } else if (classes.indexOf(ITEMACTIONS_POSITION_CLASSES.bottomRight) !== -1) {
-                result.push(themedPositionClassCompile('bottom'));
-            }
+        const themedPositionClassCompile = (position) => (
+            `controls-itemActionsV_padding-${position}_${(itemPadding && itemPadding[position] === 'null' ? 'null' : 'default')}_theme-${theme}`
+        );
+        if (classes.indexOf(ITEMACTIONS_POSITION_CLASSES.topRight) !== -1) {
+            result.push(themedPositionClassCompile('top'));
+        } else if (classes.indexOf(ITEMACTIONS_POSITION_CLASSES.bottomRight) !== -1) {
+            result.push(themedPositionClassCompile('bottom'));
         }
         return result.length ? ` ${result.join(' ')} ` : ' ';
     }
 
-    getItemTemplate(userTemplate: TemplateFunction|string): TemplateFunction|string {
-        return userTemplate;
+    getItemTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
+        const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : '';
+        return templateFromProperty || userTemplate;
     }
 
     protected _getSpacingClasses(theme: string, style: string = 'default'): string {
         let classes = '';
 
-        const rowSpacing = this.getOwner().getRowSpacing().toLowerCase();
-        const rightSpacing = this.getOwner().getRightSpacing().toLowerCase();
+        const preparedStyle = style === 'masterClassic' ? 'default' : style;
+        const topSpacing = this.getOwner().getTopPadding().toLowerCase();
+        const bottomSpacing = this.getOwner().getBottomPadding().toLowerCase();
+        const rightSpacing = this.getOwner().getRightPadding().toLowerCase();
 
-        classes += ` controls-ListView__item_${style}-topPadding_${rowSpacing}_theme-${theme}`;
-        classes += ` controls-ListView__item_${style}-bottomPadding_${rowSpacing}_theme-${theme}`;
+        if (topSpacing === 'null' && bottomSpacing === 'null') {
+            classes += ` controls-ListView_default-padding_theme-${theme}`;
+        } else {
+            classes += ` controls-ListView__item_${preparedStyle}-topPadding_${topSpacing}_theme-${theme}`;
+            classes += ` controls-ListView__item_${preparedStyle}-bottomPadding_${bottomSpacing}_theme-${theme}`;
+        }
+
         classes += ` controls-ListView__item-rightPadding_${rightSpacing}_theme-${theme}`;
 
         if (this.getOwner().getMultiSelectVisibility() !== 'hidden') {
            classes += ` controls-ListView__itemContent_withCheckboxes_theme-${theme}`;
         } else {
-           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftSpacing().toLowerCase()}_theme-${theme}`;
+           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}_theme-${theme}`;
         }
 
         return classes;

@@ -31,18 +31,20 @@ define(['Controls/grid', 'Types/source'], function(grid, TypesSource) {
       it('initial configurating', function() {
          sortingSelector._beforeMount(cfg);
          sortingSelector.saveOptions({...cfg});
-         assert.deepEqual(sortingSelector._selectedKeys, [1]);
+         assert.deepEqual(sortingSelector._selectedKeys, ['F']);
          assert.deepEqual(sortingSelector._currentParamName, 'F');
-         assert.deepEqual(sortingSelector._currentOrder, 'ASC');
+         assert.deepEqual(sortingSelector._orders[sortingSelector._currentParamName], 'ASC');
       });
 
       it('_switchSorting', function() {
          menuClosed = false;
+         sortingSelector._beforeMount(cfg);
+         sortingSelector.saveOptions({...cfg});
          sortingSelector._switchValue();
          sortingSelector.__beforeUpdate(cfg);
-         assert.deepEqual(sortingSelector._selectedKeys, [1]);
+         assert.deepEqual(sortingSelector._selectedKeys, ['F']);
          assert.deepEqual(sortingSelector._currentParamName, 'F');
-         assert.deepEqual(sortingSelector._currentOrder, 'DESC');
+         assert.deepEqual(sortingSelector._orders[sortingSelector._currentParamName], 'DESC');
          sortingSelector._afterUpdate();
          menuClosed = false;
       });
@@ -56,20 +58,12 @@ define(['Controls/grid', 'Types/source'], function(grid, TypesSource) {
             }
          };
          assert.isFalse(menuClosed);
-         sortingSelector._itemClick({}, item);
+         sortingSelector._dropdownItemClick({}, 'S');
          sortingSelector.__beforeUpdate(cfg);
-         assert.deepEqual(sortingSelector._selectedKeys, [2]);
+         assert.deepEqual(sortingSelector._selectedKeys, ['S']);
          assert.deepEqual(sortingSelector._currentParamName, 'S');
-         assert.deepEqual(sortingSelector._currentOrder, 'ASC');
+         assert.deepEqual(sortingSelector._orders[sortingSelector._currentParamName], 'ASC');
          assert.isTrue(menuClosed);
-      });
-      it('_selectedKeysChangedHandler', function() {
-         assert.isFalse(sortingSelector._selectedKeysChangedHandler({},[1]));
-         sortingSelector._selectedKeysChangedHandler({},[0]);
-         sortingSelector.__beforeUpdate(cfg);
-         assert.deepEqual(sortingSelector._selectedKeys, [0]);
-         assert.deepEqual(sortingSelector._currentParamName, null);
-         assert.deepEqual(sortingSelector._currentOrder, null);
       });
    });
 });

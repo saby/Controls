@@ -3,6 +3,10 @@
 // Оступы внутри плитки
 
 @padding-left_xs_tile:                      @item_padding-left_xs_list;
+@padding-left_2xs_tile:                     0;
+@padding-left_3xs_tile:                     0;
+@padding-right_2xs_tile:                    0;
+@padding-right_3xs_tile:                    0;
 @padding-right_xs_tile:                     @item_padding-right_xs_list;
 @padding-left_s_tile:                       @item_padding-left_s_list;
 @padding-right_s_tile:                      @item_padding-right_s_list;
@@ -16,9 +20,20 @@
 @padding-right_2xl_tile:                    @item_padding-right_2xl_list;
 @padding-left_default_tile:                 0;
 @padding-right_default_tile:                0;
+@padding-top_tile:                          @offset_xs;
+@padding-bottom_tile:                       @offset_xs;
 
-// Отступ между плитками
+// Отступы между плитками
+
 @item_offset_tile:                          @offset_m;
+@item_offset_3xs_tile:                      @offset_3xs;
+@item_offset_2xs_tile:                      @offset_2xs;
+@item_offset_xs_tile:                       @offset_xs;
+@item_offset_s_tile:                        @offset_s;
+@item_offset_m_tile:                        @offset_m;
+@item_offset_l_tile:                        @offset_m;
+@item_offset_xl_tile:                       @offset_m;
+@item_offset_2xl_tile:                      @offset_m;
 
 // Цвет фона элементов
 
@@ -82,3 +97,47 @@
 @node_caption_padding-left_tile:                            @offset_2xs;
 @node_font-size_tile:                                       @font-size_l;
 @node_icon_offset_tile:                                     @offset_2xs;
+
+//Простой шаблон с картинкой и однострочным текстом (smallTemplate)
+@image_height_l_small_tile:                                @icon-size_l;
+@image_height_m_small_tile:                                @icon-size_m;
+@image_width_l_small_tile:                                 @icon-size_l;
+@image_width_m_small_tile:                                 @icon-size_m;
+@image_offset_small_tile:                                  @offset_xs;
+
+@title_offset_right_small_tile:                            11px;
+@title_offset_left_small_tile:                             @offset_2xs;
+
+@height_item_small_tile:                                   40px;
+@width_item_small_tile:                                    40px;
+
+//Богатый настраиваемый шаблон элемента
+@image_height_s_position_top_rich_tile:                    180px;
+@image_height_m_position_top_rich_tile:                    240px;
+@image_height_l_position_top_rich_tile:                    320px;
+@image_height_s_position_vertical_rich_tile:               190px;
+@image_height_m_position_vertical_rich_tile:               190px;
+@image_height_l_position_vertical_rich_tile:               190px;
+@image_width_s_position_vertical_rich_tile:                190px;
+@image_width_m_position_vertical_rich_tile:                190px;
+@image_width_l_position_vertical_rich_tile:                190px;
+
+@gradient_height_rich_tile:                                48px;
+
+//Средний шаблон с картинкой и многострочным текстом
+@image_container_height_medium_tile:                       158px;
+@image_height_medium_tile:                                 98px;
+@image_width_medium_tile:                                  90px;
+
+@itemActions_offset_bottom_medium_tile:                    @offset_2xs;
+@height_medium_tile:                                       158px;
+
+//Плитка-превью
+@gradient_dark_height_preview_tile:                        14px;
+@gradient_light_height_preview_tile:                       4px;
+
+@title_single_line_height_preview_tile:                    @inline_height_xl;
+@title_multi_line_height_preview_tile:                     48px;
+
+@top_template_offset_right_preview_tile:                   @offset_xs;
+@top_template_offset_top_preview_tile:                     @offset_xs;

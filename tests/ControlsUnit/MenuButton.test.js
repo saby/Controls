@@ -282,7 +282,7 @@ define(
             // return the original Id value
             let item = new entity.Model({
                rawData: {
-                  id: '6', title: 'title 6'
+                  id: '6', title: 'title 6', copyOriginalId: '6'
                },
                keyProperty: 'id'
             });
@@ -293,8 +293,8 @@ define(
             let historySource = new history.Source({
                historyId: 'TEST_HISTORY_ID_DDL_CONTROLLER'
             });
-            menu._source = historySource;
-            menu._source.update = () => {};
+            menu._controller._source = historySource;
+            menu._controller._source.update = () => {};
             menu._onResult('pinClick', item);
             assert.isFalse(closed);
          });

@@ -9,7 +9,7 @@
                             controls-StackTemplate__top-area-background_theme_{{_options.theme}} controls-StackTemplate__top-area-border_theme_{{_options.theme}}">
                     <div class="controlsDemo__ml1 controls-text-label_theme-{{_options.theme}}"> Задача в разработку от 29.11.19 №1177635976:</div>
                 </div>
-                <ws:partial template="Controls-demo/Popup/Opener/resources/BaseTemplate"></ws:partial>
+                <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
             </div>
         </ws:bodyContentTemplate>
     </Controls.popupTemplate:Stack>
@@ -17,6 +17,6 @@
     <Controls.popupTemplate:Stack headingCaption="Задача в разработку"
                                   headerBorderVisible="{{true}}"
                                   attr:class="controlsDemo__height300 controlsDemo__cell"
-                                  bodyContentTemplate="Controls-demo/Popup/Opener/resources/BaseTemplate">
+                                  bodyContentTemplate="Controls-demo/Popup/BaseTemplate">
     </Controls.popupTemplate:Stack>
 </div>

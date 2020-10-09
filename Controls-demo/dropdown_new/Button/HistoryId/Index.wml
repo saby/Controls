@@ -1,0 +1,15 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__wrapper">
+      <Controls.dropdown:Button
+              keyProperty="key"
+              displayProperty="title"
+              caption="Add"
+              icon="icon-AddButtonNew"
+              iconSize="m"
+              source="{{_source}}"
+              historyId="demo_history_id"
+              parentProperty="parent"
+              nodeProperty="@parent"
+              attr:class="controlsDemo-menuButton"/>
+   </div>
+</div>

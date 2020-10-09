@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      tileMode="static"
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      itemActions="{{_itemActions}}"
+      imageFit="none"
+      tileHeight="300"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:SmallItemTemplate"
+            imageSize="m"
+            scope="{{itemTemplate}}"/>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

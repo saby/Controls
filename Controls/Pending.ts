@@ -1,6 +1,7 @@
-import Control = require('Core/Control');
 import tmpl = require('wml!Controls/_Pending/Pending');
 import PendingClass from 'Controls/_popup/Manager/PendingClass';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
    /**
     * Контрол, отслеживающий выполнение необходимых действий, которые должны быть завершены до начала текущего действия.
@@ -96,7 +97,6 @@ import PendingClass from 'Controls/_popup/Manager/PendingClass';
     * @public
     */
 
-
    /**
     * @event pendingsFinished Событие произойдет в момент, когда в Controls/Pending не останется пендингов.
     * (после того, как последний пендинг завершится).
@@ -109,72 +109,75 @@ import PendingClass from 'Controls/_popup/Manager/PendingClass';
     * @param {SyntheticEvent} eventObject.
     */
 
-   var module = Control.extend(/** @lends Controls/Container/PendingRegistrator.prototype */{
-      _template: tmpl,
-      _pendingController: null,
-      _beforeMount: function() {
-         const pendingOptions = {
-            notifyHandler: (eventName: string, args?: []) => {
-               return this._notify(eventName, args, {bubbling: true});
-            }
-         };
-         this._pendingController = new PendingClass(pendingOptions);
-      },
+export default class Pending extends Control<IControlOptions> {
+   _template: TemplateFunction = tmpl;
 
-      _registerPendingHandler: function(e, def, config = {}) {
-         this._pendingController.registerPending(def, config);
-      },
-      _unregisterPending: function(root, id) {
-         this._pendingController.unregisterPending(root, id);
-      },
+   protected _pendingController: PendingClass = null;
 
-      _hasPendings: function() {
-         this._pendingController.hasPendings();
-      },
+   _beforeMount(): void {
+      const pendingOptions = {
+         notifyHandler: (eventName: string, args?: []) => {
+            return this._notify(eventName, args, {bubbling: true});
+         }
+      };
+      this._pendingController = new PendingClass(pendingOptions);
+   }
 
-      _hasRegisteredPendings: function(root = null) {
-         return this._pendingController.hasRegisteredPendings(root);
-      },
-      _hideIndicators: function(root) {
-         this._pendingController.hideIndicators(root);
-      },
+   _beforeUnmount(): void {
+      this._pendingController.destroy();
+   }
 
-      _finishPendingHandler: function(event, forceFinishValue, root) {
-         return this._pendingController.finishPendingOperations(forceFinishValue, root);
-      },
+   _registerPendingHandler(event: SyntheticEvent, def: Promise<void>, config: object = {}): void {
+      this._pendingController.registerPending(def, config);
+   }
 
-      /**
-       * Метод вернет завершенный Promise, когда все пендинги будут завершены.
-       * Функции обратного вызова Promise с массивом результатов пендингов.
-       * Если один из Promise'ов пендинга будет отклонен (вызовется errback), Promise также будет отклонен с помощью finishPendingOperations.
-       * Если finishPendingOperations будет вызываться несколько раз, будет актуален только последний вызов, а другие возвращенные Promise'ы будут отменены.
-       * Когда finishPendingOperations вызывается, каждый пендинг пытается завершится путем вызова метода onPendingFail.
-       * @param forceFinishValue этот аргумент используется в качестве аргумента onPendingFail.
-       * @returns {Deferred} Завершение Promise'а, когда все пендинги будут завершены.
-       */
+   _unregisterPending(root: string, id: number): void {
+      this._pendingController.unregisterPending(root, id);
+   }
 
-      /*
-       * Method returns Promise resolving when all pendings will be resolved.
-       * Promise callbacks with array of results of pendings.
-       * If one of pending's Promise will be rejected (call errback), Promise of finishPendingOperations will be rejected too.
-       * If finishPendingOperations will be called some times, only last call will be actual, but another returned Promises
-       * will be cancelled.
-       * When finishPendingOperations calling, every pending trying to finish by calling it's onPendingFail method.
-       * If onPendingFail is not setted, pending registration notified control is responsible for pending's Promise resolving.
-       * @param forceFinishValue this argument use as argument of onPendingFail.
-       * @returns {Deferred} Promise resolving when all pendings will be resolved
-       */
+   _hasPendings(): void {
+      this._pendingController.hasPendings();
+   }
 
-      finishPendingOperations: function(forceFinishValue, root = null) {
-         return this._pendingController.finishPendingOperations(forceFinishValue, root);
-      },
-      _cancelFinishingPendingHandler: function(event, root) {
-         return this._pendingController.cancelFinishingPending(root);
-      },
-      _beforeUnmount: function() {
-         this._pendingController.destroy();
-      }
-   });
+   _hasRegisteredPendings(root: string = null): boolean {
+      return this._pendingController.hasRegisteredPendings(root);
+   }
 
-   export = module;
+   _hideIndicators(root: string): void {
+      this._pendingController.hideIndicators(root);
+   }
 
+   _finishPendingHandler(event: SyntheticEvent, forceFinishValue: boolean, root: string): Promise<unknown> {
+      return this._pendingController.finishPendingOperations(forceFinishValue, root);
+   }
+
+   /**
+    * Метод вернет завершенный Promise, когда все пендинги будут завершены.
+    * Функции обратного вызова Promise с массивом результатов пендингов.
+    * Если один из Promise'ов пендинга будет отклонен (вызовется errback), Promise также будет отклонен с помощью finishPendingOperations.
+    * Если finishPendingOperations будет вызываться несколько раз, будет актуален только последний вызов, а другие возвращенные Promise'ы будут отменены.
+    * Когда finishPendingOperations вызывается, каждый пендинг пытается завершится путем вызова метода onPendingFail.
+    * @param forceFinishValue этот аргумент используется в качестве аргумента onPendingFail.
+    * @returns {Deferred} Завершение Promise'а, когда все пендинги будут завершены.
+    */
+
+   /*
+    * Method returns Promise resolving when all pendings will be resolved.
+    * Promise callbacks with array of results of pendings.
+    * If one of pending's Promise will be rejected (call errback), Promise of finishPendingOperations will be rejected too.
+    * If finishPendingOperations will be called some times, only last call will be actual, but another returned Promises
+    * will be cancelled.
+    * When finishPendingOperations calling, every pending trying to finish by calling it's onPendingFail method.
+    * If onPendingFail is not setted, pending registration notified control is responsible for pending's Promise resolving.
+    * @param forceFinishValue this argument use as argument of onPendingFail.
+    * @returns {Deferred} Promise resolving when all pendings will be resolved
+    */
+
+   finishPendingOperations(forceFinishValue?: boolean, root: string = null): Promise<unknown> {
+      return this._pendingController.finishPendingOperations(forceFinishValue, root);
+   }
+
+   _cancelFinishingPendingHandler(event: SyntheticEvent, root: string): void {
+      return this._pendingController.cancelFinishingPending(root);
+   }
+}

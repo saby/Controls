@@ -1,15 +1,18 @@
 define([
+   'UI/Utils',
    'Controls/list',
    'Types/source',
    'Types/collection',
    'Core/Deferred',
    'Core/core-clone',
-   'Controls/_operations/MultiSelector/selectionToRecord'
-], function(lists, source, collection, Deferred, cClone, selectionToRecord) {
+   'Controls/_operations/MultiSelector/selectionToRecord',
+   'Controls/popup'
+], function(ui, lists, source, collection, Deferred, cClone, selectionToRecord, popup) {
    describe('Controls.List.Mover', function() {
-      var
-         items,
-         mover;
+      let recordSet;
+      let mover;
+      let cfg;
+      let stubLogger;
 
       beforeEach(function() {
          var
@@ -39,21 +42,29 @@ define([
                'folder@': null
             }];
 
-         items = new collection.RecordSet({
+         recordSet = new collection.RecordSet({
             keyProperty: 'id',
             rawData: cClone(data)
          });
-         mover = new lists.Mover({});
-         mover._options.parentProperty = 'folder';
-         mover._options.nodeProperty = 'folder@';
-         mover._options.moveDialogTemplate = {};
-         mover._items = items;
-         mover._source = new source.Memory({
-            keyProperty: 'id',
-            data: cClone(data)
-         });
-         mover._keyProperty = 'id';
 
+         cfg = {
+            parentProperty: 'folder',
+            nodeProperty: 'folder@',
+            moveDialogTemplate: {},
+            items: recordSet,
+            source: new source.Memory({
+               keyProperty: 'id',
+               data: cClone(data)
+            }),
+            keyProperty: 'id'
+         }
+         mover = new lists.Mover(cfg);
+         mover._options.parentProperty = cfg.parentProperty;
+         mover._options.nodeProperty = cfg.nodeProperty;
+         mover._options.moveDialogTemplate = cfg.moveDialogTemplate;
+         mover._items = cfg.items;
+         mover._source = cfg.source;
+         mover._keyProperty = cfg.keyProperty;
       });
 
       afterEach(function() {
@@ -68,553 +79,594 @@ define([
                templateOptions: {
                   testOptions: 'testValueOfOption'
                }
-            }
+            },
+            keyProperty: 'id'
          };
          const contextOptions = {
             dataOptions: options
          };
          mover._beforeMount(options, contextOptions);
 
-         assert.equal(mover._moveDialogTemplate, 'testTemplateName');
-         assert.deepEqual(mover._moveDialogOptions, { testOptions: 'testValueOfOption' });
+         assert.equal(mover._controller._popupOptions.template, 'testTemplateName');
+         assert.deepEqual(mover._controller._popupOptions.templateOptions, { testOptions: 'testValueOfOption', keyProperty: cfg.keyProperty });
          assert.equal(mover._source, 'testSource');
 
+         stubLogger = sinon.stub(ui.Logger, 'warn');
          mover._beforeMount({ moveDialogTemplate: 'testTemplate' }, {});
-         assert.equal(mover._moveDialogTemplate, 'testTemplate');
+         stubLogger.restore();
+         assert.equal(mover._controller._popupOptions.template, 'testTemplate');
       });
 
       it('_beforeUpdate', function() {
          mover._beforeUpdate({
             moveDialogTemplate: {
+               templateName: 'testTemplateName',
                templateOptions: {
                   testOptions: 'testValueOfOption1'
                }
-            }
+            },
+            keyProperty: 'id'
          }, {
             dataOptions: {}
          });
 
-         assert.deepEqual(mover._moveDialogOptions, { testOptions: 'testValueOfOption1'});
+         assert.deepEqual(mover._controller._popupOptions.templateOptions, { testOptions: 'testValueOfOption1', keyProperty: cfg.keyProperty});
 
          mover._beforeUpdate({
             moveDialogTemplate: {
+               templateName: 'testTemplateName',
                templateOptions: {
                   testOptions: 'testValueOfOption2'
                }
-            }
+            },
+            keyProperty: 'id'
          }, {
             dataOptions: {}
          });
 
-         assert.deepEqual(mover._moveDialogOptions, {testOptions: 'testValueOfOption2'});
+         assert.deepEqual(mover._controller._popupOptions.templateOptions, {testOptions: 'testValueOfOption2', keyProperty: cfg.keyProperty});
       });
 
-      it('moveItemsWithDialog', function(done) {
-         var items = [1, 2, 3];
-
-         mover._children = {
-            dialogOpener: {
-               open: function(openArgs) {
-                  assert.deepEqual(openArgs.templateOptions.movedItems, items);
-                  assert.equal(openArgs.templateOptions.source, mover._source);
-                  assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
-                  done();
+      describe('mover methods', () => {
+         beforeEach(() => {
+            const options = {
+               ...cfg,
+               moveDialogTemplate: {
+                  templateName: () => 'testTemplateName',
+                  templateOptions: {
+                     testOptions: 'testValueOfOption'
+                  }
                }
-            }
-         };
-
-         mover.moveItemsWithDialog(items);
-      });
-
-      it('moveItemsWithDialog for newLogic call moveItems', function(done) {
-         var
-            params = {
-               selectedKeys: [1, 2, 3],
-               excludedKeys: [11],
-               filter: {
-                  testProp: 'testValue'
-               }
-            },
-            moveItemsCalled = false;
-
-         mover._children = {
-            dialogOpener: {
-               open: function(openArgs) {
-                  assert.deepEqual(openArgs.templateOptions.movedItems, params.selectedKeys);
-                  assert.equal(openArgs.templateOptions.source, mover._source);
-                  assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
-                  var origMoveItems = mover.moveItems;
-                  mover.moveItems = function(callingParams) {
-                     moveItemsCalled = true;
-                     assert.deepEqual(callingParams, params);
-                  };
-                  openArgs.eventHandlers.onResult(4);
-                  mover.moveItems = origMoveItems;
-                  assert.isTrue(moveItemsCalled);
-                  done();
-               }
-            }
-         };
-
-         mover.moveItemsWithDialog(params);
-      });
-
-      it('moveItemsWithDialog with search applied', function() {
-         const selection = {
-            selected: [1, 2, 3],
-            excluded: [11]
-         };
-         const filter = {
-            searchParam: 'searchValue'
-         };
-
-         mover._options.searchParam = 'searchParam';
-         mover._filter = filter;
-
-         return new Promise((resolve) => {
-            let queryFilter;
-            mover._source.query = (query) => {
-               queryFilter = query.getWhere();
-               return Promise.reject();
             };
-            mover.moveItemsWithDialog(selection);
-            assert.isTrue(!queryFilter.searchParam);
-            resolve();
+            const contextOptions = {
+               dataOptions: options
+            };
+            mover._beforeMount(options, contextOptions);
          });
-      });
 
-      it('moveItemsWithDialog is called with items and with search applied', function() {
-         const items = [1, 2, 3];
-         const filter = {
-            searchParam: 'searchValue'
-         };
-         let openConfig;
+         it('moveItemsWithDialog', function(done) {
+            const items = [1, 2, 3];
+            const stubOpenPopup = sinon.stub(popup.Dialog, 'openPopup');
 
-         mover._options.searchParam = 'searchParam';
-         mover._filter = filter;
+            // @ts-ignore
+            stubOpenPopup.callsFake((openArgs) => {
+               assert.deepEqual(openArgs.templateOptions.movedItems, items);
+               assert.equal(openArgs.templateOptions.source, mover._source);
+               assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
+               Promise.resolve(openArgs.eventHandlers.onResult(recordSet.at(3)));
+            });
 
-         mover._children = {
-            dialogOpener: {
-               open: function(openArgs) {
-                  openConfig = openArgs;
-               }
-            }
-         };
+            mover.moveItemsWithDialog(items)
+               .then(() => {
+                  stubOpenPopup.restore();
+                  done();
+               });
+         });
 
-         mover.moveItemsWithDialog(items);
-
-         assert.deepEqual(openConfig.templateOptions.movedItems, items);
-         assert.equal(openConfig.templateOptions.source, mover._source);
-         assert.equal(openConfig.templateOptions.keyProperty, mover._keyProperty);
-      });
-
-      it('moveItems for newLogic', function() {
-         var
-            callMethodCalled = false,
-            params = {
+         it('moveItemsWithDialog for newLogic call moveItems', (done) => {
+            const params = {
                selectedKeys: [1, 2, 3],
                excludedKeys: [11],
                filter: {
                   testProp: 'testValue'
                }
-            },
-            bindings = {
+            };
+            let moveItemsCalled = false;
+            const stubOpenPopup = sinon.stub(popup.Dialog, 'openPopup');
+
+            // @ts-ignore
+            stubOpenPopup.callsFake((openArgs) => {
+               assert.deepEqual(openArgs.templateOptions.movedItems, params.selectedKeys);
+               assert.equal(openArgs.templateOptions.source, mover._source);
+               assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
+               const stubMoveItems = sinon.stub(mover, 'moveItems');
+               stubMoveItems.callsFake((callingParams) => {
+                  moveItemsCalled = true;
+                  assert.deepEqual(callingParams, params);
+               });
+               openArgs.eventHandlers.onResult(4);
+               stubMoveItems.restore();
+               assert.isTrue(moveItemsCalled);
+               Promise.resolve(openArgs.eventHandlers.onResult(recordSet.at(3)));
+            });
+
+            mover.moveItemsWithDialog(params).then(() => {
+               stubOpenPopup.restore();
+               done();
+            });
+         });
+
+         it('moveItemsWithDialog with search applied', () => {
+            const selection = {
+               selected: [1, 2, 3],
+               excluded: [11]
+            };
+            const filter = {
+               searchParam: 'searchValue'
+            };
+            const config = {...cfg, searchParam: 'searchParam', filter};
+            const stubOpenPopup = sinon.stub(popup.Dialog, 'openPopup');
+            stubLogger = sinon.stub(ui.Logger, 'warn');
+            mover._beforeUpdate(config, { dataOptions: config });
+            stubLogger.restore();
+            mover.saveOptions(config);
+
+
+            stubLogger = sinon.stub(ui.Logger, 'warn');
+            lists.Mover._private.updateDataOptions(mover, config, config);
+            stubLogger.restore();
+
+            // @ts-ignore
+            stubOpenPopup.callsFake((openArgs) => Promise.resolve(openArgs.eventHandlers.onResult(recordSet.at(3))));
+
+            return new Promise((resolve) => {
+               let queryFilter;
+               mover._controller._source.query = (query) => {
+                  queryFilter = query.getWhere();
+                  return Promise.reject();
+               };
+               mover.moveItemsWithDialog(selection).then(() => {
+                  assert.isTrue(!queryFilter.searchParam);
+                  stubOpenPopup.restore();
+                  resolve();
+               });
+            });
+         });
+
+         it('moveItemsWithDialog is called with items and with search applied', (done) => {
+            const items = [1, 2, 3];
+            const filter = {
+               searchParam: 'searchValue'
+            };
+
+            const config = {...cfg, searchParam: 'searchParam', filter};
+            stubLogger = sinon.stub(ui.Logger, 'warn');
+            lists.Mover._private.updateDataOptions(mover, config, config);
+            stubLogger.restore();
+            const stubOpenPopup = sinon.stub(popup.Dialog, 'openPopup');
+
+            // @ts-ignore
+            stubOpenPopup.callsFake((openArgs) => {
+               assert.deepEqual(openArgs.templateOptions.movedItems, items);
+               assert.equal(openArgs.templateOptions.source, mover._source);
+               assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
+               Promise.resolve(openArgs.eventHandlers.onResult(recordSet.at(3)));
+            });
+
+            mover.moveItemsWithDialog(items).then(() => {
+               stubOpenPopup.restore();
+               done();
+            });
+         });
+
+         it('moveItems for newLogic', () => {
+            let callMethodCalled = false;
+            const params = {
+               selectedKeys: [1, 2, 3],
+               excludedKeys: [11],
+               filter: {
+                  testProp: 'testValue'
+               }
+            };
+            const bindings = {
                move: 'testMoveMethod',
                list: 'testListMethod'
-            },
-            targetId = 4,
-            originaSourceGetBinding = mover._source.getBinding,
-            originaSourceCall = mover._source.call;
-         mover._source.getBinding = function() {
-            return bindings;
-         };
-         mover._source.call = function(methodName, data) {
-            callMethodCalled = true;
-            assert.equal(methodName, bindings.move);
-            assert.equal(data.method, bindings.list);
-            assert.equal(data.folder_id, targetId);
-            assert.equal(data.filter.get('testProp'), 'testValue');
-            assert.deepEqual(data.filter.get('selection').getRawData(),
-               selectionToRecord({
-                  selected: params.selectedKeys,
-                  excluded: params.excludedKeys
-               }, mover._source.getAdapter()).getRawData()
-            );
-            return Promise.resolve();
-         };
-         return mover.moveItems(params, targetId).then(function () {
-            assert.isTrue(callMethodCalled);
-            mover._source.getBinding = originaSourceGetBinding;
-            mover._source.call = originaSourceCall;
+            };
+            const targetId = 4;
+            mover._controller._source.getBinding = () => {
+               return bindings;
+            };
+            mover._controller._source.call = (methodName, data) => {
+               callMethodCalled = true;
+               assert.equal(methodName, bindings.move);
+               assert.equal(data.method, bindings.list);
+               assert.equal(data.folder_id, targetId);
+               assert.equal(data.filter.get('testProp'), 'testValue');
+               assert.deepEqual(data.filter.get('selection').getRawData(),
+                  selectionToRecord({
+                     selected: params.selectedKeys,
+                     excluded: params.excludedKeys
+                  }, mover._controller._source.getAdapter()).getRawData()
+               );
+               return Promise.resolve();
+            };
+
+            return mover.moveItems(params, targetId, 'on')
+               .then(() => {
+                  assert.isTrue(callMethodCalled);
+               });
          });
-      });
 
-      it('moveItemsWithDialog with empty items', function() {
-         var items = [];
+         it('moveItemsWithDialog with empty items', (done) => {
+            const items = [];
+            const spyOpenPopup = sinon.spy(popup.Dialog, 'openPopup');
+            const stubOpenConfirmation = sinon.stub(popup.Confirmation, 'openPopup');
+            // @ts-ignore
+            stubOpenConfirmation.callsFake((args) => {
+               assert(args.message, 'Нет записей для обработки команды');
+            });
+            mover.moveItemsWithDialog(items).then(() => {
+               sinon.assert.notCalled(spyOpenPopup);
+               spyOpenPopup.restore();
+               stubOpenConfirmation.restore();
+               done();
+            });
+         });
 
-         mover._children = {
-            dialogOpener: {
-               open: function() {
-                  throw new Error('Dialog opened for empty items.');
+         it('moveItemsWithDialog for models', (done) => {
+            const movedItems = [1, 2, 3];
+            const stubOpenPopup = sinon.stub(popup.Dialog, 'openPopup');
+
+            // @ts-ignore
+            stubOpenPopup.callsFake((openArgs) => {
+               assert.deepEqual(openArgs.templateOptions.movedItems, movedItems);
+               assert.equal(openArgs.templateOptions.source, mover._source);
+               assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
+               Promise.resolve(openArgs.eventHandlers.onResult(recordSet.at(3)));
+            });
+            mover.moveItemsWithDialog([recordSet.at(0), recordSet.at(1), recordSet.at(2)]).then(() => {
+               stubOpenPopup.restore();
+               done();
+            });
+         });
+
+         it('beforeItemsMove notify event with params', function(done) {
+            var
+                movedItems,
+                item = recordSet.at(0),
+                target = recordSet.at(1);
+            mover._notify = function(event, args) {
+               if (event === 'beforeItemsMove') {
+                  movedItems = args[0];
+                  assert.equal(movedItems[0].getId(), item.getId());
+                  assert.equal(args[1].getId(), target.getId());
+                  done();
                }
-            }
-         };
-         mover.moveItemsWithDialog(items);
-      });
+            };
+            mover.moveItemDown(item);
+         });
 
-       it('moveItemsWithDialog for models', function(done) {
-           var movedItems = [1, 2, 3];
+         it('afterItemsMove notify event with params', function(done) {
+            var
+                movedItems,
+                item = recordSet.at(2),
+                target = recordSet.at(1),
+                result = 'custom_result';
 
-           mover._children = {
-               dialogOpener: {
-                   open: function(openArgs) {
-                       assert.deepEqual(openArgs.templateOptions.movedItems, movedItems);
-                       assert.equal(openArgs.templateOptions.source, mover._source);
-                       assert.equal(openArgs.templateOptions.keyProperty, mover._keyProperty);
-                       done();
-                   }
+            mover._source.move = function() {
+               return Deferred.success(result);
+            };
+            mover._notify = function(event, args) {
+               if (event === 'afterItemsMove') {
+                  movedItems = args[0];
+                  assert.equal(movedItems[0].getId(), item.getId());
+                  assert.equal(args[1].getId(), target.getId());
+                  assert.equal(args[3], 'custom_result');
+                  done();
                }
-           };
+            };
+            mover.moveItemUp(item);
+         });
 
-           mover.moveItemsWithDialog([items.at(0), items.at(1), items.at(2)]);
-       });
+         it('sortingOrder', function(done) {
+            var item = recordSet.getRecordById(3);
 
-      it('beforeItemsMove notify event with params', function(done) {
-         var
-            movedItems,
-            item = items.at(0),
-            target = items.at(1);
-         mover._notify = function(event, args) {
-            if (event === 'beforeItemsMove') {
-               movedItems = args[0];
-               assert.equal(movedItems[0].getId(), item.getId());
-               assert.equal(args[1].getId(), target.getId());
+            //Ascending sort.
+            mover._options.sortingOrder = 'asc';
+            mover._source.move = function(items, target, options) {
+               assert.equal(target, 2);
+               assert.equal(options.position, 'before');
+               return Deferred.success();
+            };
+            mover.moveItemUp(item);
+
+            mover._source.move = function(items, target, options) {
+               assert.equal(target, 2);
+               assert.equal(options.position, 'after');
+               return Deferred.success();
+            };
+            mover.moveItemDown(item);
+
+            //Descending sort.
+            mover._options.sortingOrder = 'desc';
+            mover._source.move = function(items, target, options) {
+               assert.equal(target, 2);
+               assert.equal(options.position, 'after');
+               return Deferred.success();
+            };
+            mover.moveItemUp(item);
+
+            mover._source.move = function(items, target, options) {
+               assert.equal(target, 2);
+               assert.equal(options.position, 'before');
                done();
-            }
-         };
-         mover.moveItemDown(item);
-      });
+               return Deferred.success();
+            };
+            mover.moveItemDown(item);
+         });
 
-      it('afterItemsMove notify event with params', function(done) {
-         var
-            movedItems,
-            item = items.at(2),
-            target = items.at(1),
-            result = 'custom_result';
+         it('moveItemUp by item', function(done) {
+            var item = recordSet.at(2);
 
-         mover._source.move = function() {
-            return Deferred.success(result);
-         };
-         mover._notify = function(event, args) {
-            if (event === 'afterItemsMove') {
-               movedItems = args[0];
-               assert.equal(movedItems[0].getId(), item.getId());
-               assert.equal(args[1].getId(), target.getId());
-               assert.equal(args[3], 'custom_result');
-               done();
-            }
-         };
-         mover.moveItemUp(item);
-      });
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(1).getId(), item.getId());
+                  done();
+               }
+            };
+            mover.moveItemUp(item);
+         });
 
-      it('sortingOrder', function(done) {
-         var item = items.getRecordById(3);
+         it('moveItemUp by id', function(done) {
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(1).getId(), 3);
+                  done();
+               }
+            };
+            mover.moveItemUp(3);
+         });
 
-         //Ascending sort.
-         mover._options.sortingOrder = 'asc';
-         mover._source.move = function(items, target, options) {
-            assert.equal(target, 2);
-            assert.equal(options.position, 'before');
-            return Deferred.success();
-         };
-         mover.moveItemUp(item);
+         it('moveItemUp first item', function() {
+            var item = recordSet.at(0);
 
-         mover._source.move = function(items, target, options) {
-            assert.equal(target, 2);
-            assert.equal(options.position, 'after');
-            return Deferred.success();
-         };
-         mover.moveItemDown(item);
+            mover.moveItemUp(item);
+            assert.equal(recordSet.at(0).getId(), item.getId());
+         });
 
-         //Descending sort.
-         mover._options.sortingOrder = 'desc';
-         mover._source.move = function(items, target, options) {
-            assert.equal(target, 2);
-            assert.equal(options.position, 'after');
-            return Deferred.success();
-         };
-         mover.moveItemUp(item);
+         it('moveItemDown by item', function(done) {
+            var item = recordSet.at(0);
 
-         mover._source.move = function(items, target, options) {
-            assert.equal(target, 2);
-            assert.equal(options.position, 'before');
-            done();
-            return Deferred.success();
-         };
-         mover.moveItemDown(item);
-      });
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(1).getId(), item.getId());
+                  done();
+               }
+            };
+            mover.moveItemDown(item);
+         });
 
-      it('moveItemUp by item', function(done) {
-         var item = items.at(2);
+         it('moveItemDown by id', function(done) {
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(1).getId(), 1);
+                  done();
+               }
+            };
+            mover.moveItemDown(1);
+         });
 
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(1).getId(), item.getId());
-               done();
-            }
-         };
-         mover.moveItemUp(item);
-      });
+         it('moveItemDown last item', function() {
+            var item = recordSet.at(4);
 
-      it('moveItemUp by id', function(done) {
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(1).getId(), 3);
-               done();
-            }
-         };
-         mover.moveItemUp(3);
-      });
+            mover.moveItemDown(item);
+            assert.equal(recordSet.at(4).getId(), item.getId());
+         });
 
-      it('moveItemUp first item', function() {
-         var item = items.at(0);
+         it('moveItems by item', function(done) {
+            var
+                item = recordSet.at(0),
+                target = recordSet.at(2);
 
-         mover.moveItemUp(item);
-         assert.equal(items.at(0).getId(), item.getId());
-      });
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(2).getId(), item.getId());
+                  done();
+               }
+            };
 
-      it('moveItemDown by item', function(done) {
-         var item = items.at(0);
+            mover.moveItems([item], target, 'after');
+         });
 
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(1).getId(), item.getId());
-               done();
-            }
-         };
-         mover.moveItemDown(item);
-      });
+         it('moveItems by id', function(done) {
+            var target = recordSet.at(2);
 
-      it('moveItemDown by id', function(done) {
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(1).getId(), 1);
-               done();
-            }
-         };
-         mover.moveItemDown(1);
-      });
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.at(0).getId(), target.getId());
+                  done();
+               }
+            };
 
-      it('moveItemDown last item', function() {
-         var item = items.at(4);
+            mover.moveItems([1, 2], target, 'after');
+         });
 
-         mover.moveItemDown(item);
-         assert.equal(items.at(4).getId(), item.getId());
-      });
+         it('moveItems not from recordSet', function(done) {
+            var moveItems = [6];
 
-      it('moveItems by item', function(done) {
-         var
-            item = items.at(0),
-            target = items.at(2);
+            mover._notify = function(event, args) {
+               if (event === 'afterItemsMove') {
+                  assert.deepEqual(args[0], moveItems);
+                  done();
+               }
+            };
 
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(2).getId(), item.getId());
-               done();
-            }
-         };
+            mover.moveItems(moveItems, 1, 'on');
+         });
 
-         mover.moveItems([item], target, 'after');
-      });
+         it('moveItems in folder', function(done) {
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.getRecordById(4).get('folder'), 1);
+                  assert.equal(recordSet.getRecordById(5).get('folder'), 1);
+                  done();
+               }
+            };
 
-      it('moveItems by id', function(done) {
-         var target = items.at(2);
+            mover.moveItems([4, 5], 1, 'on');
+         });
 
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.at(0).getId(), target.getId());
-               done();
-            }
-         };
+         it('moveItems in folder with change order', function(done) {
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.getRecordById(3).get('folder'), 1);
+                  done();
+               }
+            };
 
-         mover.moveItems([1, 2], target, 'after');
-      });
+            mover.moveItems([3], 4, 'after');
+         });
 
-      it('moveItems not from recordSet', function(done) {
-         var moveItems = [6];
+         it('moveItems in root', function(done) {
+            var movedItems = [];
+            movedItems.push(recordSet.getRecordById(4));
+            movedItems.push(recordSet.getRecordById(5));
 
-         mover._notify = function(event, args) {
-            if (event === 'afterItemsMove') {
-               assert.deepEqual(args[0], moveItems);
-               done();
-            }
-         };
+            mover._notify = function(event) {
+               if (event === 'afterItemsMove') {
+                  assert.equal(recordSet.getRecordById(4).get('folder'), null);
+                  assert.equal(recordSet.getRecordById(5).get('folder'), null);
+                  done();
+               }
+            };
 
-         mover.moveItems(moveItems, 1, 'on');
-      });
+            mover.moveItems(movedItems, null, 'on');
+         });
 
-      it('moveItems in folder', function(done) {
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.getRecordById(4).get('folder'), 1);
-               assert.equal(items.getRecordById(5).get('folder'), 1);
-               done();
-            }
-         };
+         it('moveItems in list', function() {
+            mover.moveItems([4], 5, 'on');
+            assert.equal(recordSet.getRecordById(4).get('folder'), 1);
+         });
 
-         mover.moveItems([4, 5], 1, 'on');
-      });
+         it('moveItems folder in child folder', function() {
+            mover.moveItems([1], 4, 'on');
+            assert.equal(recordSet.getRecordById(1).get('folder'), null);
+         });
 
-      it('moveItems in folder with change order', function(done) {
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.getRecordById(3).get('folder'), 1);
-               done();
-            }
-         };
+         it('moveItems in himself', function() {
+            mover.moveItems([1], 1, 'on');
+            assert.equal(recordSet.getRecordById(1).get('folder'), null);
+         });
 
-         mover.moveItems([3], 4, 'after');
-      });
+         it('beforeItemsMove = MoveInItems', function(done) {
+            var
+                item = recordSet.at(0),
+                target = recordSet.at(2);
 
-      it('moveItems in root', function(done) {
-         var movedItems = [];
-         movedItems.push(items.getRecordById(4));
-         movedItems.push(items.getRecordById(5));
+            mover._notify = function(event) {
+               if (event === 'beforeItemsMove') {
+                  return Promise.resolve('MoveInItems');
+               }
+            };
 
-         mover._notify = function(event) {
-            if (event === 'afterItemsMove') {
-               assert.equal(items.getRecordById(4).get('folder'), null);
-               assert.equal(items.getRecordById(5).get('folder'), null);
-               done();
-            }
-         };
+            mover.moveItems([item], target, 'after').then(() => {
+               assert.equal(recordSet.at(2).getId(), item.getId());
+               mover._source.query().addCallback(function(dataSet) {
+                  assert.equal(dataSet.getAll().at(0).getId(), item.getId());
+                  done();
+               });
+            });
+         });
 
-         mover.moveItems(movedItems, null, 'on');
-      });
+         it('beforeItemsMove = Custom', function(done) {
+            var
+                item = recordSet.at(0),
+                target = recordSet.at(2);
 
-      it('moveItems in list', function() {
-         mover.moveItems([4], 5, 'on');
-         assert.equal(items.getRecordById(4).get('folder'), 1);
-      });
+            mover._notify = function(event) {
+               if (event === 'beforeItemsMove') {
+                  return 'Custom';
+               }
+            };
 
-      it('moveItems folder in child folder', function() {
-         mover.moveItems([1], 4, 'on');
-         assert.equal(items.getRecordById(1).get('folder'), null);
-      });
-
-      it('moveItems in himself', function() {
-         mover.moveItems([1], 1, 'on');
-         assert.equal(items.getRecordById(1).get('folder'), null);
-      });
-
-      it('beforeItemsMove = MoveInItems', function(done) {
-         var
-            item = items.at(0),
-            target = items.at(2);
-
-         mover._notify = function(event) {
-            if (event === 'beforeItemsMove') {
-               return Promise.resolve('MoveInItems');
-            }
-         };
-
-         mover.moveItems([item], target, 'after').then(() => {
-            assert.equal(items.at(2).getId(), item.getId());
+            mover.moveItems([item], target, 'after');
+            assert.equal(recordSet.at(0).getId(), item.getId());
             mover._source.query().addCallback(function(dataSet) {
                assert.equal(dataSet.getAll().at(0).getId(), item.getId());
                done();
             });
          });
-      });
 
-      it('beforeItemsMove = Custom', function(done) {
-         var
-            item = items.at(0),
-            target = items.at(2);
+         it('move returns deferred', function() {
+            var result;
 
-         mover._notify = function(event) {
-            if (event === 'beforeItemsMove') {
-               return 'Custom';
-            }
-         };
+            //dont move moveItemUp
+            result = mover.moveItemUp(1);
+            assert.isTrue(result instanceof Deferred);
 
-         mover.moveItems([item], target, 'after');
-         assert.equal(items.at(0).getId(), item.getId());
-         mover._source.query().addCallback(function(dataSet) {
-            assert.equal(dataSet.getAll().at(0).getId(), item.getId());
-            done();
+            //move moveItemUp
+            result = mover.moveItemUp(2);
+            assert.isTrue(result instanceof Deferred);
+
+            //dont move moveItemDown
+            result = mover.moveItemDown(5);
+            assert.isTrue(result instanceof Deferred);
+
+            //move moveItemDown
+            result = mover.moveItemDown(4);
+            assert.isTrue(result instanceof Deferred);
+
+            //move without target moveItems
+            result = mover.moveItems([1, 2]);
+            assert.isTrue(result instanceof Deferred);
+
+            //move without items moveItems
+            result = mover.moveItems([], 3, 'after');
+            assert.isTrue(result instanceof Deferred);
+
+            //move moveItems
+            result = mover.moveItems([1, 2], 3, 'after');
+            assert.isTrue(result instanceof Deferred);
          });
-      });
 
-      it('move returns deferred', function() {
-         var result;
+         it('move by selection', function(done) {
+            mover._notify = function(event, args) {
+               if (event === 'beforeItemsMove') {
+                  assert.deepEqual(args[0], [1, 2]);
+                  done();
+               }
+            };
 
-         //dont move moveItemUp
-         result = mover.moveItemUp(1);
-         assert.isTrue(result instanceof Deferred);
+            mover.moveItems({
+               selected: [1, 2],
+               excluded: []
+            }, 3, 'after');
+         });
 
-         //move moveItemUp
-         result = mover.moveItemUp(2);
-         assert.isTrue(result instanceof Deferred);
+         it('getSiblingItem', function() {
+            var siblingItem;
 
-         //dont move moveItemDown
-         result = mover.moveItemDown(5);
-         assert.isTrue(result instanceof Deferred);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'before');
+            assert.equal(siblingItem.getId(), 3);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(6), 'after');
+            assert.isNull(siblingItem);
 
-         //move moveItemDown
-         result = mover.moveItemDown(4);
-         assert.isTrue(result instanceof Deferred);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'after');
+            assert.equal(siblingItem.getId(), 6);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(3), 'before');
+            assert.equal(siblingItem.getId(), 2);
 
-         //move without target moveItems
-         result = mover.moveItems([1, 2]);
-         assert.isTrue(result instanceof Deferred);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'after');
+            assert.equal(siblingItem.getId(), 2);
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(1), 'before');
+            assert.isNull(siblingItem);
 
-         //move without items moveItems
-         result = mover.moveItems([], 3, 'after');
-         assert.isTrue(result instanceof Deferred);
+            mover._options.root = 1;
+            siblingItem = lists.Mover._private.getTargetItem(mover, recordSet.getRecordById(4), 'after');
+            assert.equal(siblingItem.getId(), 5);
 
-         //move moveItems
-         result = mover.moveItems([1, 2], 3, 'after');
-         assert.isTrue(result instanceof Deferred);
-      });
-
-      it('move by selection', function(done) {
-         mover._notify = function(event, args) {
-            if (event === 'beforeItemsMove') {
-               assert.deepEqual(args[0], [1, 2]);
-               done();
-            }
-         };
-
-         mover.moveItems({
-            selected: [1, 2],
-            excluded: []
-         }, 3, 'after');
-      });
-
-      it('getSiblingItem', function() {
-         var siblingItem;
-
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(6), 'before');
-         assert.equal(siblingItem.getId(), 3);
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(6), 'after');
-         assert.isNull(siblingItem);
-
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(3), 'after');
-         assert.equal(siblingItem.getId(), 6);
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(3), 'before');
-         assert.equal(siblingItem.getId(), 2);
-
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(1), 'after');
-         assert.equal(siblingItem.getId(), 2);
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(1), 'before');
-         assert.isNull(siblingItem);
-
-         mover._options.root = 1;
-         siblingItem = lists.Mover._private.getSiblingItem(mover, items.getRecordById(4), 'after');
-         assert.equal(siblingItem.getId(), 5);
+         });
 
       });
-
    });
 });

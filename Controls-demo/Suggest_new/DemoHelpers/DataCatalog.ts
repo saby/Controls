@@ -10,6 +10,19 @@ const _departmentsDataLong = _departments.concat(getLongData());
 const _departmentsWithCompanies = _companies.concat(_departmentsDataLong);
 const _departmentsWithImges = MemorySourceData.departments;
 const _departmentsDev = _departments.concat(getIdentData());
+const _treeData = [
+    {
+        id: '0',
+        title: 'Входящие',
+        'Раздел@': true,
+        Раздел: null
+    }, {
+        id: '1',
+        'Раздел@': true,
+        Раздел: 0,
+        title: 'Входящие задачи'
+    }
+];
 
 _departmentsWithImges.forEach((department) => {
    department.photo = resourceRoot + 'Controls-demo/Suggest_new/resources/images/Novikov.png';
@@ -48,5 +61,6 @@ export {
    _departmentsWithCompanies,
    _departmentsDataLong,
    _departmentsWithImges,
-   _departmentsDev
+   _departmentsDev,
+    _treeData
 };

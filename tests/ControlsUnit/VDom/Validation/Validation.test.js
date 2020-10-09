@@ -151,6 +151,12 @@ define([
          let validator1 = getValidator('Error');
 
          const sandBox = sinon.createSandbox();
+
+         // Deal with propery getter
+         const delay = types.delay;
+         delete types.delay;
+         types.delay = delay;
+
          sandBox.replace(types, 'delay', () => {validator1.openInfoBox()});
          Controller._validates.push(validator1);
          Controller.submit().then(() => {

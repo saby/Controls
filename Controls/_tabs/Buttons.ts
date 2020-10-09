@@ -317,7 +317,7 @@ export interface ITabsTemplateOptions extends IItemTemplateOptions {
  *         <ws:if data="{{_counter}}">
  *             <ws:partial template="{{ _myRightTpl }}" item="{{itemLeftTemplate.item}}" counter="{{_counter}}" />
  *         </ws:if>
- *     </ws:itemRightTemplate>
+ *     </ws:itemLeftTemplate>
  * </Controls.tabs:Buttons>
  * </pre>
  * @see itemRightTemplate

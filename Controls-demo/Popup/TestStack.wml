@@ -50,6 +50,12 @@
          <br/>
          <Controls.buttons:Button name="infoboxButton" caption="Открыть индикатор загрузки" on:click="_openIndicator()"
                                   attr:class="ControlsDemo-TestStack__indicator"/>
+         <br/>
+         <Controls.buttons:Button name="stackButton1" caption="Открыть Stack1" on:click="_openNewStack()"
+                                  attr:class="ControlsDemo-TestStack__childStack"/>
+         <br/>
+         <Controls.buttons:Button name="stackButton2" caption="Открыть Stack2" on:click="_openNewStack2()"
+                                  attr:class="ControlsDemo-TestStack__childStackSecond"/>
       </div>
    </ws:bodyContentTemplate>
 </Controls.popupTemplate:Stack>

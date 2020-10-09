@@ -19,8 +19,8 @@
                 <Controls.Container.Async templateName="Controls/editableArea:Buttons">
                     <ws:partial template="{{content.resolvedTemplate}}"
                                 attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
-                                on:applyButtonClick="_commitEditActionHandler()"
-                                on:closeButtonClick="_cancelEditActionHandler()"/>
+                                on:applyButtonClick="_commitEditActionHandler(itemData.dispItem)"
+                                on:closeButtonClick="_cancelEditActionHandler(itemData.dispItem)"/>
                 </Controls.Container.Async>
             </ws:if>
         </div>

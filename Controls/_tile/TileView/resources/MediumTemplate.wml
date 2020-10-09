@@ -1,0 +1,23 @@
+<ws:partial template="wml!Controls/_tile/TileView/TileTpl"
+            height="160"
+            highlightOnHover="{{false}}"
+            itemActionsClass="controls-TileView__itemActions_bottomRight controls-TileView__mediumTemplate_itemActions_theme-{{_options.theme}}"
+            staticHeight="{{true}}"
+            scope="{{_options}}">
+   <ws:contentTemplate>
+      <div class="controls-TileView__mediumTemplate_content controls-TileView__mediumTemplate_content_theme-{{_options.theme}}">
+         <ws:partial template="wml!Controls/_tile/TileView/TileImageTemplate"
+                     attr:class="controls-TileView__mediumTemplate_image controls-TileView__mediumTemplate_image_theme-{{_options.theme}}"/>
+         <span class="controls-TileView__mediumTemplate_title
+                      controls-fontsize-l_theme-{{_options.theme}}
+                      controls-text-secondary_theme-{{_options.theme}}
+                      controls-TileView__text_ellipsis_multiLine
+                      controls-fontweight-bold
+                      controls-TileView__mediumTemplate_title_theme-{{_options.theme}}"
+               style="-webkit-line-clamp: {{titleLines || 1}};"
+               title="{{itemData.item[itemData.displayProperty]}}">
+            {{itemData.item[itemData.displayProperty]}}
+         </span>
+      </div>
+   </ws:contentTemplate>
+</ws:partial>

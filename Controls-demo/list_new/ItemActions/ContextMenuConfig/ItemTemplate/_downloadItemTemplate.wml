@@ -1,0 +1,13 @@
+<ws:partial template="Controls/menu:ItemTemplate" scope="{{_options}}">
+    <ws:contentTemplate>
+        <div class="ControlsDemo_MenuItemTemplate-download-menu-item ws-flexbox ws-align-items-center">
+            <div class="{{ itemData.icon || itemData.item.icon }} controls-DropdownList__icon
+                                               controls-Menu__icon-left_theme-{{ _options.theme }}
+                                               controls-icon_style-{{ (itemData.iconStyle || itemData.item.iconStyle) + '_theme-' + _options.theme }}
+                                               controls-icon_size-{{ (itemData.iconSize || itemData.item.iconSize || 'm') + '_theme-' + _options.theme }}"></div>
+            <div class="ControlsDemo_MenuItemTemplate-download-menu-item__title">{{ itemData.item.title }}</div>
+            <div class="ControlsDemo_MenuItemTemplate-download-menu-item__size
+            controls-fontsize-s_theme-{{ _options.theme }} controls-text-label_theme-{{_options.theme}}">{{ itemData.item.fileInfo.prettySize }}</div>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

@@ -1,1 +1,3 @@
-<div class=" controls-Tabs__item_overflow controls-Tabs__content_heading{{selected ? '_state_selected' : ''}}">{{item.get(displayProperty)}}</div>
+<div class="demo-TabButtons__mainTemplate">
+    <div class="demo-TabButtons__mainTemplate demo-TabButtons__mainTemplate{{selected ? '_selected' : '_unselected'}}">{{item.get(displayProperty)}}</div>
+</div>

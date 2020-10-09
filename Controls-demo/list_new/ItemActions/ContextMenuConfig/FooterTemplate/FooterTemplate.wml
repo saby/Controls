@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo__itemActions_list_FooterTemplate">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            itemActions="{{_itemActions}}">
+        <ws:contextMenuConfig>
+            <ws:footerTemplate>
+                <div class="ControlsDemo_MenuFooterTemplate-footer">
+                    В шаблоне footerTemplate может быть<br/>размещена дополнительная информация
+                </div>
+            </ws:footerTemplate>
+        </ws:contextMenuConfig>
+    </Controls.list:View>
+</div>

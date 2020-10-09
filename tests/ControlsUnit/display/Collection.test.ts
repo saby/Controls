@@ -2612,20 +2612,17 @@ describe('Controls/_display/Collection', () => {
                 i++;
             });
             display.setSelectedItemsAll(true);
-            assert.strictEqual(i, 1);
+            assert.strictEqual(i, 8);
         });
     });
 
     describe('.setSelectedItems()', () => {
         it('should selected was given items', () => {
             display.setSelectedItems(
-                [list.at(0), list.at(1)],
+                [display.at(0), display.at(1)],
                 true
             );
-            const selected = [
-                display.getItemBySourceItem(list.at(0)),
-                display.getItemBySourceItem(list.at(1))
-            ];
+            const selected = [display.at(0), display.at(1)];
             display.each((item) => {
                 if (selected.indexOf(item) !== -1) {
                     assert.isTrue(item.isSelected());
@@ -2638,13 +2635,10 @@ describe('Controls/_display/Collection', () => {
         it('should deselect was given items', () => {
             display.setSelectedItemsAll(true);
             display.setSelectedItems(
-                [list.at(0), list.at(1)],
+                [display.at(0), display.at(1)],
                 false
             );
-            const deselect = [
-                display.getItemBySourceItem(list.at(0)),
-                display.getItemBySourceItem(list.at(1))
-            ];
+            const deselect = [display.at(0), display.at(1)];
             display.each((item) => {
                 if (deselect.indexOf(item) !== -1) {
                     assert.isFalse(item.isSelected());
@@ -2658,7 +2652,7 @@ describe('Controls/_display/Collection', () => {
             const notifyLaterSpy = spy(display, '_notifyLater');
 
             display.setSelectedItems(
-               [list.at(0), list.at(1)],
+               [display.at(0), display.at(1)],
                true,
                true
             );
@@ -3394,7 +3388,8 @@ describe('Controls/_display/Collection', () => {
 
         it('should fire "onCollectionChange" with valid item contents when work in events queue', () => {
             const getModel = (data) => new Model({
-                    rawData: data
+                keyProperty: 'id',
+                rawData: data
             });
             const list = new ObservableList({
                 items: [
@@ -4262,31 +4257,21 @@ describe('Controls/_display/Collection', () => {
         )
     });
 
-    it('.getRowSpacing()', () => {
-        const rowSpacing = 'rowSpacing';
+    it('.getPadding()', () => {
+        const itemPadding = {
+            left: 'leftPadding',
+            right: 'rightPadding',
+            top: 'topPadding',
+            bottom: 'bottomPadding'
+        };
         const collection = new CollectionDisplay({
             collection: [],
-            rowSpacing
+            itemPadding
         });
-        assert.strictEqual(collection.getRowSpacing(), rowSpacing);
-    });
-
-    it('.getLeftSpacing()', () => {
-        const leftSpacing = 'leftSpacing';
-        const collection = new CollectionDisplay({
-            collection: [],
-            leftSpacing
-        });
-        assert.strictEqual(collection.getLeftSpacing(), leftSpacing);
-    });
-
-    it('.getRightSpacing()', () => {
-        const rightSpacing = 'rightSpacing';
-        const collection = new CollectionDisplay({
-            collection: [],
-            rightSpacing
-        });
-        assert.strictEqual(collection.getRightSpacing(), rightSpacing);
+        assert.strictEqual(collection.getLeftPadding(), itemPadding.left);
+        assert.strictEqual(collection.getRightPadding(), itemPadding.right);
+        assert.strictEqual(collection.getTopPadding(), itemPadding.top);
+        assert.strictEqual(collection.getBottomPadding(), itemPadding.bottom);
     });
 
     it('.setEditingConfig()', () => {
@@ -4481,35 +4466,6 @@ describe('Controls/_display/Collection', () => {
             const testingItem = display.getItemBySourceKey(2);
             display.setActiveItem(display.getItemBySourceKey(2));
             assert.equal(display.getActiveItem(), testingItem);
-        });
-    });
-
-    describe('getValidItemForMarker', () => {
-        let display: CollectionDisplay<Model>;
-
-        beforeEach(() => {
-            const items = [
-                { id: 1 },
-                { id: 2 },
-                { id: 3 }
-            ];
-            const rs = new RecordSet({
-                rawData: items,
-                keyProperty: 'id'
-            });
-            display = new CollectionDisplay({
-                collection: rs
-            });
-        });
-
-        it('next item', () => {
-            const validItem = display.getValidItemForMarker(0);
-            assert.equal(validItem.getContents().getKey(), 2);
-        });
-
-        it('prev item', () => {
-            const validItem = display.getValidItemForMarker(2);
-            assert.equal(validItem.getContents().getKey(), 2);
         });
     });
 });

@@ -42,7 +42,7 @@ import { TreeControl } from 'Controls/tree';
     * @public
     * @author Авраменко А.С.
     * @category List
-    * @demo Controls-demo/treeGrid/Base/TreeView/Index
+    * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
     */
 
    /*
@@ -79,12 +79,13 @@ import { TreeControl } from 'Controls/tree';
     * @public
     * @author Авраменко А.С.
     * @category List
-    * @demo Controls-demo/List/TreeGrid/BasePG
+    * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
     */
 
 export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
    _viewName = TreeGridView;
    _viewTemplate = TreeControl;
+   protected _supportNewModel: boolean = false;
 
    _getModelConstructor() {
       return TreeGridViewModel;

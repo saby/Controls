@@ -1,0 +1,4 @@
+<Controls.propertyGrid:PropertyGrid
+        attr:class="controls-Demo__propertyGrid"
+        bind:editingObject="_editingObject"
+        source="{{_source}}"/>

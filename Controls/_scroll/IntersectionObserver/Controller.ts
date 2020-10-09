@@ -1,10 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import IntersectionObserver = require('Controls/Utils/IntersectionObserver');
+import {IntersectionObserver} from 'Controls/sizeUtils';
 import Observer from './Observer';
 import {IIntersectionObserverObject, IIntersectionObserverOptions} from './Types';
 import template = require('wml!Controls/_scroll/IntersectionObserver/Controller');
-import {descriptor} from "Types/entity";
+import {descriptor} from 'Types/entity';
 
 export interface IIntersectionObserverControllerOptions extends IControlOptions, IIntersectionObserverOptions {
 }
@@ -12,7 +12,7 @@ export interface IIntersectionObserverControllerOptions extends IControlOptions,
 /**
  * Контейнер позволяющий отслеживать пересечение с внутренними контейнерами {@link Controls/scroll:IntersectionObserverContainer}.
  * Встроен в скролируемые области {@link Controls/scroll:Container}.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>

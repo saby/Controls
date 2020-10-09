@@ -130,6 +130,12 @@ var CompoundArea = CompoundContainer.extend([
          var maximized = this.getContainer().hasClass('ws-float-area-maximized-mode');
          var templateComponent = this._getTemplateComponent();
          this.getContainer().toggleClass('ws-float-area-has-maximized-button', popupOptions.showMaximizedButton || false);
+         const maximizedButtonClass = ' ws-float-area-has-maximized-button';
+         if (popupOptions.showMaximizedButton) {
+            this._className += maximizedButtonClass;
+         } else if (this._className.indexOf(maximizedButtonClass) >= 0) {
+            this._className = this._className.replace(maximizedButtonClass, '');
+         }
          this.getContainer().toggleClass('ws-float-area-maximized-mode', popupOptions.maximized || false);
          if (templateComponent && maximized !== popupOptions.maximized) {
             templateComponent._notifyOnSizeChanged();

@@ -68,17 +68,6 @@ define(
             });
          });
 
-         describe('_afterUpdate', () => {
-            var suggestList = new suggestPopup.ListContainer();
-
-            suggestList._afterUpdate();
-            assert.equal(suggestList._markerVisibility, 'onactivated');
-
-            suggestList._pendingMarkerVisibility = 'visible';
-            suggestList._afterUpdate();
-            assert.equal(suggestList._markerVisibility, 'visible');
-         });
-
          it('_tabsSelectedKeyChanged', function() {
             var suggestList = new suggestPopup.ListContainer();
             var tab = null;
@@ -160,22 +149,6 @@ define(
                suggestList._inputKeydown(null, domEvent);
                assert.equal(suggestList._markedKey, 'first');
             });
-         });
-
-         it('_searchEndCallback', function() {
-            let
-               items = [1, 2, 3],
-               suggestList = new suggestPopup.ListContainer();
-
-            suggestList._suggestListOptions = {
-               searchValue: 'test'
-            };
-            suggestList._searchEndCallback({
-               data: items
-            });
-
-            assert.equal(suggestList._pendingMarkerVisibility, 'visible');
-            assert.equal(suggestList._items, items);
          });
 
          it('_private:checkContext', function() {

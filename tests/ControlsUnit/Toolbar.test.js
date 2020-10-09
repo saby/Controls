@@ -341,7 +341,7 @@ define(
                   {
                      rawData: {
                         id: '0',
-                        icon: 'icon-24 icon-Linked',
+                        icon: 'icon-Linked',
                         fontColorStyle: 'secondary',
                         viewMode: 'toolButton',
                         iconStyle: 'secondary',
@@ -363,7 +363,7 @@ define(
                   _hasIcon: true,
                   _height: 'l',
                   _hoverIcon: true,
-                  _icon: 'icon-24 icon-Linked',
+                  _icon: 'icon-Linked',
                   _iconSize: 'm',
                   _iconStyle: 'readonly',
                   _stringCaption: false,

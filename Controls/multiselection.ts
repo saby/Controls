@@ -1,19 +1,31 @@
+/**
+ * Библиотека, которая предоставляет функционал для множественного выбора
+ * @library Controls/multiselection
+ * @includes Controller Controls/_multiselection/Controller
+ * @includes FlatSelectionStrategy Controls/_multiselection/SelectionStrategy/Flat
+ * @includes TreeSelectionStrategy Controls/_multiselection/SelectionStrategy/Tree'
+ * @public
+ * @author Панихин К.А.
+ */
+
 import { Controller as SelectionController } from 'Controls/_multiselection/Controller';
 import { FlatSelectionStrategy } from 'Controls/_multiselection/SelectionStrategy/Flat';
 import { TreeSelectionStrategy } from 'Controls/_multiselection/SelectionStrategy/Tree';
 import { default as ISelectionStrategy } from 'Controls/_multiselection/SelectionStrategy/ISelectionStrategy';
 import {
+   ISelectionItem,
    ISelectionModel,
-   ISelectionControllerResult,
    ISelectionControllerOptions,
    IFlatSelectionStrategyOptions,
-   ITreeSelectionStrategyOptions
+   ITreeSelectionStrategyOptions,
+   ISelectionDifference
 } from 'Controls/_multiselection/interface';
 
 export {
+   ISelectionItem,
    SelectionController,
    ISelectionControllerOptions,
-   ISelectionControllerResult,
+   ISelectionDifference,
    ISelectionModel,
    ISelectionStrategy,
    FlatSelectionStrategy,

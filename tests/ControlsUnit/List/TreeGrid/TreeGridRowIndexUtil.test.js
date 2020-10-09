@@ -99,10 +99,9 @@ define([
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                   model._multiHeaderOffset = 1;
-                  assert.equal(index + 2, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
@@ -156,7 +155,6 @@ define([
 
                it('getResultsIndex', function () {
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
                   model._options._needBottomPadding = true;
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
@@ -167,10 +165,9 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                   model._multiHeaderOffset = 1;
-                  assert.equal(index + 2, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
@@ -224,7 +221,6 @@ define([
 
                it('getResultsIndex', function () {
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
                   model._options._needBottomPadding = true;
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 1);
@@ -233,8 +229,7 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
@@ -291,26 +286,23 @@ define([
                it('getResultsIndex', function () {
                   let index = model._getRowIndexHelper().getResultsIndex();
                   assert.isTrue(index > 11 * 2);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index, model._getRowIndexHelper().getResultsIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
                });
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -356,26 +348,23 @@ define([
                it('getResultsIndex', function () {
                   let index = model._getRowIndexHelper().getResultsIndex();
                   assert.isTrue(index > 11 * 2);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index, model._getRowIndexHelper().getResultsIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
                });
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -425,17 +414,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -481,17 +468,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -544,7 +529,6 @@ define([
 
                it('getResultsIndex', function () {
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
                   model._options._needBottomPadding = true;
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
@@ -553,17 +537,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 10 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -608,7 +590,6 @@ define([
 
                it('getResultsIndex', function () {
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
                   model._options._needBottomPadding = true;
                   assert.equal(model._getRowIndexHelper().getResultsIndex(), 0);
@@ -617,17 +598,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -677,33 +656,29 @@ define([
                it('getResultsIndex', function () {
                   let index = model._getRowIndexHelper().getResultsIndex();
                   assert.isTrue(index > 11 * 2);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index, model._getRowIndexHelper().getResultsIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
                });
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -749,26 +724,23 @@ define([
                it('getResultsIndex', function () {
                   let index = model._getRowIndexHelper().getResultsIndex();
                   assert.isTrue(index > 11 * 2);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index, model._getRowIndexHelper().getResultsIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getResultsIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getResultsIndex());
                });
 
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -818,17 +790,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });
@@ -874,17 +844,15 @@ define([
                it('getBottomPaddingRowIndex', function () {
                   let index = model._getRowIndexHelper().getBottomPaddingRowIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getBottomPaddingRowIndex());
+                  assert.equal(index, model._getRowIndexHelper().getBottomPaddingRowIndex());
                });
 
                it('getFooterIndex', function () {
                   let index = model._getRowIndexHelper().getFooterIndex();
                   assert.isTrue(index > 11 * 2 + 1);
-                  model._setEditingItemData({ index: 0, setEditing: () => {} });
-                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index, model._getRowIndexHelper().getFooterIndex());
                   model._options._needBottomPadding = true;
-                  assert.equal(index + 2, model._getRowIndexHelper().getFooterIndex());
+                  assert.equal(index + 1, model._getRowIndexHelper().getFooterIndex());
                });
 
             });

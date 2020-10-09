@@ -27,4 +27,19 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">treeGrid:View в шаблоне автодополнения</div>
+        <Controls.suggest:Input
+                attr:class="controlsDemo__input demo-SuggestNew__gridViewPopup"
+                bind:value="_suggestTreeValue"
+                displayProperty="title"
+                searchParam="title"
+                navigation="{{_navigation}}"
+                source="{{_treeSource}}">
+            <ws:suggestTemplate templateName="Controls-demo/Suggest_new/Input/SuggestTemplate/resources/SuggestTemplateTreeGrid">
+                <ws:templateOptions demoClass="demo-SuggestInputList"/>
+            </ws:suggestTemplate>
+        </Controls.suggest:Input>
+    </div>
 </div>

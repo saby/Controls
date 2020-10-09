@@ -5,6 +5,7 @@ import {List} from 'Types/collection';
 import ILoadingIndicator, {ILoadingIndicatorOptions} from 'Controls/_LoadingIndicator/interface/ILoadingIndicator';
 import LoadingIndicatorOpener from 'Controls/_LoadingIndicator/LoadingIndicatorOpener';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 
 
@@ -115,11 +116,19 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         // TODO Откатить DOM-решение или доказать невозмодность другого в задаче по ссылке ниже.
         // https://online.sbis.ru/opendoc.html?guid=2bd41176-8896-4a0a-a04d-a93b8a4c3a2d
         this._redrawOverlay();
+        // Выше коммент и задача после которой можно будет удалить.
+        // В светлом будущем нужно решать через окна. https://github.com/saby/wasaby-controls/pull/15953/files
+        this._recalcMessagePosition = this._recalcMessagePosition.bind(this);
+        RegisterUtil(this, 'controlResize', this._recalcMessagePosition);
     }
 
     protected _beforeUpdate(cfg: ILoadingIndicatorOptions): void {
         this._updateProperties(cfg);
         this._redrawOverlay();
+    }
+
+    protected _beforeUnmount(): void {
+        UnregisterUtil(this, 'controlResize');
     }
 
     _updateProperties(cfg: ILoadingIndicatorOptions): void {
@@ -445,7 +454,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         }
 
         const overlayDiv = this._overlayDiv;
-        const messageDiv = this._messageDiv;
+        const messageDiv: HTMLElement = this._messageDiv;
 
         const currentOverlayVisibility = !!overlayDiv.parentElement;
         const nextOverlayVisibility = this._isOverlayVisible;
@@ -480,8 +489,26 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         if (currentMessageVisibility !== nextMessageVisibility) {
             if (nextMessageVisibility) {
                 overlayDiv.appendChild(messageDiv);
+                this._recalcMessagePosition();
             } else {
                 overlayDiv.removeChild(messageDiv);
+            }
+        }
+    }
+
+    _recalcMessagePosition(): void {
+        const messageDiv = this._messageDiv;
+        const isMessageDivVisible = this._messageDiv?.parentElement;
+        if (this.isGlobal && isMessageDivVisible) {
+            const dialogTargetContainer = document.querySelector('.controls-Popup__dialog-target-container');
+            if (dialogTargetContainer) {
+                const left = (dialogTargetContainer.clientWidth - messageDiv.clientWidth) / 2 +
+                    (dialogTargetContainer.offsetLeft || 0);
+                const top = (dialogTargetContainer.clientHeight - messageDiv.clientHeight) / 2 +
+                    (dialogTargetContainer.offsetTop || 0);
+                messageDiv.style.left = `${left}px`;
+                messageDiv.style.top = `${top}px`;
+                messageDiv.style.position = 'absolute';
             }
         }
     }

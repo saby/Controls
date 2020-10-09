@@ -1,0 +1,61 @@
+<ws:template name="imageTemplate">
+   <div class="controls-TileView__richTemplate_image
+               controls-TileView__richTemplate_image_size_{{imageSize || 's'}}_position_{{imagePosition || 'top'}}_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}
+               controls-TileView__richTemplate_image_size_{{imageSize || 's'}}_position_{{imagePosition !== 'top' && imagePosition !== undefined ? 'vertical' : 'top'}}_theme-{{theme}}
+               {{nodesScaleSize && itemData.dispItem.isNode() ?
+               ('controls-TileView__richTemplate_image_size_' + (imageSize || 's') + '_scale_' + nodesScaleSize + '_theme-' + theme) : ''}}
+               controls-TileView__richTemplate_image_viewMode_{{imageViewMode || 'rectangle'}}"
+        style="{{'background-image: url(' + itemData.item[itemData.imageProperty] + ')'}}"></div>
+   <ws:if data="{{imageEffect === 'gradient' && (!imageViewMode || imageViewMode !== 'circle' && imageViewMode !== 'ellipse')}}">
+      <div class="controls-TileView__richTemplate_image_effect_gradient"
+           style="{{'background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,' + (gradientColor || '#ffffff') + ' 100%);'}}"></div>
+   </ws:if>
+</ws:template>
+
+<ws:template name="itemContentTemplate">
+   <div class="controls-TileView__richTemplate_itemContent controls-TileView__richTemplate_itemContent_theme-{{theme}}"
+        style="background-color: {{(!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right' ? gradientColor || '#FFF' : ''}}">
+      <div class="controls-TileView__richTemplate_title
+                  controls-TileView__text_ellipsis_multiLine
+                  controls-TileView__richTemplate_title_theme-{{theme}}
+                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}_theme-{{theme}}
+                  controls-text-{{titleColorStyle || 'default'}}_theme-{{theme}}
+                  controls-fontweight-bold"
+           title="{{itemData.item[itemData.displayProperty]}}"
+           style="-webkit-line-clamp: {{titleLines || 1}};">{{itemData.item[itemData.displayProperty]}}</div>
+      <ws:if data="{{description}}">
+         <div class="controls-TileView__richTemplate_description
+                     controls-TileView__text_ellipsis_multiLine
+                     controls-TileView__richTemplate_description_theme-{{theme}}" title="{{description}}"
+              style="-webkit-line-clamp: {{descriptionLines || 1}};">{{description}}</div>
+      </ws:if>
+   </div>
+   <ws:if data="{{footerTemplate}}">
+      <ws:partial template="{{footerTemplate}}"
+                  itemData="{{itemData}}"/>
+   </ws:if>
+</ws:template>
+
+<ws:template name="richTemplateContent">
+   <div class="controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_{{imagePosition || 'top'}}">
+      <ws:if data="{{imageViewMode !== 'none'}}">
+         <div class="controls-TileView__richTemplate_imageWrapper controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}">
+            <ws:partial template="imageTemplate"/>
+         </div>
+      </ws:if>
+      <ws:partial template="itemContentTemplate"/>
+   </div>
+</ws:template>
+
+<ws:partial template="wml!Controls/_tile/TreeTileView/DefaultItemTpl"
+            highlightOnHover="{{false}}"
+            staticHeight="{{true}}"
+            height="auto"
+            scope="{{_options}}">
+   <ws:contentTemplate>
+      <ws:partial template="richTemplateContent"/>
+   </ws:contentTemplate>
+   <ws:nodeContentTemplate>
+      <ws:partial template="richTemplateContent"/>
+   </ws:nodeContentTemplate>
+</ws:partial>

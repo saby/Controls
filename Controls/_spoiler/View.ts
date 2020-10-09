@@ -83,6 +83,8 @@ class View extends Control<IViewOptions> implements IView {
         this._expanded = state;
     }
 
+    static _theme: string[] = ['Controls/spoiler'];
+
     static getDefaultOptions(): Partial<IViewOptions> {
         return Heading.getDefaultOptions();
     }

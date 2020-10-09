@@ -25,7 +25,7 @@ export interface IListenerOptions extends IControlOptions {
 
 /**
  * @name Controls/_event/Listener#event
- * @cfg {String} Имя событие, на которое нужно среагировать.
+ * @cfg {String} Имя события, на которое нужно среагировать.
  */
 
 /**

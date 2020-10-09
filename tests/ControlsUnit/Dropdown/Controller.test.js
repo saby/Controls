@@ -94,7 +94,7 @@ define(
          it('_onPinClickHandler', function() {
             let actualMeta;
             let newOptions = clone(config);
-            newOptions.source = new history.Source({
+            const source = new history.Source({
                originSource: new sourceLib.Memory({
                   keyProperty: 'id',
                   data: items
@@ -104,16 +104,18 @@ define(
                }),
                parentProperty: 'parent'
             });
-            newOptions.source.update = function(item, meta) {
+            source.update = function(item, meta) {
                actualMeta = meta;
                item.set('pinned', true);
                return Deferred.success(false);
             };
 
             let dropdownController = getDropdownController(newOptions);
+            dropdownController._source = source;
             let expectedItem = new entity.Model({
                rawData: {
-                  pinned: false
+                  pinned: false,
+                  copyOriginalId: '1'
                }
             });
             dropdownController.pinClick(expectedItem);

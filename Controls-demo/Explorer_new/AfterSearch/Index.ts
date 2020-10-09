@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/AfterSearch/AfterSearc
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 
 interface IFilter {
    demo: number;
@@ -22,17 +22,6 @@ export default class extends Control {
       this._viewSource = new MemorySource({
          keyProperty: 'id',
          data: Gadgets.getSearchData()
-      });
-      this._searchStartingWithSource = new Memory({
-         keyProperty: 'id',
-         data: [
-            {
-               id: 'root', title: 'root'
-            },
-            {
-               id: 'current', title: 'current'
-            }
-         ]
       });
    }
 

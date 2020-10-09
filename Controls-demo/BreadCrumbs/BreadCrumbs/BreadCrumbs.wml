@@ -1,7 +1,6 @@
 <div>
     <h2>Много крошек</h2>
-    <Controls.breadcrumbs:Path attr:id="aLotOfCrumbs" items="{{items}}" keyProperty="id"
-                                    on:itemClick="_onItemClick()" />
+    <Controls.breadcrumbs:Path attr:id="aLotOfCrumbs" items="{{items}}" keyProperty="id" on:itemClick="_onItemClick()" />
     <h2>Одна крошка</h2>
     <Controls.breadcrumbs:Path attr:id="oneCrumb" items="{{items1}}" on:itemClick="_onItemClick()" keyProperty="id" />
     <h2>Две крошки</h2>

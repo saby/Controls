@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/Explorer_new/backgroundStyle/custom
 import {Gadgets} from '../../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import {TRoot, IHeader} from 'Controls-demo/types';
 
 export default class extends Control {

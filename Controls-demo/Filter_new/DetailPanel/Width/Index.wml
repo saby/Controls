@@ -1,0 +1,33 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Ширина панели s</div>
+      <Controls.filterPopup:DetailPanel
+         attr:class="controls-FilterPanel__width-s"
+         items="{{_items}}"
+         itemTemplateProperty="itemTemplate"/>
+   </div>
+
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Ширина панели m</div>
+      <Controls.filterPopup:DetailPanel
+              attr:class="controls-FilterPanel__width-m"
+              items="{{_items}}"
+              itemTemplateProperty="itemTemplate"/>
+   </div>
+
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Ширина панели l</div>
+      <Controls.filterPopup:DetailPanel
+              attr:class="controls-FilterPanel__width-l"
+              items="{{_items}}"
+              itemTemplateProperty="itemTemplate"/>
+   </div>
+
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">Ширина панели xl</div>
+      <Controls.filterPopup:DetailPanel
+              attr:class="controls-FilterPanel__width-xl"
+              items="{{_items}}"
+              itemTemplateProperty="itemTemplate"/>
+   </div>
+</div>

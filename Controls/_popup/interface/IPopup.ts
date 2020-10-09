@@ -88,6 +88,7 @@ export interface IPopupController {
    _popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean;
    _elementAnimated(item: IPopupItem): boolean;
    _elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean;
+   workspaceResize(): boolean;
 }
 
 export interface IPopupItemInfo {

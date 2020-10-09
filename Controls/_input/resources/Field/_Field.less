@@ -1,0 +1,53 @@
+.controls-Field {
+   width: 100%;
+   height: 100%;
+   text-overflow: ellipsis;
+
+   /**
+    * Reset browser styles.
+    */
+   border: none;
+   resize: none;
+   font: inherit;
+   color: inherit;
+   text-align: inherit;
+   background: transparent;
+   .box-shadow(none);
+
+   &::-webkit-passman-key {
+      display: none;
+   }
+
+   &::-webkit-contacts-auto-fill-button {
+      display: none;
+   }
+
+   &::-ms-clear {
+      display: none;
+   }
+
+   &::-ms-reveal {
+      display: none;
+   }
+
+   &::-webkit-outer-spin-button,
+   &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+   }
+
+   /**
+    * In firefox, the field is not compressed unless you set a minimum width.
+    * https://jsfiddle.net/hr9mvn2o/
+    */
+   min-width: 0;
+
+   /**
+    * Баг IE11:
+    * Текст должен не помещаться в поле, чтобы была возможность прокрутки по горизонтали.
+    * Наводим мышь на текст. Начинаем горизонатальную прокрутку, перемещая курсор в направлении одной из границ.
+    * Двигаем мышь, она должна остаться над текстом. Курсор будет изменен с 'text' на 'pointer'.
+    * https://jsfiddle.net/621ceqg5/
+    * Решение: явно прописать курсор на нативном поле.
+    */
+   cursor: text;
+}

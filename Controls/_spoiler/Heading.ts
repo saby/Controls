@@ -15,6 +15,7 @@ import {
     IFontColorStyleOptions
 } from 'Controls/interface';
 import Util from './Util';
+import {getTextWidth} from 'Controls/sizeUtils';
 
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -97,6 +98,7 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     readonly '[Controls/_interface/IFontWeight]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
     readonly '[Controls/_toggle/interface/IExpandable]': boolean = true;
+    private _tooltip: string;
 
     private _updateState(options: IHeadingOptions): void {
         this._view = Heading._calcView(this._expanded);
@@ -126,7 +128,24 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
         if (!this._options.hasOwnProperty('expanded')) {
             this._expanded = expanded;
         }
+        this._tooltip = '';
         this._notify('expandedChanged', [expanded]);
+    }
+
+    protected _mouseenterHandler(event: Event, caption: string = ''): string {
+        if (this._options.tooltip) {
+            this._tooltip = this._options.tooltip;
+        } else if (!this._tooltip) {
+            const captionWidth = this._getTextWidth(caption);
+            if (captionWidth > this._children.captionContainer.clientWidth) {
+                this._tooltip = caption;
+            }
+        }
+        return this._tooltip;
+    }
+
+    private _getTextWidth(caption: string): number {
+        return getTextWidth(caption);
     }
 
     static _theme: string[] = ['Controls/spoiler', 'Controls/Classes'];

@@ -8,7 +8,7 @@
             fontSize="confirmation"
             viewMode="button"
             caption="{{_options.okCaption}}"
-            attr:class="controls-ConfirmationDialog__button"
+            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-positive"
             on:click="_tmplNotify('result')"/>
       </div>
    </ws:if>
@@ -21,7 +21,7 @@
             buttonStyle="{{_options.primaryAction === 'yes' ? 'primary' : 'secondary'}}"
             viewMode="button"
             caption="{{_options.yesCaption}}"
-            attr:class="controls-ConfirmationDialog__button"
+            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-positive"
             on:click="_tmplNotify('result', true)"
          />
       </div>
@@ -32,7 +32,7 @@
             inlineHeight="confirmation"
             caption="{{_options.noCaption}}"
             fontSize="confirmation"
-            attr:class="controls-ConfirmationDialog__button"
+            attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-negative"
             on:click="_tmplNotify('result', false)"
          />
       </div>
@@ -44,7 +44,7 @@
                inlineHeight="confirmation"
                fontSize="confirmation"
                caption="{{_options.cancelCaption}}"
-               attr:class="controls-ConfirmationDialog__button"
+               attr:class="controls-ConfirmationDialog__button controls-ConfirmationDialog__button-cancel"
                on:click="_tmplNotify('result')"
             />
          </div>

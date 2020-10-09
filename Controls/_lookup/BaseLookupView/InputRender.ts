@@ -45,7 +45,17 @@ import template = require('wml!Controls/_lookup/BaseLookupView/InputRender/Input
 
       _getDefaultInput: function() {
          if (!this._defaultInput) {
-            this._defaultInput = document.createElement('input');
+            const nativeInput: HTMLInputElement = document.createElement('input');
+            this._defaultInput = {
+               setValue: () => undefined,
+               setCaretPosition: () => undefined,
+               setSelectionRange: () => undefined,
+               getFieldData: (name: string) => {
+                  return nativeInput[name];
+               },
+               hasHorizontalScroll: () => false,
+               paste: () => undefined
+            };
          }
 
          return this._defaultInput;

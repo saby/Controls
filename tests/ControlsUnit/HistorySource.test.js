@@ -432,6 +432,16 @@ define(
                assert.equal(historyItems.at(3).get('title'), 'Запись 7');
                assert.equal(hSource._$history.recent.at(0).getId(), '7');
 
+               let newRecentItem = new entity.Model({
+                  rawData: {
+                     id: '8'
+                  },
+                  keyProperty: 'id',
+               });
+               hSource.update([newRecentItem], meta);
+               historyItems = hSource.getItems();
+               assert.equal(historyItems.at(3).get('title'), 'Запись 8');
+
                let item = new entity.Model({
                   rawData: {
                      id: 'notInOriginalRecordSet'

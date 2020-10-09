@@ -9,13 +9,14 @@ import { Object as EventObject } from 'Env/Event';
 import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { Model } from 'Types/entity';
-import { CollectionItem, IEditingConfig, ISwipeConfig, ANIMATION_STATE } from 'Controls/display';
+import { CollectionItem, IEditingConfig, ISwipeConfig } from 'Controls/display';
 import { CssClassList } from "./resources/utils/CssClassList";
 import {Logger} from 'UI/Utils';
 import {IItemAction, IItemActionsTemplateConfig} from 'Controls/itemActions';
-import { IDragPosition, IFlatItemData } from 'Controls/listDragNDrop';
+import { IDragPosition } from 'Controls/display';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import { IItemPadding } from './interface/IList';
+import { ItemsEntity } from 'Controls/dragnDrop';
 
 interface IListSeparatorOptions {
     rowSeparatorSize?: null | 's' | 'l';
@@ -53,8 +54,12 @@ const _private = {
         const style = styleProperty === 'masterClassic' || !styleProperty ? 'default' : styleProperty;
 
         classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${theme}`;
-        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
-        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
+        if (itemPadding.top === 'null' && itemPadding.bottom === 'null') {
+            classList += ` controls-ListView_default-padding_theme-${theme}`;
+        } else {
+            classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
+            classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
+        }
         classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${theme}`;
 
         if (multiSelectVisibility !== 'hidden') {
@@ -73,7 +78,7 @@ const _private = {
         if (markedKey === null) {
             return;
         }
-        return self.getItemById(markedKey, self.getKeyProperty());
+        return self.isEditing() ? undefined : self.getItemById(markedKey, self.getKeyProperty());
     },
 
     getMultiSelectClassList(current, checkboxOnHover: boolean): string {
@@ -117,8 +122,8 @@ const _private = {
         itemsModelCurrent.isSwiped = (): boolean => (
             itemsModelCurrent.dispItem.isSwiped !== undefined ? itemsModelCurrent.dispItem.isSwiped() : false
         );
-        itemsModelCurrent.isRightSwiped = (): boolean => (
-            itemsModelCurrent.dispItem.isRightSwiped !== undefined ? itemsModelCurrent.dispItem.isRightSwiped() : false
+        itemsModelCurrent.isAnimatedForSelection = (): boolean => (
+            itemsModelCurrent.dispItem.isAnimatedForSelection !== undefined ? itemsModelCurrent.dispItem.isAnimatedForSelection() : false
         );
         itemsModelCurrent.getContents = () => (
             itemsModelCurrent.dispItem.getContents ? itemsModelCurrent.dispItem.getContents() : null
@@ -153,6 +158,9 @@ const _private = {
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?
                 itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme, useNewModel) : ''
         );
+        itemsModelCurrent.getSwipeAnimation = (): string => itemsModelCurrent.dispItem.getSwipeAnimation();
+        itemsModelCurrent.isAdd = itemsModelCurrent.dispItem.isAdd;
+        itemsModelCurrent.addPosition = itemsModelCurrent.dispItem.addPosition;
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
@@ -168,7 +176,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _hoveredItem: null,
     _reloadedKeys: null,
     _singleItemReloadCount: 0,
-    _editingItemData: null,
 
     constructor(cfg): void {
         const self = this;
@@ -234,10 +241,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
         if (itemsModelCurrent.isGroup) {
             itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, theme);
-        }
-
-        if (this._editingItemData && itemsModelCurrent.key === this._editingItemData.key) {
-            itemsModelCurrent.item = this._editingItemData.item;
         }
 
         if (this._dragEntity) {
@@ -342,10 +345,15 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (this._reloadedKeys[key]) {
             version = `RELOADED_${this._reloadedKeys[key]}_` + version;
         }
-        version = (this._editingItemData ? 'WITH_EDITING_' : 'WITHOUT_EDITING_') + version;
-        if (this._editingItemData && this._editingItemData.key === key) {
-            version = 'EDITING_' + version;
-            version = `MULTISELECT-${this._options.multiSelectVisibility}_${version}`;
+        if (this.isEditing()) {
+            version = 'WITH_EDITING_' + version;
+            const editingItemKey = this.getDisplay().find((el) => el.isEditing()).contents.getKey();
+            if (editingItemKey === key) {
+                version = 'EDITING_' + version;
+                version = `MULTISELECT-${this._options.multiSelectVisibility}_${version}`;
+            }
+        } else {
+            version = 'WITHOUT_EDITING_' + version;
         }
         if (this._swipeItem && this._swipeItem.key === key) {
             version = 'SWIPE_' + version;
@@ -359,28 +367,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
      * @param status значение marked
      */
     setMarkedKey(key: number|string, status: boolean): void {
-        // status - для совместимости с новой моделью, чтобы сбросить маркер нужно передать false
-        if (this._markedKey === key && status !== false) {
-            return;
-        }
-
-        const changedItems = [
-            this.getItemById(this._markedKey),
-            this.getItemById(key)
-        ];
-
-        const item = this.getItemBySourceKey(key);
-        if (item) {
-            item.setMarked(status);
-        }
-
+        this._display.setMarkedKey(key, status);
         if (status === false) {
             this._markedKey = null;
         } else {
             this._markedKey = key;
         }
-
-        this._nextModelVersion(true, 'markedKeyChanged', '', changedItems);
     },
 
     setMarkerVisibility: function(markerVisibility) {
@@ -475,13 +467,23 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(false, 'activeItemChanged');
     },
 
-    setDraggedItems(draggedItem: IFlatItemData, dragEntity): void {
-        this.setDragItemData(draggedItem);
-        this.setDragEntity(dragEntity);
+    // region DnD
+
+    setDraggedItems(avatarItemKey: number|string, draggedItemsKeys: Array<number|string>): void {
+        if (avatarItemKey !== undefined && avatarItemKey !== null) {
+            const dispItem = this.getItemBySourceKey(avatarItemKey);
+            const itemData = this.getItemDataByItem(dispItem);
+            this.setDragItemData(itemData);
+        }
+
+        const entity = new ItemsEntity({items: draggedItemsKeys});
+        this.setDragEntity(entity);
     },
-    setDragPosition(position: IDragPosition): void {
+
+    setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
         this.setDragTargetPosition(position);
     },
+
     resetDraggedItems(): void {
         this._dragEntity = null;
         this._draggingItemData = null;
@@ -489,30 +491,30 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true);
     },
 
-    setDragEntity: function(entity) {
+    setDragEntity(entity: ItemsEntity): void {
         if (this._dragEntity !== entity) {
             this._dragEntity = entity;
             this._nextModelVersion(true);
         }
     },
-    getDragEntity: function() {
-        return this._dragEntity;
+
+    setDragItemData(itemData: any): void {
+        this._draggingItemData = itemData;
+        if (this._draggingItemData) {
+            this._draggingItemData.isDragging = true;
+        }
     },
 
-    setDragItemData: function(itemData) {
-        this._draggingItemData = itemData;
-    },
-    getDragItemData: function() {
+    getDragItemData(): void {
         return this._draggingItemData;
     },
 
-    setDragTargetPosition: function(position) {
+    setDragTargetPosition(position: IDragPosition<CollectionItem<Model>>): void {
         this._dragTargetPosition = position;
         this._nextModelVersion(true);
     },
-    getDragTargetPosition: function() {
-        return this._dragTargetPosition;
-    },
+
+    // endregion
 
     setSwipeItem: function(itemData) {
         if (!this._swipeItem || !itemData || itemData.item !== this._swipeItem.item) {
@@ -600,38 +602,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this.getDisplay().getIndexBySourceIndex(sourceIndex);
     },
 
-    getValidItemForMarker: function(index) {
-        const prevValidItemKey = this.getPreviousItem(index);
-        const nextValidItemKey = this.getNextItem(index);
-        if (nextValidItemKey !== undefined) {
-            return this.getItemBySourceKey(nextValidItemKey);
-        } else if (prevValidItemKey !== undefined) {
-            return this.getItemBySourceKey(prevValidItemKey);
-        } else {
-            return null;
-        }
-    },
-    _setEditingItemData: function(itemData) {
-        const data = itemData ? itemData : this._editingItemData;
-        this._editingItemData = itemData;
-        data.setEditing(itemData !== null);
-        this._onCollectionChange(
-           new EventObject('oncollectionchange', this._display),
-           IObservable.ACTION_CHANGE,
-            [new CollectionItem({
-                contents: data.item
-            })],
-           data.index,
-           [],
-           0
-        );
-        this._nextModelVersion(itemData === null);
-    },
-
-    getEditingItemData(): object | null {
-        return this._editingItemData;
-    },
-
     hasItemById: function(id, keyProperty) {
         return !!this.getItemById(id, keyProperty);
     },
@@ -712,15 +682,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
 
     // New Model compatibility
-    setSwipeAnimation(animation: ANIMATION_STATE): void {
+    isEventRaising(): boolean {
         if (this._display) {
-            this._display.setSwipeAnimation(animation);
+            return this._display.isEventRaising();
         }
-    },
-
-    // New Model compatibility
-    getSwipeAnimation(): ANIMATION_STATE {
-        return this._display ? this._display.getSwipeAnimation() : {};
+        return false;
     },
 
     // New Model compatibility
@@ -809,6 +775,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     },
     setRowSeparatorSize(rowSeparatorSize: IListSeparatorOptions['rowSeparatorSize']): void {
         this._options.rowSeparatorSize = _private.getSeparatorSizes({rowSeparatorSize});
+        this._display.setRowSeparatorSize(rowSeparatorSize);
         this._nextModelVersion();
     }
 });

@@ -1,15 +1,26 @@
 <div class="controlsDemo__wrapper">
-        <Controls.explorer:View
-            source="{{_viewSource}}"
-            bind:root="_root"
-            attr:class="demo-Explorer ControlsDemo-Explorer"
-            keyProperty="id"
-            displayProperty="title"
-            parentProperty="parent"
-            nodeProperty="parent@"
-            viewMode="{{_viewMode}}"
-            rowSeparatorVisibility="{{true}}"
-            header="{{_header}}"
-            columns="{{_columns}}">
-        </Controls.explorer:View>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/BreadCrumbsInHeader/Default/Index' }}">
+            <a href="{{content.href}}">Хлебные крошки в заголовке</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.BreadCrumbsInHeader.Default.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/BreadCrumbsInHeader/BreadCrumbsShort/Index' }}">
+            <a href="{{content.href}}">Хлебные крошки помещаются полностью</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.BreadCrumbsInHeader.BreadCrumbsShort.Index/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Explorer_new/BreadCrumbsInHeader/BreadCrumbsLong/Index' }}">
+            <a href="{{content.href}}">Хлебные крошки не помещаются полностью</a>
+        </Router.router:Reference>
+        <Controls-demo.Explorer_new.BreadCrumbsInHeader.BreadCrumbsLong.Index/>
+    </div>
 </div>

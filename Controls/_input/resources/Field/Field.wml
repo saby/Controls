@@ -1,0 +1,25 @@
+<ws:template name="inputElement">
+   <ws:if data="{{tag === 'textarea'}}">
+      <textarea>{{!_isBrowserPlatform ? _model.displayValue}}</textarea>
+   </ws:if>
+   <ws:else>
+      <input/>
+   </ws:else>
+</ws:template>
+
+<ws:partial template="wml!Controls/_input/resources/Field/ValueAttr"
+            isBrowserPlatform="{{_isBrowserPlatform}}" value="{{_model.displayValue}}">
+   <ws:partial template="inputElement"
+               tag="{{_options.tag}}"
+               attr:name="{{_options.name}}"
+               attr:class="controls-Field"
+               on:blur="_blurHandler()"
+               on:input="_inputHandler()"
+               on:keyup="_keyUpHandler()"
+               on:focus="_focusHandler()"
+               on:click="_clickHandler()"
+               on:select="_selectHandler()"
+               on:keydown="_keyDownHandler()"
+               on:mousedown="_mouseDownHandler()"
+               on:touchstart="_touchStartHandler()"/>
+</ws:partial>

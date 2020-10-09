@@ -154,6 +154,35 @@ define([
          assert.equal(0, result, 'Arrow was clicked in disabled state');
       });
    });
-
+   it('_isShowContentTemplate', function() {
+      var pg = new pagingLib.Paging();
+      pg.saveOptions({
+         arrowState: {
+            begin: "visible",
+            end: "visible",
+            next: "visible",
+            prev: "visible"
+         }
+      });
+      assert.isTrue(pg._isShowContentTemplate());
+      pg.saveOptions({
+         arrowState: {
+            begin: "visible",
+            end: "hidden",
+            next: "hidden",
+            prev: "hidden"
+         }
+      });
+      assert.isTrue(pg._isShowContentTemplate());
+      pg.saveOptions({
+         arrowState: {
+            begin: "hidden",
+            end: "hidden",
+            next: "hidden",
+            prev: "hidden"
+         }
+      });
+      assert.isFalse(pg._isShowContentTemplate());
+   });
 
 });

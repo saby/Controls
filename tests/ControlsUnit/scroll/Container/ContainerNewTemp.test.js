@@ -9,7 +9,7 @@ define(
       describe('Controls.Container.Scroll', function() {
          var scroll;
          beforeEach(function() {
-            scroll = new scrollMod._ContainerNew(scrollMod.Container.getDefaultOptions());
+            scroll = new scrollMod.Container(scrollMod.Container.getDefaultOptions());
             scroll._options = scrollMod.Container.getDefaultOptions();
          });
 

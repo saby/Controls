@@ -2,12 +2,15 @@
  * Библиотека контролов, которые реализуют propertyGrid и набор стандартных редакторов типов.
  * @library Controls/propertyGrid
  * @includes PropertyGrid Controls/_propertyGrid/PropertyGrid
- * @includes GroupTemplate Controls/_propertyGrid/groupTemplate
+ * @includes GroupTemplate Controls/propertyGrid:GroupTemplate
  * @includes BooleanEditor Controls/_propertyGrid/defaultEditors/Boolean
  * @includes StringEditor Controls/_propertyGrid/defaultEditors/String
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
  * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
- * @includes IPropertyGrid Controls/_propertyGrid/IPropertyGrid
+ * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
+ * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
+ * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
+ * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
  * @includes IEditor Controls/_propertyGrid/IEditor
  * @includes IProperty Controls/_propertyGrid/IProperty
  * @author Герасимов А.М.
@@ -24,8 +27,8 @@
  * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
  * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
  * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnumEditor
- * @includes IPropertyGrid Controls/_propertyGrid/IPropertyGrid
+ * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
+ * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
  * @includes IEditor Controls/_propertyGrid/IEditor
  * @includes IProperty Controls/_propertyGrid/IProperty
  * @author Герасимов А.М.

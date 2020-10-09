@@ -8,6 +8,7 @@
                 displayProperty="{{_options.displayProperty}}"
                 multiLine="{{true}}"
                 clickable="{{true}}"
+                fontSize="{{_options.fontSize}}"
                 on:itemClick="_itemClickHandler()"
                 on:crossClick="_removeItemHandler()"
                 on:openInfoBox="_openInfoBox()"

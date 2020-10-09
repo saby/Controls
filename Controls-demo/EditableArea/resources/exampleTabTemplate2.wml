@@ -6,8 +6,8 @@
     <div class="ControlsDemo-EditableArea__eapWrapper">
         <Controls.editableArea:Base
                 bind:value="content.editObject.name"
-                size="l"
-                style="accentHeader"
+                fontSize="3xl"
+                fontWeight="bold"
         >
             <ws:editorTemplate>
                 <Controls.input:Text selectOnClick="{{ false }}"

@@ -1,6 +1,7 @@
 define([
    'Core/core-merge',
    'Core/Deferred',
+   'Controls/dateRange',
    'Types/formatter',
    'Controls/datePopup',
    'Controls/scroll',
@@ -9,6 +10,7 @@ define([
 ], function(
    coreMerge,
    Deferred,
+   dateRange,
    formatter,
    PeriodDialog,
    scroll,
@@ -31,7 +33,7 @@ define([
             const
                now = new Date(2019, 6, 1),
                clock = sinon.useFakeTimers(now.getTime(), 'Date'),
-               component = calendarTestUtils.createComponent(PeriodDialog, {});
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {});
 
             assert.isTrue(component._monthStateEnabled);
             assert.isTrue(component._yearStateEnabled);
@@ -47,7 +49,7 @@ define([
             const
                now = new Date(2019, 6, 1),
                clock = sinon.useFakeTimers(now.getTime(), 'Date'),
-               component = calendarTestUtils.createComponent(PeriodDialog, {});
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {});
 
             assert(dateUtils.isDatesEqual(component._displayedDate, dateUtils.getStartOfYear(now)));
 
@@ -58,14 +60,14 @@ define([
             const
                start = new Date(2018, 3, 1),
                end = new Date(2018, 4, 0),
-               component = calendarTestUtils.createComponent(PeriodDialog, { startValue: start, endValue: end });
+               component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
 
             assert(dateUtils.isDatesEqual(component._displayedDate, dateUtils.getStartOfYear(start)));
 
          });
 
          it('should create the correct range models when empty range passed.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             assert.isNull(component._rangeModel.startValue);
             assert.isNull(component._rangeModel.endValue);
             assert.isNull(component._headerRangeModel.startValue);
@@ -75,7 +77,7 @@ define([
          });
 
          it('should create the correct range models when range passed.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, { startValue: start, endValue: end });
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
             assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
@@ -119,18 +121,18 @@ define([
             }
          }].forEach(function(test) {
             it(`should update _yearsModel if options are equals ${JSON.stringify(test.options)}.`, function () {
-               const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                assert(dateUtils.isDatesEqual(component._yearRangeModel.startValue, test.yearModel.startValue));
                assert(dateUtils.isDatesEqual(component._yearRangeModel.endValue, test.yearModel.endValue));
             });
          });
 
          [
-            { selectionType: PeriodDialog.SELECTION_TYPES.range },
-            { selectionType: PeriodDialog.SELECTION_TYPES.range, quantum: { months: [1], days: [1] } }
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.range },
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.range, quantum: { months: [1], days: [1] } }
          ].forEach(function(options) {
             it(`should enable year and month modes if options are equals ${JSON.stringify(options)}.`, function () {
-               const component = calendarTestUtils.createComponent(PeriodDialog, options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, options);
                assert.isTrue(component._monthStateEnabled);
                assert.isTrue(component._yearStateEnabled);
                assert.strictEqual(component._state, component._STATES.year);
@@ -140,24 +142,24 @@ define([
          });
 
          [
-            { selectionType: PeriodDialog.SELECTION_TYPES.single },
-            { selectionType: PeriodDialog.SELECTION_TYPES.range, quantum: { days: [1] } }
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.single },
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.range, quantum: { days: [1] } }
          ].forEach(function(options) {
             it(`should enable only month mode if options are equals ${JSON.stringify(options)}.`, function() {
-               const component = calendarTestUtils.createComponent(PeriodDialog, options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, options);
                assert.isTrue(component._monthStateEnabled);
                assert.isFalse(component._yearStateEnabled);
-               assert.strictEqual(component._yearRangeSelectionType, PeriodDialog.SELECTION_TYPES.disable);
-               assert.strictEqual(component._monthRangeSelectionType, PeriodDialog.SELECTION_TYPES.disable);
+               assert.strictEqual(component._yearRangeSelectionType, dateRange.IDateRangeSelectable.SELECTION_TYPES.disable);
+               assert.strictEqual(component._monthRangeSelectionType, dateRange.IDateRangeSelectable.SELECTION_TYPES.disable);
             });
          });
 
          [
-            { selectionType: PeriodDialog.SELECTION_TYPES.quantum, quantum: { years: [1] } },
-            { selectionType: PeriodDialog.SELECTION_TYPES.quantum, quantum: { months: [1] } }
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.quantum, quantum: { years: [1] } },
+            { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.quantum, quantum: { months: [1] } }
          ].forEach(function(options) {
             it(`should enable only year mode if options are equals ${JSON.stringify(options)}.`, function() {
-               const component = calendarTestUtils.createComponent(PeriodDialog, options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, options);
                assert.isFalse(component._monthStateEnabled);
                assert.isTrue(component._yearStateEnabled);
             });
@@ -174,14 +176,14 @@ define([
             state: 'month',
             tests: [
                { startValue: new Date(2019, 0, 1), endValue: new Date(2019, 0, 1) },
-               { selectionType: PeriodDialog.SELECTION_TYPES.single },
-               { selectionType: PeriodDialog.SELECTION_TYPES.quantum, quantum: { days: [1] } },
-               { selectionType: PeriodDialog.SELECTION_TYPES.quantum, quantum: { weeks: [1] } }
+               { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.single },
+               { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.quantum, quantum: { days: [1] } },
+               { selectionType: dateRange.IDateRangeSelectable.SELECTION_TYPES.quantum, quantum: { weeks: [1] } }
             ]
          }].forEach(function(testGroup) {
             testGroup.tests.forEach(function(options) {
                it(`should set ${testGroup.state} state if options are equals ${JSON.stringify(options)}.`, function() {
-                  const component = calendarTestUtils.createComponent(PeriodDialog, options);
+                  const component = calendarTestUtils.createComponent(PeriodDialog.default, options);
                   assert.equal(component._state, testGroup.state);
                });
             });
@@ -189,8 +191,8 @@ define([
 
 
          it("should initialize readOnly state.", function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, { readOnly: true });
-            assert.strictEqual(component._yearRangeSelectionType, PeriodDialog.SELECTION_TYPES.disable);
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, { readOnly: true });
+            assert.strictEqual(component._yearRangeSelectionType, dateRange.IDateRangeSelectable.SELECTION_TYPES.disable);
          });
 
          [{
@@ -219,17 +221,17 @@ define([
             },
          }].forEach(function(test) {
             it(`should set homeButtonVisiable to ${test.homeButtonVisiable} if options are ${JSON.stringify(test.options)}`, function() {
-               const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                assert.strictEqual(component._homeButtonVisible, test.homeButtonVisiable);
             });
          });
 
          it('should set correct header type.', function() {
             const component = calendarTestUtils.createComponent(
-               PeriodDialog,
-               { headerType: PeriodDialog.HEADER_TYPES.input }
+               PeriodDialog.default,
+               { headerType: 'input' }
             );
-            assert.strictEqual(component._headerType, PeriodDialog.HEADER_TYPES.input);
+            assert.strictEqual(component._headerType, 'input');
          });
 
          describe('mask', function() {
@@ -244,7 +246,7 @@ define([
                mask: 'MM.YYYY'
             }].forEach(function (test) {
                it(`should set mask to ${test.mask} if options are equals ${JSON.stringify(test.options)}.`, function () {
-                  const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+                  const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                   assert.strictEqual(component._mask, test.mask);
                });
             });
@@ -262,7 +264,7 @@ define([
                         arguments: {}
                      }
                   ],
-                  component = calendarTestUtils.createComponent(PeriodDialog,
+                  component = calendarTestUtils.createComponent(PeriodDialog.default,
                       { startValueValidators: validators, endValueValidators: validators });
 
                assert.isArray(component._startValueValidators);
@@ -278,7 +280,7 @@ define([
          it('should not activate default autofocus field if _activateInputField is equal false.', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {});
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {});
 
             sandbox.stub(component, 'activate');
             component._afterUpdate();
@@ -290,7 +292,7 @@ define([
          it('should activate default autofocus field if _activateInputField is equal true.', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {});
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {});
 
             component._activateInputField = true;
             sandbox.stub(component, 'activate');
@@ -308,7 +310,7 @@ define([
          it('should update _displayedDate.', function() {
             const
                oldDate = new Date(2017, 0, 1),
-               component = calendarTestUtils.createComponent(PeriodDialog, { startValue: oldDate, endValue: oldDate });
+               component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: oldDate, endValue: oldDate });
             assert(dateUtils.isDatesEqual(component._displayedDate, oldDate));
             component._homeButtonClick();
             assert(dateUtils.isMonthsEqual(component._displayedDate, new Date()));
@@ -317,10 +319,10 @@ define([
 
       describe('_headerLinkClick', function() {
          it('should toggle header type.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
-            assert.strictEqual(component._headerType, PeriodDialog.HEADER_TYPES.link);
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
+            assert.strictEqual(component._headerType, 'link');
             component._headerLinkClick();
-            assert.strictEqual(component._headerType, PeriodDialog.HEADER_TYPES.input);
+            assert.strictEqual(component._headerType, 'input');
             assert.isTrue(component._activateInputField);
          });
       });
@@ -328,7 +330,7 @@ define([
       describe('_onHeaderLinkRangeChanged', function() {
          it('should update range.', function() {
             const component = calendarTestUtils.createComponent(
-               PeriodDialog, { startValue: new Date(2019, 0, 1), endValue: new Date(2019, 1, 0) });
+               PeriodDialog.default, { startValue: new Date(2019, 0, 1), endValue: new Date(2019, 1, 0) });
             component._onHeaderLinkRangeChanged(null, null, null);
             assert.isNull(component._rangeModel.startValue);
             assert.isNull(component._rangeModel.endValue);
@@ -337,7 +339,7 @@ define([
 
       describe('_startValuePickerChanged', function() {
          it('should update start value.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {}),
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                date = new Date();
             component._startValuePickerChanged(null, date);
             assert.strictEqual(component._rangeModel.startValue, date);
@@ -364,7 +366,7 @@ define([
             endValue: null
          }].forEach(function(test) {
             it(`should update end value to ${formatDate(test.endValue)} if ${formatDate(test.date)} is passed and options is equal ${JSON.stringify(test.options)}.`, function() {
-               const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                component._endValuePickerChanged(null, test.date);
                assert(dateUtils.isDatesEqual(component._rangeModel.endValue, test.endValue));
                assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, test.endValue));
@@ -375,15 +377,15 @@ define([
       describe('_toggleStateClick', function() {
          [{
             options: { startValue: new Date(2019, 3, 10), endValue: new Date(2019, 5, 0) },
-            state: PeriodDialog._STATES.year,
+            state: 'year',
             displayedDate: new Date(2019, 3, 1)
          }, {
             options: { startValue: new Date(2019, 3, 10), endValue: new Date(2019, 5, 0) },
-            state: PeriodDialog._STATES.month,
+            state: 'month',
             displayedDate: new Date(2019, 0, 1)
          }].forEach(function(test) {
             it('should toggle state and set correct displayed date.', function() {
-               const component = calendarTestUtils.createComponent(PeriodDialog, test.options);
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                component._state = test.state;
                component._toggleStateClick();
                assert.strictEqual(component._state,
@@ -395,7 +397,7 @@ define([
 
       describe('_yearsRangeChanged', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._yearsRangeChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, dateUtils.getEndOfYear(end)));
@@ -406,7 +408,7 @@ define([
 
       describe('_yearsSelectionChanged', function() {
          it('should update range models and displayed day.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._yearsSelectionChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfYear(end)));
@@ -419,14 +421,14 @@ define([
          it('should update range models and displayed day.', function() {
             const
                date = new Date(2018, 0, 1),
-               component = calendarTestUtils.createComponent(PeriodDialog, {});
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._onYearsSelectionHoveredValueChanged(null, date);
             assert(dateUtils.isDatesEqual(component._displayedDate, date));
          });
          it('should\'t update displayed day.', function() {
             const
                date = new Date(2018, 0, 1),
-               component = calendarTestUtils.createComponent(PeriodDialog, { startValue: date, endValue: date });
+               component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: date, endValue: date });
             component._onYearsSelectionHoveredValueChanged(null, null);
             assert(dateUtils.isDatesEqual(component._displayedDate, date));
          });
@@ -434,7 +436,7 @@ define([
 
       describe('_monthsRangeChanged', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthsRangeChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, dateUtils.getEndOfMonth(end)));
@@ -445,7 +447,7 @@ define([
 
       describe('_monthsSelectionChanged', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthsSelectionChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfMonth(end)));
@@ -455,7 +457,7 @@ define([
       describe('_monthRangeMonthClick', function() {
          it('should toggle state and update _displayedDate.', function() {
             const
-               component = calendarTestUtils.createComponent(PeriodDialog, {}),
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                newDate = dateUtils.getStartOfMonth(new Date());
             assert.strictEqual(component._state, component._STATES.year);
             component._monthRangeMonthClick(null, newDate);
@@ -466,7 +468,7 @@ define([
 
       describe('_monthRangeFixedPeriodClick', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthRangeFixedPeriodClick(null, start, end);
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
@@ -478,7 +480,7 @@ define([
 
       describe('_dateRangeChanged', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
@@ -489,7 +491,7 @@ define([
 
       describe('_dateRangeSelectionChanged', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeSelectionChanged(null, start, end);
             assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
@@ -498,7 +500,7 @@ define([
 
       describe('_dateRangeFixedPeriodClick', function() {
          it('should update range models.', function() {
-            const component = calendarTestUtils.createComponent(PeriodDialog, {});
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeFixedPeriodClick(null, start, end);
             assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
             assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
@@ -511,7 +513,7 @@ define([
       describe('_dateRangeSelectionEnded', function() {
          it('should generate "sendResult" event.', function() {
             const sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {}),
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                start = new Date(),
                end = new Date();
 
@@ -525,10 +527,10 @@ define([
 
       describe('_applyClick', function() {
          it('should generate "sendResult" event if validation successful.', function() {
-            const sandbox = sinon.sandbox.create(),
+            const sandbox = sinon.createSandbox(),
                start = new Date(),
                end = new Date(),
-               component = calendarTestUtils.createComponent(PeriodDialog, { startValue: start, endValue: end });
+               component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
 
             sandbox.stub(component, '_notify');
             component._children = {
@@ -544,10 +546,10 @@ define([
             });
          });
          it('should generate "sendResult" event if validation failed.', function() {
-            const sandbox = sinon.sandbox.create(),
+            const sandbox = sinon.createSandbox(),
                start = new Date(),
                end = new Date(),
-               component = calendarTestUtils.createComponent(PeriodDialog, { startValue: start, endValue: end });
+               component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
 
             sandbox.stub(component, '_notify');
             component._children = {
@@ -574,7 +576,7 @@ define([
          }].forEach(function(test) {
             it(`should set homeButtonVisible to ${test.homeButtonVisible} if isIntersecting is ${test.isIntersecting}.`, function() {
                const
-                  component = calendarTestUtils.createComponent(PeriodDialog, {}),
+                  component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                   entry = new scroll.IntersectionObserverSyntheticEntry({ isIntersecting: test.isIntersecting }, {})
                component._currentDayIntersectHandler(null, entry);
 
@@ -594,9 +596,9 @@ define([
 
          it('should reset header type if the focus is not on the input fields.', function() {
             const
-               sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {}),
-               defaultOptions = calendarTestUtils.prepareOptions(PeriodDialog);
+               sandbox = sinon.createSandbox(),
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
+               defaultOptions = calendarTestUtils.prepareOptions(PeriodDialog.default);
 
             component._children = {
                inputs: {
@@ -621,7 +623,7 @@ define([
          it('should\'t reset header type if the focus is on the input fields.', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {}),
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                headerType = 'someHeaderType';
 
             component._children = {
@@ -642,7 +644,7 @@ define([
          it('should\'t reset header type if validation of the input fields is failed.', function() {
             const
                sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(PeriodDialog, {}),
+               component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                headerType = 'someHeaderType';
 
             component._children = {
@@ -675,7 +677,7 @@ define([
             it('should activate adjacent input', function () {
                const
                   sandbox = sinon.sandbox.create(),
-                  component = calendarTestUtils.createComponent(PeriodDialog, {}),
+                  component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                   displayValue = {
                      length: 8
                   },
@@ -710,7 +712,7 @@ define([
             it('should not activate adjacent input', function() {
                const
                   sandbox = sinon.sandbox.create(),
-                  component = calendarTestUtils.createComponent(PeriodDialog, {}),
+                  component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                   displayValue = {
                      length: test.displayValueLength
                   },

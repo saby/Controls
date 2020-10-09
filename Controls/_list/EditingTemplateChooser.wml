@@ -1,4 +1,4 @@
-<ws:if data="{{ useNewModel }}">
+<ws:if data="{{ useNewModel && useDisplayEditInPlace !== false }}">
    <ws:partial template="{{ 'Controls/listRender:editingTemplate' }}" scope="{{ _options }}" />
 </ws:if>
 <ws:else>

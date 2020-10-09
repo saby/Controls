@@ -7,4 +7,5 @@ export interface IBreadCrumbsOptions extends IControlOptions, IFontSizeOptions {
     keyProperty: string;
     parentProperty: string;
     displayProperty: string;
+    containerWidth: number;
 }

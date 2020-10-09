@@ -1,0 +1,3 @@
+<div>
+   <span attr:style="border: 1px solid #000;" contenteditable="{{isEditing ? 'true' : 'false'}}">{{editObject.text}}</span>
+</div>

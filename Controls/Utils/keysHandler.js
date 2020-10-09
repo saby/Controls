@@ -1,5 +1,5 @@
 define('Controls/Utils/keysHandler', [
-   'Controls/eventUtils'
-], function(eventUtils) {
-   return eventUtils.keysHandler;
+   'UI/Events'
+], function(Events) {
+   return Events.EventUtils.keysHandler;
 });

@@ -171,7 +171,7 @@
       <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__historyWrapper">
          <h4>Menu with history</h4>
          <Controls.dropdown:Button
-                 keyProperty="id"
+                 keyProperty="key"
                  icon="icon-AddButtonNew"
                  buttonStyle="primary"
                  viewMode="button"
@@ -179,7 +179,7 @@
                  iconStyle="primary"
                  parentProperty="parent"
                  nodeProperty="@parent"
-                 source="{{_createHistoryMemory()}}"
+                 source="{{_historySource}}"
                  attr:class="ControlsDemo__history"
                  tooltip="Add">
             <ws:headerTemplate>
@@ -380,7 +380,7 @@
          <Controls.dropdown:Button
                  keyProperty="id"
                  buttonStyle="secondary"
-                 fontColorStyle="link"
+                 fontColorStyle="default"
                  viewMode="link"
                  caption="Add"
                  source="{{_createMemory([])}}"

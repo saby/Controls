@@ -89,20 +89,4 @@ export interface IItemActionsCollection extends IBaseCollection<IItemActionsItem
      * @return {Object} Конфиг специфичный для swipeTemplate
      */
     getSwipeConfig?(): ISwipeConfig;
-
-    /**
-     * Установить в модель текущее состояние анимации
-     * @param {Controls/display:ANIMATION_STATE} state Текущее состояние анимации
-     * @method
-     * @public
-     */
-    setSwipeAnimation?(state: ANIMATION_STATE): void;
-
-    /**
-     * Получить текущее состояние анимации
-     * @method
-     * @public
-     * @return {Controls/display:ANIMATION_STATE} Текущее состояние анимации
-     */
-    getSwipeAnimation?(): ANIMATION_STATE;
 }

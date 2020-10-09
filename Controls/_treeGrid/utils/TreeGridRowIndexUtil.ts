@@ -54,17 +54,16 @@ type HasEmptyTemplate = { hasEmptyTemplate: boolean };
  * @param {Boolean} hasNodeFooterTemplate Флаг, указывающий нужно ли выводить подвалы для узлов.
  */
 interface IBaseTreeGridRowIndexOptions {
-    display: Collection<unknown, CollectionItem<unknown>>
-    hasHeader: boolean
-    hasBottomPadding: boolean
-    resultsPosition?: 'top' | 'bottom'
-    multiHeaderOffset: number
-    hierarchyRelation: relation.Hierarchy
-    hasMoreStorage: HasMoreStorage
-    expandedItems: ExpandedItems
-    hasNodeFooterTemplate: boolean
-    editingRowIndex?: number
-    hasColumnScroll?: boolean
+    display: Collection<unknown, CollectionItem<unknown>>;
+    hasHeader: boolean;
+    hasBottomPadding: boolean;
+    resultsPosition?: 'top' | 'bottom';
+    multiHeaderOffset: number;
+    hierarchyRelation: relation.Hierarchy;
+    hasMoreStorage: HasMoreStorage;
+    expandedItems: ExpandedItems;
+    hasNodeFooterTemplate: boolean;
+    hasColumnScroll?: boolean;
 }
 
 /**
@@ -114,9 +113,8 @@ function getIndexByItem(cfg: TreeGridRowIndexOptions<DisplayItem>): number {
  * @return {Number} Номер строки в списке для элемента с указанным индексом в проекции.
  */
 function getIndexByDisplayIndex(cfg: TreeGridRowIndexOptions<DisplayItemIndex>): number {
-
-    let item = cfg.display.at(cfg.index).getContents(),
-        id = item.getId ? item.getId() : item;
+    const item = cfg.display.at(cfg.index).getContents();
+    const id = item.getId ? item.getId() : item;
 
     return getItemRealIndex({item, id, ...cfg});
 }
@@ -132,10 +130,8 @@ function getIndexByDisplayIndex(cfg: TreeGridRowIndexOptions<DisplayItemIndex>):
 function getResultsIndex(cfg: TreeGridRowIndexOptions<HasEmptyTemplate>) {
     let index = cfg.hasHeader ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
-    if (cfg.resultsPosition === "bottom") {
-        let
-            itemsCount = cfg.display.getCount(),
-            hasEditingItem = typeof cfg.editingRowIndex === "number";
+    if (cfg.resultsPosition === 'bottom') {
+        const itemsCount = cfg.display.getCount();
 
         if (itemsCount) {
             // Чтобы ради подвала снова не считать индекс последнего элемента на экране,
@@ -148,7 +144,6 @@ function getResultsIndex(cfg: TreeGridRowIndexOptions<HasEmptyTemplate>) {
         }
 
         index += cfg.hasBottomPadding ? 1 : 0;
-        index += hasEditingItem ? 1 : 0;
     }
 
     return index;
@@ -162,21 +157,16 @@ function getResultsIndex(cfg: TreeGridRowIndexOptions<HasEmptyTemplate>) {
  * @return {Number} Номер строки в списке для строки-отступа.
  */
 function getBottomPaddingRowIndex(cfg: TreeGridRowIndexOptions): number {
-    let
-        index = cfg.display.getCount() * 2,
-        isResultsInTop = cfg.resultsPosition === "top",
-        hasEditingItem = typeof cfg.editingRowIndex === "number";
+    let index = cfg.display.getCount() * 2;
+    const isResultsInTop = cfg.resultsPosition === 'top';
 
     index += cfg.hasHeader ? 1 : 0;
     index += isResultsInTop ? 1 : 0;
-    index += hasEditingItem ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
     index += cfg.hasColumnScroll ? 1 : 0;
 
     return index;
 }
-
-
 
 /**
  * Возвращает номер строки в списке для строки с подвалом.
@@ -188,12 +178,10 @@ function getFooterIndex(cfg: TreeGridRowIndexOptions<HasEmptyTemplate>): number 
     let
         hasResults = !!cfg.resultsPosition,
         itemsCount = cfg.display.getCount(),
-        index = 0,
-        hasEditingItem = typeof cfg.editingRowIndex === "number";
+        index = 0;
 
     index += cfg.hasHeader ? 1 : 0;
     index += hasResults ? 1 : 0;
-    index += hasEditingItem ? 1 : 0;
     index += cfg.hasBottomPadding ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
     index += cfg.hasColumnScroll ? 1 : 0;

@@ -43,6 +43,7 @@ export default interface IDropdownSource {
  * @default undefined
  * @remark
  * Запись может иметь следующие {@link Item свойства}.
+ * @demo Controls-demo/dropdown_new/Button/Source/Index
  * @example
  * Записи будут отображены из источника _source.
  * <pre>

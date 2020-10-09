@@ -108,9 +108,9 @@
 
 
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-ver-padding-m">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}">
-                    <ws:itemPadding top="M" bottom="M"/>
+                    <ws:itemPadding top="S" bottom="S"/>
                 </Controls.list:View>
             </div>
 

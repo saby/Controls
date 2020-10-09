@@ -68,7 +68,7 @@ import {object} from 'Types/util';
     */
 
    /**
-    * @name Contorls/_filterPopup/Panel/Select#textValueProperty
+    * @name Controls/_filterPopup/Panel/Select#textValueProperty
     * @cfg {String} Имя поля, значение которого отображается в строке примененных фильтров и в истории.
     * Используется, если фильтр имеет разное текстовое представление для блоков "Отбираются" и "Еще можно отобрать"
     * @default textValue

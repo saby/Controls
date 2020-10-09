@@ -20,7 +20,7 @@
          on:requestCustomUpdate="_requestCustomUpdate()"
 >
    <Controls.Pending name="registrator">
-      <Controls.form:Controller name="formControllerInst" dataSource="{{ _options.dataSource || _dataSource }}" record="{{ _record }}" key="{{ !_record ? _key : undefined }}">
+      <Controls.form:Controller name="formControllerInst" source="{{ _options.dataSource || _dataSource }}" record="{{ _record }}" key="{{ !_record ? _key : undefined }}">
          <Controls-demo.FormController.Container name="Container">
          <div attr:class="form-content">
             <div>

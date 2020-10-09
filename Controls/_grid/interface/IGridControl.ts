@@ -17,58 +17,22 @@
 /**
  * @name Controls/_grid/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Массив свойств, по которым происходит прилипание.
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-пример</a>
+ * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/grid:IColumn#stickyProperty stickyProperty}).
+ * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойств "date" и "time". Дополнительно включено прилипание по первой колонке.
  * @example
- * Пример 1. Шаблон лесенки задан в рамках шаблона родительского контрола.
- * <pre class="brush: html">
- *    <!-- MyControl.wml -->
- *    <div class="demoGrid">
- *       <Controls.grid:View ladderProperties="{{ ['date'] }}">
- *          <ws:columns>
- *             <ws:Array>
- *                <ws:Object width="1fr">
- *                   <ws:template>
- *                      <ws:partial template="Controls/grid:ColumnTemplate">
- *                         <ws:contentTemplate>
- *                            <ws:partial template="{{template.ladderWrapper}}" ladderProperty="date">
- *                               <div class="demoGrid__date">
- *                                  {{template.itemData.item['date']}}
- *                               </div>
- *                            </ws:partial>
- *                         </ws:contentTemplate>
- *                      </ws:partial>
- *                   </ws:template>
- *                </ws:Object>
- *             </ws:Array>
- *          </ws:columns>
- *       </Controls.grid:View>
- *    </div>
+ * <pre class="brush: js">
+ * protected _ladderProperties: string[] = ['date', 'time'];
  * </pre>
- *
- * Пример 2. Шаблон лесенки вынесен в отдельный шаблон.
- * <pre class="brush: html">
- *    <!-- MyControl.wml -->
- *    <div class="demoGrid">
- *       <Controls.grid:View
- *          ...
- *          ladderProperties="{{ ['date'] }}">
- *          <ws:columns>
- *             <ws:Array>
- *                <ws:Object width="1fr" template="wml!MyModule/MyTemplate" />
- *             </ws:Array>
- *          </ws:columns>
- *       </Controls.grid:View>
- *    </div>
+ * <pre class="brush: html; highlight: [6]">
+ * <Controls.grid:View
+ *     keyProperty="id"
+ *     source="{{_viewSource}}"
+ *     columns="{{_columns}}"
+ *     header="{{_header}}"
+ *     ladderProperties="{{_ladderProperties}}"/>
  * </pre>
- * <pre class="brush: html">
- *    <!-- MyTemplate.wml -->
- *    <ws:partial template="{{ladderWrapper}}" ladderProperty="date">
- *       <div class="demoGrid__date">
- *          {{itemData.item['date']}}
- *       </div>
- *    </ws:partial>
- * </pre>
+ * @remark Подробнее о конфигурации лесенки читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/">руководстве разработчика</a>.
+ * @see Controls/grid:IColumn#stickyProperty
  */
 
 /*
@@ -185,7 +149,7 @@
  * @remark
  * Если при отрисовске контрола данные не отображаются или выводится только их часть, то следует проверить {@link Controls/collection:RecordSet}, полученный от источника данных.
  * Такой RecordSet должен содержать набор полей, которые заданы в конфигурации контрола в опции columns, а также сами данные для каждого поля.
- * 
+ *
  * @example
  * <pre class="brush: js">
  * _columns: null,
@@ -246,8 +210,8 @@
 /**
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Закрепляет заголовок таблицы.
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">демо-пример</a>
+ * @demo Controls-demo/grid/Header/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
+ * @demo Controls-demo/grid/Header/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
  * @default true
  */
 
@@ -393,12 +357,12 @@
  * @default undeined
  * @demo Controls-demo/grid/Results/ResultsTemplate/Index
  * @remark
- * Позволяет установить прикладной шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке прикладного шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
+ * Позволяет установить пользовательский шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
  *
- * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать прикладной шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
- * 
+ * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
+ *
  * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
- * 
+ *
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
  * <pre class="brush: html;">
@@ -451,7 +415,13 @@
 
 /**
  * @typedef {String} ResultsVisibility
- * @variant hasData Отображается при наличии более 1 записи в списке.
+ * @variant hasdata Отображается при наличии более 1 записи в списке.
+ * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
+ */
+
+/**
+ * @typedef {String} HeaderVisibility
+ * @variant hasdata Отображается при наличии данных в списке.
  * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
  */
 
@@ -461,10 +431,17 @@
  * @demo Controls-demo/grid/Results/FromMeta/Index
  * @remark
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
- * @default hasData
+ * @default hasdata
  * @see resultsTemplate
  * @see resultsPosition
  */
+/**
+ * @name Controls/_grid/interface/IGridControl#headerVisibility
+ * @cfg {HeaderVisibility} Режим отображения заголовков колонки.
+ * @demo Controls-demo/grid/Header/HeaderVisibility/Index
+ * @default hasdata
+ */
+
 
 /**
  * @name Controls/_grid/interface/IGridControl#editArrowVisibilityCallback
@@ -480,7 +457,7 @@
  * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне колонки, необходимо в опции contentTemplate явно указать позицию стрелки-шеврона.
  * Для этого используется переменная {@link Controls/grid:ColumnTemplate#editArrowTemplate} из области видимости самого шаблона.
  * Пример использования смотреть {@link Controls/grid:ColumnTemplate#contentTemplate тут}
- * @demo Controls-demo/List/Tree/EditArrow
+ * @demo Controls-demo/grid/ShowEditArrow/Index
  * @example
  * <pre>
  *    <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
@@ -492,12 +469,14 @@
  * @cfg {Boolean} Allows showing button in first column on hover and in swipe menu.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FEditArrow">Example</a>
  * @remark To place the button in the user column template, you should use the editArrowTemplate
+ * @demo Controls-demo/grid/ShowEditArrow/Index
  * @example
  * <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
  */
 
 /**
- * @event Controls/_list/interface/IGridControl#hoveredCellChanged Происходит при наведении курсора мыши на ячейку таблицы.
+ * @event Происходит при наведении курсора мыши на ячейку таблицы.
+ * @name Controls/_grid/interface/IGridControl#hoveredCellChanged
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
  * @param {Types/entity:Record} item Элемент, на который навели курсор.
  * @param {HTMLElement} itemContainer Контейнер элемента, на который навели курсор.
@@ -524,4 +503,20 @@
  * @name Controls/_grid/interface/IGridControl#collapsedItemsChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
+ */
+
+/**
+ * @event Происходит при клике на тег внутри ячейки грида.
+ * @name Controls/_grid/interface/IGridControl#tagClick
+ * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:ITagColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @see tagStyle
+ */
+
+/**
+ * @event Происходит при наведении курсора мыши на тег внутри ячейки грида.
+ * @name Controls/_grid/interface/IGridControl#tagHover
+ * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:ITagColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @see tagClick
  */

@@ -12,7 +12,7 @@
                                 source="{{_source1}}"
                     />
                  </div>
-                <ws:partial template="Controls-demo/Popup/Opener/resources/BaseTemplate">
+                <ws:partial template="Controls-demo/Popup/BaseTemplate">
                 </ws:partial>
             </div>
         </ws:bodyContentTemplate>

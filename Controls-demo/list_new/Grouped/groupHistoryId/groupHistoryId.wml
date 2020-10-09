@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                groupHistoryId="{{_groupHistoryId}}"
+                groupProperty="brand"/>
+    </Controls.scroll:Container>
+</div>
+

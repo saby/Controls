@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <Controls.spoiler:View captions="{{_captions}}">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="secondary">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="label">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=secondary && expanded=true, fontColorStyle=label && expanded=false</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="{{_expanded1 ? 'secondary' : 'label'}}" bind:expanded="_expanded1">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label && expanded=true, fontColorStyle=secondary && expanded=false</div>
+      <Controls.spoiler:View captions="{{_captions}}" fontColorStyle="{{_expanded2 ? 'label' : 'secondary'}}" bind:expanded="_expanded2">
+         <div>Контентная область</div>
+      </Controls.spoiler:View>
+   </div>
+</div>

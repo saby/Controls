@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
-    <Controls.scroll:_ContainerNew
+    <Controls.scroll:Container
             attr:class="controlsDemo__height300 controlsDemo_fixedWidth300">
         <div >
             <ws:for data="key in 4">
@@ -15,5 +15,5 @@
                 </p>
             </ws:for>
         </div>
-    </Controls.scroll:_ContainerNew>
+    </Controls.scroll:Container>
 </div>

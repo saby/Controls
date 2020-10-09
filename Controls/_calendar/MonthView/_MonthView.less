@@ -62,34 +62,37 @@
 }
 
 .ws-is-no-touch {
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-startend-unfinished_theme-@{themeName} {
+   .controls-MonthView__backgroundColor-currentMonthDay-selected_theme-@{themeName},
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
+   .controls-MonthView__backgroundColor-otherMonthDay-selected_theme-@{themeName},
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished_theme-@{themeName} {
       &:hover {
          background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
       }
    }
 
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered_theme-@{themeName} {
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-hovered_theme-@{themeName},
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered_theme-@{themeName},
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered_theme-@{themeName},
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered_theme-@{themeName} {
       background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
    }
-
-   .controls-MonthViewVDOM__border-currentMonthDay-unselected_theme-@{themeName} {
+   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
+      &:hover {
+         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+      }
+   }
+   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
       &:hover {
          outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
       }
    }
 
-   .controls-MonthViewVDOM__border-hover_theme-@{themeName} {
+   .controls-MonthView__border-hover_theme-@{themeName} {
       outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
    }
-
-   .controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected_theme-@{themeName}:hover,
-   .controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected_theme-@{themeName}:hover {
+   .controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName}:hover,
+   .controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-@{themeName} {
       background: @monthview_item_hover_background-color_monthSlider;
       border-radius: @monthview_item_hover_border-radius_monthSlider;
    }
@@ -178,19 +181,18 @@
 .controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
    outline-color: @monthview_item_hover_border-color_monthSlider;
 }
-
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-unselected-readOnly_theme-@{themeName} {
+.controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName},
+.controls-MonthView__backgroundColor-currentMonthDay-unselected-readOnly_theme-@{themeName} {
    background: @monthview_item_background-color_monthSlider;
 }
 
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-readOnly_theme-@{themeName} {
+.controls-MonthView__backgroundColor-currentMonthDay-selected_theme-@{themeName},
+.controls-MonthView__backgroundColor-currentMonthDay-selected-readOnly_theme-@{themeName} {
    background: @rangeSelection_item_background-color_datePicker;
 }
 
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly_theme-@{themeName} {
+.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
+.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly_theme-@{themeName} {
    background: @rangeSelection_item_hover_background-color_datePicker;
 }
 
@@ -200,18 +202,18 @@
    background-color: @rangeSelection_border_color_datePicker;
 }
 
-.controls-MonthViewVDOM__textColor-currentMonthDay-workday_theme-@{themeName} {
+.controls-MonthView__textColor-currentMonthDay-workday_theme-@{themeName} {
    color: @monthview_item_text-color_monthSlider;
 }
 
-.controls-MonthViewVDOM__textColor-currentMonthDay-weekend_theme-@{themeName} {
+.controls-MonthView__textColor-currentMonthDay-weekend_theme-@{themeName} {
    color: @monthview_weekend_text-color_monthSlider;
 }
 
-.controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-otherMonthDay-selected-readOnly_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected_theme-@{themeName},
-.controls-MonthViewVDOM__backgroundColor-otherMonthDay-unselected-readOnly_theme-@{themeName} {
+.controls-MonthView__backgroundColor-otherMonthDay-selected_theme-@{themeName},
+.controls-MonthView__backgroundColor-otherMonthDay-selected-readOnly_theme-@{themeName},
+.controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-@{themeName},
+.controls-MonthView__backgroundColor-otherMonthDay-unselected-readOnly_theme-@{themeName} {
    color: @monthview_otherday_text-color_monthSlider;
 }
 

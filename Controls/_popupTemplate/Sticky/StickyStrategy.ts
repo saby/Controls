@@ -128,7 +128,10 @@ interface IPosition {
 
          // При открытии клавиаутры происходит изменение размеров браузера по вертикали
          // Только в этом случае viewPortOffset находится вне windowSize, его нужно учитывать при подсчете размеров окна
-         const viewportOffset: number = isHorizontal ? 0 : _private.getVisualViewport().offsetTop;
+         // Если контент страницы больше, чем боди, появляется нативный скролл,
+         // В этом случае нужно учитывать viewPortPageTop
+         const viewportOffset: number = isHorizontal ?
+             0 : _private.getVisualViewport().offsetTop || _private.getVisualViewport().pageTop;
 
          const positionValue: number = position[isHorizontal ? 'left' : 'top'];
          const popupSize: number = popupCfg.sizes[isHorizontal ? 'width' : 'height'];
@@ -363,10 +366,12 @@ interface IPosition {
             // На ios возвращается неверная высота страницы, из-за чего накладывая maxWidth === windowSizes.height
             // окно визуально обрезается. Делаю по body, у него высота правильная
             let verticalPadding = 0;
+            // Учитываем на сколько проскролилась страница, только если строим окно от верхнего края экрана
+            const verticalScroll = position.top ? _private.getVisualViewport().pageTop : 0;
             if (popupCfg.fittingMode.vertical !== 'overflow') {
                verticalPadding = position.top || position.bottom || 0;
             }
-            position.maxHeight = _private.getViewportHeight() - verticalPadding + _private.getVisualViewport().pageTop;
+            position.maxHeight = _private.getViewportHeight() - verticalPadding + verticalScroll;
          }
 
          if (popupCfg.config.minHeight) {

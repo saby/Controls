@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">
+         selectionStart = {{_selectionStart}}; selectionEnd = {{_selectionEnd}}
+      </div>
+      <Controls.input:Text attr:class="controlsDemo__input" bind:selectionStart="_selectionStart"
+                           bind:selectionEnd="_selectionEnd"/>
+   </div>
+</div>

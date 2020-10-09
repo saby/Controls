@@ -98,14 +98,6 @@ export default class TreeItemDecorator<T> extends TreeItem<T> {
         return this._$source && this._$source.setHasChildren(value);
     }
 
-    isLoaded(): boolean {
-        return this._$source && this._$source.isLoaded();
-    }
-
-    setLoaded(value: boolean): void {
-        return this._$source && this._$source.setLoaded(value);
-    }
-
     getChildrenProperty(): string {
         return this._$source && this._$source.getChildrenProperty();
     }

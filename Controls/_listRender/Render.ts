@@ -100,6 +100,10 @@ export default class Render extends Control<IRenderOptions> {
         }
     }
 
+    protected _onItemLongTap(e: SyntheticEvent<MouseEvent>, item: CollectionItem<unknown>): void {
+        this._onItemContextMenu(e, item);
+    }
+
     protected _onItemSwipe(e: SyntheticEvent<ISwipeEvent>, item: CollectionItem<unknown>): void {
         if (item instanceof GroupItem) {
             return;

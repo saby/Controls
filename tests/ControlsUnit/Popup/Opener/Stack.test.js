@@ -774,6 +774,18 @@ define(
             assert.equal(tCoords.right, 0);
          });
 
+         it('workspaceResize', () => {
+            const baseUpdate = popupTemplate.StackController._update;
+            let isUpdateCalled = false;
+            popupTemplate.StackController._update = () => {
+               isUpdateCalled = true;
+            };
+            popupTemplate.StackController.workspaceResize();
+            assert.equal(isUpdateCalled, true);
+
+            popupTemplate.StackController._update = baseUpdate;
+         });
+
          it('stack need redraw after created', () => {
             const item = {
                position: { stackWidth: 720 },

@@ -4,8 +4,7 @@
 >
    <div
       class="controls-EditableArea
-      {{_isEditing ? 'controls-EditableArea_isEditing_style_' + (_options.style) +
-      ' controls-EditableArea_isEditing_style_' + (_options.style) + '_theme-' + _options.theme}}
+      {{_isEditing ? _backgroundStyleClass}}
       controls-EditableArea_{{_options.readOnly ? 'readonly' : 'clickable'}}"
    >
       <div class="controls-EditableArea__wrapper">
@@ -16,7 +15,7 @@
             on:keyDown="_onKeyDown()"
             isEditing="{{_isEditing}}"
          />
-         <ws:if data="{{_options.toolbarVisibility && _isEditing}}">
+         <ws:if data="{{_toolbarVisible && _isEditing}}">
              <ws:partial template="{{_buttonsTemplate}}"
                          attr:class="controls-EditableArea_isEditing_wrapper_theme-{{_options.theme}}"
                          on:applyButtonClick="commitEdit()"

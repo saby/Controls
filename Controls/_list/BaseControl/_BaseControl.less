@@ -56,7 +56,9 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
       top: auto;
       margin-right: @scrollpaging_offset-horizontal_list;
       padding: @scrollpaging_offset-vertical_list 0;
+      bottom: 0;
    }
+
    .controls-BaseControl-hide-paging {
       display: none;
    }
@@ -65,6 +67,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl_paging-Padding_theme-@{themeName} {
    height: @item_height_paging + 2 * @scrollpaging_offset-vertical_list;
 }
+
 .ws-is-mobile-safari .controls-BaseControl_paging-Padding_theme-@{themeName} {
    margin-bottom: 0;
 }
@@ -79,7 +82,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    cursor: auto;
 
    // TODO: KINGO
-   // Локальный индикатор загрузки на весь экран должен блокировать список, перевкрывая кнопки навигации и скроллбар.
+   // Локальный индикатор загрузки на весь экран должен блокировать список, перекрывая кнопки навигации и скроллбар.
    z-index: 17;
 }
 

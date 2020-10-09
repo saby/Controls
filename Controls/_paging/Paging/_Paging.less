@@ -3,15 +3,6 @@
    justify-content: flex-end;
 }
 
-.controls-Paging__info_theme-@{themeName} {
-   color: @label_text-color;
-   border-bottom-width: @marker_thickness_paging;
-   min-width: @item_min-width_paging;
-   padding: 0 @item_padding-horizontal_paging 0 @item_left-padding-horizontal_paging;
-   background-color: @item_background-color_paging;
-   font-size: @item_font-size_paging;
-}
-
 .controls-Paging__same_theme-@{themeName} {
    background-color: @background-color_paging;
 }
@@ -33,17 +24,17 @@
 
    &.controls-Paging__btn_theme-@{themeName} {
       height: @item_height_paging;
-      margin-left: @item_offset_paging;
       box-shadow: @item_box-shadow_paging;
    }
 
-   &.controls-Paging__btn_first_theme-@{themeName} {
-      margin-left: @padding-horizontal_paging;
+   & + .controls-Paging__btn,
+   & + .controls-DigitButtons {
+      margin-left: @item_offset_paging;
    }
+}
 
-   &.controls-Paging__btn_last_theme-@{themeName} {
-      margin-right: @padding-horizontal_paging;
-   }
+.controls-DigitButtons + .controls-Paging__btn {
+   margin-left: @item_offset_paging;
 }
 
 .controls-Paging__digitButtons {
@@ -51,8 +42,12 @@
 }
 
 .controls-Paging__arrow_theme-@{themeName} {
-   width: @arrow_width_paging;
+   padding: 0 @item_left-padding-horizontal_paging;
    background-color: @arrow_background-color_paging;
+}
+
+.controls-Paging__arrow_padding-left-null {
+   padding-left: 0;
 }
 
 .controls-Paging__arrow__state-normal_theme-@{themeName} {
@@ -63,6 +58,17 @@
 .ws-is-hover .controls-Paging__arrow__state-normal_theme-@{themeName}:hover {
    background-color: @arrow_hover_background-color_paging;
    color: @arrow_hover_icon-color_paging;
+}
+
+.controls-Paging__info_theme-@{themeName} {
+   color: @arrow_text-color_paging;
+   font-size: @info_font-size_paging;
+}
+
+.ws-is-hover .controls-Paging__wrapper_theme-@{themeName}:hover {
+   .controls-Paging__info_theme-@{themeName} {
+      color: @arrow_hover_icon-color_paging;
+   }
 }
 
 .controls-Paging__arrow__state-disabled_theme-@{themeName} {
@@ -126,4 +132,12 @@
    content: '';
    top: (@item_height_paging - @arrow_separator_length_paging) / 2;
    left: -@arrow_separator_thickness_paging;
+}
+
+.controls-Paging__btn-Template {
+   padding: 0 @content_right-padding-horizontal_paging - @item_offset_paging 0 @item_left-padding-horizontal_paging;
+}
+
+.controls-Paging__btn-elements-count {
+   padding-left: @item_left-padding-horizontal_paging;
 }

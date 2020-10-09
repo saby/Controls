@@ -3,20 +3,26 @@
    <ws:if data="{{_listModel}}">
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
-             template="wml!Controls/_list/resources/For"
-             listModel="{{ _listModel }}"
+             template="{{_forTemplate}}"
+             collection="{{ _listModel }}"
+             keyPrefix="listView-item"
+             listModel="{{_listModel}}"
+
+             style="{{ _options.style }}"
+             theme="{{ _options.theme }}"
 
              itemTemplate="{{ _itemTemplate }}"
+             itemTemplateProperty="{{ _options.itemTemplateProperty }}"
              groupTemplate="{{ _groupTemplate }}"
 
-             editingItemData="{{ _options.editingItemData }}"
-             isAdd="{{ _options.isAdd }}"
+             itemActionsPosition="{{ _options.itemActionsPosition }}"
              itemActionsTemplate="{{ _options.itemActionsTemplate }}"
              itemActionsClass="{{ _options.itemActionsClass }}"
              swipeTemplate="{{ _options.swipeTemplate }}"
              multiSelectTpl="{{ _options.multiSelectTpl }}"
              backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
          </ws:partial>
+
          <ws:if data="{{_options._needBottomPadding}}">
             <div  class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}"></div>
          </ws:if>

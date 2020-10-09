@@ -20,5 +20,6 @@
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton</div>
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="success"></Controls.buttons:Button>{{' '}}
         <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="secondary"></Controls.buttons:Button>
+        <Controls.buttons:Button viewMode="functionalButton" icon="icon-AddButtonNew" iconStyle="label" iconSize="s" inlineHeight="m" buttonStyle="unaccented" attr:style="margin-left: 4px;"></Controls.buttons:Button>
     </div>
 </div>

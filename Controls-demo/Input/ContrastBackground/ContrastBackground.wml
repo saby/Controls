@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper" style="background-color: black;">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
+        <Controls.input:Text contrastBackground="{{true}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">contrastBackground=false</div>
+        <Controls.input:Text contrastBackground="{{false}}"/>
+    </div>
+</div>

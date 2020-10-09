@@ -97,7 +97,7 @@
               virtualPageSize="{{24}}"
               displayedRanges="{{_displayedRanges}}"
               bind:position="_position"
-              _limit="{{15}}"
+              _limit="{{_limit}}"
          class="controls-PeriodLiteDialog__year-list controls-PeriodLiteDialog__year-list_theme-{{_options.theme}}">
          <ws:yearTemplate>
             <ws:partial template="Controls/calendar:MonthListYearTemplate">

@@ -8,7 +8,8 @@
                 keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"
-                columns="{{_columns}}">
+                columns="{{_columns}}"
+                headerVisibility="visible">
             <ws:emptyTemplate>
                 <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
                     <ws:contentTemplate>No data available!</ws:contentTemplate>

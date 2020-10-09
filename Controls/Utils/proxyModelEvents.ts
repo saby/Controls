@@ -1,2 +1,2 @@
-import {proxyModelEvents} from 'Controls/eventUtils';
-export default proxyModelEvents;
+import {EventUtils} from 'UI/Events';
+export default EventUtils.proxyModelEvents;

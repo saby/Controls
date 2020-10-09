@@ -153,22 +153,6 @@ var _private = {
         return !_private.isPressAdditionalKey(event);
     },
 
-    /**
-     * Изменение расположения видимой области поля так, чтобы отобразился курсор.
-     * Если курсор виден, расположение не изменяется. В противном случае новое местоположение будет таким, что курсор отобразится в середине области.
-     * @param {Controls/_input/Base} self Экземпляр контрола.
-     * @param {String} value
-     * @param {Controls/_input/Base/Types/Selection.typedef} selection
-     */
-
-    /*
-     * Change the location of the visible area of the field so that the cursor is visible.
-     * If the cursor is visible, the location is not changed. Otherwise, the new location will be such that
-     * the cursor is visible in the middle of the area.
-     * @param {Controls/_input/Base} self Control instance.
-     * @param {String} value
-     * @param {Controls/_input/Base/Types/Selection.typedef} selection
-     */
     recalculateLocationVisibleArea: function (self, value, selection) {
         var scroll = self._children.scroll;
         var textBeforeCursor = value.substring(0, selection.end);
@@ -200,7 +184,7 @@ var _private = {
              * So wait until the control redraws.
              */
             runDelayed(function () {
-                self._getField().scrollTop = 0;
+                self._getField().scrollTo(0);
                 scroll.scrollTo(positionCursor - sizeVisibleArea / 2);
             });
         }
@@ -308,8 +292,6 @@ var Area = Text.extend({
     },
 
     _keyDownHandler: function (event) {
-        Area.superclass._keyDownHandler.apply(this, arguments);
-
         _private.newLineHandler(this, event, true);
     },
 
@@ -318,8 +300,6 @@ var Area = Text.extend({
     },
 
     _keyUpHandler: function (event) {
-        Area.superclass._keyUpHandler.apply(this, arguments);
-
         _private.newLineHandler(this, event, false);
 
         /**
@@ -340,11 +320,15 @@ var Area = Text.extend({
             if (cursorPosition === firstLinePosition) {
                 this._children.scroll.scrollTo(0);
             } else if (cursorPosition === lastLinePosition) {
-                this._children.scroll.scrollTo(this._getField().offsetHeight);
+                this._children.scroll.scrollTo(this._getField().getFieldData('offsetHeight'));
             }
         }
     },
 
+    /**
+     * Изменение расположения видимой области поля так, чтобы отобразился курсор.
+     * Если курсор виден, расположение не изменяется. В противном случае новое местоположение будет таким, что курсор отобразится в середине области.
+     */
     _recalculateLocationVisibleArea: function (field, displayValue, selection) {
         _private.recalculateLocationVisibleArea(this, displayValue, selection);
     },
@@ -360,10 +344,6 @@ var Area = Text.extend({
          */
         const verWithFixedBug: number = 13;
         this._field.scope.fixTextPosition = detection.isMobileIOS && detection.IOSVersion < verWithFixedBug;
-    },
-
-    _isTriggeredChangeEventByEnterKey: function () {
-        return false;
     }
 });
 

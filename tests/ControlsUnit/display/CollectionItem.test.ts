@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import {ANIMATION_STATE, CollectionItem} from 'Controls/display';
+import {CollectionItem} from 'Controls/display';
 import {ICollection} from "../../../Controls/_display/interface/ICollection";
 
 interface IChangedData<T> {
@@ -425,14 +425,14 @@ describe('Controls/_display/CollectionItem', () => {
         // isSwiped() должен вернуть true, тогда и только тогда когда анимация выставлена в close/open
         it('isSwiped() should only be true when item is swiped', () => {
             item.setSwiped(true);
-            assert.isFalse(!!item.isRightSwiped(), 'Item cannot be right-swiped when animation was set to open/close');
+            assert.isFalse(!!item.isAnimatedForSelection(), 'Item cannot be right-swiped when animation was set to open/close');
             assert.isTrue(!!item.isSwiped(), 'Item should be left-swiped when animation was set to open/close');
         });
 
-        // isRightSwiped() должен вернуть true, тогда и только тогда когда анимация выставлена в right-swipe
-        it('isRightSwiped() should only be true when item is right-swiped', () => {
-            item.setRightSwiped(true);
-            assert.isTrue(!!item.isRightSwiped(), 'Item should be right-swiped when animation was set to right-swipe');
+        // isAnimatedForSelection() должен вернуть true, тогда и только тогда когда анимация выставлена в right-swipe
+        it('isAnimatedForSelection() should only be true when item is right-swiped', () => {
+            item.setAnimatedForSelection(true);
+            assert.isTrue(!!item.isAnimatedForSelection(), 'Item should be right-swiped when animation was set to right-swipe');
             assert.isFalse(!!item.isSwiped(), 'Item cannot be left-swiped when animation was set to right-swipe');
         });
     });
@@ -462,7 +462,6 @@ describe('Controls/_display/CollectionItem', () => {
     it('.getWrapperClasses()', () => {
         const defaultClasses = [
             'controls-ListView__itemV',
-            'controls-ListView__item_highlightOnHover_default_theme_default',
             'controls-ListView__item_default',
             'controls-ListView__item_showActions',
             'js-controls-ItemActions__swipeMeasurementContainer'
@@ -486,15 +485,17 @@ describe('Controls/_display/CollectionItem', () => {
     it('.getContentClasses()', () => {
         let multiSelectVisibility: string;
         const owner = {
-            getRowSpacing(): string { return '#rowSpacing#'; },
-            getLeftSpacing(): string { return '#leftSpacing#'; },
-            getRightSpacing(): string { return '#rightSpacing#'; },
-            getMultiSelectVisibility(): string { return multiSelectVisibility; }
+            getTopPadding(): string { return '#topSpacing#'; },
+            getBottomPadding(): string { return '#bottomSpacing#'; },
+            getLeftPadding(): string { return '#leftSpacing#'; },
+            getRightPadding(): string { return '#rightSpacing#'; },
+            getMultiSelectVisibility(): string { return multiSelectVisibility; },
+            getRowSeparatorSize: function () { return ''; }
         };
         const defaultClasses = [
             'controls-ListView__itemContent',
-            'controls-ListView__item_default-topPadding_#rowspacing#',
-            'controls-ListView__item_default-bottomPadding_#rowspacing#',
+            'controls-ListView__item_default-topPadding_#topspacing#',
+            'controls-ListView__item_default-bottomPadding_#bottomspacing#',
             'controls-ListView__item-rightPadding_#rightspacing#'
         ];
 
@@ -694,7 +695,7 @@ describe('Controls/_display/CollectionItem', () => {
         // Если новая модель, то в любом случае не считается класс, добавляющий padding
         it('getItemActionPositionClasses() should not add padding class in case of useNewModel', () => {
             const result = item.getItemActionPositionClasses('inside', null, {top: 's', bottom: 's'}, 'default', true);
-            assert.equal(result, ' controls-itemActionsV_position_bottomRight ');
+            assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default_theme-default ');
         });
     })
 });

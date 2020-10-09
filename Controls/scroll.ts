@@ -28,10 +28,12 @@
  * @author Крайнов Д.О.
  */
 
-import Container = require('Controls/_scroll/Container');
 import ContainerNew from 'Controls/_scroll/ContainerNew';
-import Watcher = require('Controls/_scroll/Scroll/Watcher');
 export {default as StickyHeader} from 'Controls/_scroll/StickyHeader';
+export {scrollToElement} from 'Controls/_scroll/Utils/scrollToElement';
+export {hasScrollbar} from './_scroll/Utils/HasScrollbar';
+export {hasHorizontalScroll} from './_scroll/Utils/hasHorizontalScroll';
+export {getScrollbarWidth, getScrollbarWidthByMeasuredBlock} from './_scroll/Utils/getScrollbarWidth';
 import _Scrollbar = require('Controls/_scroll/Scroll/Scrollbar');
 import _scrollContext = require('Controls/_scroll/Scroll/Context');
 import _stickyHeaderContext = require('Controls/_scroll/StickyHeader/Context');
@@ -50,9 +52,8 @@ import {getHeadersHeight as getStickyHeadersHeight} from 'Controls/_scroll/Stick
 import HotKeysContainer from 'Controls/_scroll/HotKeysContainer';
 
 export {
-   Container,
+   ContainerNew as Container,
    ContainerNew as _ContainerNew,
-   Watcher,
    _Scrollbar,
    _scrollContext,
    _stickyHeaderContext,

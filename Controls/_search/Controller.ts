@@ -105,6 +105,10 @@ var Container = Control.extend(/** @lends Controls/_search/Container.prototype *
 
    _dataLoadCallback(data: RecordSet): void {
       this._searchController.handleDataLoad(data);
+
+      if (this._options.dataLoadCallback) {
+         this._options.dataLoadCallback(data);
+      }
    },
 
    _afterSetItemsOnReloadCallback(): void {

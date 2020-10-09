@@ -5,8 +5,8 @@ define(['wml!Controls/_suggestPopup/_ListWrapper', 'wml!ControlsUnit/Layout/Sugg
       describe('Controls.Container.Suggest.Layout._SuggestListWrapper', function() {
 
          it('template test', function() {
-            var withoutTabsSelectedKey = '<div ws-creates-context="true" ws-delegates-tabfocus="true" tabindex="0">tabsSelectedKey: test1</div>';
-            var withSelectedKey = '<div ws-creates-context="true" ws-delegates-tabfocus="true" tabindex="0">tabsSelectedKey: test</div>';
+            var withoutTabsSelectedKey = '<div>tabsSelectedKey: test1</div>';
+            var withSelectedKey = '<div>tabsSelectedKey: test</div>';
 
             assert.equal(withoutTabsSelectedKey, suggestListWrapperTpl(
                {

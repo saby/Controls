@@ -1,2 +1,2 @@
-import {hasHorizontalScroll} from 'Controls/sizeUtils';
+import {hasHorizontalScroll} from 'Controls/scroll';
 export = hasHorizontalScroll;

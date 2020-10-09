@@ -8,7 +8,10 @@
       <path d="M8,11.23,2.4,5.58l.81-.81L8,9.52l4.79-4.75.81.85Z"/>
    </svg>
 </ws:template>
-<div class="controls-SpoilerHeading controls-SpoilerHeading__{{_expanded ? 'expanded' : 'collapsed'}}" on:click="_clickHandler()" title="{{_options.tooltip}}">
+<div class="controls-SpoilerHeading controls-SpoilerHeading__{{_expanded ? 'expanded' : 'collapsed'}}"
+     on:click="_clickHandler()"
+     on:mouseenter="_mouseenterHandler(_caption)"
+     title="{{_tooltip}}">
    <div class="controls-SpoilerHeading__wrapper
                controls-SpoilerHeading__wrapper_theme-{{_options.theme}}
                controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">
@@ -23,7 +26,8 @@
                                  controls-SpoilerHeading__icon_theme-{{_options.theme}}
                                  controls-SpoilerHeading__icon_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}"/>
       </div>
-      <div class="controls-SpoilerHeading__caption ws-ellipsis
+      <div name="captionContainer"
+           class="controls-SpoilerHeading__caption ws-ellipsis
                   controls-fontweight-{{_fontWeight}}{{_fontWeight === 'default' ? '_theme-' + _options.theme}}
                   controls-SpoilerHeading__caption_{{_view}}
                   controls-SpoilerHeading__caption_fontColorStyle-{{_fontColorStyle}}_theme-{{_options.theme}}

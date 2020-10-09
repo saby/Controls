@@ -3,11 +3,7 @@
    align-items: center;
 }
 
-.controls-SortingSelector_itemWrapper {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   width: 100%;
+.controls-SortingSelector_arrowWrapper {
    height: 100%;
 }
 
@@ -17,16 +13,14 @@
    height: @icon-height_gridSortingSelector;
 }
 
-.controls-SortingSelector_arrow-outside_theme-@{themeName} {
+.controls-SortingSelector_arrow_caption_theme-@{themeName} {
    margin-left: @icon_offset_gridSortingSelector;
    cursor: pointer;
 }
 
-.controls-SortingSelector_itemTitle {
-   display: inline-flex;
-   width: 100%;
-   height: 100%;
-   align-items: center;
+.controls-SortingSelector_arrow_nocaption_theme-@{themeName} {
+   margin-left: @icon_offset_nocaption_gridSortingSelector;
+   cursor: pointer;
 }
 
 .controls-SortingSelector_arrow_spacing_theme-@{themeName} {

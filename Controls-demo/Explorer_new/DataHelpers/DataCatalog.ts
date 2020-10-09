@@ -2,7 +2,7 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate';
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell';
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 
 interface IData {
    id: number;

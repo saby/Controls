@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/Grouped/WithEditing/WithEditin
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/Grouped/WithEditing/_cellEditor';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 
 interface IItem {
     get: (item: string) => string;

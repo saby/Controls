@@ -48,69 +48,12 @@ define(
             it('ShowEmptyDecimals option equal true. Trailing zeros are not trimmed.', function() {
                ctrl._options.showEmptyDecimals = true;
 
-               ctrl._changeHandler();
+               ctrl._notifyInputCompleted();
 
                assert.deepEqual(calls, [{
                   name: 'notify',
                   arguments: ['inputCompleted', [0, '0']]
                }]);
-            });
-         });
-         describe('User input.', function() {
-            beforeEach(function() {
-               ctrl._getActiveElement = function() {
-                  return ctrl._getField();
-               };
-            });
-            it('The display value divided into triads is correctly converted to a value.', function() {
-               ctrl._beforeMount({
-                  value: null,
-                  useGrouping: true
-               });
-
-               ctrl._getField().value = '1111';
-               ctrl._getField().selectionStart = 4;
-               ctrl._getField().selectionEnd = 4;
-               ctrl._inputHandler(new Vdom.SyntheticEvent({}));
-
-               assert.deepEqual(calls, [
-                  {
-                  name: 'notify',
-                  arguments: ['valueChanged', [1111, '1 111']]
-               },
-                  {
-                     name: 'notify',
-                     arguments: ['inputControl', [1111, '1 111', {
-                        start: 5,
-                        end: 5
-                     }]]
-                  }
-               ]);
-            });
-            it('Triad partitioning is disabled. Enter 123456', function() {
-               ctrl._beforeMount({
-                  value: null,
-                  useGrouping: false
-               });
-
-               ctrl._getField().value = '123456';
-               ctrl._getField().selectionStart = 6;
-               ctrl._getField().selectionEnd = 6;
-               ctrl._inputHandler(new Vdom.SyntheticEvent({}));
-
-               assert.deepEqual(calls, [
-                  {
-                     name: 'notify',
-                     arguments: ['valueChanged', [123456, '123456']]
-                  },
-                  {
-                     name: 'notify',
-                     arguments: ['inputControl', [123456, '123456', {
-                        start: 6,
-                        end: 6
-                     }]]
-                  }
-               ]);
             });
          });
       });

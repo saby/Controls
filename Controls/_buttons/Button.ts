@@ -90,12 +90,13 @@ export function simpleCssStyleGeneration(options: IButtonControlOptions): void {
     this._hasIcon = !!options.icon;
 
     this._caption = options.caption;
-    this._stringCaption = typeof options.caption === 'string';
+    // На сервере rk создает инстанс String'a, проверки на typeof недостаточно
+    this._stringCaption = typeof options.caption === 'string' || options.caption instanceof String;
     this._captionPosition = options.captionPosition || 'right';
 
     this._icon = options.icon;
     if (options.icon) {
-        this._iconSize = ActualApi.iconSize(options.iconSize, this._icon);
+        this._iconSize = options.iconSize;
         if (options.readOnly) {
             this._iconStyle = 'readonly';
         } else {
@@ -113,6 +114,7 @@ export function getDefaultOptions(): object {
     return {
         viewMode: 'button',
         iconStyle: 'secondary',
+        iconSize: 'm',
         captionPosition: 'right',
         contrastBackground: false,
         fontSize: 'm',

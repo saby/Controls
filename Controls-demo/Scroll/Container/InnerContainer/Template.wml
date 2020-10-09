@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
-    <Controls.scroll:_ContainerNew
+    <Controls.scroll:Container
             scrollMode="verticalHorizontal"
             attr:class="controlsDemo__height500 controlsDemo_fixedWidth300">
         <div >
@@ -13,7 +13,7 @@
                 cupidatat non proident, sunt in culpa qui officia deserunt mollit
                 anim id est laborum.
             </p>
-            <Controls.scroll:_ContainerNew
+            <Controls.scroll:Container
                     attr:class="controlsDemo__height300">
                 <div >
                     <ws:for data="key in 4">
@@ -28,7 +28,7 @@
                         </p>
                     </ws:for>
                 </div>
-            </Controls.scroll:_ContainerNew>
+            </Controls.scroll:Container>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -39,5 +39,5 @@
                 anim id est laborum.
             </p>
         </div>
-    </Controls.scroll:_ContainerNew>
+    </Controls.scroll:Container>
 </div>

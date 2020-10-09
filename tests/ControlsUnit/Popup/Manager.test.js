@@ -538,6 +538,43 @@ define(
             Manager.destroy();
          });
 
+         it('update popup poisition by scroll and resize', () => {
+            Manager = getManager();
+            let isResetRootContainerCalled = false;
+            let isControllerCalled = false;
+            const BaseController = {
+               resetRootContainerCoords: () => {
+                  isResetRootContainerCalled = true;
+               }
+            };
+            const controllerCallback = () => {
+               isControllerCalled = true;
+            };
+            const item = {
+               controller: {
+                  resizeOuter: controllerCallback,
+                  pageScrolled: controllerCallback,
+                  workspaceResize: controllerCallback,
+               }
+            };
+            Manager._popupItems.add(item);
+            Manager._getBaseController = () => BaseController;
+            Manager._getItemContainer = () => {};
+            Manager._pageScrolledBase();
+            assert.equal(isResetRootContainerCalled, true);
+            assert.equal(isControllerCalled, true);
+
+            const methods = ['_popupResizeOuterBase', '_workspaceResize', '_pageScrolledBase'];
+            for (const method of methods) {
+               Manager[method]();
+               assert.equal(isResetRootContainerCalled, true);
+               assert.equal(isControllerCalled, true);
+               isResetRootContainerCalled = false;
+               isControllerCalled = false;
+            }
+            Manager.destroy();
+         });
+
          it('finishPendings', () => {
             Manager = getManager();
             let popupId = Manager.show({

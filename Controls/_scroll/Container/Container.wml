@@ -1,5 +1,5 @@
 <ws:template name="scrollTpl">
-    <div class="controls-Scroll-Container">
+    <div class="controls-Scroll-Container controls-Scroll">
         <ws:partial template="{{_baseTemplate}}"
                     _options="{{_options}}"
                     _scrollCssClass="{{_scrollCssClass}}"

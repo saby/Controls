@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_ItemActions-custom-tpl">
+    <Controls.tile:View
+            tileMode="dynamic"
+            displayProperty="title"
+            imageProperty="image"
+            keyProperty="id"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom"
+            source="{{_viewSource}}">
+        <ws:itemTemplate>
+            <ws:partial
+                    itemWidth="{{itemTemplate.itemData.item.width}}"
+                    template="Controls/tile:ItemTemplate"
+                    hasTitle="{{itemTemplate.itemData.item.isDocument}}">
+                <ws:contentTemplate>
+                    <div class="controlsDemo__customTileTpl controlsDemo__Tile_ItemActions_customPosition_contentTemplate">
+                        <img src="{{itemTemplate.itemData.item.image}}" class="controlsDemo__customTileTpl-img"/>
+                        <p class="controlsDemo__customTileTpl-title">{{itemTemplate.itemData.item.title}}</p>
+                        <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="controlsDemo__Tile_ItemActions_customPosition-itemActionsClass"/>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.tile:View>
+</div>

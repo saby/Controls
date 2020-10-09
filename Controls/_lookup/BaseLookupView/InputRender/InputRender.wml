@@ -41,6 +41,7 @@
       <ws:else data="{{ _options.isInputVisible }}">
          <ws:partial type="{{_type}}"
                      options="{{_options}}"
+                     model="{{_viewModel}}"
                      scope="{{_field.scope}}"
                      fieldName="{{_fieldName}}"
                      template="{{_field.template}}"

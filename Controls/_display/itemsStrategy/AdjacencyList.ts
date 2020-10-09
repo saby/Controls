@@ -190,9 +190,13 @@ function buildTreeIndex<T>(options: ITreeIndexOptions<T>, parentIndex?: number):
             const childId = normalizeId(object.getPropertyValue(childContents, keyProperty));
             path.push(childId);
 
-            // Lookup for children
-            const itemsToPush = buildTreeIndex(options, parentsMap.length - 1);
-            result.push(...itemsToPush);
+            // Lookup for children. Adding item can't have children.
+            // TODO: Try to remove knoledge about adding from this strategy
+            //  https://online.sbis.ru/opendoc.html?guid=f7235d5b-011b-467e-a36b-2c4f713366e3
+            if (!child.isAdd) {
+                const itemsToPush = buildTreeIndex(options, parentsMap.length - 1);
+                result.push(...itemsToPush);
+            }
 
             // Revert parent's group if any child joins another group if there is not the last member in the root
             if (childGroup !== options.lastGroup && (parentIndex !== undefined || i < childrenCount - 1)) {

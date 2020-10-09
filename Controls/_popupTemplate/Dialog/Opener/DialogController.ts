@@ -121,7 +121,6 @@ class DialogController extends BaseController {
     }
 
     resizeOuter(item: IPopupItem, container: HTMLDivElement): boolean {
-        this._resetRootContainerCoords();
         // На ios ресайз страницы - это зум. Не реагируем на него.
         if (!detection.isMobileIOS) {
             return this._elementUpdated(item, container);

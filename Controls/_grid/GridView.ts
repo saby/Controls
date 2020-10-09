@@ -47,6 +47,9 @@ var
             if (cfg.stickyColumn !== undefined) {
                 Logger.warn('IGridControl: Option "stickyColumn" is deprecated and removed in 19.200. Use "stickyProperty" option in the column configuration when setting up the columns.', self);
             }
+            if (cfg.headerInEmptyListVisible !== undefined) {
+                Logger.warn('IGridControl: Option "headerInEmptyListVisible" is deprecated and removed in 20.7000. Use "headerVisibility={ hasdata | visible }".', self);
+            }
         },
 
         getGridTemplateColumns(self, columns: Array<{width?: string}>, hasMultiSelect: boolean): string {
@@ -329,7 +332,12 @@ var
             this._listModel.setBaseItemTemplateResolver(this._resolveBaseItemTemplate.bind(this));
             this._listModel.setColumnTemplate(ColumnTpl);
             this._setResultsTemplate(cfg);
-            this._listModel.setHeaderInEmptyListVisible(cfg.headerInEmptyListVisible);
+            if (cfg.headerInEmptyListVisible !== undefined) {
+                this._listModel.setHeaderVisibility(cfg.headerInEmptyListVisible);
+            }
+            if (cfg.headerVisibility !== undefined) {
+                this._listModel.setHeaderVisibility(cfg.headerVisibility);
+            }
 
             // Коротко: если изменить опцию модели пока gridView не построена, то они и не применятся.
             // Подробнее: GridView управляет почти всеми состояниями модели. GridControl создает модель и отдает ее
@@ -363,9 +371,15 @@ var
             GridView.superclass._beforeUpdate.apply(this, arguments);
             const self = this;
             const isColumnsScrollChanged = this._options.columnScroll !== newCfg.columnScroll;
+
             if (this._options.headerInEmptyListVisible !== newCfg.headerInEmptyListVisible) {
                 if (this._listModel) {
-                    this._listModel.setHeaderInEmptyListVisible(newCfg.headerInEmptyListVisible);
+                    this._listModel.setHeaderVisibility(newCfg.headerInEmptyListVisible);
+                }
+            }
+            if (this._options.headerVisibility !== newCfg.headerVisibility) {
+                if (this._listModel) {
+                    this._listModel.setHeaderVisibility(newCfg.headerVisibility);
                 }
             }
             if (this._options.resultsPosition !== newCfg.resultsPosition) {
@@ -468,7 +482,7 @@ var
 
             // Для предотвращения скролла одной записи в таблице с экшнами.
             // _options._needBottomPadding почему-то иногда не работает.
-            if ((this._listModel.getCount() || this._listModel.getEditingItemData()) &&
+            if ((this._listModel.getCount() || this._listModel.isEditing()) &&
                 this._options.itemActionsPosition === 'outside' &&
                 !this._options._needBottomPadding &&
                 this._options.resultsPosition !== 'bottom') {
@@ -605,7 +619,7 @@ var
         _isColumnScrollVisible(): boolean {
             if (this._columnScrollController && this._columnScrollController.isVisible()) {
                 const items = this._options.listModel.getItems();
-                return this._options.headerInEmptyListVisible || (!!items && (!!items.getCount() || !!this._options.editingItemData));
+                return this._options.headerInEmptyListVisible || (!!items && (!!items.getCount() || !!this._options.listModel.isEditing()));
             } else {
                 return false;
             }
@@ -726,7 +740,7 @@ var
             }
         },
         _onFocusInEditingCell(e: SyntheticEvent<FocusEvent>): void {
-            if (!this._isColumnScrollVisible() || e.target.tagName !== 'INPUT' || !this._options.listModel.getEditingItemData()) {
+            if (!this._isColumnScrollVisible() || e.target.tagName !== 'INPUT' || !this._options.listModel.isEditing()) {
                 return;
             }
             this._columnScrollController.scrollToElementIfHidden(e.target as HTMLElement);

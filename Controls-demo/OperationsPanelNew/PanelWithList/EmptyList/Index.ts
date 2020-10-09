@@ -2,7 +2,7 @@ import PanelWithList from 'Controls-demo/OperationsPanelNew/PanelWithList/Defaul
 import TreeMemory = require('Controls-demo/List/Tree/TreeMemory');
 
 export default class extends PanelWithList {
-   _beforeMount() {
+   _beforeMount(): void {
       super._beforeMount();
       this._viewSource = new TreeMemory({
          keyProperty: 'id',

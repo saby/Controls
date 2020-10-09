@@ -71,6 +71,12 @@ class Paging extends Control<IPagingOptions> {
                 } else {
                     this._stateTop = this._getState('visible');
                 }
+
+                if (config.selectedPage >= config.pagesCount) {
+                    this._stateBottom = this._getState('hidden');
+                } else {
+                    this._stateBottom = this._getState('visible');
+                }
             } else {
                 this._stateTop = this._getState(config.arrowState.begin || 'readonly');
                 this._stateBackward = this._getState(config.arrowState.prev || 'readonly');
@@ -98,10 +104,6 @@ class Paging extends Control<IPagingOptions> {
         return 'visible';
     }
 
-    /*private _getState(isEnabled: boolean) {
-        return isEnabled ? 'normal' : 'disabled';
-    }*/
-
     private _initArrowStateBySelectedPage(config: IPagingOptions): void {
         const page = config.selectedPage;
         if (page <= 1) {
@@ -124,6 +126,13 @@ class Paging extends Control<IPagingOptions> {
         } else {
             this._initArrowDefaultStates(newOptions);
         }
+    }
+
+    private _isShowContentTemplate(): boolean {
+        return !(this._getArrowStateVisibility('begin') === 'hidden' &&
+            this._getArrowStateVisibility('prev') === 'hidden' &&
+            this._getArrowStateVisibility('next') === 'hidden' &&
+            this._getArrowStateVisibility('end') === 'hidden');
     }
 
     private _changePage(page: number): void {

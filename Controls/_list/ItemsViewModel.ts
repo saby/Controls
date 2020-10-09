@@ -43,7 +43,7 @@ var _private = {
             (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
     },
     displayFilterGroups: function(item, index, displayItem) {
-        return item === constView.hiddenGroup || !item.get || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
+        return (item ? (item === constView.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
     },
     prepareCollapsedGroupsByArray(collapsedGroups: Grouping.TArrayGroupId): {} {
         const result = {};
@@ -394,7 +394,7 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     getItemById: function(id, keyProperty) {
-        return this._display ? ItemsUtil.getDisplayItemById(this._display, id, keyProperty) : undefined;
+        return this._display ? this._display.getItemBySourceKey(id) : undefined;
     },
 
     getItemBySourceKey: function(id) {
@@ -526,7 +526,7 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     _isGroup: function(item) {
-        return item === constView.hiddenGroup || !item.get;
+        return item ? (item === constView.hiddenGroup || !item.get) : true;
     },
 
     isAllGroupsCollapsed(): boolean {

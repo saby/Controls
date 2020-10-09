@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import View, {IViewOptions} from 'Controls/_listRender/View';
 import { RecordSet } from 'Types/collection';
 
-import { stub, assert as sinonAssert } from 'sinon';
+import { stub, assert as sinonAssert, spy } from 'sinon';
 import {IItemActionsItem} from 'Controls/itemActions';
 
 import 'Controls/display';
@@ -159,6 +159,7 @@ describe('Controls/_listRender/View', () => {
                 getEditingConfig: () => null,
                 setActionsTemplateConfig: () => null,
                 getItemBySourceKey: () => item,
+                isEventRaising: () => false,
                 setEventRaising: (val1, val2) => null,
                 each: (val) => null,
                 setActionsAssigned: (val) => null,
@@ -285,6 +286,100 @@ describe('Controls/_listRender/View', () => {
             }
             view._itemActionsMenuCloseHandler(null, null);
             assert.isTrue(isPopupCloseCalled);
+        });
+    });
+
+    describe('marker', () => {
+        const items = new RecordSet({
+            rawData: [
+                { id: 1 },
+                { id: 2 },
+                { id: 3 }
+            ],
+            keyProperty: 'id'
+        });
+        const cfg = {
+            items,
+            collection: 'Controls/display:Collection',
+            render: 'Controls/listRender:Render',
+            markerVisibility: 'visible',
+            markedKey: 2
+        };
+        let view, notifySpy;
+        beforeEach(() => {
+            view = new View(cfg);
+            notifySpy = spy(view, '_notify');
+            return view._beforeMount(cfg).then(() => {
+                assert.isOk(view._markerController);
+            });
+        });
+
+        it('_beforeUpdate', () => {
+            view.saveOptions(defaultCfg);
+            view._beforeUpdate({ ...cfg, markedKey: 1 });
+
+            assert.isTrue(view._collection.getItemBySourceKey(1).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(3).isMarked());
+        });
+
+        it('_onItemClick', () => {
+            view._onItemClick({}, items.getRecordById(1), {});
+
+            assert.isTrue(view._collection.getItemBySourceKey(1).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(3).isMarked());
+
+            assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [1]).calledOnce);
+            assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
+        });
+
+        it('_onItemActionClick', () => {
+            view._itemActionsController = {
+                prepareActionsMenuConfig(): void {
+                }
+            };
+
+            view._onItemActionClick({}, view._collection.getItemBySourceKey(1), null, {});
+
+            assert.isTrue(view._collection.getItemBySourceKey(1).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(3).isMarked());
+
+            assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [1]).calledOnce);
+            assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
+        });
+
+        it('_onItemKeyDown downKey', () => {
+            const keyDownEvent = {
+                nativeEvent: {
+                    keyCode: 40
+                }
+            };
+            view._onItemKeyDown({}, null, keyDownEvent);
+
+            assert.isFalse(view._collection.getItemBySourceKey(1).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());
+            assert.isTrue(view._collection.getItemBySourceKey(3).isMarked());
+
+            assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [3]).calledOnce);
+            assert.isTrue(notifySpy.withArgs('markedKeyChanged', [3]).calledOnce);
+        });
+
+        it('_onItemKeyDown upKey', () => {
+            const keyDownEvent = {
+                nativeEvent: {
+                    keyCode: 38
+                }
+            };
+            view._onItemKeyDown({}, null, keyDownEvent);
+
+            assert.isTrue(view._collection.getItemBySourceKey(1).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());
+            assert.isFalse(view._collection.getItemBySourceKey(3).isMarked());
+
+            assert.isTrue(notifySpy.withArgs('beforeMarkedKeyChanged', [1]).calledOnce);
+            assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
         });
     });
 });

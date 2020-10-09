@@ -161,16 +161,17 @@ export type TNavigationTotalInfo = 'basic' | 'extended';
 
 /**
  * @typedef {String} TNavigationPagingMode
+ * @variant hidden Предназначен для отключения отображения пейджинга в реестре.
  * @variant basic Предназначен для пейджинга в реестре с подгрузкой по скроллу.
  * @variant edge Предназначен для пейджинга с отображением одной команды прокрутки. Отображается кнопка в конец, либо в начало, в зависимости от положения.
  * @variant end Предназначен для пейджинга с отображением одной команды прокрутки. Отображается только кнопка в конец.
  * @variant numbers Предназначен для пейджинга с подсчетом записей и страниц.
  */
-export type TNavigationPagingMode = 'basic' | 'edge' | 'end' | 'numbers' | 'direct';
+export type TNavigationPagingMode = 'hidden' | 'basic' | 'edge' | 'end' | 'numbers' | 'direct';
 
 /**
  * @typedef {Object} INavigationViewConfig
- * @property {TNavigationPagingMode} [pagingMode=direct] Опция управляет внешним видом пэйджинга. Позволяет для каждого конкретного реестра задать внешний вид в зависимости от требований к интерфейсу.
+ * @property {TNavigationPagingMode} [pagingMode=hidden] Опция управляет внешним видом пэйджинга. Позволяет для каждого конкретного реестра задать внешний вид в зависимости от требований к интерфейсу.
  * @property {TNavigationTotalInfo} [totalInfo=basic] Режим отображения информационной подписи.
  * @property {Number} maxCountValue Количество записей, когда необходимо прекратить загрузку в режиме навигации maxCount.
  * О режиме навигации maxCount вы можете посмотреть {@link Controls/_interface/INavigation/INavigationOptionValue.typedef здесь}.

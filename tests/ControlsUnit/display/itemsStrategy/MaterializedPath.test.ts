@@ -131,16 +131,6 @@ describe('Controls/_display/itemsStrategy/MaterializedPath', () => {
 
             assert.isFalse(strategy.at(0).isHasChildren());
         });
-
-        it('should return a TreeItem with inverted children having', () => {
-            const display = new TreeDisplay({
-                collection: [{hasChildren: true}],
-                hasChildrenProperty: '!hasChildren'
-            });
-            const strategy = new MaterializedPath(getOptions(display));
-
-            assert.isFalse(strategy.at(0).isHasChildren());
-        });
     });
 
     describe('.count', () => {

@@ -1,9 +1,9 @@
 import {IText} from 'Controls/decorator';
 import {VersionableMixin} from 'Types/entity';
 import {hasSelectionChanged} from './resources/Util';
-import {IInputType, ISelection, ISplitValue} from './resources/Types';
+import {InputType, ISelection, ISplitValue} from './resources/Types';
 
-abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMixin {
+abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends VersionableMixin {
     protected _value: TValue | null;
     protected _displayValue: string;
     protected _selection: ISelection;
@@ -13,6 +13,8 @@ abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMix
      * Если хотя бы одна из этих опций изменится, то будет вызван пересчёт отображаемого значения.
      */
     protected _optionsThatAffectDisplayValue: Array<keyof TOptions> = [];
+
+    displayValueBeforeUpdate: string = '';
 
     constructor(options: TOptions, value: TValue | null) {
         super();
@@ -103,7 +105,7 @@ abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMix
         return this._displayValue.length;
     }
 
-    protected abstract _createText(splitValue: ISplitValue, inputType: IInputType): IText;
+    protected abstract _createText(splitValue: ISplitValue, inputType: InputType): IText;
     protected abstract _convertToValue(displayValue: string): TValue;
     protected abstract _convertToDisplayValue(value: TValue | null): string;
 
@@ -114,7 +116,7 @@ abstract class BaseViewModel<TValue, TOptions extends {}> extends VersionableMix
         };
     }
 
-    handleInput(splitValue: ISplitValue, inputType: IInputType): boolean {
+    handleInput(splitValue: ISplitValue, inputType: InputType): boolean {
         const text: IText = this._createText(splitValue, inputType);
         const displayValueChanged: boolean = this._displayValue !== text.value;
         const selectionChanged: boolean = hasSelectionChanged(this._selection, text.carriagePosition);

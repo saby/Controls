@@ -21,6 +21,12 @@ export default class GroupItem<T> extends mixin<
     CollectionItem,
     ExpandableMixin
 ) {
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
+    readonly '[Controls/_display/GroupItem]': true;
+
+    readonly MarkableItem: boolean = false;
+    readonly SelectableItem: boolean = false;
+
     constructor(options?: IOptions<T>) {
         super(options);
         ExpandableMixin.call(this);
@@ -30,7 +36,19 @@ export default class GroupItem<T> extends mixin<
         return this._$contents === 'CONTROLS_HIDDEN_GROUP';
     }
 
+    getGroupPaddingClasses(theme: string, side: 'left'|'right'): string {
+        if (side === 'left') {
+            const spacing = this.getOwner().getLeftPadding().toLowerCase();
+            const hasMultiSelect = this.getOwner().getMultiSelectVisibility() !== 'hidden';
+            return `controls-ListView__groupContent__leftPadding_${hasMultiSelect ? 'withCheckboxes' : spacing}_theme-${theme}`;
+        } else {
+            const spacing = this.getOwner().getRightPadding().toLowerCase();
+            return `controls-ListView__groupContent__rightPadding_${spacing}_theme-${theme}`;
+        }
+    }
+
     getItemTemplate(
+        itemTemplateProperty: string,
         userItemTemplate: TemplateFunction|string,
         userGroupTemplate?: TemplateFunction|string
     ): TemplateFunction|string {
@@ -43,4 +61,3 @@ Object.assign(GroupItem.prototype, {
     _moduleName: 'Controls/display:GroupItem',
     _instancePrefix: 'group-item-'
 });
-

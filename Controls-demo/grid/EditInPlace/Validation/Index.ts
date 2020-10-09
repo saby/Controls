@@ -5,9 +5,10 @@ import {getEditing} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditor';
 import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorDate';
 import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorRequired';
-import LengthChecker = require('Controls-demo/grid/EditInPlace/Validation/Custom');
+import 'wml!Controls-demo/grid/EditInPlace/Validation/_cellEditorTitle';
+import {LengthChecker, ChangedChecker} from './Custom';
 import {getMoreActions} from '../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import { IHeader, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
 import { IItemAction } from 'Controls/itemActions';
@@ -37,5 +38,6 @@ export default class extends Control {
 }
 
 export {
-    LengthChecker
+    LengthChecker,
+    ChangedChecker
 };

@@ -30,15 +30,15 @@ export default abstract class
         if (receivedState && !isEmpty(receivedState)) {
             this._setItems(receivedState);
             this._inheritorBeforeMount(options);
+        } else if (options.items) {
+            this._setItems(options.items);
+            this._inheritorBeforeMount(options);
         } else if (options.selectedKeys.length && options.source) {
             return this._lookupController.loadItems().then((items) => {
                 this._setItems(items);
                 this._inheritorBeforeMount(options);
                 return items;
             });
-        } else if (options.items) {
-            this._setItems(options.items);
-            this._inheritorBeforeMount(options);
         } else {
             this._items = this._lookupController.getItems();
             this._inheritorBeforeMount(options);

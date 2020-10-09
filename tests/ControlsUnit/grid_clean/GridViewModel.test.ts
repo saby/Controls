@@ -209,6 +209,15 @@ describe('Controls/grid_clean/GridViewModel', () => {
                 items.prepend([newItem]);
                 assert.strictEqual(gridViewModel.getHeaderModel().getVersion(), 1);
             });
+
+            it('isDrawHeaderWithEmptyList', () => {
+                const items = gridViewModel.getItems();
+                items.removeAt(0);
+                items.removeAt(0);
+                assert.isFalse(gridViewModel.isDrawHeaderWithEmptyList());
+                gridViewModel.setHeaderVisibility('visible');
+                assert.isTrue(gridViewModel.isDrawHeaderWithEmptyList());
+            });
         });
     });
 

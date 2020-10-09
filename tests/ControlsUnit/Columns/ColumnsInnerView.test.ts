@@ -15,7 +15,7 @@ describe('ColumnsInnerView', () => {
                 };
             }
         };
-    }
+    };
     beforeEach(() => {
         rs = new RecordSet({
             keyProperty: 'id',
@@ -57,5 +57,12 @@ describe('ColumnsInnerView', () => {
             rs.remove(item);
         })
         assert.deepEqual(columnsView._columnsIndexes, [[0, 3, 6], [1, 4, 7], [2, 5, 8]], 'wrong initial columnIndexes');
+    });
+
+    it('_beforeUpdate change markedKey', () => {
+        columnsView._beforeUpdate({...cfg, markedKey: 1});
+        assert.isTrue(columnsView._model.getItemBySourceKey(1).isMarked());
+        assert.isFalse(columnsView._model.getItemBySourceKey(2).isMarked());
+        assert.isFalse(columnsView._model.getItemBySourceKey(3).isMarked());
     });
 });

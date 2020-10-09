@@ -101,6 +101,10 @@ export default {
         return this._callManager('show', arguments);
     },
 
+    loadData(dataLoaders): Promise<unknown> {
+        return this._callManager('loadData', arguments);
+    },
+
     isPopupCreating(id: string): boolean {
         const item = this.find(id);
         return item && (item.popupState === 'initializing' || item.popupState === 'creating');

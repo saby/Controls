@@ -5,6 +5,7 @@
  * @includes Switch Controls/_toggle/Switch
  * @includes DoubleSwitch Controls/_toggle/DoubleSwitch
  * @includes RadioGroup Controls/_toggle/RadioGroup
+ * @includes ButtonGroup Controls/_toggle/ButtonGroup
  * @includes Checkbox Controls/_toggle/Checkbox
  * @includes CheckboxMarker Controls/_toggle/CheckboxMarker
  * @includes CheckboxGroup Controls/_toggle/CheckboxGroup
@@ -25,6 +26,7 @@
  * @includes Switch Controls/_toggle/Switch
  * @includes DoubleSwitch Controls/_toggle/DoubleSwitch
  * @includes RadioGroup Controls/_toggle/RadioGroup
+ * @includes ButtonGroup Controls/_toggle/ButtonGroup
  * @includes Checkbox Controls/_toggle/Checkbox
  * @includes CheckboxMarker Controls/_toggle/Checkbox/resources/CheckboxMarker
  * @includes CheckboxGroup Controls/_toggle/CheckboxGroup
@@ -47,6 +49,7 @@ export {default as Separator} from './_toggle/Separator';
 export {default as BigSeparator} from './_toggle/BigSeparator';
 export {IToggleGroupOptions, IToggleGroup} from './_toggle/interface/IToggleGroup';
 export {default as RadioGroup} from './_toggle/RadioGroup';
+export {default as ButtonGroup} from './_toggle/ButtonGroup';
 
 import ItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import CheckboxItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');

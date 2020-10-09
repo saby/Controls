@@ -1,4 +1,4 @@
-import {_ContainerNew} from 'Controls/scroll';
+import {Container} from 'Controls/scroll';
 import {constants} from "Env/Env";
 
 function createComponent(Component, cfg) {
@@ -12,10 +12,10 @@ function createComponent(Component, cfg) {
     return cmp;
 }
 
-describe('Controls/scroll:_ContainerNew', () => {
+describe('Controls/scroll:Container', () => {
     describe('constructor', () => {
         it('should initialize by default', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
 
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_vertical');
         });
@@ -36,7 +36,7 @@ describe('Controls/scroll:_ContainerNew', () => {
         };
 
         it('should update _scrollCssClass, scrollMode: "vertical"', () => {
-            const component = createComponent(_ContainerNew, {scrollMode: 'vertical'});
+            const component = createComponent(Container, {scrollMode: 'vertical'});
             component._children = {
                 content: {
                     getBoundingClientRect: () => undefined
@@ -50,7 +50,7 @@ describe('Controls/scroll:_ContainerNew', () => {
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_vertical');
         });
         it('should update _scrollCssClass, scrollMode: "verticalHorizontal"', () => { // controls-Scroll-ContainerBase__scroll_vertical
-            const component = createComponent(_ContainerNew, {scrollMode: 'verticalHorizontal'});
+            const component = createComponent(Container, {scrollMode: 'verticalHorizontal'});
             component._children = {
                 content: {
                     getBoundingClientRect: () => undefined
@@ -66,7 +66,7 @@ describe('Controls/scroll:_ContainerNew', () => {
 
         describe('shadows', () => {
             it('should update shadows models if optimized shadows are enabled and there are sticky headers', () => {
-                const component = createComponent(_ContainerNew, {scrollMode: 'vertical'});
+                const component = createComponent(Container, {scrollMode: 'vertical'});
                 component._isOptimizeShadowEnabled = true;
                 component._children = {
                     content: {
@@ -89,7 +89,7 @@ describe('Controls/scroll:_ContainerNew', () => {
 
     describe('_keydownHandler', () => {
         it('should scroll top 40px when key up', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
             const result = 960;
             component._topPlaceholderSize = 0;
             component._state = {
@@ -113,7 +113,7 @@ describe('Controls/scroll:_ContainerNew', () => {
             assert.strictEqual(component._children.content.scrollTop, result);
         });
         it('should scroll down 40px when key down', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
             const result = 1040;
             component._topPlaceholderSize = 0;
             component._state = {
@@ -139,7 +139,7 @@ describe('Controls/scroll:_ContainerNew', () => {
             assert.strictEqual(component._children.content.scrollTop, result);
         });
         it('should not scroll down 40px when key down', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
             const result = 1000;
             component._topPlaceholderSize = 0;
             component._state = {
@@ -165,7 +165,7 @@ describe('Controls/scroll:_ContainerNew', () => {
             assert.strictEqual(component._children.content.scrollTop, result);
         });
         it('should not scroll down 40px when key up', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
             const result = 0;
             component._topPlaceholderSize = 0;
             component._state = {
@@ -189,7 +189,7 @@ describe('Controls/scroll:_ContainerNew', () => {
             assert.strictEqual(component._children.content.scrollTop, result);
         });
         it('should not scroll anywhere if not native keydown', () => {
-            const component = createComponent(_ContainerNew, {});
+            const component = createComponent(Container, {});
             const result = 0;
             component._topPlaceholderSize = 0;
             component._state = {

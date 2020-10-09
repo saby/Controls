@@ -1,4 +1,4 @@
-<div class="controls-Scroll-ContainerBase {{_scrollCssClass}}"
+<div class="controls-Scroll-ContainerBase {{_scrollCssClass}} controls-Scroll__content"
     name="content"
     on:scroll="_scrollHandler()">
     <ws:partial

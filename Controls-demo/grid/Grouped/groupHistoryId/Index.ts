@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Grouped/groupHistoryId/groupHistoryId';
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 import * as Config from 'Env/Config';
 
 interface IItem {

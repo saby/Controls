@@ -2,6 +2,7 @@ import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionIt
 import TreeItem from './TreeItem';
 import Tree from './Tree';
 import {register} from 'Types/di';
+import TreeChildren from './TreeChildren';
 
 export interface IOptions<T> extends ICollectionItemOptions<T> {
     owner?: Tree<T>;
@@ -16,6 +17,8 @@ export interface IOptions<T> extends ICollectionItemOptions<T> {
  * @author Мальцев А.А.
  */
 export default class BreadcrumbsItem<T> extends CollectionItem<T> {
+    readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
+
     protected _instancePrefix: 'breadcrumbs-item-';
     protected _$owner: Tree<T>;
 
@@ -72,6 +75,22 @@ export default class BreadcrumbsItem<T> extends CollectionItem<T> {
      getLevel(): number {
          const first = this._first;
          return first ? first.getLevel() : 0;
+     }
+
+     getLast(): TreeItem<T> {
+         return this._$last;
+     }
+
+     getParent(): TreeItem<T> {
+         return this.getLast().getParent();
+     }
+
+     getChildren(withFilter: boolean = true): TreeChildren<T> {
+         return this.getOwner().getChildren(this, withFilter);
+     }
+
+     isHasChildren(): boolean {
+         return this.getLast().isHasChildren();
      }
 
     // endregion
