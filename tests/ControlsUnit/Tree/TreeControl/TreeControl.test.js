@@ -9,7 +9,8 @@ define([
    'Types/collection',
    'Types/source',
    'Controls/Application/SettingsController',
-   'Controls/source'
+   'Controls/source',
+   'Controls/listDragNDrop'
 ], function(
    tree,
    treeGrid,
@@ -21,7 +22,8 @@ define([
    collection,
    sourceLib,
    SettingsController,
-   cSource
+   cSource,
+   listDragNDrop
 ) {
    function correctCreateTreeControl(cfg, returnCreatePromise) {
       var
@@ -286,74 +288,6 @@ define([
          model.setMarkedKey(3);
          tree.TreeControl._private.expandMarkedItem(treeControl);
          assert.deepEqual(toggleExpandedStack, [1, 2]);
-      });
-      describe('itemMouseMove calls nodeMouseMove when dragging', function() {
-         let tree = correctCreateTreeControl({
-            columns: [],
-            source: new sourceLib.Memory({
-               data: [],
-               keyProperty: 'id'
-            })
-         });
-         let nodeMouseMoveCalled;
-         let dragEntity;
-         let dragItemData;
-         let nodeItem = {
-            dispItem: {
-               isNode: function () {
-                  return true;
-               }
-            }
-         };
-         let leafItem = {
-            dispItem: {
-               isNode: function () {
-                  return false;
-               }
-            }
-         };
-         const event = {
-            stopped: false,
-            stopPropagation(){
-               this.stopped = true;
-            }
-         };
-         let model = tree._children.baseControl.getViewModel();
-         model.getDragEntity = function () {
-            return dragEntity;
-         };
-         model.getDragItemData = function () {
-            return dragItemData;
-         };
-         tree._nodeMouseMove = function() {
-            nodeMouseMoveCalled = true;
-         };
-         beforeEach(function() {
-            nodeMouseMoveCalled = false;
-            dragItemData = null;
-            dragEntity = null;
-            event.stopped = false;
-         });
-         it('dragEntity', function() {
-            dragEntity = {};
-            tree._draggingItemMouseMove(event, leafItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-            event.stopped = false;
-            tree._draggingItemMouseMove(event, nodeItem, {});
-            assert.isTrue(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-         });
-         it('dragItemData', function() {
-            dragItemData = {};
-            tree._draggingItemMouseMove(event, leafItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-            event.stopped = false;
-            tree._draggingItemMouseMove(event, nodeItem, {});
-            assert.isTrue(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-         });
       });
 
       it('_private.getTargetRow', () => {

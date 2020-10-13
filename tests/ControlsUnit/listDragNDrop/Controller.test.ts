@@ -3,13 +3,13 @@
 
 import { assert } from 'chai';
 import { spy } from 'sinon';
-import { DndFlatController } from 'Controls/listDragNDrop';
+import { DndController, FlatStrategy } from 'Controls/listDragNDrop';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import { Collection } from 'Controls/display';
 
-describe('Controls/_listDragNDrop/FlatController', () => {
+describe('Controls/_listDragNDrop/Controller', () => {
    let controller, model;
 
    const items = new RecordSet({
@@ -27,14 +27,14 @@ describe('Controls/_listDragNDrop/FlatController', () => {
 
    beforeEach(() => {
       model = new ListViewModel(cfg);
-      controller = new DndFlatController(model);
+      controller = new DndController(model, FlatStrategy);
    });
 
    it('startDrag', () => {
       const entity = new ItemsEntity( { items: [1] } );
       const setDraggedItemsSpy = spy(controller, 'setDraggedItems');
 
-      controller.startDrag(1, entity);
+      controller.startDrag(model.getItemBySourceKey(1), entity);
 
       assert.isTrue(setDraggedItemsSpy.withArgs(entity, model.getItemBySourceKey(1)).calledOnce,
          'setDraggedItems не вызвался или вызвался с неверными параметрами');
@@ -44,10 +44,7 @@ describe('Controls/_listDragNDrop/FlatController', () => {
       it ('not pass draggedItem', () => {
          const modelSetDraggedItemsSpy = spy(model, 'setDraggedItems');
          controller.setDraggedItems(new ItemsEntity({items: [1]}));
-
-         // undefined - так как startDrag не был вызван
-         assert.isTrue(modelSetDraggedItemsSpy.withArgs(null, [1]).calledOnce,
-            'setDraggedItems не вызвался или вызвался с неверными параметрами');
+         assert.isFalse(modelSetDraggedItemsSpy.called);
       });
 
       it ('pass draggedItem', () => {
@@ -71,7 +68,7 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          const model = new Collection({
             collection: items
          });
-         const controller = new DndFlatController(model);
+         const controller = new DndController(model, FlatStrategy);
 
          const draggedItem = model.getItemBySourceKey(1);
          const entity = new ItemsEntity( { items: [1] } );
@@ -118,20 +115,20 @@ describe('Controls/_listDragNDrop/FlatController', () => {
    describe('calculateDragPosition', () => {
       beforeEach(() => {
          const entity = new ItemsEntity( { items: [1] } );
-         controller.startDrag(1, entity);
+         controller.startDrag(model.getItemBySourceKey(1), entity);
       });
 
       it('hover on dragged item', () => {
-         const dragPosition = controller.calculateDragPosition(model.getItemBySourceKey(1));
+         const dragPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(1)});
          assert.isUndefined(dragPosition);
       });
 
       it ('first calculate position', () => {
-         let newPosition = controller.calculateDragPosition(model.getItemBySourceKey(3));
+         let newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(3)});
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(2));
+         newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(2)});
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'after');
       });
@@ -144,15 +141,15 @@ describe('Controls/_listDragNDrop/FlatController', () => {
          controller.setDragPosition(setPosition);
          assert.equal(controller.getDragPosition(), setPosition);
 
-         let newPosition = controller.calculateDragPosition(model.getItemBySourceKey(3));
+         let newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(3)});
          assert.equal(newPosition.index, 2);
          assert.equal(newPosition.position, 'after');
 
-         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(2));
+         newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(2)});
          assert.equal(newPosition.index, 1);
          assert.equal(newPosition.position, 'before');
 
-         newPosition = controller.calculateDragPosition(model.getItemBySourceKey(1));
+         newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(1)});
          assert.deepEqual(newPosition, { index: 1, position: 'after' });
       });
    });
@@ -171,32 +168,32 @@ describe('Controls/_listDragNDrop/FlatController', () => {
                }
             };
 
-      assert.isTrue(DndFlatController.canStartDragNDrop(canStartDragNDrop, event, false));
-      assert.isTrue(DndFlatController.canStartDragNDrop(false, event, false));
-      assert.isFalse(DndFlatController.canStartDragNDrop(canStartDragNDrop, event, true));
-      assert.isFalse(DndFlatController.canStartDragNDrop(true, event, false));
+      assert.isTrue(DndController.canStartDragNDrop(canStartDragNDrop, event, false));
+      assert.isTrue(DndController.canStartDragNDrop(false, event, false));
+      assert.isFalse(DndController.canStartDragNDrop(canStartDragNDrop, event, true));
+      assert.isFalse(DndController.canStartDragNDrop(true, event, false));
 
       event.nativeEvent.button = {};
-      assert.isFalse(DndFlatController.canStartDragNDrop(canStartDragNDrop, event, false));
+      assert.isFalse(DndController.canStartDragNDrop(canStartDragNDrop, event, false));
    });
 
    describe('getSelectionForDragNDrop', () => {
       it('selected all', () => {
-         let result = DndFlatController.getSelectionForDragNDrop(model, { selected: [null], excluded: [] }, 1);
+         let result = DndController.getSelectionForDragNDrop(model, { selected: [null], excluded: [] }, 1);
          assert.deepEqual(result, {
             selected: [null],
             excluded: [],
             recursive: false
          });
 
-         result = DndFlatController.getSelectionForDragNDrop(model, { selected: [null], excluded: [1] }, 1);
+         result = DndController.getSelectionForDragNDrop(model, { selected: [null], excluded: [1] }, 1);
          assert.deepEqual(result, {
             selected: [null],
             excluded: [],
             recursive: false
          }, 'Потащили за исключенный ключ, он должен удалиться из excluded');
 
-         result = DndFlatController.getSelectionForDragNDrop(model, { selected: [null], excluded: [1] }, 2);
+         result = DndController.getSelectionForDragNDrop(model, { selected: [null], excluded: [1] }, 2);
          assert.deepEqual(result, {
             selected: [null],
             excluded: [1],
@@ -205,21 +202,21 @@ describe('Controls/_listDragNDrop/FlatController', () => {
       });
 
       it('not selected all', () => {
-         let result = DndFlatController.getSelectionForDragNDrop(model, { selected: [1], excluded: [] }, 1);
+         let result = DndController.getSelectionForDragNDrop(model, { selected: [1], excluded: [] }, 1);
          assert.deepEqual(result, {
             selected: [1],
             excluded: [],
             recursive: false
          });
 
-         result = DndFlatController.getSelectionForDragNDrop(model, { selected: [2], excluded: [] }, 1);
+         result = DndController.getSelectionForDragNDrop(model, { selected: [2], excluded: [] }, 1);
          assert.deepEqual(result, {
             selected: [1, 2],
             excluded: [],
             recursive: false
          }, 'dragKey добавился в selected и selected отсортирован');
 
-         result = DndFlatController.getSelectionForDragNDrop(model, { selected: [3, 1], excluded: [] }, 2);
+         result = DndController.getSelectionForDragNDrop(model, { selected: [3, 1], excluded: [] }, 2);
          assert.deepEqual(result, {
             selected: [1, 2, 3],
             excluded: [],

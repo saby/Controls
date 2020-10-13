@@ -10,7 +10,6 @@ import { Model } from 'Types/entity';
 import { saveConfig } from 'Controls/Application/SettingsController';
 import {tmplNotify, keysHandler} from 'Controls/eventUtils';
 import { MouseButtons, MouseUp } from 'Controls/fastOpenUtils';
-import { DndTreeController } from 'Controls/listDragNDrop';
 import { Controller as SourceController } from 'Controls/source';
 import { error as dataSourceError } from 'Controls/dataSource';
 import selectionToRecord = require('Controls/_operations/MultiSelector/selectionToRecord');
@@ -19,12 +18,15 @@ import { TreeItem } from 'Controls/display';
 import TreeControlTpl = require('wml!Controls/_tree/TreeControl/TreeControl');
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import { SyntheticEvent } from 'UI/Vdom';
 
 const HOT_KEYS = {
     expandMarkedItem: Env.constants.key.right,
     collapseMarkedItem: Env.constants.key.left
 };
 
+const DRAG_MAX_OFFSET = 10;
+const EXPAND_ON_DRAG_DELAY = 1000;
 const DEFAULT_COLUMNS_VALUE = [];
 
 type TNodeSourceControllers = Map<string, SourceController>;
@@ -456,7 +458,7 @@ const _private = {
      * @remark это нужно для того, чтобы когда event.target это содержимое строки, которое по высоте меньше 20 px,
      *  то проверка на 10px сверху и снизу сработает неправильно и нельзя будет навести на узел(position='on')
      */
-    getTargetRow(event: SyntheticEvent): EventTarget {
+    getTargetRow(event: SyntheticEvent): Element {
         if (!event.target || !event.target.classList || !event.target.parentNode || !event.target.parentNode.classList) {
             return event.target;
         }
@@ -506,6 +508,10 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _notifyHandler: tmplNotify,
     _errorController: null,
     _errorViewConfig: null,
+
+    _itemOnWhichStartCountDown: null,
+    _timeoutForExpandOnDrag: null,
+
     constructor: function(cfg) {
         this._nodesSourceControllers = _private.getNodesSourceControllers(this);
         this._onNodeRemovedFn = this._onNodeRemoved.bind(this);
@@ -763,51 +769,46 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         return this._notify('markedKeyChanged', [key]);
     },
 
-    _draggingItemMouseMove(e, itemData, nativeEvent){
+    _draggingItemMouseMove(e, itemData, nativeEvent): void {
         e.stopPropagation();
         if (itemData.dispItem.isNode()) {
-            this._nodeMouseMove(itemData, nativeEvent)
+            const dndListController = this._children.baseControl.getDndListController();
+            const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
+            const targetElement = _private.getTargetRow(nativeEvent);
+            const mouseOffsetInTargetItem = this._calculateOffset(nativeEvent, targetElement);
+            const dragTargetPosition = dndListController.calculateDragPosition({
+                targetItem: dispItem,
+                mouseOffsetInTargetItem
+            });
+
+            if (dragTargetPosition) {
+                if (this._notify('changeDragTarget', [dndListController.getDragEntity(), dragTargetPosition.dispItem, dragTargetPosition.position]) !== false) {
+                    dndListController.setDragPosition(dragTargetPosition);
+                }
+
+                /*
+                    Если мы сверху меняем позицию на before, то есть перед этим узлом вставляем элемент,
+                    то почему-то не срабатывает mouseLeave
+                 */
+                if (dragTargetPosition.position === 'before') {
+                    this._clearTimeoutForExpandOnDrag();
+                }
+            }
+
+            if (!itemData.isExpanded && dndListController.getDraggableItem() !== dispItem && this._isInsideDragTargetNode(nativeEvent, targetElement)) {
+                this._startCountDownForExpandNode(dispItem, this._expandNodeOnDrag);
+            }
         }
     },
-
     _draggingItemMouseLeave: function() {
-        const dndListController = this._children.baseControl.getDndListController();
-        dndListController.stopCountDownForExpandNode();
+        this._clearTimeoutForExpandOnDrag();
     },
     _dragEnd: function() {
-        const dndListController = this._children.baseControl.getDndListController();
-        if (dndListController instanceof DndTreeController) {
-            dndListController.stopCountDownForExpandNode();
-        }
+        this._clearTimeoutForExpandOnDrag();
     },
 
     _expandNodeOnDrag(dispItem: TreeItem<Model>): void {
         _private.toggleExpanded(this, dispItem);
-    },
-
-    _nodeMouseMove: function(itemData, event) {
-        const dndListController = this._children.baseControl.getDndListController();
-        const dispItem = this._options.useNewModel ? itemData : itemData.dispItem;
-        const targetElement = _private.getTargetRow(event);
-        const dragTargetPosition = dndListController.calculateDragPositionRelativeNode(dispItem, event, targetElement);
-
-        if (dragTargetPosition) {
-            if (this._notify('changeDragTarget', [dndListController.getDragEntity(), dragTargetPosition.item, dragTargetPosition.position]) !== false) {
-                dndListController.setDragPosition(dragTargetPosition);
-            }
-
-            /*
-                Если мы сверху меняем позицию на before, то есть перед этим узлом вставляем элемент,
-                то почему-то не срабатывает mouseLeave
-             */
-            if (dragTargetPosition.position === 'before') {
-                dndListController.stopCountDownForExpandNode();
-            }
-        }
-
-        if (!itemData.isExpanded && dndListController.isInsideDragTargetNode(event, targetElement)) {
-            dndListController.startCountDownForExpandNode(dispItem, this._expandNodeOnDrag);
-        }
     },
 
     _onItemClick: function(e, item, originalEvent, columnIndex: number) {
@@ -849,6 +850,54 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _beforeUnmount: function() {
         _private.clearNodesSourceControllers(this);
         TreeControl.superclass._beforeUnmount.apply(this, arguments);
+    },
+
+    _startCountDownForExpandNode(item: TreeItem<Model>, expandNode: Function): void {
+        if (!this._itemOnWhichStartCountDown && item.isNode()) {
+            this._clearTimeoutForExpandOnDrag();
+            this._itemOnWhichStartCountDown = item;
+            this._setTimeoutForExpandOnDrag(item, expandNode);
+        }
+    },
+
+    _clearTimeoutForExpandOnDrag(): void {
+        if (this._timeoutForExpandOnDrag) {
+            clearTimeout(this._timeoutForExpandOnDrag);
+            this._timeoutForExpandOnDrag = null;
+            this._itemOnWhichStartCountDown = null;
+        }
+    },
+
+    _setTimeoutForExpandOnDrag(item: TreeItem<Model>, expandNode: Function): void {
+        this._timeoutForExpandOnDrag = setTimeout(() => {
+            expandNode(item);
+        }, EXPAND_ON_DRAG_DELAY);
+    },
+
+    _isInsideDragTargetNode(event: SyntheticEvent<MouseEvent>, targetElement: EventTarget): boolean {
+        const offset = this._calculateOffset(event, targetElement);
+
+        if (offset) {
+            if (offset.top > DRAG_MAX_OFFSET && offset.bottom > DRAG_MAX_OFFSET) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    _calculateOffset(event: SyntheticEvent<MouseEvent>, targetElement: Element): {top: number, bottom: number} {
+        let result = null;
+
+        if (targetElement) {
+            const dragTargetRect = targetElement.getBoundingClientRect();
+
+            result = { top: null, bottom: null };
+            result.top = event.nativeEvent.pageY - dragTargetRect.top;
+            result.bottom = dragTargetRect.top + dragTargetRect.height - event.nativeEvent.pageY;
+        }
+
+        return result;
     }
 });
 TreeControl._theme = ['Controls/treeGrid'];

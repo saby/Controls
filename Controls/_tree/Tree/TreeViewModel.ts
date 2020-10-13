@@ -653,6 +653,8 @@ var
                 if (this._dragTargetPosition.index === current.index) {
                     current.dragTargetNode = true;
                 }
+                // Предыдущая позиция нужна, чтобы когда навели на узел, элемент не пропал из списка,
+                // а отобразился там где был до наведения на узел
                 if (this._prevDragTargetPosition && this._prevDragTargetPosition.index === current.index) {
                     current.dragTargetPosition = this._prevDragTargetPosition.position;
                     current.draggingItemData = this._draggingItemData;
