@@ -87,7 +87,7 @@ class DialogTemplate extends Control<IDialogTemplateOptions> implements IPopupTe
     }
 
     private _prepareTheme(): void {
-        this._headerTheme = ManagerController.getPopupHeaderTheme();
+        this._headerTheme = this._options.headerTheme || ManagerController.getPopupHeaderTheme();
     }
 
     private _onMouseDown(event: SyntheticEvent<Event>): void {
