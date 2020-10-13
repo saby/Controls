@@ -28,6 +28,6 @@ class Header extends Control<IControlOptions> {
         }
         return options.maximized;
     }
-    static _theme: string[] = ['Controls/popupTemplate'];
+    static _theme: string[] = ['Controls/popupTemplate', 'Controls/Classes'];
 }
 export default Header;
