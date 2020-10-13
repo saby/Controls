@@ -2,6 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import tmpl = require('wml!Controls/_LoadingIndicator/LoadingIndicator');
 import randomId = require('Core/helpers/Number/randomId');
 import {List} from 'Types/collection';
+import {DialogOpener} from 'Controls/popup';
+import Indicator from 'Controls/_LoadingIndicator/Indicator';
 import ILoadingIndicator, {ILoadingIndicatorOptions} from 'Controls/_LoadingIndicator/interface/ILoadingIndicator';
 import LoadingIndicatorOpener from 'Controls/_LoadingIndicator/LoadingIndicatorOpener';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -86,6 +88,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     protected _toggleOverlayTimerId: number;
     protected _overlayDiv: HTMLDivElement = null;
     protected _messageDiv: HTMLDivElement = null;
+    protected _dialogOpener: DialogOpener = new DialogOpener();
 
     protected isGlobal: boolean = true;
     protected message: string = '';
@@ -96,6 +99,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     protected mods: Array<string> | string;
     protected delay: number;
     protected delayTimeout: number;
+    private _isDialogVisible: boolean;
 
     protected _beforeMount(cfg: ILoadingIndicatorOptions): void {
         this.mods = [];
@@ -324,7 +328,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
 
     private _getOverlay(overlay: string): string {
         // if overlay is visible, but message don't visible, then overlay must be transparent.
-        if (this._isOverlayVisible && !this._isMessageVisible) {
+        if (this._isOverlayVisible && !this._isMessageVisible && !this._isDialogVisible) {
             return 'default';
         }
         return overlay;
@@ -419,18 +423,48 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         }
     }
 
-    private _toggleIndicatorVisible(toggle: boolean, config?: ILoadingIndicatorOptions): void {
+    private _toggleIndicatorVisible(toggle: boolean, config: ILoadingIndicatorOptions = {}): void {
+        const isGlobal = config.hasOwnProperty('isGlobal') ? config.isGlobal : this.isGlobal;
         if (toggle) {
             this._clearOverlayTimerId();
-            this._isMessageVisible = true;
             this._isOverlayVisible = true;
             this._toggleEvents(false);
             this._updateProperties(config);
+            if (isGlobal) {
+                this._openIndicatorPopup(config);
+            } else {
+                this._isMessageVisible = true;
+            }
         } else {
+            this._closeIndicatorPopup();
             this._isMessageVisible = false;
             this._isOverlayVisible = false;
         }
         this._redrawOverlay();
+    }
+
+    private _openIndicatorPopup(config: ILoadingIndicatorOptions): void {
+        this._isDialogVisible = true;
+        this._dialogOpener.open({
+            template: Indicator,
+            opener: null,
+            templateOptions: {
+                message: this.message,
+                scroll: this.scroll,
+                small: this.small,
+                theme: this.theme
+            },
+            eventHandlers: {
+                onClose: () => {
+                    this._isDialogVisible = false;
+                }
+            }
+        });
+    }
+
+    private _closeIndicatorPopup(): void {
+        this._dialogOpener.close();
+        this._isDialogVisible = false;
     }
 
     private _createOverlay(): void {

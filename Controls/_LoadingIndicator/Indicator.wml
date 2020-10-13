@@ -1,0 +1,9 @@
+<div class="{{_options.message ? 'controls-loading-indicator_text'}}
+            {{_options.scroll || _options.small !== 'yes' ? 'controls-loading-indicator_scroll controls-loading-indicator_sided controls-loading-indicator_sided-' + _options.scroll}}
+            {{_options.small ? 'controls-loading-indicator_small'}}
+            controls-Popup__isolatedFocusingContext"
+     on:keydown="_keydownHandler()">
+    <div class="controls-loading-indicator-in controls-loading-indicator-in_theme-{{_options.theme}}">
+        {{_options.message}}
+    </div>
+</div>
