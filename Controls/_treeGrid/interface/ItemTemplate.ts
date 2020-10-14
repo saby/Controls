@@ -52,7 +52,7 @@ export default interface IItemTemplateOptions {
     * @see expanderSize
     */
    expanderIcon?: string;
-   /** 
+   /**
     * @name Controls/treeGrid:ItemTemplate#expanderSize
     * @cfg {Size} Размер области, который отведён под иконку узла или скрытого узла.
     * @default s
@@ -70,4 +70,16 @@ export default interface IItemTemplateOptions {
     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
     */
    levelIndentSize?: string;
+
+    /**
+     * @typedef {String} Position
+     * @variant default Стандартное расположение иконки узла.
+     * @variant custom Произвольное расположение  иконки узла.
+     */
+    /**
+     * @name Controls/treeGrid:ItemTemplate#expanderPosition
+     * @cfg {Position} Расположение иконки для узла и скрытого узла.
+     * @default default
+     */
+    expanderPosition?: 'default' | 'custom';
 }

@@ -858,7 +858,8 @@ TreeControl.getDefaultOptions = () => {
         root: null,
         columns: DEFAULT_COLUMNS_VALUE,
         selectDescendants: true,
-        selectAncestors: true
+        selectAncestors: true,
+        expanderPosition: 'default'
     };
 };
 

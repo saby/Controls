@@ -152,7 +152,9 @@ var
 
         shouldDrawExpander(itemData, tmplExpanderIcon): boolean {
             const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
-            if (expanderIcon === 'none' || itemData.item.get(itemData.nodeProperty) === null) {
+            const expanderPosition = itemData.getExpanderPosition();
+            if ((expanderIcon === 'none' || expanderPosition === 'custom') ||
+                itemData.item.get(itemData.nodeProperty) === null) {
                 return false;
             }
 
@@ -161,12 +163,13 @@ var
         },
         shouldDrawExpanderPadding(itemData, tmplExpanderIcon, tmplExpanderSize): boolean {
             const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
+            const expanderPosition = itemData.getExpanderPosition();
             const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
 
             if (itemData.expanderVisibility === 'hasChildren') {
-                return itemData.thereIsChildItem && expanderIcon !== 'none';
+                return itemData.thereIsChildItem && (expanderIcon !== 'none' && expanderPosition !== 'custom');
             } else {
-                return !expanderSize && expanderIcon !== 'none';
+                return !expanderSize && (expanderIcon !== 'none' && expanderPosition !== 'custom');
             }
         },
         getExpanderPaddingClasses(itemData, tmplExpanderSize, isNodeFooter): string {
@@ -611,6 +614,7 @@ var
 
 
             current.getExpanderIcon = (tmplExpanderIcon) => tmplExpanderIcon || this._options.expanderIcon;
+            current.getExpanderPosition = () => this._options.expanderPosition;
             current.getExpanderSize = (tmplExpanderSize) => tmplExpanderSize || this._options.expanderSize;
 
             // 1. Нужен ли экспандер.

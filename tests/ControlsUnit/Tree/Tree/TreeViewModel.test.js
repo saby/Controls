@@ -199,7 +199,8 @@ define([
                            return null;
                         }
                      },
-                     getExpanderIcon: () => undefined
+                     getExpanderIcon: () => undefined,
+                     getExpanderPosition: () => 'default'
                   }
                }, {
                   itemData: {
@@ -208,7 +209,8 @@ define([
                            return null;
                         }
                      },
-                     getExpanderIcon: () => 'testIcon'
+                     getExpanderIcon: () => 'testIcon',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'testIcon'
                }, {
@@ -218,7 +220,8 @@ define([
                            return null;
                         }
                      },
-                     getExpanderIcon: () => 'none'
+                     getExpanderIcon: () => 'none',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'none'
                }, {
@@ -228,7 +231,8 @@ define([
                            return false;
                         }
                      },
-                     getExpanderIcon: () => undefined
+                     getExpanderIcon: () => undefined,
+                     getExpanderPosition: () => 'default'
                   }
                }, {
                   itemData: {
@@ -237,7 +241,8 @@ define([
                            return false;
                         }
                      },
-                     getExpanderIcon: () => 'testIcon'
+                     getExpanderIcon: () => 'testIcon',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'testIcon'
                }, {
@@ -247,7 +252,8 @@ define([
                            return false;
                         }
                      },
-                     getExpanderIcon: () => 'none'
+                     getExpanderIcon: () => 'none',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'none'
                }, {
@@ -257,7 +263,8 @@ define([
                            return true;
                         }
                      },
-                     getExpanderIcon: () => undefined
+                     getExpanderIcon: () => undefined,
+                     getExpanderPosition: () => 'default'
                   }
                }, {
                   itemData: {
@@ -266,7 +273,8 @@ define([
                            return true;
                         }
                      },
-                     getExpanderIcon: () => 'testIcon'
+                     getExpanderIcon: () => 'testIcon',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'testIcon'
                }, {
@@ -276,57 +284,75 @@ define([
                            return true;
                         }
                      },
-                     getExpanderIcon: () => 'none'
+                     getExpanderIcon: () => 'none',
+                     getExpanderPosition: () => 'default'
                   },
                   expanderIcon: 'none'
-               }],
-               testsResultShouldDrawExpander = [false, false, false, true, true, false, true, true, false];
+               }, {
+                     itemData: {
+                        item: {
+                           get: function() {
+                              return true;
+                           }
+                        },
+                        getExpanderIcon: () => 'testIcon',
+                        getExpanderPosition: () => 'custom'
+                     },
+                     expanderIcon: 'none'
+                  }],
+               testsResultShouldDrawExpander = [false, false, false, true, true, false, true, true, false, false];
             testsShouldDrawExpander.forEach(function(item, i) {
                assert.equal(tree.TreeViewModel._private.shouldDrawExpander(testsShouldDrawExpander[i].itemData, testsShouldDrawExpander[i].expanderIcon),
                   testsResultShouldDrawExpander[i],
                   'Invalid value "shouldDrawExpander(...)" for step ' + i + '.');
             });
          });
-          it('shouldDrawExpanderPadding', function() {
-              var
-                  shouldDrawExpanderPadding = tree.TreeViewModel._private.shouldDrawExpanderPadding;
-              assert.isTrue(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'node',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'visible',
-                  thereIsChildItem: true
-              }, 'node', undefined));
-              assert.isTrue(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'node',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'visible',
-                  thereIsChildItem: false
-              }, 'node', undefined));
-              assert.isTrue(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'node',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'hasChildren',
-                  thereIsChildItem: true
-              }, 'node', undefined));
-              assert.isFalse(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'none',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'visible',
-                  thereIsChildItem: true
-              }, 'none', undefined));
-              assert.isFalse(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'none',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'hasChildren',
-                  thereIsChildItem: true
-              }, 'none', undefined));
-              assert.isFalse(shouldDrawExpanderPadding({
-                  getExpanderIcon: () => 'node',
-                  getExpanderSize: () => undefined,
-                  expanderVisibility: 'hasChildren',
-                  thereIsChildItem: false
-              }, 'node', undefined));
-          });
+         it('shouldDrawExpanderPadding', function() {
+            var
+               shouldDrawExpanderPadding = tree.TreeViewModel._private.shouldDrawExpanderPadding;
+            assert.isTrue(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'node',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'visible',
+               thereIsChildItem: true
+            }, 'node', undefined));
+            assert.isTrue(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'node',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'visible',
+               thereIsChildItem: false
+            }, 'node', undefined));
+            assert.isTrue(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'node',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'hasChildren',
+               thereIsChildItem: true
+            }, 'node', undefined));
+            assert.isFalse(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'none',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'visible',
+               thereIsChildItem: true
+            }, 'none', undefined));
+            assert.isFalse(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'none',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'hasChildren',
+               thereIsChildItem: true
+            }, 'none', undefined));
+            assert.isFalse(shouldDrawExpanderPadding({
+               getExpanderIcon: () => 'node',
+               getExpanderPosition: () => 'default',
+               getExpanderSize: () => undefined,
+               expanderVisibility: 'hasChildren',
+               thereIsChildItem: false
+            }, 'node', undefined));
+         });
           it('should redraw list if once folder was deleted', function() {
             var
                rs = new collection.RecordSet({
