@@ -1,6 +1,6 @@
 <div class="controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast_theme-' + _options.theme : 'controls-Paging__same_theme-' + _options.theme}}">
     <div class="controls-Paging__wrapper controls-Paging__wrapper_theme-{{_options.theme}}">
-        <ws:if data="{{_options.contentTemplate && _isShowContentTemplate()}}">
+        <ws:if data="{{_hasContentTemplate() && _isShowContentTemplate()}}">
          <span class="controls-Paging__btn controls-Paging__btn-Template controls-Paging__btn_theme-{{_options.theme}}
                         controls-Paging__btn_first controls-Paging__arrow controls-Paging__arrow__state-normal">
             <ws:partial template="{{_options.contentTemplate}}"/>
@@ -57,7 +57,7 @@
                         controls-Paging__arrow controls-Paging__arrow_theme-{{_options.theme}}
                         controls-Paging__arrow__state-{{_stateBottom}}
                         controls-Paging__arrow__state-{{_stateBottom}}_theme-{{_options.theme}}
-                        {{_options.contentTemplate ? 'controls-Paging__arrow_padding-left-null' : ''}}"
+                        {{_hasContentTemplate() ? 'controls-Paging__arrow_padding-left-null' : ''}}"
                attr:title="{[В конец]}" on:click="_arrowClick('End', 'Bottom')">
             <i class="controls-Paging_icon-End_{{_isDigit() ? 'digits_'}}theme-{{_options.theme}} controls-Paging__icon_theme-{{_options.theme}}"></i>
          </span>

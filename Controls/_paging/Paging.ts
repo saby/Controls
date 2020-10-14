@@ -135,6 +135,22 @@ class Paging extends Control<IPagingOptions> {
             this._getArrowStateVisibility('end') === 'hidden');
     }
 
+    private _hasContentTemplate(): boolean {
+        if (this._options.contentTemplate) {
+            if (this._options.contentTemplate.isDataArray) {
+                for (let i = 0; i < this._options.contentTemplate.length; i++) {
+                    if (this._options.contentTemplate[i].func()) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                return this._options.contentTemplate.func();
+            }
+        }
+        return false;
+    }
+
     private _changePage(page: number): void {
         if (this._options.selectedPage !== page) {
             this._notify('selectedPageChanged', [page]);
