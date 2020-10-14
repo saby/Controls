@@ -1,4 +1,5 @@
 import ParallelDeferred = require('Core/ParallelDeferred');
+import {constants} from 'Env/Env';
 
 interface IPendingOptions {
     notifyHandler: TNotifier;
@@ -44,7 +45,7 @@ class PendingClass {
     private readonly _notify: TNotifier;
 
     constructor(options: IPendingOptions) {
-        if (typeof window !== 'undefined') {
+        if (constants.isBrowserPlatform) {
             this._beforeUnloadHandler = (event: Event): void => {
                 // We shouldn't close the tab if there are any pendings
                 if (this.hasPendings()) {
@@ -220,7 +221,7 @@ class PendingClass {
     destroy(): void {
         this._pendings = null;
         this._parallelDef = null;
-        if (typeof window !== 'undefined') {
+        if (constants.isBrowserPlatform) {
             window.removeEventListener('beforeunload', this._beforeUnloadHandler);
         }
     }

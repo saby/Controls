@@ -121,7 +121,7 @@ class Async extends Control<IOptions, TStateRecivied> {
          IoC.resolve('ILogger').error(receivedState);
       }
 
-      if (this._isClient() && (!moduleLoader.isLoaded(options.templateName) ||
+      if (constants.isBrowserPlatform && (!moduleLoader.isLoaded(options.templateName) ||
          this._isCompat() || !receivedState)) {
          return this._loadContentAsync(options.templateName, options.templateOptions);
       }
@@ -216,7 +216,7 @@ class Async extends Control<IOptions, TStateRecivied> {
    }
 
    _pushDepToHeadData(dep: string): void {
-      if (this._isClient()) {
+      if (constants.isBrowserPlatform) {
          return;
       }
 
@@ -243,10 +243,6 @@ class Async extends Control<IOptions, TStateRecivied> {
          return;
       }
       this.optionsForComponent.resolvedTemplate = tpl;
-   }
-
-   _isClient(): boolean {
-      return typeof window !== 'undefined';
    }
 
    _isCompat(): boolean {

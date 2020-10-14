@@ -1,6 +1,7 @@
 import { TClosure as thelpers } from 'UI/Executor';
 import validHtml = require('Core/validHtml');
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
 
    var markupGenerator,
       defCollection,
@@ -188,7 +189,7 @@ import {Logger} from 'UI/Utils';
       currentValidHtml = control._options.validHtml || validHtml;
 
       const events = attr.events || {};
-      if (typeof window !== 'undefined') {
+      if (constants.isBrowserPlatform) {
          addEventListener(events, 'on:contextmenu', '_contextMenuHandler');
          addEventListener(events, 'on:copy', '_copyHandler');
       }

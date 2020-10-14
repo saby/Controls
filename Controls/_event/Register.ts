@@ -8,12 +8,13 @@ import template = require('wml!Controls/_event/Register');
 import entity = require('Types/entity');
 import {IRegistrarConfig} from './Registrar';
 import RegisterClass from './RegisterClass';
+import {constants} from 'Env/Env';
 
 const EventRegistrator = Control.extend({
    _template: template,
    _register: null,
    _beforeMount(newOptions): void {
-      if (typeof window !== 'undefined') {
+      if (constants.isBrowserPlatform) {
          this._forceUpdate = function() {
             // Do nothing
             // This method will be called because of handling event.

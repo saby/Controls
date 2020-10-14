@@ -1,5 +1,6 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS} from './ColumnScroll';
+import {constants} from 'Env/Env';
 
 export interface IDragScrollParams {
     dragNDropDelay?: number;
@@ -269,7 +270,7 @@ export class DragScroll {
      * @private
      */
     private _getSelection(): Selection | null {
-        return typeof window !== 'undefined' ? window.getSelection() : null;
+        return constants.isBrowserPlatform ? window.getSelection() : null;
     }
 
     /**

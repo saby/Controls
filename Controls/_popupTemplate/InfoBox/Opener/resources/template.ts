@@ -3,12 +3,13 @@ import template = require('wml!Controls/_popupTemplate/InfoBox/Opener/resources/
 import {load} from 'Core/library';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IInfoboxTemplateOptions} from 'Controls/_popupTemplate/InfoBox';
+import {constants} from 'Env/Env';
 
 export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
    protected _template: TemplateFunction = template;
 
    protected _beforeMount(options: IInfoboxTemplateOptions): Promise<TemplateFunction> | void {
-      if (typeof window !== 'undefined' && this._needRequireModule(options.template)) {
+      if (constants.isBrowserPlatform && this._needRequireModule(options.template)) {
          return load(options.template);
       }
    }

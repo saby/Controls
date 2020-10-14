@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popup/Previewer/PreviewerTemplate');
 import 'Controls/Container/Async';
 import {load} from 'Core/library';
+import {constants} from 'Env/Env';
 
 /**
  * @class Controls/_popup/Previewer/PreviewerTemplate
@@ -17,7 +18,7 @@ class PreviewerTemplate extends Control<IPreviewerOptions> {
     _template: TemplateFunction = template;
 
     protected _beforeMount(options: IPreviewerOptions): void|Promise<void> {
-        if (typeof window !== 'undefined' && this._needRequireModule(options.template)) {
+        if (constants.isBrowserPlatform && this._needRequireModule(options.template)) {
             return load(options.template as string);
         }
     }

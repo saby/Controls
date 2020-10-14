@@ -1,6 +1,6 @@
 import Env = require('Env/Env');
 import {getScrollbarWidth} from '../Utils/getScrollbarWidth';
-
+import {constants} from 'Env/Env';
 
 var _private = {
 
@@ -54,7 +54,7 @@ export = {
         /**
          * Do not cache on the server and firefox.
          */
-        if (!(typeof window === 'undefined' || Env.detection.firefox)) {
+        if (!(!constants.isBrowserPlatform || Env.detection.firefox)) {
             _private.styleHideScrollbar[scrollMode] = styleHideScrollbar;
         }
 

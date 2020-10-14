@@ -1,3 +1,5 @@
+import {constants} from 'Env/Env';
+
 const position: string = `position: absolute;
    width: 100px;
    height: 100px;
@@ -11,7 +13,7 @@ export function getScrollbarWidth(detection): number {
         return detection.IEVersion < 17 ? 12 : 16;
     } else if (detection.isIE10 || detection.isIE11) {
         return 17;
-    } else if (typeof window !== 'undefined') {
+    } else if (constants.isBrowserPlatform) {
         return getScrollbarWidthByMeasuredBlock();
     }
 }
