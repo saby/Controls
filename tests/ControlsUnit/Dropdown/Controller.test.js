@@ -868,6 +868,21 @@ define(
             });
          });
 
+         it('_isSelectedEmptyItem', function() {
+            const item = new entity.Model({
+               rawData: { key: 2 },
+               keyProperty: 'key'
+            });
+            let dropdownController = getDropdownController(config);
+            dropdownController._options = {emptyText: 'text'};
+            let result = dropdownController._isSelectedEmptyItem([item]);
+            assert.isFalse(result);
+
+            item.set('key', null);
+            result = dropdownController._isSelectedEmptyItem([item]);
+            assert.isTrue(result);
+         });
+
          let historySource,
             dropdownController;
          describe('history', ()=> {

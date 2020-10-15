@@ -175,8 +175,9 @@ export default class _Controller implements IDropdownController {
       this._sticky = null;
    }
 
-   handleSelectedItems(data): void {
-      this._updateHistory(data);
+   handleSelectedItems(data: Model | Model[]): void {
+      const items = data instanceof Array ? data : [data];
+      this._updateHistory(items);
       this._closeDropdownList();
    }
 
@@ -278,7 +279,7 @@ export default class _Controller implements IDropdownController {
       this._menuSource = new PrefetchProxy({
          target: this._source,
          data: {
-            query: items
+            query: items.clone && items.clone()
          }
       });
    }
@@ -461,14 +462,18 @@ export default class _Controller implements IDropdownController {
       }
    }
 
-   private _updateHistory(items): void {
-      if (isHistorySource(this._source)) {
+   private _updateHistory(items: Model[]): void {
+      if (isHistorySource(this._source) && !this._isSelectedEmptyItem(items)) {
          this._source.update(items, getMetaHistory());
 
          if (this._sourceController && this._source.getItems) {
             this._setItems(this._source.getItems());
          }
       }
+   }
+
+   private _isSelectedEmptyItem(items: Model[]): boolean {
+      return this._options.emptyText && items[0].getKey() === null;
    }
 
    private _closeDropdownList(): void {

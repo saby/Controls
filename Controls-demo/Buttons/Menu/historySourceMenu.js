@@ -151,10 +151,11 @@ define('Controls-demo/Buttons/Menu/historySourceMenu',
                pinned.append([historyItem]);
             } else if (meta['$_pinned'] === false) {
                pinned.remove(pinned.getRecordById(item.getId()));
-            } else if (meta['$_history'] && !recent.getRecordById(item.getId())) {
+            } else if (meta['$_history'] && !recent.getRecordById(item.ids[0])) {
+               var id = item.ids[0];
                historyItem = new entity.Model({
                   rawData: {
-                     d: [String(item.getId()), item.getId()],
+                     d: [String(id), id],
                      s: [{ n: 'ObjectId', t: 'Строка' },
                         { n: 'HistoryId', t: 'Строка' }]
                   },
