@@ -351,7 +351,7 @@ class Field<Value, ModelOptions>
     }
 
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        const code: string = event.nativeEvent.code;
+        const code: string = detection.isIE ? event.nativeEvent.key : event.nativeEvent.code;
         const processedKeys: string[] = ['End', 'Home', 'Space', 'ArrowLeft', 'ArrowRight'];
 
         /**
@@ -366,9 +366,10 @@ class Field<Value, ModelOptions>
     }
 
     protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        const code: string = detection.isIE ? event.nativeEvent.key : event.nativeEvent.code;
         const processedKeys: string[] = ['End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
-        if (processedKeys.includes(event.nativeEvent.code)) {
+        if (processedKeys.includes(code)) {
             this._selectionFromFieldToModel();
         }
     }
