@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ActualApi from './ActualApi';
 import {IButton, IButtonOptions} from './interface/IButton';
+import {Logger} from 'UI/Utils';
 import {IClick} from './interface/IClick';
 import {
     ICaption,
@@ -64,6 +65,8 @@ export function cssStyleGeneration(options: IButtonControlOptions, hasMsg: boole
         this._viewMode = actualState.viewMode;
         this._height = actualState.height;
     }
+    Logger.error('Метод cssStyleGeneration будет удален из библиотеки Controls/buttons:Button в версию 21.1000.' +
+                 'Необходимо перейти на использование API без преобразования опций.');
 }
 
 export function defaultHeight(viewMode: string): string {
