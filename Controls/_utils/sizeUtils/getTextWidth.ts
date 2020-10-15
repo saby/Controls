@@ -2,23 +2,24 @@
  * Модуль, в котором реализована функция <b>getTextWidth(parent, child)</b>.
  * Высчитывает ширину переданного текста в пикселях.
  * Высчитывает по базовым на странице шрифту и размеру, то есть без довеска каких-либо классов.
+ * 
+ * @remark
+ * Параметры функции:
+ * 
+ * * {String} text Переданный текст
  *
- * <h2>Параметры функции</h2>
- * <ul>
- *    <li>{String} text Переданный текст</li>
- * </ul>
+ * Возвращает:
+ * 
+ * * {Number} Ширина переданного текста в пикселях.
  *
- * <h2>Возвращает</h2>
- * {Number} Ширина переданного текста в пикселях.
- *
- * <h2>Пример использования</h2>
- * <pre>
- *     helpers.getTextWidth("helloWorld")
+ * @example
+ * <pre class="brush: js">
+ * helpers.getTextWidth("helloWorld");
  * </pre>
  *
  * @class Controls/Utils/getTextWidth
  * @public
- * @author Мальцев Алексей Александрович
+ * @author Мальцев А.А.
  */
 
 export function getTextWidth(text: string, fontSize: number, isPureText: boolean): number {
