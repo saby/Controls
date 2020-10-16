@@ -121,7 +121,7 @@ define([
 
             sandbox.stub(control, '_canScroll').returns([true]);
             sandbox.stub(control, '_scrollToDate');
-            control._afterMount();
+            control._afterMount({});
             sinon.assert.called(control._scrollToDate);
             sandbox.restore();
          });

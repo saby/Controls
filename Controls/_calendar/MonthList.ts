@@ -93,6 +93,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     private _scrollTop: number = 0;
 
+    protected _topShadowVisibility: string;
+    protected _bottomShadowVisibility: string;
+
     private _enrichItemsDebounced: Function;
 
     protected _virtualPageSize: number;
@@ -110,6 +113,11 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             position = options.viewMode === VIEW_MODE.year ?
                 dateUtils.getStartOfYear(now) : dateUtils.getStartOfMonth(now);
         }
+
+        // Включаем тени при инициализации чтобы избежать их моргания
+        const topShadowVisibility = options.topShadowVisibility || 'visible';
+        const bottomShadowVisibility = options.bottomShadowVisibility || 'visible';
+        this._updateShadowVisibility(topShadowVisibility, bottomShadowVisibility);
 
         const normalizedPosition = this._normalizeDate(position, options.viewMode);
 
@@ -134,11 +142,17 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         }
     }
 
-    protected _afterMount(): void {
+    protected _afterMount(options: IModuleComponentOptions): void {
+        // Если период отображения месяцев ограничен - меняем тип теней, чтобы при достижении края тень пропала
+        if (options.displayedRanges) {
+            this._updateShadowVisibility(options.topShadowVisibility, options.bottomShadowVisibility);
+        }
         this._updateScrollAfterViewModification(true);
     }
 
     protected _beforeUpdate(options: IModuleComponentOptions): void {
+        this._updateShadowVisibility(options.topShadowVisibility, options.bottomShadowVisibility);
+
         this._updateItemTemplate(options);
         const sourceUpdated = this._updateSource(options, this._options);
         if (sourceUpdated) {
@@ -182,6 +196,15 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
     protected _getMonth(year: number, month: number): Date {
         return new WSDate(year, month, 1);
+    }
+
+    private _updateShadowVisibility(topShadowVisibility: string, bottomShadowVisibility: string): void {
+        if (this._topShadowVisibility !== topShadowVisibility) {
+            this._topShadowVisibility = topShadowVisibility;
+        }
+        if (this._bottomShadowVisibility !== bottomShadowVisibility) {
+            this._bottomShadowVisibility = bottomShadowVisibility;
+        }
     }
 
     protected _drawItemsHandler(): void {
@@ -552,8 +575,6 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             order: 'asc',
             dateConstructor: WSDate,
             displayedRanges: null,
-            topShadowVisibility: 'visible',
-            bottomShadowVisibility: 'visible',
             itemDataLoadRatio: 0.1
         };
     }
