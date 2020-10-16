@@ -982,7 +982,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         assert.equal(item, editingItem.contents);
                         assert.isFalse(isAdd);
                     },
-                    onAfterEndEdit: (item, isAdd) => {
+                    onAfterEndEdit: (item, willSave, isAdd) => {
                         onAfterEndEditCalled = true;
                         assert.equal(item.contents, editingItem.contents);
                         assert.isFalse(isAdd);
