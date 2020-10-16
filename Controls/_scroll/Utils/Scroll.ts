@@ -5,6 +5,8 @@ export const enum SCROLL_DIRECTION {
     HORIZONTAL = 'horizontal'
 }
 
+const SCALE_ROUNDING_ERROR_FIX = 1.5;
+
 export function scrollTo(container: HTMLElement, position: number, direction: SCROLL_DIRECTION = SCROLL_DIRECTION.VERTICAL): void {
     if (direction === SCROLL_DIRECTION.VERTICAL) {
         container.scrollTop = position;
@@ -53,7 +55,9 @@ export function getScrollPositionType(scrollPosition: number, viewportSize: numb
     let curPosition: SCROLL_POSITION;
     if (scrollPosition <= 0) {
         curPosition = SCROLL_POSITION.START;
-    } else if (scrollPosition + viewportSize >= contentSize) {
+        // На масштабе появляются дробные пиксели в размерах скролл контейнера.
+        // Прибавляем полтора пикселя, чтобы избежать неправильных расчетов позиции скролла.
+    } else if (scrollPosition + viewportSize + SCALE_ROUNDING_ERROR_FIX >= contentSize) {
         curPosition = SCROLL_POSITION.END;
     } else {
         curPosition = SCROLL_POSITION.MIDDLE;
