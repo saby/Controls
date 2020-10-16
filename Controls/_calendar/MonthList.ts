@@ -439,13 +439,11 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         if (!itemContainer) {
             return false;
         }
-
-        // If the data is drawn over the years, and the displayed period is not the first month of the year,
-        // then scroll to it unconditionally. In this case, the last month can be scrolled to the bottom
-        // of the scrolled area. But this configuration is used only in a large selection of the period,
-        // and there it is valid.
-        if ((this._options.viewMode === VIEW_MODE.year && date.getMonth() !== 0)) {
-            return true;
+        if (this._options.viewMode === VIEW_MODE.year) {
+            // Если в режиме, когда мы ресуем каледарь годам, месяц, который должен отобразиться, не первый в году,
+            // то мы в любом случае должны подскроллить к нему. В случае, если месяц первый,
+            // то мы и так на нём находимся и подскролливать не нужно
+            return date.getMonth() !== 0;
         }
 
         const container = this._getNormalizedContainer();
