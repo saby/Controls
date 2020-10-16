@@ -1,0 +1,33 @@
+.controls-listTemplates_richEditorViewerTemplate-viewer_theme-@{themeName} {
+   box-shadow: @viewer_shadow_richEditorViewerTemplate;
+   border-radius: @viewer_border-radius_richEditorViewerTemplate;
+   height: @viewer_height_richEditorViewerTemplate;
+   box-sizing: border-box;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   line-height: normal;
+
+   .ws-is-hover &:hover {
+      box-shadow: @viewer_hover_shadow_richEditorViewerTemplate;
+   }
+}
+
+.controls-listTemplates_richEditorViewerTemplate-viewer__wrapperContent_theme-@{themeName} {
+   padding: 0;
+   background-color: @viewer-wrapper-content_background-color_richEditorViewerTemplate;
+
+   .richEditor_Base_infoBlock,
+   blockquote {
+      padding: 0 0 0 66px;
+   }
+
+   .richEditor_Base_infoBlock::before {
+      top: -6px;
+   }
+}
+
+.controls-listTemplates_richEditorViewerTemplate-viewer__nonWrapperContent_theme-@{themeName} {
+   background-color: @viewer-nonWrapper-content_background-color_richEditorViewerTemplate;
+   padding: @viewer-nonWrapper-content_padding_richEditorViewerTemplate;
+}
