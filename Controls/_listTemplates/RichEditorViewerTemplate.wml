@@ -1,0 +1,4 @@
+<RichEditor.base:Viewer
+        value="{{value}}"
+        attr:class="controls-listTemplates_richEditorViewerTemplate-viewer_theme-{{_options.theme}}
+                    controls-listTemplates_richEditorViewerTemplate-viewer__{{isWrapper ? 'wrapper' : 'nonWrapper'}}Content_theme-{{_options.theme}}"/>
