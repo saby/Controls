@@ -531,7 +531,7 @@ define('Controls/interface/IEditableList', [
    /**
     * Начинает {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирование по месту}.
     * @function Controls/interface/IEditableList#beginEdit
-    * @param {ItemEditOptions} options Параметры редактирования.
+    * @param {ItemEditOptions} options Параметры добавления.
     * @returns {Core/Deferred}
     * @remark
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/operations/ панели действий элемента}.
