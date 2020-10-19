@@ -78,8 +78,7 @@ var _private = {
     }
 };
 //В режиме 'Только года' одновременно отобржается 15 элементов.
-//Таким образом последний отображаемый элемент имеет индекс 14.
-const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
+const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 15;
 
 var Component = BaseControl.extend({
     _template: componentTmpl,
@@ -303,22 +302,38 @@ var Component = BaseControl.extend({
     },
 
     _changeYear : function(event, delta) {
-        let year = this._position.getFullYear();
-        //_position определяется первым отображаемым годом в списке. Всего у нас отображается
-        //5 записей. Для перехода на предыдущий элемент, нужно проверить, возможно ли это.
-        //Для этого проверям самый нижний элемент списка.
-        if (delta === -1 && !this._options.chooseMonths &&
-            !this._options.chooseHalfyears && !this._options.chooseQuarters) {
-            //Нижний отображаемый год в списке из 15 элементов.
-            const yearToCheck = year - ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
-            //_getDisplayedYear вернет нижний отображаемый год. Нам нужен первый отображаемый год в списке,
-            //для того чтобы установить _position
-            let yearToSet = this._getDisplayedYear(yearToCheck, delta) + ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
-            // Скорректируем _position, если задана опция _displayedRanges
-            yearToSet = this._getFirstPositionInMonthList(new Date(yearToSet, 0));
-            this.setYear(yearToSet.getFullYear());
+        const year = this._position.getFullYear();
+        let yearToCheck = year;
+        let yearToSet;
+        if (delta === 1) {
+            if (!this._options.chooseHalfyears && this._options.chooseQuarters) {
+                // Помимо текущего года, в режиме 'Только кварталы' отображаются еще 2 года снизу.
+                // Проверяем, есть ли снизу еще элементы. Если нет - мы не будем переключать текущий год
+                yearToCheck += 2;
+            } else if (this._options.chooseMonths) {
+                // Помимо текущего года, в режиме 'Только месяцы' и 'Месяцы, кварталы и полугодия'
+                // отображается еще 1 год снизу, проверяем его
+                yearToCheck += 1;
+            }
+            if (this._getDisplayedYear(yearToCheck, delta) !== yearToCheck) {
+                yearToSet = this._getDisplayedYear(year, delta);
+            }
         } else {
-            this.setYear(this._getDisplayedYear(year, delta));
+            // position определяется первым отображаемым годом в списке. Всего у нас отображается
+            // 15 записей. Для перехода на предыдущий элемент, нужно проверить, возможно ли это.
+            // Для этого проверям самый нижний элемент списка.
+            if (!this._options.chooseMonths && !this._options.chooseHalfyears && !this._options.chooseQuarters) {
+                // Нижний отображаемый год в списке из 15 элементов.
+                yearToCheck -= ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
+                // getDisplayedYear вернет нижний отображаемый год. Нам нужен первый отображаемый год в списке,
+                // для того чтобы установить _position
+                yearToSet = this._getDisplayedYear(yearToCheck, delta) + ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
+            } else {
+                yearToSet = this._getDisplayedYear(year, delta);
+            }
+        }
+        if (yearToSet && yearToSet !== year) {
+            this.setYear(yearToSet);
         }
     },
 
