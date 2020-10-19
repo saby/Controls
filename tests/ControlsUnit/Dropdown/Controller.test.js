@@ -541,6 +541,7 @@ define(
             let loadedItems;
             beforeEach(() => {
                newConfig = { ...config };
+               newConfig.selectedKeys = ['8'];
                dropdownController = getDropdownController(newConfig);
 
                selectedKeys = ['1', '2'];
@@ -559,15 +560,6 @@ define(
                });
             });
 
-            it('_getUnloadedSelectedKeys', () => {
-               let result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
-               assert.isNull(result);
-
-               selectedKeys.push('8');
-               result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
-               assert.deepEqual(result, ['8']);
-            });
-
             it('_loadSelectedKeys', async () => {
                let loadConfig;
                dropdownController._loadItems = (params) => {
@@ -584,10 +576,11 @@ define(
                };
                selectedKeys.push('8');
                dropdownController._source = 'testSource';
-               await dropdownController._loadSelectedKeys(newConfig, ['8'], loadedItems);
+               await dropdownController.loadSelectedItems();
                assert.deepEqual(loadConfig.filter, { id: ['8'] });
-               assert.equal(dropdownController._items.getCount(), 4);
-               assert.equal(dropdownController._items.at(0).getKey(), '8');
+               assert.equal(dropdownController._selectedItems.getCount(), 1);
+               assert.equal(dropdownController._selectedItems.at(0).getKey(), '8');
+               assert.isNull(dropdownController._items);
             });
          });
 

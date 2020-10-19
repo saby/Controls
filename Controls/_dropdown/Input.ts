@@ -6,7 +6,7 @@ import * as Utils from 'Types/util';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {RecordSet, List} from 'Types/collection';
-import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems, loadSelectedItems} from 'Controls/_dropdown/Util';
 import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {TKey} from './interface/IDropdownController';
@@ -269,16 +269,19 @@ export default class Input extends BaseDropdown {
    protected _icon: string;
    protected _tooltip: string;
    protected _selectedItems: Model[];
+   protected _controller: Controller;
    protected _children: IDropdownInputChildren;
 
    _beforeMount(options: IInputOptions,
                 context: object,
-                receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
-      this._prepareDisplayState = this._prepareDisplayState.bind(this);
-      this._dataLoadCallback = this._dataLoadCallback.bind(this);
+                receivedState: DropdownReceivedState): void | Promise<void|DropdownReceivedState> {
       this._controller = new Controller(this._getControllerOptions(options));
 
-      return loadItems(this._controller, receivedState, options.source);
+      if (options.navigation && options.selectorTemplate) {
+         return loadSelectedItems(this._controller, receivedState, options.source);
+      } else {
+         return loadItems(this._controller, receivedState, options.source);
+      }
    }
 
    _beforeUpdate(options: IInputOptions): void {
@@ -288,7 +291,7 @@ export default class Input extends BaseDropdown {
    _getControllerOptions(options: IInputOptions): object {
       const controllerOptions = getDropdownControllerOptions(options);
       return { ...controllerOptions, ...{
-            dataLoadCallback: this._dataLoadCallback,
+            dataLoadCallback: this._dataLoadCallback.bind(this),
             selectorOpener: this,
             selectedKeys: options.selectedKeys || [],
             popupClassName: options.popupClassName || ((options.showHeader ||
@@ -297,9 +300,8 @@ export default class Input extends BaseDropdown {
                     'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
                 ' theme_' + options.theme,
             allowPin: false,
-            selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
-            openerControl: this,
-            needLoadSelectedItems: options.needLoadSelectedItems
+            selectedItemsChangedCallback: this._prepareDisplayState.bind(this, options),
+            openerControl: this
          }
       };
    }
@@ -319,7 +321,8 @@ export default class Input extends BaseDropdown {
    }
 
    _selectedItemsChangedHandler(items: Model[]): void|unknown {
-      this._notify('textValueChanged', [this._getText(items) + this._getMoreText(items)]);
+      const text = this._getText(items[0], this._options) + this._getMoreText(items);
+      this._notify('textValueChanged', [text]);
       const newSelectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
          return this._notify('selectedKeysChanged', [newSelectedKeys]);
@@ -337,16 +340,16 @@ export default class Input extends BaseDropdown {
       }
    }
 
-   _prepareDisplayState(items: Model[]): void {
+   _prepareDisplayState(options: IInputOptions, items: Model[]): void {
       if (items.length) {
          this._selectedItems = items;
-         this._needInfobox = this._options.readOnly && this._selectedItems.length > 1;
+         this._needInfobox = options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = this.isEmptyItem(this._item);
+         this._isEmptyItem = this._isItemEmpty(this._item, options.emptyText, options.keyProperty);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
-         this._text = this._getText(items);
+         this._text = this._getText(items[0], options);
          this._hasMoreText = this._getMoreText(items);
-         this._tooltip = this._getTooltip(items, this._options.displayProperty);
+         this._tooltip = this._getTooltip(items, options.displayProperty);
       }
    }
 
@@ -428,16 +431,17 @@ export default class Input extends BaseDropdown {
       return tooltips.join(', ');
    }
 
-   private isEmptyItem(item: Model): boolean {
-      return this._options.emptyText && (getPropValue(item, this._options.keyProperty) === null || !item);
+   private _isItemEmpty(item: Model, emptyText: string, keyProperty: string): boolean {
+      return emptyText && (getPropValue(item, keyProperty) === null || !item);
    }
 
-   private _getText(items: Model[]): string {
+   private _getText(item: Model,
+                    {emptyText, keyProperty, displayProperty}: Partial<IInputOptions>): string {
       let text = '';
-      if (this.isEmptyItem(items[0])) {
-         text = prepareEmpty(this._options.emptyText);
+      if (this._isItemEmpty(item, emptyText, keyProperty)) {
+         text = prepareEmpty(emptyText);
       } else {
-         text = getPropValue(items[0], this._options.displayProperty);
+         text = getPropValue(item, displayProperty);
       }
       return text;
    }

@@ -50,6 +50,9 @@ export default class _Controller implements IDropdownController {
    protected _loadItemsTempPromise: Promise<any> = null;
    protected _options: IDropdownControllerOptions = null;
    protected _source: ICrudPlus = null;
+   private _filter: object;
+   private _selectedItems: RecordSet<Model>;
+   private _sticky: StickyOpener;
 
    constructor(options: IDropdownControllerOptions) {
       this._options = options;
@@ -58,23 +61,56 @@ export default class _Controller implements IDropdownController {
 
    loadItems(): Promise<DropdownReceivedState> {
       return new Promise((resolve, reject) => {
-         this._loadItems(this._options)
-            .addCallback((items) => {
-               const beforeMountResult = {};
+         this._loadItems(this._options).then(
+             (items) => {
+                const beforeMountResult = {};
 
-               if (isHistorySource(this._source)) {
-                  beforeMountResult.history = this._source.getHistory();
-                  beforeMountResult.items = this._source.getItems(false);
-               } else {
-                  beforeMountResult.items = items;
-               }
-
-               resolve(beforeMountResult);
-            })
-            .addErrback((error) => {
+                if (isHistorySource(this._source)) {
+                   beforeMountResult.history = this._source.getHistory();
+                   beforeMountResult.items = this._source.getItems(false);
+                } else {
+                   beforeMountResult.items = items;
+                }
+                resolve(beforeMountResult);
+             },
+             (error) => {
                 reject(error);
-            });
+             }
+         );
       });
+   }
+
+   loadSelectedItems(): Promise<DropdownReceivedState> {
+      const filter = {...this._options.filter};
+      filter[this._options.keyProperty] = this._options.selectedKeys;
+      const config = {
+         source: this._options.source,
+         keyProperty: this._options.keyProperty,
+         filter,
+         emptyText: this._options.emptyText,
+         selectedKeys: this._options.selectedKeys,
+         selectedItemsChangedCallback: this._options.selectedItemsChangedCallback
+      };
+      return this._loadItems(config).then((newItems) => {
+         this._selectedItems = newItems;
+         this._setItems(null);
+         return {
+            items: newItems,
+            history: null
+         };
+      });
+   }
+
+   updateSelectedItems(items: RecordSet<Model>): void {
+      if (items) {
+         this._selectedItems = items;
+         this._updateSelectedItems(
+             this._options.emptyText,
+             this._options.selectedKeys,
+             this._options.keyProperty,
+             this._options.selectedItemsChangedCallback,
+             items);
+      }
    }
 
    setItems(items?: RecordSet): Promise<RecordSet> {
@@ -82,7 +118,8 @@ export default class _Controller implements IDropdownController {
          this._setItems(items);
          sourceController.calculateState(this._items);
 
-         this._updateSelectedItems(this._options.emptyText, this._options.selectedKeys, this._options.keyProperty, this._options.selectedItemsChangedCallback);
+         this._updateSelectedItems(this._options.emptyText, this._options.selectedKeys,
+             this._options.keyProperty, this._options.selectedItemsChangedCallback);
          if (this._options.dataLoadCallback) {
             this._options.dataLoadCallback(this._items);
          }
@@ -338,18 +375,12 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   private _loadItems(options) {
-      return this._getSourceController(options).then(
-          (sourceController) => {
+   private _loadItems(options: IDropdownControllerOptions): Promise<RecordSet|Error> {
+      return this._getSourceController(options).then((sourceController) => {
              this._filter = this._prepareFilterForQuery(options);
 
              return sourceController.load(this._filter).addCallback((items) => {
-                const unloadedKeys = this._getUnloadedSelectedKeys(options.selectedKeys, items);
-                if (options.needLoadSelectedItems && unloadedKeys) {
-                   return this._loadSelectedKeys(options, unloadedKeys, items);
-                } else {
-                  return this._resolveLoadedItems(options, items);
-                }
+                return this._resolveLoadedItems(options, items);
              }).addErrback((error) => {
                 this._loadError(error);
                 return error;
@@ -361,6 +392,10 @@ export default class _Controller implements IDropdownController {
       if (options.dataLoadCallback) {
          options.dataLoadCallback(items);
       }
+      if (this._selectedItems) {
+         items.prepend(this._selectedItems);
+         this._selectedItems = null;
+      }
       this._setItems(items);
       this._updateSelectedItems(
           options.emptyText,
@@ -368,35 +403,6 @@ export default class _Controller implements IDropdownController {
           options.keyProperty,
           options.selectedItemsChangedCallback);
       return items;
-   }
-
-   private _getUnloadedSelectedKeys(selectedKeys: string[], items: RecordSet<Model>): string[] {
-      const unloadedKeys = [];
-      if (selectedKeys) {
-         selectedKeys.forEach((key) => {
-            if (!items.getRecordById(key)) {
-               unloadedKeys.push(key);
-            }
-         });
-      }
-      return unloadedKeys.length ? unloadedKeys : null;
-   }
-
-   private _loadSelectedKeys(options: IDropdownControllerOptions,
-                             selectedKeys: string[],
-                             items: RecordSet<Model>): Promise<RecordSet> {
-      const filter = {...options.filter};
-      filter[options.keyProperty] = selectedKeys;
-      const config = {
-         source: options.source,
-         keyProperty: options.keyProperty,
-         filter
-      };
-      return this._loadItems(config).then((newItems) => {
-         items.prepend(newItems);
-         this._resolveLoadedItems(options, items);
-         return items;
-      });
    }
 
    private _resetLoadPromises(): void {
@@ -415,11 +421,11 @@ export default class _Controller implements IDropdownController {
       return item;
    }
 
-   private _updateSelectedItems(emptyText, selectedKeys, keyProperty, selectedItemsChangedCallback) {
+   private _updateSelectedItems(emptyText, selectedKeys, keyProperty, selectedItemsChangedCallback, items?) {
       const selectedItems = [];
 
       const addToSelected = (key: string) => {
-         const selectedItem = this._getItemByKey(this._items, key, keyProperty);
+         const selectedItem = this._getItemByKey(items || this._items, key, keyProperty);
 
          if (selectedItem) {
             selectedItems.push(selectedItem);
