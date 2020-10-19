@@ -36,7 +36,9 @@ define([
 
          pg._initArrowStateBySelectedPage(cfg);
          assert.equal('disabled', pg._stateBackward, 'Wrong arrow state in begin position');
+         assert.equal('disabled', pg._stateTop, 'Wrong arrow state in begin position');
          assert.equal('normal', pg._stateForward, 'Wrong arrow state in begin position');
+         assert.equal('normal', pg._stateBottom, 'Wrong arrow state in begin position');
 
          cfg = {
             pagesCount: 5,
@@ -44,7 +46,9 @@ define([
          };
          pg._initArrowStateBySelectedPage(cfg);
          assert.equal('normal', pg._stateBackward, 'Wrong arrow state in middle position');
+         assert.equal('normal', pg._stateTop, 'Wrong arrow state in middle position');
          assert.equal('normal', pg._stateForward, 'Wrong arrow state in middle position');
+         assert.equal('normal', pg._stateBottom, 'Wrong arrow state in middle position');
 
          cfg = {
             pagesCount: 5,
@@ -52,7 +56,9 @@ define([
          };
          pg._initArrowStateBySelectedPage(cfg);
          assert.equal('normal', pg._stateBackward, 'Wrong arrow state in end position');
+         assert.equal('normal', pg._stateTop, 'Wrong arrow state in end position');
          assert.equal('disabled', pg._stateForward, 'Wrong arrow state in end position');
+         assert.equal('disabled', pg._stateBottom, 'Wrong arrow state in end position');
       });
 
       it('changePage', function() {

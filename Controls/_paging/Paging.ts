@@ -107,15 +107,15 @@ class Paging extends Control<IPagingOptions> {
     private _initArrowStateBySelectedPage(config: IPagingOptions): void {
         const page = config.selectedPage;
         if (page <= 1) {
-            this._stateBackward = this._getState('hidden');
+            this._stateBackward = this._stateTop = this._getState('hidden');
         } else {
-            this._stateBackward = this._getState('visible');
+            this._stateBackward = this._stateTop = this._getState('visible');
         }
 
         if (page >= config.pagesCount) {
-            this._stateForward = this._getState('hidden');
+            this._stateForward = this._stateBottom = this._getState('hidden');
         } else {
-            this._stateForward = this._getState('visible');
+            this._stateForward = this._stateBottom = this._getState('visible');
         }
     }
 

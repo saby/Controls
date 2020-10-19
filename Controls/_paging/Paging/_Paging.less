@@ -30,6 +30,10 @@
    & + .controls-Paging__btn,
    & + .controls-DigitButtons {
       margin-left: @item_offset_paging;
+
+      &.controls-Paging__btn_separated_theme-@{themeName}::before {
+         display: block;
+      }
    }
 
    &.controls-Paging__btn_last_theme-@{themeName} {
@@ -128,6 +132,7 @@
 }
 
 .controls-Paging__btn_separated_theme-@{themeName}::before {
+   display: none;
    pointer-events: none;
    position: absolute;
    height: @arrow_separator_length_paging;
