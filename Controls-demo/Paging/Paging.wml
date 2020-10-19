@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Paging/Base/Index' }}">
+            <a href="{{content.href}}">Стандартный paging</a>
+        </Router.router:Reference>
+        <Controls-demo.Paging.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Paging/Numbers/Index' }}">
+            <a href="{{content.href}}">Paging с цифрами</a>
+        </Router.router:Reference>
+        <Controls-demo.Paging.Numbers.Index/>
+    </div>
+</div>

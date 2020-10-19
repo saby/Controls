@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="{{(_contentTemplate?'Скрыть':'Отобразить')+ ' contentTemplate'}}"
+                                 on:click="_onUpdateTemplate()"></Controls.buttons:Button>
+        {{' '}}
+        <Controls.buttons:Button caption="{{_beginBtnText}}"
+                                 on:click="_onUpdateArrowState('begin')"></Controls.buttons:Button>
+        {{' '}}
+        <Controls.buttons:Button caption="{{_prevBtnText}}"
+                                 on:click="_onUpdateArrowState('prev')"></Controls.buttons:Button>
+        {{' '}}
+        <Controls.buttons:Button caption="{{_nextBtnText}}"
+                                 on:click="_onUpdateArrowState('next')"></Controls.buttons:Button>
+        {{' '}}
+        <Controls.buttons:Button caption="{{_endBtnText}}"
+                                 on:click="_onUpdateArrowState('end')"></Controls.buttons:Button>
+        {{' '}}
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth300 controlsDemo__background controlsDemo__flex">
+        <Controls.paging:Paging
+                attr:class="controls-BaseControl__scrollPaging_theme-default"
+                contrastBackground="{{true}}"
+                pagingMode="base"
+                showEndButton="{{true}}"
+                arrowState="{{_arrowState}}"
+                contentTemplate="{{_contentTemplate}}"
+        />
+    </div>
+</div>

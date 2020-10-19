@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="{{(_elementsCount?'Скрыть':'Показать') + ' количество элементов'}}"
+                                 on:click="_onElementsCount()"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_fixedWidth300 controlsDemo__background controlsDemo__flex">
+        <Controls.paging:Paging
+                attr:class="controls-BaseControl__scrollPaging_theme-default"
+                contrastBackground="{{true}}"
+                pagingMode="numbers"
+                showEndButton="{{true}}"
+                showDigits="{{true}}"
+                elementsCount="{{_elementsCount}}"
+                selectedPage="{{_selectedPage}}"
+                arrowState="{{_arrowState}}"
+                pagesCount="{{_pagesCount}}"
+                on:selectedPageChanged="_selectedPageChanged()"
+                on:onArrowClick="_onPagingArrowClick()"/>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <div class="controlsDemo__cell">
+        <div class="controlsDemo__cell">
+            <Controls.toggle:Checkbox class="checkbox_wrapper_width1"
+                                      bind:value="_isScroll"
+                                      caption="Не скроллить при нажатии кнопки"/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Controls.toggle:Checkbox class="checkbox_wrapper_width1"
+                                      bind:value="_isScrollCenter"
+                                      caption="Всегда скроллить к записи с id=50"/>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <Controls.scroll:Container attr:class="controlsDemo__height400">
+            <Controls.list:HotKeysContainer>
+                <Controls.list:View
+                        keyProperty="id"
+                        name="list"
+                        attr:class="controlsDemo_line-height18"
+                        moveMarkerOnScrollPaging="{{true}}"
+                        source="{{_viewSource}}"
+                        on:pagingArrowClick="_onPagingArrowClick()"
+                >
+                    <ws:navigation source="page" view="infinity">
+                        <ws:sourceConfig pageSize="{{55}}" page="{{0}}" hasMore="{{false}}"/>
+                        <ws:viewConfig showEndButton="{{true}}" pagingMode="edge"/>
+                    </ws:navigation>
+                </Controls.list:View>
+            </Controls.list:HotKeysContainer>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="Очистить" on:click="_clear()"></Controls.buttons:Button>
+    </div>
+    <ws:if data="{{_textInfo}}">
+        <div class="controlsDemo__cell">{{ _textInfo }}</div>
+    </ws:if>
+</div>
